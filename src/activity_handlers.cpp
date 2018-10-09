@@ -318,35 +318,38 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                         u.has_amount( "vine_30", 1 ) ;
         bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
         bool big_corpse = corpse.size >= MS_MEDIUM;
+        bool trait_override = g->u.has_trait( trait_id( "SCAVENGER" ) );
 
-        if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
-            u.add_msg_if_player( m_info,
-                                 _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
-            act.set_to_null();
-            return;
-        } else if( big_corpse && !has_rope && !b_rack_present ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
-            act.set_to_null();
-            return;
-        }
-        if( big_corpse && !has_table_nearby ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-            act.set_to_null();
-            return;
-        }
-        if( !u.has_quality( quality_id( "CUT" ) ) ) {
-            u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-            act.set_to_null();
-            return;
-        }
-        if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
-                             u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a saw to perform a full butchery." ) );
-            act.set_to_null();
-            return;
+        if( !trait_override ) {
+            if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
+                u.add_msg_if_player( m_info,
+                                     _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
+                act.set_to_null();
+                return;
+            } else if( big_corpse && !has_rope && !b_rack_present ) {
+                u.add_msg_if_player( m_info,
+                                     _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
+                act.set_to_null();
+                return;
+            }
+            if( big_corpse && !has_table_nearby ) {
+                u.add_msg_if_player( m_info,
+                                     _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
+                act.set_to_null();
+                return;
+            }
+            if( !u.has_quality( quality_id( "CUT" ) ) ) {
+                u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
+                act.set_to_null();
+                return;
+            }
+            if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
+                                 u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+                u.add_msg_if_player( m_info,
+                                     _( "For a corpse this big you need a saw to perform a full butchery." ) );
+                act.set_to_null();
+                return;
+            }
         }
     }
 
@@ -463,6 +466,11 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         case DISSECT:
             time_to_cut *= 6;
             break;
+    }
+
+    if( u.has_trait( trait_id( "SCAVENGER" ) ) ) {
+        u.add_msg_if_player( m_good, _( "Your teeth and claws serve as capable tools, carving the body with impressive speed." ) );
+        time_to_cut /= 2;
     }
 
     act.moves_left = time_to_cut;

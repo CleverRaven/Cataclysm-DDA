@@ -131,6 +131,7 @@ static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_TERRIFYING2( "TERRIFYING2" );
 
 static const std::map<m_size, std::string> size_names {
     {m_size::MS_TINY, translate_marker( "tiny" )},
@@ -901,6 +902,10 @@ monster_attitude monster::attitude( const Character *u ) const
 
         if( u->has_trait( terrifying ) ) {
             effective_morale -= 10;
+        }
+
+        if( u->has_trait( trait_TERRIFYING2 ) ) {
+            effective_morale -= 25;
         }
 
         if( has_flag( MF_ANIMAL ) ) {

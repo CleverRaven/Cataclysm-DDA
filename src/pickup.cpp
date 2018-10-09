@@ -32,6 +32,8 @@
 typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;
 
+static const trait_id trait_THRILL_OF_THE_HUNT( "THRILL_OF_THE_HUNT" );
+
 // Pickup helper functions
 static bool pick_one_up( const tripoint &pickup_target, item &newit,
                          vehicle *veh, int cargo_part, int index, int quantity,
@@ -462,7 +464,9 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
 
     bool did_prompt = false;
     newit.charges = u.i_add_to_container( newit, false );
-    if( newit.is_ammo() && newit.charges == 0 ) {
+    if( u.has_active_mutation( trait_THRILL_OF_THE_HUNT ) ) { // if we're using TotH, pickups are off-limits full stop
+        option = CANCEL;
+    } else if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.made_of( LIQUID, true ) ) {
@@ -565,6 +569,7 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     bool weight_is_okay = ( g->u.weight_carried() <= g->u.weight_capacity() );
     bool volume_is_okay = ( g->u.volume_carried() <= g->u.volume_capacity() );
     bool offered_swap = false;
+    bool thrill = g->u.has_active_mutation( trait_THRILL_OF_THE_HUNT );
     // Convert from player-relative to map-relative.
     tripoint pickup_target = pickup_target_arg + g->u.pos();
     // Map of items picked up so we can output them all at the end and
@@ -608,6 +613,9 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
         show_pickup_message( mapPickup );
     }
 
+    if( thrill ) {
+        add_msg( m_info, _( "You're using your hands to move!" ) );
+    }
     if( got_water ) {
         add_msg( m_info, _( "You can't pick up a liquid!" ) );
     }

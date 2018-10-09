@@ -391,6 +391,7 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
+static const trait_id trait_SHOUT4( "SHOUT4" );
 static const trait_id trait_SLEEK_SCALES( "SLEEK_SCALES" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
@@ -411,6 +412,7 @@ static const trait_id trait_TAIL_FIN( "TAIL_FIN" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_THRILL_OF_THE_HUNT( "THRILL_OF_THE_HUNT" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -1809,6 +1811,9 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_WINGS_BUTTERFLY ) ) {
         movecost -= 10; // You can't fly, but you can make life easier on your legs
     }
+    if( has_active_mutation( trait_THRILL_OF_THE_HUNT ) ) {
+        movecost *= 0.5f;
+    }
     if( has_trait( trait_LEG_TENTACLES ) ) {
         movecost += 20;
     }
@@ -2937,6 +2942,7 @@ void player::shout( std::string msg )
 {
     int base = 10;
     int shout_multiplier = 2;
+    bool frightens = false;
 
     // Mutations make shouting louder, they also define the default message
     if ( has_trait( trait_SHOUT2 ) ) {
@@ -2953,6 +2959,15 @@ void player::shout( std::string msg )
         if ( msg.empty() ) {
             msg = is_player() ? _("yourself let out a piercing howl!") : _("a piercing howl!");
         }
+    }
+
+    if ( has_trait( trait_SHOUT4 ) ) {
+        shout_multiplier = 5;
+        base = 25;
+        if ( msg.empty() ) {
+            msg = is_player() ? _("yourself let out a bone-chilling howl!") : _("a bone-chilling howl!");
+        }
+        frightens = true;
     }
 
     if ( msg.empty() ) {
@@ -2994,6 +3009,21 @@ void player::shout( std::string msg )
     }
 
     sounds::sound( pos(), noise, msg );
+
+    if( frightens && noise >= 20 ) {
+        for( monster &awoo : g->all_monsters() ) {
+            bool howls = awoo.has_flag( MF_HOWLS );
+            if( rl_dist( awoo.pos(), pos() ) <= shout_multiplier ) {
+                // many creatures have sound fear triggers, but terrifying howler affects all wildlife that don't get angry from it
+                if( !awoo.type->has_anger_trigger( MTRIG_SOUND ) && awoo.type->in_category( "WILDLIFE" ) ) {
+                    awoo.morale -= 25;
+                }
+            // sound carries for quite a long distance
+            } else if( howls ) {
+                sounds::sound( awoo.pos(), 50, _( "awoooooooooo." ) );
+            }
+        }
+    }
 }
 
 void player::toggle_move_mode()
@@ -5222,6 +5252,11 @@ void player::suffer()
     if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
         //~Sound of buzzing Insect Wings
         sounds::sound( pos(), 10, _("BZZZZZ"));
+    }
+
+    if( has_active_mutation( trait_THRILL_OF_THE_HUNT ) && !weapon.is_null() ) {
+        add_msg_if_player( m_mixed, _( "You unwield your %s as you fall to your hands." ), weapon.type_name().c_str() );
+        drop( get_item_position( &weapon ) );
     }
 
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
@@ -7770,6 +7805,9 @@ ret_val<bool> player::can_wield( const item &it ) const
 {
     if( it.made_of( LIQUID, true ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
+    }
+    if( has_active_mutation( trait_THRILL_OF_THE_HUNT ) ) {
+        return ret_val<bool>::make_failure( _( "You're using your hands to run." ) );
     }
 
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {

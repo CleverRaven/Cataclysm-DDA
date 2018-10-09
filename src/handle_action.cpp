@@ -52,6 +52,7 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_THRILL_OF_THE_HUNT( "THRILL_OF_THE_HUNT" );
 
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
@@ -1600,6 +1601,8 @@ bool game::handle_action()
             case ACTION_LONGCRAFT:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
+                } else if( u.has_active_mutation( trait_THRILL_OF_THE_HUNT ) ) {
+                    add_msg( m_info, _( "You can't craft while you're using your hands to run." ) );
                 } else {
                     u.long_craft();
                 }
@@ -1619,6 +1622,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while in a vehicle." ) );
                 } else if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
+                } else if( u.has_active_mutation( trait_THRILL_OF_THE_HUNT ) ) {
+                    add_msg( m_info, _( "You can't construct while you're using your hands to move." ) );
                 } else {
                     construction_menu();
                 }
@@ -1637,6 +1642,8 @@ bool game::handle_action()
             case ACTION_CONTROL_VEHICLE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
+                } else if( u.has_active_mutation( trait_THRILL_OF_THE_HUNT ) ) {
+                    add_msg( m_info, _( "It's a little hard to drive on all fours." ) );
                 } else {
                     control_vehicle();
                 }

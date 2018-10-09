@@ -359,6 +359,18 @@
         }
     },{
         "type" : "mutation",
+        "id" : "TERRIFYING2",
+        "name" : "Beast of Prey",
+        "points" : 2,
+        "description" : "Your visage and presence are overwhelming. Animals consider you a predator and are liable to flee on sight, and humans are instinctually intimidated by you.",
+        "category" : ["LUPINE"],
+        "threshreq" : ["THRESH_LUPINE"],
+        "purifiable" : false,
+        "social_modifiers" : {
+            "intimidate" : 25
+        }
+    },{
+        "type" : "mutation",
         "id" : "DISRESISTANT",
         "name" : "Disease Resistant",
         "points" : 1,
@@ -2037,7 +2049,7 @@
         "prereqs" : ["NAILS"],
         "changes_to" : ["CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
-        "category" : ["BEAST", "RAT", "URSINE"]
+        "category" : ["BEAST", "RAT", "URSINE", "LUPINE"]
     },{
         "type" : "mutation",
         "id" : "CLAWS_RAT",
@@ -2331,6 +2343,16 @@
         "category" : ["BEAST", "URSINE", "FELINE", "LUPINE"]
     },{
         "type" : "mutation",
+        "id" : "THRILL_OF_THE_HUNT",
+        "name" : "Thrill of the Hunt",
+        "points" : 3,
+        "description" : "Lean and powerful, your body is capable of rapid sprints across long stretches of land.  Activate to drop to all fours, preventing you from doing almost anything with your hands but greatly increasing your movement speed.",
+        "prereqs" : ["PAWS", "PADDED_FEET"],
+        "category" : ["LUPINE"],
+        "threshreq" : ["THRESH_LUPINE"],
+        "active" : true
+    },{
+        "type" : "mutation",
         "id" : "RAP_TALONS",
         "name" : "Toe Talons",
         "points" : -1,
@@ -2500,6 +2522,16 @@
         "prereqs" : ["EATPOISON"],
         "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE"],
         "category" : ["RAT", "CHIMERA", "MOUSE"],
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "SCAVENGER",
+        "name" : "Scavenger",
+        "points" : 3,
+        "description" : "You prefer your meat *right* off the bone.  Not only are your teeth and claws powerful natural butchering tools, but you cut through corpses faster, and can perform full butchery without any material aids.",
+        "prereqs" : ["CLAWS", "MUZZLE"],
+        "threshreq" : ["THRESH_LUPINE"],
+        "category" : ["LUPINE"],
         "valid" : false
     },{
         "type" : "mutation",
@@ -4815,7 +4847,17 @@
         "points" : -4,
         "description" : "You frequently let out a piercing howl.",
         "prereqs" : ["SHOUT2"],
+        "changes_to" : ["SHOUT4"],
         "category" : ["CHIMERA", "LUPINE"]
+    },{
+        "type" : "mutation",
+        "id" : "SHOUT4",
+        "name" : "Terrifying Howler",
+        "points" : 3,
+        "description" : "You've tempered your animal instincts, but retained your ability to howl.  Whenever you shout, you let out an ominous howl that frightens nearby wildlife.",
+        "prereqs" : ["SHOUT3"],
+        "threshreq" : ["THRESH_LUPINE"],
+        "category" : ["LUPINE"]
     },{
         "type" : "mutation",
         "id" : "ARM_FEATHERS",
