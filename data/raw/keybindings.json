@@ -1802,6 +1802,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Auto Foraging",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_foraging"
+  },
+  {
+    "type": "keybinding",
     "name": "Action Menu",
     "category": "DEFAULTMODE",
     "id": "action_menu",

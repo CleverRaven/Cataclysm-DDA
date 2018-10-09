@@ -962,12 +962,19 @@ void options_manager::init()
 
     get_option( "AUTO_PULP_BUTCHER" ).setPrerequisite( "AUTO_FEATURES" );
 
-    add( "AUTO_MINING", "general", translate_marker( "Automatic mining" ),
+    add( "AUTO_MINING", "general", translate_marker( "Auto mining" ),
          translate_marker( "If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain." ),
          false
        );
 
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
+
+    add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
+         translate_marker( "If true, enables automatic foraging." ),
+         false
+       );
+
+    get_option( "AUTO_FORAGING" ).setPrerequisite( "AUTO_FEATURES" );
 
     mOptionsSort["general"]++;
 

@@ -2399,6 +2399,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_features" );
     ctxt.register_action( "toggle_auto_pulp_butcher" );
     ctxt.register_action( "toggle_auto_mining" );
+    ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -10725,8 +10726,18 @@ void game::place_player( const tripoint &dest_loc )
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
 
-    //Auto pulp or butcher
+    //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 ) {
+        if( get_option<bool>( "AUTO_FORAGING" ) ) {
+            const ter_t &xter_t = m.ter( u.pos() ).obj();
+
+            if( xter_t.examine == &iexamine::shrub_marloss ) {
+                iexamine::shrub_marloss(u, u.pos() );
+            } else if( xter_t.examine == &iexamine::shrub_wildveggies ) {
+                iexamine::shrub_wildveggies(u, u.pos() );
+            }
+        }
+
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
         if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
             std::vector<int> corpses;

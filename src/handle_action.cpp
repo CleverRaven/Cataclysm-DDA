@@ -1841,6 +1841,15 @@ bool game::handle_action()
                          get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
                 break;
 
+            case ACTION_TOGGLE_AUTO_FORAGING:
+                get_options().get_option( "AUTO_FORAGING" ).setNext();
+                get_options().save();
+                //~ Auto Foraging is now ON/OFF
+                add_msg( _( "%s is now %s." ),
+                         get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
+                         get_option<bool>( "AUTO_FORAGING" ) ? _( "ON" ) : _( "OFF" ) );
+                break;
+
             case ACTION_DISPLAY_SCENT:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger

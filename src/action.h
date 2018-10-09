@@ -264,6 +264,8 @@ enum action_id : int {
     ACTION_TOGGLE_AUTO_PULP_BUTCHER,
     /** Turn auto mining on/off */
     ACTION_TOGGLE_AUTO_MINING,
+    /** Turn auto foraging on/off */
+    ACTION_TOGGLE_AUTO_FORAGING,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/

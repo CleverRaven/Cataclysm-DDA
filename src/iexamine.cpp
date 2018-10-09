@@ -3973,7 +3973,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     int minutes_left = 0;
     units::volume f_volume = 0;
     bool f_check = false;
-    
+
     for( size_t i = 0; i < items_here.size(); i++ ) {
         auto &it = items_here[i];
         if( it.is_food() ) {
@@ -4003,9 +4003,9 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     smenu.addentry( 0, true, 'i', _( "Inspect smoking rack" ) );
 
     if( !active ) {
-        smenu.addentry_desc( 1, !empty && has_enough_coal, 'l', 
+        smenu.addentry_desc( 1, !empty && has_enough_coal, 'l',
                              empty ?  _( "Light up and smoke food... insert some food for smoking first" ) :
-                             !has_enough_coal ? string_format( _( "Light up and smoke food... need extra %d charges of charcoal" ), 
+                             !has_enough_coal ? string_format( _( "Light up and smoke food... need extra %d charges of charcoal" ),
                                                                need_charges - coal_charges ) :
                              _( "Light up and smoke food" ),
                              _( "Light up the smoking rack and start smoking. Smoking will take about 6 hours." ) );
@@ -4020,20 +4020,20 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             smenu.addentry( 4, f_check, 'e', _( "Remove food from smoking rack" ) );
         }
 
-        smenu.addentry_desc( 3, has_coal_in_inventory, 'r', 
+        smenu.addentry_desc( 3, has_coal_in_inventory, 'r',
                              !has_coal_in_inventory ? _( "Reload with charcoal... you don't have any" ) :
                              _( "Reload with charcoal" ),
-                             string_format( _( "You need %d charges of charcoal for %s %s of food. Minimal amount of charcoal is %d charges." ), 
+                             string_format( _( "You need %d charges of charcoal for %s %s of food. Minimal amount of charcoal is %d charges." ),
                                             sm_rack::CHARCOAL_PER_LITER, format_volume( 1000_ml ), volume_units_long(), sm_rack::MIN_CHARCOAL ) );
     } else {
-        smenu.addentry_desc( 7, true, 'x', 
+        smenu.addentry_desc( 7, true, 'x',
                              _( "Quench burning charcoal" ),
                              _( "Quenching will stop smoking process, but also destroy all used charcoal." ) );
     }
 
     if( has_coal ) {
-        smenu.addentry( 5, true, 'c', 
-                        active ? string_format( _( "Rake out %d excess charges of charcoal from smoking rack" ), coal_charges ) : 
+        smenu.addentry( 5, true, 'c',
+                        active ? string_format( _( "Rake out %d excess charges of charcoal from smoking rack" ), coal_charges ) :
                         string_format( _( "Remove %d charges of charcoal from smoking rack" ), coal_charges ) );
     }
 
@@ -4057,7 +4057,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
-            }          
+            }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
                 pop << "... that it is empty.";
@@ -4068,11 +4068,11 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                         pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" << "\n ";
                         continue;
                     }
-                    pop << "-> " << it.nname( it.typeId(), it.charges ); 
+                    pop << "-> " << it.nname( it.typeId(), it.charges );
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }
-            popup( pop.str(), PF_NONE ); 
+            popup( pop.str(), PF_NONE );
             break;
         }
         case 1: //activate
