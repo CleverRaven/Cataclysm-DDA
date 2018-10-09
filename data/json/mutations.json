@@ -354,6 +354,7 @@
         "description" : "There's something about you that creatures find frightening, and they are more likely to try to flee.",
         "starting_trait" : true,
         "category" : ["BEAST", "INSECT", "CHIMERA"],
+        "changes_to" : ["TERRIFYING2"],
         "social_modifiers" : {
             "intimidate" : 15
         }
@@ -365,6 +366,7 @@
         "description" : "Your visage and presence are overwhelming. Animals consider you a predator and are liable to flee on sight, and humans are instinctually intimidated by you.",
         "category" : ["LUPINE"],
         "threshreq" : ["THRESH_LUPINE"],
+        "prereqs" : ["TERRIFYING"],
         "purifiable" : false,
         "social_modifiers" : {
             "intimidate" : 25
