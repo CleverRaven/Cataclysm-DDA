@@ -286,8 +286,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                                     "*avy fle*fi*arrow     multiple * are allowed\n"
                                     "heAVY*woOD*arrOW      case insensitive search\n"
                                     " \n"
-                                    "Material based pickup:\n"
-                                    "m:iron m:paper m:kevlar etc." )
+                                    "Material based pickup: m:(made of any) M:(only made of) (OR relation)\n"
+                                    "m:iron M:paper M:kevlar,steel etc." )
                               );
 
                 draw_border( w_help );
@@ -526,23 +526,31 @@ bool auto_pickup::empty() const
 bool auto_pickup::check_special_rule( const std::vector<material_id> &materials,
                                       const std::string &rule ) const
 {
-    std::string type;
-    std::string filter;
-    size_t colon;
-    if( ( colon = rule.find( ':' ) ) != std::string::npos ) {
-        if( colon >= 1 ) {
-            type = rule[colon - 1];
-            filter = rule.substr( colon + 1 );
-        }
+    char type;
+    std::vector<std::string> filter;
+    if( rule[1] == ':' ) {
+        type = rule[0];
+        filter = string_split( rule.substr( 2 ), ',' );
     }
 
-    if( type == "m" ) {
-        if( std::any_of( materials.begin(), materials.end(),
-        [&filter]( const material_id & mat ) {
-        return lcmatch( mat->name(), filter );
-        } ) ) {
-            return true;
-        }
+    if( filter.empty() || materials.empty() ) {
+        return false;
+
+    }
+
+    if( type == 'm' ) {
+        return std::any_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
+            return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
+                return lcmatch( mat->name(), search );
+            } );
+        } );
+
+    } else if( type == 'M' ) {
+        return std::all_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
+            return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
+                return lcmatch( mat->name(), search );
+            } );
+        } );
     }
 
     return false;
