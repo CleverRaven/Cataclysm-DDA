@@ -933,6 +933,21 @@ void mx_clearcut( map &m, const map_extra_trigger &trigger )
 void mx_end_of_time( map &m, const map_extra_trigger &trigger )
 {
     const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
+    const int map_size = m.getmapsize();
+    const int map_tiles_width = SEEX * map_size;
+    const int map_tiles_height = SEEY * map_size;
+    const int cx = map_tiles_width / 2;
+    const int cy = map_tiles_height / 2;
+    const int num_eggs = dice( 20, 60 );
+
+    for( int i = 0; i < num_eggs; i++ ) {
+        const int offset_x = rng( -10, 10 );
+        const int offset_y = rng( -10, 10 );
+        tripoint p( cx + offset_x, cy + offset_y, 0 );
+        if( m.passable( p ) ) {
+            m.place_items( "map_extra_easter_egg", 100, p, p, true, 0 );
+        }
+    }
 }
 
 typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;

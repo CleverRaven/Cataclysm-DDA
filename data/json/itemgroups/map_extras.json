@@ -121,5 +121,13 @@
             "male_underwear_top",
             "male_underwear_bottom"
         ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_easter_egg",
+        "entries":
+        [
+            { "item": "egg_chicken", "damage": 0 }
+        ]
     }
 ]
