@@ -704,7 +704,7 @@ item *inventory::best_tool( const quality_id & qual ) {
             best = &( elem.front );
         }
     }
-    return best;
+    return (best);
 }
 
 int inventory::leak_level( std::string flag ) const
