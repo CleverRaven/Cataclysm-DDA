@@ -1,8 +1,9 @@
 [
   {
-    "pos": 0,
+    "type": "help",
+    "order": 0,
     "name": "<a|A>: Introduction",
-    "text": [
+    "messages": [
       "Cataclysm is a survival roguelike with a monster apocalypse setting. You have survived the original onslaught, but the future looks pretty grim.",
       "You must prepare to face the many hardships to come including dwindling supplies, hostile creatures, and harmful weather. Even among fellow survivors you must stay alert, since someone may be plotting behind your back to take your hard-earned loot.",
       "Cataclysm differs from the traditional roguelikes in several ways. Rather than exploring an underground dungeon, with a limited area on each level, you are exploring a truly infinite world, stretching in all four cardinal directions. In this survival roguelike, you will have to find food; you also need to keep yourself hydrated and sleep periodically.",
@@ -10,9 +11,10 @@
     ]
   },
   {
-    "pos": 1,
+    "type": "help",
+    "order": 1,
     "name": "<b|B>: Movement",
-    "text": [
+    "messages": [
       "Movement is performed using the numpad, or vikeys.",
       "<HELP_DRAW_DIRECTIONS>",
       "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <press_player_data> to see the exact amount).",
@@ -22,16 +24,18 @@
     ]
   },
   {
-    "pos": 2,
+    "type": "help",
+    "order": 2,
     "name": "<c|C>: Viewing",
-    "text": [
+    "messages": [
       "The player can often see more than can be displayed on the screen at a time. Pressing <press_look> enters \"look around mode\", which allows you to scroll around using the movement keys and view items on the map as well as monsters and their stance toward the character. Pressing <press_listitems> provides a list of nearby visible items, though items shut away in crates, cupboards, refrigerators and the like won't be displayed until you are close enough. Pressing Shift+vikeys (h,j,k,l,y,u,b,n) will scroll the view persistently, allowing you to keep an eye on things as you move around."
     ]
   },
   {
-    "pos": 3,
+    "type": "help",
+    "order": 3,
     "name": "<d|D>: Hunger, thirst, and sleep",
-    "text": [
+    "messages": [
       "As time passes, you will begin to feel hunger and thirst. When this happens, a status warning at the sidebar will appear. As hunger and thirst reach critical levels, you will begin to suffer movement penalties.",
       "Thirst is more dangerous than hunger but you can develop various vitamin deficiencies if you eat poorly. These deficiencies come in stages, so for example you won't go from perfectly good health into a full-blown scurvy in an instant. Any developing and on-going deficiencies will be reported in the character sheet. Deficiencies will inflict various penalties, but luckily they are always reversible, and multivitamin pills can help you to correct any deficiencies. You can also ingest too much vitamins, and that too can create problems. Be sure to have a balanced diet, or at least not a completely atrocious one. You can and should examine food items to view their nutritional facts.",
       "Finding food in a city is usually easy; outside of a city, you may have to hunt. After killing an animal, stand over the animal's corpse and butcher it into small chunks of meat by pressing <press_butcher>. You might also be able to forage for edible fruit or vegetables; to do it, find a promising plant and examine it. Likewise, you may have to drink water from a river or another natural source. To collect it, stand in shallow water and press <press_pickup>. You'll need a watertight container to store it. Be forewarned that some sources of water aren't trustworthy and may produce diseased water. To make sure it's healthy, purify the water by boiling it or using water purifier before drinking.",
@@ -39,9 +43,10 @@
     ]
   },
   {
-    "pos": 4,
+    "type": "help",
+    "order": 4,
     "name": "<e|E>: Pain and stimulants",
-    "text": [
+    "messages": [
       "When you take damage from almost any source, you'll start to feel pain. Pain slows you down and reduces your stats, and finding a way to manage pain is an early imperative. The most common is drugs: aspirin, codeine, tramadol, oxycodone, and more are all great options. Be aware that while under the influence of many painkillers, the physiological side effects may slow you or reduce your stats.",
       "Note that most painkillers take a little while to kick in. If you take some oxycodone and don't notice the effects right away, don't start taking more -  you may overdose and die!",
       "Pain will also disappear with time, so if drugs aren't available and you're in a lot of pain, it may be wise to find a safe spot and simply rest for an extended period of time.",
@@ -49,17 +54,19 @@
     ]
   },
   {
-    "pos": 5,
+    "type": "help",
+    "order": 5,
     "name": "<f|F>: Addiction",
-    "text": [
+    "messages": [
       "Many drugs have a potential for addiction. Each time you consume such a drug there is a chance that you will grow dependent on it. Consuming more of that drug will increase your dependence. Effects vary greatly between drugs, but all addictions have only one cure; going cold turkey. The process may last for days and will leave you very weak, so try to do it in a safe area.",
       "If you are suffering from drug withdrawal, taking more of the drug will cause the effects to cease immediately, but may deepen your dependence."
     ]
   },
   {
-    "pos": 6,
+    "type": "help",
+    "order": 6,
     "name": "<g|G>: Morale and learning",
-    "text": [
+    "messages": [
       "Your character has a morale level, which affects you in many ways. The depressing post-apocalypse world is tough to deal with, and your mood will naturally decrease very slowly.",
       "There are lots of options for increasing morale; reading an entertaining book, eating delicious food, and taking recreational drugs are but a few options. Most morale-boosting activities can only take you to a certain level before they grow boring.",
       "There are also lots of ways for your morale to decrease, beyond its natural decay. Eating disgusting food, reading a boring technical book, killing a friendly NPC, or going through drug withdrawal are some prominent examples.",
@@ -70,18 +77,20 @@
     ]
   },
   {
-    "pos": 7,
+    "type": "help",
+    "order": 7,
     "name": "<h|H>: Radioactivity and mutation",
-    "text": [
+    "messages": [
       "Though it is relatively rare, certain areas of the world may be contaminated with radiation. It will gradually accumulate in your body, weakening you more and more. While in radiation-free areas, your radiation level will slowly decrease. Taking Prussian blue tablets will help speed the process.",
       "If you become very irradiated, you may develop mutations. Most of the time, these mutations will be negative; however, many are beneficial, and others have both positive and negative effects. Your mutations may change your play style considerably. It is possible to find substances that will remove mutations, though these are extremely rare.",
       "There are various mutagenic substances, and consuming (or injecting) them will grant mutations. However, the process taxes your body significantly, and can be addictive. With enough mutations and certain conditions being met, you will permanently transcend your humanity into a wholly different life-form."
     ]
   },
   {
-    "pos": 8,
+    "type": "help",
+    "order": 8,
     "name": "<i|I>: Bionics",
-    "text": [
+    "messages": [
       "Bionics are biomechanical upgrades to your body. While many are simply 'built-in' versions of items you would otherwise have to carry, some bionics have unique effects that are otherwise unobtainable. Some bionics are constantly working, whereas others need to be toggled on and off as needed.",
       "Most bionics require a source of power, and you will need an internal battery to store energy for them. Your current amount of energy is displayed in the sidebar right below your health. Replenishing energy can be done in a variety of ways, but all require the installation of a special bionic just for fuel consumption.",
       "Bionics come in ready-to-install canisters. Installation of a bionic is best left to a trained professional or to specialized medical apparatus. Using machinery to manipulate bionics requires high levels of Intelligence, first aid, mechanics, and electronics. Beware, though, a failure may cripple you!  Many bionic canisters are difficult to find, but may be purchased from certain wandering vagabonds for a very high price.",
@@ -89,9 +98,10 @@
     ]
   },
   {
-    "pos": 9,
+    "type": "help",
+    "order": 9,
     "name": "<j|J>: Crafting",
-    "text": [
+    "messages": [
       "Many important items can be very hard to find or will cost a great deal of money to trade for. Fortunately, it is possible to craft a wide variety of goods (as best you can) with the proper tools, materials, and training.",
       "Some recipes require a set of tools. These are not used up when crafting, so you can keep your tool set. All recipes require one or more ingredients. These ARE used up in crafting.",
       "To craft items, press <press_craft>. There are seven categories: Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category there are several smaller sub-categories. While a few items require no particular skill to create, the majority require you to have some knowledge. Sometimes a skilled survivor will work out a given recipe from her or his knowledge of the skill, but more often you will need reference material, commonly a book of some sort. Reading such references gives a chance to memorize recipes outright, and you can also craft while referring to the book: just have it handy when crafting. Different knowledge is useful for different applications:",
@@ -101,9 +111,10 @@
     ]
   },
   {
-    "pos": 10,
+    "type": "help",
+    "order": 10,
     "name": "<k|K>: Traps",
-    "text": [
+    "messages": [
       "Before sleeping in a dangerous territory, it may be wise to set traps to ward off unwanted intrusions. There are a few traps to be found in the world, most notably bubble wrap (which will make a loud noise if stepped on, helping to wake you up) and bear traps (which make noise AND damage, and trap anything that steps on them). Others need to be crafted; this requires the Traps skill and possibly Mechanics.",
       "To set a trap, simply use the item (press <press_apply>) and choose a direction; the trap will be placed on an adjacent tile. Some traps may require additional tools, like a shovel, to be set. Once set, a trap will remain in place until stepped on or disarmed.",
       "To disarm a trap, examine (press <press_examine>) the space it is on. Your success depends upon your Traps skill and Dexterity. If you succeed, the trap is removed and replaced by some or all of its constituent parts; however, if you fail, there is a chance that you will set off the trap, suffering the consequences.",
@@ -111,9 +122,10 @@
     ]
   },
   {
-    "pos": 11,
+    "type": "help",
+    "order": 11,
     "name": "<l|L>: Items overview",
-    "text": [
+    "messages": [
       "There is a wide variety of items available for your use. You may find them lying on the ground; if so, simply press <press_pickup> to pick up items on the same square. Some items are found inside a container, drawn as a { with a blue background. Pressing <press_examine>, then a direction key, will allow you to examine these containers and loot their contents.",
       "Pressing <press_compare> opens a comparison menu, where you can see two items side-by-side with their attributes highlighted to indicate which is superior. You can also access the item comparison menu by pressing C after <press_listitems> to view nearby items menu is open and an item is selected.",
       "All items may be used as a melee weapon, though some are better than others. You can check the melee attributes of an item you're carrying by hitting <press_inventory> to enter your inventory, then pressing the letter of the item. There are 3 melee values: bashing, cutting, and to-hit bonus (or penalty). Bashing damage is universally effective, but is capped by low strength. Cutting damage is a guaranteed increase in damage, but it may be reduced by a monster's natural armor.",
@@ -124,9 +136,10 @@
     ]
   },
   {
-    "pos": 12,
+    "type": "help",
+    "order": 12,
     "name": "<m|M>: Combat",
-    "text": [
+    "messages": [
       "With the default Static spawn option, zombies in cities will spawn at the start of the game. All monsters are represented by letters on your screen; a list of monster names, and their positions relative to you, is displayed on the right side of the screen. If the world is set to use the Dynamic spawn option, you will have 90 minutes to prepare yourself before the spawns start; after that, monsters everywhere will be spawned based on the noise you make.",
       "To attack a monster with a melee weapon, simply move into them. The time it takes to attack depends on the size and weight of your weapon. Small, light weapons are the fastest; unarmed attacks increase in speed with your Unarmed Combat skill, and will eventually be VERY fast. A successful hit with a bashing weapon may stun the monster temporarily. A miss may make you stumble and lose movement points. If a monster hits you, your clothing may absorb some damage, but you will absorb the excess.",
       "Swarms of monsters may call for firearms. Most firearms in the game require compatible magazines to hold the ammunition. Compatible magazines are listed in a given firearm's description. Fortunately, a firearm often spawns with one such magazine in it.",
@@ -140,9 +153,10 @@
     ]
   },
   {
-    "pos": 13,
+    "type": "help",
+    "order": 13,
     "name": "<n|N>: Unarmed styles",
-    "text": [
+    "messages": [
       "For the unarmed fighter, a variety of fighting styles are available. You can start with your choice of a single, commonly-taught style by starting with the Martial Arts Training trait. Many, many more can be found in their own traits, learned from manuals or by taking lessons from wandering masters.",
       "To select a fighting style, press <press_pick_style>. If you are already unarmed, this will make you start using the selected style. Otherwise, it will be locked in as your default unarmed style. To start using it, wield a relevant weapon or empty your hands, by pressing <press_wield>, then the key for the item you are currently wielding. If you wish to prevent yourself from accidentally wielding weapons taken from the ground, enable \"Keep hands free\" found in the styles menu.",
       "Most styles have a variety of special moves associated with them. Most have a skill requirement, and will be unavailable until you reach a level of unarmed skill. You can check the moves by pressing '?' in the pick style menu.",
@@ -150,9 +164,10 @@
     ]
   },
   {
-    "pos": 14,
+    "type": "help",
+    "order": 14,
     "name": "<o|O>: Survival tips",
-    "text": [
+    "messages": [
       "The first thing to do is checking your starting location for useful items. Your initial storage is limited, and a backpack, trenchcoat, or other storage medium will let you carry a lot more. Finding a weapon is important; frying pans, butcher knives, and more are common in houses; hardware stores may carry others. Unless you plan on concentrating on melee combat, seek out gun stores as soon as possible and load up on more than one type.",
       "It's also important to carry a few medications; painkillers are a must-have, and drugs such as cigarettes will make your life easier (but beware of addiction). Leave the city as soon as you have a good stockpile of equipment. The high concentration of zombies makes them a deathtrap -- but a necessary resource of food and ammunition.",
       "Combat is much easier if you can fight just one monster at once. Use doorways as a choke point or stand behind a window and strike as the zombies slowly climb through. Never be afraid to just run if you can outpace your enemies. Irregular terrain, like forests, may help you lose monsters.",
@@ -165,9 +180,10 @@
     ]
   },
   {
-    "pos": 15,
+    "type": "help",
+    "order": 15,
     "name": "<p|P>: Driving",
-    "text": [
+    "messages": [
       "You control vehicles using the numpad, or vikeys. However, you control their controls, rather than the vehicle directly.",
       "<HELP_DRAW_DIRECTIONS>",
       "In order to assume control of the vehicle, get to a location with \"vehicle controls\" and press <press_control_vehicle>. Once you are in control, <press_UP> accelerates, <press_DOWN> slows or reverses, & <press_LEFT> & <press_RIGHT> turn left or right. Diagonals adjust course and speed. You default to cruise control, so the gas/brake adjust the speed which the vehicle will attempt to maintain.",
@@ -178,9 +194,10 @@
     ]
   },
   {
-    "pos": 16,
+    "type": "help",
+    "order": 16,
     "name": "<1>: List of item types and data",
-    "text": [
+    "messages": [
       "~       Liquid\n%%       Food\n!       Medication\nThese are all consumed by using <press_eat>. They provide a certain amount of nutrition, quench your thirst, may be a stimulant or a depressant, and may provide morale. There may also be more subtle effects.",
       "/       Large weapon\n;       Small weapon or tool\n,       Tiny item\nThese are all generic items, useful only to be wielded as a weapon. However, some have special uses; they will show up under the TOOLS section in your inventory. Press <press_apply> to use these.",
       ")       Container\nThese items may hold other items. Some are passable weapons. Many will be listed with their contents, e.g. \"plastic bottle of water\". Those containing comestibles may be eaten with <press_eat>; this may leave an empty container.",
@@ -192,9 +209,10 @@
     ]
   },
   {
-    "pos": 17,
+    "type": "help",
+    "order": 17,
     "name": "<2>: Description of map symbols",
-    "text": [
+    "messages": [
       "MAP SYMBOLS:",
       "<color_brown>.</color>           Field - Empty grassland, occasional wild fruit.",
       "<color_green>F</color>           Forest - May be dense or sparse. Slow moving; foragable food.",
@@ -219,9 +237,10 @@
     ]
   },
   {
-    "pos": 18,
+    "type": "help",
+    "order": 18,
     "name": "<3>: Description of gun types",
-    "text": [
+    "messages": [
       "<color_light_gray>( Handguns</color>\nHandguns are small weapons held in one or both hands. They are much more difficult to aim and control than larger firearms, and this is reflected in their poor accuracy. However, their small size makes them appropriate for short-range combat, where larger guns fare poorly. They are also relatively quick to reload and use a very wide selection of ammunition. Their small size and low weight make it possible to carry several loaded handguns, switching from one to the next once their ammo is spent.",
       "<color_green>( Crossbows</color>\nThe best feature of crossbows is their silence. The bolts they fire are only rarely destroyed; if you pick up the bolts after firing them, your ammunition supply will last much longer. Crossbows suffer from a short range and a very long reload time (modified by your strength); plus, most only hold a single round. \nFor this reason, it is advisable to carry a few loaded crossbows. Crossbows can be very difficult to find; however, it is possible to craft one given enough Mechanics skill. Likewise, it is possible to make wooden bolts from any number of wooden objects, though these are much less effective than steel bolts. Crossbows use the handgun skill.",
       "<color_yellow>( Bows</color>\nSilent, deadly, easy to make, and the arrows are reusable. Bows have been used forever. Bows are two handed and require the user to have a certain strength level. If you do not have enough strength to draw the string back, you will fire at a reduced effectiveness. This reduces the reload and fire speeds and decreases the range of the arrows fired. \nMost normal bows require strength of at least 8, others require an above average strength of 10, or a significant strength of 12. Bows use the archery skill.",
@@ -234,9 +253,10 @@
     ]
   },
   {
-    "pos": 19,
+    "type": "help",
+    "order": 19,
     "name": "<4>: FAQ (contains spoilers!)",
-    "text": [
+    "messages": [
       "Q: What is Safe Mode, and why does it prevent me from moving?\nA: Safe Mode is a way to guarantee that you won't die by holding a movement key down. When a monster comes into view, your movement will be ignored until Safe Mode is turned off with the ! key. This ensures that the sudden appearance of a monster won't catch you off guard.",
       "Q: It seems like everything I eat makes me sick! What's wrong?\nA: Lots of the food found in towns is perishable and will only last a few days after the start of a new game. The electricity went out several days ago so fruit, milk and others are the first to go bad. After the first couple of days, you should switch to canned food, jerky, and hunting. Also, you should make sure to cook any food and purify any water you hunt up as it may contain parasites or otherwise be unsafe.",
       "Q: How can I remove boards from boarded-up windows and doors?\nA: Use a hammer and choose the direction of the boarded-up window or door to remove the boards.",

@@ -37,10 +37,10 @@ void help::deserialize( JsonIn &jsin )
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
 
-        std::vector<std::string> text;
-        jo.read( "text", text );
+        std::vector<std::string> messages;
+        jo.read( "messages", messages );
 
-        for( auto &line : text ) {
+        for( auto &line : messages ) {
             if( line == "<DRAW_NOTE_COLORS>" ) {
                 line = string_replace( line, "<DRAW_NOTE_COLORS>", note_colors );
                 continue;
@@ -66,7 +66,7 @@ void help::deserialize( JsonIn &jsin )
             }
         }
 
-        help_texts[jo.get_int( "pos" )] = std::make_pair( _( jo.get_string( "name" ).c_str() ), text );
+        help_texts[jo.get_int( "order" )] = std::make_pair( _( jo.get_string( "name" ).c_str() ), messages );
         hotkeys.push_back( get_hotkeys( jo.get_string( "name" ) ) );
     }
 }
