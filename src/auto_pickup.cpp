@@ -286,8 +286,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                                     "*avy fle*fi*arrow     multiple * are allowed\n"
                                     "heAVY*woOD*arrOW      case insensitive search\n"
                                     " \n"
-                                    "Material based pickup: m:(made of any) M:(only made of) (OR relation)\n"
-                                    "m:iron M:paper M:kevlar,steel etc." )
+                                    "Material based pickup: m:(made of any) M:(only made of) \n"
+                                    "m:iron M:paper M:kevlar,steel etc. (OR relation)" )
                               );
 
                 draw_border( w_help );
