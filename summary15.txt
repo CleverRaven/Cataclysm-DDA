@@ -1,8 +1,8 @@
 Interface ChestHole32_iso Additions mostly by Kedryn
 Balance Change some default options
 Bugfix Fix remaining clouds
-Infrastructure Framework for adjusting gun ranges [RDY]
-Bugfix Change alarm messages from "An alarm sounds!" to "an alarm sound!" for alarms at your cu$
+Infrastructure Framework for adjusting gun ranges
+Bugfix Change alarm messages from "An alarm sounds!" to "an alarm sound!" for alarms at your current position
 Bugfix Make some items able to warm food up.
 Bugfix Quivers can contain bolts
 Bugfix Ask only once per dangerous tile to enter
@@ -14,7 +14,7 @@ Bugfix Add some missing POISON flags
 Bugfix Fix shopkeeper_item_group json error
 Infrastructure Remove NPC-related dead code
 Infrastructure Use mount point coords (not precalc) for wheel config
-Interface [RDY] Multipage credits
+Interface Multipage credits
 Bugfix Always draw bodyparts and slots in Bionics menu
 Infrastructure Use "UnitsGlob" feature in CodeBlocks project
 Bugfix Deagle bugfix and description change
@@ -26,7 +26,7 @@ Bugfix Decay cosmetic fields when entering the bubble
 Bugfix Fix water purification
 Infrastructure Forbid more redundant JSON fields
 Content Increase bloated zombie explosion
-Infrastructure Serialization of item location [RDY]
+Infrastructure Serialization of item location
 Infrastructure Grammar fix.
 Bugfix Fix message spam when moving grabbed stuff
 Mods PRM: Add emit.json ... additions
@@ -34,13 +34,13 @@ Mods PRM: Building variety pt1
 Bugfix Take away Extras on Ponds
 Features Playable bandit profession for The Next Summer.
 Build Fix compilation
-Bugfix [RDY] Do not translate blank string
+Bugfix Do not translate blank string
 Features Vehicle boat/traction update
-Build [RDY] Disable C4146 error in MSVC
+Build Disable C4146 error in MSVC
 Infrastructure Encapsulate damage with callback
 Bugfix Fix shrapnel volume
 Interface Improve aiming UI
-Balance Standardise handloading recipes [RDY]
+Balance Standardise handloading recipes
 Balance Add glare protection 1 to survivor masks
 Bugfix Description alteration.
 Features NPC vs NPC combat
@@ -83,12 +83,12 @@ Infrastructure Remove new lines and trailing white space from rest of gfx
 Bugfix Adds socks. (to soldier's equipment)
 Bugfix Fix broken body part hp display
 Features NPCs helping with crafting, providing recipes
-Bugfix [CR] Remove RetroDaysTileset10_spritetest
-Bugfix [RDY] Fix stats editing menu bug
+Bugfix Remove RetroDaysTileset10_spritetest
+Bugfix Fix stats editing menu bug
 Features Add diamond punch dagger
 Bugfix Fix ejection of magazines
 Bugfix Add shoulder straps and sheaths where appropriate.
-Interface Simplify autopickup vRules�
+Interface Simplify autopickup vRules
 Bugfix Fixes door curtains leaving nothing, when deconstructed.
 Mods Recreates DeoxyMod's Foldable Mod
 Mods Fix blazemod vehicle energy weaponry
