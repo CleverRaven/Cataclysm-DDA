@@ -66,7 +66,8 @@ void help::deserialize( JsonIn &jsin )
             }
         }
 
-        help_texts[jo.get_int( "order" )] = std::make_pair( _( jo.get_string( "name" ).c_str() ), messages );
+        help_texts[jo.get_int( "order" )] = std::make_pair( _( jo.get_string( "name" ).c_str() ),
+                                            messages );
         hotkeys.push_back( get_hotkeys( jo.get_string( "name" ) ) );
     }
 }
