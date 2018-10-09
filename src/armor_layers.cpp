@@ -26,6 +26,7 @@ std::vector<std::string> clothing_flags_description( item const &worn_item );
 struct item_penalties {
     std::vector<body_part> body_parts_with_stacking_penalty;
     std::vector<body_part> body_parts_with_out_of_order_penalty;
+    std::set<std::string> bad_items_within;
 
     int badness() const {
         return !body_parts_with_stacking_penalty.empty() +
@@ -54,6 +55,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
 
     std::vector<body_part> body_parts_with_stacking_penalty;
     std::vector<body_part> body_parts_with_out_of_order_penalty;
+    std::vector<std::set<std::string>> lists_of_bad_items_within;
 
     for( auto bp : all_body_parts ) {
         if( bp != tabindex && num_bp != tabindex ) {
@@ -70,17 +72,39 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
             body_parts_with_stacking_penalty.push_back( bp );
         }
 
-        auto num_bad_items_within = std::count_if( c.worn.begin(), worn_item_it,
-        [&]( const item & i ) {
-            return i.get_layer() > layer && i.covers( bp );
-        } );
-        if( num_bad_items_within > 0 ) {
+        std::set<std::string> bad_items_within;
+        for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
+            if( it->get_layer() > layer && it->covers( bp ) ) {
+                bad_items_within.insert( it->type_name() );
+            }
+        };
+        if( !bad_items_within.empty() ) {
             body_parts_with_out_of_order_penalty.push_back( bp );
+            lists_of_bad_items_within.push_back( bad_items_within );
         }
     }
 
+    // We intersect all the lists_of_bad_items_within so that if there is one
+    // common bad item we're wearing this one over it can be mentioned in the
+    // message explaining the penalty.
+    while( lists_of_bad_items_within.size() > 1 ) {
+        std::set<std::string> intersection_of_first_two;
+        std::set_intersection(
+            lists_of_bad_items_within[0].begin(), lists_of_bad_items_within[0].end(),
+            lists_of_bad_items_within[1].begin(), lists_of_bad_items_within[1].end(),
+            std::inserter( intersection_of_first_two, intersection_of_first_two.begin() )
+        );
+        lists_of_bad_items_within.erase( lists_of_bad_items_within.begin() );
+        lists_of_bad_items_within[0] = std::move( intersection_of_first_two );
+    }
+
+    if( lists_of_bad_items_within.empty() ) {
+        lists_of_bad_items_within.emplace_back();
+    }
+
     return { std::move( body_parts_with_stacking_penalty ),
-             std::move( body_parts_with_out_of_order_penalty ) };
+             std::move( body_parts_with_out_of_order_penalty ),
+             std::move( lists_of_bad_items_within[0] ) };
 }
 
 std::string body_part_names( const std::vector<body_part> &parts )
@@ -148,33 +172,64 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     const item_penalties penalties = get_item_penalties( worn_item_it, c, tabindex );
 
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
+        std::string layer_description = [&]() {
+            switch( worn_item_it->get_layer() ) {
+                case UNDERWEAR:
+                    return _( "<color_light_blue>close to your skin</color>" );
+                case REGULAR_LAYER:
+                    return _( "of <color_light_blue>normal</color> clothing" );
+                case WAIST_LAYER:
+                    return _( "on your <color_light_blue>waist</color>" );
+                case OUTER_LAYER:
+                    return _( "of <color_light_blue>outer</color> clothing" );
+                case BELTED_LAYER:
+                    return _( "<color_light_blue>strapped</color> to you" );
+                default:
+                    debugmsg( "Unexpected layer" );
+                    return "";
+            }
+        }
+        ();
         std::string body_parts =
             body_part_names( penalties.body_parts_with_stacking_penalty );
         std::string message =
             string_format(
-                ngettext( "Wearing multiple items in this layer is adding "
-                          "encumbrance to your %s.",
-                          "Wearing multiple items in this layer is adding "
-                          "encumbrance to your %s.",
+                ngettext( "Wearing multiple items %s on your "
+                          "<color_light_red>%s</color> is adding encumbrance there.",
+                          "Wearing multiple items %s on your "
+                          "<color_light_red>%s</color> is adding encumbrance there.",
                           penalties.body_parts_with_stacking_penalty.size() ),
-                body_parts
+                layer_description, body_parts
             );
-        i += fold_and_print( w_sort_middle, i, 0, win_width, c_yellow, message );
+        i += fold_and_print( w_sort_middle, i, 0, win_width, c_light_gray, message );
     }
 
     if( !penalties.body_parts_with_out_of_order_penalty.empty() ) {
         std::string body_parts =
             body_part_names( penalties.body_parts_with_out_of_order_penalty );
-        std::string message =
-            string_format(
-                ngettext( "Wearing this outside items it would normally be beneath "
-                          "is adding encumbrance to your %s.",
-                          "Wearing this outside items it would normally be beneath "
-                          "is adding encumbrance to your %s.",
-                          penalties.body_parts_with_out_of_order_penalty.size() ),
-                body_parts
-            );
-        i += fold_and_print( w_sort_middle, i, 0, win_width, c_yellow, message );
+        std::string message;
+
+        if( penalties.bad_items_within.empty() ) {
+            message = string_format(
+                          ngettext( "Wearing this outside items it would normally be beneath "
+                                    "is adding encumbrance to your <color_light_red>%s</color>.",
+                                    "Wearing this outside items it would normally be beneath "
+                                    "is adding encumbrance to your <color_light_red>%s</color>.",
+                                    penalties.body_parts_with_out_of_order_penalty.size() ),
+                          body_parts
+                      );
+        } else {
+            std::string bad_item_name = *penalties.bad_items_within.begin();
+            message = string_format(
+                          ngettext( "Wearing this outside your <color_light_blue>%s</color> "
+                                    "is adding encumbrance to your <color_light_red>%s</color>.",
+                                    "Wearing this outside your <color_light_blue>%s</color> "
+                                    "is adding encumbrance to your <color_light_red>%s</color>.",
+                                    penalties.body_parts_with_out_of_order_penalty.size() ),
+                          bad_item_name, body_parts
+                      );
+        }
+        i += fold_and_print( w_sort_middle, i, 0, win_width, c_light_gray, message );
     }
 }
 
