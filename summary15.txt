@@ -1,0 +1,100 @@
+Interface ChestHole32_iso Additions mostly by Kedryn
+Balance Change some default options
+Bugfix Fix remaining clouds
+Infrastructure Framework for adjusting gun ranges [RDY]
+Bugfix Change alarm messages from "An alarm sounds!" to "an alarm sound!" for alarms at your cu$
+Bugfix Make some items able to warm food up.
+Bugfix Quivers can contain bolts
+Bugfix Ask only once per dangerous tile to enter
+Bugfix Fix NPC talking about sport jerseys threateningly
+Bugfix Fix uncrafting of shot and alternators
+Mods Move health messages (on wakeup) to json
+Balance Reduce no. of rags gained from deconstructing/smashing beds
+Bugfix Add some missing POISON flags
+Bugfix Fix shopkeeper_item_group json error
+Infrastructure Remove NPC-related dead code
+Infrastructure Use mount point coords (not precalc) for wheel config
+Interface [RDY] Multipage credits
+Bugfix Always draw bodyparts and slots in Bionics menu
+Infrastructure Use "UnitsGlob" feature in CodeBlocks project
+Bugfix Deagle bugfix and description change
+Features Allow using first aid kit and a knife within 6 tiles when uninstalling bionics
+Content Adds small Ponds
+Bugfix Add some missing flags in comestibles.json
+Infrastructure Const some vehicle functions
+Bugfix Decay cosmetic fields when entering the bubble
+Bugfix Fix water purification
+Infrastructure Forbid more redundant JSON fields
+Content Increase bloated zombie explosion
+Infrastructure Serialization of item location [RDY]
+Infrastructure Grammar fix.
+Bugfix Fix message spam when moving grabbed stuff
+Mods PRM: Add emit.json ... additions
+Mods PRM: Building variety pt1
+Bugfix Take away Extras on Ponds
+Features Playable bandit profession for The Next Summer.
+Build Fix compilation
+Bugfix [RDY] Do not translate blank string
+Features Vehicle boat/traction update
+Build [RDY] Disable C4146 error in MSVC
+Infrastructure Encapsulate damage with callback
+Bugfix Fix shrapnel volume
+Interface Improve aiming UI
+Balance Standardise handloading recipes [RDY]
+Balance Add glare protection 1 to survivor masks
+Bugfix Description alteration.
+Features NPC vs NPC combat
+Bugfix Remove the hallucination screen scramble
+Infrastructure Initial implementation of uncraft type
+Bugfix Restore working on vehicles training mechanics
+Mods PRM: Fix frequency/creation of [absorbs] crawling zombie
+Mods PRM: Update overmap special frequencies
+Balance Increase 2-by-shin guard encumbrance
+Balance Derive vehicle part hp from base item
+Bugfix Jackhammer should allow any 1-cylinder engine
+Mods PRM: Add Web spider pit, update spider lairs
+Bugfix Fix projectile interaction with obstacles; remove ACID_DROP from documentation
+Bugfix Make ACT_DROP take calendar::INDEFINITELY_LONG turns
+Bugfix Fix vehicle part repairs
+Bugfix Allow tool belt to clipon retracted baton
+Mods PRM: Remove old ants
+Bugfix Fix alpha razorclaw name.
+Balance Fixes inconsistent powdered egg usage.
+Bugfix Fix materials not being soft
+Bugfix Fix recycler bug
+Infrastructure Further JSON validation
+Bugfix Prevent segfault when there are no targets
+Bugfix Add ROAD flag to bridge pavement
+Interface Changed 'pick lock' to 'lockpick'
+Features Fancy hairpin can now be used as lockpick.
+Bugfix Fixed the error when the 'memorial' dir was not found.
+Bugfix Fixed the starch byproducts for the cattail rhizome, and fruit pulp.
+Balance Removes fluid sacs as an ingredient from dehydrated veggies.
+Bugfix Fix logic error with vehicle based purification.
+Features NPC trading/exchange update
+Interface Vehicle turret reloading
+Features Add Bionic Survivalist profession.
+Mods PRM: Triffid update
+Bugfix Fix items not listing "can be used to craft x"
+Bugfix Add toolset to fishing rod recipe
+Bugfix Add metal cutting quality to the circular saw
+Interface NPC pickup whitelist, allow vehicle access
+Infrastructure Remove new lines and trailing white space from rest of gfx
+Bugfix Adds socks. (to soldier's equipment)
+Bugfix Fix broken body part hp display
+Features NPCs helping with crafting, providing recipes
+Bugfix [CR] Remove RetroDaysTileset10_spritetest
+Bugfix [RDY] Fix stats editing menu bug
+Features Add diamond punch dagger
+Bugfix Fix ejection of magazines
+Bugfix Add shoulder straps and sheaths where appropriate.
+Interface Simplify autopickup vRules�
+Bugfix Fixes door curtains leaving nothing, when deconstructed.
+Mods Recreates DeoxyMod's Foldable Mod
+Mods Fix blazemod vehicle energy weaponry
+Balance Item electricity resistance changes #2
+Balance Prevent laser pistol from accepting certain mods
+Bugfix Fix vehicle repair
+Infrastructure Strict parsing of AMMO
+Features Turrets can drop casings to CARGO part
+Infrastructure Extension for #17685 (Type safe options access)
