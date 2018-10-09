@@ -1617,20 +1617,13 @@ bool game::do_turn()
     m.process_falling();
     m.vehmove();
 
-    // Process power and fuel consumption for all vehicles, including off-map ones.
+    // Process power and fuel consumption for all vehicles.
     // m.vehmove used to do this, but now it only give them moves instead.
-    for( auto &elem : MAPBUFFER ) {
-        tripoint sm_loc = elem.first;
-        point sm_topleft = sm_to_ms_copy( sm_loc.x, sm_loc.y );
-        point in_reality = m.getlocal( sm_topleft );
-
-        submap *sm = elem.second;
-
-        const bool in_bubble_z = m.has_zlevels() || sm_loc.z == get_levz();
-        for( auto &veh : sm->vehicles ) {
-            veh->power_parts();
-            veh->idle( in_bubble_z && m.inbounds( in_reality.x, in_reality.y ) );
-        }
+    // @todo move this into map::vehmove? At least move it somewhere else.
+    for( auto &elem : m.get_vehicles() ) {
+        vehicle &veh = *elem.v;
+        veh.power_parts();
+        veh.idle( true /* on_map */ );
     }
     m.process_fields();
     m.process_active_items();
