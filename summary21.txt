@@ -1,0 +1,100 @@
+Bugfixes Skip blanks when serializing options
+Features Overmap overhaul (step 3)
+Content Change long string recipe
+Infrastructure Renaming item::get_time_until_rotten() to spoilage_sort_order
+Bugfixes Fix an infinite loop in the salvaging code
+Build include numeric to fix OSX compile
+Balance Reduce explosive weight for 'grenades' itemgroup
+Content Add fannypack to female senior citizen profession
+Balance Change nomad gear recipe
+Content Added belt223 to L523-LMG
+Build Add a switch to retain debug symbols for profiling
+Performance Fix the inventory UI slowdown
+Balance Updated Some .22 and 38s
+Infrastructure Fix printf placeholders
+Infrastructure Replace '\xa0' sequence with ASCII space character
+Content Adjust ammo loudness calculation
+Balance Don't allow survivor to snuggle 0 warmth items
+Content Fixed obscure ammo not spawning
+Bugfixes Fix price units in gas stations
+I18N Translation updates
+Bugfixes Bike fix after propulsion update
+Content Rework hordes hearing signal calculation
+Content Allow cellphones to be used as flashlights similarly to PDAs
+Interface Minor changes in Construction menu
+Mods Support total conversion mods
+Content Vehicle propulsion overhaul
+Content Add 'swamps' as a viable spawn location
+Bugfixes Fix bugged cash cards
+Content Added alternative magazines to guns and buffed Mosin
+Content Updated core military vehicles and motorcycles
+Interface Fix a grammatical error in description of nicotine
+Interface Fix incorrect monattack message
+Interface Fix two incorrect plural names
+Balance Increase amount of wild herbs needed for herbal tea
+Balance Give G80 necessary range
+Bugfixes Prevent segfault if vehicle default ammo undefined
+Interface Adds effect overlays
+Interface Fixed the offset of creature rhombus on pixel minimap.
+Interface Armor Menu Improvements
+Interface Fix bad wrap in crafting menu
+Mods mods/blazemod: fix shards (metal fragments) weighing too much.
+Mods Add huge vehicles mod
+Mods Fix inheritance for generic guns mod
+Balance Updated the sword bayonet recipe
+Content Remove PDA
+Mods Drop incorrect fuel definitions from blazemod
+Content Update cell phone
+Mods Maintaince for Extended Realisitc Weapons, rebased
+Interface Correctly handle slowdown during skids
+Balance Changed the flintlock recipe
+I18N Localize some entries in item info of engines
+Content Buff nudging items when closing doors
+Interface Rework harvest syntax, allow using it for butchery drops
+Balance Move and rebalance RC car & RC control
+Infrastructure Add stats-dumper output for expected gun damage vs range
+Infrastructure Hide available_recipes unit test.
+Build Update MXE ICE workaround to blacklist anything targetting x86_64-w64-mingw32.static
+Balance Change Lead Battery Recipie
+Mods Removed construction from blaze_override.json
+Content Tourist profession
+Infrastructure Unwrap tool subtype in crafting tools
+Content Allow installing turrets using loaded guns
+Mods Mark Arcana mod obsolete
+Bugfixes Correct mapgen errors
+Bugfixes Properly assign snippet_category for an itype
+I18N Translation updates
+Bugfixes Add consistency checking to overmap terrains
+Interface Fix vertical debug teleportation + tiny refactoring + UI hints
+Balance Get rid of tourist extras
+Content Add new mission: get inhaler
+Content Apply holster bonus only when worn
+Bugfixes Avoid segfault if ammo conversion lacks valid magazines
+Bugfixes Check engine status before accelerating
+Bugfixes Fix CBMs that consume ammo
+Bugfixes Fix engine toggling bug
+Bugfixes Fix handling of RELOAD_EJECT casings
+Bugfixes Fix saves before version 6
+Bugfixes Prevent endless coasting when out of fuel
+Bugfixes Require and validate ENGINE flag
+Build Don't keep _GLIBCXX_DEBUG when DEBUG_SYMBOLS is set.
+Content New characters: Start with loaded/holstered guns and sheathed blades (part 1)
+I18N Ignore JSON type 'harvest' when extracting translatable strings
+Interface Update spaces between sentence breaks
+Bugfixes Avoid crashes caused by ammo conversion
+Bugfixes Correctly add non-auxiliary gunmod modes
+Bugfixes Correctly handle RELOAD_ONE flag
+Content Display repair tools and allow forbidding repair
+Bugfixes Don't duplicate water via faucets
+Bugfixes Fix ammo conversion kit drops
+Bugfixes Fix reloading of plutonium
+Content Initial implementation of variable difficulty
+Content Provide casings when removing brass catcher
+Balance Remove CARGO items from destroyed vehicle parts
+Interface Skip inacessible map items
+Content Add ability to steal items from NPC
+Balance Increase Vehiclular Noises
+Infrastructure Fixed comment about closing parts on vehicles
+Bugfixes Fix killing guaranteed hostile NPCs counting as murder, adjust murder penalties
+Bugfixes Support dumping of crafting recipes
+Content Faulty bionics sounds
