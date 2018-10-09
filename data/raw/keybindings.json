@@ -442,6 +442,13 @@
   },
   {
     "type": "keybinding",
+    "id": "EQUIP_ARMOR_HERE",
+    "category": "SORT_ARMOR",
+    "name": "Equip armor from inventory at this position",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "REMOVE_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Unequip selected armor",

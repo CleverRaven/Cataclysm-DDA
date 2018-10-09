@@ -409,6 +409,7 @@ void player::sort_armor()
     ctxt.register_action( "ASSIGN_INVLETS" );
     ctxt.register_action( "SORT_ARMOR" );
     ctxt.register_action( "EQUIP_ARMOR" );
+    ctxt.register_action( "EQUIP_ARMOR_HERE" );
     ctxt.register_action( "REMOVE_ARMOR" );
     ctxt.register_action( "USAGE_HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -664,6 +665,33 @@ void player::sort_armor()
 
             // only equip if something valid selected!
             if( loc ) {
+                // wear the item
+                auto new_equip_it = wear( this->i_at( loc.obtain( *this ) ) );
+                if( new_equip_it ) {
+                    auto bp = static_cast<body_part>( tabindex );
+                    if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
+                        // Set ourselves up to be pointing at the new item
+                        // TODO: This doesn't work yet because we don't save our
+                        // state through other activities, but that's a thing
+                        // that would be nice to do.
+                        leftListIndex =
+                            std::count_if( worn.cbegin(), *new_equip_it,
+                        [&]( const item & i ) {
+                            return tabindex == num_bp || i.covers( bp );
+                        } );
+                    }
+                } else if( is_npc() ) {
+                    // @todo: Pass the reason here
+                    popup( _( "Can't put this on!" ) );
+                }
+            }
+            draw_grid( w_sort_armor, left_w, middle_w );
+        } else if( action == "EQUIP_ARMOR_HERE" ) {
+            // filter inventory for all items that are armor/clothing
+            item_location loc = game_menus::inv::wear( *this );
+
+            // only equip if something valid selected!
+            if( loc ) {
                 // save iterator to cursor's position
                 auto cursor_it = tmp_worn[leftListIndex];
                 // wear the item
@@ -717,13 +745,14 @@ void player::sort_armor()
         } else if( action == "USAGE_HELP" ) {
             popup_getkey( _( "\
 Use the arrow- or keypad keys to navigate the left list.\n\
-Press [%s] to select highlighted armor for reordering.\n\
-Use   [%s] / [%s] to scroll the right list.\n\
-Press [%s] to assign special inventory letters to clothing.\n\
-Press [%s] to change the side on which item is worn.\n\
-Press [%s] to sort armor into natural layer order.\n\
-Use   [%s] to equip a new item at the currently selected position.\n\
-Press [%s] to remove selected armor from oneself.\n\
+[%s] to select highlighted armor for reordering.\n\
+[%s] / [%s] to scroll the right list.\n\
+[%s] to assign special inventory letters to clothing.\n\
+[%s] to change the side on which item is worn.\n\
+[%s] to sort armor into natural layer order.\n\
+[%s] to equip a new item.\n\
+[%s] to equip a new item at the currently selected position.\n\
+[%s] to remove selected armor from oneself.\n\
  \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
@@ -738,6 +767,7 @@ The sum of these values is the effective encumbrance value your character has fo
                           ctxt.get_desc( "CHANGE_SIDE" ).c_str(),
                           ctxt.get_desc( "SORT_ARMOR" ).c_str(),
                           ctxt.get_desc( "EQUIP_ARMOR" ).c_str(),
+                          ctxt.get_desc( "EQUIP_ARMOR_HERE" ).c_str(),
                           ctxt.get_desc( "REMOVE_ARMOR" ).c_str()
                         );
             draw_grid( w_sort_armor, left_w, middle_w );
