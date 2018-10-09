@@ -585,6 +585,11 @@ struct LuaType<bool> {
     static void push( lua_State *const L, bool const value ) {
         lua_pushboolean( L, value );
     }
+    // It is helpful to be able to treat optionals as bools when passing to lua
+    template<typename T>
+    static void push( lua_State *const L, cata::optional<T> const &value ) {
+        push( L, !!value );
+    }
 };
 template<>
 struct LuaType<std::string> {
