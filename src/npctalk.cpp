@@ -2914,6 +2914,7 @@ void talk_response::effect_fun_t::set_u_buy_item( std::string &item_name, int co
         } else {
             item container( container_name, calendar::turn );
             container.emplace_back( item_name, calendar::turn, count );
+            u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s" ), p.name.c_str(), container.tname().c_str() );
         }
@@ -3040,7 +3041,7 @@ void talk_response::effect_t::parse_sub_effect( JsonObject jo )
         }
         subeffect_fun.set_npc_add_effect( new_effect, duration );
     } else if( jo.has_string( "u_add_trait" ) ) {
-        std::string new_trait = jo.get_string( "npc_add_trait" );
+        std::string new_trait = jo.get_string( "u_add_trait" );
         subeffect_fun.set_u_add_trait( new_trait );
     } else if( jo.has_string( "npc_add_trait" ) ) {
         std::string new_trait = jo.get_string( "npc_add_trait" );
@@ -3075,6 +3076,66 @@ void talk_response::effect_t::parse_sub_effect( JsonObject jo )
     set_effect( subeffect_fun );
 }
 
+void talk_response::effect_t::parse_string_effect( const std::string &type, JsonObject &jo )
+{
+    static const std::unordered_map<std::string, void( * )( npc & )> static_functions_map = {
+        {
+#define WRAP( function ) { #function, &talk_function::function }
+            WRAP( assign_mission ),
+            WRAP( mission_success ),
+            WRAP( mission_failure ),
+            WRAP( clear_mission ),
+            WRAP( mission_reward ),
+            WRAP( start_trade ),
+            WRAP( assign_base ),
+            WRAP( assign_guard ),
+            WRAP( stop_guard ),
+            WRAP( become_overseer ),
+            WRAP( remove_overseer ),
+            WRAP( wake_up ),
+            WRAP( reveal_stats ),
+            WRAP( end_conversation ),
+            WRAP( insult_combat ),
+            WRAP( give_equipment ),
+            WRAP( give_aid ),
+            WRAP( give_all_aid ),
+            WRAP( buy_haircut ),
+            WRAP( buy_shave ),
+            WRAP( buy_10_logs ),
+            WRAP( buy_100_logs ),
+            WRAP( bionic_install ),
+            WRAP( bionic_remove ),
+            WRAP( follow ),
+            WRAP( deny_follow ),
+            WRAP( deny_lead ),
+            WRAP( deny_equipment ),
+            WRAP( deny_train ),
+            WRAP( deny_personal_info ),
+            WRAP( hostile ),
+            WRAP( flee ),
+            WRAP( leave ),
+            WRAP( stranger_neutral ),
+            WRAP( start_mugging ),
+            WRAP( player_leaving ),
+            WRAP( drop_weapon ),
+            WRAP( player_weapon_away ),
+            WRAP( player_weapon_drop ),
+            WRAP( lead_to_safety ),
+            WRAP( start_training ),
+            WRAP( nothing )
+#undef WRAP
+        }
+    };
+    const auto iter = static_functions_map.find( type );
+    if( iter != static_functions_map.end() ) {
+        set_effect( iter->second );
+        return;
+    }
+    // more functions can be added here, they don't need to be in the map above.
+    jo.throw_error( "unknown effect string", type );
+}
+
+
 void talk_response::effect_t::load_effect( JsonObject &jo )
 {
     static const std::string member_name( "effect" );
@@ -3082,70 +3143,22 @@ void talk_response::effect_t::load_effect( JsonObject &jo )
         return;
     } else if( jo.has_string( member_name ) ) {
         const std::string type = jo.get_string( member_name );
-        static const std::unordered_map<std::string, void( * )( npc & )> static_functions_map = { {
-#define WRAP( function ) { #function, &talk_function::function }
-                WRAP( assign_mission ),
-                WRAP( mission_success ),
-                WRAP( mission_failure ),
-                WRAP( clear_mission ),
-                WRAP( mission_reward ),
-                WRAP( start_trade ),
-                WRAP( assign_base ),
-                WRAP( assign_guard ),
-                WRAP( stop_guard ),
-                WRAP( become_overseer ),
-                WRAP( remove_overseer ),
-                WRAP( wake_up ),
-                WRAP( reveal_stats ),
-                WRAP( end_conversation ),
-                WRAP( insult_combat ),
-                WRAP( give_equipment ),
-                WRAP( give_aid ),
-                WRAP( give_all_aid ),
-                WRAP( buy_haircut ),
-                WRAP( buy_shave ),
-                WRAP( buy_10_logs ),
-                WRAP( buy_100_logs ),
-                WRAP( bionic_install ),
-                WRAP( bionic_remove ),
-                WRAP( follow ),
-                WRAP( deny_follow ),
-                WRAP( deny_lead ),
-                WRAP( deny_equipment ),
-                WRAP( deny_train ),
-                WRAP( deny_personal_info ),
-                WRAP( hostile ),
-                WRAP( flee ),
-                WRAP( leave ),
-                WRAP( stranger_neutral ),
-                WRAP( start_mugging ),
-                WRAP( player_leaving ),
-                WRAP( drop_weapon ),
-                WRAP( player_weapon_away ),
-                WRAP( player_weapon_drop ),
-                WRAP( lead_to_safety ),
-                WRAP( start_training ),
-                WRAP( nothing )
-#undef WRAP
-            }
-        };
-        const auto iter = static_functions_map.find( type );
-        if( iter != static_functions_map.end() ) {
-            set_effect( iter->second );
-            return;
-        }
-        // more functions can be added here, they don't need to be in the map above.
-        {
-            jo.throw_error( "unknown effect type", member_name );
-        }
+        parse_string_effect( type, jo );
     } else if( jo.has_object( member_name ) ) {
         JsonObject sub_effect = jo.get_object( member_name );
         parse_sub_effect( sub_effect );
     } else if( jo.has_array( member_name ) ) {
         JsonArray ja = jo.get_array( member_name );
         while( ja.has_more() ) {
-            JsonObject sub_effect = ja.next_object();
-            parse_sub_effect( sub_effect );
+            if( ja.test_string() ) {
+                const std::string type = ja.next_string();
+                parse_string_effect( type, jo );
+            } else if( ja.test_object() ) {
+                JsonObject sub_effect = ja.next_object();
+                parse_sub_effect( sub_effect );
+            } else {
+                jo.throw_error( "invalid effect array syntax", member_name );
+            }
         }
     } else {
         jo.throw_error( "invalid effect syntax", member_name );

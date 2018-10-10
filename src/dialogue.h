@@ -156,6 +156,7 @@ struct talk_response {
 
                 void load_effect( JsonObject &jo );
                 void parse_sub_effect( JsonObject jo );
+                void parse_string_effect( const std::string &type, JsonObject &jo );
 
                 effect_t() = default;
                 effect_t( JsonObject );
