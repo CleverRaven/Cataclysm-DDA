@@ -83,13 +83,15 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<ite
  */
 tripoint om_target_tile( const tripoint &omt_pos, int min_range = 1, int range = 1,
                          const std::vector<std::string> &possible_om_types = {},
-                         bool must_see = true, bool popup_notice = true, const tripoint &source = tripoint( -999, -999, -999 ),
+                         bool must_see = true, bool popup_notice = true, const tripoint &source = tripoint( -999, -999,
+                                 -999 ),
                          bool bounce = false );
 void om_range_mark( const tripoint &origin, int range, bool add_notes = true,
                     const std::string &message = "Y;X: MAX RANGE" );
 void om_line_mark( const tripoint &origin, const tripoint &dest, bool add_notes = true,
                    const std::string &message = "R;X: PATH" );
-std::vector<tripoint> om_companion_path( const tripoint &start, int range = 90, bool bounce = true );
+std::vector<tripoint> om_companion_path( const tripoint &start, int range = 90,
+        bool bounce = true );
 /**
  * Can be used to calculate total trip time for an NPC mission or just the traveling portion.  Doesn't use the pathing
  * algorithms yet.
@@ -98,7 +100,8 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range = 90, 
  * @param work, how much time the NPC will stay at the target
  * @param trips, how many trips back and forth the NPC will make
  */
-time_duration companion_travel_time_calc( const tripoint &omt_pos, const tripoint &omt_tgt, time_duration work,
+time_duration companion_travel_time_calc( const tripoint &omt_pos, const tripoint &omt_tgt,
+        time_duration work,
         int trips = 1 );
 time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, time_duration work,
         int trips = 1 );
@@ -195,10 +198,12 @@ int camp_recipe_batch_max( const recipe making, const inventory &total_inv );
 /// Trains NPC @ref comp, in skill_tested for duration time_worked at difficulty 1, several groups of skills can also be input
 int companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
                              time_duration time_worked = 1_hours, int difficulty = 1 );
-int companion_skill_trainer( npc &comp, const skill_id &skill_tested, time_duration time_worked = 1_hours,
+int companion_skill_trainer( npc &comp, const skill_id &skill_tested,
+                             time_duration time_worked = 1_hours,
                              int difficulty = 1 );
 //Combat functions
-bool companion_om_combat_check( const std::vector<std::shared_ptr<npc>> &group, const tripoint &om_tgt,
+bool companion_om_combat_check( const std::vector<std::shared_ptr<npc>> &group,
+                                const tripoint &om_tgt,
                                 bool try_engage = false );
 void force_on_force( const std::vector<std::shared_ptr<npc>> &defender, const std::string &def_desc,
                      const std::vector<std::shared_ptr<npc>> &attacker, const std::string &att_desc, int advantage );
@@ -218,7 +223,8 @@ std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
 /// Returns npcs that have the given companion mission.
 std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id,
                                bool contains = false );
-std::vector<npc *> companion_sort( std::vector<npc *> available, const std::string &skill_tested = "" );
+std::vector<npc *> companion_sort( std::vector<npc *> available,
+                                   const std::string &skill_tested = "" );
 std::vector<comp_rank> companion_rank( const std::vector<npc *> &available, bool adj = true );
 npc *companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
 npc *companion_choose_return( npc &p, const std::string &id, const time_point &deadline );
