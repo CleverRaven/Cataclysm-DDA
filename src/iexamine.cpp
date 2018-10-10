@@ -1971,8 +1971,13 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     if( !p.has_charges( "fire" , 1 ) ) {
         add_msg( _("This kiln is ready to be fired, but you have no fire source.") );
         return;
-    } else if( !query_yn( _("Fire the kiln?") ) ) {
-        return;
+    } else {
+        add_msg( _( "This kiln contains %sL of material, and is ready to be fired." ),
+                 format_volume( total_volume ) );
+        g->draw_sidebar_messages(); // flush messages before popup
+        if( !query_yn( _( "Fire the kiln?" ) ) ) {
+            return;
+        }
     }
 
     p.use_charges( "fire", 1 );
@@ -2037,6 +2042,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     result.charges = total_volume / char_type->volume;
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
+    add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
 
 void iexamine::fvat_empty(player &p, const tripoint &examp)
