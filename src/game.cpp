@@ -2254,17 +2254,12 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
-            int mx = 0;
-            int my = 0;
-            const bool are_valid_coordinates = ctxt.get_coordinates( w_terrain, mx, my );
-            // TODO: Z
-            int mz = g->get_levz();
-            const tripoint m( mx, my, mz );
-            if( are_valid_coordinates && ( !liveview_pos || m != liveview_pos ) ) {
-                liveview_pos.emplace( m );
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            if( mouse_pos && ( !liveview_pos || *mouse_pos != *liveview_pos ) ) {
+                liveview_pos = mouse_pos;
                 liveview.show( *liveview_pos );
                 draw_sidebar_messages();
-            } else if( !are_valid_coordinates ) {
+            } else if( !mouse_pos ) {
                 liveview_pos.reset();
                 liveview.hide();
                 draw_sidebar_messages();
@@ -7396,7 +7391,11 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
             // Maximum mouse events before a forced graphics update
             int max_consume = 10;
             do {
-                ctxt.get_coordinates( w_terrain, lx, ly );
+                const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+                if( mouse_pos ) {
+                    lx = mouse_pos->x;
+                    ly = mouse_pos->y;
+                }
                 if( --max_consume == 0 ) {
                     break;
                 }

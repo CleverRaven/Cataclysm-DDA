@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "string_formatter.h"
 #include "catacharset.h"
+#include "optional.h"
 #include "cata_utility.h"
 #include "options.h"
 #include "string_input_popup.h"
@@ -1229,10 +1230,10 @@ bool gamepad_available()
     return false;
 }
 
-bool input_context::get_coordinates( const catacurses::window &capture_win, int &x, int &y )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
 {
     if( !coordinate_input_received ) {
-        return false;
+        return cata::nullopt;
     }
     int view_columns = getmaxx( capture_win );
     int view_rows = getmaxy( capture_win );
@@ -1242,13 +1243,13 @@ bool input_context::get_coordinates( const catacurses::window &capture_win, int 
     int win_bottom = win_top + view_rows - 1;
     if( coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top ||
         coordinate_y > win_bottom ) {
-        return false;
+        return cata::nullopt;
     }
 
-    x = g->ter_view_x - ( ( view_columns / 2 ) - coordinate_x );
-    y = g->ter_view_y - ( ( view_rows / 2 ) - coordinate_y );
+    const int x = g->ter_view_x - ( ( view_columns / 2 ) - coordinate_x );
+    const int y = g->ter_view_y - ( ( view_rows / 2 ) - coordinate_y );
 
-    return true;
+    return tripoint( x, y, g->get_levz() );
 }
 #endif
 

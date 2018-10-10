@@ -3226,9 +3226,10 @@ void rescale_tileset(int size) {
     game_ui::init_ui();
 }
 
-bool input_context::get_coordinates( const catacurses::window &capture_win_, int& x, int& y) {
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
+{
     if(!coordinate_input_received) {
-        return false;
+        return cata::nullopt;
     }
 
     cata_cursesport::WINDOW *const capture_win = ( capture_win_.get() ? capture_win_ : g->w_terrain ).get<cata_cursesport::WINDOW>();
@@ -3260,10 +3261,10 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
     // Check if click is within bounds of the window we care about
     if( coordinate_x < win_left || coordinate_x > win_right ||
         coordinate_y < win_top || coordinate_y > win_bottom ) {
-        // add_msg( m_info, "out of bounds");
-        return false;
+        return cata::nullopt;
     }
 
+    int x, y;
     if ( tile_iso && use_tiles ) {
         const int screen_column = round( (float) ( coordinate_x - win_left - (( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
         const int screen_row = round( (float) ( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
@@ -3279,7 +3280,7 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
         y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
     }
 
-    return true;
+    return tripoint( x, y, g->get_levz() );
 }
 
 int get_terminal_width() {

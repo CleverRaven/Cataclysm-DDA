@@ -1130,13 +1130,14 @@ bool game::handle_action()
                 return false;
             }
 
-            int mx = 0;
-            int my = 0;
-            if( !ctxt.get_coordinates( w_terrain, mx, my ) || !u.sees( tripoint( mx, my, u.posz() ) ) ) {
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            if( !mouse_pos ) {
+                return false;
+            } else if( !u.sees( *mouse_pos ) ) {
                 // Not clicked in visible terrain
                 return false;
             }
-            mouse_target = tripoint( mx, my, u.posz() );
+            mouse_target = *mouse_pos;
 
             if( act == ACTION_SELECT ) {
                 // Note: The following has the potential side effect of

@@ -12,6 +12,12 @@
 #endif
 #include <utility>
 
+struct tripoint;
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 namespace catacurses
 {
 class window;
@@ -587,15 +593,13 @@ class input_context
         bool get_direction( int &dx, int &dy, const std::string &action );
 
         /**
-         * Get the coordinates associated with the last mouse click.
+         * Get the coordinates associated with the last mouse click (if any).
          *
          * TODO: This right now is more or less specific to the map window,
          *       and returns the absolute map coordinate.
          *       Eventually this should be made more flexible.
-         *
-         * @return true if we could process a click inside the window, false otherwise.
          */
-        bool get_coordinates( const catacurses::window &window, int &x, int &y );
+        cata::optional<tripoint> get_coordinates( const catacurses::window &window );
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
