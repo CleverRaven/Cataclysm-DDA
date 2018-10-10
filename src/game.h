@@ -550,7 +550,7 @@ class game
 
         void peek();
         void peek( const tripoint &p );
-        tripoint look_debug();
+        cata::optional<tripoint> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */

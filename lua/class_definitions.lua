@@ -351,7 +351,6 @@ classes = {
             { name = "knockback", rval = nil, args = { "tripoint", "tripoint", "int", "int", "int" } },
             { name = "light_level", rval = "int", args = { "int" } },
             { name = "look_around", rval = "tripoint", args = { } },
-            { name = "look_debug", rval = "tripoint", args = { } },
             { name = "natural_light_level", rval = "float", args = { "int" } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
             { name = "num_creatures", rval = "int", args = { } },
