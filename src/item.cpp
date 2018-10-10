@@ -2788,7 +2788,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
     int amount = 0;
     bool has_item = is_container() && contents.size() == 1;
-    bool has_ammo = is_ammo_container() && !contents.empty();
+    bool has_ammo = is_ammo_container() && contents.size() == 1;
     bool contains = has_item || has_ammo;
     bool show_amt = false;
     // We should handle infinite charges properly in all cases.
