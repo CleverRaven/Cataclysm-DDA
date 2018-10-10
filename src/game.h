@@ -928,7 +928,7 @@ class game
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
 
-        void drop( int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
+        void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void reassign_item( int pos = INT_MIN ); // Reassign the letter of an item  '='

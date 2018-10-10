@@ -2195,7 +2195,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.takeoff( u.i_at( pos ) );
                     break;
                 case 'd':
-                    drop( pos );
+                    u.drop( pos, u.pos() );
                     break;
                 case 'U':
                     unload( pos );
@@ -8729,13 +8729,9 @@ bool game::handle_liquid( item &liquid, item *const source, const int radius,
     return false;
 }
 
-void game::drop( int pos, const tripoint &where )
+void game::drop()
 {
-    if( pos != INT_MIN ) {
-        u.drop( pos, where );
-    } else {
-        u.drop( game_menus::inv::multidrop( u ), where );
-    }
+    u.drop( game_menus::inv::multidrop( u ), u.pos() );
 }
 
 void game::drop_in_direction()
@@ -8744,7 +8740,7 @@ void game::drop_in_direction()
 
     if( choose_adjacent( _( "Drop where?" ), dirp ) ) {
         refresh_all();
-        drop( INT_MIN, dirp );
+        u.drop( game_menus::inv::multidrop( u ), dirp );
     }
 }
 
