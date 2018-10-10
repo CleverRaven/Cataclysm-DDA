@@ -6385,7 +6385,7 @@ void game::peek( const tripoint &p )
 tripoint game::look_debug()
 {
     editmap edit;
-    return edit.edit();
+    return edit.edit().value_or( tripoint_min );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
