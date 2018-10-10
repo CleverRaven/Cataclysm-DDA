@@ -6,6 +6,7 @@
 #include "faction.h"
 #include "pimpl.h"
 #include "calendar.h"
+#include "optional.h"
 
 #include <vector>
 #include <set>
@@ -819,7 +820,7 @@ class npc : public player
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */
-        tripoint pulp_location;
+        cata::optional<tripoint> pulp_location;
 
         time_point restock;
         bool fetching_item;

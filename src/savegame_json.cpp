@@ -1119,9 +1119,18 @@ void npc::load( JsonObject &data )
     data.read( "guardy", guard_pos.y );
     data.read( "guardz", guard_pos.z );
 
-    data.read( "pulp_locationx", pulp_location.x );
-    data.read( "pulp_locationy", pulp_location.y );
-    data.read( "pulp_locationz", pulp_location.z );
+    if( data.has_member( "pulp_locationx" ) ) {
+        pulp_location.emplace();
+        data.read( "pulp_locationx", pulp_location->x );
+        data.read( "pulp_locationy", pulp_location->y );
+        data.read( "pulp_locationz", pulp_location->z );
+        // old code used tripoint_min to indicate "not a valid point"
+        if( *pulp_location == tripoint_min ) {
+            pulp_location.reset();
+        }
+    } else {
+        data.read( "pulp_location", pulp_location );
+    }
 
     if( data.read( "mission", misstmp ) ) {
         mission = npc_mission( misstmp );
@@ -1263,9 +1272,7 @@ void npc::store( JsonOut &json ) const
     json.member( "guardy", guard_pos.y );
     json.member( "guardz", guard_pos.z );
 
-    json.member( "pulp_locationx", pulp_location.x );
-    json.member( "pulp_locationy", pulp_location.y );
-    json.member( "pulp_locationz", pulp_location.z );
+    json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // @todo: stringid
     if( !fac_id.str().empty() ) { // set in constructor

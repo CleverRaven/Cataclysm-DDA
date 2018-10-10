@@ -1922,6 +1922,14 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
+void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+{
+    if( pos ) {
+        pos->x += dx;
+        pos->y += dy;
+    }
+}
+
 void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {

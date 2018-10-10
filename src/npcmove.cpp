@@ -2313,11 +2313,9 @@ bool npc::find_corpse_to_pulp()
 
     const int range = 6;
 
-    const bool had_pulp_target = pulp_location != tripoint_min;
-
     const item *corpse = nullptr;
-    if( had_pulp_target && square_dist( pos(), pulp_location ) <= range ) {
-        corpse = check_tile( pulp_location );
+    if( pulp_location && square_dist( pos(), *pulp_location ) <= range ) {
+        corpse = check_tile( *pulp_location );
     }
 
     // Find the old target to avoid spamming
@@ -2330,7 +2328,7 @@ bool npc::find_corpse_to_pulp()
             corpse = check_tile( p );
 
             if( corpse != nullptr ) {
-                pulp_location = p;
+                pulp_location.emplace( p );
                 break;
             }
 
@@ -2350,18 +2348,18 @@ bool npc::find_corpse_to_pulp()
 
 bool npc::do_pulp()
 {
-    if( pulp_location == tripoint_min ) {
+    if( !pulp_location ) {
         return false;
     }
 
-    if( rl_dist( pulp_location, pos() ) > 1 || pulp_location.z != posz() ) {
+    if( rl_dist( *pulp_location, pos() ) > 1 || pulp_location->z != posz() ) {
         return false;
     }
 
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = pulp_location;
+    activity.placement = *pulp_location;
     activity.do_turn( *this );
     return moves != old_moves;
 }
