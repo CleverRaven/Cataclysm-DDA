@@ -804,7 +804,7 @@ class npc : public player
          * This does not change the global position of the NPC.
          */
         tripoint global_square_location() const override;
-        tripoint last_player_seen_pos; // Where we last saw the player
+        cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint

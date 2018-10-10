@@ -1105,10 +1105,19 @@ void npc::load( JsonObject &data )
         data.read( "omz", position.z ); // omz/mapz got moved to position.z
     }
 
-    data.read( "plx", last_player_seen_pos.x );
-    data.read( "ply", last_player_seen_pos.y );
-    if( !data.read( "plz", last_player_seen_pos.z ) ) {
-        last_player_seen_pos.z = posz();
+    if( data.has_member( "plx" ) ) {
+        last_player_seen_pos.emplace();
+        data.read( "plx", last_player_seen_pos->x );
+        data.read( "ply", last_player_seen_pos->y );
+        if( !data.read( "plz", last_player_seen_pos->z ) ) {
+            last_player_seen_pos->z = posz();
+        }
+        // old code used tripoint_min to indicate "not a valid point"
+        if( *last_player_seen_pos == tripoint_min ) {
+            last_player_seen_pos.reset();
+        }
+    } else {
+        data.read( "last_player_seen_pos", last_player_seen_pos );
     }
 
     data.read( "goalx", goal.x );
@@ -1260,9 +1269,7 @@ void npc::store( JsonOut &json ) const
 
     json.member( "submap_coords", submap_coords );
 
-    json.member( "plx", last_player_seen_pos.x );
-    json.member( "ply", last_player_seen_pos.y );
-    json.member( "plz", last_player_seen_pos.z );
+    json.member( "last_player_seen_pos", last_player_seen_pos );
 
     json.member( "goalx", goal.x );
     json.member( "goaly", goal.y );
