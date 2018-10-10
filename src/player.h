@@ -1743,7 +1743,7 @@ class player : public Character
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        tripoint destination_point = tripoint_min;
+        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
 

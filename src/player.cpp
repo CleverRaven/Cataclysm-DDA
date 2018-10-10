@@ -11370,14 +11370,14 @@ void player::set_destination(const std::vector<tripoint> &route, const player_ac
 {
     auto_move_route = route;
     this->destination_activity = destination_activity;
-    destination_point = g->m.getabs( route.back() );
+    destination_point.emplace( g->m.getabs( route.back() ) );
 }
 
 void player::clear_destination()
 {
     auto_move_route.clear();
     destination_activity = player_activity();
-    destination_point = tripoint_min;
+    destination_point = cata::nullopt;
     next_expected_position = cata::nullopt;
 }
 
@@ -11388,8 +11388,7 @@ bool player::has_destination() const
 
 bool player::has_destination_activity() const
 {
-    tripoint dest = g->m.getlocal( destination_point );
-    return !destination_activity.is_null() && position == dest;
+    return !destination_activity.is_null() && destination_point && position == g->m.getlocal( *destination_point );
 }
 
 void player::start_destination_activity()
