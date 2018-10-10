@@ -2864,7 +2864,7 @@ bool talk_function::labor_return( npc &p )
     return true;
 }
 
-bool talk_function::om_camp_upgrade( npc &comp, const point omt_pos )
+bool talk_function::om_camp_upgrade( npc &comp, const point &omt_pos )
 {
     editmap edit;
 
@@ -3033,7 +3033,7 @@ int talk_function::om_over_level( const std::string &target, const std::string &
     return diff;
 }
 
-bool talk_function::upgrade_return( npc &p, point omt_pos, const std::string &miss )
+bool talk_function::upgrade_return( npc &p, const point &omt_pos, const std::string &miss )
 {
     //Ensure there are no vehicles before we update
     editmap edit;
@@ -4088,9 +4088,9 @@ bool talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &def
     }
 }
 
-void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender,
+void talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &defender,
                                     const std::string &def_desc,
-                                    std::vector<std::shared_ptr<npc>> attacker, const std::string &att_desc, int advantage )
+                                    const std::vector<std::shared_ptr<npc>> &attacker, const std::string &att_desc, int advantage )
 {
     std::string adv = "";
     if( advantage < 0 ) {
@@ -4292,7 +4292,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc *> &
     return adjusted;
 }
 
-npc *talk_function::companion_choose( std::string skill_tested, int skill_level )
+npc *talk_function::companion_choose( const std::string &skill_tested, int skill_level )
 {
     std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
         return g->u.sees( guy.pos() ) && guy.is_friend() &&
@@ -4708,7 +4708,7 @@ int talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_tes
     return total;
 }
 
-int talk_function::om_harvest_furn( npc &comp, point omt_tgt, furn_id f, float chance,
+int talk_function::om_harvest_furn( npc &comp, const point &omt_tgt, const furn_id &f, float chance,
                                     bool force_bash )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
@@ -4739,7 +4739,7 @@ int talk_function::om_harvest_furn( npc &comp, point omt_tgt, furn_id f, float c
     return harvested;
 }
 
-int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float chance,
+int talk_function::om_harvest_ter( npc &comp, const point &omt_tgt, const ter_id &t, float chance,
                                    bool force_bash )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
@@ -4820,7 +4820,7 @@ int talk_function::om_harvest_trees( npc &comp, const tripoint &omt_tgt, float c
     return harvested;
 }
 
-int talk_function::om_harvest_itm( npc &comp, point omt_tgt, float chance, bool take )
+int talk_function::om_harvest_itm( npc &comp, const point &omt_tgt, float chance, bool take )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
     omt_ref = oter_id( omt_ref.id().c_str() );

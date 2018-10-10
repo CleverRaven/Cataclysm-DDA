@@ -44,10 +44,10 @@ bool outpost_missions( npc &p, const std::string &id, const std::string &title )
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
 npc *individual_mission( npc &p, const std::string &desc, const std::string &id, bool group = false,
-                         std::vector<item *> equipment = {}, std::string skill_tested = "", int skill_level = 0 );
+                         const std::vector<item *> &equipment = {}, const std::string &skill_tested = "", int skill_level = 0 );
 ///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
 std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
-        std::string message = _( "Do you wish to give your companion additional items?" ) );
+        const std::string &message = _( "Do you wish to give your companion additional items?" ) );
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
