@@ -1,0 +1,100 @@
+Balance Skill based stability restoring for RELOAD_AND_SHOOT weapons
+Content vehicle mounted pet carriers
+Balance Consistent techniques
+Content Updated railings in RetroDaysTileset
+Bugfixes Fix crafting with liquids in furniture
+Infrastructure hide bags: add armor_data section
+Balance Different skill checks for different methods of installing bionics
+Content Adds the Augmentation Associate profession and changes the description of the High Tech, Low Life scenario
+Bugfixes Fixed manual bionic installation not working in Bright Nights mod
+Balance Zero sight range for narcosis effect
+Bugfixes Fix message cut-off in the message box when displaying newest messages at the bottom
+Balance Reduces the spawn rate of Antique Adornments
+Bugfixes Fixed opacity regression in RetroDaysTileset
+Infrastructure Companion mission main loop, struct instead of string
+Content Expanded Lab Sites
+Content Minor archery addition
+Balance Home mechanic profession rework
+Content Discordant Mi-go Memes.
+Mods Blazemod vehicle part descriptions
+Interface More vehicle part descriptions
+Interface Adds some flavor texts for visible effects that had none.
+Interface Added possibility to add flag to the wish item
+Bugfixes Consume water only if player actually drinks it
+Balance Only despawn hostile turrets when using cardreaders
+Mods Assorted changes to More Classes and Scenarios Mod
+Features Schizophrenic Overhaul
+Features Remove non-classic monsters when using classic zombies world option
+Interface Alters the overmap key to remove duplicates
+Balance Mycus Identity gives a speed boost to walking over fungal tiles, and prevents them from slowing you
+Balance Removes the survival requirement from the knife spear recipe, and makes it take longer
+Bugfixes Fix drinking from furniture
+Infrastructure Jsonify pawn shop
+Infrastructure Moved defense mode caravan items to json groups
+Content Faction Camp
+Infrastructure Lab JSON improvements & cleanup
+Content Lab more floorplans
+Infrastructure place_monster support for 'chance' & 'pack_size' and use it in lab json
+Content Added sun glare protection for all kinds of survivor masks
+Interface Item description improvements
+Infrastructure Make sight-correcting glasses functionality into a flag
+Balance Edit healing items to better reflect new healing mechanics.
+Mods Fix makeshift crossbow recipe in More Survival Tools.
+Balance Antibiotic overhaul - slow-acting antibiotics, and adds Atreyupan, a weak antibiotic
+Balance Changes some Autodoc messages and makes it usable without anesthesia by Deadened mutants or Sensory Dulling cyborgs
+Content One more lab floorplan
+Build Fix line endings committed as CRLF.
+Balance Give the survivor firemask glare protection
+Bugfixes Fix foraging behavior
+Content Add glare protection to all gear with glare quality
+Balance Fixes unwinnable lab death trap
+Infrastructure Added vehicle::is_open(part_index).
+Infrastructure can_examine_at(p) now returns true if the map has items at tripoint p.
+Infrastructure Unicode support for SCT
+Build Update .desktop and appdata files in data/xdg.
+Content To add Cosmic's Additional Locations to the game
+Interface Displays required skill level in Read menu if it's too low
+Bugfixes Fix illiterates being able to read some (non-picture) books
+Content Root Cellar - food preserving option.
+Bugfixes Fix for temperature related: chargen crash (in labs) and ice lab food decay bug
+Bugfixes Fix unknown command message when switching out of the window
+Balance Makeshift glaive has nonconductive wooden handle
+Interface Add double spaces after sentence breaks
+Bugfixes electronics control unit fixes
+Interface vehicle part descriptions: move common descriptions to flag info
+Infrastructure Make tinfoil hat functionality into a flag
+Build Add Dockerfile for building and experimenting on Debian
+Interface Change some recipe categories
+Interface Updated headers in help menu to use sentence case
+Balance Balance rusting of iron items
+Balance Uninstall returns the bionic module
+Balance Fragmentation overhaul
+Interface Update monster descriptions to something more interesting
+Balance Requirements with tools and components
+Features Overmap overhaul (step 10)
+Interface Clarify confusing description of pile of straw
+Bugfixes Fix NPC teleporting and duplicating when the player crosses submap borders
+Interface Updated keybindings for vehicle interaction
+Balance Hunger and starvation improvements
+Infrastructure Have build_lab generate_stairs shop around for lab spaces for stairs
+Content Make leaf springs a thing
+Balance Added chair and bench as possible sleeping spots
+Mods Add dashboards to Bright Night's Atomic Vehicles
+Mods Faster Bright Nights Healing
+Mods Blazemod goo update and descriptions
+Interface cbms for NPCs: add BIONICs tab to player info window
+Infrastructure cbms for NPCs: add NPC_INSTALL flag
+Bugfixes Fix carnivore.json issues (strange health values)
+Bugfixes Item repairing fixes
+Bugfixes OSX crash fixes
+Features Spawn liquids in containers during disassembly of first-aid kit
+Content Lab doors: Adds frosted glass, changes the mixture of doors in labs.
+Balance Make ice labs ~10% of all labs, not 50%. Ensure 1+ lab per overmap.
+Balance Added volume to bikini tops and hot pants
+Infrastructure Changed human bone type to "GENERIC"
+Bugfixes electronics control unit fixes
+Balance Rebalances "High Tech, Low Life" start. (guarantees autodoc and more)
+Balance Fix the drop rate of Pork and Beans
+Content Stacks of money
+Content Adds a debug trait that enables and gives 100% success chance on manual bionic installs
+Mods Bright Nights: Makes antibiotics more effective, and adds Verum Remedium, an extremely rare panacea that cures earthly wounds (also astyles item_factory.cpp)
