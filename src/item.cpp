@@ -6616,10 +6616,10 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     return false;
 }
 
-tripoint item::get_cable_target() const
+cata::optional<tripoint> item::get_cable_target() const
 {
     if( get_var( "state" ) != "pay_out_cable" ) {
-        return tripoint_min;
+        return cata::nullopt;
     }
 
     int source_x = get_var( "source_x", 0 );
@@ -6627,18 +6627,17 @@ tripoint item::get_cable_target() const
     int source_z = get_var( "source_z", 0 );
     tripoint source( source_x, source_y, source_z );
 
-    tripoint relpos = g->m.getlocal( source );
-    return relpos;
+    return g->m.getlocal( source );
 }
 
 bool item::process_cable( player *p, const tripoint &pos )
 {
-    const tripoint &source = get_cable_target();
-    if( source == tripoint_min ) {
+    const cata::optional<tripoint> source = get_cable_target();
+    if( !source ) {
         return false;
     }
 
-    if( !g->m.veh_at( source ) || ( source.z != g->get_levz() && !g->m.has_zlevels() ) ) {
+    if( !g->m.veh_at( *source ) || ( source->z != g->get_levz() && !g->m.has_zlevels() ) ) {
         if( p != nullptr && p->has_item( *this ) ) {
             p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
@@ -6646,7 +6645,7 @@ bool item::process_cable( player *p, const tripoint &pos )
         return false;
     }
 
-    int distance = rl_dist( pos, source );
+    int distance = rl_dist( pos, *source );
     int max_charges = type->maximum_charges();
     charges = max_charges - distance;
 

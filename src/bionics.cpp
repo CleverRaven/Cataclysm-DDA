@@ -759,8 +759,11 @@ void player::process_bionic( int b )
         constexpr int battery_per_power = 10;
         int wants_power_amt = battery_per_power;
         for( const item *cable : cables ) {
-            const auto &target = cable->get_cable_target();
-            const optional_vpart_position vp = g->m.veh_at( target );
+            const cata::optional<tripoint> target = cable->get_cable_target();
+            if( !target ) {
+                continue;
+            }
+            const optional_vpart_position vp = g->m.veh_at( *target );
             if( !vp ) {
                 continue;
             }
