@@ -1473,7 +1473,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_COMPARE:
-                game_menus::inv::compare( u );
+                game_menus::inv::compare( u, cata::nullopt );
                 break;
 
             case ACTION_ORGANIZE:

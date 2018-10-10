@@ -962,7 +962,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
     return inv_s.execute();
 }
 
-void game_menus::inv::compare( player &p, const tripoint &offset )
+void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset )
 {
     p.inv.restack( p );
 
@@ -972,9 +972,9 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
     inv_s.set_title( _( "Compare" ) );
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
-    if( offset != tripoint_min ) {
-        inv_s.add_map_items( p.pos() + offset );
-        inv_s.add_vehicle_items( p.pos() + offset );
+    if( offset ) {
+        inv_s.add_map_items( p.pos() + *offset );
+        inv_s.add_vehicle_items( p.pos() + *offset );
     } else {
         inv_s.add_nearby_items();
     }

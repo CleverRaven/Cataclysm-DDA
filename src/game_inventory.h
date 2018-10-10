@@ -8,6 +8,11 @@
 #include <list>
 #include <string>
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 class item;
 class item_location;
 class player;
@@ -41,7 +46,7 @@ namespace inv
 /*@{*/
 
 void common( player &p );
-void compare( player &p, const tripoint &offset = tripoint_min );
+void compare( player &p, const cata::optional<tripoint> &offset );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
 
