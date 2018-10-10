@@ -1078,7 +1078,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    tripoint mouse_target = tripoint_min;
+    cata::optional<tripoint> mouse_target;
 
     // quit prompt check (ACTION_QUIT only grabs 'Q')
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
@@ -1137,17 +1137,17 @@ bool game::handle_action()
                 // Not clicked in visible terrain
                 return false;
             }
-            mouse_target = *mouse_pos;
+            mouse_target = mouse_pos;
 
             if( act == ACTION_SELECT ) {
                 // Note: The following has the potential side effect of
                 // setting auto-move destination state in addition to setting
                 // act.
-                if( !try_get_left_click_action( act, mouse_target ) ) {
+                if( !try_get_left_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             } else if( act == ACTION_SEC_SELECT ) {
-                if( !try_get_right_click_action( act, mouse_target ) ) {
+                if( !try_get_right_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             }
@@ -1381,8 +1381,8 @@ bool game::handle_action()
             case ACTION_CLOSE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't close things while you're in your shell." ) );
-                } else if( mouse_target != tripoint_min ) {
-                    doors::close_door( m, u, mouse_target );
+                } else if( mouse_target ) {
+                    doors::close_door( m, u, *mouse_target );
                 } else {
                     close();
                 }
@@ -1401,8 +1401,8 @@ bool game::handle_action()
             case ACTION_EXAMINE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't examine your surroundings while you're in your shell." ) );
-                } else if( mouse_target != tripoint_min ) {
-                    examine( mouse_target );
+                } else if( mouse_target ) {
+                    examine( *mouse_target );
                 } else {
                     examine();
                 }
