@@ -155,10 +155,10 @@
   {
     "type": "help",
     "order": 13,
-    "name": "<n|N>: Unarmed styles",
+    "name": "<n|N>: Martial arts styles",
     "messages": [
-      "For the unarmed fighter, a variety of fighting styles are available. You can start with your choice of a single, commonly-taught style by starting with the Martial Arts Training trait. Many, many more can be found in their own traits, learned from manuals or by taking lessons from wandering masters.",
-      "To select a fighting style, press <press_pick_style>. If you are already unarmed, this will make you start using the selected style. Otherwise, it will be locked in as your default unarmed style. To start using it, wield a relevant weapon or empty your hands, by pressing <press_wield>, then the key for the item you are currently wielding. If you wish to prevent yourself from accidentally wielding weapons taken from the ground, enable \"Keep hands free\" found in the styles menu.",
+      "A variety of fighting styles are available, particularly for the unarmed fighter. You can start with your choice of a single, commonly-taught style by starting with the Martial Arts Training trait. Many, many more can be found in their own traits, learned from manuals or by taking lessons from wandering masters.",
+      "To select a fighting style, press <press_pick_style>. Some styles are relevant only when you are unarmed, others are compatible with or require certain weapons. If your current weapon is compatible with the chosen style, you will start using the selected style immediately. Otherwise, it will be locked in as your default style. To start using it, wield a relevant weapon or empty your hands, by pressing <press_wield>, then the key for the item you are currently wielding. If you wish to prevent yourself from accidentally wielding weapons taken from the ground, enable \"Keep hands free\" found in the styles menu.",
       "Most styles have a variety of special moves associated with them. Most have a skill requirement, and will be unavailable until you reach a level of unarmed skill. You can check the moves by pressing '?' in the pick style menu.",
       "Many styles also have special effects unlocked under certain conditions. These are varied and unique to each style, and range from special combo moves to bonuses depending on the situation you are in. You can check these by examining your style."
     ]
