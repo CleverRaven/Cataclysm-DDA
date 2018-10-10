@@ -552,8 +552,8 @@ void player::mutate()
 
     // For each mutation...
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        const auto &base_mutation = traits_iter.first;
-        const auto &base_mdata = traits_iter.second;
+        const auto &base_mutation = traits_iter.id;
+        const auto &base_mdata = traits_iter;
         bool thresh_save = base_mdata.threshold;
         bool prof_save = base_mdata.profession;
         bool purify_save = base_mdata.purifiable;
@@ -641,8 +641,8 @@ void player::mutate()
         if( cat.empty() ) {
             // Pull the full list
             for( auto &traits_iter : mutation_branch::get_all() ) {
-                if( traits_iter.second.valid ) {
-                    valid.push_back( traits_iter.first );
+                if( traits_iter.valid ) {
+                    valid.push_back( traits_iter.id );
                 }
             }
         } else {
@@ -1013,13 +1013,13 @@ void player::remove_mutation( const trait_id &mut )
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if( has_base_trait( iter.first ) && !has_trait( iter.first ) ) {
+            if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<trait_id> traitcheck = iter.second.cancels;
+                std::vector<trait_id> traitcheck = iter.cancels;
                 if( !traitcheck.empty() ) {
                     for( size_t j = 0; !replacing && j < traitcheck.size(); j++ ) {
                         if( traitcheck[j] == mut ) {
-                            replacing = ( iter.first );
+                            replacing = ( iter.id );
                         }
                     }
                 }
@@ -1035,13 +1035,13 @@ void player::remove_mutation( const trait_id &mut )
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if( has_base_trait( iter.first ) && !has_trait( iter.first ) ) {
+            if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<trait_id> traitcheck = iter.second.cancels;
+                std::vector<trait_id> traitcheck = iter.cancels;
                 if( !traitcheck.empty() ) {
                     for( size_t j = 0; !replacing2 && j < traitcheck.size(); j++ ) {
-                        if( traitcheck[j] == mut && ( iter.first ) != replacing ) {
-                            replacing2 = ( iter.first );
+                        if( traitcheck[j] == mut && ( iter.id ) != replacing ) {
+                            replacing2 = ( iter.id );
                         }
                     }
                 }

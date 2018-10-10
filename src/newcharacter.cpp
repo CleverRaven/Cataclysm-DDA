@@ -1020,30 +1020,30 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
-        if( mutation_branch::trait_is_blacklisted( traits_iter.first ) ) {
+        if( mutation_branch::trait_is_blacklisted( traits_iter.id ) ) {
             continue;
         }
 
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
-                                             traits_iter.first ) != proftraits.end();
+                                             traits_iter.id ) != proftraits.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) || is_proftrait ) {
-            if( traits_iter.second.points > 0 ) {
-                vStartingTraits[0].push_back( traits_iter.first );
+        if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
+            if( traits_iter.points > 0 ) {
+                vStartingTraits[0].push_back( traits_iter.id );
 
-                if( u.has_trait( traits_iter.first ) ) {
-                    num_good += traits_iter.second.points;
+                if( u.has_trait( traits_iter.id ) ) {
+                    num_good += traits_iter.points;
                 }
-            } else if( traits_iter.second.points < 0 ) {
-                vStartingTraits[1].push_back( traits_iter.first );
+            } else if( traits_iter.points < 0 ) {
+                vStartingTraits[1].push_back( traits_iter.id );
 
-                if( u.has_trait( traits_iter.first ) ) {
-                    num_bad += traits_iter.second.points;
+                if( u.has_trait( traits_iter.id ) ) {
+                    num_bad += traits_iter.points;
                 }
             } else {
-                vStartingTraits[2].push_back( traits_iter.first );
+                vStartingTraits[2].push_back( traits_iter.id );
             }
         }
     }
@@ -2465,8 +2465,8 @@ trait_id Character::random_good_trait()
     std::vector<trait_id> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.points >= 0 && g->scen->traitquery( traits_iter.first ) ) {
-            vTraitsGood.push_back( traits_iter.first );
+        if( traits_iter.points >= 0 && g->scen->traitquery( traits_iter.id ) ) {
+            vTraitsGood.push_back( traits_iter.id );
         }
     }
 
@@ -2478,8 +2478,8 @@ trait_id Character::random_bad_trait()
     std::vector<trait_id> vTraitsBad;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.points < 0 && g->scen->traitquery( traits_iter.first ) ) {
-            vTraitsBad.push_back( traits_iter.first );
+        if( traits_iter.points < 0 && g->scen->traitquery( traits_iter.id ) ) {
+            vTraitsBad.push_back( traits_iter.id );
         }
     }
 

@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "translations.h"
 #include "trait_group.h"
+#include "generic_factory.h"
 
 #include "color.h"
 
@@ -20,27 +21,26 @@ typedef std::set<trait_id> TraitSet;
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
 
+namespace
+{
+generic_factory<mutation_branch> trait_factory( "trait" );
+}
+
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
 std::map<std::string, mutation_category_trait> mutation_category_traits;
-std::unordered_map<trait_id, mutation_branch> mutation_data;
+//std::unordered_map<trait_id, mutation_branch> mutation_data;
 
 template<>
 const mutation_branch &string_id<mutation_branch>::obj() const
 {
-    const auto iter = mutation_data.find( *this );
-    if( iter == mutation_data.end() ) {
-        debugmsg( "invalid trait/mutation type id %s", c_str() );
-        static const mutation_branch dummy{};
-        return dummy;
-    }
-    return iter->second;
+    return trait_factory.obj( *this );
 }
 
 template<>
 bool string_id<mutation_branch>::is_valid() const
 {
-    return mutation_data.count( *this ) > 0;
+    return trait_factory.is_valid( *this );
 }
 
 template<>
@@ -239,112 +239,98 @@ static social_modifiers load_mutation_social_mods( JsonObject &jo )
     return ret;
 }
 
-void mutation_branch::load( JsonObject &jsobj )
+void mutation_branch::load_trait( JsonObject &jo, const std::string &src )
 {
-    const trait_id id( jsobj.get_string( "id" ) );
-    mutation_branch &new_mut = mutation_data[id];
+    trait_factory.load( jo, src );
+}
 
-    JsonArray jsarr;
-    new_mut.raw_name = jsobj.get_string( "name" );
-    new_mut.raw_desc = jsobj.get_string( "description" );
-    new_mut.points = jsobj.get_int( "points" );
-    new_mut.visibility = jsobj.get_int( "visibility", 0 );
-    new_mut.ugliness = jsobj.get_int( "ugliness", 0 );
-    new_mut.startingtrait = jsobj.get_bool( "starting_trait", false );
-    new_mut.mixed_effect = jsobj.get_bool( "mixed_effect", false );
-    new_mut.activated = jsobj.get_bool( "active", false );
-    new_mut.starts_active = jsobj.get_bool( "starts_active", false );
-    new_mut.destroys_gear = jsobj.get_bool( "destroys_gear", false );
-    new_mut.allow_soft_gear = jsobj.get_bool( "allow_soft_gear", false );
-    new_mut.cost = jsobj.get_int( "cost", 0 );
-    new_mut.cooldown = jsobj.get_int( "time", 0 );
-    new_mut.hunger = jsobj.get_bool( "hunger", false );
-    new_mut.thirst = jsobj.get_bool( "thirst", false );
-    new_mut.fatigue = jsobj.get_bool( "fatigue", false );
-    new_mut.valid = jsobj.get_bool( "valid", true );
-    new_mut.purifiable = jsobj.get_bool( "purifiable", true );
-    if( jsobj.has_object( "spawn_item" ) ) {
-        JsonObject spawn_item = jsobj.get_object( "spawn_item" );
-        new_mut.spawn_item = spawn_item.get_string( "type", "" );
-        new_mut.raw_spawn_item_message = spawn_item.get_string( "message", "" );
-    }
-    for( auto &s : jsobj.get_string_array( "initial_ma_styles" ) ) {
-        new_mut.initial_ma_styles.push_back( matype_id( s ) );
+void mutation_branch::load( JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "id", id );
+    mandatory( jo, was_loaded, "name", raw_name, translated_string_reader );
+    mandatory( jo, was_loaded, "description", raw_desc, translated_string_reader );
+    mandatory( jo, was_loaded, "points", points );
+
+    optional( jo, was_loaded, "visibility", visibility, 0 );
+    optional( jo, was_loaded, "ugliness", ugliness, 0 );
+    optional( jo, was_loaded, "starting_trait", startingtrait, false );
+    optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
+    optional( jo, was_loaded, "active", activated, false );
+    optional( jo, was_loaded, "starts_active", starts_active, false );
+    optional( jo, was_loaded, "destroys_gear", destroys_gear, false );
+    optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
+    optional( jo, was_loaded, "cost", cost, 0 );
+    optional( jo, was_loaded, "time", cooldown, 0 );
+    optional( jo, was_loaded, "hunger", hunger, false );
+    optional( jo, was_loaded, "thirst", thirst, false );
+    optional( jo, was_loaded, "fatigue", fatigue, false );
+    optional( jo, was_loaded, "valid", valid, true );
+    optional( jo, was_loaded, "purifiable", purifiable, true );
+
+    optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
+    if( jo.has_object( "spawn_item" ) ) {
+        auto si = jo.get_object( "spawn_item" );
+        optional( si, was_loaded, "type", spawn_item );
+        optional( si, was_loaded, "message", raw_spawn_item_message );
     }
 
-    JsonArray bodytemp_array = jsobj.get_array( "bodytemp_modifiers" );
-    if( bodytemp_array.has_more() ) {
-        new_mut.bodytemp_min = bodytemp_array.get_int( 0 );
-        new_mut.bodytemp_max = bodytemp_array.get_int( 1 );
+    if( jo.has_array( "bodytemp_modifiers" ) ) {
+        auto bodytemp_array = jo.get_array( "bodytemp_modifiers" );
+        bodytemp_min = bodytemp_array.get_int( 0 );
+        bodytemp_max = bodytemp_array.get_int( 1 );
     }
-    new_mut.bodytemp_sleep = jsobj.get_int( "bodytemp_sleep", 0 );
-    new_mut.threshold = jsobj.get_bool( "threshold", false );
-    new_mut.profession = jsobj.get_bool( "profession", false );
-    new_mut.debug = jsobj.get_bool( "debug", false );
 
-    auto vr = jsobj.get_array( "vitamin_rates" );
+    optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
+    optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "profession", profession, false );
+    optional( jo, was_loaded, "debug", debug, false );
+
+    JsonArray vr = jo.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
         auto pair = vr.next_array();
-        new_mut.vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
-                                       time_duration::from_turns( pair.get_int( 1 ) ) );
+        vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
+                               time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
-    new_mut.healing_awake = jsobj.get_float( "healing_awake", 0.0f );
-    new_mut.healing_resting = jsobj.get_float( "healing_resting", 0.0f );
-    new_mut.hp_modifier = jsobj.get_float( "hp_modifier", 0.0f );
-    new_mut.hp_modifier_secondary = jsobj.get_float( "hp_modifier_secondary", 0.0f );
-    new_mut.hp_adjustment = jsobj.get_float( "hp_adjustment", 0.0f );
+    optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
+    optional( jo, was_loaded, "healing_resting", healing_resting, 0.0f );
+    optional( jo, was_loaded, "hp_modifier", hp_modifier, 0.0f );
+    optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
+    optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
+    optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, 0.0f );
+    optional( jo, was_loaded, "thirst_modifier", thirst_modifier, 0.0f );
+    optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
+    optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, 0.0f );
+    optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, 0.0f );
 
-    new_mut.metabolism_modifier = jsobj.get_float( "metabolism_modifier", 0.0f );
-    new_mut.thirst_modifier = jsobj.get_float( "thirst_modifier", 0.0f );
-    new_mut.fatigue_modifier = jsobj.get_float( "fatigue_modifier", 0.0f );
-    new_mut.fatigue_regen_modifier = jsobj.get_float( "fatigue_regen_modifier", 0.0f );
-
-    new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
-
-    if( jsobj.has_object( "social_modifiers" ) ) {
-        JsonObject jo = jsobj.get_object( "social_modifiers" );
-        new_mut.social_mods = load_mutation_social_mods( jo );
+    if( jo.has_object( "social_modifiers" ) ) {
+        JsonObject sm = jo.get_object( "social_modifiers" );
+        social_mods = load_mutation_social_mods( sm );
     }
 
-    load_mutation_mods( jsobj, "passive_mods", new_mut.mods );
+    load_mutation_mods( jo, "passive_mods", mods );
+
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
-    for( auto &t : jsobj.get_string_array( "prereqs" ) ) {
-        new_mut.prereqs.emplace_back( t );
-    }
-    // Helps to be able to have a trait require more than one other trait
-    // (Individual prerequisite-lists are "OR", not "AND".)
-    // Traits should NOT appear in both lists for a given mutation, unless
-    // you want that trait to satisfy both requirements.
-    // These are additional to the first list.
-    for( auto &t : jsobj.get_string_array( "prereqs2" ) ) {
-        new_mut.prereqs2.emplace_back( t );
-    }
-    // Dedicated-purpose prerequisite slot for Threshold mutations
-    // Stuff like Huge might fit in more than one category post-threshold, so yeah
-    for( auto &t : jsobj.get_string_array( "threshreq" ) ) {
-        new_mut.threshreq.emplace_back( t );
-    }
-    for( auto &t : jsobj.get_string_array( "cancels" ) ) {
-        new_mut.cancels.emplace_back( t );
-    }
-    for( auto &t : jsobj.get_string_array( "changes_to" ) ) {
-        new_mut.replacements.emplace_back( t );
-    }
-    for( auto &t : jsobj.get_string_array( "leads_to" ) ) {
-        new_mut.additions.emplace_back( t );
-    }
-    new_mut.flags = jsobj.get_tags( "flags" );
-    new_mut.types = jsobj.get_tags( "types" );
-    jsarr = jsobj.get_array( "category" );
+    optional( jo, was_loaded, "prereqs", prereqs );
+    optional( jo, was_loaded, "prereqs2", prereqs2 );
+    optional( jo, was_loaded, "threshreq", threshreq );
+    optional( jo, was_loaded, "cancels", cancels );
+    optional( jo, was_loaded, "changes_to", replacements );
+    optional( jo, was_loaded, "leads_to", additions );
+
+    optional( jo, was_loaded, "flags", flags );
+    optional( jo, was_loaded, "types", types );
+
+    auto jsarr = jo.get_array( "category" );
     while( jsarr.has_more() ) {
         std::string s = jsarr.next_string();
-        new_mut.category.push_back( s );
+        category.push_back( s );
         mutations_category[s].push_back( trait_id( id ) );
     }
-    jsarr = jsobj.get_array( "wet_protection" );
+
+    jsarr = jo.get_array( "wet_protection" );
     while( jsarr.has_more() ) {
         JsonObject jo = jsarr.next_object();
         std::string part_id = jo.get_string( "part" );
@@ -352,31 +338,31 @@ void mutation_branch::load( JsonObject &jsobj )
         int neutral = jo.get_int( "neutral", 0 );
         int good = jo.get_int( "good", 0 );
         tripoint protect = tripoint( ignored, neutral, good );
-        new_mut.protection[get_body_part_token( part_id )] = protect;
+        protection[get_body_part_token( part_id )] = protect;
     }
 
-    jsarr = jsobj.get_array( "encumbrance_always" );
+    jsarr = jo.get_array( "encumbrance_always" );
     while( jsarr.has_more() ) {
         JsonArray jo = jsarr.next_array();
         std::string part_id = jo.next_string();
         int enc = jo.next_int();
-        new_mut.encumbrance_always[get_body_part_token( part_id )] = enc;
+        encumbrance_always[get_body_part_token( part_id )] = enc;
     }
 
-    jsarr = jsobj.get_array( "encumbrance_covered" );
+    jsarr = jo.get_array( "encumbrance_covered" );
     while( jsarr.has_more() ) {
         JsonArray jo = jsarr.next_array();
         std::string part_id = jo.next_string();
         int enc = jo.next_int();
-        new_mut.encumbrance_covered[get_body_part_token( part_id )] = enc;
+        encumbrance_covered[get_body_part_token( part_id )] = enc;
     }
 
-    jsarr = jsobj.get_array( "restricts_gear" );
+    jsarr = jo.get_array( "restricts_gear" );
     while( jsarr.has_more() ) {
-        new_mut.restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
+        restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
     }
 
-    jsarr = jsobj.get_array( "armor" );
+    jsarr = jo.get_array( "armor" );
     while( jsarr.has_more() ) {
         JsonObject jo = jsarr.next_object();
         auto parts = jo.get_tags( "parts" );
@@ -393,19 +379,19 @@ void mutation_branch::load( JsonObject &jsobj )
         resistances res = load_resistances_instance( jo );
 
         for( body_part bp : bps ) {
-            new_mut.armor[ bp ] = res;
+            armor[ bp ] = res;
         }
     }
 
-    if( jsobj.has_array( "attacks" ) ) {
-        jsarr = jsobj.get_array( "attacks" );
+    if( jo.has_array( "attacks" ) ) {
+        jsarr = jo.get_array( "attacks" );
         while( jsarr.has_more() ) {
             JsonObject jo = jsarr.next_object();
-            new_mut.attacks_granted.emplace_back( load_mutation_attack( jo ) );
+            attacks_granted.emplace_back( load_mutation_attack( jo ) );
         }
-    } else if( jsobj.has_object( "attacks" ) ) {
-        JsonObject jo = jsobj.get_object( "attacks" );
-        new_mut.attacks_granted.emplace_back( load_mutation_attack( jo ) );
+    } else if( jo.has_object( "attacks" ) ) {
+        JsonObject attack = jo.get_object( "attacks" );
+        attacks_granted.emplace_back( load_mutation_attack( attack ) );
     }
 }
 
@@ -436,9 +422,8 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
 
 void mutation_branch::check_consistency()
 {
-    for( const auto &m : mutation_data ) {
-        const auto &mid = m.first;
-        const auto &mdata = m.second;
+    for( const auto &mdata : get_all() ) {
+        const auto &mid = mdata.id;
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
@@ -480,15 +465,15 @@ std::string mutation_branch::get_name( const trait_id &mutation_id )
     return mutation_id->name();
 }
 
-const mutation_branch::MutationMap &mutation_branch::get_all()
+const std::vector<mutation_branch> &mutation_branch::get_all()
 {
-    return mutation_data;
+    return trait_factory.get_all();
 }
 
 void mutation_branch::reset_all()
 {
     mutations_category.clear();
-    mutation_data.clear();
+    trait_factory.reset();
     trait_blacklist.clear();
     trait_groups.clear();
     trait_groups.emplace( trait_group::Trait_group_tag( "EMPTY_GROUP" ),

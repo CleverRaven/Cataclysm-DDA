@@ -84,6 +84,8 @@ struct mut_attack {
 
 struct mutation_branch {
         using MutationMap = std::unordered_map<trait_id, mutation_branch>;
+        trait_id id;
+        bool was_loaded = false;
         // True if this is a valid mutation (False for "unavailable from generic mutagen").
         bool valid = false;
         // True if Purifier can remove it (False for *Special* mutations).
@@ -204,11 +206,12 @@ struct mutation_branch {
          * All known mutations. Key is the mutation id, value is the mutation_branch that you would
          * also get by calling @ref get.
          */
-        static const MutationMap &get_all();
+        static const std::vector<mutation_branch> &get_all();
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        static void load( JsonObject &jsobj );
+        void load( JsonObject &jo, const std::string &src );
+        static void load_trait( JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
 

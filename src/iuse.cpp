@@ -936,9 +936,9 @@ static void do_purify( player &p )
 {
     std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p.has_trait( traits_iter.first ) && !p.has_base_trait( traits_iter.first ) ) {
+        if( p.has_trait( traits_iter.id ) && !p.has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
+            valid.push_back( traits_iter.id );
         }
     }
     if( valid.empty() ) {
@@ -981,9 +981,9 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
 
     std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
+        if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
+            valid.push_back( traits_iter.id );
         }
     }
     if( valid.empty() ) {
@@ -1025,12 +1025,12 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) &&
-            !p->has_base_trait( traits_iter.first ) &&
-            p->purifiable( traits_iter.first ) ) {
+        if( p->has_trait( traits_iter.id ) &&
+            !p->has_base_trait( traits_iter.id ) &&
+            p->purifiable( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
-            valid_names.push_back( traits_iter.first->name() );
+            valid.push_back( traits_iter.id );
+            valid_names.push_back( traits_iter.id->name() );
         }
     }
     if( valid.empty() ) {
