@@ -1818,7 +1818,7 @@ bool game::handle_action()
                 get_options().get_option( "AUTO_FEATURES" ).setNext();
                 get_options().save();
                 //~ Auto Features are now ON/OFF
-                 add_msg( _( "%s are now %s." ),
+                add_msg( _( "%s are now %s." ),
                          get_options().get_option( "AUTO_FEATURES" ).getMenuText(),
                          get_option<bool>( "AUTO_FEATURES" ) ? _( "ON" ) : _( "OFF" ) );
                 break;

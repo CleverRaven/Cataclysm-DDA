@@ -10738,11 +10738,11 @@ void game::place_player( const tripoint &dest_loc )
                 const bool forage_trees = forage_type == "both" || forage_type == "trees";
                 if( xter_t == &iexamine::none ) {
                     return;
-                } else if( (forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
-                    (forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
-                    (forage_trees && xter_t == &iexamine::tree_marloss ) ||
-                    (forage_trees && xter_t == &iexamine::harvest_ter )
-                ) {
+                } else if( ( forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
+                           ( forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
+                           ( forage_trees && xter_t == &iexamine::tree_marloss ) ||
+                           ( forage_trees && xter_t == &iexamine::harvest_ter )
+                         ) {
                     xter_t( u, pos );
                 }
             };
