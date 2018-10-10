@@ -7783,7 +7783,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
     int iStartPos = 0;
     tripoint active_pos;
-    tripoint iLastActive = tripoint_min;
+    cata::optional<tripoint> iLastActive;
     bool reset = true;
     bool refilter = true;
     int page_num = 0;
@@ -7834,7 +7834,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "RESET_FILTER" ) {
             sFilter.clear();
             filtered_items = ground_items;
-            iLastActive = tripoint_min;
+            iLastActive.reset();
             reset = true;
             refilter = true;
             uistate.list_item_filter_active = false;
@@ -7848,7 +7848,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, dummy,
                             false, false, true );
             // wait until the user presses a key to wipe the screen
-            iLastActive = tripoint_min;
+            iLastActive.reset();
             reset = true;
         } else if( action == "PRIORITY_INCREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::HIGH_PRIORITY );
@@ -7921,7 +7921,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             lowPStart = list_filter_low_priority( filtered_items, highPEnd, list_item_downvote );
             iActive = 0;
             page_num = 0;
-            iLastActive = tripoint_min;
+            iLastActive.reset();
             iItemNum = filtered_items.size();
         }
 
@@ -8086,8 +8086,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 activeItem->example->info( true, vThisItem );
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
                 // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
-                if( active_pos != iLastActive || action == "HELP_KEYBINDINGS" ) {
-                    iLastActive = active_pos;
+                if( ( !iLastActive || active_pos != *iLastActive ) || action == "HELP_KEYBINDINGS" ) {
+                    iLastActive.emplace( active_pos );
                     centerlistview( active_pos );
                     draw_trail_to_square( active_pos, true );
                 }
