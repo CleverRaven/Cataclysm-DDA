@@ -146,6 +146,7 @@ void mdeath::splatter( monster &z )
         const itype_id meat = z.type->get_meat_itype();
         const item chunk( meat );
         for( int i = 0; i < num_chunks; i++ ) {
+            bool drop_chunks = true;
             tripoint tarp( z.pos() + point( rng( -3, 3 ), rng( -3, 3 ) ) );
             const auto traj = line_to( z.pos(), tarp );
 
@@ -161,18 +162,18 @@ void mdeath::splatter( monster &z )
                     if( g->m.impassable( tarp ) ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
-                        // point (e.g. wall adjacent to monster) , make it invalid.
+                        // point (e.g. wall adjacent to monster), don't drop anything on it
                         if( j > 0 ) {
                             tarp = traj[j - 1];
                         } else {
-                            tarp = tripoint_min;
+                            drop_chunks = false;
                         }
                         break;
                     }
                 }
             }
 
-            if( tarp != tripoint_min ) {
+            if( drop_chunks ) {
                 g->m.add_item_or_charges( tarp, chunk );
             }
         }
