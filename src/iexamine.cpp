@@ -3013,9 +3013,9 @@ static int getNearPumpCount(const tripoint &p)
     return result;
 }
 
-static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
+static cata::optional<tripoint> getNearFilledGasTank(const tripoint &center, long &gas_units)
 {
-    tripoint tank_loc = tripoint_min;
+    cata::optional<tripoint> tank_loc;
     int distance = INT_MAX;
     gas_units = 0;
 
@@ -3029,14 +3029,14 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
         if( new_distance >= distance ) {
             continue;
         }
-        if( tank_loc == tripoint_min ) {
+        if( !tank_loc ) {
             // Return a potentially empty tank, but only if we don't find a closer full one.
-            tank_loc = tmp;
+            tank_loc.emplace( tmp );
         }
         for( auto &k : g->m.i_at(tmp)) {
             if(k.made_of(LIQUID)) {
                 distance = new_distance;
-                tank_loc = tmp;
+                tank_loc.emplace( tmp );
                 gas_units = k.charges;
                 break;
             }
@@ -3135,10 +3135,6 @@ static cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int numbe
 
 static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
 {
-    if( src == tripoint_min ) {
-        return false;
-    }
-
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( LIQUID ) ) {
@@ -3224,11 +3220,12 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     long tankGasUnits;
-    tripoint pTank = getNearFilledGasTank( examp, tankGasUnits );
-    if( pTank == tripoint_min ) {
+    const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
+    if( !pTank_ ) {
         popup( str_to_illiterate_str( _( "Failure! No gas tank found!" ) ).c_str() );
         return;
     }
+    const tripoint pTank = *pTank_;
 
     if( tankGasUnits == 0 ) {
         popup( str_to_illiterate_str(
