@@ -1801,7 +1801,7 @@ void npc::move_pause()
     }
 }
 
-static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to )
+static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripoint &closest_to )
 {
     if( g->m.passable( p ) ) {
         return p;
@@ -1821,7 +1821,7 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
         return *iter;
     }
 
-    return tripoint_min;
+    return cata::nullopt;
 }
 
 void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
@@ -1997,8 +1997,9 @@ void npc::find_item()
     // TODO: Move that check above, make it multi-target pathing and use it
     // to limit tiles available for choice of items
     const int dist_to_item = rl_dist( wanted_item_pos, pos() );
-    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
-    update_path( dest );
+    if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
+        update_path( *dest );
+    }
 
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
@@ -2036,8 +2037,9 @@ void npc::pick_up_item()
 
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
-    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
-    update_path( dest );
+    if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
+        update_path( *dest );
+    }
 
     const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
     if( dist_to_pickup > 1 && !path.empty() ) {
