@@ -5591,7 +5591,7 @@ void player::suffer()
                         str[0] = toupper( str[0] );
 
                         add_msg( m_bad, str.c_str() );
-                        drop( get_item_position( &weapon ) );
+                        drop( get_item_position( &weapon ), pos() );
                     }
                     done_effect = true;
                 }
@@ -8554,7 +8554,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
-                drop( get_item_position( &it ) );
+                drop( get_item_position( &it ), pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
@@ -8593,7 +8593,7 @@ void player::drop( int pos, const tripoint &where )
     drop( { std::make_pair( pos, count ) }, where );
 }
 
-void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash )
+void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &target, bool stash )
 {
     const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
 
@@ -8601,7 +8601,6 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
         return;
     }
 
-    const tripoint target = ( where != tripoint_min ) ? where : pos();
     if( rl_dist( pos(), target ) > 1 || !( stash || g->m.can_put_items( target ) ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                        _( "<npcname> can't place items here!" ) );
