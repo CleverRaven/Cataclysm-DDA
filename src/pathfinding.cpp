@@ -10,6 +10,7 @@
 #include "veh_type.h"
 #include "submap.h"
 #include "mapdata.h"
+#include "optional.h"
 #include "cata_utility.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
@@ -112,12 +113,13 @@ struct pathfinder {
     }
 };
 
-// Returns a tile with `flag` in the overmap tile that `t` is on
+// Modifies `t` to be a tile with `flag` in the overmap tile that `t` was originally on
+// return false if it could not find a suitable point
 template<ter_bitflags flag>
-tripoint vertical_move_destination( const map &m, const tripoint &t )
+bool vertical_move_destination( const map &m, tripoint &t )
 {
     if( !m.has_zlevels() ) {
-        return tripoint_min;
+        return false;
     }
 
     constexpr int omtileszx = SEEX * 2;
@@ -133,13 +135,14 @@ tripoint vertical_move_destination( const map &m, const tripoint &t )
             if( pf_cache.special[x][y] & PF_UPDOWN ) {
                 const tripoint p( x, y, t.z );
                 if( m.has_flag( flag, p ) ) {
-                    return p;
+                    t = p;
+                    return true;
                 }
             }
         }
     }
 
-    return tripoint_min;
+    return false;
 }
 
 template<class Set1, class Set2>
@@ -426,8 +429,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const auto &parent_terrain = parent_tile.get_ter_t();
         if( settings.allow_climb_stairs && cur.z > minz && parent_terrain.has_flag( TFLAG_GOES_DOWN ) ) {
             tripoint dest( cur.x, cur.y, cur.z - 1 );
-            dest = vertical_move_destination<TFLAG_GOES_UP>( *this, dest );
-            if( inbounds( dest ) ) {
+            if( vertical_move_destination<TFLAG_GOES_UP>( *this, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),
@@ -436,8 +438,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
         if( settings.allow_climb_stairs && cur.z < maxz && parent_terrain.has_flag( TFLAG_GOES_UP ) ) {
             tripoint dest( cur.x, cur.y, cur.z + 1 );
-            dest = vertical_move_destination<TFLAG_GOES_DOWN>( *this, dest );
-            if( inbounds( dest ) ) {
+            if( vertical_move_destination<TFLAG_GOES_DOWN>( *this, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),
