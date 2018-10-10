@@ -3043,33 +3043,30 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             }
         }
 
-        tripoint tentp = tripoint_min;
-        furn_id center_type = f_null;
+        cata::optional<std::pair<tripoint, furn_id>> tentp;
 
         // Find the center of the tent
         // First check if we're not currently bashing the center
         if( centers.count( furn( p ) ) > 0 ) {
-            tentp = p;
-            center_type = furn( p );
+            tentp.emplace( p, furn( p ) );
         } else {
             for( const tripoint &pt : points_in_radius( p, bash->collapse_radius ) ) {
                 const furn_id &f_at = furn( pt );
                 // Check if we found the center of the current tent
                 if( centers.count( f_at ) > 0 ) {
-                    tentp = pt;
-                    center_type = f_at;
+                    tentp.emplace( pt, f_at );
                     break;
                 }
             }
         }
         // Didn't find any tent center, wreck the current tile
-        if( center_type == f_null || tentp == tripoint_min ) {
+        if( !tentp ) {
             spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
             furn_set( p, bash->furn_set );
         } else {
             // Take the tent down
-            const int rad = center_type.obj().bash.collapse_radius;
-            for( const tripoint &pt : points_in_radius( tentp, rad ) ) {
+            const int rad = tentp->second.obj().bash.collapse_radius;
+            for( const tripoint &pt : points_in_radius( tentp->first, rad ) ) {
                 const auto frn = furn( pt );
                 if( frn == f_null ) {
                     continue;
