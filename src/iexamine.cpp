@@ -39,6 +39,7 @@
 #include "inventory.h"
 #include "craft_command.h"
 #include "material.h"
+#include "options.h"
 
 #include <sstream>
 #include <algorithm>
@@ -1482,12 +1483,14 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     // But those were useless, don't re-add until they get useful
 }
 
-static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar )
+static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar, bool auto_forage = false )
 {
     const auto hid = g->m.get_harvest( examp );
     if( hid.is_null() || hid->empty() ) {
-        p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
-        iexamine::none( p, examp );
+        if( !auto_forage ) {
+            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+            iexamine::none( p, examp );
+        }
         return false;
     }
 
@@ -1499,7 +1502,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         return false;
     }
 
-    if( p.is_player() && !query_yn(_("Pick %s?"), furn ? g->m.furnname( examp ).c_str() : g->m.tername( examp ).c_str() ) ) {
+    if( p.is_player() && !auto_forage && !query_yn(_("Pick %s?"), furn ? g->m.furnname( examp ).c_str() : g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
         return false;
     }
@@ -1547,7 +1550,8 @@ void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
 
 void iexamine::harvest_ter( player &p, const tripoint &examp )
 {
-    if( harvest_common( p, examp, false, false ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) && ( get_option<std::string>( "AUTO_FORAGING" ) == "both" || get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
+    if( harvest_common( p, examp, false, false, auto_forage ) ) {
         g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
     }
 }
@@ -2410,7 +2414,8 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 void pick_plant(player &p, const tripoint &examp,
                 const std::string &itemType, ter_id new_ter, bool seeds)
 {
-    if( p.is_player() && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) && get_option<std::string>( "AUTO_FORAGING" ) != "off";
+    if( p.is_player() && !auto_forage && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
         return;
     }
@@ -2647,6 +2652,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( activity_id( "ACT_FORAGE" ), move_cost, 0 );
     p.activity.placement = examp;
+    p.activity.auto_resume = true;
     return;
 }
 

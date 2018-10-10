@@ -10728,13 +10728,27 @@ void game::place_player( const tripoint &dest_loc )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 ) {
-        if( get_option<bool>( "AUTO_FORAGING" ) ) {
-            const ter_t &xter_t = m.ter( u.pos() ).obj();
+        static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
 
-            if( xter_t.examine == &iexamine::shrub_marloss ) {
-                iexamine::shrub_marloss(u, u.pos() );
-            } else if( xter_t.examine == &iexamine::shrub_wildveggies ) {
-                iexamine::shrub_wildveggies(u, u.pos() );
+        const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
+        if( forage_type != "off" ) {
+            static const auto forage = [&]( const tripoint & pos ) {
+                const auto &xter_t = m.ter( pos ).obj().examine;
+                const bool forage_bushes = forage_type == "both" || forage_type == "bushes";
+                const bool forage_trees = forage_type == "both" || forage_type == "trees";
+                if( xter_t == &iexamine::none ) {
+                    return;
+                } else if( (forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
+                    (forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
+                    (forage_trees && xter_t == &iexamine::tree_marloss ) ||
+                    (forage_trees && xter_t == &iexamine::harvest_ter )
+                ) {
+                    xter_t( u, pos );
+                }
+            };
+
+            for( auto &elem : adjacentDir ) {
+                forage( u.pos() + direction_XY( elem ) );
             }
         }
 
@@ -10769,13 +10783,12 @@ void game::place_player( const tripoint &dest_loc )
                 }
             };
 
-            pulp( u.pos() );
-
             if( pulp_butcher == "pulp_adjacent" ) {
-                static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
                 for( auto &elem : adjacentDir ) {
                     pulp( u.pos() + direction_XY( elem ) );
                 }
+            } else {
+                pulp( u.pos() );
             }
         }
     }

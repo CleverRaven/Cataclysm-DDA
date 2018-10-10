@@ -1844,10 +1844,10 @@ bool game::handle_action()
             case ACTION_TOGGLE_AUTO_FORAGING:
                 get_options().get_option( "AUTO_FORAGING" ).setNext();
                 get_options().save();
-                //~ Auto Foraging is now ON/OFF
-                add_msg( _( "%s is now %s." ),
+                //~ Auto Foraging is now set to x
+                add_msg( _( "%s is now set to %s." ),
                          get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
-                         get_option<bool>( "AUTO_FORAGING" ) ? _( "ON" ) : _( "OFF" ) );
+                         get_options().get_option( "AUTO_FORAGING" ).getValueName() );
                 break;
 
             case ACTION_DISPLAY_SCENT:
