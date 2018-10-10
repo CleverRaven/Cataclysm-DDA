@@ -11410,11 +11410,11 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
     }
 }
 
-tripoint point_selection_menu( const std::vector<tripoint> &pts )
+cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts )
 {
     if( pts.empty() ) {
         debugmsg( "point_selection_menu called with empty point set" );
-        return tripoint_min;
+        return cata::nullopt;
     }
 
     if( pts.size() == 1 ) {
@@ -11439,7 +11439,7 @@ tripoint point_selection_menu( const std::vector<tripoint> &pts )
     pmenu.query();
     const int ret = pmenu.ret;
     if( ret < 0 || ret >= num ) {
-        return tripoint_min;
+        return cata::nullopt;
     }
 
     return pts[ret];
@@ -11547,10 +11547,11 @@ void game::vertical_move( int movez, bool force )
             climbing = true;
             move_cost = cost;
 
-            stairs = point_selection_menu( pts );
-            if( stairs == tripoint_min ) {
+            const cata::optional<tripoint> pnt = point_selection_menu( pts );
+            if( !pnt ) {
                 return;
             }
+            stairs = *pnt;
         }
     }
 
