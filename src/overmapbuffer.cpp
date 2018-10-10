@@ -809,7 +809,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( tripoint const &locatio
 
     for( int x = start.x; x <= end.x; ++x ) {
         for( int y = start.y; y <= end.y; ++y ) {
-            if( auto const existing_om = create_if_missing ? &(get(x,y)) : get_existing( x, y ) ) {
+            if( auto const existing_om = create_if_missing ? & ( get( x, y ) ) : get_existing( x, y ) ) {
                 result.emplace_back( existing_om );
             }
         }

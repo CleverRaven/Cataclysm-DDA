@@ -2971,7 +2971,8 @@ void game::debug()
         _( "Draw benchmark (5 seconds)" ),      // 30
         _( "Teleport - Adjacent overmap" ),     // 31
         _( "Test trait group" ),                // 32
-        _( "Quit to Main Menu" ),               // 33
+        _( "Visit all map extras" ),            // 33
+        _( "Quit to Main Menu" ),               // 34
     } );
     refresh_all();
     switch( action ) {
@@ -3324,6 +3325,9 @@ void game::debug()
             trait_group::debug_spawn();
             break;
         case 33:
+            m.initialize_map_extras(180);
+            break;
+        case 34:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;

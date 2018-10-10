@@ -336,7 +336,7 @@ class map
          *  after 3D migration is complete.
          */
         void vertical_shift( const int newz );
-        void initialize_map_extras();
+        void initialize_map_extras(int range = 15);
 
         void clear_spawns();
         void clear_traps();

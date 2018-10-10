@@ -164,20 +164,6 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     draw_map( terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest,
               t_above, t_below, when, density, z, rsettings );
 
-    // At some point, we should add region information so we can grab the appropriate extras
-   /*map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
-    if( ex.chance > 0 && one_in( ex.chance ) ) {
-        std::string *extra = ex.values.pick();
-        if( extra == NULL ) {
-            debugmsg( "failed to pick extra for type %s", terrain_type->get_extras().c_str() );
-        } else {
-            auto func = MapExtras::get_function( *( ex.values.pick() ) );
-            if( func != NULL ) {
-                func( *this, abs_sub );
-            }
-        }
-    }*/
-
     const auto &spawns = terrain_type->get_static_spawns();
     if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
         int pop = rng( spawns.population.min, spawns.population.max );

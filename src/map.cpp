@@ -6173,12 +6173,12 @@ void map::save()
     }
 }
 
-void map::initialize_map_extras()
+void map::initialize_map_extras( int range )
 {
     if( !dynamic_cast<tinymap *>( this ) ) {
         const tripoint player_pos = g->u.global_omt_location();
         for( auto &&
-             trigger : overmap_buffer.get_map_extra_triggers_near( omt_to_sm_copy( player_pos ), 15 ) ) {
+             trigger : overmap_buffer.get_map_extra_triggers_near( omt_to_sm_copy( player_pos ), range ) ) {
             if( !trigger->triggered ) {
                 auto func = MapExtras::get_function( trigger->map_special );
                 if( func != NULL ) {
@@ -6211,21 +6211,19 @@ void map::initialize_map_extras()
                         if( om != nullptr ) { // It really should never be null...
                             const auto iter = om->map_extra_triggers.begin() + std::distance( om->map_extra_triggers.data(),
                                               trigger );
-                            if(!trigger->permanent)
-                            {
+                            if( !trigger->permanent ) {
                                 om->map_extra_triggers.erase( iter );
                             }
-                            if(om->map_extra_triggers.size() == 0)
-                            {
+                            if( om->map_extra_triggers.size() == 0 ) {
                                 map_extra_trigger end_of_time;
                                 end_of_time.map_special = "mx_end_of_time";
-                                end_of_time.omt_pos_1.x = om->global_base_point().x + (OMAPX / 2);
-                                end_of_time.omt_pos_1.y = om->global_base_point().y + (OMAPY / 2);
+                                end_of_time.omt_pos_1.x = om->global_base_point().x + ( OMAPX / 2 );
+                                end_of_time.omt_pos_1.y = om->global_base_point().y + ( OMAPY / 2 );
                                 end_of_time.size = 1;
                                 end_of_time.triggered = false;
                                 end_of_time.legacy_overmap_support = false;
                                 end_of_time.permanent = true;
-                                om->map_extra_triggers.push_back(end_of_time);
+                                om->map_extra_triggers.push_back( end_of_time );
                             }
                         }
                     }
@@ -6520,7 +6518,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
             tinymap tmp_map;
             tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
         }
-        
+
 
         // This is the same call to MAPBUFFER as above!
         tmpsub = MAPBUFFER.lookup_submap( absx, absy, gridz );
@@ -6530,9 +6528,8 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
             return;
         }
     } else {
-        tinymap* self = dynamic_cast<tinymap *>(this);
-        if(self && gridx % 2 == 0 && gridy % 2 == 0)
-        {
+        tinymap *self = dynamic_cast<tinymap *>( this );
+        if( self && gridx % 2 == 0 && gridy % 2 == 0 ) {
             self->all_freshly_generated = false;
         }
     }
@@ -7797,8 +7794,8 @@ tinymap::tinymap( int mapsize, bool zlevels )
 tinymap::tinymap( const tripoint &abs_sub, int mapsize, bool zlevels )
     : map( mapsize, zlevels )
 {
-    set_abs_sub(abs_sub.x, abs_sub.y, abs_sub.z);
-    load(abs_sub.x, abs_sub.y, abs_sub.z, false);
+    set_abs_sub( abs_sub.x, abs_sub.y, abs_sub.z );
+    load( abs_sub.x, abs_sub.y, abs_sub.z, false );
 }
 
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )

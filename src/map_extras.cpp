@@ -99,9 +99,6 @@ void mx_helicopter( map &m, const map_extra_trigger &trigger )
                     }
                 }
             }
-            if( x == 0 || ( x == map_tiles_width - 1 ) || y == 0 || ( y == map_tiles_height - 1 ) ) {
-                m.ter_set( tripoint( x, y, abs_sub.z ), t_carpet_yellow );
-            }
         }
     }
 
@@ -194,9 +191,13 @@ void mx_helicopter( map &m, const map_extra_trigger &trigger )
                 }
                 break;
             case 6: // Just pilots
-                for( auto p : wreckage->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
                     auto pos = wreckage->global_part_pos3( *p );
-                    m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                    // Spawn pilots in seats with controls.
+                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
+                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                    }
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
@@ -568,7 +569,7 @@ void mx_supplydrop( map &m, const map_extra_trigger &trigger )
     const int map_size = m.getmapsize();
     const int map_tiles_width = SEEX * map_size;
     const int map_tiles_height = SEEY * map_size;
-    int num_crates = std::min(rng( 2, 6 ), rng( 2, 6 ));
+    int num_crates = std::min( rng( 2, 6 ), rng( 2, 6 ) );
     for( int i = 0; i < num_crates; i++ ) {
         const int cx = rng( 4, map_tiles_width - 4 );
         const int cy = rng( 4, map_tiles_height - 4 );

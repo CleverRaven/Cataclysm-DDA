@@ -1359,7 +1359,7 @@ void overmap::serialize( std::ostream &fout ) const
     }
     json.end_array();
     fout << std::endl;
-    
+
     json.member( "npcs" );
     json.start_array();
     for( auto &i : npcs ) {
@@ -1372,12 +1372,12 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : map_extra_triggers ) {
         json.start_object();
-        json.member("omt_pos_1", i.omt_pos_1);
-        json.member("size", i.size);
-        json.member("map_special", i.map_special);
-        json.member("triggered", i.triggered);
-        json.member("legacy_overmap_support", i.legacy_overmap_support);
-        json.member("permanent", i.permanent);
+        json.member( "omt_pos_1", i.omt_pos_1 );
+        json.member( "size", i.size );
+        json.member( "map_special", i.map_special );
+        json.member( "triggered", i.triggered );
+        json.member( "legacy_overmap_support", i.legacy_overmap_support );
+        json.member( "permanent", i.permanent );
         json.end_object();
     }
     json.end_array();

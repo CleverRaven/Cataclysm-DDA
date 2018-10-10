@@ -394,9 +394,10 @@ void start_location::add_map_special( const tripoint &omtstart,
     trigger.triggered = false;
     trigger.omt_pos_1 = omtstart;
     trigger.map_special = map_special;
-    trigger.size = MapExtras::generate_special_size(map_special);
+    trigger.size = MapExtras::generate_special_size( map_special );
+    trigger.permanent = false;
 
-    tinymap m(player_location, trigger.size);
+    tinymap m( player_location, trigger.size );
     ptr( m, trigger );
 
     m.save();

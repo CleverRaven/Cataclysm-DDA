@@ -3864,12 +3864,13 @@ void overmap::place_radios()
     }
 }
 
-void overmap::place_map_extras(bool legacy_overmap_support)
+void overmap::place_map_extras( bool legacy_overmap_support )
 {
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             bool seen = false;
-            if( legacy_overmap_support && MAPBUFFER.lookup_submap(omt_to_sm_copy(tripoint(i, j, 0))) != nullptr ) {
+            if( legacy_overmap_support &&
+                MAPBUFFER.lookup_submap( omt_to_sm_copy( tripoint( i, j, 0 ) ) ) != nullptr ) {
                 continue;
             }
             map_extras ex = region_settings_map["default"].region_extras[ter( i, j, 0 )->get_extras()];
@@ -3885,6 +3886,7 @@ void overmap::place_map_extras(bool legacy_overmap_support)
                     trigger.size = MapExtras::generate_special_size( trigger.map_special );
                     trigger.triggered = false;
                     trigger.legacy_overmap_support = legacy_overmap_support;
+                    trigger.permanent = false;
                     // Check that all tiles that this extra falls on are valid
                     bool valid = true;
                     for( int x = 0; x < trigger.size; x++ ) {
@@ -3901,17 +3903,15 @@ void overmap::place_map_extras(bool legacy_overmap_support)
                             if( res == other_ex.values.end() ) {
                                 valid = false;
                             }
-                            if( legacy_overmap_support && MAPBUFFER.lookup_submap(omt_to_sm_copy(tripoint(i + x, j + y, 0))) != nullptr )
-                            {
+                            if( legacy_overmap_support &&
+                                MAPBUFFER.lookup_submap( omt_to_sm_copy( tripoint( i + x, j + y, 0 ) ) ) != nullptr ) {
                                 valid = false;
                             }
                         }
                     }
-                    
+
                     if( valid ) {
                         map_extra_triggers.push_back( trigger );
-                        overmap_buffer.add_note( global_base_point().x + i, global_base_point().y + j, trigger.omt_pos_1.z,
-                                                 string_format( ">:W;%s", trigger.map_special ) );
                     }
                 }
             }
