@@ -1887,11 +1887,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           std::string( _( "You know how to use this with these martial arts styles: " ) ) +
                                           valid_styles ) );
             }
+        }
 
-            for( const auto &method : type->use_methods ) {
-                insert_separation_line();
-                method.second.dump_info( *this, info );
-            }
+        for( const auto &method : type->use_methods ) {
+            insert_separation_line();
+            method.second.dump_info( *this, info );
         }
 
         if( parts->test( iteminfo_parts::DESCRIPTION_REPAIREDWITH ) ) {
