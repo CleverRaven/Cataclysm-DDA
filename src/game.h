@@ -275,8 +275,8 @@ class game
         void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move( int z, bool force );
-        /** Returns the other end of the stairs (if any), otherwise tripoint_min. May query, affect u etc.  */
-        tripoint find_or_make_stairs( map &mp, int z_after, bool &rope_ladder );
+        /** Returns the other end of the stairs (if any). May query, affect u etc.  */
+        cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
         void vertical_shift( int dest_z );
         /** Add goes up/down auto_notes (if turned on) */

@@ -11600,8 +11600,11 @@ void game::vertical_move( int movez, bool force )
     bool actually_moved = true;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) {
-        stairs = find_or_make_stairs( maybetmp, z_after, rope_ladder );
-        actually_moved = stairs != tripoint_min;
+        const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder );
+        if( !pnt ) {
+            return;
+        }
+        stairs = *pnt;
     }
 
     if( !actually_moved ) {
@@ -11711,7 +11714,7 @@ void game::vertical_move( int movez, bool force )
     m.creature_on_trap( u, !force );
 }
 
-tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
+cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
 {
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( u.posx(), u.posy() ) );
@@ -11720,7 +11723,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
                                omtile_align_start.z );
 
     // Try to find the stairs.
-    tripoint stairs = tripoint_min;
+    cata::optional<tripoint> stairs;
     int best = INT_MAX;
     const int movez = z_after - get_levz();
     for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
@@ -11729,30 +11732,30 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
               ( movez == 1 && ( mp.has_flag( "GOES_DOWN", dest ) ||
                                 mp.ter( dest ) == t_manhole_cover ) ) ||
               ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
-            stairs = dest;
+            stairs.emplace( dest );
             best = rl_dist( u.pos(), dest );
         }
     }
 
-    if( stairs != tripoint_min ) {
+    if( stairs ) {
         // Stairs found
         return stairs;
     }
 
     // No stairs found! Try to make some
     rope_ladder = false;
-    stairs = u.pos();
-    stairs.z = z_after;
+    stairs.emplace( u.pos() );
+    stairs->z = z_after;
     // Check the destination area for lava.
-    if( mp.ter( stairs ) == t_lava ) {
+    if( mp.ter( *stairs ) == t_lava ) {
         if( movez < 0 &&
             !query_yn(
                 _( "There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up." ) ) ) {
-            return tripoint_min;
+            return cata::nullopt;
         } else if( movez > 0 &&
                    !query_yn(
                        _( "There is a LOT of heat coming out of there.  Push through the half-molten rocks and ascend?  You will not be able to get back down." ) ) ) {
-            return tripoint_min;
+            return cata::nullopt;
         }
 
         return stairs;
@@ -11764,9 +11767,9 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
         return stairs;
     }
 
-    if( mp.impassable( stairs ) ) {
+    if( mp.impassable( *stairs ) ) {
         popup( _( "Halfway down, the way down becomes blocked off." ) );
-        return tripoint_min;
+        return cata::nullopt;
     }
 
     if( u.has_trait( trait_id( "WEB_RAPPEL" ) ) ) {
@@ -11778,7 +11781,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
                 add_msg( _( "You securely web up and work your way down, lowering yourself safely." ) );
             }
         } else {
-            return tripoint_min;
+            return cata::nullopt;
         }
     } else if( u.has_trait( trait_VINES2 ) || u.has_trait( trait_VINES3 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Use your vines to descend?" ) ) ) {
@@ -11800,24 +11803,24 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
                 u.mod_thirst( 10 );
             }
         } else {
-            return tripoint_min;
+            return cata::nullopt;
         }
     } else if( u.has_amount( "grapnel", 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down. Climb your grappling hook down?" ) ) ) {
             rope_ladder = true;
             u.use_amount( "grapnel", 1 );
         } else {
-            return tripoint_min;
+            return cata::nullopt;
         }
     } else if( u.has_amount( "rope_30", 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down. Climb your rope down?" ) ) ) {
             rope_ladder = true;
             u.use_amount( "rope_30", 1 );
         } else {
-            return tripoint_min;
+            return cata::nullopt;
         }
     } else if( !query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
-        return tripoint_min;
+        return cata::nullopt;
     }
 
     return stairs;
