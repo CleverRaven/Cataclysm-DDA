@@ -334,8 +334,8 @@ class game
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
-        /** Spawns a hallucination at a determined position (or random position close to the player). */
-        bool spawn_hallucination( const tripoint &p = tripoint_min );
+        /** Spawns a hallucination at a determined position. */
+        bool spawn_hallucination( const tripoint &p );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 

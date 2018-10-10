@@ -5398,7 +5398,7 @@ void game::clear_zombies()
 }
 
 /**
- * Attempts to spawn a hallucination at given location or at random location close to the player.
+ * Attempts to spawn a hallucination at given location.
  * Returns false if the hallucination couldn't be spawned for whatever reason, such as
  * a monster already in the target square.
  * @return Whether or not a hallucination was successfully spawned.
@@ -5407,11 +5407,7 @@ bool game::spawn_hallucination( const tripoint &p )
 {
     monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
     phantasm.hallucination = true;
-    if( p == tripoint_min ) {
-        phantasm.spawn( {u.posx() + static_cast<int>( rng( -10, 10 ) ), u.posy() + static_cast<int>( rng( -10, 10 ) ), u.posz()} );
-    } else {
-        phantasm.spawn( p );
-    }
+    phantasm.spawn( p );
 
     //Don't attempt to place phantasms inside of other creatures
     if( !critter_at( phantasm.pos(), true ) ) {
