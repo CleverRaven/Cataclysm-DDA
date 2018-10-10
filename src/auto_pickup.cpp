@@ -45,7 +45,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
     const int iTotalCols = 2;
 
-    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ),
+    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) + 2,
                                 FULL_SCREEN_WIDTH * 3 / 4,
                                 7 + iOffsetY + ( FULL_SCREEN_HEIGHT / 2 ) / 2, iOffsetX + 19 / 2 );
 
@@ -286,8 +286,10 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                                     "*avy fle*fi*arrow     multiple * are allowed\n"
                                     "heAVY*woOD*arrOW      case insensitive search\n"
                                     " \n"
-                                    "Material based pickup: m:(made of any) M:(only made of) \n"
-                                    "m:iron M:paper M:kevlar,steel etc. (OR relation)" )
+                                    "Pickup based on item materials:\n"
+                                    "m:kevlar        matches items made of kevlar\n"
+                                    "M:copper        matches items made purely of copper\n"
+                                    "M:steel,iron    multiple materials allowed (OR search)" )
                               );
 
                 draw_border( w_help );
@@ -535,7 +537,6 @@ bool auto_pickup::check_special_rule( const std::vector<material_id> &materials,
 
     if( filter.empty() || materials.empty() ) {
         return false;
-
     }
 
     if( type == 'm' ) {
