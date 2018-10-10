@@ -1903,7 +1903,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "DESCRIPTION", _( "<bold>Repaired with</bold>: " ) +
                 enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
                     return item::find_type( e )->nname( 1 );
-                } ) );
+                }, enumeration_conjunction::or_ ) );
                 insert_separation_line();
 
             } else {
