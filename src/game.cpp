@@ -6848,14 +6848,15 @@ void game::zones_manager()
         wrefresh( w_zones_options );
     };
 
-    auto query_position = [this, w_zones_info]() {
+    auto query_position = [this, w_zones_info]() -> cata::optional<std::pair<tripoint, tripoint>> {
         werase( w_zones_info );
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
         tripoint center = u.pos() + u.view_offset;
         const cata::optional<tripoint> first = look_around( w_zones_info, center, center, false, true );
-        if( first ) {
+        if( first )
+        {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
@@ -6875,7 +6876,7 @@ void game::zones_manager()
             }
         }
 
-        return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
+        return cata::nullopt;
     };
 
     zones_manager_open = true;
@@ -6907,11 +6908,11 @@ void game::zones_manager()
                 const auto name = maybe_name.value();
 
                 const auto position = query_position();
-                if( position.first == tripoint_min ) {
+                if( !position ) {
                     break;
                 }
 
-                mgr.add( name, id, false, true, position.first, position.second, options );
+                mgr.add( name, id, false, true, position->first, position->second, options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
@@ -6999,10 +7000,9 @@ void game::zones_manager()
                         break;
                     case 4: {
                         const auto pos = query_position();
-                        if( pos.first != tripoint_min &&
-                            ( pos.first != zone.get_start_point() || pos.second != zone.get_end_point() ) ) {
+                        if( pos && ( pos->first != zone.get_start_point() || pos->second != zone.get_end_point() ) ) {
 
-                            zone.set_position( pos );
+                            zone.set_position( *pos );
                             stuff_changed = true;
                         }
                     }
