@@ -2250,7 +2250,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 // Returns true if input requires breaking out into a game action.
 bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
-    tripoint liveview_pos{ tripoint_min };
+    cata::optional<tripoint> liveview_pos;
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
@@ -2259,14 +2259,13 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
             const bool are_valid_coordinates = ctxt.get_coordinates( w_terrain, mx, my );
             // TODO: Z
             int mz = g->get_levz();
-            if( are_valid_coordinates && ( mx != liveview_pos.x ||
-                                           my != liveview_pos.y ||
-                                           mz != liveview_pos.z ) ) {
-                liveview_pos = tripoint( mx, my, mz );
-                liveview.show( liveview_pos );
+            const tripoint m( mx, my, mz );
+            if( are_valid_coordinates && ( !liveview_pos || m != liveview_pos ) ) {
+                liveview_pos.emplace( m );
+                liveview.show( *liveview_pos );
                 draw_sidebar_messages();
             } else if( !are_valid_coordinates ) {
-                liveview_pos = tripoint_min;
+                liveview_pos.reset();
                 liveview.hide();
                 draw_sidebar_messages();
             }
