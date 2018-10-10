@@ -8133,7 +8133,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2 - 1;
     int iStartPos = 0;
     tripoint iActivePos;
-    tripoint iLastActivePos = tripoint_min;
+    cata::optional<tripoint> iLastActivePos;
     Creature *cCurMon = nullptr;
 
     for( int i = 1; i < TERMX; i++ ) {
@@ -8219,7 +8219,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                          RULE_BLACKLISTED );
             }
         } else if( action == "look" ) {
-            iLastActivePos = look_around().value_or( tripoint_min );
+            iLastActivePos = look_around();
         } else if( action == "fire" ) {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 last_target = shared_from( *cCurMon );
@@ -8358,8 +8358,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
             // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
             iActivePos = cCurMon->pos() - u.pos();
-            if( iActivePos != iLastActivePos || action == "HELP_KEYBINDINGS" ) {
-                iLastActivePos = iActivePos;
+            if( ( !iLastActivePos || iActivePos != *iLastActivePos ) || action == "HELP_KEYBINDINGS" ) {
+                iLastActivePos.emplace( iActivePos );
                 centerlistview( iActivePos );
                 draw_trail_to_square( iActivePos, false );
             }
