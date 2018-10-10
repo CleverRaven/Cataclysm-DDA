@@ -1,0 +1,9 @@
+Content Add Giant Novelty Backpack item.
+Balance Buff fake mace and morningstar
+Balance Increased tankdrone ammo reserves
+Infrastructure Make summary line checking case insensitive
+Content Add refugee center start (costs 1 point)
+Content Changed venom attack flavor text
+Content Add RL calorie values for some fruits
+Interface Change head torch name to headlamp
+Infrastructure Don't redundantly call string_format for input of add_msg

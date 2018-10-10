@@ -1678,6 +1678,9 @@ bool vehicle::find_and_split_vehicles( int exclude )
     for( cnt = 0 ; cnt < 4 ; cnt++ ) {
         int test_part = -1;
         for( auto p : valid_parts ) {
+            if( parts[ p ].removed ) {
+                continue;
+            }
             if( checked_parts.find( p ) == checked_parts.end() ) {
                 test_part = p;
                 break;
@@ -1718,6 +1721,9 @@ bool vehicle::find_and_split_vehicles( int exclude )
                 std::vector<int> all_neighbor_parts = parts_at_relative( dx, dy );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
+                    if( parts[ p ].removed ) {
+                        continue;
+                    }
                     if( part_info( p ).location == part_location_structure ) {
                         neighbor_struct_part = p;
                         break;
@@ -1739,7 +1745,6 @@ bool vehicle::find_and_split_vehicles( int exclude )
         if( success ) {
             // update the active cache
             shift_parts( point( 0, 0 ) );
-            part_removal_cleanup();
             return true;
         }
     }
@@ -2644,8 +2649,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
         // don't count frozen liquid
-        if( rhs.is_tank() && rhs.ammo_remaining() > 0 &&
-            rhs.base.contents.front().made_of( SOLID ) ) {
+        if( rhs.is_tank() && rhs.base.contents_made_of( SOLID ) ) {
             return static_cast<long>( lhs );
         }
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
@@ -4459,6 +4463,10 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
 int vehicle::damage_direct( int p, int dmg, damage_type type )
 {
+    // Make sure p is within range and hasn't been removed already
+    if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
+        return dmg;
+    }
     if( parts[p].is_broken() ) {
         return break_off( p, dmg );
     }

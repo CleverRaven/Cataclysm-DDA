@@ -1,0 +1,100 @@
+Balance Make bio_fingerhack a passive bionic
+Bugfix StatsThroughSkills int_skills fix
+Balance Add token power drain to fingerhack use.
+Content Add ammo pouches
+Bugfix Check return of item::pick_reload_ammo in game::plfire
+Balance Move obsolete sawn-down weapons to obsolete.json
+Balance Reduce skill bonuses for holsters
+Bugfix Fix messages in player::perform_special_attacks:
+Balance Adds "PLAYER_CLOSE" to giant cellar spider triggers
+Mods Medieval Stuff Mod Series 4-ish
+Interface MShock Modded Tileset Series 28
+Bugfix Make horde zeds inherit horde's target on spawn
+Content Neoprene expansion
+Build Expand json whitelist
+Build JSON regression check
+Balance Bring bite inline with melee attack logic
+Content Add magazines to many guns
+Interface Display more information for magazines
+Balance Rationalise ammo.json
+Content Spawn guns with magazines
+Content Transmogrify charges into magazines
+Interface More decriptive descriptions for PRED1-4 mutations
+Content Add more metal constructions
+Content Rivtech magazine update.
+Content Added magazine to Military Recruit background
+Content Makes electrohack battery-powered
+Infrastructure Eating code rewrite
+Bugfix Fix shrapnel crash
+Bugfix Fix for being unable to charge UPS and use UPS-modded tools without UPS
+Interface Use original message color in message history.
+Bugfix Fix auto fire again
+Bugfix Fix display of auxiliary gunmod ammo count
+Features Make ammo belts wearable
+Content Mark spare magazine as obsolete
+Balance Normalize gunmods
+Infrastructure Rework player::fire_gun
+Bugfix Controlling RC is now allowed only with radio control in inventory or remote control cbm installed
+Mods Move arming sword from Medieval Stuff mod
+Bugfix Fixes metal funnels
+Balance Giant rattlesnake and giant cellar spider changes
+Balance NPC AI update + cleanup
+Bugfix Fix crash related to fires under vehicles
+Bugfix Read saved value of allow_complain
+Bugfix Cyborg butcher fix
+Content Make bio_ups an active bionic
+Interface Implement viewing tiles on the floor below the current one when an open floor is shown for SDL tiles.
+Balance Allow gunmods to consume less (or no) volume when installed
+Bugfix Fix corpse weights
+Content Implement MAG_DESTROY and MAG_EJECT
+Balance Made it harder to get inside electronics shop
+Bugfix Palisade walls and closed gate are now solid and opaque
+Interface Updated fey nightsight description
+Content Add recipes for some armor items
+Balance Rework mushrooms
+Interface Make player-built walls look like walls in ASCII
+Mods Move estoc from Medieval Stuff mod
+Balance Adds batch crafting variable to lye recipe.
+Bugfix Volume fix for dehydrated mushrooms.
+Infrastructure Fix "edit-mode" : "modify", removes special attack
+Build Fix Codeblocks compilation and contained food
+Interface Fix seeing inside crates/rubble/etc.
+Mods Allow mods to modify professions
+Balance Some changes to recipes and qualities
+Infrastructure Eliminate tabs
+Infrastructure Include armor.json in whitelist
+Bugfix Remove negative bashing and zero cutting from containers.json
+Infrastructure Readd rng to pine_bough check & nerf max pine_bough found
+Infrastructure Remove iuse.cpp:is_firearm(const item &it) which duplicates item::is_firearm
+Infrastructure Change player::fire_gun to specify number of shots
+Bugfix Fix reloading using liquids in containers
+Interface Improve reload menu
+Balance Remove duplicates
+Balance Allow mounting leather and makeshift funnels on a vehicle
+Mods Move scimitar from Medieval Stuff mod
+Features Add coal mining
+Infrastructure Add variable type melee attack damage
+Infrastructure Allergy flags instead of allergy materials
+Content Add missing cotton material to neoprene armsleeves.
+Infrastructure Move MREs and a file from melee.json to other files
+Bugfix Meat Sandwich Mat. Fix
+Content Add missing magazines to professions
+Content Add more magazine spawns
+Content Adds Kel-Tech SUB-2000
+Mods Deprecate magazine mods (part 1)
+Balance Normalize factory 22 ammo
+Bugfix Sawn-down barrel shouldn't be craftable
+Build Force *.sh to always be eol=lf via .gitattributes
+Content Adds Saiga-12 magazines.
+Bugfix Fixes and updates for laser sight gunmods.
+Interface Minor grammar fix
+Bugfix Fix save compatibility: load item members properly.
+Balance Rebalance martial arts a bit
+Bugfix Fix retroactive funnels vs. active ones
+Content Additional Sandwich Types
+Infrastructure Alternative magazine format
+Interface Display remaining ammo for ammo containers
+Bugfix Fix and improve reload menu
+Bugfix Fix player::consume_charges
+Bugfix Fix regression from cc4a032
+Bugfix Ignore tags when calculating lengths

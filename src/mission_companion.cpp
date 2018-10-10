@@ -40,6 +40,9 @@
 #include "string_input_popup.h"
 #include "line.h"
 #include "recipe_groups.h"
+#include "faction_camp.h"
+#include "mission_companion.h"
+#include "npctalk.h"
 
 #include <vector>
 #include <string>
@@ -85,118 +88,6 @@ struct mission_entry {
     bool priority;
     bool possible;
 };
-
-void talk_function::bionic_install( npc &p )
-{
-    std::vector<item *> bionic_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_bionic();
-    } );
-    if( bionic_inv.empty() ) {
-        popup( _( "You have no bionics to install!" ) );
-        return;
-    }
-
-    std::vector<itype_id> bionic_types;
-    std::vector<std::string> bionic_names;
-    for( auto &bio : bionic_inv ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if( !g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() ==  "bio_power_storage" ||
-                bio->typeId() ==  "bio_power_storage_mkII" ) {
-
-                bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() + " - $" + to_string( bio->price( true ) * 2 / 100 ) );
-            }
-        }
-    }
-    // Choose bionic if applicable
-    int bionic_index = 0;
-    bionic_names.push_back( _( "Cancel" ) );
-    bionic_index = menu_vec( false, _( "Which bionic do you wish to have installed?" ),
-                             bionic_names ) - 1;
-    if( bionic_index == ( int )bionic_names.size() - 1 ) {
-        bionic_index = -1;
-    }
-    // Did we cancel?
-    if( bionic_index < 0 ) {
-        popup( _( "You decide to hold off..." ) );
-        return;
-    }
-
-    const item tmp = item( bionic_types[bionic_index], 0 );
-    const itype &it = *tmp.type;
-    unsigned int price = tmp.price( true ) * 2;
-
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure..." ) );
-        return;
-    }
-
-    //Makes the doctor awesome at installing but not perfect
-    if( g->u.install_bionics( it, p, false, 20 ) ) {
-        g->u.cash -= price;
-        p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] );
-    }
-}
-
-void talk_function::bionic_remove( npc &p )
-{
-    bionic_collection all_bio = *g->u.my_bionics;
-    if( all_bio.empty() ) {
-        popup( _( "You don't have any bionics installed..." ) );
-        return;
-    }
-
-    item tmp;
-    std::vector<itype_id> bionic_types;
-    std::vector<std::string> bionic_names;
-    for( auto &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
-            if( bio.id != bionic_id( "bio_power_storage" ) ||
-                bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
-                bionic_types.push_back( bio.id.str() );
-                if( item::type_is_defined( bio.id.str() ) ) {
-                    tmp = item( bio.id.str(), 0 );
-                    bionic_names.push_back( tmp.tname() + " - $" + to_string( 500 + ( tmp.price( true ) / 400 ) ) );
-                } else {
-                    bionic_names.push_back( bio.id.str() + " - $" + to_string( 500 ) );
-                }
-            }
-        }
-    }
-    // Choose bionic if applicable
-    int bionic_index = 0;
-    bionic_names.push_back( _( "Cancel" ) );
-    bionic_index = menu_vec( false, _( "Which bionic do you wish to uninstall?" ),
-                             bionic_names ) - 1;
-    if( bionic_index == ( int )bionic_names.size() - 1 ) {
-        bionic_index = -1;
-    }
-    // Did we cancel?
-    if( bionic_index < 0 ) {
-        popup( _( "You decide to hold off..." ) );
-        return;
-    }
-
-    unsigned int price;
-    if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
-    } else {
-        price = 50000;
-    }
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure..." ) );
-        return;
-    }
-
-    //Makes the doctor awesome at installing but not perfect
-    if( g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
-        g->u.cash -= price;
-        p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-    }
-
-}
 
 void talk_function::companion_mission( npc &p )
 {

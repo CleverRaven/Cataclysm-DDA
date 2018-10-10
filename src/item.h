@@ -325,7 +325,6 @@ class item : public visitable<item>
          * properties of the @ref itype (if they are visible to the player). The returned string
          * is already translated and can be *very* long.
          * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * the vector can be used to compare them to properties of another item.
          */
         std::string info( bool showtext = false ) const;
 
@@ -820,10 +819,14 @@ class item : public visitable<item>
          */
         bool made_of( const material_id &mat_ident ) const;
         /**
-         * Are we solid, liquid, gas, plasma?
-         * @param from_itype If true grab phase from itype instead
+         * If contents nonempty, return true if item phase is same, else false
          */
-        bool made_of( phase_id phase, bool from_itype = false ) const;
+        bool contents_made_of( const phase_id phase ) const;
+        /**
+         * Are we solid, liquid, gas, plasma?
+         */
+        bool made_of( phase_id phase ) const;
+        bool made_of_from_type( phase_id phase ) const;
         /**
          * Whether the items is conductive.
          */

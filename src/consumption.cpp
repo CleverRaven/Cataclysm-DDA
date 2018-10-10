@@ -386,7 +386,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
                 _( "We can't eat that.  It's not right for us." ) );
     }
     // Here's why PROBOSCIS is such a negative trait.
-    if( has_trait( trait_id( "PROBOSCIS" ) ) && !drinkable ) {
+    if( has_trait( trait_id( "PROBOSCIS" ) ) && !( drinkable || food.is_medication() ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
     }
 

@@ -949,8 +949,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         } else {
             // Look for containers with any liquid
             src.visit_items( [&src, &nested, &out]( item * node ) {
-                if( node->is_container() && !node->is_container_empty() &&
-                    node->contents.front().made_of( LIQUID ) ) {
+                if( node->is_container() && node->contents_made_of( LIQUID ) ) {
                     out = item_location( src, node );
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -971,7 +970,8 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 // some liquids are ammo but we can't reload with them unless within a container
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo_container() && !node->contents.front().made_of( SOLID ) ) {
+            if( node->is_ammo_container() && !node->contents.empty() &&
+                !node->contents_made_of( SOLID ) ) {
                 if( node->contents.front().type->ammo->type.count( ammo ) ) {
                     out = item_location( src, node );
                 }

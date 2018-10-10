@@ -331,7 +331,7 @@ void vehicle::control_engines()
 
 int vehicle::select_engine()
 {
-    uimenu tmenu;
+    uilist tmenu;
     std::string name;
     tmenu.text = _( "Toggle which?" );
     for( size_t e = 0; e < engines.size(); ++e ) {
@@ -343,7 +343,6 @@ int vehicle::select_engine()
                         ( ( parts[engines[e]].enabled ) ? "x" : " " ), name.c_str() );
     }
 
-    tmenu.addentry( -1, true, 'q', _( "Finish" ) );
     tmenu.query();
     return tmenu.ret;
 }

@@ -1502,7 +1502,7 @@ int player::floor_bedding_warmth( const tripoint &pos )
     if( furn_at_pos == f_bed ) {
         floor_bedding_warmth += 1000;
     } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
-               furn_at_pos == f_sofa ) {
+               furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ) {
         floor_bedding_warmth += 500;
     } else if( veh_bed && veh_seat ) {
         // BED+SEAT is intentionally worse than just BED
@@ -7582,8 +7582,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
             // don't try to unload frozen liquids
-            if( ammo->is_watertight_container() &&
-                ammo->contents.front().made_of( SOLID ) ) {
+            if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
             }
             auto id = ( ammo->is_ammo_container() || ammo->is_watertight_container() )
@@ -7769,7 +7768,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
 
 ret_val<bool> player::can_wield( const item &it ) const
 {
-    if( it.made_of( LIQUID, true ) ) {
+    if( it.made_of_from_type( LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
@@ -9944,7 +9943,8 @@ void player::try_to_sleep( const time_duration &dur )
     if(!plantsleep && (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
-         furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
+         furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ||
+         furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
          vp.part_with_feature( "SEAT" ) ||
          vp.part_with_feature( "BED" ) ) ) {
@@ -10005,7 +10005,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort += 0 + (int)comfort_level::comfortable;
         }
         else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
-                 furn_at_pos == f_sofa ) {
+                 furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ) {
             comfort += 1 + (int)comfort_level::slightly_comfortable;
         }
         // Web sleepers can use their webs if better furniture isn't available

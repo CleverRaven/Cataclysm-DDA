@@ -91,7 +91,7 @@ void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 
 int scent_map::get( const tripoint &p ) const
 {
-    if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
+    if( in_bounds( p.x, p.y ) && grscent[p.x][p.y] > 0 && inbounds( p ) ) {
         return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
     }
     return 0;

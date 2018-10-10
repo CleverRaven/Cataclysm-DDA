@@ -826,7 +826,6 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "stick_long", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ] ],
-      [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "scrap_copper", 3 ], [ "copper", 300 ] ],
@@ -1102,10 +1101,9 @@
     "time": 80000,
     "autolearn": false,
     "never_learn": true,
-    "using": [ [ "filament", 100 ] ],
+    "using": [ [ "filament", 100 ], [ "steel_standard", 1 ] ],
     "components": [
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
-      [ [ "2x4", 3 ], [ "stick", 6 ] ],
+      [ [ "stick_long", 1 ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ],
       [ [ "charcoal", 20 ] ]
     ]
@@ -1280,7 +1278,7 @@
     "never_learn": true,
     "components": [
       [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
-      [ [ "2x4", 4 ], [ "stick", 8 ] ],
+      [ [ "stick_long", 1 ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
       [ [ "charcoal", 350 ] ]
     ]
@@ -1462,7 +1460,7 @@
     "never_learn": true,
     "components": [
       [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
-      [ [ "2x4", 4 ], [ "stick", 8 ] ],
+      [ [ "stick_long", 1 ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
       [ [ "charcoal", 350 ] ]
     ]

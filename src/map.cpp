@@ -4082,7 +4082,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         // Cannot drop liquids into tiles that are comprised of liquid
-        if( obj.made_of( LIQUID, true ) && has_flag( "SWIMMABLE", e ) ) {
+        if( obj.made_of_from_type( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
             return false;
         }
 

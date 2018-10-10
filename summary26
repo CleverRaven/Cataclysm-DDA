@@ -1,0 +1,100 @@
+Bugfixes Evade the file encoding issue in shadowcasting.h
+Bugfixes Fix teleporting NPCs: take 2
+Balance Craft one .50 cal at a time
+Bugfixes KSG second barrel and primary now show same stats
+Content Provide example of special attacks causing effects
+Bugfixes Merge #20601 with fix
+Bugfixes Align casing/primer requirements to cartridge results in recipes
+Balance Increased bottle jack JACK weight to 8000 kg (+500 kg)
+Balance Make metal and other clay containers have BOIL quality
+Bugfixes Fix NPCs not trying to wear their weapon if it has a shoulder strap.
+Balance Allow tainted tallow to be made with a charcoal smoker
+Bugfixes Fix eternal season for scenarios with season flags
+Balance Knit Hat Reversible
+Bugfixes Removed "repeat" from data/json/item_groups.json
+Balance Add/change containers for some foods
+Infrastructure Add path encoding conversion on reading character template
+Bugfixes Load mineral water in plastic bottles (close #12607)
+Bugfixes Fix unlimited overmap error message
+Balance Give zapback zombies weak electric melee
+Infrastructure Jsonize mutation healing rate and hp modifiers
+Bugfixes Make random NPCs only spawn on surface
+Replace food_recipe.json heating inlined lists with requirements
+Bugfixes Stop turrets from trying to place fake NPCs on map
+Interface Move magazines to CSC_WEAPON_MAGAZINES
+Bugfixes Add check for containers in invoke_item
+Bugfixes Fix drinking from wooden keg consuming two charges
+Bugfixes Allow input negative integer when prescribed only digits
+Balance Craft one 5.45 at a time
+Balance Replace "heating_standard" with "surface_heat"
+Content Implements natural cordage in some recipes
+Bugfixes Dirty transparency cache when removing opaque parts from vehicles.
+Infrastructure Don't configure a timeout when checking for cancellation of abortable actions.
+Bugfixes Don't practice swimming if you're in a vehicle.
+Bugfixes Liquids are dropped on the ground when container that holds them is destroyed
+Interface Hint at one-use-only in ID cards' description
+Bugfixes Fix regen rate
+Interface Move garandclip to CSC_WEAPON_MAGAZINES
+Bugfixes Add glare protection to winter survivor masks
+Balance Craft one 30-06 at a time
+Bugfixes Require sewing to craft survivor masks
+Interface Add menu_text items to items with "transform"
+Balance Finish craft one for rifle ammo
+Balance Reload one .308 at a time
+Infrastructure Simplify invocation of calc_driving_offset().
+Bugfixes Remove incomplete fetch book mission
+Interface Black color of symbols changed to dark gray to become visible
+Bugfixes Hallucinations don't emit fields no more
+Bugfixes Caffeine is 'consume'd instead of 'drink'd
+I18N Translatable string extraction script update
+Infrastructure Extract some hardcoded effects into functions
+Bugfixes Fix pickup of bugged stacks of items
+Infrastructure Jsonize mutation hunger, thirst and fatigue rates
+Infrastructure Move player::hardcoded_effects to a new file
+Interface Remove mentions of construction skill
+Balance Remove requirement for large power reserve just to turn on a part
+Infrastructure Turn on 'ENCODING_CONV' by default
+Bugfixes Fix NPC positioning in mapgen
+Content "Listify" more uses of hotplate
+Infrastructure Rewrite trap loading to use generic_factory
+Content Merged two booby trap recipes in one
+Infrastructure Possibility to board locked wood doors
+Bugfixes Make "campfire hot dogs" singular
+Bugfixes Move bone glue to chemical crafting tab
+Bugfixes swap 500 and 5.7 case count
+Balance [Extended Realistic Guns] .45 long colt ammo: Changed steel to brass
+Bugfixes Fixed broken .40 uncraft recipes
+I18N Don't pass through gettext when loading names
+Balance Update recipes\other\medical.json
+Infrastructure Add and call new map and vehicle API to mark contained liquids as act…
+Interface Add AUTO_PICKUP_SMALL_ITEMS option.
+Bugfixes Learn the right recipe when disasembling an item.
+Bugfixes Convert container to its unsealed variant only if unsealing has actually happened
+Bugfixes Let go of controls if controls are lost
+Balance Make firefighter helmet more heat- and environment-resistant
+Infrastructure Improve map::place_items, fix weird spawn rates for items
+Balance Rewrite throwing
+Balance Addition of makeshift rope for select uses
+Bugfixes Fix Chickenbot targeting.
+Bugfixes fix for limited use of charges in smoking rack, other furni ref #20049
+Bugfixes Change vehicle efficiency tests to time-based rather than fuel percentage based
+Infrastructure  Refund obtain cost
+Mods Blazemod fix
+Mods Fixed realguns 10mm
+Interface Fix help text about encumbrance.
+Balance Allow boiling plain raw lasagna
+Balance Adds leather to material list of heavy survivor suit
+Balance Drop stereo power consumption to something resembling sanity.
+Mods Adds some item spawns to More Locations houses
+Bugfixes Fix mapgen created tents so they either disassemble correctly or don'…
+Bugfixes Fix gunmod crash
+Bugfixes make jumper cables stack correctly
+Bugfixes Prevent adding items to active item list more than once.
+Bugfixes Fix deserialize of npc follower rules
+Use file_exist function instead of own special logic
+I18N Fix refugee center NPCs' unlocalized names and occupations (fix #20592)
+I18N I18N-ize action menu entries (fix #20523)
+Restore (implement?) bite/infection/frostbite intensity
+Bugfixes Fix some inventory letter assignment quirkiness
+Build Fix link to supported compilers
+I18N Ensure consistent string order in translation template

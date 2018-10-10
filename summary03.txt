@@ -1,0 +1,100 @@
+Content Inferior Weapons Patch
+Interface Don't rotate movement action in isometric when automoving
+Interface Fix display of non-enabled areas in Isometric AIM query dest
+Interface Isometric controls in advanced inventory
+Interface Isometric scrolling combat text
+Infrastructure Replace literals with MIN/MAX_ITEM_DAMAGE
+Interface Change "You can't see to solder" to "You can't see to do that"
+Interface Allow sprites to offset later sprites drawn on the same tile
+Interface Larger/smaller and offset tile sprites
+Infrastructure Use string id for scenario, profession and start location.
+Infrastructure JSON_optimization
+Interface Fix weather in isometric mode
+Bugfixes Weather radio fix
+Infrastructure Overhaul npc::confident_range()
+Infrastructure Update Item_modifier to use MIN/MAX_ITEM_DAMAGE
+Balance Now you can hit reliably with your contact lenses too
+Content Buildable Reinforced glass + Metal shutters.
+Interface Fix gun noise
+Mods Arcana Mod Series 9-ish
+Interface MShock Modded Tileset Series 26
+Content Quesadillas!
+Content Adding a pepperbox flintlock
+Content Adding pepperbox pistol to mansion loot list
+Interface Only draw tiles inside viewrange
+Interface Pixeldoubling for tilesets
+Content Terrain connections for groups other than WALL
+Infrastructure Describe hand encumbrance affects item handling
+Infrastructure Extend support for nested containers
+Balance Handcuffs markedly increase item handling costs
+Content Hands free mechanics
+Infrastructure Provide gun parameter separately to player::fire_gun
+Content Add more makeshift firearms
+Content Add new vehicle parts
+Content More canning recipes.
+Interface Clear the minimap texture pool before SDL quits to prevent errors on game quit.
+Infrastructure Change effect type id to be a string_id
+Bugfixes Fix electricity and acid ripping up clothing
+Infrastructure Adds Prying quality, adds helper functions for quality checks
+Interface Fix display of Vehicle Indicator in tiles
+Bugfixes Prevent infinite drink from hand in handle_liquid
+Bugfixes Fix '"No names for effect type, ID:" for martial arts effects'
+Bugfixes Add center lab point to lab piece tracker to fix double lab entrance spawning.
+Bugfixes Category fixes
+Infrastructure Pass gun argument to fire_gun.
+Balance Remove requirement for a vehicle tracking device.
+Infrastructure Remove some obsolete pda handling code.
+Infrastructure Allow cancelling item unwield via ESCAPE key
+Balance Adds deconstruction recipe for wood stove.
+Balance Change fletched arrows' names
+Infrastructure Better NPC complaints
+Bugfixes Fix non-stumbling monsters getting locked up on a corner
+Interface Reinit minimap as part of tiles reinit
+Interface Targeting window improvements
+Infrastructure Minor improvements of vehicle code
+Infrastructure Move some chems from comestibles.json to chemicals_and_resources.json
+Balance Add revert_to for shooter's earmuffs
+Content Adds electronic earmuffs that reduce sounds to a safe level.
+Content Add basic chemistry set
+Content Mainline glaive from Medieval Stuff mod
+Infrastructure Implements magazine wells
+Content Move longsword from Medieval Stuff mod
+Content Shield Foundation Part 2: BLOCK_WHILE_WORN
+Bugfixes Fix onion_rings
+Balance make onion rings craftable
+Interface Add a draw refresh before asking direction on bionics: EMP, fingerpick, and mini-flamethrower.
+Interface Copy z coordinate to the light ray endpoint. (Fixes vehicle headlights underground.)
+Infrastructure Return true early on NPC friendly fire check if weapon isn't ranged.
+Infrastructure Melee to tools migration
+Infrastructure Move some items out of comestibles.json
+Balance Rebalance of to_hit value for all books
+Balance No skill required to make chemistry kits.
+Bugfixes Adds mission reply for bartender
+Bugfixes Adds non-zero multiplier for cut resistance
+Content Add metal funnel
+Interface MShock Modded Tileset Series 27: Magazines & More
+Interface Fix border between terrain and status window covering part of the status window.
+Bugfixes Fix inverted logic in sewing code
+Interface MShock Modded Tileset: Inferior Weaponry
+Balance Overburden rebalance
+Balance Basic unit tests for reloading.
+Content Overmap scent traces
+Bugfixes Adds missing check for contacts to hit_roll
+Mods Updated StatsFromSkills to use set_value & get_value for base stats
+Bugfixes Dont allow removal of gunmods from loaded guns
+Bugfixes Fix weight calculation for magazines
+Infrastructure Further container logic
+Balance Rebalance item handling costs
+Balance Window with bars will be frame with bars after hitting
+Content Move halberd from Medieval Stuff mod
+Content Adds deconstruction recipe for rope and pulley.
+Bugfixes Fix a funny bug: going to sleep while playing an instrument results in "Something is making noise"
+Infrastructure Redundant breaks in src/iuse.cpp
+Infrastructure Customizable bite attacks
+Bugfixes Fix acetylene torch z-levels
+Content Put butcher knife in the weapons category
+Bugfixes Workaround for MXE ICE bug and no-sign-compare to tests
+Bugfixes Arcana mod bite format fix
+Content Mutant wildlife expansions: Spiders and snakes
+Content Shield foundation part 1: RESTRICT_HANDS
+Content Shield Foundation Part 3: Bringing it all together
