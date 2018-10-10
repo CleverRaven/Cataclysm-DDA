@@ -480,7 +480,7 @@ void construction_menu()
                                 std::string color_s = "<color_" + string_from_color( col ) + ">";
                                 return string_format( "%s%s (%d)</color>", color_s.c_str(),
                                                       skill.first.obj().name().c_str(), skill.second );
-                            }, false );
+                            }, enumeration_conjunction::none );
                         }
 
                         current_buffer.push_back( current_line.str() );

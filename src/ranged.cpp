@@ -757,7 +757,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                 int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                 last_chance += chance;
                 return string_format( "%s: %3d%%", _( config.label.c_str() ), chance );
-            }, false );
+            }, enumeration_conjunction::none );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                                 c_white, confidence_s );
         } else {

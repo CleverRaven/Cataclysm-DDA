@@ -871,7 +871,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
             []( const material_type * material ) {
                 return string_format( "<stat>%s</stat>", _( material->name().c_str() ) );
-            }, false );
+            }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
@@ -1104,7 +1104,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                    enumerate_as_string( type->ammo->type.begin(), type->ammo->type.end(),
                 []( const ammotype & e ) {
                     return e->name();
-                }, false ) );
+                }, enumeration_conjunction::none ) );
             }
 
             const auto &ammo = *ammo_data()->ammo;
@@ -6124,7 +6124,7 @@ std::string item::components_to_string() const
         {
             return entry.first;
         }
-    }, false );
+    }, enumeration_conjunction::none );
 }
 
 bool item::needs_processing() const
