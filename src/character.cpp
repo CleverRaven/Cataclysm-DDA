@@ -1624,7 +1624,7 @@ int layer_details::layer( const int encumbrance )
     return total - current;
 }
 
-std::list<item>::const_iterator Character::position_to_wear_new_item( const item& new_item ) const
+std::list<item>::iterator Character::position_to_wear_new_item( const item& new_item )
 {
     // By default we put this item on after the last item on the same or any
     // lower layer.
@@ -1661,7 +1661,10 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // Figure out where new_item would be worn
     auto new_item_position = worn.end();
     if( !new_item.is_null() ) {
-        new_item_position = position_to_wear_new_item( new_item );
+        // const_cast required to work around g++-4.8 library bug
+        // see the commit that added this comment to understand why
+        new_item_position =
+            const_cast<Character*>(this)->position_to_wear_new_item( new_item );
     }
 
     // Track highest layer observed so far so we can penalise out-of-order

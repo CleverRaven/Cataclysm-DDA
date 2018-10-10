@@ -383,7 +383,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Return the position in the worn list where new_item would be
          * put by default */
-        std::list<item>::const_iterator position_to_wear_new_item( const item &new_item ) const;
+        std::list<item>::iterator position_to_wear_new_item( const item &new_item );
 
         /** Applies encumbrance from items only
          * If new_item is not null, then calculate under the asumption that it
