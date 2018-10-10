@@ -392,7 +392,7 @@ void debug_menu::wishmonster( const tripoint &p )
             if( cb.hallucination ) {
                 mon.hallucination = true;
             }
-            tripoint spawn = ( p == tripoint_min ? g->look_around() : p );
+            tripoint spawn = p == tripoint_min ? g->look_around().value_or( tripoint_min ) : p;
             if( spawn != tripoint_min ) {
                 const std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, spawn );
                 int num_spawned = 0;

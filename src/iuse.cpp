@@ -4513,9 +4513,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_FIREBALL: {
-                tripoint fireball = g->look_around();
-                if( fireball != tripoint_min ) {
-                    g->explosion( fireball, 24, 0.5, true );
+                if( const cata::optional<tripoint> fireball = g->look_around() ) {
+                    g->explosion( *fireball, 24, 0.5, true );
                 }
             }
             break;
@@ -4558,9 +4557,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_ACIDBALL: {
-                tripoint acidball = g->look_around();
-                if( acidball != tripoint_min ) {
-                    for( const tripoint &tmp : g->m.points_in_radius( acidball, 1 ) ) {
+                if( const cata::optional<tripoint> acidball = g->look_around() ) {
+                    for( const tripoint &tmp : g->m.points_in_radius( *acidball, 1 ) ) {
                         g->m.add_field( tmp, fd_acid, rng( 2, 3 ) );
                     }
                 }
@@ -6108,12 +6106,13 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
     if( c_shot == choice ) {
 
-        tripoint aim_point = g->look_around();
+        const cata::optional<tripoint> aim_point_ = g->look_around();
 
-        if( aim_point == tripoint_min ) {
+        if( !aim_point_ ) {
             p->add_msg_if_player( _( "Never mind." ) );
             return 0;
         }
+        const tripoint aim_point = *aim_point_;
 
         if( aim_point == p->pos() ) {
             p->add_msg_if_player( _( "You decide not to flash yourself." ) );

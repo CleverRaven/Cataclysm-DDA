@@ -2576,17 +2576,15 @@ void veh_interact::complete_vehicle()
             g->u.view_offset.x = veh->global_pos3().x + q.x - g->u.posx();
             g->u.view_offset.y = veh->global_pos3().y + q.y - g->u.posy();
             popup(_("Choose a facing direction for the new headlight.  Press space to continue."));
-            tripoint headlight_target = g->look_around(); // Note: no way to cancel
+            const cata::optional<tripoint> headlight_target = g->look_around();
             // Restore previous view offsets.
             g->u.view_offset.x = px;
             g->u.view_offset.y = py;
 
             int dir = 0;
-            if(headlight_target.x == INT_MIN) {
-                dir = 0;
-            } else {
-                int delta_x = headlight_target.x - (veh->global_pos3().x + q.x);
-                int delta_y = headlight_target.y - (veh->global_pos3().y + q.y);
+            if( headlight_target ) {
+                int delta_x = headlight_target->x - (veh->global_pos3().x + q.x);
+                int delta_y = headlight_target->y - (veh->global_pos3().y + q.y);
 
                 const double PI = 3.14159265358979f;
                 dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);

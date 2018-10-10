@@ -3134,16 +3134,14 @@ void game::debug()
             debug_menu::character_edit_menu();
             break;
 
-        case 14: {
-            auto center = look_around();
-            if( center != tripoint_min ) {
-                artifact_natural_property prop =
-                    artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
-                m.create_anomaly( center, prop );
-                m.spawn_natural_artifact( center, prop );
+        case 14:
+            if( const cata::optional<tripoint> center = look_around() ) {
+                artifact_natural_property prop = artifact_natural_property( rng( ARTPROP_NULL + 1,
+                                                 ARTPROP_MAX - 1 ) );
+                m.create_anomaly( *center, prop );
+                m.spawn_natural_artifact( *center, prop );
             }
-        }
-        break;
+            break;
 
         case 15:
             u.i_add( item( architects_cube(), calendar::turn ) );
@@ -3294,12 +3292,12 @@ void game::debug()
         }
         break;
         case 27: {
-            tripoint dest = look_around();
-            if( dest == tripoint_min || dest == u.pos() ) {
+            const cata::optional<tripoint> dest = look_around();
+            if( !dest || *dest == u.pos() ) {
                 break;
             }
 
-            auto rt = m.route( u.pos(), dest, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
             u.set_destination( rt );
             if( !u.has_destination() ) {
                 popup( "Couldn't find path" );
@@ -6867,27 +6865,25 @@ void game::zones_manager()
         wrefresh( w_zones_info );
 
         tripoint center = u.pos() + u.view_offset;
-        tripoint first = look_around( w_zones_info, center, center, false, true );
-        tripoint second = tripoint_min;
-        if( first != tripoint_min ) {
+        const cata::optional<tripoint> first = look_around( w_zones_info, center, center, false, true );
+        if( first ) {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
-            second = look_around( w_zones_info, center, first, true, true );
-        }
+            const cata::optional<tripoint> second = look_around( w_zones_info, center, *first, true, true );
+            if( second ) {
+                werase( w_zones_info );
+                wrefresh( w_zones_info );
 
-        if( second != tripoint_min ) {
-            werase( w_zones_info );
-            wrefresh( w_zones_info );
+                tripoint first_abs = m.getabs( tripoint( std::min( first->x, second->x ),
+                                               std::min( first->y, second->y ),
+                                               std::min( first->z, second->z ) ) );
+                tripoint second_abs = m.getabs( tripoint( std::max( first->x, second->x ),
+                                                std::max( first->y, second->y ),
+                                                std::max( first->z, second->z ) ) );
 
-            tripoint first_abs = m.getabs( tripoint( std::min( first.x, second.x ),
-                                           std::min( first.y, second.y ),
-                                           std::min( first.z, second.z ) ) );
-            tripoint second_abs = m.getabs( tripoint( std::max( first.x, second.x ),
-                                            std::max( first.y, second.y ),
-                                            std::max( first.z, second.z ) ) );
-
-            return std::pair<tripoint, tripoint>( first_abs, second_abs );
+                return std::pair<tripoint, tripoint>( first_abs, second_abs );
+            }
         }
 
         return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
@@ -7215,15 +7211,14 @@ void game::zones_manager()
     refresh_all();
 }
 
-tripoint game::look_around()
+cata::optional<tripoint> game::look_around()
 {
     tripoint center = u.pos() + u.view_offset;
     return look_around( catacurses::window(), center, center, false, false );
 }
 
-tripoint game::look_around( catacurses::window w_info,
-                            tripoint &center, const tripoint start_point,
-                            bool has_first_point, bool select_zone )
+cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint &center,
+        const tripoint start_point, bool has_first_point, bool select_zone )
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
@@ -7465,7 +7460,7 @@ tripoint game::look_around( catacurses::window w_info,
         return lp;
     }
 
-    return tripoint( INT_MIN, INT_MIN, INT_MIN );
+    return cata::nullopt;
 }
 
 std::vector<map_item_stack> game::find_nearby_items( int iRadius )
@@ -8231,8 +8226,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                          RULE_BLACKLISTED );
             }
         } else if( action == "look" ) {
-            tripoint recentered = look_around();
-            iLastActivePos = recentered;
+            iLastActivePos = look_around().value_or( tripoint_min );
         } else if( action == "fire" ) {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 last_target = shared_from( *cCurMon );

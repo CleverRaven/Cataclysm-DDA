@@ -10,6 +10,7 @@
 #include "cursesdef.h"
 #include "pimpl.h"
 #include "item_location.h"
+#include "optional.h"
 
 #include <array>
 #include <vector>
@@ -558,10 +559,9 @@ class game
         void zones_manager();
 
         // Look at nearby terrain ';', or select zone points
-        tripoint look_around();
-        tripoint look_around( catacurses::window w_info,
-                              tripoint &center, tripoint start_point,
-                              bool has_first_point, bool select_zone );
+        cata::optional<tripoint> look_around();
+        cata::optional<tripoint> look_around( catacurses::window w_info, tripoint &center,
+                                              tripoint start_point, bool has_first_point, bool select_zone );
 
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,

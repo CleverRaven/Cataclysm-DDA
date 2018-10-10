@@ -5118,9 +5118,9 @@ bool talk_function::camp_menial_sort_pts( npc &p, bool reset_pts, bool choose_pt
     if( choose_pts ) {
         for( size_t x = 0; x < sort_pts.size(); x++ ) {
             if( query_yn( string_format( _( "Reset point: %s?" ), sort_names[x] ) ) ) {
-                const tripoint where( g->look_around() );
-                if( rl_dist( g->u.pos(), where ) <= 20 ) {
-                    sort_pts[x] = where;
+                const cata::optional<tripoint> where = g->look_around();
+                if( where && rl_dist( g->u.pos(), *where ) <= 20 ) {
+                    sort_pts[x] = *where;
                 }
             }
         }
