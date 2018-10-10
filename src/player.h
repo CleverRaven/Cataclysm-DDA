@@ -13,6 +13,7 @@
 #include "damage.h"
 #include "calendar.h"
 #include "mapdata.h"
+#include "optional.h"
 
 #include <unordered_set>
 #include <memory>
@@ -1744,7 +1745,7 @@ class player : public Character
         player_activity destination_activity;
         tripoint destination_point = tripoint_min;
         // Used to make sure auto move is canceled if we stumble off course
-        tripoint next_expected_position;
+        cata::optional<tripoint> next_expected_position;
 
         inventory cached_crafting_inventory;
         int cached_moves;

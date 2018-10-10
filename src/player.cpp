@@ -519,7 +519,7 @@ player::player() : Character()
     sight_max = 9999;
     last_batch = 0;
     lastconsumed = itype_id( "null" );
-    next_expected_position = tripoint_min;
+    next_expected_position = cata::nullopt;
     death_drops = true;
     show_map_memory = true;
 
@@ -11378,7 +11378,7 @@ void player::clear_destination()
     auto_move_route.clear();
     destination_activity = player_activity();
     destination_point = tripoint_min;
-    next_expected_position = tripoint_min;
+    next_expected_position = cata::nullopt;
 }
 
 bool player::has_destination() const
@@ -11414,17 +11414,17 @@ action_id player::get_next_auto_move_direction()
         return ACTION_NULL;
     }
 
-    if (next_expected_position != tripoint_min ) {
-        if( pos() != next_expected_position ) {
+    if( next_expected_position ) {
+        if( pos() != *next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
     }
 
-    next_expected_position = auto_move_route.front();
+    next_expected_position.emplace( auto_move_route.front() );
     auto_move_route.erase(auto_move_route.begin());
 
-    tripoint dp = next_expected_position - pos();
+    tripoint dp = *next_expected_position - pos();
 
     // Make sure the direction is just one step and that
     // all diagonal moves have 0 z component
@@ -11439,9 +11439,9 @@ action_id player::get_next_auto_move_direction()
 
 void player::shift_destination(int shiftx, int shifty)
 {
-    if( next_expected_position != tripoint_min ) {
-        next_expected_position.x += shiftx;
-        next_expected_position.y += shifty;
+    if( next_expected_position ) {
+        next_expected_position->x += shiftx;
+        next_expected_position->y += shifty;
     }
 
     for( auto &elem : auto_move_route ) {
