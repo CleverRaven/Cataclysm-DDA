@@ -3034,7 +3034,7 @@ void game::debug()
         break;
 
         case 5:
-            debug_menu::wishmonster();
+            debug_menu::wishmonster( cata::nullopt );
             break;
 
         case 6: {

@@ -359,7 +359,7 @@ class wish_monster_callback: public uimenu_callback
         }
 };
 
-void debug_menu::wishmonster( const tripoint &p )
+void debug_menu::wishmonster( const cata::optional<tripoint> p )
 {
     std::vector<const mtype *> mtypes;
 
@@ -392,9 +392,8 @@ void debug_menu::wishmonster( const tripoint &p )
             if( cb.hallucination ) {
                 mon.hallucination = true;
             }
-            tripoint spawn = p == tripoint_min ? g->look_around().value_or( tripoint_min ) : p;
-            if( spawn != tripoint_min ) {
-                const std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, spawn );
+            if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
+                const std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, *spawn );
                 int num_spawned = 0;
                 for( const tripoint &spawn_point : spawn_points ) {
                     if( g->critter_at( spawn_point ) == nullptr ) {
