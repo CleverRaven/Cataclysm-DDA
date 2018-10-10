@@ -2650,7 +2650,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                       contents_item.tname( quantity, with_prefix ).c_str() );
         }
     } else if( !contents.empty() ) {
-        maintext = string_format( pgettext( "item name", "%s, full" ), label( quantity ).c_str() );
+        maintext = string_format( npgettext( "item name",
+                                             "%s with %zd item",
+                                             "%s with %zd items", contents.size() ),
+                                  label( quantity ), contents.size() );
     } else {
         maintext = label( quantity );
     }
