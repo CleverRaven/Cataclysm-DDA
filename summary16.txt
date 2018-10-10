@@ -1,0 +1,100 @@
+Build Fix SDL compiling
+Interface Add a DIG item_action
+Interface Changes error message you get when there you have no butchering tool.
+Balance Lab end loot rebalance.
+Interface Reworded the CBM failure mutation message
+Bugfixes Fix minifridge not cooling items properly.
+Bugfixes Fix dissector leaving bugged corpses
+Balance Add no salvage flag to splinter
+Balance Obsolete wooden skewer
+Infrastructure Further strict JSON parsing
+Balance Improve ammo belts
+Interface Improve vehicle interaction display
+Infrastructure Increase robustness of enabled state toggling
+Mods PRM: Adds bumblebees, add bumblebee hive center, update spawn list
+Bugfixes Fixes a segfault when in vehicle screen and examining a partless tile
+Bugfixes Attempt to fix vehicle toggle bug
+Content Improvised first aid kit
+Balance Changes to Bionic Sniper and Bionic Soldier
+Interface Add more info to item displays
+Balance Some ratio changes to welder and oxy_torch charges
+Infrastructure Set turret ammo and provide defaults
+Bugfixes Fix for vehicle menu bug
+Build Add mod support to unit tests
+Balance Adjust multi-pool defaults
+Bugfixes Fix hostile and fearful enemies forgetting player
+Infrastructure Jsonize mutation attacks
+Infrastructure Remove needlessly specific mining code
+I18N Display translated name for ammo and firing modes
+Build A workaround to avoid a suspected MSVC code compilation issue
+Bugfixes fix access violation bug in JsonIn::error()
+Balance Update Evac Center
+Balance Added '40sw' ammo to pistol bandolier
+Bugfixes Don't turn off atomic lamps on battery dying.
+Infrastructure Give atomic vehicle lights some love.
+Infrastructure Improve mod checking
+Infrastructure Update aiming
+Bugfixes Reading fixes and updates
+Bugfixes Fix for unloading making fuel disappear.
+Balance Fungus and aberration monsters now also drop filthy clothes.
+Bugfixes Fix debug menu needs options only setting hunger was: Fix #18004
+Balance Add EATEN_HOT to fast-food French fries
+Mods PRM: Hellcastle Basement
+Bugfixes Fix bio_nanobots trying to heal broken limbs.
+Balance Give bio_gills non-water use - stamina regen buff
+Bugfixes Fix logic error (off by one) in map::function_over
+Bugfixes Use 1 if "count" isn't specified in missiondef.json
+Mods PRM: Fix Prison Start
+Balance Remove unreasonable contain flag from glass
+Interface Fixes missing comma
+Interface Renames hydrogen into 'hydrogen canister'.
+Balance Soda can stove kit capacity increase to match fuel charges
+Balance Lower vehicle scoop power drain
+Content Adds Apple Orchard to the game
+Bugfixes Fixed bandolier_actor::reload giving time instead of taking time
+Interface Exclude bio_leukocyte from sleep dialog.
+Balance Make rehydration recipes blind craftable
+Balance add OVERSIZE flag to canteens
+Infrastructure Add text for TALK_NONE and TALK_DONE for when there is no topic
+Balance Ice Axe can be Clipped
+Bugfixes Attempt to fix NPC training player in skills above NPC skill level.
+Interface Don't query when the NPC who's training you talks to you
+Infrastructure Tidy up and update the new reading code
+Balance Brazier item/crafting rebalance
+Balance Integrated Toolset Butcher value.
+Balance Rework coal/hydrogen requirements for diamondstuff.
+Bugfixes Fix aiming issue
+Interface A-180 magazine description correction
+Mods PRM: Add 'Unsettled Farm'
+Bugfixes Fix bionics slots of automatically added bionics
+Interface Clarify description of CONDUCTIVE flagged weapons
+Balance Storage for Juvenile Delinquent and Dodgeball Player professions
+Mods PRM: gunfix
+Balance make the m320 launcher as gunmod have the same flags as the standalone weapon
+Balance Added no necro flag to broken cyborg.
+Balance Adds few missing cancels mutations.
+Infrastructure Wrap file reading into utility functions
+Infrastructure Initial work on stair alignment
+Balance Change to-hit bonuses for knives
+Infrastructure Linearize mutation attack chance skill scaling
+Balance Rebalance existing profession/scenarios.
+Interface Safemode UI
+Balance Brutes evolve sooner
+Balance Update evac_center.json
+Bugfixes Properly handle profession traits in character creation
+Bugfixes CBM has_fire power checks.
+Interface Renamed "automatic zombie advancement" into "Realtime turn progression".
+Balance Sleeveless Survivor recipe fixes.
+Balance Updated the plant mutations to give some encumberance that makes sense.
+Build Fixed clang crash on OS X
+Balance Allow Steel Jerrycans to be used as vehicle tanks.
+Bugfixes Don't set an item's to_hit to 0
+Balance Remove Coldblooded from Bird mutation category
+Bugfixes Abort starting / continuing a game upon any kind of error from loading JSON game data.
+Bugfixes Don't abort loading JSON data upon redundant json entries.
+Bugfixes Fix crash when storing options:
+Interface Add description of some integrated gunmods
+Interface CBM install failure mention which CBMs are lost.
+Bugfixes Fix repairing bandages
+Build Attempt to recover from no git in CodeBlocks project
+Interface ChestHole32iso: Kedryn's isometric changes
