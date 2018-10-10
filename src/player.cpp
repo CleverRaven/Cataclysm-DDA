@@ -8337,13 +8337,13 @@ int player::item_wear_cost( const item& it ) const
     return mv;
 }
 
-cata::optional<std::list<item>::const_iterator>
+cata::optional<std::list<item>::iterator>
 player::wear( int pos, bool interactive )
 {
     return wear( i_at( pos ), interactive );
 }
 
-cata::optional<std::list<item>::const_iterator>
+cata::optional<std::list<item>::iterator>
 player::wear( item& to_wear, bool interactive )
 {
     if( is_worn( to_wear ) ) {
@@ -8388,7 +8388,7 @@ player::wear( item& to_wear, bool interactive )
     return result;
 }
 
-cata::optional<std::list<item>::const_iterator>
+cata::optional<std::list<item>::iterator>
 player::wear_item( const item &to_wear, bool interactive )
 {
     const auto ret = can_wear( to_wear );

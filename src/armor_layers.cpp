@@ -730,7 +730,7 @@ void player::sort_armor()
                         // state through other activities, but that's a thing
                         // that would be nice to do.
                         leftListIndex =
-                            std::count_if( worn.cbegin(), *new_equip_it,
+                            std::count_if( worn.begin(), *new_equip_it,
                         [&]( const item & i ) {
                             return tabindex == num_bp || i.covers( bp );
                         } );
