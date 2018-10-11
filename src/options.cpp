@@ -349,11 +349,11 @@ std::string options_manager::cOpt::getPrerequisite() const
 
 bool options_manager::cOpt::hasPrerequisite() const
 {
-    if( sPrerequisite.empty() ) {
+    if( !sPrerequisite.empty() ) {
         return true;
     }
 
-    return ::get_option<bool>( sPrerequisite );
+    return false;
 }
 
 //helper functions
@@ -2127,6 +2127,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
             bool hasPrerequisite = current_opt.hasPrerequisite();
+            bool prerequisiteEnabled = !hasPrerequisite ||
+                                       cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
 
             line_pos = i - iStartPos;
 
@@ -2141,9 +2143,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             }
 
             const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
-            mvwprintz( w_options, line_pos, name_col + 3, hasPrerequisite ? c_white : c_light_gray, name );
+            mvwprintz( w_options, line_pos, name_col + 3, !hasPrerequisite ||
+                       prerequisiteEnabled ? c_white : c_light_gray, name );
 
-            if( !hasPrerequisite ) {
+            if( hasPrerequisite && !prerequisiteEnabled ) {
                 cLineColor = c_light_gray;
 
             } else if( current_opt.getValue() == "false" ) {
@@ -2241,8 +2244,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         }
 
         cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
+        bool hasPrerequisite = current_opt.hasPrerequisite();
+        bool prerequisiteEnabled = !hasPrerequisite ||
+                                   cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
 
-        if( !current_opt.hasPrerequisite() &&
+        if( hasPrerequisite && !prerequisiteEnabled &&
             ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
             popup( _( "Prerequisite for this option not met!\n(%s)" ),
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
