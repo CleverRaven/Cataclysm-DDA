@@ -2075,7 +2075,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         for( auto &b : b_inv ) {
             if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
                 b_types.push_back( b->typeId() );
-                b_names.push_back( b->tname() );
+                b_names.push_back( item::nname( b->typeId() ) );
             }
         }
         // Choose brew from list
@@ -2097,7 +2097,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         brew_type = brew.typeId();
         charges_on_ground = brew.charges;
         if (p.charges_of(brew_type) > 0)
-            if (query_yn(_("Add %s to the vat?"), brew.tname().c_str())) {
+            if (query_yn(_("Add %s to the vat?"), item::nname( brew_type ).c_str())) {
                 to_deposit = true;
             }
     }
@@ -2113,7 +2113,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
                 vat_full = true;
             }
         }
-        add_msg(_("Set %s in the vat."), brew.tname().c_str());
+        add_msg(_("Set %s in the vat."), item::nname( brew_type ).c_str());
         g->m.i_clear(examp);
         //This is needed to bypass NOITEM
         g->m.add_item( examp, brew );
@@ -2195,8 +2195,8 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    const std::string booze_name = g->m.i_at( examp ).front().tname();
-    if( g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp ) ) {
+    const std::string booze_name = items_here.front().tname();
+    if( g->handle_liquid_from_ground( items_here.begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
         add_msg(_("You squeeze the last drops of %s from the vat."), booze_name.c_str());
     }
@@ -2221,6 +2221,7 @@ bool iexamine::has_keg( const tripoint &pos )
 
 void iexamine::keg(player &p, const tripoint &examp)
 {
+    const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
     for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
@@ -2238,7 +2239,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             return it.made_of( LIQUID );
         } );
         if ( drinks_inv.empty() ) {
-            add_msg(m_info, _("You don't have any drinks to fill the %s with."), g->m.name(examp).c_str());
+            add_msg(m_info, _("You don't have any drinks to fill the %s with."), keg_name.c_str());
             return;
         }
         // Make lists of unique drinks... about third time we do this, maybe we ought to make a function next time
@@ -2249,7 +2250,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             auto found_drink = std::find( drink_types.begin(), drink_types.end(), drink->typeId() );
             if( found_drink == drink_types.end() ) {
                 drink_types.push_back( drink->typeId() );
-                drink_names.push_back( drink->tname()) ;
+                drink_names.push_back( item::nname( drink->typeId() ) );
                 drink_rot.push_back( drink->get_relative_rot() );
             } else {
                 auto rot_iter = std::next( drink_rot.begin(), std::distance( drink_types.begin(), found_drink ) );
@@ -2266,7 +2267,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             }
         } else { //Only one drink type was in inventory, so it's automatically used
             if( !query_yn( _( "Fill the %1$s with %2$s?" ),
-                           g->m.name( examp ).c_str(), drink_names[0].c_str() ) ) {
+                           keg_name.c_str(), drink_names[0].c_str() ) ) {
                 drink_index = -1;
             }
         }
@@ -2287,10 +2288,10 @@ void iexamine::keg(player &p, const tripoint &examp)
         }
         if( keg_full ) {
             add_msg( _( "You completely fill the %1$s with %2$s." ),
-                    g->m.name( examp ).c_str(), drink.tname().c_str() );
+                    keg_name.c_str(), item::nname( drink_type ).c_str() );
         } else {
-            add_msg( _( "You fill the %1$s with %2$s." ), g->m.name( examp ).c_str(),
-                    drink.tname().c_str() );
+            add_msg( _( "You fill the %1$s with %2$s." ),
+                    keg_name.c_str(), item::nname( drink_type ).c_str() );
         }
         p.moves -= 250;
         g->m.i_clear( examp );
@@ -2298,6 +2299,8 @@ void iexamine::keg(player &p, const tripoint &examp)
         return;
     } else {
         auto drink = g->m.i_at(examp).begin();
+        const auto drink_tname = drink->tname();
+        const auto drink_nname = item::nname( drink->typeId() );
         enum options {
             FILL_CONTAINER,
             HAVE_A_DRINK,
@@ -2306,7 +2309,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         };
         uilist selectmenu;
         selectmenu.addentry( FILL_CONTAINER, true, MENU_AUTOASSIGN, _("Fill a container with %s"),
-                            drink->tname().c_str() );
+                            drink_tname.c_str() );
         selectmenu.addentry( HAVE_A_DRINK, drink->is_food(), MENU_AUTOASSIGN, _("Have a drink") );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _("Refill") );
         selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _("Examine") );
@@ -2314,13 +2317,11 @@ void iexamine::keg(player &p, const tripoint &examp)
         selectmenu.text = _("Select an action");
         selectmenu.query();
 
-        const auto drink_name = drink->tname();
-
         switch( selectmenu.ret ) {
         case FILL_CONTAINER:
             if( g->handle_liquid_from_ground( drink, examp ) ) {
-                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink_name.c_str(),
-                        g->m.name(examp).c_str());
+                add_msg(_("You squeeze the last drops of %1$s from the %2$s."),
+                        drink_tname.c_str(), keg_name.c_str());
             }
             return;
 
@@ -2330,8 +2331,8 @@ void iexamine::keg(player &p, const tripoint &examp)
             }
 
             if (drink->charges == 0) {
-                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink->tname().c_str(),
-                        g->m.name(examp).c_str());
+                add_msg(_("You squeeze the last drops of %1$s from the %2$s."),
+                        drink_tname.c_str(), keg_name.c_str());
                 g->m.i_clear( examp );
             }
             p.moves -= 250;
@@ -2340,27 +2341,26 @@ void iexamine::keg(player &p, const tripoint &examp)
         case REFILL: {
             int charges_held = p.charges_of(drink->typeId());
             if( drink->volume() >= keg_cap ) {
-                add_msg(_("The %s is completely full."), g->m.name(examp).c_str());
+                add_msg(_("The %s is completely full."), keg_name.c_str());
                 return;
             }
             if (charges_held < 1) {
                 add_msg(m_info, _("You don't have any %1$s to fill the %2$s with."),
-                        drink->tname().c_str(), g->m.name(examp).c_str());
+                        drink_nname.c_str(), keg_name.c_str());
                 return;
             }
             item tmp( drink->typeId(), calendar::turn, charges_held );
             pour_into_keg( examp, tmp );
             p.use_charges( drink->typeId(), charges_held - tmp.charges );
-            add_msg(_("You fill the %1$s with %2$s."), g->m.name(examp).c_str(),
-                    drink->tname().c_str());
+            add_msg(_("You fill the %1$s with %2$s."), keg_name.c_str(), drink_nname.c_str());
             p.moves -= 250;
             return;
         }
 
         case EXAMINE: {
-            add_msg(m_info, _("That is a %s."), g->m.name(examp).c_str());
+            add_msg(m_info, _("That is a %s."), keg_name.c_str());
             add_msg(m_info, _("It contains %s (%d), %0.f%% full."),
-                    drink->tname().c_str(), drink->charges, drink->volume() * 100.0 / keg_cap );
+                    drink_tname.c_str(), drink->charges, drink->volume() * 100.0 / keg_cap );
             return;
         }
 
@@ -2389,7 +2389,7 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
         g->m.i_at( pos ).front().charges = 0; // Will be set later
     } else if( stack.front().typeId() != liquid.typeId() ) {
         add_msg( _( "The %s already contains some %s, you can't add a different liquid to it." ),
-                 keg_name.c_str(), stack.front().tname().c_str() );
+                 keg_name.c_str(), item::nname( stack.front().typeId() ).c_str() );
         return false;
     }
 
