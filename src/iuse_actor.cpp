@@ -1609,8 +1609,6 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     auto items = g->m.i_at( p.posx(), p.posy() );
     std::vector<const item *> corpses;
 
-    const int cancel = 0;
-
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
         if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
@@ -1643,18 +1641,16 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    uimenu amenu;
+    uilist amenu;
 
-    amenu.selected = 0;
     amenu.text = _( "Selectively butcher the downed zombie into a zombie slave?" );
-    amenu.addentry( cancel, true, 'q', _( "Cancel" ) );
     for( size_t i = 0; i < corpses.size(); i++ ) {
-        amenu.addentry( i + 1, true, -1, corpses[i]->display_name().c_str() );
+        amenu.addentry( i, true, -1, corpses[i]->display_name() );
     }
 
     amenu.query();
 
-    if( cancel == amenu.ret ) {
+    if( amenu.ret < 0 ) {
         p.add_msg_if_player( _( "Make love, not zlave." ) );
         return 0;
     }
@@ -1684,7 +1680,7 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.add_morale( MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay );
     }
 
-    const int selected_corpse = amenu.ret - 1;
+    const int selected_corpse = amenu.ret;
 
     const item *body = corpses[selected_corpse];
     const mtype *mt = body->get_mtype();
