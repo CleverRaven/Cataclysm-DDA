@@ -1943,7 +1943,7 @@
   {
     "type": "furniture",
     "id": "f_fvat_empty",
-    "name": "empty fermenting vat",
+    "name": "fermenting vat",
     "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
     "symbol": "O",
     "color": "brown",
@@ -1978,7 +1978,7 @@
   {
     "type": "furniture",
     "id": "f_fvat_full",
-    "name": "full fermenting vat",
+    "name": "filled fermenting vat",
     "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
     "symbol": "O",
     "color": "brown_cyan",
