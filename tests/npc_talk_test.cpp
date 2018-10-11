@@ -13,11 +13,16 @@
 #include "faction.h"
 #include "player.h"
 #include "effect.h"
+#include "calendar.h"
 
 #include <string>
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );
+const efftype_id effect_infection( "infection" );
+const efftype_id effect_infected( "infected" );
+static const trait_id trait_PROF_FED( "PROF_FED" );
+static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 
 npc create_test_talker()
 {
@@ -183,4 +188,72 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses.size() == 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a complex nested test response." );
+
+    const auto has_beer_bottle = [&]() {
+        int bottle_pos = g->u.inv.position_by_type( itype_id( "bottle_glass" ) );
+        if( bottle_pos == INT_MIN ) {
+            return false;
+        }
+        item &bottle = g->u.inv.find_item( bottle_pos );
+        if( bottle.is_container_empty() ) {
+            return false;
+        }
+        const item &beer = bottle.get_contained();
+        return beer.typeId() == itype_id( "beer" ) && beer.charges == 2;
+    };
+    const auto has_plastic_bottle = [&]() {
+        return g->u.inv.position_by_type( itype_id( "bottle_plastic" ) ) != INT_MIN;
+    };
+    g->u.cash = 1000;
+    g->u.int_cur = 8;
+    d.add_topic( "TALK_TEST_EFFECTS" );
+    d.gen_responses( d.topic_stack.back() );
+    CHECK( d.responses.size() == 9 );
+    REQUIRE( !g->u.has_effect( effect_infection ) );
+    talk_response::effect_t &effects = d.responses[1].success;
+    effects.apply( d );
+    CHECK( g->u.has_effect( effect_infection ) );
+    CHECK( g->u.get_effect_dur( effect_infection ) == time_duration::from_turns( 10 ) );
+    REQUIRE( !talker_npc.has_effect( effect_infection ) );
+    effects = d.responses[2].success;
+    effects.apply( d );
+    CHECK( talker_npc.has_effect( effect_infection ) );
+    CHECK( talker_npc.get_effect( effect_infection ).is_permanent() );
+    REQUIRE( !g->u.has_trait( trait_PROF_FED ) );
+    effects = d.responses[3].success;
+    effects.apply( d );
+    CHECK( g->u.has_trait( trait_PROF_FED ) );
+    REQUIRE( !talker_npc.has_trait( trait_PROF_FED ) );
+    effects = d.responses[4].success;
+    effects.apply( d );
+    CHECK( talker_npc.has_trait( trait_PROF_FED ) );
+    REQUIRE( !has_beer_bottle() );
+    REQUIRE( g->u.cash == 1000 );
+    effects = d.responses[5].success;
+    effects.apply( d );
+    CHECK( g->u.cash == 500 );
+    CHECK( has_beer_bottle() );
+    REQUIRE( !has_plastic_bottle() );
+    effects = d.responses[6].success;
+    effects.apply( d );
+    CHECK( has_plastic_bottle() );
+    CHECK( g->u.cash == 500 );
+    effects = d.responses[7].success;
+    effects.apply( d );
+    CHECK( g->u.cash == 0 );
+    g->u.cash = 1000;
+    REQUIRE( !g->u.has_effect( effect_infected ) );
+    REQUIRE( !talker_npc.has_effect( effect_infected ) );
+    REQUIRE( !g->u.has_trait( trait_PROF_SWAT ) );
+    REQUIRE( !talker_npc.has_trait( trait_PROF_SWAT ) );
+    effects = d.responses[8].success;
+    effects.apply( d );
+    CHECK( g->u.has_effect( effect_infected ) );
+    CHECK( g->u.get_effect_dur( effect_infected ) == time_duration::from_turns( 10 ) );
+    CHECK( talker_npc.has_effect( effect_infected ) );
+    CHECK( talker_npc.get_effect( effect_infected ).is_permanent() );
+    CHECK( g->u.has_trait( trait_PROF_SWAT ) );
+    CHECK( talker_npc.has_trait( trait_PROF_SWAT ) );
+    CHECK( g->u.cash == 0 );
+    CHECK( talker_npc.get_attitude() == NPCATT_KILL );
 }

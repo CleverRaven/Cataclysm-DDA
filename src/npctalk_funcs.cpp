@@ -241,7 +241,7 @@ void talk_function::bionic_install( npc &p )
     bionic_names.push_back( _( "Cancel" ) );
     bionic_index = menu_vec( false, _( "Which bionic do you wish to have installed?" ),
                              bionic_names ) - 1;
-    if( bionic_index == ( int )bionic_names.size() - 1 ) {
+    if( bionic_index == static_cast<int>( bionic_names.size() ) - 1 ) {
         bionic_index = -1;
     }
     // Did we cancel?
@@ -297,7 +297,7 @@ void talk_function::bionic_remove( npc &p )
     bionic_names.push_back( _( "Cancel" ) );
     bionic_index = menu_vec( false, _( "Which bionic do you wish to uninstall?" ),
                              bionic_names ) - 1;
-    if( bionic_index == ( int )bionic_names.size() - 1 ) {
+    if( bionic_index == static_cast<int>( bionic_names.size() ) - 1 ) {
         bionic_index = -1;
     }
     // Did we cancel?
