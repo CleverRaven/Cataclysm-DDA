@@ -459,7 +459,7 @@ class salvage_actor : public iuse_actor
         int cut_up( player &p, item &it, item &cut ) const;
         bool valid_to_cut_up( const item &it ) const;
 
-        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type, 0 ) {}
+        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
 
         ~salvage_actor() override = default;
         void load( JsonObject &jo ) override;
@@ -498,7 +498,7 @@ class inscribe_actor : public iuse_actor
 
         bool item_inscription( item &cut ) const;
 
-        inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type, 0 ) {}
+        inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type ) {}
 
         ~inscribe_actor() override = default;
         void load( JsonObject &jo ) override;
@@ -532,7 +532,7 @@ class cauterize_actor : public iuse_actor
 class enzlave_actor : public iuse_actor
 {
     public:
-        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type, 0 ) {}
+        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type ) {}
 
         ~enzlave_actor() override = default;
         void load( JsonObject &jo ) override;
