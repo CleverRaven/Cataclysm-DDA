@@ -1108,8 +1108,8 @@ void options_manager::init()
     mOptionsSort["interface"]++;
 
     add( "USE_CELSIUS", "interface", translate_marker( "Temperature units" ),
-         translate_marker( "Switch between Celsius and Fahrenheit." ),
-    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) } },
+         translate_marker( "Switch between Celsius, Fahrenheit and Kelvin." ),
+    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) }, { "kelvin", translate_marker( "Kelvin" ) } },
     "fahrenheit"
        );
 

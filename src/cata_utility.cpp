@@ -251,6 +251,11 @@ double temp_to_celsius( double fahrenheit )
     return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
 }
 
+double temp_to_kelvin( double fahrenheit )
+{
+    return temp_to_celsius( fahrenheit ) + 273.15;
+}
+
 double clamp_to_width( double value, int width, int &scale )
 {
     return clamp_to_width( value, width, scale, NULL );
