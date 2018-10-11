@@ -276,6 +276,19 @@ static void printErrorIf( const bool condition, const char * const message )
     }
     dbg( D_ERROR ) << message << ": " << SDL_GetError();
 }
+/// A wrapper for @ref SDL_RenderCopy that does error reporting and that accepts
+/// our wrapped pointers.
+void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture, const SDL_Rect *srcrect, const SDL_Rect *dstrect){
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to render to a null renderer";
+        return;
+    }
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to render a null texture";
+        return;
+    }
+    printErrorIf( SDL_RenderCopy( renderer.get(), texture.get(), srcrect, dstrect ) != 0, "SDL_RenderCopy failed" );
+}
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
@@ -717,8 +730,7 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(value.texture.get(), opacity * 255.0f);
 #endif
-    const auto result = SDL_RenderCopy( renderer.get(), value.texture.get(), nullptr, &rect);
-    printErrorIf( result != 0, "SDL_RenderCopy failed" );
+    RenderCopy( renderer, value.texture, nullptr, &rect);
 #ifdef __ANDROID__
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(value.texture.get(), 255);
@@ -749,8 +761,7 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(ascii[color].get(), opacity * 255);
 #endif
-    const auto result = SDL_RenderCopy( renderer.get(), ascii[color].get(), &src, &rect );
-    printErrorIf( result != 0, "SDL_RenderCopy failed" );
+    RenderCopy( renderer, ascii[color], &src, &rect );
 #ifdef __ANDROID__
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(ascii[color].get(), 255);
@@ -841,9 +852,9 @@ void refresh_display()
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
     SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear( renderer.get() );
-    printErrorIf( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, &dstrect ) != 0, "SDL_RenderCopy failed" );
+    RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
-    printErrorIf( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0, "SDL_RenderCopy failed" );
+    RenderCopy( renderer, display_buffer, NULL, NULL );
 #endif
 #ifdef __ANDROID__
     draw_terminal_size_preview();
@@ -2044,19 +2055,19 @@ void draw_virtual_joystick() {
     dstrect.w = dstrect.h = ( get_option<float>("ANDROID_DEADZONE_RANGE") ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w/2;
     dstrect.y = finger_down_y - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick.get(), NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
 
     // Draw repeat delay range
     dstrect.w = dstrect.h = ( get_option<float>("ANDROID_DEADZONE_RANGE") + get_option<float>("ANDROID_REPEAT_DELAY_RANGE") ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w/2;
     dstrect.y = finger_down_y - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick.get(), NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
 
     // Draw current touch position (50% size of repeat delay range)
     dstrect.w = dstrect.h = dstrect.w/2;
     dstrect.x = finger_down_x + (finger_curr_x - finger_down_x)/2 - dstrect.w/2;
     dstrect.y = finger_down_y + (finger_curr_y - finger_down_y)/2 - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick.get(), NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
 
 }
 
