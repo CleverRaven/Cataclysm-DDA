@@ -4305,10 +4305,9 @@ npc *talk_function::companion_choose( const std::string &skill_tested, int skill
         x++;
         npcs.push_back( npc_entry );
     }
-    npcs.push_back( _( "Cancel" ) );
-    int npc_choice = menu_vec( true,
-                               _( "Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]" ), npcs ) - 1;
-    if( npc_choice < 0 || npc_choice >= ( int )available.size() ) {
+    const int npc_choice = uilist(
+                               _( "Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]" ), npcs );
+    if( npc_choice < 0 || static_cast<size_t>( npc_choice ) >= available.size() ) {
         popup( _( "You choose to send no one..." ) );
         return nullptr;
     }
