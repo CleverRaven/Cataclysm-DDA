@@ -2529,15 +2529,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         return;
     }
     // Choose the crop to harvest
-    int plant_index = 0;
-    plant_names.push_back( _( "Cancel" ) );
-    plant_index = menu_vec( false, _( "Which plants do you want to have harvested?" ),
-                            plant_names ) - 1;
-    if( plant_index == ( int )plant_names.size() - 1 ) {
-        plant_index = -1;
-    }
+    const int plant_index = uilist( _( "Which plants do you want to have harvested?" ), plant_names );
     // Did we cancel?
-    if( plant_index < 0 ) {
+    if( plant_index < 0 || static_cast<size_t>( plant_index ) >= plant_types.size() ) {
         popup( _( "You decided to hold off for now..." ) );
         return;
     }
