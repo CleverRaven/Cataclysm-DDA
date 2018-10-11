@@ -2403,7 +2403,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
         return;
     }
     std::vector<item *> seed_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_seed();
+        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
     } );
     if( seed_inv.empty() ) {
         popup( _( "You have no seeds to plant!" ) );
@@ -2417,22 +2417,14 @@ void talk_function::field_plant( npc &p, const std::string &place )
     std::vector<std::string> seed_names;
     for( auto &seed : seed_inv ) {
         if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
-            if( seed->typeId() !=  "marloss_seed" && seed->typeId() !=  "fungal_seeds" ) {
-                seed_types.push_back( seed->typeId() );
-                seed_names.push_back( seed->tname() );
-            }
+            seed_types.push_back( seed->typeId() );
+            seed_names.push_back( seed->tname() );
         }
     }
     // Choose seed if applicable
-    int seed_index = 0;
-    seed_names.push_back( _( "Cancel" ) );
-    seed_index = menu_vec( false, _( "Which seeds do you wish to have planted?" ),
-                           seed_names ) - 1;
-    if( seed_index == ( int )seed_names.size() - 1 ) {
-        seed_index = -1;
-    }
+    const int seed_index = uilist( _( "Which seeds do you wish to have planted?" ), seed_names );
     // Did we cancel?
-    if( seed_index < 0 ) {
+    if( seed_index < 0 || static_cast<size_t>( seed_index ) >= seed_types.size() ) {
         popup( _( "You saved your seeds for later." ) );
         return;
     }
