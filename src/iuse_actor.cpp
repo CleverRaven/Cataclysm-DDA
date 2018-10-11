@@ -2124,7 +2124,12 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     } );
 
     if( opts.size() > 1 ) {
-        pos += uimenu( true, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+        const int ret = uilist( string_format( _( "Use %s" ), it.tname() ), opts );
+        if( ret < 0 ) {
+            pos = -2;
+        } else {
+            pos += ret;
+        }
     }
 
     if( pos < -1 ) {
