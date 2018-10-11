@@ -2048,8 +2048,11 @@ void iexamine::kiln_full(player &, const tripoint &examp)
 void iexamine::fvat_empty(player &p, const tripoint &examp)
 {
     itype_id brew_type;
+    std::string brew_nname;
     bool to_deposit = false;
+    static const auto vat_volume = units::from_liter( 50 );
     bool vat_full = false;
+    bool ferment = false;
     bool brew_present = false;
     int charges_on_ground = 0;
     auto items = g->m.i_at(examp);
@@ -2066,6 +2069,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
     }
     if( !brew_present ) {
+        add_msg( _( "This keg is empty." ) );
         // @todo: Allow using brews from crafting inventory
         const auto b_inv = p.items_with( []( const item &it ) {
             return it.is_brewable();
@@ -2086,6 +2090,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
         // Choose brew from list
         int b_index = 0;
+        g->draw_sidebar_messages(); // flush messages before popup
         if (b_types.size() > 1) {
             b_index = uilist( _("Use which brew?"), b_names );
         } else { //Only one brew type was in inventory, so it's automatically used
@@ -2098,17 +2103,43 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
         to_deposit = true;
         brew_type = b_types[b_index];
+        brew_nname = item::nname( brew_type );
     } else {
         item &brew = g->m.i_at(examp).front();
         brew_type = brew.typeId();
+        brew_nname = item::nname( brew_type );
         charges_on_ground = brew.charges;
-        if (p.charges_of(brew_type) > 0)
-            if (query_yn(_("Add %s to the vat?"), item::nname( brew_type ).c_str())) {
+        add_msg( _( "This keg contains %s (%d), %0.f%% full." ),
+                 brew.tname().c_str(), brew.charges, brew.volume() * 100.0 / vat_volume );
+        g->draw_sidebar_messages(); // flush messages before popup
+        enum options { ADD_BREW, REMOVE_BREW, START_FERMENT };
+        uilist selectmenu;
+        selectmenu.text = _( "Select an action" );
+        selectmenu.addentry( ADD_BREW, ( p.charges_of( brew_type ) > 0 ), MENU_AUTOASSIGN,
+                             string_format( _( "Add more %s to the vat" ), brew_nname.c_str() ) );
+        selectmenu.addentry( REMOVE_BREW, brew.made_of( LIQUID ), MENU_AUTOASSIGN,
+                             string_format( _( "Remove %s from the vat" ), brew.tname().c_str() ) );
+        selectmenu.addentry( START_FERMENT, true, MENU_AUTOASSIGN, _( "Start fermenting cycle" ) );
+        selectmenu.query();
+        switch( selectmenu.ret ) {
+            case ADD_BREW: {
                 to_deposit = true;
+                break;
             }
+            case REMOVE_BREW: {
+                g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp );
+                return;
+            }
+            case START_FERMENT: {
+                ferment = true;
+                break;
+            }
+            default:
+                add_msg( _( "Never mind." ) );
+                return;
+        }
     }
     if (to_deposit) {
-        static const auto vat_volume = units::from_liter( 50 );
         item brew(brew_type, 0);
         int charges_held = p.charges_of(brew_type);
         brew.charges = charges_on_ground;
@@ -2119,13 +2150,19 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
                 vat_full = true;
             }
         }
-        add_msg(_("Set %s in the vat."), item::nname( brew_type ).c_str());
+        add_msg( _( "Set %s in the vat." ), brew_nname.c_str() );
+        add_msg( _( "The keg now contains %s (%d), %0.f%% full." ),
+                 brew.tname().c_str(), brew.charges, brew.volume() * 100.0 / vat_volume );
         g->m.i_clear(examp);
         //This is needed to bypass NOITEM
         g->m.add_item( examp, brew );
         p.moves -= 250;
+        if( !vat_full ) {
+            g->draw_sidebar_messages(); // flush messages before popup
+            ferment = query_yn( _( "Start fermenting cycle?" ) );
+        }
     }
-    if (vat_full || query_yn(_("Start fermenting cycle?"))) {
+    if (vat_full || ferment) {
         g->m.i_at( examp ).front().set_age( 0 );
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
@@ -2164,7 +2201,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     // Does the vat contain unfermented brew, or already fermented booze?
     // @todo: Allow "recursive brewing" to continue without player having to check on it
     if( brew_i.is_brewable() ) {
-        add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
+        add_msg( _("There's a vat of %s set to ferment there."), brew_i.tname().c_str() );
 
         //@todo: change brew_time to return time_duration
         const time_duration brew_time = brew_i.brewing_time();
@@ -2181,6 +2218,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             return;
         }
 
+        g->draw_sidebar_messages(); // flush messages before popup
         if( query_yn(_("Finish brewing?") ) ) {
             const auto results = brew_i.brewing_results();
 
@@ -2189,7 +2227,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
                 // @todo: Different age based on settings
                 item booze( result, brew_i.birthday(), brew_i.charges );
                 g->m.add_item( examp, booze );
-                if( booze.made_of( LIQUID ) ) {
+                if( booze.made_of_from_type( LIQUID ) ) {
                     add_msg( _("The %s is now ready for bottling."), booze.tname().c_str() );
                 }
             }
@@ -2199,6 +2237,8 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         }
 
         return;
+    } else {
+        add_msg( _("There's a vat of fermented %s there."), brew_i.tname().c_str() );
     }
 
     const std::string booze_name = items_here.front().tname();
