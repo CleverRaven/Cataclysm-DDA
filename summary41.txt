@@ -1,0 +1,99 @@
+Bugfixes Reset selected mission before follower training
+Balance Change long stick deconstruction recipe to not require cutting tool
+Bugfixes Crop locust spawn fix
+Interface Add hint for toggle base trait in wish_mutate menu
+Content Rag bundles
+Features Breaking long sticks as an item action
+Bugfixes Remove irremovable mods after the gun is destroyed by fire
+Balance Remove junk from plain popcorn
+Bugfixes Fix placement of basement stairs
+Infrastructure Handle UTF-8 string when format safemode message
+Infrastructure Handle using consoles with no map data
+Content Added an electric clay kiln, portable and vehicle
+Features Make chickens and other small domestic birds tameable (Chickenfeed)
+Interface Submenu for controlling multiple vehicle electronics
+Features Vehicles: Open all doors
+Bugfixes Ice lab temperature and food decay fix
+Features Mortar & pestle migration to mainline (vanilla) from More Survival Tools Mod
+Bugfixes Breaking stick removal method changed to consume_items
+Content Jsonify military surplus
+Content Jsonify radio station
+Content The Trencher
+Interface Don't show ammo for bows
+Bugfixes Improve handling of butchered flesh
+Infrastructure New callbacks for Lua
+Bugfixes Reload will ignore bows in vicinity
+Balance Acorn meal decay time fix and recipe change
+Bugfixes Capitalize scenario name
+Interface Describe vehicle parts (Part 1a)
+Features Added a chance for small utility/construction vehicles to spawn on construction sites
+I18N Fix localization of computers
+Bugfixes Fix mycus fruit
+I18N Include computer interface strings in translation template
+Bugfixes Fix food causing game to crash at chargen
+Features Player Faction Base
+Bugfixes Fix type conversion mistake in healing_rate_medicine function
+Content First draft of json-augmentation of labs
+Features Artifact dreams
+Content Added chicken cages
+Bugfixes Remove incorrect double negation for pistol crossbow check
+Features Jsonify sport shop
+Bugfixes Bandage effect not working on torso or head
+Bugfixes Easy item repairs should prevent rust
+Balance Replace instant healing with slow healing effects
+Bugfixes Added engine blocks and engine deconstruction recipes
+Infrastructure Added missing NPC name parameter to add_msg call in npc::set_attitude()
+Bugfixes Crafting Cache Fix
+Infrastructure Debug Menu Rename NPCs
+Bugfixes Faction Camp Upgrade Vehicle Check
+Bugfixes Remove/recover camp manager
+Bugfixes Trench and OM Sight Check
+Features Horde improvements: Better displays & zombie lurkers
+Content Add makeshift bandages to improvised first aid kit
+Balance Leadworks guns rework
+Features Rain fills all
+Features Digging and filling pits/mounds rework
+Content Jsonify pharmacy
+Mods Manual CBM installation moved to Bright Nights mod
+Bugfixes Update map cache before spawning monsters
+Bugfixes Fix for bandage effect
+Bugfixes Fix incorrect volume of ethanol in crafting recepies
+Infrastructure Improved resize screen handling
+Balance Corrected dispersion of few rivtech shotguns
+Mods Jsonized part of ranged balance
+Interface Show error message on wielding popup
+Interface Display vehicle descriptions
+Bugfixes Fix empty vehicle part descriptions
+Features More vehicle controls QoL changes
+Bugfixes Fixed examining rubble invoked DIG instead of a CLEAR_RUBBLE
+Bugfixes Adjust Henry Big Boy description to be less wrong
+Features Add Toolbox to Wire Cutting list
+Mods Allow return of reference to monster in Lua
+Bugfixes Stop item dupe
+Features Blacksmith Shop Faction Base Expansion
+Balance Update Atomic Nightlight Vehicle Description
+Bugfixes Making RELOAD_AND_SHOOT weapons correctly drop steadiness after shot
+Mods Allow adding to existing monster groups in json
+Balance Make shaving/haircut interruptable
+Content Blazemod: add magazines and increase clip capacities
+Content Lab json improvements
+Balance More Complete and Rebalanced Vitamins
+Balance Rescaled skill dependent ranged dispersion
+Bugfixes Fix deconstruction failure message
+Bugfixes Fix for garlic bulb split consuming all garlic bulbs
+Balance Automatically balance lab finales against each other
+Balance Arrow/Bolt changes
+Balance Bow/crossbow rebalance
+Balance Anesthesia spawns in stacks of 3
+Mods Safe autodoc mod, a dependency of Bright Nights
+Balance Moves stillsuit's effects to json flags
+Bugfixes Fix inventory letter assignment getting cleared after trade
+Mods Gluten and Lactose free alternative recipes
+Bugfixes Simple Camp Bugs
+Content Spawn dirt below the dumpsters of the fast food restaurant
+Bugfixes Finale shocker/autodoc weight 25, not 2500
+Balance Improve place_nested: Fuzzy neighbor matching and an else option
+Balance Move worn climate control to a JSON flag
+Content New Bow Attachments
+Bugfixes Fix for ranged weapon dispersion UI doesn't do math
+Balance Leadworks underslung shotgun now has masterkey stats
