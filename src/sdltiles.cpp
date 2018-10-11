@@ -289,6 +289,22 @@ void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &textur
     }
     printErrorIf( SDL_RenderCopy( renderer.get(), texture.get(), srcrect, dstrect ) != 0, "SDL_RenderCopy failed" );
 }
+
+SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer, const SDL_Surface_Ptr &surface)
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to create texture with a null renderer";
+        return SDL_Texture_Ptr();
+    }
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to create texture from a null surface";
+        return SDL_Texture_Ptr();
+    }
+    SDL_Texture_Ptr result( SDL_CreateTextureFromSurface( renderer.get(), surface.get() ) );
+    printErrorIf( !result, "SDL_CreateTextureFromSurface failed" );
+    return result;
+}
+
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
@@ -542,10 +558,7 @@ bool WinCreate()
     if ( !touch_joystick_surface ) {
         throw std::runtime_error(IMG_GetError());
     }
-    touch_joystick.reset( SDL_CreateTextureFromSurface( renderer.get(), touch_joystick_surface.get() ) );
-    if( !touch_joystick ) {
-        dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
-    }
+    touch_joystick = CreateTextureFromSurface( renderer, touch_joystick_surface );
     touch_joystick_surface.reset();
 #endif
 
@@ -679,7 +692,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
                                                    rmask, gmask, bmask, amask ) );
     if( !surface ) {
         dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
-        return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
+        return CreateTextureFromSurface( renderer, sglyph );
     }
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
     SDL_Rect dst_rect = { 0, 0, fontwidth * wf, fontheight };
@@ -704,7 +717,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
         sglyph = std::move( surface );
     }
 
-    return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
+    return CreateTextureFromSurface( renderer, sglyph );
 }
 
 void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
@@ -3336,7 +3349,7 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
 
     //convert ascii_surf to SDL_Texture
     for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a) {
-        ascii[a].reset( SDL_CreateTextureFromSurface( renderer.get(), ascii_surf[a].get() ) );
+        ascii[a] = CreateTextureFromSurface( renderer, ascii_surf[a] );
     }
 }
 
