@@ -518,15 +518,15 @@ bool WinCreate()
     }
 
     // Load virtual joystick texture
-    SDL_Surface* touch_joystick_surface = IMG_Load( "android/joystick.png" );
+    SDL_Surface_Ptr touch_joystick_surface( IMG_Load( "android/joystick.png" ) );
     if ( !touch_joystick_surface ) {
         throw std::runtime_error(IMG_GetError());
     }
-    touch_joystick.reset( SDL_CreateTextureFromSurface( renderer.get(), touch_joystick_surface ) );
+    touch_joystick.reset( SDL_CreateTextureFromSurface( renderer.get(), touch_joystick_surface.get() ) );
     if( !touch_joystick ) {
         dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
     }
-    SDL_FreeSurface( touch_joystick_surface );
+    touch_joystick_surface.reset();
 #endif
 
     ClearScreen();
