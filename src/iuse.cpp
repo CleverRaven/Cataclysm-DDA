@@ -5750,13 +5750,13 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
 }
 
-static const std::string &photo_quality_name( const int index )
+static std::string photo_quality_name( const int index )
 {
     static std::array<std::string, 6> const names { {
             //~ photo quality adjective
-            { _( "awful" ) }, { _( "bad" ) }, { _( "not bad" ) }, { _( "good" ) }, { _( "fine" ) }, { _( "exceptional" ) }
+            { translate_marker( "awful" ) }, { translate_marker( "bad" ) }, { translate_marker( "not bad" ) }, { translate_marker( "good" ) }, { translate_marker( "fine" ) }, { translate_marker( "exceptional" ) }
         } };
-    return names[index];
+    return _( names[index].c_str() );
 }
 
 int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
