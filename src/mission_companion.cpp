@@ -4357,9 +4357,8 @@ npc *talk_function::companion_choose_return( npc &p, const std::string &id,
     for( auto &elem : available ) {
         npcs.push_back( ( elem )->name );
     }
-    npcs.push_back( _( "Cancel" ) );
-    int npc_choice = menu_vec( true, _( "Who should return?" ), npcs ) - 1;
-    if( npc_choice >= 0 && size_t( npc_choice ) < available.size() ) {
+    const int npc_choice = uilist( _( "Who should return?" ), npcs );
+    if( npc_choice >= 0 && static_cast<size_t>( npc_choice ) < available.size() ) {
         return available[npc_choice];
     }
     popup( _( "No one returns to your party..." ) );
