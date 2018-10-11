@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-05 16:50+0800\n"
+"POT-Creation-Date: 2018-10-12 00:51+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25130,6 +25130,38 @@ msgid "Nutritious egg laid by a bird."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "chicken egg"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "grouse egg"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "crow egg"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "duck egg"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "goose egg"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "turkey egg"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "pheasant egg"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cockatrice egg"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "reptile egg"
 msgstr ""
 
@@ -28772,14 +28804,14 @@ msgid ""
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
-msgid "gelatinous tank"
-msgid_plural "gelatinous tanks"
+msgid "gelatinous capsule"
+msgid_plural "gelatinous capsules"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for gelatinous tank
-#. ~ Description for gray tank
-#. ~ Description for oozing tank
+#. ~ Description for gelatinous capsule
+#. ~ Description for gray cocoon
+#. ~ Description for oozing pod
 #: lang/json/CONTAINER_from_json.py
 msgid ""
 "While the blob is very eager to be fed, it's not as enthusiastic about "
@@ -28787,8 +28819,26 @@ msgid ""
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
+msgid "gelatinous tank"
+msgid_plural "gelatinous tanks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "gray cocoon"
+msgid_plural "gray cocoons"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "gray tank"
 msgid_plural "gray tanks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "oozing pod"
+msgid_plural "oozing pods"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -33608,10 +33658,9 @@ msgstr[1] ""
 msgid ""
 "A very large 25 liter pot, primarily meant for canning food in glass jars "
 "via the water bath method, though it can cook normal foods just as well.  "
-"Canning foods with it will require a lot of water, but you'll end up with "
-"clean water as a byproduct.  If you're only canning a couple of jars at a "
-"time, you'd fill it up with rocks or something to displace the water above "
-"the lids."
+"Canning foods with it will require a lot of water.  If you're only canning a "
+"couple of jars at a time, you'd fill it up with rocks or something to "
+"displace the water above the lids."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -47382,20 +47431,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "military black box"
-msgid_plural "military black boxes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for military black box
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a black box, seemingly pulled from some sort of military vehicle "
-"wreckage.  If you can find a system to analyze this you may find something "
-"of interest."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
 msgid "blade trap"
 msgid_plural "blade traps"
 msgstr[0] ""
@@ -48300,6 +48335,33 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "electric combat chainsaw (off)"
+msgid_plural "electric combat chainsaws (off)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for electric combat chainsaw (off)
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an electric chainsaw that has been lightened, tuned, and extensively "
+"modified to be a more effective weapon.  Unfortunately these modifications "
+"have rendered it much less effective as a woodcutting tool."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "electric combat chainsaw (on)"
+msgid_plural "electric combat chainsaws (on)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for electric combat chainsaw (on)
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This electric combat chainsaw is on, and is continuously draining power.  "
+"Use it to turn it off."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "concrete mixer"
 msgid_plural "concrete mixers"
 msgstr[0] ""
@@ -48529,6 +48591,35 @@ msgstr[1] ""
 msgid ""
 "A long wooden pole with chainsaws impractically attached to both ends.  They "
 "are currently on and draining gasoline; use this item to turn them off."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "electric chainsaw lajatang (off)"
+msgid_plural "electric chainsaw lajatangs (off)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for electric chainsaw lajatang (off)
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A long wooden pole with electric chainsaws impractically attached to both "
+"ends.  The product of either genius or insanity, but not both; the weight "
+"ensures that only someone both strong and very skilled could possibly hope "
+"to use it."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "electric chainsaw lajatang (on)"
+msgid_plural "electric chainsaw lajatangs (on)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for electric chainsaw lajatang (on)
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A long wooden pole with electric chainsaws impractically attached to both "
+"ends.  They are currently on and draining power; use this item to turn them "
+"off."
 msgstr ""
 
 #. ~ Description for cutlass
@@ -50657,14 +50748,12 @@ msgstr[1] ""
 #. ~ Use action gerund for permanent marker.
 #. ~ Use action gerund for survival marker.
 #: lang/json/TOOL_from_json.py
-#: src/iuse.cpp
 msgid "Written"
 msgstr ""
 
 #. ~ Use action verb for permanent marker.
 #. ~ Use action verb for survival marker.
 #: lang/json/TOOL_from_json.py
-#: src/iuse.cpp
 msgid "Write"
 msgstr ""
 
@@ -52685,6 +52774,20 @@ msgid ""
 "A set of wiring and electrodes for applying a direct current, usually to a "
 "liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle "
 "battery to use."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "military black box"
+msgid_plural "military black boxes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for military black box
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a black box, seemingly pulled from some sort of military vehicle "
+"wreckage.  If you can find a system to analyze this you may find something "
+"of interest."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
@@ -60996,7 +61099,7 @@ msgstr ""
 #: lang/json/furniture_from_json.py
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp
+#: src/iuse.cpp
 msgid "crunch!"
 msgstr ""
 
@@ -70282,7 +70385,7 @@ msgid "Wield"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
-msgid "Select Unarmed Style"
+msgid "Select Martial Arts Style"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -82079,6 +82182,10 @@ msgstr ""
 msgid ""
 "I'm looking for raptor mutagen... this world is no place for humans anymore, "
 "and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_from_json.py
+msgid "Tester"
 msgstr ""
 
 #: lang/json/npc_from_json.py
@@ -99727,6 +99834,118 @@ msgid ""
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
+msgid "This is a test conversation that shouldn't appear in the game."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a basic test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a strength test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a dexterity test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is an intelligence test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a perception test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a low strength test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a low dexterity test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a low intelligence test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a low perception test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a trait test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a wearing test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is an npc effect test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a player effect test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a cash test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is an npc service test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is an npc available test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is an or trait test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is an and cash, available, trait test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a complex nested test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a u_add_effect - infection response"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a npc_add_effect - infection response"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a u_add_trait - FED MARSHALL response"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a npc_add_trait - FED MARSHALL response"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a u_buy_item bottle of beer response"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a u_buy_item plastic bottle response"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a u_spend_cash response"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a multi-effect response"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
 msgid "Heya, scav."
 msgstr ""
 
@@ -105688,6 +105907,13 @@ msgid ""
 "storage battery, if you can lift the battery."
 msgstr ""
 
+#. ~ Description for military black box
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An armored black box, a device meant to record and preserve data of a "
+"military vehicle in the field in case it'd get destroyed."
+msgstr ""
+
 #. ~ Description for minireactor
 #: lang/json/vehicle_part_from_json.py
 msgid ""
@@ -107888,7 +108114,7 @@ msgid "capsule (10L)"
 msgstr ""
 
 #. ~ Description for capsule (10L)
-#. ~ Description for cocoon (25L)
+#. ~ Description for cocoon (30L)
 #. ~ Description for pod (20L)
 #: lang/json/vehicle_part_from_json.py
 msgid ""
@@ -107897,6 +108123,10 @@ msgid ""
 "automatically draw fuel from the tank when the engine is on.  If filled with "
 "water, you can access the water from a water faucet, if one is installed in "
 "the vehicle.  You can also use a rubber hose to siphon liquids out of a tank."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel tank (60L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -108048,7 +108278,11 @@ msgid "gray harness"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "cocoon (25L)"
+msgid "cocoon (30L)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray tank (100L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -108130,6 +108364,10 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "pod (20L)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze tank (80L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -112168,7 +112406,7 @@ msgstr ""
 msgid "Wielding:"
 msgstr ""
 
-#: src/character.cpp src/iuse.cpp src/iuse_actor.cpp
+#: src/character.cpp src/iuse_actor.cpp
 msgid "Nothing"
 msgstr ""
 
@@ -113332,9 +113570,17 @@ msgstr ""
 msgid "ERROR: Data bank destroyed."
 msgstr ""
 
+#: src/computer.cpp
+msgid "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... "
+msgstr ""
+
 #. ~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
 #: src/computer.cpp
+#, c-format
 msgid ""
+"\n"
+"REFUGEE CENTER FOUND! LOCATION: %d %s\n"
+"\n"
 "IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n"
 "THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n"
 "THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n"
@@ -115308,8 +115554,29 @@ msgstr ""
 msgid "You could harvest the following things from it:"
 msgstr ""
 
-#: src/dialogue.h
-msgid "Do you wish to give your companion additional items?"
+#: src/dialogue_win.cpp
+#, c-format
+msgid "Dialogue: %s"
+msgstr ""
+
+#: src/dialogue_win.cpp
+msgid "Your response:"
+msgstr ""
+
+#: src/dialogue_win.cpp
+msgid "Shift+L: Look at"
+msgstr ""
+
+#: src/dialogue_win.cpp
+msgid "Shift+S: Size up stats"
+msgstr ""
+
+#: src/dialogue_win.cpp
+msgid "Shift+Y: Yell"
+msgstr ""
+
+#: src/dialogue_win.cpp
+msgid "Shift+O: Check opinion"
 msgstr ""
 
 #: src/dump.cpp
@@ -115651,10 +115918,10 @@ msgstr ""
 
 #: src/editmap.cpp src/game.cpp
 #: src/game.cpp src/iexamine.cpp src/inventory_ui.cpp
-#: src/iuse.cpp
 #: src/iuse_actor.cpp
 #: src/mission_companion.cpp
-#: src/mission_companion.cpp src/pickup.cpp src/turret.cpp
+#: src/mission_companion.cpp src/npctalk_funcs.cpp
+#: src/npctalk_funcs.cpp src/pickup.cpp src/turret.cpp
 #: src/vehicle_use.cpp
 msgid "Cancel"
 msgstr ""
@@ -119446,7 +119713,7 @@ msgstr ""
 #: src/game.cpp
 msgid ""
 "It's very well supplied and even without extra fuel might burn for at least "
-"s part of a day."
+"a part of a day."
 msgstr ""
 
 #: src/game.cpp
@@ -121898,7 +122165,7 @@ msgid "m: Combat"
 msgstr ""
 
 #: src/help.cpp
-msgid "n: Unarmed styles"
+msgid "n: Martial arts styles"
 msgstr ""
 
 #: src/help.cpp
@@ -122532,22 +122799,24 @@ msgstr ""
 
 #: src/help.cpp
 msgid ""
-"For the unarmed fighter, a variety of fighting styles are available. You can "
-"start with your choice of a single, commonly-taught style by starting with "
-"the Martial Arts Training trait. Many, many more can be found in their own "
-"traits, learned from manuals or by taking lessons from wandering masters."
+"A variety of fighting styles are available, particularly for the unarmed "
+"fighter. You can start with your choice of a single, commonly-taught style "
+"by starting with the Martial Arts Training trait. Many, many more can be "
+"found in their own traits, learned from manuals or by taking lessons from "
+"wandering masters."
 msgstr ""
 
 #: src/help.cpp
 #, c-format
 msgid ""
-"To select a fighting style, press %s. If you are already unarmed, this will "
-"make you start using the selected style. Otherwise, it will be locked in as "
-"your default unarmed style. To start using it, wield a relevant weapon or "
-"empty your hands, by pressing %s, then the key for the item you are "
-"currently wielding. If you wish to prevent yourself from accidentally "
-"wielding weapons taken from the ground, enable \"Keep hands free\" found in "
-"the styles menu."
+"To select a fighting style, press %s. Some styles are relevant only when you "
+"are unarmed, others are compatible with or require certain weapons. If your "
+"current weapon is compatible with the chosen style, you will start using the "
+"selected style immediately. Otherwise, it will be locked in as your default "
+"style. To start using it, wield a relevant weapon or empty your hands, by "
+"pressing %s, then the key for the item you are currently wielding. If you "
+"wish to prevent yourself from accidentally wielding weapons taken from the "
+"ground, enable \"Keep hands free\" found in the styles menu."
 msgstr ""
 
 #: src/help.cpp
@@ -125797,7 +126066,7 @@ msgstr ""
 msgid "It will be done in %s."
 msgstr ""
 
-#: src/item.cpp src/iuse.cpp src/iuse_actor.cpp
+#: src/item.cpp src/iuse_actor.cpp
 #, c-format
 msgid "%1$s on the %2$s is: "
 msgstr ""
@@ -126354,35 +126623,6 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You're already smoking a %s!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You can't %s an item that's not solid!"
-msgstr ""
-
-#: src/iuse.cpp src/iuse_actor.cpp
-#, c-format
-msgid "You can't %1$s %2$s because of the material it is made of."
-msgstr ""
-
-#: src/iuse.cpp src/iuse_actor.cpp
-msgid "(To delete, input one '.')\n"
-msgstr ""
-
-#: src/iuse.cpp src/iuse_actor.cpp
-#, c-format
-msgid "%s what?"
-msgstr ""
-
-#: src/iuse.cpp src/iuse_actor.cpp
-#, c-format
-msgid "%s on what?"
-msgstr ""
-
-#: src/iuse.cpp
-#: src/iuse_actor.cpp
-msgid "You do not have that item!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -126977,6 +127217,11 @@ msgid "Enhance what?"
 msgstr ""
 
 #: src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp
+msgid "You do not have that item!"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You can only tailor your clothes!"
 msgstr ""
 
@@ -127079,10 +127324,6 @@ msgid "Modify what?"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "\"Red\""
-msgstr ""
-
-#: src/iuse.cpp
 msgid "Which signal should activate the item?:"
 msgstr ""
 
@@ -127092,6 +127333,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "\"Green\""
+msgstr ""
+
+#: src/iuse.cpp
+msgid "\"Red\""
 msgstr ""
 
 #: src/iuse.cpp
@@ -127321,7 +127566,13 @@ msgid "You already know all this book has to teach."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You learn the essential elements of the style."
+#, c-format
+msgid "You learn the essential elements of %s."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s to select martial arts style."
 msgstr ""
 
 #: src/iuse.cpp
@@ -127477,6 +127728,14 @@ msgid "You yank the cord, but nothing happens."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "With a snarl, the electric combat chainsaw screams to life!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You flip the switch, but nothing happens."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "With a roar, the chainsaw leaps to life!"
 msgstr ""
 
@@ -127485,15 +127744,19 @@ msgid "With a roar, the electric chainsaw leaps to life!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You flip the switch, but nothing happens."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "With a roar, the chainsaws leap to life!"
 msgstr ""
 
 #: src/iuse.cpp
 msgid "You yank the cords, but nothing happens."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "With a buzz, the chainsaws leap to life!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You flip the on switch, but nothing happens."
 msgstr ""
 
 #: src/iuse.cpp
@@ -127527,6 +127790,14 @@ msgid "Your combat chainsaw growls."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "electric combat chainsaw"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your electric combat chainsaw growls."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "chainsaw"
 msgstr ""
 
@@ -127548,6 +127819,14 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Your chainsaws rumble."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "electric chainsaw lajatang"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your chainsaws buzz."
 msgstr ""
 
 #: src/iuse.cpp
@@ -127845,15 +128124,15 @@ msgid "Insufficient power"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Zap something"
-msgstr ""
-
-#: src/iuse.cpp
 msgid "tactical tonfa"
 msgstr ""
 
 #: src/iuse.cpp
 msgid "Turn on light"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Zap something"
 msgstr ""
 
 #: src/iuse.cpp
@@ -127870,10 +128149,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Turn off light"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "cancel"
 msgstr ""
 
 #: src/iuse.cpp
@@ -128182,11 +128457,11 @@ msgid "The %s winks out."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "extinguish"
+msgid "torch (lit)"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "torch (lit)"
+msgid "extinguish"
 msgstr ""
 
 #: src/iuse.cpp
@@ -128373,22 +128648,6 @@ msgstr ""
 msgid "You're filled with euphoria!"
 msgstr ""
 
-#: src/iuse.cpp src/iuse_actor.cpp
-msgid "An item"
-msgstr ""
-
-#: src/iuse.cpp src/iuse_actor.cpp
-msgid "The ground"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Write on what?"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Write what?"
-msgstr ""
-
 #: src/iuse.cpp
 msgid "(To delete, input one '.')"
 msgstr ""
@@ -128440,15 +128699,15 @@ msgid "You need to be next to fire to heat something up with the %s."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Using hotplate:"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Cauterize wound"
 msgstr ""
 
 #: src/iuse.cpp
 msgid "Heat food"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Using hotplate:"
 msgstr ""
 
 #: src/iuse.cpp
@@ -128662,11 +128921,11 @@ msgid "You cannot read a computer screen."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Override IFF protocols"
+msgid "Welcome to hackPRO!:"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Welcome to hackPRO!:"
+msgid "Override IFF protocols"
 msgstr ""
 
 #: src/iuse.cpp
@@ -129851,6 +130110,11 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 #, c-format
+msgid "You can't %1$s %2$s because of the material it is made of."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
 msgid "%s meaning?"
 msgstr ""
 
@@ -129860,6 +130124,28 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "It's a note"
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "(To delete, input one '.')\n"
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "%s what?"
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "%s on what?"
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "The ground"
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "An item"
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -132762,30 +133048,6 @@ msgid "<color_%s>%s</color>."
 msgstr ""
 
 #: src/mission_companion.cpp
-msgid "You have no bionics to install!"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Which bionic do you wish to have installed?"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You decide to hold off..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You can't afford the procedure..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You don't have any bionics installed..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Which bionic do you wish to uninstall?"
-msgstr ""
-
-#: src/mission_companion.cpp
 msgid "Outpost Missions"
 msgstr ""
 
@@ -134939,6 +135201,10 @@ msgstr ""
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s wasn't interested..."
+msgstr ""
+
+#: src/mission_companion.h
+msgid "Do you wish to give your companion additional items?"
 msgstr ""
 
 #: src/mission_end.cpp
@@ -138757,15 +139023,6 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Dialogue: %s"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Your response:"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
 msgid "%s talked to you."
 msgstr ""
 
@@ -139873,7 +140130,9 @@ msgstr ""
 msgid "I'll try and find your commander then..."
 msgstr ""
 
+#. ~ %1%s is the NPC name, %2$s is an item
 #: src/npctalk.cpp
+#: src/npctalk.cpp src/npctalk_funcs.cpp
 #, c-format
 msgid "%1$s gives you a %2$s"
 msgstr ""
@@ -140565,34 +140824,6 @@ msgid "OBEY ME!"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Reward"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Trade"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "I'm willing to pay %s per batch for a total of %s"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%1$s waits at %2$s"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s is posted as a guard."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s begins to follow you."
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "Would you like to review the faction camp description?"
 msgstr ""
 
@@ -140658,77 +140889,6 @@ msgstr ""
 msgid "%s has abandoned the camp."
 msgstr ""
 
-#: src/npctalk.cpp
-#, c-format
-msgid "%s starts ignoring you."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "You start a fight with %s!"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s has nothing to give!"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s gives you a decent haircut..."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s gives you a decent shave..."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s drops the logs off in the garage..."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s turns hostile!"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgctxt "memorial_male"
-msgid "%s became hostile."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgctxt "memorial_female"
-msgid "%s became hostile."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s turns to flee!"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s leaves."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s feels less threatened by you."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "Pause to stay still.  Any movement may cause %s to attack."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Pay:"
-msgstr ""
-
 #: src/npctalk.cpp src/player.cpp
 msgid "fists"
 msgstr ""
@@ -140750,22 +140910,6 @@ msgstr ""
 #: src/npctalk.cpp
 msgctxt "punctuation"
 msgid "!"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Shift+L: Look at"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Shift+S: Size up stats"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Shift+Y: Yell"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Shift+O: Check opinion"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -140802,62 +140946,10 @@ msgctxt "you say something"
 msgid "You: %s"
 msgstr ""
 
-#: src/npctalk.cpp
-msgid ""
-"TAB key to switch lists, letters to pick items, Enter to finalize, Esc to "
-"quit,\n"
-"? to get information on an item."
-msgstr ""
-
+#. ~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
 #: src/npctalk.cpp
 #, c-format
-msgid "Volume: %s %s, Weight: %.1f %s"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Exchange"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "Profit %s"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "Cost %s"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s: %s"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "You: %s"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "< Back"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "More >"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Examine which item?"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "Not enough cash!  You have %s, price is %s."
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s can't carry all that."
+msgid "%1$s gives you %2$d %3$s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -140933,6 +141025,187 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Select a follower"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "Reward"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "Trade"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "I'm willing to pay %s per batch for a total of %s"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%1$s waits at %2$s"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s is posted as a guard."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s begins to follow you."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s starts ignoring you."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "You start a fight with %s!"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "You have no bionics to install!"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "Which bionic do you wish to have installed?"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "You decide to hold off..."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "You can't afford the procedure..."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "You don't have any bionics installed..."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "Which bionic do you wish to uninstall?"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s has nothing to give!"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s gives you a decent haircut..."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s gives you a decent shave..."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s drops the logs off in the garage..."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s turns hostile!"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "%s became hostile."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid "%s became hostile."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s turns to flee!"
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s leaves."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "%s feels less threatened by you."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+#, c-format
+msgid "Pause to stay still.  Any movement may cause %s to attack."
+msgstr ""
+
+#: src/npctalk_funcs.cpp
+msgid "Pay:"
+msgstr ""
+
+#: src/npctrade.cpp
+msgid ""
+"TAB key to switch lists, letters to pick items, Enter to finalize, Esc to "
+"quit,\n"
+"? to get information on an item."
+msgstr ""
+
+#: src/npctrade.cpp
+#, c-format
+msgid "Volume: %s %s, Weight: %.1f %s"
+msgstr ""
+
+#: src/npctrade.cpp
+msgid "Exchange"
+msgstr ""
+
+#: src/npctrade.cpp
+#, c-format
+msgid "Profit %s"
+msgstr ""
+
+#: src/npctrade.cpp
+#, c-format
+msgid "Cost %s"
+msgstr ""
+
+#: src/npctrade.cpp
+#, c-format
+msgid "%s: %s"
+msgstr ""
+
+#: src/npctrade.cpp
+#, c-format
+msgid "You: %s"
+msgstr ""
+
+#: src/npctrade.cpp
+msgid "< Back"
+msgstr ""
+
+#: src/npctrade.cpp
+msgid "More >"
+msgstr ""
+
+#: src/npctrade.cpp
+msgid "Examine which item?"
+msgstr ""
+
+#: src/npctrade.cpp
+#, c-format
+msgid "Not enough cash!  You have %s, price is %s."
+msgstr ""
+
+#: src/npctrade.cpp
+#, c-format
+msgid "%s can't carry all that."
 msgstr ""
 
 #: src/options.cpp
@@ -147797,10 +148070,6 @@ msgstr ""
 
 #: src/vehicle_use.cpp
 msgid "Toggle which?"
-msgstr ""
-
-#: src/vehicle_use.cpp
-msgid "Finish"
 msgstr ""
 
 #: src/vehicle_use.cpp
