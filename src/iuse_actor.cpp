@@ -1446,11 +1446,10 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
-        uimenu imenu;
+        uilist imenu;
         imenu.text = string_format( _( "%s on what?" ), _( verb.c_str() ) );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
-        imenu.addentry( 2, true, MENU_AUTOASSIGN, _( "Cancel" ) );
         imenu.query();
         choice = imenu.ret;
     } else if( on_terrain ) {
@@ -1459,7 +1458,7 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
         choice = 1;
     }
 
-    if( choice < 0 || choice > 2 ) {
+    if( choice < 0 || choice > 1 ) {
         return 0;
     }
 
