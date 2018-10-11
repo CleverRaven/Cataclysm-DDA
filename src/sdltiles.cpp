@@ -237,7 +237,7 @@ static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat_Ptr format;
 static SDL_Texture_Ptr display_buffer;
 #ifdef __ANDROID__
-static SDL_Texture *touch_joystick;
+static SDL_Texture_Ptr touch_joystick;
 #endif
 static int WindowWidth;        //Width of the actual window, not the curses window
 static int WindowHeight;       //Height of the actual window, not the curses window
@@ -522,7 +522,7 @@ bool WinCreate()
     if ( !touch_joystick_surface ) {
         throw std::runtime_error(IMG_GetError());
     }
-    touch_joystick = SDL_CreateTextureFromSurface( renderer.get(), touch_joystick_surface );
+    touch_joystick.reset( SDL_CreateTextureFromSurface( renderer.get(), touch_joystick_surface ) );
     if( !touch_joystick ) {
         dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
     }
@@ -572,10 +572,7 @@ void cleanup_sound();
 void WinDestroy()
 {
 #ifdef __ANDROID__
-    if ( touch_joystick ) {
-        SDL_DestroyTexture( touch_joystick );
-        touch_joystick = NULL;
-    }
+    touch_joystick.reset();
 #endif
 
 #ifdef SDL_SOUND
@@ -2039,7 +2036,7 @@ void draw_virtual_joystick() {
         is_two_finger_touch)
         return;
 
-    SDL_SetTextureAlphaMod( touch_joystick, get_option<int>("ANDROID_VIRTUAL_JOYSTICK_OPACITY")*0.01f*255.0f );
+    SDL_SetTextureAlphaMod( touch_joystick.get(), get_option<int>("ANDROID_VIRTUAL_JOYSTICK_OPACITY")*0.01f*255.0f );
 
     float longest_window_edge = std::max(WindowWidth, WindowHeight);
 
@@ -2049,19 +2046,19 @@ void draw_virtual_joystick() {
     dstrect.w = dstrect.h = ( get_option<float>("ANDROID_DEADZONE_RANGE") ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w/2;
     dstrect.y = finger_down_y - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick, NULL, &dstrect );
+    SDL_RenderCopy( renderer.get(), touch_joystick.get(), NULL, &dstrect );
 
     // Draw repeat delay range
     dstrect.w = dstrect.h = ( get_option<float>("ANDROID_DEADZONE_RANGE") + get_option<float>("ANDROID_REPEAT_DELAY_RANGE") ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w/2;
     dstrect.y = finger_down_y - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick, NULL, &dstrect );
+    SDL_RenderCopy( renderer.get(), touch_joystick.get(), NULL, &dstrect );
 
     // Draw current touch position (50% size of repeat delay range)
     dstrect.w = dstrect.h = dstrect.w/2;
     dstrect.x = finger_down_x + (finger_curr_x - finger_down_x)/2 - dstrect.w/2;
     dstrect.y = finger_down_y + (finger_curr_y - finger_down_y)/2 - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick, NULL, &dstrect );
+    SDL_RenderCopy( renderer.get(), touch_joystick.get(), NULL, &dstrect );
 
 }
 
