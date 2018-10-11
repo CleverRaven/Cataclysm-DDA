@@ -675,7 +675,7 @@ Note: You may need to bash the close button repeatedly. Or use the task manager 
 
 #### 4. Open an editor that preserves line-endings
 
-Note: Wordpad should do. Or Notepadd++.
+Note: Wordpad should do. Or Notepad++.
 
 #### 5. Open `C:\msys64\etc\pacman.conf` and change:
 
