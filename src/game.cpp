@@ -8942,6 +8942,7 @@ bool game::plfire()
     bool lost_weapon = ( args.held && &u.weapon != args.relevant );
     bool failed_check = !plfire_check( args );
     if( lost_weapon || failed_check ) {
+        u.cancel_activity();
         return false;
     }
 
