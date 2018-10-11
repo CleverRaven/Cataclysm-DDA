@@ -5398,9 +5398,8 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         rec_options.push_back( _( "Make Offer" ) );
         rec_options.push_back( _( "Not Interested" ) );
 
-        rec_m = menu_vec( true, description.c_str(), rec_options ) - 1;
-        int sz = rec_options.size();
-        if( rec_m < 0 || rec_m >= sz ) {
+        rec_m = uilist( description, rec_options );
+        if( rec_m < 0 || rec_m == 3 || static_cast<size_t>( rec_m ) >= rec_options.size() ) {
             popup( _( "You decide you aren't interested..." ) );
             return;
         }
