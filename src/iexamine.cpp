@@ -1972,8 +1972,8 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
         add_msg( _("This kiln is ready to be fired, but you have no fire source.") );
         return;
     } else {
-        add_msg( _( "This kiln contains %sL of material, and is ready to be fired." ),
-                 format_volume( total_volume ) );
+        add_msg( _( "This kiln contains %s %s of material, and is ready to be fired." ),
+                 format_volume( total_volume ), volume_units_abbr() );
         g->draw_sidebar_messages(); // flush messages before popup
         if( !query_yn( _( "Fire the kiln?" ) ) ) {
             return;
