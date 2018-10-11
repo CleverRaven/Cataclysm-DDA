@@ -974,7 +974,9 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
     const auto center = p.global_omt_location();
     for( auto &omt : omt_types ) {
-        reveal_targets( tripoint( center.x, center.y, 0 ), omt, 0 );
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++) {
+            reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );
+        }
     }
     if( !message.empty() ) {
         p.add_msg_if_player( m_good, "%s", _( message.c_str() ) );
