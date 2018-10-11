@@ -3574,10 +3574,8 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
     mods.erase( std::remove_if( mods.begin(), mods.end(), std::bind( &item::is_irremovable,
                                 std::placeholders::_1 ) ), mods.end() );
 
-    uimenu prompt;
-    prompt.selected = 0;
+    uilist prompt;
     prompt.text = _( "Remove which modification?" );
-    prompt.return_invalid = true;
 
     for( size_t i = 0; i != mods.size(); ++i ) {
         prompt.addentry( i, true, -1, mods[ i ]->tname() );
