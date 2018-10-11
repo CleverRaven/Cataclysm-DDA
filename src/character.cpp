@@ -2407,11 +2407,18 @@ int Character::throw_range( const item &it ) const
     return ret;
 }
 
+const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
-    static const std::vector<material_id> fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
     return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+}
+bool Character::made_of_any( const std::set<material_id> &ms ) const
+{
+    // TODO: check for mutations that change this.
+    return std::any_of( fleshy.begin(), fleshy.end(), [&ms]( const material_id & e ) {
+        return ms.count( e );
+    } );
 }
 
 bool Character::is_blind() const

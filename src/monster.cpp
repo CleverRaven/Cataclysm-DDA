@@ -758,6 +758,11 @@ bool monster::made_of( const material_id &m ) const
     return type->made_of( m );
 }
 
+bool monster::made_of_any( const std::set<material_id> &ms ) const
+{
+    return type->made_of_any( ms );
+}
+
 bool monster::made_of( phase_id p ) const
 {
     return type->phase == p;
