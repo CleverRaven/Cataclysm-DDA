@@ -2267,6 +2267,7 @@ bool iexamine::has_keg( const tripoint &pos )
 
 void iexamine::keg(player &p, const tripoint &examp)
 {
+    none( p,examp );
     const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
@@ -2280,6 +2281,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         }
     }
     if( !liquid_present ) {
+        add_msg( m_info, _( "It is empty." ) );
         // Get list of all drinks
         auto drinks_inv = p.items_with( []( const item &it ) {
             return it.made_of( LIQUID );
@@ -2306,6 +2308,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         }
         // Choose drink to store in keg from list
         int drink_index = 0;
+        g->draw_sidebar_messages(); // flush messages before popup
         if( drink_types.size() > 1 ) {
             drink_index = uilist( _( "Store which drink?" ), drink_names );
             if( drink_index < 0 || static_cast<size_t>( drink_index ) >= drink_types.size() ) {
@@ -2347,6 +2350,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         auto drink = g->m.i_at(examp).begin();
         const auto drink_tname = drink->tname();
         const auto drink_nname = item::nname( drink->typeId() );
+        g->draw_sidebar_messages(); // flush messages before popup
         enum options {
             FILL_CONTAINER,
             HAVE_A_DRINK,
@@ -2354,9 +2358,10 @@ void iexamine::keg(player &p, const tripoint &examp)
             EXAMINE,
         };
         uilist selectmenu;
-        selectmenu.addentry( FILL_CONTAINER, true, MENU_AUTOASSIGN, _("Fill a container with %s"),
-                            drink_tname.c_str() );
-        selectmenu.addentry( HAVE_A_DRINK, drink->is_food(), MENU_AUTOASSIGN, _("Have a drink") );
+        selectmenu.addentry( FILL_CONTAINER, drink->made_of( LIQUID ), MENU_AUTOASSIGN,
+                             _("Fill a container with %s"), drink_tname.c_str() );
+        selectmenu.addentry( HAVE_A_DRINK, drink->is_food() && drink->made_of( LIQUID ),
+                             MENU_AUTOASSIGN, _("Have a drink") );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _("Refill") );
         selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _("Examine") );
 
@@ -2385,11 +2390,11 @@ void iexamine::keg(player &p, const tripoint &examp)
             return;
 
         case REFILL: {
-            int charges_held = p.charges_of(drink->typeId());
             if( drink->volume() >= keg_cap ) {
                 add_msg(_("The %s is completely full."), keg_name.c_str());
                 return;
             }
+            int charges_held = p.charges_of(drink->typeId());
             if (charges_held < 1) {
                 add_msg(m_info, _("You don't have any %1$s to fill the %2$s with."),
                         drink_nname.c_str(), keg_name.c_str());
@@ -2404,7 +2409,6 @@ void iexamine::keg(player &p, const tripoint &examp)
         }
 
         case EXAMINE: {
-            add_msg(m_info, _("That is a %s."), keg_name.c_str());
             add_msg(m_info, _("It contains %s (%d), %0.f%% full."),
                     drink_tname.c_str(), drink->charges, drink->volume() * 100.0 / keg_cap );
             return;
