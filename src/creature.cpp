@@ -38,6 +38,20 @@ const std::map<std::string, m_size> Creature::size_map = {
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}
 };
 
+const std::set<material_id> Creature::cmat_flesh{
+    material_id( "flesh" ), material_id( "iflesh" )
+};
+const std::set<material_id> Creature::cmat_fleshnveg{
+    material_id( "flesh" ),  material_id( "iflesh" ), material_id( "veggy" )
+};
+const std::set<material_id> Creature::cmat_flammable{
+    material_id( "paper" ), material_id( "powder" ), material_id( "wood" ),
+    material_id( "cotton" ), material_id( "wool" )
+};
+const std::set<material_id> Creature::cmat_flameres{
+    material_id( "stone" ), material_id( "kevlar" ), material_id( "steel" )
+};
+
 Creature::Creature()
 {
     moves = 0;

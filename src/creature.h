@@ -389,6 +389,11 @@ class Creature
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
+        // standard creature material sets
+        static const std::set<material_id> cmat_flesh;
+        static const std::set<material_id> cmat_fleshnveg;
+        static const std::set<material_id> cmat_flammable;
+        static const std::set<material_id> cmat_flameres;
         virtual field_id bloodType() const = 0;
         virtual field_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
