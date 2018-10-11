@@ -2286,9 +2286,8 @@ long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    uimenu menu;
+    uilist menu;
     menu.text = _( "Store ammo" );
-    menu.return_invalid = true;
 
     std::vector<std::function<void()>> actions;
 
