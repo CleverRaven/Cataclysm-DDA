@@ -3485,11 +3485,9 @@ bool talk_function::camp_expansion_select( npc &p )
         pos_expansion_name.push_back( it->first );
         pos_expansion_name_id.push_back( it->second );
     }
-    pos_expansion_name.push_back( _( "Cancel" ) );
 
-    int expan = menu_vec( true, _( "Select an expansion:" ), pos_expansion_name ) - 1;
-    int sz = pos_expansion_name.size();
-    if( expan < 0 || expan >= sz ) {
+    const int expan = uilist( _( "Select an expansion:" ), pos_expansion_name );
+    if( expan < 0 || static_cast<size_t>( expan ) >= pos_expansion_name_id.size() ) {
         popup( _( "You choose to wait..." ) );
         return false;
     }
