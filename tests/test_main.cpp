@@ -26,7 +26,7 @@ typedef std::vector<name_value_pair_t> option_overrides_t;
 // If tag is found as a prefix of any argument in arg_vec, the argument is
 // removed from arg_vec and the argument suffix after tag is returned.
 // Otherwise, an empty string is returned and arg_vec is unchanged.
-std::string extract_argument( std::vector<const char *> &arg_vec, std::string tag )
+std::string extract_argument( std::vector<const char *> &arg_vec, const std::string &tag )
 {
     std::string arg_rest;
     for( auto iter = arg_vec.begin(); iter != arg_vec.end(); iter++ ) {
@@ -147,7 +147,7 @@ bool check_remove_flags( std::vector<const char *> &cont, const std::vector<cons
 
 // Split s on separator sep, returning parts as a pair. Returns empty string as
 // second value if no separator found.
-name_value_pair_t split_pair( std::string s, const char sep )
+name_value_pair_t split_pair( const std::string &s, const char sep )
 {
     size_t pos = s.find( sep );
     if( pos != std::string::npos ) {

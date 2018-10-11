@@ -3805,9 +3805,9 @@ void smoker_finalize(player &, const tripoint &examp)
         } else if( item_it.typeId() == "human_flesh" ) {
             product = "human_smoked";
         } else {
-            product = "";
+            product.clear();
         }
-        if( product != "" ) {
+        if( !product.empty() ) {
             item result( product, calendar::turn );
             result.charges = item_it.charges;
             //g->m.add_item( examp, result );
@@ -3817,7 +3817,7 @@ void smoker_finalize(player &, const tripoint &examp)
     g->m.furn_set( examp, next_smoker_type );
 }
 
-void smoker_load_food( player &p, const tripoint &examp, units::volume remaining_capacity )
+void smoker_load_food( player &p, const tripoint &examp, const units::volume &remaining_capacity )
 {
     std::vector<item_comp> comps;
     std::list<item> moved;

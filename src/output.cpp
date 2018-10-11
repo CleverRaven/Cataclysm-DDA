@@ -296,7 +296,8 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
     return textformatted.size();
 }
 
-void multipage( const catacurses::window &w, std::vector<std::string> text, std::string caption,
+void multipage( const catacurses::window &w, const std::vector<std::string> &text,
+                const std::string &caption,
                 int begin_y )
 {
     int height = getmaxy( w );
@@ -335,7 +336,7 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
 }
 
 // returns single string with left aligned name and right aligned value
-std::string name_and_value( std::string name, std::string value, int field_width )
+std::string name_and_value( const std::string &name, const std::string &value, int field_width )
 {
     int name_width = utf8_width( name );
     int value_width = utf8_width( value );
@@ -349,7 +350,7 @@ std::string name_and_value( std::string name, std::string value, int field_width
     return result.str();
 }
 
-std::string name_and_value( std::string name, int value, int field_width )
+std::string name_and_value( const std::string &name, int value, int field_width )
 {
     return name_and_value( name, string_format( "%d", value ), field_width );
 }
@@ -480,7 +481,7 @@ void draw_custom_border( const catacurses::window &w, const catacurses::chtype l
     wattroff( w, FG );
 }
 
-void draw_border( const catacurses::window &w, nc_color border_color, std::string title,
+void draw_border( const catacurses::window &w, nc_color border_color, const std::string &title,
                   nc_color title_color )
 {
     wattron( w, border_color );
@@ -1245,7 +1246,7 @@ std::string word_rewrap( const std::string &in, int width )
     return o.str();
 }
 
-void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected )
+void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
@@ -1277,7 +1278,8 @@ void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, boo
     }
 }
 
-void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
+void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
+                  bool bSelected,
                   bool bDecorate, bool bDisabled )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;

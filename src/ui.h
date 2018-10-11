@@ -226,8 +226,8 @@ class uimenu: public ui_container
         std::string inputfilter();
         void refresh( bool refresh_callback = true ) override;
         void redraw( bool redraw_callback = true );
-        void addentry( std::string str );
-        void addentry( int r, bool e, int k, std::string str );
+        void addentry( const std::string &str );
+        void addentry( int r, bool e, int k, const std::string &str );
         // K is templated so it matches a `char` literal and a `long` value.
         // Using a fixed type (either `char` or `long`) will lead to ambiguity with the
         // other overload when called with the wrong type.
@@ -235,9 +235,9 @@ class uimenu: public ui_container
         void addentry( const int r, const bool e, K k, const char *const format, Args &&... args ) {
             return addentry( r, e, k, string_format( format, std::forward<Args>( args )... ) );
         }
-        void addentry_desc( std::string str, std::string desc );
-        void addentry_desc( int r, bool e, int k, std::string str, std::string desc );
-        void settext( std::string str );
+        void addentry_desc( const std::string &str, const std::string &desc );
+        void addentry_desc( int r, bool e, int k, const std::string &str, const std::string &desc );
+        void settext( const std::string &str );
 
         void reset();
 

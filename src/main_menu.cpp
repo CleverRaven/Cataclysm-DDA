@@ -43,7 +43,8 @@ void main_menu::clear_error()
     errflag = false;
 }
 
-void main_menu::print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems,
+void main_menu::print_menu_items( const catacurses::window &w_in,
+                                  const std::vector<std::string> &vItems,
                                   size_t iSel, int iOffsetY, int iOffsetX, int spacing )
 {
     wmove( w_in, iOffsetY, iOffsetX );

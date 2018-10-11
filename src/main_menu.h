@@ -92,7 +92,8 @@ class main_menu
          * @param iOffsetX Offset of menu items, x coordinate
          * @param spacing: How many spaces to print between each menu item
          */
-        void print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems, size_t iSel,
+        void print_menu_items( const catacurses::window &w_in, const std::vector<std::string> &vItems,
+                               size_t iSel,
                                int iOffsetY, int iOffsetX, int spacing = 1 );
 
         /**

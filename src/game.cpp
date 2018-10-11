@@ -6205,7 +6205,7 @@ void game::examine()
     examine( examp );
 }
 
-const std::string get_fire_fuel_string( tripoint examp )
+const std::string get_fire_fuel_string( const tripoint &examp )
 {
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );

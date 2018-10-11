@@ -1944,7 +1944,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
     return true;
 }
 
-vehicle *editmap::mapgen_veh_query( tripoint omt_tgt )
+vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
@@ -1978,7 +1978,7 @@ vehicle *editmap::mapgen_veh_query( tripoint omt_tgt )
     return nullptr;
 }
 
-bool editmap::mapgen_veh_has( tripoint omt_tgt )
+bool editmap::mapgen_veh_has( const tripoint &omt_tgt )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
@@ -1993,7 +1993,7 @@ bool editmap::mapgen_veh_has( tripoint omt_tgt )
     return false;
 }
 
-bool editmap::mapgen_veh_destroy( tripoint omt_tgt, vehicle *car_target )
+bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );

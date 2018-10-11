@@ -142,7 +142,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
 //add string select option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
+                           const std::vector<std::pair<std::string, std::string>> &sItemsIn, std::string sDefaultIn,
                            copt_hide_t opt_hide )
 {
     cOpt thisOpt;

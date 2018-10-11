@@ -2072,7 +2072,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
 }
 
 npc *talk_function::individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
-                                        bool group, std::vector<item *> equipment, std::string skill_tested, int skill_level )
+                                        bool group, const std::vector<item *> &equipment, const std::string &skill_tested, int skill_level )
 {
     npc *comp = companion_choose( skill_tested, skill_level );
     if( comp == nullptr ) {
@@ -2105,7 +2105,7 @@ npc *talk_function::individual_mission( npc &p, const std::string &desc, const s
 }
 
 std::vector<item *> talk_function::individual_mission_give_equipment( std::vector<item *> equipment,
-        std::string message )
+        const std::string &message )
 {
     std::vector<item *> equipment_lost;
     do {
@@ -2864,7 +2864,7 @@ bool talk_function::labor_return( npc &p )
     return true;
 }
 
-bool talk_function::om_camp_upgrade( npc &comp, const point omt_pos )
+bool talk_function::om_camp_upgrade( npc &comp, const point &omt_pos )
 {
     editmap edit;
 
@@ -3010,12 +3010,12 @@ std::vector<std::string> talk_function::om_all_upgrade_levels( const std::string
     return upgrades;
 }
 
-bool talk_function::om_min_level( std::string target, const std::string &bldg )
+bool talk_function::om_min_level( const std::string &target, const std::string &bldg )
 {
     return ( om_over_level( target, bldg ) >= 0 );
 }
 
-int talk_function::om_over_level( std::string target, const std::string &bldg )
+int talk_function::om_over_level( const std::string &target, const std::string &bldg )
 {
     int diff = 0;
     int phase_target = target.find_last_of( '_' );
@@ -3033,7 +3033,7 @@ int talk_function::om_over_level( std::string target, const std::string &bldg )
     return diff;
 }
 
-bool talk_function::upgrade_return( npc &p, point omt_pos, const std::string &miss )
+bool talk_function::upgrade_return( npc &p, const point &omt_pos, const std::string &miss )
 {
     //Ensure there are no vehicles before we update
     editmap edit;
@@ -3065,7 +3065,7 @@ bool talk_function::upgrade_return( npc &p, point omt_pos, const std::string &mi
     return true;
 }
 
-bool talk_function::camp_gathering_return( npc &p, std::string task )
+bool talk_function::camp_gathering_return( npc &p, const std::string &task )
 {
     npc *comp = companion_choose_return( p, task, calendar::turn - 3_hours );
     if( comp == nullptr ) {
@@ -3183,7 +3183,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
     return true;
 }
 
-bool talk_function::camp_garage_chop_start( npc &p, std::string task )
+bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
 {
     std::string dir = camp_direction( task );
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
@@ -3260,7 +3260,7 @@ bool talk_function::camp_garage_chop_start( npc &p, std::string task )
     return true;
 }
 
-bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bool plant,
+bool talk_function::camp_farm_return( npc &p, const std::string &task, bool harvest, bool plant,
                                       bool plow )
 {
     std::string dir = camp_direction( task );
@@ -3609,7 +3609,7 @@ std::vector<std::pair<std::string, tripoint>> talk_function::om_building_region(
     return om_camp_region;
 }
 
-std::string talk_function::om_simple_dir( point omt_pos, tripoint omt_tar )
+std::string talk_function::om_simple_dir( const point &omt_pos, const tripoint &omt_tar )
 {
     std::string dr = "[";
     if( omt_tar.y < omt_pos.y ) {
@@ -3631,7 +3631,7 @@ std::string talk_function::om_simple_dir( point omt_pos, tripoint omt_tar )
     return dr;
 }
 
-std::string talk_function::camp_farm_description( point omt_pos, bool harvest, bool plots,
+std::string talk_function::camp_farm_description( const point &omt_pos, bool harvest, bool plots,
         bool plow )
 {
     std::vector<std::string> plant_names;
@@ -3735,7 +3735,7 @@ std::string talk_function::camp_car_description( vehicle *car )
     return entry;
 }
 
-std::string talk_function::camp_direction( std::string line )
+std::string talk_function::camp_direction( const std::string &line )
 {
     return line.substr( line.find_last_of( '[' ),
                         line.find_last_of( ']' ) - line.find_last_of( '[' ) + 1 );
@@ -3948,8 +3948,8 @@ bool talk_function::forage_return( npc &p )
     return true;
 }
 
-bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>> group,
-        tripoint om_tgt, bool try_engage )
+bool talk_function::companion_om_combat_check( const std::vector<std::shared_ptr<npc>> &group,
+        const tripoint &om_tgt, bool try_engage )
 {
     if( overmap_buffer.is_safe( om_tgt ) ) {
         //Should work but is_safe is always returning true regardless of what is there.
@@ -4020,9 +4020,9 @@ bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>>
     return true;
 }
 
-bool talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender,
+bool talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &defender,
                                     const std::string &def_desc,
-                                    std::vector< monster * > monsters_fighting, const std::string &att_desc, int advantage )
+                                    const std::vector< monster * > &monsters_fighting, const std::string &att_desc, int advantage )
 {
     std::string adv = "";
     if( advantage < 0 ) {
@@ -4088,9 +4088,9 @@ bool talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender,
     }
 }
 
-void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender,
+void talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &defender,
                                     const std::string &def_desc,
-                                    std::vector<std::shared_ptr<npc>> attacker, const std::string &att_desc, int advantage )
+                                    const std::vector<std::shared_ptr<npc>> &attacker, const std::string &att_desc, int advantage )
 {
     std::string adv = "";
     if( advantage < 0 ) {
@@ -4196,7 +4196,7 @@ bool companion_sort_compare( npc *first, npc *second )
 }
 
 std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
-        std::string skill_tested )
+        const std::string &skill_tested )
 {
     if( skill_tested.empty() ) {
         std::sort( available.begin(), available.end(), companion_sort_compare );
@@ -4223,7 +4223,8 @@ std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
     return available;
 }
 
-std::vector<comp_rank> talk_function::companion_rank( std::vector<npc *> available, bool adj )
+std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc *> &available,
+        bool adj )
 {
     std::vector<comp_rank> raw;
     int max_combat = 0;
@@ -4291,7 +4292,7 @@ std::vector<comp_rank> talk_function::companion_rank( std::vector<npc *> availab
     return adjusted;
 }
 
-npc *talk_function::companion_choose( std::string skill_tested, int skill_level )
+npc *talk_function::companion_choose( const std::string &skill_tested, int skill_level )
 {
     std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
         return g->u.sees( guy.pos() ) && guy.is_friend() &&
@@ -4472,7 +4473,7 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
 {
     mission_entry miss;
     miss.id = id;
-    if( name_display == "" ) {
+    if( name_display.empty() ) {
         miss.name_display = id;
     } else {
         miss.name_display = name_display;
@@ -4487,7 +4488,7 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
     if( !possible ) {
         mission_key_vectors[10].push_back( miss );
     }
-    if( dir == "" || dir == "[B]" ) {
+    if( dir.empty() || dir == "[B]" ) {
         mission_key_vectors[1].push_back( miss );
     }
     if( dir == "[N]" ) {
@@ -4538,7 +4539,8 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
     wrefresh( win );
 }
 
-std::string talk_function::name_mission_tabs( npc &p, std::string id, std::string cur_title,
+std::string talk_function::name_mission_tabs( npc &p, const std::string &id,
+        const std::string &cur_title,
         camp_tab_mode cur_tab )
 {
     if( id != "FACTION_CAMP" ) {
@@ -4598,7 +4600,7 @@ std::string talk_function::name_mission_tabs( npc &p, std::string id, std::strin
     return _( "Base Missions" );
 }
 
-std::map<std::string, std::string> talk_function::camp_recipe_deck( std::string om_cur )
+std::map<std::string, std::string> talk_function::camp_recipe_deck( const std::string &om_cur )
 {
     if( om_cur == "ALL" || om_cur == "COOK" || om_cur == "BASE" || om_cur == "FARM" ||
         om_cur == "SMITH" ) {
@@ -4612,7 +4614,7 @@ std::map<std::string, std::string> talk_function::camp_recipe_deck( std::string 
     return cooking_recipes;
 }
 
-int talk_function::camp_recipe_batch_max( const recipe making, inventory total_inv )
+int talk_function::camp_recipe_batch_max( const recipe making, const inventory &total_inv )
 {
     int max_batch = 0;
     int max_checks = 9;
@@ -4633,7 +4635,7 @@ int talk_function::camp_recipe_batch_max( const recipe making, inventory total_i
     return max_batch;
 }
 
-int talk_function::companion_skill_trainer( npc &comp, std::string skill_tested,
+int talk_function::companion_skill_trainer( npc &comp, const std::string &skill_tested,
         time_duration time_worked, int difficulty )
 {
     difficulty = std::max( 1, difficulty );
@@ -4641,7 +4643,7 @@ int talk_function::companion_skill_trainer( npc &comp, std::string skill_tested,
     int total = difficulty * checks;
     int i = 0;
 
-    if( skill_tested == "" || skill_tested == "gathering" ) {
+    if( skill_tested.empty() || skill_tested == "gathering" ) {
         weighted_int_list<skill_id> gathering_practice;
         gathering_practice.add( skill_survival, 80 );
         gathering_practice.add( skill_traps, 5 );
@@ -4696,7 +4698,7 @@ int talk_function::companion_skill_trainer( npc &comp, std::string skill_tested,
     return total;
 }
 
-int talk_function::companion_skill_trainer( npc &comp, skill_id skill_tested,
+int talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_tested,
         time_duration time_worked, int difficulty )
 {
     difficulty = ( ( difficulty <= 0 ) ? difficulty : 1 );
@@ -4706,7 +4708,7 @@ int talk_function::companion_skill_trainer( npc &comp, skill_id skill_tested,
     return total;
 }
 
-int talk_function::om_harvest_furn( npc &comp, point omt_tgt, furn_id f, float chance,
+int talk_function::om_harvest_furn( npc &comp, const point &omt_tgt, const furn_id &f, float chance,
                                     bool force_bash )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
@@ -4737,7 +4739,7 @@ int talk_function::om_harvest_furn( npc &comp, point omt_tgt, furn_id f, float c
     return harvested;
 }
 
-int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float chance,
+int talk_function::om_harvest_ter( npc &comp, const point &omt_tgt, const ter_id &t, float chance,
                                    bool force_bash )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
@@ -4768,7 +4770,8 @@ int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float cha
     return harvested;
 }
 
-int talk_function::om_harvest_trees( npc &comp, tripoint omt_tgt, float chance, bool force_cut,
+int talk_function::om_harvest_trees( npc &comp, const tripoint &omt_tgt, float chance,
+                                     bool force_cut,
                                      bool force_cut_trunk )
 {
     tinymap target_bay;
@@ -4817,7 +4820,7 @@ int talk_function::om_harvest_trees( npc &comp, tripoint omt_tgt, float chance, 
     return harvested;
 }
 
-int talk_function::om_harvest_itm( npc &comp, point omt_tgt, float chance, bool take )
+int talk_function::om_harvest_itm( npc &comp, const point &omt_tgt, float chance, bool take )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
     omt_ref = oter_id( omt_ref.id().c_str() );
@@ -4844,9 +4847,9 @@ int talk_function::om_harvest_itm( npc &comp, point omt_tgt, float chance, bool 
     return harvested;
 }
 
-tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int range,
-                                        std::vector<std::string> possible_om_types, bool must_see,
-                                        bool popup_notice, tripoint source, bool bounce )
+tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, int range,
+                                        const std::vector<std::string> &possible_om_types, bool must_see,
+                                        bool popup_notice, const tripoint &source, bool bounce )
 {
     bool errors = false;
     if( popup_notice ) {
@@ -4912,8 +4915,8 @@ tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int ran
     return om_target_tile( omt_pos, min_range, range, possible_om_types );
 }
 
-void talk_function::om_range_mark( tripoint origin, int range, bool add_notes,
-                                   std::string message )
+void talk_function::om_range_mark( const tripoint &origin, int range, bool add_notes,
+                                   const std::string &message )
 {
     std::vector<tripoint> note_pts;
     //North Limit
@@ -4947,8 +4950,8 @@ void talk_function::om_range_mark( tripoint origin, int range, bool add_notes,
 
 }
 
-void talk_function::om_line_mark( tripoint origin, tripoint dest, bool add_notes,
-                                  std::string message )
+void talk_function::om_line_mark( const tripoint &origin, const tripoint &dest, bool add_notes,
+                                  const std::string &message )
 {
     std::vector<tripoint> note_pts = line_to( origin, dest );
 
@@ -4965,14 +4968,15 @@ void talk_function::om_line_mark( tripoint origin, tripoint dest, bool add_notes
     }
 }
 
-time_duration talk_function::companion_travel_time_calc( tripoint omt_pos, tripoint omt_tgt,
+time_duration talk_function::companion_travel_time_calc( const tripoint &omt_pos,
+        const tripoint &omt_tgt,
         time_duration work, int trips )
 {
     std::vector<tripoint> journey = line_to( omt_pos, omt_tgt );
     return companion_travel_time_calc( journey, work, trips );
 }
 
-time_duration talk_function::companion_travel_time_calc( std::vector<tripoint> journey,
+time_duration talk_function::companion_travel_time_calc( const std::vector<tripoint> &journey,
         time_duration work, int trips )
 {
     //path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
@@ -5028,7 +5032,7 @@ std::string talk_function::camp_trip_description( time_duration total_time,
     return entry;
 }
 
-int talk_function::om_carry_weight_to_trips( npc &comp, std::vector<item *> itms )
+int talk_function::om_carry_weight_to_trips( npc &comp, const std::vector<item *> &itms )
 {
     int trips = 0;
     int total_m = 0;
@@ -5051,8 +5055,9 @@ int talk_function::om_carry_weight_to_trips( npc &comp, std::vector<item *> itms
     return ( trips > trips_v ) ?  trips : trips_v;
 }
 
-bool talk_function::om_set_hide_site( npc &comp, tripoint omt_tgt, std::vector<item *> itms,
-                                      std::vector<item *> itms_rem )
+bool talk_function::om_set_hide_site( npc &comp, const tripoint &omt_tgt,
+                                      const std::vector<item *> &itms,
+                                      const std::vector<item *> &itms_rem )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, comp.posz() );
     omt_ref = oter_id( omt_ref.id().c_str() );
@@ -5221,9 +5226,9 @@ void talk_function::faction_camp_tutorial()
     }
 }
 
-void talk_function::camp_craft_construction( npc &p, mission_entry cur_key,
-        std::map<std::string, std::string> recipes, const std::string &miss_id,
-        tripoint omt_pos, std::vector<std::pair<std::string, tripoint>> om_expansions )
+void talk_function::camp_craft_construction( npc &p, const mission_entry &cur_key,
+        const std::map<std::string, std::string> &recipes, const std::string &miss_id,
+        const tripoint &omt_pos, const std::vector<std::pair<std::string, tripoint>> &om_expansions )
 {
     for( std::map<std::string, std::string>::const_iterator it = recipes.begin(); it != recipes.end();
          ++it ) {
@@ -5277,7 +5282,7 @@ void talk_function::camp_craft_construction( npc &p, mission_entry cur_key,
 }
 
 std::string talk_function::camp_recruit_evaluation( npc &p, const std::string &base,
-        std::vector<std::pair<std::string, tripoint>> om_expansions,
+        const std::vector<std::pair<std::string, tripoint>> &om_expansions,
         bool raw_score )
 {
     int sbase = om_over_level( "faction_base_camp_11", base ) * 5;
@@ -5338,7 +5343,7 @@ std::string talk_function::camp_recruit_evaluation( npc &p, const std::string &b
     return desc;
 }
 
-void talk_function::camp_recruit_return( npc &p, std::string task, int score )
+void talk_function::camp_recruit_return( npc &p, const std::string &task, int score )
 {
     npc *comp = companion_choose_return( p, task, calendar::turn - 4_days );
     if( comp == nullptr ) {
@@ -5457,7 +5462,7 @@ void talk_function::camp_recruit_return( npc &p, std::string task, int score )
     g->load_npcs();
 }
 
-std::vector<tripoint> talk_function::om_companion_path( tripoint start, int range_start,
+std::vector<tripoint> talk_function::om_companion_path( const tripoint &start, int range_start,
         bool bounce )
 {
     std::vector<tripoint> scout_points;
