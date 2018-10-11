@@ -835,16 +835,13 @@ void trapfunc::lava( Creature *c, const tripoint &p )
         } else if( z != nullptr ) {
             // MATERIALS-TODO: use fire resistance
             int dam = 30;
-            if( z->made_of( material_id( "flesh" ) ) || z->made_of( material_id( "iflesh" ) ) ) {
+            if( z->made_of_any( Creature::cmat_flesh ) ) {
                 dam = 50;
             }
             if( z->made_of( material_id( "veggy" ) ) ) {
                 dam = 80;
             }
-            if( z->made_of( material_id( "paper" ) ) || z->made_of( LIQUID ) ||
-                z->made_of( material_id( "powder" ) ) ||
-                z->made_of( material_id( "wood" ) )  || z->made_of( material_id( "cotton" ) ) ||
-                z->made_of( material_id( "wool" ) ) ) {
+            if( z->made_of( LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
                 dam = 200;
             }
             if( z->made_of( material_id( "stone" ) ) ) {

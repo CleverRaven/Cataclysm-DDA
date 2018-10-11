@@ -547,28 +547,21 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // Apply ammo effects to target.
     if( proj.proj_effects.count( "FLAME" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 8_turns, 20_turns ), bp_hit );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, rng( 5_turns, 10_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "INCENDIARY" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
-        } else if( ( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) &&
-                   one_in( 4 ) ) {
+        } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
             add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, 6_turns, bp_hit );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, 10_turns, bp_hit );
         }
     }
