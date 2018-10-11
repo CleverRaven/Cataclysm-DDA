@@ -1,0 +1,100 @@
+Infrastructure JSONize rotatable symbols
+Infrastructure Allow non-firearms to have NEEDS_UNFOLD
+Balance Disassembling filthy items yields filthy materials
+Balance Add veil to bride profession
+Features Crafting Overhaul: Tailoring
+Infrastructure Improve game::plfire functionality (attempt 2)
+Performance Optimize saved monstergroups to decrease save size
+Balance Increase to horde interest with sound source and other small changes
+Balance Time needed to wash an item now depends on its volume
+I18N Translation template update
+I18N Translation updates
+Bugfixes Remove default values from the legacy items
+Infrastructure Partially jsonize body parts
+Bugfixes Don't remove rotten contents from fermenting vats
+Performance Faster drawing of empty spaces in tiles build
+Infrastructure Jsonize fuel energy
+Performance Skip drawing spaces in winconsole builds
+Infrastructure Softcode bunker mapgen
+Infrastructure Jsonize School mapgen (second try)
+Infrastructure Farm mapgen JSONify
+Mods Fix legacy blazemod errors on load
+Infrastructure Standardize epower drain
+Mods More Locations mod: Reduces minimum occurrences
+Mods Tanks and Other Vehicles: primer changes
+Balance Remove strawberry and blueberry jams
+Infrastructure Cathedral mapgen jsonify second try
+Interface Gourmand overeating convenience, easier grazing
+Bugfixes Fix the farm migration error
+Features Overmap overhaul (step 6)
+Balance Changes armored car turret placement
+Balance Removing bionics now require a tool with fine cutting quality
+Build Ensure that 0.D will gracefully handle 0.C saves
+Features More "resilient" overmap generation
+Balance Make target size affect ranged accuracy - take 2
+Bugfixes Remove double "radio signal" text
+Bugfixes Fixed up pipe combo gun recipe
+Mods "BrightNights" - the sci-fi mod
+Infrastructure Extract fungal effects into a new class
+Interface "Look at" with long descriptions (of critters, furniture etc.)
+Interface Shorten too long profession descriptions
+Balance Craft one 46mm and 57mm at a time
+Infrastructure Cover file path encoding conversion on memorial files
+Balance Forbid evac center mission route from having non-road tiles
+I18N Removed outdated French names file
+Balance Spawn ammo in vending machines for home defense store
+Bugfixes Check if filtered_items is empty first
+Bugfixes Fix for character statistics screen encumbrance description
+Bugfixes Fixes school start location
+Balance Craft one 44 at a time
+Bugfixes Fix uimenu bugs
+Interface Special key bindings for ui menu to avoid conflicts.
+Infrastructure Use CRLF on Windows in memorial file
+Balance Add copper to fmj pistol ammo
+Bugfixes prompt/query hotkey fix
+I18N Add 'menu_text' JSON entry into translatable strings
+Features Allow nesting crafting lists
+Infrastructure Improve overmap error reporting
+Balance Remove construction skill
+Balance Craft one at a time for rest of pistol ammo.
+Mods Standardizes bronze recipes in Medieval mod
+Interface Add an alternate definition for FILTER for UIMENU to avoid masking f key.
+Interface Remove the entry 'q: Cancel' in the menu 'Repair clothes' because it is more standard to other menus.
+Interface Harvestable plant description
+Balance Makes flintlock gunpowder usage consistent again
+Bugfixes Fix positional formatting stripping function caching pointers
+Infrastructure Jsonize morale types
+Mods Fixes some unlearnable recipes in More Survival Tools
+Mods Extend use of recipe requirements in Medieval Mod
+Bugfixes Fix initial position of cursor in string_popup dialogs.
+Interface Sheath and holster contained volume description
+Features Add in Scratch Attack for (mostly) Zeds
+Balance Rework wield times
+Infrastructure Wrap fruit components in lists
+Interface Bind firestarter and holster item actions by default
+Balance Allow cemetery specials to spawn in fields.
+Bugfixes Change the emergency number in the shelter to a fake one.
+I18N Extract text field of morale_type for translation.
+Interface Add basic note support to constructions.
+Infrastructure mapgen callback to retarget cursor
+Content Add sewer crocs
+Balance added knife_hunting to knife lists
+Bugfixes fix for new headlight faces map corner if player escapes from look_around
+Interface Skip web prompt for web walkers
+Balance Craft one .223 at a time
+Infrastructure Move game::pl_target_ui to new class
+Bugfixes Duplicate "dying" line in mongroup saves
+Bugfixes Fix needless move operator
+Bugfixes Fix part-less vehicles and vehicle construction start
+Bugfixes Fix some world options using default values
+Balance Speed up RELOAD_AND_SHOOT
+Balance Craft one 7.62x39 at a time
+Balance Adds fur blankets to construction
+Infrastructure Specialize query
+Balance changed clog recipe to require more than can be salvaged
+Balance Give sensible install/remove time for some vehicle parts
+Content Winch and painted walls
+Content Professions and mod update
+Interface Fix long titles in string_input_popup
+Features Adds seasonal variation to daylight levels
+Infrastructure Add contex 'bodypart_accusative' for bp names
