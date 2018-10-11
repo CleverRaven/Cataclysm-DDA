@@ -2118,14 +2118,8 @@ std::vector<item *> talk_function::individual_mission_give_equipment( std::vecto
         }
 
         // Choose item if applicable
-        int i_index = 0;
-        names.push_back( _( "Done" ) );
-        i_index = menu_vec( false, message.c_str(), names ) - 1;
-        if( i_index == ( int )names.size() - 1 ) {
-            i_index = -1;
-        }
-
-        if( i_index < 0 ) {
+        const int i_index = uilist( message, names );
+        if( i_index < 0 || static_cast<size_t>( i_index ) >= equipment.size() ) {
             return equipment_lost;
         }
         equipment_lost.push_back( equipment[i_index] );
