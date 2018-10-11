@@ -1919,5 +1919,9 @@
         "base_mods": {
             "speed_mod": [50]
         }
+    },
+    {
+        "type": "effect_type",
+        "id": "has_prospectus"
     }
 ]
