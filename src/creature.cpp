@@ -38,6 +38,20 @@ const std::map<std::string, m_size> Creature::size_map = {
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}
 };
 
+const std::set<material_id> Creature::cmat_flesh{
+    material_id( "flesh" ), material_id( "iflesh" )
+};
+const std::set<material_id> Creature::cmat_fleshnveg{
+    material_id( "flesh" ),  material_id( "iflesh" ), material_id( "veggy" )
+};
+const std::set<material_id> Creature::cmat_flammable{
+    material_id( "paper" ), material_id( "powder" ), material_id( "wood" ),
+    material_id( "cotton" ), material_id( "wool" )
+};
+const std::set<material_id> Creature::cmat_flameres{
+    material_id( "stone" ), material_id( "kevlar" ), material_id( "steel" )
+};
+
 Creature::Creature()
 {
     moves = 0;
@@ -533,28 +547,21 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // Apply ammo effects to target.
     if( proj.proj_effects.count( "FLAME" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 8_turns, 20_turns ), bp_hit );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, rng( 5_turns, 10_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "INCENDIARY" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
-        } else if( ( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) &&
-                   one_in( 4 ) ) {
+        } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
             add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, 6_turns, bp_hit );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, 10_turns, bp_hit );
         }
     }

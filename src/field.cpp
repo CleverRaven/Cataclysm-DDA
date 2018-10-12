@@ -2223,21 +2223,16 @@ void map::monster_in_field( monster &z )
                     return;
                 }
                 // TODO: Replace the section below with proper json values
-                if( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                    z.made_of( material_id( "iflesh" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flesh ) ) {
                     dam += 3;
                 }
                 if( z.made_of( material_id( "veggy" ) ) ) {
                     dam += 12;
                 }
-                if( z.made_of( material_id( "paper" ) ) || z.made_of( LIQUID ) ||
-                    z.made_of( material_id( "powder" ) ) ||
-                    z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) ||
-                    z.made_of( material_id( "wool" ) ) ) {
+                if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                     dam += 20;
                 }
-                if( z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) ||
-                    z.made_of( material_id( "steel" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flameres ) ) {
                     dam += -20;
                 }
                 if( z.has_flag( MF_FLIES ) ) {
@@ -2280,9 +2275,7 @@ void map::monster_in_field( monster &z )
                 break;
 
             case fd_tear_gas:
-                if( ( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                      z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) ) ) &&
-                    !z.has_flag( MF_NO_BREATHE ) ) {
+                if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( MF_NO_BREATHE ) ) {
                     if( cur.getFieldDensity() == 3 ) {
                         z.add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
                         dam += rng( 4, 10 );
@@ -2303,9 +2296,7 @@ void map::monster_in_field( monster &z )
                 break;
 
             case fd_relax_gas:
-                if( ( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                      z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) ) ) &&
-                    !z.has_flag( MF_NO_BREATHE ) ) {
+                if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( MF_NO_BREATHE ) ) {
                     z.add_effect( effect_stunned, rng( cur.getFieldDensity() * 4_turns,
                                                        cur.getFieldDensity() * 8_turns ) );
                 }
@@ -2346,21 +2337,16 @@ void map::monster_in_field( monster &z )
 
             // MATERIALS-TODO: Use fire resistance
             case fd_flame_burst:
-                if( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                    z.made_of( material_id( "iflesh" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flesh ) ) {
                     dam += 3;
                 }
                 if( z.made_of( material_id( "veggy" ) ) ) {
                     dam += 12;
                 }
-                if( z.made_of( material_id( "paper" ) ) || z.made_of( LIQUID ) ||
-                    z.made_of( material_id( "powder" ) ) ||
-                    z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) ||
-                    z.made_of( material_id( "wool" ) ) ) {
+                if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                     dam += 50;
                 }
-                if( z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) ||
-                    z.made_of( material_id( "steel" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flameres ) ) {
                     dam += -25;
                 }
                 dam += rng( 0, 8 );
@@ -2400,21 +2386,16 @@ void map::monster_in_field( monster &z )
 
             case fd_incendiary:
                 // MATERIALS-TODO: Use fire resistance
-                if( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                    z.made_of( material_id( "iflesh" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flesh ) ) {
                     dam += 3;
                 }
                 if( z.made_of( material_id( "veggy" ) ) ) {
                     dam += 12;
                 }
-                if( z.made_of( material_id( "paper" ) ) || z.made_of( LIQUID ) ||
-                    z.made_of( material_id( "powder" ) ) ||
-                    z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) ||
-                    z.made_of( material_id( "wool" ) ) ) {
+                if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                     dam += 20;
                 }
-                if( z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) ||
-                    z.made_of( material_id( "steel" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flameres ) ) {
                     dam += -5;
                 }
 
@@ -2423,17 +2404,15 @@ void map::monster_in_field( monster &z )
                 } else if( cur.getFieldDensity() == 2 ) {
                     dam += rng( 6, 12 );
                     z.moves -= 20;
-                    if( !z.made_of( LIQUID ) && !z.made_of( material_id( "stone" ) ) &&
-                        !z.made_of( material_id( "kevlar" ) ) &&
-                        !z.made_of( material_id( "steel" ) ) && !z.has_flag( MF_FIREY ) ) {
+                    if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) &&
+                        !z.has_flag( MF_FIREY ) ) {
                         z.add_effect( effect_onfire, rng( 8_turns, 12_turns ) );
                     }
                 } else if( cur.getFieldDensity() == 3 ) {
                     dam += rng( 10, 20 );
                     z.moves -= 40;
-                    if( !z.made_of( LIQUID ) && !z.made_of( material_id( "stone" ) ) &&
-                        !z.made_of( material_id( "kevlar" ) ) &&
-                        !z.made_of( material_id( "steel" ) ) && !z.has_flag( MF_FIREY ) ) {
+                    if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) &&
+                        !z.has_flag( MF_FIREY ) ) {
                         z.add_effect( effect_onfire, rng( 12_turns, 16_turns ) );
                     }
                 }
