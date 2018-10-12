@@ -373,6 +373,34 @@ std::string uimenu::inputfilter()
     return filter;
 }
 
+// Find the best width to fold the string to no more than max_lines,
+// Assuming that foldstring( width ).size() decreases monotonously w.r.t. width.
+static int find_best_fold_width( const std::string &str, const int max_lines,
+                                 const int max_width_avail )
+{
+    if( str.empty() ) {
+        return 0;
+    }
+    // min_width inclusive, max_width exclusive.
+    int min_width = 1;
+    // +1 for exclusion.
+    int max_width = std::min( utf8_width( str ), max_width_avail ) + 1;
+    while( min_width + 1 < max_width ) {
+        int width = ( min_width + max_width ) / 2;
+        int lines = foldstring( str, width ).size();
+        if( lines == max_lines ) {
+            return width;
+        } else if( lines < max_lines ) {
+            // decrease width for more lines
+            max_width = width;
+        } else {
+            // increase width for less lines
+            min_width = width + 1;
+        }
+    }
+    return min_width;
+};
+
 /**
  * Calculate sizes, populate arrays, initialize window
  */
@@ -428,8 +456,7 @@ void uimenu::setup()
             }
         }
         if ( desc_enabled ) {
-            // subtract one from desc_lines for the reminder of the text
-            int descwidth = utf8_width(entries[i].desc) / (desc_lines - 1);
+            int descwidth = find_best_fold_width( entries[i].desc, desc_lines, TERMX - 4 );
             descwidth += 4; // 2x border + 2x ' ' pad
             if ( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -460,6 +487,18 @@ void uimenu::setup()
             debugmsg("description would exceed terminal width (%d vs %d available)", descwidth_final, TERMX);
         } else if (descwidth_final > w_width) {
             w_width = descwidth_final;
+        }
+    }
+
+    // shrink-to-fit
+    if( desc_enabled ) {
+        desc_lines = 0;
+        for( const uimenu_entry &ent : entries ) {
+            // -2 for borders, -2 for padding
+            desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
+        }
+        if( desc_lines <= 0 ) {
+            desc_enabled = false;
         }
     }
 
