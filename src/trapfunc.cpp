@@ -569,12 +569,16 @@ void trapfunc::goo( Creature *c, const tripoint &p )
                 n->check_dead_state();
             }
         } else if( z != nullptr ) {
-            if( z->type->id == mon_blob ) {
-                z->set_speed_base( z->get_speed_base() + 15 );
-                z->set_hp( z->get_speed() );
-            } else {
-                z->poly( mon_blob );
+            //All monsters except for blobs get a speed decrease
+            if( z->type->id != mon_blob ) {
                 z->set_speed_base( z->get_speed_base() - 15 );
+                //All monsters that aren't blobs or robots transform into a blob
+                if( !z->type->in_species( ROBOT ) ) {
+                    z->poly( mon_blob );
+                    z->set_hp( z->get_speed() );
+                }
+            } else {
+                z->set_speed_base( z->get_speed_base() + 15 );
                 z->set_hp( z->get_speed() );
             }
         }
