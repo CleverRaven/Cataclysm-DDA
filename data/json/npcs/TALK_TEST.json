@@ -203,7 +203,7 @@
       {
         "text": "This is a u_add_effect - infection response",
         "topic": "TALK_DONE",
-        "effect": { "u_add_effect": "infection", "duration": "10" }
+        "effect": { "u_add_effect": "infection", "duration": 10 }
       },
       {
         "text": "This is a npc_add_effect - infection response",
@@ -235,7 +235,7 @@
         "text": "This is a multi-effect response",
         "topic": "TALK_DONE",
         "effect": [
-          { "u_add_effect": "infected", "duration": "10" },
+          { "u_add_effect": "infected", "duration": 10 },
           { "npc_add_effect": "infected", "duration": "PERMANENT" },
           { "u_add_trait": "PROF_SWAT" },
           { "npc_add_trait": "PROF_SWAT" },
