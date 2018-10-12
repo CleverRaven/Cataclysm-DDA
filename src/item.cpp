@@ -2182,6 +2182,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         insert_separation_line();
                         info.emplace_back( "DESCRIPTION", _( "<bold>Content of this item</bold>:" ) );
                         contents_header = true;
+                    } else {
+                        // Separate items with a blank line
+                        info.emplace_back( "DESCRIPTION", space );
                     }
 
                     auto const description = _( contents_item.type->description.c_str() );
@@ -2192,16 +2195,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         const double converted_volume =
                             round_up( convert_volume( contents_volume.value(),
                                                       &converted_volume_scale ), 2 );
+                        info.emplace_back( "DESCRIPTION", contents_item.display_name() );
                         info.emplace_back( "CONTAINER", description + space,
                                            string_format( "<num> %s", volume_units_abbr() ),
                                            converted_volume, converted_volume_scale == 0, "", false );
                     } else {
-                        auto count = contents_item.count_by_charges() ? contents_item.charges : 1;
-                        if( count == 1 ) {
-                            info.emplace_back( "DESCRIPTION", description );
-                        } else {
-                            info.emplace_back( "CONTAINER", description + space, "<num>", count );
-                        }
+                        info.emplace_back( "DESCRIPTION", contents_item.display_name() );
+                        info.emplace_back( "DESCRIPTION", description );
                     }
                 }
             }
