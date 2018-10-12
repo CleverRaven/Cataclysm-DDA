@@ -18,7 +18,7 @@
     "type": "monstergroup",
     "default": "mon_chicken_chick",
     "monsters": [
-      { "monster": "mon_cockatrice_chick", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_chicken_chick", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }
     ]
   },
@@ -27,7 +27,7 @@
     "type": "monstergroup",
     "default": "mon_grouse_chick",
     "monsters": [
-      { "monster": "mon_cockatrice_chick", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_grouse_chick", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }
     ]
   },
@@ -36,7 +36,7 @@
     "type": "monstergroup",
     "default": "mon_crow_chick",
     "monsters": [
-      { "monster": "mon_cockatrice_chick", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_crow_chick", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }
     ]
   },
@@ -45,7 +45,7 @@
     "type": "monstergroup",
     "default": "mon_duck_chick",
     "monsters": [
-      { "monster": "mon_cockatrice_chick", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_duck_chick", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }
     ]
   },
@@ -54,7 +54,7 @@
     "type": "monstergroup",
     "default": "mon_goose_canadian_chick",
     "monsters": [
-      { "monster": "mon_cockatrice_chick", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_goose_canadian_chick", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }
     ]
   },
@@ -63,7 +63,7 @@
     "type": "monstergroup",
     "default": "mon_turkey_chick",
     "monsters": [
-      { "monster": "mon_cockatrice_chick", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_turkey_chick", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }
     ]
   },
@@ -72,7 +72,7 @@
     "type": "monstergroup",
     "default": "mon_pheasant_chick",
     "monsters": [
-      { "monster": "mon_cockatrice_chick", "freq": 8, "cost_multiplier": 1 },
+      { "monster": "mon_pheasant_chick", "freq": 8, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }
     ]
   },
@@ -80,28 +80,31 @@
     "name": "GROUP_EGG_COCKATRICE",
     "type": "monstergroup",
     "default": "mon_cockatrice_chick",
-    "monsters": [ { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 } ]
+    "monsters": [
+      { "monster": "mon_cockatrice_chick", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }
+    ]
   },
   {
     "name": "GROUP_EGG_SNAKE",
     "type": "monstergroup",
     "default": "mon_rattlesnake",
     "monsters": [
-      { "monster": "mon_chicken_chick", "freq": 30, "cost_multiplier": 1 },
-      { "monster": "mon_rattlesnake", "freq": 100, "cost_multiplier": 1 }
+      { "monster": "mon_rattlesnake", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_chicken_chick", "freq": 30, "cost_multiplier": 1 }
     ]
   },
   {
     "name": "GROUP_EGG_ROACH",
     "type": "monstergroup",
     "default": "mon_giant_cockroach_nymph",
-    "monsters": [ { "monster": "mon_plague_nymph", "freq": 10, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_giant_cockroach_nymph", "freq": 10, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_ROACH_PLAGUE",
     "type": "monstergroup",
     "default": "mon_plague_nymph",
-    "monsters": [ { "monster": "mon_giant_cockroach_nymph", "freq": 10, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_plague_nymph", "freq": 10, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_LOCUST",
