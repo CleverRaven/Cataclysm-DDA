@@ -713,7 +713,7 @@
     "decomp_learn": 0,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fur", 24 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 360, "LIST" ] ] ]
+    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 360, "LIST" ] ] ]
   },
   {
     "type": "recipe",
