@@ -446,11 +446,19 @@ class item : public visitable<item>
 
         units::mass weight( bool include_contents = true ) const;
 
-        /* Total volume of an item accounting for all contained/integrated items
-         * @param integral if true return effective volume if item was integrated into another */
+        /**
+         * Total volume of an item accounting for all contained/integrated items
+         * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
+         * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
+         * @param integral if true return effective volume if this item was integrated into another
+         */
         units::volume volume( bool integral = false ) const;
 
-        /** Simplified, faster volume check for when processing time is important and exact volume is not. */
+        /**
+         * Simplified, faster volume check for when processing time is important and exact volume is not.
+         * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
+         * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
+         */
         units::volume base_volume() const;
 
         /** Volume check for corpses, helper for base_volume(). */
@@ -1176,11 +1184,11 @@ class item : public visitable<item>
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Number of charges of this item that fit into the given volume.
+         * Number of (charges of) this item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume. Only depends on the *type*
          * of this item not on its current charge count.
          *
-         * For items not counted by charges, this returns this->volume() / vol.
+         * For items not counted by charges, this returns vol / this->volume().
          */
         long charges_per_volume( const units::volume &vol ) const;
 

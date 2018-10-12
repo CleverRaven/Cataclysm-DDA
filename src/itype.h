@@ -766,16 +766,36 @@ struct itype {
         /** Can item be combined with other identical items? */
         bool stackable = false;
 
-        /** After loading from JSON these properties guaranteed to be zero or positive */
-        /*@{*/
-        units::mass weight  =  0; // Weight for item ( or each stack member )
-        units::volume volume = 0; // Space occupied by items of this type
-        int price           =  0; // Value before cataclysm
-        int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
-        int stack_size      =  0; // Maximum identical items that can stack per above unit volume
-        units::volume integral_volume = units::from_milliliter(
-                                            -1 ); // Space consumed when integrated as part of another item (defaults to volume)
-        /*@}*/
+        /**
+         * @name Non-negative properties
+         * After loading from JSON these properties guaranteed to be zero or positive
+         */
+        /**@{*/
+
+        /** Weight of item ( or each stack member ) */
+        units::mass weight = 0;
+
+        /**
+         * Space occupied by items of this type
+         * CAUTION: value given is for a default-sized stack. Avoid using where @ref stackable items may be encountered; see @ref item::volume instead.
+         * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
+         */
+        units::volume volume = 0;
+        /**
+         * Space consumed when integrated as part of another item (defaults to volume)
+         * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
+         */
+        units::volume integral_volume = units::from_milliliter( -1 );
+
+        /** Number of items per above volume for @ref stackable items */
+        int stack_size = 0;
+
+        /** Value before cataclysm. Price given is for a default-sized stack. */
+        int price = 0;
+        /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
+        int price_post = -1;
+
+        /**@}*/
 
         bool rigid =
             true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
@@ -876,6 +896,10 @@ struct itype {
             return 1;
         }
 
+        /**
+         * Number of (charges of) this type of item that fit into the given volume.
+         * May return 0 if not even one charge fits into the volume.
+         */
         long charges_per_volume( const units::volume &vol ) const;
 
         bool has_use() const;
