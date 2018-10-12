@@ -296,8 +296,14 @@ std::string action_ident( action_id act )
             return "toggle_pixel_minimap";
         case ACTION_RELOAD_TILESET:
             return "reload_tileset";
+        case ACTION_TOGGLE_AUTO_FEATURES:
+            return "toggle_auto_features";
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
             return "toggle_auto_pulp_butcher";
+        case ACTION_TOGGLE_AUTO_MINING:
+            return "toggle_auto_mining";
+        case ACTION_TOGGLE_AUTO_FORAGING:
+            return "toggle_auto_foraging";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -378,7 +384,10 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_TOGGLE_PIXEL_MINIMAP:
         case ACTION_RELOAD_TILESET:
         case ACTION_TIMEOUT:
+        case ACTION_TOGGLE_AUTO_FEATURES:
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
+        case ACTION_TOGGLE_AUTO_MINING:
+        case ACTION_TOGGLE_AUTO_FORAGING:
             return false;
         default:
             return true;
@@ -746,7 +755,10 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_FEATURES );
             REGISTER_ACTION( ACTION_TOGGLE_AUTO_PULP_BUTCHER );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_MINING );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_FORAGING );
         } else if( category == _( "Craft" ) ) {
             REGISTER_ACTION( ACTION_CRAFT );
             REGISTER_ACTION( ACTION_RECRAFT );

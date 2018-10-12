@@ -39,6 +39,7 @@
 #include "inventory.h"
 #include "craft_command.h"
 #include "material.h"
+#include "options.h"
 
 #include <sstream>
 #include <algorithm>
@@ -1482,12 +1483,14 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     // But those were useless, don't re-add until they get useful
 }
 
-static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar )
+static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar, bool auto_forage = false )
 {
     const auto hid = g->m.get_harvest( examp );
     if( hid.is_null() || hid->empty() ) {
-        p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
-        iexamine::none( p, examp );
+        if( !auto_forage ) {
+            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+            iexamine::none( p, examp );
+        }
         return false;
     }
 
@@ -1499,7 +1502,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         return false;
     }
 
-    if( p.is_player() && !query_yn(_("Pick %s?"), furn ? g->m.furnname( examp ).c_str() : g->m.tername( examp ).c_str() ) ) {
+    if( p.is_player() && !auto_forage && !query_yn(_("Pick %s?"), furn ? g->m.furnname( examp ).c_str() : g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
         return false;
     }
@@ -1547,7 +1550,8 @@ void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
 
 void iexamine::harvest_ter( player &p, const tripoint &examp )
 {
-    if( harvest_common( p, examp, false, false ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) && ( get_option<std::string>( "AUTO_FORAGING" ) == "both" || get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
+    if( harvest_common( p, examp, false, false, auto_forage ) ) {
         g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
     }
 }
@@ -2410,7 +2414,8 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 void pick_plant(player &p, const tripoint &examp,
                 const std::string &itemType, ter_id new_ter, bool seeds)
 {
-    if( p.is_player() && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) && get_option<std::string>( "AUTO_FORAGING" ) != "off";
+    if( p.is_player() && !auto_forage && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
         return;
     }
@@ -2647,6 +2652,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( activity_id( "ACT_FORAGE" ), move_cost, 0 );
     p.activity.placement = examp;
+    p.activity.auto_resume = true;
     return;
 }
 
@@ -3973,7 +3979,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     int minutes_left = 0;
     units::volume f_volume = 0;
     bool f_check = false;
-    
+
     for( size_t i = 0; i < items_here.size(); i++ ) {
         auto &it = items_here[i];
         if( it.is_food() ) {
@@ -4003,9 +4009,9 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     smenu.addentry( 0, true, 'i', _( "Inspect smoking rack" ) );
 
     if( !active ) {
-        smenu.addentry_desc( 1, !empty && has_enough_coal, 'l', 
+        smenu.addentry_desc( 1, !empty && has_enough_coal, 'l',
                              empty ?  _( "Light up and smoke food... insert some food for smoking first" ) :
-                             !has_enough_coal ? string_format( _( "Light up and smoke food... need extra %d charges of charcoal" ), 
+                             !has_enough_coal ? string_format( _( "Light up and smoke food... need extra %d charges of charcoal" ),
                                                                need_charges - coal_charges ) :
                              _( "Light up and smoke food" ),
                              _( "Light up the smoking rack and start smoking. Smoking will take about 6 hours." ) );
@@ -4020,20 +4026,20 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             smenu.addentry( 4, f_check, 'e', _( "Remove food from smoking rack" ) );
         }
 
-        smenu.addentry_desc( 3, has_coal_in_inventory, 'r', 
+        smenu.addentry_desc( 3, has_coal_in_inventory, 'r',
                              !has_coal_in_inventory ? _( "Reload with charcoal... you don't have any" ) :
                              _( "Reload with charcoal" ),
-                             string_format( _( "You need %d charges of charcoal for %s %s of food. Minimal amount of charcoal is %d charges." ), 
+                             string_format( _( "You need %d charges of charcoal for %s %s of food. Minimal amount of charcoal is %d charges." ),
                                             sm_rack::CHARCOAL_PER_LITER, format_volume( 1000_ml ), volume_units_long(), sm_rack::MIN_CHARCOAL ) );
     } else {
-        smenu.addentry_desc( 7, true, 'x', 
+        smenu.addentry_desc( 7, true, 'x',
                              _( "Quench burning charcoal" ),
                              _( "Quenching will stop smoking process, but also destroy all used charcoal." ) );
     }
 
     if( has_coal ) {
-        smenu.addentry( 5, true, 'c', 
-                        active ? string_format( _( "Rake out %d excess charges of charcoal from smoking rack" ), coal_charges ) : 
+        smenu.addentry( 5, true, 'c',
+                        active ? string_format( _( "Rake out %d excess charges of charcoal from smoking rack" ), coal_charges ) :
                         string_format( _( "Remove %d charges of charcoal from smoking rack" ), coal_charges ) );
     }
 
@@ -4057,7 +4063,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
-            }          
+            }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
                 pop << "... that it is empty.";
@@ -4068,11 +4074,11 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                         pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" << "\n ";
                         continue;
                     }
-                    pop << "-> " << it.nname( it.typeId(), it.charges ); 
+                    pop << "-> " << it.nname( it.typeId(), it.charges );
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }
-            popup( pop.str(), PF_NONE ); 
+            popup( pop.str(), PF_NONE );
             break;
         }
         case 1: //activate
