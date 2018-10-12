@@ -1493,59 +1493,25 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int pos = g->inv_for_filter( _( "Enhance what?" ), []( const item & itm ) {
-        return itm.made_of( material_id( "cotton" ) ) ||
-               itm.made_of( material_id( "leather" ) ) ||
-               itm.made_of( material_id( "fur" ) ) ||
-               itm.made_of( material_id( "nomex" ) ) ||
-               itm.made_of( material_id( "plastic" ) ) ||
-               itm.made_of( material_id( "kevlar" ) ) ||
-               itm.made_of( material_id( "wool" ) );
+    static const std::set<material_id> sewable{
+        material_id( "cotton" ),
+        material_id( "leather" ),
+        material_id( "fur" ),
+        material_id( "nomex" ),
+        material_id( "plastic" ),
+        material_id( "kevlar" ),
+        material_id( "wool" )
+    };
+    int pos = g->inv_for_filter( _( "Enhance which clothing?" ), []( const item & itm ) {
+        return itm.is_armor() && !itm.is_firearm() && !itm.is_power_armor() &&
+               itm.made_of_any( sewable );
     } );
     item &mod = p->i_at( pos );
     if( mod.is_null() ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-
-    if( !mod.is_armor() ) {
-        p->add_msg_if_player( m_info, _( "You can only tailor your clothes!" ) );
-        return 0;
-    }
-    if( mod.is_firearm() ) {
-        p->add_msg_if_player( m_info, _( "You can't use a tailor's kit on a firearm!" ) );
-        return 0;
-    }
-    if( mod.is_power_armor() ) {
-        p->add_msg_if_player( m_info, _( "You can't modify your power armor!" ) );
-        return 0;
-    }
-
-    std::vector<itype_id> repair_items;
-
-    // Little helper to cut down some surplus redundancy and repetition
-    const auto add_material = [&]( const material_id & material,
-    const itype_id & mat_item ) {
-        if( mod.made_of( material ) ) {
-            repair_items.push_back( mat_item );
-        }
-    };
-
-    add_material( material_id( "cotton" ), "rag" );
-    add_material( material_id( "leather" ), "leather" );
-    add_material( material_id( "fur" ), "fur" );
-    add_material( material_id( "nomex" ), "nomex" );
-    add_material( material_id( "plastic" ), "plastic_chunk" );
-    add_material( material_id( "kevlar" ), "kevlar_plate" );
-    add_material( material_id( "wool" ), "felt_patch" );
-    if( repair_items.empty() ) {
-        p->add_msg_if_player( m_info,
-                              _( "Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic." ),
-                              mod.tname().c_str() );
-        return 0;
-    }
-    if( &mod == it || std::find( repair_items.begin(), repair_items.end(),
-                                 mod.typeId() ) != repair_items.end() ) {
+    if( &mod == it ) {
         p->add_msg_if_player( m_info,
                               _( "This can be used to repair or modify other items, not itself." ) );
         return 0;
@@ -5336,12 +5302,15 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You need a fabrication skill of 1 to use this repair kit." ) );
         return 0;
     }
+    static const std::set<material_id> repairable {
+        material_id( "wood" ),
+        material_id( "paper" ),
+        material_id( "bone" ),
+        material_id( "chitin" ),
+        material_id( "acidchitin" )
+    };
     int inventory_index = g->inv_for_filter( _( "Select the item to repair" ), []( const item & itm ) {
-        return ( !itm.is_firearm() ) && ( itm.made_of( material_id( "wood" ) ) ||
-                                          itm.made_of( material_id( "paper" ) ) ||
-                                          itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ||
-                                          itm.made_of( material_id( "acidchitin" ) ) ) &&
-               !itm.count_by_charges();
+        return !itm.is_firearm() && itm.made_of_any( repairable ) && !itm.count_by_charges();
     } );
     item &fix = p->i_at( inventory_index );
     if( fix.is_null() ) {
