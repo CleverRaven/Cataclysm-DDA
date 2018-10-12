@@ -165,14 +165,17 @@ class query_popup
         std::string text;
         std::vector<query_option> options;
         size_t cur;
-        bool anykey, cancel;
-        bool ontop, fullscr;
+        bool anykey;
+        bool cancel;
+        bool ontop;
+        bool fullscr;
 
         struct button {
             button( const std::string &text, int x, int y );
 
             std::string text;
-            int x, y;
+            int x;
+            int y;
         };
 
         // UI caches
