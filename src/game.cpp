@@ -2074,7 +2074,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         std::vector<iteminfo> vThisItem;
         std::vector<iteminfo> vDummy;
 
-        const bool bHPR = get_auto_pickup().has_rule( oThisItem.tname( 1, false ) );
+        const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
         const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
@@ -2227,14 +2227,14 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     break;
                 case '+':
                     if( !bHPR ) {
-                        get_auto_pickup().add_rule( oThisItem.tname( 1, false ) );
+                        get_auto_pickup().add_rule( &oThisItem );
                         add_msg( m_info, _( "'%s' added to character pickup rules." ), oThisItem.tname( 1,
                                  false ).c_str() );
                     }
                     break;
                 case '-':
                     if( bHPR ) {
-                        get_auto_pickup().remove_rule( oThisItem.tname( 1, false ) );
+                        get_auto_pickup().remove_rule( &oThisItem );
                         add_msg( m_info, _( "'%s' removed from character pickup rules." ), oThisItem.tname( 1,
                                  false ).c_str() );
                     }

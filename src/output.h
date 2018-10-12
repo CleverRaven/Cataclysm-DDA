@@ -709,8 +709,7 @@ extern scrollingcombattext SCT;
 
 std::string wildcard_trim_rule( const std::string &sPatternIn );
 bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
-std::vector<std::string> &wildcard_split( const std::string &s, char delim,
-        std::vector<std::string> &elems );
+std::vector<std::string> string_split( const std::string &s, char delim );
 int ci_find_substr( const std::string &str1, const std::string &str2,
                     const std::locale &loc = std::locale() );
 

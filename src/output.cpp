@@ -2132,9 +2132,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
     }
 
     int pos;
-    std::vector<std::string> pattern;
-
-    wildcard_split( wildcard_trim_rule( pattern_in ), '*', pattern );
+    std::vector<std::string> pattern = string_split( wildcard_trim_rule( pattern_in ), '*' );
 
     if( pattern.size() == 1 ) { // no * found
         return ( text.length() == pattern[0].length() && ci_find_substr( text, pattern[0] ) != -1 );
@@ -2183,25 +2181,25 @@ std::string wildcard_trim_rule( const std::string &pattern_in )
     return pattern;
 }
 
-std::vector<std::string> &wildcard_split( const std::string &text_in, char delim_in,
-        std::vector<std::string> &elems_in )
+std::vector<std::string> string_split( const std::string &text_in, char delim_in )
 {
-    elems_in.clear();
+    std::vector<std::string> elems;
+
     if( text_in.empty() ) {
-        return elems_in; // Well, that was easy.
+        return elems; // Well, that was easy.
     }
 
     std::stringstream ss( text_in );
     std::string item;
     while( std::getline( ss, item, delim_in ) ) {
-        elems_in.push_back( item );
+        elems.push_back( item );
     }
 
-    if( text_in.substr( text_in.length() - 1, 1 ) == "*" ) {
-        elems_in.push_back( "" );
+    if( text_in[text_in.length() - 1] == delim_in ) {
+        elems.push_back( "" );
     }
 
-    return elems_in;
+    return elems;
 }
 
 // find substring (case insensitive)
