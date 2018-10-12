@@ -221,16 +221,12 @@ double convert_volume( int volume, int *out_scale );
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
  *
- * @param fahrenheit Temperature in degrees F.
- *
  * @return Temperature in degrees C.
  */
 double temp_to_celsius( double fahrenheit );
 
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Kelvin.
- *
- * @param fahrenheit Temperature in degrees F.
  *
  * @return Temperature in degrees K.
  */
