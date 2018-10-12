@@ -2016,13 +2016,14 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( npc_list.empty() ) {
                     inventory total_inv = g->u.crafting_inventory();
                     std::vector<item *> seed_inv = total_inv.items_with( []( const item & itm ) {
-                        return itm.is_seed();
+                        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
                     } );
                     if( seed_inv.empty() ) {
                         popup( _( "You have no additional seeds to give your companions..." ) );
                         individual_mission( p, _( "begins planting the field..." ), "_faction_exp_plant_" + cur_key.dir );
                     } else {
-                        std::vector<item *> lost_equipment = individual_mission_give_equipment( seed_inv );
+                        std::vector<item *> lost_equipment = individual_mission_give_equipment( seed_inv,
+                                                             _( "Which seeds do you wish to have planted?" ) );
                         individual_mission( p, _( "begins planting the field..." ), "_faction_exp_plant_" + cur_key.dir,
                                             false, lost_equipment );
                     }
@@ -3300,16 +3301,9 @@ bool talk_function::camp_farm_return( npc &p, const std::string &task, bool harv
         return false;
     }
 
-    std::vector<item *> seed_inv_tmp = comp->companion_mission_inv.items_with( []( const item & itm ) {
-        return itm.is_seed();
+    std::vector<item *> seed_inv = comp->companion_mission_inv.items_with( []( const item & itm ) {
+        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
     } );
-
-    std::vector<item *> seed_inv;
-    for( auto &seed : seed_inv_tmp ) {
-        if( seed->typeId() !=  "marloss_seed" && seed->typeId() !=  "fungal_seeds" ) {
-            seed_inv.push_back( seed );
-        }
-    }
 
     if( plant && seed_inv.empty() ) {
         popup( _( "No seeds to plant!" ) );
