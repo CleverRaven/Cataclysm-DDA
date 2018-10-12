@@ -1096,7 +1096,7 @@ void options_manager::init()
         { "es_AR", R"( Español ( Argentina ) )" },
         { "es_ES", R"( Español ( España ) )" },
         { "fr", R"( Français )" },
-        { "hu", R"( magyar nyelv )"},
+        { "hu", R"( Magyar )"},
         { "ja", R"( 日本語 )" },
         { "ko", R"( 한국어 )" },
         { "pl", R"( Polski )" },
