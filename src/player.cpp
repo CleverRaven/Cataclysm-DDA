@@ -3422,15 +3422,9 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     switch( bp ) {
         case bp_eyes:
             if( dam > 5 || cut_dam > 0 ) {
-                int minblind = ( dam + cut_dam ) / 10;
-                if( minblind < 1 ) {
-                    minblind = 1;
-                }
-                int maxblind = ( dam + cut_dam ) /  4;
-                if( maxblind > 5 ) {
-                    maxblind = 5;
-                }
-                add_effect( effect_blind, time_duration::from_turns( rng( minblind, maxblind ) ) );
+                const time_duration minblind = std::max( 1_turns, 1_turns * ( dam + cut_dam ) / 10 );
+                const time_duration maxblind = std::min( 5_turns, 1_turns * ( dam + cut_dam ) / 4 );
+                add_effect( effect_blind, rng( minblind, maxblind ) );
             }
             break;
         case bp_torso:
@@ -3633,7 +3627,7 @@ int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, bod
             add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
         }
     }
-    e.mod_duration( - time_duration::from_hours( 6 * remove_med ) );
+    e.mod_duration( -6_hours * remove_med );
     return intensity;
 }
 
