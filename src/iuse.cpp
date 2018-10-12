@@ -2342,8 +2342,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     int &diry = dirp.y;
 
     if( dirx == p->posx() && diry == p->posy() ) {
-        p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet" ) );
-        p->add_msg_if_player( m_info, _( "but alas.  You are just too miserly." ) );
+        p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
+                                         "but alas.  You are just too miserly." ) );
         return 0;
     }
     ter_id type = g->m.ter( dirx, diry );
@@ -2864,9 +2864,8 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     }
 
     if( dirp == p->pos() ) {
-        p->add_msg_if_player( _( "Mining the depths of your experience," ) );
-        p->add_msg_if_player( _( "you realize that it's best not to dig" ) );
-        p->add_msg_if_player( _( "yourself into a hole.  You stop digging." ) );
+        p->add_msg_if_player( _( "Mining the depths of your experience, you realize that it's "
+                                 "best not to dig yourself into a hole.  You stop digging." ) );
         return 0;
     }
     if( !g->m.has_flag( "MINEABLE", dirp ) ) {
