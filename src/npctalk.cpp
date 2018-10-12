@@ -2430,7 +2430,13 @@ void talk_response::effect_fun_t::set_u_add_effect( std::string &new_effect, std
         if( duration_str == "PERMANENT" ) {
             permanent = true;
         } else {
-            duration = std::stoi( duration_str );
+            try {
+                duration = std::stoi( duration_str );
+            } catch( const std::invalid_argument & ) {
+                debugmsg( "Invalid effect duration '%s'.", duration_str );
+            } catch( const std::out_of_range & ) {
+                debugmsg( "Effect duration '%s' out of range.", duration_str );
+            }
         }
         u.add_effect( efftype_id( new_effect ), time_duration::from_turns( duration ), num_bp, permanent );
     };
@@ -2445,7 +2451,13 @@ void talk_response::effect_fun_t::set_npc_add_effect( std::string &new_effect, s
         if( duration_str == "PERMANENT" ) {
             permanent = true;
         } else {
-            duration = std::stoi( duration_str );
+            try {
+                duration = std::stoi( duration_str );
+            } catch( const std::invalid_argument & ) {
+                debugmsg( "Invalid effect duration '%s'.", duration_str );
+            } catch( const std::out_of_range & ) {
+                debugmsg( "Effect duration '%s' out of range.", duration_str );
+            }
         }
         p.add_effect( efftype_id( new_effect ), time_duration::from_turns( duration ), num_bp, permanent );
     };
