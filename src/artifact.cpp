@@ -1488,6 +1488,7 @@ static const std::unordered_map<std::string, art_charge> art_charge_values = { {
         PAIR( ARTC_PAIN ),
         PAIR( ARTC_HP ),
         PAIR( ARTC_FATIGUE ),
+        PAIR( ARTC_PORTAL ),
     }
 };
 static const std::unordered_map<std::string, art_charge_req> art_charge_req_values = { {

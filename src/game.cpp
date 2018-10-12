@@ -12615,6 +12615,18 @@ void game::process_artifact( item &it, player &p )
                             it.charges++;
                         }
                         break;
+                    // Portals are energetic enough to charge the item.
+                    // Tears in reality are consumed too, but can't charge it.
+                    case ARTC_PORTAL:
+                        for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
+                            if( g->m.tr_at( dest ).loadid == tr_portal ) {
+                                add_msg( m_good, _( "The portal collapses!" ) );
+                                m.remove_trap( dest );
+                                it.charges++;
+                            }
+                            m.remove_field( dest, fd_fatigue );
+                        }
+                        break;
                 }
             }
         }
