@@ -11728,8 +11728,9 @@ void map_memory::update_submap_memory( const std::set<tripoint> &submaps, const 
         erase.insert( memorized_submaps.front() );
         memorized_submaps.erase( memorized_submaps.begin() );
     }
-
-    clear_submap_memory( erase );
+    if( !erase.empty() ) {
+        clear_submap_memory( erase );
+    }
 }
 
 void map_memory::clear_submap_memory( const std::set<tripoint> &erase )
