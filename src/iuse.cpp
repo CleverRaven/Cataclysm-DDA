@@ -2830,9 +2830,12 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         p->add_msg_if_player( _( "Don't do anything rash." ) );
         return 0;
     }
-
     if( !g->m.has_flag( "MINEABLE", dirp ) ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
+        return 0;
+    }
+    if( g->m.veh_at( dirp ) ) {
+        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
         return 0;
     }
 
@@ -2843,7 +2846,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
+int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
 {
     if( p->is_npc() ) {
         // Long action
@@ -2855,35 +2858,37 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int dirx = 0;
-    int diry = 0;
-    if( !choose_adjacent( _( "Mine where?" ), dirx, diry ) ) {
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Mine where?" ), dirp ) ) {
         return 0;
     }
 
-    if( dirx == p->posx() && diry == p->posy() ) {
+    if( dirp == p->pos() ) {
         p->add_msg_if_player( _( "Mining the depths of your experience," ) );
         p->add_msg_if_player( _( "you realize that it's best not to dig" ) );
         p->add_msg_if_player( _( "yourself into a hole.  You stop digging." ) );
         return 0;
     }
-
-    int turns;
-    if( g->m.has_flag( "MINEABLE", dirx, diry ) ) {
-        if( g->m.move_cost( dirx, diry ) == 2 ) {
-            // We're breaking up some flat surface like pavement, which is much easier
-            turns = MINUTES( 20 );
-        } else {
-            turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
-        }
-    } else {
+    if( !g->m.has_flag( "MINEABLE", dirp ) ) {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return 0;
     }
+    if( g->m.veh_at( dirp ) ) {
+        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
+        return 0;
+    }
+
+    int turns;
+    if( g->m.move_cost( dirp ) == 2 ) {
+        // We're breaking up some flat surface like pavement, which is much easier
+        turns = MINUTES( 20 );
+    } else {
+        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
+    }
     p->assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1, p->get_item_position( it ) );
-    p->activity.placement = tripoint( dirx, diry, p->posz() ); // TODO: Z
+    p->activity.placement = dirp;
     p->add_msg_if_player( _( "You attack the %1$s with your %2$s." ),
-                          g->m.tername( dirx, diry ).c_str(), it->tname().c_str() );
+                          g->m.tername( dirp ).c_str(), it->tname().c_str() );
     return 0; // handled when the activity finishes
 }
 
