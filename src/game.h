@@ -1035,7 +1035,9 @@ class game
         void draw_minimap();     // Draw the 5x5 minimap
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
+    public:
         void draw_sidebar_messages();
+    private:
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
