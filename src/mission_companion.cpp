@@ -2133,18 +2133,16 @@ void talk_function::caravan_depart( npc &p, const std::string &dest, const std::
 {
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     int distance = caravan_dist( dest );
-    int time = 200 + distance * 100;
+    time_duration time = 20_minutes + distance * 10_minutes;
     popup( _( "The caravan departs with an estimated total travel time of %d hours..." ),
-           int( time / 600 ) );
+           to_hours<int>( time ) );
 
     for( auto &elem : npc_list ) {
         if( elem->companion_mission_time == calendar::before_time_starts ) {
             //Adds a 10% error in estimated travel time
-            elem->companion_mission_time = calendar::turn + time_duration::from_turns( time + time * rng_float(
-                                               -.1, .1 ) );
+            elem->companion_mission_time = calendar::turn + time * rng_float( -1.1, 1.1 );
         }
     }
-
 }
 
 //Could be expanded to actually path to the site, just returns the distance
@@ -4950,26 +4948,26 @@ time_duration talk_function::companion_travel_time_calc( const std::vector<tripo
         time_duration work, int trips )
 {
     //path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
-    int one_way = 0;
+    time_duration one_way = 0;
     for( auto &om : journey ) {
         oter_id &omt_ref = overmap_buffer.ter( om.x, om.y, g->u.posz() );
         std::string om_id = omt_ref.id().c_str();
         //Player walks 1 om is roughly 2.5 min
         if( om_id == "field" ) {
-            one_way += 3;
+            one_way += 3_minutes;
         } else if( om_id == "forest" ) {
-            one_way += 4;
+            one_way += 4_minutes;
         } else if( om_id == "forest_thick" ) {
-            one_way += 5;
+            one_way += 5_minutes;
         } else if( om_id == "forest_water" ) {
-            one_way += 6;
+            one_way += 6_minutes;
         } else if( is_river( omt_ref ) ) {
-            one_way += 20;
+            one_way += 20_minutes;
         } else {
-            one_way += 4;
+            one_way += 4_minutes;
         }
     }
-    return time_duration::from_minutes( ( one_way * trips ) + to_minutes<int>( work ) );
+    return one_way * trips + work;
 }
 
 std::string talk_function::camp_trip_description( time_duration total_time,
