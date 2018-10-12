@@ -2189,7 +2189,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
                     auto const description = _( contents_item.type->description.c_str() );
 
-                    if( contents_item.made_of( LIQUID ) ) {
+                    if( contents_item.made_of_from_type( LIQUID ) ) {
                         auto contents_volume = contents_item.volume() * batch;
                         int converted_volume_scale = 0;
                         const double converted_volume =
