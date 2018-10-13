@@ -583,8 +583,7 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&] { turrets_aim_single(); refresh(); } );
     }
 
-    uimenu menu;
-    menu.return_invalid = true;
+    uilist menu;
     menu.text = _( "Vehicle controls" );
     menu.entries = options;
     menu.query();
