@@ -92,9 +92,21 @@ double rng_normal( double lo, double hi )
     return std::max( std::min( val, hi ), lo );
 }
 
-double normal_roll( double mean, double stddev )
+std::default_random_engine &get_engine()
 {
     static std::default_random_engine eng(
         std::chrono::system_clock::now().time_since_epoch().count() );
-    return std::normal_distribution<double>( mean, stddev )( eng );
+    return eng;
+}
+
+void rng_set_engine_seed( uintmax_t seed )
+{
+    if( seed != 0 ) {
+        get_engine().seed( seed );
+    }
+}
+
+double normal_roll( double mean, double stddev )
+{
+    return std::normal_distribution<double>( mean, stddev )( get_engine() );
 }
