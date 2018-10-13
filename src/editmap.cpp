@@ -1970,9 +1970,8 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     if( car_titles.size() == 1 ) {
         return possible_vehicles[0];
     }
-    car_titles.push_back( _( "Cancel" ) );
-    int choice = menu_vec( true, _( "Select the Vehicle" ), car_titles ) - 1;
-    if( choice >= 0 && size_t( choice ) < possible_vehicles.size() ) {
+    const int choice = uilist( _( "Select the Vehicle" ), car_titles );
+    if( choice >= 0 && static_cast<size_t>( choice ) < possible_vehicles.size() ) {
         return possible_vehicles[choice];
     }
     return nullptr;
