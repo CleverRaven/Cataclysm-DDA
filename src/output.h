@@ -419,10 +419,6 @@ inline void popup_player_or_npc( player &p, const char *player_mes, const char *
     }
 }
 
-catacurses::window create_popup_window( const std::string &text, PopupFlags flags );
-catacurses::window create_wait_popup_window( const std::string &text,
-        nc_color bar_color = c_light_green );
-
 /*@}*/
 
 input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,

@@ -38,6 +38,7 @@
 #include "clzones.h"
 #include "cursesdef.h"
 #include "overmap_ui.h"
+#include "popup.h"
 
 #include <chrono>
 
@@ -272,13 +273,10 @@ input_context game::get_player_input( std::string &action )
             if( uquit == QUIT_WATCH ) {
                 draw_sidebar();
 
-                catacurses::window popup = create_wait_popup_window(
-                                               string_format( _( "Press %s to accept your fate..." ),
-                                                       ctxt.get_desc( "QUIT" ).c_str() ),
-                                               c_red
-                                           );
-
-                wrefresh( popup );
+                query_popup()
+                .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
+                .on_top( true )
+                .show();
 
                 break;
             }

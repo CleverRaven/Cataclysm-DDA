@@ -322,6 +322,20 @@ query_popup::result query_popup::query()
     return res;
 }
 
+std::string query_popup::wait_text( const std::string &text, const nc_color &bar_color )
+{
+    static const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
+    static size_t phase = phase_icons.size() - 1;
+    phase = ( phase + 1 ) % phase_icons.size();
+    return string_format( " <color_%s>%s</color> %s",
+                          string_from_color( bar_color ), phase_icons[phase], text );
+}
+
+std::string query_popup::wait_text( const std::string &text )
+{
+    return wait_text( text, c_light_green );
+}
+
 query_popup::result::result()
     : wait_input( false ), action( "ERROR" ), evt()
 {

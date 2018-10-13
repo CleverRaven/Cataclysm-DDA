@@ -624,68 +624,6 @@ int menu( bool const cancelable, const char *const mes, ... )
     return ( uimenu( cancelable, mes, options ) );
 }
 
-static catacurses::window create_popup_window( int width, int height, PopupFlags flags )
-{
-    if( ( flags & PF_FULLSCREEN ) != 0 ) {
-        return catacurses::newwin(
-                   FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                   std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
-                   std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
-               );
-    } else if( ( flags & PF_ON_TOP ) != 0 ) {
-        return catacurses::newwin(
-                   height, width,
-                   0,
-                   std::max( ( TERMX - width ) / 2, 0 )
-               );
-    } else {
-        return catacurses::newwin(
-                   height, width,
-                   std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
-                   std::max( ( TERMX - width ) / 2, 0 )
-               );
-    }
-}
-
-catacurses::window create_popup_window( const std::string &text, PopupFlags flags )
-{
-    const auto folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
-
-    int text_width = 0;
-    for( const auto &elem : folded ) {
-        text_width = std::max( text_width, utf8_width( elem, true ) );
-    }
-
-    const int height = std::min<int>( folded.size() + 2, FULL_SCREEN_HEIGHT );
-    const int width = text_width + 2;
-
-    catacurses::window result = create_popup_window( width, height, flags );
-
-    draw_border( result );
-
-    for( size_t i = 0; i < folded.size(); ++i ) {
-        fold_and_print( result, i + 1, 1, width, c_white, folded[i] );
-    }
-
-    return result;
-}
-
-catacurses::window create_wait_popup_window( const std::string &text, nc_color bar_color )
-{
-    static size_t phase = 0;
-
-    const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
-    const std::string featured_text = string_format(
-                                          " <color_%s>%s</color> %s",
-                                          string_from_color( bar_color ).c_str(),
-                                          phase_icons[phase].c_str(),
-                                          text.c_str() );
-
-    phase = ( phase + 1 ) % phase_icons.size();
-
-    return create_popup_window( featured_text, PF_ON_TOP );
-}
-
 long popup( const std::string &text, PopupFlags flags )
 {
     query_popup pop;

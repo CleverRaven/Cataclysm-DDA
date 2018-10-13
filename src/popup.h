@@ -9,6 +9,8 @@
 #include "cursesdef.h"
 #include "input.h"
 
+class nc_color;
+
 /**
  * UI class for displaying messages or querying player input with popups.
  *
@@ -80,22 +82,47 @@ class query_popup
          */
         template <typename ...Args>
         query_popup &message( const std::string &fmt, Args &&... args ) {
-            static_assert( sizeof...( Args ) > 0,
-                           "Format string should take at least one argument. "
-                           "If your message is not a format string, "
-                           "use `message( \"%s\", text )` instead." );
+            assert_format( fmt, std::forward<Args>( args )... );
             invalidate_ui();
             text = string_format( fmt, std::forward<Args>( args )... );
             return *this;
         }
         template <typename ...Args>
         query_popup &message( const char *const fmt, Args &&... args ) {
-            static_assert( sizeof...( Args ) > 0,
-                           "Format string should take at least one argument. "
-                           "If your message is not a format string, "
-                           "use `message( \"%s\", text )` instead." );
+            assert_format( fmt, std::forward<Args>( args )... );
             invalidate_ui();
             text = string_format( fmt, std::forward<Args>( args )... );
+            return *this;
+        }
+        /**
+         * Like query_popup::message, but with waiting symbol prepended to the text.
+         **/
+        template <typename ...Args>
+        query_popup &wait_message( const nc_color &bar_color, const std::string &fmt, Args &&... args ) {
+            assert_format( fmt, std::forward<Args>( args )... );
+            invalidate_ui();
+            text = wait_text( string_format( fmt, std::forward<Args>( args )... ), bar_color );
+            return *this;
+        }
+        template <typename ...Args>
+        query_popup &wait_message( const nc_color &bar_color, const char *const fmt, Args &&... args ) {
+            assert_format( fmt, std::forward<Args>( args )... );
+            invalidate_ui();
+            text = wait_text( string_format( fmt, std::forward<Args>( args )... ), bar_color );
+            return *this;
+        }
+        template <typename ...Args>
+        query_popup &wait_message( const std::string &fmt, Args &&... args ) {
+            assert_format( fmt, std::forward<Args>( args )... );
+            invalidate_ui();
+            text = wait_text( string_format( fmt, std::forward<Args>( args )... ) );
+            return *this;
+        }
+        template <typename ...Args>
+        query_popup &wait_message( const char *const fmt, Args &&... args ) {
+            assert_format( fmt, std::forward<Args>( args )... );
+            invalidate_ui();
+            text = wait_text( string_format( fmt, std::forward<Args>( args )... ) );
             return *this;
         }
         /**
@@ -189,6 +216,17 @@ class query_popup
                     int max_width, int horz_padding );
         void invalidate_ui() const;
         void init() const;
+
+        template <typename ...Args>
+        static void assert_format( const std::string &, Args &&... ) {
+            static_assert( sizeof...( Args ) > 0,
+                           "Format string should take at least one argument. "
+                           "If your message is not a format string, "
+                           "use `message( \"%s\", text )` instead." );
+        }
+
+        static std::string wait_text( const std::string &text, const nc_color &bar_color );
+        static std::string wait_text( const std::string &text );
 };
 
 #endif
