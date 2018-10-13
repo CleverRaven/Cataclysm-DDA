@@ -99,11 +99,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_bike_rack = ( bike_rack_part >= 0 );
 
 
-    typedef enum {
+    enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
         USE_BIKE_RACK
-    } options;
+    };
     uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
