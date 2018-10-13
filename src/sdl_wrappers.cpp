@@ -110,6 +110,7 @@ void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &t
     printErrorIf( SDL_SetRenderTarget( renderer.get(), texture.get() ) != 0,
                   "SDL_SetRenderTarget failed" );
 }
+
 void RenderClear( const SDL_Renderer_Ptr &renderer )
 {
     if( !renderer ) {
@@ -117,5 +118,14 @@ void RenderClear( const SDL_Renderer_Ptr &renderer )
         return;
     }
     printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderCopy failed" );
+}
+
+SDL_Surface_Ptr CreateRGBSurface( const Uint32 flags, const int width, const int height,
+                                  const int depth, const Uint32 Rmask, const Uint32 Gmask, const Uint32 Bmask, const Uint32 Amask )
+{
+    SDL_Surface_Ptr surface( SDL_CreateRGBSurface( flags, width, height, depth, Rmask, Gmask, Bmask,
+                             Amask ) );
+    throwErrorIf( !surface, "Failed to create surface" );
+    return surface;
 }
 #endif

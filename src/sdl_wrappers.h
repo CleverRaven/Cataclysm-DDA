@@ -79,6 +79,8 @@ void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode ble
 SDL_Surface_Ptr load_image( const char *path );
 void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture );
 void RenderClear( const SDL_Renderer_Ptr &renderer );
+SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth, Uint32 Rmask,
+                                  Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
 /**@}*/
 
 #endif

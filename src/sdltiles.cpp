@@ -593,12 +593,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     const int wf = utf8_wrapper( ch ).display_width();
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface( SDL_CreateRGBSurface( 0, fontwidth * wf, fontheight, 32,
-                                                   rmask, gmask, bmask, amask ) );
-    if( !surface ) {
-        dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
-        return CreateTextureFromSurface( renderer, sglyph );
-    }
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, fontwidth * wf, fontheight, 32, rmask, gmask, bmask, amask );
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
     SDL_Rect dst_rect = { 0, 0, fontwidth * wf, fontheight };
     if (src_rect.w < dst_rect.w) {
