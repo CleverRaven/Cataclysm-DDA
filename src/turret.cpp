@@ -299,9 +299,8 @@ void vehicle::turrets_set_targeting()
 
     int sel = 0;
     while( true ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Set turret targeting" );
-        menu.return_invalid = true;
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
@@ -313,7 +312,7 @@ void vehicle::turrets_set_targeting()
         }
 
         menu.query();
-        if( menu.ret < 0 || menu.ret >= static_cast<int>( turrets.size() ) ) {
+        if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= turrets.size() ) {
             break;
         }
 
