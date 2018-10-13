@@ -438,13 +438,19 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = true; // checked later
         break;
 
-    case 'm': // mend mode
+    case 'm': { // mend mode
         enough_morale = g->u.has_morale_to_craft();
-        valid_target = std::any_of( veh->parts.begin(), veh->parts.end(), []( const vehicle_part &pt ) {
-            return !pt.faults().empty();
+        const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+        valid_target = std::any_of( veh->parts.begin(), veh->parts.end(), [toggling]( const vehicle_part &pt ) {
+            if( toggling ) {
+                return !pt.faults_potential().empty();
+            } else {
+                return !pt.faults().empty();
+            }
         } );
         has_tools = true; // checked later
-        break;
+    }
+    break;
 
     case 'f':
         return std::any_of( veh->parts.begin(), veh->parts.end(), can_refill ) ? CAN_DO : INVALID_TARGET;
@@ -1025,7 +1031,14 @@ bool veh_interact::do_mend( std::string &msg )
 
     set_title( _( "Choose a part here to mend:" ) );
 
-    auto sel = []( const vehicle_part &pt ) { return !pt.faults().empty(); };
+    const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+    auto sel = [toggling]( const vehicle_part &pt ) {
+        if( toggling ) {
+            return !pt.faults_potential().empty();
+        } else {
+            return !pt.faults().empty();
+        }
+    };
 
     auto act = [&]( const vehicle_part &pt ) {
         g->u.mend_item( veh->part_base( veh->index_of_part( &pt ) ) );
