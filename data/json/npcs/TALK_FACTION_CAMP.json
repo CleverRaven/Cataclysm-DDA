@@ -1,5 +1,27 @@
 [
   {
+    "id": "TALK_CAMP_GENERAL",
+    "type": "talk_topic",
+    "dynamic_line": "What about faction camps?",
+    "responses": [
+      { "text": "Tell me how faction camps work.", "topic": "TALK_CAMP_TUTORIAL_1" },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_DONE",
+        "effect": "start_camp",
+        "condition": { "u_at_om_location": "field" }
+      },
+      {
+        "text": "I want you to take over the camp here.",
+        "topic": "TALK_DONE",
+        "effect": "recover_camp",
+        "condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": { "npc_role_nearbby": "FACTION_CAMP" } } ] }
+      },
+      { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "Nothing.  Lets' get back to work.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_CAMP_TUTORIAL_1",
     "type": "talk_topic",
     "dynamic_line": "The faction camp system is designed to give you greater control over your companions by allowing you to assign them to their own missions.  These missions can range from gathering and crafting to eventual combat patrols.",

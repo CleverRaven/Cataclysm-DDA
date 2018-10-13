@@ -307,8 +307,11 @@ Makes the NPC into a guard, which will defend the current location.
 ### stop_guard
 Releases the NPC from their guard duty (also see "assign_guard").
 
-### become_overseer
-Makes the NPC in the overseer of a faction camp.
+### start_camp
+Makes the NPC the overseer of a new faction camp.
+
+### recover_camp
+Makes the NPC the overseer of an existing camp that doesn't have an overseer.
 
 ### remove_overseer
 Makes the NPC stop being an overseer, abandoning the faction camp.

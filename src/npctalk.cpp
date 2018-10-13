@@ -506,9 +506,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_FRIEND_GUARD" ) {
         return _( "I'm on watch." );
 
-    } else if( topic == "TALK_CAMP_OVERSEER" ) {
-        return _( "Hey Boss..." );
-
     } else if( topic == "TALK_DENY_GUARD" ) {
         return _( "Not a bloody chance, I'm going to get left behind!" );
 
@@ -754,6 +751,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return give_item_to( *p, false, true );
         // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
+        p->companion_mission_role_id.clear();
         p->set_attitude( NPCATT_FOLLOW );
         return _( "YES, MASTER!" );
     }
@@ -1299,12 +1297,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "I need you to come with me." ), "TALK_FRIEND", &talk_function::stop_guard );
         add_response_done( _( "See you around." ) );
 
-    } else if( topic == "TALK_CAMP_OVERSEER" ) {
-        p->companion_mission_role_id = "FACTION_CAMP";
-        add_response( _( "What needs to be done?" ), "TALK_CAMP_OVERSEER", &talk_function::companion_mission );
-        add_response( _( "We're abandoning this camp." ), "TALK_DONE", &talk_function::remove_overseer );
-        add_response_done( _( "See you around." ) );
-
     } else if( topic == "TALK_FRIEND" || topic == "TALK_GIVE_ITEM" || topic == "TALK_USE_ITEM" ) {
         if( p->is_following() ) {
             add_response( _( "Combat commands..." ), "TALK_COMBAT_COMMANDS" );
@@ -1372,7 +1364,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "I'm going to go my own way for a while." ), "TALK_LEAVE" );
             add_response_done( _( "Let's go." ) );
 
-            add_response( _( "I want you to build a camp here." ), "TALK_DONE", &talk_function::become_overseer );
+            add_response( _( "Let's talk about faction camps." ), "TALK_CAMP_GENERAL" );
         }
 
         if( !p->is_following() ) {
@@ -1821,7 +1813,7 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
-void talk_function::become_overseer( npc &p )
+void talk_function::start_camp( npc &p )
 {
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
@@ -1887,7 +1879,23 @@ void talk_function::become_overseer( npc &p )
         popup( _("You weren't able to survey the camp site.") );
         return;
     }
+    become_overseer( p );
+}
 
+void talk_function::recover_camp( npc &p )
+{
+    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
+    if( !om_min_level( "faction_base_camp_0", omt_ref.id().c_str() ) ){
+        popup( _("There is no faction camp here to recover!") );
+        return;
+    }
+    become_overseer( p );
+}
+
+
+void talk_function::become_overseer( npc &p )
+{
     add_msg( _( "%s has become a camp manager." ), p.name.c_str() );
     if( p.name.find( _(", Camp Manager") ) == std::string::npos ){
         p.name = p.name + _(", Camp Manager");
@@ -1901,10 +1909,15 @@ void talk_function::become_overseer( npc &p )
 
 void talk_function::remove_overseer( npc &p )
 {
-    if ( !query_yn( "This is permanent, any companions away on mission will be lost and the camp cannot be reclaimed!  Are "
-                   "you sure?") ) {
+    if ( !query_yn( "This is permanent, any companions away on mission will be lost until "
+                    "the camp is recovered! Are you sure?" ) ) {
         return;
     }
+    size_t suffix = p.name.find( _( ", Camp Manager" ) );
+    if( suffix != std::string::npos ){
+        p.name = p.name.substr( 0, suffix );
+    }
+
     add_msg( _( "%s has abandoned the camp." ), p.name.c_str() );
     p.companion_mission_role_id.clear();
     stop_guard(p);
@@ -2463,7 +2476,8 @@ void talk_response::effect_t::parse_string_effect( const std::string &type, Json
             WRAP( assign_base ),
             WRAP( assign_guard ),
             WRAP( stop_guard ),
-            WRAP( become_overseer ),
+            WRAP( start_camp ),
+            WRAP( recover_camp ),
             WRAP( remove_overseer ),
             WRAP( wake_up ),
             WRAP( reveal_stats ),
