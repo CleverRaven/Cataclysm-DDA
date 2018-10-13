@@ -29,6 +29,10 @@
 #include "string_input_popup.h"
 #include "pickup.h"
 
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
+
 #include <map>
 #include <set>
 #include <algorithm>
@@ -1726,6 +1730,12 @@ void advanced_inventory::display()
             .text( filter );
 
             draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
+
+#ifdef __ANDROID__
+            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                SDL_StartTextInput();
+            }
+#endif
 
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
