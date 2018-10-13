@@ -323,6 +323,15 @@ void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rec
     printErrorIf( SDL_RenderFillRect( renderer.get(), rect ) != 0, "SDL_RenderFillRect failed" );
 }
 
+void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMode blendMode )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_SetRenderDrawBlendMode( renderer.get(), blendMode ) != 0, "SDL_SetRenderDrawBlendMode failed" );
+}
+
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
@@ -433,10 +442,7 @@ bool InitSDL()
 
 bool SetupRenderTarget()
 {
-    if( SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_NONE ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
-        // Ignored for now, rendering could still work
-    }
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
     display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
     if( !display_buffer ) {
         dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
@@ -2001,7 +2007,7 @@ void draw_quick_shortcuts() {
             SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         else
             SetRenderDrawColor( renderer, 0, 0, 0, get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
-        SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_BLEND );
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
         RenderFillRect( renderer, &rect );
         if (hovered) {
             // draw a second button hovering above the first one
@@ -2019,7 +2025,7 @@ void draw_quick_shortcuts() {
                 RenderFillRect( renderer, &rect );                
             }
         }
-        SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_NONE );
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
         SDL_RenderSetScale( renderer.get(), text_scale, text_scale);
         int text_x, text_y;
         if (shortcut_right)
