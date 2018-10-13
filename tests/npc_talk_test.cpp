@@ -14,6 +14,7 @@
 #include "player.h"
 #include "effect.h"
 #include "calendar.h"
+#include "coordinate_conversions.h"
 
 #include <string>
 
@@ -24,23 +25,33 @@ const efftype_id effect_infected( "infected" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 
-npc create_test_talker()
+npc &create_test_talker()
 {
-    npc model_npc;
     const string_id<npc_template> test_talker( "test_talker" );
-    model_npc.normalize();
-    model_npc.load_npc_template( test_talker );
-    for( trait_id tr : model_npc.get_mutations() ) {
-        model_npc.unset_mutation( tr );
-    }
-    model_npc.set_hunger( 0 );
-    model_npc.set_thirst( 0 );
-    model_npc.set_fatigue( 0 );
-    model_npc.remove_effect( efftype_id( "sleep" ) );
-    // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
-    model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
+    int model_id = g->m.place_npc( 25, 25, test_talker );
+    g->load_npcs();
 
-    return model_npc;
+    npc *model_npc = g->find_npc( model_id );
+    REQUIRE( model_npc != nullptr );
+
+    for( trait_id tr : model_npc->get_mutations() ) {
+        model_npc->unset_mutation( tr );
+    }
+    model_npc->set_hunger( 0 );
+    model_npc->set_thirst( 0 );
+    model_npc->set_fatigue( 0 );
+    model_npc->remove_effect( efftype_id( "sleep" ) );
+    // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
+    model_npc->set_mutation( trait_id( "WEB_WEAVER" ) );
+
+    return *model_npc;
+}
+
+void change_om_type( const std::string &new_type )
+{
+    const point omt_pos = ms_to_omt_copy( g->m.getabs( g->u.posx(), g->u.posy() ) );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, g->u.posz() );
+    omt_ref = oter_id( new_type );
 }
 
 TEST_CASE( "npc_talk_test" )
@@ -50,7 +61,7 @@ TEST_CASE( "npc_talk_test" )
 
     g->faction_manager_ptr->create_if_needed();
 
-    npc talker_npc = create_test_talker();
+    npc &talker_npc = create_test_talker();
 
     dialogue d;
     d.alpha = &g->u;
@@ -150,6 +161,32 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[2].text == "This is an npc service test response." );
     CHECK( d.responses[3].text == "This is an npc available test response." );
 
+    change_om_type( "pond_swamp" );
+    d.add_topic( "TALK_TEST_LOCATION" );
+    d.gen_responses( d.topic_stack.back() );
+    CHECK( d.responses.size() == 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    change_om_type( "field" );
+    d.gen_responses( d.topic_stack.back() );
+    CHECK( d.responses.size() == 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a om_location_field test response." );
+    change_om_type( "faction_base_camp_11" );
+    d.gen_responses( d.topic_stack.back() );
+    CHECK( d.responses.size() == 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a faction camp any test response." );
+
+    d.add_topic( "TALK_TEST_NPC_ROLE" );
+    talker_npc.companion_mission_role_id = "NO_TEST_ROLE";
+    d.gen_responses( d.topic_stack.back() );
+    CHECK( d.responses.size() == 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    talker_npc.companion_mission_role_id = "TEST_ROLE";
+    d.gen_responses( d.topic_stack.back() );
+    CHECK( d.responses.size() == 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a nearby role test response." );
 
     d.add_topic( "TALK_TEST_OR" );
     g->u.cash = 0;

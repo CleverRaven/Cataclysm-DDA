@@ -2680,6 +2680,25 @@ conditional_t::conditional_t( JsonObject jo )
         condition = [effect]( const dialogue & d ) {
             return d.alpha->has_effect( efftype_id( effect ) );
         };
+    } else if( jo.has_string( "u_at_om_location" ) ) {
+        const std::string &location = jo.get_string( "u_at_om_location" );
+        condition = [location]( const dialogue & d ) {
+            const point omt_pos = ms_to_omt_copy( g->m.getabs( d.alpha->posx(), d.alpha->posy() ) );
+            oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, d.alpha->posz() );
+            if( location == "FACTION_CAMP_ANY" ) {
+                return talk_function::om_min_level( "faction_base_camp_1", omt_ref.id().c_str() );
+            } else {
+                return omt_ref == oter_id( location );
+            }
+        };
+    } else if( jo.has_string( "npc_role_nearby" ) ) {
+        const std::string &role = jo.get_string( "npc_role_nearby" );
+        condition = [role]( const dialogue &d ) {
+            const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
+                return d.alpha->posz() == guy.posz() && ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 ) && guy.companion_mission_role_id == role;
+            } );
+            return !available.empty();
+        };
     } else if( jo.has_int( "npc_service" ) ) {
         const unsigned long service_price = jo.get_int( "npc_service" );
         condition = [service_price]( const dialogue & d ) {
