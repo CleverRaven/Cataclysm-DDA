@@ -269,14 +269,11 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
-        options.emplace_back( _( "Quit controlling electronics" ), keybind( "QUIT" ) );
-
-        uimenu menu;
-        menu.return_invalid = true;
+        uilist menu;
         menu.text = _( "Electronics controls" );
         menu.entries = options;
         menu.query();
-        valid_option = menu.ret >= 0 && menu.ret < ( int )actions.size();
+        valid_option = menu.ret >= 0 && static_cast<size_t>( menu.ret ) < actions.size();
         if( valid_option ) {
             actions[menu.ret]();
         }
