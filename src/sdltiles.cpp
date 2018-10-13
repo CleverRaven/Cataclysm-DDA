@@ -305,6 +305,15 @@ SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer, cons
     return result;
 }
 
+void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a)
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_SetRenderDrawColor( renderer.get(), r, g, b, a ) != 0, "SDL_SetRenderDrawColor failed" );
+}
+
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
@@ -359,7 +368,7 @@ static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurs
 
 void ClearScreen()
 {
-    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
+    SetRenderDrawColor( renderer, 0, 0, 0, 255);
     SDL_RenderClear( renderer.get() );
 }
 
@@ -626,10 +635,7 @@ void WinDestroy()
 }
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    if( SDL_SetRenderDrawColor( renderer.get(), windowsPalette[color].r, windowsPalette[color].g,
-                                windowsPalette[color].b, 255 ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderDrawColor failed: " << SDL_GetError();
-    }
+    SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 );
     if( SDL_RenderFillRect( renderer.get(), &rect ) != 0 ) {
         dbg(D_ERROR) << "SDL_RenderFillRect failed: " << SDL_GetError();
     }
@@ -863,7 +869,7 @@ void refresh_display()
     printErrorIf( SDL_SetRenderTarget( renderer.get(), NULL ) != 0, "SDL_SetRenderTarget failed" );
 #ifdef __ANDROID__
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
-    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
+    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
     SDL_RenderClear( renderer.get() );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
@@ -1875,10 +1881,10 @@ void draw_terminal_size_preview()
             preview_terminal_height = get_option<int>("TERMINAL_Y") * fontheight;
             preview_terminal_change_time = SDL_GetTicks();
         }
-        SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
+        SetRenderDrawColor( renderer, 255, 255, 255, 255 );
         SDL_Rect previewrect = get_android_render_rect(preview_terminal_width, preview_terminal_height);
         SDL_RenderDrawRect(renderer.get(), &previewrect);
-        SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
+        SetRenderDrawColor( renderer, 0, 0, 0, 255 );
     }
 }
 
@@ -1985,9 +1991,9 @@ void draw_quick_shortcuts() {
         else
             rect = { (int)(i * width + border), (int)(WindowHeight - height), (int)(width - border*2), (int)(height) };
         if (hovered)
-            SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, 255 );
+            SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         else
-            SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, get_option<int>("ANDROID_SHORTCUT_OPACITY_BG")*0.01f*255.0f );
+            SetRenderDrawColor( renderer, 0, 0, 0, get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
         SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_BLEND );
         SDL_RenderFillRect( renderer.get(), &rect );
         if (hovered) {
@@ -1996,13 +2002,13 @@ void draw_quick_shortcuts() {
                 rect = { WindowWidth - (int)((i+1) * width + border), (int)(WindowHeight - height * 2.2f), (int)(width - border*2), (int)(height) };
             else
                 rect = { (int)(i * width + border), (int)(WindowHeight - height * 2.2f), (int)(width - border*2), (int)(height) };
-            SDL_SetRenderDrawColor( renderer.get(), 0, 0, 196, 255 );
+            SetRenderDrawColor( renderer, 0, 0, 196, 255 );
             SDL_RenderFillRect( renderer.get(), &rect );
 
             if (show_hint) {
                 // draw a backdrop for the hint text
                 rect = { 0, (int)((WindowHeight - height)*0.5f), (int)WindowWidth, (int)height };
-                SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, get_option<int>("ANDROID_SHORTCUT_OPACITY_BG")*0.01f*255.0f );
+                SetRenderDrawColor( renderer, 0, 0, 0, get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
                 SDL_RenderFillRect( renderer.get(), &rect );                
             }
         }
