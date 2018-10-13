@@ -2402,19 +2402,21 @@ item consume_vpart_item( const vpart_id &vpid )
         selection = 0;
     } else {
         // popup menu!?
-        std::vector<std::string> options;
+        uilist menu;
+        menu.text = _( "Use which gizmo?" );
+        menu.allow_cancel = false;
         for( const auto candidate : candidates ) {
             const vpart_info &info = vpid.obj();
             if( candidate ) {
                 // In inventory.
-                options.emplace_back( info.name() );
+                menu.entries.emplace_back( info.name() );
             } else {
                 // Nearby.
-                options.emplace_back( info.name() + _(" (nearby)" ) );
+                menu.entries.emplace_back( info.name() + _( " (nearby)" ) );
             }
         }
-        selection = menu_vec(false, _("Use which gizmo?"), options);
-        selection -= 1;
+        menu.query();
+        selection = menu.ret;
     }
     std::list<item> item_used;
     //remove item from inventory. or map.
