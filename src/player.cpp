@@ -8166,9 +8166,8 @@ void player::mend_item( item_location&& obj, bool interactive )
 
     int sel = 0;
     if( interactive ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Mend which fault?" );
-        menu.return_invalid = true;
         menu.desc_enabled = true;
         menu.desc_lines = 12;
 
