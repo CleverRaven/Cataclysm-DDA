@@ -104,7 +104,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
         USE_BIKE_RACK
     } options;
-    uimenu selectmenu;
+    uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
     selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), veh->tracking_toggle_string() );
@@ -179,9 +179,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     if( selectmenu.entries.size() == 1 ) {
         choice = selectmenu.entries.front().retval;
     } else {
-        selectmenu.return_invalid = true;
         selectmenu.text = _( "Select an action" );
-        selectmenu.selected = 0;
         selectmenu.query();
         choice = selectmenu.ret;
     }
@@ -198,7 +196,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         return true;
     };
 
-    switch( static_cast<options>( choice ) ) {
+    switch( choice ) {
         case USE_BIKE_RACK: {
             veh->use_bike_rack( bike_rack_part );
             return DONE;
