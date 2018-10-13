@@ -2016,13 +2016,14 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( npc_list.empty() ) {
                     inventory total_inv = g->u.crafting_inventory();
                     std::vector<item *> seed_inv = total_inv.items_with( []( const item & itm ) {
-                        return itm.is_seed();
+                        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
                     } );
                     if( seed_inv.empty() ) {
                         popup( _( "You have no additional seeds to give your companions..." ) );
                         individual_mission( p, _( "begins planting the field..." ), "_faction_exp_plant_" + cur_key.dir );
                     } else {
-                        std::vector<item *> lost_equipment = individual_mission_give_equipment( seed_inv );
+                        std::vector<item *> lost_equipment = individual_mission_give_equipment( seed_inv,
+                                                             _( "Which seeds do you wish to have planted?" ) );
                         individual_mission( p, _( "begins planting the field..." ), "_faction_exp_plant_" + cur_key.dir,
                                             false, lost_equipment );
                     }
@@ -2118,14 +2119,8 @@ std::vector<item *> talk_function::individual_mission_give_equipment( std::vecto
         }
 
         // Choose item if applicable
-        int i_index = 0;
-        names.push_back( _( "Done" ) );
-        i_index = menu_vec( false, message.c_str(), names ) - 1;
-        if( i_index == ( int )names.size() - 1 ) {
-            i_index = -1;
-        }
-
-        if( i_index < 0 ) {
+        const int i_index = uilist( message, names );
+        if( i_index < 0 || static_cast<size_t>( i_index ) >= equipment.size() ) {
             return equipment_lost;
         }
         equipment_lost.push_back( equipment[i_index] );
@@ -2409,7 +2404,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
         return;
     }
     std::vector<item *> seed_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_seed();
+        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
     } );
     if( seed_inv.empty() ) {
         popup( _( "You have no seeds to plant!" ) );
@@ -2423,22 +2418,14 @@ void talk_function::field_plant( npc &p, const std::string &place )
     std::vector<std::string> seed_names;
     for( auto &seed : seed_inv ) {
         if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
-            if( seed->typeId() !=  "marloss_seed" && seed->typeId() !=  "fungal_seeds" ) {
-                seed_types.push_back( seed->typeId() );
-                seed_names.push_back( seed->tname() );
-            }
+            seed_types.push_back( seed->typeId() );
+            seed_names.push_back( seed->tname() );
         }
     }
     // Choose seed if applicable
-    int seed_index = 0;
-    seed_names.push_back( _( "Cancel" ) );
-    seed_index = menu_vec( false, _( "Which seeds do you wish to have planted?" ),
-                           seed_names ) - 1;
-    if( seed_index == ( int )seed_names.size() - 1 ) {
-        seed_index = -1;
-    }
+    const int seed_index = uilist( _( "Which seeds do you wish to have planted?" ), seed_names );
     // Did we cancel?
-    if( seed_index < 0 ) {
+    if( seed_index < 0 || static_cast<size_t>( seed_index ) >= seed_types.size() ) {
         popup( _( "You saved your seeds for later." ) );
         return;
     }
@@ -2543,15 +2530,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         return;
     }
     // Choose the crop to harvest
-    int plant_index = 0;
-    plant_names.push_back( _( "Cancel" ) );
-    plant_index = menu_vec( false, _( "Which plants do you want to have harvested?" ),
-                            plant_names ) - 1;
-    if( plant_index == ( int )plant_names.size() - 1 ) {
-        plant_index = -1;
-    }
+    const int plant_index = uilist( _( "Which plants do you want to have harvested?" ), plant_names );
     // Did we cancel?
-    if( plant_index < 0 ) {
+    if( plant_index < 0 || static_cast<size_t>( plant_index ) >= plant_types.size() ) {
         popup( _( "You decided to hold off for now..." ) );
         return;
     }
@@ -3320,16 +3301,9 @@ bool talk_function::camp_farm_return( npc &p, const std::string &task, bool harv
         return false;
     }
 
-    std::vector<item *> seed_inv_tmp = comp->companion_mission_inv.items_with( []( const item & itm ) {
-        return itm.is_seed();
+    std::vector<item *> seed_inv = comp->companion_mission_inv.items_with( []( const item & itm ) {
+        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
     } );
-
-    std::vector<item *> seed_inv;
-    for( auto &seed : seed_inv_tmp ) {
-        if( seed->typeId() !=  "marloss_seed" && seed->typeId() !=  "fungal_seeds" ) {
-            seed_inv.push_back( seed );
-        }
-    }
 
     if( plant && seed_inv.empty() ) {
         popup( _( "No seeds to plant!" ) );
@@ -3505,11 +3479,9 @@ bool talk_function::camp_expansion_select( npc &p )
         pos_expansion_name.push_back( it->first );
         pos_expansion_name_id.push_back( it->second );
     }
-    pos_expansion_name.push_back( _( "Cancel" ) );
 
-    int expan = menu_vec( true, _( "Select an expansion:" ), pos_expansion_name ) - 1;
-    int sz = pos_expansion_name.size();
-    if( expan < 0 || expan >= sz ) {
+    const int expan = uilist( _( "Select an expansion:" ), pos_expansion_name );
+    if( expan < 0 || static_cast<size_t>( expan ) >= pos_expansion_name_id.size() ) {
         popup( _( "You choose to wait..." ) );
         return false;
     }
@@ -4327,10 +4299,9 @@ npc *talk_function::companion_choose( const std::string &skill_tested, int skill
         x++;
         npcs.push_back( npc_entry );
     }
-    npcs.push_back( _( "Cancel" ) );
-    int npc_choice = menu_vec( true,
-                               _( "Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]" ), npcs ) - 1;
-    if( npc_choice < 0 || npc_choice >= ( int )available.size() ) {
+    const int npc_choice = uilist(
+                               _( "Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]" ), npcs );
+    if( npc_choice < 0 || static_cast<size_t>( npc_choice ) >= available.size() ) {
         popup( _( "You choose to send no one..." ) );
         return nullptr;
     }
@@ -4380,9 +4351,8 @@ npc *talk_function::companion_choose_return( npc &p, const std::string &id,
     for( auto &elem : available ) {
         npcs.push_back( ( elem )->name );
     }
-    npcs.push_back( _( "Cancel" ) );
-    int npc_choice = menu_vec( true, _( "Who should return?" ), npcs ) - 1;
-    if( npc_choice >= 0 && size_t( npc_choice ) < available.size() ) {
+    const int npc_choice = uilist( _( "Who should return?" ), npcs );
+    if( npc_choice >= 0 && static_cast<size_t>( npc_choice ) < available.size() ) {
         return available[npc_choice];
     }
     popup( _( "No one returns to your party..." ) );
@@ -5422,9 +5392,8 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         rec_options.push_back( _( "Make Offer" ) );
         rec_options.push_back( _( "Not Interested" ) );
 
-        rec_m = menu_vec( true, description.c_str(), rec_options ) - 1;
-        int sz = rec_options.size();
-        if( rec_m < 0 || rec_m >= sz ) {
+        rec_m = uilist( description, rec_options );
+        if( rec_m < 0 || rec_m == 3 || static_cast<size_t>( rec_m ) >= rec_options.size() ) {
             popup( _( "You decide you aren't interested..." ) );
             return;
         }
