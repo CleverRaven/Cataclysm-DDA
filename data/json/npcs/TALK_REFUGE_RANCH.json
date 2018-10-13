@@ -32,7 +32,7 @@
       {
         "text": "Thanks.",
         "topic": "TALK_RANCH_FOREMAN",
-        "effect": [ { "u_buy_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "permanent" } ]
+        "effect": [ { "u_buy_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
       }
     ]
   },
@@ -181,7 +181,7 @@
       {
         "text": "I'm interested in investing in agriculture...",
         "topic": "TALK_RANCH_CROP_OVERSEER",
-        "effect": { "companion_mission": "COMMUNE_CROPS" }
+        "effect": { "companion_mission": "COMMUNE CROPS" }
       },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
       { "text": "I've got to go...", "topic": "TALK_DONE" }
