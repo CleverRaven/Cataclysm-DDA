@@ -276,6 +276,14 @@ static void printErrorIf( const bool condition, const char * const message )
     }
     dbg( D_ERROR ) << message << ": " << SDL_GetError();
 }
+
+static void throwErrorIf( const bool condition, const char * const message )
+{
+    if( !condition ) {
+        return;
+    }
+    throw std::runtime_error( std::string( message ) + ": " + SDL_GetError() );
+}
 /// A wrapper for @ref SDL_RenderCopy that does error reporting and that accepts
 /// our wrapped pointers.
 void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture, const SDL_Rect *srcrect, const SDL_Rect *dstrect){
@@ -390,7 +398,7 @@ void ClearScreen()
     SDL_RenderClear( renderer.get() );
 }
 
-bool InitSDL()
+void InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
     int ret;
@@ -410,34 +418,23 @@ bool InitSDL()
 #endif
 
     ret = SDL_Init( init_flags );
-    if( ret != 0 ) {
-        dbg( D_ERROR ) << "SDL_Init failed with " << ret << ", error: " << SDL_GetError();
-        return false;
-    }
+    throwErrorIf( ret != 0, "SDL_Init failed" );
+
     ret = TTF_Init();
-    if( ret != 0 ) {
-        dbg( D_ERROR ) << "TTF_Init failed with " << ret << ", error: " << TTF_GetError();
-        return false;
-    }
+    throwErrorIf( ret != 0, "TTF_Init failed" );
+
+    // cata_tiles won't be able to load the tiles, but the normal SDL
+    // code will display fine.
     ret = IMG_Init( IMG_INIT_PNG );
-    if( (ret & IMG_INIT_PNG) != IMG_INIT_PNG ) {
-        dbg( D_ERROR ) << "IMG_Init failed to initialize PNG support, tiles won't work, error: " << IMG_GetError();
-        // cata_tiles won't be able to load the tiles, but the normal SDL
-        // code will display fine.
-    }
+    printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG, "IMG_Init failed to initialize PNG support, tiles won't work" );
 
     ret = SDL_InitSubSystem( SDL_INIT_JOYSTICK );
-    if( ret != 0 ) {
-        dbg( D_WARNING ) << "Initializing joystick subsystem failed with " << ret << ", error: " <<
-        SDL_GetError() << "\nIf you don't have a joystick plugged in, this is probably fine.";
-    }
+    printErrorIf( ret != 0, "Initializing joystick subsystem failed" );
 
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
 
     atexit(SDL_Quit);
-
-    return true;
 }
 
 bool SetupRenderTarget()
@@ -3089,9 +3086,7 @@ void catacurses::init_interface()
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
 
-    if(!InitSDL()) {
-        throw std::runtime_error( "InitSDL failed" );
-    }
+    InitSDL();
 
     find_videodisplays();
 
