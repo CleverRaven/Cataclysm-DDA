@@ -2993,7 +2993,7 @@ static void save_font_list()
 #endif
 }
 
-static std::string find_system_font( const std::string &name, int& faceIndex )
+static cata::optional<std::string> find_system_font( const std::string &name, int& faceIndex )
 {
     const std::string fontlist_path = FILENAMES["fontlist"];
     std::ifstream fin(fontlist_path.c_str());
@@ -3007,7 +3007,7 @@ static std::string find_system_font( const std::string &name, int& faceIndex )
             fin.open(fontlist_path.c_str());
             if( !fin ) {
                 dbg( D_ERROR ) << "Can't open or create fontlist file " << fontlist_path;
-                return "";
+                return cata::nullopt;
             }
         } else {
             // Write out fontlist to the new location.
@@ -3026,7 +3026,7 @@ static std::string find_system_font( const std::string &name, int& faceIndex )
         }
     }
 
-    return "";
+    return cata::nullopt;
 }
 
 // bitmap font size test
@@ -3402,9 +3402,8 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
 , fontblending( fontblending )
 {
     int faceIndex = 0;
-    const std::string sysfnt = find_system_font(typeface, faceIndex);
-    if (!sysfnt.empty()) {
-        typeface = sysfnt;
+    if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
+        typeface = *sysfnt;
         dbg( D_INFO ) << "Using font [" + typeface + "]." ;
     }
     //make fontdata compatible with wincurse
