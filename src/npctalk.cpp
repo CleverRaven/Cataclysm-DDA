@@ -390,37 +390,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                     return _( "Ma'am, you really shouldn't be traveling out there." );
                 }
         }
-    } else if( topic == "TALK_MISSION_LIST" ) {
-        if( p->chatbin.missions.empty() ) {
-            if( missions_assigned.empty() ) {
-                return _( "I don't have any jobs for you." );
-            } else {
-                return _( "I don't have any more jobs for you." );
-            }
-        } else if( p->chatbin.missions.size() == 1 ) {
-            if( missions_assigned.empty() ) {
-                return _( "I just have one job for you.  Want to hear about it?" );
-            } else {
-                return _( "I have another job for you.  Want to hear about it?" );
-            }
-        } else if( missions_assigned.empty() ) {
-            return _( "I have several jobs for you.  Which should I describe?" );
-        } else {
-            return _( "I have several more jobs for you.  Which should I describe?" );
-        }
-
-    } else if( topic == "TALK_MISSION_LIST_ASSIGNED" ) {
-        if( missions_assigned.empty() ) {
-            return _( "You're not working on anything for me right now." );
-        } else if( missions_assigned.size() == 1 ) {
-            return _( "What about it?" );
-        } else {
-            return _( "Which job?" );
-        }
-
-    } else if( topic == "TALK_MISSION_REWARD" ) {
-        return _( "Sure, here you go!" );
-
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
         if( g->u.is_wearing( "badge_marshal" ) )
             switch( rng( 1, 4 ) ) {
@@ -982,62 +951,26 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     // Can be nullptr! Check before dereferencing
     mission *miss = p->chatbin.mission_selected;
 
-    if( topic == "TALK_GUARD" ) {
-        add_response_done( _( "Don't mind me..." ) );
-
-    } else if( topic == "TALK_MISSION_LIST" ) {
-        if( p->chatbin.missions.empty() ) {
-            add_response_none( _( "Oh, okay." ) );
-        } else if( p->chatbin.missions.size() == 1 ) {
-            add_response( _( "Tell me about it." ), "TALK_MISSION_OFFER",  p->chatbin.missions.front() );
-            add_response_none( _( "Never mind, I'm not interested." ) );
+    if( topic == "TALK_MISSION_LIST" ) {
+        if( p->chatbin.missions.size() == 1 ) {
+            add_response_first( _( "Tell me about it." ), "TALK_MISSION_OFFER",  p->chatbin.missions.front() );
         } else {
             for( auto &mission : p->chatbin.missions ) {
-                add_response( mission->get_type().name, "TALK_MISSION_OFFER", mission );
+                add_response_first( mission->get_type().name, "TALK_MISSION_OFFER", mission );
             }
-            add_response_none( _( "Never mind, I'm not interested." ) );
         }
-
     } else if( topic == "TALK_MISSION_LIST_ASSIGNED" ) {
-        if( missions_assigned.empty() ) {
-            add_response_none( _( "Never mind then." ) );
-        } else if( missions_assigned.size() == 1 ) {
+        if( missions_assigned.size() == 1 ) {
             add_response( _( "I have news." ), "TALK_MISSION_INQUIRE", missions_assigned.front() );
-            add_response_none( _( "Never mind." ) );
         } else {
             for( auto &miss_it : missions_assigned ) {
                 add_response( miss_it->get_type().name, "TALK_MISSION_INQUIRE", miss_it );
             }
-            add_response_none( _( "Never mind." ) );
         }
-
-    } else if( topic == "TALK_MISSION_DESCRIBE" ) {
-        add_response( _( "What's the matter?" ), "TALK_MISSION_OFFER" );
-        add_response( _( "I don't care." ), "TALK_MISSION_REJECTED" );
-
-    } else if( topic == "TALK_MISSION_OFFER" ) {
-        add_response( _( "I'll do it!" ), "TALK_MISSION_ACCEPTED", &talk_function::assign_mission );
-        add_response( _( "Not interested." ), "TALK_MISSION_REJECTED" );
-
-    } else if( topic == "TALK_MISSION_ACCEPTED" ) {
-        add_response_none( _( "Not a problem." ) );
-        add_response( _( "Got any advice?" ), "TALK_MISSION_ADVICE" );
-        add_response( _( "Can you share some equipment?" ), "TALK_SHARE_EQUIPMENT" );
-        add_response_done( _( "I'll be back soon!" ) );
-
-    } else if( topic == "TALK_MISSION_ADVICE" ) {
-        add_response_none( _( "Sounds good, thanks." ) );
-        add_response_done( _( "Sounds good.  Bye!" ) );
-
-    } else if( topic == "TALK_MISSION_REJECTED" ) {
-        add_response_none( _( "I'm sorry." ) );
-        add_response_done( _( "Whatever.  Bye." ) );
-
     } else if( topic == "TALK_MISSION_INQUIRE" ) {
-        const auto mission = p->chatbin.mission_selected;
-        if( mission == nullptr ) {
+        if( miss == nullptr ) {
             debugmsg( "dialogue::gen_responses(\"TALK_MISSION_INQUIRE\") called for null mission" );
-        } else if( mission->has_failed() ) {
+        } else if( miss->has_failed() ) {
             RESPONSE( _( "I'm sorry... I failed." ) );
             SUCCESS( "TALK_MISSION_FAILURE" );
             SUCCESS_OPINION( -1, 0, -1, 1, 0 );
@@ -1046,9 +979,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SUCCESS( "TALK_NONE" );
             FAILURE( "TALK_MISSION_FAILURE" );
             FAILURE_OPINION( -3, 0, -1, 2, 0 );
-        } else if( !mission->is_complete( p->getID() ) ) {
+        } else if( !miss->is_complete( p->getID() ) ) {
             add_response_none( _( "Not yet." ) );
-            if( mission->get_type().goal == MGOAL_KILL_MONSTER ) {
+            if( miss->get_type().goal == MGOAL_KILL_MONSTER ) {
                 RESPONSE( _( "Yup, I killed it." ) );
                 TRIAL( TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 5 );
                 SUCCESS( "TALK_MISSION_SUCCESS" );
@@ -1060,7 +993,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_done( _( "No.  I'll get back to it, bye!" ) );
         } else {
             // TODO: Lie about mission
-            switch( mission->get_type().goal ) {
+            switch( miss->get_type().goal ) {
                 case MGOAL_FIND_ITEM:
                 case MGOAL_FIND_ANY_ITEM:
                     add_response( _( "Yup!  Here it is!" ), "TALK_MISSION_SUCCESS",
@@ -1123,17 +1056,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         SUCCESS_ACTION( &talk_function::clear_mission );
         SUCCESS_OPINION( mission_value / 4, -1,
                          mission_value / 3, -1, 0 );
-
-    } else if( topic == "TALK_MISSION_SUCCESS_LIE" ) {
-        add_response( _( "Well, um, sorry." ), "TALK_NONE", &talk_function::clear_mission );
-
-    } else if( topic == "TALK_MISSION_FAILURE" ) {
-        add_response_none( _( "I'm sorry.  I did what I could." ) );
-
-    } else if( topic == "TALK_MISSION_REWARD" ) {
-        add_response( _( "Thank you." ), "TALK_NONE", &talk_function::clear_mission );
-        add_response( _( "Thanks, bye." ), "TALK_DONE", &talk_function::clear_mission );
-
+    } else if( topic == "TALK_GUARD" ) {
+        add_response_done( _( "Don't mind me..." ) );
     } else if( topic == "TALK_EVAC_MERCHANT" ) {
         if( p->has_trait( trait_id( "NPC_MISSION_LEV_1" ) ) ) {
             add_response( _( "I figured you might be looking for some help..." ), "TALK_EVAC_MERCHANT" );
