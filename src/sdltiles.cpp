@@ -120,30 +120,7 @@ std::map<std::string, music_playlist> playlists;
 std::string current_soundpack_path = "";
 #endif
 
-struct SDL_Renderer_deleter {
-    void operator()( SDL_Renderer * const renderer ) {
-        SDL_DestroyRenderer( renderer );
-    }
-};
-using SDL_Renderer_Ptr = std::unique_ptr<SDL_Renderer, SDL_Renderer_deleter>;
-struct SDL_Window_deleter {
-    void operator()( SDL_Window * const window ) {
-        SDL_DestroyWindow( window );
-    }
-};
-using SDL_Window_Ptr = std::unique_ptr<SDL_Window, SDL_Window_deleter>;
-struct SDL_PixelFormat_deleter {
-    void operator()( SDL_PixelFormat * const format ) {
-        SDL_FreeFormat( format );
-    }
-};
-using SDL_PixelFormat_Ptr = std::unique_ptr<SDL_PixelFormat, SDL_PixelFormat_deleter>;
-struct TTF_Font_deleter {
-    void operator()( TTF_Font * const font ) {
-        TTF_CloseFont( font );
-    }
-};
-using TTF_Font_Ptr = std::unique_ptr<TTF_Font, TTF_Font_deleter>;
+#include "sdl_wrappers.h"
 
 /**
  * A class that draws a single character on screen.
@@ -269,86 +246,6 @@ static std::vector<curseline> terminal_framebuffer;
 static std::weak_ptr<void> winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 extern catacurses::window w_hit_animation; //this window overlays w_terrain which can be oversized
-
-static void printErrorIf( const bool condition, const char * const message )
-{
-    if( !condition ) {
-        return;
-    }
-    dbg( D_ERROR ) << message << ": " << SDL_GetError();
-}
-
-static void throwErrorIf( const bool condition, const char * const message )
-{
-    if( !condition ) {
-        return;
-    }
-    throw std::runtime_error( std::string( message ) + ": " + SDL_GetError() );
-}
-/// A wrapper for @ref SDL_RenderCopy that does error reporting and that accepts
-/// our wrapped pointers.
-void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture, const SDL_Rect *srcrect, const SDL_Rect *dstrect){
-    if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to render to a null renderer";
-        return;
-    }
-    if( !texture ) {
-        dbg( D_ERROR ) << "Tried to render a null texture";
-        return;
-    }
-    printErrorIf( SDL_RenderCopy( renderer.get(), texture.get(), srcrect, dstrect ) != 0, "SDL_RenderCopy failed" );
-}
-
-SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer, const SDL_Surface_Ptr &surface)
-{
-    if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to create texture with a null renderer";
-        return SDL_Texture_Ptr();
-    }
-    if( !surface ) {
-        dbg( D_ERROR ) << "Tried to create texture from a null surface";
-        return SDL_Texture_Ptr();
-    }
-    SDL_Texture_Ptr result( SDL_CreateTextureFromSurface( renderer.get(), surface.get() ) );
-    printErrorIf( !result, "SDL_CreateTextureFromSurface failed" );
-    return result;
-}
-
-void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a)
-{
-    if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
-        return;
-    }
-    printErrorIf( SDL_SetRenderDrawColor( renderer.get(), r, g, b, a ) != 0, "SDL_SetRenderDrawColor failed" );
-}
-
-void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )
-{
-    if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
-        return;
-    }
-    printErrorIf( SDL_RenderFillRect( renderer.get(), rect ) != 0, "SDL_RenderFillRect failed" );
-}
-
-void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMode blendMode )
-{
-    if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
-        return;
-    }
-    printErrorIf( SDL_SetRenderDrawBlendMode( renderer.get(), blendMode ) != 0, "SDL_SetRenderDrawBlendMode failed" );
-}
-
-SDL_Surface_Ptr load_image( const char *const path )
-{
-    SDL_Surface_Ptr result( IMG_Load( path ) );
-    if( !result ) {
-        throw std::runtime_error( "Could not load image \"" + std::string( path ) + "\": " + IMG_GetError() );
-    }
-    return result;
-}
 
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.

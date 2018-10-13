@@ -1,6 +1,7 @@
 #if (defined TILES)
 #include "cata_tiles.h"
 
+#include "sdl_wrappers.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "json.h"
@@ -70,7 +71,6 @@ SDL_Color cursesColorToSDL( const nc_color &color );
 ///@throws std::exception upon errors.
 ///@returns Always a valid pointer.
 static SDL_Surface_Ptr create_tile_surface( int w, int h );
-SDL_Surface_Ptr load_image( const char *path );
 
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
@@ -91,22 +91,6 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
 
 namespace
 {
-void printErrorIf( const bool condition, const std::string &message )
-{
-    if( !condition ) {
-        return;
-    }
-    dbg( D_ERROR ) << message << ": " << SDL_GetError();
-}
-
-void throwErrorIf( const bool condition, const std::string &message )
-{
-    if( !condition ) {
-        return;
-    }
-    throw std::runtime_error( message + ": " + SDL_GetError() );
-}
-
 /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
 float get_animation_phase( int phase_length_ms )
 {
@@ -127,22 +111,6 @@ std::string get_ascii_tile_id( const uint32_t sym, const int FG, const int BG )
     return std::string( { 'A', 'S', 'C', 'I', 'I', '_', static_cast<char>( sym ), static_cast<char>( FG ), static_cast<char>( BG ) } );
 }
 } // namespace
-
-// Operator overload required to leverage unique_ptr API.
-void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
-{
-    if( ptr ) {
-        SDL_DestroyTexture( ptr );
-    }
-}
-
-// Operator overload required to leverage unique_ptr API.
-void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
-{
-    if( ptr ) {
-        SDL_FreeSurface( ptr );
-    }
-}
 
 static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
 {

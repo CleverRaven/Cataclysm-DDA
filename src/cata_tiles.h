@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
 #include "line.h"
@@ -69,13 +70,6 @@ enum TILE_CATEGORY {
     C_WEATHER,
 };
 
-/** Typedefs */
-struct SDL_Texture_deleter {
-    // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Texture *const ptr );
-};
-using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
-
 class texture
 {
     private:
@@ -99,12 +93,6 @@ class texture
             return SDL_RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
         }
 };
-
-struct SDL_Surface_deleter {
-    // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Surface *const ptr );
-};
-using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
 
 struct pixel {
     int r;
