@@ -455,7 +455,7 @@ bool SetupRenderTarget()
 }
 
 //Registers, creates, and shows the Window!!
-bool WinCreate()
+void WinCreate()
 {
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
@@ -502,11 +502,8 @@ bool WinCreate()
             WindowHeight,
             window_flags
         ) );
+    throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-    if( !::window ) {
-        dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
-        return false;
-    }
 #ifndef __ANDROID__
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
@@ -531,10 +528,7 @@ bool WinCreate()
 
     const Uint32 wformat = SDL_GetWindowPixelFormat( ::window.get() );
     format.reset( SDL_AllocFormat( wformat ) );
-    if( !format ) {
-        dbg(D_ERROR) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
-        return false;
-    }
+    throwErrorIf( !format, "SDL_AllocFormat failed" );
 
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     if( !software_renderer ) {
@@ -557,13 +551,8 @@ bool WinCreate()
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
         renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE ) );
-        if( !renderer ) {
-            dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
-            return false;
-        } else if( !SetupRenderTarget() ) {
-            dbg( D_ERROR ) << "Failed to initialize display buffer under software rendering, unable to continue.";
-            return false;
-        }
+        throwErrorIf( !renderer, "Failed to initialize software renderer" );
+        throwErrorIf( !SetupRenderTarget(), "Failed to initialize display buffer under software rendering, unable to continue." );
     }
 
     SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
@@ -615,8 +604,6 @@ bool WinCreate()
 
     // Set up audio mixer.
     init_sound();
-
-    return true;
 }
 
 // forward declaration
@@ -3093,9 +3080,7 @@ void catacurses::init_interface()
     TERMINAL_WIDTH = get_option<int>( "TERMINAL_X" );
     TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
-    if(!WinCreate()) {
-        throw std::runtime_error( "WinCreate failed" ); //@todo: throw from WinCreate
-    }
+    WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext.reset( new cata_tiles( renderer.get() ) );
