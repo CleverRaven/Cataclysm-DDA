@@ -226,7 +226,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 void cata_tiles::reinit()
 {
     set_draw_scale( 16 );
-    printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderClear failed" );
+    RenderClear( renderer );
     minimap_cache.clear();
     tex_pool.texture_pool.clear();
     reinit_minimap();
@@ -1296,7 +1296,7 @@ void cata_tiles::process_minimap_cache_updates()
             if( !mcp.second.ready ) {
                 mcp.second.ready = true;
                 SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-                printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderClear failed" );
+                RenderClear( renderer );
             }
 
             for( const point &p : mcp.second.update_list ) {

@@ -110,5 +110,12 @@ void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &t
     printErrorIf( SDL_SetRenderTarget( renderer.get(), texture.get() ) != 0,
                   "SDL_SetRenderTarget failed" );
 }
-
+void RenderClear( const SDL_Renderer_Ptr &renderer )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderCopy failed" );
+}
 #endif

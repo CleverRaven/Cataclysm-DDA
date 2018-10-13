@@ -302,7 +302,7 @@ static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurs
 void ClearScreen()
 {
     SetRenderDrawColor( renderer, 0, 0, 0, 255);
-    SDL_RenderClear( renderer.get() );
+    RenderClear( renderer );
 }
 
 void InitSDL()
@@ -769,7 +769,7 @@ void refresh_display()
 #ifdef __ANDROID__
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
     SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    SDL_RenderClear( renderer.get() );
+    RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, NULL, NULL );
