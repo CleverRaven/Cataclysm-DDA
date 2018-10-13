@@ -1632,9 +1632,8 @@ bool veh_interact::do_assign_crew( std::string &msg )
     auto sel = []( const vehicle_part &pt ) { return pt.is_seat(); };
 
     auto act = [&]( vehicle_part &pt ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Select crew member" );
-        menu.return_invalid = true;
 
         if( pt.crew() ) {
             menu.addentry( 0, true, 'c', _( "Clear assignment" ) );
@@ -1647,7 +1646,7 @@ bool veh_interact::do_assign_crew( std::string &msg )
         menu.query();
         if( menu.ret == 0 ) {
             pt.unset_crew();
-        } else if( menu > 0 ) {
+        } else if( menu.ret > 0 ) {
             const auto &who = *g->critter_by_id<npc>( menu.ret );
             veh->assign_seat( pt, who );
         }
