@@ -25,6 +25,7 @@
 #include "rng.h"
 #include <algorithm>
 #include <cstring>
+#include <cassert>
 #include <vector>
 #include <fstream>
 #include <sstream>
@@ -340,6 +341,15 @@ void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMo
     printErrorIf( SDL_SetRenderDrawBlendMode( renderer.get(), blendMode ) != 0, "SDL_SetRenderDrawBlendMode failed" );
 }
 
+SDL_Surface_Ptr load_image( const char *const path )
+{
+    SDL_Surface_Ptr result( IMG_Load( path ) );
+    if( !result ) {
+        throw std::runtime_error( "Could not load image \"" + std::string( path ) + "\": " + IMG_GetError() );
+    }
+    return result;
+}
+
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
@@ -564,12 +574,7 @@ void WinCreate()
     }
 
     // Load virtual joystick texture
-    SDL_Surface_Ptr touch_joystick_surface( IMG_Load( "android/joystick.png" ) );
-    if ( !touch_joystick_surface ) {
-        throw std::runtime_error(IMG_GetError());
-    }
-    touch_joystick = CreateTextureFromSurface( renderer, touch_joystick_surface );
-    touch_joystick_surface.reset();
+    touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
 #endif
 
     ClearScreen();
@@ -3313,10 +3318,8 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
 : Font( w, h )
 {
     dbg( D_INFO ) << "Loading bitmap font [" + typeface + "]." ;
-    SDL_Surface_Ptr asciiload( IMG_Load( typeface.c_str() ) );
-    if( !asciiload ) {
-        throw std::runtime_error(IMG_GetError());
-    }
+    SDL_Surface_Ptr asciiload = load_image( typeface.c_str() );
+    assert( asciiload );
     if (asciiload->w * asciiload->h < (fontwidth * fontheight * 256)) {
         throw std::runtime_error("bitmap for font is to small");
     }

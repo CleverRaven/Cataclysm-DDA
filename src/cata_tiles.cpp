@@ -70,6 +70,7 @@ SDL_Color cursesColorToSDL( const nc_color &color );
 ///@throws std::exception upon errors.
 ///@returns Always a valid pointer.
 static SDL_Surface_Ptr create_tile_surface( int w, int h );
+SDL_Surface_Ptr load_image( const char *path );
 
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
@@ -463,10 +464,8 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
 
 void tileset_loader::load_tileset( std::string img_path )
 {
-    SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
-    if( !tile_atlas ) {
-        throw std::runtime_error( "Could not load tileset image \"" + img_path + "\": " + IMG_GetError() );
-    }
+    const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
+    assert( tile_atlas );
     tile_atlas_width = tile_atlas->w;
 
     if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
