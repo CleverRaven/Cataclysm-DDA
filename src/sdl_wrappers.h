@@ -77,6 +77,7 @@ void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, Uint8 r, Uint8 g, Uin
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
 SDL_Surface_Ptr load_image( const char *path );
+void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture );
 /**@}*/
 
 #endif

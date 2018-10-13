@@ -765,7 +765,7 @@ void refresh_display()
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
-    printErrorIf( SDL_SetRenderTarget( renderer.get(), NULL ) != 0, "SDL_SetRenderTarget failed" );
+    SetRenderTarget( renderer, NULL );
 #ifdef __ANDROID__
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
     SetRenderDrawColor( renderer, 0, 0, 0, 255 );
@@ -780,7 +780,7 @@ void refresh_display()
     draw_virtual_joystick();
 #endif
     SDL_RenderPresent( renderer.get() );
-    printErrorIf( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0, "SDL_SetRenderTarget failed" );
+    SetRenderTarget( renderer, display_buffer );
 }
 
 // only update if the set interval has elapsed
@@ -797,8 +797,7 @@ static void try_sdl_update()
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
 {
-    const auto result = SDL_SetRenderTarget( renderer.get(), display_buffer.get() );
-    printErrorIf( result != 0, "SDL_SetRenderTarget failed" );
+    SetRenderTarget( renderer, display_buffer );
 }
 
 // Populate a map with the available video displays and their name

@@ -100,4 +100,15 @@ SDL_Surface_Ptr load_image( const char *const path )
     return result;
 }
 
+void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    // a null texture is fine for SDL
+    printErrorIf( SDL_SetRenderTarget( renderer.get(), texture.get() ) != 0,
+                  "SDL_SetRenderTarget failed" );
+}
+
 #endif
