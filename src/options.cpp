@@ -1362,12 +1362,7 @@ void options_manager::init()
 
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
          translate_marker( "If true, replaces some TTF rendered text with tiles." ),
-#ifdef __ANDROID__
-         android_get_default_setting( "Use tiles", false ),
-         COPT_CURSES_HIDE // take default setting from pre-game settings screen - important as many devices lack memory to run with tiles
-#else
          true, COPT_CURSES_HIDE
-#endif
        );
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
