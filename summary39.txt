@@ -1,0 +1,100 @@
+Build Add gcc 7 and 8 to build matrix.
+Balance Reduce recharge station passive drain.
+Bugfixes Fix src/crafting.cpp line endings
+Infrastructure Changed DELETE_WORLD to WORLD_END.
+Build Snapcraft Build recipe added
+Balance Reduced Necropolis zombie spawns
+Interface Support for resizeable windows with adaptive UI.
+Balance 40mm automatics: Rebalanced around 1 second of automatic fire
+Mods Fixed legacy sight_dispersion in mods
+Bugfixes Turret tile layering fix
+Infrastructure Kill count for the mission to kill monster species now reads data from the json
+Infrastructure Adds pet FOOD flag for monsters and taming
+Balance Dog Whistle Affects More Dogs
+Bugfixes Fixed rooted mutants not slowing down when wearing footwear
+Bugfixes remove redundant fabrication requirement from jerrypack
+Build Fix compiler errors on clang-7.0.0-svn
+Mods Turret graphical layering fix for blazemod
+Balance Increased dispersion per weapon malfunction value to 30
+Balance Fix & rebalance disinfectant soaked rags & balls
+Interface Adjust feedback from aim interface.
+Interface Battery capacity is now shown in vehicle part installation menu
+Bugfixes Fixed washing 0 volume items consuming no water
+Bugfixes Fixed crash when NPC is trying to consume non-existent contents of the container
+Mods Mundane Zombies Mod Revival
+Infrastructure Fix removing item from worn vector
+Infrastructure Move class item_category into separate header and source file
+Balance Flipped the doc office facing
+I18N i18n updates as of May 25, 2018
+Balance Allowed wearing unfitted chainmail armor with unencumbered head
+Balance Decapitalized lobster and crayfish
+Balance Knit items no longer require knitting needles to disassemble
+Infrastructure Read data for monster kill goal from json
+Balance Refitted clothing disassembles into refitted components
+Features Autoattack: Wait a turn if there is nothing in range.
+Balance Don't auto pulp acidic zombies in corpse piles.
+Infrastructure Remove unused includes of "item_factory.h"
+Bugfixes Orchard hut floor correction
+Content Tortilla chips
+Bugfixes add missing black-on-red color pair
+Balance allow unpacked M72 LAW to take a shoulder strap
+Infrastructure Change more code to use null_item_reference.
+Infrastructure Convert more code to use new time classes
+Bugfixes Fix accessing items for crafting in vehicles above sealed terrain.
+Bugfixes Fix: Error when make macOS app with LANGUAGES ("lang/mo" folder not found)
+Bugfixes Fix logic error in player::wear_item:
+Bugfixes Fix spawning burn products.
+Bugfixes Remove separate handling of Alt+F4 in SDL builds
+Bugfixes Fix Missing Acid Resist from Acid Chitin Armor
+Bugfixes Fixed spawning fresh food instead of spoiled after passing long time
+Balance Revised engines' weights and volume
+Bugfixes Fix clothes dropping
+Bugfixes Fixes #23883 creatures teleporting up z-levels
+Balance Marloss berry satiate and bliss effects no longer cause vomiting
+Infrastructure Additional fields for used_up_item
+Balance Add reload_noise_volume to ranged weapons
+Balance Make tacos less salty
+Balance Make the packed and unpacked LAW more similar
+Balance Update potato chips recipe
+Balance Add a leather kilt as an alternative for Skalds with wool allergy.
+Bugfixes Fixed riotbot being affected by its own dazzling ray
+Bugfixes Fix time strings
+Interface mshockxotto+ tileset update to patch11
+Mods Additional turret graphical layering fix for blazemod
+Balance Update a few more recipes with requirements
+Interface Don't discard messages after player dies.
+Bugfixes fix smores error (1 charge)
+Balance Rebalance s'mores nutritional value and crafting
+Balance Fences deconstructable
+Infrastructure Subway tag for mapgen
+Interface Use available space for popup menu (e.g. keybindings)
+Infrastructure Add a class to encapsulate references to a specific vehicle part.
+Infrastructure Max player stamina moved to JSON
+Bugfixes Fixed Rooter mutants not feeding on soil while wearing gear on ankles
+Interface Moved sulphur, aluminum powder, thermite, ANFO, black gunpowder, RDX, HMTD and rocket fuel to CHEMICAL STUFF category
+Balance Add multi_cooker
+Interface Clarify Item Techniques when Wielded
+Interface Marloss bush and tree symbols are now pink instead of dark gray
+Balance Changing skilled shooter with accurate rifle test
+Interface Charcoal kiln burning time display
+Balance Forward grip for KSG and other shotguns with pump-rail
+Interface Removed mention of archery skill affecting crossbows
+Features Carrion monster spawning
+Balance Make more items remote activatable
+Balance Remove "GOODHEARING" from Gigantic Naked Mole-rats
+Infrastructure Added FRAGILE_MELEE flag to represent fragile melee weapons
+Bugfixes Test and fix zapback
+Features Bionics installing overhaul
+Content Zombie burner
+Balance wild_herbs + 1 herb in description
+Bugfixes Fix crash when NPC or player is on fire
+Bugfixes Added missing terrain in bank mapgen
+Balance Time to fix unbalanced weapons, like SPEAR_KNIFE
+Bugfixes Bugfixes for dairy farms.
+Features Milk sheep
+Balance Allowed use of CBMs in the pickup range
+Interface Display actual dodge skill after encumbrance penalties.
+Bugfixes Window resize fixes
+Balance Add bike basket recipe, and overhaul baskets in general - fix #23949
+Balance Drop a few bricks from brick walls - see #21431
+Features Carrion monster growing and reproduction
