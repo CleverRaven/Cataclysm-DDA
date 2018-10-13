@@ -451,8 +451,8 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
         return turrets_aim_and_fire( false, false, tur_part );
     }
 
-    std::vector<std::string> options( 1, _( "Cancel" ) );
-    std::vector<vehicle_part *> guns( 1, nullptr );
+    std::vector<std::string> options;
+    std::vector<vehicle_part *> guns;
 
     // Get a group of turrets that are ready to fire
     for( auto &t : turrets() ) {
@@ -467,8 +467,13 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
 
     vehicle_part *chosen;
 
-    if( options.size() > 1 ) {
-        chosen = guns[( uimenu( false, _( "Aim which turret?" ), options ) ) - 1 ];
+    if( !options.empty() ) {
+        const int ret = uilist( _( "Aim which turret?" ), options );
+        if( ret >= 0 ) {
+            chosen = guns[ret];
+        } else {
+            chosen = nullptr;
+        }
     } else {
         add_msg( m_warning, _( "None of the turrets are available to fire." ) );
         return shots;
