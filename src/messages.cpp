@@ -4,11 +4,16 @@
 #include "debug.h"
 #include "compatibility.h" //to_string
 #include "json.h"
+#include "options.h"
 #include "output.h"
 #include "calendar.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
 
 #include <deque>
 #include <iterator>
@@ -580,6 +585,11 @@ void Messages::dialog::input()
             }
         } else if( action == "FILTER" ) {
             filtering = true;
+#ifdef __ANDROID__
+            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                SDL_StartTextInput();
+            }
+#endif
         } else if( action == "RESET_FILTER" ) {
             filter_str.clear();
             filter.text( filter_str );
