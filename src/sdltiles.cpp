@@ -2984,7 +2984,7 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext.reset( new cata_tiles( renderer.get() ) );
+    tilecontext.reset( new cata_tiles( renderer ) );
     try {
         tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
     } catch( const std::exception &err ) {
