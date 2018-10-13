@@ -2479,14 +2479,13 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
     }
     itype_id fuel;
     if( fuels.size() > 1 ) {
-        uimenu smenu;
+        uilist smenu;
         smenu.text = _("Remove what?");
         for( auto & fuel : fuels ) {
             smenu.addentry( item::nname( fuel ) );
         }
-        smenu.addentry(_("Never mind"));
         smenu.query();
-        if( static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
+        if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
             add_msg(m_info, _("Never mind."));
             return;
         }
