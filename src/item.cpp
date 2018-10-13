@@ -2180,7 +2180,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 if( !contents_item.type->mod ) {
                     if( !contents_header ) {
                         insert_separation_line();
-                        info.emplace_back( "DESCRIPTION", _( "<bold>Content of this item</bold>:" ) );
+                        info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this item</bold>:" ) );
                         contents_header = true;
                     } else {
                         // Separate items with a blank line
