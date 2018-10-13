@@ -624,7 +624,6 @@ bool WinCreate()
 
 // forward declaration
 void load_soundset();
-void cleanup_sound();
 
 void WinDestroy()
 {
@@ -634,7 +633,8 @@ void WinDestroy()
 
 #ifdef SDL_SOUND
     // De-allocate all loaded sound.
-    cleanup_sound();
+    sound_effects_p.clear();
+    playlists.clear();
     Mix_CloseAudio();
 #endif
     tilecontext.reset();
@@ -3875,13 +3875,6 @@ void load_soundset() {
     // to force deallocation of resources.
     std::unordered_map<std::string, Mix_Chunk*> t_swap;
     unique_chunks.swap(t_swap);
-#endif
-}
-
-void cleanup_sound() {
-#ifdef SDL_SOUND
-    sound_effects_p.clear();
-    playlists.clear();
 #endif
 }
 
