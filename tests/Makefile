@@ -23,6 +23,12 @@ LDFLAGS += -L.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra
 
+TESTFLAGS = -d yes
+ifeq ($(BACKTRACE),1)
+  TESTFLAGS += -r backtrace
+endif
+
+
 TEST_TARGET = $(BUILD_PREFIX)cata_test
 
 tests: $(TEST_TARGET)
@@ -32,7 +38,7 @@ $(BUILD_PREFIX)cata_test: $(OBJS) $(CATA_LIB)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) -d yes
+	cd .. && tests/$(TEST_TARGET) $(TESTFLAGS)
 
 clean:
 	rm -rf *obj
