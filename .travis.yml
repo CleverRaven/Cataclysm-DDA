@@ -167,7 +167,7 @@ before_script:
   - CXX="$COMPILER"
   - source build-scripts/requirements.sh
 
-script: make -j3 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test $MODS
+script: make -j3 RELEASE=1 BACKTRACE=1 DEBUG_SYMBOLS=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test -r backtrace $MODS
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
