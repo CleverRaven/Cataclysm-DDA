@@ -10371,15 +10371,21 @@ bool game::plmove( int dx, int dy, int dz )
             add_msg( _( "You open the %1$s's %2$s." ), veh1->name.c_str(),
                      veh1->part_info( dpart ).name().c_str() );
         }
-
         u.moves -= 100;
-        on_move_effects();
+        // if auto-move is on, continue moving next turn
+        if( u.has_destination() ) {
+            u.defer_move( dest_loc );
+        }
         return true;
     }
 
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
         u.moves -= 100;
-        return false;
+        // if auto-move is on, continue moving next turn
+        if( u.has_destination() ) {
+            u.defer_move( dest_loc );
+        }
+        return true;
     }
 
     // Invalid move
