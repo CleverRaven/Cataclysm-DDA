@@ -114,8 +114,11 @@ extern "C" {
     static void log_crash( char const *type, char const *msg )
     {
         dump_to( ".core" );
+        const char *crash_log_file = "config/crash.log";
         char *beg = buf, *end = buf + BUF_SIZE;
-        FILE *file = fopen( "config/crash.log", "w" );
+        FILE *file = fopen( crash_log_file, "w" );
+        append_str( file, &beg, end, "CRASH LOG FILE: " );
+        append_str( file, &beg, end, crash_log_file );
         append_str( file, &beg, end, "VERSION: " );
         append_str( file, &beg, end, getVersionString() );
         append_str( file, &beg, end, "\nTYPE: " );
