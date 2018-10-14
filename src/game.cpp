@@ -10171,6 +10171,8 @@ bool game::plmove( int dx, int dy, int dz )
                     u.activity.placement = dest_loc;
                     add_msg( _( "You start breaking the %1$s with your %2$s." ),
                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                    u.defer_move( dest_loc ); // don't move into the tile until done mining
+                    return true;
                 } else {
                     add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
                 }
@@ -10186,6 +10188,8 @@ bool game::plmove( int dx, int dy, int dz )
                 u.activity.placement = dest_loc;
                 add_msg( _( "You start breaking the %1$s with your %2$s." ),
                          m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                u.defer_move( dest_loc ); // don't move into the tile until done mining
+                return true;
             }
         } else if( u.has_active_mutation( trait_BURROW ) ) {
             if( m.move_cost( dest_loc ) == 2 ) {
