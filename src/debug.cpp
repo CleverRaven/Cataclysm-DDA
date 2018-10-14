@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cstdarg>
 #include <iosfwd>
+#include <iomanip>
 #include <fstream>
 #include <streambuf>
 #include <sys/stat.h>
@@ -369,7 +370,9 @@ struct time_info {
 
         static_assert( std::is_base_of<base, Stream>::value, "" );
 
-        out << t.hours << ':' << t.minutes << ':' << t.seconds << '.' << t.mseconds;
+        out << std::setfill( '0' );
+        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
+            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
 
         return out;
     }
