@@ -474,4 +474,4 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     return nullStream;
 }
 
-// vim:tw=72:sw=1:fdm=marker:fdl=0:
+// vim:tw=72:sw=4:fdm=marker:fdl=0:

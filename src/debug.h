@@ -170,5 +170,5 @@ std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
  */
 extern bool debug_mode;
 
-// vim:tw=72:sw=1:fdm=marker:fdl=0:
+// vim:tw=72:sw=4:fdm=marker:fdl=0:
 #endif
