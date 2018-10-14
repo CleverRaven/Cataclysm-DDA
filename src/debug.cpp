@@ -96,6 +96,12 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             text.c_str(), funcname, filename, line
         );
 
+    std::string backtrace_instructions =
+        string_format(
+            _( "See %s for a full stack backtrace" ),
+            FILENAMES["debug"]
+        );
+
     fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
                     " %s\n" // translated user string: error notification
@@ -107,6 +113,9 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #ifdef TILES
                     " %s\n" // translated user string: copy
 #endif // TILES
+#ifdef BACKTRACE
+                    " %s\n" // translated user string: where to find backtrace
+#endif
                     , _( "An error has occurred! Written below is the error report:" ),
                     formatted_report,
                     _( "Press <color_white>space bar</color> to continue the game." ),
@@ -114,6 +123,9 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #ifdef TILES
                     , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
+#ifdef BACKTRACE
+                    , backtrace_instructions
+#endif
                   );
 
 #ifdef __ANDROID__
