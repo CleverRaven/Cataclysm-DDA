@@ -15,6 +15,10 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
+
 /**
 * \defgroup UI "The UI Menu."
 * @{
@@ -340,7 +344,12 @@ std::string uimenu::inputfilter()
          .window( window, 4, w_height - 1, w_width - 4 )
          .identifier( identifier );
     input_event event;
-    do {
+#ifdef __ANDROID__
+    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+        SDL_StartTextInput();
+    }
+#endif
+	do {
         // filter=filter_input->query(filter, false);
         filter = popup.query_string( false );
         event = popup.context().get_raw_input();
