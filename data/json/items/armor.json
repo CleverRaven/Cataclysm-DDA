@@ -9817,6 +9817,7 @@
     "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
-    "techniques": [ "WBLOCK_1", "OVERSIZE" ]
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "OVERSIZE" ]
   }
 ]
