@@ -369,27 +369,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
 
-    } else if( topic == "TALK_GUARD" ) {
-        switch( rng( 1, 5 ) ) {
-            case 1:
-                return _( "I'm not in charge here, you're looking for someone else..." );
-            case 2:
-                return _( "Keep civil or I'll bring the pain." );
-            case 3:
-                return _( "Just on watch, move along." );
-            case 4:
-                if( g->u.male ) {
-                    return _( "Sir." );
-                } else {
-                    return _( "Ma'am" );
-                }
-            case 5:
-                if( g->u.male ) {
-                    return _( "Rough out there, isn't it?" );
-                } else {
-                    return _( "Ma'am, you really shouldn't be traveling out there." );
-                }
-        }
     } else if( topic == "TALK_DELIVER_ASK" ) {
         return bulk_trade_inquire( *p, the_topic.item_type );
 
@@ -762,22 +741,18 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                           topic.c_str() );
 }
 
-talk_response &dialogue::add_response_first( const std::string &text, const std::string &r )
+talk_response &dialogue::add_response( const std::string &text, const std::string &r, const bool first )
 {
-    responses.insert( responses.begin(), talk_response() );
-    talk_response &result = responses.front();
+    talk_response result = talk_response();
     result.text = text;
     result.success.next_topic = talk_topic( r );
-    return result;
-}
-
-talk_response &dialogue::add_response( const std::string &text, const std::string &r )
-{
-    responses.push_back( talk_response() );
-    talk_response &result = responses.back();
-    result.text = text;
-    result.success.next_topic = talk_topic( r );
-    return result;
+    if( first ) {
+    responses.insert( responses.begin(), result );
+    return responses.front();
+    } else {
+    responses.push_back( result );
+    return responses.back();
+    }
 }
 
 talk_response &dialogue::add_response_done( const std::string &text )
@@ -791,68 +766,57 @@ talk_response &dialogue::add_response_none( const std::string &text )
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       talkfunction_ptr effect_success )
+                                       talkfunction_ptr effect_success, const bool first )
 {
-    talk_response &result = add_response( text, r );
+    talk_response &result = add_response( text, r, first );
     result.success.set_effect( effect_success );
     return result;
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
                                        std::function<void( npc & )> effect_success,
-                                       dialogue_consequence consequence )
+                                       dialogue_consequence consequence, const bool first )
 {
-    talk_response &result = add_response( text, r );
+    talk_response &result = add_response( text, r, first );
     result.success.set_effect_consequence( effect_success, consequence );
     return result;
 }
 
-talk_response &dialogue::add_response_first( const std::string &text, const std::string &r,
-                                            mission *miss )
+talk_response &dialogue::add_response( const std::string &text, const std::string &r,
+                                       mission *miss, const bool first )
 {
     if( miss == nullptr ) {
         debugmsg( "tried to select null mission" );
     }
-    talk_response &result = add_response_first( text, r );
+    talk_response &result = add_response( text, r, first );
     result.mission_selected = miss;
     return result;
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       mission *miss )
+                                       const skill_id &skill, const bool first )
 {
-    if( miss == nullptr ) {
-        debugmsg( "tried to select null mission" );
-    }
-    talk_response &result = add_response( text, r );
-    result.mission_selected = miss;
-    return result;
-}
-
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       const skill_id &skill )
-{
-    talk_response &result = add_response( text, r );
+    talk_response &result = add_response( text, r, first );
     result.skill = skill;
     return result;
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       const martialart &style )
+                                       const martialart &style, const bool first )
 {
-    talk_response &result = add_response( text, r );
+    talk_response &result = add_response( text, r, first );
     result.style = style.id;
     return result;
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       const itype_id &item_type )
+                                       const itype_id &item_type, const bool first )
 {
     if( item_type == "null" ) {
         debugmsg( "explicitly specified null item" );
     }
 
-    talk_response &result = add_response( text, r );
+    talk_response &result = add_response( text, r, first );
     result.success.next_topic.item_type = item_type;
     return result;
 }
@@ -875,10 +839,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
     if( topic == "TALK_MISSION_LIST" ) {
         if( p->chatbin.missions.size() == 1 ) {
-            add_response_first( _( "Tell me about it." ), "TALK_MISSION_OFFER",  p->chatbin.missions.front() );
+            add_response( _( "Tell me about it." ), "TALK_MISSION_OFFER",  p->chatbin.missions.front(), true );
         } else {
             for( auto &mission : p->chatbin.missions ) {
-                add_response_first( mission->get_type().name, "TALK_MISSION_OFFER", mission );
+                add_response( mission->get_type().name, "TALK_MISSION_OFFER", mission, true );
             }
         }
     } else if( topic == "TALK_MISSION_LIST_ASSIGNED" ) {
@@ -978,73 +942,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         SUCCESS_ACTION( &talk_function::clear_mission );
         SUCCESS_OPINION( mission_value / 4, -1,
                          mission_value / 3, -1, 0 );
-    } else if( topic == "TALK_GUARD" ) {
-        add_response_done( _( "Don't mind me..." ) );
-    } else if( topic == "TALK_EVAC_MERCHANT" ) {
-        if( p->has_trait( trait_id( "NPC_MISSION_LEV_1" ) ) ) {
-            add_response( _( "I figured you might be looking for some help..." ), "TALK_EVAC_MERCHANT" );
-            p->companion_mission_role_id = "REFUGEE MERCHANT";
-            SUCCESS_ACTION( &talk_function::companion_mission );
-        }
-
-    } else if( topic == "TALK_EVAC_MERCHANT_PLANS2" ) {
-        ///\EFFECT_INT >11 adds useful dialog option in TALK_EVAC_MERCHANT
-        if( g->u.int_cur >= 12 ) {
-            add_response(
-                _( "[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?" ),
-                "TALK_EVAC_MERCHANT_PLANS3" );
-        }
-
-    } else if( topic == "TALK_EVAC_MERCHANT_ASK_JOIN" ) {
-        ///\EFFECT_INT >10 adds bad dialog option in TALK_EVAC_MERCHANT (NEGATIVE)
-        if( g->u.int_cur > 10 ) {
-            add_response(
-                _( "[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!" ),
-                "TALK_EVAC_MERCHANT_NO" );
-        }
-        ///\EFFECT_INT <7 allows bad dialog option in TALK_EVAC_MERCHANT
-
-        ///\EFFECT_STR >10 allows bad dialog option in TALK_EVAC_MERCHANT
-        if( g->u.int_cur <= 6 && g->u.str_cur > 10 ) {
-            add_response( _( "[STR 11] I punch things in face real good!" ), "TALK_EVAC_MERCHANT_NO" );
-        }
-
-    } else if( topic == "TALK_EVAC_GUARD3_HIDE2" ) {
-        RESPONSE( _( "Get bent, traitor!" ) );
-        TRIAL( TALK_TRIAL_INTIMIDATE, 20 + p->op_of_u.fear * 3 );
-        SUCCESS( "TALK_EVAC_GUARD3_HOSTILE" );
-        FAILURE( "TALK_EVAC_GUARD3_INSULT" );
-        RESPONSE( _( "Got something to hide?" ) );
-        TRIAL( TALK_TRIAL_PERSUADE, 10 + p->op_of_u.trust * 3 );
-        SUCCESS( "TALK_EVAC_GUARD3_DEAD" );
-        FAILURE( "TALK_EVAC_GUARD3_INSULT" );
-
-    } else if( topic == "TALK_EVAC_GUARD3_HOSTILE" ) {
-        p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
-        p->my_fac->respects_u -= 15;
-        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
-
-    } else if( topic == "TALK_EVAC_GUARD3_INSULT" ) {
-        p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
-        p->my_fac->respects_u -= 5;
-
-    } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
-        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
-
-    } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
-        if( g->u.cash >= 800000 ) {
-            add_response( _( "[$8000] You have a deal." ), "TALK_SCAVENGER_MERC_HIRE_SUCCESS" );
-        }
-
-    } else if( topic == "TALK_SCAVENGER_MERC_HIRE_SUCCESS" ) {
-        if( g->u.cash < 800000 ) {
-            debugmsg( "Money appeared out of thin air! (or someone accidentally linked to this talk_topic)" );
-        } else {
-            g->u.cash -= 800000;
-        }
-
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
-        add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW" );
+        add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW", true );
         static const std::vector<itype_id> wanted = {{
                 "jerky", "meat_smoked", "fish_smoked",
                 "cooking_oil", "cornmeal", "flour",
@@ -1055,7 +954,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         for( const auto &id : wanted ) {
             if( g->u.charges_of( id ) > 0 ) {
                 const std::string msg = string_format( _( "Delivering %s." ), item::nname( id ).c_str() );
-                add_response( msg, "TALK_DELIVER_ASK", id );
+                add_response( msg, "TALK_DELIVER_ASK", id, true );
             }
         }
 
