@@ -3501,18 +3501,20 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
         // i.e. if the body part has a sum of 100 coverage from filthy clothing,
         // each point of damage has a 1% change of causing infection.
-        const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-        const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-        const int infection_chance = ( combined_dam * sum_cover ) / 100;
-        if( x_in_y( infection_chance, 100 ) ) {
-            if( has_effect( effect_bite, bp ) ) {
-                add_effect( effect_bite, 40_minutes, bp, true );
-            } else if( has_effect( effect_infected, bp ) ) {
-                add_effect( effect_infected, 25_minutes, bp, true );
-            } else {
-                add_effect( effect_bite, 1_turns, bp, true );
+        if( sum_cover > 0 ) {
+            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
+            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
+            const int infection_chance = ( combined_dam * sum_cover ) / 100;
+            if( x_in_y( infection_chance, 100 ) ) {
+                if( has_effect( effect_bite, bp ) ) {
+                    add_effect( effect_bite, 40_minutes, bp, true );
+                } else if( has_effect( effect_infected, bp ) ) {
+                    add_effect( effect_infected, 25_minutes, bp, true );
+                } else {
+                    add_effect( effect_bite, 1_turns, bp, true );
+                }
+                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
             }
-            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
         }
     }
 
