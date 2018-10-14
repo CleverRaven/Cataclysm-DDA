@@ -20,6 +20,7 @@
 #include "mission_companion.h"
 #include "npctrade.h"
 #include "bionics.h"
+#include "requirements.h"
 
 #include "string_formatter.h"
 #include <vector>
@@ -264,6 +265,9 @@ void talk_function::bionic_install( npc &p )
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
+        std::vector<item_comp> comps;
+        comps.push_back( item_comp( tmp.typeId(), 1 ) );
+        g->u.consume_items( comps, 1 );
     }
 }
 
