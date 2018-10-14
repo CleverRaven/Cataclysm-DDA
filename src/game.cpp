@@ -12619,7 +12619,7 @@ void game::process_artifact( item &it, player &p )
                     // Tears in reality are consumed too, but can't charge it.
                     case ARTC_PORTAL:
                         for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
-                            if( g->m.tr_at( dest ).loadid == tr_portal ) {
+                            if( m.tr_at( dest ).loadid == tr_portal ) {
                                 add_msg( m_good, _( "The portal collapses!" ) );
                                 m.remove_trap( dest );
                                 it.charges++;
