@@ -108,24 +108,24 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                     " -----------------------------------------------------------\n"
                     "%s"
                     " -----------------------------------------------------------\n"
+#ifdef BACKTRACE
+                    " %s\n" // translated user string: where to find backtrace
+#endif
                     " %s\n" // translated user string: space to continue
                     " %s\n" // translated user string: ignore key
 #ifdef TILES
                     " %s\n" // translated user string: copy
 #endif // TILES
-#ifdef BACKTRACE
-                    " %s\n" // translated user string: where to find backtrace
-#endif
                     , _( "An error has occurred! Written below is the error report:" ),
                     formatted_report,
+#ifdef BACKTRACE
+                    backtrace_instructions,
+#endif
                     _( "Press <color_white>space bar</color> to continue the game." ),
                     _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
 #ifdef TILES
                     , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
-#ifdef BACKTRACE
-                    , backtrace_instructions
-#endif
                   );
 
 #ifdef __ANDROID__
