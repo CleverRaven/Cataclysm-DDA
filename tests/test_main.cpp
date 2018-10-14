@@ -180,6 +180,32 @@ option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec 
     return ret;
 }
 
+#ifdef BACKTRACE
+struct BacktraceReporter : Catch::ConsoleReporter {
+    using ConsoleReporter::ConsoleReporter;
+
+    static std::string getDescription() {
+        return "As console reporter, but with backtrace support";
+    }
+
+    bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
+        auto r = ConsoleReporter::assertionEnded( assertionStats );
+        Catch::AssertionResult const &result = assertionStats.assertionResult;
+
+        if( result.getResultType() == Catch::ResultWas::FatalErrorCondition ) {
+            // We are in a signal handler for a fatal error condition, so print a
+            // backtrace
+            stream << "Stack trace at fatal error:\n";
+            debug_write_backtrace( stream );
+        }
+
+        return r;
+    }
+};
+
+REGISTER_REPORTER( "backtrace", BacktraceReporter );
+#endif
+
 int main( int argc, const char *argv[] )
 {
     Catch::Session session;
