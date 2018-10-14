@@ -106,6 +106,7 @@ void PATH_INFO::update_config_dir()
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
+    update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
     update_pathname( "fontlist", FILENAMES["config_dir"] + "fontlist.txt" );
     update_pathname( "fontdata", FILENAMES["config_dir"] + "fonts.json" );
     update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
@@ -186,6 +187,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "user_keybindings", FILENAMES["config_dir"] + "keybindings.json" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
+    update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
     update_pathname( "fontlist", FILENAMES["config_dir"] + "fontlist.txt" );
     update_pathname( "fontdata", FILENAMES["config_dir"] + "fonts.json" );
     update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );

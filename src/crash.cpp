@@ -1,4 +1,4 @@
-#if defined BACKTRACE && ( defined _WIN32 || defined _WIN64 )
+#if defined BACKTRACE
 
 #include <csignal>
 #include <cstdalign>
@@ -14,6 +14,20 @@
 
 #include "crash.h"
 #include "get_version.h"
+#include "path_info.h"
+
+[[noreturn]] static void crash_terminate_handler();
+
+static const char *get_crash_log_file_name()
+{
+    auto crash_it = FILENAMES.find( "crash" );
+    if( crash_it != FILENAMES.end() ) {
+        return crash_it->second.c_str();
+    }
+    return "crash.log";
+}
+
+#if ( defined _WIN32 || defined _WIN64 )
 #include "platform_win.h"
 
 #include <dbghelp.h>
@@ -187,7 +201,99 @@ extern "C" {
 
 } // extern "C"
 
-[[noreturn]] static void terminate_hanlder()
+void init_crash_handlers()
+{
+    SymInitialize( GetCurrentProcess(), NULL, TRUE );
+    ULONG stacksize = 2048;
+    SetThreadStackGuarantee( &stacksize );
+    for( auto sig : {
+             SIGSEGV, SIGILL, SIGABRT, SIGFPE
+         } ) {
+
+        std::signal( sig, signal_handler );
+    }
+    std::set_terminate( crash_terminate_handler );
+}
+
+#else
+// Non-Windows implementation
+
+#include <sstream>
+#include "debug.h"
+
+extern "C" {
+
+    static void log_crash( char const *type, char const *msg )
+    {
+        // This implementation is not technically async-signal-safe for many
+        // reasons, including the memory allocations and the SDL message box.
+        // But it should usually work in practice, unless for example the
+        // program segfaults inside malloc.
+        const char *crash_log_file = get_crash_log_file_name();
+        std::ostringstream log_text;
+        log_text << "The program has crashed."
+                 << "\nSee the log file for a stack trace."
+                 << "\nCRASH LOG FILE: " << crash_log_file
+                 << "\nVERSION: " << getVersionString()
+                 << "\nTYPE: " << type
+                 << "\nMESSAGE: " << msg;
+#ifdef TILES
+        if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error",
+                                      log_text.str().c_str(), NULL ) != 0 ) {
+            log_text << "Error creating SDL message box: " << SDL_GetError() << '\n';
+        }
+#endif
+        log_text << "\nSTACK TRACE:\n";
+        debug_write_backtrace( log_text );
+        std::cerr << log_text.str();
+        FILE *file = fopen( crash_log_file, "w" );
+        if( file ) {
+            fwrite( log_text.str().data(), 1, log_text.str().size(), file );
+            fclose( file );
+        }
+    }
+
+    static void signal_handler( int sig )
+    {
+        signal( sig, SIG_DFL );
+        char const *msg;
+        switch( sig ) {
+            case SIGSEGV:
+                msg = "SIGSEGV: Segmentation fault";
+                break;
+            case SIGILL:
+                msg = "SIGILL: Illegal instruction";
+                break;
+            case SIGABRT:
+                msg = "SIGABRT: Abnormal termination";
+                break;
+            case SIGFPE:
+                msg = "SIGFPE: Arithmetical error";
+                break;
+            default:
+                return;
+        }
+        log_crash( "Signal", msg );
+        // end of UB
+        _Exit( EXIT_FAILURE );
+    }
+
+} // extern "C"
+
+void init_crash_handlers()
+{
+    for( auto sig : {
+             SIGSEGV, SIGILL, SIGABRT, SIGFPE
+         } ) {
+
+        std::signal( sig, signal_handler );
+    }
+    std::set_terminate( crash_terminate_handler );
+}
+
+#endif
+
+[[noreturn]] static void crash_terminate_handler()
 {
     //@todo thread-safety?
     char const *type;
@@ -212,21 +318,7 @@ extern "C" {
     std::exit( EXIT_FAILURE );
 }
 
-void init_crash_handlers()
-{
-    SymInitialize( GetCurrentProcess(), NULL, TRUE );
-    ULONG stacksize = 2048;
-    SetThreadStackGuarantee( &stacksize );
-    for( auto sig : {
-             SIGSEGV, SIGILL, SIGABRT, SIGFPE
-         } ) {
-
-        std::signal( sig, signal_handler );
-    }
-    std::set_terminate( terminate_hanlder );
-}
-
-#else
+#else // !BACKTRACE
 
 void init_crash_handlers()
 {
