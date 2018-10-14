@@ -8,6 +8,8 @@
 #include <cassert>
 #include <cstdlib>
 #include <cstdarg>
+#include <cstring>
+#include <algorithm>
 #include <iosfwd>
 #include <iomanip>
 #include <fstream>
@@ -409,6 +411,111 @@ std::ofstream &DebugFile::currentTime()
     return ( file << get_time() );
 }
 
+#ifdef BACKTRACE
+// Verify that a string is safe for passing as an argument to addr2line.
+// In particular, we want to avoid any characters of significance to the shell.
+static bool is_safe_string( const char *start, const char *finish )
+{
+    static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                         "abcdefghijklmnopqrstuvwxyz"
+                                         "01234567890_./-";
+    using std::begin;
+    using std::end;
+    const auto is_safe_char =
+    [&]( char c ) {
+        auto in_safe = std::find( begin( safe_chars ), end( safe_chars ), c );
+        return c && in_safe != end( safe_chars );
+    };
+    return std::all_of( start, finish, is_safe_char );
+}
+
+void debug_write_backtrace( std::ostream &out )
+{
+#if defined _WIN32 || defined _WIN64
+    sym.SizeOfStruct = sizeof( SYMBOL_INFO );
+    sym.MaxNameLen = max_name_len;
+    USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
+    HANDLE proc = GetCurrentProcess();
+    for( USHORT i = 0; i < num_bt; ++i ) {
+        DWORD64 off;
+        out << "\n\t(";
+        if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, &sym ) ) {
+            out << sym.Name << "+0x" << std::hex << off << std::dec;
+        }
+        out << "@" << bt[i];
+        DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
+        if( mod_base ) {
+            out << "[";
+            DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
+            // mod_len == module_path_len means insufficient buffer
+            if( mod_len > 0 && mod_len < module_path_len ) {
+                char const *mod_name = mod_path + mod_len;
+                for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
+                }
+                out << mod_name;
+            } else {
+                out << "0x" << std::hex << mod_base << std::dec;
+            }
+            out << "+0x" << std::hex << ( uintptr_t ) bt[i] - mod_base << std::dec << "]";
+        }
+        out << "), ";
+    }
+    out << "\n\t";
+#else
+    int count = backtrace( tracePtrs, TRACE_SIZE );
+    char **funcNames = backtrace_symbols( tracePtrs, count );
+    for( int i = 0; i < count; ++i ) {
+        auto funcName = funcNames[i];
+        out << "\n(" << funcName << "), ";
+        // We want to call addr2Line to convert the address to a
+        // useful format
+        const auto funcNameEnd = funcName + std::strlen( funcName );
+        const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
+        auto addressStart = std::find( funcName, funcNameEnd, '[' );
+        auto addressEnd = std::find( addressStart, funcNameEnd, ']' );
+        if( binaryEnd == funcNameEnd || addressEnd == funcNameEnd ) {
+            out << "\nbacktrace: Could not extract binary name and address from line\n";
+            continue;
+        }
+        ++addressStart;
+
+        if( !is_safe_string( addressStart, addressEnd ) ) {
+            out << "\nbacktrace: Address not safe\n";
+            continue;
+        }
+
+        if( !is_safe_string( funcName, binaryEnd ) ) {
+            out << "\nbacktrace: Binary name not safe\n";
+            continue;
+        }
+
+        const int binaryLen = binaryEnd - funcName;
+        const int addressLen = addressEnd - addressStart;
+        char buf[100] = { 0 };
+        const auto result = snprintf( buf, sizeof( buf ), "addr2line -e %.*s -f -C %.*s",
+                                      binaryLen, funcName, addressLen, addressStart );
+        if( result < 0 || static_cast<size_t>( result ) >= sizeof( buf ) ) {
+            // snprintf didn't fit in buffer
+            out << "\nbacktrace: addr2line command too long (" << result << ")\n";
+            continue;
+        }
+        FILE *addr2line = popen( buf, "re" );
+        if( addr2line == nullptr ) {
+            out << "\nbacktrace: popen(addr2line) failed\n";
+            continue;
+        }
+        out << "\n";
+        while( size_t num_bytes = fread( buf, 1, sizeof( buf ), addr2line ) ) {
+            out.write( buf, num_bytes );
+        }
+        pclose( addr2line );
+    }
+    out << "\n";
+    free( funcNames );
+#endif
+}
+#endif
+
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
     // Error are always logged, they are important,
@@ -427,45 +534,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         // Backtrace on error.
 #ifdef BACKTRACE
         if( lev == D_ERROR ) {
-#if defined _WIN32 || defined _WIN64
-            sym.SizeOfStruct = sizeof( SYMBOL_INFO );
-            sym.MaxNameLen = max_name_len;
-            USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
-            HANDLE proc = GetCurrentProcess();
-            for( USHORT i = 0; i < num_bt; ++i ) {
-                DWORD64 off;
-                debugFile.file << "\n\t(";
-                if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, &sym ) ) {
-                    debugFile.file << sym.Name << "+0x" << std::hex << off << std::dec;
-                }
-                debugFile.file << "@" << bt[i];
-                DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
-                if( mod_base ) {
-                    debugFile.file << "[";
-                    DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
-                    // mod_len == module_path_len means insufficient buffer
-                    if( mod_len > 0 && mod_len < module_path_len ) {
-                        char const *mod_name = mod_path + mod_len;
-                        for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
-                        }
-                        debugFile.file << mod_name;
-                    } else {
-                        debugFile.file << "0x" << std::hex << mod_base << std::dec;
-                    }
-                    debugFile.file << "+0x" << std::hex << ( uintptr_t ) bt[i] - mod_base << std::dec << "]";
-                }
-                debugFile.file << "), ";
-            }
-            debugFile.file << "\n\t";
-#else
-            int count = backtrace( tracePtrs, TRACE_SIZE );
-            char **funcNames = backtrace_symbols( tracePtrs, count );
-            for( int i = 0; i < count; ++i ) {
-                debugFile.file << "\n\t(" << funcNames[i] << "), ";
-            }
-            debugFile.file << "\n\t";
-            free( funcNames );
-#endif
+            debug_write_backtrace( debugFile.file );
         }
 #endif
 

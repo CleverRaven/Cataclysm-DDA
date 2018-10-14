@@ -170,5 +170,12 @@ std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
  */
 extern bool debug_mode;
 
+#ifdef BACKTRACE
+/**
+ * Write a stack backtrace to the given ostream
+ */
+void debug_write_backtrace( std::ostream &out );
+#endif
+
 // vim:tw=72:sw=4:fdm=marker:fdl=0:
 #endif
