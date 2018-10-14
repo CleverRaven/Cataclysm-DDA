@@ -215,13 +215,11 @@ struct dialogue {
 
     private:
         /**
-         * Add a simple response that switches the topic to the new one, but force it to be the first topic.
+         * Add a simple response that switches the topic to the new one. If first == true, force
+         * this topic to the front of the responses.
          */
-        talk_response &add_response_first( const std::string &text, const std::string &r );
-        /**
-         * Add a simple response that switches the topic to the new one.
-         */
-        talk_response &add_response( const std::string &text, const std::string &r );
+        talk_response &add_response( const std::string &text, const std::string &r,
+                                     const bool first = false );
         /**
          * Add a response with the result TALK_DONE.
          */
@@ -235,7 +233,7 @@ struct dialogue {
          * action. The response always succeeds. Consequence is based on function used.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     dialogue_fun_ptr effect_success );
+                                     dialogue_fun_ptr effect_success, const bool first = false );
 
         /**
          * Add a simple response that switches the topic to the new one and executes the given
@@ -243,30 +241,31 @@ struct dialogue {
          */
         talk_response &add_response( const std::string &text, const std::string &r,
                                      std::function<void( npc & )> effect_success,
-                                     dialogue_consequence consequence );
+                                     dialogue_consequence consequence, const bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about mission to the given one. The mission pointer must be valid.
          */
-        talk_response &add_response( const std::string &text, const std::string &r, mission *miss );
-        talk_response &add_response_first( const std::string &text, const std::string &r, mission *miss );
+        talk_response &add_response( const std::string &text, const std::string &r, mission *miss,
+                                     const bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about skill to the given one.
          */
-        talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill );
+        talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
+                                     const bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about martial art style to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     const martialart &style );
+                                     const martialart &style, const bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about item type to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     const itype_id &item_type );
+                                     const itype_id &item_type, const bool first = false );
 };
 
 /**
