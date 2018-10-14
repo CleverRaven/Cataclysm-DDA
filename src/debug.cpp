@@ -477,52 +477,84 @@ void debug_write_backtrace( std::ostream &out )
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
     for( int i = 0; i < count; ++i ) {
-        auto funcName = funcNames[i];
-        out << "\n(" << funcName << "), ";
+        out << "\n(" << funcNames[i] << "), ";
+    }
+    out << "\n\nAttempting to repeat stack trace using debug symbols...\n";
+    // Try to print the backtrace again, but this time using addr2line
+    // to extract debug info and thus get a more detailed / useful
+    // version.  If addr2line is not available this will just fail,
+    // which is fine.
+    //
+    // To make this fast, we need to call addr2line with as many
+    // addresses as possible in each commandline.  To that end, we track
+    // the binary of the frame and issue a command whenever that
+    // changes.
+    std::string addresses;
+    std::string last_binary_name;
+
+    auto call_addr2line = [&out]( const std::string & binary, const std::string & addresses ) {
+        std::string cmd = "addr2line -e " + binary + " -f -C " + addresses;
+        FILE *addr2line = popen( cmd.c_str(), "re" );
+        if( addr2line == nullptr ) {
+            out << "backtrace: popen(addr2line) failed\n";
+            // Most likely reason is that addr2line is not installed, so
+            // in this case we give up and don't try any more frames.
+            return false;
+        }
+        char buf[1024];
+        while( size_t num_bytes = fread( buf, 1, sizeof( buf ), addr2line ) ) {
+            out.write( buf, num_bytes );
+        }
+        if( 0 != pclose( addr2line ) ) {
+            out << "backtrace: addr2line failed\n";
+            return false;
+        }
+        return true;
+    };
+
+    for( int i = 0; i < count; ++i ) {
         // We want to call addr2Line to convert the address to a
         // useful format
+        auto funcName = funcNames[i];
         const auto funcNameEnd = funcName + std::strlen( funcName );
         const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
         auto addressStart = std::find( funcName, funcNameEnd, '[' );
         auto addressEnd = std::find( addressStart, funcNameEnd, ']' );
         if( binaryEnd == funcNameEnd || addressEnd == funcNameEnd ) {
-            out << "\nbacktrace: Could not extract binary name and address from line\n";
+            out << "backtrace: Could not extract binary name and address from line\n";
             continue;
         }
         ++addressStart;
 
         if( !is_safe_string( addressStart, addressEnd ) ) {
-            out << "\nbacktrace: Address not safe\n";
+            out << "backtrace: Address not safe\n";
             continue;
         }
 
         if( !is_safe_string( funcName, binaryEnd ) ) {
-            out << "\nbacktrace: Binary name not safe\n";
+            out << "backtrace: Binary name not safe\n";
             continue;
         }
 
-        const int binaryLen = binaryEnd - funcName;
-        const int addressLen = addressEnd - addressStart;
-        char buf[100] = { 0 };
-        const auto result = snprintf( buf, sizeof( buf ), "addr2line -e %.*s -f -C %.*s",
-                                      binaryLen, funcName, addressLen, addressStart );
-        if( result < 0 || static_cast<size_t>( result ) >= sizeof( buf ) ) {
-            // snprintf didn't fit in buffer
-            out << "\nbacktrace: addr2line command too long (" << result << ")\n";
-            continue;
+        std::string binary_name( funcName, binaryEnd );
+
+        if( !last_binary_name.empty() && binary_name != last_binary_name ) {
+            if( !call_addr2line( last_binary_name, addresses ) ) {
+                addresses.clear();
+                break;
+            }
+
+            addresses.clear();
         }
-        FILE *addr2line = popen( buf, "re" );
-        if( addr2line == nullptr ) {
-            out << "\nbacktrace: popen(addr2line) failed\n";
-            continue;
-        }
-        out << "\n";
-        while( size_t num_bytes = fread( buf, 1, sizeof( buf ), addr2line ) ) {
-            out.write( buf, num_bytes );
-        }
-        pclose( addr2line );
+
+        last_binary_name = binary_name;
+        addresses += " ";
+        addresses.insert( addresses.end(), addressStart, addressEnd );
     }
-    out << "\n";
+
+    if( !addresses.empty() ) {
+        call_addr2line( last_binary_name, addresses );
+    }
     free( funcNames );
 #endif
 }
