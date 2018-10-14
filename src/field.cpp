@@ -2219,7 +2219,7 @@ void map::monster_in_field( monster &z )
 
             // MATERIALS-TODO: Use fire resistance
             case fd_fire:
-                if( z.has_flag( MF_FIREPROOF ) ) {
+                if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
                     return;
                 }
                 // TODO: Replace the section below with proper json values
@@ -2337,6 +2337,9 @@ void map::monster_in_field( monster &z )
 
             // MATERIALS-TODO: Use fire resistance
             case fd_flame_burst:
+                if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
+                    return;
+                }
                 if( z.made_of_any( Creature::cmat_flesh ) ) {
                     dam += 3;
                 }
@@ -2386,6 +2389,9 @@ void map::monster_in_field( monster &z )
 
             case fd_incendiary:
                 // MATERIALS-TODO: Use fire resistance
+                if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
+                    return;
+                }
                 if( z.made_of_any( Creature::cmat_flesh ) ) {
                     dam += 3;
                 }
@@ -2404,15 +2410,13 @@ void map::monster_in_field( monster &z )
                 } else if( cur.getFieldDensity() == 2 ) {
                     dam += rng( 6, 12 );
                     z.moves -= 20;
-                    if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) &&
-                        !z.has_flag( MF_FIREY ) ) {
+                    if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                         z.add_effect( effect_onfire, rng( 8_turns, 12_turns ) );
                     }
                 } else if( cur.getFieldDensity() == 3 ) {
                     dam += rng( 10, 20 );
                     z.moves -= 40;
-                    if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) &&
-                        !z.has_flag( MF_FIREY ) ) {
+                    if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                         z.add_effect( effect_onfire, rng( 12_turns, 16_turns ) );
                     }
                 }
