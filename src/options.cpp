@@ -1122,8 +1122,9 @@ void options_manager::init()
        );
 
     add( "USE_METRIC_SPEEDS", "interface", translate_marker( "Speed units" ),
-         translate_marker( "Switch between km/h and mph." ),
-    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) } }, "mph"
+         translate_marker( "Switch between mph, km/h and tiles/turn." ),
+    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) }, { "t/t", translate_marker( "tiles/turn" ) } },
+    "mph"
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", translate_marker( "Mass units" ),

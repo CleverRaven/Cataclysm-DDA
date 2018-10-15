@@ -149,6 +149,9 @@ const char *velocity_units( const units_type vel_units )
 {
     if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
         return _( "mph" );
+    } else if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "t/t" ) {
+        //~ vehicle speed tiles per turn
+        return _( "t/t" );
     } else {
         switch( vel_units ) {
             case VU_VEHICLE:
@@ -191,10 +194,11 @@ const char *volume_units_long()
 
 double convert_velocity( int velocity, const units_type vel_units )
 {
+    const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     // internal units to mph conversion
     double ret = double( velocity ) / 100;
 
-    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h" ) {
+    if( type == "km/h" ) {
         switch( vel_units ) {
             case VU_VEHICLE:
                 // mph to km/h conversion
@@ -205,7 +209,10 @@ double convert_velocity( int velocity, const units_type vel_units )
                 ret *= 0.447f;
                 break;
         }
+    } else if( type == "t/t" ) {
+        ret /= 10;
     }
+
     return ret;
 }
 
