@@ -1408,6 +1408,7 @@ class player : public Character
         void start_destination_activity();
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
+        bool defer_move( tripoint next );
         void shift_destination( int shiftx, int shifty );
 
         // Grab furniture / vehicle
