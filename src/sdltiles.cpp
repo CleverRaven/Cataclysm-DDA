@@ -1594,19 +1594,39 @@ std::string get_quick_shortcut_name(const std::string& category) {
     return category;
 }
 
+float android_get_display_density()
+{
+    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "getDisplayDensity", "()F" );
+    jfloat ans = env->CallFloatMethod( activity, method_id );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
+    return ans;
+}
+
 // given the active quick shortcuts, returns the dimensions of each quick shortcut button.
-void get_quick_shortcut_dimensions(quick_shortcuts_t& qsl, float& border, float& width, float& height) {
-    border = std::floor(get_option<int>( "ANDROID_SHORTCUT_BORDER" ));
-    width = get_option<int>( "ANDROID_SHORTCUT_WIDTH_MAX" );
-    float min_width = std::min(get_option<int>( "ANDROID_SHORTCUT_WIDTH_MIN" ), get_option<int>( "ANDROID_SHORTCUT_WIDTH_MAX" ));
-    float usable_window_width = WindowWidth * get_option<int>("ANDROID_SHORTCUT_SCREEN_PERCENTAGE") * 0.01f;
-    if (width * qsl.size() > usable_window_width) {
-        width *= usable_window_width / (width * qsl.size());
-        if (width < min_width)
+void get_quick_shortcut_dimensions( quick_shortcuts_t &qsl, float &border, float &width,
+                                    float &height )
+{
+    const float shortcut_dimensions_authored_density = 3.0f; // 480p xxhdpi
+    float screen_density_scale = android_get_display_density() / shortcut_dimensions_authored_density;
+    border = std::floor( screen_density_scale * get_option<int>( "ANDROID_SHORTCUT_BORDER" ) );
+    width = std::floor( screen_density_scale * get_option<int>( "ANDROID_SHORTCUT_WIDTH_MAX" ) );
+    float min_width = std::floor( screen_density_scale * std::min(
+                                      get_option<int>( "ANDROID_SHORTCUT_WIDTH_MIN" ),
+                                      get_option<int>( "ANDROID_SHORTCUT_WIDTH_MAX" ) ) );
+    float usable_window_width = WindowWidth * get_option<int>( "ANDROID_SHORTCUT_SCREEN_PERCENTAGE" ) *
+                                0.01f;
+    if( width * qsl.size() > usable_window_width ) {
+        width *= usable_window_width / ( width * qsl.size() );
+        if( width < min_width ) {
             width = min_width;
+        }
     }
-    width = std::floor(width);
-    height = std::floor(get_option<int>( "ANDROID_SHORTCUT_HEIGHT" ));
+    width = std::floor( width );
+    height = std::floor( screen_density_scale * get_option<int>( "ANDROID_SHORTCUT_HEIGHT" ) );
 }
 
 // Returns the quick shortcut (if any) under the finger's current position, or finger down position if down == true
