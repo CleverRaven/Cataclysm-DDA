@@ -615,11 +615,12 @@ void options_manager::cOpt::setNext()
         sSet = vItems[iNext].first;
 
     } else if( sType == "string_input" ) {
-        int iMenuTextLength = sMenuText.length();
+        const std::string sTranslatedMenuText = getMenuText();
+        int iMenuTextLength = utf8_width( sTranslatedMenuText );
         string_input_popup()
         .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength
                                              + 1 ) )
-        .description( _( sMenuText.c_str() ) )
+        .description( sTranslatedMenuText )
         .max_length( iMaxLength )
         .edit( sSet );
 
