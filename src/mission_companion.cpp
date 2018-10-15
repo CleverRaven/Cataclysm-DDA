@@ -90,6 +90,14 @@ mission_data::mission_data()
     }
 }
 
+namespace talk_function
+{
+void outpost_missions( mission_data &mission_key, npc &p, const std::string &id );
+bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
+                              const std::string &title );
+bool handle_mission( mission_entry &cur_key, npc &p );
+};
+
 void talk_function::companion_mission( npc &p )
 {
     mission_data mission_key;
@@ -107,16 +115,17 @@ void talk_function::companion_mission( npc &p )
     } else if( id == "REFUGEE MERCHANT" ) {
         title = _( "Free Merchant Missions" );
     }
-    talk_function::outpost_missions( mission_key, p, id, title );
+    talk_function::outpost_missions( mission_key, p, id );
+    if( talk_function::display_and_choose_opts( mission_key, p, id, title ) ) {
+        talk_function::handle_mission( mission_key.cur_key, p );
+    }
 }
 
-bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const std::string &id, const std::string &title )
+void talk_function::outpost_missions( mission_data &mission_key, npc &p, const std::string &id )
 {
     std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry;
     std::string entry_aux;
-
-    camp_tab_mode tab_mode = TAB_MAIN;
 
     if( id == "SCAVENGER" ) {
         mission_key.text["Assign Scavenging Patrol"] =
@@ -1022,7 +1031,11 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
             mission_key.push( "Recover Commune-Refugee Center", _( "Recover Commune-Refugee Center" ) );
         }
     }
+}
 
+bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
+        const std::string &id, const std::string &title )
+{
     if( mission_key.text.empty() ) {
         popup( _( "There are no missions at this colony.  Press Spacebar..." ) );
         return false;
@@ -1032,6 +1045,8 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
     if( id == "FACTION_CAMP" ) {
         TITLE_TAB_HEIGHT = 1;
     }
+
+    camp_tab_mode tab_mode = TAB_MAIN;
 
     catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                 ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) + TITLE_TAB_HEIGHT,
@@ -1057,7 +1072,6 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    mission_entry cur_key;
     std::vector<mission_entry> cur_key_list;
 
     auto reset_cur_key_list = [&]() {
@@ -1082,7 +1096,7 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
     wrefresh( g->w_terrain );
 
     while( true ) {
-        cur_key = cur_key_list[sel];
+        mission_key.cur_key = cur_key_list[sel];
         if( redraw ) {
             werase( w_list );
             draw_border( w_list );
@@ -1112,7 +1126,7 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
             draw_scrollbar( w_list, sel, FULL_SCREEN_HEIGHT - 2, cur_key_list.size(), 1 );
             wrefresh( w_list );
             werase( w_info );
-            fold_and_print( w_info, 0, 0, maxlength, c_white, mission_key.text[cur_key.id] );
+            fold_and_print( w_info, 0, 0, maxlength, c_white, mission_key.text[mission_key.cur_key.id] );
             wrefresh( w_info );
 
             if( id == "FACTION_CAMP" ) {
@@ -1124,7 +1138,7 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
         }
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", cur_key.id.c_str() );
+            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id.c_str() );
             if( sel == cur_key_list.size() - 1 ) {
                 sel = 0;    // Wrap around
             } else {
@@ -1132,7 +1146,7 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
             }
             redraw = true;
         } else if( action == "UP" ) {
-            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", cur_key.id.c_str() );
+            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id.c_str() );
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
             } else {
@@ -1175,7 +1189,7 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
             mission_entry dud;
             dud.id = "NONE";
             dud.name_display = "NONE";
-            cur_key = dud;
+            mission_key.cur_key = dud;
             break;
         } else if( action == "CONFIRM" ) {
             break;
@@ -1185,6 +1199,17 @@ bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const s
         }
     }
     g->refresh_all();
+    return true;
+}
+
+bool talk_function::handle_mission( mission_entry &cur_key, npc &p )
+{
+    //Used to determine what kind of OM the NPC is sitting in to determine the missions and upgrades
+    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
+    std::string om_cur = omt_ref.id().c_str();
+    std::string bldg;
+    std::vector<std::pair<std::string, tripoint>> om_expansions = om_building_region( p, 1, true );
 
     if( cur_key.id == "Caravan Commune-Refugee Center" ) {
         individual_mission( p, _( "joins the caravan team..." ), "_commune_refugee_caravan", true );

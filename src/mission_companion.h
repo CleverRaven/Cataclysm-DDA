@@ -35,6 +35,8 @@ class mission_data
         //see mission_key_push() for each key description
         std::vector<std::vector<mission_entry>> entries;
         std::map<std::string, std::string> text;
+        mission_entry cur_key;
+
         mission_data();
         /**
         * Adds the id's to the correct vectors (ie tabs) in the UI.
@@ -57,8 +59,6 @@ namespace talk_function
  */
 //Identifies which mission set the NPC draws from
 void companion_mission( npc & );
-//Primary Loop
-bool outpost_missions( mission_data &mission_keys, npc &p, const std::string &id, const std::string &title );
 /**
  * Send a companion on an individual mission or attaches them to a group to depart later
  * Set @ref submap_coords and @ref pos.
