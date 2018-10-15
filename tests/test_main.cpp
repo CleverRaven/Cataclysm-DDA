@@ -208,6 +208,9 @@ int main( int argc, const char *argv[] )
 
     test_mode = true;
 
+    // Initialize the cata RNG with the Catch seed for reproducible tests
+    rng_set_engine_seed( session.config().rngSeed() );
+
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite );
