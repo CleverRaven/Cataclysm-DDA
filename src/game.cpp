@@ -9422,7 +9422,7 @@ void game::butcher()
             smenu.desc_enabled = true;
             smenu.text = _( "Choose type of butchery:" );
             smenu.addentry_desc( BUTCHER, true, 'B', cut_time( _( "Quick butchery (%s)" ), BUTCHER ),
-                                 _( "This techinque is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
+                                 _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
             smenu.addentry_desc( BUTCHER_FULL, true, 'b', cut_time( _( "Full butchery (%s)" ), BUTCHER_FULL ),
                                  _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
             smenu.addentry_desc( F_DRESS, true, 'f', cut_time( _( "Field dress corpse (%s)" ), F_DRESS ),
