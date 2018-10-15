@@ -9138,9 +9138,11 @@ void add_disassemblables( uilist &menu, map_stack &items,
         for( const auto stack : stacks ) {
             const item &it = items[ stack.first ];
 
-            //~ Name and number of items listed for disassembling
-            const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
-                                             it.tname(), stack.second );
+            std::string time = to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft( it.typeId() ).time / 100 ) );
+
+            //~ Name, number of items and time to complete disassembling
+            const auto &msg = string_format( pgettext( "butchery menu", "%s (%d) (%s)" ),
+                                             it.tname(), stack.second, time );
             menu.addentry( menu_index++, true, hotkey, msg );
             hotkey = -1;
         }
@@ -9296,10 +9298,17 @@ void game::butcher()
                             to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) ) ) );
         }
         if( disassembles.size() > 1 ) {
-            kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D',
-                            _( "Disassemble everything once" ) );
-            kmenu.addentry( MULTIDISASSEMBLE_ALL, true, 'd',
-                            _( "Disassemble everything" ) );
+            int time_to_disassemble = 0;
+            int time_to_disassemble_all = 0;
+            for( const auto stack : disassembly_stacks ) {
+                const item &it = items[ stack.first ];
+                const int time = recipe_dictionary::get_uncraft( it.typeId() ).time;
+                time_to_disassemble += time;
+                time_to_disassemble_all += time * stack.second;
+            }
+
+            kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D', string_format( _( "Disassemble everything once (%s)" ), to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) ) );
+            kmenu.addentry( MULTIDISASSEMBLE_ALL, true, 'd', string_format( _( "Disassemble everything (%s)" ), to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) ) );
         }
         if( salvageables.size() > 1 ) {
             kmenu.addentry( MULTISALVAGE, true, 'z', _( "Cut up all you can" ) );
