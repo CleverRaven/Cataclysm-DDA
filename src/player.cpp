@@ -11446,16 +11446,12 @@ action_id player::get_next_auto_move_direction()
 
 bool player::defer_move( tripoint next ) {
     // next must be adjacent to current pos
-    tripoint dp = next - pos();
-    if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) {
+    if( square_dist( next, pos() ) != 1 ) {
         return false;
     }
     // next must be adjacent to subsequent move in any preexisting automove route
-    if( has_destination() ) {
-        dp = auto_move_route.front() - next;
-        if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) {
-            return false;
-        }
+    if( has_destination() && square_dist( auto_move_route.front(), next ) != 1 ) {
+        return false;
     }
     auto_move_route.insert( auto_move_route.begin(), next );
     next_expected_position = pos();
