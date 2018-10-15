@@ -2516,7 +2516,7 @@
     "color": "white",
     "use_action": {
       "target": "jar_eggs_pickled",
-      "msg": "You examine the batch and see that the pickling soluction has done it's job, so you seal the jar up for storage.",
+      "msg": "You examine the batch and see that the pickling solution has done its job, so you seal the jar up for storage.",
       "moves": 50,
       "type": "delayed_transform",
       "transform_age": 33600,
