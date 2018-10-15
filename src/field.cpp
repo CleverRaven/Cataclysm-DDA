@@ -559,32 +559,17 @@ int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
     return ter.movecost + furn.movecost;
 }
 
-// A helper to turn neighbor index back into a tripoint
-// Ugly, but can save time where it matters
-tripoint offset_by_index( const size_t index, const tripoint &base )
-{
-    switch( index ) {
-        case 0:
-            return tripoint( base.x - 1, base.y - 1, base.z );
-        case 1:
-            return tripoint( base.x, base.y - 1, base.z );
-        case 2:
-            return tripoint( base.x + 1, base.y - 1, base.z );
-        case 3:
-            return tripoint( base.x - 1, base.y, base.z );
-        case 4:
-            return tripoint( base.x + 1, base.y, base.z );
-        case 5:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        case 6:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        case 7:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        default:
-            debugmsg( "offset_by_index got invalid index: %d", index );
-            return tripoint_min;
+static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { -1, -1, 0 },
+        {  0, -1, 0 },
+        { +1, -1, 0 },
+        { -1,  0, 0 },
+        { +1,  0, 0 },
+        { -1, +1, 0 },
+        {  0, +1, 0 },
+        { +1, +1, 0 },
     }
-}
+};
 
 bool at_edge( const size_t x, const size_t y )
 {
@@ -618,14 +603,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
         const bool east = pt.x < SEEX * my_MAPSIZE - 1;
         const bool south = pt.y < SEEY * my_MAPSIZE - 1;
         return std::array< maptile, 8 > { {
-                maptile_has_bounds( {pt.x - 1, pt.y - 1, pt.z}, west &&north ),
-                maptile_has_bounds( {pt.x, pt.y - 1, pt.z}, north ),
-                maptile_has_bounds( {pt.x + 1, pt.y - 1, pt.z}, east &&north ),
-                maptile_has_bounds( {pt.x - 1, pt.y, pt.z}, west ),
-                maptile_has_bounds( {pt.x + 1, pt.y, pt.z}, east ),
-                maptile_has_bounds( {pt.x - 1, pt.y + 1, pt.z}, west &&south ),
-                maptile_has_bounds( {pt.x, pt.y + 1, pt.z}, south ),
-                maptile_has_bounds( {pt.x + 1, pt.y + 1, pt.z}, east &&south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[0], west &&north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[1], north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[2], east &&north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[3], west ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[4], east ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[5], west &&south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[6], south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[7], east &&south ),
             }
         };
     };
@@ -1182,7 +1167,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                                    nearwebfld || ( dst.get_item_count() > 0 && flammable_items_at( offset_by_index( i, p ) ) &&
+                                    nearwebfld || ( dst.get_item_count() > 0 &&
+                                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
                                                     one_in( 5 ) )
                                 ) ) {
                                 dst.add_field( fd_fire, 1, 0_turns ); // Nearby open flammable ground? Set it on fire.
