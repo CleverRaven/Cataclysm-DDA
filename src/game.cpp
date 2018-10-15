@@ -9111,17 +9111,23 @@ void add_corpses( uilist &menu, map_stack &items,
 }
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
 void add_salvagables( uilist &menu, map_stack &items,
-                      const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+                      const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
+                      const salvage_actor *salvage_iuse
+                    )
 {
+
     if( stacks.size() > 0 ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto stack : stacks ) {
             const item &it = items[ stack.first ];
 
+            std::string time = to_string_clipped( time_duration::from_turns( salvage_iuse->time_to_cut_up(
+                    it ) / 100 ) );
+
             //~ Name and number of items listed for cutting up
-            const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
-                                             it.tname(), stack.second );
+            const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d) (%s)" ),
+                                             it.tname(), stack.second, time );
             menu.addentry( menu_index++, true, hotkey, msg );
             hotkey = -1;
         }
@@ -9138,7 +9144,8 @@ void add_disassemblables( uilist &menu, map_stack &items,
         for( const auto stack : stacks ) {
             const item &it = items[ stack.first ];
 
-            std::string time = to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft( it.typeId() ).time / 100 ) );
+            std::string time = to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft(
+                    it.typeId() ).time / 100 ) );
 
             //~ Name, number of items and time to complete disassembling
             const auto &msg = string_format( pgettext( "butchery menu", "%s (%d) (%s)" ),
@@ -9286,7 +9293,7 @@ void game::butcher()
         // Add corpses, disassembleables, and salvagables to the UI
         add_corpses( kmenu, items, corpses, i );
         add_disassemblables( kmenu, items, disassembly_stacks, i );
-        add_salvagables( kmenu, items, salvage_stacks, i );
+        add_salvagables( kmenu, items, salvage_stacks, i, salvage_iuse );
 
         if( corpses.size() > 1 ) {
             int time_to_cut = 0;
@@ -9307,11 +9314,21 @@ void game::butcher()
                 time_to_disassemble_all += time * stack.second;
             }
 
-            kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D', string_format( _( "Disassemble everything once (%s)" ), to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) ) );
-            kmenu.addentry( MULTIDISASSEMBLE_ALL, true, 'd', string_format( _( "Disassemble everything (%s)" ), to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) ) );
+            kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D',
+                            string_format( _( "Disassemble everything once (%s)" ),
+                                           to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) ) );
+            kmenu.addentry( MULTIDISASSEMBLE_ALL, true, 'd', string_format( _( "Disassemble everything (%s)" ),
+                            to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) ) );
         }
         if( salvageables.size() > 1 ) {
-            kmenu.addentry( MULTISALVAGE, true, 'z', _( "Cut up all you can" ) );
+            int time_to_salvage = 0;
+            for( const auto stack : salvage_stacks ) {
+                const item &it = items[ stack.first ];
+                time_to_salvage += salvage_iuse->time_to_cut_up( it ) * stack.second;
+            }
+
+            kmenu.addentry( MULTISALVAGE, true, 'z', string_format( _( "Cut up everything (%s)" ),
+                            to_string_clipped( time_duration::from_turns( time_to_salvage / 100 ) ) ) );
         }
 
         kmenu.query();

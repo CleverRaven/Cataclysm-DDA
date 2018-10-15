@@ -1177,6 +1177,12 @@ long salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
 static const units::volume minimal_volume_to_cut = 250_ml;
 
+int salvage_actor::time_to_cut_up( const item &it ) const
+{
+    int count = it.volume() / minimal_volume_to_cut;
+    return moves_per_part * count;
+}
+
 bool salvage_actor::valid_to_cut_up( const item &it ) const
 {
     if( it.is_null() ) {
