@@ -382,29 +382,40 @@ std::string uimenu::inputfilter()
     return filter;
 }
 
-// Find the best width to fold the string to no more than max_lines,
-// Assuming that foldstring( width ).size() decreases monotonously w.r.t. width.
-static int find_best_fold_width( const std::string &str, const int max_lines,
-                                 const int max_width_avail )
+/**
+ * Find the minimum width between max( min_width, 1 ) and
+ * max( max_width, min_width, 1 ) to fold the string to no more than max_lines,
+ * or no more than the minimum number of lines possible, assuming that
+ * foldstring( width ).size() decreases monotonously with width.
+ **/
+static int find_minimum_fold_width( const std::string &str, int max_lines,
+                                    int min_width, int max_width )
 {
     if( str.empty() ) {
-        return 0;
+        return std::max( min_width, 1 );
     }
-    // min_width inclusive, max_width exclusive.
-    int min_width = 1;
-    // +1 for exclusion.
-    int max_width = std::min( utf8_width( str ), max_width_avail ) + 1;
-    while( min_width + 1 < max_width ) {
-        int width = ( min_width + max_width ) / 2;
-        int lines = foldstring( str, width ).size();
-        if( lines == max_lines ) {
-            return width;
-        } else if( lines < max_lines ) {
-            // decrease width for more lines
-            max_width = width;
-        } else {
-            // increase width for less lines
-            min_width = width + 1;
+    min_width = std::max( min_width, 1 );
+    // max_width could be further limited by the string width, but utf8_width is
+    // not handling linebreaks properly.
+
+    if( min_width < max_width ) {
+        // If with max_width the string still folds to more than max_lines, find the
+        // minimum width that folds the string to such number of lines instead.
+        max_lines = std::max<int>( max_lines, foldstring( str, max_width ).size() );
+        while( min_width < max_width ) {
+            int width = ( min_width + max_width ) / 2;
+            // width may equal min_width, but will always be less than max_width.
+            int lines = foldstring( str, width ).size();
+            // If the current width folds the string to no more than max_lines
+            if( lines <= max_lines ) {
+                // The minimum width is between min_width and width.
+                max_width = width;
+            } else {
+                // The minimum width is between width + 1 and max_width.
+                min_width = width + 1;
+            }
+            // The new interval will always be smaller than the previous one,
+            // so the loop is guaranteed to end.
         }
     }
     return min_width;
@@ -465,7 +476,10 @@ void uimenu::setup()
             }
         }
         if ( desc_enabled ) {
-            int descwidth = find_best_fold_width( entries[i].desc, desc_lines, TERMX - 4 );
+            const int min_width = std::min( TERMX, std::max( w_width, descwidth_final ) ) - 4;
+            const int max_width = TERMX - 4;
+            int descwidth = find_minimum_fold_width( entries[i].desc, desc_lines,
+                                                     min_width, max_width );
             descwidth += 4; // 2x border + 2x ' ' pad
             if ( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -499,22 +513,6 @@ void uimenu::setup()
         }
     }
 
-    // shrink-to-fit
-    if( desc_enabled ) {
-        desc_lines = 0;
-        for( const uimenu_entry &ent : entries ) {
-            // -2 for borders, -2 for padding
-            desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
-        }
-        if( desc_lines <= 0 ) {
-            desc_enabled = false;
-        }
-    }
-
-    if (w_auto && w_width > TERMX) {
-        w_width = TERMX;
-    }
-
     if(!text.empty() ) {
         int twidth = utf8_width( remove_color_tags(text) );
         bool formattxt = true;
@@ -544,10 +542,29 @@ void uimenu::setup()
             }
         } else if ( textwidth != -1 ) {
             realtextwidth = textwidth;
+            if( realtextwidth + 4 > w_width ) {
+                w_width = realtextwidth + 4;
+            }
         }
         if ( formattxt ) {
             textformatted = foldstring(text, realtextwidth);
         }
+    }
+
+    // shrink-to-fit
+    if( desc_enabled ) {
+        desc_lines = 0;
+        for( const uimenu_entry &ent : entries ) {
+            // -2 for borders, -2 for padding
+            desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
+        }
+        if( desc_lines <= 0 ) {
+            desc_enabled = false;
+        }
+    }
+
+    if( w_auto && w_width > TERMX ) {
+        w_width = TERMX;
     }
 
     vmax = entries.size();
