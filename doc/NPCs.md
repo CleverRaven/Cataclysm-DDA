@@ -307,8 +307,11 @@ Makes the NPC into a guard, which will defend the current location.
 ### stop_guard
 Releases the NPC from their guard duty (also see "assign_guard").
 
-### become_overseer
-Makes the NPC in the overseer of a faction camp.
+### start_camp
+Makes the NPC the overseer of a new faction camp.
+
+### recover_camp
+Makes the NPC the overseer of an existing camp that doesn't have an overseer.
 
 ### remove_overseer
 Makes the NPC stop being an overseer, abandoning the faction camp.
@@ -467,6 +470,9 @@ The following keys and simple strings are available:
 ### "u_is_wearing" (string)
 `true` if the player character is wearing something with u_is_wearing's item_id.
 
+### "u_at_om_location" (string)
+`true` if the player character is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player is standing on a faction camp overmap tile.
+
 ### "npc_has_effect" (string)
 `true` if the NPC is under the effect with npc_has_effect's effect_id.
 
@@ -482,6 +488,9 @@ npc_service cash available.  Useful to check if the player character can hire an
 
 ### "u_has_cash" (int)
 `true` if the player character has at least u_has_cash cash available.  Used to check if the PC can buy something.
+
+### "npc_role_nearby" (string)
+`true` if there is an NPC with the same companion mission role as npc_role_nearby within 100 tiles.
 
 ### "has_assigned_mission" (simple string)
 `true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job..."

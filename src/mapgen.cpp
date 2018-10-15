@@ -6759,9 +6759,9 @@ void map::place_vending( int x, int y, const std::string &type, bool reinforced 
     }
 }
 
-int map::place_npc( int x, int y, const string_id<npc_template> &type )
+int map::place_npc( int x, int y, const string_id<npc_template> &type, bool force )
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ) {
+    if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     std::shared_ptr<npc> temp = std::make_shared<npc>();

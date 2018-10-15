@@ -47,8 +47,12 @@ void mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vect
                        const std::string &id, const std::string &name_display = "",
                        const std::string &dir = "", bool priority = false, bool possible = true );
 
-///Changes an NPC follower to a camp manager, displays camp warnings, and sets the current OM tile to a camp survey
+///Changes an NPC follower to a camp manager
 void become_overseer( npc & );
+///Changes an NPC follower to a camp manager, displays camp warnings, and sets the current OM tile to a camp survey
+void start_camp( npc & );
+///Changes an NPC follower to a camp manager of an existing camp.
+void recover_camp( npc & );
 ///Changes an NPC camp manager to a follower
 void remove_overseer( npc & );
 /**
@@ -130,8 +134,6 @@ bool om_min_level( const std::string &target, const std::string &bldg );
 int om_over_level( const std::string &target, const std::string &bldg );
 /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
 bool upgrade_return( npc &p, const point &omt_pos, const std::string &miss );
-/// Popups to explain what is going on for anyone who is unsure, called only on the first camp designation for a character
-void faction_camp_tutorial();
 /// Called when a companion completes a gathering @ref task mission
 bool camp_gathering_return( npc &p, const std::string &task );
 /// Called on completion of recruiting, returns the new NPC.
