@@ -313,7 +313,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_SCRAPPER_JOB",
-    "dynamic_line": "I chop up useless vehicles for spare parts and raw materials.  If we can't use a vehicle immediately we haul it into the ring we are building to surround the outpost. It provides a measure of defense in the event that we get attacked.",
+    "dynamic_line": "I chop up useless vehicles for spare parts and raw materials.  If we can't use a vehicle immediately we haul it into the ring we are building to surround the outpost.  It provides a measure of defense in the event that we get attacked.",
     "responses": [ { "text": "Interesting.", "topic": "TALK_RANCH_SCRAPPER" } ]
   },
   {

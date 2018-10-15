@@ -747,7 +747,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Autonomous Surgical Scalpels CBM",
-    "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts. They can also be used as a high-quality butchering tool.",
+    "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts and can be used as a high-quality butchering tool.",
     "price": 220000,
     "difficulty": 4
   },
