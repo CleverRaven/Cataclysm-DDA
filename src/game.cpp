@@ -106,6 +106,7 @@
 #include "string_input_popup.h"
 #include "monexamine.h"
 #include "loading_ui.h"
+#include "popup.h"
 #include "sidebar.h"
 
 #include <map>
@@ -1666,10 +1667,10 @@ bool game::do_turn()
         }
 
         if( calendar::once_every( 1_minutes ) ) {
-            catacurses::window popup = create_wait_popup_window( string_format(
-                                           _( "Wait till you wake up..." ) ) );
-
-            wrefresh( popup );
+            query_popup()
+            .wait_message( "%s", _( "Wait till you wake up..." ) )
+            .on_top( true )
+            .show();
 
             catacurses::refresh();
             refresh_display();
@@ -1762,35 +1763,33 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         return false;
     }
 
-    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
-                               _( "(Y)es, (N)o, (I)gnore further similar distractions and finish." );
-
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    int ch = -1;
 
-#ifdef __ANDROID__
-    input_context ctxt( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" );
-    ctxt.register_manual_key( 'Y', "Yes" );
-    ctxt.register_manual_key( 'N', "No" );
-    ctxt.register_manual_key( 'I', "Ignore further distractions and finish" );
-#endif
-    do {
-#ifdef __ANDROID__
-        // Don't use popup() as this creates its own input context which will override the one above
-        ch = popup( stop_message, PF_NO_WAIT );
-        ch = inp_mngr.get_input_event().get_first_input();
-#else
-        ch = popup( stop_message, PF_GET_KEY );
-#endif
-    } while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
-             ch != 'Y' && ch != 'N' && ch != 'I' &&
-             ( force_uc || ( ch != 'y' && ch != 'n' && ch != 'i' ) ) );
+    const auto allow_key = [force_uc]( const input_event & evt ) {
+        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
+               // std::lower is undefined outside unsigned char range
+               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+    };
 
-    if( ch == 'Y' || ch == 'y' ) {
+    const auto &action = query_popup()
+                         .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                         .message( force_uc ?
+                                   pgettext( "cancel_activity_or_ignore_query",
+                                           "<color_light_red>%s %s (Case Sensitive)</color>" ) :
+                                   pgettext( "cancel_activity_or_ignore_query",
+                                           "<color_light_red>%s %s</color>" ),
+                                   text, u.activity.get_stop_phrase() )
+                         .option( "YES", allow_key )
+                         .option( "NO", allow_key )
+                         .option( "IGNORE", allow_key )
+                         .query()
+                         .action;
+
+    if( action == "YES" ) {
         u.cancel_activity();
         return true;
     }
-    if( ch == 'I' || ch == 'i' ) {
+    if( action == "IGNORE" ) {
         u.activity.ignore_distraction( type );
         for( auto activity : u.backlog ) {
             activity.ignore_distraction( type );
