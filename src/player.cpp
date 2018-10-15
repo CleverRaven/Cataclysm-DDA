@@ -8165,7 +8165,7 @@ void player::mend_item( item_location&& obj, bool interactive )
         menu.text = _( "Mend which fault?" );
         menu.return_invalid = true;
         menu.desc_enabled = true;
-        menu.desc_lines = 12;
+        menu.desc_lines = 0; // Let uimenu handle description height
 
         int w = 80;
 
@@ -8192,10 +8192,7 @@ void player::mend_item( item_location&& obj, bool interactive )
             std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
             std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
 
-            auto name = f.first->name();
-            name += std::string( std::max( w - utf8_width( name, true ), 0 ), ' ' );
-
-            menu.addentry_desc( -1, true, -1, name, descr.str() );
+            menu.addentry_desc( -1, true, -1, f.first->name(), descr.str() );
         }
         menu.query();
         if( menu.ret < 0 ) {
