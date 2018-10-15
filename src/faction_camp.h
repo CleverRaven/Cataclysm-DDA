@@ -21,9 +21,6 @@ class npc_template;
 template<typename T>
 class string_id;
 
-namespace talk_function
-{
-
 enum camp_tab_mode {
     TAB_MAIN,
     TAB_N,
@@ -36,16 +33,8 @@ enum camp_tab_mode {
     TAB_NW
 };
 
-/**
- * Adds the id's to the correct vectors (ie tabs) in the UI.
- * @param id is string displayed
- * @param dir is the direction of the expansion from the central camp "[N]"
- * @param priority turns the mission key yellow and pushes to front of main tab
- * @param possible grays the mission key when false
- */
-void mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors,
-                       const std::string &id, const std::string &name_display = "",
-                       const std::string &dir = "", bool priority = false, bool possible = true );
+namespace talk_function
+{
 
 ///Changes an NPC follower to a camp manager
 void become_overseer( npc & );

@@ -82,16 +82,18 @@ struct comp_rank {
     int survival;
 };
 
-struct mission_entry {
-    std::string id;
-    std::string name_display;
-    std::string dir;
-    bool priority;
-    bool possible;
-};
+mission_data::mission_data()
+{
+    for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 3; tab_num++ ) {
+        std::vector<mission_entry> k;
+        entries.push_back( k );
+    }
+}
 
 void talk_function::companion_mission( npc &p )
 {
+    mission_data mission_key;
+
     std::string id = p.companion_mission_role_id;
     std::string title = _( "Outpost Missions" );
     if( id == "FACTION_CAMP" ) {
@@ -105,32 +107,24 @@ void talk_function::companion_mission( npc &p )
     } else if( id == "REFUGEE MERCHANT" ) {
         title = _( "Free Merchant Missions" );
     }
-    talk_function::outpost_missions( p, id, title );
+    talk_function::outpost_missions( mission_key, p, id, title );
 }
 
-bool talk_function::outpost_missions( npc &p, const std::string &id, const std::string &title )
+bool talk_function::outpost_missions( mission_data &mission_key, npc &p, const std::string &id, const std::string &title )
 {
-    //see mission_key_push() for each key description
-    std::vector<std::vector<mission_entry>> mission_key_vectors;
-    for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 3; tab_num++ ) {
-        std::vector<mission_entry> k;
-        mission_key_vectors.push_back( k );
-    }
-
-    std::map<std::string, std::string> col_missions;
     std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry;
     std::string entry_aux;
+
     camp_tab_mode tab_mode = TAB_MAIN;
 
     if( id == "SCAVENGER" ) {
-        col_missions["Assign Scavenging Patrol"] =
+        mission_key.text["Assign Scavenging Patrol"] =
             _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
                "Assigning one of your allies to patrol the surrounding wilderness and isolated buildings presents "
                "the opportunity to build survival skills while engaging in relatively safe combat against isolated "
                "creatures." );
-        mission_key_push( mission_key_vectors, "Assign Scavenging Patrol",
-                          _( "Assign Scavenging Patrol" ) );
+        mission_key.push( "Assign Scavenging Patrol", _( "Assign Scavenging Patrol" ) );
         npc_list = companion_list( p, "_scavenging_patrol" );
         if( npc_list.size() > 0 ) {
             entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n" );
@@ -139,19 +133,18 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         elem->companion_mission_time ) ) + _( " hours] \n" );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Retrieve Scavenging Patrol"] = entry;
-            mission_key_push( mission_key_vectors, "Retrieve Scavenging Patrol",
-                              _( "Retrieve Scavenging Patrol" ) );
+            mission_key.text["Retrieve Scavenging Patrol"] = entry;
+            mission_key.push( "Retrieve Scavenging Patrol", _( "Retrieve Scavenging Patrol" ) );
         }
     }
 
     if( id == "SCAVENGER" && p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
-        col_missions["Assign Scavenging Raid"] =
+        mission_key.text["Assign Scavenging Raid"] =
             _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
                "Scavenging raids target formerly populated areas to loot as many valuable items as possible before "
                "being surrounded by the undead.  Combat is to be expected and assistance from the rest of the party "
                "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items." );
-        mission_key_push( mission_key_vectors, "Assign Scavenging Raid", _( "Assign Scavenging Raid" ) );
+        mission_key.push( "Assign Scavenging Raid", _( "Assign Scavenging Raid" ) );
         npc_list = companion_list( p, "_scavenging_raid" );
         if( npc_list.size() > 0 ) {
             entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n" );
@@ -160,19 +153,17 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         elem->companion_mission_time ) ) + _( " hours] \n" );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Retrieve Scavenging Raid"] = entry;
-            mission_key_push( mission_key_vectors, "Retrieve Scavenging Raid",
-                              _( "Retrieve Scavenging Raid" ) );
+            mission_key.text["Retrieve Scavenging Raid"] = entry;
+            mission_key.push( "Retrieve Scavenging Raid", _( "Retrieve Scavenging Raid" ) );
         }
     }
 
     if( id == "FOREMAN" ) {
-        col_missions["Assign Ally to Menial Labor"] =
+        mission_key.text["Assign Ally to Menial Labor"] =
             _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
                "Assigning one of your allies to menial labor is a safe way to teach them basic skills and build "
                "reputation with the outpost.  Don't expect much of a reward though." );
-        mission_key_push( mission_key_vectors, "Assign Ally to Menial Labor",
-                          _( "Assign Ally to Menial Labor" ) );
+        mission_key.push( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
         npc_list = companion_list( p, "_labor" );
         if( npc_list.size() > 0 ) {
             entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
@@ -181,19 +172,17 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         elem->companion_mission_time ) ) + _( " hours] \n" );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Ally from Menial Labor"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Ally from Menial Labor",
-                              _( "Recover Ally from Menial Labor" ) );
+            mission_key.text["Recover Ally from Menial Labor"] = entry;
+            mission_key.push( "Recover Ally from Menial Labor", _( "Recover Ally from Menial Labor" ) );
         }
     }
 
     if( id == "FOREMAN" && p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
-        col_missions["Assign Ally to Carpentry Work"] =
+        mission_key.text["Assign Ally to Carpentry Work"] =
             _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
                "Carpentry work requires more skill than menial labor while offering modestly improved pay.  It is "
                "unlikely that your companions will face combat but there are hazards working on makeshift buildings." );
-        mission_key_push( mission_key_vectors, "Assign Ally to Carpentry Work",
-                          _( "Assign Ally to Carpentry Work" ) );
+        mission_key.push( "Assign Ally to Carpentry Work", _( "Assign Ally to Carpentry Work" ) );
         npc_list = companion_list( p, "_carpenter" );
         if( npc_list.size() > 0 ) {
             entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
@@ -202,9 +191,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         elem->companion_mission_time ) ) + _( " hours] \n" );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Ally from Carpentry Work"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Ally from Carpentry Work",
-                              _( "Recover Ally from Carpentry Work" ) );
+            mission_key.text["Recover Ally from Carpentry Work"] = entry;
+            mission_key.push( "Recover Ally from Carpentry Work", _( "Recover Ally from Carpentry Work" ) );
         }
     }
 
@@ -219,19 +207,19 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         bldg = om_next_upgrade( om_cur );
 
         if( bldg != "null" ) {
-            col_missions["Upgrade Camp"] = om_upgrade_description( bldg );
+            mission_key.text["Upgrade Camp"] = om_upgrade_description( bldg );
             bool avail = companion_list( p, "_faction_upgrade_camp" ).empty();
-            mission_key_push( mission_key_vectors, "Upgrade Camp", _( "Upgrade Camp" ), "", false, avail );
+            mission_key.push( "Upgrade Camp", _( "Upgrade Camp" ), "", false, avail );
         }
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_1", om_cur ) ) {
-        col_missions["Gather Materials"] = om_gathering_description( p, bldg );
+        mission_key.text["Gather Materials"] = om_gathering_description( p, bldg );
         bool avail = ( companion_list( p, "_faction_camp_gathering" ).size() < 3 );
-        mission_key_push( mission_key_vectors, "Gather Materials", _( "Gather Materials" ), "", false,
+        mission_key.push( "Gather Materials", _( "Gather Materials" ), "", false,
                           avail );
 
-        col_missions["Distribute Food"] = string_format( _( "Notes:\n"
+        mission_key.text["Distribute Food"] = string_format( _( "Notes:\n"
                                           "Distribute food to your follower and fill you larders.  Place the food you wish to distribute opposite the tent door between "
                                           "the manager and wall.\n \n"
                                           "Effects:\n"
@@ -243,9 +231,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                           "> Rots in < 5 days: 80%%\n \n"
                                           "Total faction food stock: %d kcal or %d day's rations" ), 10 * camp_food_supply(),
                                           camp_food_supply( 0, true ) );
-        mission_key_push( mission_key_vectors, "Distribute Food", _( "Distribute Food" ) );
+        mission_key.push( "Distribute Food", _( "Distribute Food" ) );
 
-        col_missions["Reset Sort Points"] = string_format( _( "Notes:\n"
+        mission_key.text["Reset Sort Points"] = string_format( _( "Notes:\n"
                                             "Reset the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
                                             "Effects:\n"
                                             "> Assignable Points: food, food for distribution, seeds, weapons, clothing, bionics, "
@@ -253,11 +241,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                             "> Items sitting on any type of furniture will not be moved.\n"
                                             "> Items that are not listed in one of the categories are defaulted to the tools group."
                                                             ) );
-        mission_key_push( mission_key_vectors, "Reset Sort Points", _( "Reset Sort Points" ), "", false );
+        mission_key.push( "Reset Sort Points", _( "Reset Sort Points" ), "", false );
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_2", om_cur ) ) {
-        col_missions["Collect Firewood"] = string_format( _( "Notes:\n"
+        mission_key.text["Collect Firewood"] = string_format( _( "Notes:\n"
                                            "Send a companion to gather light brush and heavy sticks.\n \n"
                                            "Skill used: survival\n"
                                            "Difficulty: N/A \n"
@@ -270,12 +258,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                            "Positions: %d/3\n" ), companion_list( p, "_faction_camp_firewood" ).size()
                                                         );
         bool avail = ( companion_list( p, "_faction_camp_firewood" ).size() < 3 );
-        mission_key_push( mission_key_vectors, "Collect Firewood", _( "Collect Firewood" ), "", false,
-                          avail );
+        mission_key.push( "Collect Firewood", _( "Collect Firewood" ), "", false, avail );
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_3", om_cur ) ) {
-        col_missions["Menial Labor"] = string_format( _( "Notes:\n"
+        mission_key.text["Menial Labor"] = string_format( _( "Notes:\n"
                                        "Send a companion to do low level chores and sort supplies.\n \n"
                                        "Skill used: fabrication\n"
                                        "Difficulty: N/A \n"
@@ -287,7 +274,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                        "Positions: %d/1\n" ), companion_list( p, "_faction_camp_menial" ).size()
                                                     );
         bool avail = companion_list( p, "_faction_camp_menial" ).empty();
-        mission_key_push( mission_key_vectors, "Menial Labor", _( "Menial Labor" ), "", false, avail );
+        mission_key.push( "Menial Labor", _( "Menial Labor" ), "", false, avail );
     }
 
     if( id == "FACTION_CAMP" && ( ( om_min_level( "faction_base_camp_4", om_cur ) &&
@@ -299,7 +286,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                   ( om_min_level( "faction_base_camp_14", om_cur ) && om_expansions.size() < 6 ) ||
                                   ( om_min_level( "faction_base_camp_16", om_cur ) && om_expansions.size() < 7 ) ||
                                   ( om_min_level( "faction_base_camp_18", om_cur ) && om_expansions.size() < 8 ) ) ) {
-        col_missions["Expand Base"] = string_format( _( "Notes:\n"
+        mission_key.text["Expand Base"] = string_format( _( "Notes:\n"
                                       "Your base has become large enough to support an expansion.  Expansions open up new opportunities "
                                       "but can be expensive and time consuming.  Pick them carefully, only 8 can be built at each camp.\n \n"
                                       "Skill used: fabrication\n"
@@ -312,11 +299,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                       "Positions: %d/1\n" ), companion_list( p, "_faction_camp_expansion" ).size()
                                                    );
         bool avail = companion_list( p, "_faction_camp_expansion" ).empty();
-        mission_key_push( mission_key_vectors, "Expand Base", _( "Expand Base" ), "", false, avail );
+        mission_key.push( "Expand Base", _( "Expand Base" ), "", false, avail );
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_5", om_cur ) ) {
-        col_missions["Cut Logs"] = string_format( _( "Notes:\n"
+        mission_key.text["Cut Logs"] = string_format( _( "Notes:\n"
                                    "Send a companion to a nearby forest to cut logs.\n \n"
                                    "Skill used: fabrication\n"
                                    "Difficulty: 1 \n"
@@ -329,11 +316,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                    "Positions: %d/1\n" ), companion_list( p, "_faction_camp_cut_log" ).size()
                                                 );
         bool avail = companion_list( p, "_faction_camp_cut_log" ).empty();
-        mission_key_push( mission_key_vectors, "Cut Logs", _( "Cut Logs" ), "", false, avail );
+        mission_key.push( "Cut Logs", _( "Cut Logs" ), "", false, avail );
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_7", om_cur ) ) {
-        col_missions["Setup Hide Site"] = string_format( _( "Notes:\n"
+        mission_key.text["Setup Hide Site"] = string_format( _( "Notes:\n"
                                           "Send a companion to build an improvised shelter and stock it with equipment at a distant map location.\n \n"
                                           "Skill used: survival\n"
                                           "Difficulty: 3\n"
@@ -346,12 +333,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                           "Positions: %d/1\n" ), companion_list( p, "_faction_camp_hide_site" ).size()
                                                        );
         bool avail = companion_list( p, "_faction_camp_hide_site" ).empty();
-        mission_key_push( mission_key_vectors, "Setup Hide Site", _( "Setup Hide Site" ), "", false,
-                          avail );
+        mission_key.push( "Setup Hide Site", _( "Setup Hide Site" ), "", false, avail );
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_7", om_cur ) ) {
-        col_missions["Relay Hide Site"] = string_format( _( "Notes:\n"
+        mission_key.text["Relay Hide Site"] = string_format( _( "Notes:\n"
                                           "Push gear out to a hide site or bring gear back from one.\n \n"
                                           "Skill used: survival\n"
                                           "Difficulty: 1\n"
@@ -364,17 +350,16 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                           "Positions: %d/1\n" ), companion_list( p, "_faction_camp_hide_trans" ).size()
                                                        );
         bool avail = companion_list( p, "_faction_camp_hide_trans" ).empty();
-        mission_key_push( mission_key_vectors, "Relay Hide Site", _( "Relay Hide Site" ), "", false,
-                          avail );
+        mission_key.push( "Relay Hide Site", _( "Relay Hide Site" ), "", false, avail );
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_9", om_cur ) ) {
-        col_missions["Construct Map Fortifications"] = om_upgrade_description( "faction_wall_level_N_0" );
-        mission_key_push( mission_key_vectors, "Construct Map Fortifications",
+        mission_key.text["Construct Map Fortifications"] =
+            om_upgrade_description( "faction_wall_level_N_0" );
+        mission_key.push( "Construct Map Fortifications",
                           _( "Construct Map Fortifications" ), "", false );
-        col_missions["Construct Spiked Trench"] = om_upgrade_description( "faction_wall_level_N_1" );
-        mission_key_push( mission_key_vectors, "Construct Spiked Trench", _( "Construct Spiked Trench" ),
-                          "", false );
+        mission_key.text["Construct Spiked Trench"] = om_upgrade_description( "faction_wall_level_N_1" );
+        mission_key.push( "Construct Spiked Trench", _( "Construct Spiked Trench" ), "", false );
     }
 
     //This handles all crafting by the base, regardless of level
@@ -385,25 +370,24 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         for( std::map<std::string, std::string>::const_iterator it = craft_r.begin(); it != craft_r.end();
              ++it ) {
             std::string title_e = dr + it->first;
-            col_missions[title_e] = om_craft_description( it->second );
+            mission_key.text[title_e] = om_craft_description( it->second );
 
             const recipe *recp = &recipe_id( it->second ).obj();
             bool craftable = recp->requirements().can_make_with_inventory( found_inv, 1 );
 
-            mission_key_push( mission_key_vectors, title_e, "", dr, false, craftable );
+            mission_key.push( title_e, "", dr, false, craftable );
 
         }
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_11", om_cur ) ) {
-        col_missions["Recruit Companions"] = camp_recruit_evaluation( p, om_cur, om_expansions );
+        mission_key.text["Recruit Companions"] = camp_recruit_evaluation( p, om_cur, om_expansions );
         bool avail = companion_list( p, "_faction_camp_recruit_0" ).empty();
-        mission_key_push( mission_key_vectors, "Recruit Companions", _( "Recruit Companions" ), "", false,
-                          avail );
+        mission_key.push( "Recruit Companions", _( "Recruit Companions" ), "", false, avail );
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_13", om_cur ) ) {
-        col_missions["Scout Mission"] =  string_format( _( "Notes:\n"
+        mission_key.text["Scout Mission"] =  string_format( _( "Notes:\n"
                                          "Send a companion out into the great unknown.  High survival skills are needed to avoid combat but "
                                          "you should expect an encounter or two.\n \n"
                                          "Skill used: survival\n"
@@ -417,11 +401,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                          "Positions: %d/3\n" ), companion_list( p, "_faction_camp_scout_0" ).size()
                                                       );
         bool avail = companion_list( p, "_faction_camp_scout_0" ).size() < 3;
-        mission_key_push( mission_key_vectors, "Scout Mission", _( "Scout Mission" ), "", false, avail );
+        mission_key.push( "Scout Mission", _( "Scout Mission" ), "", false, avail );
     }
 
     if( id == "FACTION_CAMP" && om_min_level( "faction_base_camp_15", om_cur ) ) {
-        col_missions["Combat Patrol"] =  string_format( _( "Notes:\n"
+        mission_key.text["Combat Patrol"] =  string_format( _( "Notes:\n"
                                          "Send a companion to purge the wasteland.  Their goal is to kill anything hostile they encounter and return when "
                                          "their wounds are too great or the odds are stacked against them.\n \n"
                                          "Skill used: survival\n"
@@ -435,7 +419,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                          "Positions: %d/3\n" ), companion_list( p, "_faction_camp_combat_0" ).size()
                                                       );
         bool avail = companion_list( p, "_faction_camp_combat_0" ).size() < 3;
-        mission_key_push( mission_key_vectors, "Combat Patrol", _( "Combat Patrol" ), "", false, avail );
+        mission_key.push( "Combat Patrol", _( "Combat Patrol" ), "", false, avail );
     }
 
     //This starts all of the expansion missions
@@ -453,13 +437,13 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( bldg_exp != "null" ) {
                     std::string title_e = dr + " Expansion Upgrade";
 
-                    col_missions[title_e] = om_upgrade_description( bldg_exp );
-                    mission_key_push( mission_key_vectors, title_e, dr + _( " Expansion Upgrade" ), dr );
+                    mission_key.text[title_e] = om_upgrade_description( bldg_exp );
+                    mission_key.push( title_e, dr + _( " Expansion Upgrade" ), dr );
                 }
 
                 if( om_min_level( "faction_base_garage_1", om_cur_exp ) ) {
                     std::string title_e = dr + " Chop Shop";
-                    col_missions[title_e] = _( "Notes:\n"
+                    mission_key.text[title_e] = _( "Notes:\n"
                                                "Have a companion attempt to completely dissemble a vehicle into components.\n \n"
                                                "Skill used: mechanics\n"
                                                "Difficulty: 2 \n"
@@ -469,7 +453,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                                "Risk: None\n"
                                                "Time: Skill Based \n" );
                     bool avail = companion_list( p, "_faction_exp_chop_shop_" + dr ).empty();
-                    mission_key_push( mission_key_vectors, title_e, dr + _( " Chop Shop" ), dr, false, avail );
+                    mission_key.push( title_e, dr + _( " Chop Shop" ), dr, false, avail );
                 }
 
                 std::map<std::string, std::string> cooking_recipes = camp_recipe_deck( om_cur_exp );
@@ -479,10 +463,10 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                              it != cooking_recipes.end(); ++it ) {
                             std::string title_e = dr + it->first;
-                            col_missions[title_e] = om_craft_description( it->second );
+                            mission_key.text[title_e] = om_craft_description( it->second );
                             const recipe *recp = &recipe_id( it->second ).obj();
                             bool craftable = recp->requirements().can_make_with_inventory( found_inv, 1 );
-                            mission_key_push( mission_key_vectors, title_e, "", dr, false, craftable );
+                            mission_key.push( title_e, "", dr, false, craftable );
 
                         }
                     }
@@ -494,10 +478,10 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                              it != cooking_recipes.end(); ++it ) {
                             std::string title_e = dr + it->first;
-                            col_missions[title_e] = om_craft_description( it->second );
+                            mission_key.text[title_e] = om_craft_description( it->second );
                             const recipe *recp = &recipe_id( it->second ).obj();
                             bool craftable = recp->requirements().can_make_with_inventory( found_inv, 1 );
-                            mission_key_push( mission_key_vectors, title_e, "", dr, false, craftable );
+                            mission_key.push( title_e, "", dr, false, craftable );
 
                         }
                     }
@@ -506,7 +490,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( om_min_level( "faction_base_farm_1", om_cur_exp ) ) {
                     if( companion_list( p, "_faction_exp_plow_" + dr ).empty() ) {
                         std::string title_e = dr + " Plow Fields";
-                        col_missions[title_e] = _( "Notes:\n"
+                        mission_key.text[title_e] = _( "Notes:\n"
                                                    "Plow any spaces that have reverted to dirt or grass.\n \n" ) +
                                                 camp_farm_description( point( e.second.x, e.second.y ), false, false, true ) + _( "\n \n"
                                                         "Skill used: fabrication\n"
@@ -517,13 +501,13 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                                         "Risk: None\n"
                                                         "Time: 5 Min / Plot \n"
                                                         "Positions: 0/1 \n" );
-                        mission_key_push( mission_key_vectors, title_e, dr + _( " Plow Fields" ), dr );
+                        mission_key.push( title_e, dr + _( " Plow Fields" ), dr );
                     }
 
                     if( companion_list( p, "_faction_exp_plant_" + dr ).empty() &&
                         g->get_temperature( g-> u.pos() ) > 50 ) {
                         std::string title_e = dr + " Plant Fields";
-                        col_missions[title_e] = _( "Notes:\n"
+                        mission_key.text[title_e] = _( "Notes:\n"
                                                    "Plant designated seeds in the spaces that have already been tilled.\n \n" ) +
                                                 camp_farm_description( point( e.second.x, e.second.y ), false, true, false ) + _( "\n \n"
                                                         "Skill used: survival\n"
@@ -535,11 +519,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                                         "Risk: None\n"
                                                         "Time: 1 Min / Plot \n"
                                                         "Positions: 0/1 \n" );
-                        mission_key_push( mission_key_vectors, title_e, dr + _( " Plant Fields" ), dr );
+                        mission_key.push( title_e, dr + _( " Plant Fields" ), dr );
                     }
                     if( companion_list( p, "_faction_exp_harvest_" + dr ).empty() ) {
                         std::string title_e = dr + " Harvest Fields";
-                        col_missions[title_e] = _( "Notes:\n"
+                        mission_key.text[title_e] = _( "Notes:\n"
                                                    "Harvest any plants that are ripe and bring the produce back.\n \n" ) +
                                                 camp_farm_description( point( e.second.x, e.second.y ), true, false, false ) + _( "\n \n"
                                                         "Skill used: survival\n"
@@ -549,7 +533,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                                         "Risk: None\n"
                                                         "Time: 3 Min / Plot \n"
                                                         "Positions: 0/1 \n" );
-                        mission_key_push( mission_key_vectors, title_e, dr + _( " Harvest Fields" ), dr );
+                        mission_key.push( title_e, dr + _( " Harvest Fields" ), dr );
                     }
                 }
 
@@ -559,12 +543,12 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                              it != cooking_recipes.end(); ++it ) {
                             std::string title_e = dr + it->first;
-                            col_missions[title_e] = om_craft_description( it->second );
+                            mission_key.text[title_e] = om_craft_description( it->second );
 
                             const recipe *recp = &recipe_id( it->second ).obj();
                             bool craftable = recp->requirements().can_make_with_inventory( found_inv, 1 );
 
-                            mission_key_push( mission_key_vectors, title_e, "", dr, false, craftable );
+                            mission_key.push( title_e, "", dr, false, craftable );
 
                         }
                     }
@@ -592,9 +576,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Ally from Upgrading"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Ally from Upgrading",
-                              _( "Recover Ally from Upgrading" ), "", true );
+            mission_key.text["Recover Ally from Upgrading"] = entry;
+            mission_key.push( "Recover Ally from Upgrading", _( "Recover Ally from Upgrading" ), "", true );
         }
 
         npc_list = companion_list( p, "_faction_upgrade_exp_", true );
@@ -622,8 +605,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         _( " hours] \n" );
 
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                col_missions["Recover Ally, " + dir + " Expansion"] = entry;
-                mission_key_push( mission_key_vectors, "Recover Ally, " + dir + " Expansion",
+                mission_key.text["Recover Ally, " + dir + " Expansion"] = entry;
+                mission_key.push( "Recover Ally, " + dir + " Expansion",
                                   _( "Recover Ally, " ) + dir + _( " Expansion" ), dir, true );
             }
         }
@@ -638,9 +621,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         + _( "/120 hours] \n" );
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                col_missions[ dir + " (Finish) Chop Shop" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Chop Shop",
-                                  dir + _( " (Finish) Chop Shop" ), dir, true );
+                mission_key.text[ dir + " (Finish) Chop Shop" ] = entry;
+                mission_key.push( dir + " (Finish) Chop Shop", dir + _( " (Finish) Chop Shop" ), dir, true );
             }
         }
 
@@ -661,9 +643,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                col_missions[ dir + " (Finish) Cooking" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Cooking", dir + _( " (Finish) Cooking" ),
-                                  dir, true );
+                mission_key.text[ dir + " (Finish) Cooking" ] = entry;
+                mission_key.push( dir + " (Finish) Cooking", dir + _( " (Finish) Cooking" ), dir, true );
             }
         }
 
@@ -684,9 +665,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                col_missions[ dir + " (Finish) Smithing" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Smithing", dir + _( " (Finish) Smithing" ),
-                                  dir, true );
+                mission_key.text[ dir + " (Finish) Smithing" ] = entry;
+                mission_key.push( dir + " (Finish) Smithing", dir + _( " (Finish) Smithing" ), dir, true );
             }
         }
 
@@ -700,9 +680,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         + _( "/~48 hours] \n" );
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                col_missions[ dir + " (Finish) Plow Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Plow Fields",
-                                  dir + _( " (Finish) Plow Fields" ), dir, true );
+                mission_key.text[ dir + " (Finish) Plow Fields" ] = entry;
+                mission_key.push( dir + " (Finish) Plow Fields", dir + _( " (Finish) Plow Fields" ), dir, true );
             }
         }
 
@@ -716,9 +695,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         + _( "/4 hours] \n" );
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                col_missions[ dir + " (Finish) Plant Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Plant Fields",
-                                  dir + _( " (Finish) Plant Fields" ), dir, true );
+                mission_key.text[ dir + " (Finish) Plant Fields" ] = entry;
+                mission_key.push( dir + " (Finish) Plant Fields", dir + _( " (Finish) Plant Fields" ), dir, true );
             }
         }
 
@@ -732,9 +710,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         + _( "/~10 hours] \n" );
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                col_missions[ dir + " (Finish) Harvest Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Harvest Fields",
-                                  dir + _( " (Finish) Harvest Fields" ), dir, true );
+                mission_key.text[ dir + " (Finish) Harvest Fields" ] = entry;
+                mission_key.push( dir + " (Finish) Harvest Fields", dir + _( " (Finish) Harvest Fields" ), dir,
+                                  true );
             }
         }
 
@@ -752,9 +730,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                col_missions[ dir + " (Finish) Crafting" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", dir + _( " (Finish) Crafting" ),
-                                  dir, true );
+                mission_key.text[ dir + " (Finish) Crafting" ] = entry;
+                mission_key.push( dir + " (Finish) Crafting", dir + _( " (Finish) Crafting" ), dir, true );
             }
         }
 
@@ -772,9 +749,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
                 entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                col_missions[ dir + " (Finish) Crafting" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", dir + _( " (Finish) Crafting" ),
-                                  dir, true );
+                mission_key.text[ dir + " (Finish) Crafting" ] = entry;
+                mission_key.push( dir + " (Finish) Crafting", dir + _( " (Finish) Crafting" ), dir, true );
             }
         }
 
@@ -786,9 +762,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         elem->companion_mission_time ) ) + _( "/3 hours] \n" );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Ally from Gathering"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Ally from Gathering",
-                              _( "Recover Ally from Gathering" ), "", true );
+            mission_key.text["Recover Ally from Gathering"] = entry;
+            mission_key.push( "Recover Ally from Gathering", _( "Recover Ally from Gathering" ), "", true );
         }
         npc_list = companion_list( p, "_faction_camp_firewood" );
         if( !npc_list.empty() ) {
@@ -798,9 +773,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         elem->companion_mission_time ) ) + _( "/3 hours] \n" );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Firewood Gatherers"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Firewood Gatherers",
-                              _( "Recover Firewood Gatherers" ), "", true );
+            mission_key.text["Recover Firewood Gatherers"] = entry;
+            mission_key.push( "Recover Firewood Gatherers", _( "Recover Firewood Gatherers" ), "", true );
         }
         npc_list = companion_list( p, "_faction_camp_menial" );
         if( !npc_list.empty() ) {
@@ -816,9 +790,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
-            col_missions["Recover Menial Laborer"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Menial Laborer", _( "Recover Menial Laborer" ), "",
-                              true );
+            mission_key.text["Recover Menial Laborer"] = entry;
+            mission_key.push( "Recover Menial Laborer", _( "Recover Menial Laborer" ), "", true );
         }
         npc_list = companion_list( p, "_faction_camp_expansion" );
         if( !npc_list.empty() ) {
@@ -834,8 +807,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
-            col_missions["Recover Surveyor"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Surveyor", _( "Recover Surveyor" ), "", true );
+            mission_key.text["Recover Surveyor"] = entry;
+            mission_key.push( "Recover Surveyor", _( "Recover Surveyor" ), "", true );
         }
 
         npc_list = companion_list( p, "_faction_camp_cut_log" );
@@ -852,8 +825,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
-            col_missions["Recover Log Cutter"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Log Cutter", _( "Recover Log Cutter" ), "", true );
+            mission_key.text["Recover Log Cutter"] = entry;
+            mission_key.push( "Recover Log Cutter", _( "Recover Log Cutter" ), "", true );
         }
 
         npc_list = companion_list( p, "_faction_camp_hide_site" );
@@ -870,8 +843,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
-            col_missions["Recover Hide Setup"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Hide Setup", _( "Recover Hide Setup" ), "", true );
+            mission_key.text["Recover Hide Setup"] = entry;
+            mission_key.push( "Recover Hide Setup", _( "Recover Hide Setup" ), "", true );
         }
 
         npc_list = companion_list( p, "_faction_camp_om_fortifications" );
@@ -888,9 +861,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
-            col_missions["Finish Map Fortifications"] = entry;
-            mission_key_push( mission_key_vectors, "Finish Map Fortifications",
-                              _( "Finish Map Fortifications" ), "", true );
+            mission_key.text["Finish Map Fortifications"] = entry;
+            mission_key.push( "Finish Map Fortifications", _( "Finish Map Fortifications" ), "", true );
         }
 
         npc_list = companion_list( p, "_faction_camp_recruit_0" );
@@ -907,8 +879,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Recruiter"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Recruiter", _( "Recover Recruiter" ), "", true );
+            mission_key.text["Recover Recruiter"] = entry;
+            mission_key.push( "Recover Recruiter", _( "Recover Recruiter" ), "", true );
         }
 
         npc_list = companion_list( p, "_faction_camp_scout_0" );
@@ -925,8 +897,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Scout"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Scout", _( "Recover Scout" ), "", true );
+            mission_key.text["Recover Scout"] = entry;
+            mission_key.push( "Recover Scout", _( "Recover Scout" ), "", true );
         }
 
         npc_list = companion_list( p, "_faction_camp_combat_0" );
@@ -943,14 +915,13 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Combat Patrol"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Combat Patrol", _( "Recover Combat Patrol" ), "",
-                              true );
+            mission_key.text["Recover Combat Patrol"] = entry;
+            mission_key.push( "Recover Combat Patrol", _( "Recover Combat Patrol" ), "", true );
         }
 
     }
     if( id == "COMMUNE CROPS" && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        col_missions["Purchase East Field"] = _( "Cost: $1000\n \n"
+        mission_key.text["Purchase East Field"] = _( "Cost: $1000\n \n"
                                               "\n              .........\n              .........\n              .........\n              "
                                               ".........\n              .........\n              .........\n              ..#....**\n     "
                                               "         ..#Ov..**\n              ...O|....\n \n"
@@ -958,44 +929,43 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                                               "enterprises.  We'll plow it for you so you know exactly what is yours... after you have a field "
                                               "you can hire workers to plant or harvest crops for you.  If the crop is something we have a "
                                               "demand for, we'll be willing to liquidate it." );
-        mission_key_push( mission_key_vectors, "Purchase East Field", _( "Purchase East Field" ) );
+        mission_key.push( "Purchase East Field", _( "Purchase East Field" ) );
     }
 
     if( id == "COMMUNE CROPS" && p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) &&
         !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
-        col_missions["Upgrade East Field I"] = _( "Cost: $5500\n \n"
+        mission_key.text["Upgrade East Field I"] = _( "Cost: $5500\n \n"
                                                "\n              .........\n              .........\n              .........\n              "
                                                ".........\n              .........\n              .........\n              ..#....**\n     "
                                                "         ..#Ov..**\n              ...O|....\n \n"
                                                "Protecting your field with a sturdy picket fence will keep most wildlife from nibbling your crops "
                                                "apart.  You can expect yields to increase." );
-        mission_key_push( mission_key_vectors, "Upgrade East Field I", _( "Upgrade East Field I" ) );
+        mission_key.push( "Upgrade East Field I", _( "Upgrade East Field I" ) );
     }
 
     if( id == "COMMUNE CROPS" && p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        col_missions["Plant East Field"] = _( "Cost: $3.00/plot\n \n"
+        mission_key.text["Plant East Field"] = _( "Cost: $3.00/plot\n \n"
                                               "\n              .........\n              .........\n              .........\n              .........\n"
                                               "              .........\n              .........\n              ..#....**\n              ..#Ov..**\n  "
                                               "            ...O|....\n \n"
                                               "We'll plant the field with your choice of crop if you are willing to finance it.  When the crop is ready "
                                               "to harvest you can have us liquidate it or harvest it for you." );
-        mission_key_push( mission_key_vectors, "Plant East Field", _( "Plant East Field" ) );
-        col_missions["Harvest East Field"] = _( "Cost: $2.00/plot\n \n"
+        mission_key.push( "Plant East Field", _( "Plant East Field" ) );
+        mission_key.text["Harvest East Field"] = _( "Cost: $2.00/plot\n \n"
                                                 "\n              .........\n              .........\n              .........\n              .........\n"
                                                 "              .........\n              .........\n              ..#....**\n              ..#Ov..**\n  "
                                                 "            ...O|....\n \n"
                                                 "You can either have us liquidate the crop and give you the cash or pay us to harvest it for you." );
-        mission_key_push( mission_key_vectors, "Harvest East Field", _( "Harvest East Field" ) );
+        mission_key.push( "Harvest East Field", _( "Harvest East Field" ) );
     }
 
     if( id == "COMMUNE CROPS" ) {
-        col_missions["Assign Ally to Forage for Food"] =
+        mission_key.text["Assign Ally to Forage for Food"] =
             _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \n"
                "Foraging for food involves dispatching a companion to search the surrounding wilderness for wild "
                "edibles.  Combat will be avoided but encounters with wild animals are to be expected.  The low pay is "
                "supplemented with the odd item as a reward for particularly large hauls." );
-        mission_key_push( mission_key_vectors, "Assign Ally to Forage for Food",
-                          _( "Assign Ally to Forage for Food" ) );
+        mission_key.push( "Assign Ally to Forage for Food", _( "Assign Ally to Forage for Food" ) );
         npc_list = companion_list( p, "_forage" );
         if( npc_list.size() > 0 ) {
             entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n" );
@@ -1004,22 +974,20 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         elem->companion_mission_time ) ) + _( " hours] \n" );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Ally from Foraging"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Ally from Foraging",
-                              _( "Recover Ally from Foraging" ) );
+            mission_key.text["Recover Ally from Foraging"] = entry;
+            mission_key.push( "Recover Ally from Foraging", _( "Recover Ally from Foraging" ) );
         }
     }
 
     if( id == "COMMUNE CROPS" || id == "REFUGEE MERCHANT" ) {
-        col_missions["Caravan Commune-Refugee Center"] =
+        mission_key.text["Caravan Commune-Refugee Center"] =
             _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                "Adding companions to the caravan team increases the likelihood of success.  By nature, caravans are "
                "extremely tempting targets for raiders or hostile groups so only a strong party is recommended.  The "
                "rewards are significant for those participating but are even more important for the factions that profit.\n \n"
                "The commune is sending food to the Free Merchants in the Refugee Center as part of a tax and in exchange "
                "for skilled labor." );
-        mission_key_push( mission_key_vectors, "Caravan Commune-Refugee Center",
-                          _( "Caravan Commune-Refugee Center" ) );
+        mission_key.push( "Caravan Commune-Refugee Center", _( "Caravan Commune-Refugee Center" ) );
         npc_list = companion_list( p, "_commune_refugee_caravan" );
         std::vector<std::shared_ptr<npc>> npc_list_aux;
         if( npc_list.size() > 0 ) {
@@ -1046,18 +1014,16 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 }
                 entry_aux = entry_aux + _( "\n \n"
                                            "The caravan will contain two or three additional members from the commune, are you ready to depart?" );
-                col_missions["Begin Commune-Refugee Center Run"] = entry_aux;
-                mission_key_push( mission_key_vectors, "Begin Commune-Refugee Center Run",
-                                  _( "Begin Commune-Refugee Center Run" ) );
+                mission_key.text["Begin Commune-Refugee Center Run"] = entry_aux;
+                mission_key.push( "Begin Commune-Refugee Center Run", _( "Begin Commune-Refugee Center Run" ) );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-            col_missions["Recover Commune-Refugee Center"] = entry;
-            mission_key_push( mission_key_vectors, "Recover Commune-Refugee Center",
-                              _( "Recover Commune-Refugee Center" ) );
+            mission_key.text["Recover Commune-Refugee Center"] = entry;
+            mission_key.push( "Recover Commune-Refugee Center", _( "Recover Commune-Refugee Center" ) );
         }
     }
 
-    if( col_missions.empty() ) {
+    if( mission_key.text.empty() ) {
         popup( _( "There are no missions at this colony.  Press Spacebar..." ) );
         return false;
     }
@@ -1095,8 +1061,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
     std::vector<mission_entry> cur_key_list;
 
     auto reset_cur_key_list = [&]() {
-        cur_key_list = mission_key_vectors[0];
-        for( auto k : mission_key_vectors[1] ) {
+        cur_key_list = mission_key.entries[0];
+        for( auto k : mission_key.entries[1] ) {
             bool has = false;
             for( auto keys : cur_key_list ) {
                 if( k.id == keys.id ) {
@@ -1129,13 +1095,13 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );
                 //highlight important missions
-                for( auto k : mission_key_vectors[0] ) {
+                for( auto k : mission_key.entries[0] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_yellow );
                     }
                 }
                 //dull uncraftable items
-                for( auto k : mission_key_vectors[10] ) {
+                for( auto k : mission_key.entries[10] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_dark_gray );
                     }
@@ -1146,12 +1112,12 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             draw_scrollbar( w_list, sel, FULL_SCREEN_HEIGHT - 2, cur_key_list.size(), 1 );
             wrefresh( w_list );
             werase( w_info );
-            fold_and_print( w_info, 0, 0, maxlength, c_white, col_missions[cur_key.id] );
+            fold_and_print( w_info, 0, 0, maxlength, c_white, mission_key.text[cur_key.id] );
             wrefresh( w_info );
 
             if( id == "FACTION_CAMP" ) {
                 werase( w_tabs );
-                draw_camp_tabs( w_tabs, tab_mode, mission_key_vectors );
+                draw_camp_tabs( w_tabs, tab_mode, mission_key.entries );
                 wrefresh( w_tabs );
             }
             redraw = false;
@@ -1184,7 +1150,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                     reset_cur_key_list();
                 } else {
                     tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
-                    cur_key_list = mission_key_vectors[tab_mode + 1];
+                    cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && id == "FACTION_CAMP" ) {
@@ -1202,7 +1168,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( tab_mode == TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
-                    cur_key_list = mission_key_vectors[tab_mode + 1];
+                    cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
@@ -4438,9 +4404,8 @@ std::vector<item *> talk_function::loot_building( const tripoint site )
     return items_found;
 }
 
-void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors,
-                                      const std::string &id, const std::string &name_display,
-                                      const std::string &dir, bool priority, bool possible )
+void mission_data::push( const std::string &id, const std::string &name_display,
+                         const std::string &dir, bool priority, bool possible )
 {
     mission_entry miss;
     miss.id = id;
@@ -4454,35 +4419,35 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
     miss.possible = possible;
 
     if( priority ) {
-        mission_key_vectors[0].push_back( miss );
+        entries[0].push_back( miss );
     }
     if( !possible ) {
-        mission_key_vectors[10].push_back( miss );
+        entries[10].push_back( miss );
     }
     if( dir.empty() || dir == "[B]" ) {
-        mission_key_vectors[1].push_back( miss );
+        entries[1].push_back( miss );
     }
     if( dir == "[N]" ) {
-        mission_key_vectors[2].push_back( miss );
+        entries[2].push_back( miss );
     } else if( dir == "[NE]" ) {
-        mission_key_vectors[3].push_back( miss );
+        entries[3].push_back( miss );
     } else if( dir == "[E]" ) {
-        mission_key_vectors[4].push_back( miss );
+        entries[4].push_back( miss );
     } else if( dir == "[SE]" ) {
-        mission_key_vectors[5].push_back( miss );
+        entries[5].push_back( miss );
     } else if( dir == "[S]" ) {
-        mission_key_vectors[6].push_back( miss );
+        entries[6].push_back( miss );
     } else if( dir == "[SW]" ) {
-        mission_key_vectors[7].push_back( miss );
+        entries[7].push_back( miss );
     } else if( dir == "[W]" ) {
-        mission_key_vectors[8].push_back( miss );
+        entries[8].push_back( miss );
     } else if( dir == "[NW]" ) {
-        mission_key_vectors[9].push_back( miss );
+        entries[9].push_back( miss );
     }
 }
 
 void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_tab_mode cur_tab,
-                                    std::vector<std::vector<mission_entry>> &mission_key_vectors )
+                                    std::vector<std::vector<mission_entry>> &entries )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -4502,7 +4467,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
     int tab_space = 1;
     int tab_x = 0;
     for( auto t : tabs ) {
-        bool tab_empty = mission_key_vectors[tab_x + 1].empty();
+        bool tab_empty = entries[tab_x + 1].empty();
         draw_subtab( win, tab_space, t, tab_x == cur_tab, false, tab_empty );
         tab_space += tab_step + utf8_width( t );
         tab_x++;

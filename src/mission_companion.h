@@ -15,12 +15,39 @@ class npc;
 class item;
 struct tripoint;
 struct comp_rank;
-struct mission_entry;
 class player;
 class npc_template;
 template<typename T>
 class string_id;
 
+
+struct mission_entry {
+    std::string id;
+    std::string name_display;
+    std::string dir;
+    bool priority;
+    bool possible;
+};
+
+class mission_data
+{
+    public:
+        //see mission_key_push() for each key description
+        std::vector<std::vector<mission_entry>> entries;
+        std::map<std::string, std::string> text;
+        mission_data();
+        /**
+        * Adds the id's to the correct vectors (ie tabs) in the UI.
+        * @param id is the mission reference
+        * @param name_display is string displayed
+        * @param dir is the direction of the expansion from the central camp, ie "[N]"
+        * @param priority turns the mission key yellow and pushes to front of main tab
+        * @param possible grays the mission key when false
+        */
+        void push( const std::string &id, const std::string &name_display = "",
+                   const std::string &dir = "", bool priority = false, bool possible = true );
+
+};
 
 namespace talk_function
 {
@@ -31,7 +58,7 @@ namespace talk_function
 //Identifies which mission set the NPC draws from
 void companion_mission( npc & );
 //Primary Loop
-bool outpost_missions( npc &p, const std::string &id, const std::string &title );
+bool outpost_missions( mission_data &mission_keys, npc &p, const std::string &id, const std::string &title );
 /**
  * Send a companion on an individual mission or attaches them to a group to depart later
  * Set @ref submap_coords and @ref pos.
