@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "optional.h"
+
 class JsonIn;
 class JsonOut;
 
@@ -121,6 +123,8 @@ class options_manager
 
                 //sType == "string"
                 std::string sSet;
+                // translation context for text in vItems
+                cata::optional<std::string> oItemsContext;
                 // first is internal value, second is untranslated text
                 std::vector<std::pair<std::string, std::string>> vItems;
                 std::string sDefault;
@@ -185,7 +189,8 @@ class options_manager
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   // first is option value, second is display name of that value
                   const std::vector<std::pair<std::string, std::string>> &sItemsIn, std::string sDefaultIn,
-                  copt_hide_t opt_hide = COPT_NO_HIDE );
+                  copt_hide_t opt_hide = COPT_NO_HIDE,
+                  const cata::optional<std::string> &oItemsContextIn = cata::nullopt );
 
         //add string input option
         void add( const std::string &sNameIn, const std::string &sPageIn,

@@ -143,7 +143,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
                            const std::vector<std::pair<std::string, std::string>> &sItemsIn, std::string sDefaultIn,
-                           copt_hide_t opt_hide )
+                           copt_hide_t opt_hide, const cata::optional<std::string> &oItemsContextIn )
 {
     cOpt thisOpt;
 
@@ -154,6 +154,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sType = "string_select";
 
     thisOpt.hide = opt_hide;
+    thisOpt.oItemsContext = oItemsContextIn;
     thisOpt.vItems = sItemsIn;
 
     if( thisOpt.getItemPos( sDefaultIn ) == -1 ) {
@@ -519,6 +520,16 @@ int options_manager::cOpt::value_as<int>() const
     return iSet;
 }
 
+static std::string opt_ctxt_gettext( const cata::optional<std::string> ctxt,
+                                     const std::string &text )
+{
+    if( ctxt.has_value() ) {
+        return pgettext( ctxt->c_str(), text.c_str() );
+    } else {
+        return _( text.c_str() );
+    }
+}
+
 std::string options_manager::cOpt::getValueName() const
 {
     if( sType == "string_select" ) {
@@ -527,7 +538,7 @@ std::string options_manager::cOpt::getValueName() const
             return e.first == sSet;
         } );
         if( iter != vItems.end() ) {
-            return _( iter->second.c_str() );
+            return opt_ctxt_gettext( oItemsContext, iter->second );
         }
 
     } else if( sType == "bool" ) {
@@ -548,10 +559,10 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
             return elem.first == sDefault;
         } );
         const std::string defaultName = iter == vItems.end() ? std::string() :
-                                        ( bTranslated ? _( iter->second.c_str() ) : iter->first );
+                                        ( bTranslated ? opt_ctxt_gettext( oItemsContext, iter->second ) : iter->first );
         const std::string &sItems = enumerate_as_string( vItems.begin(), vItems.end(),
-        [bTranslated]( const std::pair<std::string, std::string> &elem ) {
-            return bTranslated ? _( elem.second.c_str() ) : elem.first;
+        [this, bTranslated]( const std::pair<std::string, std::string> &elem ) {
+            return bTranslated ? opt_ctxt_gettext( oItemsContext, elem.second ) : elem.first;
         }, false );
         return string_format( _( "Default: %s - Values: %s" ),
                               defaultName.c_str(), sItems.c_str() );
