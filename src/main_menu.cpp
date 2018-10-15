@@ -67,8 +67,6 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
         iOffsetY -= std::ceil( utf8_width( remove_color_tags( text ) ) / getmaxx( w_in ) );
     }
 
-    debugmsg("%s", text);
-
     fold_and_print( w_in, iOffsetY, iOffsetX, getmaxx( w_in ), c_light_gray, text, ']' );
 }
 
