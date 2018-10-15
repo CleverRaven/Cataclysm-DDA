@@ -9269,7 +9269,7 @@ void game::butcher()
         BUTCHER_DISASSEMBLE,
         BUTCHER_SALVAGE,
         BUTCHER_OTHER // For multisalvage etc.
-    } butcher_type = BUTCHER_CORPSE;
+    } butcher_select = BUTCHER_CORPSE;
     // Index to std::vector of indices...
     int indexer_index = 0;
 
@@ -9322,16 +9322,16 @@ void game::butcher()
 
         ret = ( size_t )kmenu.ret;
         if( ret >= MULTISALVAGE && ret < NUM_BUTCHER_ACTIONS ) {
-            butcher_type = BUTCHER_OTHER;
+            butcher_select = BUTCHER_OTHER;
             indexer_index = ret;
         } else if( ret < corpses.size() ) {
-            butcher_type = BUTCHER_CORPSE;
+            butcher_select = BUTCHER_CORPSE;
             indexer_index = ret;
         } else if( ret < corpses.size() + disassembly_stacks.size() ) {
-            butcher_type = BUTCHER_DISASSEMBLE;
+            butcher_select = BUTCHER_DISASSEMBLE;
             indexer_index = ret - corpses.size();
         } else if( ret < corpses.size() + disassembly_stacks.size() + salvage_stacks.size() ) {
-            butcher_type = BUTCHER_SALVAGE;
+            butcher_select = BUTCHER_SALVAGE;
             indexer_index = ret - corpses.size() - disassembly_stacks.size();
         } else {
             debugmsg( "Invalid butchery index: %d", ret );
@@ -9341,7 +9341,7 @@ void game::butcher()
 
     bool no_morale_butcher = false;
     if( !u.has_morale_to_craft() ) {
-        switch( butcher_type ) {
+        switch( butcher_select ) {
             case BUTCHER_OTHER:
                 switch( indexer_index ) {
                     case MULTIBUTCHER:
@@ -9369,7 +9369,7 @@ void game::butcher()
         }
 
     }
-    switch( butcher_type ) {
+    switch( butcher_select ) {
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
