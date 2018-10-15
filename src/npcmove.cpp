@@ -1443,11 +1443,6 @@ void npc::aim()
 
 bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 {
-    if( p == tripoint_min ) {
-        add_msg( m_debug, "Pathing to tripoint_min" );
-        return false;
-    }
-
     if( p == pos() ) {
         path.clear();
         return true;
