@@ -504,22 +504,6 @@ void uimenu::setup()
         }
     }
 
-    // shrink-to-fit
-    if( desc_enabled ) {
-        desc_lines = 0;
-        for( const uimenu_entry &ent : entries ) {
-            // -2 for borders, -2 for padding
-            desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
-        }
-        if( desc_lines <= 0 ) {
-            desc_enabled = false;
-        }
-    }
-
-    if (w_auto && w_width > TERMX) {
-        w_width = TERMX;
-    }
-
     if(!text.empty() ) {
         int twidth = utf8_width( remove_color_tags(text) );
         bool formattxt = true;
@@ -549,10 +533,29 @@ void uimenu::setup()
             }
         } else if ( textwidth != -1 ) {
             realtextwidth = textwidth;
+            if( realtextwidth + 4 > w_width ) {
+                w_width = realtextwidth + 4;
+            }
         }
         if ( formattxt ) {
             textformatted = foldstring(text, realtextwidth);
         }
+    }
+
+    // shrink-to-fit
+    if( desc_enabled ) {
+        desc_lines = 0;
+        for( const uimenu_entry &ent : entries ) {
+            // -2 for borders, -2 for padding
+            desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
+        }
+        if( desc_lines <= 0 ) {
+            desc_enabled = false;
+        }
+    }
+
+    if( w_auto && w_width > TERMX ) {
+        w_width = TERMX;
     }
 
     vmax = entries.size();
