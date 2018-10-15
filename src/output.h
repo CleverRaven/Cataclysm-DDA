@@ -482,7 +482,7 @@ size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
-std::string shortcut_text( nc_color text_color, nc_color shortcut_color, const std::string &fmt );
+std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!

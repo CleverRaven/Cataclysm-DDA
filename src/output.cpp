@@ -1723,14 +1723,14 @@ size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt )
 {
-    std::string text = shortcut_text( text_color, shortcut_color, fmt );
+    std::string text = shortcut_text( shortcut_color, fmt );
     print_colored_text( w, -1, -1, text_color, text_color, text.c_str() );
 
     return utf8_width( remove_color_tags( text ) );
 }
 
 //generate colorcoded shortcut text
-std::string shortcut_text( nc_color text_color, nc_color shortcut_color, const std::string &fmt )
+std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
 {
     size_t pos = fmt.find_first_of( '<' );
     size_t pos_end = fmt.find_first_of( '>' );
@@ -1740,14 +1740,13 @@ std::string shortcut_text( nc_color text_color, nc_color shortcut_color, const s
         std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
 
-        return string_format( "<color_%s>%s</color><color_%s>%s</color><color_%s>%s</color>",
-                              string_from_color( text_color ).c_str(), prestring,
-                              string_from_color( shortcut_color ).c_str(), shortcut,
-                              string_from_color( text_color ).c_str(), poststring );
+        return string_format( "%s<color_%s>%s</color>%s", prestring,
+                              string_from_color( shortcut_color ).c_str(),
+                              shortcut, poststring );
     }
 
     // no shortcut?
-    return string_format( "<color_%s>%s</color>", string_from_color( text_color ).c_str(), fmt );
+    return fmt;
 }
 
 std::pair<std::string, nc_color> const &

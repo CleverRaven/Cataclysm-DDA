@@ -49,19 +49,25 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
 {
     std::string text = "";
     for( size_t i = 0; i < vItems.size(); ++i ) {
-        nc_color text_color = ( iSel == i ) ? h_white : c_light_gray;
-        nc_color key_color = ( iSel == i ) ? h_white : c_white;
-
         if( i > 0 ) {
             text += std::string( spacing, ' ' );
         }
 
-        text += string_format( "[%s]", shortcut_text( text_color, key_color, vItems[i] ) );
+        std::string temp = shortcut_text( c_white, vItems[i] );
+        if( iSel == i ) {
+            text += string_format( "[<color_%s>%s</color>]",
+                                   string_from_color( h_white ),
+                                   remove_color_tags( temp ) );
+        } else {
+            text += string_format( "[%s]", temp );
+        }
     }
 
     if( utf8_width( remove_color_tags( text ) ) > getmaxx( w_in ) ) {
         iOffsetY -= std::ceil( utf8_width( remove_color_tags( text ) ) / getmaxx( w_in ) );
     }
+
+    debugmsg("%s", text);
 
     fold_and_print( w_in, iOffsetY, iOffsetX, getmaxx( w_in ), c_light_gray, text, ']' );
 }

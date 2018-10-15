@@ -588,7 +588,6 @@ nc_color color_from_string( const std::string &color )
 std::string string_from_color( const nc_color color )
 {
     std::string sColor = all_colors.get_name( color );
-    sColor = sColor.substr( 2, sColor.length() - 2 );
 
     if( sColor != "unset" ) {
         return sColor;
