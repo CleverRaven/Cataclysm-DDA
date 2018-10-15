@@ -968,8 +968,8 @@ void options_manager::init()
 
     add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "off", translate_marker( "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
-    "off"
+    { { "off", translate_marker_context( "options", "Disabled" ) }, { "pulp", translate_marker_context( "options", "Pulp" ) }, { "pulp_adjacent", translate_marker_context( "options", "Pulp Adjacent" ) }, { "butcher", translate_marker_context( "options", "Butcher" ) } },
+    "off", COPT_NO_HIDE, "options"
        );
 
     get_option( "AUTO_PULP_BUTCHER" ).setPrerequisite( "AUTO_FEATURES" );
@@ -983,8 +983,8 @@ void options_manager::init()
 
     add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
          translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Both: Forage bushes and trees." ),
-    { { "off", translate_marker( "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Both" ) } },
-    "off"
+    { { "off", translate_marker_context( "options", "Disabled" ) }, { "bushes", translate_marker_context( "options", "Bushes" ) }, { "trees", translate_marker_context( "options", "Trees" ) }, { "both", translate_marker_context( "options", "Both" ) } },
+    "off", COPT_NO_HIDE, "options"
        );
 
     get_option( "AUTO_FORAGING" ).setPrerequisite( "AUTO_FEATURES" );
