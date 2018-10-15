@@ -57,6 +57,10 @@ namespace talk_function
  *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on
  *sending companions out on simulated adventures or tasks.  This is not meant to be a replacement for the existing system.
  */
+
+void camp_missions( mission_data &mission_key, npc &p );
+bool handle_camp_mission( mission_entry &cur_key, npc &p );
+
 //Identifies which mission set the NPC draws from
 void companion_mission( npc & );
 /**
@@ -73,6 +77,7 @@ void companion_mission( npc & );
 npc *individual_mission( npc &p, const std::string &desc, const std::string &id, bool group = false,
                          const std::vector<item *> &equipment = {}, const std::string &skill_tested = "",
                          int skill_level = 0 );
+
 ///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
 std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
         const std::string &message = _( "Do you wish to give your companion additional items?" ) );
@@ -91,5 +96,43 @@ bool scavenging_raid_return( npc &p );
 bool labor_return( npc &p );
 bool carpenter_return( npc &p );
 bool forage_return( npc &p );
+
+/// Trains NPC @ref comp, in skill_tested for duration time_worked at difficulty 1, several groups of skills can also be input
+int companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
+                             time_duration time_worked = 1_hours, int difficulty = 1 );
+int companion_skill_trainer( npc &comp, const skill_id &skill_tested,
+                             time_duration time_worked = 1_hours,
+                             int difficulty = 1 );
+//Combat functions
+bool companion_om_combat_check( const std::vector<std::shared_ptr<npc>> &group,
+                                const tripoint &om_tgt,
+                                bool try_engage = false );
+void force_on_force( const std::vector<std::shared_ptr<npc>> &defender, const std::string &def_desc,
+                     const std::vector<std::shared_ptr<npc>> &attacker, const std::string &att_desc, int advantage );
+bool force_on_force( const std::vector<std::shared_ptr<npc>> &defender, const std::string &def_desc,
+                     const std::vector< monster * > &monsters_fighting, const std::string &att_desc, int advantage );
+int combat_score( const std::vector<std::shared_ptr<npc>> &group );    //Used to determine retreat
+int combat_score( const std::vector< monster * > &group );
+void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
+                    const std::vector<std::shared_ptr<npc>> &defender );
+void attack_random( const std::vector< monster * > &group,
+                    const std::vector<std::shared_ptr<npc>> &defender );
+void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
+                    const std::vector< monster * > &group );
+std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
+
+//Utility functions
+/// Returns npcs that have the given companion mission.
+std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id,
+                               bool contains = false );
+
+std::vector<npc *> companion_sort( std::vector<npc *> available,
+                                   const std::string &skill_tested = "" );
+std::vector<comp_rank> companion_rank( const std::vector<npc *> &available, bool adj = true );
+npc *companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
+npc *companion_choose_return( const npc &p, const std::string &id, const time_point &deadline );
+void companion_return( npc &comp );               //Return NPC to your party
+std::vector<item *> loot_building( const tripoint
+                                   site ); //Smash stuff, steal valuables, and change map maker
 };
 #endif
