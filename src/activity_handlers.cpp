@@ -201,14 +201,6 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-enum butcher_type : int {
-    BUTCHER,        // quick butchery
-    BUTCHER_FULL,   // full workshop butchery
-    F_DRESS,        // field dressing a corpse
-    QUARTER,        // quarter a corpse
-    DISSECT         // dissect a corpse for CBMs
-};
-
 bool check_butcher_cbm( const int roll )
 {
     // 2/3 chance of failure with a roll of 0, 2/6 with a roll of 1, 2/9 etc.
@@ -412,6 +404,15 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         }
     }
 
+    act.moves_left = butcher_time_to_cut( u, corpse_item, action );
+}
+
+int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action )
+{
+    const mtype &corpse = *( corpse_item.get_mtype() );
+    const int factor = u.max_quality( ( action == DISSECT ) ? quality_id( "CUT_FINE" ) :
+                                      quality_id( "BUTCHER" ) );
+
     int time_to_cut = 0;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
@@ -438,14 +439,11 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         time_to_cut = 500;
     }
 
-    bool corpse_dressed = items[act.index].has_flag( "FIELD_DRESS" ) ||
-                          items[act.index].has_flag( "FIELD_DRESS_FAILED" );
-
     switch( action ) {
         case BUTCHER:
             break;
         case BUTCHER_FULL:
-            if( !corpse_dressed ) {
+            if( !corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) {
                 time_to_cut *= 6;
             } else {
                 time_to_cut *= 4;
@@ -465,7 +463,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             break;
     }
 
-    act.moves_left = time_to_cut;
+    return time_to_cut;
 }
 
 void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p,

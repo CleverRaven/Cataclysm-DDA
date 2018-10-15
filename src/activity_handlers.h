@@ -14,6 +14,16 @@ class player;
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
         const std::unordered_set<tripoint> &tiles );
 
+enum butcher_type : int {
+    BUTCHER,        // quick butchery
+    BUTCHER_FULL,   // full workshop butchery
+    F_DRESS,        // field dressing a corpse
+    QUARTER,        // quarter a corpse
+    DISSECT         // dissect a corpse for CBMs
+};
+
+int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action );
+
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items();
