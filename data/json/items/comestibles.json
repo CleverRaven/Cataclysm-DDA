@@ -1585,7 +1585,7 @@
     "symbol": "~",
     "quench": 50,
     "healthy": 1,
-    "calories": 200,
+    "calories": 100,
     "description": "Clear juice obtained by cooking fruit in a large volume of water.",
     "price": 62,
     "material": "fruit",
