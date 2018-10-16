@@ -9109,26 +9109,22 @@ void add_corpses( uilist &menu, map_stack &items,
         hotkey = -1;
     }
 }
+
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
 void add_salvagables( uilist &menu, map_stack &items,
                       const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
-                      const salvage_actor *salvage_iuse
-                    )
+                      const salvage_actor *salvage_iuse )
 {
-
     if( stacks.size() > 0 ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto stack : stacks ) {
             const item &it = items[ stack.first ];
 
-            std::string time = to_string_clipped( time_duration::from_turns( salvage_iuse->time_to_cut_up(
-                    it ) / 100 ) );
-
             //~ Name and number of items listed for cutting up
-            const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d) (%s)" ),
-                                             it.tname(), stack.second, time );
-            menu.addentry( menu_index++, true, hotkey, msg );
+            const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
+                                             it.tname(), stack.second );
+            menu.addentry_col( menu_index++, true, hotkey, msg, to_string_clipped( time_duration::from_turns( salvage_iuse->time_to_cut_up( it ) / 100 ) ) );
             hotkey = -1;
         }
     }
@@ -9144,13 +9140,10 @@ void add_disassemblables( uilist &menu, map_stack &items,
         for( const auto stack : stacks ) {
             const item &it = items[ stack.first ];
 
-            std::string time = to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft(
-                    it.typeId() ).time / 100 ) );
-
             //~ Name, number of items and time to complete disassembling
-            const auto &msg = string_format( pgettext( "butchery menu", "%s (%d) (%s)" ),
-                                             it.tname(), stack.second, time );
-            menu.addentry( menu_index++, true, hotkey, msg );
+            const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
+                                             it.tname(), stack.second );
+            menu.addentry_col( menu_index++, true, hotkey, msg, to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft( it.typeId() ).time / 100 ) ) );
             hotkey = -1;
         }
     }
@@ -9301,8 +9294,8 @@ void game::butcher()
                 time_to_cut += butcher_time_to_cut( u, items[index], BUTCHER );
             }
 
-            kmenu.addentry( MULTIBUTCHER, true, 'b', string_format( _( "Butcher everything (%s)" ),
-                            to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) ) ) );
+            kmenu.addentry_col( MULTIBUTCHER, true, 'b', _( "Butcher everything" ),
+                                to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) ) );
         }
         if( disassembles.size() > 1 ) {
             int time_to_disassemble = 0;
@@ -9314,11 +9307,10 @@ void game::butcher()
                 time_to_disassemble_all += time * stack.second;
             }
 
-            kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D',
-                            string_format( _( "Disassemble everything once (%s)" ),
-                                           to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) ) );
-            kmenu.addentry( MULTIDISASSEMBLE_ALL, true, 'd', string_format( _( "Disassemble everything (%s)" ),
-                            to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) ) );
+            kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) );
+            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything" ),
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
         }
         if( salvageables.size() > 1 ) {
             int time_to_salvage = 0;
@@ -9327,8 +9319,8 @@ void game::butcher()
                 time_to_salvage += salvage_iuse->time_to_cut_up( it ) * stack.second;
             }
 
-            kmenu.addentry( MULTISALVAGE, true, 'z', string_format( _( "Cut up everything (%s)" ),
-                            to_string_clipped( time_duration::from_turns( time_to_salvage / 100 ) ) ) );
+            kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
+                                to_string_clipped( time_duration::from_turns( time_to_salvage / 100 ) ) );
         }
 
         kmenu.query();
@@ -9414,22 +9406,21 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
-            auto cut_time = [&]( const char *text, enum butcher_type bt ) {
-                return string_format( text, to_string_clipped( time_duration::from_turns( butcher_time_to_cut( u,
-                                      items[corpses[ret]], bt ) / 100 ) ) );
+            auto cut_time = [&]( enum butcher_type bt ) {
+                return to_string_clipped( time_duration::from_turns( butcher_time_to_cut( u, items[corpses[ret]], bt ) / 100 ) );
             };
             uilist smenu;
             smenu.desc_enabled = true;
             smenu.text = _( "Choose type of butchery:" );
-            smenu.addentry_desc( BUTCHER, true, 'B', cut_time( _( "Quick butchery (%s)" ), BUTCHER ),
+            smenu.addentry_col( BUTCHER, true, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
                                  _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
-            smenu.addentry_desc( BUTCHER_FULL, true, 'b', cut_time( _( "Full butchery (%s)" ), BUTCHER_FULL ),
+            smenu.addentry_col( BUTCHER_FULL, true, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
                                  _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
-            smenu.addentry_desc( F_DRESS, true, 'f', cut_time( _( "Field dress corpse (%s)" ), F_DRESS ),
+            smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
                                  _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
-            smenu.addentry_desc( QUARTER, true, 'k', cut_time( _( "Quarter corpse (%s)" ), QUARTER ),
+            smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
                                  _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
-            smenu.addentry_desc( DISSECT, true, 'd', cut_time( _( "Dissect corpse (%s)" ), DISSECT ),
+            smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
                                  _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
             smenu.query();
             switch( smenu.ret ) {

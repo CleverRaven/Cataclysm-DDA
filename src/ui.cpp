@@ -258,7 +258,7 @@ void uimenu::init()
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;       // does nothing but can be read
-    max_desc_len = 0;        // for calculating space for descriptions
+    max_column_len = 0;      // for calculating space for descriptions
 
     scrollbar_auto =
         true;   // there is no force-on; true will only render scrollbar if entries > vertical height
@@ -449,15 +449,20 @@ void uimenu::setup()
     }
 
     max_entry_len = 0;
-    max_desc_len = 0;
+    max_column_len = 0;
     std::vector<int> autoassign;
     int pad = pad_left + pad_right + 2;
     int descwidth_final = 0; // for description width guard
     for ( size_t i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width( remove_color_tags(entries[i].txt) );
+        int ctxtwidth = utf8_width( remove_color_tags(entries[i].ctxt) );
         if ( txtwidth > max_entry_len ) {
             max_entry_len = txtwidth;
         }
+        if ( ctxtwidth > max_column_len ) {
+            max_column_len = ctxtwidth;
+        }
+        int clen = (ctxtwidth > 0) ? ctxtwidth + 2: 0;
         if(entries[ i ].enabled) {
             if( entries[ i ].hotkey > 0 ) {
                 keymap[ entries[ i ].hotkey ] = i;
@@ -467,12 +472,12 @@ void uimenu::setup()
             if ( entries[ i ].retval == -1 ) {
                 entries[ i ].retval = i;
             }
-            if ( w_auto && w_width < txtwidth + pad + 4 ) {
-                w_width = txtwidth + pad + 4;
+            if ( w_auto && w_width < txtwidth + pad + 4 + clen ) {
+                w_width = txtwidth + pad + 4 + clen;
             }
         } else {
-            if ( w_auto && w_width < txtwidth + pad + 4 ) {
-                w_width = txtwidth + pad + 4;    // @todo: or +5 if header
+            if ( w_auto && w_width < txtwidth + pad + 4 + clen ) {
+                w_width = txtwidth + pad + 4 + clen;    // @todo: or +5 if header
             }
         }
         if ( desc_enabled ) {
@@ -511,6 +516,7 @@ void uimenu::setup()
         } else if (descwidth_final > w_width) {
             w_width = descwidth_final;
         }
+
     }
 
     if(!text.empty() ) {
@@ -716,7 +722,13 @@ void uimenu::show()
                 // to be used.
                 const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) : entries[ ei ].txt );
                 trim_and_print( window, estart + si, pad_left + 4,
-                                w_width - 5 - pad_left - pad_right, co, "%s", entry.c_str() );
+                                max_entry_len, co, "%s", entry.c_str() );
+
+                if( max_column_len && !entries[ ei ].ctxt.empty() ) {
+                    const auto centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) : entries[ ei ].ctxt );
+                    trim_and_print( window, estart + si, pad_left + 4 + max_entry_len + 2,
+                                    max_column_len, co, "%s", centry.c_str() );
+                }
             }
             mvwzstr menu_entry_extra_text = entries[ei].extratxt;
             if ( !menu_entry_extra_text.txt.empty() ) {
@@ -1007,6 +1019,11 @@ void uimenu::addentry_desc(const std::string &str, const std::string &desc)
 void uimenu::addentry_desc(int r, bool e, int k, const std::string &str, const std::string &desc)
 {
     entries.push_back(uimenu_entry(r, e, k, str, desc));
+}
+
+void uimenu::addentry_col(int r, bool e, int k, const std::string &str, const std::string &column, const std::string &desc)
+{
+    entries.push_back(uimenu_entry(r, e, k, str, desc, column));
 }
 
 void uimenu::settext(const std::string &str)
