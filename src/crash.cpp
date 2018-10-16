@@ -18,15 +18,6 @@
 
 [[noreturn]] static void crash_terminate_handler();
 
-static const char *get_crash_log_file_name()
-{
-    auto crash_it = FILENAMES.find( "crash" );
-    if( crash_it != FILENAMES.end() ) {
-        return crash_it->second.c_str();
-    }
-    return "crash.log";
-}
-
 #if ( defined _WIN32 || defined _WIN64 )
 #include "platform_win.h"
 
@@ -225,6 +216,15 @@ void init_crash_handlers()
 #include "debug.h"
 
 extern "C" {
+
+    static const char *get_crash_log_file_name()
+    {
+        auto crash_it = FILENAMES.find( "crash" );
+        if( crash_it != FILENAMES.end() ) {
+            return crash_it->second.c_str();
+        }
+        return "crash.log";
+    }
 
     static void log_crash( char const *type, char const *msg )
     {
