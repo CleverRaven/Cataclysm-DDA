@@ -921,6 +921,33 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const saw_barrel_actor &actor;
 };
 
+class salvage_inventory_preset: public inventory_selector_preset
+{
+    public:
+        salvage_inventory_preset( const salvage_actor *actor ) :
+            inventory_selector_preset(), actor( actor ) {
+
+            append_cell( [ actor ]( const item_location & loc ) {
+                return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
+                                              *loc.get_item() ) / 100 ) );
+            }, _( "CUT TIME" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return actor->valid_to_cut_up( *loc.get_item() );
+        }
+
+    private:
+        const salvage_actor *actor;
+};
+
+item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
+{
+    return inv_internal( p, salvage_inventory_preset( actor ),
+                         _( "Cut up what?" ), 1,
+                         _( "You have nothing to cut up." ) );
+}
+
 item_location game_menus::inv::saw_barrel( player &p, item &tool )
 {
     const auto actor = dynamic_cast<const saw_barrel_actor *>

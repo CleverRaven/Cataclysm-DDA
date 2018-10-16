@@ -1162,11 +1162,14 @@ long salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    int inventory_index = g->inv_for_filter( _( "Cut up what?" ), [ this ]( const item & it ) {
-        return valid_to_cut_up( it );
-    } );
+    auto item_loc = game_menus::inv::salvage( p, this );
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return 0;
+    }
 
-    item &cut = p.i_at( inventory_index );
+    item &cut = *item_loc.get_item();
+
     if( !try_to_cut_up( p, cut ) ) {
         // Messages should have already been displayed.
         return 0;
