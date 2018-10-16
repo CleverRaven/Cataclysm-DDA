@@ -843,7 +843,8 @@ float ma_technique::armor_penetration( const player &u, damage_type type ) const
     return bonuses.get_flat( u, AFFECTED_ARMOR_PENETRATION, type );
 }
 
-bool ma_style_callback::key(const input_context &ctxt, const input_event &event, int entnum, uimenu *menu)
+bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
+                             uimenu *menu )
 {
     const std::string action = ctxt.input_to_action( event );
     if( action != "SHOW_DESCRIPTION" ) {
@@ -860,7 +861,8 @@ bool ma_style_callback::key(const input_context &ctxt, const input_event &event,
         buffer << ma.name << "\n\n \n\n";
         if( !ma.techniques.empty() ) {
             buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
-            buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
+            buffer << enumerate_as_string( ma.techniques.begin(),
+            ma.techniques.end(), []( const matec_id & mid ) {
                 return string_format( "%s: %s", _( mid.obj().name.c_str() ), _( mid.obj().description.c_str() ) );
             } );
         }
@@ -871,11 +873,11 @@ bool ma_style_callback::key(const input_context &ctxt, const input_event &event,
         if( !ma.weapons.empty() ) {
             buffer << "\n\n \n\n";
             buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
-            buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string &wid ) {
+            buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
                 return item::nname( wid );
             } );
         }
-        popup(buffer.str(), PF_NONE);
+        popup( buffer.str(), PF_NONE );
         menu->redraw();
     }
     return true;
