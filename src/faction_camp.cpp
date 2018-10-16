@@ -78,6 +78,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry;
 
+    std::string mission_role = p.companion_mission_role_id;
     //Used to determine what kind of OM the NPC is sitting in to determine the missions and upgrades
     const tripoint omt_pos = p.global_omt_location();
     oter_id &omt_ref = overmap_buffer.ter( omt_pos );
@@ -85,6 +86,12 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     std::vector<std::pair<std::string, tripoint>> om_expansions = om_building_region( p, 1, true );
 
     std::string bldg = om_next_upgrade( om_cur );
+
+    int cur_om_level = -1;
+    if( om_min_level( "faction_base_camp_0", om_cur ) ) {
+        cur_om_level = om_upgrade_level( om_cur );
+    }
+    int max_om_expansions = cur_om_level / 2 - 1;
 
     if( bldg != "null" ) {
         mission_key.text["Upgrade Camp"] = om_upgrade_description( bldg );
@@ -150,7 +157,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-    if( om_min_level( "faction_base_camp_1", om_cur ) ) {
+    if( cur_om_level >= 1 ) {
         mission_key.text["Gather Materials"] = om_gathering_description( p, bldg );
         bool avail = ( companion_list( p, "_faction_camp_gathering" ).size() < 3 );
         mission_key.push( "Gather Materials", _( "Gather Materials" ), "", false,
@@ -192,7 +199,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         mission_key.push( "Reset Sort Points", _( "Reset Sort Points" ), "", false );
     }
 
-    if( om_min_level( "faction_base_camp_2", om_cur ) ) {
+    if( cur_om_level >= 2 ) {
         mission_key.text["Collect Firewood"] = string_format( _( "Notes:\n"
                                                "Send a companion to gather light brush and heavy sticks.\n \n"
                                                "Skill used: survival\n"
@@ -219,7 +226,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-    if( om_min_level( "faction_base_camp_3", om_cur ) ) {
+    if( cur_om_level >= 3 ) {
         mission_key.text["Menial Labor"] = string_format( _( "Notes:\n"
                                            "Send a companion to do low level chores and sort supplies.\n \n"
                                            "Skill used: fabrication\n"
@@ -251,15 +258,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-    if( ( ( om_min_level( "faction_base_camp_4", om_cur ) &&
-            om_expansions.empty() ) ||
-          ( om_min_level( "faction_base_camp_6", om_cur ) && om_expansions.size() < 2 ) ||
-          ( om_min_level( "faction_base_camp_8", om_cur ) && om_expansions.size() < 3 ) ||
-          ( om_min_level( "faction_base_camp_10", om_cur ) && om_expansions.size() < 4 ) ||
-          ( om_min_level( "faction_base_camp_12", om_cur ) && om_expansions.size() < 5 ) ||
-          ( om_min_level( "faction_base_camp_14", om_cur ) && om_expansions.size() < 6 ) ||
-          ( om_min_level( "faction_base_camp_16", om_cur ) && om_expansions.size() < 7 ) ||
-          ( om_min_level( "faction_base_camp_18", om_cur ) && om_expansions.size() < 8 ) ) ) {
+    if( static_cast<int>( om_expansions.size() ) < max_om_expansions ) {
         mission_key.text["Expand Base"] = string_format( _( "Notes:\n"
                                           "Your base has become large enough to support an expansion.  Expansions open up new opportunities "
                                           "but can be expensive and time consuming.  Pick them carefully, only 8 can be built at each camp.\n \n"
@@ -292,7 +291,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-    if( om_min_level( "faction_base_camp_5", om_cur ) ) {
+    if( cur_om_level >= 5 ) {
         mission_key.text["Cut Logs"] = string_format( _( "Notes:\n"
                                        "Send a companion to a nearby forest to cut logs.\n \n"
                                        "Skill used: fabrication\n"
@@ -326,7 +325,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
 
-    if( om_min_level( "faction_base_camp_7", om_cur ) ) {
+    if( cur_om_level >= 7 ) {
         mission_key.text["Setup Hide Site"] = string_format( _( "Notes:\n"
                                               "Send a companion to build an improvised shelter and stock it with equipment at a distant map location.\n \n"
                                               "Skill used: survival\n"
@@ -372,7 +371,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-    if( om_min_level( "faction_base_camp_9", om_cur ) ) {
+    if( cur_om_level >= 9 ) {
         mission_key.text["Construct Map Fortifications"] =
             om_upgrade_description( "faction_wall_level_N_0" );
         mission_key.push( "Construct Map Fortifications",
@@ -398,7 +397,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-    if( om_min_level( "faction_base_camp_11", om_cur ) ) {
+    if( cur_om_level >= 11 ) {
         mission_key.text["Recruit Companions"] = camp_recruit_evaluation( p, om_cur, om_expansions );
         bool avail = companion_list( p, "_faction_camp_recruit_0" ).empty();
         mission_key.push( "Recruit Companions", _( "Recruit Companions" ), "", false, avail );
@@ -421,7 +420,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-    if( om_min_level( "faction_base_camp_13", om_cur ) ) {
+    if( cur_om_level >= 13 ) {
         mission_key.text["Scout Mission"] =  string_format( _( "Notes:\n"
                                              "Send a companion out into the great unknown.  High survival skills are needed to avoid combat but "
                                              "you should expect an encounter or two.\n \n"
@@ -455,7 +454,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-    if( om_min_level( "faction_base_camp_15", om_cur ) ) {
+    if( cur_om_level >= 15 ) {
         mission_key.text["Combat Patrol"] =  string_format( _( "Notes:\n"
                                              "Send a companion to purge the wasteland.  Their goal is to kill anything hostile they encounter and return when "
                                              "their wounds are too great or the odds are stacked against them.\n \n"
@@ -776,6 +775,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     std::string om_cur = omt_ref.id().c_str();
     std::string bldg = om_next_upgrade( om_cur );
     std::vector<std::pair<std::string, tripoint>> om_expansions = om_building_region( p, 1, true );
+    std::string mission_role = p.companion_mission_role_id;
 
     if( cur_key.id == "Distribute Food" ) {
         camp_distribute_food( p );
@@ -2879,11 +2879,21 @@ bool talk_function::camp_menial_sort_pts( npc &p, bool reset_pts, bool choose_pt
 }
 
 // camp analysis functions
+int talk_function::om_upgrade_level( const std::string &bldg )
+{
+    size_t phase = bldg.find_last_of( '_' );
+    if( phase == std::string::npos ) {
+        return -1;
+    }
+    std::string comp = bldg.substr( phase + 1 );
+    return std::stoi( comp );
+}
+
 std::string talk_function::om_next_upgrade( const std::string &bldg )
 {
     int phase = bldg.find_last_of( '_' );
     std::string comp = bldg.substr( phase + 1 );
-    int value = atoi( comp.c_str() ) + 1;
+    int value = std::stoi( comp ) + 1;
     comp = bldg.substr( 0, phase + 1 ) + to_string( value );
     if( !oter_str_id( comp ).is_valid() ) {
         return "null";
@@ -2898,7 +2908,7 @@ std::vector<std::string> talk_function::om_all_upgrade_levels( const std::string
     int phase = bldg.find_last_of( '_' );
     std::string comp = bldg.substr( phase + 1 );
     int value = 0;
-    int current = atoi( comp.c_str() );
+    int current = std::stoi( comp );
     while( value <= current ) {
         comp = bldg.substr( 0, phase + 1 ) + to_string( value );
         if( oter_str_id( comp ).is_valid() ) {
@@ -2923,8 +2933,7 @@ int talk_function::om_over_level( const std::string &target, const std::string &
     if( target.substr( 0, phase_target + 1 ) != bldg.substr( 0, phase_bldg + 1 ) ) {
         return -1;
     }
-    diff = atoi( bldg.substr( phase_bldg + 1 ).c_str() ) - atoi( target.substr(
-                phase_target + 1 ).c_str() );
+    diff = std::stoi( bldg.substr( phase_bldg + 1 ) ) - std::stoi( target.substr( phase_target + 1 ) );
     //not high enough level
     if( diff < 0 ) {
         return -1;

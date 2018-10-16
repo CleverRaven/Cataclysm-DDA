@@ -122,6 +122,8 @@ std::vector<std::string> om_all_upgrade_levels( const std::string &bldg );
 bool om_min_level( const std::string &target, const std::string &bldg );
 /// Is the @ref bldg of the same type as the @ref target and how many levels greater is it, -1 for no match, 0 for same
 int om_over_level( const std::string &target, const std::string &bldg );
+/// Returns the numerical suffix of the @ref bldg
+int om_upgrade_level( const std::string &bldg );
 /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
 bool upgrade_return( npc &p, const tripoint &omt_pos, const std::string &miss );
 /// Called when a companion completes a gathering @ref task mission
