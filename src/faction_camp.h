@@ -147,6 +147,8 @@ void start_combat_mission( std::string &miss, npc &p );
 
 /// Called when a companion completes a chop shop @ref task mission
 bool camp_garage_chop_start( npc &p, const std::string &task );
+/// Called when a companion completes any mission and calls companion_return
+void camp_companion_return( npc &comp );
 /**
  * Perform any mix of the three farm tasks.
  * @param harvest, should the NPC harvest every harvestable plant
