@@ -9124,7 +9124,8 @@ void add_salvagables( uilist &menu, map_stack &items,
             //~ Name and number of items listed for cutting up
             const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
                                              it.tname(), stack.second );
-            menu.addentry_col( menu_index++, true, hotkey, msg, to_string_clipped( time_duration::from_turns( salvage_iuse->time_to_cut_up( it ) / 100 ) ) );
+            menu.addentry_col( menu_index++, true, hotkey, msg,
+                               to_string_clipped( time_duration::from_turns( salvage_iuse->time_to_cut_up( it ) / 100 ) ) );
             hotkey = -1;
         }
     }
@@ -9143,7 +9144,9 @@ void add_disassemblables( uilist &menu, map_stack &items,
             //~ Name, number of items and time to complete disassembling
             const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
                                              it.tname(), stack.second );
-            menu.addentry_col( menu_index++, true, hotkey, msg, to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft( it.typeId() ).time / 100 ) ) );
+            menu.addentry_col( menu_index++, true, hotkey, msg,
+                               to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft(
+                                       it.typeId() ).time / 100 ) ) );
             hotkey = -1;
         }
     }
@@ -9407,21 +9410,22 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             auto cut_time = [&]( enum butcher_type bt ) {
-                return to_string_clipped( time_duration::from_turns( butcher_time_to_cut( u, items[corpses[ret]], bt ) / 100 ) );
+                return to_string_clipped( time_duration::from_turns( butcher_time_to_cut( u, items[corpses[ret]],
+                                          bt ) / 100 ) );
             };
             uilist smenu;
             smenu.desc_enabled = true;
             smenu.text = _( "Choose type of butchery:" );
             smenu.addentry_col( BUTCHER, true, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
-                                 _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
+                                _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
             smenu.addentry_col( BUTCHER_FULL, true, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
-                                 _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
+                                _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
             smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
-                                 _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
+                                _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
             smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
-                                 _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+                                _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
-                                 _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
+                                _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
             smenu.query();
             switch( smenu.ret ) {
                 case BUTCHER:

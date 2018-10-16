@@ -77,7 +77,8 @@ struct uimenu_entry {
         hotkey( K ), txt( T ), desc( D ) {
         text_color = c_red_red;
     };
-    uimenu_entry( int R, bool E, int K, std::string T, std::string D, std::string C ) : retval( R ), enabled( E ),
+    uimenu_entry( int R, bool E, int K, std::string T, std::string D, std::string C ) : retval( R ),
+        enabled( E ),
         hotkey( K ), txt( T ), desc( D ), ctxt( C ) {
         text_color = c_red_red;
     };
@@ -242,7 +243,8 @@ class uimenu: public ui_container
         }
         void addentry_desc( const std::string &str, const std::string &desc );
         void addentry_desc( int r, bool e, int k, const std::string &str, const std::string &desc );
-        void addentry_col( int r, bool e, int k, const std::string &str, const std::string &column, const std::string &desc = "" );
+        void addentry_col( int r, bool e, int k, const std::string &str, const std::string &column,
+                           const std::string &desc = "" );
         void settext( const std::string &str );
 
         void reset();
