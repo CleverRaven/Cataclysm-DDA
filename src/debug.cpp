@@ -577,7 +577,9 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         // Backtrace on error.
 #ifdef BACKTRACE
         if( lev == D_ERROR ) {
+            debugFile.file << "(error message will follow backtrace)";
             debug_write_backtrace( debugFile.file );
+            debugFile.file << '\n';
         }
 #endif
 
