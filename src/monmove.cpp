@@ -755,6 +755,9 @@ tripoint monster::scent_move()
     const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1, 1 ) ) {
         int smell = g->scent.get( dest );
+        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+            continue;
+        }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
             ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {

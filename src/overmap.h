@@ -147,8 +147,6 @@ class overmap
         overmap( const overmap & ) = default;
         overmap( overmap && ) = default;
         overmap( int x, int y );
-        // Argument-less constructor bypasses trying to load matching file, only used for unit testing.
-        overmap();
         ~overmap();
 
         overmap &operator=( overmap const & ) = default;

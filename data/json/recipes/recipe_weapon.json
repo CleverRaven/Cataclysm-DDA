@@ -412,7 +412,7 @@
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [
-      [ [ "leaf_spring", 2 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
       [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
@@ -443,7 +443,7 @@
     "components": [
       [ [ "steel_standard", 2, "LIST" ] ],
       [ [ "plastic_chunk", 10 ] ],
-      [ [ "leaf_spring", 4 ] ],
+      [ [ "sheet_metal_small", 8 ] ],
       [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
       [ [ "cordage", 18, "LIST" ], [ "filament", 1800, "LIST" ] ]
     ]
@@ -789,7 +789,7 @@
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [
-      [ [ "leaf_spring", 2 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
       [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "plastic_chunk", 15 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
@@ -1124,6 +1124,25 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [ [ [ "chainsaw_off", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+  },{
+    "type": "recipe",
+    "result": "e_combatsaw_off",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "melee", 2 ],
+    "difficulty": 6,
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_mechanics", 4 ], [ "recipe_melee", 5 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "battery_compartment", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -2401,6 +2420,26 @@
     ],
     [
       [ "chainsaw_off", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "ecs_lajatang_off",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 15000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "q_staff", 1 ]
+    ],
+    [
+      [ "duct_tape", 200 ]
+    ],
+    [
+      [ "elec_chainsaw_off", 2 ]
     ]
   ]
 },{

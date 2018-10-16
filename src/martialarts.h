@@ -16,6 +16,7 @@ class JsonObject;
 class effect;
 class player;
 class item;
+struct itype;
 class martialart;
 using matype_id = string_id<martialart>;
 class ma_buff;
@@ -26,6 +27,8 @@ class effect_type;
 using efftype_id = string_id<effect_type>;
 class Skill;
 using skill_id = string_id<Skill>;
+
+matype_id martial_art_learned_from( const itype & );
 
 struct ma_requirements {
     bool was_loaded = false;
@@ -144,14 +147,10 @@ class ma_buff
         // bonuses)
         float damage_mult( const player &u, damage_type type ) const;
 
-        /** Stamina cost multiplier */
-        float stamina_mult() const;
-
         // returns various boolean flags
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool can_melee() const;
-        bool can_unarmed_weapon() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;

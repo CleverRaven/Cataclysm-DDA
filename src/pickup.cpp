@@ -349,7 +349,7 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                 } else if( get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                     //No prematched pickup rule found
                     //items with damage, (fits) or a container
-                    get_auto_pickup().create_rule( sItemName );
+                    get_auto_pickup().create_rule( &begin_iterator->_item );
 
                     if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
                         bPickup = true;
@@ -465,7 +465,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.made_of( LIQUID ) ) {
+    } else if( newit.made_of_from_type( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {

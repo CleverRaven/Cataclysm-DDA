@@ -1,0 +1,100 @@
+Infrastructure NPC debug menu update
+Balance Remove telescopic eyes cbm from starting professions
+InfrastructureJson fixes to prepper garage and 2 floor motel
+Features Faucets allow crafting of all tank liquids
+Bugfixes Fix early reporting of turret ammo shortage
+Bugfixes Suppress useless debugmsg
+Performance Allow SDL redraws during sleep or when FORCE_REDRAW triggers.
+Infrastructure Add a 'school' mon_group for controlling school spawns
+Infrastructure New characters: Start with loaded/holstered guns and sheathed blades (part 2)
+I18N Localize firing modes of guns
+I18N Localize mission dialogues
+Content Vitamin additons: pine needle tea and wastebread
+PerformanceSpam fewer popups while saving submaps (they can be slow)
+Bugfixes Convert burned out torch into torch_done properly (fix #19395)
+I18N Display localized ammo type names
+I18N Display localized car names in debug menu
+I18N Display localized mission dialogue in UI
+Infrastructure Use positional placeholders in some stealing messages
+Content Disassembly recipes for RC car and RC control
+Infrastructure Better handling of item templates
+Bugfixes Fix failing unit tests for vehicle_turret
+PerformanceImprove performance of damage calculation
+Infrastructure Move crafting rig definitions to JSON
+Infrastructure Split engine load in to electrical and propulsion
+Infrastructure Update JSON serialization code
+Bugfixes Fix item groups' ammo/magazine chances not being applied
+Infrastructure Advance Inventory Filtering Brace Requirement Removal
+I18N Display localized ammo names in bandolier info
+I18N Display localized firing modes in UI
+I18N Extract GUNMOD locations as translatable string
+Infrastructure Overmap overhaul (step 4)
+Interface Use a wider type for symbols
+Balance Buff regen mutations, nerf regen due to health stat
+Build Allow installation in a path with whitespaces
+PerformanceDefer autopickup item lookups until first use.
+Bugfixes Fix autopickup UI's "S"witch option, which did nothing.
+Build Fix compilation issue for #19303
+Bugfixes Reveal some mission target locations on start
+Mods obsolete the version of PK_rebalancing included in the coregame
+Infrastructure Engine overspeed detection now uses vehicle speed in calculation
+Mods Convert Tanks and Other Vehicles mapgen overrides
+Bugfixes Fix NPCs not avoiding traps
+Content Add bone needle to "sewing_standard" requirement
+Infrastructure Extend "using" to recipes\other folder
+Infrastructure Remove wild entry in tool_armor.json
+Mods Updates to More Survival Tools
+Infrastructure Initialize bChar in the auto_pickup ctor.
+Balance Buffed 30x113 ammo belt capacity
+Bugfixes Prevent toggling of parts not currently enablable
+Bugfixes Fix unit tests for NPC needs
+PerformanceCache item types for inventory; huge crafting GUI speedup
+Bugfixes Fix craft requiring exact numbers of items
+Bugfixes Fix harvest drops not stacking
+Bugfixes Hack around long overflow in water crafting
+Build Add a compile mode that checks for printf format errors.
+Bugfixes Fix PARTIAL_DEAF Flag Support / Sound Processing Cleanup
+Balance Add recoil for being hit
+Build Add Linux to OSX cross-compilation. Take 2
+Bugfixes Don't give default names to corpses
+Bugfixes Enable "self-assigned" missions (no quest giver) and fix "goto" missions
+Bugfixes Fix corpse materials
+Bugfixes Re-Add Auto-Safe-Mode Coloring
+Balance Added copper to coilgun
+Content Sugar House mapgen
+Infrastructure Partially jsonize TALK_EVAC_GUARD3
+Bugfixes Fix fire vents
+Bugfixes Fix some wrongly generated plural strings
+Infrastructure Extend "using" to armor\storage recipes
+Infrastructure Extend "using" to armor\hands.json
+Bugfixes Fix a crash caused by map::add_splatter
+Bugfixes Fix for monster group pack size not working
+Infrastructure Modern Apartment JSONify
+Bugfixes Fix issue #19641 :Fix min volume for holsters using legacy rounding truncation (e.g. survivor utility belt)
+Bugfixes Down Blankets Allowed in Construction, resolves #19787
+Bugfixes Fix nones in items made by jmapgen_loot
+Infrastructure Add character radiation editing to debug menu
+Bugfixes Fix #19776: Inconsistent minireactor behavior when powering vehicle's…
+Balance Craft one shotgun shell at a time
+Bugfixes Fix expansion of inventory menus + a bit more minimalistic design
+Interface Interactive inventory letter assignment
+Bugfixes Add bionic toolset to bullet forming toolset requirements
+Content Add 'Reach Refugee Center' mission
+Bugfixes Safely deal with different line endings (fix #13952)
+Balance Craft one 40mm shell at a time
+Bugfixes Fix vehicle part info cache
+Balance Removed duplicate gyroscopic stabilizer
+Infrastructure Allow missiondef without dialogue
+Balance Craft one signal flare at a time
+Balance Swap weight of survival cargo pants with its light version
+Bugfixes Fix formblob-ing NPCs
+I18N Translation updates
+Build Update readme (was: It's about that time again...)
+Mods Expanded Realistic Guns: bandolier update
+Content Added missing text to ammunition
+I18N Display localized overmap terrain name
+Balance Rebalance of stone pots and tanning
+Content Fixed capitalization of the M1911 DS
+Content Correct grammar
+Content Remove redundant expressions
+Content Amend water item description

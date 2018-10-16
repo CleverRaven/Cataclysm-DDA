@@ -341,6 +341,19 @@
         "price" : 2000
     },
     {
+        "type": "GENERIC",
+        "id": "motor_tiny",
+        "name": "tiny electric motor",
+        "description": "A tiny electric motor.  Useful for crafting.",
+        "weight": 800,
+        "color": "light_cyan",
+        "symbol": ",",
+        "material": [ "steel", "plastic"],
+        "volume": 2,
+        "category": "veh_parts",
+        "price": 2000
+    },
+    {
         "type":"GENERIC",
         "id" : "foot_crank",
         "name" : "foot crank",
@@ -402,6 +415,22 @@
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 1000
+    },
+    {
+        "type": "TOOL",
+        "id": "black_box",
+        "category": "other",
+        "name": "military black box",
+        "name_plural": "military black boxes",
+        "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this you may find something of interest.",
+        "weight": 4535,
+        "volume": 2,
+        "price": 0,
+        "to_hit": -1,
+        "bashing": 4,
+        "material": ["steel"],
+        "symbol": ";",
+        "color": "light_gray"
     },
     {
         "type": "TOOL",
@@ -1013,7 +1042,7 @@
         "to_hit" : -3,
         "color" : "light_blue",
         "symbol" : "#",
-        "material" : ["steel"],
+        "material" : ["plastic"],
         "volume" : 16,
         "category" : "veh_parts",
         "price" : 10000

@@ -224,6 +224,7 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_death()
 {
     death_map["NORMAL"] = &mdeath::normal;// Drop a body
+    death_map["SPLATTER"] = &mdeath::splatter;//Explodes in gibs and chunks
     death_map["ACID"] = &mdeath::acid;// Acid instead of a body
     death_map["BOOMER"] = &mdeath::boomer;// Explodes in vomit :3
     death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;// Explodes in glowing vomit :3

@@ -1250,12 +1250,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 newtarget = t.size() - 1;
             }
             dst = t[newtarget]->pos();
+            pc.recoil = MAX_RECOIL;
         } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) + 1;
             if( newtarget == static_cast<int>( t.size() ) ) {
                 newtarget = 0;
             }
             dst = t[newtarget]->pos();
+            pc.recoil = MAX_RECOIL;
         } else if( ( action == "AIM" ) && target != -1 ) {
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.

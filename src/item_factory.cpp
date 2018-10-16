@@ -562,10 +562,14 @@ void Item_factory::init()
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
+    add_iuse( "E_COMBATSAW_OFF", &iuse::e_combatsaw_off );
+    add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CS_LAJATANG_OFF", &iuse::cs_lajatang_off );
     add_iuse( "CS_LAJATANG_ON", &iuse::cs_lajatang_on );
+    add_iuse( "ECS_LAJATANG_OFF", &iuse::ecs_lajatang_off );
+    add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
@@ -693,6 +697,7 @@ void Item_factory::init()
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
+    add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
     add_actor( new ammobelt_actor() );
     add_actor( new bandolier_actor() );
@@ -805,8 +810,9 @@ void Item_factory::check_definitions() const
                 msg << string_format( "item %s has unknown quality %s", type->id.c_str(), q.first.c_str() ) << "\n";
             }
         }
-        if( type->default_container != "null" && !has_template( type->default_container ) ) {
-            msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
+        if( type->default_container && ( !has_template( *type->default_container ) ||
+                                         *type->default_container == "null" ) ) {
+            msg << string_format( "invalid container property %s", type->default_container->c_str() ) << "\n";
         }
 
         for( const auto &e : type->emits ) {

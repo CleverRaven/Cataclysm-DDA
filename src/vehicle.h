@@ -27,10 +27,13 @@ class player;
 class npc;
 class vehicle;
 class vpart_info;
+class vehicle_part_range;
 enum vpart_bitflags : int;
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+template<typename feature_type>
+class vehicle_part_with_feature_range;
 namespace catacurses
 {
 class window;
@@ -131,7 +134,7 @@ struct vehicle_part {
 
         static constexpr int name_offset = 7;
         /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
-        std::stack<std::string> carry_names;
+        std::stack<std::string, std::vector<std::string> > carry_names;
 
         /** Specific type of fuel, charges or ammunition currently contained by a part */
         itype_id ammo_current() const;
@@ -170,14 +173,15 @@ struct vehicle_part {
         float consume_energy( const itype_id &ftype, float energy );
 
         /* @retun true if part in current state be reloaded optionally with specific itype_id */
-        bool can_reload( const itype_id &obj = "" ) const;
+        bool can_reload( const item &obj = item() ) const;
 
         /**
          * If this part is capable of wholly containing something, process the
          * items in there.
          * @param pos Position of this part for item::process
+         * @param e_heater Engine has a heater and is on
          */
-        void process_contents( const tripoint &pos );
+        void process_contents( const tripoint &pos, const bool e_heater );
 
         /**
          *  Try adding @param liquid to tank optionally limited by @param qty
@@ -692,9 +696,9 @@ class vehicle
         int install_part( int dx, int dy, const vpart_id &id, item &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
-        bool find_rackable_vehicle( std::vector<std::vector<int>> list_of_racks );
+        bool find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks );
         // merge a previously found single tile vehicle into this vehicle
-        bool merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_parts );
+        bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
         bool remove_part( int p );
         void part_removal_cleanup();
@@ -702,12 +706,19 @@ class vehicle
         // remove the carried flag from a vehicle after it has bee removed from a rack
         void remove_carried_flag();
         // remove a vehicle specified by a list of part indices
-        bool remove_carried_vehicle( std::vector<int> carried_vehicle );
+        bool remove_carried_vehicle( const std::vector<int> &carried_vehicle );
+        // split the current vehicle into up to four vehicles if they have no connection other
+        // than the structure part at exclude
+        bool find_and_split_vehicles( int exclude );
+        // relocate passengers to the same part on a new vehicle
+        void relocate_passengers( const std::vector<player *> &passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
-        bool split_vehicles( std::vector<std::vector <int>> new_vehs, std::vector<vehicle *> new_vehicles,
-                             std::vector<std::vector <point>> new_mounts );
+        bool split_vehicles( const std::vector<std::vector <int>> &new_vehs,
+                             const std::vector<vehicle *> &new_vehicles,
+                             const std::vector<std::vector <point>> &new_mounts );
+        bool split_vehicles( const std::vector<std::vector <int>> &new_veh );
 
         /** Get handle for base item of part */
         item_location part_base( int p );
@@ -722,6 +733,13 @@ class vehicle
         void remove_remote_part( int part_num );
 
         void break_part_into_pieces( int p, int x, int y, bool scatter = false );
+        /**
+         * Yields a range containing all parts (including broken ones) that can be
+         * iterated over.
+         */
+        // @todo maybe not include broken ones? Have a separate function for that?
+        // @todo rename to just `parts()` and rename the data member to `parts_`.
+        vehicle_part_range get_parts() const;
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
         std::vector<int> parts_at_relative( int dx, int dy, bool use_cache = true ) const;
@@ -811,10 +829,18 @@ class vehicle
          *  @return part index or -1 if no part
          */
         int next_part_to_close( int p, bool outside = false ) const;
-
-        // returns indices of all parts in the vehicle with the given flag
-        std::vector<int> all_parts_with_feature( const std::string &feature, bool unbroken = true ) const;
-        std::vector<int> all_parts_with_feature( vpart_bitflags f, bool unbroken = true ) const;
+        /**
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are (optionally) unbroken.
+         * @param unbroken If `true`, only unbroken parts are considered, otherwise
+         * even broken parts are in the range.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> parts_with_feature( std::string feature,
+                bool unbroken = true ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> parts_with_feature( vpart_bitflags f,
+                bool unbroken = true ) const;
+        /**@}*/
 
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
@@ -832,6 +858,9 @@ class vehicle
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
         void coord_translate( int dir, const point &pivot, const point &p, point &q ) const;
+        // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
+        // should be faster than previous call for repeated translations
+        void coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const;
 
         // Rotates mount coordinates "p" from old_dir to new_dir along pivot
         point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;
@@ -842,7 +871,6 @@ class vehicle
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( int dx, int dy ) const;
         int global_part_at( int x, int y ) const;
-        int global_part_at( const tripoint &p ) const;
         int part_displayed_at( int local_x, int local_y ) const;
         int roof_at_part( int p ) const;
 
@@ -881,23 +909,14 @@ class vehicle
          * coordinate system that player::posx uses.
          * Global apparently means relative to the currently loaded map (game::m).
          * This implies:
-         * <code>g->m.veh_at(this->global_x(), this->global_y()) == this;</code>
+         * <code>g->m.veh_at(this->global_pos3()) == this;</code>
          */
-        int global_x() const;
-        int global_y() const;
-        point global_pos() const;
         tripoint global_pos3() const;
         /**
          * Get the coordinates of the studied part of the vehicle
          */
         tripoint global_part_pos3( const int &index ) const;
         tripoint global_part_pos3( const vehicle_part &pt ) const;
-        /**
-         * Really global absolute coordinates in map squares.
-         * This includes the overmap, the submap, and the map square.
-         */
-        point real_global_pos() const;
-        tripoint real_global_pos3() const;
         /**
          * All the fuels that are in all the tanks in the vehicle, nicely summed up.
          * Note that empty tanks don't count at all. The value is the amount as it would be
@@ -1264,8 +1283,6 @@ class vehicle
          */
         void open_all_at( int p );
 
-        // upgrades/refilling/etc. see veh_interact.cpp
-        void interact();
         // Honk the vehicle's horn, if there are any
         void honk_horn();
         void beeper_sound();
@@ -1314,8 +1331,6 @@ class vehicle
         bool has_engine_conflict( const vpart_info *possible_engine, std::string &conflict_type ) const;
         //returns true if the engine doesn't consume fuel
         bool is_perpetual_type( int e ) const;
-        //prints message relating to vehicle start failure
-        void msg_start_engine_fail();
         //if necessary, damage this engine
         void do_engine_damage( size_t p, int strain );
         //remotely open/close doors

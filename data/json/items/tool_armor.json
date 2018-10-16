@@ -1409,13 +1409,16 @@
         "material": ["plastic", "aluminum"],
         "weight" : 68,
         "volume": 1,
-        "to_hit" : -3,
+        "to_hit" : -1,
         "max_charges": 20,
         "initial_charges": 20,
         "charges_per_use": 1,
         "ammo": "battery",
         "use_action": "RADGLOVE",
-        "material_thickness" : 1
+        "covers": [ "HAND_EITHER" ],
+        "coverage": 5,
+        "material_thickness" : 1,
+        "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
     },
     {
         "type" : "ARMOR",

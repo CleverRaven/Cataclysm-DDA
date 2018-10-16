@@ -100,6 +100,14 @@ enum class rechargeable_cbm {
     furnace
 };
 
+enum class comfort_level {
+    uncomfortable = -999,
+    neutral = 0,
+    slightly_comfortable = 3,
+    comfortable = 5,
+    very_comfortable = 10
+};
+
 struct special_attack {
     std::string text;
     damage_instance damage;
@@ -513,8 +521,6 @@ class player : public Character
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Returns true if the current martial art ignores the current weapon and uses unarmed attacks instead. */
-        bool unarmed_override() const;
         /** Always returns false, since players can't dig currently */
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
@@ -743,7 +749,8 @@ class player : public Character
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part bp, int amount ) override;
+        void apply_damage( Creature *source, body_part bp, int amount,
+                           const bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -1126,7 +1133,9 @@ class player : public Character
         bool has_identified( const std::string &item_id ) const;
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
-        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        comfort_level base_comfort_value( const tripoint &p ) const;
+        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
@@ -1270,7 +1279,7 @@ class player : public Character
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
-        void place_corpse( tripoint om_target ); // put corpse+inventory on defined om tile
+        void place_corpse( const tripoint &om_target ); // put corpse+inventory on defined om tile
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
@@ -1409,6 +1418,11 @@ class player : public Character
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
 
+        // Hauling items on the ground
+        void start_hauling();
+        void stop_hauling();
+        bool is_hauling() const;
+
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
@@ -1450,6 +1464,7 @@ class player : public Character
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
+        bool hauling;
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
@@ -1637,6 +1652,10 @@ class player : public Character
          * Called when an item is taken off
          */
         void on_item_takeoff( const item &it ) override;
+        /**
+         * Called when an item is washed
+         */
+        void on_worn_item_washed( const item &it ) override;
         /**
          * Called when effect intensity has been changed
          */

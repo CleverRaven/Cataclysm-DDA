@@ -8,6 +8,12 @@
 #include <functional>
 #include <array>
 
+// Some of the RNG functions are based on an engine.
+// By default, that engine is seeded by time on first call to such a function.
+// If this function is called with a non-zero seed then the engine will be
+// seeded (or re-seeded) with the given seed.
+void rng_set_engine_seed( uintmax_t seed );
+
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
 bool one_in( int chance );

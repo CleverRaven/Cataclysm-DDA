@@ -2577,6 +2577,10 @@ bool player::load_template( const std::string &template_name, points_left &point
             if( jsin.end_array() ) {
                 return;
             }
+        } else {
+            points.stat_points = 0;
+            points.trait_points = 0;
+            points.skill_points = 0;
         }
 
         deserialize( jsin );

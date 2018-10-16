@@ -90,6 +90,9 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r ) {
+            return false;
+        }
         switch( key ) {
             case search_type::name:
                 return lcmatch( r->result_name(), txt );

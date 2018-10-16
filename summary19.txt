@@ -1,0 +1,100 @@
+Mods More snippet/flier entries for mods
+Balance Rebalances pepperbox, cap-and-ball ammunition
+Interface Vehicle part installation filter
+Bugfixes Makes identical snippets identical
+Interface Vehicle tanks as refill targets
+Bugfixes Book lock Fuzzy cat Items' recipes
+Bugfixes Use correct vehicle part weights
+Features Add Pry-ability to Coffins
+Build Delete testing.json
+Balance Update basement_guns.json
+Mods Batteries as magazines mod
+Interface Fix recipe search prefixes
+Interface Fix broken messages about required skills
+Interface Display engines (and faults) in vehicle overview
+Features Generic vehicle tanks (part 4)
+Interface Support selecting turret ammo
+Balance Unified item mods
+Balance Make windbreakers consistent with light jackets and real life
+Balance Added cartridges to conversion kits
+Balance Add pathfinding for selected monsters
+Interface Minor vehicle menu update
+Balance Adds paper to fletching options
+Balance Adds waterproof and rainproof to fur/leather cloaks
+Interface Add missed spaces
+Bugfixes Fix regression in flag inheritance
+Bugfixes Optional gunmod slot also needs to load mod slot
+I18N Allow json_flags to be translated
+Interface Change bookstore's overmap color
+Bugfixes Changed shotgun_sawn to shotgun_s in trapfunc.cpp and vehicle.cpp
+Interface Fix for missing borders in vehicle menu due to siphoning
+Bugfixes Base item is default context for skills
+Bugfixes Fix for UPS mod duplication
+Bugfixes fix for skills accumulation in scale_time function, issue #18595
+I18N Allow TOOLMODs to be translated
+Mods Changed the itemgroups in Icecoon's Weapons Pack
+Balance Minor rewrite: Tokarev magazine
+Build Fix ARM compilation issue was: [Makefile] Fix #18776
+Balance Add museum to tourist guide
+Balance Make handrolled cigs able to be disassembled
+Balance Standardized copper jacket material usage
+Features Ammo can be multiple types
+Interface Better handling of item categories
+Mods Deprecate improved survivor weapons mod
+Bugfixes Fix double blacklisting
+Features Remove stuck weapon penalty
+Interface Specify volumetric units via JSON
+Interface Include disassembly time in the confirm message
+Bugfixes Toolmod migration fixes
+Features Spawn bones when creatures made of bone are gibbed
+Interface Add name_plural for some alcohol types
+Interface Construction screen improvements
+Bugfixes Fix crash when undefined items have no category
+Bugfixes fix terrain glitching on crate opening
+Balance Updated RPG-7
+Balance Remove rock from makeshift shaving kit recipe
+Balance Removed loudness field from integral shotgun mods
+Interface A couple more plural forms
+Mods Fix noisy pebbles caused by Blazemod override
+Interface Minor enhancements to the mission window
+Balance Rewrites: 300 Weatherby
+Interface Reword Telescopic Eyes CBM description
+Interface M Shock tile_config updates
+Balance Added antique guns to safe
+Balance Added grip to AUG
+Bugfixes Fixed flamethrower bug
+Mods Itemgroup fix for Icecoon's Weapons Pack Fixes #18844
+Mods Updated the description of Icecoon's Weapons Pack
+Bugfixes fix wrong tag in json_flag.json
+Interface Option to skip frames when stunned
+Mods Fixes plant fiber recipe in More Survival Tools
+Balance Rebalance blackpowder loads, expand recipe options
+Bugfixes Fix bug introduced by fixing the construction menu
+Bugfixes fix construction screen crash)
+Interface Search unification
+Balance Makes curved needle recipe non-reversible
+Balance Correct the spread of missed ranged attacks.
+Interface Keep the crafting UI cursor in range after rebuilding the recipe list.
+Balance Add tonfa(s) to Krav Maga martial art.
+Interface User configurable volume units
+Bugfixes Don't change veh. part's direction when repairing
+Features Added automatic prying when [e]xamining on a locked door/window
+Features Pseudo-3D scentmap. Better z-level following
+Balance Added more cartridges to bandolier
+Balance Added PARTIAL_DEAF to powered armor
+Balance Minor unarmed update (xp gain fix and damage bonus)
+Balance No bang for BB
+Balance Rebalanced BB gun, BB and .22 CB
+I18N Display localized "Really quit?" string in main menu
+Bugfixes Fix incorrect placeholder type in newcharacter.cpp
+Mods Black powder consistency fix for Medieval Mod
+Bugfixes fix washer and dryer spawning in wall
+Bugfixes Special case potential pathfinding crash
+Interface Attempted to fix recipe search to prevent exclusion of plural items
+Bugfixes Fixed advanced inventory not opening unresealable containers.
+Balance Changing vehicle jack stats across the board
+Bugfixes squares_closer_to should not ever return 'from'
+Balance Add integrated bayonets to sks.
+Balance Changes to Bionic Survivalist.
+Infrastructure Necropolis place_items to place_loot Pt1
+Balance Add spam to some recipes

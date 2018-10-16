@@ -318,6 +318,7 @@ struct mtype {
         bool has_flag( m_flag flag ) const;
         bool has_flag( const std::string &flag ) const;
         bool made_of( const material_id &material ) const;
+        bool made_of_any( const std::set<material_id> &materials ) const;
         void set_flag( const std::string &flag, bool state );
         bool has_anger_trigger( monster_trigger trigger ) const;
         bool has_fear_trigger( monster_trigger trigger ) const;

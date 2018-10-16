@@ -722,7 +722,8 @@ struct itype {
         std::string snippet_category;
         std::string description; // Flavor text
 
-        std::string default_container = "null"; // The container it comes in
+        // The container it comes in
+        cata::optional<itype_id> default_container;
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;

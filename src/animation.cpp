@@ -7,6 +7,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "player.h"
+#include "popup.h"
 #ifdef TILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
@@ -31,10 +32,12 @@ class basic_animation
         }
 
         void draw() const {
-            auto window = create_wait_popup_window( _( "Hang on a bit..." ) );
-
             wrefresh( g->w_terrain );
-            wrefresh( window );
+
+            query_popup()
+            .wait_message( "%s", _( "Hang on a bit..." ) )
+            .on_top( true )
+            .show();
 
             refresh_display();
         }
@@ -95,6 +98,14 @@ tripoint relative_view_pos( player const &u, int const x, int const y, int const
 tripoint relative_view_pos( player const &u, tripoint const &p ) noexcept
 {
     return relative_view_pos( u, p.x, p.y, p.z );
+}
+
+// Convert p to screen position relative to the current terrain view
+static tripoint relative_view_pos( game const &g, tripoint const &p ) noexcept
+{
+    return { POSX + p.x - g.ter_view_x,
+             POSY + p.y - g.ter_view_y,
+             p.z - g.ter_view_z };
 }
 
 void draw_explosion_curses( game &g, const tripoint &center, int const r, nc_color const col )
@@ -585,6 +596,21 @@ void game::draw_line( const tripoint &p, std::vector<tripoint> const &vPoint )
     ( void )p; //unused
 
     draw_line_curses( *this, vPoint );
+}
+#endif
+
+#if defined(TILES)
+void game::draw_cursor( const tripoint &p )
+{
+    tripoint const rp = relative_view_pos( *this, p );
+    mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
+    tilecontext->init_draw_cursor( p );
+}
+#else
+void game::draw_cursor( const tripoint &p )
+{
+    tripoint const rp = relative_view_pos( *this, p );
+    mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
 }
 #endif
 

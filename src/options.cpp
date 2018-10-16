@@ -142,7 +142,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
 //add string select option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
+                           const std::vector<std::pair<std::string, std::string>> &sItemsIn, std::string sDefaultIn,
                            copt_hide_t opt_hide )
 {
     cOpt thisOpt;
@@ -349,11 +349,11 @@ std::string options_manager::cOpt::getPrerequisite() const
 
 bool options_manager::cOpt::hasPrerequisite() const
 {
-    if( sPrerequisite.empty() ) {
+    if( !sPrerequisite.empty() ) {
         return true;
     }
 
-    return ::get_option<bool>( sPrerequisite );
+    return false;
 }
 
 //helper functions
@@ -949,18 +949,33 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
-         translate_marker( "If true, enables auto pulping resurrecting corpses or auto butchering any corpse.  Never pulps acidic corpses.  Disabled as long as any enemy monster is seen." ),
+    add( "AUTO_FEATURES", "general", translate_marker( "Additional auto features" ),
+         translate_marker( "If true, enables configured auto features below.  Disabled as long as any enemy monster is seen." ),
          false
        );
 
-    add( "AUTO_PULP_BUTCHER_ACTION", "general", translate_marker( "Auto pulp or butcher action" ),
+    add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
-    "butcher"
+    { { "off", translate_marker( "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    "off"
        );
 
-    get_option( "AUTO_PULP_BUTCHER_ACTION" ).setPrerequisite( "AUTO_PULP_BUTCHER" );
+    get_option( "AUTO_PULP_BUTCHER" ).setPrerequisite( "AUTO_FEATURES" );
+
+    add( "AUTO_MINING", "general", translate_marker( "Auto mining" ),
+         translate_marker( "If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain." ),
+         false
+       );
+
+    get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
+
+    add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
+         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Both: Forage bushes and trees." ),
+    { { "off", translate_marker( "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Both" ) } },
+    "off"
+       );
+
+    get_option( "AUTO_FORAGING" ).setPrerequisite( "AUTO_FEATURES" );
 
     mOptionsSort["general"]++;
 
@@ -1050,13 +1065,6 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add( "AUTO_MINING", "general", translate_marker( "Automatic mining" ),
-         translate_marker( "If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain." ),
-         true
-       );
-
-    mOptionsSort["general"]++;
-
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
          translate_marker( "If true, music and sound are enabled." ),
          true, COPT_NO_SOUND_HIDE
@@ -1096,7 +1104,7 @@ void options_manager::init()
         { "es_AR", R"( Español ( Argentina ) )" },
         { "es_ES", R"( Español ( España ) )" },
         { "fr", R"( Français )" },
-        { "hu", R"( magyar nyelv )"},
+        { "hu", R"( Magyar )"},
         { "ja", R"( 日本語 )" },
         { "ko", R"( 한국어 )" },
         { "pl", R"( Polski )" },
@@ -1108,14 +1116,15 @@ void options_manager::init()
     mOptionsSort["interface"]++;
 
     add( "USE_CELSIUS", "interface", translate_marker( "Temperature units" ),
-         translate_marker( "Switch between Celsius and Fahrenheit." ),
-    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) } },
+         translate_marker( "Switch between Celsius, Fahrenheit and Kelvin." ),
+    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) }, { "kelvin", translate_marker( "Kelvin" ) } },
     "fahrenheit"
        );
 
     add( "USE_METRIC_SPEEDS", "interface", translate_marker( "Speed units" ),
-         translate_marker( "Switch between km/h and mph." ),
-    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) } }, "mph"
+         translate_marker( "Switch between mph, km/h and tiles/turn." ),
+    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) }, { "t/t", translate_marker( "tiles/turn" ) } },
+    "mph"
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", translate_marker( "Mass units" ),
@@ -1354,12 +1363,7 @@ void options_manager::init()
 
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
          translate_marker( "If true, replaces some TTF rendered text with tiles." ),
-#ifdef __ANDROID__
-         android_get_default_setting( "Use tiles", false ),
-         COPT_CURSES_HIDE // take default setting from pre-game settings screen - important as many devices lack memory to run with tiles
-#else
          true, COPT_CURSES_HIDE
-#endif
        );
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
@@ -2127,6 +2131,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
             bool hasPrerequisite = current_opt.hasPrerequisite();
+            bool prerequisiteEnabled = !hasPrerequisite ||
+                                       cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
 
             line_pos = i - iStartPos;
 
@@ -2141,9 +2147,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             }
 
             const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
-            mvwprintz( w_options, line_pos, name_col + 3, hasPrerequisite ? c_white : c_light_gray, name );
+            mvwprintz( w_options, line_pos, name_col + 3, !hasPrerequisite ||
+                       prerequisiteEnabled ? c_white : c_light_gray, name );
 
-            if( !hasPrerequisite ) {
+            if( hasPrerequisite && !prerequisiteEnabled ) {
                 cLineColor = c_light_gray;
 
             } else if( current_opt.getValue() == "false" ) {
@@ -2241,8 +2248,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         }
 
         cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
+        bool hasPrerequisite = current_opt.hasPrerequisite();
+        bool prerequisiteEnabled = !hasPrerequisite ||
+                                   cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
 
-        if( !current_opt.hasPrerequisite() &&
+        if( hasPrerequisite && !prerequisiteEnabled &&
             ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
             popup( _( "Prerequisite for this option not met!\n(%s)" ),
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
