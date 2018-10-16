@@ -73,7 +73,8 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
-    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text;
+    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
+                                << text << std::flush;
 
     std::string msg_key( filename );
     msg_key += line;
