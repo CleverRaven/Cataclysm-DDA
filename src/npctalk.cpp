@@ -2468,6 +2468,11 @@ conditional_t::conditional_t( JsonObject jo )
             } );
             return !available.empty();
         };
+    } else if( jo.has_int( "npc_allies" ) ) {
+        const unsigned long min_allies = jo.get_int( "npc_allies" );
+        condition = [min_allies]( const dialogue & ) {
+            return g->allies().size() >= min_allies;
+        };
     } else if( jo.has_int( "npc_service" ) ) {
         const unsigned long service_price = jo.get_int( "npc_service" );
         condition = [service_price]( const dialogue & d ) {
