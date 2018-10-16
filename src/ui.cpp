@@ -726,7 +726,7 @@ void uimenu::show()
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
                     const auto centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) : entries[ ei ].ctxt );
-                    trim_and_print( window, estart + si, pad_left + 4 + max_entry_len + 2,
+                    trim_and_print( window, estart + si, getmaxx( window ) - max_column_len - 2,
                                     max_column_len, co, "%s", centry.c_str() );
                 }
             }
