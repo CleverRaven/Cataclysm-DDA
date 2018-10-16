@@ -1574,8 +1574,8 @@ int topic_category( const talk_topic &the_topic )
 
 void talk_function::start_camp( npc &p )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
+    const tripoint omt_pos = p.global_omt_location();
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
     if( omt_ref.id() != "field" ){
         popup( _("You must build your camp in an empty field.") );
@@ -1642,7 +1642,7 @@ void talk_function::start_camp( npc &p )
     }
 
     editmap edit;
-    if (!edit.mapgen_set( "faction_base_camp_0", tripoint(omt_pos.x, omt_pos.y, p.posz() ) ) ){
+    if (!edit.mapgen_set( "faction_base_camp_0", omt_pos) ){
         popup( _("You weren't able to survey the camp site.") );
         return;
     }
@@ -1651,8 +1651,8 @@ void talk_function::start_camp( npc &p )
 
 void talk_function::recover_camp( npc &p )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
+    const tripoint omt_pos = p.global_omt_location();
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     if( !om_min_level( "faction_base_camp_0", omt_ref.id().c_str() ) ){
         popup( _("There is no faction camp here to recover!") );
         return;
@@ -2450,8 +2450,9 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_string( "u_at_om_location" ) ) {
         const std::string &location = jo.get_string( "u_at_om_location" );
         condition = [location]( const dialogue & d ) {
-            const point omt_pos = ms_to_omt_copy( g->m.getabs( d.alpha->posx(), d.alpha->posy() ) );
-            oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, d.alpha->posz() );
+            const tripoint omt_pos = d.alpha->global_omt_location();
+            oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+
             if( location == "FACTION_CAMP_ANY" ) {
                 return talk_function::om_min_level( "faction_base_camp_1", omt_ref.id().c_str() );
             } else {

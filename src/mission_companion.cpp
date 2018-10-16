@@ -1809,12 +1809,11 @@ std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p,
                                const std::string &id, bool contains )
 {
     std::vector<std::shared_ptr<npc>> available;
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
+    const tripoint omt_pos = p.global_omt_location();
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
-        if( c_mission.position == tripoint( omt_pos.x, omt_pos.y, p.posz() ) &&
+        if( c_mission.position == omt_pos &&
             c_mission.mission_id == id && c_mission.role_id == p.companion_mission_role_id ) {
-
             available.push_back( elem );
         } else if( contains && c_mission.mission_id.find( id ) != std::string::npos ) {
             available.push_back( elem );
@@ -1982,15 +1981,13 @@ npc *talk_function::companion_choose_return( const npc &p, const std::string &id
         const time_point &deadline )
 {
     std::vector<npc *> available;
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
+    const tripoint omt_pos = p.global_omt_location();
     for( const auto &guy : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
-        if( c_mission.position != tripoint( omt_pos.x, omt_pos.y, p.posz() ) ||
+        if( c_mission.position != omt_pos ||
             c_mission.mission_id != id || c_mission.role_id != p.companion_mission_role_id ) {
-
             continue;
         }
-
         if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
             available.push_back( guy.get() );
         } else if( deadline == calendar::before_time_starts ) {
