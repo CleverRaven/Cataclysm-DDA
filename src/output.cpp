@@ -62,7 +62,7 @@ extern bool use_tiles;
 extern bool test_mode;
 
 // utf8 version
-std::vector<std::string> foldstring( std::string str, int width )
+std::vector<std::string> foldstring( std::string str, int width, const char split )
 {
     std::vector<std::string> lines;
     if( width < 1 ) {
@@ -73,7 +73,7 @@ std::vector<std::string> foldstring( std::string str, int width )
     std::string strline;
     std::vector<std::string> tags;
     while( std::getline( sstr, strline, '\n' ) ) {
-        std::string wrapped = word_rewrap( strline, width );
+        std::string wrapped = word_rewrap( strline, width, split );
         std::stringstream swrapped( wrapped );
         std::string wline;
         while( std::getline( swrapped, wline, '\n' ) ) {
@@ -156,7 +156,9 @@ std::string remove_color_tags( const std::string &s )
 void print_colored_text( const catacurses::window &w, int y, int x, nc_color &color,
                          nc_color base_color, const std::string &text )
 {
-    wmove( w, y, x );
+    if( y > -1 && x > -1 ) {
+        wmove( w, y, x );
+    }
     const auto color_segments = split_by_color( text );
     for( auto seg : color_segments ) {
         if( seg.empty() ) {
@@ -249,11 +251,11 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
 
 // returns number of printed lines
 int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
-                    nc_color base_color, const std::string &text )
+                    nc_color base_color, const std::string &text, const char split )
 {
     nc_color color = base_color;
     std::vector<std::string> textformatted;
-    textformatted = foldstring( text, width );
+    textformatted = foldstring( text, width, split );
     for( int line_num = 0; ( size_t )line_num < textformatted.size(); line_num++ ) {
         print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
@@ -1036,7 +1038,7 @@ std::vector<size_t> get_tag_positions( const std::string &s )
 }
 
 // utf-8 version
-std::string word_rewrap( const std::string &in, int width )
+std::string word_rewrap( const std::string &in, int width, const uint32_t split )
 {
     std::ostringstream o;
 
@@ -1081,7 +1083,7 @@ std::string word_rewrap( const std::string &in, int width )
 
         x += mk_wcwidth( uc );
 
-        if( uc == ' ' || uc >= 0x2E80 ) { // space or CJK characters
+        if( uc == split || uc >= 0x2E80 ) { // param split (default ' ') or CJK characters
             if( x <= width ) {
                 lastwb = j; // break after character
             } else {
@@ -1590,26 +1592,30 @@ size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt )
 {
+    std::string text = shortcut_text( shortcut_color, fmt );
+    print_colored_text( w, -1, -1, text_color, text_color, text.c_str() );
+
+    return utf8_width( remove_color_tags( text ) );
+}
+
+//generate colorcoded shortcut text
+std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
+{
     size_t pos = fmt.find_first_of( '<' );
     size_t pos_end = fmt.find_first_of( '>' );
-    size_t sep = std::min( fmt.find_first_of( '|', pos ), pos_end );
-    size_t len = 0;
     if( pos_end != std::string::npos && pos < pos_end ) {
+        size_t sep = std::min( fmt.find_first_of( '|', pos ), pos_end );
         std::string prestring = fmt.substr( 0, pos );
         std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
-        wprintz( w, text_color, prestring );
-        wprintz( w, shortcut_color, shortcut );
-        wprintz( w, text_color, poststring );
-        len = utf8_width( prestring.c_str() );
-        len += utf8_width( shortcut.c_str() );
-        len += utf8_width( poststring.c_str() );
-    } else {
-        // no shortcut?
-        wprintz( w, text_color, fmt );
-        len = utf8_width( fmt.c_str() );
+
+        return string_format( "%s<color_%s>%s</color>%s", prestring,
+                              string_from_color( shortcut_color ).c_str(),
+                              shortcut, poststring );
     }
-    return len;
+
+    // no shortcut?
+    return fmt;
 }
 
 std::pair<std::string, nc_color> const &

@@ -47,25 +47,27 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
                                   const std::vector<std::string> &vItems,
                                   size_t iSel, int iOffsetY, int iOffsetX, int spacing )
 {
-    wmove( w_in, iOffsetY, iOffsetX );
+    std::string text = "";
     for( size_t i = 0; i < vItems.size(); ++i ) {
-        nc_color text_color;
-        nc_color key_color;
-        if( iSel == i ) {
-            text_color = h_white;
-            key_color = h_white;
-        } else {
-            text_color = c_light_gray;
-            key_color = c_white;
+        if( i > 0 ) {
+            text += std::string( spacing, ' ' );
         }
-        wprintz( w_in, c_light_gray, "[" );
-        shortcut_print( w_in, text_color, key_color, vItems[i] );
-        wprintz( w_in, c_light_gray, "]" );
-        // Don't print spaces after last item.
-        if( i != ( vItems.size() - 1 ) ) {
-            wprintz( w_in, c_light_gray, std::string( spacing, ' ' ).c_str() );
+
+        std::string temp = shortcut_text( c_white, vItems[i] );
+        if( iSel == i ) {
+            text += string_format( "[<color_%s>%s</color>]",
+                                   string_from_color( h_white ),
+                                   remove_color_tags( temp ) );
+        } else {
+            text += string_format( "[%s]", temp );
         }
     }
+
+    if( utf8_width( remove_color_tags( text ) ) > getmaxx( w_in ) ) {
+        iOffsetY -= std::ceil( utf8_width( remove_color_tags( text ) ) / getmaxx( w_in ) );
+    }
+
+    fold_and_print( w_in, iOffsetY, iOffsetX, getmaxx( w_in ), c_light_gray, text, ']' );
 }
 
 void main_menu::print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,

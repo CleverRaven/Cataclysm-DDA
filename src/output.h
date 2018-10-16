@@ -158,7 +158,7 @@ std::string remove_color_tags( const std::string &text );
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
-std::vector<std::string> foldstring( std::string str, int width );
+std::vector<std::string> foldstring( std::string str, int width, const char split = ' ' );
 
 /**
  * Print text with embedded @ref color_tags, x, y are in curses system.
@@ -202,11 +202,12 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * defeats the purpose of using `foldstring`.
  * @param color The initially used color. This can be overridden using color tags.
  * @param mes Actual message to print
+ * @param split Character after string is folded
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
  */
 int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
-                    nc_color color, const std::string &mes );
+                    nc_color color, const std::string &mes, const char split = ' ' );
 /**
  * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
@@ -315,7 +316,7 @@ void draw_border( const catacurses::window &w, nc_color border_color = BORDER_CO
                   const std::string &title = "", nc_color title_color = c_light_red );
 void draw_tabs( const catacurses::window &w, int active_tab, ... );
 
-std::string word_rewrap( const std::string &ins, int width );
+std::string word_rewrap( const std::string &ins, int width, const uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
@@ -477,6 +478,7 @@ size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
+std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
