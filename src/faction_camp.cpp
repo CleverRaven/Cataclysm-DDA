@@ -786,31 +786,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     }
 
     if( cur_key.id == "Upgrade Camp" ) {
-        const recipe *making = &recipe_id( bldg ).obj();
-        //Stop upgrade if you don't have materials
-        inventory total_inv = g->u.crafting_inventory();
-        if( making->requirements().can_make_with_inventory( total_inv, 1 ) ) {
-            std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_upgrade_camp" );
-            int need_food = time_to_food( time_duration::from_turns( making->time / 100 ) );
-            if( camp_food_supply() < need_food && bldg != "faction_base_camp_1" ) {
-                popup( _( "You don't have enough food stored to feed your companion." ) );
-            } else if( npc_list.empty() ) {
-                npc *comp = individual_mission( p, _( "begins to upgrade the camp..." ), "_faction_upgrade_camp",
-                                                false, {},
-                                                making->skill_used.obj().ident().c_str(), making->difficulty );
-                if( comp != nullptr ) {
-                    comp->companion_mission_time_ret = calendar::turn + time_duration::from_turns(
-                                                           making->time / 100 ) ;
-                    g->u.consume_components_for_craft( making, 1, true );
-                    g->u.invalidate_crafting_inventory();
-                    camp_food_supply( -need_food );
-                }
-            } else {
-                popup( _( "You already have a companion upgrading the camp." ) );
-            }
-        } else {
-            popup( _( "You don't have the materials for the upgrade." ) );
-        }
+        start_camp_upgrade( p, bldg );
     } else if( cur_key.id == "Recover Ally from Upgrading" ) {
         upgrade_return( p, omt_pos, "_faction_upgrade_camp" );
     }
@@ -860,56 +836,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     }
 
     if( cur_key.id == "Cut Logs" ) {
-        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_cut_log" );
-        std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water" };
-        popup( _( "Forests and swamps are the only valid cutting locations." ) );
-        tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
-        if( forest != tripoint( -999, -999, -999 ) ) {
-            int tree_est = om_harvest_trees( p, forest, .50, false, false );
-            int tree_young_est = om_harvest_ter( p, forest, ter_id( "t_tree_young" ), .50, false );
-            int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
-            //Very roughly what the player does + 6 hours for prep, clean up, breaks
-            time_duration chop_time = 6_hours + ( 1_hours * tree_est ) + ( 7_minutes * tree_young_est );
-            //Generous to believe the NPC can move ~ 2 logs or ~8 heavy sticks (3 per young tree?) per trip, each way is 1 trip
-            // 20 young trees => ~60 sticks which can be carried 8 at a time, so 8 round trips or 16 trips total
-            //This all needs to be in an om_carry_weight_over_distance function eventually...
-            int trips = tree_est + ( tree_young_est * ( 3 / 8 ) * 2 );
-            //Alwasy have to come back so no odd number of trips
-            trips = ( trips % 2 == 0 ) ? trips : ( trips + 1 );
-            time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
-            time_duration work_time = travel_time + chop_time;
-            int need_food = time_to_food( work_time );
-            if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, chop_time, travel_time,
-                           dist, trips, need_food ) ) ) {
-                return false;
-            } else if( camp_food_supply() < need_food ) {
-                popup( _( "You don't have enough food stored to feed your companion." ) );
-            } else if( npc_list.empty() ) {
-                g->draw_ter();
-                //wrefresh( g->w_terrain );
-                npc *comp = individual_mission( p, _( "departs to cut logs..." ), "_faction_camp_cut_log", false, {},
-                                                "fabrication", 2 );
-                if( comp != nullptr ) {
-                    om_harvest_trees( *comp, forest, .50, true, true );
-                    om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), .50, true );
-                    om_harvest_itm( *comp, forest, .75, true );
-                    comp->companion_mission_time_ret = calendar::turn + work_time;
-                    camp_food_supply( -need_food );
-
-                    //If we cleared a forest...
-                    tree_est = om_harvest_trees( p, forest, .50, false, false );
-                    if( tree_est < 20 ) {
-                        oter_id &omt_trees = overmap_buffer.ter( forest );
-                        //Do this for swamps "forest_wet" if we have a swamp without trees...
-                        if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
-                            omt_trees = oter_id( "field" );
-                        }
-                    }
-                }
-            } else {
-                popup( _( "There are too many companions working on this mission!" ) );
-            }
-        }
+        start_cut_logs( p );
     } else if( cur_key.id == "Recover Log Cutter" ) {
         npc *comp = companion_choose_return( p, "_faction_camp_cut_log", calendar::before_time_starts );
         if( comp != nullptr ) {
@@ -919,46 +846,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     }
 
     if( cur_key.id == "Setup Hide Site" ) {
-        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
-        std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water", "field" };
-        popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
-        tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
-        if( forest != tripoint( -999, -999, -999 ) ) {
-            int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
-            inventory tgt_inv = g->u.inv;
-            std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
-                return !itm.can_revive();
-            } );
-            if( !pos_inv.empty() ) {
-                std::vector<item *> losing_equipment = individual_mission_give_equipment( pos_inv );
-                int trips = om_carry_weight_to_trips( p, losing_equipment ) * 2;
-                trips = ( trips % 2 == 0 ) ? trips : ( trips + 1 );
-                time_duration build_time = 6_hours;
-                time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
-                time_duration work_time = travel_time + build_time;
-                int need_food = time_to_food( work_time );
-                if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, build_time, travel_time,
-                               dist, trips, need_food ) ) ) {
-                    return false;
-                } else if( camp_food_supply() < need_food ) {
-                    popup( _( "You don't have enough food stored to feed your companion." ) );
-                } else if( npc_list.empty() ) {
-
-                    npc *comp = individual_mission( p, _( "departs to build a hide site..." ),
-                                                    "_faction_camp_hide_site", false,
-                                                    {}, "survival", 3 );
-                    if( comp != nullptr ) {
-                        comp->companion_mission_time_ret = calendar::turn + work_time;
-                        om_set_hide_site( *comp, forest, losing_equipment );
-                        camp_food_supply( -need_food );
-                    }
-                } else {
-                    popup( _( "There are too many companions working on this mission!" ) );
-                }
-            } else {
-                popup( _( "You need equipment to setup a hide site..." ) );
-            }
-        }
+        start_setup_hide_site( p );
     } else if( cur_key.id == "Recover Hide Setup" ) {
         npc *comp = companion_choose_return( p, "_faction_camp_hide_site", calendar::before_time_starts );
         if( comp != nullptr ) {
@@ -968,65 +856,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     }
 
     if( cur_key.id == "Relay Hide Site" ) {
-        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_trans" );
-        std::vector<std::string> hide_locations = { "faction_hide_site_0" };
-        popup( _( "You must select an existing hide site." ) );
-        tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
-        if( forest != tripoint( -999, -999, -999 ) ) {
-            int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
-            inventory tgt_inv = g->u.inv;
-            std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
-                return !itm.can_revive();
-            } );
-            std::vector<item *> losing_equipment;
-            if( !pos_inv.empty() ) {
-                losing_equipment = individual_mission_give_equipment( pos_inv );
-            }
-
-            //Check items in improvised shelters at hide site
-            tinymap target_bay;
-            target_bay.load( forest.x * 2, forest.y * 2, forest.z, false );
-            std::vector<item *> hide_inv;
-            for( item &i : target_bay.i_at( 11, 10 ) ) {
-                hide_inv.push_back( &i );
-            }
-            std::vector<item *> gaining_equipment;
-            if( !hide_inv.empty() ) {
-                gaining_equipment = individual_mission_give_equipment( hide_inv, _( "Bring gear back?" ) );
-            }
-            if( !losing_equipment.empty() || !gaining_equipment.empty() ) {
-                //Only get charged the greater trips since return is free for both
-                int trips = om_carry_weight_to_trips( p, losing_equipment ) * 2;
-                int trips_return = om_carry_weight_to_trips( p, gaining_equipment ) * 2;
-                if( trips < trips_return ) {
-                    trips = trips_return;
-                }
-                trips = ( trips % 2 == 0 ) ? trips : ( trips + 1 );
-                time_duration build_time = 6_hours;
-                time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
-                time_duration work_time = travel_time + build_time;
-                int need_food = time_to_food( work_time );
-                if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, build_time, travel_time,
-                               dist, trips, need_food ) ) ) {
-                    return false;
-                } else if( camp_food_supply() < need_food ) {
-                    popup( _( "You don't have enough food stored to feed your companion." ) );
-                } else if( npc_list.empty() ) {
-
-                    npc *comp = individual_mission( p, _( "departs for the hide site..." ), "_faction_camp_hide_site",
-                                                    false, {}, "survival", 3 );
-                    if( comp != nullptr ) {
-                        comp->companion_mission_time_ret = calendar::turn + work_time;
-                        om_set_hide_site( *comp, forest, losing_equipment, gaining_equipment );
-                        camp_food_supply( -need_food );
-                    }
-                } else {
-                    popup( _( "There are too many companions working on this mission!" ) );
-                }
-            } else {
-                popup( _( "You need equipment to transport between the hide site..." ) );
-            }
-        }
+        start_relay_hide_site( p );
     } else if( cur_key.id == "Recover Hide Transport" ) {
         npc *comp = companion_choose_return( p, "_faction_camp_hide_trans", calendar::before_time_starts );
         if( comp != nullptr ) {
@@ -1036,150 +866,14 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     }
 
     if( cur_key.id == "Construct Map Fortifications" || cur_key.id == "Construct Spiked Trench" ) {
-        std::vector<std::string> allowed_locations = { "forest", "forest_thick", "forest_water", "field",
-                                                       "faction_wall_level_N_0", "faction_wall_level_E_0", "faction_wall_level_S_0", "faction_wall_level_W_0",
-                                                       "faction_wall_level_N_1", "faction_wall_level_E_1", "faction_wall_level_S_1", "faction_wall_level_W_1"
-                                                     };
+        std::string bldg_exp = "faction_wall_level_N_0";
         if( cur_key.id == "Construct Spiked Trench" ) {
-            allowed_locations = { "faction_wall_level_N_0", "faction_wall_level_E_0", "faction_wall_level_S_0", "faction_wall_level_W_0",
-                                  "faction_wall_level_N_1", "faction_wall_level_E_1", "faction_wall_level_S_1", "faction_wall_level_W_1"
-                                };
+            bldg_exp = "faction_wall_level_N_1";
         }
-
-        popup( _( "Select a start and end point.  Line must be straight. Fields, forests, and swamps are valid fortification locations."
-                  "  In addition to existing fortification constructions." ) );
-        tripoint start = om_target_tile( omt_pos, 2, 90, allowed_locations );
-        popup( _( "Select an end point." ) );
-        tripoint stop = om_target_tile( omt_pos, 2, 90, allowed_locations, true, false, start );
-        if( start != tripoint( -999, -999, -999 ) && stop != tripoint( -999, -999, -999 ) ) {
-            std::string bldg_exp = "faction_wall_level_N_0";
-            if( cur_key.id == "Construct Spiked Trench" ) {
-                bldg_exp = "faction_wall_level_N_1";
-            }
-            const recipe *making = &recipe_id( bldg_exp ).obj();
-            inventory total_inv = g->u.crafting_inventory();
-            bool change_x = ( start.x != stop.x );
-            bool change_y = ( start.y != stop.y );
-            if( change_x && change_y ) {
-                popup( "Construction line must be straight!" );
-                return false;
-            }
-            std::vector<tripoint> fortify_om;
-            if( ( change_x && stop.x < start.x ) || ( change_y && stop.y < start.y ) ) {
-                //line_to doesn't include the origin point
-                fortify_om.push_back( stop );
-                std::vector<tripoint> tmp_line = line_to( stop, start, 0 );
-                fortify_om.insert( fortify_om.end(), tmp_line.begin(), tmp_line.end() );
-            } else {
-                fortify_om.push_back( start );
-                std::vector<tripoint> tmp_line = line_to( start, stop, 0 );
-                fortify_om.insert( fortify_om.end(), tmp_line.begin(), tmp_line.end() );
-            }
-            int trips = 0;
-            time_duration build_time = 0_hours;
-            time_duration travel_time = 0_hours;
-            int dist = 0;
-            for( auto fort_om : fortify_om ) {
-                bool valid = false;
-                oter_id &omt_ref = overmap_buffer.ter( fort_om );
-                for( auto pos_om : allowed_locations ) {
-                    if( omt_ref.id().c_str() == pos_om ) {
-                        valid = true;
-                    }
-                }
-
-                if( !valid ) {
-                    popup( _( "Invalid terrain in construction path." ) );
-                    return false;
-                }
-                trips += 2;
-                build_time += time_duration::from_turns( making->time / 100 );
-                travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, trips );
-                dist += rl_dist( fort_om.x, fort_om.y, omt_pos.x, omt_pos.y );
-            }
-            time_duration total_time = travel_time + build_time;
-            int need_food = time_to_food( total_time );
-            if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
-                           travel_time, dist, trips, need_food ) ) ) {
-                return false;
-            } else if( !making->requirements().can_make_with_inventory( total_inv,
-                       ( fortify_om.size() * 2 ) - 2 ) ) {
-                popup( _( "You don't have the material to build the fortification." ) );
-            } else if( camp_food_supply() < need_food ) {
-                popup( _( "You don't have enough food stored to feed your companion." ) );
-            } else {
-                npc *comp = individual_mission( p, _( "begins constructing fortifications..." ),
-                                                "_faction_camp_om_fortifications", false, {},
-                                                making->skill_used.obj().ident().c_str(), making->difficulty );
-                if( comp != nullptr ) {
-                    g->u.consume_components_for_craft( making, ( fortify_om.size() * 2 ) - 2, true );
-                    g->u.invalidate_crafting_inventory();
-                    camp_food_supply( -need_food );
-                    companion_skill_trainer( *comp, "construction", build_time, 2 );
-                    comp->companion_mission_time_ret = calendar::turn + total_time;
-                    comp->companion_mission_role_id = bldg_exp;
-                    for( auto pt : fortify_om ) {
-                        comp->companion_mission_points.push_back( pt );
-                    }
-                }
-            }
-        }
+        start_fortifications( bldg_exp, p );
     } else if( cur_key.id == "Finish Map Fortifications" ) {
-        npc *comp = companion_choose_return( p, "_faction_camp_om_fortifications",
-                                             calendar::before_time_starts );
-        if( comp != nullptr ) {
-            popup( _( "%s returns from constructing fortifications..." ), comp->name.c_str() );
-            editmap edit;
-            bool build_dir_NS = ( comp->companion_mission_points[0].y != comp->companion_mission_points[1].y );
-            //Ensure all tiles are generated before putting fences/trenches down...
-            for( auto pt : comp->companion_mission_points ) {
-                if( MAPBUFFER.lookup_submap( om_to_sm_copy( pt ) ) == NULL ) {
-                    oter_id &omt_test = overmap_buffer.ter( pt );
-                    std::string om_i = omt_test.id().c_str();
-                    //The thick forests will gen harsh boundries since it won't recognize these tiles when they become fortifications
-                    if( om_i == "forest_thick" ) {
-                        om_i = "forest";
-                    }
-                    edit.mapgen_set( om_i, pt, false );
-                }
-            }
-            //Add fences
-            auto build_point = comp->companion_mission_points;
-            for( size_t pt = 0; pt < build_point.size(); pt++ ) {
-                //First point is always at top or west since they are built in a line and sorted
-                std::string build_n = "faction_wall_level_N_0";
-                std::string build_e = "faction_wall_level_E_0";
-                std::string build_s = "faction_wall_level_S_0";
-                std::string build_w = "faction_wall_level_W_0";
-                if( comp->companion_mission_role_id == "faction_wall_level_N_1" ) {
-                    build_n = "faction_wall_level_N_1";
-                    build_e = "faction_wall_level_E_1";
-                    build_s = "faction_wall_level_S_1";
-                    build_w = "faction_wall_level_W_1";
-                }
-                if( pt == 0 ) {
-                    if( build_dir_NS ) {
-                        edit.mapgen_set( build_s, build_point[pt] );
-                    } else {
-                        edit.mapgen_set( build_e, build_point[pt] );
-                    }
-                } else if( pt == build_point.size() - 1 ) {
-                    if( build_dir_NS ) {
-                        edit.mapgen_set( build_n, build_point[pt] );
-                    } else {
-                        edit.mapgen_set( build_w, build_point[pt] );
-                    }
-                } else if( build_dir_NS ) {
-                    edit.mapgen_set( build_n, build_point[pt] );
-                    edit.mapgen_set( build_s, build_point[pt] );
-                } else {
-                    edit.mapgen_set( build_e, build_point[pt] );
-                    edit.mapgen_set( build_w, build_point[pt] );
-                }
-            }
-            comp->companion_mission_role_id.clear();
-            companion_return( *comp );
-        }
+
+        camp_fortifications_return( p );
     }
 
     if( cur_key.id == "Recruit Companions" ) {
@@ -1197,95 +891,23 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         } else {
             popup( _( "There are too many companions working on this mission!" ) );
         }
-    }
-
-    if( cur_key.id == "Recover Recruiter" ) {
+    } else if( cur_key.id == "Recover Recruiter" ) {
         camp_recruit_return( p, "_faction_camp_recruit_0", atoi( camp_recruit_evaluation( p, om_cur,
                              om_expansions, true ).c_str() ) );
     }
 
     if( cur_key.id == "Scout Mission" || cur_key.id == "Combat Patrol" ) {
-        std::string mission_t = "_faction_camp_scout_0";
+        std::string miss = "_faction_camp_scout_0";
         if( cur_key.id == "Combat Patrol" ) {
-            mission_t = "_faction_camp_combat_0";
+            miss = "_faction_camp_combat_0";
         }
-        popup( _( "Select checkpoints until you reach maximum range or select the last point again to end." ) );
-        tripoint start = omt_pos;
-        std::vector<tripoint> scout_points = om_companion_path( start, 90, true );
-        if( scout_points.empty() ) {
-            return false;
-        }
-        int dist = scout_points.size();
-        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, mission_t );
-        int trips = 2;
-        time_duration travel_time = companion_travel_time_calc( scout_points, 0_minutes, trips );
-        time_duration build_time = 0_hours;
-        time_duration total_time = travel_time + build_time;
-        int need_food = time_to_food( total_time );
-        if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
-                       travel_time, dist, trips, need_food ) ) ) {
-            return false;
-        } else if( camp_food_supply() < need_food ) {
-            popup( _( "You don't have enough food stored to feed your companion." ) );
-        } else if( npc_list.size() < 3 ) {
-            npc *comp = individual_mission( p, _( "departs on patrol..." ), mission_t, false, {}, "survival",
-                                            3 );
-            if( comp != nullptr ) {
-                comp->companion_mission_points = scout_points;
-                comp->companion_mission_time_ret = calendar::turn + travel_time;
-                camp_food_supply( -need_food );
-            }
-        } else {
-            popup( _( "There are too many companions working on this mission!" ) );
-        }
+        start_combat_mission( miss, p );
     } else if( cur_key.id == "Recover Scout" || cur_key.id == "Recover Combat Patrol" ) {
         std::string miss = "_faction_camp_scout_0";
         if( cur_key.id == "Recover Combat Patrol" ) {
             miss = "_faction_camp_combat_0";
         }
-        npc *comp = companion_choose_return( p, miss, calendar::before_time_starts );
-        if( comp != nullptr ) {
-            std::vector<std::shared_ptr<npc>> patrol;
-            std::shared_ptr<npc> guy = overmap_buffer.find_npc( comp->getID() );
-            patrol.push_back( guy );
-            for( auto pt : comp->companion_mission_points ) {
-                oter_id &omt_ref = overmap_buffer.ter( pt );
-                int swim = comp->get_skill_level( skill_swimming );
-                if( is_river( omt_ref ) && swim < 2 ) {
-                    if( swim == 0 ) {
-                        popup( _( "Your companion hit a river and didn't know how to swim..." ) );
-                    } else {
-                        popup( _( "Your companion hit a river and didn't know how to swim well enough to cross..." ) );
-                    }
-                    break;
-                }
-                bool outcome = false;
-                comp->death_drops = false;
-                if( cur_key.id == "Recover Scout" ) {
-                    outcome = companion_om_combat_check( patrol, pt, false );
-                } else if( cur_key.id == "Recover Combat Patrol" ) {
-                    outcome = companion_om_combat_check( patrol, pt, true );
-                }
-                comp->death_drops = true;
-                if( !outcome ) {
-                    if( comp->is_dead() ) {
-                        popup( _( "%s didn't return from patrol..." ), comp->name.c_str() );
-                        comp->place_corpse( pt );
-                        overmap_buffer.add_note( pt, "DEAD NPC" );
-                        overmap_buffer.remove_npc( comp->getID() );
-                        return false;
-                    } else {
-                        popup( _( "%s returns from patrol..." ), comp->name.c_str() );
-                        companion_return( *comp );
-                        return false;
-                    }
-
-                }
-                overmap_buffer.reveal( pt, 2 );
-            }
-            popup( _( "%s returns from patrol..." ), comp->name.c_str() );
-            companion_return( *comp );
-        }
+        combat_mission_return( miss, p );
     }
 
     if( cur_key.id == "Expand Base" ) {
@@ -1530,6 +1152,332 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
 }
 
 // camp faction companion mission start functions
+void talk_function::start_camp_upgrade( npc &p, const std::string &bldg )
+{
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_upgrade_camp" );
+    if( !npc_list.empty() ) {
+        popup( _( "You already have a companion upgrading the camp." ) );
+        return;
+    }
+    const recipe *making = &recipe_id( bldg ).obj();
+    //Stop upgrade if you don't have materials
+    inventory total_inv = g->u.crafting_inventory();
+    if( making->requirements().can_make_with_inventory( total_inv, 1 ) ) {
+        int need_food = time_to_food( time_duration::from_turns( making->time / 100 ) );
+        if( camp_food_supply() < need_food && bldg != "faction_base_camp_1" ) {
+            popup( _( "You don't have enough food stored to feed your companion." ) );
+            return;
+        }
+        npc *comp = individual_mission( p, _( "begins to upgrade the camp..." ), "_faction_upgrade_camp",
+                                        false, {},
+                                        making->skill_used.obj().ident().c_str(), making->difficulty );
+        if( comp != nullptr ) {
+            comp->companion_mission_time_ret = calendar::turn + time_duration::from_turns(
+                                                   making->time / 100 ) ;
+            g->u.consume_components_for_craft( making, 1, true );
+            g->u.invalidate_crafting_inventory();
+            camp_food_supply( -need_food );
+        }
+    } else {
+        popup( _( "You don't have the materials for the upgrade." ) );
+    }
+}
+
+void talk_function::start_cut_logs( npc &p )
+{
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_cut_log" );
+    if( !npc_list.empty() ) {
+        popup( _( "There are too many companions working on this mission!" ) );
+        return;
+    }
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water" };
+    popup( _( "Forests and swamps are the only valid cutting locations." ) );
+    const tripoint omt_pos = p.global_omt_location();
+    tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
+    if( forest != tripoint( -999, -999, -999 ) ) {
+        int tree_est = om_harvest_trees( p, forest, .50, false, false );
+        int tree_young_est = om_harvest_ter( p, forest, ter_id( "t_tree_young" ), .50, false );
+        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        //Very roughly what the player does + 6 hours for prep, clean up, breaks
+        time_duration chop_time = 6_hours + ( 1_hours * tree_est ) + ( 7_minutes * tree_young_est );
+        //Generous to believe the NPC can move ~ 2 logs or ~8 heavy sticks (3 per young tree?) per trip, each way is 1 trip
+        // 20 young trees => ~60 sticks which can be carried 8 at a time, so 8 round trips or 16 trips total
+        //This all needs to be in an om_carry_weight_over_distance function eventually...
+        int trips = tree_est + ( tree_young_est * ( 3 / 8 ) * 2 );
+        //Alwasy have to come back so no odd number of trips
+        trips = ( trips % 2 == 0 ) ? trips : ( trips + 1 );
+        time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
+        time_duration work_time = travel_time + chop_time;
+        int need_food = time_to_food( work_time );
+        if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, chop_time, travel_time,
+                       dist, trips, need_food ) ) ) {
+            return;
+        } else if( camp_food_supply() < need_food ) {
+            popup( _( "You don't have enough food stored to feed your companion." ) );
+            return;
+        }
+        g->draw_ter();
+        //wrefresh( g->w_terrain );
+        npc *comp = individual_mission( p, _( "departs to cut logs..." ), "_faction_camp_cut_log", false, {},
+                                        "fabrication", 2 );
+        if( comp != nullptr ) {
+            om_harvest_trees( *comp, forest, .50, true, true );
+            om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), .50, true );
+            om_harvest_itm( *comp, forest, .75, true );
+            comp->companion_mission_time_ret = calendar::turn + work_time;
+            camp_food_supply( -need_food );
+
+            //If we cleared a forest...
+            tree_est = om_harvest_trees( *comp, forest, .50, false, false );
+            if( tree_est < 20 ) {
+                oter_id &omt_trees = overmap_buffer.ter( forest );
+                //Do this for swamps "forest_wet" if we have a swamp without trees...
+                if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
+                    omt_trees = oter_id( "field" );
+                }
+            }
+        }
+    }
+}
+
+void talk_function::start_setup_hide_site( npc &p )
+{
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
+    if( npc_list.empty() ) {
+        popup( _( "There are too many companions working on this mission!" ) );
+        return;
+    }
+
+    std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water", "field" };
+    popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
+    const tripoint omt_pos = p.global_omt_location();
+    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
+    if( forest != tripoint( -999, -999, -999 ) ) {
+        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        inventory tgt_inv = g->u.inv;
+        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+            return !itm.can_revive();
+        } );
+        if( !pos_inv.empty() ) {
+            std::vector<item *> losing_equipment = individual_mission_give_equipment( pos_inv );
+            int trips = om_carry_weight_to_trips( p, losing_equipment ) * 2;
+            trips = ( trips % 2 == 0 ) ? trips : ( trips + 1 );
+            time_duration build_time = 6_hours;
+            time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
+            time_duration work_time = travel_time + build_time;
+            int need_food = time_to_food( work_time );
+            if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, build_time, travel_time,
+                           dist, trips, need_food ) ) ) {
+                return;
+            } else if( camp_food_supply() < need_food ) {
+                popup( _( "You don't have enough food stored to feed your companion." ) );
+                return;
+            }
+            npc *comp = individual_mission( p, _( "departs to build a hide site..." ),
+                                            "_faction_camp_hide_site", false,
+                                            {}, "survival", 3 );
+            if( comp != nullptr ) {
+                comp->companion_mission_time_ret = calendar::turn + work_time;
+                om_set_hide_site( *comp, forest, losing_equipment );
+                camp_food_supply( -need_food );
+            }
+        } else {
+            popup( _( "You need equipment to setup a hide site..." ) );
+        }
+    }
+}
+
+void talk_function::start_relay_hide_site( npc &p )
+{
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_trans" );
+    if( npc_list.empty() ) {
+        popup( _( "There are too many companions working on this mission!" ) );
+        return;
+    }
+    std::vector<std::string> hide_locations = { "faction_hide_site_0" };
+    popup( _( "You must select an existing hide site." ) );
+    const tripoint omt_pos = p.global_omt_location();
+    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
+    if( forest != tripoint( -999, -999, -999 ) ) {
+        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        inventory tgt_inv = g->u.inv;
+        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+            return !itm.can_revive();
+        } );
+        std::vector<item *> losing_equipment;
+        if( !pos_inv.empty() ) {
+            losing_equipment = individual_mission_give_equipment( pos_inv );
+        }
+
+        //Check items in improvised shelters at hide site
+        tinymap target_bay;
+        target_bay.load( forest.x * 2, forest.y * 2, forest.z, false );
+        std::vector<item *> hide_inv;
+        for( item &i : target_bay.i_at( 11, 10 ) ) {
+            hide_inv.push_back( &i );
+        }
+        std::vector<item *> gaining_equipment;
+        if( !hide_inv.empty() ) {
+            gaining_equipment = individual_mission_give_equipment( hide_inv, _( "Bring gear back?" ) );
+        }
+        if( !losing_equipment.empty() || !gaining_equipment.empty() ) {
+            //Only get charged the greater trips since return is free for both
+            int trips = om_carry_weight_to_trips( p, losing_equipment ) * 2;
+            int trips_return = om_carry_weight_to_trips( p, gaining_equipment ) * 2;
+            if( trips < trips_return ) {
+                trips = trips_return;
+            }
+            trips = ( trips % 2 == 0 ) ? trips : ( trips + 1 );
+            time_duration build_time = 6_hours;
+            time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
+            time_duration work_time = travel_time + build_time;
+            int need_food = time_to_food( work_time );
+            if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, build_time, travel_time,
+                           dist, trips, need_food ) ) ) {
+                return;
+            } else if( camp_food_supply() < need_food ) {
+                popup( _( "You don't have enough food stored to feed your companion." ) );
+                return;
+            }
+            npc *comp = individual_mission( p, _( "departs for the hide site..." ), "_faction_camp_hide_site",
+                                            false, {}, "survival", 3 );
+            if( comp != nullptr ) {
+                comp->companion_mission_time_ret = calendar::turn + work_time;
+                om_set_hide_site( *comp, forest, losing_equipment, gaining_equipment );
+                camp_food_supply( -need_food );
+            }
+        } else {
+            popup( _( "You need equipment to transport between the hide site..." ) );
+        }
+    }
+}
+
+void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
+{
+    std::vector<std::string> allowed_locations;
+    if( bldg_exp == "faction_wall_level_N_1" ) {
+        allowed_locations = {
+            "faction_wall_level_N_0", "faction_wall_level_E_0", "faction_wall_level_S_0", "faction_wall_level_W_0",
+            "faction_wall_level_N_1", "faction_wall_level_E_1", "faction_wall_level_S_1", "faction_wall_level_W_1"
+        };
+    } else {
+        allowed_locations = {
+            "forest", "forest_thick", "forest_water", "field", "faction_wall_level_N_0", "faction_wall_level_E_0",
+            "faction_wall_level_S_0", "faction_wall_level_W_0", "faction_wall_level_N_1", "faction_wall_level_E_1",
+            "faction_wall_level_S_1", "faction_wall_level_W_1"
+        };
+    }
+    popup( _( "Select a start and end point.  Line must be straight. Fields, forests, and swamps are valid fortification locations."
+              "  In addition to existing fortification constructions." ) );
+    const tripoint omt_pos = p.global_omt_location();
+    tripoint start = om_target_tile( omt_pos, 2, 90, allowed_locations );
+    popup( _( "Select an end point." ) );
+    tripoint stop = om_target_tile( omt_pos, 2, 90, allowed_locations, true, false, start );
+    if( start != tripoint( -999, -999, -999 ) && stop != tripoint( -999, -999, -999 ) ) {
+        const recipe *making = &recipe_id( bldg_exp ).obj();
+        inventory total_inv = g->u.crafting_inventory();
+        bool change_x = ( start.x != stop.x );
+        bool change_y = ( start.y != stop.y );
+        if( change_x && change_y ) {
+            popup( "Construction line must be straight!" );
+            return;
+        }
+        std::vector<tripoint> fortify_om;
+        if( ( change_x && stop.x < start.x ) || ( change_y && stop.y < start.y ) ) {
+            //line_to doesn't include the origin point
+            fortify_om.push_back( stop );
+            std::vector<tripoint> tmp_line = line_to( stop, start, 0 );
+            fortify_om.insert( fortify_om.end(), tmp_line.begin(), tmp_line.end() );
+        } else {
+            fortify_om.push_back( start );
+            std::vector<tripoint> tmp_line = line_to( start, stop, 0 );
+            fortify_om.insert( fortify_om.end(), tmp_line.begin(), tmp_line.end() );
+        }
+        int trips = 0;
+        time_duration build_time = 0_hours;
+        time_duration travel_time = 0_hours;
+        int dist = 0;
+        for( auto fort_om : fortify_om ) {
+            bool valid = false;
+            oter_id &omt_ref = overmap_buffer.ter( fort_om );
+            for( auto pos_om : allowed_locations ) {
+                if( omt_ref.id().c_str() == pos_om ) {
+                    valid = true;
+                }
+            }
+
+            if( !valid ) {
+                popup( _( "Invalid terrain in construction path." ) );
+                return;
+            }
+            trips += 2;
+            build_time += time_duration::from_turns( making->time / 100 );
+            travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, trips );
+            dist += rl_dist( fort_om.x, fort_om.y, omt_pos.x, omt_pos.y );
+        }
+        time_duration total_time = travel_time + build_time;
+        int need_food = time_to_food( total_time );
+        if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
+                       travel_time, dist, trips, need_food ) ) ) {
+            return;
+        } else if( !making->requirements().can_make_with_inventory( total_inv,
+                   ( fortify_om.size() * 2 ) - 2 ) ) {
+            popup( _( "You don't have the material to build the fortification." ) );
+        } else if( camp_food_supply() < need_food ) {
+            popup( _( "You don't have enough food stored to feed your companion." ) );
+        } else {
+            npc *comp = individual_mission( p, _( "begins constructing fortifications..." ),
+                                            "_faction_camp_om_fortifications", false, {},
+                                            making->skill_used.obj().ident().c_str(), making->difficulty );
+            if( comp != nullptr ) {
+                g->u.consume_components_for_craft( making, ( fortify_om.size() * 2 ) - 2, true );
+                g->u.invalidate_crafting_inventory();
+                camp_food_supply( -need_food );
+                companion_skill_trainer( *comp, "construction", build_time, 2 );
+                comp->companion_mission_time_ret = calendar::turn + total_time;
+                comp->companion_mission_role_id = bldg_exp;
+                for( auto pt : fortify_om ) {
+                    comp->companion_mission_points.push_back( pt );
+                }
+            }
+        }
+    }
+}
+
+void talk_function::start_combat_mission( std::string &miss, npc &p )
+{
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, miss );
+    if( npc_list.size() > 2 ) {
+        popup( _( "There are too many companions working on this mission!" ) );
+        return;
+    }
+    popup( _( "Select checkpoints until you reach maximum range or select the last point again to end." ) );
+    tripoint start = p.global_omt_location();
+    std::vector<tripoint> scout_points = om_companion_path( start, 90, true );
+    if( scout_points.empty() ) {
+        return;
+    }
+    int dist = scout_points.size();
+    int trips = 2;
+    time_duration travel_time = companion_travel_time_calc( scout_points, 0_minutes, trips );
+    time_duration build_time = 0_hours;
+    time_duration total_time = travel_time + build_time;
+    int need_food = time_to_food( total_time );
+    if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
+                   travel_time, dist, trips, need_food ) ) ) {
+        return;
+    } else if( camp_food_supply() < need_food ) {
+        popup( _( "You don't have enough food stored to feed your companion." ) );
+        return;
+    }
+    npc *comp = individual_mission( p, _( "departs on patrol..." ), miss, false, {}, "survival", 3 );
+    if( comp != nullptr ) {
+        comp->companion_mission_points = scout_points;
+        comp->companion_mission_time_ret = calendar::turn + travel_time;
+        camp_food_supply( -need_food );
+    }
+}
+
 void talk_function::camp_craft_construction( npc &p, const mission_entry &cur_key,
         const std::map<std::string, std::string> &recipes, const std::string &miss_id,
         const tripoint &omt_pos, const std::vector<std::pair<std::string, tripoint>> &om_expansions )
@@ -1893,6 +1841,65 @@ bool talk_function::camp_gathering_return( npc &p, const std::string &task )
     return true;
 }
 
+void talk_function::camp_fortifications_return( npc &p )
+{
+    npc *comp = companion_choose_return( p, "_faction_camp_om_fortifications",
+                                         calendar::before_time_starts );
+    if( comp != nullptr ) {
+        popup( _( "%s returns from constructing fortifications..." ), comp->name.c_str() );
+        editmap edit;
+        bool build_dir_NS = ( comp->companion_mission_points[0].y != comp->companion_mission_points[1].y );
+        //Ensure all tiles are generated before putting fences/trenches down...
+        for( auto pt : comp->companion_mission_points ) {
+            if( MAPBUFFER.lookup_submap( om_to_sm_copy( pt ) ) == NULL ) {
+                oter_id &omt_test = overmap_buffer.ter( pt );
+                std::string om_i = omt_test.id().c_str();
+                //The thick forests will gen harsh boundries since it won't recognize these tiles when they become fortifications
+                if( om_i == "forest_thick" ) {
+                    om_i = "forest";
+                }
+                edit.mapgen_set( om_i, pt, false );
+            }
+        }
+        //Add fences
+        auto build_point = comp->companion_mission_points;
+        for( size_t pt = 0; pt < build_point.size(); pt++ ) {
+            //First point is always at top or west since they are built in a line and sorted
+            std::string build_n = "faction_wall_level_N_0";
+            std::string build_e = "faction_wall_level_E_0";
+            std::string build_s = "faction_wall_level_S_0";
+            std::string build_w = "faction_wall_level_W_0";
+            if( comp->companion_mission_role_id == "faction_wall_level_N_1" ) {
+                build_n = "faction_wall_level_N_1";
+                build_e = "faction_wall_level_E_1";
+                build_s = "faction_wall_level_S_1";
+                build_w = "faction_wall_level_W_1";
+            }
+            if( pt == 0 ) {
+                if( build_dir_NS ) {
+                    edit.mapgen_set( build_s, build_point[pt] );
+                } else {
+                    edit.mapgen_set( build_e, build_point[pt] );
+                }
+            } else if( pt == build_point.size() - 1 ) {
+                if( build_dir_NS ) {
+                    edit.mapgen_set( build_n, build_point[pt] );
+                } else {
+                    edit.mapgen_set( build_w, build_point[pt] );
+                }
+            } else if( build_dir_NS ) {
+                edit.mapgen_set( build_n, build_point[pt] );
+                edit.mapgen_set( build_s, build_point[pt] );
+            } else {
+                edit.mapgen_set( build_e, build_point[pt] );
+                edit.mapgen_set( build_w, build_point[pt] );
+            }
+        }
+        comp->companion_mission_role_id.clear();
+        companion_return( *comp );
+    }
+}
+
 void talk_function::camp_recruit_return( npc &p, const std::string &task, int score )
 {
     npc *comp = companion_choose_return( p, task, calendar::turn - 4_days );
@@ -2009,6 +2016,50 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
                               recruit->getID() ) );
     recruit->set_attitude( NPCATT_FOLLOW );
     g->load_npcs();
+}
+
+void talk_function::combat_mission_return( std::string &miss, npc &p )
+{
+    npc *comp = companion_choose_return( p, miss, calendar::before_time_starts );
+    if( comp != nullptr ) {
+        bool patrolling = miss == "_faction_camp_combat_0";
+        std::vector<std::shared_ptr<npc>> patrol;
+        std::shared_ptr<npc> guy = overmap_buffer.find_npc( comp->getID() );
+        patrol.push_back( guy );
+        for( auto pt : comp->companion_mission_points ) {
+            oter_id &omt_ref = overmap_buffer.ter( pt );
+            int swim = comp->get_skill_level( skill_swimming );
+            if( is_river( omt_ref ) && swim < 2 ) {
+                if( swim == 0 ) {
+                    popup( _( "Your companion hit a river and didn't know how to swim..." ) );
+                } else {
+                    popup( _( "Your companion hit a river and didn't know how to swim well enough to cross..." ) );
+                }
+                break;
+            }
+            bool outcome = false;
+            comp->death_drops = false;
+            outcome = companion_om_combat_check( patrol, pt, patrolling );
+            comp->death_drops = true;
+            if( !outcome ) {
+                if( comp->is_dead() ) {
+                    popup( _( "%s didn't return from patrol..." ), comp->name.c_str() );
+                    comp->place_corpse( pt );
+                    overmap_buffer.add_note( pt, "DEAD NPC" );
+                    overmap_buffer.remove_npc( comp->getID() );
+                    return;
+                } else {
+                    popup( _( "%s returns from patrol..." ), comp->name.c_str() );
+                    companion_return( *comp );
+                    return;
+                }
+
+            }
+            overmap_buffer.reveal( pt, 2 );
+        }
+        popup( _( "%s returns from patrol..." ), comp->name.c_str() );
+        companion_return( *comp );
+    }
 }
 
 bool talk_function::camp_expansion_select( npc &p )

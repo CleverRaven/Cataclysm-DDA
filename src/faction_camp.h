@@ -134,6 +134,15 @@ void camp_craft_construction( npc &p, const mission_entry &cur_key,
 std::string camp_recruit_evaluation( npc &p, const std::string &base,
                                      const std::vector<std::pair<std::string, tripoint>> &om_expansions,
                                      bool raw_score = false );
+/// Called when a companion is sent to cut logs
+void start_camp_upgrade( npc &p, const std::string &bldg );
+void start_cut_logs( npc &p );
+void start_setup_hide_site( npc &p );
+void start_relay_hide_site( npc &p );
+/// Called when a compansion is sent to start fortifications
+void start_fortifications( std::string &bldg_exp, npc &p );
+void start_combat_mission( std::string &miss, npc &p );
+
 /// Called when a companion completes a chop shop @ref task mission
 bool camp_garage_chop_start( npc &p, const std::string &task );
 /**
@@ -145,6 +154,8 @@ bool camp_garage_chop_start( npc &p, const std::string &task );
 bool camp_farm_return( npc &p, const std::string &task, bool harvest, bool plant, bool plow );
 /// Sorts all items within most of the confines of the camp into piles designated by the player or defaulted to
 bool camp_menial_return( npc &p );
+void camp_fortifications_return( npc &p );
+void combat_mission_return( std::string &miss, npc &p );
 /**
  * Sets the location of the sorting piles used above.
  * @param reset_pts, reverts all previous points to defaults.  Called/checked so we can add new point with compatability
