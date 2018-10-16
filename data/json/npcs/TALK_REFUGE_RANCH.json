@@ -94,6 +94,11 @@
   {
     "id": "TALK_RANCH_WOODCUTTER_HIRE",
     "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "currently_busy",
+      "yes": "Come back later, I need to take care of a few things first.",
+      "no": "The rate is a bit steep but I still have my quotas that I need to fulfill.  The logs will be dropped off in the garage at the entrance to the camp.  I'll need a bit of time before I can deliver another load."
+    },
     "responses": [
       { "text": "[$2000, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition": { "npc_service": 2000 } },
       {
