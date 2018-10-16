@@ -1,15 +1,13 @@
 #include "map_memory.h"
 
-#include "game.h"
-#include "map.h"
+#include "game_constants.h"
 
 #include <algorithm>
 
 memorized_terrain_tile map_memory::get_memorized_terrain( const tripoint &pos ) const
 {
-    const tripoint p = g->m.getabs( pos );
-    if( memorized_terrain.find( p ) != memorized_terrain.end() ) {
-        return memorized_terrain.at( p );
+    if( memorized_terrain.find( pos ) != memorized_terrain.end() ) {
+        return memorized_terrain.at( pos );
     }
     return { "", 0, 0 };
 }
@@ -31,7 +29,7 @@ void map_memory::memorize_tiles( const std::map<tripoint, memorized_terrain_tile
 {
     std::set<tripoint> submaps;
     for( auto i : tiles ) {
-        const tripoint p = g->m.getabs( i.first );
+        const tripoint &p = i.first;
         submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
         memorized_terrain[p] = i.second;
     }
@@ -108,7 +106,7 @@ void map_memory::memorize_terrain_symbols( const std::map<tripoint, long> &tiles
 {
     std::set<tripoint> submaps;
     for( auto i : tiles ) {
-        const tripoint p = g->m.getabs( i.first );
+        const tripoint &p = i.first;
         submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
         memorized_terrain_curses[p] = i.second;
     }
@@ -118,9 +116,8 @@ void map_memory::memorize_terrain_symbols( const std::map<tripoint, long> &tiles
 
 long map_memory::get_memorized_terrain_curses( const tripoint &pos ) const
 {
-    const tripoint p = g->m.getabs( pos );
-    if( memorized_terrain_curses.find( p ) != memorized_terrain_curses.end() ) {
-        return memorized_terrain_curses.at( p );
+    if( memorized_terrain_curses.find( pos ) != memorized_terrain_curses.end() ) {
+        return memorized_terrain_curses.at( pos );
     }
     return 0;
 }

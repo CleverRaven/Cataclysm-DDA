@@ -2288,7 +2288,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
     }
 
     const std::string &tname = t.obj().id.str();
-    g->u.memorize_tile( p, tname, subtile, rotation );
+    g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
 
     return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );
@@ -2299,7 +2299,7 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
     if( !g->u.should_show_map_memory() ) {
         return false;
     }
-    const memorized_terrain_tile t = g->u.get_memorized_terrain( p );
+    const memorized_terrain_tile t = g->u.get_memorized_terrain( g->m.getabs( p ) );
     if( t.tile.empty() ) {
         return false;
     }
@@ -2332,7 +2332,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     // get the name of this furniture piece
     const std::string &f_name = f_id.obj().id.str();
-    g->u.memorize_tile( p, f_name, subtile, rotation );
+    g->u.memorize_tile( g->m.getabs( p ), f_name, subtile, rotation );
 
     bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
                                     nv_goggles_activated, height_3d );
@@ -2360,7 +2360,7 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
     int rotation = 0;
     get_tile_values( tr.loadid, neighborhood, subtile, rotation );
 
-    g->u.memorize_tile( p, tr.id.str(), subtile, rotation );
+    g->u.memorize_tile( g->m.getabs( p ), tr.id.str(), subtile, rotation );
 
     return draw_from_id_string( tr.id.str(), C_TRAP, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );
@@ -2500,7 +2500,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
 
     if( !veh->forward_velocity() ) {
-        g->u.memorize_tile( p, vpid, subtile, veh_dir );
+        g->u.memorize_tile( g->m.getabs( p ), vpid, subtile, veh_dir );
     }
 
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,

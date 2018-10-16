@@ -5535,7 +5535,7 @@ void map::draw_maptile_from_memory( const catacurses::window &w, const tripoint 
     if( !g->u.should_show_map_memory() ) {
         return;
     }
-    long sym = g->u.get_memorized_terrain_curses( p );
+    long sym = g->u.get_memorized_terrain_curses( getabs( p ) );
     if( sym == 0 ) {
         return;
     }
@@ -5809,7 +5809,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         }
     }
 
-    g->u.memorize_terrain_curses( p, memory_sym );
+    g->u.memorize_terrain_curses( getabs( p ), memory_sym );
 
     // If there's graffiti here, change background color
     if( curr_maptile.has_graffiti() ) {
