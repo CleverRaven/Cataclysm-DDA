@@ -568,9 +568,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
         debugFile.file << std::endl;
         debugFile.currentTime() << " ";
-        if( lev != debugLevel ) {
-            debugFile.file << lev;
-        }
+        debugFile.file << lev;
         if( cl != debugClass ) {
             debugFile.file << cl;
         }
