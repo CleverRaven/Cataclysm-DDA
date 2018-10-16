@@ -73,6 +73,24 @@ const skill_id skill_swimming( "swimming" );
 
 static const int COMPANION_SORT_POINTS = 12;
 
+static void update_time_left( std::string &entry, const std::shared_ptr<npc> comp )
+{
+    entry = entry + " " +  comp->name;
+    if( comp->companion_mission_time_ret < calendar:: turn ) {
+        entry = entry +  _( " [DONE]\n" );
+    } else {
+        entry = entry + " [" + to_string( comp->companion_mission_time_ret - calendar::turn ) +
+                _( " left]\n" );
+    }
+}
+
+static void update_time_fixed( std::string &entry, const std::shared_ptr<npc> comp,
+                               const std::string &duration )
+{
+    entry = entry + " " +  comp->name + " [" + to_string( calendar::turn -
+            comp->companion_mission_time ) + duration;
+}
+
 void talk_function::camp_missions( mission_data &mission_key, npc &p )
 {
     std::vector<std::shared_ptr<npc>> npc_list;
@@ -94,26 +112,13 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     int max_om_expansions = cur_om_level / 2 - 1;
 
     if( bldg != "null" ) {
-        mission_key.text["Upgrade Camp"] = om_upgrade_description( bldg );
-        bool avail = companion_list( p, "_faction_upgrade_camp" ).empty();
-        mission_key.push( "Upgrade Camp", _( "Upgrade Camp" ), "", false, avail );
         npc_list = companion_list( p, "_faction_upgrade_camp" );
+        mission_key.text["Upgrade Camp"] = om_upgrade_description( bldg );
+        mission_key.push( "Upgrade Camp", _( "Upgrade Camp" ), "", false, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Working to expand your camp!\n" );
             for( auto &elem : npc_list ) {
-                int hour_left = to_hours<int>( elem->companion_mission_time_ret - calendar::turn );
-                int min_left = to_minutes<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( hour_left > 1 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( hour_left )
-                            + _( " hours left] \n" );
-                } else if( min_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( min_left )
-                            + _( " minutes left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
             mission_key.text["Recover Ally from Upgrading"] = entry;
@@ -134,40 +139,28 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 bool craftable = recp->requirements().can_make_with_inventory( found_inv, 1 );
 
                 mission_key.push( title_e, "", dr, false, craftable );
-
             }
         }
-        npc_list = companion_list( p, "_faction_camp_crafting_", true );
+        npc_list = companion_list( p, "_faction_camp_crafting_" + dr );
         if( !npc_list.empty() ) {
+            entry = _( "Busy crafting!\n" );
             for( auto &elem : npc_list ) {
-                entry = _( "Busy crafting!\n" );
-                int min_left = to_minutes<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( min_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( min_left )
-                            + _( " minutes left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                mission_key.text[ dir + " (Finish) Crafting" ] = entry;
-                mission_key.push( dir + " (Finish) Crafting", dir + _( " (Finish) Crafting" ), dir, true );
+                update_time_left( entry, elem );
             }
+            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            mission_key.text[ dr + " (Finish) Crafting" ] = entry;
+            mission_key.push( dr + " (Finish) Crafting", dr + _( " (Finish) Crafting" ), dr, true );
         }
     }
 
     if( cur_om_level >= 1 ) {
-        mission_key.text["Gather Materials"] = om_gathering_description( p, bldg );
-        bool avail = ( companion_list( p, "_faction_camp_gathering" ).size() < 3 );
-        mission_key.push( "Gather Materials", _( "Gather Materials" ), "", false,
-                          avail );
         npc_list = companion_list( p, "_faction_camp_gathering" );
+        mission_key.text["Gather Materials"] = om_gathering_description( p, bldg );
+        mission_key.push( "Gather Materials", _( "Gather Materials" ), "", false, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Searching for materials to upgrade the camp.\n" );
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                        elem->companion_mission_time ) ) + _( "/3 hours] \n" );
+                update_time_fixed( entry, elem, _( "/3 hours]\n" ) );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
             mission_key.text["Recover Ally from Gathering"] = entry;
@@ -200,6 +193,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( cur_om_level >= 2 ) {
+        npc_list = companion_list( p, "_faction_camp_firewood" );
         mission_key.text["Collect Firewood"] = string_format( _( "Notes:\n"
                                                "Send a companion to gather light brush and heavy sticks.\n \n"
                                                "Skill used: survival\n"
@@ -210,15 +204,12 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                                "> splintered wood\n \n"
                                                "Risk: Very Low\n"
                                                "Time: 3 Hours, Repeated\n"
-                                               "Positions: %d/3\n" ), companion_list( p, "_faction_camp_firewood" ).size() );
-        bool avail = ( companion_list( p, "_faction_camp_firewood" ).size() < 3 );
-        mission_key.push( "Collect Firewood", _( "Collect Firewood" ), "", false, avail );
-        npc_list = companion_list( p, "_faction_camp_firewood" );
+                                               "Positions: %d/3\n" ), npc_list.size() );
+        mission_key.push( "Collect Firewood", _( "Collect Firewood" ), "", false, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Searching for firewood.\n" );
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                        elem->companion_mission_time ) ) + _( "/3 hours] \n" );
+                update_time_fixed( entry, elem, _( "/3 hours]\n" ) );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
             mission_key.text["Recover Firewood Gatherers"] = entry;
@@ -227,6 +218,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( cur_om_level >= 3 ) {
+        npc_list = companion_list( p, "_faction_camp_menial" );
         mission_key.text["Menial Labor"] = string_format( _( "Notes:\n"
                                            "Send a companion to do low level chores and sort supplies.\n \n"
                                            "Skill used: fabrication\n"
@@ -236,21 +228,12 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                            "Default, top to bottom:  Clothing, Food, Books/Bionics, and Tools.  Wood will be piled to the south.  Trash to the north.\n \n"
                                            "Risk: None\n"
                                            "Time: 3 Hours\n"
-                                           "Positions: %d/1\n" ), companion_list( p, "_faction_camp_menial" ).size() );
-        bool avail = companion_list( p, "_faction_camp_menial" ).empty();
-        mission_key.push( "Menial Labor", _( "Menial Labor" ), "", false, avail );
-        npc_list = companion_list( p, "_faction_camp_menial" );
+                                           "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.push( "Menial Labor", _( "Menial Labor" ), "", false, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Performing menial labor...\n" );
             for( auto &elem : npc_list ) {
-                int min_left = to_minutes<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( min_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( min_left )
-                            + _( " minutes left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
             mission_key.text["Recover Menial Laborer"] = entry;
@@ -259,6 +242,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( static_cast<int>( om_expansions.size() ) < max_om_expansions ) {
+        npc_list = companion_list( p, "_faction_camp_expansion" );
         mission_key.text["Expand Base"] = string_format( _( "Notes:\n"
                                           "Your base has become large enough to support an expansion.  Expansions open up new opportunities "
                                           "but can be expensive and time consuming.  Pick them carefully, only 8 can be built at each camp.\n \n"
@@ -269,21 +253,12 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                           "since food is used to support companion missions and wood is your primary construction material.\n \n"
                                           "Risk: None\n"
                                           "Time: 3 Hours \n"
-                                          "Positions: %d/1\n" ), companion_list( p, "_faction_camp_expansion" ).size() );
-        bool avail = companion_list( p, "_faction_camp_expansion" ).empty();
-        mission_key.push( "Expand Base", _( "Expand Base" ), "", false, avail );
-        npc_list = companion_list( p, "_faction_camp_expansion" );
+                                          "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.push( "Expand Base", _( "Expand Base" ), "", false, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Surveying for expansion...\n" );
             for( auto &elem : npc_list ) {
-                int hrs_left = to_hours<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( hrs_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( hrs_left )
-                            + _( " hours left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
             mission_key.text["Recover Surveyor"] = entry;
@@ -292,6 +267,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( cur_om_level >= 5 ) {
+        npc_list = companion_list( p, "_faction_camp_cut_log" );
         mission_key.text["Cut Logs"] = string_format( _( "Notes:\n"
                                        "Send a companion to a nearby forest to cut logs.\n \n"
                                        "Skill used: fabrication\n"
@@ -302,21 +278,12 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                        "> Repeatable with diminishing returns.\n \n"
                                        "Risk: Low-Medium\n"
                                        "Time: 6 Hour Base + Travel Time + Cutting Time\n"
-                                       "Positions: %d/1\n" ), companion_list( p, "_faction_camp_cut_log" ).size() );
-        bool avail = companion_list( p, "_faction_camp_cut_log" ).empty();
-        mission_key.push( "Cut Logs", _( "Cut Logs" ), "", false, avail );
-        npc_list = companion_list( p, "_faction_camp_cut_log" );
+                                       "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.push( "Cut Logs", _( "Cut Logs" ), "", false, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Cutting logs in the woods...\n" );
             for( auto &elem : npc_list ) {
-                int hrs_left = to_hours<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( hrs_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( hrs_left )
-                            + _( " hours left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
             mission_key.text["Recover Log Cutter"] = entry;
@@ -326,6 +293,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
 
 
     if( cur_om_level >= 7 ) {
+        npc_list = companion_list( p, "_faction_camp_hide_site" );
         mission_key.text["Setup Hide Site"] = string_format( _( "Notes:\n"
                                               "Send a companion to build an improvised shelter and stock it with equipment at a distant map location.\n \n"
                                               "Skill used: survival\n"
@@ -336,9 +304,18 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                               "> Time dependent on weight of equipment being sent forward.\n \n"
                                               "Risk: Medium\n"
                                               "Time: 6 Hour Construction + Travel\n"
-                                              "Positions: %d/1\n" ), companion_list( p, "_faction_camp_hide_site" ).size() );
-        bool avail = companion_list( p, "_faction_camp_hide_site" ).empty();
-        mission_key.push( "Setup Hide Site", _( "Setup Hide Site" ), "", false, avail );
+                                              "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.push( "Setup Hide Site", _( "Setup Hide Site" ), "", false, npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = _( "Setting up a hide site...\n" );
+            for( auto &elem : npc_list ) {
+                update_time_left( entry, elem );
+            }
+            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            mission_key.text["Recover Hide Setup"] = entry;
+            mission_key.push( "Recover Hide Setup", _( "Recover Hide Setup" ), "", true );
+        }
+        npc_list = companion_list( p, "_faction_camp_hide_trans" );
         mission_key.text["Relay Hide Site"] = string_format( _( "Notes:\n"
                                               "Push gear out to a hide site or bring gear back from one.\n \n"
                                               "Skill used: survival\n"
@@ -349,47 +326,30 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                               "> Time dependent on weight of equipment being sent forward or back.\n \n"
                                               "Risk: Medium\n"
                                               "Time: 1 Hour Base + Travel\n"
-                                              "Positions: %d/1\n" ), companion_list( p, "_faction_camp_hide_trans" ).size() );
-        avail = companion_list( p, "_faction_camp_hide_trans" ).empty();
-        mission_key.push( "Relay Hide Site", _( "Relay Hide Site" ), "", false, avail );
-        npc_list = companion_list( p, "_faction_camp_hide_site" );
+                                              "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.push( "Relay Hide Site", _( "Relay Hide Site" ), "", false, npc_list.empty() );
         if( !npc_list.empty() ) {
-            entry = _( "Setting up a hide site...\n" );
+            entry = _( "Transfering gear to a hide site...\n" );
             for( auto &elem : npc_list ) {
-                int hrs_left = to_hours<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( hrs_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( hrs_left )
-                            + _( " hours left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
-            mission_key.text["Recover Hide Setup"] = entry;
-            mission_key.push( "Recover Hide Setup", _( "Recover Hide Setup" ), "", true );
+            mission_key.text["Recover Hide Relay"] = entry;
+            mission_key.push( "Recover Hide Relay", _( "Recover Hide Relay" ), "", true );
         }
     }
 
     if( cur_om_level >= 9 ) {
+        npc_list = companion_list( p, "_faction_camp_om_fortifications" );
         mission_key.text["Construct Map Fortifications"] =
             om_upgrade_description( "faction_wall_level_N_0" );
-        mission_key.push( "Construct Map Fortifications",
-                          _( "Construct Map Fortifications" ), "", false );
+        mission_key.push( "Construct Map Fortifications", _( "Construct Map Fortifications" ), "", false );
         mission_key.text["Construct Spiked Trench"] = om_upgrade_description( "faction_wall_level_N_1" );
         mission_key.push( "Construct Spiked Trench", _( "Construct Spiked Trench" ), "", false );
-        npc_list = companion_list( p, "_faction_camp_om_fortifications" );
         if( !npc_list.empty() ) {
             entry = _( "Constructing fortifications...\n" );
             for( auto &elem : npc_list ) {
-                int hrs_left = to_hours<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( hrs_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( hrs_left )
-                            + _( " hours left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
             mission_key.text["Finish Map Fortifications"] = entry;
@@ -398,21 +358,13 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( cur_om_level >= 11 ) {
-        mission_key.text["Recruit Companions"] = camp_recruit_evaluation( p, om_cur, om_expansions );
-        bool avail = companion_list( p, "_faction_camp_recruit_0" ).empty();
-        mission_key.push( "Recruit Companions", _( "Recruit Companions" ), "", false, avail );
         npc_list = companion_list( p, "_faction_camp_recruit_0" );
+        mission_key.text["Recruit Companions"] = camp_recruit_evaluation( p, om_cur, om_expansions );
+        mission_key.push( "Recruit Companions", _( "Recruit Companions" ), "", false, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Searching for recruits.\n" );
             for( auto &elem : npc_list ) {
-                int hrs_left = to_hours<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( hrs_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( hrs_left )
-                            + _( " hours left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
             mission_key.text["Recover Recruiter"] = entry;
@@ -421,6 +373,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( cur_om_level >= 13 ) {
+        npc_list = companion_list( p, "_faction_camp_scout_0" );
         mission_key.text["Scout Mission"] =  string_format( _( "Notes:\n"
                                              "Send a companion out into the great unknown.  High survival skills are needed to avoid combat but "
                                              "you should expect an encounter or two.\n \n"
@@ -432,21 +385,12 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                              "> Can bounce off hide sites to extend range.\n \n"
                                              "Risk: High\n"
                                              "Time: Travel\n"
-                                             "Positions: %d/3\n" ), companion_list( p, "_faction_camp_scout_0" ).size() );
-        bool avail = companion_list( p, "_faction_camp_scout_0" ).size() < 3;
-        mission_key.push( "Scout Mission", _( "Scout Mission" ), "", false, avail );
-        npc_list = companion_list( p, "_faction_camp_scout_0" );
+                                             "Positions: %d/3\n" ), npc_list.size() );
+        mission_key.push( "Scout Mission", _( "Scout Mission" ), "", false, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Scouting the region.\n" );
             for( auto &elem : npc_list ) {
-                int hrs_left = to_hours<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( hrs_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( hrs_left )
-                            + _( " hours left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
             mission_key.text["Recover Scout"] = entry;
@@ -455,6 +399,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( cur_om_level >= 15 ) {
+        npc_list = companion_list( p, "_faction_camp_combat_0" );
         mission_key.text["Combat Patrol"] =  string_format( _( "Notes:\n"
                                              "Send a companion to purge the wasteland.  Their goal is to kill anything hostile they encounter and return when "
                                              "their wounds are too great or the odds are stacked against them.\n \n"
@@ -466,21 +411,12 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                              "> Can bounce off hide sites to extend range.\n \n"
                                              "Risk: Very High\n"
                                              "Time: Travel\n"
-                                             "Positions: %d/3\n" ), companion_list( p, "_faction_camp_combat_0" ).size() );
-        bool avail = companion_list( p, "_faction_camp_combat_0" ).size() < 3;
-        mission_key.push( "Combat Patrol", _( "Combat Patrol" ), "", false, avail );
-        npc_list = companion_list( p, "_faction_camp_combat_0" );
+                                             "Positions: %d/3\n" ), npc_list.size() );
+        mission_key.push( "Combat Patrol", _( "Combat Patrol" ), "", false, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Patrolling the region.\n" );
             for( auto &elem : npc_list ) {
-                int hrs_left = to_hours<int>( elem->companion_mission_time_ret - calendar::turn );
-                if( hrs_left > 0 ) {
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( hrs_left )
-                            + _( " hours left] \n" );
-                } else {
-                    entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                }
+                update_time_left( entry, elem );
             }
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
             mission_key.text["Recover Combat Patrol"] = entry;
@@ -503,39 +439,21 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
 
             mission_key.text[title_e] = om_upgrade_description( bldg_exp );
             mission_key.push( title_e, dr + _( " Expansion Upgrade" ), dr );
-            npc_list = companion_list( p, "_faction_upgrade_exp_", true );
+            npc_list = companion_list( p, "_faction_upgrade_exp_" + dr );
             if( !npc_list.empty() ) {
+                entry = _( "Working to upgrade your expansions!\n" );
                 for( auto &elem : npc_list ) {
-                    const recipe *making_exp;
-                    entry = _( "Working to upgrade your expansions!\n" );
-                    //To find what building we want to create next, get direction it is from camp
-                    std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                    std::string bldg_exp;
-                    for( const auto &e : om_expansions ) {
-                        //Find the expansion that is in that direction
-                        if( dir == om_simple_dir( omt_pos, e.second ) ) {
-                            oter_id &omt_ref_exp = overmap_buffer.ter( e.second );
-                            std::string om_exp = omt_ref_exp.id().c_str();
-                            //Determine the next upgrade for the building
-                            bldg_exp = om_next_upgrade( om_exp );
-                            break;
-                        }
-                    }
-                    making_exp = &recipe_id( bldg_exp ).obj();
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                            + "/" + to_string( to_hours<int>( time_duration::from_turns( making_exp->time / 100 ) ) ) +
-                            _( " hours] \n" );
-
-                    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                    mission_key.text["Recover Ally, " + dir + " Expansion"] = entry;
-                    mission_key.push( "Recover Ally, " + dir + " Expansion",
-                                      _( "Recover Ally, " ) + dir + _( " Expansion" ), dir, true );
+                    update_time_left( entry, elem );
                 }
+                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                mission_key.text["Recover Ally, " + dr + " Expansion"] = entry;
+                mission_key.push( "Recover Ally, " + dr + " Expansion",
+                                  _( "Recover Ally, " ) + dr + _( " Expansion" ), dr, true );
             }
         }
 
         if( om_min_level( "faction_base_garage_1", om_cur_exp ) ) {
+            npc_list = companion_list( p, "_faction_exp_chop_shop_" + dr );
             std::string title_e = dr + " Chop Shop";
             mission_key.text[title_e] = _( "Notes:\n"
                                            "Have a companion attempt to completely dissemble a vehicle into components.\n \n"
@@ -546,28 +464,23 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                            "> Skill plays a huge role to determine what is salvaged.\n \n"
                                            "Risk: None\n"
                                            "Time: Skill Based \n" );
-            bool avail = companion_list( p, "_faction_exp_chop_shop_" + dr ).empty();
-            mission_key.push( title_e, dr + _( " Chop Shop" ), dr, false, avail );
-            npc_list = companion_list( p, "_faction_exp_chop_shop_", true );
+            mission_key.push( title_e, dr + _( " Chop Shop" ), dr, false, npc_list.empty() );
             if( !npc_list.empty() ) {
+                entry = _( "Working at the chop shop...\n" );
                 for( auto &elem : npc_list ) {
-                    entry = _( "Working at the chop shop...\n" );
-                    //~48 hours = 192 plots * 5 min plow time
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                            + _( "/120 hours] \n" );
-                    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                    std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                    mission_key.text[ dir + " (Finish) Chop Shop" ] = entry;
-                    mission_key.push( dir + " (Finish) Chop Shop", dir + _( " (Finish) Chop Shop" ), dir, true );
+                    update_time_left( entry, elem );
                 }
+                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                mission_key.text[ dr + " (Finish) Chop Shop" ] = entry;
+                mission_key.push( dr + " (Finish) Chop Shop", dr + _( " (Finish) Chop Shop" ), dr, true );
             }
         }
 
         std::map<std::string, std::string> cooking_recipes = camp_recipe_deck( om_cur_exp );
         if( om_min_level( "faction_base_kitchen_1", om_cur_exp ) ) {
             inventory found_inv = g->u.crafting_inventory();
-            if( companion_list( p, "_faction_exp_kitchen_cooking_" + dr ).empty() ) {
+            npc_list = companion_list( p, "_faction_exp_kitchen_cooking_" + dr );
+            if( npc_list.empty() ) {
                 for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                      it != cooking_recipes.end(); ++it ) {
                     std::string title_e = dr + it->first;
@@ -577,33 +490,21 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                     mission_key.push( title_e, "", dr, false, craftable );
 
                 }
-            }
-            npc_list = companion_list( p, "_faction_exp_kitchen_cooking_", true );
-            if( !npc_list.empty() ) {
+            } else {
+                entry = _( "Working in your kitchen!\n" );
                 for( auto &elem : npc_list ) {
-                    entry = _( "Working in your kitchen!\n" );
-                    int min_left = to_minutes<int>( elem->companion_mission_time_ret - calendar::turn );
-                    float sec_left = to_turns<float>( elem->companion_mission_time_ret - calendar::turn );
-                    if( min_left > 0 ) {
-                        entry = entry + "  " + elem->name + " ["
-                                + to_string( min_left )
-                                + _( " minutes left] \n" );
-                    } else if( sec_left > 0 ) {
-                        entry = entry + "  " + elem->name + _( " [ALMOST DONE]\n" );
-                    } else {
-                        entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                    }
-                    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                    std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                    mission_key.text[ dir + " (Finish) Cooking" ] = entry;
-                    mission_key.push( dir + " (Finish) Cooking", dir + _( " (Finish) Cooking" ), dir, true );
+                    update_time_left( entry, elem );
                 }
+                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                mission_key.text[ dr + " (Finish) Cooking" ] = entry;
+                mission_key.push( dr + " (Finish) Cooking", dr + _( " (Finish) Cooking" ), dr, true );
             }
         }
 
         if( om_min_level( "faction_base_blacksmith_1", om_cur_exp ) ) {
             inventory found_inv = g->u.crafting_inventory();
-            if( companion_list( p, "_faction_exp_blacksmith_crafting_" + dr ).empty() ) {
+            npc_list = companion_list( p, "_faction_exp_blacksmith_crafting_" + dr );
+            if( npc_list.empty() ) {
                 for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                      it != cooking_recipes.end(); ++it ) {
                     std::string title_e = dr + it->first;
@@ -613,32 +514,20 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                     mission_key.push( title_e, "", dr, false, craftable );
 
                 }
-            }
-            npc_list = companion_list( p, "_faction_exp_blacksmith_crafting_", true );
-            if( !npc_list.empty() ) {
+            } else {
+                entry = _( "Working in your blacksmith shop!\n" );
                 for( auto &elem : npc_list ) {
-                    entry = _( "Working in your blacksmith shop!\n" );
-                    int min_left = to_minutes<int>( elem->companion_mission_time_ret - calendar::turn );
-                    float sec_left = to_turns<float>( elem->companion_mission_time_ret - calendar::turn );
-                    if( min_left > 0 ) {
-                        entry = entry + "  " + elem->name + " ["
-                                + to_string( min_left )
-                                + _( " minutes left] \n" );
-                    } else if( sec_left > 0 ) {
-                        entry = entry + "  " + elem->name + _( " [ALMOST DONE]\n" );
-                    } else {
-                        entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                    }
-                    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                    std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                    mission_key.text[ dir + " (Finish) Smithing" ] = entry;
-                    mission_key.push( dir + " (Finish) Smithing", dir + _( " (Finish) Smithing" ), dir, true );
+                    update_time_left( entry, elem );
                 }
+                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                mission_key.text[ dr + " (Finish) Smithing" ] = entry;
+                mission_key.push( dr + " (Finish) Smithing", dr + _( " (Finish) Smithing" ), dr, true );
             }
         }
 
         if( om_min_level( "faction_base_farm_1", om_cur_exp ) ) {
-            if( companion_list( p, "_faction_exp_plow_" + dr ).empty() ) {
+            npc_list = companion_list( p, "_faction_exp_plow_" + dr );
+            if( npc_list.empty() ) {
                 std::string title_e = dr + " Plow Fields";
                 mission_key.text[title_e] = _( "Notes:\n"
                                                "Plow any spaces that have reverted to dirt or grass.\n \n" ) +
@@ -652,24 +541,18 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                                     "Time: 5 Min / Plot \n"
                                                     "Positions: 0/1 \n" );
                 mission_key.push( title_e, dr + _( " Plow Fields" ), dr );
-            }
-            npc_list = companion_list( p, "_faction_exp_plow_", true );
-            if( !npc_list.empty() ) {
+            } else {
+                entry = _( "Working to plow your fields!\n" );
                 for( auto &elem : npc_list ) {
-                    entry = _( "Working to plow your fields!\n" );
-                    //~48 hours = 192 plots * 5 min plow time
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                            + _( "/~48 hours] \n" );
-                    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                    std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                    mission_key.text[ dir + " (Finish) Plow Fields" ] = entry;
-                    mission_key.push( dir + " (Finish) Plow Fields", dir + _( " (Finish) Plow Fields" ), dir, true );
+                    update_time_left( entry, elem );
                 }
+                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                mission_key.text[ dr + " (Finish) Plow Fields" ] = entry;
+                mission_key.push( dr + " (Finish) Plow Fields", dr + _( " (Finish) Plow Fields" ), dr, true );
             }
 
-            if( companion_list( p, "_faction_exp_plant_" + dr ).empty() &&
-                g->get_temperature( g-> u.pos() ) > 50 ) {
+            npc_list = companion_list( p, "_faction_exp_plant_" + dr );
+            if( npc_list.empty() && g->get_temperature( g-> u.pos() ) > 50 ) {
                 std::string title_e = dr + " Plant Fields";
                 mission_key.text[title_e] = _( "Notes:\n"
                                                "Plant designated seeds in the spaces that have already been tilled.\n \n" ) +
@@ -684,22 +567,18 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                                     "Time: 1 Min / Plot \n"
                                                     "Positions: 0/1 \n" );
                 mission_key.push( title_e, dr + _( " Plant Fields" ), dr );
-            }
-            npc_list = companion_list( p, "_faction_exp_plant_", true );
-            if( !npc_list.empty() ) {
+            } else if( !npc_list.empty() ) {
+                entry = _( "Working to plant your fields!\n" );
                 for( auto &elem : npc_list ) {
-                    entry = _( "Working to plant your fields!\n" );
-                    //~3.5 hours = 192 plots * 1 min plant time
-                    entry = entry + "  " + elem->name + " ["
-                            + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                            + _( "/4 hours] \n" );
-                    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                    std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                    mission_key.text[ dir + " (Finish) Plant Fields" ] = entry;
-                    mission_key.push( dir + " (Finish) Plant Fields", dir + _( " (Finish) Plant Fields" ), dir, true );
+                    update_time_left( entry, elem );
                 }
+                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                mission_key.text[ dr + " (Finish) Plant Fields" ] = entry;
+                mission_key.push( dr + " (Finish) Plant Fields", dr + _( " (Finish) Plant Fields" ), dr, true );
             }
-            if( companion_list( p, "_faction_exp_harvest_" + dr ).empty() ) {
+
+            npc_list = companion_list( p, "_faction_exp_harvest_" + dr );
+            if( npc_list.empty() ) {
                 std::string title_e = dr + " Harvest Fields";
                 mission_key.text[title_e] = _( "Notes:\n"
                                                "Harvest any plants that are ripe and bring the produce back.\n \n" ) +
@@ -712,27 +591,21 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                                     "Time: 3 Min / Plot \n"
                                                     "Positions: 0/1 \n" );
                 mission_key.push( title_e, dr + _( " Harvest Fields" ), dr );
-                npc_list = companion_list( p, "_faction_exp_harvest_", true );
-                if( !npc_list.empty() ) {
-                    for( auto &elem : npc_list ) {
-                        entry = _( "Working to harvest your fields!\n" );
-                        //~48 hours = 192 plots * 3 min harvest and carry time
-                        entry = entry + "  " + elem->name + " ["
-                                + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                                + _( "/~10 hours] \n" );
-                        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                        std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                        mission_key.text[ dir + " (Finish) Harvest Fields" ] = entry;
-                        mission_key.push( dir + " (Finish) Harvest Fields", dir + _( " (Finish) Harvest Fields" ), dir,
-                                          true );
-                    }
+            } else {
+                entry = _( "Working to harvest your fields!\n" );
+                for( auto &elem : npc_list ) {
+                    update_time_left( entry, elem );
                 }
+                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                mission_key.text[ dr + " (Finish) Harvest Fields" ] = entry;
+                mission_key.push( dr + " (Finish) Harvest Fields", dr + _( " (Finish) Harvest Fields" ), dr, true );
             }
         }
 
         if( om_min_level( "faction_base_farm_4", om_cur_exp ) ) {
             inventory found_inv = g->u.crafting_inventory();
-            if( companion_list( p, "_faction_exp_farm_crafting_" + dr ).empty() ) {
+            npc_list = companion_list( p, "_faction_exp_farm_crafting_" + dr );
+            if( npc_list.empty() ) {
                 for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                      it != cooking_recipes.end(); ++it ) {
                     std::string title_e = dr + it->first;
@@ -740,28 +613,16 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
 
                     const recipe *recp = &recipe_id( it->second ).obj();
                     bool craftable = recp->requirements().can_make_with_inventory( found_inv, 1 );
-
                     mission_key.push( title_e, "", dr, false, craftable );
-
                 }
-            }
-            npc_list = companion_list( p, "_faction_exp_farm_crafting_", true );
-            if( !npc_list.empty() ) {
+            } else {
+                entry = _( "Working on your farm!\n" );
                 for( auto &elem : npc_list ) {
-                    entry = _( "Working on your farm!\n" );
-                    int min_left = to_minutes<int>( elem->companion_mission_time_ret - calendar::turn );
-                    if( min_left > 0 ) {
-                        entry = entry + "  " + elem->name + " ["
-                                + to_string( min_left )
-                                + _( " minutes left] \n" );
-                    } else {
-                        entry = entry + "  " + elem->name + _( " [DONE]\n" );
-                    }
-                    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
-                    std::string dir = camp_direction( elem->get_companion_mission().mission_id );
-                    mission_key.text[ dir + " (Finish) Crafting" ] = entry;
-                    mission_key.push( dir + " (Finish) Crafting", dir + _( " (Finish) Crafting" ), dir, true );
+                    update_time_left( entry, elem );
                 }
+                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                mission_key.text[ dr + " (Finish) Crafting" ] = entry;
+                mission_key.push( dr + " (Finish) Crafting", dr + _( " (Finish) Crafting" ), dr, true );
             }
         }
     }
