@@ -5,6 +5,7 @@
 #include "string_id.h"
 #include "bonuses.h"
 #include "calendar.h"
+#include "ui.h"
 
 #include <string>
 #include <vector>
@@ -231,6 +232,22 @@ class martialart
         std::vector<mabuff_id> ondodge_buffs;
         std::vector<mabuff_id> onblock_buffs;
         std::vector<mabuff_id> ongethit_buffs;
+};
+
+class ma_style_callback : public uimenu_callback
+{
+private:
+    size_t offset;
+    const std::vector<matype_id> &styles;
+
+public:
+    ma_style_callback( int style_offset, const std::vector<matype_id> &selectable_styles )
+        : offset( style_offset )
+        , styles( selectable_styles )
+    {}
+
+    bool key(const input_context &ctxt, const input_event &event, int entnum, uimenu *menu) override;
+    ~ma_style_callback() override = default;
 };
 
 void load_technique( JsonObject &jo, const std::string &src );

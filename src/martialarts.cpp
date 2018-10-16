@@ -6,6 +6,8 @@
 #include "translations.h"
 #include "itype.h"
 #include "damage.h"
+#include "output.h"
+#include "input.h"
 
 #include <map>
 #include <string>
@@ -839,4 +841,42 @@ float ma_technique::move_cost_penalty( const player &u ) const
 float ma_technique::armor_penetration( const player &u, damage_type type ) const
 {
     return bonuses.get_flat( u, AFFECTED_ARMOR_PENETRATION, type );
+}
+
+bool ma_style_callback::key(const input_context &ctxt, const input_event &event, int entnum, uimenu *menu)
+{
+    const std::string action = ctxt.input_to_action( event );
+    if( action != "SHOW_DESCRIPTION" ) {
+        return false;
+    }
+    matype_id style_selected;
+    const size_t index = entnum;
+    if( index >= offset && index - offset < styles.size() ) {
+        style_selected = styles[index - offset];
+    }
+    if( !style_selected.str().empty() ) {
+        const martialart &ma = style_selected.obj();
+        std::ostringstream buffer;
+        buffer << ma.name << "\n\n \n\n";
+        if( !ma.techniques.empty() ) {
+            buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
+            buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
+                return string_format( "%s: %s", _( mid.obj().name.c_str() ), _( mid.obj().description.c_str() ) );
+            } );
+        }
+        if( ma.force_unarmed ) {
+            buffer << "\n\n \n\n";
+            buffer << _( "This style forces you to use unarmed strikes, even if wielding a weapon." );
+        }
+        if( !ma.weapons.empty() ) {
+            buffer << "\n\n \n\n";
+            buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
+            buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string &wid ) {
+                return item::nname( wid );
+            } );
+        }
+        popup(buffer.str(), PF_NONE);
+        menu->redraw();
+    }
+    return true;
 }
