@@ -883,7 +883,8 @@ furn_id f_null,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
         f_smoking_rack, f_smoking_rack_active,
         f_robotic_arm, f_vending_reinforced,
-        f_brazier;
+        f_brazier,
+        f_autodoc_couch;
 
 void set_furn_ids()
 {
@@ -987,6 +988,7 @@ void set_furn_ids()
     f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
+    f_autodoc_couch = furn_id( "f_autodoc_couch" );
 }
 
 size_t ter_t::count()

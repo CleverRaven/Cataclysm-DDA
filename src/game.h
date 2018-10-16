@@ -559,8 +559,9 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         tripoint look_around();
-        tripoint look_around( catacurses::window w_info, const tripoint &start_point, bool has_first_point,
-                              bool select_zone );
+        tripoint look_around( catacurses::window w_info,
+                              tripoint &center, tripoint start_point,
+                              bool has_first_point, bool select_zone );
 
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -814,6 +815,7 @@ class game
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
+        void draw_cursor( const tripoint &p );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
@@ -1033,7 +1035,9 @@ class game
         void draw_minimap();     // Draw the 5x5 minimap
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
+    public:
         void draw_sidebar_messages();
+    private:
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.

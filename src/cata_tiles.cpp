@@ -207,6 +207,7 @@ cata_tiles::cata_tiles( SDL_Renderer *render )
     do_draw_bullet = false;
     do_draw_hit = false;
     do_draw_line = false;
+    do_draw_cursor = false;
     do_draw_weather = false;
     do_draw_sct = false;
     do_draw_zones = false;
@@ -1187,7 +1188,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
-                   do_draw_weather || do_draw_sct ||
+                   do_draw_cursor || do_draw_weather || do_draw_sct ||
                    do_draw_zones;
 
     draw_footsteps_frame();
@@ -1220,6 +1221,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         if( do_draw_zones ) {
             draw_zones_frame();
             void_zones();
+        }
+        if( do_draw_cursor ) {
+            draw_cursor();
+            void_cursor();
         }
     } else if( g->u.posx() + g->u.view_offset.x != g->ter_view_x ||
                g->u.posy() + g->u.view_offset.y != g->ter_view_y ) {
@@ -2295,7 +2300,7 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
         return false;
     }
     const memorized_terrain_tile t = g->u.get_memorized_terrain( p );
-    if( t.tile == "" ) {
+    if( t.tile.empty() ) {
         return false;
     }
 
@@ -2528,7 +2533,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
     if( zone && zone->has_options() ) {
         auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
 
-        if( option && option->get_mark() != "" ) {
+        if( option && !option->get_mark().empty() ) {
             return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,
                                         nv_goggles_activated, height_3d );
         }
@@ -2673,6 +2678,11 @@ void cata_tiles::init_draw_line( const tripoint &p, std::vector<tripoint> trajec
     line_endpoint_id = std::move( name );
     line_trajectory = std::move( trajectory );
 }
+void cata_tiles::init_draw_cursor( const tripoint &p )
+{
+    do_draw_cursor = true;
+    cursors.emplace_back( p );
+}
 void cata_tiles::init_draw_weather( weather_printable weather, std::string name )
 {
     do_draw_weather = true;
@@ -2722,6 +2732,11 @@ void cata_tiles::void_line()
     line_pos = { -1, -1, -1 };
     line_endpoint_id.clear();
     line_trajectory.clear();
+}
+void cata_tiles::void_cursor()
+{
+    do_draw_cursor = false;
+    cursors.clear();
 }
 void cata_tiles::void_weather()
 {
@@ -2871,7 +2886,12 @@ void cata_tiles::draw_line()
 
     draw_from_id_string( line_endpoint_id, line_trajectory.back(), 0, 0, LL_LIT, false );
 }
-
+void cata_tiles::draw_cursor()
+{
+    for( const tripoint &p : cursors ) {
+        draw_from_id_string( "cursor", p, 0, 0, LL_LIT, false );
+    }
+}
 void cata_tiles::draw_weather_frame()
 {
 

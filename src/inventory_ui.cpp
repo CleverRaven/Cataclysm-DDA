@@ -22,6 +22,10 @@
 #include "item_search.h"
 #include "string_input_popup.h"
 
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
+
 #include <set>
 #include <string>
 #include <vector>
@@ -1342,6 +1346,12 @@ void inventory_selector::set_filter()
     spopup.window( w_inv, 4, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4 )
     .max_length( 256 )
     .text( filter );
+
+#ifdef __ANDROID__
+    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+        SDL_StartTextInput();
+    }
+#endif
 
     do {
         mvwprintz( w_inv, getmaxy( w_inv ) - 1, 2, c_cyan, "< " );

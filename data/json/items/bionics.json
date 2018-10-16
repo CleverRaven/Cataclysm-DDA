@@ -475,7 +475,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Enhanced Memory Banks CBM",
-    "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power.",
+    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that you learn skills, and give you near-perfect memory of skills and terrain.",
     "price": 1000000,
     "difficulty": 9
   },
@@ -747,7 +747,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Autonomous Surgical Scalpels CBM",
-    "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts. They can also be used as a high-quality butchering tool.",
+    "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts and can be used as a high-quality butchering tool.",
     "price": 220000,
     "difficulty": 4
   },

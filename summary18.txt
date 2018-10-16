@@ -1,0 +1,100 @@
+Interface Change occurrences of "head light" to "headlight"
+Mods Add More Classes and Scenarios mod.
+Balance Misc. Fixes and Re-balance of professions.
+Mods Fix tank mod
+Bugfixes Ensure that a new character's submap is in the center of the map
+Bugfixes Remove printing to stderr as it messes up with ncurses.
+Interface Mshock32 fix
+Interface Mshock tileset additions and revisions
+Balance Pain nerf
+Mods Add pepperbox to no old guns mod
+Interface Swaps coloration for high-level books with recipes
+Balance Made fur a "soft" material
+Infrastructure Fix loss of precision from inadvertent cast to int
+Feature Train relevant skills when installing/removing vehiclep parts
+Mods Craftable Gun Pack mod revamp.
+Interface Fix the advanced inventory volume display (related to #18411, #18288)
+Balance Removes magazine_well from RM228 PDW.
+Bugfixes Fix a crash while aiming at yourself
+Bugfixes Fix pickaxe crash
+Mods Add more things to no old guns mod
+Balance Simplify fish baits
+Mods Generic_Guns: Ammo drop reduction
+Balance 7.62x25mm gun updates
+Infrastructure Standardize overmap terrain identifiers
+Mods Fixes Medieval_Stuff martial arts manuals
+Infrastructure Shorten definition of CBM items
+Infrastructure Restore support for running unit tests
+Mods PRM: add less hostile wildlife: I of II
+Balance Flintlocks changes and additions
+Infrastructure Rework recoil
+Infrastructure Specify vehicle part repair requirements in JSON
+Mods Add more guns to no old guns mod
+Balance Updated Colt 1860s
+Balance Increase price of Kel-Tec SUB-2000
+Bugfixes Fix molotovs immediately extinguishing themselves
+Interface Fixes metal funnel placement message
+Balance Added "MOUNTABLE", to small and medium boulders
+Interface Mark the shortest route to a refugee center on map
+Bugfixes Fix NPC reload failure debugmsg+suicide
+Infrastructure Pickaxe ease-of-use changes
+Mods PRM: bite infection ratio nerf
+Balance Added missing items to itemgroup
+Interface Add unarmed_weapon flag description
+Interface Reworked settings menus. Ingame main menu.
+Build Fixup source control regressions
+Interface Limit display to learned recipes only
+Infrastructure Adding a call to add per-minute LUA callback.
+Balance Weight fix for M134D-H.
+Interface Show available, not only memorized recipes in crafting gui
+Balance Honey, I shrunk the Makarov
+Infrastructure Removed conversion
+Infrastructure Rewrites
+Infrastructure Rewrites, Part 2
+Interface Rewrote the M134 description
+Interface Chesthole_iso: Adds tiles48.png and hooks for same
+Feature Track items with no covered body parts (morale)
+Interface Rewrites: .22 LR
+Bugfixes Fix result_mult with charge-less items
+Balance Adjust crafting quantities of dehydrated meat, canned meat
+Infrastructure Basements (mapgen) update
+Bugfixes Fix crash and bug in mission code
+Infrastructure Food morale changes
+Infrastructure Move mission dialogue to a json
+Balance Aluminum and copper utility expansions, attempt 2
+Interface Improve error messsages for relative values
+Infrastructure Add no world save option to tests
+Content Adds cartridge pouch for blackpowder weapons
+Balance Changing welding googles recipe skill requirements
+Interface Renaming of Rivtech magazines
+Balance Change 'forest trash' group to drop 'opened plastic cup'
+Balance Reduce amount of glass required for crafting 3L glass jar
+Interface In pickup UI, show identical items as stacks
+Content add sweetbread recipe
+Balance Smoked/salted meat changes, offal preservation
+Balance Adds watertight/container tags to a few items
+Features Rework CVD machines and REACH mode
+Content Get the recipe for completing a disassembly using the same name that …
+Bugfixes Fix NPCs spawning in wrong places
+Interface Change Raccoon and sewerrat colors
+Interface Context-dependent skills and more descriptive unmet requirements
+Performance Hugely speed up crafting GUI (improved inventory visiting + subset of recipes + unit tests)
+Interface Double spaces after punctuation
+Feature Generic vehicle tanks
+Feature Scale repair times with damage
+Content Add hot chocolate
+Balance Adds aluminum frames to solar vehicles
+Balance Batteries are easier to remove
+Mods Add mansion holdout scenario to more classes and scenarios mod.
+Content Add Magnum caliber cowboy rifles
+Balance Fix tool qualities
+Balance New hit/dodge formula
+Balance Pressurized
+Balance Changed welding goggles recepie skill requirement after discussion with players
+Bugfixes Add missing item migration
+Mods Add post-human cyborg profession to mod.
+Bugfixes Fix safe mode trigger distance
+Interface Snippets
+Balance Add milk AND egg requirement for pancakes
+Interface Replace pressurised with pressurized
+Mods Revise No Antique Firearms mod

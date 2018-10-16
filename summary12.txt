@@ -1,0 +1,100 @@
+Mods PRM: Move ants to new file
+Bugfixes Fix drawing on wrong z-levels
+Bugfixes NPC time update and consumption bugfixes
+Bugfixes Fix positioning of the top arrow of scrollbar (ui module version)
+Bugfixes Fix tools for uncrafting of copper tube
+Balance fix SCAR-H description
+Bugfixes Fix incorrect display of gunmods
+Bugfixes Fix monster::impact healing monsters instead of damaging them.
+Balance Remove test whiskey and test glass bottle
+Bugfixes Remove the refresh after the uimenu window is closed, fix crash with custom font and hit animations.
+Bugfixes Fix bug with critical hit chance calculation
+Bugfixes fix reset_special_rng argument in shadow trapfunc
+Bugfixes Check correct skill when mending items
+Balance Change 'Adrenaline injector' to 'syringe of adrenaline'
+Balance Reworded the .22 cartridge description
+Balance Rm99 migration
+Mods No more Brutal Doom
+Balance Fix methcola recipe
+Balance fix triple barrel grenade launcher description
+Content Add alternative triffid groves
+Balance Add recipe to dilute concentrated peroxide
+Bugfixes No more smoking in your sleep.
+Bugfixes Fix removing charges from pseudo furniture on map
+Balance Restored the 44fmj item description
+Balance Add toolset to tailors kit and some armor recipe tools
+Balance Add trader avoid flag to broken robots, lit smoking things, and broken/trash items
+Balance Sync handloaded 9x18mm +P+ recipe to ammo count
+Content Add profession labtech to challenge-labstart
+Bugfixes Tool_Deconstruction_fix
+Balance fix reloaded 7.62x39mm M67 name
+Infrastructure Extend gun firing mode implementation
+Features Firing modes including NPC support
+Infrastructure Provide ammo accessors for vehicle parts
+I18N Allow Unicode strings as item symbols.
+Bugfixes Fix line slopes and adjust projectile attacks
+Infrastructure Direct charge field usage removal from iuse and activity_handlers
+Balance Add craft blind hard flag to torch
+Interface Implementation of UI for Bionics Slots System
+Infrastructure Deprecate fake UPS
+Infrastructure Use ammo_sufficient method
+Infrastructure Vehicle batteries
+Interface ChestHole32 Fixes broken APCs, adds mod content
+Bugfixes Crafting and liquid handling bugfixes
+Balance Driving and traction rebalance
+Bugfixes Fix mapgen failing to place the stairs
+Bugfixes Fix "tried to set invalid ammo for sauerkraut" bug with sealed jars
+Balance Add trader avoid flag to some lit items
+Build Disable multi processor compilation with MSVC
+Infrastructure Allow JSON to give more intelligent monsters basic danger avoidance
+Interface Correct grammar in telescopic eyes description
+Build Fix OS X launcher script
+Interface A few grammar fixes for arrows.
+Interface Fixes a run-on sentence.
+Interface Updates a hint about night vision re: shady zeds.
+Bugfixes Fix Character::can_pickVolume and refactor Character::can_pickWeight
+Bugfixes No more schizophrenic suicide attempts
+Build Fix wrong version identifier in MSVC project
+Infrastructure Add and use item method to explicitly set item countdowns.
+Balance Strip nonsensically allowing staffs and tonfa for niten.
+Balance Fix null tools
+Content Add 2x2 cemetery
+Balance Change chisel requirement to CHISEL quality requirement
+Infrastructure Augment and use map::water_from() to handle crafting requirements.
+Mods Adds survivor head torch to blacklist for no_survivor mod
+Mods PRM: Mod info
+Features Automatically add starting components to the start vehicle construction.
+Bugfixes Fix liquid related bugs
+Infrastructure Move the scent map into a dedicated class.
+Bugfixes Fix waiting and use the actual time of sunrise and sunset
+Balance Json spaces round 2
+Balance Small rework to repair nanobots CBM
+Balance Cosmetic_changes_deconstruction_Tools
+Mods PRM: Pathing Flags
+Mods Prm scorched zeds
+Mods PRM: Speech fungus
+Mods PRM: Spiders and Wildlife update
+Mods PRM: Triffid Update
+Balance Warmth fix for lowtop shoes.
+Features Mop up liquids in vehicles
+Balance Fix recipes jar r3
+Infrastructure JSONize hardcoded aliases for monsters
+Interface Add mention of bionic slots to help (to bionics section)
+Balance Removed the rail rifles again after rebase bug
+Interface World options
+Mods PRM: Merge spawn lists
+Infrastructure Convert manual memory management to automatic using unique_ptr
+Infrastructure Replace direct usage of ACTIVE_WORLD_OPTIONS with calendar::season_length
+Balance Added a burst mode
+Balance Changes to item repair training
+Bugfixes Fix night vision range bug
+Bugfixes Fix save+load breaking monster defenses
+Balance Jsonize mutation armor
+Infrastructure Make NPC class id a string_id
+I18N Add comment for translators about mutation UI
+Infrastructure Reset item's side variable before creating its copy
+Balance Change more guns to use magazines
+Balance Updated 7.62x25 guns and ammo
+Bugfixes NPC weapon switching improvement + UPS bug fix
+Mods Move caseless to craftable gunpowder mod
+Mods PRM: Finish off Critter Attacks and (add) Items

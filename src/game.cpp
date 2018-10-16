@@ -106,6 +106,7 @@
 #include "string_input_popup.h"
 #include "monexamine.h"
 #include "loading_ui.h"
+#include "popup.h"
 #include "sidebar.h"
 
 #include <map>
@@ -1666,10 +1667,10 @@ bool game::do_turn()
         }
 
         if( calendar::once_every( 1_minutes ) ) {
-            catacurses::window popup = create_wait_popup_window( string_format(
-                                           _( "Wait till you wake up..." ) ) );
-
-            wrefresh( popup );
+            query_popup()
+            .wait_message( "%s", _( "Wait till you wake up..." ) )
+            .on_top( true )
+            .show();
 
             catacurses::refresh();
             refresh_display();
@@ -1762,35 +1763,33 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         return false;
     }
 
-    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
-                               _( "(Y)es, (N)o, (I)gnore further similar distractions and finish." );
-
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    int ch = -1;
 
-#ifdef __ANDROID__
-    input_context ctxt( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" );
-    ctxt.register_manual_key( 'Y', "Yes" );
-    ctxt.register_manual_key( 'N', "No" );
-    ctxt.register_manual_key( 'I', "Ignore further distractions and finish" );
-#endif
-    do {
-#ifdef __ANDROID__
-        // Don't use popup() as this creates its own input context which will override the one above
-        ch = popup( stop_message, PF_NO_WAIT );
-        ch = inp_mngr.get_input_event().get_first_input();
-#else
-        ch = popup( stop_message, PF_GET_KEY );
-#endif
-    } while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
-             ch != 'Y' && ch != 'N' && ch != 'I' &&
-             ( force_uc || ( ch != 'y' && ch != 'n' && ch != 'i' ) ) );
+    const auto allow_key = [force_uc]( const input_event & evt ) {
+        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
+               // std::lower is undefined outside unsigned char range
+               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+    };
 
-    if( ch == 'Y' || ch == 'y' ) {
+    const auto &action = query_popup()
+                         .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                         .message( force_uc ?
+                                   pgettext( "cancel_activity_or_ignore_query",
+                                           "<color_light_red>%s %s (Case Sensitive)</color>" ) :
+                                   pgettext( "cancel_activity_or_ignore_query",
+                                           "<color_light_red>%s %s</color>" ),
+                                   text, u.activity.get_stop_phrase() )
+                         .option( "YES", allow_key )
+                         .option( "NO", allow_key )
+                         .option( "IGNORE", allow_key )
+                         .query()
+                         .action;
+
+    if( action == "YES" ) {
         u.cancel_activity();
         return true;
     }
-    if( ch == 'I' || ch == 'i' ) {
+    if( action == "IGNORE" ) {
         u.activity.ignore_distraction( type );
         for( auto activity : u.backlog ) {
             activity.ignore_distraction( type );
@@ -2074,7 +2073,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         std::vector<iteminfo> vThisItem;
         std::vector<iteminfo> vDummy;
 
-        const bool bHPR = get_auto_pickup().has_rule( oThisItem.tname( 1, false ) );
+        const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
         const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
@@ -2227,14 +2226,14 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     break;
                 case '+':
                     if( !bHPR ) {
-                        get_auto_pickup().add_rule( oThisItem.tname( 1, false ) );
+                        get_auto_pickup().add_rule( &oThisItem );
                         add_msg( m_info, _( "'%s' added to character pickup rules." ), oThisItem.tname( 1,
                                  false ).c_str() );
                     }
                     break;
                 case '-':
                     if( bHPR ) {
-                        get_auto_pickup().remove_rule( oThisItem.tname( 1, false ) );
+                        get_auto_pickup().remove_rule( &oThisItem );
                         add_msg( m_info, _( "'%s' removed from character pickup rules." ), oThisItem.tname( 1,
                                  false ).c_str() );
                     }
@@ -2323,6 +2322,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
     ctxt.register_action( "grab" );
+    ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
     ctxt.register_action( "chat" );
     ctxt.register_action( "look" );
@@ -2395,7 +2395,10 @@ input_context get_default_mode_input_context()
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
     ctxt.register_action( "reload_tileset" );
+    ctxt.register_action( "toggle_auto_features" );
     ctxt.register_action( "toggle_auto_pulp_butcher" );
+    ctxt.register_action( "toggle_auto_mining" );
+    ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -6204,7 +6207,7 @@ void game::examine()
     examine( examp );
 }
 
-const std::string get_fire_fuel_string( tripoint examp )
+const std::string get_fire_fuel_string( const tripoint &examp )
 {
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
@@ -6243,7 +6246,7 @@ const std::string get_fire_fuel_string( tripoint examp )
                         return ss.str();
                     } else {
                         ss << string_format(
-                               _( "It's very well supplied and even without extra fuel might burn for at least s part of a day." ) );
+                               _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." ) );
                         return ss.str();
                     }
                 } else {
@@ -6862,13 +6865,14 @@ void game::zones_manager()
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
-        tripoint first = look_around( w_zones_info, u.pos() + u.view_offset, false, true );
+        tripoint center = u.pos() + u.view_offset;
+        tripoint first = look_around( w_zones_info, center, center, false, true );
         tripoint second = tripoint_min;
         if( first != tripoint_min ) {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
-            second = look_around( w_zones_info, first, true, true );
+            second = look_around( w_zones_info, center, first, true, true );
         }
 
         if( second != tripoint_min ) {
@@ -7178,9 +7182,9 @@ void game::zones_manager()
 #endif
             }
 
-            inp_mngr.set_timeout( BLINK_SPEED );
+            ctxt.set_timeout( BLINK_SPEED );
         } else {
-            inp_mngr.reset_timeout();
+            ctxt.reset_timeout();
         }
 
         wrefresh( w_terrain );
@@ -7191,7 +7195,7 @@ void game::zones_manager()
         action = ctxt.handle_input();
     } while( action != "QUIT" );
     zones_manager_open = false;
-    inp_mngr.reset_timeout();
+    ctxt.reset_timeout();
 
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
@@ -7212,10 +7216,12 @@ void game::zones_manager()
 
 tripoint game::look_around()
 {
-    return look_around( catacurses::window(), u.pos() + u.view_offset, false, false );
+    tripoint center = u.pos() + u.view_offset;
+    return look_around( catacurses::window(), center, center, false, false );
 }
 
-tripoint game::look_around( catacurses::window w_info, const tripoint &start_point,
+tripoint game::look_around( catacurses::window w_info,
+                            tripoint &center, const tripoint start_point,
                             bool has_first_point, bool select_zone )
 {
     bVMonsterLookFire = false;
@@ -7228,27 +7234,18 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
-    tripoint lp = u.pos() + u.view_offset;
+    tripoint lp = start_point; // cursor
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
 
-    if( select_zone && has_first_point ) {
-        lp = start_point;
-    }
-
-    draw_ter( lp );
+    draw_ter( center );
     wrefresh( w_terrain );
 
-    //change player location to peek location temporarily for minimap update
-    tripoint current_pos = u.pos();
-    u.setpos( lp );
     draw_pixel_minimap();
-    u.setpos( current_pos );
 
     int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
     bool fast_scroll = false;
-    bool blink = false;
 
     int lookWidth = 0;
     int lookY = 0;
@@ -7272,13 +7269,12 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     ctxt.register_action( "LEVEL_DOWN" );
     ctxt.register_action( "TOGGLE_FAST_SCROLL" );
     ctxt.register_action( "EXTENDED_DESCRIPTION" );
-    if( select_zone ) {
-        ctxt.register_action( "SELECT" );
-    } else {
+    ctxt.register_action( "SELECT" );
+    if( !select_zone ) {
         ctxt.register_action( "TRAVEL_TO" );
         ctxt.register_action( "LIST_ITEMS" );
-        ctxt.register_action( "MOUSE_MOVE" );
     }
+    ctxt.register_action( "MOUSE_MOVE" );
 
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "CONFIRM" );
@@ -7290,12 +7286,15 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
+    bool blink = true;
+    bool action_unprocessed = false;
+    bool redraw = true;
     do {
-        if( bNewWindow ) {
-            werase( w_info );
-            draw_border( w_info );
+        if( redraw ) {
+            if( bNewWindow ) {
+                werase( w_info );
+                draw_border( w_info );
 
-            if( !select_zone ) {
                 nc_color clr = c_white;
                 std::string colored_key = string_format( "<color_light_green>%s</color>",
                                           ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
@@ -7307,18 +7306,26 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr,
                                     string_format( _( "Press %s to list items and monsters" ),
                                                    colored_key.c_str() ) );
+
+                int first_line = 1;
+                const int last_line = getmaxy( w_messages ) - 2;
+                print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
+
+                if( fast_scroll ) {
+                    //~ "Fast Scroll" mark below the top right corner of the info window
+                    right_print( w_info, 1, 0, c_light_green, _( "F" ) );
+                }
+
+                wrefresh( w_info );
             }
-        }
 
-        if( select_zone ) {
-            //Select Zone
-            if( has_first_point ) {
-                blink = !blink;
+            draw_ter( center, true );
 
-                const int dx = start_point.x - offset_x + u.posx() - lx;
-                const int dy = start_point.y - offset_y + u.posy() - ly;
-
+            if( select_zone && has_first_point ) {
                 if( blink ) {
+                    const int dx = start_point.x - offset_x + u.posx() - lx;
+                    const int dy = start_point.y - offset_y + u.posy() - ly;
+
                     const tripoint start = tripoint( std::min( dx, POSX ), std::min( dy, POSY ), lz );
                     const tripoint end = tripoint( std::max( dx, POSX ), std::max( dy, POSY ), lz );
 
@@ -7328,80 +7335,34 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                         offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
                     }
 #endif
-
                     draw_zones( start, end, offset );
-
-                } else {
-#ifdef TILES
-                    if( !use_tiles ) {
-#endif
-                        for( int iY = std::min( start_point.y, ly ); iY <= std::max( start_point.y, ly ); ++iY ) {
-                            for( int iX = std::min( start_point.x, lx ); iX <= std::max( start_point.x, lx ); ++iX ) {
-                                if( u.sees( tripoint( iX, iY, u.posz() ) ) ) {
-                                    m.drawsq( w_terrain, u,
-                                              tripoint( iX, iY, lp.z ),
-                                              false,
-                                              false,
-                                              tripoint( lx, ly, u.posz() ) );
-                                } else {
-                                    if( u.has_effect( effect_boomered ) ) {
-                                        mvwputch( w_terrain, iY - offset_y - ly + u.posy(), iX - offset_x - lx + u.posx(), c_magenta, '#' );
-
-                                    } else {
-                                        mvwputch( w_terrain, iY - offset_y - ly + u.posy(), iX - offset_x - lx + u.posx(), c_black, ' ' );
-                                    }
-                                }
-                            }
-                        }
-#ifdef TILES
-                    }
-#endif
                 }
 
                 //Draw first point
-                mvwputch_inv( w_terrain, dy, dx, c_light_green, 'X' );
+                g->draw_cursor( start_point );
             }
 
             //Draw select cursor
-            mvwputch_inv( w_terrain, POSY, POSX, c_light_green, 'X' );
+            g->draw_cursor( lp );
 
-        } else {
-            //Look around
-            int first_line = 1;
-            const int last_line = getmaxy( w_messages ) - 2;
-            print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
-
-            if( fast_scroll ) {
-                //~ "Fast Scroll" mark below the top right corner of the info window
-                right_print( w_info, 1, 0, c_light_green, _( "F" ) );
-            }
-
-            wrefresh( w_info );
-        }
-
-        if( !is_draw_tiles_mode() && action != "MOUSE_MOVE" ) {
-            // When tiles are disabled, this refresh is required to update the
-            // selected terrain square with highlighted ASCII coloring. When
-            // tiles are enabled, the selected square isn't highlighted using
-            // this function, and it is too CPU-intensive to call repeatedly
-            // in a mouse event loop. If we did want to highlight the tile
-            // selected by the mouse, we could call wrefresh when the mouse
-            // hovered over a new tile (rather than on every mouse move
-            // event).
             wrefresh( w_terrain );
         }
 
         if( select_zone && has_first_point ) {
-            inp_mngr.set_timeout( BLINK_SPEED );
+            ctxt.set_timeout( BLINK_SPEED );
         }
 
+        int dx, dy;
+        redraw = true;
         //Wait for input
-        action = ctxt.handle_input();
+        if( action_unprocessed ) {
+            // There was an action unprocessed after the mouse event consumption loop, process it now
+            action_unprocessed = false;
+        } else {
+            action = ctxt.handle_input();
+        }
         if( action == "LIST_ITEMS" ) {
             list_items_monsters();
-            draw_ter( lp, true );
-            wrefresh( w_terrain );
-
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
@@ -7409,18 +7370,16 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 continue;
             }
 
-            int new_levz = lp.z + ( action == "LEVEL_UP" ? 1 : -1 );
-            if( new_levz > OVERMAP_HEIGHT ) {
-                new_levz = OVERMAP_HEIGHT;
-            } else if( new_levz < -OVERMAP_DEPTH ) {
-                new_levz = -OVERMAP_DEPTH;
-            }
+            const int dz = ( action == "LEVEL_UP" ? 1 : -1 );
+            lz = clamp( lz + dz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+            center.z = clamp( center.z + dz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
 
-            add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
-            u.view_offset.z = new_levz - u.posz();
-            lp.z = new_levz;
-            draw_ter( lp, true );
+            add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), center.z );
+            u.view_offset.z = center.z - u.posz();
             refresh_all();
+            if( select_zone && has_first_point ) { // is blinking
+                blink = true; // Always draw blink symbols when moving cursor
+            }
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
                 add_msg( _( "You can't see that destination." ) );
@@ -7435,7 +7394,6 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 add_msg( m_info, _( "You can't travel there." ) );
                 continue;
             }
-            return { INT_MIN, INT_MIN, INT_MIN };
         } else if( action == "debug_scent" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_scent();
@@ -7443,50 +7401,58 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
             draw_sidebar();
-            draw_ter( lp, true );
-            wrefresh( w_terrain );
-        } else if( !ctxt.get_coordinates( w_terrain, lx, ly ) && action != "MOUSE_MOVE" ) {
-            int dx = 0;
-            int dy = 0;
-            ctxt.get_direction( dx, dy, action );
-
-            if( dx == -2 ) {
-                dx = 0;
-                dy = 0;
-            } else {
-                if( fast_scroll ) {
-                    dx *= soffset;
-                    dy *= soffset;
+        } else if( action == "MOUSE_MOVE" ) {
+            const tripoint old_lp = lp;
+            // Maximum mouse events before a forced graphics update
+            int max_consume = 10;
+            do {
+                ctxt.get_coordinates( w_terrain, lx, ly );
+                if( --max_consume == 0 ) {
+                    break;
                 }
+                // Consume all consecutive mouse movements. This lowers CPU consumption
+                // by graphics updates when user moves the mouse continuously.
+                action = ctxt.handle_input( 10 );
+            } while( action == "MOUSE_MOVE" );
+            if( action != "MOUSE_MOVE" && action != "TIMEOUT" ) {
+                // The last event is not a mouse event or timeout, it needs to be processed in the next loop.
+                action_unprocessed = true;
+            }
+            lx = clamp( lx, 0, MAPSIZE * SEEX );
+            ly = clamp( ly, 0, MAPSIZE * SEEY );
+            if( select_zone && has_first_point ) { // is blinking
+                if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
+                    redraw = false; // no need to redraw, so don't redraw to save CPU
+                } else {
+                    blink = true; // Always draw blink symbols when moving cursor
+                }
+            } else if( lp == old_lp ) { // not blinking and cursor not changed
+                redraw = false; // no need to redraw, so don't redraw to save CPU
+            }
+        } else if( ctxt.get_direction( dx, dy, action ) ) {
+            if( fast_scroll ) {
+                dx *= soffset;
+                dy *= soffset;
             }
 
-            lx += dx;
-            ly += dy;
-
-            //Keep cursor inside the reality bubble
-            if( lx < 0 ) {
-                lx = 0;
-            } else if( lx > MAPSIZE * SEEX ) {
-                lx = MAPSIZE * SEEX;
+            lx = clamp( lx + dx, 0, MAPSIZE * SEEX );
+            ly = clamp( ly + dy, 0, MAPSIZE * SEEY );
+            center.x = clamp( center.x + dx, 0, MAPSIZE * SEEX );
+            center.y = clamp( center.y + dy, 0, MAPSIZE * SEEY );
+            if( select_zone && has_first_point ) { // is blinking
+                blink = true; // Always draw blink symbols when moving cursor
             }
-
-            if( ly < 0 ) {
-                ly = 0;
-            } else if( ly > MAPSIZE * SEEY ) {
-                ly = MAPSIZE * SEEY;
-            }
-
-            draw_ter( lp, true );
-            wrefresh( w_terrain );
+        } else if( action == "TIMEOUT" ) {
+            blink = !blink;
         }
-    } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" );
+    } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" );
 
-    if( m.has_zlevels() && lp.z != old_levz ) {
+    if( m.has_zlevels() && center.z != old_levz ) {
         m.build_map_cache( old_levz );
         u.view_offset.z = 0;
     }
 
-    inp_mngr.reset_timeout();
+    ctxt.reset_timeout();
 
     if( bNewWindow ) {
         w_info = catacurses::window();
@@ -8527,7 +8493,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
                               const monster *const source_mon,
                               liquid_dest_opt &target )
 {
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of_from_type( LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -8578,7 +8544,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
     for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( g->m.veh_at( e ) );
         if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part & pt ) {
-        return pt.can_reload( liquid.typeId() );
+        return pt.can_reload( liquid );
         } ) ) {
             opts.insert( veh );
         }
@@ -8663,7 +8629,7 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint *const source_p
                                     const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of_from_type( LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -8756,10 +8722,14 @@ bool game::handle_liquid( item &liquid, item *const source, const int radius,
                           const vehicle *const source_veh, const int part_num,
                           const monster *const source_mon )
 {
-    if( !liquid.made_of( LIQUID ) ) {
+    if( liquid.made_of_from_type( SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
+        return false;
+    }
+    if( !liquid.made_of( LIQUID ) ) {
+        add_msg( _( "The %s froze solid before you could finish." ), liquid.tname().c_str() );
         return false;
     }
     struct liquid_dest_opt liquid_target;
@@ -8974,6 +8944,7 @@ bool game::plfire()
     bool lost_weapon = ( args.held && &u.weapon != args.relevant );
     bool failed_check = !plfire_check( args );
     if( lost_weapon || failed_check ) {
+        u.cancel_activity();
         return false;
     }
 
@@ -9732,6 +9703,10 @@ bool game::unload( item &it )
             add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
             return false;
         }
+        if( !it.can_unload_liquid() ) {
+            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
+            return false;
+        }
 
         bool changed = false;
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
@@ -9857,7 +9832,7 @@ bool game::unload( item &it )
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
 
-        if( ammo.made_of( LIQUID ) ) {
+        if( ammo.made_of_from_type( LIQUID ) ) {
             if( !add_or_drop_with_msg( u, ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
@@ -10161,7 +10136,6 @@ bool game::plmove( int dx, int dy, int dz )
         if( u.has_active_mutation( trait_SHELL2 ) ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
-
         return false;
     }
 
@@ -10186,8 +10160,8 @@ bool game::plmove( int dx, int dy, int dz )
 
     if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
         int turns;
-        if( get_option<bool>( "AUTO_MINING" ) && m.has_flag( "MINEABLE", dest_loc ) &&
-            u.weapon.has_flag( "DIG_TOOL" ) ) {
+        if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 && get_option<bool>( "AUTO_MINING" ) &&
+            u.weapon.has_flag( "DIG_TOOL" ) && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
             if( u.weapon.has_flag( "POWERED" ) ) {
                 if( u.weapon.ammo_sufficient() ) {
                     turns = MINUTES( 30 );
@@ -10624,6 +10598,28 @@ bool game::walk_move( const tripoint &dest_loc )
         }
     }
 
+    if( u.is_hauling() ) {
+        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+        // Whether the source is inside a vehicle (not supported)
+        u.activity.values.push_back( false );
+        // Whether the destination is inside a vehicle (not supported)
+        u.activity.values.push_back( false );
+        // Source relative to the player
+        u.activity.placement = u.pos() - dest_loc;
+        // Destination relative to the player
+        u.activity.coords.push_back( tripoint( 0, 0, 0 ) );
+        map_stack items = m.i_at( u.pos() );
+        if( items.empty() ) {
+            u.stop_hauling();
+        }
+        int index = 0;
+        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
+            int amount = it->count_by_charges() ? it->charges : 1;
+            u.activity.values.push_back( index );
+            u.activity.values.push_back( amount );
+        }
+    }
+
     if( dest_loc != u.pos() ) {
         u.lifetime_stats.squares_walked++;
     }
@@ -10718,14 +10714,44 @@ void game::place_player( const tripoint &dest_loc )
         vertical_shift( dest_loc.z );
     }
 
+    if( u.is_hauling() && ( !m.can_put_items( dest_loc ) ||
+                            m.has_flag( TFLAG_DEEP_WATER, dest_loc ) ||
+                            vp1 ) ) {
+        u.stop_hauling();
+    }
+
     u.setpos( dest_loc );
     update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
 
-    //Auto pulp or butcher
-    if( get_option<bool>( "AUTO_PULP_BUTCHER" ) && mostseen == 0 ) {
-        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER_ACTION" );
+    //Auto pulp or butcher and Auto foraging
+    if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 ) {
+        static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
+
+        const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
+        if( forage_type != "off" ) {
+            static const auto forage = [&]( const tripoint & pos ) {
+                const auto &xter_t = m.ter( pos ).obj().examine;
+                const bool forage_bushes = forage_type == "both" || forage_type == "bushes";
+                const bool forage_trees = forage_type == "both" || forage_type == "trees";
+                if( xter_t == &iexamine::none ) {
+                    return;
+                } else if( ( forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
+                           ( forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
+                           ( forage_trees && xter_t == &iexamine::tree_marloss ) ||
+                           ( forage_trees && xter_t == &iexamine::harvest_ter )
+                         ) {
+                    xter_t( u, pos );
+                }
+            };
+
+            for( auto &elem : adjacentDir ) {
+                forage( u.pos() + direction_XY( elem ) );
+            }
+        }
+
+        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
         if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
             std::vector<int> corpses;
             auto items = m.i_at( u.pos() );
@@ -10756,13 +10782,12 @@ void game::place_player( const tripoint &dest_loc )
                 }
             };
 
-            pulp( u.pos() );
-
             if( pulp_butcher == "pulp_adjacent" ) {
-                static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
                 for( auto &elem : adjacentDir ) {
                     pulp( u.pos() + direction_XY( elem ) );
                 }
+            } else {
+                pulp( u.pos() );
             }
         }
     }
@@ -11625,6 +11650,10 @@ void game::vertical_move( int movez, bool force )
                 monsters_following.push_back( &critter );
             }
         }
+    }
+
+    if( u.is_hauling() ) {
+        u.stop_hauling();
     }
 
     u.moves -= move_cost;

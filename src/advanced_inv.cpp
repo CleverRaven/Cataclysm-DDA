@@ -29,6 +29,10 @@
 #include "string_input_popup.h"
 #include "pickup.h"
 
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
+
 #include <map>
 #include <set>
 #include <algorithm>
@@ -766,7 +770,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , id( an_item->typeId() )
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
-    , autopickup( get_auto_pickup().has_rule( an_item->tname( 1, false ) ) )
+    , autopickup( get_auto_pickup().has_rule( an_item ) )
     , stacks( count )
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
@@ -785,7 +789,7 @@ advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int
     items( list ),
     name( list.front()->tname( list.size() ) ),
     name_without_prefix( list.front()->tname( 1, false ) ),
-    autopickup( get_auto_pickup().has_rule( list.front()->tname( 1, false ) ) ),
+    autopickup( get_auto_pickup().has_rule( list.front() ) ),
     stacks( list.size() ),
     volume( list.front()->volume() * stacks ),
     weight( list.front()->weight() * stacks ),
@@ -1392,6 +1396,30 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     return true;
 }
 
+static tripoint aim_vector( aim_location id )
+{
+    switch( id ) {
+        case AIM_SOUTHWEST:
+            return tripoint( -1, 1, 0 );
+        case AIM_SOUTH:
+            return tripoint( 0, 1, 0 );
+        case AIM_SOUTHEAST:
+            return tripoint( 1, 1, 0 );
+        case AIM_WEST:
+            return tripoint( -1, 0, 0 );
+        case AIM_EAST:
+            return tripoint( 1, 0, 0 );
+        case AIM_NORTHWEST:
+            return tripoint( -1, -1, 0 );
+        case AIM_NORTH:
+            return tripoint( 0, -1, 0 );
+        case AIM_NORTHEAST:
+            return tripoint( 1, -1, 0 );
+        default:
+            return tripoint( 0, 0, 0 );
+    }
+};
+
 void advanced_inventory::display()
 {
     init();
@@ -1558,6 +1586,7 @@ void advanced_inventory::display()
             }
             aim_location destarea = dpane.get_area();
             aim_location srcarea = sitem->area;
+            int distance = std::max( rl_dist( aim_vector( srcarea ), aim_vector( destarea ) ), 1 );
             bool restore_area = ( destarea == AIM_ALL );
             if( !query_destination( destarea ) ) {
                 continue;
@@ -1619,6 +1648,7 @@ void advanced_inventory::display()
                     int moved = 0;
                     for( auto &elem : moving_items ) {
                         assert( !elem.is_null() );
+                        move_cost += Pickup::cost_to_move_item( g->u, elem );
                         items_left = add_item( destarea, elem );
                         if( items_left > 0 ) {
                             // chargeback the items if adding them failed
@@ -1642,7 +1672,7 @@ void advanced_inventory::display()
                 }
                 // add the item, and note any items that might be leftover
                 int items_left = add_item( destarea, new_item, ( by_charges ) ? 1 : amount_to_move );
-                move_cost = Pickup::cost_to_move_item( g->u, new_item );
+                move_cost = ( by_charges ? 1 : amount_to_move ) * Pickup::cost_to_move_item( g->u, new_item );
                 // only remove item or charges if the add succeeded
                 if( items_left == 0 ) {
                     if( by_charges ) {
@@ -1675,7 +1705,7 @@ void advanced_inventory::display()
                 }
             }
             // This is only reached when at least one item has been moved.
-            g->u.mod_moves( -move_cost );
+            g->u.mod_moves( -move_cost * distance );
             // Just in case the items have moved from/to the inventory
             g->u.inv.restack( g->u );
             // if dest was AIM_ALL then we used query_destination and should undo that
@@ -1701,6 +1731,12 @@ void advanced_inventory::display()
 
             draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
 
+#ifdef __ANDROID__
+            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                SDL_StartTextInput();
+            }
+#endif
+
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 4, c_cyan, " >" );
@@ -1724,10 +1760,10 @@ void advanced_inventory::display()
                 continue;
             }
             if( sitem->autopickup ) {
-                get_auto_pickup().remove_rule( sitem->items.front()->tname() );
+                get_auto_pickup().remove_rule( sitem->items.front() );
                 sitem->autopickup = false;
             } else {
-                get_auto_pickup().add_rule( sitem->items.front()->tname() );
+                get_auto_pickup().add_rule( sitem->items.front());
                 sitem->autopickup = true;
             }
             recalc = true;
@@ -2072,21 +2108,19 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    if( src_container.is_non_resealable_container() ) {
-        long max_charges = dest_container.get_remaining_capacity_for_liquid( src );
-        if( src.charges > max_charges ) {
-            popup( _( "You can't partially unload liquids from unsealable container." ) );
-            return false;
-        }
-        src_container.on_contents_changed();
-    }
-
     std::string err;
     // @todo: Allow buckets here, but require them to be on the ground or wielded
     const long amount = dest_container.get_remaining_capacity_for_liquid( src, false, &err );
     if( !err.empty() ) {
         popup( err.c_str() );
         return false;
+    }
+    if( src_container.is_non_resealable_container() ) {
+        if( src.charges > amount ) {
+            popup( _( "You can't partially unload liquids from unsealable container." ) );
+            return false;
+        }
+        src_container.on_contents_changed();
     }
     dest_container.fill_with( src, amount );
 
@@ -2135,7 +2169,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.
-    if( it.made_of( LIQUID ) ) {
+    if( it.made_of_from_type( LIQUID ) ) {
         popup( _( "You can't pick up a liquid." ) );
         redraw = true;
         return false;
@@ -2402,37 +2436,10 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
 void advanced_inv_area::set_container_position()
 {
     // update the offset of the container based on location
-    switch( uistate.adv_inv_container_location ) {
-        case AIM_DRAGGED:
-            off = g->u.grab_point;
-            break;
-        case AIM_SOUTHWEST:
-            off = tripoint( -1, 1, 0 );
-            break;
-        case AIM_SOUTH:
-            off = tripoint( 0, 1, 0 );
-            break;
-        case AIM_SOUTHEAST:
-            off = tripoint( 1, 1, 0 );
-            break;
-        case AIM_WEST:
-            off = tripoint( -1, 0, 0 );
-            break;
-        case AIM_EAST:
-            off = tripoint( 1, 0, 0 );
-            break;
-        case AIM_NORTHWEST:
-            off = tripoint( -1, -1, 0 );
-            break;
-        case AIM_NORTH:
-            off = tripoint( 0, -1, 0 );
-            break;
-        case AIM_NORTHEAST:
-            off = tripoint( 1, -1, 0 );
-            break;
-        default:
-            off = tripoint( 0, 0, 0 );
-            break;
+    if( uistate.adv_inv_container_location == AIM_DRAGGED ) {
+        off = g->u.grab_point;
+    } else {
+        off = aim_vector( static_cast<aim_location>( uistate.adv_inv_container_location ) );
     }
     // update the absolute position
     pos = g->u.pos() + off;

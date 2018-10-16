@@ -54,7 +54,8 @@
             "glaive",
             "pike",
             "spear_steel",
-            "halberd"
+            "halberd",
+            "sword_forged"
         ]
     },{
         "type" : "martial_art",

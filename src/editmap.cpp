@@ -1696,12 +1696,12 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
         } else {
             update_view( false ); //wrefresh(g->w_terrain);
         }
-        inp_mngr.set_timeout( BLINK_SPEED * 3 );
         int gpmenupos = gpmenu.selected;
-        gpmenu.query( false );
+        gpmenu.query( false, BLINK_SPEED * 3 );
 
-        if( gpmenu.ret != UIMENU_UNBOUND ) {
-            inp_mngr.reset_timeout();
+        if( gpmenu.ret == UIMENU_TIMEOUT ) {
+            showpreview = !showpreview;
+        } else if( gpmenu.ret != UIMENU_UNBOUND ) {
             if( gpmenu.ret == 0 ) {
 
                 cleartmpmap( tmpmap );
@@ -1800,15 +1800,13 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
         } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
                    gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
 
-            int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_LEFT ? 1 : -1 );
+            int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_RIGHT ? 1 : -1 );
             gmenu.scrollby( dir );
             gpmenu.selected = gpmenupos;
             gmenu.show();
             gmenu.refresh();
         }
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UIMENU_CANCEL );
-
-    inp_mngr.reset_timeout();
 
     update_view( true );
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
@@ -1946,7 +1944,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
     return true;
 }
 
-vehicle *editmap::mapgen_veh_query( tripoint omt_tgt )
+vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
@@ -1972,15 +1970,14 @@ vehicle *editmap::mapgen_veh_query( tripoint omt_tgt )
     if( car_titles.size() == 1 ) {
         return possible_vehicles[0];
     }
-    car_titles.push_back( _( "Cancel" ) );
-    int choice = menu_vec( true, _( "Select the Vehicle" ), car_titles ) - 1;
-    if( choice >= 0 && size_t( choice ) < possible_vehicles.size() ) {
+    const int choice = uilist( _( "Select the Vehicle" ), car_titles );
+    if( choice >= 0 && static_cast<size_t>( choice ) < possible_vehicles.size() ) {
         return possible_vehicles[choice];
     }
     return nullptr;
 }
 
-bool editmap::mapgen_veh_has( tripoint omt_tgt )
+bool editmap::mapgen_veh_has( const tripoint &omt_tgt )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
@@ -1995,7 +1992,7 @@ bool editmap::mapgen_veh_has( tripoint omt_tgt )
     return false;
 }
 
-bool editmap::mapgen_veh_destroy( tripoint omt_tgt, vehicle *car_target )
+bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );

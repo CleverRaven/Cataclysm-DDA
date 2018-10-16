@@ -1,0 +1,100 @@
+Content Allows shrubs to drop withered plants, saw and hatchet alterations
+I18N Fully handle languange changes
+Bugfixes Prohibit sleep-reading
+Balance Remove "ammo_bullet_762x25" material (2)
+Bugfixes Fix incorrect placement of stairs after construction:
+Infrastructure Prevent implicit conversion of item_location to int
+Bugfixes Explicit casting to prevent buffer write overflow
+Interface No need of plural form of AMMO and COMESTIBLE items
+Bugfixes item::display_name fix
+Infrastructure Explicit state of game core data
+Bugfixes Fix obtaining items from characters
+Features NPCs swap (or take off) their splints properly
+Bugfixes Fix for crash while iterating over multiple vehicle tanks' contents
+Bugfixes utility: remove times-two scaling for vehicle velocity display
+Interface Add option to debug menu allowing exiting to main menu without saving
+I18N Fix copying translations
+Content Balance basement weights
+Bugfixes Fixed a bug where toilet water was missing
+Infrastructure Item groups: Allow contents to be arrays
+Interface Tell the player that their shout is muffled
+Infrastructure Make place_loot mappable in JSON and update documentation
+Bugfixes No longer picks unrepairable items for quick repair
+I18N Translation updates
+Infrastructure Make a standard heating tools requirement
+Interface json/bionics: Metabolic Interchange description.
+Balance Added "soft" flag to neoprene to make it tail-compatible as per #19698
+Mods Clarifies the purpose and function of the megaveh mod
+Infrastructure Differentiate base traits in the mutation menu
+Content Add overlooked Start Locations and 2 scenarios.
+Bugfixes Autopickup fixes
+Infrastructure define multiple overmap terrains in a single json object
+Bugfixes Restore descriptive message for vehicle failures.
+Balance G3 magazine: Changed steel mags to aluminum
+I18N Localize "Your current health value is %d"
+I18N Translation updates
+Interface Added noise to bio weapons
+Content Add calcium tablets
+Interface Added noise to laser weapons
+Balance Change black powder recipe category
+Interface Fix wording of calcium tablet description.
+Interface Display 'item (charges)' for stackable items in crafting menu
+Mods Updated foldable vehicle parts mod a bit.
+Balance Added inferior weapons to medieval swordsmanship martial art
+Interface Correct gun/magazine ammo count display
+Interface ChestHoleXX: Add effects, and other updates
+Balance json/battery: swappable storage battery installed/removed to/from vehicle with no skill, in little time
+Balance json/recipe_others: require "metal tank" instead of "steel jerrycan" for certain tools.
+Balance Wooden Barrel should be cold forged
+Bugfixes Don't let monsters friendly-fire players/NPCs
+Features Load new characters' guns (part 3)
+Infrastructure Replace usage of getch with input manager
+Balance Add a built-in thermometer to RM13 armor
+Bugfixes Fix an active item processing crash (take 2)
+Balance Remove Varsize on some items.
+Bugfixes Fix distances in the V menu
+Balance Added MAG_BULKY to AKM extended magazine
+Infrastructure Extend "using" to head armor recipes
+Infrastructure Extend "using" to weapon mod recipes
+Bugfixes Fix another active item processing crash
+Infrastructure Allow scenarios to blacklist professions
+Bugfixes Fix consumption of medications
+Bugfixes Fix aiming behavior for bionic guns
+Interface Approximate durations
+Balance Decrease the number of military bunkers
+Bugfixes Fix data/legacy not applying
+Interface Allow scrolling in menus via mouse wheel
+Bugfixes Fix "CTRL+C breaks screen refreshing"
+Infrastructure Refactor and improve bionic power armor interfaces
+Interface Customize Disassemble Item menu
+Infrastructure Overmap overhaul (step 5)
+Infrastructure Generic monster attacks, take 2: "Library of Attacks"
+Interface Update Internal Storage description
+Balance Remove bionic armor interface activation costs
+Balance Buff chem sprayer reload
+Infrastructure Fuel efficiency tests with targets.
+Interface Correct instructions, grammar for debug menu
+Mods Fixed range field and added .38 Super pistols [Extended Realistic Guns]
+Mods Magazines for Icecoon's Arsenal
+Mods No Fungal Monsters: Fixes incorrect overmap edits
+Balance Rebalance of cooking qualities for leavening bread
+Mods Updates to More Survival Tools mod
+Mods Arcana: Use qualities instead of tools in recipes
+Mods Blazemod: Use qualities instead of tools in recipes
+Mods Medieval Stuff: Use qualities instead of tools in recipes
+Mods More Survival Tools: Use qualities instead of tools in recipes
+Mods Mythological Replicas: Qualities instead of tools in recipes
+Mods Bionic Spec-ops mod profession change.
+Mods Changes to Craftable gun power mod.
+Mods Nerfed blazemod solar parts to match other parts
+Mods Changed the description of 6.54x42mm [Icecoon's Arsenal]
+Bugfixes Prevent a nullptr dereference in game::pl_target_ui
+Bugfixes Inverted conditional in shoggoth absorb
+Infrastructure On-spawned-on-map item action; more "natural" acid bombs
+I18N Display localized 'NPC gets angry!' message
+I18N Translation template update
+Balance Fix .40 S&W handloads
+I18N Delete pt_PT.po
+I18N Translation updates
+Infrastructure Add BrettDong to SIGNOFF
+Bugfixes A closed reinforced glass door should also stop shots (fix #19636)

@@ -638,6 +638,9 @@ std::string print_temperature( double fahrenheit, int decimals )
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         ret << temp_to_celsius( fahrenheit );
         return string_format( pgettext( "temperature in Celsius", "%sC" ), ret.str().c_str() );
+    } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
+        ret << temp_to_kelvin( fahrenheit );
+        return string_format( pgettext( "temperature in Kelvin", "%sK" ), ret.str().c_str() );
     } else {
         ret << fahrenheit;
         return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), ret.str().c_str() );

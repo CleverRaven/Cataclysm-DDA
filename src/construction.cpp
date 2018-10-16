@@ -105,7 +105,7 @@ std::vector<construction *> constructions_by_desc( const std::string &descriptio
 {
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
-        if( constructions_a.description == description ) {
+        if( constructions_a.desc() == description ) {
             result.push_back( &constructions_a );
         }
     }
@@ -122,14 +122,14 @@ void load_available_constructions( std::vector<std::string> &available,
         if( !hide_unconstructable || can_construct( it ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
-                if( avail_it == it.description ) {
+                if( avail_it == it.desc() ) {
                     already_have_it = true;
                     break;
                 }
             }
             if( !already_have_it ) {
-                available.push_back( it.description );
-                cat_available[it.category].push_back( it.description );
+                available.push_back( it.desc() );
+                cat_available[it.category].push_back( it.desc() );
             }
         }
     }
@@ -336,8 +336,7 @@ void construction_menu()
             bool highlight = ( current == select );
 
             trim_and_print( w_list, i, 0, w_list_width,
-                            construction_color( con_name, highlight ),
-                            con_name );
+                            construction_color( con_name, highlight ), con_name );
         }
 
         if( update_info ) {
@@ -375,8 +374,7 @@ void construction_menu()
                 }
                 std::string current_desc = constructs[select];
                 // Print construction name
-                trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
-                                current_desc );
+                trim_and_print( w_con, 1, pos_x, available_window_width, c_white, current_desc );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -842,7 +840,7 @@ void complete_construction()
         }
     }
 
-    add_msg( m_info, _( "You finish your construction: %s." ), built.description.c_str() );
+    add_msg( m_info, _( "You finish your construction: %s." ), built.desc() );
 
     // clear the activity
     u.activity.set_to_null();
@@ -1179,7 +1177,7 @@ void load_construction( JsonObject &jo )
     construction con;
     con.id = constructions.size();
 
-    con.description = _( jo.get_string( "description" ).c_str() );
+    con.description = jo.get_string( "description" ).c_str();
     if( jo.has_member( "required_skills" ) ) {
         auto sk = jo.get_array( "required_skills" );
         while( sk.has_more() ) {
@@ -1367,6 +1365,11 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
     std::string time_text = get_time_string();
     std::vector<std::string> folded_time = foldstring( time_text, width );
     return folded_time;
+}
+
+const std::string construction::desc() const
+{
+    return _( description.c_str() );
 }
 
 void finalize_constructions()

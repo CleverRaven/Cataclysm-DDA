@@ -206,7 +206,7 @@ constexpr char setup[height][width + 1] = {
     "    #####        ",
 };
 
-static void check_npc_movement( tripoint origin )
+static void check_npc_movement( const tripoint &origin )
 {
     const efftype_id effect_bouldering( "bouldering" );
 

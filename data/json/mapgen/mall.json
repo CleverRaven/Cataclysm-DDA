@@ -78,21 +78,12 @@
   {
     "id": "flower_shop",
     "type": "item_group",
-    "items": [
-      [ "trimmer_off", 30 ],
-      [ "fertilizer_liquid", 50 ],
-      [ "dahlia_root", 30 ],
-      [ "fertilizer_commercial", 25 ]
-    ]
+    "items": [ [ "trimmer_off", 30 ], [ "fertilizer_liquid", 50 ], [ "dahlia_root", 30 ], [ "fertilizer_commercial", 25 ] ]
   },
   {
     "id": "music_shop",
     "type": "item_group",
-    "items": [
-      [ "battery", 30 ],
-      [ "radio", 30 ],
-      [ "mp3", 30 ]
-    ]
+    "items": [ [ "battery", 30 ], [ "radio", 30 ], [ "mp3", 30 ] ]
   },
   {
     "id": "vitamin_shop",
@@ -162,13 +153,7 @@
   {
     "id": "victoria_shop",
     "type": "item_group",
-    "items": [
-      [ "bra", 70 ],
-      [ "panties", 70 ],
-      [ "boy_shorts", 50 ],
-      [ "boxer_shorts", 70 ],
-      [ "briefs", 50 ]
-    ]
+    "items": [ [ "bra", 70 ], [ "panties", 70 ], [ "boy_shorts", 50 ], [ "boxer_shorts", 70 ], [ "briefs", 50 ] ]
   },
   {
     "id": "knife_shop",
@@ -238,7 +223,8 @@
       [ "usb_drive", 10 ],
       [ "manual_electronics", 20 ],
       [ "cable", 60 ],
-      [ "cell_phone", 70 ],
+      [ "cell_phone", 60 ],
+      [ "smart_phone", 60 ],
       [ "wristwatch", 60 ],
       [ "mobile_memory_card_used", 10 ]
     ]
@@ -984,7 +970,10 @@
         "z": "f_crate_c"
       },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.2 } ],
-      "place_vehicles": [ { "vehicle": "car", "x": 12, "y": 11, "chance": 35, "rotation": 0 }, { "vehicle": "beetle", "x": 12, "y": 19, "chance": 35, "rotation": 180 } ]
+      "place_vehicles": [
+        { "vehicle": "car", "x": 12, "y": 11, "chance": 35, "rotation": 0 },
+        { "vehicle": "beetle", "x": 12, "y": 19, "chance": 35, "rotation": 180 }
+      ]
     }
   },
   {
@@ -1692,7 +1681,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "cubical_office", "x": [ 13, 14 ], "y": [ 3, 3 ], "chance": 50 },
         { "item": "cubical_office", "x": [ 3, 3 ], "y": [ 23, 23 ], "chance": 50 },
@@ -1943,7 +1932,7 @@
         "z": "f_crate_c"
       },
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 6 }, { "item_group": "vending_drink", "x": 4, "y": 6 } ],
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "floor_trash", "x": [ 7, 8 ], "y": [ 0, 2 ], "chance": 10 },
         { "item": "floor_trash", "x": [ 7, 8 ], "y": [ 4, 6 ], "chance": 10 },
@@ -3834,7 +3823,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "ammo", "x": [ 15, 15 ], "y": [ 18, 19 ], "chance": 60 },
         { "item": "ammo", "x": [ 19, 19 ], "y": [ 18, 19 ], "chance": 60 },
@@ -4501,7 +4490,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "floor_trash", "x": [ 19, 19 ], "y": [ 11, 11 ], "chance": 80 },
         { "item": "beauty", "x": [ 9, 11 ], "y": [ 20, 20 ], "chance": 60 },
@@ -4638,7 +4627,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 11, 23 ], "y": [ 2, 23 ], "density": 0.2 } ],
       "place_vehicles": [
         { "vehicle": "car", "x": 23, "y": 2, "chance": 35, "rotation": 0 },
@@ -5663,7 +5652,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "floor_trash", "x": [ 19, 19 ], "y": [ 0, 0 ], "chance": 80 },
         { "item": "beauty", "x": [ 12, 14 ], "y": [ 22, 22 ], "chance": 60 },
@@ -5797,7 +5786,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "beauty", "x": [ 9, 9 ], "y": [ 22, 23 ], "chance": 60 },
         { "item": "allclothes", "x": [ 10, 10 ], "y": [ 8, 10 ], "chance": 60 },
@@ -7460,7 +7449,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "floor_trash", "x": [ 23, 23 ], "y": [ 19, 19 ], "chance": 80 },
         { "item": "allclothes", "x": [ 0, 1 ], "y": [ 20, 22 ], "chance": 60 },
@@ -7611,7 +7600,7 @@
         "z": "f_crate_c"
       },
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 9, "y": 23 } ],
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "jewelry_front", "x": [ 11, 15 ], "y": [ 16, 16 ], "chance": 60 },
         { "item": "jewelry_front", "x": [ 11, 11 ], "y": [ 17, 20 ], "chance": 60 },
@@ -8666,7 +8655,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "floor_trash", "x": [ 23, 23 ], "y": [ 3, 3 ], "chance": 10 },
         { "item": "allclothes", "x": [ 21, 21 ], "y": [ 0, 0 ], "chance": 60 },
@@ -8806,7 +8795,7 @@
         "z": "f_crate_c"
       },
       "place_vendingmachines": [ { "item_group": "vending_drink", "x": 9, "y": 0 } ],
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "office", "x": [ 19, 19 ], "y": [ 5, 6 ], "chance": 60 },
         { "item": "office", "x": [ 16, 18 ], "y": [ 11, 11 ], "chance": 60 },
@@ -8938,7 +8927,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [ { "item": "office", "x": [ 0, 2 ], "y": [ 11, 11 ], "chance": 60 } ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 4, 19 ], "y": [ 0, 23 ], "density": 0.7 } ]
     }
@@ -9053,7 +9042,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "shoes", "x": [ 18, 21 ], "y": [ 0, 0 ], "chance": 60 },
         { "item": "dining", "x": [ 21, 22 ], "y": [ 9, 12 ], "chance": 60 },
@@ -9189,7 +9178,7 @@
         "x": "f_pinball_machine",
         "z": "f_crate_c"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "dining", "x": [ 15, 16 ], "y": [ 11, 12 ], "chance": 60 },
         { "item": "dining", "x": [ 20, 21 ], "y": [ 11, 12 ], "chance": 60 },

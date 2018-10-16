@@ -51,8 +51,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] },
-      { "item": "leaf_spring", "count": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "WHEEL" ]
   },
@@ -79,8 +78,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] },
-      { "item": "leaf_spring", "count": [ 2, 3 ] }
+      { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "flags": [ "WHEEL" ]
   },
@@ -266,8 +264,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] },
-      { "item": "leaf_spring", "count": [ 2, 3 ] }
+      { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "flags": [ "WHEEL" ]
   },

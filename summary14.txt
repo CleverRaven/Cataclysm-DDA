@@ -1,0 +1,100 @@
+Build Fix for old clang versions that don't like empty initializers.
+Infrastructure Spot checker for FoV scenarios.
+Infrastructure Drop legacy itemgroups
+Bugfixes Fix refilling of vehicle tanks
+Infrastructure Support repair materials counted by charges
+Balance Sewage now contains actual sewage
+Balance Scenario flag fix.
+Interface Print impassable stuff properly in various places
+Balance don't allow craft diesel over nearby fire due to long crafting time
+Bugfixes Fix advanced inventory
+Bugfixes Fix inventory column gap
+Bugfixes Fix deafness protecting from hostile NPCs, mugging NPCs ignoring weapons
+Bugfixes Fix fire_gun crash
+Bugfixes Fix fungals trying to spawn on existing critters
+Balance Make leukocyte bionic toggled
+Infrastructure Allow standalone requirement data
+Bugfixes Fix shouting messages
+Infrastructure Allow custom dolls with custom speech
+Mods Add No_Zombie_Animals blacklist mod.
+Bugfixes Fix auto-unloading a bow after canceling to fire consuming moves
+Bugfixes Fix crash in map::propagate_field
+Balance Fix incorrect recipes
+Bugfixes Fix stats dumper
+Bugfixes Fix monster reporting when it regenerates
+Interface Don't show unrecoverable components
+Bugfixes Fix construction id mismatch bug
+Bugfixes More cases of inverted is_armed
+I18N Add Chinese main menu ASCII art
+Interface Accurate, consistent 'slow movement' messages
+Interface Don't prompt for traps when boarded on a vehicle
+Bugfixes Ensure that all items in the same stack have the same invlet
+Bugfixes Fix gasoline pumping
+Bugfixes Fix reapers crash
+Balance Addiction update
+Balance Remove strawberry surprise and boozeberry from spawns
+Balance Disallow tainted veggy as mutagen crafting component for lore reasons
+Balance Prevent fusion rifle from accepting certain mods
+Infrastructure Remove some extraneous std::move invocations.
+Content Smoke grenades
+Infrastructure Support inheritance for ARMOR
+Balance Codeine and heroin now can suppress cough
+Mods Updating and Rewriting Generic_Guns
+Infrastructure Rewrite drop code, resolve some issues and implement the "backpack logic"
+Bugfixes Fix DEBUG_HS, unhack WEB_ROPES
+Balance Prevent cable bionic from draining power when full
+Mods Fictional Weapons update
+Balance Make methacola junk food instead of glass
+Interface Fix misnamed field
+Mods Forbid alchemy
+Balance Trivival fix for NPC quest
+Bugfixes When boarded on a vehicle, grant immunity to sludge fields
+Features Melee autoattack feature
+Balance Remove skewers from smoked meats
+Interface Clarify hydrogen discription
+Interface Remove leading space from XM34 name, minor alterations to other energ…
+Mods PRM: Early Game Zombie Variety
+Mods PRM: Hell Spire
+Infrastructure Reduce code duplication in map class using string and int id.
+Infrastructure Introduce a dedicated function to enumerate (recite) objects
+Balance Rework firestarter and extended firestarter
+Bugfixes More reaper fix
+Balance Flares
+Mods Add No_Diamond_Weapons blacklist.
+Mods Update Generic_Guns itemgroups and blacklists
+Balance Leather Vests from Jackets return leather scraps
+Mods PRM: Integrate mod items into itemlists.
+Features A new profession for The Next Summer.
+Bugfixes Display proper type for left item in a compare
+Bugfixes Sleep bugfixes: fatigue effects and lying stopping fatigue
+Balance Manhacks dont drop combat knives
+Interface Fix item description
+Bugfixes Fix worn non-rigid containers
+Infrastructure Manage materials by means of 'generic_factory'
+Interface Add an interrupt query after NPC talks to player
+Features Allow UPS charger to work with partial charge
+Features Don't wake up on dry retching
+Bugfixes Fix NPC wear armor msg, SCT on armor destroy
+Bugfixes Fix item group error when loading megastore
+Content A second pool template
+Balance Fix 145 items spawning in a house
+Features New hunter professions.
+Bugfixes Erase items after removing a vehicle part
+Interface Changed "remove all monsters" to "kill all monsters"
+Infrastructure Memorial files now saved in separate world dirs.
+Balance Added to spawn advanced reaper and planter
+Infrastructure NPC alternate attack and friendly fire updates
+Interface Clarify descriptions of movement-related mutations
+Infrastructure NPC shopkeeper and skill to jsons
+Balance Nerf Scoundrel and Gangster professions
+Bugfixes Refactor vehicle placement, fix "ring of fuel" bug
+Infrastructure Improvements to reloading
+Balance More smoke and field balancing
+Infrastructure Prevent specifying default JSON values
+Balance Water to acid recipe revision.
+Interface Mark some fields as dangerous; prompt for rough/sharp terrain
+Build Fix compilation error when using SDL
+Bugfixes Fix duplicate flare message
+Interface Auto-select first removable part, if possible.
+Bugfixes Fix siphoning into hold container.
+Bugfixes Fix wrong migration ids
