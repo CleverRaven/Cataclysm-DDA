@@ -4653,7 +4653,7 @@
   {
     "type": "recipe",
     "result": "kompot",
-    "id_suffix": "jarred",
+    "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_3l_glass_sealed",
     "category": "CC_FOOD",
