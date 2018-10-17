@@ -57,10 +57,12 @@ int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, float
 /// Exact same as om_harvest_furn but functions on terrain
 int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &f, float chance = 1.0,
                     bool force_bash = true );
-/// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, @ref take, whether you take the item or count it
-int om_harvest_itm( npc &comp, const tripoint &omt_tgt, float chance = 1.0, bool take = true );
+/// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total mass and volume
+/// @ref take, whether you take the item or count it
+std::pair<units::mass, units::volume> om_harvest_itm( npc *comp, const tripoint &omt_tgt,
+        float chance = 1.0, bool take = true );
 /// Counts or cuts trees into trunks and trunks into logs, if both are false it returns the total of the two combined
-int om_harvest_trees( npc &comp, const tripoint &omt_tgt, float chance = 1.0, bool force_cut = true,
+int om_cutdown_trees( const tripoint &omt_tgt, float chance = 1.0, bool force_cut = true,
                       bool force_cut_trunk = true );
 /// Creates an improvised shelter at @ref omt_tgt and dumps the @ref itms into the building
 bool om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<item *> &itms,
@@ -103,8 +105,11 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, 
 std::string camp_trip_description( time_duration total_time, time_duration working_time,
                                    time_duration travel_time,
                                    int distance, int trips, int need_food );
-/// Determines how many trips a given NPC @ref comp will take to move all of the items @ref itms
-int om_carry_weight_to_trips( npc &comp, const std::vector<item *> &itms );
+/// Determines how many round trips a given NPC @ref comp will take to move all of the items @ref itms
+int om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp = nullptr );
+/// Determines how many trips it takes to move @ref mass and @ref volume of items with @ref carry_mass and @ref carry_volume moved per trip
+int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
+                              units::volume carry_volume );
 
 /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
 bool om_camp_upgrade( npc &p, const tripoint &omt_pos );

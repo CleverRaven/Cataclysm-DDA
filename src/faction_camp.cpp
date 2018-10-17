@@ -286,9 +286,9 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                        "Difficulty: 1 \n"
                                        "Effects:\n"
                                        "> 50%% of trees/trunks at the forest position will be cut down.\n"
-                                       "> 50%% of total material will be brought back.\n"
+                                       "> 100%% of total material will be brought back.\n"
                                        "> Repeatable with diminishing returns.\n \n"
-                                       "Risk: Low-Medium\n"
+                                       "Risk: None\n"
                                        "Time: 6 Hour Base + Travel Time + Cutting Time\n"
                                        "Positions: %d/1\n" ), npc_list.size() );
         mission_key.push( "Cut Logs", _( "Cut Logs" ), "", false, npc_list.empty() );
@@ -1086,7 +1086,7 @@ void talk_function::start_cut_logs( npc &p )
     const tripoint omt_pos = p.global_omt_location();
     tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
     if( forest != tripoint( -999, -999, -999 ) ) {
-        int tree_est = om_harvest_trees( p, forest, .50, false, false );
+        int tree_est = om_cutdown_trees( forest, .50, false, false );
         int tree_young_est = om_harvest_ter( p, forest, ter_id( "t_tree_young" ), .50, false );
         int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
@@ -1112,13 +1112,20 @@ void talk_function::start_cut_logs( npc &p )
         npc *comp = individual_mission( p, _( "departs to cut logs..." ), "_faction_camp_cut_log", false, {},
                                         "fabrication", 2 );
         if( comp != nullptr ) {
-            om_harvest_trees( *comp, forest, .50, true, true );
+            units::mass carry_m = comp->weight_capacity() - comp->weight_carried();
+            // everyone gets at least a makeshift sling of storage
+            units::volume carry_v = comp->volume_capacity() - comp->volume_carried() + item(
+                                        itype_id( "makeshift_sling" ) ).get_storage();
+            om_cutdown_trees( forest, .50 );
             om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), .50, true );
-            om_harvest_itm( *comp, forest, .75, true );
+            std::pair<units::mass, units::volume> harvest = om_harvest_itm( comp, forest, .95, true );
+            // recalculate trips based on actual load and capacity
+            trips = om_carry_weight_to_trips( harvest.first, harvest.second, carry_m, carry_v );
+            travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
+            work_time = travel_time + chop_time;
             comp->companion_mission_time_ret = calendar::turn + work_time;
-
             //If we cleared a forest...
-            tree_est = om_harvest_trees( *comp, forest, .50, false, false );
+            tree_est = om_cutdown_trees( forest, .50, false, false );
             if( tree_est < 20 ) {
                 oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
@@ -1150,8 +1157,7 @@ void talk_function::start_setup_hide_site( npc &p )
         } );
         if( !pos_inv.empty() ) {
             std::vector<item *> losing_equipment = individual_mission_give_equipment( pos_inv );
-            int trips = om_carry_weight_to_trips( p, losing_equipment ) * 2;
-            trips = ( trips % 2 == 0 ) ? trips : ( trips + 1 );
+            int trips = om_carry_weight_to_trips( losing_equipment );
             time_duration build_time = 6_hours;
             time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
             time_duration work_time = travel_time + build_time;
@@ -1167,6 +1173,8 @@ void talk_function::start_setup_hide_site( npc &p )
                                             "_faction_camp_hide_site", false,
                                             {}, "survival", 3 );
             if( comp != nullptr ) {
+                trips = om_carry_weight_to_trips( losing_equipment, comp );
+                work_time = build_time + companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
                 comp->companion_mission_time_ret = calendar::turn + work_time;
                 om_set_hide_site( *comp, forest, losing_equipment );
             }
@@ -1211,12 +1219,8 @@ void talk_function::start_relay_hide_site( npc &p )
         }
         if( !losing_equipment.empty() || !gaining_equipment.empty() ) {
             //Only get charged the greater trips since return is free for both
-            int trips = om_carry_weight_to_trips( p, losing_equipment ) * 2;
-            int trips_return = om_carry_weight_to_trips( p, gaining_equipment ) * 2;
-            if( trips < trips_return ) {
-                trips = trips_return;
-            }
-            trips = ( trips % 2 == 0 ) ? trips : ( trips + 1 );
+            int trips = std::max( om_carry_weight_to_trips( gaining_equipment ),
+                                  om_carry_weight_to_trips( losing_equipment ) );
             time_duration build_time = 6_hours;
             time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
             time_duration work_time = travel_time + build_time;
@@ -1231,6 +1235,10 @@ void talk_function::start_relay_hide_site( npc &p )
             npc *comp = individual_mission( p, _( "departs for the hide site..." ), "_faction_camp_hide_site",
                                             false, {}, "survival", 3 );
             if( comp != nullptr ) {
+                // recalculate trips based on actual load
+                trips = std::max( om_carry_weight_to_trips( gaining_equipment, comp ),
+                                  om_carry_weight_to_trips( losing_equipment, comp ) );
+                work_time = build_time + companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
                 comp->companion_mission_time_ret = calendar::turn + work_time;
                 om_set_hide_site( *comp, forest, losing_equipment, gaining_equipment );
             }
@@ -1301,7 +1309,7 @@ void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
             trips += 2;
             build_time += time_duration::from_turns( making.time / 100 );
             dist += rl_dist( fort_om.x, fort_om.y, omt_pos.x, omt_pos.y );
-            travel_time = companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
+            travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
         time_duration total_time = travel_time + build_time;
         inventory total_inv = g->u.crafting_inventory();
@@ -2336,11 +2344,11 @@ int talk_function::om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter
     return harvested;
 }
 
-int talk_function::om_harvest_trees( npc &comp, const tripoint &omt_tgt, float chance,
-                                     bool force_cut, bool force_cut_trunk )
+int talk_function::om_cutdown_trees( const tripoint &omt_tgt, float chance, bool force_cut,
+                                     bool force_cut_trunk )
 {
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, comp.posz(), false );
+    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
     int harvested = 0;
     int total = 0;
     for( int x = 0; x < 23; x++ ) {
@@ -2364,10 +2372,10 @@ int talk_function::om_harvest_trees( npc &comp, const tripoint &omt_tgt, float c
             }
         }
     }
-    //even if we cut down the tree we roll again for all of the trunks to see which we cut
+    // having cut down the trees, collect all the logs
     for( int x = 0; x < 23; x++ ) {
         for( int y = 0; y < 23; y++ ) {
-            if( target_bay.ter( x, y ) == ter_id( "t_trunk" ) && x_in_y( chance, 1.0 ) ) {
+            if( target_bay.ter( x, y ) == ter_id( "t_trunk" ) ) {
                 if( force_cut_trunk ) {
                     target_bay.ter_set( x, y, t_dirt );
                     target_bay.spawn_item( x, y, "log", rng( 2, 3 ), 0, calendar::turn );
@@ -2385,31 +2393,42 @@ int talk_function::om_harvest_trees( npc &comp, const tripoint &omt_tgt, float c
     return harvested;
 }
 
-int talk_function::om_harvest_itm( npc &comp, const tripoint &omt_tgt, float chance, bool take )
+std::pair<units::mass, units::volume> talk_function::om_harvest_itm( npc *comp,
+        const tripoint &omt_tgt, float chance,
+        bool take )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
     omt_ref = oter_id( omt_ref.id().c_str() );
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, comp.posz(), false );
-    int harvested = 0;
-    int total = 0;
+    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    units::mass harvested_m = 0;
+    units::volume harvested_v = 0;
+    units::mass total_m = 0;
+    units::volume total_v = 0;
     for( int x = 0; x < 23; x++ ) {
         for( int y = 0; y < 23; y++ ) {
-            for( item i : target_bay.i_at( x, y ) ) {
-                total++;
-                if( x_in_y( chance, 1.0 ) ) {
-                    comp.companion_mission_inv.push_back( i );
-                    harvested++;
+            for( item &i : target_bay.i_at( x, y ) ) {
+                total_m += i.weight( true );
+                total_v += i.volume( true );
+                if( take && x_in_y( chance, 1.0 ) ) {
+                    if( comp ) {
+                        comp->companion_mission_inv.push_back( i );
+                    }
+                    harvested_m += i.weight( true );
+                    harvested_v += i.volume( true );
                 }
             }
-            target_bay.i_clear( x, y );
+            if( take ) {
+                target_bay.i_clear( x, y );
+            }
         }
     }
     target_bay.save();
-    if( !take ) {
-        return total;
+    std::pair<units::mass, units::volume> results = { total_m, total_v };
+    if( take ) {
+        results = { harvested_m, harvested_v };
     }
-    return harvested;
+    return results;
 }
 
 tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, int range,
@@ -2560,8 +2579,7 @@ bool talk_function::om_set_hide_site( npc &comp, const tripoint &omt_tgt,
 
 // path and travel time
 time_duration talk_function::companion_travel_time_calc( const tripoint &omt_pos,
-        const tripoint &omt_tgt,
-        time_duration work, int trips )
+        const tripoint &omt_tgt, time_duration work, int trips )
 {
     std::vector<tripoint> journey = line_to( omt_pos, omt_tgt );
     return companion_travel_time_calc( journey, work, trips );
@@ -2593,7 +2611,17 @@ time_duration talk_function::companion_travel_time_calc( const std::vector<tripo
     return work + one_way * trips * 1_minutes;
 }
 
-int talk_function::om_carry_weight_to_trips( npc &comp, const std::vector<item *> &itms )
+int talk_function::om_carry_weight_to_trips( units::mass mass, units::volume volume,
+        units::mass carry_mass,
+        units::volume carry_volume )
+{
+    int trips_m = 1 + mass / carry_mass;
+    int trips_v = 1 + volume / carry_volume;
+    // return the number of round trips
+    return 2 * std::max( trips_m, trips_v );
+}
+
+int talk_function::om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp )
 {
     units::mass total_m = 0;
     units::volume total_v = 0;
@@ -2601,15 +2629,12 @@ int talk_function::om_carry_weight_to_trips( npc &comp, const std::vector<item *
         total_m += i->weight( true );
         total_v += i->volume( true );
     }
-    units::mass max_m = comp.weight_capacity() - comp.weight_carried();
-    int trips = std::max( 1.0, ceil( total_m / max_m ) );
-    trips += trips & 1 ?  1 : 0;
+    units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
     units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_storage();
-    units::volume max_v =  comp.volume_capacity() - comp.volume_carried() + sack_v;
-    int trips_v = std::max( 1.0, ceil( total_v / max_v ) );
-    trips_v += trips & 1 ?  1 : 0;
-    return std::max( trips, trips_v );
+    units::volume max_v =  comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
+    max_v += sack_v;
+    return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
 }
 
 std::vector<tripoint> talk_function::om_companion_path( const tripoint &start, int range_start,
