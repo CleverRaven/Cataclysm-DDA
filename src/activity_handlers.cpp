@@ -1050,15 +1050,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    time_point age = corpse_item.birthday();
+    time_point bday = corpse_item.birthday();
     const field_id type_blood = corpse->bloodType();
     const field_id type_gib = corpse->gibType();
 
-    // corpse decays at 75% factor, but meat shares age and not relative_rot so this takes care of it
+    // corpse decays at 75% factor, but meat shares birthday and not relative_rot so this takes care of it
     // no FIELD_DRESS_FAILED here as it gets no benefit
     if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
-        age = time_point::from_turn( to_turn<int>( age ) + ( ( calendar::turn - to_turn<int>
-                                     ( age ) ) * 3 / 4 ) );
+        bday = time_point::from_turn( to_turn<int>( bday ) + ( ( calendar::turn - to_turn<int>
+                                      ( bday ) ) * 3 / 4 ) );
     }
 
     if( action == QUARTER ) {
@@ -1123,9 +1123,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     // all action types - yields
     if( corpse->harvest.is_null() ) {
-        butchery_drops_hardcoded( &corpse_item, corpse, p, age, roll_butchery, action );
+        butchery_drops_hardcoded( &corpse_item, corpse, p, bday, roll_butchery, action );
     } else {
-        butchery_drops_harvest( &corpse_item, *corpse, *p, age, roll_butchery, action );
+        butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action );
     }
 
     // reveal hidden items / hidden content
@@ -1137,7 +1137,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                       corpse->nname().c_str() );
                 g->m.add_item_or_charges( p->pos(), content );
             } else if( content.is_bionic() ) {
-                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, age );
+                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, bday );
             }
         }
     }
