@@ -367,6 +367,41 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
     return true;
 }
 
+std::string ma_requirements::get_description() const
+{
+    std::stringstream dump;
+
+    if( std::any_of( min_skill.begin(), min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
+    return pr.second > 0;
+} ) ) {
+        dump << string_format( _( "<bold>%s required: </bold>" ),
+                               ngettext( "Skill", "Skills", min_skill.size() ) );
+
+        dump << enumerate_as_string( min_skill.begin(),
+        min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
+            return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
+        } ) << std::endl;
+    }
+
+    if( req_buffs.size() ) {
+        dump << string_format( _( "<bold>Requires:</bold> " ) );
+
+        dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
+            return bid->name;
+        } ) << std::endl;
+    }
+
+    if( unarmed_allowed && melee_allowed ) {
+        dump << _( "* Can eighter be used while <info>armed</info> or <info>unarmed</info>" ) << std::endl;
+    } else if( unarmed_allowed ) {
+        dump << _( "* Can <info>only</info> be used while <info>unarmed</info>" ) << std::endl;
+    } else if( melee_allowed ) {
+        dump << _( "* Can <info>only</info> be used while <info>armed</info>" ) << std::endl;
+    }
+
+    return dump.str();
+}
+
 ma_technique::ma_technique()
 {
     crit_tec = false;
@@ -475,6 +510,47 @@ bool ma_buff::is_quiet() const
 bool ma_buff::can_melee() const
 {
     return melee_allowed;
+}
+
+std::string ma_buff::get_description() const
+{
+    std::stringstream dump;
+    dump << string_format( _( "<bold>Buff technique:</bold> %s" ), name ) << std::endl;
+
+    dump << reqs.get_description();
+
+    std::string temp = bonuses.get_description();
+    if( !temp.empty() ) {
+        dump << string_format( _( "<bold>%s:</bold> " ),
+                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) << temp << std::endl;
+    }
+
+    if( max_stacks > 1 ) {
+        dump << string_format( _( "* Will <info>stack</info> up to <stat>+%d</stat> times" ),
+                               max_stacks ) << std::endl;
+    }
+
+    const int turns = to_turns<int>( buff_duration );
+    if( turns ) {
+        dump << string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
+                               turns, ngettext( "turn", "turns", turns ) ) << std::endl;
+    }
+
+    if( dodges_bonus ) {
+        dump << string_format( _( "* Grants a <stat>+%s</stat> bonus to <info>dodge</info>%s" ),
+                               dodges_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+    }
+
+    if( blocks_bonus ) {
+        dump << string_format( _( "* Grants a <stat>+%s</stat> bonus to <info>block</info>%s" ),
+                               blocks_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+    }
+
+    if( quiet ) {
+        dump << _( "* Attacks will be completely <info>silent</info>" ) << std::endl;
+    }
+
+    return dump.str();
 }
 
 martialart::martialart()
@@ -848,34 +924,14 @@ std::string ma_technique::get_description() const
 {
     std::stringstream dump;
 
-    dump << string_format( _( "   <bold>Type:</bold> %s" ),
-                           defensive ? "defensive" : "offensive" ) << std::endl;
+    dump << string_format( _( "<bold>Type:</bold> %s" ),
+                           defensive ? _( "defensive" ) : _( "offensive" ) ) << std::endl;
 
-    if( std::any_of( reqs.min_skill.begin(),
-    reqs.min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
-    return pr.second > 0;
-} ) ) {
-        dump << string_format( _( "<bold>%s required:</bold>" ),
-                               ngettext( "Skill", "Skills", reqs.min_skill.size() ) );
-
-        for( const auto &pr : reqs.min_skill ) {
-            dump << string_format( " %s: <stat>%d</stat> ", pr.first->name(), pr.second );
-        }
-
-        dump << std::endl;
-    }
+    dump << reqs.get_description();
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
-        dump << _( "<bold>Boni:</bold> " ) << temp << std::endl;
-    }
-
-    if( reqs.unarmed_allowed && reqs.melee_allowed ) {
-        dump << _( "* Can eighter be used while <info>armed</info> or <info>unarmed</info>" ) << std::endl;
-    } else if( reqs.unarmed_allowed ) {
-        dump << _( "* Can <info>only</info> be used while <info>unarmed</info>" ) << std::endl;
-    } else if( reqs.melee_allowed ) {
-        dump << _( "* Can <info>only</info> be used while <info>armed</info>" ) << std::endl;
+        dump << _( "<bold>Bonus:</bold> " ) << temp << std::endl;
     }
 
     if( crit_tec ) {
@@ -891,11 +947,11 @@ std::string ma_technique::get_description() const
     }
 
     if( miss_recovery ) {
-        dump << _( "* Will grant a <info>free recovery</info> from a <info>miss</info>" ) << std::endl;
+        dump << _( "* Will grant <info>free recovery</info> from a <info>miss</info>" ) << std::endl;
     }
 
     if( grab_break ) {
-        dump << _( "* Will <good>break</good> a <info>grab</info>" ) << std::endl;
+        dump << _( "* Will <info>break</info> a <info>grab</info>" ) << std::endl;
     }
 
     if( aoe == "wide" ) {
@@ -946,12 +1002,30 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
     if( !style_selected.str().empty() ) {
         const martialart &ma = style_selected.obj();
         std::ostringstream buffer;
-        if( !ma.techniques.empty() ) {
-            for( const auto &tech : ma.techniques ) {
-                buffer << string_format( _( "<bold>Technique:</bold> <header>%s</header>" ), tech.obj().name );
-                buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
+
+        auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs ) {
+            if( !buffs.empty() ) {
+                buffer << string_format( _( "<header>%s buffs:</header>" ), title ) << std::endl;
+                for( const auto &buff : buffs ) {
+                    buffer << buff->get_description();
+                }
+                buffer << std::endl << "--" << std::endl;
             }
+        };
+
+        buff_desc( _( "Static" ), ma.static_buffs );
+        buff_desc( _( "Move" ), ma.onmove_buffs );
+        buff_desc( _( "Hit" ), ma.onhit_buffs );
+        buff_desc( _( "Attack" ), ma.onattack_buffs );
+        buff_desc( _( "Dodge" ), ma.ondodge_buffs );
+        buff_desc( _( "Block" ), ma.onblock_buffs );
+        buff_desc( _( "Get hit" ), ma.ongethit_buffs );
+
+        for( const auto &tech : ma.techniques ) {
+            buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ), tech.obj().name );
+            buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
         }
+
         if( ma.force_unarmed ) {
             buffer << std::endl << std::endl;
             buffer << _( "This style forces you to use unarmed strikes, even if wielding a weapon." );

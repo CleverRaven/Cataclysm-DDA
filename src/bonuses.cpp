@@ -3,6 +3,9 @@
 #include "json.h"
 #include "character.h"
 #include "debug.h"
+#include "translations.h"
+#include "output.h"
+
 #include <map>
 #include <string>
 #include <utility>
@@ -34,7 +37,7 @@ static const std::map<std::string, scaling_stat> scaling_stat_map = {{
         std::make_pair( "str", STAT_STR ),
         std::make_pair( "dex", STAT_DEX ),
         std::make_pair( "int", STAT_INT ),
-        std::make_pair( "per", STAT_PER )
+        std::make_pair( "per", STAT_PER ),
     }
 };
 
@@ -59,15 +62,15 @@ affected_stat affected_stat_from_string( const std::string &s )
 }
 
 static const std::map<affected_stat, std::string> affected_stat_map_translation = {{
-        std::make_pair( AFFECTED_HIT, "To hit" ),
-        std::make_pair( AFFECTED_DODGE, "Dodge" ),
-        std::make_pair( AFFECTED_BLOCK, "Block" ),
-        std::make_pair( AFFECTED_SPEED, "Speed" ),
-        std::make_pair( AFFECTED_MOVE_COST, "Move cost" ),
-        std::make_pair( AFFECTED_DAMAGE, "damage" ),
-        std::make_pair( AFFECTED_ARMOR, "Armor" ),
-        std::make_pair( AFFECTED_ARMOR_PENETRATION, "Armor pen" ),
-        std::make_pair( AFFECTED_TARGET_ARMOR_MULTIPLIER, "Target armor multiplier" )
+        std::make_pair( AFFECTED_HIT, translate_marker( "Accuracy" ) ),
+        std::make_pair( AFFECTED_DODGE, translate_marker( "Dodge" ) ),
+        std::make_pair( AFFECTED_BLOCK, translate_marker( "Block" ) ),
+        std::make_pair( AFFECTED_SPEED, translate_marker( "Speed" ) ),
+        std::make_pair( AFFECTED_MOVE_COST, translate_marker( "Move cost" ) ),
+        std::make_pair( AFFECTED_DAMAGE, translate_marker( "damage" ) ),
+        std::make_pair( AFFECTED_ARMOR, translate_marker( "Armor" ) ),
+        std::make_pair( AFFECTED_ARMOR_PENETRATION, translate_marker( "Armor pen" ) ),
+        std::make_pair( AFFECTED_TARGET_ARMOR_MULTIPLIER, translate_marker( "Target armor multiplier" ) ),
     }
 };
 
@@ -75,6 +78,20 @@ std::string string_from_affected_stat( const affected_stat &s )
 {
     const auto &iter = affected_stat_map_translation.find( s );
     return iter != affected_stat_map_translation.end() ? iter->second : "";
+}
+
+static const std::map<scaling_stat, std::string> scaling_stat_map_translation = {{
+        std::make_pair( STAT_STR, translate_marker( "strength" ) ),
+        std::make_pair( STAT_DEX, translate_marker( "dexterity" ) ),
+        std::make_pair( STAT_INT, translate_marker( "intelligence" ) ),
+        std::make_pair( STAT_PER, translate_marker( "perception" ) ),
+    }
+};
+
+std::string string_from_scaling_stat( const scaling_stat &s )
+{
+    const auto &iter = scaling_stat_map_translation.find( s );
+    return iter != scaling_stat_map_translation.end() ? iter->second : "";
 }
 
 bonus_container::bonus_container()
@@ -212,8 +229,20 @@ std::string bonus_container::get_description() const
             type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
         }
 
-        dump << type << ": <stat>"
-             << static_cast<int>( boni.second[0].scale * 100 ) << "%</stat>  ";
+        dump << enumerate_as_string( boni.second.begin(),
+        boni.second.end(), [&type]( const effect_scaling & sf ) {
+            std::stringstream temp;
+
+            temp << string_format( "%s: <stat>%d%%</stat>", type, static_cast<int>( sf.scale * 100 ) );
+
+            if( sf.stat ) {
+                temp << _( " of " ) << string_from_scaling_stat( sf.stat );
+            }
+
+            return temp.str();
+        } );
+
+        dump << std::endl;
     }
 
     for( const auto &boni : bonuses_flat ) {
@@ -223,8 +252,23 @@ std::string bonus_container::get_description() const
             type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
         }
 
-        dump << type << ": <stat>+"
-             << static_cast<int>( boni.second[0].scale ) << "</stat>  ";
+        dump << enumerate_as_string( boni.second.begin(),
+        boni.second.end(), [&type]( const effect_scaling & sf ) {
+            std::stringstream temp;
+
+            if( sf.stat ) {
+                temp << string_format( "%s: <stat>%s%d%%</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                                       static_cast<int>( sf.scale * 100 ) );
+                temp << _( " of " ) << string_from_scaling_stat( sf.stat );
+            } else {
+                temp << string_format( "%s: <stat>%s%d</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                                       static_cast<int>( sf.scale ) );
+            }
+
+            return temp.str();
+        } );
+
+        dump << std::endl;
     }
 
     return dump.str();
