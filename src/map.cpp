@@ -2659,13 +2659,17 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
 
 bool map::mop_spills( const tripoint &p )
 {
-    auto items = i_at( p );
-    auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
-        return it.made_of( LIQUID );
-    } );
-    bool retval = new_end != items.end();
-    while( new_end != items.end() ) {
-        new_end = items.erase( new_end );
+    bool retval = false;
+
+    if( !has_flag( "LIQUIDCONT", p ) ) {
+        auto items = i_at( p );
+        auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
+            return it.made_of( LIQUID );
+        } );
+        retval = new_end != items.end();
+        while( new_end != items.end() ) {
+            new_end = items.erase( new_end );
+        }
     }
 
     field &fld = field_at( p );
