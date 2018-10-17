@@ -6,7 +6,7 @@ Bugfixes Redraw terrain in 'look around' menu
 I18N Add dedicated zone_type class and use a string_id for the zone type
 Infrastructure Use unique_ptr instead of raw owning pointers.
 Interface Encapsulate NPC attitude
-Interface [CR] Fourth chunk of terrain descriptions
+Interface Fourth chunk of terrain descriptions
 Features Make smoke decay outside of the reality bubble.
 Balance Rebalanced hacks' weight, volume and crafting recipes
 Balance Reduce chances for finding a katana in the katana House
@@ -41,7 +41,7 @@ Content Add Speedloaders.
 Balance Add prices to cakes
 Features Allow shelter NPC to provide tips
 Bugfixes Don't enforce trait points limit in freeform
-Features [RDY]Morale craft speed penalty
+Features Morale craft speed penalty
 Interface Changing sidebar style from options menu no longer require restarting the game
 Bugfixes Use the correct inventory when sorting NPC's armor
 Infrastructure Simplify computer console data serialization
@@ -75,7 +75,7 @@ Balance Adds a speedloader to item groups and rename it
 Mods Restore "CBM:Solar Panels" in Bright Nights mod
 Content Software Lights on!
 Balance Allow Survivor [Utility] Belt to sheathe small knifes
-Balance [CR?] Allow chestrig to store small magazines
+Balance Allow chestrig to store small magazines
 Content Add dashboards to trucks and emergeny vehicles
 Content Move forklift from Tanks mod to mainline
 I18N Options: translate menu text string
