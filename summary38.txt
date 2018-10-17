@@ -57,10 +57,10 @@ Interface Use italic for disabled subtab (with ncurses emulation for SDL)
 Interface Fix some factual mistakes in user-facing strings
 Infrastructure Removed extra curly brace in HitButton_iso json
 I18N i18n update as of Apr 29, 2018
-Bugfixes [CR] Fixed issue #22789.
+Bugfixes Fixed issue #22789.
 Balance Implemented ANVIL tool quality and added items and recipes to use it
 Features Allow resuming light-cancelled jobs
-Bugfixes [CR] Fixed items with low damage showing as undamaged.
+Bugfixes Fixed items with low damage showing as undamaged.
 Balance Fixed post office safes being unlocked
 Balance Rebalanced cotton weights
 Build Fix compile error on MXE
