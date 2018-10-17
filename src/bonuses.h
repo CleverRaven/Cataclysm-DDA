@@ -78,6 +78,8 @@ class bonus_container
         float get_mult( const Character &u, affected_stat stat, damage_type type ) const;
         float get_mult( const Character &u, affected_stat stat ) const;
 
+        std::string get_description() const;
+
     private:
         using bonus_map = std::map<affected_type, std::vector<effect_scaling>>;
         /** All kinds of bonuses by types to damage, hit etc. */

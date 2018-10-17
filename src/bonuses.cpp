@@ -34,7 +34,7 @@ static const std::map<std::string, scaling_stat> scaling_stat_map = {{
         std::make_pair( "str", STAT_STR ),
         std::make_pair( "dex", STAT_DEX ),
         std::make_pair( "int", STAT_INT ),
-        std::make_pair( "per", STAT_PER ),
+        std::make_pair( "per", STAT_PER )
     }
 };
 
@@ -56,6 +56,25 @@ affected_stat affected_stat_from_string( const std::string &s )
     }
 
     return AFFECTED_NULL;
+}
+
+static const std::map<affected_stat, std::string> affected_stat_map_translation = {{
+        std::make_pair( AFFECTED_HIT, "To hit" ),
+        std::make_pair( AFFECTED_DODGE, "Dodge" ),
+        std::make_pair( AFFECTED_BLOCK, "Block" ),
+        std::make_pair( AFFECTED_SPEED, "Speed" ),
+        std::make_pair( AFFECTED_MOVE_COST, "Move cost" ),
+        std::make_pair( AFFECTED_DAMAGE, "damage" ),
+        std::make_pair( AFFECTED_ARMOR, "Armor" ),
+        std::make_pair( AFFECTED_ARMOR_PENETRATION, "Armor pen" ),
+        std::make_pair( AFFECTED_TARGET_ARMOR_MULTIPLIER, "Target armor multiplier" )
+    }
+};
+
+std::string string_from_affected_stat( const affected_stat &s )
+{
+    const auto &iter = affected_stat_map_translation.find( s );
+    return iter != affected_stat_map_translation.end() ? iter->second : "";
 }
 
 bonus_container::bonus_container()
@@ -181,6 +200,34 @@ float bonus_container::get_mult( const Character &u, affected_stat stat, damage_
 float bonus_container::get_mult( const Character &u, affected_stat stat ) const
 {
     return get_mult( u, stat, DT_NULL );
+}
+
+std::string bonus_container::get_description() const
+{
+    std::stringstream dump;
+    for( const auto &boni : bonuses_mult ) {
+        std::string type = string_from_affected_stat( boni.first.get_stat() );
+
+        if( boni.first.get_stat() == AFFECTED_DAMAGE ) {
+            type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
+        }
+
+        dump << type << ": <stat>"
+             << static_cast<int>( boni.second[0].scale * 100 ) << "%</stat>  ";
+    }
+
+    for( const auto &boni : bonuses_flat ) {
+        std::string type = string_from_affected_stat( boni.first.get_stat() );
+
+        if( boni.first.get_stat() == AFFECTED_DAMAGE ) {
+            type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
+        }
+
+        dump << type << ": <stat>+"
+             << static_cast<int>( boni.second[0].scale ) << "</stat>  ";
+    }
+
+    return dump.str();
 }
 
 float effect_scaling::get( const Character &u ) const

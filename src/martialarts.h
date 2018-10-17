@@ -73,6 +73,7 @@ class ma_technique
         std::string name;
 
         std::string description;
+        std::string get_description() const;
 
         std::string goal; // the melee goal this achieves
 

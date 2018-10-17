@@ -8,6 +8,7 @@
 #include "damage.h"
 #include "output.h"
 #include "input.h"
+#include "skill.h"
 
 #include <map>
 #include <string>
@@ -843,6 +844,93 @@ float ma_technique::armor_penetration( const player &u, damage_type type ) const
     return bonuses.get_flat( u, AFFECTED_ARMOR_PENETRATION, type );
 }
 
+std::string ma_technique::get_description() const
+{
+    std::stringstream dump;
+
+    dump << string_format( _( "   <bold>Type:</bold> %s" ),
+                           defensive ? "defensive" : "offensive" ) << std::endl;
+
+    if( std::any_of( reqs.min_skill.begin(),
+    reqs.min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
+    return pr.second > 0;
+} ) ) {
+        dump << string_format( _( "<bold>%s required:</bold>" ),
+                               ngettext( "Skill", "Skills", reqs.min_skill.size() ) );
+
+        for( const auto &pr : reqs.min_skill ) {
+            dump << string_format( " %s: <stat>%d</stat> ", pr.first->name(), pr.second );
+        }
+
+        dump << std::endl;
+    }
+
+    std::string temp = bonuses.get_description();
+    if( !temp.empty() ) {
+        dump << _( "<bold>Boni:</bold> " ) << temp << std::endl;
+    }
+
+    if( reqs.unarmed_allowed && reqs.melee_allowed ) {
+        dump << _( "* Can eighter be used while <info>armed</info> or <info>unarmed</info>" ) << std::endl;
+    } else if( reqs.unarmed_allowed ) {
+        dump << _( "* Can <info>only</info> be used while <info>unarmed</info>" ) << std::endl;
+    } else if( reqs.melee_allowed ) {
+        dump << _( "* Can <info>only</info> be used while <info>armed</info>" ) << std::endl;
+    }
+
+    if( crit_tec ) {
+        dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
+    }
+
+    if( dodge_counter ) {
+        dump << _( "* Will <info>counterattack</info> when you <info>dodge</info>" ) << std::endl;
+    }
+
+    if( block_counter ) {
+        dump << _( "* Will <info>counterattack</info> when you <info>block</info>" ) << std::endl;
+    }
+
+    if( miss_recovery ) {
+        dump << _( "* Will grant a <info>free recovery</info> from a <info>miss</info>" ) << std::endl;
+    }
+
+    if( grab_break ) {
+        dump << _( "* Will <good>break</good> a <info>grab</info>" ) << std::endl;
+    }
+
+    if( aoe == "wide" ) {
+        dump << _( "* Will attack in a <info>wide arc</info> in fron of you" ) << std::endl;
+
+    } else if( aoe == "spin" ) {
+        dump << _( "* Will attack <info>adjacent</info> enemies around you" ) << std::endl;
+
+    } else if( aoe == "impale" ) {
+        dump << _( "* Will <info>attack</info> your target and another <info>one behind</info> it" ) <<
+             std::endl;
+    }
+
+    if( knockback_dist ) {
+        dump << string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
+                               knockback_dist, ngettext( "tile", "tiles", knockback_dist ) ) << std::endl;
+    }
+
+    if( down_dur ) {
+        dump << string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
+                               down_dur, ngettext( "turn", "turns", down_dur ) ) << std::endl;
+    }
+
+    if( stun_dur ) {
+        dump << string_format( _( "* Will <info>stun</info> target for <stat>%d %s</stat>" ),
+                               stun_dur, ngettext( "turn", "turns", stun_dur ) ) << std::endl;
+    }
+
+    if( disarms ) {
+        dump << _( "* Will <info>disarm</info> the target" ) << std::endl;
+    }
+
+    return dump.str().empty() ? description : dump.str();
+}
+
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
                              uimenu *menu )
 {
@@ -858,26 +946,67 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
     if( !style_selected.str().empty() ) {
         const martialart &ma = style_selected.obj();
         std::ostringstream buffer;
-        buffer << ma.name << "\n\n \n\n";
         if( !ma.techniques.empty() ) {
-            buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
-            buffer << enumerate_as_string( ma.techniques.begin(),
-            ma.techniques.end(), []( const matec_id & mid ) {
-                return string_format( "%s: %s", _( mid.obj().name.c_str() ), _( mid.obj().description.c_str() ) );
-            } );
+            for( const auto &tech : ma.techniques ) {
+                buffer << string_format( _( "<bold>Technique:</bold> <header>%s</header>" ), tech.obj().name );
+                buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
+            }
         }
         if( ma.force_unarmed ) {
-            buffer << "\n\n \n\n";
+            buffer << std::endl << std::endl;
             buffer << _( "This style forces you to use unarmed strikes, even if wielding a weapon." );
         }
         if( !ma.weapons.empty() ) {
-            buffer << "\n\n \n\n";
+            buffer << std::endl << std::endl;
             buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
             buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
                 return item::nname( wid );
             } );
         }
-        popup( buffer.str(), PF_NONE );
+
+        catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                               ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                               ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+
+        std::string text = replace_colors( buffer.str() );
+        int width = FULL_SCREEN_WIDTH - 2;
+        int height = FULL_SCREEN_HEIGHT - 2;
+        const auto vFolded = foldstring( text, width );
+        int iLines = vFolded.size();
+        int selected = 0;
+
+        input_context ict;
+        ict.register_action( "UP" );
+        ict.register_action( "DOWN" );
+        ict.register_action( "QUIT" );
+
+        do {
+            if( selected < 0 ) {
+                selected = 0;
+            } else if( iLines < height ) {
+                selected = 0;
+            } else if( selected >= iLines - height ) {
+                selected = iLines - height;
+            }
+
+            werase( w );
+            fold_and_print_from( w, 1, 1, width, selected, c_light_gray, text );
+            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
+            draw_scrollbar( w, selected, height, iLines, 1, 0, BORDER_COLOR, true );
+            wrefresh( w );
+            catacurses::refresh();
+
+            std::string action = ict.handle_input();
+
+            if( action == "QUIT" ) {
+                break;
+            } else if( action == "DOWN" ) {
+                selected++;
+            } else if( action == "UP" ) {
+                selected--;
+            }
+        } while( true );
+
         menu->redraw();
     }
     return true;
