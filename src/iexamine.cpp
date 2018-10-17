@@ -2356,14 +2356,14 @@ void iexamine::keg(player &p, const tripoint &examp)
         const auto drink_nname = item::nname( drink->typeId() );
         g->draw_sidebar_messages(); // flush messages before popup
         enum options {
-            FILL_CONTAINER,
+            DISPENSE,
             HAVE_A_DRINK,
             REFILL,
             EXAMINE,
         };
         uilist selectmenu;
-        selectmenu.addentry( FILL_CONTAINER, drink->made_of( LIQUID ), MENU_AUTOASSIGN,
-                             _("Fill a container with %s"), drink_tname.c_str() );
+        selectmenu.addentry( DISPENSE, drink->made_of( LIQUID ), MENU_AUTOASSIGN,
+                             _("Dispense or dump %s"), drink_tname.c_str() );
         selectmenu.addentry( HAVE_A_DRINK, drink->is_food() && drink->made_of( LIQUID ),
                              MENU_AUTOASSIGN, _("Have a drink") );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _("Refill") );
@@ -2373,7 +2373,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         selectmenu.query();
 
         switch( selectmenu.ret ) {
-        case FILL_CONTAINER:
+        case DISPENSE:
             if( g->handle_liquid_from_ground( drink, examp ) ) {
                 add_msg(_("You squeeze the last drops of %1$s from the %2$s."),
                         drink_tname.c_str(), keg_name.c_str());
