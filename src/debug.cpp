@@ -427,7 +427,7 @@ std::ofstream &DebugFile::currentTime()
 #ifdef BACKTRACE
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
-static bool is_safe_string( const char *start, const char *finish )
+bool debug_is_safe_string( const char *start, const char *finish )
 {
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
@@ -527,12 +527,12 @@ void debug_write_backtrace( std::ostream &out )
         }
         ++addressStart;
 
-        if( !is_safe_string( addressStart, addressEnd ) ) {
+        if( !debug_is_safe_string( addressStart, addressEnd ) ) {
             out << "backtrace: Address not safe\n";
             continue;
         }
 
-        if( !is_safe_string( funcName, binaryEnd ) ) {
+        if( !debug_is_safe_string( funcName, binaryEnd ) ) {
             out << "backtrace: Binary name not safe\n";
             continue;
         }
