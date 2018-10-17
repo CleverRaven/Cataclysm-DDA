@@ -188,6 +188,16 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a nearby role test response." );
 
+    for( npc *guy : g->allies() ) {
+        guy->set_attitude( NPCATT_NULL );
+    }
+    talker_npc.set_attitude( NPCATT_FOLLOW );
+    d.add_topic( "TALK_TEST_NPC_ALLIES" );
+    d.gen_responses( d.topic_stack.back() );
+    CHECK( d.responses.size() == 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
+
     d.add_topic( "TALK_TEST_OR" );
     g->u.cash = 0;
     g->u.toggle_trait( trait_id( "ELFA_EARS" ) );

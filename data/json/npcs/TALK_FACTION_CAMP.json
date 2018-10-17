@@ -9,7 +9,7 @@
         "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
         "effect": "start_camp",
-        "condition": { "u_at_om_location": "field" }
+        "condition": { "and": [ { "u_at_om_location": "field" }, { "npc_allies": 2 } ] }
       },
       {
         "text": "I want you to take over the camp here.",

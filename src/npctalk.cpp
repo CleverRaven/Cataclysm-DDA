@@ -1629,6 +1629,14 @@ void talk_function::start_camp( npc &p )
         display = true;
         buffer = buffer + _("There are few fields.  Producing enough food to supply your camp may be difficult.\n");
     }
+    if( g->allies().size() < 2 ) {
+       if( !display ) {
+            buffer = _( "Warning, you need at least two allies to work a faction camp!\n" );
+       } else {
+            buffer = buffer + "\n" +  _( "Warning, you need at least two allies to work a faction camp!\n" );
+       }
+       display = true;
+    }
     if ( display && !query_yn( _("%s \nAre you sure you wish to continue? "), buffer )) {
         return;
     }
@@ -2467,6 +2475,11 @@ conditional_t::conditional_t( JsonObject jo )
                 return d.alpha->posz() == guy.posz() && ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 ) && guy.companion_mission_role_id == role;
             } );
             return !available.empty();
+        };
+    } else if( jo.has_int( "npc_allies" ) ) {
+        const unsigned long min_allies = jo.get_int( "npc_allies" );
+        condition = [min_allies]( const dialogue & ) {
+            return g->allies().size() >= min_allies;
         };
     } else if( jo.has_int( "npc_service" ) ) {
         const unsigned long service_price = jo.get_int( "npc_service" );
