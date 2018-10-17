@@ -1,0 +1,99 @@
+Balance Misc. 7.62x39mm fixes
+Balance Swapped uncommon smgs for more common and added missing magazine spawn
+Bugfixes Fix waterproof clothes (Nomad Gear and such)
+Interface Improvements to the Use Item menu
+Balance Added reload time reduction when reloading from bandoliers
+Balance Chopping trees rework
+Content Vehicle mounted washing machine
+Bugfixes Spikes and blades as vehicle parts break upon destruction
+Balance Decreased movement cost for moving through empty window
+Balance Changed a couple bark drop rates.
+Balance Add yarn to arrow crafting recipes
+Performance Fix decreased performance of software rendering
+Bugfixes Fix for "Some UI elements are not drawn"
+Infrastructure Further use the new time classes
+Infrastructure Get rid of automatic using namespace catacurses.
+Infrastructure Remove redundant string formatting
+Features Added possibility to cut rebar cages with hacksaw or oxytorch
+Bugfixes Volume correction
+Balance Change knit scarf recipe components to cotton only
+Balance Make firearm repair kit recipe reversible
+Balance Make the dragon skin armor irreparable
+Balance Changed direct usage of materials with corresponding requirements
+Bugfixes [RDY] Restored save_info function
+Balance Modified ACR
+Infrastructure Reduce includes of output.h and cursesdef.h
+I18N Display l10nized tab names when creating new world
+I18N Link against ncursesw if L10N enabled
+Infrastructure Move Linux downloads links to 64bit versions
+Content Added vehicle-mounted washing machine deconstruction recipe
+Bugfixes Added missing flags to red squirrel.
+Interface Make CBM descriptions match bionic descriptions.
+Bugfixes Removed double fabrication skill requirement from survival marker.
+Bugfixes Fixed disassemble time description
+Infrastructure Change copyable_unique_ptr to implement the pointer to implementation idiom
+Bugfixes Remove rock-filled rooms in mansion basement
+Infrastructure Replaced add_spawn with place_spawn
+I18N Fix zone types translation
+Build Put 'gold' really in use when linking
+Bugfixes Fix projectile collisions
+Infrastructure Add HUMAN species.
+Infrastructure Moved shelter_under mapgen to json
+Infrastructure Replaced add_spawn with place_spawns (Step 3)
+Infrastructure Replaced add_spawn with place_spawn (Step 2)
+Interface Spellcheck (fix various typos)
+Balance RM298 and RM614 magazine adjustments
+Balance Added spoils_in value for raw_dandelion ("handful of dandelions" will now spoil)
+Bugfixes Avoid city only scenarios in random character generation when city size is 0.
+Bugfixes Don't try to consume charges from a container when invoking it.
+I18N "< Back" and "More >" strings in npctalk.cpp
+Bugfixes Hallucinations don't reset limb healing
+Balance Haggis rebalance.
+Infrastructure Rollback recent spawn function changes in hardcoded mapgen
+I18N Add 'use_message' to translation list
+Interface Option for zones with no auto pickup to suppress seen items spam
+Balance Improved and rebalanced 30mm autocannon rounds and recipes in Tank mod
+Mods Misc. Fixes for Extended Realistic Guns mod
+Balance Updated music store item spawns
+Bugfixes Fix multistorey town buildings
+Interface Add description to mountable locations
+Balance Changed recipe and description of the shotgun trap
+Balance Drilling long action
+Bugfixes Prevented spilled liquids from appearing in NPC trade menu
+Interface Changed references 9mm to 9x19mm, in order to clear up confusion with 9x18mm
+Balance added charges-min and charges-max for cash_card in item groups
+Infrastructure Added morale editor to debug menu
+Bugfixes Some fixes for defense mode
+Interface Various typos fixed
+Infrastructure Changes Character::_skills to be a pimpl.
+Balance Replace chop logs construction with long action
+Bugfixes Fixes ATM: Transfer money UI doesn't close properly
+Balance Glazing and waterproofing requirements
+Mods Rebalanced 6.54 [Icecoon's Arsenal]
+Interface Gold description correction
+Balance Clockworks weight change, pocketwatch recipe change.
+Balance Added rebar cage spawns to basic concrete wall and removed rebar drops
+Balance Buffed golden violin spawns further and changed violin case to armor
+Infrastructure Add CodeTriage badge to cleverraven/cataclysm-dda
+Bugfixes Fix disassembly returning wrong components
+Bugfixes Fix monster upgrade selection
+Mods Fixed map symbols for buildings in More Buildings mod
+Interface Removed an unnecessary number from the encumbrance info.
+Balance Flip tanktop/undershirt coverages
+Bugfixes Consume charges from contained medications when healing NPCs
+Bugfixes Fixed another instance of illiterate characters are being able to read text on signs
+Bugfixes Fixed NPCs consuming two portions of food while having only one portion of nutrition
+Bugfixes Fixes for NPCs not consuming when they should, and consuming when they shouldn't
+Content Fungal zombie child
+Bugfixes Mapgen fixes for post office and its surroundings
+Interface NPCs will complain every 5 minutes if they're bleeding
+Bugfixes Folding Fangs fixes.
+Bugfixes fix bio_mod cbms
+Interface Allow diagonal movement via keybinding modifiers in SDL builds
+Content Dissemble alternator with welder
+Content Added gigantic naked mole rat and acid ants
+Balance Caffeine items materials and addiction additions.
+Bugfixes removes "mon_bear_smoky" from "wildlife" categorization
+Performance Remove defensive redraw, add wrefresh where needed.
+Content Define custom butchery drop for broken cyborg
+Bugfixes Removed artifact with super clairvoyance showing debug fields in item description
