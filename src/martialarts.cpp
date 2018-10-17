@@ -536,13 +536,19 @@ std::string ma_buff::get_description() const
                                turns, ngettext( "turn", "turns", turns ) ) << std::endl;
     }
 
-    if( dodges_bonus ) {
-        dump << string_format( _( "* Grants a <stat>+%s</stat> bonus to <info>dodge</info>%s" ),
+    if( dodges_bonus > 0 ) {
+        dump << string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
+                               dodges_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+    } else if( dodges_bonus < 0 ) {
+        dump << string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
                                dodges_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
     }
 
-    if( blocks_bonus ) {
-        dump << string_format( _( "* Grants a <stat>+%s</stat> bonus to <info>block</info>%s" ),
+    if( blocks_bonus > 0 ) {
+        dump << string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
+                               blocks_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+    } else if( blocks_bonus < 0 ) {
+        dump << string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
                                blocks_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
     }
 
@@ -1001,19 +1007,25 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
     }
     if( !style_selected.str().empty() ) {
         const martialart &ma = style_selected.obj();
+
         std::ostringstream buffer;
+
+        if( ma.force_unarmed ) {
+            buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
+            buffer << std::endl << "--" << std::endl;
+        }
 
         auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs ) {
             if( !buffs.empty() ) {
-                buffer << string_format( _( "<header>%s buffs:</header>" ), title ) << std::endl;
+                buffer << string_format( _( "<header>%s buffs:</header>" ), title );
                 for( const auto &buff : buffs ) {
-                    buffer << buff->get_description();
+                    buffer << std::endl << buff->get_description() ;
                 }
                 buffer << std::endl << "--" << std::endl;
             }
         };
 
-        buff_desc( _( "Static" ), ma.static_buffs );
+        buff_desc( _( "Passive" ), ma.static_buffs );
         buff_desc( _( "Move" ), ma.onmove_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );
@@ -1025,14 +1037,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ), tech.obj().name );
             buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
         }
-
-        if( ma.force_unarmed ) {
-            buffer << std::endl << std::endl;
-            buffer << _( "This style forces you to use unarmed strikes, even if wielding a weapon." );
-        }
         if( !ma.weapons.empty() ) {
             buffer << std::endl << std::endl;
-            buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
+            buffer << ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>", ma.weapons.size() ) << " ";
             buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
                 return item::nname( wid );
             } );

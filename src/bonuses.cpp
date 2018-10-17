@@ -239,10 +239,10 @@ std::string bonus_container::get_description() const
                 temp << _( " of " ) << string_from_scaling_stat( sf.stat );
             }
 
+            temp << "  ";
+
             return temp.str();
         } );
-
-        dump << std::endl;
     }
 
     for( const auto &boni : bonuses_flat ) {
@@ -265,10 +265,10 @@ std::string bonus_container::get_description() const
                                        static_cast<int>( sf.scale ) );
             }
 
+            temp << "  ";
+
             return temp.str();
         } );
-
-        dump << std::endl;
     }
 
     return dump.str();
