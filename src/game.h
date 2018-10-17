@@ -519,7 +519,7 @@ class game
         void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
-                              int catch_duration = 0 );
+                              const time_duration &catch_duration );
         /** Returns the list of currently fishable monsters within distance of the player. */
         std::vector<monster *> get_fishable( int distance );
         /** Flings the input creature in the given direction. */

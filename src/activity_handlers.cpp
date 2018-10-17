@@ -1514,7 +1514,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
                 p->add_msg_if_player( _( "You didn't catch anything." ) );
             }
         } else {
-            g->catch_a_monster( fishables, p->pos(), p, 30000 );
+            g->catch_a_monster( fishables, p->pos(), p, 50_hours );
         }
 
     } else {
