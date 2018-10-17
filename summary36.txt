@@ -1,0 +1,100 @@
+Interface Lava stairs message
+Bugfixes Display proper amount of byproducts in crafting GUI
+Bugfixes Vehicle wheels now will be damaged on lava
+Infrastructure [CR] Various optimizations reported by static code analysis
+Interface String input sanity when querying chargen template filename
+Balance Rebalancing of scrap suit
+Content Add .357 SIG ammunition and a P226
+Bugfixes Fix vehicle wiring to remove OBSTACLE tag
+Bugfixes Fix vehicle folding crash
+Infrastructure Change Character::path_settings and player::learned_recipes to be pointers.
+Interface [RDY][CR] Terrain descriptions -- initial chunk
+Performance [RDY]Cache values in season_of_year and reuse on same turn.
+Performance [RDY]Remove unneeded SDL_RenderSetLogicalSize
+Infrastructure Added version field for the mod authors to add
+Balance Changed formula for character strength required to install something in a vehicle
+Bugfixes Prevented training by NPC in the moving vehicle
+Bugfixes Redraw header text in the Color Manager after viewing keybindings
+Interface Show time to complete as if there's bright lighting if it's too dark to craft
+Infrastructure Reviewed Type Safety in ModManager and World Factory
+Balance Expand usage of adhesive+cordage requirements, related fixes
+Balance Extend use of rope_natural_short to part installation
+Interface Hacks and turret descriptions
+Mods Increase drop counts of plant fiber in the more survival tools mod.
+Content New monster ability 'ABSORBS_SPLITS'
+Content New pain increasing mutations.
+Balance Prozac negative effect.
+Balance downsize boxed foods to fit 1L
+Interface Add custom butcher message
+Infrastructure add new files to json_whitelist
+Infrastructure add vehicle definition generator script under /tools
+Infrastructure deprecate universal caliber conversion kits
+Mods Fix more_survival_tools item_groups.json
+Mods [RDY] Fix V1 migration for StatsThroughSkills mod
+Content Remove hardcoded mansions
+Interface Disable pixel minimap during zone management.
+Interface Get rid of arbitrary height of Look Around window and use height of the sidebar
+Interface Wrapping terrain info
+Balance Explosives, Shotgun shell crafting, and other explosives inconsistencies.
+Bugfixes Remove invalid flags of more pain mutations.
+Bugfixes [CR]Disassembling reversive-craft items made with sewing kits made possible with cutting tools
+Balance Don't retarget after killing selected target in a burst.
+Interface Prompt player about wielding contained item when attempting to wield holster
+Interface Corrected information for skills levels required to enzlave
+Balance add NONCONDUCTIVE flag to cestus
+Interface format charges for cash_card to USD
+Interface Fix description of krav maga to match multiplier
+Bugfixes Weak mutagen fixes.
+Update components of vehicle parts available via their breaking
+Bugfixes Fix saving character templates
+Interface Fix utility light capitalization
+Infrastructure Make vehicleDef.py work in python versions <3.6
+Interface Improve Vending Menu
+Bugfixes Redraw AIM screen after "no vehicle there!" popup
+Interface Update RetroDays Tileset
+Infrastructure Obsolete retool kits in mods
+Bugfixes Fixes MOREPAIN -> MORE_PAIN error in trait_groups.json
+Infrastructure Replace json_whitelist with json_blacklist
+Bugfixes Show a message about repaired gun after gun is actually repaired (not before!)
+Bugfixes Fixed removing of non-profession traits on profession change
+Bugfixes [RDY] Small fixes to mansions
+Bugfixes Prevent critters from teleporting from fire
+Interface Adds a dedicated item category for seeds
+Balance Removed prepper house from starting locations
+Mods Fix overmap display of apartment tower for "Alternative Map Key" mod
+Infrastructure Change code to use references instead of pointers
+Content Add dashboards to vehicles
+Infrastructure Seeds migration to a dedicated file (pt. 1)
+Infrastructure Moves the rest of seeds to a dedicated json file
+Interface ChestHole Tilesets update: Adds mod content, better vehicles, and lots more
+Interface Add new Mac ICN sizes
+Infrastructure Renamed STA to Stm for concistency
+Bugfixes Corrected a possible divide by zero error in the aim estimation
+Bugfixes check for reloadable gunmod magazines
+Interface Connects to: PAVEMENT
+Bugfixes Erase and redraw last tab of worldgen menu after cancelled query
+Infrastructure Make vehicle handling in tests a little more robust.
+Interface Fix for tear in reality in MShock tilesets
+Bugfixes Fix "Regression in #23142"
+Infrastructure Remove pointer indirection:
+Infrastructure Use references instead of pointers for local variables
+Mods Replaced zombie recipe in Necromancy mod with jabberwock
+Interface ChestHole Tilesets Cleanup: Make Cameras Appear
+Balance [RDY] NPCs capable of getting away from live/armed explosives
+Bugfixes Fix and clean NPC gun code, allow NPCs to shoot again
+Bugfixes Don't provide alternator power from broken engines
+Content Added variations on three books
+Interface Show crafting bonus in 'New Character Creation' menu
+Bugfixes Fixed displaying additional info when installing various vehicle parts
+Balance BLECH items and acidproof
+Interface Remove excessive popups from caravan companion mission
+Bugfixes Sealed can crashing on reload
+Content add flamethrower tanks
+Balance add HELMET_COMPAT flag, allow one headgear at once
+Balance increase large animal butcher returns
+Content Added second variant of Evac Shelter basement
+Infrastructure Use references instead of pointers in "newcharacter.cpp"
+Balance Updated item spawns to spawn pickles jars instead of pickles
+Interface Encapsulate visible consequences of dialogue actions
+Interface Second chunk of terrain descriptions
+Mods Modifications to "Mutant NPCs" mod.
