@@ -1057,8 +1057,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // corpse decays at 75% factor, but meat shares birthday and not relative_rot so this takes care of it
     // no FIELD_DRESS_FAILED here as it gets no benefit
     if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
-        bday = time_point::from_turn( to_turn<int>( bday ) + ( ( calendar::turn - to_turn<int>
-                                      ( bday ) ) * 3 / 4 ) );
+        bday += corpse_item.age() * 3 / 4;
     }
 
     if( action == QUARTER ) {
