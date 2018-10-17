@@ -248,7 +248,7 @@
             "You throw a heavy cross at %s",
             "<npcname> throws a cross at %s"
         ],
-        "bash_mult" : 1.2,
+        "mult_bonuses" : [["damage", "bash", 1.2]],
         "description" : "x1.2 bash damage, min 2 unarmed"
     },{
         "type" : "technique",
@@ -278,7 +278,7 @@
             "You uppercut %s",
             "<npcname> uppercuts %s"
         ],
-        "bash_mult" : 1.4,
+        "mult_bonuses" : [["damage", "bash", 1.4]],
         "stun_dur" : 2,
         "description" : "Stun 2 turns, x1.4 bash damage, min 4 unarmed"
     },{
@@ -460,7 +460,7 @@
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "movecost_mult" : 0.5,
+        "mult_bonuses" : [["movecost", 0.5]],
         "description" : "50% moves, crit only, min 2 unarmed"
     },{
         "type" : "technique",
@@ -578,8 +578,10 @@
             "<npcname> surprise attacks %s"
         ],
         "stun_dur" : 2,
-        "bash_mult" : 1.4,
-        "cut_mult" : 2,
+        "mult_bonuses" : [
+            ["damage", "bash", 1.4],
+            ["damage", "cut", 2]
+        ],
         "description" : "Stun 2 turns, x1.4 bash damage, x2 cut damage, crit only, min 3 unarmed, min 3 melee"
     },{
         "type" : "technique",
@@ -671,8 +673,10 @@
         "name" : "biojutsu impale",
         "min_melee" : 3,
         "crit_tec" : true,
-        "cut_mult" : 1.5,
-        "bash_mult" : 1.5,
+        "mult_bonuses" : [
+            ["damage", "bash", 1.5],
+            ["damage", "cut", 1.5]
+        ],
         "messages" : [
             "You brutally impale %s",
             "<npcname> brutally impales %s"
@@ -1002,9 +1006,7 @@
         "crit_tec" : true,
         "stun_dur" : 3,
         "knockback_dist" : 3,
-        "mult_bonuses" : [
-            ["damage", "bash", 2]
-        ],
+        "mult_bonuses" : [["damage", "bash", 2]],
         "messages" : [
             "Your Stinger Kick sends %s flying",
             "<npcname>'s Stinger Kick sends %s flying"
@@ -1016,9 +1018,7 @@
         "name" : "Pincer Strike",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
-        "mult_bonuses" : [
-            ["damage", "bash", 1.25]
-        ],
+        "mult_bonuses" : [["damage", "bash", 1.25]],
         "messages" : [
             "You punch %s with your Pincer Fist",
             "<npcname> jabs %s with a Pincer Fist"
@@ -1176,7 +1176,7 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "stun_dur" : 2,
-        "bash_mult" : 1.2,
+        "mult_bonuses" : [["damage", "bash", 1.2]],
         "messages" : [
             "You grab and knee %s",
             "<npcname> grabs and knees %s"
