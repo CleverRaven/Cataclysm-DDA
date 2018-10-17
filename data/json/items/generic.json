@@ -2420,14 +2420,14 @@
     "symbol": "[",
     "color": "white",
     "name": "body pillow",
-    "description": "A big, body-sized pillow with a print of some anime character on the front and their scantily clad version on the back.",
+    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily clad version on the back.",
     "price": 1500,
     "material": [ "cotton" ],
     "weight": 774,
     "volume": 7,
     "flags": [ "SLEEP_AID" ],
     "category": "other"
-  },  
+  },
   {
     "type": "GENERIC",
     "id": "down_pillow",
