@@ -1,16 +1,16 @@
 Interface Lava stairs message
 Bugfixes Display proper amount of byproducts in crafting GUI
 Bugfixes Vehicle wheels now will be damaged on lava
-Infrastructure [CR] Various optimizations reported by static code analysis
+Infrastructure Various optimizations reported by static code analysis
 Interface String input sanity when querying chargen template filename
 Balance Rebalancing of scrap suit
 Content Add .357 SIG ammunition and a P226
 Bugfixes Fix vehicle wiring to remove OBSTACLE tag
 Bugfixes Fix vehicle folding crash
 Infrastructure Change Character::path_settings and player::learned_recipes to be pointers.
-Interface [RDY][CR] Terrain descriptions -- initial chunk
-Performance [RDY]Cache values in season_of_year and reuse on same turn.
-Performance [RDY]Remove unneeded SDL_RenderSetLogicalSize
+Interface Terrain descriptions -- initial chunk
+Performance Cache values in season_of_year and reuse on same turn.
+Performance Remove unneeded SDL_RenderSetLogicalSize
 Infrastructure Added version field for the mod authors to add
 Balance Changed formula for character strength required to install something in a vehicle
 Bugfixes Prevented training by NPC in the moving vehicle
@@ -30,14 +30,14 @@ Infrastructure add new files to json_whitelist
 Infrastructure add vehicle definition generator script under /tools
 Infrastructure deprecate universal caliber conversion kits
 Mods Fix more_survival_tools item_groups.json
-Mods [RDY] Fix V1 migration for StatsThroughSkills mod
+Mods Fix V1 migration for StatsThroughSkills mod
 Content Remove hardcoded mansions
 Interface Disable pixel minimap during zone management.
 Interface Get rid of arbitrary height of Look Around window and use height of the sidebar
 Interface Wrapping terrain info
 Balance Explosives, Shotgun shell crafting, and other explosives inconsistencies.
 Bugfixes Remove invalid flags of more pain mutations.
-Bugfixes [CR]Disassembling reversive-craft items made with sewing kits made possible with cutting tools
+Bugfixes Disassembling reversive-craft items made with sewing kits made possible with cutting tools
 Balance Don't retarget after killing selected target in a burst.
 Interface Prompt player about wielding contained item when attempting to wield holster
 Interface Corrected information for skills levels required to enzlave
@@ -57,7 +57,7 @@ Bugfixes Fixes MOREPAIN -> MORE_PAIN error in trait_groups.json
 Infrastructure Replace json_whitelist with json_blacklist
 Bugfixes Show a message about repaired gun after gun is actually repaired (not before!)
 Bugfixes Fixed removing of non-profession traits on profession change
-Bugfixes [RDY] Small fixes to mansions
+Bugfixes Small fixes to mansions
 Bugfixes Prevent critters from teleporting from fire
 Interface Adds a dedicated item category for seeds
 Balance Removed prepper house from starting locations
@@ -80,7 +80,7 @@ Infrastructure Remove pointer indirection:
 Infrastructure Use references instead of pointers for local variables
 Mods Replaced zombie recipe in Necromancy mod with jabberwock
 Interface ChestHole Tilesets Cleanup: Make Cameras Appear
-Balance [RDY] NPCs capable of getting away from live/armed explosives
+Balance NPCs capable of getting away from live/armed explosives
 Bugfixes Fix and clean NPC gun code, allow NPCs to shoot again
 Bugfixes Don't provide alternator power from broken engines
 Content Added variations on three books
