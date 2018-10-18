@@ -233,6 +233,7 @@ std::string bonus_container::get_description() const
             dump << string_format( "%s: <stat>%d%%</stat>", type, static_cast<int>( sf.scale * 100 ) );
 
             if( sf.stat ) {
+                //~ bash damage +80% of strength
                 dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             }
 
@@ -251,6 +252,7 @@ std::string bonus_container::get_description() const
             if( sf.stat ) {
                 dump << string_format( "%s: <stat>%s%d%%</stat>", type, ( sf.scale < 0 ) ? "" : "+",
                                        static_cast<int>( sf.scale * 100 ) );
+                //~ bash damage +80% of strength
                 dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             } else {
                 dump << string_format( "%s: <stat>%s%d</stat>", type, ( sf.scale < 0 ) ? "" : "+",

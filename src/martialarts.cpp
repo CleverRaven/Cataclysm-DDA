@@ -966,7 +966,7 @@ std::string ma_technique::get_description() const
     }
 
     if( aoe == "wide" ) {
-        dump << _( "* Will attack in a <info>wide arc</info> in fron of you" ) << std::endl;
+        dump << _( "* Will attack in a <info>wide arc</info> in front of you" ) << std::endl;
 
     } else if( aoe == "spin" ) {
         dump << _( "* Will attack <info>adjacent</info> enemies around you" ) << std::endl;
@@ -1066,8 +1066,6 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         input_context ict;
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
-        ict.register_action( "PAGE_UP" );
-        ict.register_action( "PAGE_DOWN" );
         ict.register_action( "QUIT" );
 
         do {
@@ -1090,9 +1088,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             if( action == "QUIT" ) {
                 break;
-            } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+            } else if( action == "DOWN" ) {
                 selected++;
-            } else if( action == "UP" || action == "PAGE_UP" ) {
+            } else if( action == "UP" ) {
                 selected--;
             }
         } while( true );
