@@ -9297,7 +9297,7 @@ void game::butcher()
                 time_to_cut += butcher_time_to_cut( u, items[index], BUTCHER );
             }
 
-            kmenu.addentry_col( MULTIBUTCHER, true, 'b', _( "Butcher everything" ),
+            kmenu.addentry_col( MULTIBUTCHER, true, 'b', _( "Quick butcher everything" ),
                                 to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) ) );
         }
         if( disassembles.size() > 1 ) {
