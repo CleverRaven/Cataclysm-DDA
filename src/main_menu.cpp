@@ -101,8 +101,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     const nc_color cColor2 = c_light_blue;
     const nc_color cColor3 = c_light_blue;
 
-    std::string marker = "";
-
     if( mmenu_title.size() > 1 ) {
         for( size_t i = 0; i < mmenu_title.size(); ++i ) {
             if( halloween_theme ) {
