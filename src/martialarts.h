@@ -55,7 +55,7 @@ struct ma_requirements {
         strictly_unarmed = false;
     }
 
-    std::string get_description() const;
+    std::string get_description( bool buff = false ) const;
 
     bool is_valid_player( const player &u ) const;
     bool is_valid_weapon( const item &i ) const;
@@ -165,7 +165,7 @@ class ma_buff
         bool was_loaded = false;
         std::string name;
         std::string description;
-        std::string get_description() const;
+        std::string get_description( bool passive = false ) const;
 
         ma_requirements reqs;
 

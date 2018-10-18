@@ -367,7 +367,7 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
     return true;
 }
 
-std::string ma_requirements::get_description() const
+std::string ma_requirements::get_description( bool buff ) const
 {
     std::stringstream dump;
 
@@ -391,12 +391,17 @@ std::string ma_requirements::get_description() const
         }, false ) << std::endl;
     }
 
+    const std::string type = buff ? _( "activate" ) : _( "be used" );
+
     if( unarmed_allowed && melee_allowed ) {
-        dump << _( "* Can eighter be used while <info>armed</info> or <info>unarmed</info>" ) << std::endl;
+        dump << string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
+                               type ) << std::endl;
     } else if( unarmed_allowed ) {
-        dump << _( "* Can <info>only</info> be used while <info>unarmed</info>" ) << std::endl;
+        dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
+                               type ) << std::endl;
     } else if( melee_allowed ) {
-        dump << _( "* Can <info>only</info> be used while <info>armed</info>" ) << std::endl;
+        dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
+                               type ) << std::endl;
     }
 
     return dump.str();
@@ -512,11 +517,10 @@ bool ma_buff::can_melee() const
     return melee_allowed;
 }
 
-std::string ma_buff::get_description() const
+std::string ma_buff::get_description( bool passive ) const
 {
     std::stringstream dump;
     dump << string_format( _( "<bold>Buff technique:</bold> %s" ), name ) << std::endl;
-    dump << reqs.get_description();
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
@@ -524,13 +528,15 @@ std::string ma_buff::get_description() const
                                ngettext( "Bonus", "Bonus/stack", max_stacks ) ) << temp << std::endl;
     }
 
+    dump << reqs.get_description( true );
+
     if( max_stacks > 1 ) {
         dump << string_format( _( "* Will <info>stack</info> up to <stat>%d</stat> times" ),
                                max_stacks ) << std::endl;
     }
 
     const int turns = to_turns<int>( buff_duration );
-    if( turns ) {
+    if( !passive && turns ) {
         dump << string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
                                turns, ngettext( "turn", "turns", turns ) ) << std::endl;
     }
@@ -932,12 +938,12 @@ std::string ma_technique::get_description() const
     dump << string_format( _( "<bold>Type:</bold> %s" ),
                            defensive ? _( "defensive" ) : _( "offensive" ) ) << std::endl;
 
-    dump << reqs.get_description();
-
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
         dump << _( "<bold>Bonus:</bold> " ) << temp << std::endl;
     }
+
+    dump << reqs.get_description();
 
     if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
@@ -1014,17 +1020,18 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             buffer << std::endl << "--" << std::endl;
         }
 
-        auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs ) {
+        auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs,
+        bool passive = false ) {
             if( !buffs.empty() ) {
                 buffer << string_format( _( "<header>%s buffs:</header>" ), title );
                 for( const auto &buff : buffs ) {
-                    buffer << std::endl << buff->get_description() ;
+                    buffer << std::endl << buff->get_description( passive ) ;
                 }
                 buffer << std::endl << "--" << std::endl;
             }
         };
 
-        buff_desc( _( "Passive" ), ma.static_buffs );
+        buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );
@@ -1050,7 +1057,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                                ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         std::string text = replace_colors( buffer.str() );
-        int width = FULL_SCREEN_WIDTH - 2;
+        int width = FULL_SCREEN_WIDTH - 4;
         int height = FULL_SCREEN_HEIGHT - 2;
         const auto vFolded = foldstring( text, width );
         int iLines = vFolded.size();
@@ -1073,7 +1080,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             }
 
             werase( w );
-            fold_and_print_from( w, 1, 1, width, selected, c_light_gray, text );
+            fold_and_print_from( w, 1, 2, width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
             draw_scrollbar( w, selected, height, iLines, 1, 0, BORDER_COLOR, true );
             wrefresh( w );
