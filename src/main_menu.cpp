@@ -93,7 +93,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
                   vdaytip ) );
 
-
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
@@ -101,15 +100,24 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     const nc_color cColor2 = c_light_blue;
     const nc_color cColor3 = c_light_blue;
 
+    if( halloween_theme ) {
+        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider().c_str() );
+    }
+
     if( mmenu_title.size() > 1 ) {
         for( size_t i = 0; i < mmenu_title.size(); ++i ) {
             if( halloween_theme ) {
-                wmove( w_open, iLine++, iOffsetX );
-                for( size_t j = 0; j < mmenu_title[i].size(); j++ ) {
-                    std::string temp = mmenu_title[i].substr( j, 1 );
-                    wprintz( w_open, ( temp != "#" ) ? c_red : ( i < 9  ? cColor1 : cColor2 ),
-                             "%s", ( temp == "#" ) ? "▓" : temp );
+                static const std::string marker = "█";
+                const utf8_wrapper text( mmenu_title[i] );
+                for( size_t j = 0; j < text.size(); j++ ) {
+                    std::string temp = text.substr_display( j, 1 ).str();
+                    if( temp != " " ) {
+                        mvwprintz( w_open, iLine, iOffsetX + j,
+                                   ( temp != marker ) ? c_red : ( i < 9  ? cColor1 : cColor2 ),
+                                   "%s", ( temp == marker ) ? "▓" : temp );
+                    }
                 }
+                iLine++;
             } else {
                 mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
             }
@@ -1117,4 +1125,35 @@ void main_menu::world_tab()
             }
         }
     } // end while layer == ...
+}
+
+std::string main_menu::halloween_spider()
+{
+    static const std::string spider =
+        "\\ \\ \\/ / / / / / / /\n"
+        " \\ \\/\\/ / / / / / /\n"
+        "\\ \\/__\\/ / / / / /\n"
+        " \\/____\\/ / / / /\n"
+        "\\/______\\/ / / /\n"
+        "/________\\/ / /\n"
+        "__________\\/ /\n"
+        "___________\\/\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "  , .   |  . ,\n"
+        "  { | ,--, | }\n"
+        "   \\\\{~~~~}//\n"
+        "  /_/ {<color_c_red>..</color>} \\_\\\n"
+        "  { {      } }\n"
+        "  , ,      , .";
+
+    return spider;
 }
