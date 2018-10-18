@@ -114,6 +114,7 @@ class main_menu
         std::string handle_input_timeout( input_context &ctxt );
 
         std::string halloween_spider();
+        std::string halloween_graves();
 };
 
 #endif

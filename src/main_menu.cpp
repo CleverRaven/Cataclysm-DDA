@@ -102,6 +102,8 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
 
     if( halloween_theme ) {
         fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider().c_str() );
+        fold_and_print_from( w_open, iMenuOffsetY - 8, getmaxx( w_open ) - 25,
+                             25, 0, c_white, halloween_graves().c_str() );
     }
 
     if( mmenu_title.size() > 1 ) {
@@ -1154,6 +1156,20 @@ std::string main_menu::halloween_spider()
         "  /_/ {<color_c_red>..</color>} \\_\\\n"
         "  { {      } }\n"
         "  , ,      , .";
+
+    return spider;
+}
+
+std::string main_menu::halloween_graves()
+{
+    static const std::string spider =
+        "                    _\n"
+        "        -q       __(\")_\n"
+        "         (\\      \\_  _/\n"
+        " .-.   .-''\"'.      |/\n"
+        "|RIP|  | RIP |   .-.\n"
+        "|   |  |     |  |RIP|\n"
+        ";   ;  |     | ,'---',";
 
     return spider;
 }
