@@ -106,7 +106,7 @@ class main_menu
          * @param bShowDDA Whether to show "Dark Days Ahead" banner
          */
         void print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
-                         int iMenuOffsetY, bool bShowDDA = true );
+                         int iMenuOffsetY );
 
         void display_text( const std::string &text, const std::string &title, int &selected );
 
