@@ -7064,3 +7064,11 @@ void item::set_birthday( const time_point bday )
 {
     this->bday = bday;
 }
+
+bool item::is_upgrade() const
+{
+    if( !type->bionic ) {
+        return false;
+    }
+    return type->bionic->is_upgrade;
+}

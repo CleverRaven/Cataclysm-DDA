@@ -1698,6 +1698,17 @@ class item : public visitable<item>
         /*@}*/
 
         /**
+         * @name Bionics / CBMs
+         * Functions specific to CBMs
+         */
+        /*@{*/
+        /**
+         * Whether the CBM is an upgrade to another bionic module
+         */
+        bool is_upgrade() const;
+        /*@}*/
+
+        /**
          * Returns the pointer to use_function with name use_name assigned to the type of
          * this item or any of its contents. Checks contents recursively.
          * Returns nullptr if not found.
