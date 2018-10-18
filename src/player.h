@@ -382,18 +382,14 @@ class player : public Character
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation );
-        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
-        void finalize_tile_memory();
         /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_terrain( const tripoint &p ) const;
+        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_terrain_curses( const tripoint &pos, const long symbol );
+        void memorize_symbol( const tripoint &pos, const long symbol );
         /** Returns last stored map tile in given location in curses mode */
-        long get_memorized_terrain_curses( const tripoint &p ) const;
-        /** Called after several calls of memorize_terrain_curses, processes all tiles set to memorize */
-        void finalize_terrain_memory_curses();
-        /** Returns the amount of submaps survivor can remember. Each submap is 12x12 and there are 4 of them in an overmap tile */
-        size_t max_memorized_submaps() const;
+        long get_memorized_symbol( const tripoint &p ) const;
+        /** Returns the amount of tiles survivor can remember. */
+        size_t max_memorized_tiles() const;
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;

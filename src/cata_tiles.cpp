@@ -1184,8 +1184,6 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
 
-    g->u.finalize_tile_memory();
-
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
                    do_draw_cursor || do_draw_weather || do_draw_sct ||
@@ -2299,7 +2297,7 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
     if( !g->u.should_show_map_memory() ) {
         return false;
     }
-    const memorized_terrain_tile t = g->u.get_memorized_terrain( g->m.getabs( p ) );
+    const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
     if( t.tile.empty() ) {
         return false;
     }

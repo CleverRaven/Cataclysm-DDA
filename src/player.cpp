@@ -11633,48 +11633,37 @@ bool player::should_show_map_memory()
     return show_map_memory;
 }
 
-memorized_terrain_tile player::get_memorized_terrain( const tripoint &pos ) const
+memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const
 {
-    return player_map_memory.get_memorized_terrain( pos );
+    return player_map_memory.get_tile( pos );
 }
 
 void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation )
 {
-    player_map_memory.memorize_tile( pos, ter, subtile, rotation );
+    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
 }
 
-void player::finalize_tile_memory()
+void player::memorize_symbol( const tripoint &pos, const long symbol )
 {
-    player_map_memory.finalize_tile_memory( max_memorized_submaps() );
+    player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
 }
 
-void player::memorize_terrain_curses( const tripoint &pos, const long symbol )
+long player::get_memorized_symbol( const tripoint &p ) const
 {
-    player_map_memory.memorize_terrain_symbol( pos, symbol );
+    return player_map_memory.get_symbol( p );
 }
 
-void player::finalize_terrain_memory_curses()
-{
-    player_map_memory.finalize_terrain_memory_curses( max_memorized_submaps() );
-}
-
-long player::get_memorized_terrain_curses( const tripoint &p ) const
-{
-    return player_map_memory.get_memorized_terrain_curses( p );
-}
-
-size_t player::max_memorized_submaps() const
+size_t player::max_memorized_tiles() const
 {
     if( has_active_bionic( bio_memory ) ) {
-        return 20000; // 5000 overmap tiles
+        return SEEX * SEEY * 20000; // 5000 overmap tiles
     } else if( has_trait( trait_FORGETFUL ) ) {
-        return 200; // 50 overmap tiles
+        return SEEX * SEEY * 200; // 50 overmap tiles
     } else if( has_trait( trait_GOODMEMORY ) ) {
-        return 800; // 200 overmap tiles
+        return SEEX * SEEY * 800; // 200 overmap tiles
     }
-    return 400; // 100 overmap tiles
-
+    return SEEX * SEEY * 400; // 100 overmap tiles
 }
 
 bool player::sees( const tripoint &t, bool ) const
