@@ -133,9 +133,13 @@ void camp_recruit_return( npc &p, const std::string &task, int score );
 void camp_craft_construction( npc &p, const mission_entry &cur_key,
                               const std::map<std::string, std::string> &recipes, const std::string &miss_id,
                               const tripoint &omt_pos, const std::vector<std::pair<std::string, tripoint>> &om_expansions );
-std::string camp_recruit_evaluation( npc &p, const std::string &base,
-                                     const std::vector<std::pair<std::string, tripoint>> &om_expansions,
-                                     bool raw_score = false );
+int camp_recruit_evaluation( const std::string &base,
+                             const std::vector<std::pair<std::string, tripoint>> &om_expansions, int &sbase, int &sexpansions,
+                             int &sfaction, int &sbonus );
+int camp_recruit_evaluation( const std::string &base,
+                             const std::vector<std::pair<std::string, tripoint>> &om_expansions );
+std::string camp_recruit_start( npc &p, const std::string &base,
+                                const std::vector<std::pair<std::string, tripoint>> &om_expansions );
 /// Called when a companion is sent to cut logs
 void start_camp_upgrade( npc &p, const std::string &bldg );
 void start_cut_logs( npc &p );
