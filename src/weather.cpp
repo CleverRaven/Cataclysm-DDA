@@ -592,11 +592,12 @@ std::string weather_forecast( point const &abs_sm_pos )
     double low = 100.0;
     const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
     // TODO wind direction and speed
-    int last_hour = calendar::turn - ( calendar::turn % HOURS( 1 ) );
+    const time_point last_hour = calendar::turn - ( calendar::turn - calendar::time_of_cataclysm ) %
+                                 1_hours;
     for( int d = 0; d < 6; d++ ) {
         weather_type forecast = WEATHER_NULL;
         const auto wgen = g->get_cur_weather_gen();
-        for( calendar i( last_hour + 7200 * d ); i < last_hour + 7200 * ( d + 1 ); i += 600 ) {
+        for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
             forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
             high = std::max( high, w.temperature );
@@ -604,8 +605,8 @@ std::string weather_forecast( point const &abs_sm_pos )
         }
         std::string day;
         bool started_at_night;
-        calendar c( last_hour + 7200 * d );
-        if( d == 0 && c.is_night() ) {
+        const time_point c = last_hour + 12_hours * d;
+        if( d == 0 && calendar( to_turn<int>( c ) ).is_night() ) {
             day = _( "Tonight" );
             started_at_night = true;
         } else {
