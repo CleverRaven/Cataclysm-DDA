@@ -380,7 +380,7 @@ std::string ma_requirements::get_description() const
         dump << enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
             return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
-        } ) << std::endl;
+        }, false ) << std::endl;
     }
 
     if( req_buffs.size() ) {
@@ -388,7 +388,7 @@ std::string ma_requirements::get_description() const
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return bid->name;
-        } ) << std::endl;
+        }, false ) << std::endl;
     }
 
     if( unarmed_allowed && melee_allowed ) {
@@ -516,7 +516,6 @@ std::string ma_buff::get_description() const
 {
     std::stringstream dump;
     dump << string_format( _( "<bold>Buff technique:</bold> %s" ), name ) << std::endl;
-
     dump << reqs.get_description();
 
     std::string temp = bonuses.get_description();
@@ -526,7 +525,7 @@ std::string ma_buff::get_description() const
     }
 
     if( max_stacks > 1 ) {
-        dump << string_format( _( "* Will <info>stack</info> up to <stat>+%d</stat> times" ),
+        dump << string_format( _( "* Will <info>stack</info> up to <stat>%d</stat> times" ),
                                max_stacks ) << std::endl;
     }
 
@@ -990,7 +989,7 @@ std::string ma_technique::get_description() const
         dump << _( "* Will <info>disarm</info> the target" ) << std::endl;
     }
 
-    return dump.str().empty() ? description : dump.str();
+    return dump.str();
 }
 
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
@@ -1037,6 +1036,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ), tech.obj().name );
             buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
         }
+
         if( !ma.weapons.empty() ) {
             buffer << std::endl << std::endl;
             buffer << ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>", ma.weapons.size() ) << " ";
@@ -1059,6 +1059,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         input_context ict;
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
+        ict.register_action( "PAGE_UP" );
+        ict.register_action( "PAGE_DOWN" );
         ict.register_action( "QUIT" );
 
         do {
@@ -1081,9 +1083,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             if( action == "QUIT" ) {
                 break;
-            } else if( action == "DOWN" ) {
+            } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
                 selected++;
-            } else if( action == "UP" ) {
+            } else if( action == "UP" || action == "PAGE_UP" ) {
                 selected--;
             }
         } while( true );

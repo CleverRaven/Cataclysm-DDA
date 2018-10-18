@@ -77,7 +77,7 @@ static const std::map<affected_stat, std::string> affected_stat_map_translation 
 std::string string_from_affected_stat( const affected_stat &s )
 {
     const auto &iter = affected_stat_map_translation.find( s );
-    return iter != affected_stat_map_translation.end() ? iter->second : "";
+    return iter != affected_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
 }
 
 static const std::map<scaling_stat, std::string> scaling_stat_map_translation = {{
@@ -91,7 +91,7 @@ static const std::map<scaling_stat, std::string> scaling_stat_map_translation = 
 std::string string_from_scaling_stat( const scaling_stat &s )
 {
     const auto &iter = scaling_stat_map_translation.find( s );
-    return iter != scaling_stat_map_translation.end() ? iter->second : "";
+    return iter != scaling_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
 }
 
 bonus_container::bonus_container()
@@ -225,50 +225,40 @@ std::string bonus_container::get_description() const
     for( const auto &boni : bonuses_mult ) {
         std::string type = string_from_affected_stat( boni.first.get_stat() );
 
-        if( boni.first.get_stat() == AFFECTED_DAMAGE ) {
+        if( needs_damage_type( boni.first.get_stat() ) ) {
             type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
         }
 
-        dump << enumerate_as_string( boni.second.begin(),
-        boni.second.end(), [&type]( const effect_scaling & sf ) {
-            std::stringstream temp;
-
-            temp << string_format( "%s: <stat>%d%%</stat>", type, static_cast<int>( sf.scale * 100 ) );
+        for( const auto &sf : boni.second ) {
+            dump << string_format( "%s: <stat>%d%%</stat>", type, static_cast<int>( sf.scale * 100 ) );
 
             if( sf.stat ) {
-                temp << _( " of " ) << string_from_scaling_stat( sf.stat );
+                dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             }
 
-            temp << "  ";
-
-            return temp.str();
-        } );
+            dump << "  ";
+        };
     }
 
     for( const auto &boni : bonuses_flat ) {
         std::string type = string_from_affected_stat( boni.first.get_stat() );
 
-        if( boni.first.get_stat() == AFFECTED_DAMAGE ) {
+        if( needs_damage_type( boni.first.get_stat() ) ) {
             type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
         }
 
-        dump << enumerate_as_string( boni.second.begin(),
-        boni.second.end(), [&type]( const effect_scaling & sf ) {
-            std::stringstream temp;
-
+        for( const auto &sf : boni.second ) {
             if( sf.stat ) {
-                temp << string_format( "%s: <stat>%s%d%%</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                dump << string_format( "%s: <stat>%s%d%%</stat>", type, ( sf.scale < 0 ) ? "" : "+",
                                        static_cast<int>( sf.scale * 100 ) );
-                temp << _( " of " ) << string_from_scaling_stat( sf.stat );
+                dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             } else {
-                temp << string_format( "%s: <stat>%s%d</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                dump << string_format( "%s: <stat>%s%d</stat>", type, ( sf.scale < 0 ) ? "" : "+",
                                        static_cast<int>( sf.scale ) );
             }
 
-            temp << "  ";
-
-            return temp.str();
-        } );
+            dump << "  ";
+        }
     }
 
     return dump.str();
