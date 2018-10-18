@@ -520,11 +520,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( display_mode == 0 ) {
                 const int width = getmaxx( w_data ) - xpos - item_info_x;
-                mvwprintz( w_data, ypos++, xpos, col, _( "Skills used: %s" ),
+                mvwprintz( w_data, ypos++, xpos, col, _( "Primary skill used: %s" ),
                            ( !current[line]->skill_used ? _( "N/A" ) :
-                             current[line]->skill_used.obj().name().c_str() ) );
-                ypos += fold_and_print( w_data, ypos, xpos, width, col, _( "Required skills: %s" ),
-                                        current[line]->required_skills_string().c_str() );
+                             current[line]->skill_used.obj().name() ) );
                 mvwprintz( w_data, ypos++, xpos, col, _( "Difficulty: %d" ),
                            current[ line ]->difficulty );
                 if( !current[line]->skill_used ) {
@@ -533,6 +531,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                     mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: %d" ),
                                g->u.get_skill_level( current[line]->skill_used ) );
                 }
+                ypos += fold_and_print( w_data, ypos, xpos, width, col,
+                                        _( "Other required skills: %s" ),
+                                        current[line]->required_skills_string() );
 
                 const int expected_turns = g->u.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
