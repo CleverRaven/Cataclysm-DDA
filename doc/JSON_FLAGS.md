@@ -241,6 +241,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FAT``` May produce fat when butchered.
 - ```FEATHER``` May produce feathers when butchered.
 - ```FLIES``` Can fly (over water, etc.)
+- ```FILTHY``` Any clothing it drops will be filthy, fungus and zombie species will always drop filthy clothing.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
