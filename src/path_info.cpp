@@ -86,6 +86,7 @@ void PATH_INFO::update_datadir()
     update_pathname( "autoexeclua", FILENAMES["luadir"] + "autoexec.lua" );
     update_pathname( "class_defslua", FILENAMES["luadir"] + "class_definitions.lua" );
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
+    update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
     update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
@@ -150,6 +151,7 @@ void PATH_INFO::set_standard_filenames()
 
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
+    update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
     update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
