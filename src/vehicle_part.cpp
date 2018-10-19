@@ -50,7 +50,7 @@ vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
 vehicle_part::vehicle_part( const vpart_id &vp, int const dx, int const dy, item &&obj )
-    : mount( dx, dy ), id( vp ), base( std::move( obj ) )
+    : mount( dx, dy ), id( vp ), base( obj )
 {
     // Mark base item as being installed as a vehicle part
     base.item_tags.insert( "VEHICLE" );
