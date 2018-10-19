@@ -24,6 +24,8 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+static const bool halloween_theme = true;
+
 void main_menu::on_move() const
 {
     sfx::play_variant_sound( "menu_move", "default", 100 );
@@ -71,7 +73,7 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
 }
 
 void main_menu::print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
-                            int iMenuOffsetY, bool bShowDDA )
+                            int iMenuOffsetY )
 {
     // Clear Lines
     werase( w_open );
@@ -91,7 +93,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
                   vdaytip ) );
 
-
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
@@ -99,26 +100,36 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     const nc_color cColor2 = c_light_blue;
     const nc_color cColor3 = c_light_blue;
 
+    if( halloween_theme ) {
+        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider().c_str() );
+        fold_and_print_from( w_open, iMenuOffsetY - 8, getmaxx( w_open ) - 25,
+                             25, 0, c_white, halloween_graves().c_str() );
+    }
+
     if( mmenu_title.size() > 1 ) {
         for( size_t i = 0; i < mmenu_title.size(); ++i ) {
-            if( i == 6 ) {
-                if( !bShowDDA ) {
-                    break;
+            if( halloween_theme ) {
+                static const std::string marker = "█";
+                const utf8_wrapper text( mmenu_title[i] );
+                for( size_t j = 0; j < text.size(); j++ ) {
+                    std::string temp = text.substr_display( j, 1 ).str();
+                    if( temp != " " ) {
+                        mvwprintz( w_open, iLine, iOffsetX + j,
+                                   ( temp != marker ) ? c_red : ( i < 9  ? cColor1 : cColor2 ),
+                                   "%s", ( temp == marker ) ? "▓" : temp );
+                    }
                 }
-                if( FULL_SCREEN_HEIGHT > 24 ) {
-                    ++iLine;
-                }
+                iLine++;
+            } else {
+                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
             }
-            mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
         }
     } else {
         center_print( w_open, iLine++, cColor1, mmenu_title[0] );
     }
 
-    if( bShowDDA ) {
-        iLine++;
-        center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
-    }
+    iLine++;
+    center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
@@ -206,7 +217,8 @@ void main_menu::init_windows()
 void main_menu::init_strings()
 {
     // ASCII Art
-    mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir", ".title", "title" ),
+    mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir",
+                             halloween_theme ? ".halloween" : ".title", "title" ),
                              _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
     auto motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
@@ -405,7 +417,7 @@ bool main_menu::opening_screen()
     }
 
     while( !start ) {
-        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
+        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
 
         if( layer == 1 ) {
             if( sel1 == 0 ) { // Print MOTD.
@@ -466,7 +478,7 @@ bool main_menu::opening_screen()
                 } else {
                     sel2 = 0;
                     layer = 2;
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
+                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
 
                     switch( sel1 ) {
                         case 1:
@@ -599,7 +611,7 @@ bool main_menu::opening_screen()
                         get_options().show( true );
                         // The language may have changed- gracefully handle this.
                         init_strings();
-                        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
+                        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
                         ctxt_default.display_menu();
@@ -638,7 +650,7 @@ bool main_menu::new_character_tab()
 
     bool start = false;
     while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
-        print_menu( w_open, 1, iMenuOffsetX, iMenuOffsetY, true );
+        print_menu( w_open, 1, iMenuOffsetX, iMenuOffsetY );
         if( layer == 2 && sel1 == 1 ) {
             // Then choose custom character, random character, preset, etc
             if( MAP_SHARING::isSharing() &&
@@ -821,7 +833,7 @@ bool main_menu::load_character_tab()
 {
     bool start = false;
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
-        print_menu( w_open, 2, iMenuOffsetX, iMenuOffsetY, true );
+        print_menu( w_open, 2, iMenuOffsetX, iMenuOffsetY );
         const auto all_worldnames = world_generator->all_worldnames();
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
@@ -960,7 +972,7 @@ bool main_menu::load_character_tab()
 void main_menu::world_tab()
 {
     while( sel1 == 3 && ( layer == 2 || layer == 3 ) ) {
-        print_menu( w_open, 3, iMenuOffsetX, iMenuOffsetY, true );
+        print_menu( w_open, 3, iMenuOffsetX, iMenuOffsetY );
         if( layer == 3 ) { // World Menu
             // Show options for Destroy, Reset worlds.
             // Reset and Destroy ask for world to modify.
@@ -1115,4 +1127,49 @@ void main_menu::world_tab()
             }
         }
     } // end while layer == ...
+}
+
+std::string main_menu::halloween_spider()
+{
+    static const std::string spider =
+        "\\ \\ \\/ / / / / / / /\n"
+        " \\ \\/\\/ / / / / / /\n"
+        "\\ \\/__\\/ / / / / /\n"
+        " \\/____\\/ / / / /\n"
+        "\\/______\\/ / / /\n"
+        "/________\\/ / /\n"
+        "__________\\/ /\n"
+        "___________\\/\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "  , .   |  . ,\n"
+        "  { | ,--, | }\n"
+        "   \\\\{~~~~}//\n"
+        "  /_/ {<color_c_red>..</color>} \\_\\\n"
+        "  { {      } }\n"
+        "  , ,      , .";
+
+    return spider;
+}
+
+std::string main_menu::halloween_graves()
+{
+    static const std::string graves =
+        "                    _\n"
+        "        -q       __(\")_\n"
+        "         (\\      \\_  _/\n"
+        " .-.   .-''\"'.      |/\n"
+        "|RIP|  | RIP |   .-.\n"
+        "|   |  |     |  |RIP|\n"
+        ";   ;  |     | ,'---',";
+
+    return graves;
 }

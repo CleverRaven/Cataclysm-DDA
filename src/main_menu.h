@@ -106,12 +106,15 @@ class main_menu
          * @param bShowDDA Whether to show "Dark Days Ahead" banner
          */
         void print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
-                         int iMenuOffsetY, bool bShowDDA = true );
+                         int iMenuOffsetY );
 
         void display_text( const std::string &text, const std::string &title, int &selected );
 
         void init_windows();
         std::string handle_input_timeout( input_context &ctxt );
+
+        std::string halloween_spider();
+        std::string halloween_graves();
 };
 
 #endif
