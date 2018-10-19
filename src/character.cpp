@@ -2250,7 +2250,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
                                                      texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
             } else if( new_b_power > 0 ) {
-                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using his item." ),
+                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this item." ),
                                                      c_yellow ) << "\n";
             }
         } else if( new_b_power > 0 && e.allowed ) {
