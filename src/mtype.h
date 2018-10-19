@@ -145,6 +145,7 @@ enum m_flag : int {
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
     MF_FILTHY,              // Any clothing it drops will be filthy, fungus and zombie species will always drop filthy clothing.
+    MF_NOT_FILTHY,           // Any clothing it drops will never be filthy, overrides species settings.
     MF_FISHABLE,            // It is fishable.
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs

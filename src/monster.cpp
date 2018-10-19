@@ -1993,7 +1993,7 @@ void monster::drop_items_on_death()
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
 
-    if( type->in_species( ZOMBIE ) || type->in_species( FUNGUS ) || has_flag( MF_FILTHY ) ) {
+    if( ( type->in_species( ZOMBIE ) || type->in_species( FUNGUS ) || has_flag( MF_FILTHY ) ) && !has_flag( MF_NOT_FILTHY ) ) {
         for( const auto &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
