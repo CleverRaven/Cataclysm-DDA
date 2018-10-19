@@ -218,7 +218,8 @@ void main_menu::init_strings()
 {
     // ASCII Art
     mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir",
-                             halloween_theme ? ".halloween" : ".title", "title" ),
+                             halloween_theme ? ".halloween" : ".title",
+                             halloween_theme ? "halloween" : "title" ),
                              _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
     auto motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
@@ -1166,7 +1167,7 @@ std::string main_menu::halloween_graves()
         "                    _\n"
         "        -q       __(\")_\n"
         "         (\\      \\_  _/\n"
-        " .-.   .-''\"'.      |/\n"
+        " .-.   .-''\"'.     |/\n"
         "|RIP|  | RIP |   .-.\n"
         "|   |  |     |  |RIP|\n"
         ";   ;  |     | ,'---',";
