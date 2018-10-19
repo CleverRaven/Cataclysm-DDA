@@ -1168,6 +1168,29 @@
             ]
         }
     },
+        {
+        "id" : "bonemeal_tablet",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "bonemeal tablet",
+        "description" : "Homemade calcium supplement made out of bonemeal. Tastes horrible but it does its job.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 10,
+        "fun" : -8,
+        "price_postapoc": 1000,
+        "charges" : 40,
+        "stack_size" : 40,
+        "symbol" : "!",
+        "color" : "white",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take the %s.",
+            "vitamins": [
+                [ "calcium", 24 ]
+            ]
+        }
+    },
     {
         "id" : "gummy_vitamins",
         "copy-from": "vitamins",
