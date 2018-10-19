@@ -1162,7 +1162,7 @@ std::string main_menu::halloween_spider()
 
 std::string main_menu::halloween_graves()
 {
-    static const std::string spider =
+    static const std::string graves =
         "                    _\n"
         "        -q       __(\")_\n"
         "         (\\      \\_  _/\n"
@@ -1171,5 +1171,5 @@ std::string main_menu::halloween_graves()
         "|   |  |     |  |RIP|\n"
         ";   ;  |     | ,'---',";
 
-    return spider;
+    return graves;
 }
