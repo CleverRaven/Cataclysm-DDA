@@ -1174,8 +1174,8 @@
         "comestible_type" : "MED",
         "name" : "bone meal tablet",
         "description" : "Homemade calcium supplement made out of bone meal. Tastes horribly and is hard to swallow but it does its job.",
-        "weight" : 1,
-        "volume" : 1,
+        "weight" : 2,
+        "volume" : 2,
         "price" : 10,
         "fun" : -8,
         "price_postapoc": 1000,
@@ -1183,11 +1183,36 @@
         "stack_size" : 40,
         "symbol" : "!",
         "color" : "white",
+        "looks_like" : "calcium_tablet",
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You take the %s.",
             "vitamins": [
-                [ "calcium", 24 ]
+                [ "calcium", 12 ]
+            ]
+        }
+    },
+        {
+        "id" : "flavored_bonemeal_tablet",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "flavored bone meal tablet",
+        "description" : "Homemade calcium supplement made out of bone meal. Due to some sweetness mixed in to counteract the powdery texture and the taste of ash, almost as palatable as the pre-cataclysm tablets.",
+        "weight" : 2,
+        "volume" : 2,
+        "price" : 300,
+        "fun" : -2,
+        "price_postapoc": 3800,
+        "charges" : 42,
+        "stack_size" : 42,
+        "symbol" : "!",
+        "color" : "orange",
+        "looks_like" : "calcium_tablet",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take the %s.",
+            "vitamins": [
+                [ "calcium", 11 ]
             ]
         }
     },
