@@ -1702,6 +1702,7 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
+    assign( jo, "is_upgrade", slot.is_upgrade );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )

@@ -623,6 +623,10 @@ struct islot_bionic {
      * Id of the bionic, see bionics.cpp for its usage.
      */
     bionic_id id;
+    /**
+     * Whether this CBM is an upgrade of another.
+     */
+    bool is_upgrade = false;
 };
 
 struct islot_seed {

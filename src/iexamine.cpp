@@ -3598,7 +3598,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup_player_or_npc( patient, _( "You have already installed this bionic." ),
                                      _( "%1$s has already installed this bionic." ) );
                 return;
-            } else if( bid->upgraded_bionic && !patient.has_bionic( bid->upgraded_bionic ) ) {
+            } else if( bid->upgraded_bionic && !patient.has_bionic( bid->upgraded_bionic ) && it->is_upgrade() ) {
                 //~ %1$s is patient name
                 popup_player_or_npc( patient, _( "You have no base version of this bionic to upgrade." ),
                                      _( "%1$s has no base version of this bionic to upgrade." ) );
