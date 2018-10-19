@@ -1874,7 +1874,7 @@
         "type": "effect_type",
         "id": "strong_antibiotic_visible",
         "name": ["Took strong antibiotic"],
-        "desc": [ "You consumed perscription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage." ]
+        "desc": [ "You consumed prescription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage." ]
     },
     {
         "type": "effect_type",
