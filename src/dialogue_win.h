@@ -43,7 +43,7 @@ class dialogue_window
         void print_history( size_t hilight_lines );
         bool print_responses( int yoffset, std::vector<talk_data> responses );
 
-
+        std::string npc_name;
 };
 #endif
 

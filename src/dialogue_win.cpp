@@ -22,9 +22,11 @@ void dialogue_window::open_dialogue( bool text_only )
         this->text_only = true;
         return;
     }
-    d_win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    int win_beginy = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    int win_beginx = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
+    int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
+    d_win = catacurses::newwin( maxy, maxx, win_beginy, win_beginx );
 }
 
 void dialogue_window::print_header( const std::string &name )
@@ -33,11 +35,14 @@ void dialogue_window::print_header( const std::string &name )
         return;
     }
     draw_border( d_win );
-    mvwvline( d_win, 1, ( FULL_SCREEN_WIDTH / 2 ) + 1, LINE_XOXO, FULL_SCREEN_HEIGHT - 1 );
-    mvwputch( d_win, 0, ( FULL_SCREEN_WIDTH / 2 ) + 1, BORDER_COLOR, LINE_OXXX );
-    mvwputch( d_win, FULL_SCREEN_HEIGHT - 1, ( FULL_SCREEN_WIDTH / 2 ) + 1, BORDER_COLOR, LINE_XXOX );
+    int win_midx = getmaxx( d_win ) / 2;
+    int winy = getmaxy( d_win );
+    mvwvline( d_win, 1, win_midx + 1, LINE_XOXO, winy - 1 );
+    mvwputch( d_win, 0, win_midx + 1, BORDER_COLOR, LINE_OXXX );
+    mvwputch( d_win, winy - 1, win_midx + 1, BORDER_COLOR, LINE_XXOX );
     mvwprintz( d_win, 1,  1, c_white, _( "Dialogue: %s" ), name.c_str() );
-    mvwprintz( d_win, 1, ( FULL_SCREEN_WIDTH / 2 ) + 3, c_white, _( "Your response:" ) );
+    mvwprintz( d_win, 1, win_midx + 3, c_white, _( "Your response:" ) );
+    npc_name = name;
 }
 
 void dialogue_window::clear_window_texts()
@@ -45,22 +50,13 @@ void dialogue_window::clear_window_texts()
     if( text_only ) {
         return;
     }
-    // Note: don't erase the borders, therefore start and end one unit inwards.
-    // Note: start at second line because the first line contains the headers which are not
-    // reprinted.
-    // TODO: make this call werase and reprint the border & the header
-    for( int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
-        for( int j = 1; j < FULL_SCREEN_WIDTH - 1; j++ ) {
-            if( j != ( FULL_SCREEN_WIDTH / 2 ) + 1 ) {
-                mvwputch( d_win, i, j, c_black, ' ' );
-            }
-        }
-    }
+    werase( d_win );
+    print_header( npc_name );
 }
 
 size_t dialogue_window::add_to_history( const std::string &text )
 {
-    auto const folded = foldstring( text, FULL_SCREEN_WIDTH / 2 );
+    auto const folded = foldstring( text, getmaxx( d_win ) / 2 );
     history.insert( history.end(), folded.begin(), folded.end() );
     return folded.size();
 }
@@ -76,7 +72,7 @@ void dialogue_window::print_history( size_t const hilight_lines )
     if( text_only ) {
         return;
     }
-    int curline = FULL_SCREEN_HEIGHT - 2;
+    int curline = getmaxy( d_win ) - 2;
     int curindex = history.size() - 1;
     // index of the first line that is highlighted
     int newindex = history.size() - hilight_lines;
@@ -92,9 +88,9 @@ void dialogue_window::print_history( size_t const hilight_lines )
 
 // Number of lines that can be used for the list of responses:
 // -2 for border, -2 for options that are always there, -1 for header
-static int RESPONSE_AREA_HEIGHT()
+static int RESPONSE_AREA_HEIGHT( int win_height )
 {
-    return FULL_SCREEN_HEIGHT - 2 - 2 - 1;
+    return win_height - 2 - 2 - 1;
 }
 
 bool dialogue_window::print_responses( int const yoffset, std::vector<talk_data> responses )
@@ -103,11 +99,11 @@ bool dialogue_window::print_responses( int const yoffset, std::vector<talk_data>
         return false;
     }
     // Responses go on the right side of the window, add 2 for spacing
-    size_t const xoffset = FULL_SCREEN_WIDTH / 2 + 2;
+    size_t const xoffset = getmaxx( d_win ) / 2 + 2;
     // First line we can print to, +2 for borders, +1 for the header.
     int const min_line = 2 + 1;
     // Bottom most line we can print to
-    int const max_line = min_line + RESPONSE_AREA_HEIGHT() - 1;
+    int const max_line = min_line + RESPONSE_AREA_HEIGHT( getmaxy( d_win ) ) - 1;
 
     // Remaining width of the responses area, -2 for the border, -2 for indentation, -2 for spacing
     size_t const fold_width = xoffset - 2 - 2 - 2;
@@ -159,17 +155,18 @@ void dialogue_window::display_responses( int const hilight_lines, std::vector<ta
     ctxt.register_manual_key( 'O', "Check opinion" );
 #endif
     // adjust scrolling from the last key pressed
+    int win_maxy = getmaxy( d_win );
     switch( ch ) {
         case KEY_DOWN:
         case KEY_NPAGE:
             if( can_scroll_down ) {
-                yoffset += RESPONSE_AREA_HEIGHT();
+                yoffset += RESPONSE_AREA_HEIGHT( win_maxy );
             }
             break;
         case KEY_UP:
         case KEY_PPAGE:
             if( can_scroll_up ) {
-                yoffset = std::max( 0, yoffset - RESPONSE_AREA_HEIGHT() );
+                yoffset = std::max( 0, yoffset - RESPONSE_AREA_HEIGHT( win_maxy ) );
             }
             break;
         default:
@@ -180,10 +177,10 @@ void dialogue_window::display_responses( int const hilight_lines, std::vector<ta
     can_scroll_down = print_responses( yoffset, responses );
     can_scroll_up = yoffset > 0;
     if( can_scroll_up ) {
-        mvwprintz( d_win, 2, FULL_SCREEN_WIDTH - 2 - 2, c_green, "^^" );
+        mvwprintz( d_win, 2, getmaxx( d_win ) - 2 - 2, c_green, "^^" );
     }
     if( can_scroll_down ) {
-        mvwprintz( d_win, FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2 - 2, c_green, "vv" );
+        mvwprintz( d_win, win_maxy - 2, FULL_SCREEN_WIDTH - 2 - 2, c_green, "vv" );
     }
     wrefresh( d_win );
 }
