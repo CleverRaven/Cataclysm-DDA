@@ -3210,7 +3210,8 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     } else {
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
-        const std::string menu_header = _( "Select a body part for: " ) + it.tname();
+        const std::string menu_header = string_format( _( "Select a body part of %s for %s:" ),
+                                        patient.disp_name(), it.tname() );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
                                     bleed, bite, infect, force, get_bandaged_level( healer ), get_disinfected_level( healer ) );

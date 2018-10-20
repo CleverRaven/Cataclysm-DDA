@@ -2139,12 +2139,12 @@ hp_part Character::body_window( const std::string &menu_header,
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
         const int bonus = e.bonus;
-        // This will c_light_gray if the part does not have any effects cured by the item
+        // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = limb_color( bp, bleed > 0.0f ? true : false, bite > 0.0f ? true : false,
                                                infect > 0.0f ? true : false );
         const bool has_curable_effect = state_col != c_light_gray;
-        // The same as in the main UI sidebar. Independent of the capability of the healing item!
+        // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = current_hp == 0;
@@ -2220,7 +2220,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( string_format( _( "Chance to stop: %d %%" ),
                                                      int( bleed * 100 ) ), c_light_green ) << "\n";
             } else {
-                desc << arrow << tag_colored_string( _( "This item will not stop the bleeding." ),
+                desc << arrow << tag_colored_string( _( "This will not stop the bleeding." ),
                                                      c_yellow ) << "\n";
             }
         }
@@ -2232,7 +2232,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
                                                      texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
             } else if( new_b_power > 0 ) {
-                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this item." ),
+                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this." ),
                                                      c_yellow ) << "\n";
             }
         } else if( new_b_power > 0 && e.allowed ) {
@@ -2249,7 +2249,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( string_format( _( "Chance to clean and disinfect: %d %%" ),
                                                      int( bite * 100 ) ), c_light_green ) << "\n";
             } else {
-                desc << arrow << tag_colored_string( _( "This item will not help in cleaning this wound." ),
+                desc << arrow << tag_colored_string( _( "This will not help in cleaning this wound." ),
                                                      c_yellow ) << "\n";
             }
         }
@@ -2264,7 +2264,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( string_format( _( "Chance to heal infection: %d %%" ),
                                                      int( infect * 100 ) ), c_light_green ) << "\n";
             } else {
-                desc << arrow << tag_colored_string( _( "This item will not help in healing infection." ),
+                desc << arrow << tag_colored_string( _( "This will not help in healing infection." ),
                                                      c_yellow ) << "\n";
             }
         }
@@ -2276,7 +2276,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
                                                      texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
             } else if( new_d_power > 0 ) {
-                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this item." ),
+                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this." ),
                                                      c_yellow ) << "\n";
             }
         } else if( new_d_power > 0 && e.allowed ) {
@@ -2291,7 +2291,7 @@ hp_part Character::body_window( const std::string &menu_header,
             desc << tag_colored_string( string_format( _( "Healthy." ) ), c_green ) << "\n";
         }
         if( !e.allowed ) {
-            desc << arrow << tag_colored_string( _( "You don't expect any effect from using this item." ),
+            desc << arrow << tag_colored_string( _( "You don't expect any effect from using this." ),
                                                  c_yellow );
         } else {
             is_valid_choice = true;
@@ -2299,10 +2299,10 @@ hp_part Character::body_window( const std::string &menu_header,
         bmenu.addentry_desc( i, e.allowed, MENU_AUTOASSIGN, msg.str(), desc.str() );
     }
 
-    if( !is_valid_choice ) { // no body part can be chosen for this item
+    if( !is_valid_choice ) { // no body part can be chosen for this item/effect
         bmenu.init();
         bmenu.desc_enabled = false;
-        bmenu.text = string_format( _( "No limb would benefit from using a %s." ), menu_header );
+        bmenu.text = _( "No limb would benefit from it." );
         bmenu.addentry( parts.size(), true, 'q', "%s", _( "Cancel" ) );
     }
 
