@@ -2071,11 +2071,6 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
-hp_part Character::body_window( bool precise ) const
-{
-    return body_window( disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
-}
-
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
@@ -2131,11 +2126,8 @@ hp_part Character::body_window( const std::string &menu_header,
 
     uilist bmenu;
     bmenu.desc_enabled = true;
-    if( menu_header != disp_name() ) {
-        bmenu.text = string_format( _( "Select a body part for: %s" ), menu_header );
-    } else {
-        bmenu.text = string_format( _( "Looking at body parts of %s" ), menu_header );
-    }
+    bmenu.text = menu_header;
+
 
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;

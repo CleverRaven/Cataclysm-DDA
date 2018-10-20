@@ -366,7 +366,6 @@ class Character : public Creature, public visitable<Character>
          * bandage_power - quality of bandage
          * disinfectant_power - quality of disinfectant
          */
-        hp_part body_window( bool precise = false ) const;
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
