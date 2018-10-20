@@ -1692,6 +1692,10 @@ class item : public visitable<item>
          * Does it require gunsmithing tools to repair.
          */
         bool is_firearm() const;
+        /**
+         * Returns the reload time of the gun. Returns 0 if not a gun.
+         */
+        int get_reload_time() const;
         /*@}*/
 
         /**
@@ -1831,6 +1835,8 @@ class item : public visitable<item>
         t_item_vector components;
 
         int get_gun_ups_drain() const;
+
+        int get_min_str() const;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

@@ -1023,6 +1023,8 @@ Gun mods can be defined like this:
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
 "ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
+"reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
+"min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
 
 ### Tools

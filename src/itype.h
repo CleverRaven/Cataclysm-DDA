@@ -531,6 +531,12 @@ struct islot_gunmod : common_ranged_data {
 
     /** Relative adjustment to base gun handling */
     int handling = 0;
+
+    /** Percentage value change to the gun's loading time. Higher is slower */
+    int reload_modifier = 0;
+
+    /** Modifies base strength required */
+    int min_str_required_mod = 0;
 };
 
 struct islot_magazine {

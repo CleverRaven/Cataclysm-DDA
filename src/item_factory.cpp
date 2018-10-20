@@ -1657,6 +1657,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "mode_modifier", slot.mode_modifier );
+    assign( jo, "reload_modifier", slot.reload_modifier );
+    assign( jo, "min_str_required_mod", slot.min_str_required_mod );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )

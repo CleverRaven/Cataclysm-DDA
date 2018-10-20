@@ -844,8 +844,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::BASE_REQUIREMENTS ) ) {
             // Display any minimal stat or skill requirements for the item
             std::vector<std::string> req;
-            if( type->min_str > 0 ) {
-                req.push_back( string_format( "%s %d", _( "strength" ), type->min_str ) );
+            if( get_min_str() > 0 ) {
+                req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
             }
             if( type->min_dex > 0 ) {
                 req.push_back( string_format( "%s %d", _( "dexterity" ), type->min_dex ) );
@@ -1342,7 +1342,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) )
             info.emplace_back( "GUN", _( "Reload time: " ),
                                has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
-                               int( gun.reload_time / 16.67 ), true, "", true, true );
+                               int( mod->get_reload_time() / 16.67 ), true, "", true, true );
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
             std::vector<std::string> fm;
@@ -1444,6 +1444,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( type->mod->ammo_modifier && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
             info.push_back( iteminfo( "GUNMOD",
                                       string_format( _( "Ammo: <stat>%s</stat>" ), type->mod->ammo_modifier->name().c_str() ) ) );
+        }
+        if( mod.reload_modifier != 0 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
+            info.emplace_back( "GUNMOD", _( "Reload modifier: " ), _( "<num>%" ), mod.reload_modifier, true, "",
+                               true, true );
+        }
+        if( mod.min_str_required_mod > 0 && parts->test( iteminfo_parts::GUNMOD_STRENGTH ) ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Minimum strength required modifier: " ), "",
+                                      mod.min_str_required_mod ) );
         }
 
         temp1.str( "" );
@@ -4066,6 +4074,20 @@ bool item::is_firearm() const
     return is_gun() && !has_flag( primitive_flag );
 }
 
+int item::get_reload_time() const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+
+    int reload_time = type->gun->reload_time;
+    for( const auto mod : gunmods() ) {
+        reload_time = int( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
+    }
+
+    return reload_time;
+}
+
 bool item::is_silent() const
 {
     return gun_noise().volume < 5;
@@ -4734,7 +4756,7 @@ int item::gun_range( const player *p ) const
 
     // Reduce bow range until player has twice minimm required strength
     if( has_flag( "STR_DRAW" ) ) {
-        ret += std::max( 0.0, ( p->get_str() - type->min_str ) * 0.5 );
+        ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
     }
 
     return std::max( 0, ret );
@@ -5283,7 +5305,7 @@ int item::reload_option::moves() const
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
         if( parent->is_gun() ) {
-            mv += parent->type->gun->reload_time;
+            mv += parent->get_reload_time();
         } else if( parent->is_tool() ) {
             mv += 100;
         }
@@ -7112,4 +7134,17 @@ bool item::is_upgrade() const
         return false;
     }
     return type->bionic->is_upgrade;
+}
+
+int item::get_min_str() const
+{
+    if( type->gun ) {
+        int min_str = type->min_str;
+        for( const auto mod : gunmods() ) {
+            min_str += mod->type->gunmod->min_str_required_mod;
+        }
+        return min_str > 0 ? min_str : 0;
+    } else {
+        return type->min_str;
+    }
 }

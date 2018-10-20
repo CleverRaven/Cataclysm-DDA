@@ -1312,7 +1312,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
         }
     };
 
-    check_req( _( "strength" ),     get_str(), it.type->min_str );
+    check_req( _( "strength" ),     get_str(), it.get_min_str() );
     check_req( _( "dexterity" ),    get_dex(), it.type->min_dex );
     check_req( _( "intelligence" ), get_int(), it.type->min_int );
     check_req( _( "perception" ),   get_per(), it.type->min_per );
@@ -1336,7 +1336,7 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
 
 bool Character::meets_stat_requirements( const item &it ) const
 {
-    return get_str() >= it.type->min_str &&
+    return get_str() >= it.get_min_str() &&
            get_dex() >= it.type->min_dex &&
            get_int() >= it.type->min_int &&
            get_per() >= it.type->min_per;
