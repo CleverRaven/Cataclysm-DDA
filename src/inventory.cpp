@@ -841,6 +841,58 @@ units::mass inventory::weight() const
     return ret;
 }
 
+// Helper function to iterate over the intersection of the inventory and a list
+// of items given
+template<typename F>
+void for_each_item_in_both(
+    const invstack &items, const std::map<const item *, int> &other, const F &f )
+{
+    // Shortcut the logic in the common case where other is empty
+    if( other.empty() ) {
+        return;
+    }
+
+    for( const auto &elem : items ) {
+        const item &representative = elem.front();
+        auto other_it = other.find( &representative );
+        if( other_it == other.end() ) {
+            continue;
+        }
+
+        long num_to_count = other_it->second;
+        if( representative.count_by_charges() ) {
+            item copy = representative;
+            copy.charges = std::min( copy.charges, num_to_count );
+            f( copy );
+        } else {
+            for( const auto &elem_stack_iter : elem ) {
+                f( elem_stack_iter );
+                if( --num_to_count <= 0 ) {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+units::mass inventory::weight_without( const std::map<const item *, int> &without ) const
+{
+    units::mass ret = weight();
+
+    for_each_item_in_both( items, without,
+    [&]( const item & i ) {
+        ret -= i.weight();
+    }
+                         );
+
+    if( ret < 0_gram ) {
+        debugmsg( "Negative mass after removing some of inventory" );
+        ret = {};
+    }
+
+    return ret;
+}
+
 units::volume inventory::volume() const
 {
     units::volume ret = 0;
@@ -849,6 +901,24 @@ units::volume inventory::volume() const
             ret += elem_stack_iter.volume();
         }
     }
+    return ret;
+}
+
+units::volume inventory::volume_without( const std::map<const item *, int> &without ) const
+{
+    units::volume ret = volume();
+
+    for_each_item_in_both( items, without,
+    [&]( const item & i ) {
+        ret -= i.volume();
+    }
+                         );
+
+    if( ret < 0_ml ) {
+        debugmsg( "Negative volume after removing some of inventory" );
+        ret = 0_ml;
+    }
+
     return ret;
 }
 

@@ -543,9 +543,29 @@ class Character : public Creature, public visitable<Character>
 
         units::mass weight_carried() const;
         units::volume volume_carried() const;
+
+        /// Sometimes we need to calculate hypothetical volume or weight.  This
+        /// struct offers two possible tweaks: a collection of items and
+        /// coutnts to remove, or an entire replacement inventory.
+        struct item_tweaks {
+            item_tweaks() = default;
+            item_tweaks( const std::map<const item *, int> &w ) :
+                without_items( &w )
+            {}
+            item_tweaks( const inventory &r ) :
+                replace_inv( &r )
+            {}
+            const std::map<const item *, int> *without_items = nullptr;
+            const inventory *replace_inv = nullptr;
+        };
+
+        units::mass weight_carried_with_tweaks( item_tweaks ) const;
+        units::volume volume_carried_with_tweaks( item_tweaks ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
-        units::volume volume_capacity_reduced_by( const units::volume &mod ) const;
+        units::volume volume_capacity_reduced_by(
+            const units::volume &mod,
+            const std::map<const item *, int> &without_items = {} ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
