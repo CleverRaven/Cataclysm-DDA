@@ -132,7 +132,7 @@ int om_upgrade_level( const std::string &bldg );
 /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
 bool upgrade_return( npc &p, const tripoint &omt_pos, const std::string &miss );
 /// Called when a companion completes a gathering @ref task mission
-bool camp_gathering_return( npc &p, const std::string &task );
+bool camp_gathering_return( npc &p, const std::string &task, time_duration min_time );
 /// Called on completion of recruiting, returns the new NPC.
 void camp_recruit_return( npc &p, const std::string &task, int score );
 void camp_craft_construction( npc &p, const mission_entry &cur_key,
@@ -156,6 +156,18 @@ void start_combat_mission( std::string &miss, npc &p );
 
 /// Called when a companion completes a chop shop @ref task mission
 bool camp_garage_chop_start( npc &p, const std::string &task );
+
+/**
+ * spawn items or corpses based on search attempts
+ * @param skill, skill level of the search
+ * @param groupd_id, name of the item_group that provides the items
+ * @param task, string to identify what types of corpses to provide ( _faction_camp_hunting or _faction_camp_trapping )
+ * @param attempts, number of skill checks to make
+ * @param difficulty, a random number from 0 to difficulty is created for each attempt, and if skill is higher, an item or corpse is spawned
+ */
+void camp_search_results( int skill, const Group_tag &group_id, int attempts, int difficulty );
+void camp_hunting_results( int skill, const std::string &task, int attempts, int difficulty );
+
 /// Called when a companion completes any mission and calls companion_return
 void camp_companion_return( npc &comp );
 /**
@@ -211,5 +223,16 @@ std::string name_mission_tabs( npc &p, const std::string &id, const std::string 
 std::map<std::string, std::string> camp_recipe_deck( const std::string &om_cur );
 /// Determines what the absolute max (out of 9999) that can be crafted using inventory and food supplies
 int camp_recipe_batch_max( const recipe making, const inventory &total_inv );
+
+/*
+ * check if a companion survives a random encounter
+ * @param comp the companion
+ * @param situation what the survivor is doing
+ * @param favor a number added to the survivor's skills to see if he can avoid the encounter
+ * @param threat a number indicating how dangerous the encounter is
+ * TODO: Convert to JSON basic on dynamic line type structure
+ */
+bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat );
+
 };
 #endif

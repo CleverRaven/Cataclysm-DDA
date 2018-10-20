@@ -354,6 +354,78 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
+    if( cur_om_level >= 8 ) {
+        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_foraging" );
+        mission_key.text["Camp Forage"] = string_format( _( "Notes:\n"
+                                          "Send a companion to edible plans.\n \n"
+                                          "Skill used: survival\n"
+                                          "Difficulty: N/A \n"
+                                          "Foraging Possibilities:\n"
+                                          "> wild vegetables\n"
+                                          "> fruits and nuts dependening on season\n"
+                                          "May produce less food than consumed!\n"
+                                          "Risk: Very Low\n"
+                                          "Time: 4 Hours, Repeated\n"
+                                          "Positions: %d/3\n" ), npc_list.size() );
+        mission_key.push( "Camp Forage", _( "Forage for plants" ), "", false, npc_list.size() < 3 );
+        if( !npc_list.empty() ) {
+            entry = _( "Foraging for edible plants.\n" );
+            bool avail = false;
+            for( auto &elem : npc_list ) {
+                avail |= update_time_fixed( entry, elem, 4_hours );
+            }
+            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            mission_key.text["Recover Foragers"] = entry;
+            mission_key.push( "Recover Foragers", _( "Recover Foragers" ), "", true, avail );
+        }
+
+        npc_list = companion_list( p, "_faction_camp_trapping" );
+        mission_key.text["Trap Small Game"] = string_format( _( "Notes:\n"
+                                              "Send a companion to set traps for small game.\n \n"
+                                              "Skill used: trapping\n"
+                                              "Difficulty: N/A \n"
+                                              "Trappinng Possibilities:\n"
+                                              "> small and tiny animal corpses\n"
+                                              "May produce less food than consumed!\n"
+                                              "Risk: Low\n"
+                                              "Time: 6 Hours, Repeated\n"
+                                              "Positions: %d/2\n" ), npc_list.size() );
+        mission_key.push( "Trap Small Game", _( "Trap Small Game" ), "", false, npc_list.size() < 2 );
+        if( !npc_list.empty() ) {
+            entry = _( "Trapping Small Game.\n" );
+            bool avail = false;
+            for( auto &elem : npc_list ) {
+                avail |= update_time_fixed( entry, elem, 6_hours );
+            }
+            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            mission_key.text["Recover Trappers"] = entry;
+            mission_key.push( "Recover Trappers", _( "Recover Trappers" ), "", true, avail );
+        }
+
+        npc_list = companion_list( p, "_faction_camp_hunting" );
+        mission_key.text["Hunt Large Animals"] = string_format( _( "Notes:\n"
+                "Send a companion to hunt large animals.\n \n"
+                "Skill used: marksmanship\n"
+                "Difficulty: N/A \n"
+                "Hunting Possibilities:\n"
+                "> small, medium, or large animal corpses\n"
+                "May produce less food than consumed!\n"
+                "Risk: Medium\n"
+                "Time: 6 Hours, Repeated\n"
+                "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.push( "Hunt Large Animals", _( "Hunt Large Animals" ), "", false, npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = _( "Hunting large animals.\n" );
+            bool avail = false;
+            for( auto &elem : npc_list ) {
+                avail |= update_time_fixed( entry, elem, 6_hours );
+            }
+            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            mission_key.text["Recover Hunter"] = entry;
+            mission_key.push( "Recover Hunter", _( "Recover Hunter" ), "", true, avail );
+        }
+    }
+
     if( cur_om_level >= 9 ) {
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_om_fortifications" );
         mission_key.text["Construct Map Fortifications"] =
@@ -688,26 +760,26 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     if( cur_key.id == "Gather Materials" ) {
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_gathering" );
         if( npc_list.size() < 3 ) {
-            individual_mission( p, _( "departs to search for materials..." ), "_faction_camp_gathering", false, {},
-                                "survival" );
+            individual_mission( p, _( "departs to search for materials..." ),
+                                "_faction_camp_gathering", false, {}, "survival" );
         } else {
             popup( _( "There are too many companions working on this mission!" ) );
         }
     } else if( cur_key.id == "Recover Ally from Gathering" ) {
-        camp_gathering_return( p, "_faction_camp_gathering" );
+        camp_gathering_return( p, "_faction_camp_gathering", 3_hours );
     }
 
     if( cur_key.id == "Collect Firewood" ) {
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_firewood" );
         if( npc_list.size() < 3 ) {
-            individual_mission( p, _( "departs to search for firewood..." ), "_faction_camp_firewood", false, {},
-                                "survival" );
+            individual_mission( p, _( "departs to search for firewood..." ),
+                                "_faction_camp_firewood", false, {}, "survival" );
         } else {
             popup( _( "There are too many companions working on this mission!" ) );
         }
     }
     if( cur_key.id == "Recover Firewood Gatherers" ) {
-        camp_gathering_return( p, "_faction_camp_firewood" );
+        camp_gathering_return( p, "_faction_camp_firewood", 3_hours );
     }
 
     if( cur_key.id == "Menial Labor" ) {
@@ -716,11 +788,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         if( camp_food_supply() < need_food ) {
             popup( _( "You don't have enough food stored to feed your companion." ) );
         } else if( npc_list.empty() ) {
-            npc *comp = individual_mission( p, _( "departs to dig ditches and scrub toilets..." ),
-                                            "_faction_camp_menial" );
-            if( comp != nullptr ) {
-                comp->companion_mission_time_ret = calendar::turn + 3_hours;
-            }
+            individual_mission( p, _( "departs to dig ditches and scrub toilets..." ),
+                                "_faction_camp_menial" );
         } else {
             popup( _( "There are too many companions working on this mission!" ) );
         }
@@ -756,6 +825,42 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
             popup( _( "%s returns from shuttling gear between the hide site..." ), comp->name );
             camp_companion_return( *comp );
         }
+    }
+
+    if( cur_key.id == "Camp Forage" ) {
+        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_foraging" );
+        if( npc_list.size() < 3 ) {
+            individual_mission( p, _( "departs to search for edible plants..." ),
+                                "_faction_camp_foraging", false, {}, "survival" );
+        } else {
+            popup( _( "There are too many companions working on this mission!" ) );
+        }
+    } else if( cur_key.id == "Recover Foragers" ) {
+        camp_gathering_return( p, "_faction_camp_foraging", 4_hours );
+    }
+
+    if( cur_key.id == "Trap Small Game" ) {
+        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_trapping" );
+        if( npc_list.size() < 2 ) {
+            individual_mission( p, _( "departs to set traps for small animals..." ),
+                                "_faction_camp_trapping", false, {}, "traps" );
+        } else {
+            popup( _( "There are too many companions working on this mission!" ) );
+        }
+    } else if( cur_key.id == "Recover Trappers" ) {
+        camp_gathering_return( p, "_faction_camp_trapping", 6_hours );
+    }
+
+    if( cur_key.id == "Hunt Large Animals" ) {
+        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hunting" );
+        if( npc_list.empty() ) {
+            individual_mission( p, _( "departs to hunt for meat..." ), "_faction_camp_hunting",
+                                false, {}, "gun" );
+        } else {
+            popup( _( "There are too many companions working on this mission!" ) );
+        }
+    } else if( cur_key.id == "Recover Hunter" ) {
+        camp_gathering_return( p, "_faction_camp_hunting", 6_hours );
     }
 
     if( cur_key.id == "Construct Map Fortifications" || cur_key.id == "Construct Spiked Trench" ) {
@@ -1632,113 +1737,83 @@ bool talk_function::camp_menial_return( npc &p )
     return true;
 }
 
-bool talk_function::camp_gathering_return( npc &p, const std::string &task )
+bool talk_function::camp_gathering_return( npc &p, const std::string &task, time_duration min_time )
 {
-    npc *comp = companion_choose_return( p, task, calendar::turn - 3_hours );
+    npc *comp = companion_choose_return( p, task, calendar::turn - min_time );
     if( comp == nullptr ) {
         return false;
     }
 
-    if( one_in( 20 ) ) {
-        popup( _( "While gathering supplies, a silent specter approaches %s..." ), comp->name );
-        // the following doxygen aliases do not yet exist. this is marked for future reference
-
-        ///\EFFECT_SURVIVAL_NPC affects gathering mission results
-
-        ///\EFFECT_DODGE_NPC affects gathering mission results
-        int skill_1 = comp->get_skill_level( skill_survival );
-        int skill_2 = comp->get_skill_level( skill_speech );
-        if( skill_1 > rng( -2, 8 ) ) {
-            popup( _( "%s notices the antlered horror and slips away before it gets too close." ),
-                   comp->name );
-        } else if( skill_2 > rng( -2, 8 ) ) {
-            popup( _( "The survivor approaches %s asking for directions." ), comp->name );
-            popup( _( "Fearful that he may be an agent of some hostile faction, %s doesn't mention the camp." ),
-                   comp->name );
-            popup( _( "The two part on friendly terms and the survivor isn't seen again." ) );
-        } else {
-            popup( _( "%s didn't detect the ambush until it was too late!" ), comp->name );
-            // the following doxygen aliases do not yet exist. this is marked for future reference
-
-            ///\EFFECT_MELEE_NPC affects forage mission results
-
-            ///\EFFECT_SURVIVAL_NPC affects forage mission results
-
-            ///\EFFECT_BASHING_NPC affects forage mission results
-
-            ///\EFFECT_CUTTING_NPC affects forage mission results
-
-            ///\EFFECT_STABBING_NPC affects forage mission results
-
-            ///\EFFECT_UNARMED_NPC affects forage mission results
-
-            ///\EFFECT_DODGE_NPC affects forage mission results
-            int skill = comp->get_skill_level( skill_melee ) + ( .5 * comp->get_skill_level(
-                            skill_survival ) ) + comp->get_skill_level( skill_bashing ) + comp->get_skill_level(
-                            skill_cutting ) + comp->get_skill_level( skill_stabbing ) + comp->get_skill_level(
-                            skill_unarmed ) + comp->get_skill_level( skill_dodge );
-            int monsters = rng( 0, 10 );
-            if( skill * rng_float( .80, 1.2 ) > ( monsters * rng_float( .8, 1.2 ) ) ) {
-                if( one_in( 2 ) ) {
-                    popup( _( "The bull moose charged %s from the tree line..." ), comp->name );
-                    popup( _( "Despite being caught off guard %s was able to run away until the moose gave up pursuit." ),
-                           comp->name );
-                } else {
-                    popup( _( "The jabberwock grabbed %s by the arm from behind and began to scream." ),
-                           comp->name );
-                    popup( _( "Terrified, %s spun around and delivered a massive kick to the creature's torso..." ),
-                           comp->name );
-                    popup( _( "Collapsing into a pile of gore, %s walked away unscathed..." ), comp->name );
-                    popup( _( "(Sounds like bullshit, you wonder what really happened.)" ) );
-                }
-            } else {
-                if( one_in( 2 ) ) {
-                    popup( _( "%s turned to find the hideous black eyes of a giant wasp staring back from only a few feet away..." ),
-                           comp->name );
-                    popup( _( "The screams were terrifying, there was nothing anyone could do." ) );
-                } else {
-                    popup( _( "Pieces of %s were found strewn across a few bushes." ), comp->name );
-                    popup( _( "(You wonder if your companions are fit to work on their own...)" ) );
-                }
-                overmap_buffer.remove_npc( comp->getID() );
-                return false;
-            }
-        }
+    std::string task_description = _( "gathering materials" );
+    int danger = 20;
+    int favor = 2;
+    int threat = 10;
+    std::string skill_group = "gathering";
+    int skill = comp->get_skill_level( skill_survival );
+    int checks_per_cycle = 6;
+    if( task == "_faction_camp_foraging" ) {
+        task_description = _( "foraging for edible plants" );
+        danger = 15;
+        checks_per_cycle = 12;
+    } else if( task == "_faction_camp_trapping" ) {
+        task_description = _( "trapping small animals" );
+        favor = 1;
+        danger = 15;
+        skill_group = "trapping";
+        skill = comp->get_skill_level( skill_traps );
+        checks_per_cycle = 4;
+    } else if( task == "_faction_camp_hunting" ) {
+        task_description = _( "hunting for meat" );
+        danger = 10;
+        favor = 0;
+        skill_group = "hunting";
+        skill = comp->get_skill_level( skill_gun );
+        threat = 12;
+        checks_per_cycle = 2;
     }
 
-    int exp = to_hours<float>( calendar::turn - comp->companion_mission_time );
-    std::string skill_group = "gathering";
-    companion_skill_trainer( *comp, skill_group, calendar::turn - comp->companion_mission_time, 1 );
+    if( one_in( danger ) && !survive_random_encounter( *comp, task_description, favor, threat ) ) {
+        return false;
+    }
 
-    popup( _( "%s returns from gathering supplies carrying supplies and has a bit more experience..." ),
-           comp->name );
-    // the following doxygen aliases do not yet exist. this is marked for future reference
+    time_duration mission_time = calendar::turn - comp->companion_mission_time;
+    companion_skill_trainer( *comp, skill_group, mission_time, 1 );
 
-    ///\EFFECT_SURVIVAL_NPC affects forage mission results
-    int skill = comp->get_skill_level( skill_survival );
+    popup( _( "%s returns from %s carrying supplies and has a bit more experience..." ),
+           comp->name, task_description );
 
-    const tripoint omt_pos = p.global_omt_location();
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-    std::string om_tile = omt_ref.id().c_str();
     std::string itemlist = "forest";
-
-    if( task == "_faction_camp_gathering" ) {
+    if( task == "_faction_camp_firewood" ) {
+        itemlist = "gathering_faction_base_camp_firewood";
+    } else if( task == "_faction_camp_gathering" ) {
+        const tripoint omt_pos = p.global_omt_location();
+        oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+        std::string om_tile = omt_ref.id().c_str();
         if( item_group::group_is_defined( "gathering_" + om_tile ) ) {
             itemlist = "gathering_" + om_tile ;
         }
-    }
-    if( task == "_faction_camp_firewood" ) {
-        itemlist = "gathering_faction_base_camp_firewood";
-    }
-
-    int i = 0;
-    while( i < exp ) {
-        if( skill > rng_float( -.5, 15 ) ) {
-            auto result = item_group::item_from( itemlist );
-            g->m.add_item_or_charges( g->u.pos(), result, true );
-            i += 2;
+    } else if( task == "_faction_camp_foraging" ) {
+        switch( season_of_year( calendar::turn ) ) {
+            case SPRING:
+                itemlist = "forage_faction_base_camp_spring";
+                break;
+            case SUMMER:
+                itemlist = "forage_faction_base_camp_summer";
+                break;
+            case AUTUMN:
+                itemlist = "forage_faction_base_camp_autumn";
+                break;
+            case WINTER:
+                itemlist = "forage_faction_base_camp_winter";
+                break;
         }
     }
+    if( task == "_faction_camp_trapping" || task == "_faction_camp_hunting" ) {
+        camp_hunting_results( skill, task, checks_per_cycle * mission_time / min_time, 25 );
+    } else {
+        camp_search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15 );
+    }
+
     camp_companion_return( *comp );
     return true;
 }
@@ -2247,6 +2322,72 @@ int talk_function::camp_recipe_batch_max( const recipe making, const inventory &
         batch_size /= 10;
     }
     return max_batch;
+}
+
+void talk_function::camp_search_results( int skill, const Group_tag &group_id, int attempts,
+        int difficulty )
+{
+    for( int i = 0; i < attempts; i++ ) {
+        if( skill > rng( 0, difficulty ) ) {
+            auto result = item_group::item_from( group_id, calendar::turn );
+            if( ! result.is_null() ) {
+                g->m.add_item_or_charges( g->u.pos(), result, true );
+            }
+        }
+    }
+}
+
+void talk_function::camp_hunting_results( int skill, const std::string &task, int attempts,
+        int difficulty )
+{
+    // no item groups for corpses, so we'll have to improvise
+    weighted_int_list<mtype_id> hunting_targets;
+    hunting_targets.add( mtype_id( "mon_beaver" ), 10 );
+    hunting_targets.add( mtype_id( "mon_fox_red" ), 10 );
+    hunting_targets.add( mtype_id( "mon_fox_gray" ), 10 );
+    hunting_targets.add( mtype_id( "mon_mink" ), 5 );
+    hunting_targets.add( mtype_id( "mon_muskrat" ), 10 );
+    hunting_targets.add( mtype_id( "mon_otter" ), 10 );
+    hunting_targets.add( mtype_id( "mon_duck" ), 10 );
+    hunting_targets.add( mtype_id( "mon_cockatrice" ), 1 );
+    if( task == "_faction_camp_trapping" ) {
+        hunting_targets.add( mtype_id( "mon_black_rat" ), 40 );
+        hunting_targets.add( mtype_id( "mon_chipmunk" ), 30 );
+        hunting_targets.add( mtype_id( "mon_groundhog" ), 30 );
+        hunting_targets.add( mtype_id( "mon_hare" ), 20 );
+        hunting_targets.add( mtype_id( "mon_lemming" ), 40 );
+        hunting_targets.add( mtype_id( "mon_opossum" ), 10 );
+        hunting_targets.add( mtype_id( "mon_rabbit" ), 20 );
+        hunting_targets.add( mtype_id( "mon_squirrel" ), 20 );
+        hunting_targets.add( mtype_id( "mon_weasel" ), 20 );
+        hunting_targets.add( mtype_id( "mon_chicken" ), 10 );
+        hunting_targets.add( mtype_id( "mon_grouse" ), 10 );
+        hunting_targets.add( mtype_id( "mon_pheasant" ), 10 );
+        hunting_targets.add( mtype_id( "mon_turkey" ), 20 );
+    } else if( task == "_faction_camp_hunting" ) {
+        hunting_targets.add( mtype_id( "mon_chicken" ), 20 );
+        // good luck hunting upland game birds without dogs
+        hunting_targets.add( mtype_id( "mon_grouse" ), 2 );
+        hunting_targets.add( mtype_id( "mon_pheasant" ), 2 );
+        hunting_targets.add( mtype_id( "mon_turkey" ), 10 );
+        hunting_targets.add( mtype_id( "mon_bear" ), 1 );
+        hunting_targets.add( mtype_id( "mon_cougar" ), 5 );
+        hunting_targets.add( mtype_id( "mon_cow" ), 1 );
+        hunting_targets.add( mtype_id( "mon_coyote" ), 15 );
+        hunting_targets.add( mtype_id( "mon_deer" ), 2 );
+        hunting_targets.add( mtype_id( "mon_moose" ), 1 );
+        hunting_targets.add( mtype_id( "mon_pig" ), 1 );
+        hunting_targets.add( mtype_id( "mon_wolf" ), 10 );
+    }
+    for( int i = 0; i < attempts; i++ ) {
+        if( skill > rng( 0, difficulty ) ) {
+            const mtype_id *target = hunting_targets.pick();
+            auto result = item::make_corpse( *target, calendar::turn, "" );
+            if( ! result.is_null() ) {
+                g->m.add_item_or_charges( g->u.pos(), result, true );
+            }
+        }
+    }
 }
 
 // map manipulation functions
@@ -3269,4 +3410,59 @@ int talk_function::camp_morale( int change )
     faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     yours->likes_u += change;
     return yours->likes_u;
+}
+
+// combat and danger
+// this entire system is stupid
+bool talk_function::survive_random_encounter( npc &comp, std::string &situation, int favor,
+        int threat )
+{
+    popup( _( "While %s, a silent specter approaches %s..." ), situation, comp.name );
+    int skill_1 = comp.get_skill_level( skill_survival );
+    int skill_2 = comp.get_skill_level( skill_speech );
+    if( skill_1 + favor > rng( 0, 10 ) ) {
+        popup( _( "%s notices the antlered horror and slips away before it gets too close." ),
+               comp.name );
+        companion_skill_trainer( comp, "gathering", 10_minutes, 10 - favor );
+    } else if( skill_2 + favor > rng( 0, 10 ) ) {
+        popup( _( "Another survivor approaches %s asking for directions." ), comp.name );
+        popup( _( "Fearful that he may be an agent of some hostile faction, %s doesn't mention the camp." ),
+               comp.name );
+        popup( _( "The two part on friendly terms and the survivor isn't seen again." ) );
+        companion_skill_trainer( comp, "recruiting", 10_minutes, 10 - favor );
+    } else {
+        popup( _( "%s didn't detect the ambush until it was too late!" ), comp.name );
+        int skill = comp.get_skill_level( skill_melee ) + 0.5 * comp.get_skill_level(
+                        skill_survival ) + comp.get_skill_level( skill_bashing ) + comp.get_skill_level(
+                        skill_cutting ) + comp.get_skill_level( skill_stabbing ) + comp.get_skill_level(
+                        skill_unarmed ) + comp.get_skill_level( skill_dodge );
+        int monsters = rng( 0, threat );
+        if( skill * rng( 8, 12 ) > ( monsters * rng( 8, 12 ) ) ) {
+            if( one_in( 2 ) ) {
+                popup( _( "The bull moose charged %s from the tree line..." ), comp.name );
+                popup( _( "Despite being caught off guard %s was able to run away until the moose gave up pursuit." ),
+                       comp.name );
+            } else {
+                popup( _( "The jabberwock grabbed %s by the arm from behind and began to scream." ),
+                       comp.name );
+                popup( _( "Terrified, %s spun around and delivered a massive kick to the creature's torso..." ),
+                       comp.name );
+                popup( _( "Collapsing into a pile of gore, %s walked away unscathed..." ), comp.name );
+                popup( _( "(Sounds like bullshit, you wonder what really happened.)" ) );
+            }
+            companion_skill_trainer( comp, "combat", 10_minutes, 10 - favor );
+        } else {
+            if( one_in( 2 ) ) {
+                popup( _( "%s turned to find the hideous black eyes of a giant wasp staring back from only a few feet away..." ),
+                       comp.name );
+                popup( _( "The screams were terrifying, there was nothing anyone could do." ) );
+            } else {
+                popup( _( "Pieces of %s were found strewn across a few bushes." ), comp.name );
+                popup( _( "(You wonder if your companions are fit to work on their own...)" ) );
+            }
+            overmap_buffer.remove_npc( comp.getID() );
+            return false;
+        }
+    }
+    return true;
 }
