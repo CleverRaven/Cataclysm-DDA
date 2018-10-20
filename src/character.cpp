@@ -152,9 +152,7 @@ Character::Character() : Creature(), visitable<Character>(), hp_cur( {
 }
 
 Character::~Character() = default;
-Character::Character( const Character & ) = default;
 Character::Character( Character && ) = default;
-Character &Character::operator=( const Character & ) = default;
 Character &Character::operator=( Character && ) = default;
 
 field_id Character::bloodType() const

@@ -560,9 +560,7 @@ player::player() : Character()
 }
 
 player::~player() = default;
-player::player(const player &) = default;
 player::player(player &&) = default;
-player &player::operator=(const player &) = default;
 player &player::operator=(player &&) = default;
 
 void player::normalize()

@@ -183,10 +183,10 @@ class player : public Character
 {
     public:
         player();
-        player( const player & );
+        player( const player & ) = delete;
         player( player && );
         ~player() override;
-        player &operator=( const player & );
+        player &operator=( const player & ) = delete;
         player &operator=( player && );
 
         // newcharacter.cpp

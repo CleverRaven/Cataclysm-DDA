@@ -721,9 +721,9 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         Character();
-        Character( const Character & );
+        Character( const Character & ) = delete;
         Character( Character && );
-        Character &operator=( const Character & );
+        Character &operator=( const Character & ) = delete;
         Character &operator=( Character && );
         struct trait_data {
             /** Key to select the mutation in the UI. */
