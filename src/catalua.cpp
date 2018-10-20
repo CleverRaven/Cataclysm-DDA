@@ -41,6 +41,7 @@
 #include "npc.h"
 #include "bionics.h"
 #include "activity_type.h"
+#include "overmap_ui.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
