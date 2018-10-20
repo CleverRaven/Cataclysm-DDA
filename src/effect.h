@@ -156,6 +156,8 @@ class effect
         std::string disp_name() const;
         /** Returns the description displayed in the player status window. */
         std::string disp_desc( bool reduced = false ) const;
+        /** Returns the short description as set in json. */
+        std::string disp_short_desc( bool reduced = false ) const;
         /** Returns true if a description will be formatted as "Your" + body_part + description. */
         bool use_part_descs() const;
 

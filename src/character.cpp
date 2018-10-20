@@ -2207,8 +2207,8 @@ hp_part Character::body_window( const std::string &menu_header,
                                color_name( all_state_col ), e.name,
                                hp_str( current_hp, maximal_hp ) );
         if( current_hp != new_hp || has_curable_effect ) {
-            msg << string_format( " <color_yellow>-></color> %s", hp_str( new_hp, maximal_hp ) );
-            desc << string_format( " <color_yellow>-></color> %s", hp_str( new_hp, maximal_hp ) ) << "\n";
+            msg << arrow << string_format( "%s", hp_str( new_hp, maximal_hp ) );
+            desc << arrow << string_format( "%s", hp_str( new_hp, maximal_hp ) ) << "\n";
         } else {
             desc << "\n";
         }
@@ -2221,18 +2221,8 @@ hp_part Character::body_window( const std::string &menu_header,
         // BLEEDING block
         if( bleeding ) {
             const int bleed_int = get_effect_int( effect_bleed, e.bp );
-            desc << "<color_red>" << string_format( "%s: ", get_effect( effect_bleed, e.bp ).get_speed_name() );
-            switch( bleed_int ) {
-                case 1:
-                    desc << _( "It is bleeding." );
-                    break;
-                case 2:
-                    desc << _( "It is bleeding considerably." );
-                    break;
-                case 3:
-                    desc << _( "It is bleeding heavily." );
-                    break;
-            }
+            desc << "<color_red>" << string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
+                                                    get_effect( effect_bleed, e.bp ).disp_short_desc() );
             desc << "</color>\n";
             if( bleed > 0.0f ) {
                 desc << arrow << tag_colored_string( string_format( _( "Chance to stop: %d %%" ),
@@ -2276,7 +2266,7 @@ hp_part Character::body_window( const std::string &menu_header,
             desc << tag_colored_string( string_format( "%s: ", get_effect( effect_infected,
                                         e.bp ).get_speed_name() ), c_red );
             desc << tag_colored_string( string_format(
-                                            _( "It has a deep wound that looks infected. You might require antibiotics." ) ),
+                                            _( "It has a deep wound that looks infected. Antibiotics might be required." ) ),
                                         c_red ) << "\n";
             if( infect > 0 ) {
                 desc << arrow << tag_colored_string( string_format( _( "Chance to heal infection: %d %%" ),

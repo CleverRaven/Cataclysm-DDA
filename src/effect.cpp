@@ -660,6 +660,23 @@ std::string effect::disp_desc( bool reduced ) const
     return ret.str();
 }
 
+std::string effect::disp_short_desc( bool reduced ) const
+{
+    if( eff_type->use_desc_ints( reduced ) ) {
+        if( reduced ) {
+            return eff_type->reduced_desc[intensity - 1];
+        } else {
+            return eff_type->desc[intensity - 1];
+        }
+    } else {
+        if( reduced ) {
+            return eff_type->reduced_desc[0];
+        } else {
+            return eff_type->desc[0];
+        }
+    }
+}
+
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
                     const time_point &time, const bool player )
 {
