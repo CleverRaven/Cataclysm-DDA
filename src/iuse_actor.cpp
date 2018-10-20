@@ -43,6 +43,7 @@
 #include "skill.h"
 #include "effect.h"
 #include "map_selector.h"
+#include "item_factory.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2163,16 +2164,27 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "Can contain items from " ), string_format( "<num> %s",
-                       volume_units_abbr() ),
-                       convert_volume( min_volume.value() ), false, "", true );
-    dump.emplace_back( "TOOL", _( "Up to " ), string_format( "<num> %s", volume_units_abbr() ),
-                       convert_volume( max_volume.value() ), false, "", max_weight <= 0 );
+    std::string message = ngettext( "Can be activated to store a suitable item.",
+                                    "Can be activated to store suitable items.", multi );
+    dump.emplace_back( "DESCRIPTION", message );
+    dump.emplace_back( "TOOL", _( "Num items: " ), "<num>", multi );
+    dump.emplace_back( "TOOL", _( "Item volume: Min: " ),
+                       string_format( "<num> %s", volume_units_abbr() ),
+                       convert_volume( min_volume.value() ), false, "", false, true );
+    dump.emplace_back( "TOOL", _( "  Max: " ),
+                       string_format( "<num> %s", volume_units_abbr() ),
+                       convert_volume( max_volume.value() ), false );
 
     if( max_weight > 0 ) {
-        dump.emplace_back( "TOOL", "holster_kg", string_format( _( " or <num> %s" ), weight_units() ),
-                           convert_weight( max_weight ), false, "", true, false, false );
+        dump.emplace_back( "TOOL", "Max item weight: ",
+                           string_format( _( "<num> %s" ), weight_units() ),
+                           convert_weight( max_weight ), false );
     }
+}
+
+units::volume holster_actor::max_stored_volume() const
+{
+    return max_volume * multi;
 }
 
 iuse_actor *bandolier_actor::clone() const
@@ -2194,11 +2206,10 @@ void bandolier_actor::load( JsonObject &obj )
 void bandolier_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( !ammo.empty() ) {
-        auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
-                                    string_format( "<stat>%s</stat>", ( *ammo.begin() )->name().c_str() ),
-        [&]( const std::string & lhs, const ammotype & rhs ) {
-            return lhs + string_format( ", <stat>%s</stat>", rhs->name().c_str() );
-        } );
+        auto str = enumerate_as_string( ammo.begin(), ammo.end(),
+        [&]( const ammotype & a ) {
+            return string_format( "<stat>%s</stat>", a->name() );
+        }, enumeration_conjunction::or_ );
 
         dump.emplace_back( "TOOL", string_format(
                                ngettext( "Can be activated to store a single round of ",
@@ -2208,20 +2219,25 @@ void bandolier_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
+bool bandolier_actor::is_valid_ammo_type( const itype &t ) const
 {
-    if( !obj.is_ammo() ) {
+    if( !t.ammo ) {
         return false;
     }
+    return std::any_of( t.ammo->type.begin(), t.ammo->type.end(),
+    [&]( const ammotype & e ) {
+        return ammo.count( e );
+    } );
+}
+
+bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
+{
     if( !bandolier.contents.empty() && ( bandolier.contents.front().typeId() != obj.typeId() ||
                                          bandolier.contents.front().charges >= capacity ) ) {
         return false;
     }
 
-    return std::any_of( obj.type->ammo->type.begin(), obj.type->ammo->type.end(),
-    [&]( const ammotype & e ) {
-        return ammo.count( e );
-    } );
+    return is_valid_ammo_type( *obj.type );
 }
 
 bool bandolier_actor::reload( player &p, item &obj ) const
@@ -2317,6 +2333,24 @@ long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     return 0;
+}
+
+units::volume bandolier_actor::max_stored_volume() const
+{
+    // This is relevant only for bandoliers with the non-rigid flag.  There are
+    // no such items in the base game at time of writing, but I created some to
+    // test this and it does seem to work as expected.
+
+    // Find all valid ammo
+    auto ammo_types = Item_factory::find( [&]( const itype & t ) {
+        return is_valid_ammo_type( t );
+    } );
+    // Figure out which has the greateset volume and calculate on that basis
+    units::volume max_ammo_volume{};
+    for( auto const *ammo_type : ammo_types ) {
+        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume );
+    }
+    return max_ammo_volume * capacity;
 }
 
 iuse_actor *ammobelt_actor::clone() const

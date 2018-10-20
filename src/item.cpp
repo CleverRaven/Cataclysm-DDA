@@ -871,7 +871,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
             []( const material_type * material ) {
                 return string_format( "<stat>%s</stat>", _( material->name().c_str() ) );
-            }, false );
+            }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
@@ -1104,7 +1104,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                    enumerate_as_string( type->ammo->type.begin(), type->ammo->type.end(),
                 []( const ammotype & e ) {
                     return e->name();
-                }, false ) );
+                }, enumeration_conjunction::none ) );
             }
 
             const auto &ammo = *ammo_data()->ammo;
@@ -1563,7 +1563,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           get_encumber(), true, "", false, true ) );
             }
             if( !type->rigid ) {
-                const auto encumbrance_when_full = get_encumber_when_containing( get_container_capacity() );
+                const auto encumbrance_when_full = get_encumber_when_containing( get_total_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
                                           encumbrance_when_full, true, "", false, true ) );
             }
@@ -1887,11 +1887,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           std::string( _( "You know how to use this with these martial arts styles: " ) ) +
                                           valid_styles ) );
             }
+        }
 
-            for( const auto &method : type->use_methods ) {
-                insert_separation_line();
-                method.second.dump_info( *this, info );
-            }
+        for( const auto &method : type->use_methods ) {
+            insert_separation_line();
+            method.second.dump_info( *this, info );
         }
 
         if( parts->test( iteminfo_parts::DESCRIPTION_REPAIREDWITH ) ) {
@@ -1903,7 +1903,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "DESCRIPTION", _( "<bold>Repaired with</bold>: " ) +
                 enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
                     return item::find_type( e )->nname( 1 );
-                } ) );
+                }, enumeration_conjunction::or_ ) );
                 insert_separation_line();
 
             } else {
@@ -2175,22 +2175,34 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "DESCRIPTION", temp1.str() );
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
-            const auto &contents_item = contents.front();
-            if( !contents_item.type->mod ) {
-                insert_separation_line();
-                info.emplace_back( "DESCRIPTION", _( "<bold>Content of this item</bold>:" ) );
-                auto const description = _( contents_item.type->description.c_str() );
+            bool contents_header = false;
+            for( const auto &contents_item : contents ) {
+                if( !contents_item.type->mod ) {
+                    if( !contents_header ) {
+                        insert_separation_line();
+                        info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this item</bold>:" ) );
+                        contents_header = true;
+                    } else {
+                        // Separate items with a blank line
+                        info.emplace_back( "DESCRIPTION", space );
+                    }
 
-                if( contents_item.made_of( LIQUID ) ) {
-                    auto contents_volume = contents_item.volume() * batch;
-                    int converted_volume_scale = 0;
-                    const double converted_volume = round_up( convert_volume( contents_volume.value(),
-                                                    &converted_volume_scale ), 2 );
-                    info.emplace_back( "CONTAINER", description + space,
-                                       string_format( "<num> %s", volume_units_abbr() ),
-                                       converted_volume, converted_volume_scale == 0, "", false );
-                } else {
-                    info.emplace_back( "DESCRIPTION", description );
+                    auto const description = _( contents_item.type->description.c_str() );
+
+                    if( contents_item.made_of_from_type( LIQUID ) ) {
+                        auto contents_volume = contents_item.volume() * batch;
+                        int converted_volume_scale = 0;
+                        const double converted_volume =
+                            round_up( convert_volume( contents_volume.value(),
+                                                      &converted_volume_scale ), 2 );
+                        info.emplace_back( "DESCRIPTION", contents_item.display_name() );
+                        info.emplace_back( "CONTAINER", description + space,
+                                           string_format( "<num> %s", volume_units_abbr() ),
+                                           converted_volume, converted_volume_scale == 0, "", false );
+                    } else {
+                        info.emplace_back( "DESCRIPTION", contents_item.display_name() );
+                        info.emplace_back( "DESCRIPTION", description );
+                    }
                 }
             }
         }
@@ -2638,7 +2650,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                       contents_item.tname( quantity, with_prefix ).c_str() );
         }
     } else if( !contents.empty() ) {
-        maintext = string_format( pgettext( "item name", "%s, full" ), label( quantity ).c_str() );
+        maintext = string_format( npgettext( "item name",
+                                             "%s with %zd item",
+                                             "%s with %zd items", contents.size() ),
+                                  label( quantity ), contents.size() );
     } else {
         maintext = label( quantity );
     }
@@ -2773,7 +2788,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
     int amount = 0;
     bool has_item = is_container() && contents.size() == 1;
-    bool has_ammo = is_ammo_container() && !contents.empty();
+    bool has_ammo = is_ammo_container() && contents.size() == 1;
     bool contains = has_item || has_ammo;
     bool show_amt = false;
     // We should handle infinite charges properly in all cases.
@@ -4079,6 +4094,11 @@ bool item::is_ammo_belt() const
 bool item::is_bandolier() const
 {
     return type->can_use( "bandolier" );
+}
+
+bool item::is_holster() const
+{
+    return type->can_use( "holster" );
 }
 
 bool item::is_ammo() const
@@ -5632,6 +5652,27 @@ units::volume item::get_container_capacity() const
     return type->container->contains;
 }
 
+units::volume item::get_total_capacity() const
+{
+    auto result = get_container_capacity();
+
+    // Consider various iuse_actors which add containing capability
+    // Treating these two as special cases for now; if more appear in the
+    // future then this probably warrants a new method on use_function to
+    // access this information generically.
+    if( is_bandolier() ) {
+        result += dynamic_cast<const bandolier_actor *>
+                  ( type->get_use( "bandolier" )->get_actor_ptr() )->max_stored_volume();
+    }
+
+    if( is_holster() ) {
+        result += dynamic_cast<const holster_actor *>
+                  ( type->get_use( "holster" )->get_actor_ptr() )->max_stored_volume();
+    }
+
+    return result;
+}
+
 long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
@@ -6098,7 +6139,7 @@ std::string item::components_to_string() const
         {
             return entry.first;
         }
-    }, false );
+    }, enumeration_conjunction::none );
 }
 
 bool item::needs_processing() const

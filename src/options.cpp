@@ -552,7 +552,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         const std::string &sItems = enumerate_as_string( vItems.begin(), vItems.end(),
         [bTranslated]( const std::pair<std::string, std::string> &elem ) {
             return bTranslated ? _( elem.second.c_str() ) : elem.first;
-        }, false );
+        }, enumeration_conjunction::none );
         return string_format( _( "Default: %s - Values: %s" ),
                               defaultName.c_str(), sItems.c_str() );
 
