@@ -578,19 +578,12 @@ class Character : public Creature, public visitable<Character>
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
 
+        const SkillLevelMap &get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
         const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
 
         void set_skill_level( const skill_id &ident, int level );
         void mod_skill_level( const skill_id &ident, int delta );
-
-        /** Calculates skill difference
-         * @param req Required skills to be compared with.
-         * @param context An item to provide context for contextual skills. Can be null.
-         * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
-         */
-        std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req,
-                const item &context = item() ) const;
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;

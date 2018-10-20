@@ -1233,47 +1233,29 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     } );
 }
 
-SkillLevel &Character::get_skill_level_object( const skill_id &ident )
+const SkillLevelMap &Character::get_all_skills() const
 {
-    static SkillLevel null_skill;
-
-    if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
-    } else {
-        return ( *_skills )[ident];
-    }
-
-    null_skill.level( 0 );
-    return null_skill;
-}
-
-int Character::get_skill_level( const skill_id &ident ) const
-{
-    return get_skill_level_object( ident ).level();
+    return *_skills;
 }
 
 const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
 {
-    static const SkillLevel null_skill;
+    return _skills->get_skill_level_object( ident );
+}
 
-    if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
-        return null_skill;
-    }
+SkillLevel &Character::get_skill_level_object( const skill_id &ident )
+{
+    return _skills->get_skill_level_object( ident );
+}
 
-    const auto iter = _skills->find( ident );
-
-    if( iter != _skills->end() ) {
-        return iter->second;
-    }
-
-    return null_skill;
+int Character::get_skill_level( const skill_id &ident ) const
+{
+    return _skills->get_skill_level( ident );
 }
 
 int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill(
-                                       ident ) ).level();
+    return _skills->get_skill_level( ident, context );
 }
 
 void Character::set_skill_level( const skill_id &ident, const int level )
@@ -1283,23 +1265,7 @@ void Character::set_skill_level( const skill_id &ident, const int level )
 
 void Character::mod_skill_level( const skill_id &ident, const int delta )
 {
-    SkillLevel &obj = get_skill_level_object( ident );
-    obj.level( obj.level() + delta );
-}
-
-std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req,
-        const item &context ) const
-{
-    std::map<skill_id, int> res;
-
-    for( const auto &elem : req ) {
-        const int diff = get_skill_level( elem.first, context ) - elem.second;
-        if( diff != 0 ) {
-            res[elem.first] = diff;
-        }
-    }
-
-    return res;
+    _skills->mod_skill_level( ident, delta );
 }
 
 std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
