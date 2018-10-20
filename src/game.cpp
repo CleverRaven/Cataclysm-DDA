@@ -6137,7 +6137,8 @@ bool game::npc_menu( npc &who )
 
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
         const bool precise = u.get_skill_level( skill_firstaid ) * 4 + u.per_cur >= 20;
-        who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
+        who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
+                         0.0f, 0.0f );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
         const auto will_accept = []( const item & it ) {
