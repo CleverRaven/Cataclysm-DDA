@@ -2212,7 +2212,6 @@ hp_part Character::body_window( const std::string &menu_header,
 
         // BLEEDING block
         if( bleeding ) {
-            const int bleed_int = get_effect_int( effect_bleed, e.bp );
             desc << "<color_red>" << string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
                                                     get_effect( effect_bleed, e.bp ).disp_short_desc() );
             desc << "</color>\n";
