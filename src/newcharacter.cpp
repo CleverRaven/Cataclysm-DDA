@@ -1650,10 +1650,10 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
                    currentSkill->name().c_str(), cost );
 
         // We want recipes from profession skills displayed, but without boosting the skills
-        // Hack: copy the entire player, boost the clone's skills
-        player prof_u = u;
+        // Copy the skills, and boost the copy
+        SkillLevelMap with_prof_skills = u.get_all_skills();
         for( const auto &sk : prof_skills ) {
-            prof_u.mod_skill_level( sk.first, sk.second );
+            with_prof_skills.mod_skill_level( sk.first, sk.second );
         }
 
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
@@ -1663,9 +1663,9 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
             auto req_skill = r.required_skills.find( currentSkill->ident() );
             int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
 
-            if( !prof_u.knows_recipe( &r ) &&
+            if( !u.knows_recipe( &r ) &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
-                prof_u.has_recipe_requirements( r ) )  {
+                with_prof_skills.has_recipe_requirements( r ) )  {
 
                 recipes[r.skill_used->name()].emplace_back(
                     r.result_name(),
