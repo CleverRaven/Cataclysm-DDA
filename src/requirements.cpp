@@ -585,9 +585,12 @@ bool quality_requirement::has( const inventory &crafting_inv, int,
     return crafting_inv.has_quality( type, level, count );
 }
 
-nc_color quality_requirement::get_color( bool, const inventory &, int ) const
+nc_color quality_requirement::get_color( bool has_one, const inventory &, int ) const
 {
-    return available == a_true ? c_green : c_red;
+    if( available == a_true ) {
+        return c_green;
+    }
+    return has_one ? c_dark_gray : c_red;
 }
 
 bool tool_comp::has( const inventory &crafting_inv, int batch,
