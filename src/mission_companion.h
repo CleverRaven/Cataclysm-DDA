@@ -98,11 +98,10 @@ bool carpenter_return( npc &p );
 bool forage_return( npc &p );
 
 /// Trains NPC @ref comp, in skill_tested for duration time_worked at difficulty 1, several groups of skills can also be input
-int companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
-                             time_duration time_worked = 1_hours, int difficulty = 1 );
-int companion_skill_trainer( npc &comp, const skill_id &skill_tested,
-                             time_duration time_worked = 1_hours,
-                             int difficulty = 1 );
+void companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
+                              time_duration time_worked = 1_hours, int difficulty = 1 );
+void companion_skill_trainer( npc &comp, const skill_id &skill_tested,
+                              time_duration time_worked = 1_hours, int difficulty = 1 );
 //Combat functions
 bool companion_om_combat_check( const std::vector<std::shared_ptr<npc>> &group,
                                 const tripoint &om_tgt,
