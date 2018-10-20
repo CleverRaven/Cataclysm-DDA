@@ -2290,8 +2290,7 @@ global_functions = {
     },
     omap_choose_point = {
         cpp_name = "ui::omap::choose_point",
-        args = { },
-        optional_args = { "tripoint" },
+        args = { "tripoint" },
         rval = "tripoint"
     }
 }
