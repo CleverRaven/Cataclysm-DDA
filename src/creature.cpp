@@ -1012,19 +1012,24 @@ void Creature::process_effects()
     }
 }
 
-bool Creature::resists_effect( const effect &e )
+bool Creature::resists_effect( const effect &e ) const
 {
-    for( auto &i : e.get_resist_effects() ) {
+    for(const auto &i : e.get_resist_effects() ) {
         if( has_effect( i ) ) {
             return true;
         }
     }
-    for( auto &i : e.get_resist_traits() ) {
+    for(const auto &i : e.get_resist_traits() ) {
         if( has_trait( i ) ) {
             return true;
         }
     }
     return false;
+}
+
+const effects_map &Creature::get_effects() const
+{
+    return *effects;
 }
 
 bool Creature::has_trait( const trait_id &flag ) const
