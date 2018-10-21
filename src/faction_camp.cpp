@@ -700,7 +700,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == "Recover Log Cutter" ) {
         npc *comp = companion_choose_return( p, "_faction_camp_cut_log", calendar::before_time_starts );
         if( comp != nullptr ) {
-            popup( _( "%s returns from working in the woods..." ), comp->name.c_str() );
+            popup( _( "%s returns from working in the woods..." ), comp->name );
             camp_companion_return( *comp );
         }
     }
@@ -710,7 +710,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == "Recover Hide Setup" ) {
         npc *comp = companion_choose_return( p, "_faction_camp_hide_site", calendar::before_time_starts );
         if( comp != nullptr ) {
-            popup( _( "%s returns from working on the hide site..." ), comp->name.c_str() );
+            popup( _( "%s returns from working on the hide site..." ), comp->name );
             camp_companion_return( *comp );
         }
     }
@@ -720,7 +720,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == "Recover Hide Transport" ) {
         npc *comp = companion_choose_return( p, "_faction_camp_hide_trans", calendar::before_time_starts );
         if( comp != nullptr ) {
-            popup( _( "%s returns from shuttling gear between the hide site..." ), comp->name.c_str() );
+            popup( _( "%s returns from shuttling gear between the hide site..." ), comp->name );
             camp_companion_return( *comp );
         }
     }
@@ -807,7 +807,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                     if( npc_list.empty() ) {
                         npc *comp = individual_mission( p, _( "begins to upgrade the expansion..." ),
                                                         "_faction_upgrade_exp_" + cur_key.dir, false, {},
-                                                        making->skill_used.obj().ident().c_str(), making->difficulty );
+                                                        making->skill_used.obj().name(), making->difficulty );
                         if( comp != nullptr ) {
                             g->u.consume_components_for_craft( making, 1, true );
                             g->u.invalidate_crafting_inventory();
@@ -849,7 +849,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                 npc *comp = companion_choose_return( p, "_faction_exp_farm_crafting_" + cur_key.dir,
                                                      calendar::before_time_starts );
                 if( comp != nullptr ) {
-                    popup( _( "%s returns from your farm with something..." ), comp->name.c_str() );
+                    popup( _( "%s returns from your farm with something..." ), comp->name );
                     camp_companion_return( *comp );
                 }
                 break;
@@ -859,7 +859,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
             npc *comp = companion_choose_return( p, "_faction_camp_crafting_" + cur_key.dir,
                                                  calendar::before_time_starts );
             if( comp != nullptr ) {
-                popup( _( "%s returns to you with something..." ), comp->name.c_str() );
+                popup( _( "%s returns to you with something..." ), comp->name );
                 camp_companion_return( *comp );
             }
         }
@@ -873,7 +873,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                 npc *comp = companion_choose_return( p, "_faction_exp_kitchen_cooking_" + cur_key.dir,
                                                      calendar::before_time_starts );
                 if( comp != nullptr ) {
-                    popup( _( "%s returns from your kitchen with something..." ), comp->name.c_str() );
+                    popup( _( "%s returns from your kitchen with something..." ), comp->name );
                     camp_companion_return( *comp );
                 }
                 break;
@@ -890,7 +890,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                 npc *comp = companion_choose_return( p, "_faction_exp_blacksmith_crafting_" + cur_key.dir,
                                                      calendar::before_time_starts );
                 if( comp != nullptr ) {
-                    popup( _( "%s returns from your blacksmith shop with something..." ), comp->name.c_str() );
+                    popup( _( "%s returns from your blacksmith shop with something..." ), comp->name );
                     camp_companion_return( *comp );
                 }
                 break;
@@ -995,7 +995,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                 npc *comp = companion_choose_return( p, "_faction_exp_chop_shop_" + cur_key.dir,
                                                      calendar::turn - 5_days );
                 if( comp != nullptr ) {
-                    popup( _( "%s returns from your garage..." ), comp->name.c_str() );
+                    popup( _( "%s returns from your garage..." ), comp->name );
                     camp_companion_return( *comp );
                 }
                 break;
@@ -1028,7 +1028,7 @@ void talk_function::start_camp_upgrade( npc &p, const std::string &bldg )
         }
         npc *comp = individual_mission( p, _( "begins to upgrade the camp..." ), "_faction_upgrade_camp",
                                         false, {},
-                                        making->skill_used.obj().ident().c_str(), making->difficulty );
+                                        making->skill_used.obj().name(), making->difficulty );
         if( comp != nullptr ) {
             comp->companion_mission_time_ret = calendar::turn + time_duration::from_turns(
                                                    making->time / 100 ) ;
@@ -1283,7 +1283,7 @@ void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
         } else {
             npc *comp = individual_mission( p, _( "begins constructing fortifications..." ),
                                             "_faction_camp_om_fortifications", false, {},
-                                            making.skill_used.obj().ident().c_str(), making.difficulty );
+                                            making.skill_used.obj().name(), making.difficulty );
             if( comp != nullptr ) {
                 g->u.consume_components_for_craft( &making, ( fortify_om.size() * 2 ) - 2, true );
                 g->u.invalidate_crafting_inventory();
@@ -1368,7 +1368,7 @@ void talk_function::camp_craft_construction( npc &p, const mission_entry &cur_ke
                         continue;
                     }
                     npc *comp = individual_mission( p, _( "begins to work..." ), miss_id + cur_key.dir, false, {},
-                                                    making->skill_used.obj().ident().c_str(), making->difficulty );
+                                                    making->skill_used.obj().name(), making->difficulty );
                     if( comp != nullptr ) {
                         g->u.consume_components_for_craft( making, batch_size, true );
                         g->u.invalidate_crafting_inventory();
@@ -1506,8 +1506,7 @@ bool talk_function::upgrade_return( npc &p, const tripoint &omt_pos, const std::
     }
     companion_skill_trainer( *comp, "construction", time_duration::from_turns( making.time / 100 ),
                              making.difficulty );
-    popup( _( "%s returns from upgrading the camp having earned a bit of experience..." ),
-           comp->name.c_str() );
+    popup( _( "%s returns from upgrading the camp having earned a bit of experience..." ), comp->name );
     camp_companion_return( *comp );
     return true;
 }
@@ -1521,8 +1520,7 @@ bool talk_function::camp_menial_return( npc &p )
 
     companion_skill_trainer( *comp, "menial", 3_hours, 2 );
 
-    popup( _( "%s returns from doing the dirty work to keep the camp running..." ),
-           comp->name.c_str() );
+    popup( _( "%s returns from doing the dirty work to keep the camp running..." ), comp->name );
     if( p.companion_mission_points.size() < COMPANION_SORT_POINTS ) {
         popup( _( "Sorting points have changed, forcing reset." ) );
         camp_menial_sort_pts( p, true, true );
@@ -1601,7 +1599,7 @@ bool talk_function::camp_gathering_return( npc &p, const std::string &task )
     }
 
     if( one_in( 20 ) ) {
-        popup( _( "While gathering supplies, a silent specter approaches %s..." ), comp->name.c_str() );
+        popup( _( "While gathering supplies, a silent specter approaches %s..." ), comp->name );
         // the following doxygen aliases do not yet exist. this is marked for future reference
 
         ///\EFFECT_SURVIVAL_NPC affects gathering mission results
@@ -1611,14 +1609,14 @@ bool talk_function::camp_gathering_return( npc &p, const std::string &task )
         int skill_2 = comp->get_skill_level( skill_speech );
         if( skill_1 > rng( -2, 8 ) ) {
             popup( _( "%s notices the antlered horror and slips away before it gets too close." ),
-                   comp->name.c_str() );
+                   comp->name );
         } else if( skill_2 > rng( -2, 8 ) ) {
-            popup( _( "The survivor approaches %s asking for directions." ), comp->name.c_str() );
+            popup( _( "The survivor approaches %s asking for directions." ), comp->name );
             popup( _( "Fearful that he may be an agent of some hostile faction, %s doesn't mention the camp." ),
-                   comp->name.c_str() );
+                   comp->name );
             popup( _( "The two part on friendly terms and the survivor isn't seen again." ) );
         } else {
-            popup( _( "%s didn't detect the ambush until it was too late!" ), comp->name.c_str() );
+            popup( _( "%s didn't detect the ambush until it was too late!" ), comp->name );
             // the following doxygen aliases do not yet exist. this is marked for future reference
 
             ///\EFFECT_MELEE_NPC affects forage mission results
@@ -1641,24 +1639,24 @@ bool talk_function::camp_gathering_return( npc &p, const std::string &task )
             int monsters = rng( 0, 10 );
             if( skill * rng_float( .80, 1.2 ) > ( monsters * rng_float( .8, 1.2 ) ) ) {
                 if( one_in( 2 ) ) {
-                    popup( _( "The bull moose charged %s from the tree line..." ), comp->name.c_str() );
+                    popup( _( "The bull moose charged %s from the tree line..." ), comp->name );
                     popup( _( "Despite being caught off guard %s was able to run away until the moose gave up pursuit." ),
-                           comp->name.c_str() );
+                           comp->name );
                 } else {
                     popup( _( "The jabberwock grabbed %s by the arm from behind and began to scream." ),
-                           comp->name.c_str() );
+                           comp->name );
                     popup( _( "Terrified, %s spun around and delivered a massive kick to the creature's torso..." ),
-                           comp->name.c_str() );
-                    popup( _( "Collapsing into a pile of gore, %s walked away unscathed..." ), comp->name.c_str() );
+                           comp->name );
+                    popup( _( "Collapsing into a pile of gore, %s walked away unscathed..." ), comp->name );
                     popup( _( "(Sounds like bullshit, you wonder what really happened.)" ) );
                 }
             } else {
                 if( one_in( 2 ) ) {
                     popup( _( "%s turned to find the hideous black eyes of a giant wasp staring back from only a few feet away..." ),
-                           comp->name.c_str() );
+                           comp->name );
                     popup( _( "The screams were terrifying, there was nothing anyone could do." ) );
                 } else {
-                    popup( _( "Pieces of %s were found strewn across a few bushes." ), comp->name.c_str() );
+                    popup( _( "Pieces of %s were found strewn across a few bushes." ), comp->name );
                     popup( _( "(You wonder if your companions are fit to work on their own...)" ) );
                 }
                 overmap_buffer.remove_npc( comp->getID() );
@@ -1671,8 +1669,8 @@ bool talk_function::camp_gathering_return( npc &p, const std::string &task )
     std::string skill_group = "gathering";
     companion_skill_trainer( *comp, skill_group, calendar::turn - comp->companion_mission_time, 1 );
 
-    popup( _( "%s returns from gathering materials carrying supplies and has a bit more experience..." ),
-           comp->name.c_str() );
+    popup( _( "%s returns from gathering supplies carrying supplies and has a bit more experience..." ),
+           comp->name );
     // the following doxygen aliases do not yet exist. this is marked for future reference
 
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
@@ -1709,7 +1707,7 @@ void talk_function::camp_fortifications_return( npc &p )
     npc *comp = companion_choose_return( p, "_faction_camp_om_fortifications",
                                          calendar::before_time_starts );
     if( comp != nullptr ) {
-        popup( _( "%s returns from constructing fortifications..." ), comp->name.c_str() );
+        popup( _( "%s returns from constructing fortifications..." ), comp->name );
         editmap edit;
         bool build_dir_NS = ( comp->companion_mission_points[0].y != comp->companion_mission_points[1].y );
         //Ensure all tiles are generated before putting fences/trenches down...
@@ -1770,8 +1768,7 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
     }
     std::string skill_group = "recruiting";
     companion_skill_trainer( *comp, skill_group, 4_days, 2 );
-    popup( _( "%s returns from searching for recruits with a bit more experience..." ),
-           comp->name.c_str() );
+    popup( _( "%s returns from searching for recruits with a bit more experience..." ), comp->name );
     camp_companion_return( *comp );
 
     std::shared_ptr<npc> recruit;
@@ -1781,19 +1778,17 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         recruit = std::make_shared<npc>();
         recruit->normalize();
         recruit->randomize();
-        popup( _( "%s encountered %s..." ), comp->name.c_str(), recruit->name.c_str() );
+        popup( _( "%s encountered %s..." ), comp->name, recruit->name );
     } else {
-        popup( _( "%s didn't find anyone to recruit..." ), comp->name.c_str() );
+        popup( _( "%s didn't find anyone to recruit..." ), comp->name );
         return;
     }
     //Chance of convencing them to come back
     skill = ( 100 * comp->get_skill_level( skill_speech ) + score ) / 100;
     if( rng( 1, 20 ) + skill  > 19 ) {
-        popup( _( "%s convinced %s to hear a recruitment offer from you..." ), comp->name.c_str(),
-               recruit->name.c_str() );
+        popup( _( "%s convinced %s to hear a recruitment offer from you..." ), comp->name, recruit->name );
     } else {
-        popup( _( "%s wasn't interested in anything %s had to offer..." ), recruit->name.c_str(),
-               comp->name.c_str() );
+        popup( _( "%s wasn't interested in anything %s had to offer..." ), recruit->name, comp->name );
         return;
     }
     //Stat window
@@ -1802,7 +1797,7 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
     int food_desire = rng( 0, 5 );
     while( rec_m >= 0 ) {
         std::string description = string_format( _( "NPC Overview:\n \n" ) );
-        description += string_format( _( "Name:  %20s\n \n" ), recruit->name.c_str() );
+        description += string_format( _( "Name:  %20s\n \n" ), recruit->name );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
         description += string_format( _( "Dexterity:       %10d\n" ), recruit->dex_max );
         description += string_format( _( "Intelligence:    %10d\n" ), recruit->int_max );
@@ -1815,11 +1810,11 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
             return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
         } );
 
-        description += string_format( "%12s:          %4d\n", skillslist[0]->ident().c_str(),
+        description += string_format( "%12s:          %4d\n", skillslist[0]->name(),
                                       recruit->get_skill_level_object( skillslist[0]->ident() ).level() );
-        description += string_format( "%12s:          %4d\n", skillslist[1]->ident().c_str(),
+        description += string_format( "%12s:          %4d\n", skillslist[1]->name(),
                                       recruit->get_skill_level_object( skillslist[1]->ident() ).level() );
-        description += string_format( "%12s:          %4d\n \n", skillslist[2]->ident().c_str(),
+        description += string_format( "%12s:          %4d\n \n", skillslist[2]->name(),
                                       recruit->get_skill_level_object( skillslist[2]->ident() ).level() );
 
         description += string_format( _( "Asking for:\n" ) );
@@ -1857,9 +1852,9 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
     }
     //Roll for recruitment
     if( rng( 1, 20 ) + appeal >= 10 ) {
-        popup( _( "%s has been convinced to join!" ), recruit->name.c_str() );
+        popup( _( "%s has been convinced to join!" ), recruit->name );
     } else {
-        popup( _( "%s wasn't interested..." ), recruit->name.c_str() );
+        popup( _( "%s wasn't interested..." ), recruit->name );
         return;// nullptr;
     }
     camp_food_supply( -1_days * food_desire );
@@ -1897,13 +1892,13 @@ void talk_function::combat_mission_return( std::string &miss, npc &p )
             comp->death_drops = true;
             if( !outcome ) {
                 if( comp->is_dead() ) {
-                    popup( _( "%s didn't return from patrol..." ), comp->name.c_str() );
+                    popup( _( "%s didn't return from patrol..." ), comp->name );
                     comp->place_corpse( pt );
                     overmap_buffer.add_note( pt, "DEAD NPC" );
                     overmap_buffer.remove_npc( comp->getID() );
                     return;
                 } else {
-                    popup( _( "%s returns from patrol..." ), comp->name.c_str() );
+                    popup( _( "%s returns from patrol..." ), comp->name );
                     companion_return( *comp );
                     return;
                 }
@@ -1911,7 +1906,7 @@ void talk_function::combat_mission_return( std::string &miss, npc &p )
             }
             overmap_buffer.reveal( pt, 2 );
         }
-        popup( _( "%s returns from patrol..." ), comp->name.c_str() );
+        popup( _( "%s returns from patrol..." ), comp->name );
         camp_companion_return( *comp );
     }
 }
@@ -1943,7 +1938,7 @@ bool talk_function::camp_expansion_select( npc &p )
         return false;
     }
     companion_skill_trainer( *comp, "construction", 3_hours, 2 );
-    popup( _( "%s returns from surveying for the expansion." ), comp->name.c_str() );
+    popup( _( "%s returns from surveying for the expansion." ), comp->name );
     camp_companion_return( *comp );
     return true;
 }
@@ -2081,7 +2076,7 @@ bool talk_function::camp_farm_return( npc &p, const std::string &task, bool harv
 
     companion_skill_trainer( *comp, skill_survival, work, 2 );
 
-    popup( _( "%s returns from working your fields..." ), comp->name.c_str() );
+    popup( _( "%s returns from working your fields..." ), comp->name );
     camp_companion_return( *comp );
     return true;
 }

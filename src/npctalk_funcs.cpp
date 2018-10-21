@@ -164,14 +164,14 @@ void talk_function::assign_base( npc &p )
         return;
     }
 
-    add_msg( _( "%1$s waits at %2$s" ), p.name.c_str(), camp->camp_name().c_str() );
+    add_msg( _( "%1$s waits at %2$s" ), p.name, camp->camp_name() );
     p.mission = NPC_MISSION_BASE;
     p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::assign_guard( npc &p )
 {
-    add_msg( _( "%s is posted as a guard." ), p.name.c_str() );
+    add_msg( _( "%s is posted as a guard." ), p.name );
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
@@ -181,7 +181,7 @@ void talk_function::assign_guard( npc &p )
 void talk_function::stop_guard( npc &p )
 {
     p.set_attitude( NPCATT_FOLLOW );
-    add_msg( _( "%s begins to follow you." ), p.name.c_str() );
+    add_msg( _( "%s begins to follow you." ), p.name );
     p.mission = NPC_MISSION_NULL;
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
@@ -204,13 +204,13 @@ void talk_function::reveal_stats( npc &p )
 
 void talk_function::end_conversation( npc &p )
 {
-    add_msg( _( "%s starts ignoring you." ), p.name.c_str() );
+    add_msg( _( "%s starts ignoring you." ), p.name );
     p.chatbin.first_topic = "TALK_DONE";
 }
 
 void talk_function::insult_combat( npc &p )
 {
-    add_msg( _( "You start a fight with %s!" ), p.name.c_str() );
+    add_msg( _( "You start a fight with %s!" ), p.name );
     p.chatbin.first_topic = "TALK_DONE";
     p.set_attitude( NPCATT_KILL );
 }
@@ -342,7 +342,7 @@ void talk_function::give_equipment( npc &p )
         giving.erase( giving.begin() + index );
     }
     if( giving.empty() ) {
-        popup( _( "%s has nothing to give!" ), p.name.c_str() );
+        popup( _( "%s has nothing to give!" ), p.name );
         return;
     }
     if( chosen == -1 ) {
@@ -350,7 +350,7 @@ void talk_function::give_equipment( npc &p )
     }
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
-    popup( _( "%1$s gives you a %2$s" ), p.name.c_str(), it.tname().c_str() );
+    popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
 
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
@@ -410,7 +410,7 @@ void talk_function::buy_haircut( npc &p )
     g->u.cash -= 1000;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
     g->u.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name.c_str() );
+    add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
 }
 
 void talk_function::buy_shave( npc &p )
@@ -419,7 +419,7 @@ void talk_function::buy_shave( npc &p )
     g->u.cash -= 500;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent shave..." ), p.name.c_str() );
+    add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
 }
 
 void talk_function::buy_10_logs( npc &p )
@@ -446,7 +446,7 @@ void talk_function::buy_10_logs( npc &p )
 
     p.add_effect( effect_currently_busy, 1_days );
     g->u.cash -= 200000;
-    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
+    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name );
 }
 
 void talk_function::buy_100_logs( npc &p )
@@ -473,7 +473,7 @@ void talk_function::buy_100_logs( npc &p )
 
     p.add_effect( effect_currently_busy, 7_days );
     g->u.cash -= 1200000;
-    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
+    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name );
 }
 
 void talk_function::follow( npc &p )
@@ -515,7 +515,7 @@ void talk_function::hostile( npc &p )
     }
 
     if( p.sees( g->u ) ) {
-        add_msg( _( "%s turns hostile!" ), p.name.c_str() );
+        add_msg( _( "%s turns hostile!" ), p.name );
     }
 
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
@@ -526,19 +526,19 @@ void talk_function::hostile( npc &p )
 
 void talk_function::flee( npc &p )
 {
-    add_msg( _( "%s turns to flee!" ), p.name.c_str() );
+    add_msg( _( "%s turns to flee!" ), p.name );
     p.set_attitude( NPCATT_FLEE );
 }
 
 void talk_function::leave( npc &p )
 {
-    add_msg( _( "%s leaves." ), p.name.c_str() );
+    add_msg( _( "%s leaves." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::stranger_neutral( npc &p )
 {
-    add_msg( _( "%s feels less threatened by you." ), p.name.c_str() );
+    add_msg( _( "%s feels less threatened by you." ), p.name );
     p.set_attitude( NPCATT_NULL );
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
@@ -546,8 +546,7 @@ void talk_function::stranger_neutral( npc &p )
 void talk_function::start_mugging( npc &p )
 {
     p.set_attitude( NPCATT_MUG );
-    add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ),
-             p.name.c_str() );
+    add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ), p.name );
 }
 
 void talk_function::player_leaving( npc &p )
