@@ -1860,10 +1860,11 @@
     "type": "ARMOR",
     "copy-from": "coat_fur",
     "name": "faux fur coat",
-    "description": "A garishly colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
+    "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
     "covers": [ "TORSO", "ARMS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
     "warmth": 70
   },
   {
@@ -2412,6 +2413,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+  },
+  {
+    "id": "duster_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_fur",
+    "name": "faux fur duster",
+    "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
   },
   {
     "id": "duster_leather",
@@ -4048,6 +4060,17 @@
     "encumbrance": 10,
     "warmth": 70,
     "material_thickness": 3
+  },
+  {
+    "id": "hat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "hat_fur",
+    "name": "faux fur hat",
+    "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
+    "material": [ "fur" ],
+    "covers": [ "HEAD" ],
+    "flags": [ "FANCY" ],
+    "warmth": 60
   },
   {
     "id": "hat_hard",
@@ -6815,6 +6838,16 @@
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
+    "id": "pants_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "pants_fur",
+    "name": "faux fur pants",
+    "description": "A pair of long cotton pants lined with warm imitation fur.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "LEGS" ],
+    "warmth": 70
+  },
+  {
     "id": "pants_leather",
     "type": "ARMOR",
     "name": "leather pants",
@@ -7825,6 +7858,17 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
+    "id": "sleeveless_duster_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "sleeveless_duster_fur",
+    "name": "sleeveless faux fur duster",
+    "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "LEGS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
+  },
+  {
     "id": "sleeveless_duster_leather",
     "type": "ARMOR",
     "name": "sleeveless leather duster",
@@ -7912,6 +7956,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "sleeveless_trenchcoat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "sleeveless_trenchcoat_fur",
+    "name": "sleeveless faux fur trenchcoat",
+    "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
   },
   {
     "id": "sleeveless_trenchcoat_leather",
@@ -8956,6 +9011,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "trenchcoat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "trenchcoat_fur",
+    "name": "faux fur trenchcoat",
+    "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "ARMS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
   },
   {
     "id": "trenchcoat_leather",

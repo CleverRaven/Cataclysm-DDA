@@ -161,11 +161,9 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "difficulty": 4,
-    "skills_required": [ "tailor", 1 ],
+    "difficulty": 3,
     "time": 100000,
-    "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [
       [ [ "rag", 11 ] ],
@@ -236,6 +234,21 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
     "components": [ [ [ "fur", 40 ], [ "tanned_pelt", 7 ] ] ]
+  },
+  {
+    "result": "duster_faux_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 200000,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
+    "using": [ [ "sewing_standard", 60 ] ],
+    "components": [
+      [ [ "rag", 25 ] ],
+      [ [ "faux_fur", 20 ] ]
+    ]
   },
   {
     "result": "duster_leather",
@@ -572,6 +585,22 @@
     "components": [ [ [ "fur", 34 ], [ "tanned_pelt", 6 ] ] ]
   },
   {
+    "result": "sleeveless_duster_faux_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 200000,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
+    "using": [ [ "sewing_standard", 50 ] ],
+    "components": [
+      [ [ "rag", 20 ] ],
+      [ [ "faux_fur", 12 ] ]
+    ]
+  },
+  {
     "result": "sleeveless_duster_fur",
     "type": "recipe",
     "id_suffix": "from_duster_fur",
@@ -585,6 +614,21 @@
     "byproducts": [ [ "fur", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duster_fur", 1 ] ] ]
+  },
+  {
+    "result": "sleeveless_duster_faux_fur",
+    "type": "recipe",
+    "id_suffix": "from_duster_faux_fur",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 100000,
+    "autolearn": true,
+    "byproducts": [ [ "faux_fur", 6 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "duster_faux_fur", 1 ] ] ]
   },
   {
     "result": "sleeveless_duster_leather",
@@ -695,6 +739,21 @@
     "components": [ [ [ "trenchcoat_fur", 1 ] ] ]
   },
   {
+    "result": "sleeveless_trenchcoat_faux_fur",
+    "type": "recipe",
+    "id_suffix": "from_trenchcoat_faux_fur",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 100000,
+    "autolearn": true,
+    "byproducts": [ [ "faux_fur", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "trenchcoat_faux_fur", 1 ] ] ]
+  },
+  {
     "result": "sleeveless_trenchcoat_fur",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -707,6 +766,22 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 38 ] ],
     "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 5 ] ] ]
+  },
+  {
+    "result": "sleeveless_trenchcoat_faux_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 200000,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
+    "using": [ [ "sewing_standard", 38 ] ],
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "faux_fur", 10 ] ]
+    ]
   },
   {
     "result": "sleeveless_trenchcoat_leather",
@@ -860,6 +935,21 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 45 ] ],
     "components": [ [ [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
+  },
+  {
+    "result": "trenchcoat_faux_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 200000,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
+    "using": [ [ "sewing_standard", 45 ] ],
+    "components": [
+      [ [ "rag", 14 ] ],
+      [ [ "faux_fur", 12 ] ]
+    ]
   },
   {
     "result": "trenchcoat_leather",
