@@ -2151,7 +2151,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "QUIT" );
 
-    uimenu select_location;
+    uilist select_location;
     select_location.text = _( "Select a starting location." );
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
@@ -2376,9 +2376,11 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( const auto &loc : start_location::get_all() ) {
-                if( loc.name() == select_location.entries[ select_location.selected ].txt ) {
-                    u.start_location = loc.ident();
+            if( select_location.ret >= 0 ) {
+                for( const auto &loc : start_location::get_all() ) {
+                    if( loc.name() == select_location.entries[ select_location.ret ].txt ) {
+                        u.start_location = loc.ident();
+                    }
                 }
             }
             werase( select_location.window );
