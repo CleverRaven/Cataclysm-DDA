@@ -30,7 +30,7 @@
       { "text": "I might be back.", "topic": "TALK_SCAVENGER_MERC" },
       {
         "text": "[$8000] You have a deal.",
-        "topic": "TALK_SCAVENGER_MERC_SUCCESS",
+        "topic": "TALK_SCAVENGER_MERC_HIRE_SUCCESS",
         "condition": { "u_has_cash": 800000 },
         "effect": { "u_spend_cash": 800000 }
       }
