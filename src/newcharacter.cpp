@@ -1662,8 +1662,11 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
             //Find out if the current skill and its level is in the requirement list
             auto req_skill = r.required_skills.find( currentSkill->ident() );
             int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
+            bool would_autolearn_recipe =
+                recipe_dict.all_autolearn().count( &r ) &&
+                with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
 
-            if( !u.knows_recipe( &r ) &&
+            if( !would_autolearn_recipe &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
                 with_prof_skills.has_recipe_requirements( r ) )  {
 
