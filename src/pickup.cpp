@@ -398,10 +398,8 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
 
     player &u = g->u;
 
-    uimenu amenu;
-    amenu.return_invalid = true;
+    uilist amenu;
 
-    amenu.selected = 0;
     amenu.text = explain;
 
     offered_swap = true;
