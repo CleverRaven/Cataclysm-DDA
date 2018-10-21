@@ -559,8 +559,8 @@ class Character : public Creature, public visitable<Character>
             const cata::optional<std::reference_wrapper<const inventory>> replace_inv;
         };
 
-        units::mass weight_carried_with_tweaks( item_tweaks ) const;
-        units::volume volume_carried_with_tweaks( item_tweaks ) const;
+        units::mass weight_carried_with_tweaks( const item_tweaks & ) const;
+        units::volume volume_carried_with_tweaks( const item_tweaks & ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_reduced_by(

@@ -1032,7 +1032,7 @@ units::volume Character::volume_carried() const
     return inv.volume();
 }
 
-units::mass Character::weight_carried_with_tweaks( item_tweaks tweaks ) const
+units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
     const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
@@ -1051,7 +1051,7 @@ units::mass Character::weight_carried_with_tweaks( item_tweaks tweaks ) const
     return ret;
 }
 
-units::volume Character::volume_carried_with_tweaks( item_tweaks tweaks ) const
+units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     return tweaks.without_items ? i.volume_without( *tweaks.without_items ) : i.volume();
