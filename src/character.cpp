@@ -1035,7 +1035,7 @@ units::volume Character::volume_carried() const
 units::mass Character::weight_carried_with_tweaks( item_tweaks tweaks ) const
 {
     const std::map<const item *, int> empty;
-    const auto &without = tweaks.without_items ? *tweaks.without_items : empty;
+    const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
 
     units::mass ret = 0;
     if( !without.count( &weapon ) ) {
@@ -1046,15 +1046,15 @@ units::mass Character::weight_carried_with_tweaks( item_tweaks tweaks ) const
             ret += i.weight();
         }
     }
-    auto i = tweaks.replace_inv ? tweaks.replace_inv : &inv;
-    ret += i->weight_without( without );
+    const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    ret += i.weight_without( without );
     return ret;
 }
 
 units::volume Character::volume_carried_with_tweaks( item_tweaks tweaks ) const
 {
-    auto i = tweaks.replace_inv ? tweaks.replace_inv : &inv;
-    return tweaks.without_items ? i->volume_without( *tweaks.without_items ) : i->volume();
+    const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    return tweaks.without_items ? i.volume_without( *tweaks.without_items ) : i.volume();
 }
 
 units::mass Character::weight_capacity() const

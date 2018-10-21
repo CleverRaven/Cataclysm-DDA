@@ -550,13 +550,13 @@ class Character : public Creature, public visitable<Character>
         struct item_tweaks {
             item_tweaks() = default;
             item_tweaks( const std::map<const item *, int> &w ) :
-                without_items( &w )
+                without_items( std::cref( w ) )
             {}
             item_tweaks( const inventory &r ) :
-                replace_inv( &r )
+                replace_inv( std::cref( r ) )
             {}
-            const std::map<const item *, int> *without_items = nullptr;
-            const inventory *replace_inv = nullptr;
+            const cata::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
+            const cata::optional<std::reference_wrapper<const inventory>> replace_inv;
         };
 
         units::mass weight_carried_with_tweaks( item_tweaks ) const;
