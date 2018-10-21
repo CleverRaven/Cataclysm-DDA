@@ -1873,7 +1873,7 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
 inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 {
     /// @todo Calculate required water and cleansing product
-    return stats{ stat{ "", "", "", "" }, stat{ "", "", "", "" } };
+    return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
 }
 
 inventory_drop_selector::inventory_drop_selector( const player &p,
