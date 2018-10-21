@@ -1315,9 +1315,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
         const item &context ) const
 {
-    return std::all_of( req.begin(), req.end(), [this, &context]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first, context ) >= pr.second;
-    } );
+    return _skills->meets_skill_requirements( req, context );
 }
 
 bool Character::meets_stat_requirements( const item &it ) const

@@ -266,6 +266,20 @@ int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context )
     return get_skill_level( id );
 }
 
+bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
+{
+    return meets_skill_requirements( req, item() );
+}
+
+bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
+        const item &context ) const
+{
+    return std::all_of( req.begin(), req.end(),
+    [this, &context]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( pr.first, context ) >= pr.second;
+    } );
+}
+
 std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
     const std::map<skill_id, int> &req ) const
 {

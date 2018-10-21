@@ -174,6 +174,9 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
 
+        bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
+        bool meets_skill_requirements( const std::map<skill_id, int> &req,
+                                       const item &context ) const;
         /** Calculates skill difference
          * @param req Required skills to be compared with.
          * @param context An item to provide context for contextual skills. Can be null.
