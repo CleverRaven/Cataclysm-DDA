@@ -293,13 +293,8 @@ void talk_function::bionic_remove( npc &p )
         }
     }
     // Choose bionic if applicable
-    int bionic_index = 0;
-    bionic_names.push_back( _( "Cancel" ) );
-    bionic_index = menu_vec( false, _( "Which bionic do you wish to uninstall?" ),
-                             bionic_names ) - 1;
-    if( bionic_index == static_cast<int>( bionic_names.size() ) - 1 ) {
-        bionic_index = -1;
-    }
+    int bionic_index = uilist( _( "Which bionic do you wish to uninstall?" ),
+                               bionic_names );
     // Did we cancel?
     if( bionic_index < 0 ) {
         popup( _( "You decide to hold off..." ) );
