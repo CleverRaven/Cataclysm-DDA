@@ -3067,9 +3067,8 @@ npc *pick_follower()
 
     pointmenu_cb callback( locations );
 
-    uimenu menu;
+    uilist menu;
     menu.text = _( "Select a follower" );
-    menu.return_invalid = true;
     menu.callback = &callback;
     menu.w_y = 2;
 
@@ -3078,7 +3077,7 @@ npc *pick_follower()
     }
 
     menu.query();
-    if( menu.ret < 0 || menu.ret >= static_cast<int>( followers.size() ) ) {
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= followers.size() ) {
         return nullptr;
     }
 
