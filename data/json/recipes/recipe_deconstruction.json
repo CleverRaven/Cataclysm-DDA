@@ -1161,7 +1161,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 1000,
-    "components": [ [ [ "charcoal", 40 ] ], [ [ "char_kiln", 1 ] ] ]
+    "components": [ [ [ "charcoal", 200 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "result": "knife_steak",
