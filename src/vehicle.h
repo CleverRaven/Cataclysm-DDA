@@ -565,16 +565,16 @@ class vehicle
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-        int part_power( int index, bool at_full_hp = false ) const;
+        int part_vpower_w( int index, bool at_full_hp = false ) const;
 
         // get vpart epowerinfo for part number.
-        int part_epower( int index ) const;
+        int part_epower_w( int index ) const;
 
-        // convert epower (watts) to power.
-        static int epower_to_power( int epower );
+        // convert watts to vpower units of 1/2 HP.
+        static int watts_to_vhp( int power_w );
 
-        // convert power to epower (watts).
-        static int power_to_epower( int power );
+        // convert vhp to watts.
+        static int vhp_to_watts( int power );
 
         //Refresh all caches and re-locate all parts
         void refresh();
@@ -993,8 +993,9 @@ class vehicle
         point pivot_displacement() const;
 
         // Get combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
-        int total_power( bool fueled = true ) const;
+        // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
+        // their safe power.
+        int total_power_w( bool fueled = true, bool safe = false ) const;
 
         // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted

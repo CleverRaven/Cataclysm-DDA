@@ -701,7 +701,10 @@ int vehicle::engine_start_time( const int e ) const
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
     const int cold = ( 1 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) ) ) * 100;
 
-    return ( part_power( engines[ e ], true ) / 16 ) + ( 100 * dmg ) + cold;
+    // watts to old vhp = watts / 373
+    // divided by magic 16 = watts / 6000
+    const int watts_per_time = 6000;
+    return part_vpower_w( engines[ e ], true ) / watts_per_time  + ( 100 * dmg ) + cold;
 }
 
 bool vehicle::start_engine( const int e )
@@ -724,7 +727,7 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = part_power( engines[e], true );
+    const int engine_power = part_vpower_w( engines[e], true );
     const double cold_factor = engine_cold_factor( e );
 
     if( einfo.engine_backfire_threshold() ) {
@@ -748,8 +751,8 @@ bool vehicle::start_engine( const int e )
             add_msg( _( "The %s makes a single clicking sound." ), eng.name().c_str() );
             return false;
         }
-        const int penalty = ( engine_power * dmg / 2 ) + ( engine_power * cold_factor / 5 );
-        if( discharge_battery( ( engine_power + penalty ) / 10, true ) != 0 ) {
+        const int start_draw = engine_power * ( 1.0 + dmg / 2 + cold_factor / 5 ) / 10;
+        if( discharge_battery( watts_to_vhp( start_draw ), true ) != 0 ) {
             add_msg( _( "The %s makes a rapid clicking sound." ), eng.name().c_str() );
             return false;
         }
@@ -1042,7 +1045,7 @@ void vehicle::operate_scoop()
                                _( "BEEEThump" ) );
             }
             const int battery_deficit = discharge_battery( that_item_there->weight() / 1_gram *
-                                        -part_epower( scoop ) / rng( 8, 15 ) );
+                                        -part_epower_w( scoop ) / rng( 8, 15 ) );
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
             } else {

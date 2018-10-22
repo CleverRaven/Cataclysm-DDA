@@ -686,10 +686,10 @@ bool vehicle::has_security_working() const
 
 void vehicle::backfire( const int e ) const
 {
-    const int power = part_power( engines[e], true );
+    const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     //~ backfire sound
-    sounds::ambient_sound( pos, 40 + ( power / 30 ), _( "BANG!" ) );
+    sounds::ambient_sound( pos, 40 + power / 12, _( "BANG!" ) );
 }
 
 const vpart_info &vehicle::part_info( int index, bool include_removed ) const
@@ -704,22 +704,18 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 
 // engines & alternators all have power.
 // engines provide, whilst alternators consume.
-int vehicle::part_power( int const index, bool const at_full_hp ) const
+int vehicle::part_vpower_w( int const index, bool const at_full_hp ) const
 {
-    if( !part_flag( index, VPFLAG_ENGINE ) &&
-        !part_flag( index, VPFLAG_ALTERNATOR ) ) {
-        return 0; // not an engine.
-    }
-
     const vehicle_part &vp = parts[ index ];
 
     int pwr = vp.info().power;
-    if( pwr == 0 ) {
-        pwr = vp.base.engine_displacement();
+    if( part_flag( index, VPFLAG_ENGINE ) ) {
+        if( pwr == 0 ) {
+            pwr = vhp_to_watts( vp.base.engine_displacement() );
+        }
+        ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
+        pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
     }
-
-    ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-    pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
 
     if( pwr < 0 ) {
         return pwr; // Consumers always draw full power, even if broken
@@ -739,7 +735,7 @@ int vehicle::part_power( int const index, bool const at_full_hp ) const
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
 // for motor consumption see @ref vpart_info::energy_consumption instead
-int vehicle::part_epower( int const index ) const
+int vehicle::part_epower_w( int const index ) const
 {
     int e = part_info( index ).epower;
     if( e < 0 ) {
@@ -748,27 +744,27 @@ int vehicle::part_epower( int const index ) const
     return e * parts[ index ].health_percent();
 }
 
-int vehicle::epower_to_power( int const epower )
+int vehicle::watts_to_vhp( int const power_w )
 {
-    // Convert epower units (watts) to power units
+    // Convert epower units (watts) to vpower units
     // Used primarily for calculating battery charge/discharge
     // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
-    int power = epower / conversion_factor;
+    constexpr int conversion_factor = 373; // 373 373 watts == 1 power_vhp == 0.5 HP
+    int power_vhp = power_w / conversion_factor;
     // epower remainder results in chance at additional charge/discharge
-    if( x_in_y( abs( epower % conversion_factor ), conversion_factor ) ) {
-        power += epower >= 0 ? 1 : -1;
+    if( x_in_y( abs( power_w % conversion_factor ), conversion_factor ) ) {
+        power_vhp += power_w >= 0 ? 1 : -1;
     }
-    return power;
+    return power_vhp;
 }
 
-int vehicle::power_to_epower( int const power )
+int vehicle::vhp_to_watts( int const power_vhp )
 {
-    // Convert power units to epower units (watts)
+    // Convert vhp units (0.5 HP ) to watts
     // Used primarily for calculating battery charge/discharge
     // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
-    return power * conversion_factor;
+    constexpr int conversion_factor = 373; // 373 watts == 1 power_vhp == 0.5 HP
+    return power_vhp * conversion_factor;
 }
 
 bool vehicle::has_structural_part( int const dx, int const dy ) const
@@ -2724,12 +2720,12 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_type_on( e, ftype ) ) {
             if( part_info( engines[e] ).fuel_type == fuel_type_battery &&
-                part_epower( engines[e] ) >= 0 ) {
+                part_epower_w( engines[e] ) >= 0 ) {
                 // Electric engine - use epower instead
-                fcon -= epower_to_power( part_epower( engines[e] ) );
+                fcon -= part_epower_w( engines[e] );
 
             } else if( !is_perpetual_type( e ) ) {
-                fcon += part_power( engines[e] );
+                fcon += part_vpower_w( engines[e] );
                 if( parts[ e ].faults().count( fault_filter_air ) ) {
                     fcon *= 2;
                 }
@@ -2739,15 +2735,20 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     return fcon;
 }
 
-int vehicle::total_power( bool const fueled ) const
+int vehicle::total_power_w( bool const fueled, bool const safe ) const
 {
     int pwr = 0;
     int cnt = 0;
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( is_engine_on( e ) && ( fuel_left( part_info( p ).fuel_type ) || !fueled ) ) {
-            pwr += part_power( p );
+        if( is_engine_on( e ) &&
+            ( !fueled || is_perpetual_type( e ) || fuel_left( part_info( p ).fuel_type ) ) ) {
+            int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
+            if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
+                m2c *= 0.6;
+            }
+            pwr += part_vpower_w( p ) * m2c / 100;
             cnt++;
         }
     }
@@ -2755,9 +2756,11 @@ int vehicle::total_power( bool const fueled ) const
     for( size_t a = 0; a < alternators.size(); a++ ) {
         int p = alternators[a];
         if( is_alternator_on( a ) ) {
-            pwr += part_power( p ); // alternators have negative power
+            pwr += part_vpower_w( p ); // alternators have negative power
         }
     }
+    pwr = std::max( 0, pwr );
+
     if( cnt > 1 ) {
         pwr = pwr * 4 / ( 4 + cnt - 1 );
     }
@@ -2784,9 +2787,16 @@ int vehicle::acceleration( bool const fueled ) const
     }
 }
 
+// used to be engine power in 1/2HP * 80 is vmiph, so vmiph = watts / 373 * 80 == watts * 0.214
+static const double watts_to_vmiph = 0.2144772118;
 int vehicle::max_velocity( bool const fueled ) const
 {
-    return total_power( fueled ) * 80;
+    return total_power_w( fueled ) * watts_to_vmiph;
+}
+
+int vehicle::safe_velocity( bool const fueled ) const
+{
+    return total_power_w( fueled, true ) * k_dynamics() * k_mass() * watts_to_vmiph;
 }
 
 bool vehicle::do_environmental_effects()
@@ -2805,35 +2815,6 @@ bool vehicle::do_environmental_effects()
         }
     }
     return needed;
-}
-
-int vehicle::safe_velocity( bool const fueled ) const
-{
-    int pwrs = 0;
-    int cnt = 0;
-    for( size_t e = 0; e < engines.size(); e++ ) {
-        if( is_engine_on( e ) &&
-            ( !fueled || is_perpetual_type( e ) ||
-              fuel_left( part_info( engines[e] ).fuel_type ) ) ) {
-            int m2c = part_info( engines[e] ).engine_m2c();
-
-            if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
-                m2c *= 0.6;
-            }
-
-            pwrs += part_power( engines[e] ) * m2c / 100;
-            cnt++;
-        }
-    }
-    for( int a = 0; a < ( int )alternators.size(); a++ ) {
-        if( is_alternator_on( a ) ) {
-            pwrs += part_power( alternators[a] ); // alternator parts have negative power
-        }
-    }
-    if( cnt > 0 ) {
-        pwrs = pwrs * 4 / ( 4 + cnt - 1 );
-    }
-    return ( int )( pwrs * k_dynamics() * k_mass() ) * 80;
 }
 
 void vehicle::spew_smoke( double joules, int part, int density )
@@ -2888,10 +2869,10 @@ void vehicle::noise_and_smoke( double load, double time )
         if( is_engine_on( e ) && ( is_perpetual_type( e ) || fuel_left( part_info( p ).fuel_type ) ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
-            int part_watts = power_to_epower( part_power( p, true ) );
-            double max_epwr = double( part_watts / 40000.0 );
-            double cur_epwr = load * max_epwr;
-            double part_noise = cur_epwr * part_info( p ).engine_noise_factor();
+            int part_watts = part_vpower_w( p, true );
+            double max_stress = static_cast<double>( part_watts / 40000.0 );
+            double cur_stress = load * max_stress;
+            double part_noise = cur_stress * part_info( p ).engine_noise_factor();
 
             if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
                 double health = parts[p].health_percent();
@@ -2901,7 +2882,7 @@ void vehicle::noise_and_smoke( double load, double time )
                 if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
                     backfire( e );
                 }
-                double j = part_watts * load * time * muffle;
+                double j = cur_stress * time * muffle;
 
                 if( parts[ p ].base.faults.count( fault_filter_air ) ) {
                     bad_filter = true;
@@ -2913,7 +2894,7 @@ void vehicle::noise_and_smoke( double load, double time )
                 } else {
                     mufflesmoke += j;
                 }
-                part_noise = ( part_noise + max_epwr * 3 + 5 ) * muffle;
+                part_noise = ( part_noise + max_stress * 3 + 5 ) * muffle;
             }
             noise = std::max( noise, part_noise ); // Only the loudest engine counts.
         }
@@ -2926,8 +2907,7 @@ void vehicle::noise_and_smoke( double load, double time )
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double( fabs( velocity / 500.0 ) ) );
     int lvl = 0;
-    if( one_in( 4 ) && rng( 0, 30 ) < noise &&
-        has_engine_type_not( fuel_type_muscle, true ) ) {
+    if( one_in( 4 ) && rng( 0, 30 ) < noise && has_engine_type_not( fuel_type_muscle, true ) ) {
         while( noise > sound_levels[lvl] ) {
             lvl++;
         }
@@ -3253,7 +3233,7 @@ void vehicle::power_parts()
     if( engine_on ) {
         for( size_t e = 0; e < engines.size(); ++e ) {
             if( is_engine_on( e ) ) {
-                engine_epower += part_epower( engines[e] );
+                engine_epower += part_epower_w( engines[e] );
             }
         }
 
@@ -3267,7 +3247,7 @@ void vehicle::power_parts()
         for( size_t p = 0; p < alternators.size(); ++p ) {
             if( is_alternator_on( p ) ) {
                 alternators_epower += part_info( alternators[p] ).epower;
-                alternators_power += part_power( alternators[p] );
+                alternators_power += part_vpower_w( alternators[p] );
             }
         }
         if( alternators_epower > 0 ) {
@@ -3276,7 +3256,7 @@ void vehicle::power_parts()
         }
     }
 
-    int epower_capacity_left = power_to_epower( fuel_capacity( fuel_type_battery ) - fuel_left(
+    int epower_capacity_left = vhp_to_watts( fuel_capacity( fuel_type_battery ) - fuel_left(
                                    fuel_type_battery ) );
     if( has_part( "REACTOR", true ) && epower_capacity_left - epower > 0 ) {
         // Still not enough surplus epower to fully charge battery
@@ -3287,18 +3267,18 @@ void vehicle::power_parts()
                 continue;
             } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
                 reactor_working = true;
-                epower += part_epower( elem );
+                epower += part_epower_w( elem );
             } else if( parts[elem].ammo_remaining() > 0 ) {
                 // Efficiency: one unit of fuel is this many units of battery
                 // Note: One battery is roughly 373 units of epower
                 const int efficiency = part_info( elem ).power;
                 const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
 
-                const int elem_epower = std::min( part_epower( elem ), power_to_epower( avail_fuel ) );
+                const int elem_epower = std::min( part_epower_w( elem ), vhp_to_watts( avail_fuel ) );
                 // Cap output at what we can achieve and utilize
                 const int reactors_output = std::min( elem_epower, epower_capacity_left - epower );
                 // Units of fuel consumed before adjustment for efficiency
-                const int battery_consumed = epower_to_power( reactors_output );
+                const int battery_consumed = watts_to_vhp( reactors_output );
                 // Fuel consumed in actual units of the resource
                 int fuel_consumed = battery_consumed / efficiency;
                 // Remainder has a chance of resulting in more fuel consumption
@@ -3327,10 +3307,10 @@ void vehicle::power_parts()
     int battery_deficit = 0;
     if( epower > 0 ) {
         // store epower surplus in battery
-        charge_battery( epower_to_power( epower ) );
+        charge_battery( watts_to_vhp( epower ) );
     } else if( epower < 0 ) {
         // draw epower deficit from battery
-        battery_deficit = discharge_battery( abs( epower_to_power( epower ) ) );
+        battery_deficit = discharge_battery( abs( watts_to_vhp( epower ) ) );
     }
 
     if( battery_deficit != 0 ) {
@@ -3512,11 +3492,11 @@ void vehicle::idle( bool on_map )
     int engines_power = 0;
     float idle_rate;
 
-    if( engine_on && total_power() > 0 ) {
+    if( engine_on && total_power_w() > 0 ) {
         for( size_t e = 0; e < engines.size(); e++ ) {
             size_t p = engines[e];
             if( fuel_left( part_info( p ).fuel_type ) && is_engine_on( e ) ) {
-                engines_power += part_power( engines[e] );
+                engines_power += part_vpower_w( engines[e] );
             }
         }
 
@@ -4665,9 +4645,9 @@ void vehicle::update_time( const time_point &update_to )
 
         double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = divide_roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ), 1.0 );
-        double cost_to_purify = epower_to_power( ( qty + ( tank->can_reload( water_clean ) ?
-                                tank->ammo_remaining() : 0 ) )
-                                * item::find_type( "water_purifier" )->charges_to_use() );
+        double cost_to_purify = watts_to_vhp( ( qty + ( tank->can_reload( water_clean ) ?
+                                                tank->ammo_remaining() : 0 ) )
+                                              * item::find_type( "water_purifier" )->charges_to_use() );
 
         if( qty > 0 ) {
             if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) &&
@@ -4692,12 +4672,12 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            epower += ( part_epower( part ) * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
+            epower += ( part_epower_w( part ) * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
         }
 
         if( epower > 0 ) {
             add_msg( m_debug, "%s got %d epower from solar panels", name.c_str(), epower );
-            charge_battery( epower_to_power( epower ) );
+            charge_battery( watts_to_vhp( epower ) );
         }
     }
 }
