@@ -8028,9 +8028,8 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
 
 bool player::dispose_item( item_location &&obj, const std::string& prompt )
 {
-    uimenu menu;
+    uilist menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname().c_str() ) : prompt;
-    menu.return_invalid = true;
 
     using dispose_option = struct {
         std::string prompt;
