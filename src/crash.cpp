@@ -223,6 +223,8 @@ extern "C" {
         if( crash_it != FILENAMES.end() ) {
             return crash_it->second.c_str();
         }
+        // If we failed to get the FILENAMES entry then just write to cwd,
+        // since we don't know whether any other directory would exist.
         return "crash.log";
     }
 
