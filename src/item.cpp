@@ -1025,7 +1025,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const std::string rot_time = to_string_clipped( food_item->type->comestible->spoils );
             info.emplace_back( "DESCRIPTION",
                                string_format(
-                                   _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
+                                   _( "* This food is <neutral>perishable</neutral>, and at room temperature has an estimated nominal shelf life of <info>%s</info>." ),
                                    rot_time.c_str() ) );
 
             // Good cooks and survivalists can estimate food's age on fresh-to-rotten scale
