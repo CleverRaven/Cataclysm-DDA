@@ -20,9 +20,6 @@
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
 
-const skill_id skill_survival( "survival" );
-const skill_id skill_cooking( "cooking" );
-
 namespace
 {
 
@@ -390,8 +387,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "SHELF LIFE" ) );
 
             append_cell( [this]( const item_location & loc ) {
-                if( g->u.get_skill_level( skill_cooking ) >= 3 ||
-                    g->u.get_skill_level( skill_survival ) >= 4 ) {
+                if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0 ) {
                         return get_freshness( loc );
@@ -401,8 +397,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "FRESHNESS" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                if( g->u.get_skill_level( skill_cooking ) >= 3 ||
-                    g->u.get_skill_level( skill_survival ) >= 4 ) {
+                if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0 ) {
                         if( !get_comestible_item( loc ).rotten() ) {

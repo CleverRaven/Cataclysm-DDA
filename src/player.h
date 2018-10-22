@@ -916,6 +916,9 @@ class player : public Character
         /** Check player's capability of consumption overall */
         bool can_consume( const item &it ) const;
 
+        /** True if the player has enough skill (in cooking or survival) to estimate time to rot */
+        bool can_estimate_rot() const;
+
         bool is_wielding( const item &target ) const;
         /**
          * Removes currently wielded item (if any) and replaces it with the target item.

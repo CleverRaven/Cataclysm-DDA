@@ -1030,8 +1030,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             // Good cooks and survivalists can estimate food's age on fresh-to-rotten scale
             const double rot_progress = food_item->get_relative_rot();
-            const bool skilled = g->u.get_skill_level( skill_cooking ) >= 3 ||
-                                 g->u.get_skill_level( skill_survival ) >= 4;
+            const bool skilled = g->u.can_estimate_rot();
             if( !food_item->rotten() ) {
                 if( food_item->is_fresh() ) {
                     info.emplace_back( "DESCRIPTION", _( "* This food looks as <good>fresh</good> as it can be." ) );
