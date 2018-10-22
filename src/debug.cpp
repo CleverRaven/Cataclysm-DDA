@@ -498,8 +498,6 @@ void debug_write_backtrace( std::ostream &out )
         FILE *addr2line = popen( cmd.c_str(), "re" );
         if( addr2line == nullptr ) {
             out << "backtrace: popen(addr2line) failed\n";
-            // Most likely reason is that addr2line is not installed, so
-            // in this case we give up and don't try any more frames.
             return false;
         }
         char buf[1024];
@@ -507,6 +505,8 @@ void debug_write_backtrace( std::ostream &out )
             out.write( buf, num_bytes );
         }
         if( 0 != pclose( addr2line ) ) {
+            // Most likely reason is that addr2line is not installed, so
+            // in this case we give up and don't try any more frames.
             out << "backtrace: addr2line failed\n";
             return false;
         }
