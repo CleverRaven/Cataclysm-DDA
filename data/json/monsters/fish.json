@@ -474,7 +474,7 @@
     "armor_cut": 2,
     "luminance": 0,
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_mutant_carp",
