@@ -7464,7 +7464,7 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "description": "Ground coffee beans.  You can boil it into a mediocre stimulant, or swallow it raw for a lesser stimulative boost.",
+    "description": "Ground coffee beans.  You can boil it into a mediocre stimulant, or something better if you had an atomic coffee pot.",
     "price": 900,
     "material": "powder",
     "volume": 1,

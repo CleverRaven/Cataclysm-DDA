@@ -45,6 +45,7 @@
 
 #include <ctime>
 #include <bitset>
+#include <limits>
 
 #include "json.h"
 
@@ -2500,7 +2501,7 @@ void map_memory::store( JsonOut &jsout ) const
 {
     jsout.member( "map_memory_tiles" );
     jsout.start_array();
-    for( const auto &elem : memorized_terrain ) {
+    for( const auto &elem : tiles ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2514,7 +2515,7 @@ void map_memory::store( JsonOut &jsout ) const
 
     jsout.member( "map_memory_curses" );
     jsout.start_array();
-    for( const auto &elem : memorized_terrain_curses ) {
+    for( const auto &elem : symbols ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2528,20 +2529,22 @@ void map_memory::store( JsonOut &jsout ) const
 void map_memory::load( JsonObject &jsin )
 {
     JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
-    memorized_terrain.clear();
+    tiles.clear();
+    tile_map.clear();
     while( map_memory_tiles.has_more() ) {
         JsonObject pmap = map_memory_tiles.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        const memorized_terrain_tile m{ pmap.get_string( "tile" ), pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) };
-        memorized_terrain[p] = m;
+        memorize_tile( std::numeric_limits<int>::max(), p, pmap.get_string( "tile" ),
+                       pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) );
     }
 
     JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
-    memorized_terrain_curses.clear();
+    symbols.clear();
+    symbol_map.clear();
     while( map_memory_curses.has_more() ) {
         JsonObject pmap = map_memory_curses.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        memorized_terrain_curses[p] = pmap.get_long( "symbol" );
+        memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_long( "symbol" ) );
     }
 }
 

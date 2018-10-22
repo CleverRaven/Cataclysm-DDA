@@ -535,19 +535,39 @@ inline std::string get_labeled_bar( const double val, const int width, const std
     return result;
 }
 
+enum class enumeration_conjunction {
+    none,
+    and_,
+    or_
+};
+
 /**
  * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
  * @param values A vector of strings
- * @param use_and If true, add "and" before the last element (comma otherwise).
+ * @param enumeration_conjunction Choose how to separate the last elements.
  */
 template<typename _Container>
-std::string enumerate_as_string( const _Container &values, bool use_and = true )
+std::string enumerate_as_string( const _Container &values,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
+    std::string final_separator = [&]() {
+        switch( conj ) {
+            case enumeration_conjunction::none:
+                return _( ", " );
+            case enumeration_conjunction::and_:
+                return ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+            case enumeration_conjunction::or_:
+                return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
+        }
+        debugmsg( "Unexpected conjunction" );
+        return _( ", " );
+    }
+    ();
     std::ostringstream res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
-            if( use_and && std::next( iter ) == values.end() ) {
-                res << ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+            if( std::next( iter ) == values.end() ) {
+                res << final_separator;
             } else {
                 res << _( ", " );
             }
@@ -563,10 +583,11 @@ std::string enumerate_as_string( const _Container &values, bool use_and = true )
  * @param last Iterator pointing to the last element.
  * @param pred Predicate that accepts an element and returns a representing string.
  * May return an empty string to omit the element.
- * @param use_and If true, add "and" before the last element (comma otherwise).
+ * @param enumeration_conjunction Choose how to separate the last elements.
  */
 template<typename _FIter, typename _Predicate>
-std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, bool use_and = true )
+std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
     values.reserve( size_t( std::distance( first, last ) ) );
@@ -576,7 +597,7 @@ std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, boo
             values.push_back( str );
         }
     }
-    return enumerate_as_string( values, use_and );
+    return enumerate_as_string( values, conj );
 }
 
 /**

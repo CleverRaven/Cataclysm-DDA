@@ -374,6 +374,9 @@ classes = {
             { name = "unload", rval = nil, args = { "item" } },
             { name = "unload", rval = nil, args = { }, optional_args = { "int" }  },
             { name = "use_computer", rval = nil, args = { "tripoint" } },
+            { name = "reload_npcs", rval = nil, args = { } },
+            { name = "place_player", rval = nil, args = { "tripoint" } },
+            { name = "place_player_overmap", rval = nil, args = { "tripoint" } },
         }
     },
     -- TODO: activity_id is to be moved into activity_type.string_id.
@@ -2284,6 +2287,11 @@ global_functions = {
         cpp_name = "get_omt_dir",
         args = { "overmap", "tripoint" },
         rval = "overmap_direction"
+    },
+    omap_choose_point = {
+        cpp_name = "ui::omap::choose_point",
+        args = { "tripoint" },
+        rval = "tripoint"
     }
 }
 

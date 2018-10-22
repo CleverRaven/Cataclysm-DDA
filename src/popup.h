@@ -135,6 +135,8 @@ class query_popup
          * Specify an action as an option, and a filter of allowed input events
          * for this action. This is for compatibility with the "FORCE_CAPITAL_YN"
          * option.
+         * Note that even if the input event is filtered, it will still select
+         * the respective dialog option, without closing the dialog.
          */
         query_popup &option( const std::string &opt,
                              const std::function<bool( const input_event & )> &filter );

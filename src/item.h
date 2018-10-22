@@ -594,9 +594,14 @@ class item : public visitable<item>
         long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                 std::string *err = nullptr ) const;
         /**
-         * It returns the total capacity (volume) of the container.
+         * It returns the total capacity (volume) of the container for liquids.
          */
         units::volume get_container_capacity() const;
+        /**
+         * It returns the maximum volume of any contents, including liquids,
+         * ammo, magazines, weapons, etc.
+         */
+        units::volume get_total_capacity() const;
         /**
          * Puts the given item into this one, no checks are performed.
          */
@@ -1016,6 +1021,7 @@ class item : public visitable<item>
         bool is_magazine() const;
         bool is_ammo_belt() const;
         bool is_bandolier() const;
+        bool is_holster() const;
         bool is_ammo() const;
         bool is_armor() const;
         bool is_book() const;

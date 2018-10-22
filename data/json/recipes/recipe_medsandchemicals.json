@@ -244,6 +244,52 @@
   ]
 },{
   "type" : "recipe",
+  "result": "bonemeal_tablet",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 2 ],
+  "difficulty": 2,
+  "time": 20000,
+  "book_learn": [["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
+  "tools": [
+    [ [ "surface_heat", 8, "LIST" ] ]
+  ],
+  "components": [
+    [
+      [ "meal_bone", 1 ]
+    ],
+    [
+      [ "water_clean", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "flavored_bonemeal_tablet",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 2 ],
+  "difficulty": 3,
+  "time": 30000,
+  "book_learn": [["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
+  "tools": [
+    [ [ "surface_heat", 8, "LIST" ] ]
+  ],
+  "components": [
+    [
+      [ "meal_bone", 1 ]
+    ],
+    [
+      [ "dry_fruit", 2 ],
+      [ "sugar", 5 ]
+    ],
+    [
+      [ "water_clean", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "poppy_pain",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
