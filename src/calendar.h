@@ -473,11 +473,11 @@ constexpr time_duration operator"" _days( const unsigned long long int v )
  * 0 so it's skipped).
  */
 std::string to_string( const time_duration &d );
-/**
- * Returns a number and a unit as in the string returned by @ref to_string_clipped.
- * If the duration is "forever", the optional int has no value.
- */
-std::pair<cata::optional<int>, std::string> to_num_and_unit( const time_duration &d );
+
+enum class clipped_align {
+    none,
+    right,
+};
 /**
  * Returns a string showing a duration as whole number of appropriate units, e.g.
  * "10 days" or "1 minute".
@@ -485,7 +485,7 @@ std::pair<cata::optional<int>, std::string> to_num_and_unit( const time_duration
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
  */
-std::string to_string_clipped( const time_duration &d );
+std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.

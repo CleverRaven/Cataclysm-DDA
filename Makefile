@@ -1037,6 +1037,7 @@ endif
 
 astyle-check:
 ifdef ASTYLE_CHECK
+	$(info $(ASTYLE_BINARY) -V: $(shell $(ASTYLE_BINARY) -V))
 	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
         else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
 else

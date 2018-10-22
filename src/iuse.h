@@ -99,6 +99,8 @@ class iuse
         int elec_chainsaw_on( player *, item *, bool, const tripoint & );
         int cs_lajatang_off( player *, item *, bool, const tripoint & );
         int cs_lajatang_on( player *, item *, bool, const tripoint & );
+        int ecs_lajatang_off( player *, item *, bool, const tripoint & );
+        int ecs_lajatang_on( player *, item *, bool, const tripoint & );
         int carver_off( player *, item *, bool, const tripoint & );
         int carver_on( player *, item *, bool, const tripoint & );
         int trimmer_off( player *, item *, bool, const tripoint & );
@@ -106,6 +108,8 @@ class iuse
         int circsaw_on( player *, item *, bool, const tripoint & );
         int combatsaw_off( player *, item *, bool, const tripoint & );
         int combatsaw_on( player *, item *, bool, const tripoint & );
+        int e_combatsaw_off( player *, item *, bool, const tripoint & );
+        int e_combatsaw_on( player *, item *, bool, const tripoint & );
         int jackhammer( player *, item *, bool, const tripoint & );
         int pickaxe( player *, item *, bool, const tripoint & );
         int geiger( player *, item *, bool, const tripoint & );

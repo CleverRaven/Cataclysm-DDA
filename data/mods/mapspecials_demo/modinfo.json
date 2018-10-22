@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "mapgen_demo",
+    "name": "Mapgen Demo",
+    "authors": [ "Sunshine" ],
+    "description": "Demo for JSONized mapgens (FEMA, megastore, missile silo).",
+    "category": "buildings",
+    "dependencies": [ "dda" ]
+  }
+]

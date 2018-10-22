@@ -90,7 +90,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
 void game_menus::inv::common( player &p )
 {
-    static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
+    static const std::set<int> allowed_selections = { { '\0', '=' } };
 
     p.inv.restack( p );
 
@@ -287,7 +287,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
-                if( loc->made_of( LIQUID, true ) ) {
+                if( loc->made_of_from_type( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) ) {
                     return _( "Too big to pick up" );
@@ -360,7 +360,7 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
-            append_cell( [ p, this ]( const item_location & loc ) {
+            append_cell( [ &p, this ]( const item_location & loc ) {
                 return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) *
                                       islot_comestible::kcal_per_nutr );
             }, _( "CALORIES" ) );
@@ -369,7 +369,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return good_bad_none( get_edible_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
-            append_cell( [ p, this ]( const item_location & loc ) {
+            append_cell( [ &p, this ]( const item_location & loc ) {
                 const item &it = get_comestible_item( loc );
                 if( it.has_flag( "MUSHY" ) ) {
                     return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
@@ -420,7 +420,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            if( loc->made_of( LIQUID, true ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
+            if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 

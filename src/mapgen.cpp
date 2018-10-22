@@ -67,6 +67,7 @@ const mtype_id mon_dog_thing( "mon_dog_thing" );
 const mtype_id mon_eyebot( "mon_eyebot" );
 const mtype_id mon_flaming_eye( "mon_flaming_eye" );
 const mtype_id mon_flying_polyp( "mon_flying_polyp" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
 const mtype_id mon_fungal_fighter( "mon_fungal_fighter" );
 const mtype_id mon_gelatin( "mon_gelatin" );
 const mtype_id mon_gozu( "mon_gozu" );
@@ -1294,7 +1295,7 @@ class jmapgen_computer : public jmapgen_piece
         }
 };
 
-static void load_weighted_entries( JsonObject &jsi, std::string json_key,
+static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
     JsonArray jarr = jsi.get_array( json_key );
@@ -3424,7 +3425,7 @@ ___DEEE|.R.|...,,...|sss\n",
 
         // Lab special effects.
         if( one_in( 10 ) ) {
-            switch( rng( 1, 6 ) ) {
+            switch( rng( 1, 7 ) ) {
                 // full flooding/sewage
                 case 1: {
                     if( is_ot_subtype( "stairs", terrain_type ) || is_ot_subtype( "ice", terrain_type ) ) {
@@ -3436,7 +3437,8 @@ ___DEEE|.R.|...,,...|sss\n",
                     for( int i = 0; i < SEEX * 2 - 1; i++ ) {
                         for( int j = 0; j < SEEY * 2 - 1; j++ ) {
                             // We spare some terrain to make it look better visually.
-                            if( !one_in( 10 ) && ( t_thconc_floor == ter( i, j ) || t_strconc_floor == ter( i, j ) ) ) {
+                            if( !one_in( 10 ) && ( t_thconc_floor == ter( i, j ) || t_strconc_floor == ter( i, j ) ||
+                                                   t_thconc_floor_olight == ter( i, j ) ) ) {
                                 ter_set( i, j, fluid_type );
                             } else if( has_flag_ter( "DOOR", i, j ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3458,7 +3460,8 @@ ___DEEE|.R.|...,,...|sss\n",
                     auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( int x, int y ) {
-                            if( t_thconc_floor == ter( x, y ) || t_strconc_floor == ter( x, y ) ) {
+                            if( t_thconc_floor == ter( x, y ) || t_strconc_floor == ter( x, y ) ||
+                                t_thconc_floor_olight == ter( x, y ) ) {
                                 ter_set( x, y, fluid_type );
                             } else if( has_flag_ter( "DOOR", x, y ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3512,11 +3515,11 @@ ___DEEE|.R.|...,,...|sss\n",
                     create_anomaly( center, random_entry( valid_props ), false );
                     break;
                 }
-                // damaged mininuke accident.
+                // radioactive accident.
                 case 6: {
                     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
                     if( has_flag_ter( "WALL", center.x, center.y ) ) {
-                        return;  // just skip it, we don't want to risk embedding radiation out of sight.
+                        break;  // just skip it, we don't want to risk embedding radiation out of sight.
                     }
                     draw_rough_circle( [this]( int x, int y ) {
                         set_radiation( x, y, 10 );
@@ -3543,9 +3546,62 @@ ___DEEE|.R.|...,,...|sss\n",
                     if( one_in( 2 ) ) {
                         add_spawn( mon_hazmatbot, 1, center.x + 1, center.y );
                     }
-                    // damaged mininuke thrown past edge of rubble so the player can see it.
-                    spawn_item( center.x - 2 + 4 * rng( 0, 1 ), center.y + rng( -2, 2 ),
-                                "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                    // damaged mininuke/plut thrown past edge of rubble so the player can see it.
+                    int marker_x = center.x - 2 + 4 * rng( 0, 1 );
+                    int marker_y = center.y + rng( -2, 2 );
+                    if( one_in( 4 ) ) {
+                        spawn_item( marker_x, marker_y,
+                                    "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                    } else {
+                        item newliquid( "plut_slurry_dense", calendar::time_of_cataclysm );
+                        newliquid.charges = 1;
+                        add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ), newliquid );
+                    }
+                    break;
+                }
+                // portal with fungal invasion
+                case 7: {
+                    for( int i = 0; i < SEEX * 2 - 1; i++ ) {
+                        for( int j = 0; j < SEEY * 2 - 1; j++ ) {
+                            // Create a mostly spread fungal area throughout entire lab.
+                            if( !one_in( 5 ) && ( has_flag( "FLAT", i, j ) ) ) {
+                                ter_set( i, j, t_fungus_floor_in );
+                                if( has_flag_furn( "ORGANIC", i, j ) ) {
+                                    furn_set( i, j, f_fungal_clump );
+                                }
+                            } else if( has_flag_ter( "DOOR", i, j ) && !one_in( 5 ) ) {
+                                ter_set( i, j, t_fungus_floor_in );
+                            } else if( has_flag_ter( "WALL", i, j ) && one_in( 3 ) ) {
+                                ter_set( i, j, t_fungus_wall );
+                            }
+                        }
+                    }
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+
+                    // Make a portal surrounded by more dense fungal stuff and a fungaloid.
+                    draw_rough_circle( [this]( int x, int y ) {
+                        if( has_flag_ter( "GOES_DOWN", x, y ) ||
+                            has_flag_ter( "GOES_UP", x, y ) ||
+                            has_flag_ter( "CONSOLE", x, y ) ) {
+                            return; // spare stairs and consoles.
+                        }
+                        if( has_flag_ter( "WALL", x, y ) ) {
+                            ter_set( x, y, t_fungus_wall );
+                        } else {
+                            ter_set( x, y, t_fungus_floor_in );
+                            if( one_in( 3 ) ) {
+                                furn_set( x, y, f_flower_fungal );
+                            } else if( one_in( 10 ) ) {
+                                ter_set( x, y, t_marloss );
+                            }
+                        }
+                    }, center.x, center.y, 3 );
+                    ter_set( center.x, center.y, t_fungus_floor_in );
+                    furn_set( center.x, center.y, f_null );
+                    trap_set( center, tr_portal );
+
+                    add_spawn( mon_fungaloid, 1, center.x - 2 + 4 * rng( 0, 1 ), center.y + rng( -2, 2 ) );
+
                     break;
                 }
             }
@@ -6703,9 +6759,9 @@ void map::place_vending( int x, int y, const std::string &type, bool reinforced 
     }
 }
 
-int map::place_npc( int x, int y, const string_id<npc_template> &type )
+int map::place_npc( int x, int y, const string_id<npc_template> &type, bool force )
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ) {
+    if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     std::shared_ptr<npc> temp = std::make_shared<npc>();
@@ -6716,7 +6772,8 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     return temp->getID();
 }
 
-std::vector<item *> map::place_items( const items_location loc, const int chance, const tripoint &f,
+std::vector<item *> map::place_items( const items_location &loc, const int chance,
+                                      const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
@@ -6726,7 +6783,7 @@ std::vector<item *> map::place_items( const items_location loc, const int chance
 
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
-std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
+std::vector<item *> map::place_items( const items_location &loc, int chance, int x1, int y1,
                                       int x2, int y2, bool ongrass, const time_point &turn,
                                       int magazine, int ammo )
 {
@@ -6782,7 +6839,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
     return res;
 }
 
-std::vector<item *> map::put_items_from_loc( items_location loc, const tripoint &p,
+std::vector<item *> map::put_items_from_loc( const items_location &loc, const tripoint &p,
         const time_point &turn )
 {
     const auto items = item_group::items_from( loc, turn );

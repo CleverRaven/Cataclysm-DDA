@@ -364,7 +364,9 @@ class Character : public Creature, public visitable<Character>
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
 
+        static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
+        bool made_of_any( const std::set<material_id> &ms ) const override;
 
     private:
         /** Retrieves a stat mod of a mutation. */
@@ -699,10 +701,10 @@ class Character : public Creature, public visitable<Character>
         void on_stat_change( const std::string &, int ) override {};
         virtual void on_mutation_gain( const trait_id & ) {};
         virtual void on_mutation_loss( const trait_id & ) {};
-
     public:
         virtual void on_item_wear( const item & ) {};
         virtual void on_item_takeoff( const item & ) {};
+        virtual void on_worn_item_washed( const item & ) {};
 
     protected:
         Character();

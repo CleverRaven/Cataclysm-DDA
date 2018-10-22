@@ -774,7 +774,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
     if( rel_menu.ret != UIMENU_CANCEL ) {
-        return rel_menu.entries[ rel_menu.ret ].txt.substr( 2 ); // 2 = prefix length
+        std::wstring wstr_recipe_name = utf8_to_wstr( rel_menu.entries[ rel_menu.ret ].txt );
+        return wstr_to_utf8( wstr_recipe_name.substr( 2 ) ); // 2 = prefix length
     }
 
     return "";

@@ -24,6 +24,8 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+static const bool halloween_theme = true;
+
 void main_menu::on_move() const
 {
     sfx::play_variant_sound( "menu_move", "default", 100 );
@@ -43,32 +45,35 @@ void main_menu::clear_error()
     errflag = false;
 }
 
-void main_menu::print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems,
+void main_menu::print_menu_items( const catacurses::window &w_in,
+                                  const std::vector<std::string> &vItems,
                                   size_t iSel, int iOffsetY, int iOffsetX, int spacing )
 {
-    wmove( w_in, iOffsetY, iOffsetX );
+    std::string text = "";
     for( size_t i = 0; i < vItems.size(); ++i ) {
-        nc_color text_color;
-        nc_color key_color;
-        if( iSel == i ) {
-            text_color = h_white;
-            key_color = h_white;
-        } else {
-            text_color = c_light_gray;
-            key_color = c_white;
+        if( i > 0 ) {
+            text += std::string( spacing, ' ' );
         }
-        wprintz( w_in, c_light_gray, "[" );
-        shortcut_print( w_in, text_color, key_color, vItems[i] );
-        wprintz( w_in, c_light_gray, "]" );
-        // Don't print spaces after last item.
-        if( i != ( vItems.size() - 1 ) ) {
-            wprintz( w_in, c_light_gray, std::string( spacing, ' ' ).c_str() );
+
+        std::string temp = shortcut_text( c_white, vItems[i] );
+        if( iSel == i ) {
+            text += string_format( "[<color_%s>%s</color>]",
+                                   string_from_color( h_white ),
+                                   remove_color_tags( temp ) );
+        } else {
+            text += string_format( "[%s]", temp );
         }
     }
+
+    if( utf8_width( remove_color_tags( text ) ) > getmaxx( w_in ) ) {
+        iOffsetY -= std::ceil( utf8_width( remove_color_tags( text ) ) / getmaxx( w_in ) );
+    }
+
+    fold_and_print( w_in, iOffsetY, iOffsetX, getmaxx( w_in ), c_light_gray, text, ']' );
 }
 
 void main_menu::print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
-                            int iMenuOffsetY, bool bShowDDA )
+                            int iMenuOffsetY )
 {
     // Clear Lines
     werase( w_open );
@@ -88,7 +93,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
                   vdaytip ) );
 
-
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
@@ -96,26 +100,36 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     const nc_color cColor2 = c_light_blue;
     const nc_color cColor3 = c_light_blue;
 
+    if( halloween_theme ) {
+        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider().c_str() );
+        fold_and_print_from( w_open, iMenuOffsetY - 8, getmaxx( w_open ) - 25,
+                             25, 0, c_white, halloween_graves().c_str() );
+    }
+
     if( mmenu_title.size() > 1 ) {
         for( size_t i = 0; i < mmenu_title.size(); ++i ) {
-            if( i == 6 ) {
-                if( !bShowDDA ) {
-                    break;
+            if( halloween_theme ) {
+                static const std::string marker = "█";
+                const utf8_wrapper text( mmenu_title[i] );
+                for( size_t j = 0; j < text.size(); j++ ) {
+                    std::string temp = text.substr_display( j, 1 ).str();
+                    if( temp != " " ) {
+                        mvwprintz( w_open, iLine, iOffsetX + j,
+                                   ( temp != marker ) ? c_red : ( i < 9  ? cColor1 : cColor2 ),
+                                   "%s", ( temp == marker ) ? "▓" : temp );
+                    }
                 }
-                if( FULL_SCREEN_HEIGHT > 24 ) {
-                    ++iLine;
-                }
+                iLine++;
+            } else {
+                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
             }
-            mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
         }
     } else {
         center_print( w_open, iLine++, cColor1, mmenu_title[0] );
     }
 
-    if( bShowDDA ) {
-        iLine++;
-        center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
-    }
+    iLine++;
+    center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
@@ -158,15 +172,11 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
 
 std::string main_menu::handle_input_timeout( input_context &ctxt )
 {
-    inp_mngr.set_timeout( 125 );
-
-    std::string action = ctxt.handle_input();
+    std::string action = ctxt.handle_input( 125 );
 
     if( action == "TIMEOUT" ) {
         init_windows();
     }
-
-    inp_mngr.reset_timeout();
 
     return action;
 }
@@ -207,42 +217,39 @@ void main_menu::init_windows()
 void main_menu::init_strings()
 {
     // ASCII Art
-    mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir", ".title", "title" ),
+    mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir",
+                             halloween_theme ? ".halloween" : ".title",
+                             halloween_theme ? "halloween" : "title" ),
                              _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
-    mmenu_motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
-                            _( "No message today." ) );
+    auto motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
+                           _( "No message today." ) );
+
+    std::ostringstream buffer;
+    mmenu_motd.clear();
+    for( auto &line : motd ) {
+        buffer << ( line.empty() ? " " : line ) << std::endl;
+    }
+    mmenu_motd = "<color_light_red>" + buffer.str() + "</color>";
+
+    buffer.str( "" );
+
     // Credits
     mmenu_credits.clear();
-    std::vector<std::string> buffer;
     read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
-    "credits" ), [&buffer, this]( std::istream & stream ) {
+    "credits" ), [&buffer]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
-            if( line[0] == '#' ) {
-                continue;
-            } else {
-                buffer.push_back( line );
-            }
-            if( buffer.size() > 14 || line.empty() ) {
-                std::ostringstream ss;
-                for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
-                    ss << *it << std::endl;
-                }
-                mmenu_credits.push_back( ss.str() );
-                buffer.clear();
+            if( line[0] != '#' ) {
+                buffer << ( line.empty() ? " " : line ) << std::endl;
             }
         }
     } );
-    if( !buffer.empty() ) {
-        std::ostringstream ss;
-        for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
-            ss << *it << std::endl;
-        }
-        mmenu_credits.push_back( ss.str() );
-    }
+
+    mmenu_credits = buffer.str();
+
     if( mmenu_credits.empty() ) {
-        mmenu_credits.push_back( _( "No credits information found." ) );
+        mmenu_credits = _( "No credits information found." );
     }
 
     // fill menu with translated menu items
@@ -310,19 +317,36 @@ std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
     return hotkeys;
 }
 
-void main_menu::display_credits()
+void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
 {
-    // AStyle got this redundant indent
-    catacurses::window w_credits_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                          ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                          ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    catacurses::window w_credits = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                   1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                   1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
-    draw_border( w_credits_border, BORDER_COLOR, _( " CREDITS " ) );
-    wrefresh( w_credits_border );
-    catacurses::refresh();
-    multipage( w_credits, mmenu_credits );
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                  ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                  ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+
+    catacurses::window w_text = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+
+    draw_border( w_border, BORDER_COLOR, title );
+
+    int width = FULL_SCREEN_WIDTH - 2;
+    int height = FULL_SCREEN_HEIGHT - 2;
+    const auto vFolded = foldstring( text, width );
+    int iLines = vFolded.size();
+
+    if( selected < 0 ) {
+        selected = 0;
+    } else if( iLines < height ) {
+        selected = 0;
+    } else if( selected >= iLines - height ) {
+        selected = iLines - height;
+    }
+
+    fold_and_print_from( w_text, 0, 0, width, selected, c_light_gray, text );
+
+    draw_scrollbar( w_border, selected, height, iLines, 1, 0, BORDER_COLOR, true );
+    wrefresh( w_border );
+    wrefresh( w_text );
     catacurses::refresh();
 }
 
@@ -378,11 +402,15 @@ bool main_menu::opening_screen()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "DELETE_TEMPLATE" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
 
     g->u = player();
+
+    int sel_line = 0;
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->all_worldnames().empty() ) {
@@ -390,18 +418,14 @@ bool main_menu::opening_screen()
     }
 
     while( !start ) {
-        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
+        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
 
         if( layer == 1 ) {
-            if( sel1 == 0 ) { // Print the MOTD.
-                const int motdy = ( iMenuOffsetY - mmenu_motd.size() ) * 2 / 3;
-                const int motdx = 8 + extra_w / 2;
-                for( size_t i = 0; i < mmenu_motd.size(); i++ ) {
-                    mvwprintz( w_open, motdy + i, motdx, c_light_red, "%s", mmenu_motd[i].c_str() );
-                }
+            if( sel1 == 0 ) { // Print MOTD.
+                display_text( mmenu_motd, "MOTD", sel_line );
 
-                wrefresh( w_open );
-                catacurses::refresh();
+            } else if( sel1 == 7 ) { // Print Credits.
+                display_text( mmenu_credits, "Credits", sel_line );
             }
 
             std::string action = handle_input_timeout( ctxt );
@@ -423,6 +447,7 @@ bool main_menu::opening_screen()
                     action = "CONFIRM";
                 }
             } else if( action == "LEFT" ) {
+                sel_line = 0;
                 if( sel1 > 0 ) {
                     sel1--;
                 } else {
@@ -430,24 +455,31 @@ bool main_menu::opening_screen()
                 }
                 on_move();
             } else if( action == "RIGHT" ) {
+                sel_line = 0;
                 if( sel1 < 8 ) {
                     sel1++;
                 } else {
                     sel1 = 0;
                 }
                 on_move();
+            } else if( ( sel1 == 0 || sel1 == 7 ) && ( action == "UP" || action == "DOWN" ||
+                       action == "PAGE_UP" || action == "PAGE_DOWN" ) ) {
+                if( action == "UP" || action == "PAGE_UP" ) {
+                    sel_line--;
+                } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+                    sel_line++;
+                }
+
             }
-            if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 ) {
+            if( ( action == "UP" || action == "CONFIRM" ) && sel1 != 0 && sel1 != 7 ) {
                 if( sel1 == 6 ) {
                     display_help();
-                } else if( sel1 == 7 ) {
-                    display_credits();
                 } else if( sel1 == 8 ) {
                     return false;
                 } else {
                     sel2 = 0;
                     layer = 2;
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
+                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
 
                     switch( sel1 ) {
                         case 1:
@@ -580,7 +612,7 @@ bool main_menu::opening_screen()
                         get_options().show( true );
                         // The language may have changed- gracefully handle this.
                         init_strings();
-                        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
+                        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
                         ctxt_default.display_menu();
@@ -619,7 +651,7 @@ bool main_menu::new_character_tab()
 
     bool start = false;
     while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
-        print_menu( w_open, 1, iMenuOffsetX, iMenuOffsetY, true );
+        print_menu( w_open, 1, iMenuOffsetX, iMenuOffsetY );
         if( layer == 2 && sel1 == 1 ) {
             // Then choose custom character, random character, preset, etc
             if( MAP_SHARING::isSharing() &&
@@ -802,7 +834,7 @@ bool main_menu::load_character_tab()
 {
     bool start = false;
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
-        print_menu( w_open, 2, iMenuOffsetX, iMenuOffsetY, true );
+        print_menu( w_open, 2, iMenuOffsetX, iMenuOffsetY );
         const auto all_worldnames = world_generator->all_worldnames();
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
@@ -941,7 +973,7 @@ bool main_menu::load_character_tab()
 void main_menu::world_tab()
 {
     while( sel1 == 3 && ( layer == 2 || layer == 3 ) ) {
-        print_menu( w_open, 3, iMenuOffsetX, iMenuOffsetY, true );
+        print_menu( w_open, 3, iMenuOffsetX, iMenuOffsetY );
         if( layer == 3 ) { // World Menu
             // Show options for Destroy, Reset worlds.
             // Reset and Destroy ask for world to modify.
@@ -1096,4 +1128,49 @@ void main_menu::world_tab()
             }
         }
     } // end while layer == ...
+}
+
+std::string main_menu::halloween_spider()
+{
+    static const std::string spider =
+        "\\ \\ \\/ / / / / / / /\n"
+        " \\ \\/\\/ / / / / / /\n"
+        "\\ \\/__\\/ / / / / /\n"
+        " \\/____\\/ / / / /\n"
+        "\\/______\\/ / / /\n"
+        "/________\\/ / /\n"
+        "__________\\/ /\n"
+        "___________\\/\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "        |\n"
+        "  , .   |  . ,\n"
+        "  { | ,--, | }\n"
+        "   \\\\{~~~~}//\n"
+        "  /_/ {<color_c_red>..</color>} \\_\\\n"
+        "  { {      } }\n"
+        "  , ,      , .";
+
+    return spider;
+}
+
+std::string main_menu::halloween_graves()
+{
+    static const std::string graves =
+        "                    _\n"
+        "        -q       __(\")_\n"
+        "         (\\      \\_  _/\n"
+        " .-.   .-''\"'.     |/\n"
+        "|RIP|  | RIP |   .-.\n"
+        "|   |  |     |  |RIP|\n"
+        ";   ;  |     | ,'---',";
+
+    return graves;
 }

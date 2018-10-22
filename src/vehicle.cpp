@@ -740,6 +740,7 @@ int vehicle::part_power( int const index, bool const at_full_hp ) const
 
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
+// for motor consumption see @ref vpart_info::energy_consumption instead
 int vehicle::part_epower( int const index ) const
 {
     int e = part_info( index ).epower;
@@ -1007,6 +1008,15 @@ bool vehicle::can_mount( int const dx, int const dy, const vpart_id &id ) const
         }
         if( !anchor_found ) {
             return false;
+        }
+    }
+
+    //Turret mounts must NOT be installed on other (moded) turret mounts
+    if( part.has_flag( "TURRET_MOUNT" ) ) {
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
+                return false;
+            }
         }
     }
 
@@ -1278,7 +1288,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
     return parts.size() - 1;
 }
 
-bool vehicle::find_rackable_vehicle( std::vector<std::vector<int>> list_of_racks )
+bool vehicle::find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks )
 {
     for( auto this_bike_rack : list_of_racks ) {
         std::vector<vehicle *> carry_vehs;
@@ -1308,7 +1318,7 @@ bool vehicle::find_rackable_vehicle( std::vector<std::vector<int>> list_of_racks
     return false;
 }
 
-bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_parts )
+bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts )
 {
     struct mapping {
         std::vector<int> carry_parts_here;
@@ -1585,7 +1595,7 @@ void vehicle::remove_carried_flag()
     }
 }
 
-bool vehicle::remove_carried_vehicle( std::vector<int> carried_parts )
+bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
 {
     if( carried_parts.empty() ) {
         return false;
@@ -1668,6 +1678,9 @@ bool vehicle::find_and_split_vehicles( int exclude )
     for( cnt = 0 ; cnt < 4 ; cnt++ ) {
         int test_part = -1;
         for( auto p : valid_parts ) {
+            if( parts[ p ].removed ) {
+                continue;
+            }
             if( checked_parts.find( p ) == checked_parts.end() ) {
                 test_part = p;
                 break;
@@ -1708,6 +1721,9 @@ bool vehicle::find_and_split_vehicles( int exclude )
                 std::vector<int> all_neighbor_parts = parts_at_relative( dx, dy );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
+                    if( parts[ p ].removed ) {
+                        continue;
+                    }
                     if( part_info( p ).location == part_location_structure ) {
                         neighbor_struct_part = p;
                         break;
@@ -1729,14 +1745,13 @@ bool vehicle::find_and_split_vehicles( int exclude )
         if( success ) {
             // update the active cache
             shift_parts( point( 0, 0 ) );
-            part_removal_cleanup();
             return true;
         }
     }
     return false;
 }
 
-void vehicle::relocate_passengers( std::vector<player *> passengers )
+void vehicle::relocate_passengers( const std::vector<player *> &passengers )
 {
     const auto boardables = parts_with_feature( "BOARDABLE" );
     for( player *passenger : passengers ) {
@@ -1760,9 +1775,9 @@ void vehicle::relocate_passengers( std::vector<player *> passengers )
 // @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
 // in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
 // at those mount points
-bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
-                              std::vector<vehicle *> new_vehicles,
-                              std::vector<std::vector <point>> new_mounts )
+bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
+                              const std::vector<vehicle *> &new_vehicles,
+                              const std::vector<std::vector <point>> &new_mounts )
 {
     bool did_split = false;
     size_t i = 0;
@@ -1873,7 +1888,7 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
     return did_split;
 }
 
-bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs )
+bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs )
 {
     std::vector<vehicle *> null_vehicles;
     std::vector<std::vector <point>> null_mounts;
@@ -2032,7 +2047,7 @@ int vehicle::part_with_feature_at_relative( const point &pt, const std::string &
 int vehicle::avail_part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
 {
     int part_a = part_with_feature( part, flag, unbroken );
-    if( ( part_a > 0 ) && parts[ part_a ].is_available() ) {
+    if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
     return -1;
@@ -2047,7 +2062,7 @@ int vehicle::avail_part_with_feature_at_relative( const point &pt, const std::st
         bool unbroken ) const
 {
     int part_a = part_with_feature_at_relative( pt, flag, unbroken );
-    if( ( part_a > 0 ) && parts[ part_a ].is_available() ) {
+    if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
     return -1;
@@ -2634,8 +2649,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
         // don't count frozen liquid
-        if( rhs.is_tank() && rhs.ammo_remaining() > 0 &&
-            rhs.base.contents.front().made_of( SOLID ) ) {
+        if( rhs.is_tank() && rhs.base.contents_made_of( SOLID ) ) {
             return static_cast<long>( lhs );
         }
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
@@ -3170,12 +3184,8 @@ std::map<itype_id, int> vehicle::fuel_usage() const
             continue;
         }
 
-        // @todo: Get rid of this special case
-        if( info.fuel_type == fuel_type_battery ) {
-            // Motor epower is in negatives
-            ret[ fuel_type_battery ] -= epower_to_power( part_epower( e ) );
-        } else if( !is_perpetual_type( i ) ) {
-            int usage = part_power( e );
+        if( !is_perpetual_type( i ) ) {
+            int usage = info.energy_consumption;
             if( parts[ e ].faults().count( fault_filter_air ) ) {
                 usage *= 2;
             }
@@ -3212,7 +3222,7 @@ void vehicle::consume_fuel( double load = 1.0 )
         int amnt_fuel_use = fuel_pr.second;
 
         // In kilojoules
-        double amnt_precise = double( amnt_fuel_use );
+        double amnt_precise = double( amnt_fuel_use ) / 1000;
         amnt_precise *= load * ( 1.0 + st * st * 100.0 );
         double remainder = fuel_remainder[ ft ];
         amnt_precise -= remainder;
@@ -3270,11 +3280,11 @@ void vehicle::power_parts()
     }
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
+    // Electric motor consumption not included, see @ref vpart_info::energy_consumption
     int engine_epower = 0;
     if( engine_on ) {
         for( size_t e = 0; e < engines.size(); ++e ) {
-            // Electric engines consume power when actually used, not passively
-            if( is_engine_on( e ) && !is_engine_type( e, fuel_type_battery ) ) {
+            if( is_engine_on( e ) ) {
                 engine_epower += part_epower( engines[e] );
             }
         }
@@ -4453,6 +4463,10 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
 int vehicle::damage_direct( int p, int dmg, damage_type type )
 {
+    // Make sure p is within range and hasn't been removed already
+    if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
+        return dmg;
+    }
     if( parts[p].is_broken() ) {
         return break_off( p, dmg );
     }

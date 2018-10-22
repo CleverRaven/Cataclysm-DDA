@@ -601,6 +601,13 @@
   },
   {
     "type": "keybinding",
+    "id": "VIEW_MOD_DESCRIPTION",
+    "category": "MODMANAGER_DIALOG",
+    "name": "View full mod description",
+    "bindings": [ { "input_method": "keyboard", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_MOD",
     "category": "MODMANAGER_DIALOG",
     "name": "Move selected mod up",
@@ -1377,6 +1384,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Haul items along the ground",
+    "category": "DEFAULTMODE",
+    "id": "haul",
+    "bindings": [ { "input_method": "keyboard", "key": "\\" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Zone activities",
     "category": "DEFAULTMODE",
     "id": "loot",
@@ -1496,7 +1510,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Select Unarmed Style",
+    "name": "Select Martial Arts Style",
     "category": "DEFAULTMODE",
     "id": "pick_style",
     "bindings": [ { "input_method": "keyboard", "key": "_" } ]
@@ -1770,9 +1784,27 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Auto pulp or butcher",
+    "name": "Toggle Auto Features",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_features"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Pulp/Butcher",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_pulp_butcher"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Mining",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_mining"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Foraging",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_foraging"
   },
   {
     "type": "keybinding",
@@ -2424,5 +2456,47 @@
     "category": "COLORS",
     "name": "Load color template",
     "bindings": [ { "input_method": "keyboard", "key": "t" }, { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YESNO",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YESNO",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" }, { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" }, { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "IGNORE",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Ignore further distractions and finish",
+    "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "POPUP_WAIT",
+    "name": "Cancel popup",
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "keyboard", "key": "SPACE" }, { "input_method": "keyboard", "key": "RETURN" } ]
   }
 ]

@@ -92,6 +92,8 @@ enum action_id : int {
     ACTION_PICKUP,
     /** Grab or let go of an object */
     ACTION_GRAB,
+    /** Haul pile of items, or let go of them */
+    ACTION_HAUL,
     /** Butcher or disassemble objects in current square */
     ACTION_BUTCHER,
     /** Chat with something */
@@ -256,8 +258,14 @@ enum action_id : int {
     ACTION_TOGGLE_PIXEL_MINIMAP,
     /** Reload current tileset */
     ACTION_RELOAD_TILESET,
-    /** Turn auto pulp or butcher on/off */
+    /** Turn auto features on/off */
+    ACTION_TOGGLE_AUTO_FEATURES,
+    /** Change auto pulp/butcher mode */
     ACTION_TOGGLE_AUTO_PULP_BUTCHER,
+    /** Turn auto mining on/off */
+    ACTION_TOGGLE_AUTO_MINING,
+    /** Turn auto foraging on/off */
+    ACTION_TOGGLE_AUTO_FORAGING,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/

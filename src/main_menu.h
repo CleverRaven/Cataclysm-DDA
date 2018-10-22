@@ -21,8 +21,8 @@ class main_menu
     private:
         // ASCII art that says "Cataclysm Dark Days Ahead"
         std::vector<std::string> mmenu_title;
-        std::vector<std::string> mmenu_motd;
-        std::vector<std::string> mmenu_credits;
+        std::string mmenu_motd;
+        std::string mmenu_credits;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector<std::string> vWorldSubItems;
         std::vector< std::vector<std::string> > vWorldHotkeys;
@@ -92,7 +92,8 @@ class main_menu
          * @param iOffsetX Offset of menu items, x coordinate
          * @param spacing: How many spaces to print between each menu item
          */
-        void print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems, size_t iSel,
+        void print_menu_items( const catacurses::window &w_in, const std::vector<std::string> &vItems,
+                               size_t iSel,
                                int iOffsetY, int iOffsetX, int spacing = 1 );
 
         /**
@@ -105,12 +106,15 @@ class main_menu
          * @param bShowDDA Whether to show "Dark Days Ahead" banner
          */
         void print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
-                         int iMenuOffsetY, bool bShowDDA = true );
+                         int iMenuOffsetY );
 
-        void display_credits();
+        void display_text( const std::string &text, const std::string &title, int &selected );
 
         void init_windows();
         std::string handle_input_timeout( input_context &ctxt );
+
+        std::string halloween_spider();
+        std::string halloween_graves();
 };
 
 #endif

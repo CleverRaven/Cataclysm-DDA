@@ -423,6 +423,7 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEBBED( "WEBBED" );
@@ -509,6 +510,7 @@ player::player() : Character()
     controlling_vehicle = false;
     grab_point = {0, 0, 0};
     grab_type = OBJECT_NONE;
+    hauling = false;
     move_mode = "walk";
     style_selected = style_none;
     keep_hands_free = false;
@@ -1500,7 +1502,7 @@ int player::floor_bedding_warmth( const tripoint &pos )
     if( furn_at_pos == f_bed ) {
         floor_bedding_warmth += 1000;
     } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
-               furn_at_pos == f_sofa ) {
+               furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ) {
         floor_bedding_warmth += 500;
     } else if( veh_bed && veh_seat ) {
         // BED+SEAT is intentionally worse than just BED
@@ -2999,6 +3001,9 @@ void player::toggle_move_mode()
     if( move_mode == "walk" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
             move_mode = "run";
+            if( is_hauling() ) {
+                stop_hauling();
+            }
             add_msg(_("You start running."));
         } else {
             add_msg(m_bad, _("You're too tired to run."));
@@ -3496,18 +3501,20 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
         // i.e. if the body part has a sum of 100 coverage from filthy clothing,
         // each point of damage has a 1% change of causing infection.
-        const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-        const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-        const int infection_chance = ( combined_dam * sum_cover ) / 100;
-        if( x_in_y( infection_chance, 100 ) ) {
-            if( has_effect( effect_bite, bp ) ) {
-                add_effect( effect_bite, 40_minutes, bp, true );
-            } else if( has_effect( effect_infected, bp ) ) {
-                add_effect( effect_infected, 25_minutes, bp, true );
-            } else {
-                add_effect( effect_bite, 1_turns, bp, true );
+        if( sum_cover > 0 ) {
+            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
+            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
+            const int infection_chance = ( combined_dam * sum_cover ) / 100;
+            if( x_in_y( infection_chance, 100 ) ) {
+                if( has_effect( effect_bite, bp ) ) {
+                    add_effect( effect_bite, 40_minutes, bp, true );
+                } else if( has_effect( effect_infected, bp ) ) {
+                    add_effect( effect_infected, 25_minutes, bp, true );
+                } else {
+                    add_effect( effect_bite, 1_turns, bp, true );
+                }
+                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
             }
-            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
         }
     }
 
@@ -4280,7 +4287,7 @@ void player::check_needs_extremes()
 
                 mod_healthy_mod( -5, 0 );
             }
-            // else you pass out for 20 hours, guaranteed 
+            // else you pass out for 20 hours, guaranteed
 
             // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
             // Note: these can coexist with fatigue-related microsleeps
@@ -4302,7 +4309,7 @@ void player::check_needs_extremes()
 
                     if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
                         fall_asleep( 20_hours );
-                    } 
+                    }
                     else if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
                         fall_asleep( 16_hours );
                     }
@@ -7577,8 +7584,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
             // don't try to unload frozen liquids
-            if( ammo->is_watertight_container() &&
-                ammo->contents.front().made_of( SOLID ) ) {
+            if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
             }
             auto id = ( ammo->is_ammo_container() || ammo->is_watertight_container() )
@@ -7764,7 +7770,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
 
 ret_val<bool> player::can_wield( const item &it ) const
 {
-    if( it.made_of( LIQUID, true ) ) {
+    if( it.made_of_from_type( LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
@@ -8161,7 +8167,7 @@ void player::mend_item( item_location&& obj, bool interactive )
         menu.text = _( "Mend which fault?" );
         menu.return_invalid = true;
         menu.desc_enabled = true;
-        menu.desc_lines = 12;
+        menu.desc_lines = 0; // Let uimenu handle description height
 
         int w = 80;
 
@@ -8188,10 +8194,7 @@ void player::mend_item( item_location&& obj, bool interactive )
             std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
             std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
 
-            auto name = f.first->name();
-            name += std::string( std::max( w - utf8_width( name, true ), 0 ), ' ' );
-
-            menu.addentry_desc( -1, true, -1, name, descr.str() );
+            menu.addentry_desc( -1, true, -1, f.first->name(), descr.str() );
         }
         menu.query();
         if( menu.ret < 0 ) {
@@ -8394,7 +8397,14 @@ bool player::wear_item( const item &to_wear, bool interactive )
     const bool was_deaf = is_deaf();
     const bool supertinymouse = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     last_item = to_wear.typeId();
-    worn.push_back(to_wear);
+
+    // By default we put this item on after the last item on the same or any
+    // lower layer.
+    auto position = std::find_if(
+        worn.rbegin(), worn.rend(),
+        [&](const item& w) { return w.get_layer() <= to_wear.get_layer(); }
+    );
+    item &new_item = *worn.insert( position.base(), to_wear );
 
     if( interactive ) {
         add_msg_player_or_npc(
@@ -8415,7 +8425,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
         if( !was_deaf && is_deaf() ) {
             add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
-        if( supertinymouse && to_wear.has_flag( "UNDERSIZE" ) ) {
+        if( supertinymouse && !to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning, _( "This %s is too big to wear comfortably! Maybe it could be refitted..."), to_wear.tname().c_str() );
         } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning, _( "This %s is too small to wear comfortably! Maybe it could be refitted..."), to_wear.tname().c_str() );
@@ -8424,7 +8434,6 @@ bool player::wear_item( const item &to_wear, bool interactive )
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
     }
 
-    item &new_item = worn.back();
     new_item.on_wear( *this );
 
     inv.update_invlet( new_item );
@@ -9866,6 +9875,7 @@ void player::try_to_sleep( const time_duration &dur )
     bool webforce = false;
     bool websleeping = false;
     bool in_shell = false;
+    bool watersleep = false;
     if (has_trait( trait_CHLOROMORPH )) {
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
@@ -9920,15 +9930,25 @@ void player::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
+    if( has_trait( trait_WATERSLEEP ) ) {
+        if( underwater ) {
+            add_msg_if_player( m_good, _( "You lay beneath the waves' embrace, gazing up through the water's surface..." ) );
+            watersleep = true;
+        } else if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse..." ) );
+            watersleep = true;
+        }
+    }
     if(!plantsleep && (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
-         furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
+         furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ||
+         furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
          vp.part_with_feature( "SEAT" ) ||
          vp.part_with_feature( "BED" ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
-    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay) {
+    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay && !watersleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
@@ -9951,6 +9971,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     bool websleep = has_trait( trait_WEB_WALKER );
     bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) || ( has_trait( trait_WEB_WEAVER ) ) );
     bool in_shell = has_active_mutation( trait_SHELL2 );
+    bool watersleep = has_trait( trait_WATERSLEEP );
 
     const optional_vpart_position vp = g->m.veh_at( p );
     const maptile tile = g->m.maptile_at( p );
@@ -9983,7 +10004,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort += 0 + (int)comfort_level::comfortable;
         }
         else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
-                 furn_at_pos == f_sofa ) {
+                 furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ) {
             comfort += 1 + (int)comfort_level::slightly_comfortable;
         }
         // Web sleepers can use their webs if better furniture isn't available
@@ -10041,9 +10062,13 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
                 comfort = (int)comfort_level::uncomfortable;
             }
         }
-    }
+    //Has watersleep
+    } else if( watersleep ) {
+        if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+            comfort += (int)comfort_level::very_comfortable;
+        }
     // Has webforce
-    else {
+    } else {
         if( web >= 3 ) {
             // Thick Web and you're good to go
             comfort += (int)comfort_level::very_comfortable;
@@ -11035,6 +11060,9 @@ bool player::has_activity(const activity_id type) const
 
 void player::cancel_activity()
 {
+    if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
+        stop_hauling();
+    }
     // Clear any backlog items that aren't auto-resume.
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
         if( backlog_item->auto_resume ) {
@@ -11441,6 +11469,29 @@ object_type player::get_grab_type() const
     return grab_type;
 }
 
+void player::start_hauling()
+{
+    add_msg( _( "You start hauling items along the ground." ) );
+    if( is_armed() ) {
+        add_msg( m_warning, _( "Your hands are not free, which makes hauling slower." ) );
+    }
+    hauling = true;
+}
+
+void player::stop_hauling()
+{
+    add_msg( _( "You stop hauling items." ) );
+    hauling = false;
+    if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) ) {
+        cancel_activity();
+    }
+}
+
+bool player::is_hauling() const
+{
+    return hauling;
+}
+
 bool player::has_weapon() const
 {
     return !unarmed_attack();
@@ -11582,167 +11633,37 @@ bool player::should_show_map_memory()
     return show_map_memory;
 }
 
-memorized_terrain_tile player::get_memorized_terrain( const tripoint &pos ) const
+memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const
 {
-    return player_map_memory.get_memorized_terrain( pos );
+    return player_map_memory.get_tile( pos );
 }
 
 void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation )
 {
-    player_map_memory.memorize_tile( pos, ter, subtile, rotation );
+    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
 }
 
-void player::finalize_tile_memory()
+void player::memorize_symbol( const tripoint &pos, const long symbol )
 {
-    player_map_memory.finalize_tile_memory( max_memorized_submaps() );
+    player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
 }
 
-void player::memorize_terrain_curses( const tripoint &pos, const long symbol )
+long player::get_memorized_symbol( const tripoint &p ) const
 {
-    player_map_memory.memorize_terrain_symbol( pos, symbol );
+    return player_map_memory.get_symbol( p );
 }
 
-void player::finalize_terrain_memory_curses()
-{
-    player_map_memory.finalize_terrain_memory_curses( max_memorized_submaps() );
-}
-
-long player::get_memorized_terrain_curses( const tripoint &p ) const
-{
-    return player_map_memory.get_memorized_terrain_curses( p );
-}
-
-size_t player::max_memorized_submaps() const
+size_t player::max_memorized_tiles() const
 {
     if( has_active_bionic( bio_memory ) ) {
-        return 20000; // 5000 overmap tiles
+        return SEEX * SEEY * 20000; // 5000 overmap tiles
     } else if( has_trait( trait_FORGETFUL ) ) {
-        return 200; // 50 overmap tiles
+        return SEEX * SEEY * 200; // 50 overmap tiles
     } else if( has_trait( trait_GOODMEMORY ) ) {
-        return 800; // 200 overmap tiles
+        return SEEX * SEEY * 800; // 200 overmap tiles
     }
-    return 400; // 100 overmap tiles
-
-}
-
-memorized_terrain_tile map_memory::get_memorized_terrain( const tripoint &pos ) const
-{
-    const tripoint p = g->m.getabs( pos );
-    if( memorized_terrain.find( p ) != memorized_terrain.end() ) {
-        return memorized_terrain.at( p );
-    }
-    return { "", 0, 0 };
-}
-
-void map_memory::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                                const int rotation )
-{
-    memorized_terrain_tmp[pos] = { ter, subtile, rotation };
-}
-
-void map_memory::finalize_tile_memory( size_t max_submaps )
-{
-    memorize_tiles( memorized_terrain_tmp, max_submaps );
-    memorized_terrain_tmp.clear();
-}
-
-void map_memory::memorize_tiles( const std::map<tripoint, memorized_terrain_tile> &tiles,
-                                 const size_t max_submaps )
-{
-    std::set<tripoint> submaps;
-    for( auto i : tiles ) {
-        const tripoint p = g->m.getabs( i.first );
-        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
-        memorized_terrain[p] = i.second;
-    }
-
-    update_submap_memory( submaps, max_submaps );
-}
-
-void map_memory::update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps )
-{
-    std::set<tripoint> erase;
-    for( auto i : submaps ) {
-        std::vector<tripoint>::iterator position = std::find( memorized_submaps.begin(),
-                memorized_submaps.end(), i );
-        if( position != memorized_submaps.end() ) {
-            memorized_submaps.erase( position );
-        }
-        memorized_submaps.push_back( i );
-    }
-
-    while( memorized_submaps.size() > max_submaps ) {
-        erase.insert( memorized_submaps.front() );
-        memorized_submaps.erase( memorized_submaps.begin() );
-    }
-
-    clear_submap_memory( erase );
-}
-
-void map_memory::clear_submap_memory( const std::set<tripoint> &erase )
-{
-    for( auto it = memorized_terrain.cbegin(); it != memorized_terrain.cend(); ) {
-        bool delete_this = false;
-        for( auto i : erase ) {
-            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
-                delete_this = true;
-                break;
-            }
-        }
-        if( delete_this ) {
-            memorized_terrain.erase( it++ );
-        } else {
-            ++it;
-        }
-    }
-    for( auto it = memorized_terrain_curses.cbegin(); it != memorized_terrain_curses.cend(); ) {
-        bool delete_this = false;
-        for( auto i : erase ) {
-            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
-                delete_this = true;
-                break;
-            }
-        }
-        if( delete_this ) {
-            memorized_terrain_curses.erase( it++ );
-        } else {
-            ++it;
-        }
-    }
-}
-
-void map_memory::memorize_terrain_symbol( const tripoint &pos, const long symbol )
-{
-    memorized_terrain_curses_tmp[pos] = symbol;
-}
-
-void map_memory::finalize_terrain_memory_curses( const size_t max_submaps )
-{
-    memorize_terrain_symbols( memorized_terrain_curses_tmp, max_submaps );
-    memorized_terrain_curses_tmp.clear();
-}
-
-void map_memory::memorize_terrain_symbols( const std::map<tripoint, long> &tiles,
-        size_t max_submaps )
-{
-    std::set<tripoint> submaps;
-    for( auto i : tiles ) {
-        const tripoint p = g->m.getabs( i.first );
-        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
-        memorized_terrain_curses[p] = i.second;
-    }
-
-    update_submap_memory( submaps, max_submaps );
-}
-
-long map_memory::get_memorized_terrain_curses( const tripoint &pos ) const
-{
-    const tripoint p = g->m.getabs( pos );
-    if( memorized_terrain_curses.find( p ) != memorized_terrain_curses.end() ) {
-        return memorized_terrain_curses.at( p );
-    }
-    return 0;
+    return SEEX * SEEY * 400; // 100 overmap tiles
 }
 
 bool player::sees( const tripoint &t, bool ) const
@@ -11997,7 +11918,7 @@ void player::place_corpse()
     g->m.add_item_or_charges( pos(), body );
 }
 
-void player::place_corpse( tripoint om_target )
+void player::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
     bay.load( om_target.x * 2, om_target.y * 2, om_target.z, false );
@@ -12209,6 +12130,13 @@ void player::on_item_takeoff( const item &it )
     lua_callback_args_info.emplace_back( getID() );
     lua_callback_args_info.emplace_back( it );
     lua_callback( "on_player_item_takeoff", lua_callback_args_info );
+}
+
+void player::on_worn_item_washed( const item &it )
+{
+    if( is_worn( it ) ) {
+        morale->on_worn_item_washed( it );
+    }
 }
 
 void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )

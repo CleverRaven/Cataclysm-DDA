@@ -60,7 +60,7 @@ Press q or ESC to return to the game." ) ) + 1;
     headers.push_back( _( "k: Traps" ) );
     headers.push_back( _( "l: Items overview" ) );
     headers.push_back( _( "m: Combat" ) );
-    headers.push_back( _( "n: Unarmed styles" ) );
+    headers.push_back( _( "n: Martial arts styles" ) );
     headers.push_back( _( "o: Survival tips" ) );
     headers.push_back( _( "p: Driving" ) );
 
@@ -628,14 +628,17 @@ std::vector<std::string> text_styles()
     std::vector<std::string> text;
 
     text.push_back( _( "\
-For the unarmed fighter, a variety of fighting styles are available. \
+A variety of fighting styles are available, particularly for the unarmed fighter. \
 You can start with your choice of a single, commonly-taught style by starting with \
 the Martial Arts Training trait. Many, many more can be found in their own traits, \
 learned from manuals or by taking lessons from wandering masters." ) );
 
     text.push_back( string_format( _( "\
-To select a fighting style, press %s. If you are already unarmed, this will make you start using the selected style. \
-Otherwise, it will be locked in as your default unarmed style. To start using it, wield a relevant weapon \
+To select a fighting style, press %s. Some styles are relevant only when you are \
+unarmed, others are compatible with or require certain weapons. \
+If your current weapon is compatible with the chosen style, you will start using \
+the selected style immediately. \
+Otherwise, it will be locked in as your default style. To start using it, wield a relevant weapon \
 or empty your hands, by pressing %s, then the key for the item you are currently wielding. If you wish to \
 prevent yourself from accidentally wielding weapons taken from the ground, enable \"Keep hands free\" found \
 in the styles menu." ),

@@ -299,7 +299,7 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * libintl-lite (tested with a custom fork of libintl-lite 0.5)
   * lua (tested with lua 5.1.5)
   
-Some dependencies need their entire source code copied under the Android project folder so they can be built for Android - see below.
+The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
 
 ### Setup
 
@@ -324,23 +324,6 @@ Export Android environment variables (you can add these to the end of `~/.bashrc
     export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
     export PATH=$PATH:$ANDROID_SDK_ROOT/tools
     export PATH=$PATH:$ANDROID_NDK_ROOT
-
-Install custom Android dependencies. Change directory to `Cataclysm-DDA` (the root folder of this repository) and run:
-
-    git clone https://github.com/a1studmuffin/SDL2 ./android/app/jni/SDL2
-    git clone https://github.com/a1studmuffin/lua ./android/app/jni/lua
-    git clone https://github.com/a1studmuffin/libintl-lite ./android/app/jni/libintl-lite
-
-Install other Android dependencies SDL2_ttf, SDL2_mixer and SDL2_image. You may download the release ZIPs from from https://hg.libsdl.org/ and install them manually under `./android/app/jni/SDL2_xxx`, or clone latest dev with hg:
-
-    hg clone http://hg.libsdl.org/SDL_ttf ./android/app/jni/SDL2_ttf
-    hg clone http://hg.libsdl.org/SDL_mixer ./android/app/jni/SDL2_mixer
-    hg clone http://hg.libsdl.org/SDL_image ./android/app/jni/SDL2_image
-
-Manually generate version and lua bindings:
-
-    make version
-    cd src/lua && lua generate_bindings.lua
 
 ### Android device setup
 
@@ -675,7 +658,7 @@ Note: You may need to bash the close button repeatedly. Or use the task manager 
 
 #### 4. Open an editor that preserves line-endings
 
-Note: Wordpad should do. Or Notepadd++.
+Note: Wordpad should do. Or Notepad++.
 
 #### 5. Open `C:\msys64\etc\pacman.conf` and change:
 

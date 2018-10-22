@@ -1,0 +1,100 @@
+Content Add ROAD flag to concrete floors (and variants).
+Bugfixes Fix incorrect colors
+Bugfixes Fixed crash when butchering
+Content Add lab finale with a standing mutagen tank.  Allow place_liquid in kegs
+Content Alternative full butchery requirements: fiber mat.
+Bugfixes Fixes for butchery and smoking rack.
+Bugfixes Fixed overlapping menu columns after filtering
+Bugfixes Fix UI string overlapping for high dodge values.
+I18N i18n: add missing translate marker in npctalk.cpp
+I18N i18n: camp_menial_sort_pts translate marker
+I18N i18n: make script extract base camp recipe description
+I18N i18n: more missing translate marker in mission_companion.cpp
+Bugfixes Electric firestarter would count as a fire source
+Bugfixes Fixed bow dampening
+Build Removing gunmod crash fix (VS compilation)
+Content Unification into the Mycus is now more readable and thematic
+Infrastructure Add `text=auto` to `.gitattributes`.
+Balance Removed ability of losing existing CBMs due installation fails
+Balance Less requirements for full butchery of small game
+Infrastructure Fix tab indentation introduced into player.cpp
+Infrastructure update vehicleDef.py
+Content Car variant fitted with trunk divider for pets
+Content Police SUV and K9 vehicles
+Bugfixes Limit consoles and cardreaders to only affect within their overmap tile.
+Infrastructure Move fuel and engine parameters to JSON
+Infrastructure Vehicle slowdown: refactor and moderate skidding
+Bugfixes Fix connections in ant tunnels
+Bugfixes Fixed stuck movement after holding numpad keys in SDL version
+Bugfixes Fix issue with huge characters not being able to use splints.
+Bugfixes Fragmentation armor fix
+Interface Remove relative profession cost. (UI-change only)
+Content Alternative full butchery requirements: rope & tree.
+Interface Show activation and deactivation cost for all bionics that have them, not only the ones with charge time defined
+Balance Vary horde speed based on monsters in horde
+Bugfixes Fix crash when NPC tries to take off and drop items where he can't when asked to wear something
+Bugfixes Fix item volumes getting 0.01 added to them
+Bugfixes Fix spaces not ignored at start of new lines in text wrapping
+Interface Remove spaces before maximum range information of guns
+Balance Rebalancing military vehicle weapons
+Interface Activation and Reload of specific items without picking them up
+Interface Sort out my loot, please!
+Bugfixes Fix display of isolated linear tiles
+Interface Skip over empty tabs in faction camp menu
+Balance bundling rags takes less time
+Content Separate gas masks from hazmat suits.
+Infrastructure Load sound packs from user config directory
+Content Adds a harvest for jabberwocks, and adds putrid hearts ❤
+Mods Makes Crazy Cataclysm a little crazier
+Balance obsolete impossible gunmods
+Interface Highlight hints in map ui
+Interface Small QOL change to location sidebar window
+Bugfixes Fix first aid kit json type
+Content Process of adding Whaley's Locations (1 of 9)
+Content Process of adding Whaley's Locations (2 of 9)
+Content Process of adding Whaley's Locations (3 of 9)
+Content Process of adding Whaley's Locations (4 of 9)
+Content Process of adding Whaley's Locations (5 of 9)
+Content Process of adding Whaley's Locations (6 of 9)
+Content Process of adding Whaley's Locations (7 of 9)
+Content Process of adding Whaley's Locations (8 of 9)
+Content Process of adding Whaley's Locations (9 of 9)
+Interface Fix unknown command message when exiting from the ESC menu
+Interface Make mining less tedious, part 2
+Content Zoo Keeper profession
+Content Try 4: NPC Descriptions.
+Interface Improve crop farming.
+Balance Reduced craft time of construction materials
+Content Improve animals carried in vehicle parts
+Infrastructure Convert item damage value to int
+Bugfixes Fix for excessive overheating from fire sources
+Bugfixes Lab bugfixes and fine-tuning
+Bugfixes Move prison start to center of basement, fixes #24433
+Content Metal compactor, works for more than just steel, cannot transmute materials
+Bugfixes Move cost of tilling fix
+Bugfixes Fix for #25244
+Bugfixes Fixed in description: short bow -> shortbow
+Bugfixes Vault mission fixes:
+Interface Changed "What are you" and "Did you see that" to questions
+Bugfixes World Generation Instructions Rework (Fix for #18394)
+Bugfixes Adjusted fish spawn times/amounts and pack sizes (Fix for #12067)
+Content Overmap improvements
+Performance Reduce Submap constant memory requirements of Cosmetic strings
+Build Add PR validator to ensure use of a summary line.
+Content Adds the Kinetic Shock Absorbers CBM
+Content New mutation category: Mouse 🐁
+Interface Ask to ignore repeating distractions when performing an activity
+Mods Yet Another Alt Map Key Mod Update (and some minor consistency fixes)
+Bugfixes Minor food and monster fixes.
+Interface Added filtering by skill to Read menu
+Interface Pain descriptions w/o SELFAWARE trait
+Balance Trailer park monster spawn nerf
+Content Injectable mutagen finales, targetable purifier smart shots.
+Content Shrooms overhaul
+Build Android build standup
+Build Add unit test for NPC movement fixes in #25234
+Content Throwing grenade bandolier
+Interface Change scrollbar from function to class and use it in uimenu
+Content Changing tankbot armament as per #25321
+Content Overhauling tank drone
+Bugfixes Fixes #25603

@@ -38,6 +38,7 @@
 #include "clzones.h"
 #include "cursesdef.h"
 #include "overmap_ui.h"
+#include "popup.h"
 
 #include <chrono>
 
@@ -153,7 +154,7 @@ input_context game::get_player_input( std::string &action )
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        inp_mngr.set_timeout( 125 );
+        ctxt.set_timeout( 125 );
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview( ctxt, action ) || uquit == QUIT_WATCH ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
@@ -272,13 +273,10 @@ input_context game::get_player_input( std::string &action )
             if( uquit == QUIT_WATCH ) {
                 draw_sidebar();
 
-                catacurses::window popup = create_wait_popup_window(
-                                               string_format( _( "Press %s to accept your fate..." ),
-                                                       ctxt.get_desc( "QUIT" ).c_str() ),
-                                               c_red
-                                           );
-
-                wrefresh( popup );
+                query_popup()
+                .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
+                .on_top( true )
+                .show();
 
                 break;
             }
@@ -286,15 +284,15 @@ input_context game::get_player_input( std::string &action )
             //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
             draw_pixel_minimap();
         }
-        inp_mngr.reset_timeout();
+        ctxt.reset_timeout();
     } else {
-        inp_mngr.set_timeout( 125 );
+        ctxt.set_timeout( 125 );
         while( handle_mouseview( ctxt, action ) ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
                 break;
             }
         }
-        inp_mngr.reset_timeout();
+        ctxt.reset_timeout();
     }
 
     return ctxt;
@@ -535,6 +533,29 @@ static void grab()
     }
 }
 
+static void haul()
+{
+    player &u = g->u;
+    map &m = g->m;
+
+    if( u.is_hauling() ) {
+        u.stop_hauling();
+    } else {
+        if( m.veh_at( u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul inside vehicles." ) );
+        } else if( m.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul while in deep water." ) );
+        } else if( !m.can_put_items( u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul items here." ) );
+        } else if( !m.has_items( u.pos() ) ) {
+            add_msg( m_info, _( "There are no items to haul here." ) );
+        } else {
+            u.start_hauling();
+        }
+    }
+}
+
+
 static void smash()
 {
     player &u = g->u;
@@ -623,7 +644,7 @@ static void smash()
 static void wait()
 {
     std::map<int, int> durations;
-    uimenu as_m;
+    uilist as_m;
 
     const bool has_watch = g->u.has_watch();
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
@@ -664,15 +685,12 @@ static void wait()
         add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
     }
 
-    add_menu_item( 12, 'q', _( "Exit" ) );
-
     as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += _( "Wait for how long?" );
-    as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    if( as_m.ret == 12 || durations.count( as_m.ret ) == 0 ) {
+    if( durations.count( as_m.ret ) == 0 ) {
         return;
     }
 
@@ -687,8 +705,7 @@ static void sleep()
 {
     player &u = g->u;
 
-    uimenu as_m;
-    as_m.return_invalid = true;
+    uilist as_m;
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
     as_m.entries.emplace_back( uimenu_entry( 0, true,
@@ -758,7 +775,6 @@ static void sleep()
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.return_invalid = true;
         as_m.text = can_hibernate ?
                     _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
                     _( "You have an alarm clock. Set an alarm?" );
@@ -821,7 +837,7 @@ static void loot()
     }
 
     if( !just_one( flags ) ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Pick action:" );
         menu.desc_enabled = true;
 
@@ -842,8 +858,6 @@ static void loot()
                                 !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
                                 _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
-
-        menu.addentry( None, true, 'q',  _( "Cancel" ) );
 
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -991,8 +1005,8 @@ static void fire()
             }
         }
 
-        std::vector<std::string> options( 1, _( "Cancel" ) );
-        std::vector<std::function<void()>> actions( 1, [] {} );
+        std::vector<std::string> options;
+        std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
@@ -1011,8 +1025,11 @@ static void fire()
                 actions.emplace_back( [&] { u.wield( w ); } );
             }
         }
-        if( options.size() > 1 ) {
-            actions[( uimenu( false, _( "Draw what?" ), options ) ) - 1 ]();
+        if( !options.empty() ) {
+            int sel = uilist( _( "Draw what?" ), options );
+            if( sel >= 0 ) {
+                actions[sel]();
+            }
         }
     }
 
@@ -1410,6 +1427,14 @@ bool game::handle_action()
                 }
                 break;
 
+            case ACTION_HAUL:
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't haul things while you're in your shell." ) );
+                } else {
+                    haul();
+                }
+                break;
+
             case ACTION_BUTCHER:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't butcher while you're in your shell." ) );
@@ -1787,13 +1812,40 @@ bool game::handle_action()
                 reload_tileset();
                 break;
 
+            case ACTION_TOGGLE_AUTO_FEATURES:
+                get_options().get_option( "AUTO_FEATURES" ).setNext();
+                get_options().save();
+                //~ Auto Features are now ON/OFF
+                add_msg( _( "%s are now %s." ),
+                         get_options().get_option( "AUTO_FEATURES" ).getMenuText(),
+                         get_option<bool>( "AUTO_FEATURES" ) ? _( "ON" ) : _( "OFF" ) );
+                break;
+
             case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
                 get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
                 get_options().save();
-                //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
-                add_msg( _( "Auto %1$s is now %2$s." ),
-                         get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(),
-                         get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) );
+                //~ Auto Pulp/Pulp Adjacent/Butcher is now set to x
+                add_msg( _( "%s is now set to %s." ),
+                         get_options().get_option( "AUTO_PULP_BUTCHER" ).getMenuText(),
+                         get_options().get_option( "AUTO_PULP_BUTCHER" ).getValueName() );
+                break;
+
+            case ACTION_TOGGLE_AUTO_MINING:
+                get_options().get_option( "AUTO_MINING" ).setNext();
+                get_options().save();
+                //~ Auto Mining is now ON/OFF
+                add_msg( _( "%s is now %s." ),
+                         get_options().get_option( "AUTO_MINING" ).getMenuText(),
+                         get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
+                break;
+
+            case ACTION_TOGGLE_AUTO_FORAGING:
+                get_options().get_option( "AUTO_FORAGING" ).setNext();
+                get_options().save();
+                //~ Auto Foraging is now set to x
+                add_msg( _( "%s is now set to %s." ),
+                         get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
+                         get_options().get_option( "AUTO_FORAGING" ).getValueName() );
                 break;
 
             case ACTION_DISPLAY_SCENT:

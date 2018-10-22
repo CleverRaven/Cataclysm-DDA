@@ -40,6 +40,9 @@
 #include "string_input_popup.h"
 #include "line.h"
 #include "recipe_groups.h"
+#include "faction_camp.h"
+#include "mission_companion.h"
+#include "npctalk.h"
 
 #include <vector>
 #include <string>
@@ -85,118 +88,6 @@ struct mission_entry {
     bool priority;
     bool possible;
 };
-
-void talk_function::bionic_install( npc &p )
-{
-    std::vector<item *> bionic_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_bionic();
-    } );
-    if( bionic_inv.empty() ) {
-        popup( _( "You have no bionics to install!" ) );
-        return;
-    }
-
-    std::vector<itype_id> bionic_types;
-    std::vector<std::string> bionic_names;
-    for( auto &bio : bionic_inv ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if( !g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() ==  "bio_power_storage" ||
-                bio->typeId() ==  "bio_power_storage_mkII" ) {
-
-                bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() + " - $" + to_string( bio->price( true ) * 2 / 100 ) );
-            }
-        }
-    }
-    // Choose bionic if applicable
-    int bionic_index = 0;
-    bionic_names.push_back( _( "Cancel" ) );
-    bionic_index = menu_vec( false, _( "Which bionic do you wish to have installed?" ),
-                             bionic_names ) - 1;
-    if( bionic_index == ( int )bionic_names.size() - 1 ) {
-        bionic_index = -1;
-    }
-    // Did we cancel?
-    if( bionic_index < 0 ) {
-        popup( _( "You decide to hold off..." ) );
-        return;
-    }
-
-    const item tmp = item( bionic_types[bionic_index], 0 );
-    const itype &it = *tmp.type;
-    unsigned int price = tmp.price( true ) * 2;
-
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure..." ) );
-        return;
-    }
-
-    //Makes the doctor awesome at installing but not perfect
-    if( g->u.install_bionics( it, p, false, 20 ) ) {
-        g->u.cash -= price;
-        p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] );
-    }
-}
-
-void talk_function::bionic_remove( npc &p )
-{
-    bionic_collection all_bio = *g->u.my_bionics;
-    if( all_bio.empty() ) {
-        popup( _( "You don't have any bionics installed..." ) );
-        return;
-    }
-
-    item tmp;
-    std::vector<itype_id> bionic_types;
-    std::vector<std::string> bionic_names;
-    for( auto &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
-            if( bio.id != bionic_id( "bio_power_storage" ) ||
-                bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
-                bionic_types.push_back( bio.id.str() );
-                if( item::type_is_defined( bio.id.str() ) ) {
-                    tmp = item( bio.id.str(), 0 );
-                    bionic_names.push_back( tmp.tname() + " - $" + to_string( 500 + ( tmp.price( true ) / 400 ) ) );
-                } else {
-                    bionic_names.push_back( bio.id.str() + " - $" + to_string( 500 ) );
-                }
-            }
-        }
-    }
-    // Choose bionic if applicable
-    int bionic_index = 0;
-    bionic_names.push_back( _( "Cancel" ) );
-    bionic_index = menu_vec( false, _( "Which bionic do you wish to uninstall?" ),
-                             bionic_names ) - 1;
-    if( bionic_index == ( int )bionic_names.size() - 1 ) {
-        bionic_index = -1;
-    }
-    // Did we cancel?
-    if( bionic_index < 0 ) {
-        popup( _( "You decide to hold off..." ) );
-        return;
-    }
-
-    unsigned int price;
-    if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
-    } else {
-        price = 50000;
-    }
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure..." ) );
-        return;
-    }
-
-    //Makes the doctor awesome at installing but not perfect
-    if( g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
-        g->u.cash -= price;
-        p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-    }
-
-}
 
 void talk_function::companion_mission( npc &p )
 {
@@ -2125,13 +2016,14 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( npc_list.empty() ) {
                     inventory total_inv = g->u.crafting_inventory();
                     std::vector<item *> seed_inv = total_inv.items_with( []( const item & itm ) {
-                        return itm.is_seed();
+                        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
                     } );
                     if( seed_inv.empty() ) {
                         popup( _( "You have no additional seeds to give your companions..." ) );
                         individual_mission( p, _( "begins planting the field..." ), "_faction_exp_plant_" + cur_key.dir );
                     } else {
-                        std::vector<item *> lost_equipment = individual_mission_give_equipment( seed_inv );
+                        std::vector<item *> lost_equipment = individual_mission_give_equipment( seed_inv,
+                                                             _( "Which seeds do you wish to have planted?" ) );
                         individual_mission( p, _( "begins planting the field..." ), "_faction_exp_plant_" + cur_key.dir,
                                             false, lost_equipment );
                     }
@@ -2181,7 +2073,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
 }
 
 npc *talk_function::individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
-                                        bool group, std::vector<item *> equipment, std::string skill_tested, int skill_level )
+                                        bool group, const std::vector<item *> &equipment, const std::string &skill_tested, int skill_level )
 {
     npc *comp = companion_choose( skill_tested, skill_level );
     if( comp == nullptr ) {
@@ -2214,7 +2106,7 @@ npc *talk_function::individual_mission( npc &p, const std::string &desc, const s
 }
 
 std::vector<item *> talk_function::individual_mission_give_equipment( std::vector<item *> equipment,
-        std::string message )
+        const std::string &message )
 {
     std::vector<item *> equipment_lost;
     do {
@@ -2227,14 +2119,8 @@ std::vector<item *> talk_function::individual_mission_give_equipment( std::vecto
         }
 
         // Choose item if applicable
-        int i_index = 0;
-        names.push_back( _( "Done" ) );
-        i_index = menu_vec( false, message.c_str(), names ) - 1;
-        if( i_index == ( int )names.size() - 1 ) {
-            i_index = -1;
-        }
-
-        if( i_index < 0 ) {
+        const int i_index = uilist( message, names );
+        if( i_index < 0 || static_cast<size_t>( i_index ) >= equipment.size() ) {
             return equipment_lost;
         }
         equipment_lost.push_back( equipment[i_index] );
@@ -2518,7 +2404,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
         return;
     }
     std::vector<item *> seed_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_seed();
+        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
     } );
     if( seed_inv.empty() ) {
         popup( _( "You have no seeds to plant!" ) );
@@ -2532,22 +2418,14 @@ void talk_function::field_plant( npc &p, const std::string &place )
     std::vector<std::string> seed_names;
     for( auto &seed : seed_inv ) {
         if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
-            if( seed->typeId() !=  "marloss_seed" && seed->typeId() !=  "fungal_seeds" ) {
-                seed_types.push_back( seed->typeId() );
-                seed_names.push_back( seed->tname() );
-            }
+            seed_types.push_back( seed->typeId() );
+            seed_names.push_back( seed->tname() );
         }
     }
     // Choose seed if applicable
-    int seed_index = 0;
-    seed_names.push_back( _( "Cancel" ) );
-    seed_index = menu_vec( false, _( "Which seeds do you wish to have planted?" ),
-                           seed_names ) - 1;
-    if( seed_index == ( int )seed_names.size() - 1 ) {
-        seed_index = -1;
-    }
+    const int seed_index = uilist( _( "Which seeds do you wish to have planted?" ), seed_names );
     // Did we cancel?
-    if( seed_index < 0 ) {
+    if( seed_index < 0 || static_cast<size_t>( seed_index ) >= seed_types.size() ) {
         popup( _( "You saved your seeds for later." ) );
         return;
     }
@@ -2652,15 +2530,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         return;
     }
     // Choose the crop to harvest
-    int plant_index = 0;
-    plant_names.push_back( _( "Cancel" ) );
-    plant_index = menu_vec( false, _( "Which plants do you want to have harvested?" ),
-                            plant_names ) - 1;
-    if( plant_index == ( int )plant_names.size() - 1 ) {
-        plant_index = -1;
-    }
+    const int plant_index = uilist( _( "Which plants do you want to have harvested?" ), plant_names );
     // Did we cancel?
-    if( plant_index < 0 ) {
+    if( plant_index < 0 || static_cast<size_t>( plant_index ) >= plant_types.size() ) {
         popup( _( "You decided to hold off for now..." ) );
         return;
     }
@@ -2973,7 +2845,7 @@ bool talk_function::labor_return( npc &p )
     return true;
 }
 
-bool talk_function::om_camp_upgrade( npc &comp, const point omt_pos )
+bool talk_function::om_camp_upgrade( npc &comp, const point &omt_pos )
 {
     editmap edit;
 
@@ -3119,12 +2991,12 @@ std::vector<std::string> talk_function::om_all_upgrade_levels( const std::string
     return upgrades;
 }
 
-bool talk_function::om_min_level( std::string target, const std::string &bldg )
+bool talk_function::om_min_level( const std::string &target, const std::string &bldg )
 {
     return ( om_over_level( target, bldg ) >= 0 );
 }
 
-int talk_function::om_over_level( std::string target, const std::string &bldg )
+int talk_function::om_over_level( const std::string &target, const std::string &bldg )
 {
     int diff = 0;
     int phase_target = target.find_last_of( '_' );
@@ -3142,7 +3014,7 @@ int talk_function::om_over_level( std::string target, const std::string &bldg )
     return diff;
 }
 
-bool talk_function::upgrade_return( npc &p, point omt_pos, const std::string &miss )
+bool talk_function::upgrade_return( npc &p, const point &omt_pos, const std::string &miss )
 {
     //Ensure there are no vehicles before we update
     editmap edit;
@@ -3174,7 +3046,7 @@ bool talk_function::upgrade_return( npc &p, point omt_pos, const std::string &mi
     return true;
 }
 
-bool talk_function::camp_gathering_return( npc &p, std::string task )
+bool talk_function::camp_gathering_return( npc &p, const std::string &task )
 {
     npc *comp = companion_choose_return( p, task, calendar::turn - 3_hours );
     if( comp == nullptr ) {
@@ -3292,7 +3164,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
     return true;
 }
 
-bool talk_function::camp_garage_chop_start( npc &p, std::string task )
+bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
 {
     std::string dir = camp_direction( task );
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
@@ -3369,7 +3241,7 @@ bool talk_function::camp_garage_chop_start( npc &p, std::string task )
     return true;
 }
 
-bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bool plant,
+bool talk_function::camp_farm_return( npc &p, const std::string &task, bool harvest, bool plant,
                                       bool plow )
 {
     std::string dir = camp_direction( task );
@@ -3429,16 +3301,9 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
         return false;
     }
 
-    std::vector<item *> seed_inv_tmp = comp->companion_mission_inv.items_with( []( const item & itm ) {
-        return itm.is_seed();
+    std::vector<item *> seed_inv = comp->companion_mission_inv.items_with( []( const item & itm ) {
+        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
     } );
-
-    std::vector<item *> seed_inv;
-    for( auto &seed : seed_inv_tmp ) {
-        if( seed->typeId() !=  "marloss_seed" && seed->typeId() !=  "fungal_seeds" ) {
-            seed_inv.push_back( seed );
-        }
-    }
 
     if( plant && seed_inv.empty() ) {
         popup( _( "No seeds to plant!" ) );
@@ -3614,11 +3479,9 @@ bool talk_function::camp_expansion_select( npc &p )
         pos_expansion_name.push_back( it->first );
         pos_expansion_name_id.push_back( it->second );
     }
-    pos_expansion_name.push_back( _( "Cancel" ) );
 
-    int expan = menu_vec( true, _( "Select an expansion:" ), pos_expansion_name ) - 1;
-    int sz = pos_expansion_name.size();
-    if( expan < 0 || expan >= sz ) {
+    const int expan = uilist( _( "Select an expansion:" ), pos_expansion_name );
+    if( expan < 0 || static_cast<size_t>( expan ) >= pos_expansion_name_id.size() ) {
         popup( _( "You choose to wait..." ) );
         return false;
     }
@@ -3718,7 +3581,7 @@ std::vector<std::pair<std::string, tripoint>> talk_function::om_building_region(
     return om_camp_region;
 }
 
-std::string talk_function::om_simple_dir( point omt_pos, tripoint omt_tar )
+std::string talk_function::om_simple_dir( const point &omt_pos, const tripoint &omt_tar )
 {
     std::string dr = "[";
     if( omt_tar.y < omt_pos.y ) {
@@ -3740,7 +3603,7 @@ std::string talk_function::om_simple_dir( point omt_pos, tripoint omt_tar )
     return dr;
 }
 
-std::string talk_function::camp_farm_description( point omt_pos, bool harvest, bool plots,
+std::string talk_function::camp_farm_description( const point &omt_pos, bool harvest, bool plots,
         bool plow )
 {
     std::vector<std::string> plant_names;
@@ -3844,7 +3707,7 @@ std::string talk_function::camp_car_description( vehicle *car )
     return entry;
 }
 
-std::string talk_function::camp_direction( std::string line )
+std::string talk_function::camp_direction( const std::string &line )
 {
     return line.substr( line.find_last_of( '[' ),
                         line.find_last_of( ']' ) - line.find_last_of( '[' ) + 1 );
@@ -4057,8 +3920,8 @@ bool talk_function::forage_return( npc &p )
     return true;
 }
 
-bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>> group,
-        tripoint om_tgt, bool try_engage )
+bool talk_function::companion_om_combat_check( const std::vector<std::shared_ptr<npc>> &group,
+        const tripoint &om_tgt, bool try_engage )
 {
     if( overmap_buffer.is_safe( om_tgt ) ) {
         //Should work but is_safe is always returning true regardless of what is there.
@@ -4129,9 +3992,9 @@ bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>>
     return true;
 }
 
-bool talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender,
+bool talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &defender,
                                     const std::string &def_desc,
-                                    std::vector< monster * > monsters_fighting, const std::string &att_desc, int advantage )
+                                    const std::vector< monster * > &monsters_fighting, const std::string &att_desc, int advantage )
 {
     std::string adv = "";
     if( advantage < 0 ) {
@@ -4197,9 +4060,9 @@ bool talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender,
     }
 }
 
-void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender,
+void talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &defender,
                                     const std::string &def_desc,
-                                    std::vector<std::shared_ptr<npc>> attacker, const std::string &att_desc, int advantage )
+                                    const std::vector<std::shared_ptr<npc>> &attacker, const std::string &att_desc, int advantage )
 {
     std::string adv = "";
     if( advantage < 0 ) {
@@ -4305,7 +4168,7 @@ bool companion_sort_compare( npc *first, npc *second )
 }
 
 std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
-        std::string skill_tested )
+        const std::string &skill_tested )
 {
     if( skill_tested.empty() ) {
         std::sort( available.begin(), available.end(), companion_sort_compare );
@@ -4332,7 +4195,8 @@ std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
     return available;
 }
 
-std::vector<comp_rank> talk_function::companion_rank( std::vector<npc *> available, bool adj )
+std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc *> &available,
+        bool adj )
 {
     std::vector<comp_rank> raw;
     int max_combat = 0;
@@ -4400,7 +4264,7 @@ std::vector<comp_rank> talk_function::companion_rank( std::vector<npc *> availab
     return adjusted;
 }
 
-npc *talk_function::companion_choose( std::string skill_tested, int skill_level )
+npc *talk_function::companion_choose( const std::string &skill_tested, int skill_level )
 {
     std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
         return g->u.sees( guy.pos() ) && guy.is_friend() &&
@@ -4435,10 +4299,9 @@ npc *talk_function::companion_choose( std::string skill_tested, int skill_level 
         x++;
         npcs.push_back( npc_entry );
     }
-    npcs.push_back( _( "Cancel" ) );
-    int npc_choice = menu_vec( true,
-                               _( "Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]" ), npcs ) - 1;
-    if( npc_choice < 0 || npc_choice >= ( int )available.size() ) {
+    const int npc_choice = uilist(
+                               _( "Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]" ), npcs );
+    if( npc_choice < 0 || static_cast<size_t>( npc_choice ) >= available.size() ) {
         popup( _( "You choose to send no one..." ) );
         return nullptr;
     }
@@ -4488,9 +4351,8 @@ npc *talk_function::companion_choose_return( npc &p, const std::string &id,
     for( auto &elem : available ) {
         npcs.push_back( ( elem )->name );
     }
-    npcs.push_back( _( "Cancel" ) );
-    int npc_choice = menu_vec( true, _( "Who should return?" ), npcs ) - 1;
-    if( npc_choice >= 0 && size_t( npc_choice ) < available.size() ) {
+    const int npc_choice = uilist( _( "Who should return?" ), npcs );
+    if( npc_choice >= 0 && static_cast<size_t>( npc_choice ) < available.size() ) {
         return available[npc_choice];
     }
     popup( _( "No one returns to your party..." ) );
@@ -4581,7 +4443,11 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
 {
     mission_entry miss;
     miss.id = id;
-    miss.name_display = name_display;
+    if( name_display.empty() ) {
+        miss.name_display = id;
+    } else {
+        miss.name_display = name_display;
+    }
     miss.dir = dir;
     miss.priority = priority;
     miss.possible = possible;
@@ -4592,7 +4458,7 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
     if( !possible ) {
         mission_key_vectors[10].push_back( miss );
     }
-    if( dir == "" || dir == "[B]" ) {
+    if( dir.empty() || dir == "[B]" ) {
         mission_key_vectors[1].push_back( miss );
     }
     if( dir == "[N]" ) {
@@ -4643,7 +4509,8 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
     wrefresh( win );
 }
 
-std::string talk_function::name_mission_tabs( npc &p, std::string id, std::string cur_title,
+std::string talk_function::name_mission_tabs( npc &p, const std::string &id,
+        const std::string &cur_title,
         camp_tab_mode cur_tab )
 {
     if( id != "FACTION_CAMP" ) {
@@ -4703,7 +4570,7 @@ std::string talk_function::name_mission_tabs( npc &p, std::string id, std::strin
     return _( "Base Missions" );
 }
 
-std::map<std::string, std::string> talk_function::camp_recipe_deck( std::string om_cur )
+std::map<std::string, std::string> talk_function::camp_recipe_deck( const std::string &om_cur )
 {
     if( om_cur == "ALL" || om_cur == "COOK" || om_cur == "BASE" || om_cur == "FARM" ||
         om_cur == "SMITH" ) {
@@ -4717,7 +4584,7 @@ std::map<std::string, std::string> talk_function::camp_recipe_deck( std::string 
     return cooking_recipes;
 }
 
-int talk_function::camp_recipe_batch_max( const recipe making, inventory total_inv )
+int talk_function::camp_recipe_batch_max( const recipe making, const inventory &total_inv )
 {
     int max_batch = 0;
     int max_checks = 9;
@@ -4738,7 +4605,7 @@ int talk_function::camp_recipe_batch_max( const recipe making, inventory total_i
     return max_batch;
 }
 
-int talk_function::companion_skill_trainer( npc &comp, std::string skill_tested,
+int talk_function::companion_skill_trainer( npc &comp, const std::string &skill_tested,
         time_duration time_worked, int difficulty )
 {
     difficulty = std::max( 1, difficulty );
@@ -4746,7 +4613,7 @@ int talk_function::companion_skill_trainer( npc &comp, std::string skill_tested,
     int total = difficulty * checks;
     int i = 0;
 
-    if( skill_tested == "" || skill_tested == "gathering" ) {
+    if( skill_tested.empty() || skill_tested == "gathering" ) {
         weighted_int_list<skill_id> gathering_practice;
         gathering_practice.add( skill_survival, 80 );
         gathering_practice.add( skill_traps, 5 );
@@ -4801,7 +4668,7 @@ int talk_function::companion_skill_trainer( npc &comp, std::string skill_tested,
     return total;
 }
 
-int talk_function::companion_skill_trainer( npc &comp, skill_id skill_tested,
+int talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_tested,
         time_duration time_worked, int difficulty )
 {
     difficulty = ( ( difficulty <= 0 ) ? difficulty : 1 );
@@ -4811,7 +4678,7 @@ int talk_function::companion_skill_trainer( npc &comp, skill_id skill_tested,
     return total;
 }
 
-int talk_function::om_harvest_furn( npc &comp, point omt_tgt, furn_id f, float chance,
+int talk_function::om_harvest_furn( npc &comp, const point &omt_tgt, const furn_id &f, float chance,
                                     bool force_bash )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
@@ -4842,7 +4709,7 @@ int talk_function::om_harvest_furn( npc &comp, point omt_tgt, furn_id f, float c
     return harvested;
 }
 
-int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float chance,
+int talk_function::om_harvest_ter( npc &comp, const point &omt_tgt, const ter_id &t, float chance,
                                    bool force_bash )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
@@ -4873,7 +4740,8 @@ int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float cha
     return harvested;
 }
 
-int talk_function::om_harvest_trees( npc &comp, tripoint omt_tgt, float chance, bool force_cut,
+int talk_function::om_harvest_trees( npc &comp, const tripoint &omt_tgt, float chance,
+                                     bool force_cut,
                                      bool force_cut_trunk )
 {
     tinymap target_bay;
@@ -4922,7 +4790,7 @@ int talk_function::om_harvest_trees( npc &comp, tripoint omt_tgt, float chance, 
     return harvested;
 }
 
-int talk_function::om_harvest_itm( npc &comp, point omt_tgt, float chance, bool take )
+int talk_function::om_harvest_itm( npc &comp, const point &omt_tgt, float chance, bool take )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
     omt_ref = oter_id( omt_ref.id().c_str() );
@@ -4949,9 +4817,9 @@ int talk_function::om_harvest_itm( npc &comp, point omt_tgt, float chance, bool 
     return harvested;
 }
 
-tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int range,
-                                        std::vector<std::string> possible_om_types, bool must_see,
-                                        bool popup_notice, tripoint source, bool bounce )
+tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, int range,
+                                        const std::vector<std::string> &possible_om_types, bool must_see,
+                                        bool popup_notice, const tripoint &source, bool bounce )
 {
     bool errors = false;
     if( popup_notice ) {
@@ -5017,8 +4885,8 @@ tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int ran
     return om_target_tile( omt_pos, min_range, range, possible_om_types );
 }
 
-void talk_function::om_range_mark( tripoint origin, int range, bool add_notes,
-                                   std::string message )
+void talk_function::om_range_mark( const tripoint &origin, int range, bool add_notes,
+                                   const std::string &message )
 {
     std::vector<tripoint> note_pts;
     //North Limit
@@ -5052,8 +4920,8 @@ void talk_function::om_range_mark( tripoint origin, int range, bool add_notes,
 
 }
 
-void talk_function::om_line_mark( tripoint origin, tripoint dest, bool add_notes,
-                                  std::string message )
+void talk_function::om_line_mark( const tripoint &origin, const tripoint &dest, bool add_notes,
+                                  const std::string &message )
 {
     std::vector<tripoint> note_pts = line_to( origin, dest );
 
@@ -5070,14 +4938,15 @@ void talk_function::om_line_mark( tripoint origin, tripoint dest, bool add_notes
     }
 }
 
-time_duration talk_function::companion_travel_time_calc( tripoint omt_pos, tripoint omt_tgt,
+time_duration talk_function::companion_travel_time_calc( const tripoint &omt_pos,
+        const tripoint &omt_tgt,
         time_duration work, int trips )
 {
     std::vector<tripoint> journey = line_to( omt_pos, omt_tgt );
     return companion_travel_time_calc( journey, work, trips );
 }
 
-time_duration talk_function::companion_travel_time_calc( std::vector<tripoint> journey,
+time_duration talk_function::companion_travel_time_calc( const std::vector<tripoint> &journey,
         time_duration work, int trips )
 {
     //path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
@@ -5133,7 +5002,7 @@ std::string talk_function::camp_trip_description( time_duration total_time,
     return entry;
 }
 
-int talk_function::om_carry_weight_to_trips( npc &comp, std::vector<item *> itms )
+int talk_function::om_carry_weight_to_trips( npc &comp, const std::vector<item *> &itms )
 {
     int trips = 0;
     int total_m = 0;
@@ -5156,8 +5025,9 @@ int talk_function::om_carry_weight_to_trips( npc &comp, std::vector<item *> itms
     return ( trips > trips_v ) ?  trips : trips_v;
 }
 
-bool talk_function::om_set_hide_site( npc &comp, tripoint omt_tgt, std::vector<item *> itms,
-                                      std::vector<item *> itms_rem )
+bool talk_function::om_set_hide_site( npc &comp, const tripoint &omt_tgt,
+                                      const std::vector<item *> &itms,
+                                      const std::vector<item *> &itms_rem )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, comp.posz() );
     omt_ref = oter_id( omt_ref.id().c_str() );
@@ -5282,53 +5152,9 @@ bool talk_function::camp_menial_sort_pts( npc &p, bool reset_pts, bool choose_pt
     return false;
 }
 
-void talk_function::faction_camp_tutorial()
-{
-    std::string slide_overview = _( "Faction Camp Tutorial:\n \n"
-                                    "The faction camp system is designed to give you greater control over your companions by allowing you to "
-                                    "assign them to their own missions.  These missions can range from gathering and crafting to eventual combat "
-                                    "patrols.\n \n"
-                                  );
-    popup( "%s", slide_overview );
-    slide_overview = _( "Faction Camp Tutorial:\n \n"
-                        "<color_light_green>FOOD:</color>  Food is required for or produced during every mission.  Missions that are for a fixed amount of time will "
-                        "require you to pay in advance while repeating missions, like gathering firewood, are paid upon completion.  "
-                        "Not having the food needed to pay a companion will result in a loss of reputation across the faction.  Which "
-                        "can lead to VERY bad things if it gets too low.\n \n"
-                      );
-    popup( "%s", slide_overview );
-    slide_overview = _( "Faction Camp Tutorial:\n \n"
-                        "<color_light_green>SELECTING A SITE:</color>  For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it. "
-                        "Forests are your primary source of construction materials in the early game while fields can be used for farming.  You "
-                        "don't have to be too picky, you can build as many camps as you want but each will require an NPC camp manager and an additional NPC to task out.\n \n"
-                      );
-    popup( "%s", slide_overview );
-    slide_overview = _( "Faction Camp Tutorial:\n \n"
-                        "<color_light_green>UPGRADING:</color>  After you pick a site you will need to find or make materials to upgrade the camp further to access new "
-                        "missions.  The first new missions are focused on gathering materials to upgrade the camp so you don't have to. "
-                        "After two or three upgrades you will have access to the <color_yellow>[Menial Labor]</color> mission which will allow you to task companions "
-                        "with sorting all of the items around your camp into categories.  Later upgrades allow you to send companions to recruit new members, build overmap "
-                        "fortifications, or even conduct combat patrols.\n"
-                      );
-    popup( "%s", slide_overview );
-    slide_overview = _( "Faction Camp Tutorial:\n \n"
-                        "<color_light_green>EXPANSIONS:</color>  When you upgrade your first tent all the way you will unlock the ability to construct expansions. Expansions "
-                        "allow you to specialize each camp you build by focusing on the industries that you need.  A <color_light_green>[Farm]</color> is recommended for "
-                        "players that want to pursue a large faction while a <color_light_green>[Kitchen]</color> is better for players that just want the quality of life "
-                        "improvement of having an NPC do all of their cooking.  A <color_light_green>[Garage]</color> is useful for chop shop type missions that let you "
-                        "trade vehicles for large amounts of parts and resources.  All those resources can be turning into valuable eqiupment in the "
-                        "<color_light_green>[Blacksmith Shop]</color>. You can build an additional expansion every other level after the first is unlocked and when one "
-                        "camp is full you can just as easily build another.\n \n"
-                      );
-    popup( "%s", slide_overview );
-    if( query_yn( _( "Repeat?" ) ) ) {
-        faction_camp_tutorial();
-    }
-}
-
-void talk_function::camp_craft_construction( npc &p, mission_entry cur_key,
-        std::map<std::string, std::string> recipes, const std::string &miss_id,
-        tripoint omt_pos, std::vector<std::pair<std::string, tripoint>> om_expansions )
+void talk_function::camp_craft_construction( npc &p, const mission_entry &cur_key,
+        const std::map<std::string, std::string> &recipes, const std::string &miss_id,
+        const tripoint &omt_pos, const std::vector<std::pair<std::string, tripoint>> &om_expansions )
 {
     for( std::map<std::string, std::string>::const_iterator it = recipes.begin(); it != recipes.end();
          ++it ) {
@@ -5382,7 +5208,7 @@ void talk_function::camp_craft_construction( npc &p, mission_entry cur_key,
 }
 
 std::string talk_function::camp_recruit_evaluation( npc &p, const std::string &base,
-        std::vector<std::pair<std::string, tripoint>> om_expansions,
+        const std::vector<std::pair<std::string, tripoint>> &om_expansions,
         bool raw_score )
 {
     int sbase = om_over_level( "faction_base_camp_11", base ) * 5;
@@ -5443,7 +5269,7 @@ std::string talk_function::camp_recruit_evaluation( npc &p, const std::string &b
     return desc;
 }
 
-void talk_function::camp_recruit_return( npc &p, std::string task, int score )
+void talk_function::camp_recruit_return( npc &p, const std::string &task, int score )
 {
     npc *comp = companion_choose_return( p, task, calendar::turn - 4_days );
     if( comp == nullptr ) {
@@ -5522,9 +5348,8 @@ void talk_function::camp_recruit_return( npc &p, std::string task, int score )
         rec_options.push_back( _( "Make Offer" ) );
         rec_options.push_back( _( "Not Interested" ) );
 
-        rec_m = menu_vec( true, description.c_str(), rec_options ) - 1;
-        int sz = rec_options.size();
-        if( rec_m < 0 || rec_m >= sz ) {
+        rec_m = uilist( description, rec_options );
+        if( rec_m < 0 || rec_m == 3 || static_cast<size_t>( rec_m ) >= rec_options.size() ) {
             popup( _( "You decide you aren't interested..." ) );
             return;
         }
@@ -5562,7 +5387,7 @@ void talk_function::camp_recruit_return( npc &p, std::string task, int score )
     g->load_npcs();
 }
 
-std::vector<tripoint> talk_function::om_companion_path( tripoint start, int range_start,
+std::vector<tripoint> talk_function::om_companion_path( const tripoint &start, int range_start,
         bool bounce )
 {
     std::vector<tripoint> scout_points;

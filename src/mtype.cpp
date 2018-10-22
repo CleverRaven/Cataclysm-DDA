@@ -81,6 +81,17 @@ bool mtype::made_of( const material_id &material ) const
     return std::find( mat.begin(), mat.end(),  material ) != mat.end();
 }
 
+bool mtype::made_of_any( const std::set<material_id> &materials ) const
+{
+    if( mat.empty() ) {
+        return false;
+    }
+
+    return std::any_of( mat.begin(), mat.end(), [&materials]( const material_id & e ) {
+        return materials.count( e );
+    } );
+}
+
 bool mtype::has_anger_trigger( monster_trigger trig ) const
 {
     return bitanger[trig];

@@ -133,6 +133,7 @@ class monster : public Creature
         bool can_act() const;
         int sight_range( int light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
+        bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;

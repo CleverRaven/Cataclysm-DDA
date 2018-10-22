@@ -1,0 +1,100 @@
+Bugfixes Fix debug storage overflow
+Bugfixes Fix inventory letter duplication and disappearance
+Build Fixed linker error in Visual Studio
+Build enable coveralls support.
+Bugfixes Fix monster speed adjustment
+Bugfixes Disable fragile NPC tests.
+Interface Restore max range to targeting and item info.
+Balance Update spacing to gas stations ( allows larger cars )
+Content Added missing 7.62x25mm casings to the casings itemgroup
+Balance Changed the rifle in NC_SOLDIER_rifle from M1A to M14 EBR
+Bugfixes Fixed .32 ACP deconstruction recipe
+Bugfixes Fix AIM filter issues
+Interface Fix issues in #21173
+Bugfixes Fix some items cannot be (un)selected in filtered pickup menu
+Performance performance improvement for mega vehicles with many turrets #21141
+Balance Added .300 Win to ammo_swat
+Balance Added folding stock to MP7
+Balance Renamed LW-30 to LW-32
+Bugfixes Fix Colliding with monsters when vehicle is in reverse makes monster bounce in the wrong direction.
+Build Add more detailed lua information for compiling on Windows
+Bugfixes Fix Compatible ammo for held gun is no longer green on inventory screens.
+Infrastructure JSONify garage
+Balance Added ammolinks to basement_survival
+Balance Added better approximation for the weight of 7.62x25
+Balance Changed the CW-24M to 6.54x42 ammo
+Balance Strengthened the reinforced vending machine
+Interface Adds consistent usage of caliber to rockets
+Balance Reduces maximum beehives and anthills
+Content Extra lines for NPCs
+Infrastructure Implement string_id for bionic_data.
+Mods Brings DinoMod back online. Dinos are warm blooded, compies have been…
+Interface Added more descriptive text to ammo belt names
+Build Add man pages for cataclysm and cataclysm-tiles
+Balance Renamed .44 FMJ to .44 Magnum FMJ
+Balance Changes gambeson recipe access and material cost
+Balance Changes to double-barrel flintlock
+Balance Swapped backpack with MOLLE pack in NC_SOLDIER
+Interface update reloaded_50_incendiary description to match 50_incendiary description
+Balance Newly recruited NPC engage close enemies only
+Build Create a minimal issue template.
+Balance Nerf to tree yield
+Balance Added a removable pistol stock to RM228 using "default_mods":
+Bugfixes Fix advanced reaper picking up harvested items.
+Bugfixes Fix attempting to load world when worlds have not been initialized yet
+Bugfixes Added missing door in house_modern_lx.json. Fixed #21353
+Infrastructure Moved forage itemgroups to forage.json
+Interface Removed references to weight torque and recoil from M134D-H
+Bugfixes Fix crash when removing armor
+Balance Update weapon range for active RELOAD_AND_SHOOT ammo
+Balance Rebalanced .500 S&W and .454 Casull cartridges
+I18N Better docs for translators
+Interface Changed capitalization of disarm technique
+Infrastructure Use overmap terrain id instead of its name with get_local_windpower
+I18N Fix language switching not affecting overmap names
+Balance Normalize move times in AIM
+Bugfixes Prevent talking to NPCs on other z-levels
+Bugfixes Only target the player when the NPC can actually see them.
+Interface Added disclaimer to tutorial section
+Infrastructure Update recipe_weapon.json
+Balance Buffed flintlock carbine spawns in museum_guns
+Interface Record NPC kills in kill count
+Interface Handle music volume change
+Mods Added Taurus Raging Judge Magnum [realguns]
+Features Implement surrounded start, fix monster spawns
+Content Changes some mi-go speech lines for flavor
+Build Add files recommended for UNIX desktops
+Balance Player needs to have painkiller effect on him to install bionics
+Balance Replace chemistry set requirement in recipes to CHEM quality
+Balance Disallow batteries with a weight over 20000 from tool battery mod.
+Interface Makes holsters display their minimum volume
+Mods Added missing damage and range modifications to reloaded 10mm [realguns]
+Balance Changes pack of firecrackers behavior
+Balance Reduce noise from other z-levels
+Balance Changed AF2011A1 to two-round burst only.
+Interface Sort preset templates
+Build Streamline the color loading from JSON in SDL and Windows console builds
+I18N Fix language switching not affecting body part names
+Interface Clearer dialog on Tracker Mission
+Balance Added sheet metal, nails, and wire to toolbox recipe
+Bugfixes Fix infinite loop in map::place_spawns()
+Infrastructure Remove nearly useless header tile_id_data.h
+Interface Some small spelling and spacing fixes
+Bugfixes Set the dive knife's use_action to CROWBAR
+Bugfixes Fix crash caused by invalid JSON mapgen data
+Bugfixes Fix "Static NPCs with custom NPC classes spawn errors at character creation."
+Balance Nerfed .357 Magnum ammo spawns
+Mods Removed .38 Special from the .38 Super valid ammo list [realguns]
+I18N Fix language switching not affecting item descriptions
+I18N Fix corrupted season name in the sidebar
+Interface NPC-friendly messages for dropping items
+Build Add MXE compilation and Wine testing to .travis.yml
+Bugfixes Fix monster movement in square distance
+Bugfixes Fix vehicle aerodynamics worsening fuel efficiency
+Features Implements deconstruction without tools
+Mods Rebalances Tank Mod explosions, adds 155mm frag
+Interface Add option to toggle framebuffer acceleration when using software rendering.
+Infrastructure Added new get_weight method to Character class (#21263)
+Balance More ways that can negate the check for painkillers when installing CBMs
+Interface Small text update for washboard use
+Bugfixes Fixed anthill generation bugs

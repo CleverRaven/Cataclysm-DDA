@@ -395,7 +395,7 @@ void veh_interact::cache_tool_availability()
                vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual );
 }
 
-void veh_interact::cache_tool_availability_update_lifting( tripoint world_cursor_pos )
+void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )
 {
     max_lift = std::max( { g->u.max_quality( LIFT ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
@@ -460,7 +460,7 @@ task_reason veh_interact::cant_do (char mode)
     case 's': // siphon mode
         valid_target = false;
         for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
-            if( veh->parts[vp.part_index()].base.contents.front().made_of( LIQUID ) ) {
+            if( veh->parts[vp.part_index()].base.contents_made_of( LIQUID ) ) {
                 valid_target = true;
                 break;
             }
@@ -1533,8 +1533,7 @@ bool veh_interact::do_siphon( std::string &msg )
     set_title( _( "Select part to siphon: " ) );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && pt.ammo_remaining() > 0 &&
-                pt.base.contents.front().made_of( LIQUID ) );
+        return( pt.is_tank() && pt.base.contents_made_of( LIQUID ) );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -2435,7 +2434,7 @@ void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
-        if( veh->parts[vp.part_index()].get_base().contents.front().made_of( LIQUID ) ) {
+        if( veh->parts[vp.part_index()].get_base().contents_made_of( LIQUID ) ) {
             has_liquid = true;
             break;
         }
@@ -2447,8 +2446,7 @@ void act_vehicle_siphon( vehicle *veh ) {
 
     std::string title = string_format( _( "Select tank to siphon:" ) );
     auto sel = []( const vehicle_part &pt ) {
-        return pt.is_tank() && pt.ammo_remaining() > 0 &&
-               pt.get_base().contents.front().made_of( LIQUID );
+        return pt.is_tank() && pt.get_base().contents_made_of( LIQUID );
     };
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {

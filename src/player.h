@@ -3,6 +3,7 @@
 #define PLAYER_H
 
 #include "character.h"
+#include "map_memory.h"
 #include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
@@ -138,45 +139,6 @@ struct stat_mod {
     int perception = 0;
 
     int speed = 0;
-};
-
-struct memorized_terrain_tile {
-    std::string tile;
-    int subtile;
-    int rotation;
-};
-
-class map_memory
-{
-    public:
-        void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
-
-        /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation );
-        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
-        void finalize_tile_memory( size_t max_submaps );
-        /** Memorizes several tiles at once */
-        void memorize_tiles( const std::map<tripoint, memorized_terrain_tile> &tiles, size_t max_submaps );
-        /** Adds new submaps to the memorized submap list, and pushes out the oldest ones */
-        void update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps );
-        /** Erases specific submaps from memory */
-        void clear_submap_memory( const std::set<tripoint> &erase );
-
-        /** Returns last stored map tile in given location */
-        memorized_terrain_tile get_memorized_terrain( const tripoint &p ) const;
-
-        void memorize_terrain_symbol( const tripoint &pos, const long symbol );
-        void memorize_terrain_symbols( const std::map<tripoint, long> &tiles, size_t max_submaps );
-        void finalize_terrain_memory_curses( const size_t max_submaps );
-        long get_memorized_terrain_curses( const tripoint &p ) const;
-    private:
-        std::map<tripoint, memorized_terrain_tile> memorized_terrain_tmp;
-        std::map<tripoint, memorized_terrain_tile> memorized_terrain;
-        std::map<tripoint, long> memorized_terrain_curses_tmp;
-        std::map<tripoint, long> memorized_terrain_curses;
-        std::vector<tripoint> memorized_submaps;
 };
 
 class player : public Character
@@ -420,18 +382,14 @@ class player : public Character
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation );
-        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
-        void finalize_tile_memory();
         /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_terrain( const tripoint &p ) const;
+        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_terrain_curses( const tripoint &pos, const long symbol );
+        void memorize_symbol( const tripoint &pos, const long symbol );
         /** Returns last stored map tile in given location in curses mode */
-        long get_memorized_terrain_curses( const tripoint &p ) const;
-        /** Called after several calls of memorize_terrain_curses, processes all tiles set to memorize */
-        void finalize_terrain_memory_curses();
-        /** Returns the amount of submaps survivor can remember. Each submap is 12x12 and there are 4 of them in an overmap tile */
-        size_t max_memorized_submaps() const;
+        long get_memorized_symbol( const tripoint &p ) const;
+        /** Returns the amount of tiles survivor can remember. */
+        size_t max_memorized_tiles() const;
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
@@ -1275,7 +1233,7 @@ class player : public Character
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
-        void place_corpse( tripoint om_target ); // put corpse+inventory on defined om tile
+        void place_corpse( const tripoint &om_target ); // put corpse+inventory on defined om tile
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
@@ -1414,6 +1372,11 @@ class player : public Character
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
 
+        // Hauling items on the ground
+        void start_hauling();
+        void stop_hauling();
+        bool is_hauling() const;
+
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
@@ -1455,6 +1418,7 @@ class player : public Character
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
+        bool hauling;
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
@@ -1640,6 +1604,10 @@ class player : public Character
          * Called when an item is taken off
          */
         void on_item_takeoff( const item &it ) override;
+        /**
+         * Called when an item is washed
+         */
+        void on_worn_item_washed( const item &it ) override;
         /**
          * Called when effect intensity has been changed
          */

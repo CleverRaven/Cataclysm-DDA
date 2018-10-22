@@ -15,7 +15,7 @@ namespace mapf
 {
 
 void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
-                           format_effect<ter_id> ter_b, format_effect<furn_id> furn_b )
+                           const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b )
 {
     const char *p = cstr;
     int x = startx;

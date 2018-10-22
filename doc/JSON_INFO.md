@@ -890,6 +890,19 @@ When adding a new book, please use this color key:
 A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
 Never use `yellow` and `red`, those colors are reserved for sounds and infrared vision.
 
+####CBMs
+
+CBMs can be defined like this:
+
+```JSON
+"type" : "BIONIC_ITEM",         // Defines this as a CBM
+...                             // same entries as above for the generic item.
+                                // additional some CBM specific entries:
+"bionic_id" : "bio_advreactor", // ID of the installed bionic if not equaivalent to "id"
+"difficulty" : 11,              // Difficulty of installing CBM
+"is_upgrade" : true             // Whether the CBM is an upgrade of another bionic.
+```
+
 ### Comestibles
 
 ```JSON

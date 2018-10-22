@@ -71,6 +71,7 @@ using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
+class map;
 
 enum damage_type : int;
 
@@ -324,7 +325,6 @@ class item : public visitable<item>
          * properties of the @ref itype (if they are visible to the player). The returned string
          * is already translated and can be *very* long.
          * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * the vector can be used to compare them to properties of another item.
          */
         std::string info( bool showtext = false ) const;
 
@@ -530,6 +530,15 @@ class item : public visitable<item>
         bool on_drop( const tripoint &pos );
 
         /**
+         * Invokes item type's @ref itype::drop_action.
+         * This function can change the item.
+         * @param pos Where is the item being placed. Note: the item isn't there yet.
+         * @param map A map object associated with that position.
+         * @return true if the item was destroyed during placement.
+         */
+        bool on_drop( const tripoint &pos, map &m );
+
+        /**
          * Consume a specific amount of items of a specific type.
          * This includes this item, and any of its contents (recursively).
          * @see item::use_charges - this is similar for items, not charges.
@@ -585,9 +594,14 @@ class item : public visitable<item>
         long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                 std::string *err = nullptr ) const;
         /**
-         * It returns the total capacity (volume) of the container.
+         * It returns the total capacity (volume) of the container for liquids.
          */
         units::volume get_container_capacity() const;
+        /**
+         * It returns the maximum volume of any contents, including liquids,
+         * ammo, magazines, weapons, etc.
+         */
+        units::volume get_total_capacity() const;
         /**
          * Puts the given item into this one, no checks are performed.
          */
@@ -810,10 +824,14 @@ class item : public visitable<item>
          */
         bool made_of( const material_id &mat_ident ) const;
         /**
-         * Are we solid, liquid, gas, plasma?
-         * @param from_itype If true grab phase from itype instead
+         * If contents nonempty, return true if item phase is same, else false
          */
-        bool made_of( phase_id phase, bool from_itype = false ) const;
+        bool contents_made_of( const phase_id phase ) const;
+        /**
+         * Are we solid, liquid, gas, plasma?
+         */
+        bool made_of( phase_id phase ) const;
+        bool made_of_from_type( phase_id phase ) const;
         /**
          * Whether the items is conductive.
          */
@@ -1003,6 +1021,7 @@ class item : public visitable<item>
         bool is_magazine() const;
         bool is_ammo_belt() const;
         bool is_bandolier() const;
+        bool is_holster() const;
         bool is_ammo() const;
         bool is_armor() const;
         bool is_book() const;
@@ -1373,9 +1392,9 @@ class item : public visitable<item>
          */
         int get_thickness() const;
         /**
-         * Returns clothing layer for item which will always be 0 for non-wearable items.
+         * Returns clothing layer for item.
          */
-        int get_layer() const;
+        layer_level get_layer() const;
         /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
@@ -1388,7 +1407,7 @@ class item : public visitable<item>
          * containing a particular volume of contents.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber_when_containing( units::volume contents_volume ) const;
+        int get_encumber_when_containing( const units::volume &contents_volume ) const;
         /**
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.
@@ -1682,6 +1701,17 @@ class item : public visitable<item>
 
         /** for combustion engines the displacement (cc) */
         int engine_displacement() const;
+        /*@}*/
+
+        /**
+         * @name Bionics / CBMs
+         * Functions specific to CBMs
+         */
+        /*@{*/
+        /**
+         * Whether the CBM is an upgrade to another bionic module
+         */
+        bool is_upgrade() const;
         /*@}*/
 
         /**

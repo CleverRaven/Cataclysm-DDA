@@ -111,7 +111,7 @@
     "copy-from": "fur",
     "color": "pink",
     "name": "faux fur pelt",
-    "description": "A small bolt of garishly colored faux fur. Can be made into clothing.",
+    "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
     "material": [ "faux_fur" ]
   },
   {

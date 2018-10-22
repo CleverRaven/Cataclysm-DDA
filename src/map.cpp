@@ -2659,13 +2659,17 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
 
 bool map::mop_spills( const tripoint &p )
 {
-    auto items = i_at( p );
-    auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
-        return it.made_of( LIQUID );
-    } );
-    bool retval = new_end != items.end();
-    while( new_end != items.end() ) {
-        new_end = items.erase( new_end );
+    bool retval = false;
+
+    if( !has_flag( "LIQUIDCONT", p ) ) {
+        auto items = i_at( p );
+        auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
+            return it.made_of( LIQUID );
+        } );
+        retval = new_end != items.end();
+        while( new_end != items.end() ) {
+            new_end = items.erase( new_end );
+        }
     }
 
     field &fld = field_at( p );
@@ -3087,7 +3091,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     } else if( smash_furn ) {
         furn_set( p, bash->furn_set );
         for( item &it : i_at( p ) )  {
-            it.on_drop( p );
+            it.on_drop( p, *this );
         }
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
@@ -4082,7 +4086,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         // Cannot drop liquids into tiles that are comprised of liquid
-        if( obj.made_of( LIQUID, true ) && has_flag( "SWIMMABLE", e ) ) {
+        if( obj.made_of_from_type( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
             return false;
         }
 
@@ -4121,7 +4125,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
         && valid_limits( pos ) ) {
-        if( obj.on_drop( pos ) ) {
+        // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
+        if( obj.on_drop( pos, *this ) ) {
             return null_item_reference();
         }
 
@@ -4137,7 +4142,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                 continue;
             }
 
-            if( obj.on_drop( e ) ) {
+            if( obj.on_drop( e, *this ) ) {
                 return null_item_reference();
             }
 
@@ -5534,7 +5539,7 @@ void map::draw_maptile_from_memory( const catacurses::window &w, const tripoint 
     if( !g->u.should_show_map_memory() ) {
         return;
     }
-    long sym = g->u.get_memorized_terrain_curses( p );
+    long sym = g->u.get_memorized_symbol( getabs( p ) );
     if( sym == 0 ) {
         return;
     }
@@ -5622,8 +5627,6 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             x++;
         }
     }
-
-    g->u.finalize_terrain_memory_curses();
 }
 
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
@@ -5655,8 +5658,6 @@ void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, con
                          invert_arg, view_center,
                          low_light, bright_light, false );
     }
-
-    g->u.finalize_terrain_memory_curses();
 }
 
 // a check to see if the lower floor needs to be rendered in tiles
@@ -5808,7 +5809,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         }
     }
 
-    g->u.memorize_terrain_curses( p, memory_sym );
+    g->u.memorize_symbol( getabs( p ), memory_sym );
 
     // If there's graffiti here, change background color
     if( curr_maptile.has_graffiti() ) {
