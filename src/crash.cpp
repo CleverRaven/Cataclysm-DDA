@@ -110,7 +110,7 @@ extern "C" {
         FILE *file = fopen( crash_log_file, "w" );
         append_str( file, &beg, end, "CRASH LOG FILE: " );
         append_str( file, &beg, end, crash_log_file );
-        append_str( file, &beg, end, "VERSION: " );
+        append_str( file, &beg, end, "\nVERSION: " );
         append_str( file, &beg, end, getVersionString() );
         append_str( file, &beg, end, "\nTYPE: " );
         append_str( file, &beg, end, type );
