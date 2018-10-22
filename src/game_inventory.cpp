@@ -383,7 +383,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( spoils > 0 ) {
                     return to_string_clipped( spoils );
                 }
-                return std::string();
+                //~ Used for permafood shelf life in the Eat menu
+                return std::string( _( "indefinite" ) );
             }, _( "SHELF LIFE" ) );
 
             append_cell( [this]( const item_location & loc ) {
@@ -392,6 +393,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                     if( item.spoils > 0 ) {
                         return get_freshness( loc );
                     }
+                    return std::string( "---" );
                 }
                 return std::string();
             }, _( "FRESHNESS" ) );
@@ -404,6 +406,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                             return get_time_left_rounded( loc );
                         }
                     }
+                    return std::string( "---" );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -510,7 +513,13 @@ class comestible_inventory_preset : public inventory_selector_preset
             const time_duration shelf_life = get_edible_comestible( loc ).spoils;
             time_duration time_left = shelf_life - shelf_life * relative_rot;
 
-            if( time_left <= 6_hours && it.is_going_bad() ) {
+            // Correct for an estimate that exceeds shelf life -- this happens especially with
+            // fresh items.
+            if( time_left > shelf_life ) {
+                time_left = shelf_life;
+            }
+
+            if( it.is_going_bad() ) {
                 return _( "soon!" );
             }
 
