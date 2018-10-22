@@ -478,9 +478,9 @@ void debug_write_backtrace( std::ostream &out )
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
     for( int i = 0; i < count; ++i ) {
-        out << "\n(" << funcNames[i] << "), ";
+        out << "\n\t(" << funcNames[i] << "), ";
     }
-    out << "\n\nAttempting to repeat stack trace using debug symbols...\n";
+    out << "\n\n\tAttempting to repeat stack trace using debug symbols...\n";
     // Try to print the backtrace again, but this time using addr2line
     // to extract debug info and thus get a more detailed / useful
     // version.  If addr2line is not available this will just fail,
@@ -501,8 +501,16 @@ void debug_write_backtrace( std::ostream &out )
             return false;
         }
         char buf[1024];
-        while( size_t num_bytes = fread( buf, 1, sizeof( buf ), addr2line ) ) {
-            out.write( buf, num_bytes );
+        while( fgets( buf, sizeof( buf ), addr2line ) ) {
+            out.write( "\t", 1 );
+            // Strip leading directories for source file path
+            char *src = strstr( buf, "/src/" );
+            if( src == nullptr ) {
+                src = buf;
+            } else {
+                out.write( "...", 3 );
+            }
+            out.write( src, strlen( src ) );
         }
         if( 0 != pclose( addr2line ) ) {
             // Most likely reason is that addr2line is not installed, so
