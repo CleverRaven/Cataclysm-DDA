@@ -760,6 +760,74 @@ std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batc
     return info( iteminfo, showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
 }
 
+// Generates a long-form description of the freshness of the given rottable food item.
+// NB: Doesn't check for non-rottable!
+const std::string get_freshness_description( const item *food_item )
+{
+    // So, skilled characters looking at food that is neither super-fresh nor about to rot
+    // can guess its age as one of {quite fresh,midlife,past midlife,old soon}, and also
+    // guess about how long until it spoils.
+    const double rot_progress = food_item->get_relative_rot();
+    const time_duration shelf_life = food_item->type->comestible->spoils;
+    time_duration time_left = shelf_life - ( shelf_life * rot_progress );
+
+    // Correct for an estimate that exceeds shelf life -- this happens especially with
+    // fresh items.
+    if( time_left > shelf_life ) {
+        time_left = shelf_life;
+    }
+
+    if( food_item->is_fresh() ) {
+        // Fresh food is assumed to be obviously so regardless of skill.
+        if( g->u.can_estimate_rot() ) {
+            return string_format( _( "* This food looks as <good>fresh</good> as it can be.  "
+                                     "It still has <info>%s</info> until it spoils." ),
+                                  to_string_approx( time_left ) );
+        } else {
+            return _( "* This food looks as <good>fresh</good> as it can be." );
+        }
+    } else if( food_item->is_going_bad() ) {
+        // Old food likewise is assumed to be fairly obvious.
+        if( g->u.can_estimate_rot() ) {
+            return string_format( _( "* This food looks <bad>old</bad>.  "
+                                     "It's just <info>%s</info> from becoming inedible." ),
+                                  to_string_approx( time_left ) );
+        } else {
+            return _( "* This food looks <bad>old</bad>.  "
+                      "It's on the brink of becoming inedible." );
+        }
+    }
+
+    if( !g->u.can_estimate_rot() ) {
+        // Unskilled characters only get a hint that more information exists...
+        return _( "* This food looks <info>fine</info>.  If you were more skilled in "
+                  "cooking or survival, you might be able to make a better estimation." );
+    }
+
+    // Otherwise, a skilled character can determine the below options:
+    if( rot_progress < 0.3 ) {
+        //~ here, %s is an approximate time span, e.g., "over 2 weeks" or "about 1 season"
+        return string_format( _( "* This food looks <good>quite fresh</good>.  "
+                                 "It has <info>%s</info> until it spoils." ),
+                              to_string_approx( time_left ) );
+    } else if( rot_progress < 0.5 ) {
+        //~ here, %s is an approximate time span, e.g., "over 2 weeks" or "about 1 season"
+        return string_format( _( "* This food looks like it is reaching its <neutral>midlife</neutral>.  "
+                                 "There's <info>%s</info> before it spoils." ),
+                              to_string_approx( time_left ) );
+    } else if( rot_progress < 0.7 ) {
+        //~ here, %s is an approximate time span, e.g., "over 2 weeks" or "about 1 season"
+        return string_format( _( "* This food looks like it has <neutral>passed its midlife</neutral>.  "
+                                 "Edible, but will go bad in <info>%s</info>." ),
+                              to_string_approx( time_left ) );
+    } else {
+        //~ here, %s is an approximate time span, e.g., "over 2 weeks" or "about 1 season"
+        return string_format( _( "* This food looks like it <bad>will be old soon</bad>.  "
+                                 "It has <info>%s</info>, so if you plan to use it, it's now or never." ),
+                              to_string_approx( time_left ) );
+    }
+}
+
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
     std::stringstream temp1;
@@ -1028,35 +1096,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                    _( "* This food is <neutral>perishable</neutral>, and at room temperature has an estimated nominal shelf life of <info>%s</info>." ),
                                    rot_time.c_str() ) );
 
-            // Good cooks and survivalists can estimate food's age on fresh-to-rotten scale
-            const double rot_progress = food_item->get_relative_rot();
-            const bool skilled = g->u.can_estimate_rot();
             if( !food_item->rotten() ) {
-                if( food_item->is_fresh() ) {
-                    info.emplace_back( "DESCRIPTION", _( "* This food looks as <good>fresh</good> as it can be." ) );
-                } else if( rot_progress >= 0.1 && rot_progress < 0.3 && skilled ) {
-                    info.emplace_back( "DESCRIPTION", _( "* This food looks <good>still quite fresh</good>.  "
-                                                         "It's far from becoming old." ) );
-                } else if( rot_progress >= 0.3 && rot_progress < 0.5 && skilled ) {
-                    info.emplace_back( "DESCRIPTION",
-                                       _( "* This food looks like it is reaching its <neutral>midlife</neutral>.  "
-                                          "It has some time ahead before spoiling." ) );
-                } else if( rot_progress >= 0.5 && rot_progress < 0.7 && skilled ) {
-                    info.emplace_back( "DESCRIPTION",
-                                       _( "* This food looks like it has <neutral>passed its midlife</neutral>.  "
-                                          "Edible, but will go old sooner rather then later." ) );
-                } else if( rot_progress >= 0.7 && rot_progress < 0.9 && skilled ) {
-                    info.emplace_back( "DESCRIPTION", _( "* This food looks like it <bad>will be old soon</bad>.  "
-                                                         "It's now or never, if you plan to use it." ) );
-                } else if( food_item->is_going_bad() ) {
-                    info.emplace_back( "DESCRIPTION", _( "* This food looks <bad>old</bad>.  "
-                                                         "It's on a brink of becoming inedible." ) );
-                } else { // unskilled and neither fresh nor old
-                    info.emplace_back( "DESCRIPTION", _( "* This food looks <neutral>fine</neutral>.  "
-                                                         "If you were more skilled in cooking or survival "
-                                                         "you might be able to make a better estimation." ) );
-                }
+                info.emplace_back( "DESCRIPTION", get_freshness_description( food_item ) );
             }
+
             if( food_item->has_flag( "FREEZERBURN" ) && !food_item->rotten() &&
                 !food_item->has_flag( "MUSHY" ) ) {
                 info.emplace_back( "DESCRIPTION",
