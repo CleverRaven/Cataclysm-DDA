@@ -9046,8 +9046,7 @@ void player::gunmod_add( item &gun, item &mod )
 
     // if chance of success <100% prompt user to continue
     if( roll < 100 ) {
-        uimenu prompt;
-        prompt.return_invalid = true;
+        uilist prompt;
         prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(),
                                      gun.tname().c_str() );
 
