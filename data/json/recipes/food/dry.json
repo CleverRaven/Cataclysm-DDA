@@ -179,7 +179,7 @@
     "batch_time_factors": [ 83, 3 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ], [ [  "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "dry_hflesh", 2 ] ] ]
   },
   {
@@ -239,7 +239,7 @@
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ], [ [  "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "dry_meat", 2 ], [ "dry_fish", 2 ] ] ]
   }
 ]
