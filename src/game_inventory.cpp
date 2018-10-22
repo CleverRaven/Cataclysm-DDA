@@ -505,45 +505,32 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_time_left_rounded( const item_location &loc ) {
-            const item *item = loc.get_item();
-            const double relative_rot = item->is_food_container() ? item->contents.front().get_relative_rot() :
-                                        item->get_relative_rot();
+            const item &it = get_comestible_item( loc );
+            const double relative_rot = it.get_relative_rot();
             const time_duration shelf_life = get_edible_comestible( loc ).spoils;
             time_duration time_left = shelf_life - shelf_life * relative_rot;
 
-            const float days_left = to_days<float>( time_left );
-            if( days_left <= 0.25 ) {
-                if( item->is_going_bad() ) {
-                    return _( "soon!" );
-                } else {
-                    time_left = time_duration::from_hours( 6 );
-                }
-            } else if( days_left <= 7 ) {
-                time_left = time_duration::from_days( ceilf( days_left ) );
-            } else {
-                time_left = time_duration::from_days( ceilf( days_left / 7 ) * 7 );
+            if( time_left <= 6_hours && it.is_going_bad() ) {
+                return _( "soon!" );
             }
-            if( time_left > get_edible_comestible( loc ).spoils ) {
-                time_left = get_edible_comestible( loc ).spoils;
-            }
-            return to_string_clipped( time_left );
+
+            return to_string_approx( time_left );
         }
 
         std::string get_freshness( const item_location &loc ) {
-            const item *item = loc.get_item()->is_food_container() ? &loc.get_item()->contents.front() :
-                               loc.get_item();
-            const double rot_progress = item->get_relative_rot();
-            if( item->is_fresh() ) {
+            const item &it = get_comestible_item( loc );
+            const double rot_progress = it.get_relative_rot();
+            if( it.is_fresh() ) {
                 return _( "fresh" );
-            } else if( rot_progress >= 0.1 && rot_progress < 0.3 ) {
+            } else if( rot_progress < 0.3 ) {
                 return _( "quite fresh" );
-            } else if( rot_progress >= 0.3 && rot_progress < 0.5 ) {
+            } else if( rot_progress < 0.5 ) {
                 return _( "near midlife" );
-            } else if( rot_progress >= 0.5 && rot_progress < 0.7 ) {
+            } else if( rot_progress < 0.7 ) {
                 return _( "past midlife" );
-            } else if( rot_progress >= 0.7 && rot_progress < 0.9 ) {
+            } else if( rot_progress < 0.9 ) {
                 return _( "getting older" );
-            } else if( item->is_going_bad() && !item->rotten() ) {
+            } else if( !it.rotten() ) {
                 return _( "old" );
             } else {
                 return _( "rotten" );
