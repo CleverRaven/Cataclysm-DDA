@@ -394,8 +394,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0 ) {
-                        std::string freshness = get_freshness( loc );
-                        return freshness;
+                        return get_freshness( loc );
                     }
                 }
                 return std::string();
@@ -407,8 +406,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0 ) {
                         if( !get_comestible_item( loc ).rotten() ) {
-                            std::string time_left = get_time_left_rounded( loc );
-                            return time_left;
+                            return get_time_left_rounded( loc );
                         }
                     }
                 }
@@ -511,7 +509,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        const std::string get_time_left_rounded( const item_location &loc ) {
+        std::string get_time_left_rounded( const item_location &loc ) {
             const item *item = loc.get_item();
             const double relative_rot = item->is_food_container() ? item->contents.front().get_relative_rot() :
                                         item->get_relative_rot();
@@ -536,7 +534,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return to_string_clipped( time_left );
         }
 
-        const std::string get_freshness( const item_location &loc ) {
+        std::string get_freshness( const item_location &loc ) {
             const item *item = loc.get_item()->is_food_container() ? &loc.get_item()->contents.front() :
                                loc.get_item();
             const double rot_progress = item->get_relative_rot();
