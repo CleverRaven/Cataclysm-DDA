@@ -433,6 +433,9 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_TRAIN_FORCE" ) {
         return _( "Alright, let's begin." );
 
+    } else if( topic == "TALK_TIP" ) {
+        return get_hint();
+
     } else if( topic == "TALK_SUGGEST_FOLLOW" ) {
         if( p->has_effect( effect_infection ) ) {
             return _( "Not until I get some antibiotics..." );
@@ -1175,12 +1178,12 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             std::stringstream reasons;
             if( const optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
                 if( abs( vp->vehicle().velocity ) > 0 ) {
-                    reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
+                    reasons << _( "I can't do that properly while you're operating a vehicle!" ) << std::endl;
                 }
             }
 
             if( p->has_effect( effect_asked_to_train ) ) {
-                reasons << _( "Give it some time, I'll show you something new later..." ) << std::endl;
+                reasons << _( "Give it some time, I'll tell you something new later..." ) << std::endl;
             }
 
             if( p->get_thirst() > 80 ) {
@@ -1206,6 +1209,21 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 TRIAL( TALK_TRIAL_PERSUADE, commitment * 2 );
                 SUCCESS( "TALK_TRAIN" );
                 SUCCESS_ACTION( []( npc &p ) { p.chatbin.mission_selected = nullptr; } );
+                FAILURE( "TALK_DENY_PERSONAL" );
+                FAILURE_ACTION( &talk_function::deny_train );
+            }
+            
+            if( !reasons.str().empty() ) {
+                RESPONSE( _( "[N/A] Can you give me some general advice?" ) );
+                SUCCESS( "TALK_DENY_TRAIN" );
+                ret.back().success.next_topic.reason = reasons.str();
+            } else {
+                RESPONSE( _( "Can you give me some general advice?" ) );
+                int commitment = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
+                                 3 * p->op_of_u.anger;
+                TRIAL( TALK_TRIAL_PERSUADE, commitment * 2 );
+                SUCCESS( "TALK_TIP" );
+                SUCCESS_ACTION( &talk_function::deny_tip );
                 FAILURE( "TALK_DENY_PERSONAL" );
                 FAILURE_ACTION( &talk_function::deny_train );
             }
@@ -1247,6 +1265,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_DENY_PERSONAL" ) {
         add_response( _( "I understand..." ), "TALK_FRIEND" );
 
+    } else if( topic == "TALK_TIP" ) {
+        add_response_none( _( "Fascinating... Lets talk some more." ) );
+        add_response_done( _( "Fascinating... Let's move on." ) );
+        
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
         add_response( _( "Change your engagement rules..." ), "TALK_COMBAT_ENGAGEMENT" );
         add_response( _( "Change your aiming rules..." ), "TALK_AIM_RULES" );

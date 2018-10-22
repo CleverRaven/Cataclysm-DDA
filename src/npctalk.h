@@ -40,6 +40,7 @@ void deny_follow( npc & );           // p gets "asked_to_follow"
 void deny_lead( npc & );             // p gets "asked_to_lead"
 void deny_equipment( npc & );        // p gets "asked_for_item"
 void deny_train( npc & );            // p gets "asked_to_train"
+void deny_tip( npc & );              // p gets "asked_to_train"
 void deny_personal_info( npc & );    // p gets "asked_personal_info"
 void hostile( npc & );               // p turns hostile to u
 void flee( npc & );

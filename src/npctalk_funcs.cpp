@@ -503,6 +503,13 @@ void talk_function::deny_train( npc &p )
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
+void talk_function::deny_tip( npc &p )
+{
+    if( one_in( 3 ) ) {
+        p.add_effect( effect_asked_to_train, 1_hours );
+    }
+}
+
 void talk_function::deny_personal_info( npc &p )
 {
     p.add_effect( effect_asked_personal_info, 3_hours );
