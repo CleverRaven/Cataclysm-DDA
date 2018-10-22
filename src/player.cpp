@@ -7953,8 +7953,7 @@ bool player::pick_style() // Style selection menu
     input_context ctxt( "MELEE_STYLE_PICKER" );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
-    uimenu kmenu;
-    kmenu.return_invalid = true;
+    uilist kmenu;
     kmenu.text = string_format( _( "Select a style. (press %s for more info)" ), ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
     ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
     kmenu.callback = &callback;
@@ -7978,7 +7977,6 @@ bool player::pick_style() // Style selection menu
     kmenu.query();
     int selection = kmenu.ret;
 
-    //debugmsg("selected %d",choice);
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
     } else if( selection == KEEP_HANDS_FREE ) {
