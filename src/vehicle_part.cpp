@@ -516,7 +516,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     if( pt.info().epower < 0 && fuel_left( fuel_type_battery, true ) <= 0 ) {
         if( alert ) {
-            add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name().c_str() );
+            add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }
         return false;
     }

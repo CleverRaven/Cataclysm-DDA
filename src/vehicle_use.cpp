@@ -100,7 +100,7 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
         } );
     }
 
-    auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name.c_str() );
+    auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name );
     options.emplace_back( -1, allow, key, msg );
 
     actions.push_back( [ = ] {
@@ -108,7 +108,7 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
         {
             vehicle_part &e = vp.part();
             if( e.enabled != state ) {
-                add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e.name().c_str() );
+                add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e.name() );
                 e.enabled = state;
             }
         }
@@ -316,10 +316,10 @@ void vehicle::control_engines()
     }
 
     if( engine_on ) {
-        add_msg( _( "You turn off the %s's engines to change their configurations." ), name.c_str() );
+        add_msg( _( "You turn off the %s's engines to change their configurations." ), name );
         engine_on = false;
     } else if( !g->u.controlling_vehicle ) {
-        add_msg( _( "You change the %s's engine configuration." ), name.c_str() );
+        add_msg( _( "You change the %s's engine configuration." ), name );
         return;
     }
 
@@ -348,10 +348,10 @@ bool vehicle::interact_vehicle_locked()
 {
     if( is_locked ) {
         const inventory &crafting_inv = g->u.crafting_inventory();
-        add_msg( _( "You don't find any keys in the %s." ), name.c_str() );
+        add_msg( _( "You don't find any keys in the %s." ), name );
         if( crafting_inv.has_quality( quality_id( "SCREW" ) ) ) {
             if( query_yn( _( "You don't find any keys in the %s. Attempt to hotwire vehicle?" ),
-                          name.c_str() ) ) {
+                          name ) ) {
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
                 int mechanics_skill = g->u.get_skill_level( skill_mechanics );
                 int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
@@ -363,7 +363,7 @@ bool vehicle::interact_vehicle_locked()
                 g->u.activity.values.push_back( global_pos3().y + q.y ); //[1]
                 g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) ); //[2]
             } else {
-                if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name.c_str() ) ) {
+                if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
                     is_alarm_on = true;
                 } else {
                     add_msg( _( "You leave the controls alone." ) );
@@ -607,16 +607,16 @@ bool vehicle::fold_up()
     if( g->u.controlling_vehicle ) {
         add_msg( m_warning,
                  _( "As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it." ),
-                 name.c_str() );
+                 name );
         return false;
     }
 
     if( velocity > 0 ) {
-        add_msg( m_warning, _( "You can't fold the %s while it's in motion." ), name.c_str() );
+        add_msg( m_warning, _( "You can't fold the %s while it's in motion." ), name );
         return false;
     }
 
-    add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name.c_str() );
+    add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
 
     std::string itype_id = "folding_bicycle";
     for( const auto &elem : tags ) {
@@ -718,10 +718,10 @@ bool vehicle::start_engine( const int e )
 
     if( fuel_left( einfo.fuel_type ) <= 0 && einfo.fuel_type != fuel_type_none ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
-            add_msg( _( "The %s's mechanism is out of reach!" ), name.c_str() );
+            add_msg( _( "The %s's mechanism is out of reach!" ), name );
         } else {
-            add_msg( _( "Looks like the %1$s is out of %2$s." ), eng.name().c_str(),
-                     item::nname( einfo.fuel_type ).c_str() );
+            add_msg( _( "Looks like the %1$s is out of %2$s." ), eng.name(),
+                     item::nname( einfo.fuel_type ) );
         }
         return false;
     }
@@ -741,32 +741,32 @@ bool vehicle::start_engine( const int e )
 
     // Immobilizers need removing before the vehicle can be started
     if( eng.faults().count( fault_immobiliser ) ) {
-        add_msg( _( "The %s makes a long beeping sound." ), eng.name().c_str() );
+        add_msg( _( "The %s makes a long beeping sound." ), eng.name() );
         return false;
     }
 
     // Engine with starter motors can fail on both battery and starter motor
     if( eng.faults_potential().count( fault_starter ) ) {
         if( eng.faults().count( fault_starter ) ) {
-            add_msg( _( "The %s makes a single clicking sound." ), eng.name().c_str() );
+            add_msg( _( "The %s makes a single clicking sound." ), eng.name() );
             return false;
         }
         const int start_draw = engine_power * ( 1.0 + dmg / 2 + cold_factor / 5 ) / 10;
         if( discharge_battery( watts_to_vhp( start_draw ), true ) != 0 ) {
-            add_msg( _( "The %s makes a rapid clicking sound." ), eng.name().c_str() );
+            add_msg( _( "The %s makes a rapid clicking sound." ), eng.name() );
             return false;
         }
     }
 
     // Engines always fail to start with faulty fuel pumps
     if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
-        add_msg( _( "The %s quickly stutters out." ), eng.name().c_str() );
+        add_msg( _( "The %s quickly stutters out." ), eng.name() );
         return false;
     }
 
     // Damaged engines have a chance of failing to start
     if( x_in_y( dmg * 100, 120 ) ) {
-        add_msg( _( "The %s makes a terrible clanking sound." ), eng.name().c_str() );
+        add_msg( _( "The %s makes a terrible clanking sound." ), eng.name() );
         return false;
     }
 
@@ -807,13 +807,13 @@ void vehicle::start_engines( const bool take_control )
     }
 
     if( !has_engine ) {
-        add_msg( m_info, _( "The %s doesn't have an engine!" ), name.c_str() );
+        add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
         return;
     }
 
     if( take_control && !g->u.controlling_vehicle ) {
         g->u.controlling_vehicle = true;
-        add_msg( _( "You take control of the %s." ), name.c_str() );
+        add_msg( _( "You take control of the %s." ), name );
     }
 
     g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
@@ -1174,7 +1174,7 @@ void vehicle::use_washing_machine( int p )
                  _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
     } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
-                 name.c_str() );
+                 name );
     } else if( !detergent_is_enough ) {
         add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
     } else if( !filthy_items ) {

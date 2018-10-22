@@ -2996,7 +2996,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
                                to_kilogram( total_mass() );
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
-    add_msg( m_debug, "%s has traction %.2f", name.c_str(), traction );
+    add_msg( m_debug, "%s has traction %.2f", name, traction );
     // For now make it easy until it gets properly balanced: add a low cap of 0.1
     return std::max( 0.1f, traction );
 }
@@ -3299,7 +3299,7 @@ void vehicle::power_parts()
                 vp.part().enabled = false;
             }
             if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's reactor dies!" ), name.c_str() );
+                add_msg( _( "The %s's reactor dies!" ), name );
             }
         }
     }
@@ -3333,13 +3333,13 @@ void vehicle::power_parts()
         is_alarm_on = false;
         camera_on = false;
         if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
-            add_msg( _( "The %s's battery dies!" ), name.c_str() );
+            add_msg( _( "The %s's battery dies!" ), name );
         }
         if( engine_epower < 0 ) {
             // Not enough epower to run gas engine ignition system
             engine_on = false;
             if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's engine dies!" ), name.c_str() );
+                add_msg( _( "The %s's engine dies!" ), name );
             }
         }
     }
@@ -3512,7 +3512,7 @@ void vehicle::idle( bool on_map )
     } else {
         if( engine_on && g->u.sees( global_pos3() ) &&
             has_engine_type_not( fuel_type_muscle, true ) ) {
-            add_msg( _( "The %s's engine dies!" ), name.c_str() );
+            add_msg( _( "The %s's engine dies!" ), name );
         }
         engine_on = false;
     }
@@ -3520,7 +3520,7 @@ void vehicle::idle( bool on_map )
     if( !warm_enough_to_plant() ) {
         for( const vpart_reference &vp : get_parts( "PLANTER" ) ) {
             if( g->u.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's planter turns off due to low temperature." ), name.c_str() );
+                add_msg( _( "The %s's planter turns off due to low temperature." ), name );
             }
             vp.part().enabled = false;
         }
@@ -4098,6 +4098,9 @@ void vehicle::shed_loose_parts()
 
 void vehicle::refresh_insides()
 {
+    if( !insides_dirty ) {
+        return;
+    }
     insides_dirty = false;
     for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
@@ -4113,10 +4116,8 @@ void vehicle::refresh_insides()
 
         parts[p].inside = true; // inside if not otherwise
         for( int i = 0; i < 4; i++ ) { // let's check four neighbor parts
-            int ndx = i < 2 ? ( i == 0 ? -1 : 1 ) : 0;
-            int ndy = i < 2 ? 0 : ( i == 2 ? - 1 : 1 );
-            std::vector<int> parts_n3ar = parts_at_relative( vp.mount() +
-                                          point( ndx, ndy ), true );
+            point near_mount = parts[ p ].mount + vehicles::cardinal_d[ i ];
+            std::vector<int> parts_n3ar = parts_at_relative( near_mount, true );
             bool cover = false; // if we aren't covered from sides, the roof at p won't save us
             for( auto &j : parts_n3ar ) {
                 // another roof -- cover
@@ -4143,11 +4144,10 @@ void vehicle::refresh_insides()
 
 bool vpart_position::is_inside() const
 {
-    if( vehicle().insides_dirty ) {
-        // TODO: this is a bit of a hack as refresh_insides has side effects
-        // this should be called elsewhere and not in a function that intends to just query
-        vehicle().refresh_insides();
-    }
+    // TODO: this is a bit of a hack as refresh_insides has side effects
+    // this should be called elsewhere and not in a function that intends to just query
+    // it's also a no-op if the insides are up to date.
+    vehicle().refresh_insides();
     return vehicle().parts[part_index()].inside;
 }
 
@@ -4341,15 +4341,15 @@ int vehicle::break_off( int p, int dmg )
             if( parts[ parts_in_square[ index ] ].is_broken() ) {
                 // Tearing off a broken part - break it up
                 if( g->u.sees( pos ) ) {
-                    add_msg( m_bad, _( "The %s's %s breaks into pieces!" ), name.c_str(),
-                             parts[ parts_in_square[ index ] ].name().c_str() );
+                    add_msg( m_bad, _( "The %s's %s breaks into pieces!" ), name,
+                             parts[ parts_in_square[ index ] ].name() );
                 }
                 break_part_into_pieces( parts_in_square[index], pos.x, pos.y, true );
             } else {
                 // Intact (but possibly damaged) part - remove it in one piece
                 if( g->u.sees( pos ) ) {
-                    add_msg( m_bad, _( "The %1$s's %2$s is torn off!" ), name.c_str(),
-                             parts[ parts_in_square[ index ] ].name().c_str() );
+                    add_msg( m_bad, _( "The %1$s's %2$s is torn off!" ), name,
+                             parts[ parts_in_square[ index ] ].name() );
                 }
                 item part_as_item = parts[parts_in_square[index]].properties_to_item();
                 g->m.add_item_or_charges( pos, part_as_item );
@@ -4358,8 +4358,7 @@ int vehicle::break_off( int p, int dmg )
         }
         // After clearing the frame, remove it.
         if( g->u.sees( pos ) ) {
-            add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ),
-                     name.c_str(), parts[ p ].name().c_str() );
+            add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         }
         break_part_into_pieces( p, pos.x, pos.y, true );
         remove_part( p );
@@ -4367,8 +4366,7 @@ int vehicle::break_off( int p, int dmg )
     } else {
         //Just break it off
         if( g->u.sees( pos ) ) {
-            add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ),
-                     name.c_str(), parts[ p ].name().c_str() );
+            add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         }
 
         break_part_into_pieces( p, pos.x, pos.y, true );
@@ -4676,7 +4674,7 @@ void vehicle::update_time( const time_point &update_to )
         }
 
         if( epower > 0 ) {
-            add_msg( m_debug, "%s got %d epower from solar panels", name.c_str(), epower );
+            add_msg( m_debug, "%s got %d epower from solar panels", name, epower );
             charge_battery( watts_to_vhp( epower ) );
         }
     }
