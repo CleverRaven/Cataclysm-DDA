@@ -3135,6 +3135,12 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         patient.damage_disinfected[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
         practice_amount += 2 * disinfectant_intensity;
     }
+
+    // starter boost: probably not much practical difference at first-aid 0 from the state of the wound.
+    if( healer.get_skill_level( skill_firstaid ) == 0 ) {
+        practice_amount *= 2.5f;
+    }
+
     practice_amount = std::max( 9.0f, practice_amount );
 
     healer.practice( skill_firstaid, ( int )practice_amount );
