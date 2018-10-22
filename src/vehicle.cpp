@@ -3021,7 +3021,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
     return std::max( 0.1f, traction );
 }
 
-float vehicle::drag() const
+int vehicle::drag() const
 {
     return -extra_drag;
 }
