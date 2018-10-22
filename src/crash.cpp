@@ -279,7 +279,6 @@ extern "C" {
                 return;
         }
         log_crash( "Signal", msg );
-        // end of UB
         _Exit( EXIT_FAILURE );
     }
 
