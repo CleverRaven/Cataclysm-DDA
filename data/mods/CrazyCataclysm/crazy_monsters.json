@@ -42,7 +42,7 @@
     "vision_night": 3,
     "death_drops": "skeltal_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES" ],
+    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ],
     "special_attacks": [ [ "DOOT", 50 ] ]
   },
   {
@@ -69,6 +69,6 @@
     "vision_day": 30,
     "vision_night": 3,
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES" ]
+    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
   }
 ]
