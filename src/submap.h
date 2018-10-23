@@ -169,7 +169,7 @@ struct submap {
     active_item_cache active_items;
 
     int field_count = 0;
-    time_point last_touched = 0;
+    time_point last_touched = calendar::time_of_cataclysm;
     int temperature = 0;
     std::vector<spawn_point> spawns;
     /**
