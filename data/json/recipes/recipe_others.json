@@ -73,18 +73,9 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": 28000,
     "autolearn": true,
-    "components": [
-      [
-        [ "largebroketent", 1 ],
-        [ "broketent", 2 ]
-      ],
-      [
-        [ "superglue", 2 ],
-        [ "duct_tape", 20 ]
-      ]
-    ]
+    "components": [ [ [ "largebroketent", 1 ], [ "broketent", 2 ] ], [ [ "superglue", 2 ], [ "duct_tape", 20 ] ] ]
   },
-    {
+  {
     "type": "recipe",
     "result": "large_tent_kit",
     "category": "CC_OTHER",
@@ -96,16 +87,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": 32000,
     "autolearn": true,
-    "components": [
-      [
-        [ "largebroketent", 2 ],
-        [ "broketent", 3 ]
-      ],
-      [
-        [ "superglue", 3 ],
-        [ "duct_tape", 40 ]
-      ]
-    ]
+    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 3 ] ], [ [ "superglue", 3 ], [ "duct_tape", 40 ] ] ]
   },
   {
     "type": "recipe",
