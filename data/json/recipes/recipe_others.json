@@ -63,6 +63,50 @@
   },
   {
     "type": "recipe",
+    "result": "tent_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "book_learn": [ [ "fun_survival", 3 ], [ "manual_survival", 3 ], [ "textbook_survival", 3 ] ],
+    "time": 28000,
+    "autolearn": true,
+    "components": [
+      [
+        [ "largebroketent", 1 ],
+        [ "broketent", 2 ]
+      ],
+      [
+        [ "superglue", 2 ],
+        [ "duct_tape", 20 ]
+      ]
+    ]
+  },
+    {
+    "type": "recipe",
+    "result": "large_tent_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "book_learn": [ [ "fun_survival", 3 ], [ "manual_survival", 3 ], [ "textbook_survival", 3 ] ],
+    "time": 28000,
+    "autolearn": true,
+    "components": [
+      [
+        [ "largebroketent", 2 ],
+        [ "broketent", 3 ]
+      ],
+      [
+        [ "superglue", 3 ],
+        [ "duct_tape", 40 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "felt_patch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
