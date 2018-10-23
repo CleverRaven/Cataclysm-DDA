@@ -473,7 +473,7 @@ void debug_write_backtrace( std::ostream &out )
         }
         out << "), ";
     }
-    out << "\n\t";
+    out << "\n";
 #else
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
