@@ -354,12 +354,22 @@ class Character : public Creature, public visitable<Character>
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
+         * menu_header - name of item that triggers this menu
+         * show_all - show and enable choice of all limbs, not only healable
+         * precise - show numerical hp
+         * normal_bonus - heal normal limb
+         * head_bonus - heal head
+         * torso_bonus - heal torso
+         * bleed - chance to stop bleeding
+         * bite - chance to remove bite
+         * infect - chance to remove infection
+         * bandage_power - quality of bandage
+         * disinfectant_power - quality of disinfectant
          */
-        hp_part body_window( bool precise = false ) const;
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const;
+                             float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
