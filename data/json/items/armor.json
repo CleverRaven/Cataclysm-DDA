@@ -7758,7 +7758,37 @@
     "warmth": 80,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "use_action": {
+      "menu_text": "Roll up",
+      "type": "transform",
+      "target": "sleeping_bag_roll",
+      "msg": "You roll up the sleeping bag, preparing it for transport."
+    }
+  },
+  {
+    "id": "sleeping_bag_roll",
+    "type": "ARMOR",
+    "name": "rolled sleeping bag",
+    "description": "A large sleeping bag rolled up for transport. It has a strap to carry it with.",
+    "weight": 981,
+    "volume": 4,
+    "price": 20500,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "(",
+    "color": "light_red",
+    "covers": [ "TORSO" ],
+    "coverage": 10,
+    "encumbrance": 20,
+    "material_thickness": 4,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "use_action": {
+      "menu_text": "Unroll",
+      "type": "transform",
+      "target": "sleeping_bag",
+      "msg": "You unroll the sleeping bag."
+    }
   },
   {
     "id": "sleeping_bag_fur",
@@ -7778,7 +7808,37 @@
     "warmth": 100,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ]
+     "flags": [ "OVERSIZE", "OUTER" ],
+    "use_action": {
+      "menu_text": "Roll up",
+      "type": "transform",
+      "target": "sleeping_bag_fur_roll",
+      "msg": "You roll up the fur sleeping bag, preparing it for transport."
+    }
+  },
+  {
+    "id": "sleeping_bag_fur_roll",
+    "type": "ARMOR",
+    "name": "rolled fur sleeping bag",
+    "description": "A large sleeping bag lined with fur, rolled for transport. It has a strap to carry it with.",
+    "weight": 1175,
+    "volume": 8,
+    "price": 32500,
+    "to_hit": -1,
+    "material": [ "cotton", "fur" ],
+    "symbol": "(",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 10,
+    "encumbrance": 20,
+    "material_thickness": 5,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "use_action": {
+      "menu_text": "Unroll",
+      "type": "transform",
+      "target": "sleeping_bag_fur",
+      "msg": "You unroll up the fur sleeping bag."
+    }
   },
   {
     "id": "sleeveless_duster",
