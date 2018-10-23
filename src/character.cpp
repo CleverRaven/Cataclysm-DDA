@@ -152,9 +152,7 @@ Character::Character() : Creature(), visitable<Character>(), hp_cur( {
 }
 
 Character::~Character() = default;
-Character::Character( const Character & ) = default;
 Character::Character( Character && ) = default;
-Character &Character::operator=( const Character & ) = default;
 Character &Character::operator=( Character && ) = default;
 
 field_id Character::bloodType() const
@@ -1026,18 +1024,37 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
 
 units::mass Character::weight_carried() const
 {
-    units::mass ret = 0;
-    ret += weapon.weight();
-    for( auto &i : worn ) {
-        ret += i.weight();
-    }
-    ret += inv.weight();
-    return ret;
+    return weight_carried_with_tweaks( {} );
 }
 
 units::volume Character::volume_carried() const
 {
     return inv.volume();
+}
+
+units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
+{
+    const std::map<const item *, int> empty;
+    const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
+
+    units::mass ret = 0;
+    if( !without.count( &weapon ) ) {
+        ret += weapon.weight();
+    }
+    for( auto &i : worn ) {
+        if( !without.count( &i ) ) {
+            ret += i.weight();
+        }
+    }
+    const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    ret += i.weight_without( without );
+    return ret;
+}
+
+units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
+{
+    const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    return tweaks.without_items ? i.volume_without( *tweaks.without_items ) : i.volume();
 }
 
 units::mass Character::weight_capacity() const
@@ -1095,7 +1112,8 @@ units::volume Character::volume_capacity() const
     return volume_capacity_reduced_by( 0 );
 }
 
-units::volume Character::volume_capacity_reduced_by( const units::volume &mod ) const
+units::volume Character::volume_capacity_reduced_by(
+    const units::volume &mod, const std::map<const item *, int> &without_items ) const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         return units::volume_max;
@@ -1103,7 +1121,9 @@ units::volume Character::volume_capacity_reduced_by( const units::volume &mod ) 
 
     units::volume ret = -mod;
     for( auto &i : worn ) {
-        ret += i.get_storage();
+        if( !without_items.count( &i ) ) {
+            ret += i.get_storage();
+        }
     }
     if( has_bionic( bionic_id( "bio_storage" ) ) ) {
         ret += 2000_ml;
@@ -1233,47 +1253,29 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     } );
 }
 
-SkillLevel &Character::get_skill_level_object( const skill_id &ident )
+const SkillLevelMap &Character::get_all_skills() const
 {
-    static SkillLevel null_skill;
-
-    if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
-    } else {
-        return ( *_skills )[ident];
-    }
-
-    null_skill.level( 0 );
-    return null_skill;
-}
-
-int Character::get_skill_level( const skill_id &ident ) const
-{
-    return get_skill_level_object( ident ).level();
+    return *_skills;
 }
 
 const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
 {
-    static const SkillLevel null_skill;
+    return _skills->get_skill_level_object( ident );
+}
 
-    if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
-        return null_skill;
-    }
+SkillLevel &Character::get_skill_level_object( const skill_id &ident )
+{
+    return _skills->get_skill_level_object( ident );
+}
 
-    const auto iter = _skills->find( ident );
-
-    if( iter != _skills->end() ) {
-        return iter->second;
-    }
-
-    return null_skill;
+int Character::get_skill_level( const skill_id &ident ) const
+{
+    return _skills->get_skill_level( ident );
 }
 
 int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill(
-                                       ident ) ).level();
+    return _skills->get_skill_level( ident, context );
 }
 
 void Character::set_skill_level( const skill_id &ident, const int level )
@@ -1283,23 +1285,7 @@ void Character::set_skill_level( const skill_id &ident, const int level )
 
 void Character::mod_skill_level( const skill_id &ident, const int delta )
 {
-    SkillLevel &obj = get_skill_level_object( ident );
-    obj.level( obj.level() + delta );
-}
-
-std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req,
-        const item &context ) const
-{
-    std::map<skill_id, int> res;
-
-    for( const auto &elem : req ) {
-        const int diff = get_skill_level( elem.first, context ) - elem.second;
-        if( diff != 0 ) {
-            res[elem.first] = diff;
-        }
-    }
-
-    return res;
+    _skills->mod_skill_level( ident, delta );
 }
 
 std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
@@ -1329,9 +1315,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
         const item &context ) const
 {
-    return std::all_of( req.begin(), req.end(), [this, &context]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first, context ) >= pr.second;
-    } );
+    return _skills->meets_skill_requirements( req, context );
 }
 
 bool Character::meets_stat_requirements( const item &it ) const

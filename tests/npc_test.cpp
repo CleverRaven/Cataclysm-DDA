@@ -56,11 +56,8 @@ npc create_model()
 
 TEST_CASE( "on_load-sane-values", "[.]" )
 {
-
-    npc model_npc = create_model();
-
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
-        npc test_npc = model_npc;
+        npc test_npc = create_model();
         const int five_min_ticks = 2;
         on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
         const int margin = 2;
@@ -73,7 +70,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
     }
 
     SECTION( "Awake for 2 days, gaining hunger/thirst/fatigue" ) {
-        npc test_npc = model_npc;
+        npc test_npc = create_model();
         const auto five_min_ticks = 2_days / 5_minutes;
         on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
 
@@ -86,7 +83,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
     }
 
     SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)" ) {
-        npc test_npc = model_npc;
+        npc test_npc = create_model();
         test_npc.add_effect( efftype_id( "sleep" ), 6_hours );
         test_npc.set_fatigue( 1000 );
         const auto five_min_ticks = 6_hours / 5_minutes;
@@ -109,11 +106,9 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
 TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 {
-    npc model_npc = create_model();
-
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
-        npc on_load_npc = model_npc;
-        npc iterated_npc = model_npc;
+        npc on_load_npc = create_model();
+        npc iterated_npc = create_model();
         const int five_min_ticks = 2;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
@@ -130,8 +125,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
     }
 
     SECTION( "Awake for 6 hours, gaining hunger/thirst/fatigue" ) {
-        npc on_load_npc = model_npc;
-        npc iterated_npc = model_npc;
+        npc on_load_npc = create_model();
+        npc iterated_npc = create_model();
         const auto five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {

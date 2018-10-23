@@ -149,9 +149,7 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     }
 }
 
-npc::npc( const npc & ) = default;
 npc::npc( npc && ) = default;
-npc &npc::operator=( const npc & ) = default;
 npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;

@@ -7620,21 +7620,20 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
         return 0;
     }
+    /// @todo Is this necessary?
     if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 
-    player player = *p;
-
-    player.inv.restack( player );
+    p->inv.restack( *p );
 
     const inventory_filter_preset preset( []( const item_location & location ) {
         return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
     } );
     // TODO: this should also search surrounding area, not just player inventory.
-    inventory_iuse_selector inv_s( player, _( "ITEMS TO CLEAN" ), preset );
-    inv_s.add_character_items( player );
+    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset );
+    inv_s.add_character_items( *p );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
     std::list<std::pair<int, int>> to_clean;

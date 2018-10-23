@@ -543,9 +543,29 @@ class Character : public Creature, public visitable<Character>
 
         units::mass weight_carried() const;
         units::volume volume_carried() const;
+
+        /// Sometimes we need to calculate hypothetical volume or weight.  This
+        /// struct offers two possible tweaks: a collection of items and
+        /// coutnts to remove, or an entire replacement inventory.
+        struct item_tweaks {
+            item_tweaks() = default;
+            item_tweaks( const std::map<const item *, int> &w ) :
+                without_items( std::cref( w ) )
+            {}
+            item_tweaks( const inventory &r ) :
+                replace_inv( std::cref( r ) )
+            {}
+            const cata::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
+            const cata::optional<std::reference_wrapper<const inventory>> replace_inv;
+        };
+
+        units::mass weight_carried_with_tweaks( const item_tweaks & ) const;
+        units::volume volume_carried_with_tweaks( const item_tweaks & ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
-        units::volume volume_capacity_reduced_by( const units::volume &mod ) const;
+        units::volume volume_capacity_reduced_by(
+            const units::volume &mod,
+            const std::map<const item *, int> &without_items = {} ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
@@ -578,19 +598,12 @@ class Character : public Creature, public visitable<Character>
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
 
+        const SkillLevelMap &get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
         const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
 
         void set_skill_level( const skill_id &ident, int level );
         void mod_skill_level( const skill_id &ident, int delta );
-
-        /** Calculates skill difference
-         * @param req Required skills to be compared with.
-         * @param context An item to provide context for contextual skills. Can be null.
-         * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
-         */
-        std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req,
-                const item &context = item() ) const;
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;
@@ -708,9 +721,9 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         Character();
-        Character( const Character & );
+        Character( const Character & ) = delete;
         Character( Character && );
-        Character &operator=( const Character & );
+        Character &operator=( const Character & ) = delete;
         Character &operator=( Character && );
         struct trait_data {
             /** Key to select the mutation in the UI. */
