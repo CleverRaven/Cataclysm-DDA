@@ -185,7 +185,10 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
         it.convert( container );
         obj = &it.emplace_back( target, calendar::turn, std::max( ammo_qty, 1l ) );
     }
-
+    if( p.is_worn( *obj ) ) {
+        p.reset_encumbrance();
+        p.update_bodytemp();
+    }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
 
