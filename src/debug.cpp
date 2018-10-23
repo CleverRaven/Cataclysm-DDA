@@ -504,8 +504,11 @@ void debug_write_backtrace( std::ostream &out )
         while( fgets( buf, sizeof( buf ), addr2line ) ) {
             out.write( "\t", 1 );
             // Strip leading directories for source file path
-            char *src = strstr( buf, "/src/" );
-            if( src == nullptr ) {
+            char search_for[] = "/src/";
+            auto buf_end = buf + strlen( buf );
+            auto src = std::find_end( buf, buf_end,
+                                      search_for, search_for + strlen( search_for ) );
+            if( src == buf_end ) {
                 src = buf;
             } else {
                 out.write( "...", 3 );
