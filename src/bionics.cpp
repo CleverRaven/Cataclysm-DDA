@@ -542,15 +542,23 @@ bool player::activate_bionic( int b, bool eff_only )
         bool has_cable = has_item_with( []( const item & it ) {
             return it.active && it.has_flag( "CABLE_SPOOL" );
         } );
+        bool has_connected_cable = has_item_with( []( const item & it ) {
+            return it.active && it.has_flag( "CABLE_SPOOL" ) && it.get_var( "state" ) == "solar_pack_link";
+        } );
 
         if( !has_cable ) {
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a vehicle to drain power from it." ) );
         }
-        if( g->u.is_wearing( "solarpack_on" ) || g->u.is_wearing( "q_solarpack_on" ) ) {
-            add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
-                                          " your system." ) );
-        } else if( g->u.is_wearing( "solarpack" ) || g->u.is_wearing( "q_solarpack" ) ) {
+        if( is_wearing( "solarpack_on" ) || is_wearing( "q_solarpack_on" ) ) {
+            if( has_connected_cable ) {
+                add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
+                                              " your system." ) );
+            } else {
+                add_msg_if_player( m_info, _( "You need to connect the cable to yourself and the solar pack"
+                                              " before your solar pack can charge your system." ) );
+            }
+        } else if( is_wearing( "solarpack" ) || is_wearing( "q_solarpack" ) ) {
             add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
                                           " system, if you unfold it." ) );
         }
@@ -759,7 +767,7 @@ void player::process_bionic( int b )
         constexpr int battery_per_power = 10;
         int wants_power_amt = battery_per_power;
         for( const item *cable : cables ) {
-            const cata::optional<tripoint> target = cable->get_cable_target();
+            const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
             if( !target ) {
                 continue;
             }
