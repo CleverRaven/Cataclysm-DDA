@@ -87,7 +87,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": 32000,
     "autolearn": true,
-    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], ["tent_kit", 3 ], [ [ "superglue", 3 ], [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], ["tent_kit", 3 ] ], [ [ "superglue", 3 ], [ "duct_tape", 40 ] ] ]
   },
   {
     "type": "recipe",
