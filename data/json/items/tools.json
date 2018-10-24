@@ -313,7 +313,7 @@
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "bag_apple_vac",
@@ -2745,7 +2745,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "fire_drill",
@@ -5183,7 +5183,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "noise_emitter",
@@ -8370,7 +8370,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "food_processor",
