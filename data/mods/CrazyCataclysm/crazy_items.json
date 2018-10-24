@@ -48,7 +48,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Ionic Overload Generator CBM",
-    "description": "A powerful ion energy generator is implanted on in your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact. Close range use is highly discouraged.",
+    "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact. Close range use is highly discouraged.",
     "price": 220000,
     "difficulty": 8
   },
