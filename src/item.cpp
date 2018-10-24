@@ -50,6 +50,7 @@
 #include "input.h"
 #include "fault.h"
 #include "vehicle_selector.h"
+#include "vpart_reference.h"
 #include "units.h"
 #include "ret_val.h"
 #include "iteminfo_query.h"
@@ -6704,10 +6705,18 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     return false;
 }
 
-cata::optional<tripoint> item::get_cable_target() const
+cata::optional<tripoint> item::get_cable_target( player *p, const tripoint &pos ) const
 {
-    if( get_var( "state" ) != "pay_out_cable" ) {
+    const std::string &state = get_var( "state" );
+    if( state != "pay_out_cable" && state != "cable_charger_link" ) {
         return cata::nullopt;
+    }
+    const optional_vpart_position vp_pos = g->m.veh_at( pos );
+    if( vp_pos ) {
+        const cata::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
+        if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
+            return pos;
+        }
     }
 
     int source_x = get_var( "source_x", 0 );
@@ -6720,7 +6729,7 @@ cata::optional<tripoint> item::get_cable_target() const
 
 bool item::process_cable( player *p, const tripoint &pos )
 {
-    const cata::optional<tripoint> source = get_cable_target();
+    const cata::optional<tripoint> source = get_cable_target( p, pos );
     if( !source ) {
         return false;
     }
