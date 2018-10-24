@@ -7783,12 +7783,7 @@
     "encumbrance": 20,
     "material_thickness": 4,
     "flags": [ "OVERSIZE", "BELTED" ],
-    "use_action": {
-      "menu_text": "Unroll",
-      "type": "transform",
-      "target": "sleeping_bag",
-      "msg": "You unroll the sleeping bag."
-    }
+    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." }
   },
   {
     "id": "sleeping_bag_fur",
@@ -7808,7 +7803,7 @@
     "warmth": 100,
     "material_thickness": 5,
     "environmental_protection": 1,
-     "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER" ],
     "use_action": {
       "menu_text": "Roll up",
       "type": "transform",
