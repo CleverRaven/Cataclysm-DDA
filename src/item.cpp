@@ -762,13 +762,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batc
 
 // Generates a long-form description of the freshness of the given rottable food item.
 // NB: Doesn't check for non-rottable!
-const std::string get_freshness_description( const item *food_item )
+std::string get_freshness_description( const item &food_item )
 {
     // So, skilled characters looking at food that is neither super-fresh nor about to rot
     // can guess its age as one of {quite fresh,midlife,past midlife,old soon}, and also
     // guess about how long until it spoils.
-    const double rot_progress = food_item->get_relative_rot();
-    const time_duration shelf_life = food_item->type->comestible->spoils;
+    const double rot_progress = food_item.get_relative_rot();
+    const time_duration shelf_life = food_item.type->comestible->spoils;
     time_duration time_left = shelf_life - ( shelf_life * rot_progress );
 
     // Correct for an estimate that exceeds shelf life -- this happens especially with
@@ -777,7 +777,7 @@ const std::string get_freshness_description( const item *food_item )
         time_left = shelf_life;
     }
 
-    if( food_item->is_fresh() ) {
+    if( food_item.is_fresh() ) {
         // Fresh food is assumed to be obviously so regardless of skill.
         if( g->u.can_estimate_rot() ) {
             return string_format( _( "* This food looks as <good>fresh</good> as it can be.  "
@@ -786,7 +786,7 @@ const std::string get_freshness_description( const item *food_item )
         } else {
             return _( "* This food looks as <good>fresh</good> as it can be." );
         }
-    } else if( food_item->is_going_bad() ) {
+    } else if( food_item.is_going_bad() ) {
         // Old food likewise is assumed to be fairly obvious.
         if( g->u.can_estimate_rot() ) {
             return string_format( _( "* This food looks <bad>old</bad>.  "
@@ -1097,7 +1097,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                    rot_time.c_str() ) );
 
             if( !food_item->rotten() ) {
-                info.emplace_back( "DESCRIPTION", get_freshness_description( food_item ) );
+                info.emplace_back( "DESCRIPTION", get_freshness_description( *food_item ) );
             }
 
             if( food_item->has_flag( "FREEZERBURN" ) && !food_item->rotten() &&
