@@ -222,7 +222,7 @@ point draw_notes( int z )
     bool redraw = true;
     point result( -1, -1 );
 
-    mvwprintz( w_notes, 1, 1, c_light_gray, title.c_str() );
+    mvwprintz( w_notes, 1, 1, c_white, title.c_str() );
     do {
 #ifdef __ANDROID__
         input_context ctxt( "DRAW_NOTES" );
@@ -239,8 +239,17 @@ point draw_notes( int z )
                     continue;
                 }
                 // Print letter ('a' <=> cur_it == start)
-                mvwputch( w_notes, i + 2, 1, c_white, 'a' + i );
-                mvwprintz( w_notes, i + 2, 3, c_light_gray, "- %s", notes[cur_it].second.c_str() );
+                mvwputch( w_notes, i + 2, 1, c_blue, 'a' + i );
+                mvwputch( w_notes, i + 2, 3, c_light_gray, '-' );
+
+                const std::string note_text = notes[cur_it].second;
+                const auto om_symbol = get_note_display_info( note_text );
+                const std::string tmp_note = string_format( "%s%c</color> <color_yellow>%s</color>",
+                                             get_tag_from_color( std::get<1>( om_symbol ) ),
+                                             std::get<0>( om_symbol ),
+                                             note_text.substr( std::get<2>( om_symbol ),
+                                                     std::string::npos ) );
+                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note.c_str() );
 #ifdef __ANDROID__
                 ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
 #endif
