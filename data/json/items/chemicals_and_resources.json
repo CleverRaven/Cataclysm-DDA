@@ -137,6 +137,7 @@
     "type" : "GENERIC",
     "price_postapoc": 5000,
     "id" : "material_rocksalt",
+    "category" : "food"
     "price" : 50,
     "name" : "rock salt",
     "name_plural" : "rock salt",
@@ -766,6 +767,7 @@
    {
     "type":"GENERIC",
     "id": "hickory_nut",
+    "category": "food",
     "symbol": "%",
     "color": "brown",
     "name": "hickory nuts",
@@ -780,6 +782,7 @@
    {
     "type":"GENERIC",
     "id": "pecan",
+    "category": "food",
     "symbol": "%",
     "color": "brown",
     "name": "pecan",
@@ -794,6 +797,7 @@
    {
     "type":"GENERIC",
     "id": "pistachio",
+    "category": "food",
     "symbol": "%",
     "color": "brown",
     "name": "pistachio",
@@ -808,6 +812,7 @@
    {
     "type":"GENERIC",
     "id": "almond",
+    "category": "food",
     "symbol": "%",
     "color": "brown",
     "name": "almond",
@@ -822,6 +827,7 @@
    {
     "type":"GENERIC",
     "id": "peanut",
+    "category": "food",
     "symbol": "%",
     "color": "brown",
     "name": "peanut",
@@ -836,6 +842,7 @@
    {
     "type":"GENERIC",
     "id": "hazelnut",
+    "category": "food",
     "symbol": "%",
     "color": "brown",
     "name": "hazelnut",
@@ -850,6 +857,7 @@
    {
     "type":"GENERIC",
     "id": "chestnut",
+    "category": "food",
     "symbol": "%",
     "color": "brown",
     "name": "chestnut",
@@ -864,6 +872,7 @@
    {
     "type":"GENERIC",
     "id": "walnut",
+    "category": "food",
     "symbol": "%",
     "color": "brown",
     "name": "walnut",
