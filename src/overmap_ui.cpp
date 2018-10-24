@@ -709,6 +709,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             ++y;
         }
 
+        const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
+        const bool is_explored = overmap_buffer.is_explored( cursx, cursy, z );
+
         print_hint( "LEVEL_UP" );
         print_hint( "LEVEL_DOWN" );
         print_hint( "CENTER" );
@@ -716,11 +719,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "CREATE_NOTE" );
         print_hint( "DELETE_NOTE" );
         print_hint( "LIST_NOTES" );
-        print_hint( "TOGGLE_BLINKING" );
-        print_hint( "TOGGLE_OVERLAYS" );
+        print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
+        print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
-        print_hint( "TOGGLE_EXPLORED" );
+        print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
