@@ -137,7 +137,7 @@
     "type" : "GENERIC",
     "price_postapoc": 5000,
     "id" : "material_rocksalt",
-    "category" : "food"
+    "category" : "food",
     "price" : 50,
     "name" : "rock salt",
     "name_plural" : "rock salt",
