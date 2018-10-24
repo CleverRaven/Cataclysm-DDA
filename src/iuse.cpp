@@ -4515,7 +4515,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             case AEA_FIREBALL: {
                 tripoint fireball = g->look_around();
                 if( fireball != tripoint_min ) {
-                    g->explosion( fireball, 24, 0.5, true );
+                    g->explosion( fireball, 180, 0.5, true );
                 }
             }
             break;
