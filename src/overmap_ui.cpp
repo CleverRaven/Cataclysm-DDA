@@ -20,6 +20,7 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "cata_utility.h"
 
 #ifdef __ANDROID__
 #include "SDL_keyboard.h"
@@ -553,8 +554,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
           target.x >= offset_x + om_map_width ||
           target.y < offset_y ||
           target.y >= offset_y + om_map_height ) ) {
-        int marker_x = std::max( 0, std::min( om_map_width  - 1, target.x - offset_x ) );
-        int marker_y = std::max( 0, std::min( om_map_height - 1, target.y - offset_y ) );
+        int marker_x = clamp( target.x - offset_x, 0, om_map_width  - 1 );
+        int marker_y = clamp( target.y - offset_y, 0, om_map_height - 1 );
         long marker_sym = ' ';
 
         switch( direction_from( cursx, cursy, target.x, target.y ) ) {
