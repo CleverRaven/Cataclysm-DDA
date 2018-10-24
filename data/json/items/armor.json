@@ -4252,7 +4252,7 @@
   {
     "id": "helmet_ball",
     "type": "ARMOR",
-    "category": "armor"
+    "category": "armor",
     "name": "baseball helmet",
     "description": "A hard plastic helmet that covers the head and ears.  Designed to protect against a baseball to the head.",
     "weight": 453,
