@@ -108,6 +108,12 @@ class translation : public JsonDeserializer
          * the tranlated string.
          **/
         std::string translated() const;
+
+        /**
+         * Whether the underlying string is empty, not matter what the context
+         * is or whether translation is needed.
+         **/
+        bool empty() const;
     private:
         struct no_translation_tag {};
         translation( const std::string &str, const no_translation_tag );

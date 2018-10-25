@@ -331,6 +331,11 @@ std::string translation::translated() const
     }
 }
 
+bool translation::empty() const
+{
+    return raw.empty();
+}
+
 translation no_translation( const std::string &str )
 {
     return translation::no_translation( str );

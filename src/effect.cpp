@@ -473,8 +473,14 @@ std::string effect::disp_name() const
     if( eff_type->use_name_ints() ) {
         const translation &d_name = eff_type->name[ std::min<size_t>( intensity,
                                                       eff_type->name.size() ) - 1 ];
+        if( d_name.empty() ) {
+            return std::string();
+        }
         ret << d_name.translated();
     } else {
+        if( eff_type->name[0].empty() ) {
+            return std::string();
+        }
         ret << eff_type->name[0].translated();
         if( intensity > 1 ) {
             ret << " [" << intensity << "]";
