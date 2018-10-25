@@ -19,6 +19,10 @@
 #define translate_marker_context(c, x) x
 #endif
 
+#include <string>
+#include "json.h"
+#include "optional.h"
+
 #ifdef LOCALIZE
 
 // MingW flips out if you don't define this before you try to statically link libintl.
@@ -29,7 +33,6 @@
 #endif
 #endif
 
-#include <string>
 #include <cstdio>
 #include <libintl.h>
 #include <clocale>
@@ -69,5 +72,54 @@ bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();
 void set_language();
+
+/**
+ * Class for storing translation context and raw string for deferred translation
+ **/
+class translation : public JsonDeserializer
+{
+    public:
+        translation();
+        /**
+         * Create a deferred translation with context
+         **/
+        translation( const std::string &ctxt, const std::string &raw );
+
+        /**
+         * Create a deferred translation without context
+         **/
+        translation( const std::string &raw );
+
+        /**
+         * Store a string that needs no translation.
+         **/
+        static translation no_translation( const std::string &str );
+
+        /**
+         * Deserialize from json. Json format is:
+         * "name": "text"
+         * or
+         * "name": { "ctxt": "foo", "str": "bar" }
+         **/
+        void deserialize( JsonIn &jsin ) override;
+
+        /**
+         * Returns raw string if no translation is needed, otherwise returns
+         * the tranlated string.
+         **/
+        std::string str() const;
+    private:
+        struct no_translation_tag {};
+        translation( const std::string &str, const no_translation_tag );
+
+        cata::optional<std::string> ctxt;
+        std::string raw;
+        bool needs_translation;
+};
+
+/**
+ * Shorthand for translation::no_translation
+ **/
+translation no_translation( const std::string &str );
 
 #endif // _TRANSLATIONS_H_

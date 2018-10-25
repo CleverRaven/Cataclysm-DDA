@@ -276,3 +276,62 @@ void set_language()
 }
 
 #endif // LOCALIZE
+
+translation::translation()
+    : ctxt( cata::nullopt ), raw(), needs_translation( false )
+{
+}
+
+translation::translation( const std::string &ctxt, const std::string &raw )
+    : ctxt( ctxt ), raw( raw ), needs_translation( true )
+{
+}
+
+translation::translation( const std::string &raw )
+    : ctxt( cata::nullopt ), raw( raw ), needs_translation( true )
+{
+}
+
+translation::translation( const std::string &str, const no_translation_tag )
+    : ctxt( cata::nullopt ), raw( str ), needs_translation( false )
+{
+}
+
+translation translation::no_translation( const std::string &str )
+{
+    return { str, no_translation_tag() };
+}
+
+void translation::deserialize( JsonIn &jsin )
+{
+    if( jsin.test_string() ) {
+        ctxt = cata::nullopt;
+        raw = jsin.get_string();
+        needs_translation = true;
+    } else {
+        JsonObject jsobj = jsin.get_object();
+        if( jsobj.has_string( "context" ) ) {
+            ctxt = jsobj.get_string( "ctxt" );
+        } else {
+            ctxt = cata::nullopt;
+        }
+        raw = jsobj.get_string( "str" );
+        needs_translation = true;
+    }
+}
+
+std::string translation::str() const
+{
+    if( !needs_translation ) {
+        return raw;
+    } else if( !ctxt ) {
+        return _( raw.c_str() );
+    } else {
+        return pgettext( ctxt->c_str(), raw.c_str() );
+    }
+}
+
+translation no_translation( const std::string &str )
+{
+    return translation::no_translation( str );
+}
