@@ -1402,6 +1402,7 @@
     "price": 20000,
     "price_postapoc": 1900,
     "material": [ "plastic", "aluminum" ],
+    "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
