@@ -1100,18 +1100,18 @@ void options_manager::init()
         // Note: language names are in their own language and are *not* translated at all.
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
-        { "en", R"( English )" },
-        { "de", R"( Deutsch )" },
-        { "es_AR", R"( Español ( Argentina ) )" },
-        { "es_ES", R"( Español ( España ) )" },
-        { "fr", R"( Français )" },
-        { "hu", R"( Magyar )"},
-        { "ja", R"( 日本語 )" },
-        { "ko", R"( 한국어 )" },
-        { "pl", R"( Polski )" },
-        { "ru", R"( Русский )" },
-        { "zh_CN", R"( 中文( 天朝 ) )" },
-        { "zh_TW", R"( 中文( 台灣 ) )" },
+        { "en", no_translation( R"(English)" ) },
+        { "de", no_translation( R"(Deutsch)" ) },
+        { "es_AR", no_translation( R"(Español (Argentina))" ) },
+        { "es_ES", no_translation( R"(Español (España))" ) },
+        { "fr", no_translation( R"(Français)" ) },
+        { "hu", no_translation( R"(Magyar)" ) },
+        { "ja", no_translation( R"(日本語)" ) },
+        { "ko", no_translation( R"(한국어)" ) },
+        { "pl", no_translation( R"(Polski)" ) },
+        { "ru", no_translation( R"(Русский)" ) },
+        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
+        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     }, "" );
 
     mOptionsSort["interface"]++;
