@@ -176,7 +176,6 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
 
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference vp : veh.get_parts() ) {
-        auto &pt = veh.parts[ vp.part_index() ];
         while( veh.remove_item( vp.part_index(), 0 ) );
     }
     const auto &starting_fuel = set_vehicle_fuel( veh, fuel_level );
