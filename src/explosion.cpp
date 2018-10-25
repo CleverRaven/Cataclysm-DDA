@@ -442,7 +442,7 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
     const tripoint start = { 0, 0, src.z };
-    const tripoint end = { m.getmapsize() * SEEX, m.getmapsize() * SEEY, src.z };
+    const tripoint end = { m.getmapsize() *SEEX, m.getmapsize() *SEEY, src.z };
 
     m.build_obstacle_cache( start, end, obstacle_cache );
 
