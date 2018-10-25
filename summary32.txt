@@ -13,7 +13,7 @@ Content Add magazine well for the uzi
 Content Welding goggles craft from tinted lenses
 Content Metalcraft: crown, ring, and bracelet
 Content Boil lye into powder
-Interface Remove guns with only irremoveable mods from 'a'ctivate window
+Interface Remove guns with only irremovable mods from 'a'ctivate window
 Interface Visual aid for broken limbs
 Interface Added filter option to all inventory_ui menus
 Interface Add message when construction finished
