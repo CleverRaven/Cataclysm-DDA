@@ -86,7 +86,7 @@ void options_manager::add_retry( const std::string &lvar, const::std::string &lv
 }
 
 void options_manager::add_value( const std::string &lvar, const std::string &lval,
-                                 const std::string &lvalname )
+                                 const translation &lvalname )
 {
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find( lvar );
     if( it != post_json_verify.end() ) {
@@ -98,7 +98,7 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
                     return;
                 }
             }
-            ot->second.vItems.emplace_back( lval, lvalname.empty() ? lval : lvalname );
+            ot->second.vItems.emplace_back( lval, lvalname );
             // our value was saved, then set to default, so set it again.
             if( it->second == lval ) {
                 options[ lvar ].setValue( lval );
@@ -142,7 +142,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
 //add string select option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           const std::vector<std::pair<std::string, std::string>> &sItemsIn, std::string sDefaultIn,
+                           const std::vector<id_and_option> &sItemsIn, std::string sDefaultIn,
                            copt_hide_t opt_hide )
 {
     cOpt thisOpt;
@@ -523,11 +523,11 @@ std::string options_manager::cOpt::getValueName() const
 {
     if( sType == "string_select" ) {
         const auto iter = std::find_if( vItems.begin(),
-        vItems.end(), [&]( const std::pair<std::string, std::string> &e ) {
+        vItems.end(), [&]( const id_and_option & e ) {
             return e.first == sSet;
         } );
         if( iter != vItems.end() ) {
-            return _( iter->second.c_str() );
+            return iter->second.translated();
         }
 
     } else if( sType == "bool" ) {
@@ -544,14 +544,14 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
 {
     if( sType == "string_select" ) {
         const auto iter = std::find_if( vItems.begin(), vItems.end(),
-        [this]( const std::pair<std::string, std::string> &elem ) {
+        [this]( const id_and_option & elem ) {
             return elem.first == sDefault;
         } );
         const std::string defaultName = iter == vItems.end() ? std::string() :
-                                        ( bTranslated ? _( iter->second.c_str() ) : iter->first );
+                                        ( bTranslated ? iter->second.translated() : iter->first );
         const std::string &sItems = enumerate_as_string( vItems.begin(), vItems.end(),
-        [bTranslated]( const std::pair<std::string, std::string> &elem ) {
-            return bTranslated ? _( elem.second.c_str() ) : elem.first;
+        [bTranslated]( const id_and_option & elem ) {
+            return bTranslated ? elem.second.translated() : elem.first;
         }, enumeration_conjunction::none );
         return string_format( _( "Default: %s - Values: %s" ),
                               defaultName.c_str(), sItems.c_str() );
@@ -589,7 +589,7 @@ int options_manager::cOpt::getItemPos( const std::string &sSearch ) const
     return -1;
 }
 
-std::vector<std::pair<std::string, std::string>> options_manager::cOpt::getItems() const
+std::vector<options_manager::id_and_option> options_manager::cOpt::getItems() const
 {
     return vItems;
 }
@@ -763,11 +763,11 @@ void options_manager::cOpt::setValue( std::string sSetIn )
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
  */
-static std::vector<std::pair<std::string, std::string>> build_resource_list(
-            std::map<std::string, std::string> &resource_option, const std::string &operation_name,
-            const std::string &dirname_label, const std::string &filename_label )
+static std::vector<options_manager::id_and_option> build_resource_list(
+    std::map<std::string, std::string> &resource_option, const std::string &operation_name,
+    const std::string &dirname_label, const std::string &filename_label )
 {
-    std::vector<std::pair<std::string, std::string>> resource_names;
+    std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
     auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
@@ -799,7 +799,8 @@ static std::vector<std::pair<std::string, std::string>> build_resource_list(
                     }
                 }
             }
-            resource_names.emplace_back( resource_name, view_name.empty() ? resource_name : view_name );
+            resource_names.emplace_back( resource_name,
+                                         view_name.empty() ? no_translation( resource_name ) : translation( view_name ) );
             if( resource_option.count( resource_name ) != 0 ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " <<
                                             resource_name;
@@ -812,20 +813,20 @@ static std::vector<std::pair<std::string, std::string>> build_resource_list(
     return resource_names;
 }
 
-std::vector<std::pair<std::string, std::string>> options_manager::build_tilesets_list()
+std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
     auto tileset_names = build_resource_list( TILESETS, "tileset",
                          "gfxdir", "tileset-conf" );
 
     if( tileset_names.empty() ) {
-        tileset_names.emplace_back( "hoder", translate_marker( "Hoder's" ) );
-        tileset_names.emplace_back( "deon", translate_marker( "Deon's" ) );
+        tileset_names.emplace_back( "hoder", translation( "Hoder's" ) );
+        tileset_names.emplace_back( "deon", translation( "Deon's" ) );
     }
     return tileset_names;
 }
 
-std::vector<std::pair<std::string, std::string>> options_manager::load_soundpack_from(
-            const std::string &path )
+std::vector<options_manager::id_and_option> options_manager::load_soundpack_from(
+    const std::string &path )
 {
     // build_resource_list will clear &resource_option - first param
     std::map<std::string, std::string> local_soundpacks;
@@ -838,11 +839,11 @@ std::vector<std::pair<std::string, std::string>> options_manager::load_soundpack
     return soundpack_names;
 }
 
-std::vector<std::pair<std::string, std::string>> options_manager::build_soundpacks_list()
+std::vector<options_manager::id_and_option> options_manager::build_soundpacks_list()
 {
     // Clear soundpacks before loading
     SOUNDPACKS.clear();
-    std::vector<std::pair<std::string, std::string>> result;
+    std::vector<id_and_option> result;
 
     // Search data directory for sound packs
     auto data_soundpacks = load_soundpack_from( "data_sound" );
@@ -854,7 +855,7 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_soundpac
 
     // Select default built-in sound pack
     if( result.empty() ) {
-        result.emplace_back( "basic", translate_marker( "Basic" ) );
+        result.emplace_back( "basic", translation( "Basic" ) );
     }
     return result;
 }
@@ -956,7 +957,7 @@ void options_manager::init()
 
     add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "off", translate_marker( "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    { { "off", translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
     "off"
        );
 
@@ -971,7 +972,7 @@ void options_manager::init()
 
     add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
          translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Both: Forage bushes and trees." ),
-    { { "off", translate_marker( "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Both" ) } },
+    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Both" ) } },
     "off"
        );
 

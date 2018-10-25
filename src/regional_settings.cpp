@@ -703,7 +703,7 @@ void regional_settings::finalize()
         default_groundcover_str.reset();
         city_spec.finalize();
         forest_composition.finalize();
-        get_options().add_value( "DEFAULT_REGION", id );
+        get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
 }
 

@@ -1723,7 +1723,7 @@
     {
         "type": "effect_type",
         "id": "disabled",
-        "name": [ "Disabled" ],
+        "name": [ { "ctxt": "physically", "str": "Disabled" } ],
         "desc": [ "This limb is damaged beyond use and may require a splint to recover." ],
         "//": "This sounds weird. We need <bp_affected> tag or something",
         "apply_message": "Your limb breaks!",

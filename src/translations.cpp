@@ -81,7 +81,7 @@ bool isValidLanguage( const std::string &lang )
 {
     const auto languages = get_options().get_option( "USE_LANG" ).getItems();
     return std::find_if( languages.begin(),
-    languages.end(), [&lang]( const std::pair<std::string, std::string> &pair ) {
+    languages.end(), [&lang]( const options_manager::id_and_option & pair ) {
         return pair.first == lang || pair.first == lang.substr( 0, pair.first.length() );
     } ) != languages.end();
 }
@@ -123,7 +123,7 @@ void select_language()
     auto languages = get_options().get_option( "USE_LANG" ).getItems();
 
     languages.erase( std::remove_if( languages.begin(),
-    languages.end(), []( const std::pair<std::string, std::string> &lang ) {
+    languages.end(), []( const options_manager::id_and_option & lang ) {
         return lang.first.empty() || lang.second.empty();
     } ), languages.end() );
 
@@ -133,7 +133,7 @@ void select_language()
     sm.selected = 0;
     sm.text = _( "Select your language" );
     for( size_t i = 0; i < languages.size(); i++ ) {
-        sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second );
+        sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second.translated() );
     }
     sm.query();
 

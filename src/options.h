@@ -8,16 +8,29 @@
 #include <unordered_map>
 #include <vector>
 
+#include "translations.h"
+
 class JsonIn;
 class JsonOut;
 
 class options_manager
 {
+    public:
+        class id_and_option : public std::pair<std::string, translation>
+        {
+            public:
+                id_and_option( const std::string &first, const std::string &second )
+                    : std::pair<std::string, translation>( first, second ) {
+                }
+                id_and_option( const std::string &first, const translation &second )
+                    : std::pair<std::string, translation>( first, second ) {
+                }
+        };
     private:
-        static std::vector<std::pair<std::string, std::string>> build_tilesets_list();
-        static std::vector<std::pair<std::string, std::string>> build_soundpacks_list();
-        static std::vector<std::pair<std::string, std::string>> load_soundpack_from(
-                    const std::string &path );
+        static std::vector<id_and_option> build_tilesets_list();
+        static std::vector<id_and_option> build_soundpacks_list();
+        static std::vector<id_and_option> load_soundpack_from(
+            const std::string &path );
 
         bool load_legacy();
 
@@ -78,7 +91,7 @@ class options_manager
                 std::string getDefaultText( const bool bTranslated = true ) const;
 
                 int getItemPos( const std::string &sSearch ) const;
-                std::vector<std::pair<std::string, std::string>> getItems() const;
+                std::vector<id_and_option> getItems() const;
 
                 int getMaxLength() const;
 
@@ -122,7 +135,7 @@ class options_manager
                 //sType == "string"
                 std::string sSet;
                 // first is internal value, second is untranslated text
-                std::vector<std::pair<std::string, std::string>> vItems;
+                std::vector<id_and_option> vItems;
                 std::string sDefault;
 
                 int iMaxLength;
@@ -154,7 +167,7 @@ class options_manager
         std::string show( const bool ingame = false, const bool world_options_only = false );
 
         void add_value( const std::string &myoption, const std::string &myval,
-                        const std::string &myvaltxt = "" );
+                        const translation &myvaltxt );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -184,7 +197,7 @@ class options_manager
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   // first is option value, second is display name of that value
-                  const std::vector<std::pair<std::string, std::string>> &sItemsIn, std::string sDefaultIn,
+                  const std::vector<id_and_option> &sItemsIn, std::string sDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add string input option
