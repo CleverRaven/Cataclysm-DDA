@@ -7770,7 +7770,7 @@
     "id": "sleeping_bag_roll",
     "type": "ARMOR",
     "name": "rolled sleeping bag",
-    "description": "A large sleeping bag rolled up for transport. It has a strap to carry it with.",
+    "description": "A large sleeping bag rolled up for transport.  It has a strap to carry it with.",
     "weight": 981,
     "volume": 4,
     "price": 20500,
