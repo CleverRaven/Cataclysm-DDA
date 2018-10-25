@@ -9113,7 +9113,7 @@ void add_corpses( uilist &menu, map_stack &items,
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
 void add_salvagables( uilist &menu, map_stack &items,
                       const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
-                      const salvage_actor *salvage_iuse )
+                      const salvage_actor &salvage_iuse )
 {
     if( stacks.size() > 0 ) {
         int hotkey = get_initial_hotkey( menu_index );
@@ -9125,7 +9125,7 @@ void add_salvagables( uilist &menu, map_stack &items,
             const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
-                               to_string_clipped( time_duration::from_turns( salvage_iuse->time_to_cut_up( it ) / 100 ) ) );
+                               to_string_clipped( time_duration::from_turns( salvage_iuse.time_to_cut_up( it ) / 100 ) ) );
             hotkey = -1;
         }
     }
@@ -9289,7 +9289,7 @@ void game::butcher()
         // Add corpses, disassembleables, and salvagables to the UI
         add_corpses( kmenu, items, corpses, i );
         add_disassemblables( kmenu, items, disassembly_stacks, i );
-        add_salvagables( kmenu, items, salvage_stacks, i, salvage_iuse );
+        add_salvagables( kmenu, items, salvage_stacks, i, *salvage_iuse );
 
         if( corpses.size() > 1 ) {
             int time_to_cut = 0;

@@ -258,7 +258,7 @@ void uimenu::init()
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;       // does nothing but can be read
-    max_column_len = 0;      // for calculating space for descriptions
+    max_column_len = 0;      // for calculating space for second column
 
     scrollbar_auto =
         true;   // there is no force-on; true will only render scrollbar if entries > vertical height

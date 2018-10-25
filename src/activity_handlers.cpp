@@ -409,8 +409,8 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
 
 int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action )
 {
-    const mtype &corpse = *( corpse_item.get_mtype() );
-    const int factor = u.max_quality( ( action == DISSECT ) ? quality_id( "CUT_FINE" ) :
+    const mtype &corpse = *corpse_item.get_mtype();
+    const int factor = u.max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
                                       quality_id( "BUTCHER" ) );
 
     int time_to_cut = 0;

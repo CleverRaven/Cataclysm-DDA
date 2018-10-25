@@ -930,7 +930,7 @@ class salvage_inventory_preset: public inventory_selector_preset
             append_cell( [ actor ]( const item_location & loc ) {
                 return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
                                               *loc.get_item() ) / 100 ) );
-            }, _( "CUT TIME" ) );
+            }, _( "TIME" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
