@@ -267,6 +267,8 @@ game::game() :
     safe_mode_warning_logged( false ),
     mostseen( 0 ),
     nextweather( calendar::before_time_starts ),
+    next_npc_id( 1 ),
+    next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
     user_action_counter( 0 ),
