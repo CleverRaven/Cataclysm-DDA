@@ -320,9 +320,9 @@ void translation::deserialize( JsonIn &jsin )
     }
 }
 
-std::string translation::str() const
+std::string translation::translated() const
 {
-    if( !needs_translation ) {
+    if( !needs_translation || raw.empty() ) {
         return raw;
     } else if( !ctxt ) {
         return _( raw.c_str() );

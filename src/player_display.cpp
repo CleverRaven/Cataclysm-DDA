@@ -718,14 +718,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
 
     std::map<std::string, int> speed_effects;
-    std::string dis_text = "";
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             bool reduced = resists_effect( it );
             int move_adjust = it.get_mod( "SPEED", reduced );
             if( move_adjust != 0 ) {
-                dis_text = it.get_speed_name();
+                const std::string dis_text = it.get_speed_name();
                 speed_effects[dis_text] += move_adjust;
             }
         }
@@ -733,7 +732,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     for( auto &speed_effect : speed_effects ) {
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
-        mvwprintz( w_speed, line, 1, col, "%s", _( speed_effect.first.c_str() ) );
+        mvwprintz( w_speed, line, 1, col, "%s", speed_effect.first );
         mvwprintz( w_speed, line, 21, col, ( speed_effect.second > 0 ? "+" : "-" ) );
         mvwprintz( w_speed, line, ( abs( speed_effect.second ) >= 10 ? 22 : 23 ), col, "%d%%",
                    abs( speed_effect.second ) );

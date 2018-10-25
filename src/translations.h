@@ -107,7 +107,7 @@ class translation : public JsonDeserializer
          * Returns raw string if no translation is needed, otherwise returns
          * the tranlated string.
          **/
-        std::string str() const;
+        std::string translated() const;
     private:
         struct no_translation_tag {};
         translation( const std::string &str, const no_translation_tag );
