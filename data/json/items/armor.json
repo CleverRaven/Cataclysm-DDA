@@ -7815,7 +7815,7 @@
     "id": "sleeping_bag_fur_roll",
     "type": "ARMOR",
     "name": "rolled fur sleeping bag",
-    "description": "A large sleeping bag lined with fur, rolled for transport. It has a strap to carry it with.",
+    "description": "A large sleeping bag lined with fur, rolled for transport.  It has a strap to carry it with.",
     "weight": 1175,
     "volume": 8,
     "price": 32500,
