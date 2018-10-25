@@ -101,6 +101,14 @@ the intensity in brackets if the current intensity > 1, i.e. "ABC", "ABC [2]", "
 entry of "name" is the empty string ("") or "name" is missing then the effect will not display to the player
 in the status screen.
 
+Each entry in "name" can also have an optional context:
+```C++
+    "name": [ { "ctxt": "ECIG", "str": "Smoke" } ]
+```
+In this case, the game will translate the name with the given context "ECIG",
+which makes it possible to distinguish the verb "Smoke" from the noun "Smoke"
+in other languages.
+
 ```C++
     "speed_name" : "XYZ"        - Defaults to the first name value
 ```
