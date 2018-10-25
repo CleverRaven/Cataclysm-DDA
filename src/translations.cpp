@@ -310,7 +310,7 @@ void translation::deserialize( JsonIn &jsin )
         needs_translation = true;
     } else {
         JsonObject jsobj = jsin.get_object();
-        if( jsobj.has_string( "context" ) ) {
+        if( jsobj.has_string( "ctxt" ) ) {
             ctxt = jsobj.get_string( "ctxt" );
         } else {
             ctxt = cata::nullopt;
