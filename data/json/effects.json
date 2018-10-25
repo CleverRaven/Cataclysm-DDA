@@ -452,7 +452,7 @@
     {
         "type": "effect_type",
         "id": "smoke",
-        "name": [ { "ctxt": "effect", "str": "Smoke" } ],
+        "name": [ { "ctxt": "inhaled", "str": "Smoke" } ],
         "desc": ["You've inhaled a lungful of thick smoke."],
         "apply_message": "You inhale a lungful of thick smoke.",
         "rating": "bad",
