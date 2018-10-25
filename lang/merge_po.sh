@@ -52,13 +52,13 @@ then
     for n in $@
     do
         echo "updating lang/po/${n}.po"
-        msgmerge -F -U lang/po/${n}.po lang/po/cataclysm-dda.pot
+        msgmerge -F -U --no-fuzzy-matching lang/po/${n}.po lang/po/cataclysm-dda.pot
     done
 # otherwise merge lang/po/cataclysm-dda.pot with all .po files in lang/po
 else
     for f in lang/po/*.po
     do
         echo "updating $f"
-        msgmerge -F -U $f lang/po/cataclysm-dda.pot
+        msgmerge -F -U --no-fuzzy-matching $f lang/po/cataclysm-dda.pot
     done
 fi
