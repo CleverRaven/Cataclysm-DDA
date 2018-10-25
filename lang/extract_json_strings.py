@@ -727,6 +727,12 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
         for entry in string:
             writestr(filename, entry, None, context, format_strings, comment)
         return
+    elif type(string) is dict and plural is None:
+        if "ctxt" in string:
+            writestr(filename, string["str"], None, string["ctxt"], format_strings, comment)
+        else:
+            writestr(filename, string["str"], None, None, format_strings, comment)
+        return
 
     # don't write empty strings
     if not string: return
