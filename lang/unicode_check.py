@@ -51,7 +51,7 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Usage: {} [FILENAME]".format(sys.argv[0]))
         sys.exit(1)
-    with open(sys.argv[1]) as pot_file:
+    with open(sys.argv[1], encoding="utf-8") as pot_file:
         if version_major == 2:
             if not p2_check(pot_file):
                 sys.exit(1)
