@@ -330,7 +330,7 @@
     },{
         "type" : "item_action",
         "id" : "ECIG",
-        "name" : "Smoke"
+        "name" : { "ctxt": "ECIG", "str": "Smoke" }
     },{
         "type" : "item_action",
         "id" : "EHANDCUFFS",
@@ -550,7 +550,7 @@
     },{
         "type" : "item_action",
         "id" : "PORTABLE_GAME",
-        "name" : "Play"
+        "name" : { "ctxt": "PORTABLE_GAME", "str": "Play" }
     },{
         "type" : "item_action",
         "id" : "PORTABLE_STRUCTURE",
@@ -650,7 +650,7 @@
     },{
         "type" : "item_action",
         "id" : "SMOKING",
-        "name" : "Smoke"
+        "name" : { "ctxt": "SMOKING", "str": "Smoke" }
     },{
         "type" : "item_action",
         "id" : "SPRAY_CAN",
@@ -758,7 +758,7 @@
     },{
         "type" : "item_action",
         "id" : "musical_instrument",
-        "name" : "Play"
+        "name" : { "ctxt": "musical_instrument", "str": "Play" }
     },{
         "type" : "item_action",
         "id" : "place_monster",
