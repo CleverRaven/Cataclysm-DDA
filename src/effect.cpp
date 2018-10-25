@@ -1155,7 +1155,8 @@ void load_effect_type( JsonObject &jo )
         while( jsarr.has_more() ) {
             translation name;
             if( !jsarr.read_next( name ) ) {
-                debugmsg( "Invalid effect name format" );
+                debugmsg( "Error reading effect names" );
+                break;
             }
             new_etype.name.emplace_back( name );
         }
