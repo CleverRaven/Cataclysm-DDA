@@ -2154,6 +2154,7 @@
     "id": "digging_stick",
     "type": "GENERIC",
     "name": "digging stick",
+    "category": "tools",
     "description": "This is a large stick, with the end carved into a broad blade for digging.  It could be used to dig shallow pits, but not deep ones.",
     "weight": 1133,
     "volume": 6,

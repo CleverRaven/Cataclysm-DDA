@@ -3,6 +3,7 @@
     "type": "COMESTIBLE",
     "id": "feces_bird",
     "name": "bird litter",
+    "category": "chems",
     "weight": 40,
     "color": "brown",
     "spoils_in": 112,

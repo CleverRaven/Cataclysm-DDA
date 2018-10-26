@@ -2,7 +2,7 @@
   {
     "id": "2lcanteen",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "2.5L canteen",
     "description": "A large plastic water canteen, with a 2.5 liter capacity and carrying strap.",
     "weight": 155,
@@ -390,7 +390,7 @@
   {
     "id": "canteen",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "plastic canteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
     "weight": 155,
@@ -565,7 +565,7 @@
   {
     "id": "flask_hip",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "hip flask",
     "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
     "weight": 120,
@@ -834,7 +834,7 @@
   {
     "id": "metal_tank_little",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "spare_parts",
     "name": "metal tank (2L)",
     "name_plural": "metal tanks (2L)",
     "description": "A small metal tank for gas or liquids.  Useful for crafting.",
@@ -873,7 +873,7 @@
   {
     "id": "waterskin",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
     "weight": 453,
@@ -898,7 +898,7 @@
   {
     "id": "waterskin2",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "waterskin",
     "description": "A watertight leather bag with a carrying strap, can hold 3 liters of water.",
     "weight": 783,
@@ -923,7 +923,7 @@
   {
     "id": "waterskin3",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "large waterskin",
     "description": "A large watertight leather bag with a carrying strap, can hold 5 liters of water.",
     "weight": 990,

@@ -519,7 +519,7 @@
   {
     "id": "canteen_wood",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "wooden canteen",
     "description": "A water canteen made from wood, secured by metal bands and sealed with wax or pitch.  Holds 1.5 liters and has a simple carry strap.",
     "weight": 232,

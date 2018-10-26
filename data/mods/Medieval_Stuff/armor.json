@@ -88,6 +88,7 @@
     "id": "armor_cuirass",
     "type": "ARMOR",
     "name": "bell cuirass",
+    "category": "armor",
     "name_plural": "bell cuirasses",
     "description": "An ancient Greek breastplate, made of bronze.",
     "weight": 5896,
