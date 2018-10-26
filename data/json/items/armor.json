@@ -7084,6 +7084,7 @@
     "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
