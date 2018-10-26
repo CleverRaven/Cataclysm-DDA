@@ -1,4 +1,3 @@
-Features Allow unloading of gunmods
 Features Add repair for gold and silver item
 Features Option to auto pulp or butcher corpses
 Features Allow reloading things around you
@@ -13,7 +12,6 @@ Content Add magazine well for the uzi
 Content Welding goggles craft from tinted lenses
 Content Metalcraft: crown, ring, and bracelet
 Content Boil lye into powder
-Interface Remove guns with only irremovable mods from 'a'ctivate window
 Interface Visual aid for broken limbs
 Interface Added filter option to all inventory_ui menus
 Interface Add message when construction finished
@@ -42,7 +40,7 @@ Balance make milk last 24 hours
 Balance Dragging brazier requires 8 str
 Balance Changed crafted suppressor's description
 Balance Add some variability to vehicle battery levels & tire destruction
-Bugfixes Prevent gunmods from adding empty guns to 'U'nload window
+Bugfixes Fix gunmod caused menu bugs
 Bugfixes Finalize item definitions for artifacts
 Bugfixes Fix STANAG magazine compatibility issue
 Bugfixes Fix duplicate key presses on SDL 2.0.5
