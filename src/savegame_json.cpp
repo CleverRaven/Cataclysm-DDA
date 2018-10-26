@@ -2043,7 +2043,7 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( const vpart_reference vp : get_parts( VPFLAG_CARGO ) ) {
+    for( const vpart_reference &vp : get_parts( VPFLAG_CARGO ) ) {
         const size_t cargo_index = vp.part_index();
         auto it = parts[cargo_index].items.begin();
         auto end = parts[cargo_index].items.end();
@@ -2054,7 +2054,7 @@ void vehicle::deserialize( JsonIn &jsin )
         }
     }
 
-    for( const vpart_reference vp : get_parts( "TURRET" ) ) {
+    for( const vpart_reference &vp : get_parts( "TURRET" ) ) {
         const vehicle_part *const turret = &vp.vehicle().parts[vp.part_index()];
         install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
     }
@@ -2093,7 +2093,7 @@ void vehicle::deserialize( JsonIn &jsin )
     /** Legacy saved games did not store part enabled status within parts */
     auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
-            for( const vpart_reference vp : get_parts( flag ) ) {
+            for( const vpart_reference &vp : get_parts( flag ) ) {
                 vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
                 e->enabled = true;
             }

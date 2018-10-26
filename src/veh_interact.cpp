@@ -460,7 +460,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 's': // siphon mode
         valid_target = false;
-        for( const vpart_reference vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
+        for( const vpart_reference &vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
             if( veh->parts[vp.part_index()].base.contents_made_of( LIQUID ) ) {
                 valid_target = true;
                 break;
@@ -541,7 +541,7 @@ bool veh_interact::can_self_jack()
 {
     int lvl = jack_quality( *veh );
 
-    for( const vpart_reference vp : veh->get_parts( "SELF_JACK" ) ) {
+    for( const vpart_reference &vp : veh->get_parts( "SELF_JACK" ) ) {
         const vehicle_part *const jack = &vp.vehicle().parts[vp.part_index()];
         if( jack->base.has_quality( SELF_JACK, lvl ) ) {
             return true;
@@ -590,7 +590,7 @@ bool veh_interact::can_install_part() {
     int engines = 0;
     int dif_eng = 0;
     if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
-        for( const vpart_reference vp : veh->get_parts() ) {
+        for( const vpart_reference &vp : veh->get_parts() ) {
             const size_t p = vp.part_index();
             if( veh->part_flag( p, "ENGINE" ) &&
                 veh->part_flag( p, "E_HIGHER_SKILL" ) ) {
@@ -1968,7 +1968,7 @@ void veh_interact::display_stats()
 
     units::volume total_cargo = 0;
     units::volume free_cargo = 0;
-    for( const vpart_reference vp : veh->get_parts( "CARGO" ) ) {
+    for( const vpart_reference &vp : veh->get_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
         total_cargo += veh->max_volume(p);
         free_cargo += veh->free_volume(p);
@@ -2434,7 +2434,7 @@ item consume_vpart_item( const vpart_id &vpid )
 void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
     bool has_liquid = false;
-    for( const vpart_reference vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
+    for( const vpart_reference &vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
         if( veh->parts[vp.part_index()].get_base().contents_made_of( LIQUID ) ) {
             has_liquid = true;
             break;

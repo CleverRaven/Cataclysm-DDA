@@ -1044,7 +1044,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         //Count charges
                         //TODO: transition to the item_location system used for the inventory
                         unsigned long charges_total = 0;
-                        for( const auto item : stacked_here[true_it] ) {
+                        for( const auto &item : stacked_here[true_it] ) {
                             charges_total += item._item.charges;
                         }
                         //Picking up none or all the cards in a stack
