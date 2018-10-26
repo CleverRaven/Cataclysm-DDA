@@ -2141,17 +2141,6 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     return ( in_vehicle ) ? veh->free_volume( vstor ) : g->m.free_volume( pos );
 }
 
-static units::volume unit_volume( const item &i )
-{
-    if( !i.count_by_charges() || i.charges == 1 ) {
-        return i.volume();
-    }
-    // TODO: this assumes the item does not have instance specific properties
-    // (like corpse type) that affect the volume. Items counted by charges should not have
-    // those anyway. But they might get them in the future?
-    return i.type->volume;
-}
-
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                                         const std::string &action, long &amount )
 {
@@ -2160,7 +2149,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const item &it = *sitem.items.front();
     advanced_inv_area &p = squares[destarea];
     const bool by_charges = it.count_by_charges();
-    const units::volume unitvolume = unit_volume( it );
     const units::volume free_volume = p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
     const long input_amount = by_charges ? it.charges :
@@ -2176,9 +2164,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
 
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
-    if( unitvolume > 0 && ( unitvolume * amount ) > free_volume && squares[destarea].id != AIM_WORN ) {
-        const long room_for = it.charges_per_volume( free_volume );
-
+    const long room_for = it.charges_per_volume( free_volume );
+    if( amount > room_for && squares[destarea].id != AIM_WORN ) {
         if( room_for <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
             redraw = true;

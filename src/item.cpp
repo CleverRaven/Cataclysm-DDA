@@ -535,7 +535,7 @@ long item::charges_per_volume( const units::volume &vol ) const
     if( type->volume == 0 ) {
         return INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
     }
-    return count_by_charges() ? vol / type->volume : vol / volume();
+    return count_by_charges() ? vol * type->stack_size / type->volume : vol / volume();
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -2487,7 +2487,7 @@ void item::on_wield( player &p, int mv )
             d /= std::max( p.get_skill_level( melee_skill() ), 1 );
         }
 
-        int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;
+        int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
         p.moves -= penalty;
         mv += penalty;
     }
@@ -2996,6 +2996,14 @@ units::volume item::base_volume() const
         return corpse_volume( corpse->size );
     }
 
+    if( count_by_charges() ) {
+        if( type->volume % type->stack_size == 0_ml ) {
+            return type->volume / type->stack_size;
+        } else {
+            return type->volume / type->stack_size + 1_ml;
+        }
+    }
+
     return type->volume;
 }
 
@@ -3020,7 +3028,11 @@ units::volume item::volume( bool integral ) const
     }
 
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret *= charges;
+        auto num = ret * charges;
+        ret = num / type->stack_size;
+        if( num % type->stack_size != 0_ml ) {
+            ret += 1_ml;
+        }
     }
 
     // Non-rigid items add the volume of the content
