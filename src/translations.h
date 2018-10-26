@@ -20,8 +20,9 @@
 #endif
 
 #include <string>
-#include "json.h"
 #include "optional.h"
+
+class JsonIn;
 
 #ifdef LOCALIZE
 
@@ -76,7 +77,7 @@ void set_language();
 /**
  * Class for storing translation context and raw string for deferred translation
  **/
-class translation : public JsonDeserializer
+class translation
 {
     public:
         translation();
@@ -97,11 +98,11 @@ class translation : public JsonDeserializer
 
         /**
          * Deserialize from json. Json format is:
-         * "name": "text"
+         *     "text"
          * or
-         * "name": { "ctxt": "foo", "str": "bar" }
+         *     { "ctxt": "foo", "str": "bar" }
          **/
-        void deserialize( JsonIn &jsin ) override;
+        void deserialize( JsonIn &jsin );
 
         /**
          * Returns raw string if no translation is needed, otherwise returns

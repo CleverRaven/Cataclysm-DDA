@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "path_info.h"
 #include "name.h"
+#include "json.h"
 
 #include <string>
 #include <set>
