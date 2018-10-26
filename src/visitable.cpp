@@ -104,7 +104,7 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
 
     self.visit_items( [&qual, level, &limit, &qty]( const item * e ) {
         if( e->get_quality( qual ) >= level ) {
-            qty = sum_no_wrap( qty, e->count_by_charges() ? int( e->charges ) : 1 );
+            qty = sum_no_wrap( qty, int( e->count() ) );
             if( qty >= limit ) {
                 return VisitResponse::ABORT; // found sufficient items
             }

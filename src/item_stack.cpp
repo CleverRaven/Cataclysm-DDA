@@ -16,6 +16,14 @@ bool item_stack::empty() const
     return mystack->empty();
 }
 
+void item_stack::clear()
+{
+    // An acceptable implementation for list; would be bad for vector
+    while( !empty() ) {
+        erase( begin() );
+    }
+}
+
 std::list<item>::iterator item_stack::begin()
 {
     return mystack->begin();

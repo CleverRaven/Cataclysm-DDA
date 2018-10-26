@@ -3637,6 +3637,11 @@ bool item::count_by_charges() const
     return type->count_by_charges();
 }
 
+long item::count() const
+{
+    return count_by_charges() ? charges : 1;
+}
+
 bool item::craft_has_charges()
 {
     if( count_by_charges() ) {

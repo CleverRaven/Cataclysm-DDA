@@ -643,6 +643,11 @@ class item : public visitable<item>
 
         int get_quality( const quality_id &id ) const;
         bool count_by_charges() const;
+
+        /**
+         * If count_by_charges(), returns charges, otherwise 1
+         */
+        long count() const;
         bool craft_has_charges();
 
         /**
