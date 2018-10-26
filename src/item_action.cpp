@@ -155,7 +155,11 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 std::string item_action_generator::get_action_name( const item_action_id &id ) const
 {
     const auto &act = get_action( id );
-    return act.name.translated();
+    if( !act.name.empty() ) {
+        return act.name.translated();
+    }
+
+    return id;
 }
 
 bool item_action_generator::action_exists( const item_action_id &id ) const
@@ -179,7 +183,7 @@ void item_action_generator::load_item_action( JsonObject &jo )
     item_action ia;
 
     ia.id = jo.get_string( "id" );
-    if( !jo.read( "name", ia.name ) ) {
+    if( !jo.read( "name", ia.name ) || ia.name.empty() ) {
         ia.name = no_translation( ia.id );
     }
 
