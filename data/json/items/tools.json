@@ -311,7 +311,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
@@ -480,7 +480,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -1005,6 +1005,7 @@
       "success_message": "Charge!",
       "lacks_fuel_message": "No strength to fight!"
     },
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
@@ -1315,7 +1316,7 @@
     "max_charges": 200,
     "turns_per_charge": 1,
     "revert_to": "carver_off",
-    "qualities": [ [ "BUTCHER", 25 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "use_action": "CARVER_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -1402,6 +1403,7 @@
     "price": 20000,
     "price_postapoc": 1900,
     "material": [ "plastic", "aluminum" ],
+    "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
@@ -1477,7 +1479,7 @@
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 4 ] ],
+    "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": "CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED" ]
   },
@@ -1512,7 +1514,8 @@
     "bashing": 10,
     "material": "steel",
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "char_purifier",
@@ -1591,7 +1594,8 @@
   },
   {
     "id": "chemistry_set_basic",
-    "type": "GENERIC",
+    "type": "TOOL",
+    "category": "tools",
     "name": "basic chemistry set",
     "description": "This is a basic chemistry set which includes glass containers, hoses and safety glasses.  It might be used to craft some chemistry projects if you're so inclined, but you'll need a source of heat.",
     "weight": 1884,
@@ -1676,7 +1680,7 @@
     "max_charges": 100,
     "turns_per_charge": 1,
     "revert_to": "circsaw_off",
-    "qualities": [ [ "SAW_W", 2 ], [ "SAW_M", 2 ], [ "BUTCHER", 60 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "SAW_M", 2 ], [ "BUTCHER", 60 ] ],
     "use_action": "CIRCSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -1819,7 +1823,7 @@
     "turns_per_charge": 1,
     "revert_to": "combatsaw_off",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": "COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED" ]
   },
@@ -1885,6 +1889,7 @@
     "initial_charges": 100,
     "max_charges": 500,
     "charges_per_use": 20,
+    "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE"
   },
   {
@@ -1917,7 +1922,7 @@
     "material": [ "wood", "copper" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "AXE", 1 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
@@ -2062,7 +2067,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 2 ] ],
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
     "use_action": "CROWBAR",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
@@ -2079,7 +2084,8 @@
     "bashing": 10,
     "material": "steel",
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "crucible_clay",
@@ -2093,7 +2099,8 @@
     "bashing": 10,
     "material": "clay",
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "crude_firestarter",
@@ -2128,6 +2135,7 @@
   {
     "id": "cs_lajatang_off",
     "type": "TOOL",
+    "category": "weapon",
     "name": "chainsaw lajatang (off)",
     "name_plural": "chainsaw lajatangs (off)",
     "description": "A long wooden pole with chainsaws impractically attached to both ends.  The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
@@ -2150,6 +2158,7 @@
   {
     "id": "cs_lajatang_on",
     "type": "TOOL",
+    "category": "weapon",
     "name": "chainsaw lajatang (on)",
     "name_plural": "chainsaw lajatangs (on)",
     "description": "A long wooden pole with chainsaws impractically attached to both ends.  They are currently on and draining gasoline; use this item to turn them off.",
@@ -2168,6 +2177,7 @@
     "revert_to": "cs_lajatang_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_ON",
+    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
     "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -2498,7 +2508,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
@@ -2583,7 +2593,7 @@
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 4 ] ],
+    "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED" ]
   },
@@ -2744,7 +2754,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -2876,6 +2886,7 @@
       "success_message": "The Sun rises.",
       "lacks_fuel_message": "Time stands still."
     },
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
     "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
@@ -2941,6 +2952,7 @@
       "failure_message": "Click.",
       "lacks_fuel_message": "Click."
     },
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
@@ -3274,7 +3286,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ] ]
+    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 1 ] ]
   },
   {
     "id": "gasbomb_makeshift",
@@ -3524,6 +3536,7 @@
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
+    "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -3635,7 +3648,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -4512,7 +4525,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
+    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
@@ -4565,7 +4578,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 1 ] ],
+    "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
     "use_action": "CROWBAR",
     "flags": [ "BELT_CLIP" ]
   },
@@ -4606,6 +4619,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
@@ -4928,7 +4942,8 @@
     "bashing": 3,
     "material": "plastic",
     "symbol": ";",
-    "color": "light_blue"
+    "color": "light_blue",
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "molotov",
@@ -5008,7 +5023,8 @@
     "bashing": 3,
     "material": "stone",
     "symbol": ":",
-    "color": "light_gray"
+    "color": "light_gray",
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "mp3",
@@ -5064,6 +5080,7 @@
     "max_charges": 300,
     "turns_per_charge": 10,
     "revert_to": "multi_cooker",
+    "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER"
   },
   {
@@ -5346,7 +5363,7 @@
     "symbol": ")",
     "color": "dark_gray",
     "container_data": { "contains": 4, "watertight": true },
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -5844,7 +5861,7 @@
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "SAW_W", 1 ] ],
+    "qualities": [ [ "SAW_W", 1 ], [ "BUTCHER", -56 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -5860,7 +5877,7 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 1 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -5910,7 +5927,7 @@
     "material": [ "stone", "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 2 ] ]
+    "qualities": [ [ "DIG", 2 ], [ "COOK", 1 ], [ "BUTCHER", -96 ] ]
   },
   {
     "id": "pseuso_bio_picklock",
@@ -6159,6 +6176,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {
@@ -6211,7 +6229,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "SAW_W", 2 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
@@ -6458,6 +6476,7 @@
       "failure_message": "Aw, dangit.  It fails to start!",
       "lacks_fuel_message": "This thing needs some fuel!"
     },
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "SHEATH_SWORD" ]
   },
@@ -6515,6 +6534,7 @@
     "ammo": "battery",
     "max_charges": 500,
     "charges_per_use": 100,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
     "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
@@ -6600,7 +6620,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 3 ] ],
+    "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
@@ -6802,6 +6822,7 @@
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",
+    "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
@@ -6848,7 +6869,7 @@
     "material": "copper",
     "symbol": "L",
     "color": "white",
-    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ] ]
+    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "survival_marker",
@@ -7820,6 +7841,7 @@
     "turns_per_charge": 1,
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -8070,7 +8092,8 @@
     "bashing": 10,
     "material": "iron",
     "symbol": ")",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "id": "wakizashi",
@@ -8318,6 +8341,7 @@
       "success_message": "Die Klinge deines Schwertes brennt!",
       "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr."
     },
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
@@ -8370,6 +8394,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {

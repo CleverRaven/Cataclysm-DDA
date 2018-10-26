@@ -338,6 +338,7 @@
   {
     "id": "armguard_paper",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pair of paper arm guards",
     "name_plural": "pairs of paper arm guards",
     "description": "Arm guards made of stacked paper sheets held together with duct tape.",
@@ -1535,6 +1536,7 @@
   {
     "id": "chainmail_arms",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pair of chainmail sleeves",
     "name_plural": "pairs of chainmail sleeves",
     "description": "Customized chainmail arms.  Each sleeve has leather straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
@@ -1554,6 +1556,7 @@
   {
     "id": "chainmail_hood",
     "type": "ARMOR",
+    "category": "armor",
     "name": "chainmail coif",
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
     "weight": 2006,
@@ -1572,6 +1575,7 @@
   {
     "id": "chainmail_legs",
     "type": "ARMOR",
+    "category": "armor",
     "name": "chainmail leggings",
     "name_plural": "pairs of chainmail leggings",
     "description": "Customized chainmail legs.  Their leather straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
@@ -1591,6 +1595,7 @@
   {
     "id": "chainmail_suit",
     "type": "ARMOR",
+    "category": "armor",
     "name": "chainmail armor",
     "description": "A fully customized chainmail suit.  The coif, shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
     "weight": 15983,
@@ -1609,6 +1614,7 @@
   {
     "id": "chainmail_vest",
     "type": "ARMOR",
+    "category": "armor",
     "name": "chainmail vest",
     "description": "A customized chainmail vest.  It's a sleeveless piece of chainmail with small leather straps designed to better distribute the weight.",
     "weight": 6953,
@@ -3042,6 +3048,7 @@
   {
     "id": "glasses_bal",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pair of ballistic glasses",
     "name_plural": "pairs of ballistic glasses",
     "description": "Modern tactical eyewear that protects from small projectiles and fragments.  Provides excellent protection from environmental dangers.",
@@ -4072,6 +4079,7 @@
   {
     "id": "hat_hard_hooded",
     "type": "ARMOR",
+    "category": "armor",
     "name": "hooded hard hat",
     "description": "A hard plastic hat worn in construction sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
     "weight": 876,
@@ -4244,6 +4252,7 @@
   {
     "id": "helmet_ball",
     "type": "ARMOR",
+    "category": "armor",
     "name": "baseball helmet",
     "description": "A hard plastic helmet that covers the head and ears.  Designed to protect against a baseball to the head.",
     "weight": 453,
@@ -4594,6 +4603,7 @@
   {
     "id": "helmet_skid",
     "type": "ARMOR",
+    "category": "armor",
     "name": "skid lid",
     "description": "A small metal helmet that covers the head and protects against cuts and percussion.",
     "weight": 1315,
@@ -6914,6 +6924,7 @@
   {
     "id": "pickelhaube",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pickelhaube",
     "name_plural": "pickelhauben",
     "description": "A spiked helmet once worn by German military officers.  The spike is very sharp.",
@@ -7084,6 +7095,7 @@
     "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "techniques": [ "WBLOCK_1" ]
   },
   {

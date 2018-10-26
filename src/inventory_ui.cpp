@@ -119,7 +119,7 @@ static const selection_column_preset selection_preset;
 size_t inventory_entry::get_available_count() const
 {
     if( location && stack_size == 1 ) {
-        return location->count_by_charges() ? location->charges : 1;
+        return location->count();
     } else {
         return stack_size;
     }

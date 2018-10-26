@@ -25,6 +25,7 @@
 #include "cata_utility.h"
 #include "pathfinding.h"
 #include "string_formatter.h"
+#include "activity_handlers.h"
 
 #include <algorithm>
 #include <sstream>
@@ -1203,11 +1204,8 @@ void Character::drop_invalid_inventory()
     }
 
     if( volume_carried() > volume_capacity() ) {
-        for( auto &item_to_drop :
-             inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
-            g->m.add_item_or_charges( pos(), item_to_drop );
-        }
-        add_msg_if_player( m_bad, _( "Some items tumble to the ground." ) );
+        auto items_to_drop = inv.remove_randomly_by_volume( volume_carried() - volume_capacity() );
+        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, items_to_drop );
     }
 }
 

@@ -537,7 +537,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
         // Intentional fallthrough
         case STASH:
             auto &entry = mapPickup[newit.tname()];
-            entry.second += newit.count_by_charges() ? newit.charges : 1;
+            entry.second += newit.count();
             entry.first = u.i_add( newit );
             picked_up = true;
             break;
@@ -1228,12 +1228,12 @@ void show_pickup_message( const PickupMap &mapPickup )
     }
 }
 
-bool Pickup::handle_spillable_contents( player &p, item &it, map &m )
+bool Pickup::handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
         const item &it_cont = it.contents.front();
         int num_charges = it_cont.charges;
-        while( !it.spill_contents( p ) ) {
+        while( !it.spill_contents( c ) ) {
             if( num_charges > it_cont.charges ) {
                 num_charges = it_cont.charges;
             } else {
@@ -1244,12 +1244,12 @@ bool Pickup::handle_spillable_contents( player &p, item &it, map &m )
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents
         if( it.is_bucket_nonempty() ) {
-            p.add_msg_player_or_npc(
+            c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name().c_str(), m.name( p.pos() ).c_str()
+                it.display_name(), m.name( c.pos() )
             );
-            m.add_item_or_charges( p.pos(), it );
+            m.add_item_or_charges( c.pos(), it );
             return true;
         }
     }

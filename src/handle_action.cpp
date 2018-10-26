@@ -155,6 +155,7 @@ input_context game::get_player_input( std::string &action )
         wPrint.endy = iEndY;
 
         ctxt.set_timeout( 125 );
+        bool initial_draw = true;
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview( ctxt, action ) || uquit == QUIT_WATCH ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
@@ -259,9 +260,12 @@ input_context game::get_player_input( std::string &action )
                 }
             }
 
-            werase( w_terrain );
+            if( initial_draw ) {
+                werase( w_terrain );
 
-            draw_ter();
+                draw_ter();
+                initial_draw = false;
+            }
             draw_weather( wPrint );
 
             if( uquit != QUIT_WATCH ) {
