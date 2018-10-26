@@ -22,6 +22,17 @@ void activity_on_turn_pickup();
 void activity_on_turn_stash();
 void try_refuel_fire( player &p );
 
+enum class item_drop_reason {
+    deliberate,
+    too_large,
+    too_heavy,
+    tumbling
+};
+
+void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
+                               const tripoint &where );
+
 // advanced_inv.cpp
 void advanced_inv();
 

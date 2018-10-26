@@ -64,7 +64,8 @@ bool same_type( const std::list<item> &items )
     } );
 }
 
-void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, int part )
+void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
+                       vehicle &veh, int part )
 {
     if( items.empty() ) {
         return;
@@ -73,18 +74,23 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
     const tripoint where = veh.global_part_pos3( part );
     const std::string ter_name = g->m.name( where );
     int fallen_count = 0;
+    int into_vehicle_count = 0;
 
     for( auto it : items ) { // cant use constant reference here because of the spill_contents()
-        if( Pickup::handle_spillable_contents( p, it, g->m ) ) {
+        if( Pickup::handle_spillable_contents( c, it, g->m ) ) {
             continue;
         }
-        if( !veh.add_item( part, it ) ) {
+        if( veh.add_item( part, it ) ) {
+            into_vehicle_count += it.count();
+        } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
-                it.mod_charges( -veh.add_charges( part, it ) );
+                auto charges_added = veh.add_charges( part, it );
+                it.mod_charges( -charges_added );
+                into_vehicle_count += charges_added;
             }
             g->m.add_item_or_charges( where, it );
-            ++fallen_count;
+            fallen_count += it.count();
         }
     }
 
@@ -92,25 +98,80 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
 
     if( same_type( items ) ) {
         const item &it = items.front();
-        const int dropcount = items.size() * ( it.count_by_charges() ? it.charges : 1 );
+        const int dropcount = items.size() * it.count();
+        const std::string it_name = it.tname( dropcount );
 
-        p.add_msg_player_or_npc(
-            ngettext( "You put your %1$s in the %2$s's %3$s.",
-                      "You put your %1$s in the %2$s's %3$s.", dropcount ),
-            ngettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
-                      "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
-            it.tname( dropcount ).c_str(), veh.name.c_str(), part_name.c_str()
-        );
+        switch( reason ) {
+            case item_drop_reason::deliberate:
+                c.add_msg_player_or_npc(
+                    ngettext( "You put your %1$s in the %2$s's %3$s.",
+                              "You put your %1$s in the %2$s's %3$s.", dropcount ),
+                    ngettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
+                              "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
+                    it_name, veh.name, part_name
+                );
+                break;
+            case item_drop_reason::too_large:
+                c.add_msg_if_player(
+                    ngettext(
+                        "There's no room in your inventory for the %s, so you drop it into the %s's %s.",
+                        "There's no room in your inventory for the %s, so you drop them into the %s's %s.",
+                        dropcount ),
+                    it_name, veh.name, part_name
+                );
+                break;
+            case item_drop_reason::too_heavy:
+                c.add_msg_if_player(
+                    ngettext( "The %s is too heavy to carry, so you drop it into the %s's %s.",
+                              "The %s are too heavy to carry, so you drop them into the %s's %s.", dropcount ),
+                    it_name, veh.name, part_name
+                );
+                break;
+            case item_drop_reason::tumbling:
+                c.add_msg_if_player(
+                    m_bad,
+                    ngettext( "Your %s tumbles into the %s's %s.",
+                              "Your %s tumble into the %s's %s.", dropcount ),
+                    it_name, veh.name, part_name
+                );
+                break;
+        }
     } else {
-        p.add_msg_player_or_npc(
-            _( "You put several items in the %1$s's %2$s." ),
-            _( "<npcname> puts several items in the %1$s's %2$s." ),
-            veh.name.c_str(), part_name.c_str()
-        );
+        switch( reason ) {
+            case item_drop_reason::deliberate:
+                c.add_msg_player_or_npc(
+                    _( "You put several items in the %1$s's %2$s." ),
+                    _( "<npcname> puts several items in the %1$s's %2$s." ),
+                    veh.name, part_name
+                );
+                break;
+            case item_drop_reason::too_large:
+            case item_drop_reason::too_heavy:
+            case item_drop_reason::tumbling:
+                c.add_msg_if_player(
+                    m_bad, _( "Some items tumble into the %1$s's %2$s." ),
+                    veh.name, part_name
+                );
+                break;
+        }
     }
 
     if( fallen_count > 0 ) {
-        add_msg( m_warning, _( "The trunk is full, so some items fell to the %s." ), ter_name.c_str() );
+        if( into_vehicle_count > 0 ) {
+            c.add_msg_if_player(
+                m_warning,
+                ngettext( "The %s is full, so something fell to the %s.",
+                          "The %s is full, so some items fell to the %s.", fallen_count ),
+                part_name, ter_name
+            );
+        } else {
+            c.add_msg_if_player(
+                m_warning,
+                ngettext( "The %s is full, so it fell to the %s.",
+                          "The %s is full, so they fell to the %s.", fallen_count ),
+                part_name, ter_name
+            );
+        }
     }
 }
 
@@ -129,11 +190,11 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
         pet.add_effect( effect_controlled, 5_turns );
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
-                     it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
+                     it.display_name(), g->m.name( pet.pos() ) );
             g->m.add_item_or_charges( pet.pos(), it );
         } else if( it.weight() > remaining_weight ) {
             add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ),
-                     it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
+                     it.display_name(), g->m.name( pet.pos() ) );
             g->m.add_item_or_charges( pet.pos(), it );
         } else {
             pet.add_item( it );
@@ -143,7 +204,8 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 }
 
-void drop_on_map( const player &p, const std::list<item> &items, const tripoint &where )
+void drop_on_map( const Character &c, item_drop_reason reason, const std::list<item> &items,
+                  const tripoint &where )
 {
     if( items.empty() ) {
         return;
@@ -153,39 +215,74 @@ void drop_on_map( const player &p, const std::list<item> &items, const tripoint 
 
     if( same_type( items ) ) {
         const item &it = items.front();
-        const int dropcount = items.size() * ( it.count_by_charges() ? it.charges : 1 );
+        const int dropcount = items.size() * it.count();
         const std::string it_name = it.tname( dropcount );
 
-        if( can_move_there ) {
-            p.add_msg_player_or_npc(
-                ngettext( "You drop your %1$s on the %2$s.",
-                          "You drop your %1$s on the %2$s.", dropcount ),
-                ngettext( "<npcname> drops their %1$s on the %2$s.",
-                          "<npcname> drops their %1$s on the %2$s.", dropcount ),
-                it_name.c_str(), ter_name.c_str()
-            );
-        } else {
-            p.add_msg_player_or_npc(
-                ngettext( "You put your %1$s in the %2$s.",
-                          "You put your %1$s in the %2$s.", dropcount ),
-                ngettext( "<npcname> puts their %1$s in the %2$s.",
-                          "<npcname> puts their %1$s in the %2$s.", dropcount ),
-                it_name.c_str(), ter_name.c_str()
-            );
+        switch( reason ) {
+            case item_drop_reason::deliberate:
+                if( can_move_there ) {
+                    c.add_msg_player_or_npc(
+                        ngettext( "You drop your %1$s on the %2$s.",
+                                  "You drop your %1$s on the %2$s.", dropcount ),
+                        ngettext( "<npcname> drops their %1$s on the %2$s.",
+                                  "<npcname> drops their %1$s on the %2$s.", dropcount ),
+                        it_name, ter_name
+                    );
+                } else {
+                    c.add_msg_player_or_npc(
+                        ngettext( "You put your %1$s in the %2$s.",
+                                  "You put your %1$s in the %2$s.", dropcount ),
+                        ngettext( "<npcname> puts their %1$s in the %2$s.",
+                                  "<npcname> puts their %1$s in the %2$s.", dropcount ),
+                        it_name, ter_name
+                    );
+                }
+                break;
+            case item_drop_reason::too_large:
+                c.add_msg_if_player(
+                    ngettext( "There's no room in your inventory for the %s, so you drop it.",
+                              "There's no room in your inventory for the %s, so you drop them.", dropcount ),
+                    it_name
+                );
+                break;
+            case item_drop_reason::too_heavy:
+                c.add_msg_if_player(
+                    ngettext( "The %s is too heavy to carry, so you drop it.",
+                              "The %s is too heavy to carry, so you drop them.", dropcount ),
+                    it_name
+                );
+                break;
+            case item_drop_reason::tumbling:
+                c.add_msg_if_player(
+                    m_bad,
+                    ngettext( "Your %1$s tumbles to the %2$s.",
+                              "Your %1$s tumble to the %2$s.", dropcount ),
+                    it_name, ter_name
+                );
+                break;
         }
     } else {
-        if( can_move_there ) {
-            p.add_msg_player_or_npc(
-                _( "You drop several items on the %s." ),
-                _( "<npcname> drops several items on the %s." ),
-                ter_name.c_str()
-            );
-        } else {
-            p.add_msg_player_or_npc(
-                _( "You put several items in the %s." ),
-                _( "<npcname> puts several items in the %s." ),
-                ter_name.c_str()
-            );
+        switch( reason ) {
+            case item_drop_reason::deliberate:
+                if( can_move_there ) {
+                    c.add_msg_player_or_npc(
+                        _( "You drop several items on the %s." ),
+                        _( "<npcname> drops several items on the %s." ),
+                        ter_name
+                    );
+                } else {
+                    c.add_msg_player_or_npc(
+                        _( "You put several items in the %s." ),
+                        _( "<npcname> puts several items in the %s." ),
+                        ter_name
+                    );
+                }
+                break;
+            case item_drop_reason::too_large:
+            case item_drop_reason::too_heavy:
+            case item_drop_reason::tumbling:
+                c.add_msg_if_player( m_bad, _( "Some items tumble to the %s." ), ter_name );
+                break;
         }
     }
     for( const auto &it : items ) {
@@ -193,15 +290,20 @@ void drop_on_map( const player &p, const std::list<item> &items, const tripoint 
     }
 }
 
-void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
+void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std::list<item> &items )
+{
+    return put_into_vehicle_or_drop( c, reason, items, c.pos() );
+}
+
+void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std::list<item> &items,
                                const tripoint &where )
 {
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( "CARGO",
-            true ) ) {
-        put_into_vehicle( p, items, vp->vehicle(), vp->part_index() );
+    if( const cata::optional<vpart_reference> vp =
+            g->m.veh_at( where ).part_with_feature( "CARGO", true ) ) {
+        put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
         return;
     }
-    drop_on_map( p, items, where );
+    drop_on_map( c, reason, items, where );
 }
 
 drop_indexes convert_to_indexes( const player_activity &act )
@@ -287,8 +389,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
             } );
 
             if( iter == worn.end() ) {
-                worn.emplace_front( dit, dit->count_by_charges() ? dit->charges : 1,
-                                    100 ); // @todo: Use a calculated cost
+                worn.emplace_front( dit, dit->count(), 100 ); // @todo: Use a calculated cost
             }
         }
     }
@@ -394,7 +495,8 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
 void activity_handlers::drop_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
-    put_into_vehicle_or_drop( *p, obtain_activity_items( *act, *p ), pos );
+    put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
+                              pos );
 }
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
@@ -572,9 +674,9 @@ static void move_items( const tripoint &src, bool from_vehicle,
             int distance = std::max( rl_dist( src, dest ), 1 );
             g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) * distance );
             if( to_vehicle ) {
-                put_into_vehicle_or_drop( g->u, { *temp_item }, destination );
+                put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, { *temp_item }, destination );
             } else {
-                drop_on_map( g->u, { *temp_item }, destination );
+                drop_on_map( g->u, item_drop_reason::deliberate, { *temp_item }, destination );
             }
             // Remove from map or vehicle.
             if( from_vehicle ) {
@@ -756,7 +858,7 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     // Check that we can pick it up.
     if( !it.made_of_from_type( LIQUID ) ) {
         g->u.mod_moves( -move_cost( it, src, dest ) );
-        drop_on_map( g->u, { it }, dest );
+        drop_on_map( g->u, item_drop_reason::deliberate, { it }, dest );
         // Remove from map.
         g->m.i_rem( src, &it );
     }
@@ -873,7 +975,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             return;
                         }
 
-                        move_item( *it, it->count_by_charges() ? it->charges : 1, src_loc, dest_loc );
+                        move_item( *it, it->count(), src_loc, dest_loc );
                         break;
                     }
                 }

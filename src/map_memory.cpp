@@ -32,9 +32,11 @@ void map_memory::memorize_tile( int limit, const tripoint &pos, const std::strin
     if( found_tile != tile_map.end() ) {
         // Remove redundant entry since we pushed one to the front.
         tiles.erase( found_tile->second );
+        found_tile->second = tiles.begin();
+    } else {
+        tile_map[pos] = tiles.begin();
+        trim( limit );
     }
-    tile_map[pos] = tiles.begin();
-    trim( limit );
 }
 
 long map_memory::get_symbol( const tripoint &pos ) const
@@ -53,7 +55,9 @@ void map_memory::memorize_symbol( int limit, const tripoint &pos, const long sym
     if( found_tile != symbol_map.end() ) {
         // Remove redundant entry since we pushed on to the front.
         symbols.erase( found_tile->second );
+        found_tile->second = symbols.begin();
+    } else {
+        symbol_map[pos] = symbols.begin();
+        trim( limit );
     }
-    symbol_map[pos] = symbols.begin();
-    trim( limit );
 }
