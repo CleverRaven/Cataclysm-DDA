@@ -116,7 +116,7 @@ string.
 ### Translation Functions
 
 In order to mark a string for translation and to obtain its translation at
-runtime, you should use one of the following three functions.
+runtime, you should use one of the following functions and classes.
 
 String *literals* that are used in any of these functions are automatically
 extracted. Non-literal strings are still translated at run time, but they won't
@@ -166,6 +166,31 @@ should be used at run time:
 const char *translated = ngettext("one zombie", "many zombies", num_of_zombies)
 ```
 
+### `translation`
+
+There are times when you want to store a string for translation, maybe with
+translation context; Sometimes you may also want to store a string that needs no
+translation. `class translation` in `translations.h|cpp` offers the above
+functionality in a single wrapper.
+
+```c++
+const translation text = translation( "Context", "Text" );
+```
+
+```c++
+const translation text = translation( "Text without context" );
+```
+
+```c++
+const translation text = no_translation( "This string will not be translated" );
+```
+
+The string can then be translated/retrieved with
+
+```c++
+const std::string translated = text.translated();
+```
+
 ### Recommendations
 
 In Cataclysm: DDA, some classes, like `itype` and `mtype`, provide a wrapper
@@ -193,7 +218,7 @@ There are scripts available for these, so usually the process will be as follows
 1. Download the translations in `.po` format.
 2. Put them in `lang/incoming/`, ensuring they are named consistently with the files in `lang/po/`.
 3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-dda.pot`.
-4. Run `lang/merge_po.sh` to update `lang/po/*.po`.
+4. Run `lang/merge_po.sh` to update `lang/po/*.po`. (This is only used to test translations locally as the project now uses Transifex for translation)
 
     This will also merge the translations from `lang/incoming/`.
 
