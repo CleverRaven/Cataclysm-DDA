@@ -2758,5 +2758,36 @@
     "material": "plastic",
     "symbol": ")",
     "color": "green"
+  },
+  {
+    "type":"GENERIC",
+    "id" : "sheet_metal",
+    "name" : "sheet metal",
+    "description" : "A thin sheet of metal.",
+    "//" : "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
+    "weight" : 6000,
+    "to_hit" : -2,
+    "color" : "light_cyan",
+    "symbol" : "]",
+    "material" : ["steel"],
+    "volume" : 4,
+    "bashing" : 5,
+    "category" : "spare_parts",
+    "price" : 6000
+  },
+  {
+    "type":"GENERIC",
+    "id" : "solar_cell",
+    "name" : "solar cell",
+    "description" : "A small electronic device that can convert solar radiation into electric power.  Useful for crafting.",
+    "weight" : 500,
+    "to_hit" : -4,
+    "color" : "yellow",
+    "symbol" : ";",
+    "material" : ["glass"],
+    "volume" : 1,
+    "bashing" : 1,
+    "category" : "spare_parts",
+    "price" : 5000
   }
 ]
