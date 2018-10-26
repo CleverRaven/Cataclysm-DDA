@@ -275,7 +275,7 @@
       { "item": "steel_chunk", "count": [ 4, 10 ] },
       { "item": "spring", "count": [ 2, 8 ] }
     ],
-    "flags": [ "BATTERY_MOUNT", "FOLDABLE" ]
+    "flags": [ "TURRET_MOUNT" ]
   },
   {
     "id": "wiring",
