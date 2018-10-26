@@ -52,7 +52,7 @@ then
     for n in $@
     do
         echo "updating lang/po/${n}.po"
-        msgmerge --sort-by-file --no-fuzzy-matching lang/po/${n}.po lang/po/cataclysm-dda.pot | msgattrib --sort-by-file --no-obsolete --o lang/po/${n}.po
+        msgmerge --sort-by-file --no-fuzzy-matching lang/po/${n}.po lang/po/cataclysm-dda.pot | msgattrib --sort-by-file --no-obsolete -o lang/po/${n}.po
     done
 # otherwise merge lang/po/cataclysm-dda.pot with all .po files in lang/po
 else
