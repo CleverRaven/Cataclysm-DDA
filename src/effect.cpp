@@ -1182,8 +1182,7 @@ void load_effect_type( JsonObject &jo )
         while( jsarr.has_more() ) {
             translation name;
             if( !jsarr.read_next( name ) ) {
-                debugmsg( "Error reading effect names" );
-                break;
+                jsarr.throw_error( "Error reading effect names" );
             }
             new_etype.name.emplace_back( name );
         }
