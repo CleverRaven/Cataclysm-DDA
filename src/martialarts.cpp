@@ -380,7 +380,7 @@ std::string ma_requirements::get_description( bool buff ) const
         dump << enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
             return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
-        }, false ) << std::endl;
+        }, enumeration_conjunction::none ) << std::endl;
     }
 
     if( req_buffs.size() ) {
@@ -388,7 +388,7 @@ std::string ma_requirements::get_description( bool buff ) const
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return bid->name;
-        }, false ) << std::endl;
+        }, enumeration_conjunction::none ) << std::endl;
     }
 
     const std::string type = buff ? _( "activate" ) : _( "be used" );
