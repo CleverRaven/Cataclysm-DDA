@@ -114,7 +114,7 @@ void mtrap_set( map *m, int x, int y, trap_id t );
 // x%2 and y%2 must be 0!
 void map::generate( const int x, const int y, const int z, const time_point &when )
 {
-    dbg( D_INFO ) << "map::generate( g[" << g << "], x[" << x << "], "
+    dbg( D_INFO ) << "map::generate( g[" << g.get() << "], x[" << x << "], "
                   << "y[" << y << "], z[" << z << "], when[" << to_string( when ) << "] )";
 
     set_abs_sub( x, y, z );
