@@ -20,6 +20,7 @@
     "type": "vehicle_part",
     "name": "tiny electric motor",
     "item": "motor_tiny",
+    "looks_like": "motor_small",
     "difficulty": 1,
     "durability": 80,
     "power": 4,
