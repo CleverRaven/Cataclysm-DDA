@@ -141,7 +141,7 @@
     "spoils_in": 36,
     "quench": -1,
     "fun": -1,
-    "proportional": { "calories": 0.5 }
+    "proportional": { "calories": 2 }
   },
   {
     "id": "offal_canned",
@@ -156,7 +156,7 @@
     "healthy": 1,
     "container": "can_food",
     "fun": -2,
-    "proportional": { "calories": 0.5 }
+    "proportional": { "calories": 2 }
   },
   {
     "id": "stomach",
@@ -226,7 +226,7 @@
     "type": "COMESTIBLE",
     "name": "jerk jerky",
     "name_plural": "jerk jerky",
-    "description": "Salty dried human flesh that never goes bad, but will make you thirsty.",
+    "description": "Salty dried human flesh that lasts for a long time, but will make you thirsty.",
     "weight": 56,
     "color": "brown",
     "spoils_in": 1008,

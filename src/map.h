@@ -250,7 +250,6 @@ class map
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
 
-
         /**
          * Callback invoked when a vehicle has moved.
          */
@@ -266,8 +265,7 @@ class map
         visibility_type get_visibility( const lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( const catacurses::window &w, lit_level ll,
-                                   const visibility_variables &cache ) const;
+        bool apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const;
 
         /** Draw a visible part of the map into `w`.
          *
@@ -408,7 +406,6 @@ class map
          * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
          */
         double ranged_target_size( const tripoint &p ) const;
-
 
         // 3D Sees:
         /**
@@ -569,7 +566,7 @@ class map
         // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         ter_id ter( const int x, const int y ) const;
 
-        void ter_set( const int x, const int y, const ter_id new_terrain );
+        bool ter_set( const int x, const int y, const ter_id new_terrain );
 
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
@@ -584,7 +581,7 @@ class map
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
-        void ter_set( const tripoint &p, const ter_id new_terrain );
+        bool ter_set( const tripoint &p, const ter_id new_terrain );
 
         std::string tername( const tripoint &p ) const;
 
@@ -701,8 +698,6 @@ class map
                           ter_id floor_type, bool overwrite = false );
         void make_rubble( const tripoint &p );
         void make_rubble( const tripoint &p, furn_id rubble_type, bool items );
-        void make_rubble( int, int, furn_id rubble_type, bool items,
-                          ter_id floor_type, bool overwrite = false ) = delete;
 
         bool is_divable( const int x, const int y ) const;
         bool is_outside( const int x, const int y ) const;
@@ -746,7 +741,6 @@ class map
         void draw_circle_furn( furn_id type, int x, int y, int rad );
 
         void add_corpse( const tripoint &p );
-
 
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
@@ -843,7 +837,8 @@ class map
         void add_item( const int x, const int y, item new_item );
         void spawn_an_item( const int x, const int y, item new_item,
                             const long charges, const int damlevel );
-        std::vector<item *> place_items( items_location loc, const int chance, const int x1, const int y1,
+        std::vector<item *> place_items( const items_location &loc, const int chance, const int x1,
+                                         const int y1,
                                          const int x2, const int y2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         void spawn_items( const int x, const int y, const std::vector<item> &new_items );
@@ -902,14 +897,6 @@ class map
         void update_lum( item_location &loc, bool add );
 
         /**
-         * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
-         * and sets item's fridge/freezer status variables.
-         * @param it Item processed.
-         * @param temperature Temperature affecting item.
-         */
-        void apply_in_fridge( item &it, int temperature );
-
-        /**
          * @name Consume items on the map
          *
          * The functions here consume accessible items / item charges on the map or in vehicles
@@ -948,7 +935,7 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
-        std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
+        std::vector<item *> place_items( const items_location &loc, const int chance, const tripoint &f,
                                          const tripoint &t, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         /**
@@ -959,7 +946,7 @@ class map
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p,
+        std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
                                                 const time_point &turn = calendar::time_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
@@ -1163,7 +1150,8 @@ class map
         // 6 liters at 250 ml per charge
         void place_toilet( const int x, const int y, const int charges = 6 * 4 );
         void place_vending( int x, int y, const std::string &type, bool reinforced = false );
-        int place_npc( int x, int y, const string_id<npc_template> &type );
+        // places an NPC, if static NPCs are enabled or if force is true
+        int place_npc( int x, int y, const string_id<npc_template> &type, const bool force = false );
 
         void add_spawn( const mtype_id &type, const int count, const int x, const int y,
                         bool friendly = false,
@@ -1455,6 +1443,8 @@ class map
                            bool invert, bool show_items,
                            const tripoint &view_center,
                            bool low_light, bool bright_light, bool inorder ) const;
+        void draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                       const tripoint &view_center ) const;
         /**
          * Draws the tile as seen from above.
          */
@@ -1491,17 +1481,27 @@ class map
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air );
 
+    public:
+        /**
+         * Processor function pointer used in process_items and brethren.
+         *
+         * Note, typedefs should be discouraged because they tend to obfuscate
+         * code, but due to complexity, a template type makes it worse here.
+         * It's a really heinous function pointer so a typedef is the best
+         * solution in this instance.
+         */
+        typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
+                                            const std::string &, int, float );
+    private:
+
         // Iterates over every item on the map, passing each item to the provided function.
-        template<typename T>
-        void process_items( bool active, T processor, std::string const &signal );
-        template<typename T>
+        void process_items( bool active, map_process_func processor, std::string const &signal );
         void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      T processor, std::string const &signal );
-        template<typename T>
-        void process_items_in_vehicles( submap &current_submap, T processor, std::string const &signal );
-        template<typename T>
-        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
-                                       T processor, std::string const &signal );
+                                      map::map_process_func processor, std::string const &signal );
+        void process_items_in_vehicles( submap &current_submap, const int gridz,
+                                        map_process_func processor, std::string const &signal );
+        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
+                                       map::map_process_func processor, std::string const &signal );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {

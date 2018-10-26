@@ -1,0 +1,100 @@
+Balance Add recipes for scoop, planter, reaper and plow to "Mechanical Mastery".
+Infrastructure Improved messaging when opening Lua console
+I18N Update German translator notes (in German)
+Bugfixes Fix user-facing color names with underscores
+Balance Stop indoor plants from blocking vision
+Balance Resolves #23508 - change ember carrier (lit) to steel
+Content Add two new types of house
+Bugfixes Infrastructure force vs2017 to apply .editorconfig
+Bugfixes Fix incorrect color combinations
+Bugfixes Fix incorrect colors in mods
+Mods Removed obsolete overrides from blazemod.
+Bugfixes Fix cathedral's connection to road creating pavement gaps
+Interface Show notice when no results found in map search
+Bugfixes Fix for "temperature too low"
+Performance Use map::points_in_radius instead of manual iterating
+Balance Restored the old launcher spawn chances to the helicopter itemgroup
+Interface Chesthole Tilesets update: Adds background to broken omnicameras
+Mods Add reinforced upgraded solar array to blaze mod
+Bugfixes Added screen erase/refresh to choose_ma_style
+Bugfixes Fix a glitch with a not erased last trait name
+Balance Rural rework, making parks, ponds, and lakes more common
+Bugfixes Thermometer now shows air temperature when carried
+Balance Added DEFAULT low auto 50 firemode to m134 and renamed auto 100 firemode
+Interface Moved Stats window modifiers out to Info window
+I18N Do not handle pwd at language maintaining shell scripts
+Infrastructure Change fields to use time_duration as their age
+Infrastructure Change the morale system to use time_duration class
+Infrastructure Move item::gun_mode into its own header
+Infrastructure Use random_entry functions instead of rng(0, size - 1)
+Content Added scope recipes.
+Bugfixes Disabled the ability to butcher/disassemble tinder.
+Bugfixes Made nonconductive unarmed weapons don't trigger zapback
+Bugfixes Corrected makeshift red dot sight recipe result
+Bugfixes Fixes for 84x246mm smoke rocket
+Interface added extra description for cell phone
+Bugfixes Fix Lizard Kung-Fu description claiming future refactor
+Interface Changed default keybind for show help menu
+Bugfixes Check foe before use
+I18N fix misaligned encumbrance for utf8 translated body parts
+Infrastructure Add a test for #22686
+Infrastructure Remove manual text wrapping in the definition of NPC epilogues
+Balance Kill 100 Zombies quest now require killing 100 monsters from a ZOMBIE species, and not only ordinary mon_zombie
+Bugfixes Fix for schizophrenic NPCs effecting players
+Bugfixes Stop NPCs from leaving the vehicle due to smoke while in vehicle.
+Interface Improved RIP time display.
+Bugfixes Deactivate bionics explicitly before removing them
+I18N Make user-facing error messages translatable
+Bugfixes Resolves #23527 - split scrambled eggs recipe
+Infrastructure Use time_point in effect related code.
+Interface Redraw vehicle screen to reflect new vehicle name on rename
+Interface Support searching for memorized/unmemorized recipes
+Interface Added wrapping of long mission names
+Interface Wrap graffiti message
+Bugfixes Fix for signs being legible when stood on
+Bugfixes Fix for some unarmed styles giving bashing skill
+Interface Use italic for disabled subtab (with ncurses emulation for SDL)
+Interface Fix some factual mistakes in user-facing strings
+Infrastructure Removed extra curly brace in HitButton_iso json
+I18N i18n update as of Apr 29, 2018
+Bugfixes Fixed issue #22789.
+Balance Implemented ANVIL tool quality and added items and recipes to use it
+Features Allow resuming light-cancelled jobs
+Bugfixes Fixed items with low damage showing as undamaged.
+Balance Fixed post office safes being unlocked
+Balance Rebalanced cotton weights
+Build Fix compile error on MXE
+Content Add can sealer recipe.
+Balance Remove move cost from counters
+Features Washboard Batch Washing
+Balance Don't use a muffler for gas mask recipes
+I18N Remove 'DISPERSION_PER_GUN_DAMAGE' from translations
+Interface ChestHole Tilesets Update: Every monster, Every vehicle part, Every mod.
+Balance Can't dodge while sleeping
+Balance Added THIN_OBSTACLE to more appropriate terrains
+Infrastructure Add myself to signoff
+Infrastructure Simplify boolean conditions
+Infrastructure Eliminate use of uninitialized variable
+Bugfixes Fix for aux flamethrower not being reloadable
+Bugfixes Fix for unarmed still using bash damage
+Balance Added some of mugling's suppressor buffs and buffed compact_suppressor
+Interface Added a default keybinding for the Action Menu
+Bugfixes Destroy attached gunmod on weapon destruction
+Infrastructure Change map::veh_at to return the part index directly.
+Content Added stripper clip for SKS
+Infrastructure Include detailed layer penalties in encumbrance calculations/cache
+Infrastructure Framework to allow burnt items to drop byproducts on destruction
+Bugfixes Disallow installing two turrets on one vehicle tile
+Bugfixes Destroy irremovable gunmods on gun destruction by explosion
+Features Removed restriction to blood draw kit so centrifuge can work with any container with blood
+Mods Add clips to No Antique Firearms mod blacklist
+Bugfixes fix "Automatic vehicle turrets 'attempted to fire zero or negative shots' "
+Features Update washing machine to be able to use clean water.
+Features Add the ability to soak rags and cotton balls on disinfectant.
+Balance Added folding stocks to several guns and updated their weights
+Bugfixes Heavy Duty Stow Boards
+Content Holographic Decoy cloak
+Interface Inform player if they are capable of learning a recipe from disassembly.
+Balance Rebalanced Holsters & Pouches
+Infrastructure Obsoleted mags_military by copying its spawns to other itemgroups
+Balance Ranged weapon rebalance

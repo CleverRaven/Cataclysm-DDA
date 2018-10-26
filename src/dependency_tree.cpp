@@ -48,7 +48,7 @@ std::string dependency_node::s_errors()
     std::stringstream ret;
     for( auto &elem : all_errors ) {
         ret << error_keyvals[( unsigned )( elem.first )];
-        ret << enumerate_as_string( elem.second, false );
+        ret << enumerate_as_string( elem.second, enumeration_conjunction::none );
     }
     return ret.str();
 }
@@ -251,8 +251,6 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     return ret;
 }
 
-
-
 dependency_tree::dependency_tree()
 {
 }
@@ -340,7 +338,6 @@ std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( mo
     }
     return std::vector<dependency_node *>();
 }
-
 
 bool dependency_tree::is_available( mod_id key )
 {

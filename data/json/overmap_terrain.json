@@ -90,7 +90,7 @@
     "color": "brown",
     "see_cost": 2,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -100,8 +100,8 @@
     "sym": 70,
     "color": "green",
     "see_cost": 3,
-    "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 80 },
+    "extras": "forest",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -111,8 +111,8 @@
     "sym": 70,
     "color": "green",
     "see_cost": 4,
-    "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 90 },
+    "extras": "forest_thick",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE" ]
   },
@@ -123,8 +123,8 @@
     "sym": 70,
     "color": "cyan",
     "see_cost": 4,
-    "extras": "field",
-    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 100 },
+    "extras": "forest_water",
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE" ]
   },
@@ -1650,6 +1650,25 @@
     "flags": [ "NO_ROTATE" ]
   },
   {
+    "type": "overmap_terrain",
+    "id": "lab_escape_cells",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_escape_entrance",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
     "type" : "overmap_terrain",
     "id" : "ants_lab",
     "name" : "science lab",
@@ -1685,7 +1704,7 @@
     "name": "science lab",
     "sym": 76,
     "color": "light_blue",
-    "spawns": { "group": "GROUP_ICE_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -1696,7 +1715,7 @@
     "sym": 76,
     "color": "blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_ICE_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
@@ -1705,7 +1724,7 @@
     "name": "science lab",
     "sym": 76,
     "color": "light_blue",
-    "spawns": { "group": "GROUP_ICE_LAB", "population": [ 0, 8 ], "chance": 30 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -1715,7 +1734,7 @@
     "name": "science lab",
     "sym": 76,
     "color": "cyan",
-    "spawns": { "group": "GROUP_ICE_LAB", "population": [ 4, 12 ], "chance": 90 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -1726,7 +1745,7 @@
     "sym": 76,
     "color": "light_blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_TOWER_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -1736,7 +1755,7 @@
     "sym": 76,
     "color": "blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_TOWER_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -1757,7 +1776,14 @@
     "see_cost": 5,
     "extras": "subway",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_train_depot",
+    "name": "central train depot",
+    "copy-from": "lab_train_depot",
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
   },
   {
     "type": "overmap_terrain",
@@ -7224,7 +7250,7 @@
     "color": "green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7235,7 +7261,7 @@
     "color": "green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7246,7 +7272,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7257,7 +7283,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7268,7 +7294,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7346,7 +7372,7 @@
   {
     "type": "overmap_terrain",
     "id": "garage_gas_1",
-    "name": "gas station",
+    "name": "garage - gas station",
     "copy-from": "generic_necropolis_surface_building",
     "color": "light_blue"
   },
@@ -8802,7 +8828,7 @@
     "type": "overmap_terrain",
     "id": "dirtroad",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Dirt Road",
+    "name": "dirt road",
     "sym": 35,
     "color": "brown"
   },
@@ -8810,7 +8836,7 @@
     "type": "overmap_terrain",
     "id": "rural_house",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Rural House",
+    "name": "rural house",
     "sym": 35,
     "color": "blue"
   },
@@ -8818,7 +8844,7 @@
     "type": "overmap_terrain",
     "id": "moonshine_still",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Moonshine Still",
+    "name": "moonshine still",
     "sym": 83,
     "color": "i_brown"
   },
@@ -9380,7 +9406,7 @@
     "type": "overmap_terrain",
     "id": "stadium_0_1",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9396,7 +9422,7 @@
     "type": "overmap_terrain",
     "id": "stadium_2_1",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9404,7 +9430,7 @@
     "type": "overmap_terrain",
     "id": "stadium_3_1",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9412,7 +9438,7 @@
     "type": "overmap_terrain",
     "id": "stadium_0_2",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9436,7 +9462,7 @@
     "type": "overmap_terrain",
     "id": "stadium_3_2",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9444,7 +9470,7 @@
     "type": "overmap_terrain",
     "id": "stadium_0_3",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9468,7 +9494,7 @@
     "type": "overmap_terrain",
     "id": "stadium_3_3",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9484,7 +9510,7 @@
     "type": "overmap_terrain",
     "id": "stadium_1_4",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9492,7 +9518,7 @@
     "type": "overmap_terrain",
     "id": "stadium_2_4",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9671,5 +9697,12 @@
     "name": "trailer park",
     "sym": 35,
     "color": "white"
+  },
+  {
+  "type": "overmap_terrain",
+  "id": "mass_grave",
+  "name": "mass grave",
+  "sym": 88,
+  "color": "yellow"
   }
 ]

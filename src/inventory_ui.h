@@ -7,6 +7,7 @@
 #include <functional>
 
 #include "color.h"
+#include "units.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
@@ -41,6 +42,7 @@ class inventory_entry
 
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
+        std::string cached_name;
 
         inventory_entry( const item_location &location, size_t stack_size,
                          const item_category *custom_category = nullptr, bool enabled = true ) :
@@ -53,6 +55,7 @@ class inventory_entry
             location( entry.location.clone() ),
             chosen_count( entry.chosen_count ),
             custom_invlet( entry.custom_invlet ),
+            cached_name( entry.cached_name ),
             stack_size( entry.stack_size ),
             custom_category( entry.custom_category ),
             enabled( entry.enabled ) {}
@@ -64,6 +67,7 @@ class inventory_entry
             stack_size = rhs.stack_size;
             custom_category = rhs.custom_category;
             enabled = rhs.enabled;
+            cached_name = rhs.cached_name;
             return *this;
         }
 
@@ -115,6 +119,7 @@ class inventory_entry
         const item_category *get_category_ptr() const;
         long get_invlet() const;
         nc_color get_invlet_color() const;
+        void update_cache();
 
     private:
         size_t stack_size;
@@ -141,7 +146,7 @@ class inventory_selector_preset
             return std::string();
         }
         /** Whether the first item is considered to go before the second. */
-        virtual bool sort_compare( const item_location &lhs, const item_location &rhs ) const;
+        virtual bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const;
         /** Color that will be used to display the entry string. */
         virtual nc_color get_color( const inventory_entry &entry ) const;
 
@@ -154,6 +159,9 @@ class inventory_selector_preset
         size_t get_cells_count() const {
             return cells.size();
         }
+
+        virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
+        const;
 
     protected:
         /** Text of the first column (default: item name) */
@@ -180,7 +188,6 @@ class inventory_selector_preset
                     title( title ),
                     stub( stub ),
                     func( func ) {}
-
 
                 std::string get_text( const inventory_entry &entry ) const;
 
@@ -430,6 +437,10 @@ class inventory_selector
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
 
+        // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
+        using stat = std::array<std::string, 4>;
+        using stats = std::array<stat, 2>;
+
     protected:
         const player &u;
         const inventory_selector_preset &preset;
@@ -478,10 +489,15 @@ class inventory_selector
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
-        /** Returns player for volume/weight numbers */
-        virtual const player &get_player_for_stats() const {
-            return u;
-        }
+
+        static stats get_weight_and_volume_stats(
+            units::mass weight_carried, units::mass weight_capacity,
+            units::volume volume_carried, units::volume volume_capacity );
+
+        /** Get stats to display in top right.
+         *
+         * By default, computes volume/weight numbers for @c u */
+        virtual stats get_raw_stats() const;
 
         std::vector<std::string> get_stats() const;
         std::pair<std::string, nc_color> get_footer( navigation_mode m ) const;
@@ -611,13 +627,12 @@ class inventory_iuse_selector : public inventory_multiselector
         std::list<std::pair<int, int>> execute();
 
     protected:
-        const player &get_player_for_stats() const;
+        stats get_raw_stats() const override;
         void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
         std::map<const item *, int> to_use;
         size_t max_chosen_count;
-        mutable std::unique_ptr<player> dummy;
 };
 
 class inventory_drop_selector : public inventory_multiselector
@@ -628,14 +643,13 @@ class inventory_drop_selector : public inventory_multiselector
         std::list<std::pair<int, int>> execute();
 
     protected:
-        const player &get_player_for_stats() const;
+        stats get_raw_stats() const override;
         /** Toggle item dropping */
         void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
         std::map<const item *, int> dropping;
         size_t max_chosen_count;
-        mutable std::unique_ptr<player> dummy;
 };
 
 #endif

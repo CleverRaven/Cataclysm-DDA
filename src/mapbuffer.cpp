@@ -226,13 +226,44 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.member( "turn_last_touched", sm->last_touched );
         jsout.member( "temperature", sm->temperature );
 
+        // Terrain is saved using a simple RLE scheme.  Legacy saves don't have
+        // this feature but the algorithm is backward compatible.
         jsout.member( "terrain" );
         jsout.start_array();
+        std::string last_id;
+        int num_same = 1;
         for( int j = 0; j < SEEY; j++ ) {
             for( int i = 0; i < SEEX; i++ ) {
-                // Save terrains
-                jsout.write( sm->ter[i][j].obj().id );
+                const std::string this_id = sm->ter[i][j].obj().id.str();
+                if( !last_id.empty() ) {
+                    if( this_id == last_id ) {
+                        num_same++;
+                    } else {
+                        if( num_same == 1 ) {
+                            // if there's only one element don't write as an array
+                            jsout.write( last_id );
+                        } else {
+                            jsout.start_array();
+                            jsout.write( last_id );
+                            jsout.write( num_same );
+                            jsout.end_array();
+                            num_same = 1;
+                        }
+                        last_id = this_id;
+                    }
+                } else {
+                    last_id = this_id;
+                }
             }
+        }
+        // Because of the RLE scheme we have to do one last pass
+        if( num_same == 1 ) {
+            jsout.write( last_id );
+        } else {
+            jsout.start_array();
+            jsout.write( last_id );
+            jsout.write( num_same );
+            jsout.end_array();
         }
         jsout.end_array();
 
@@ -330,18 +361,16 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         }
         jsout.end_array();
 
+        // Write out as array of arrays of single entries
         jsout.member( "cosmetics" );
         jsout.start_array();
-        for( int j = 0; j < SEEY; j++ ) {
-            for( int i = 0; i < SEEX; i++ ) {
-                if( sm->cosmetics[i][j].size() > 0 ) {
-                    jsout.start_array();
-                    jsout.write( i );
-                    jsout.write( j );
-                    jsout.write( sm->cosmetics[i][j] );
-                    jsout.end_array();
-                }
-            }
+        for( const auto &cosm : sm->cosmetics ) {
+            jsout.start_array();
+            jsout.write( cosm.p.x );
+            jsout.write( cosm.p.y );
+            jsout.write( cosm.type );
+            jsout.write( cosm.str );
+            jsout.end_array();
         }
         jsout.end_array();
 
@@ -478,11 +507,30 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         }
                     }
                 } else {
+                    // terrain is encoded using simple RLE
+                    int remaining = 0;
+                    int_id<ter_t> iid;
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            const ter_str_id tid( jsin.get_string() );
-                            sm->ter[i][j] = tid.id();
+                            if( !remaining ) {
+                                if( jsin.test_string() ) {
+                                    iid = ter_str_id( jsin.get_string() ).id();
+                                } else if( jsin.test_array() ) {
+                                    jsin.start_array();
+                                    iid = ter_str_id( jsin.get_string() ).id();
+                                    remaining = jsin.get_int() - 1;
+                                    jsin.end_array();
+                                } else {
+                                    debugmsg( "Mapbuffer terrain data is corrupt, expected string or array." );
+                                }
+                            } else {
+                                --remaining;
+                            }
+                            sm->ter[i][j] = iid;
                         }
+                    }
+                    if( remaining ) {
+                        debugmsg( "Mapbuffer terrain data is corrupt, tile data remaining." );
                     }
                 }
                 jsin.end_array();
@@ -579,11 +627,28 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 }
             } else if( submap_member_name == "cosmetics" ) {
                 jsin.start_array();
+                std::map<std::string, std::string> tcosmetics;
+
                 while( !jsin.end_array() ) {
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    jsin.read( sm->cosmetics[i][j] );
+
+                    std::string type, str;
+                    // Try to read as current format
+                    if( jsin.test_string() ) {
+                        type = jsin.get_string();
+                        str = jsin.get_string();
+                        sm->insert_cosmetic( i, j, type, str );
+                    } else {
+                        // Otherwise read as most recent old format
+                        jsin.read( tcosmetics );
+                        for( auto &cosm : tcosmetics ) {
+                            sm->insert_cosmetic( i, j, cosm.first, cosm.second );
+                        }
+                        tcosmetics.clear();
+                    }
+
                     jsin.end_array();
                 }
             } else if( submap_member_name == "spawns" ) {

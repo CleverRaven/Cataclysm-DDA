@@ -86,7 +86,6 @@ struct tutorial_game : public special_game {
         bool tutorials_seen[NUM_LESSONS];
 };
 
-
 // DEFENSE
 
 enum defense_style {
@@ -154,7 +153,6 @@ struct defense_game : public special_game {
         void spawn_wave_monster( const mtype_id &type );
 
         std::string special_wave_message( std::string name );
-
 
         // DATA
         int current_wave;

@@ -9,6 +9,7 @@
 #include "mapbuffer.h"
 #include "mongroup.h"
 #include "npc.h"
+#include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "output.h"
@@ -19,6 +20,10 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
 
 namespace
 {
@@ -218,6 +223,9 @@ point draw_notes( int z )
 
     mvwprintz( w_notes, 1, 1, c_light_gray, title.c_str() );
     do {
+#ifdef __ANDROID__
+        input_context ctxt( "DRAW_NOTES" );
+#endif
         if( redraw ) {
             for( int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
                 for( int j = 1; j < FULL_SCREEN_WIDTH - 1; j++ ) {
@@ -232,6 +240,9 @@ point draw_notes( int z )
                 // Print letter ('a' <=> cur_it == start)
                 mvwputch( w_notes, i + 2, 1, c_white, 'a' + i );
                 mvwprintz( w_notes, i + 2, 3, c_light_gray, "- %s", notes[cur_it].second.c_str() );
+#ifdef __ANDROID__
+                ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
+#endif
             }
             if( start >= maxitems ) {
                 mvwprintw( w_notes, maxitems + 2, 1, back_msg.c_str() );
@@ -295,8 +306,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     const auto &zones = zone_manager::get_manager();
 
     if( data.iZoneIndex != -1 ) {
-        sZoneName = zones.zones[data.iZoneIndex].get_name();
-        tripointZone = ms_to_omt_copy( zones.zones[data.iZoneIndex].get_center_point() );
+        const auto &zone = zones.get_zones()[data.iZoneIndex].get();
+        sZoneName = zone.get_name();
+        tripointZone = ms_to_omt_copy( zone.get_center_point() );
     }
 
     // If we're debugging monster groups, find the monster group we've selected
@@ -800,19 +812,78 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             std::string color_notes = _( "Color codes: " );
             for( auto color_pair : get_note_color_names() ) {
                 // The color index is not translatable, but the name is.
-                color_notes += string_format( "%s:%s, ", color_pair.first.c_str(),
-                                              _( color_pair.second.c_str() ) );
+                color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
+                                              _( color_pair.second.c_str() ), string_replace( color_pair.second, " ", "_" ).c_str() );
             }
+
+            std::string helper_text = string_format( ".\r\n \n%s\r\n%s\r\n%s\r\n ",
+                                      _( "Type GLYPH:TEXT to set a custom glyph." ),
+                                      _( "Type COLOR;TEXT to set a custom color." ),
+                                      _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
+            color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
+            std::string title = _( "Note:" );
+
             const std::string old_note = overmap_buffer.note( curs );
-            const std::string new_note = string_input_popup()
-                                         .title( _( "Note (X:TEXT for custom symbol, G; for color):" ) )
-                                         .width( 45 )
-                                         .text( old_note )
-                                         .description( color_notes )
-                                         .query_string();
-            if( new_note.empty() && !old_note.empty() ) {
-                // do nothing, the player should be using [D]elete
-            } else if( old_note != new_note ) {
+            std::string new_note = old_note, tmp_note;
+
+#ifdef __ANDROID__
+            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                SDL_StartTextInput();
+            }
+#endif
+
+            bool done = false, esc_pressed = false;
+            do {
+                // Popup must be created anew because the description is only
+                // printed when the window is created. This only happens once
+                // every keystroke, however.
+                string_input_popup input_popup;
+                input_popup.callbacks['\n'] = [&]() {
+                    done = true;
+                    return true;
+                };
+                input_popup.callbacks[KEY_ESCAPE] = [&]() {
+                    done = esc_pressed = true;
+                    return true;
+                };
+
+                auto om_symbol = get_note_display_info( new_note );
+                if( new_note.length() > 0 ) {
+                    tmp_note = string_format( "%s%c</color> <color_yellow>%s</color>",
+                                              get_tag_from_color( std::get<1>( om_symbol ) ),
+                                              std::get<0>( om_symbol ),
+                                              new_note.substr( std::get<2>( om_symbol ), std::string::npos ) );
+                } else {
+                    tmp_note.clear();
+                }
+
+                input_popup
+                .title( title )
+                .width( 45 )
+                .text( new_note )
+                .description( string_format( "%s%s%s\n",
+                                             color_notes,
+                                             std::string( title.length() - 2, ' ' ),
+                                             tmp_note ) )
+                .title_color( c_white )
+                .desc_color( c_light_gray )
+                .string_color( c_yellow );
+
+                new_note = input_popup.query_string( false );
+                if( esc_pressed ) {
+                    new_note = old_note;
+                    break;
+                } else if( done ) {
+                    break;
+                }
+
+            } while( true );
+
+            if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
+                if( query_yn( _( "Really delete note?" ) ) ) {
+                    overmap_buffer.delete_note( curs );
+                }
+            } else if( !esc_pressed && old_note != new_note ) {
                 overmap_buffer.add_note( curs, new_note );
             }
         } else if( action == "DELETE_NOTE" ) {
@@ -1085,7 +1156,6 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 }
 
 } // anonymous namespace
-
 
 void ui::omap::display()
 {

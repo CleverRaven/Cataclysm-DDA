@@ -301,10 +301,10 @@
         "occurrences" : [1, 30]
     },{
         "type" : "overmap_special",
-        "id" : "Lab with Acid Anthill",
+        "id" : "Lab with Anthill",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "lab_stairs" },
-            { "point":[3,1,0], "overmap": "acid_anthill"}
+            { "point":[3,1,0], "overmap": "anthill"}
         ],
         "connections" : [
             { "point" : [0,-1,0], "terrain" : "road" }
@@ -313,7 +313,7 @@
         "city_distance" : [8, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 1],
-        "spawns" : { "group" : "GROUP_ANT_ACID", "population":[800,1600], "radius":[10,30] }
+        "spawns" : { "group" : "GROUP_ANT", "population":[1000,2000], "radius":[10,30] }
     },{
         "type" : "overmap_special",
         "id" : "Central Lab",
@@ -361,7 +361,8 @@
         "locations" : [ "forest" ],
         "city_distance" : [20, -1],
         "city_sizes" : [0, 6],
-        "occurrences" : [0, 1],
+        "occurrences" : [15, 100],
+        "flags" : [ "UNIQUE" ],
         "rotate": false
     },{
         "type" : "overmap_special",
@@ -1359,7 +1360,8 @@
         "locations" : [ "wilderness" ],
         "city_distance" : [1, 5],
         "city_sizes" : [1, 12],
-        "occurrences" : [1, 1]
+        "occurrences" : [33, 100],
+        "flags" : [ "UNIQUE" ]
     },{
         "type" : "overmap_special",
         "id" : "evac_center",
@@ -1395,8 +1397,8 @@
             { "point" : [2,5,0] }
         ],
         "locations" : [ "wilderness" ],
-        "city_distance" : [3, 5],
-        "city_sizes" : [1, 12],
+        "city_distance" : [3, -1],
+        "city_sizes" : [1, 16],
         "occurrences" : [75, 100],
         "flags" : [ "UNIQUE" ]
     },{
@@ -1700,9 +1702,9 @@
             { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [10, 200],
-        "city_sizes" : [1, 12],
-        "occurrences" : [ 0,2 ],
+        "city_distance" : [ 10, 200 ],
+        "city_sizes" : [ 1, 12 ],
+        "occurrences" : [ 0, 2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1715,9 +1717,9 @@
             { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [10, 200],
-        "city_sizes" : [1, 12],
-        "occurrences" : [ 0,2 ],
+        "city_distance" : [ 10, 200 ],
+        "city_sizes" : [ 1, 12 ],
+        "occurrences" : [ 0, 2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1730,9 +1732,9 @@
             { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [10, 200],
-        "city_sizes" : [1, 12],
-        "occurrences" : [ 0,2 ],
+        "city_distance" : [ 10, 200 ],
+        "city_sizes" : [ 1, 12 ],
+        "occurrences" : [ 0, 2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1749,9 +1751,9 @@
             { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [1,4],
-        "city_sizes" : [4,12],
-        "occurrences" : [0,1],
+        "city_distance" : [ 1,4 ],
+        "city_sizes" : [ 4, 12 ],
+        "occurrences" : [ 0, 1 ],
         "flags" : ["CLASSIC"]
     },{
         "type" : "overmap_special",
@@ -2502,5 +2504,15 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type" : "overmap_special",
+    "id" : "Mass Grave",
+    "overmaps" : [ { "point": [ 0, 0, 0 ], "overmap": "mass_grave_north"} ],
+    "locations" : [ "wilderness" ],
+    "city_distance" : [ 20, -1 ],
+    "city_sizes" : [ 0, 20 ],
+    "occurrences" : [ 0, 10 ],
+    "flags" : [ "CLASSIC" ]
   }
 ]

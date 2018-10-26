@@ -11,6 +11,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "iexamine.h"
+#include "vpart_range.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "string_formatter.h"
@@ -116,23 +117,23 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
 
 void vehicle::control_doors()
 {
-    std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
+    const auto door_motors = parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
     std::vector< tripoint > locations; // Locations used to display the doors
     // it is possible to have one door to open and one to close for single motor
-    doors_with_motors.reserve( door_motors.size() * 2 );
-    locations.reserve( door_motors.size() * 2 );
-    if( door_motors.empty() ) {
+    if( empty( door_motors ) ) {
         debugmsg( "vehicle::control_doors called but no door motors found" );
         return;
     }
 
     uimenu pmenu;
     pmenu.title = _( "Select door to toggle" );
-    int doors[2]; // one door to open and one to close
-    for( int p : door_motors ) {
-        doors[0] = next_part_to_open( p );
-        doors[1] = next_part_to_close( p );
+    for( const vpart_reference vp : door_motors ) {
+        const size_t p = vp.part_index();
+        if( parts[ p ].is_unavailable() ) {
+            continue;
+        }
+        const std::array<int, 2> doors = { { next_part_to_open( p ), next_part_to_close( p ) } };
         for( int door : doors ) {
             if( door == -1 ) {
                 continue;
@@ -140,7 +141,7 @@ void vehicle::control_doors()
 
             int val = doors_with_motors.size();
             doors_with_motors.push_back( door );
-            locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
+            locations.push_back( global_part_pos3( p ) );
             const char *actname = parts[door].open ? _( "Close" ) : _( "Open" );
             pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
         }
@@ -168,7 +169,8 @@ void vehicle::control_doors()
         } else if( pmenu.ret < ( ( int )doors_with_motors.size() + CANCEL ) ) {
             int option = pmenu.ret - ( int )doors_with_motors.size();
             bool open = option == OPENBOTH || option == OPENCURTAINS;
-            for( int motor : door_motors ) {
+            for( const vpart_reference vp : door_motors ) {
+                const size_t motor = vp.part_index();
                 int next_part = -1;
                 if( open ) {
                     int part = next_part_to_open( motor );
@@ -219,6 +221,7 @@ void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
     add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
     add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
     add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+    add_toggle( _( "freezer" ), keybind( "TOGGLE_FEEZER" ), "FREEZER" );
     add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
@@ -328,16 +331,18 @@ void vehicle::control_engines()
 
 int vehicle::select_engine()
 {
-    uimenu tmenu;
+    uilist tmenu;
     std::string name;
     tmenu.text = _( "Toggle which?" );
     for( size_t e = 0; e < engines.size(); ++e ) {
+        if( parts[ engines[ e] ].is_unavailable() ) {
+            continue;
+        }
         name = parts[ engines[ e ] ].name();
         tmenu.addentry( e, true, -1, "[%s] %s",
                         ( ( parts[engines[e]].enabled ) ? "x" : " " ), name.c_str() );
     }
 
-    tmenu.addentry( -1, true, 'q', _( "Finish" ) );
     tmenu.query();
     return tmenu.ret;
 }
@@ -357,8 +362,8 @@ bool vehicle::interact_vehicle_locked()
                 g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), hotwire_time, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
-                g->u.activity.values.push_back( global_x() + q.x ); //[0]
-                g->u.activity.values.push_back( global_y() + q.y ); //[1]
+                g->u.activity.values.push_back( global_pos3().x + q.x ); //[0]
+                g->u.activity.values.push_back( global_pos3().y + q.y ); //[1]
                 g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) ); //[2]
             } else {
                 if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name.c_str() ) ) {
@@ -629,14 +634,13 @@ bool vehicle::fold_up()
     item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
 
     // Drop stuff in containers on ground
-    for( size_t p = 0; p < parts.size(); p++ ) {
-        if( part_flag( p, "CARGO" ) ) {
-            for( auto &elem : get_items( p ) ) {
-                g->m.add_item_or_charges( g->u.pos(), elem );
-            }
-            while( !get_items( p ).empty() ) {
-                get_items( p ).erase( get_items( p ).begin() );
-            }
+    for( const vpart_reference vp : parts_with_feature( "CARGO" ) ) {
+        const size_t p = vp.part_index();
+        for( auto &elem : get_items( p ) ) {
+            g->m.add_item_or_charges( g->u.pos(), elem );
+        }
+        while( !get_items( p ).empty() ) {
+            get_items( p ).erase( get_items( p ).begin() );
         }
     }
 
@@ -823,10 +827,8 @@ void vehicle::honk_horn()
     const bool no_power = ! fuel_left( fuel_type_battery, true );
     bool honked = false;
 
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if( ! part_flag( p, "HORN" ) ) {
-            continue;
-        }
+    for( const vpart_reference vp : parts_with_feature( "HORN" ) ) {
+        const size_t p = vp.part_index();
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = part_info( p );
         if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
@@ -864,10 +866,8 @@ void vehicle::beeper_sound()
     }
 
     const bool odd_turn = calendar::once_every( 2_turns );
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if( !part_flag( p, "BEEPER" ) ) {
-            continue;
-        }
+    for( const vpart_reference vp : parts_with_feature( "BEEPER" ) ) {
+        const size_t p = vp.part_index();
         if( ( odd_turn && part_flag( p, VPFLAG_EVENTURN ) ) ||
             ( !odd_turn && part_flag( p, VPFLAG_ODDTURN ) ) ) {
             continue;
@@ -899,8 +899,9 @@ void vehicle::play_chimes()
 
 void vehicle::operate_plow()
 {
-    for( const int plow_id : all_parts_with_feature( "PLOW" ) ) {
-        const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
+    for( const vpart_reference vp : parts_with_feature( "PLOW" ) ) {
+        const size_t plow_id = vp.part_index();
+        const tripoint start_plow = global_part_pos3( plow_id );
         if( g->m.has_flag( "DIGGABLE", start_plow ) ) {
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
@@ -914,8 +915,9 @@ void vehicle::operate_plow()
 
 void vehicle::operate_rockwheel()
 {
-    for( const int rockwheel_id : all_parts_with_feature( "ROCKWHEEL" ) ) {
-        const tripoint start_dig = global_pos3() + parts[rockwheel_id].precalc[0];
+    for( const vpart_reference vp : parts_with_feature( "ROCKWHEEL" ) ) {
+        const size_t rockwheel_id = vp.part_index();
+        const tripoint start_dig = global_part_pos3( rockwheel_id );
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
             g->m.ter_set( start_dig, t_pit_shallow );
         } else {
@@ -929,9 +931,9 @@ void vehicle::operate_rockwheel()
 
 void vehicle::operate_reaper()
 {
-    const tripoint &veh_start = global_pos3();
-    for( const int reaper_id : all_parts_with_feature( "REAPER" ) ) {
-        const tripoint reaper_pos = veh_start + parts[ reaper_id ].precalc[ 0 ];
+    for( const vpart_reference vp : parts_with_feature( "REAPER" ) ) {
+        const size_t reaper_id = vp.part_index();
+        const tripoint reaper_pos = global_part_pos3( reaper_id );
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = parts[ reaper_id ].info().size / 20;
@@ -968,9 +970,9 @@ void vehicle::operate_reaper()
 
 void vehicle::operate_planter()
 {
-    std::vector<int> planters = all_parts_with_feature( "PLANTER" );
-    for( int planter_id : planters ) {
-        const tripoint &loc = global_pos3() + parts[planter_id].precalc[0];
+    for( const vpart_reference vp : parts_with_feature( "PLANTER" ) ) {
+        const size_t planter_id = vp.part_index();
+        const tripoint &loc = global_part_pos3( planter_id );
         vehicle_stack v = get_items( planter_id );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
@@ -1004,19 +1006,18 @@ void vehicle::operate_planter()
 
 void vehicle::operate_scoop()
 {
-    std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
-    for( int scoop : scoops ) {
+    for( const vpart_reference vp : parts_with_feature( "SCOOP" ) ) {
+        const size_t scoop = vp.part_index();
         const int chance_to_damage_item = 9;
         const units::volume max_pickup_volume = parts[scoop].info().size / 10;
         const std::array<std::string, 4> sound_msgs = {{
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
-                       random_entry_ref( sound_msgs ) );
+        sounds::sound( global_part_pos3( scoop ), rng( 20, 35 ), random_entry_ref( sound_msgs ) );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-             g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
+             g->m.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
@@ -1142,7 +1143,8 @@ void vehicle::open_or_close( int const part_index, bool const opening )
     /* Find all other closed parts with the same ID in adjacent squares.
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
-    for( size_t next_index = 0; next_index < parts.size(); ++next_index ) {
+    for( const vpart_reference vp : get_parts() ) {
+        const size_t next_index = vp.part_index();
         if( parts[next_index].removed ) {
             continue;
         }
@@ -1212,13 +1214,68 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     item base = item( parts[part].get_base() );
     base.type->invoke( g->u, base, pos );
     parts[part].set_base( base );
-    /* captured animals take up all the cargo space */
-    /*
     if( base.has_var( "contained_name" ) ) {
-        part_info( part ).size = 0;
+        parts[part].set_flag( vehicle_part::animal_flag );
     } else {
-        part_info( part ).size = base.get_container_capacity();
+        parts[part].remove_flag( vehicle_part::animal_flag );
     }
-    */
-    parts[part].set_base( base );
+    invalidate_mass();
+}
+
+void vehicle::use_bike_rack( int part )
+{
+    if( parts[part].is_unavailable() || parts[part].removed ) {
+        return;
+    }
+    std::vector<std::vector <int>> racks_parts = find_lines_of_parts( part, "BIKE_RACK_VEH" );
+    if( racks_parts.empty() ) {
+        return;
+    }
+
+    // check if we're storing a vehicle on this rack
+    std::vector<int> carried_parts;
+    std::vector<int> carry_rack;
+    bool found_vehicle = false;
+    for( auto rack_parts : racks_parts ) {
+        for( auto rack_part : rack_parts ) {
+            // skip parts that aren't carrying anything
+            if( !parts[ rack_part ].has_flag( vehicle_part::carrying_flag ) ) {
+                continue;
+            }
+            for( int i = 0; i < 4; i++ ) {
+                point near_loc = parts[ rack_part ].mount + vehicles::cardinal_d[ i ];
+                std::vector<int> near_parts = parts_at_relative( near_loc.x, near_loc.y );
+                if( near_parts.empty() ) {
+                    continue;
+                }
+                if( parts[ near_parts[ 0 ] ].has_flag( vehicle_part::carried_flag ) ) {
+                    found_vehicle = true;
+                    // found a carried vehicle part
+                    for( auto carried_part : near_parts ) {
+                        carried_parts.push_back( carried_part );
+                    }
+                    carry_rack.push_back( rack_part );
+                    // we're not adjacent to another carried vehicle on this rack
+                    break;
+                }
+            }
+        }
+        if( found_vehicle ) {
+            break;
+        }
+    }
+    bool success = false;
+    if( found_vehicle ) {
+        success = remove_carried_vehicle( carried_parts );
+        if( success ) {
+            for( auto rack_part : carry_rack ) {
+                parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
+            }
+        }
+    } else {
+        success = find_rackable_vehicle( racks_parts );
+    }
+    if( success ) {
+        g->refresh_all();
+    }
 }

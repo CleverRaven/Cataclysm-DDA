@@ -1,0 +1,100 @@
+Infrastructure Use variadic template functions instead of plain C-like variadic function arguments
+Bugfixes Fix material for brass knuckles
+Bugfixes Fixed open air tile in urban_8_2
+Infrastructure Move class map_item_stack into separate header and source files.
+Bugfixes Fix 7.62x25mm casing description
+Bugfixes Fix lit joint in mapgen
+Balance add batch craft time modifiers to food processor recipes
+Balance reduce improvised lockpick weight
+Bugfixes Fix sentence spacing for some new json entries
+Bugfixes Fix mission name comparisons
+Bugfixes Clear map before executing furniture grab test.
+Interface Prompt when creating a character with the same name in a world.
+Content Make football fields more likely to spawn.
+Infrastructure Correct PR for bug fix (Webbed + Tentacle Arms)
+Mods Update to more locations mod.
+Bugfixes Fix NPC training
+Bugfixes Multiply component select by batch amount.
+Infrastructure Fix unused variables on macOS
+Build Fixed makefile to use pkg-config instead of ncurses5-config
+Mods Remove Winchester model 70 from No Antique Firearms blacklist
+Build Fix the OSX cross-compile
+Infrastructure Reduce the direct usage of game::active_npc
+Infrastructure Streamline init_interface
+Content Make chainmail craftable from scratch
+Bugfixes Add amount to item info when item is counted by charges
+Bugfixes Fix item overwrite when relayering in limb lists.
+Bugfixes Added batch time factor for crafting lye out of ash
+Bugfixes Drawing blood from acidic zombies will now yield acid
+Content Adds wasteland sausages
+Content Add bike shop
+Interface Accessibility: Textual Vehicle Direction Indicator
+Interface Customized wear and take off menu
+Interface Display tools required to repair wood/paper/bone/chitin items
+Content Fix Anfo and RDX charge requirements.
+I18N Load names when the language settings change.
+Infrastructure Move (de)serialization of Creature_tracker into the usual functions
+Infrastructure Remove const members from class game
+Infrastructure Remove unused catacurse functions.
+Content Add food material
+Balance Get rid of special aisle curtain item
+Content Update description of bone meal and chitin powder
+Bugfixes Fix missing headfile
+Content Add naked profession
+Content bullet pulling as quality
+Content Enable to forge a screwdriver
+Infrastructure Change nc_color to be a class
+Infrastructure Move call to init_colors into init_interface
+Infrastructure Move definition of msgtype_to_tilecolor into "cata_tiles.cpp"
+Infrastructure Move to functions from input.cpp into ncursed_def.cpp
+Infrastructure Remove the global ERR constant.
+Infrastructure Replace game::npc_by_id with critter_by_id
+Content Add reloaded 7.62x25mm to item group
+Bugfixes Add v_curtain_item to migration.json
+Content Create recipe for seed potatoes
+Content Add NPC mutation rounds.
+Bugfixes Prevent crash when repairing only frame in a vehicle.
+Bugfixes Make underbarrel flamethrower use "flammable" ammo types
+Infrastructure Load only base_colors file when it is available.
+Content Update trucks.json
+Content Update vans_busses.json
+Mods Alternate map key
+Bugfixes Correct turret weapon naming (fixes #20158).
+Bugfixes Fix NPCs giving null mission when missions run out.
+Infrastructure Switch OS X locale detection to CoreFoundation.
+Infrastructure Remove some dead mapgen code
+Infrastructure Use NULL_ID instead of magic value string
+Content Potato companion
+Content Increase firehelmet weight.
+Bugfixes Added soldering requirement
+Infrastructure Some minor doc updates
+Infrastructure Change mutation_rounds array members to proper objects.
+Infrastructure Implement common curses interface
+Infrastructure Remove include of "bionics.h" from "character.h".
+Bugfixes Fix JSON syntax highlighting
+Bugfixes Fix catacurses bugs
+Features Make all long activities abortable.
+Bugfixes Check pkg-config ncurses actually works
+Balance Remove autofire mods.
+Infrastructure Remove include of "json.h" from most headers.
+Features Draw power directly from UPS with UPS mod.
+Bugfixes Fixed null entries in mapgen
+Bugfixes Catches a few stray pixels in ChestHole's shrubs.
+Bugfixes Disallow nonempty containers with BOIL quality being used for boiling
+Bugfixes Include header in game.h and auto_pickup.h, fixing #22562
+Balance Rationalize ranged skill training.
+Infrastructure Move remaining forum links to discourse
+Bugfixes Fix bandit camp mission spawning on top of refugee center.
+Bugfixes Remove swappable storage batteries when their cases are destroyed.
+Infrastructure Update changelog up to 2474e51
+Infrastructure Normalize colors for alternate map keys
+Infrastructure Normalize color names (Step 1 - overmap_terrain)
+Infrastructure Normalize color names (Step 2 - mods folder)
+Infrastructure Normalize color names (Step 3 - data\json folder)
+Bugfixes Fix unlit door frame sprites
+Bugfixes Fix loading item invlets from saves.
+Infrastructure Remove include of "effect.h" from most headers.
+Content Update garage layout
+Infrastructure Restructure tileset loading and storing.
+Content Disassembly of cardboard box
+Infrastructure Push forward the changelog a bit more.

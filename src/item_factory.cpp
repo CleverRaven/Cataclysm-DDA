@@ -495,7 +495,6 @@ class iuse_function_wrapper : public iuse_actor
 use_function::use_function( const std::string &type, const use_function_pointer f )
     : use_function( new iuse_function_wrapper( type, f ) ) {}
 
-
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
     iuse_function_list[ type ] = use_function( type, f );
@@ -563,10 +562,14 @@ void Item_factory::init()
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
+    add_iuse( "E_COMBATSAW_OFF", &iuse::e_combatsaw_off );
+    add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CS_LAJATANG_OFF", &iuse::cs_lajatang_off );
     add_iuse( "CS_LAJATANG_ON", &iuse::cs_lajatang_on );
+    add_iuse( "ECS_LAJATANG_OFF", &iuse::ecs_lajatang_off );
+    add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
@@ -592,7 +595,6 @@ void Item_factory::init()
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
-    add_iuse( "FUN_HALLU", &iuse::fun_hallu );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
@@ -645,6 +647,7 @@ void Item_factory::init()
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
     add_iuse( "PURIFY_IV", &iuse::purify_iv );
+    add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
     add_iuse( "RADIOCAR", &iuse::radiocar );
     add_iuse( "RADIOCARON", &iuse::radiocaron );
@@ -694,6 +697,7 @@ void Item_factory::init()
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
+    add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
     add_actor( new ammobelt_actor() );
     add_actor( new bandolier_actor() );
@@ -806,8 +810,9 @@ void Item_factory::check_definitions() const
                 msg << string_format( "item %s has unknown quality %s", type->id.c_str(), q.first.c_str() ) << "\n";
             }
         }
-        if( type->default_container != "null" && !has_template( type->default_container ) ) {
-            msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
+        if( type->default_container && ( !has_template( *type->default_container ) ||
+                                         *type->default_container == "null" ) ) {
+            msg << string_format( "invalid container property %s", type->default_container->c_str() ) << "\n";
         }
 
         for( const auto &e : type->emits ) {
@@ -872,8 +877,9 @@ void Item_factory::check_definitions() const
             for( const auto &e : type->ammo->type ) {
                 check_ammo_type( msg, e );
             }
-            if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
-                msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
+            if( type->ammo->casing && ( !has_template( *type->ammo->casing ) ||
+                                        *type->ammo->casing == "null" ) ) {
+                msg << string_format( "invalid casing property %s", type->ammo->casing->c_str() ) << "\n";
             }
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
@@ -970,8 +976,9 @@ void Item_factory::check_definitions() const
             if( type->magazine->reload_time < 0 ) {
                 msg << string_format( "invalid reload_time %i", type->magazine->reload_time ) << "\n";
             }
-            if( type->magazine->linkage != "NULL" && !has_template( type->magazine->linkage ) ) {
-                msg << string_format( "invalid linkage property %s", type->magazine->linkage.c_str() ) << "\n";
+            if( type->magazine->linkage && ( !has_template( *type->magazine->linkage ) ||
+                                             *type->magazine->linkage == "null" ) ) {
+                msg << string_format( "invalid linkage property %s", type->magazine->linkage->c_str() ) << "\n";
             }
         }
 
@@ -1003,10 +1010,11 @@ void Item_factory::check_definitions() const
 
         if( type->tool ) {
             check_ammo_type( msg, type->tool->ammo_id );
-            if( type->tool->revert_to != "null" && !has_template( type->tool->revert_to ) ) {
-                msg << string_format( "invalid revert_to property %s", type->tool->revert_to.c_str() ) << "\n";
+            if( type->tool->revert_to && ( !has_template( *type->tool->revert_to ) ||
+                                           *type->tool->revert_to == "null" ) ) {
+                msg << string_format( "invalid revert_to property %s", type->tool->revert_to->c_str() ) << "\n";
             }
-            if( !type->tool->revert_msg.empty() && type->tool->revert_to == "null" ) {
+            if( !type->tool->revert_msg.empty() && !type->tool->revert_to ) {
                 msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
             }
             if( !type->tool->subtype.empty() && !has_template( type->tool->subtype ) ) {
@@ -1509,6 +1517,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "stim", slot.stim, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
+    assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
 
     if( jo.has_string( "addiction_type" ) ) {
@@ -1693,6 +1702,7 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
+    assign( jo, "is_upgrade", slot.is_upgrade );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
@@ -1822,6 +1832,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "emits", def.emits );
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
+    assign( jo, "insulation", def.insulation_factor );
 
     if( jo.has_member( "thrown_damage" ) ) {
         JsonArray jarr = jo.get_array( "thrown_damage" );
@@ -1834,8 +1845,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
-        def.damage_min = arr.get_int( 0 );
-        def.damage_max = arr.get_int( 1 );
+        def.damage_min = arr.get_int( 0 ) * itype::damage_scale;
+        def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
     }
 
     def.name = jo.get_string( "name" );
@@ -2265,6 +2276,8 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     Item_modifier modifier;
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
+    modifier.damage.first *= itype::damage_scale;
+    modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
@@ -2524,18 +2537,15 @@ bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag i
 void item_group::debug_spawn()
 {
     std::vector<std::string> groups = item_controller->get_all_group_names();
-    uimenu menu;
-    menu.return_invalid = true;
+    uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.push_back( uimenu_entry( i, true, -2, groups[i] ) );
     }
-    //~ Spawn group menu: Menu entry to exit menu
-    menu.entries.push_back( uimenu_entry( menu.entries.size(), true, -2, _( "cancel" ) ) );
     while( true ) {
         menu.query();
         const int index = menu.ret;
-        if( index >= ( int )groups.size() || index < 0 ) {
+        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
         // Spawn items from the group 100 times
@@ -2551,8 +2561,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames ) {
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
-        uimenu menu2;
-        menu2.return_invalid = true;
+        uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;

@@ -283,21 +283,9 @@
   {
     "id": "gloople_cross",
     "type": "vehicle_part",
-    "name": "gel framework",
-    "item": "gloople",
-    "location": "structure",
+    "copy-from": "gloople_horizontal",
     "symbol": "c",
-    "broken_symbol": "#",
-    "color": "light_green",
-    "broken_color": "light_green",
-    "difficulty": 1,
-    "durability": 250,
-    "damage_modifier": 10,
-    "folded_volume": 1,
-    "breaks_into": [ { "item": "glooplegrow" } ],
-    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "gloople_tank",
@@ -311,36 +299,58 @@
     "broken_color": "light_green",
     "difficulty": 1,
     "durability": 250,
-    "size": 10000,
+    "size": 5000,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": 20,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "gloople_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "gloople_tank",
+    "name": "gel tank (60L)",
+    "item": "gloople_tank_large",
+    "size": 60000,
+    "folded_volume": 240
   },
   {
     "id": "gloople_horizontal",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
-    "symbol": "h"
+    "name": "gel framework",
+    "item": "gloople",
+    "location": "structure",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "light_green",
+    "broken_color": "light_green",
+    "difficulty": 1,
+    "durability": 250,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "glooplegrow" } ],
+    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_horizontal_2",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "="
   },
   {
     "id": "gloople_ne",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "u"
   },
   {
     "id": "gloople_nw",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "y"
   },
   {
@@ -384,7 +394,7 @@
   {
     "id": "gloople_se",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "n"
   },
   {
@@ -409,7 +419,7 @@
   {
     "id": "gloople_sw",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "b"
   },
   {
@@ -442,13 +452,13 @@
   {
     "id": "gloople_vertical",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "j"
   },
   {
     "id": "gloople_vertical_2",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "H"
   },
   {
@@ -676,10 +686,46 @@
   {
     "id": "gray_cross",
     "type": "vehicle_part",
+    "copy-from": "gray_horizontal",
+    "symbol": "c",
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
+  },
+  {
+    "id": "gray_tank",
+    "type": "vehicle_part",
+    "name": "cocoon (30L)",
+    "item": "gray_tank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "difficulty": 1,
+    "durability": 1000,
+    "size": 10000,
+    "damage_modifier": 10,
+    "folded_volume": 40,
+    "breaks_into": [ { "item": "graygrow" } ],
+    "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "gray_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "gray_tank",
+    "name": "gray tank (100L)",
+    "item": "gray_tank_large",
+    "size": 100000,
+    "folded_volume": 400
+  },
+  {
+    "id": "gray_horizontal",
+    "type": "vehicle_part",
     "name": "gray frame",
     "item": "gray",
     "location": "structure",
-    "symbol": "c",
+    "symbol": "h",
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
@@ -691,49 +737,24 @@
     "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
-  },
-  {
-    "id": "gray_tank",
-    "type": "vehicle_part",
-    "name": "cocoon (25L)",
-    "item": "gray_tank",
-    "location": "fuel_source",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "difficulty": 1,
-    "durability": 1000,
-    "size": 25000,
-    "damage_modifier": 10,
-    "folded_volume": 1,
-    "breaks_into": [ { "item": "graygrow" } ],
-    "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
-  },
-  {
-    "id": "gray_horizontal",
-    "type": "vehicle_part",
-    "copy-from": "gray_cross",
-    "symbol": "h"
+
   },
   {
     "id": "gray_horizontal_2",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "broken_symbol": "#"
   },
   {
     "id": "gray_ne",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "u"
   },
   {
     "id": "gray_nw",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "y"
   },
   {
@@ -777,7 +798,7 @@
   {
     "id": "gray_se",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "n"
   },
   {
@@ -802,7 +823,7 @@
   {
     "id": "gray_sw",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "b"
   },
   {
@@ -835,13 +856,13 @@
   {
     "id": "gray_vertical",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "j"
   },
   {
     "id": "gray_vertical_2",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "H"
   },
   {
@@ -1277,21 +1298,9 @@
   {
     "id": "oozle_cross",
     "type": "vehicle_part",
-    "name": "ooze chassis",
-    "item": "oozle",
-    "location": "structure",
+    "copy-from": "oozle_horizontal",
     "symbol": "c",
-    "broken_symbol": "#",
-    "color": "green",
-    "broken_color": "green",
-    "difficulty": 1,
-    "durability": 500,
-    "damage_modifier": 10,
-    "folded_volume": 1,
-    "breaks_into": [ { "item": "oozlegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "oozle_tank",
@@ -1305,36 +1314,58 @@
     "broken_color": "green",
     "difficulty": 1,
     "durability": 500,
-    "size": 20000,
+    "size": 7500,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": 30,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "oozle_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "oozle_tank",
+    "name": "ooze tank (80L)",
+    "item": "oozle_tank_large",
+    "size": 8000,
+    "folded_volume": 320
   },
   {
     "id": "oozle_horizontal",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
-    "symbol": "h"
+    "name": "ooze chassis",
+    "item": "oozle",
+    "location": "structure",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "green",
+    "broken_color": "green",
+    "difficulty": 1,
+    "durability": 500,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "oozlegrow" } ],
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_horizontal_2",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "="
   },
   {
     "id": "oozle_ne",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "u"
   },
   {
     "id": "oozle_nw",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "y"
   },
   {
@@ -1378,7 +1409,7 @@
   {
     "id": "oozle_se",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "n"
   },
   {
@@ -1403,7 +1434,7 @@
   {
     "id": "oozle_sw",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "b"
   },
   {
@@ -1436,13 +1467,13 @@
   {
     "id": "oozle_vertical",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "j"
   },
   {
     "id": "oozle_vertical_2",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "H"
   },
   {
@@ -1597,7 +1628,47 @@
     "breaks_into": [ { "item": "queengrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "description": "An amorphous mass, the living heart and brain of a blob vehicle.",
-    "flags": [ "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONICS", "SEAT", "BED", "E_ALTERNATOR", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL" ]
+    "flags": [ "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONIC", "SEAT", "BED", "E_ALTERNATOR", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL", "TURRET_MOUNT" ]
+  },
+  {
+    "id": "blob_turret_mount",
+    "type": "vehicle_part",
+    "name": "inert core",
+    "item": "queen",
+    "looks_like": "turret_mount",
+    "symbol": "X",
+    "color": "red",
+    "broken_symbol": "X",
+    "broken_color": "red",
+    "damage_modifier": 8,
+    "durability": 400,
+    "folded_volume": 1,
+    "description": "A sleeping amorphous core, acting as a rotating, universal mount for a weapon.  If your hands are empty, you can stand next to a tentacle and 'f'ire the weapon by selecting the tile.",
+    "difficulty": 2,
+    "breaks_into": [ { "item": "queengrow" } ],
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET_MOUNT", "FOLDABLE" ]
+  },
+  {
+    "id": "spouterqueen",
+    "type": "vehicle_part",
+    "name": "gel spouter",
+    "item": "spouterqueen",
+    "location": "on_roof",
+    "looks_like": "clutter",
+    "symbol": "t",
+    "broken_symbol": "#",
+    "color": "red",
+    "broken_color": "red",
+    "difficulty": 1,
+    "durability": 200,
+    "range": 60,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "queengrow" } ],
+    "description": "A living blob turned into a heavy vehicle weapon.",
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "razorqueen",

@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "optional.h"
+
 class time_duration;
 class time_point;
 class JsonOut;
@@ -471,14 +473,19 @@ constexpr time_duration operator"" _days( const unsigned long long int v )
  * 0 so it's skipped).
  */
 std::string to_string( const time_duration &d );
+
+enum class clipped_align {
+    none,
+    right,
+};
 /**
  * Returns a string showing a duration as whole number of appropriate units, e.g.
  * "10 days" or "1 minute".
- * The chosen unit will be the largest unit, that is as least as much as the
+ * The chosen unit will be the smallest unit, that is at least as much as the
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
  */
-std::string to_string_clipped( const time_duration &d );
+std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.

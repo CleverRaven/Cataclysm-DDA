@@ -58,7 +58,7 @@ struct MOD_INFORMATION {
         std::string version;
 
         /** What other mods must be loaded prior to this one? */
-        std::set<mod_id> dependencies;
+        std::vector<mod_id> dependencies;
 
         /** Core mods are loaded before any other mods */
         bool core = false;
@@ -158,7 +158,7 @@ class mod_manager
         bool set_default_mods( const mod_id &ident );
         void remove_mod( const mod_id &ident );
         void remove_invalid_mods( std::vector<mod_id> &mods ) const;
-        void load_replacement_mods( const std::string path );
+        void load_replacement_mods( const std::string &path );
 
         pimpl<dependency_tree> tree;
 

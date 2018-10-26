@@ -132,6 +132,8 @@ std::string action_ident( action_id act )
             return "LEVEL_DOWN";
         case ACTION_MOVE_UP:
             return "LEVEL_UP";
+        case ACTION_TOGGLE_MAP_MEMORY:
+            return "toggle_map_memory";
         case ACTION_CENTER:
             return "center";
         case ACTION_SHIFT_N:
@@ -166,6 +168,8 @@ std::string action_ident( action_id act )
             return "pickup";
         case ACTION_GRAB:
             return "grab";
+        case ACTION_HAUL:
+            return "haul";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -290,8 +294,16 @@ std::string action_ident( action_id act )
             return "toggle_fullscreen";
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             return "toggle_pixel_minimap";
+        case ACTION_RELOAD_TILESET:
+            return "reload_tileset";
+        case ACTION_TOGGLE_AUTO_FEATURES:
+            return "toggle_auto_features";
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
             return "toggle_auto_pulp_butcher";
+        case ACTION_TOGGLE_AUTO_MINING:
+            return "toggle_auto_mining";
+        case ACTION_TOGGLE_AUTO_FORAGING:
+            return "toggle_auto_foraging";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -327,6 +339,7 @@ bool can_action_change_worldstate( const action_id act )
 {
     switch( act ) {
         // Shift view
+        case ACTION_TOGGLE_MAP_MEMORY:
         case ACTION_CENTER:
         case ACTION_SHIFT_N:
         case ACTION_SHIFT_NE:
@@ -369,8 +382,12 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
+        case ACTION_RELOAD_TILESET:
         case ACTION_TIMEOUT:
+        case ACTION_TOGGLE_AUTO_FEATURES:
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
+        case ACTION_TOGGLE_AUTO_MINING:
+        case ACTION_TOGGLE_AUTO_FORAGING:
             return false;
         default:
             return true;
@@ -536,14 +553,12 @@ bool can_interact_at( action_id action, const tripoint &p )
     switch( action ) {
         case ACTION_OPEN:
             return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
-            break;
         case ACTION_CLOSE: {
             const optional_vpart_position vp = g->m.veh_at( p );
             return ( vp &&
                      vp->vehicle().next_part_to_close( vp->part_index(),
                              veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
                    g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
-            break;
         }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -551,13 +566,10 @@ bool can_interact_at( action_id action, const tripoint &p )
             return can_move_vertical_at( p, 1 );
         case ACTION_MOVE_DOWN:
             return can_move_vertical_at( p, -1 );
-            break;
         case ACTION_EXAMINE:
             return can_examine_at( p );
-            break;
         default:
             return false;
-            break;
     }
 }
 
@@ -634,7 +646,6 @@ action_id handle_action_menu()
     std::copy( action_weightings.begin(), action_weightings.end(),
                std::back_inserter<std::vector<std::pair<action_id, int> > >( sorted_pairs ) );
     std::reverse( sorted_pairs.begin(), sorted_pairs.end() );
-
 
     // Default category is called "back"
     std::string category = "back";
@@ -716,6 +727,7 @@ action_id handle_action_menu()
 #endif
 #ifdef TILES
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
+            REGISTER_ACTION( ACTION_RELOAD_TILESET );
 #endif // TILES
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
@@ -729,6 +741,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
+            REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
@@ -742,7 +755,10 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_FEATURES );
             REGISTER_ACTION( ACTION_TOGGLE_AUTO_PULP_BUTCHER );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_MINING );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_FORAGING );
         } else if( category == _( "Craft" ) ) {
             REGISTER_ACTION( ACTION_CRAFT );
             REGISTER_ACTION( ACTION_RECRAFT );
@@ -771,15 +787,14 @@ action_id handle_action_menu()
 #endif
         }
 
-        std::string title = _( "Back" );
-        title += "...";
-        if( category == "back" ) {
-            title = _( "Cancel" );
+        if( category != "back" ) {
+            std::string msg = _( "Back" );
+            msg += "...";
+            entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
+                                                hotkey_for_action( ACTION_ACTIONMENU ), msg ) );
         }
-        entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
-                                            hotkey_for_action( ACTION_ACTIONMENU ), title ) );
 
-        title = _( "Actions" );
+        std::string title = _( "Actions" );
         if( category != "back" ) {
             catgname = _( category.c_str() );
             capitalize_letter( catgname, 0 );
@@ -796,12 +811,12 @@ action_id handle_action_menu()
         width += 2 + 3 + 3;
         int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
         int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
-        int selection = ( int ) uimenu( true, std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                        std::max( iy, 0 ), title, entries );
+        int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
+                                std::max( iy, 0 ), title, entries );
 
         g->draw();
 
-        if( selection < 0 ) {
+        if( selection < 0 || selection == NUM_ACTIONS ) {
             return ACTION_NULL;
         } else if( selection == 2 * NUM_ACTIONS ) {
             if( category != "back" ) {
@@ -853,12 +868,12 @@ action_id handle_main_menu()
     width += 2 + 3 + 3;
     int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
     int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
-    int selection = ( int ) uimenu( true, std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                    std::max( iy, 0 ), _( "MAIN MENU" ), entries );
+    int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
+                            std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
     g->draw();
 
-    if( selection < 0 || selection > NUM_ACTIONS ) {
+    if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
     } else {
         return ( action_id ) selection;

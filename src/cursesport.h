@@ -5,8 +5,6 @@
 #include <vector>
 #include <array>
 #include <string>
-#include <bitset>
-
 
 class nc_color;
 
@@ -31,34 +29,17 @@ typedef struct {
     base_color BG;
 } pairs;
 
-enum font_style_flag : int {
-    FS_BOLD = 0,
-    FS_ITALIC,
-    FS_STRIKETHROUGH,
-    FS_UNDERLINE,
-    FS_MAX,
-};
-
-class font_style : public std::bitset<FS_MAX>
-{
-    public:
-        bool operator<( const font_style &fs ) const {
-            return to_ulong() < fs.to_ulong();
-        }
-};
-
 //Individual lines, so that we can track changed lines
 struct cursecell {
     std::string ch;
     base_color FG = static_cast<base_color>( 0 );
     base_color BG = static_cast<base_color>( 0 );
-    font_style FS;
 
     cursecell( std::string ch ) : ch( std::move( ch ) ) { }
     cursecell() : cursecell( std::string( 1, ' ' ) ) { }
 
     bool operator==( const cursecell &b ) const {
-        return FG == b.FG && BG == b.BG && FS == b.FS && ch == b.ch;
+        return FG == b.FG && BG == b.BG && ch == b.ch;
     }
 };
 
@@ -75,7 +56,6 @@ struct WINDOW {
     int height;
     base_color FG;//current foreground color from attron
     base_color BG;//current background color from attron
-    font_style FS;//current font style from attron
     bool inuse;// Does this window actually exist?
     bool draw;//Tracks if the window text has been changed
     int cursorx;

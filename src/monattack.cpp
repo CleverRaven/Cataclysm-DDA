@@ -206,14 +206,8 @@ bool mattack::eat_crop( monster *z )
         if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
             g->m.ter_set( p, t_dirt );
             g->m.furn_set( p, f_null );
-
-            auto items = g->m.i_at( p );
-            for( auto i = items.begin(); i != items.end(); ) {
-                if( i->is_seed() ) {
-                    g->m.i_rem( p, i );
-                    return true;
-                }
-            }
+            g->m.i_clear( p );
+            return true;
         }
     }
     return true;
@@ -658,8 +652,11 @@ bool mattack::pull_metal_weapon( monster *z )
     }
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
-        if( foe->weapon.made_of( material_id( "iron" ) ) ||
-            foe->weapon.made_of( material_id( "steel" ) ) ) {
+        // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
+        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
+            ( foe->weapon.made_of( material_id( "iron" ) ) ||
+              foe->weapon.made_of( material_id( "steel" ) ) ||
+              foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
             z->moves -= att_cost_pull;   // It takes a while
             int success = 100;
@@ -774,7 +771,6 @@ bool mattack::boomer_glow( monster *z )
     return true;
 }
 
-
 bool mattack::resurrect( monster *z )
 {
     // Chance to recover some of our missing speed (yes this will regain
@@ -823,7 +819,7 @@ bool mattack::resurrect( monster *z )
                 }
                 return false;
             }
-            int raise_score = ( i.damage() + 1 ) * mt->hp + i.burnt;
+            int raise_score = ( i.damage_level( 4 ) + 1 ) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
                 corpses.push_back( std::make_pair( p, &i ) );
@@ -876,7 +872,7 @@ bool mattack::resurrect( monster *z )
     }
 
     std::pair<tripoint, item *> raised = random_entry( corpses );
-    float corpse_damage = raised.second->damage();
+    float corpse_damage = raised.second->damage_level( 4 );
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         g->m.i_rem( raised.first, raised.second );
@@ -1374,7 +1370,6 @@ bool mattack::vine( monster *z )
             return true;
         }
 
-
         if( g->is_empty( dest ) ) {
             grow.push_back( dest );
         } else if( monster *const z = g->critter_at<monster>( dest ) ) {
@@ -1444,7 +1439,7 @@ bool mattack::triffid_heartbeat( monster *z )
         return true;
     }
 
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false );
+    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false );
     if( rl_dist( z->pos(), g->u.pos() ) > 5 &&
         !g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
@@ -2126,7 +2121,7 @@ static bool blobify( monster &blob, monster &target )
             break;
         default:
             debugmsg( "Tried to blobify %s with invalid size: %d",
-                      target.disp_name().c_str(), ( int )target.get_size() );
+                      target.disp_name().c_str(), static_cast<int>( target.get_size() ) );
             return false;
     }
 
@@ -2294,10 +2289,8 @@ bool mattack::jackson( monster *z )
         }
     }
     // This is telepathy, doesn't take any moves.
-
     return true;
 }
-
 
 bool mattack::dance( monster *z )
 {
@@ -2393,7 +2386,6 @@ bool mattack::tentacle( monster *z )
 
     return true;
 }
-
 
 bool mattack::ranged_pull( monster *z )
 {
@@ -2661,12 +2653,13 @@ bool mattack::fear_paralyze( monster *z )
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if ( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in(4))) {
-            add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
-        ///\EFFECT_INT decreases chance of being paralyzed by fear attack
-        } else if ( rng(0, 20) > g->u.get_int() ) {
-            add_msg( m_bad, _("The terrifying visage of the %s paralyzes you."), z->name().c_str() );
+    if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
+        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+                one_in( 4 ) ) ) {
+            add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name().c_str() );
+            ///\EFFECT_INT decreases chance of being paralyzed by fear attack
+        } else if( rng( 0, 20 ) > g->u.get_int() ) {
+            add_msg( m_bad, _( "The terrifying visage of the %s paralyzes you." ), z->name().c_str() );
             g->u.add_effect( effect_fearparalyze, 5_turns );
             g->u.moves -= 400;
         } else {
@@ -2825,10 +2818,10 @@ void mattack::rifle( monster *z, Creature *target )
 {
     const std::string ammo_type( "556" );
     // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 2000 ) {
+    if( z->ammo[ammo_type] > 3000 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::rifle", z->ammo[ammo_type],
                   z->name().c_str() );
-        z->ammo[ammo_type] = 2000;
+        z->ammo[ammo_type] = 3000;
     }
 
     npc tmp = make_fake_npc( z, 16, 10, 8, 12 );
@@ -2872,10 +2865,10 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 {
     const std::string ammo_type( "40mm_frag" );
     // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 100 ) {
+    if( z->ammo[ammo_type] > 200 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::frag", z->ammo[ammo_type],
                   z->name().c_str() );
-        z->ammo[ammo_type] = 100;
+        z->ammo[ammo_type] = 200;
     }
 
     if( target == &g->u ) {
@@ -3082,7 +3075,6 @@ bool mattack::searchlight( monster *z )
                 }
             }
         }
-
 
         int x = zposx + settings.get_var( "SL_SPOT_X", 0 );
         int y = zposy + settings.get_var( "SL_SPOT_Y", 0 );
@@ -3410,20 +3402,16 @@ bool mattack::multi_robot( monster *z )
     }
 
     int dist = rl_dist( z->pos(), target->pos() );
-    if( dist == 1 && one_in( 2 ) ) {
+    if( dist <= 15 ) {
         mode = 1;
-    } else if( dist <= 5 ) {
-        mode = 2;
-    } else if( dist <= 20 ) {
-        mode = 3;
     } else if( dist <= 30 ) {
-        mode = 4;
+        mode = 2;
     } else if( ( target == &g->u && g->u.in_vehicle ) ||
                z->friendly != 0 ||
                cap > 4 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if( dist >= 35 && dist < 50 ) {
+        if( dist >= 30 && dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
             cap = 5;
@@ -3439,28 +3427,13 @@ bool mattack::multi_robot( monster *z )
     }
     switch( mode ) {
         case 1:
-            if( dist <= 1 ) {
-                taze( z, target );
-            }
-            break;
-        case 2:
-            if( dist <= 5 ) {
-                flame( z, target );
-            }
-            break;
-        case 3:
-            if( dist <= 20 ) {
+            if( dist <= 15 ) {
                 rifle( z, target );
             }
             break;
-        case 4:
+        case 2:
             if( dist <= 30 ) {
                 frag( z, target );
-            }
-            break;
-        case 5:
-            if( dist <= 50 ) {
-                tankgun( z, target );
             }
             break;
         default:
@@ -3929,7 +3902,6 @@ bool mattack::longswipe( monster *z )
 
     return true;
 }
-
 
 bool mattack::parrot( monster *z )
 {

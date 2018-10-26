@@ -81,6 +81,17 @@ bool mtype::made_of( const material_id &material ) const
     return std::find( mat.begin(), mat.end(),  material ) != mat.end();
 }
 
+bool mtype::made_of_any( const std::set<material_id> &materials ) const
+{
+    if( mat.empty() ) {
+        return false;
+    }
+
+    return std::any_of( mat.begin(), mat.end(), [&materials]( const material_id & e ) {
+        return materials.count( e );
+    } );
+}
+
 bool mtype::has_anger_trigger( monster_trigger trig ) const
 {
     return bitanger[trig];
@@ -202,15 +213,15 @@ int mtype::get_meat_chunks_count() const
 {
     switch( size ) {
         case MS_TINY:
-            return 1;
+            return 2;
         case MS_SMALL:
-            return 16;
+            return 64;
         case MS_MEDIUM:
-            return 32;
+            return 128;
         case MS_LARGE:
-            return 48;
+            return 192;
         case MS_HUGE:
-            return 80;
+            return 320;
     }
     return 0;
 }

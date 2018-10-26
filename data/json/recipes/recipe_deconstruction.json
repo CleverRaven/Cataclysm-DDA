@@ -847,6 +847,13 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
+    "result": "smart_phone",
+    "type": "uncraft",
+    "time": 500,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens", 1 ] ] ]
+  },
+  {
     "result": "ceramic_bowl",
     "type": "uncraft",
     "time": 1000,
@@ -967,7 +974,7 @@
     "type": "uncraft",
     "time": 500,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_small", 1 ] ], [ [ "cable", 2 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "result": "fancy_sunglasses",
@@ -1154,7 +1161,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 1000,
-    "components": [ [ [ "charcoal", 40 ] ], [ [ "char_kiln", 1 ] ] ]
+    "components": [ [ [ "charcoal", 200 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "result": "knife_steak",
@@ -1277,7 +1284,8 @@
       [ [ "cable", 4 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 4 ] ],
-      [ [ "plastic_chunk", 8 ] ]
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_micro", 1 ] ]
     ]
   },
   {
@@ -1619,7 +1627,7 @@
       [ [ "antenna", 1 ] ],
       [ [ "cable", 4 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "scrap", 1 ] ]
@@ -1681,7 +1689,7 @@
     "time": 60000,
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "motor_small", 3 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "motor_tiny", 3 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "seat",
@@ -1962,7 +1970,7 @@
     "time": 9000,
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ], [ [ "pot", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_small", 1 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ], [ [ "pot", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "result": "box_small",
@@ -1990,6 +1998,29 @@
     ]
   },
   {
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
+    "result": "solarpack",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
+    "time": 50000,
+    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "solar_panel", 1 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "rope_6", 1 ] ]
+    ]
+  },
+  {
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "solarpack_on",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -2003,11 +2034,37 @@
       [ [ "amplifier", 2 ] ],
       [ [ "solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 3 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
   },
   {
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
+    "result": "q_solarpack",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 10,
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
+    "time": 50000,
+    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "solar_panel_v3", 1 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "rope_6", 1 ] ]
+    ]
+  },
+  {
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "q_solarpack_on",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -2021,7 +2078,10 @@
       [ [ "amplifier", 2 ] ],
       [ [ "solar_panel_v3", 1 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 3 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
   },
@@ -2077,5 +2137,21 @@
     "time": 3000,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_lump", 4 ] ] ]
+  },
+  {
+    "result": "styrofoam_cup",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "paper", 10 ] ], [ [ "plastic_chunk", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pot_canning",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 4000,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
   }
 ]

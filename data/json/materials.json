@@ -34,7 +34,8 @@
     "repaired_with": "material_aluminium_ingot",
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "compacts_into": [ "material_aluminium_ingot" , "aluminum_foil" ]
   },
   {
     "type": "material",
@@ -174,7 +175,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_copper", 1 ] ]
+    "burn_products": [ [ "scrap_copper", 1 ] ],
+    "compacts_into": [ "scrap_copper" , "copper" ]
   },
   {
     "type": "material",
@@ -316,6 +318,29 @@
   },
   {
     "type": "material",
+    "ident": "faux_fur",
+    "name": "Faux Fur",
+    "density": 8,
+    "soft": true,
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "acid_resist": 4,
+    "fire_resist": 1,
+    "elec_resist": 3,
+    "chip_resist": 7,
+    "repaired_with": "faux_fur",
+    "salvaged_into": "faux_fur",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "sliced",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750_ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
     "ident": "glass",
     "name": "Glass",
     "density": 14,
@@ -349,7 +374,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "gold_small", 1 ] ]
+    "burn_products": [ [ "gold_small", 1 ] ],
+    "compacts_into": [ "gold_small" ]
   },
   {
     "type": "material",
@@ -515,7 +541,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "lead", 1 ] ]
+    "burn_products": [ [ "lead", 1 ] ],
+    "compacts_into": [ "lead" ]
   },
   {
     "type": "material",
@@ -729,7 +756,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "silver_small", 1 ] ]
+    "burn_products": [ [ "silver_small", 1 ] ],
+    "compacts_into": [ "silver_small" ]
   },
   {
     "type": "material",
@@ -746,7 +774,9 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap", 1 ] ]
+    "burn_products": [ [ "scrap", 1 ] ],
+    "compact_accepts": [ "budget_steel", "hardsteel", "iron" ],
+    "compacts_into": [ "sheet_metal", "steel_lump", "steel_chunk", "scrap" ]
   },
   {
     "type": "material",
@@ -776,7 +806,8 @@
     "chip_resist": 20,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "compacts_into": [ "alloy_sheet" ]
   },
   {
     "type": "material",

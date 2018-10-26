@@ -38,6 +38,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST" ]
   },
   {
+    "id": "BIONIC_NPC_USABLE",
+    "type": "json_flag",
+    "context": [ "BIONIC_ITEM" ],
+    "info": "A <good>follower</good> could <info>make use of this CBM</info> if installed properly."
+  },
+  {
     "id": "BLIND",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -86,7 +92,7 @@
     "id": "DIG_TOOL",
     "type": "json_flag",
     "context": [ "TOOL", "TOOL_ARMOR" ],
-    "info": "While wielded, this item allows you to mine thorough rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
+    "info": "While wielded, this item allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
   },
   {
     "id": "DURABLE_MELEE",
@@ -126,6 +132,18 @@
     "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
     "info": "This piece of clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "FIRE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL", "TOOL_ARMOR" ],
+    "info": "This item counts as <color_red>fire</color> for crafting purposes."
+  },
+  {
+    "id": "FIRESTARTER",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL", "TOOL_ARMOR" ],
+    "info": "This item can start <color_red>fire</color>."
   },
   {
     "id": "FIREWOOD",
@@ -223,6 +241,12 @@
     "inherit": false
   },
   {
+    "id": "MELTS",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
+  },
+  {
     "id": "OUTER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -235,7 +259,13 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.",
-    "info": "This clothing is large enough to accommodate <info>mutated anatomy</info>."
+    "info": "This clothing is large enough to accommodate <info>abnormally large mutated anatomy</info>."
+  },
+  {
+    "id": "UNDERSIZE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else."
   },
   {
     "id": "PARTIAL_DEAF",

@@ -133,6 +133,7 @@ class monster : public Creature
         bool can_act() const;
         int sight_range( int light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
+        bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
@@ -273,7 +274,8 @@ class monster : public Creature
                                      bool print_messages = true ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int amount ) override;
+        void apply_damage( Creature *source, body_part bp, int amount,
+                           const bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs

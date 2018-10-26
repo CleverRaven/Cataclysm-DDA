@@ -224,6 +224,7 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_death()
 {
     death_map["NORMAL"] = &mdeath::normal;// Drop a body
+    death_map["SPLATTER"] = &mdeath::splatter;//Explodes in gibs and chunks
     death_map["ACID"] = &mdeath::acid;// Acid instead of a body
     death_map["BOOMER"] = &mdeath::boomer;// Explodes in vomit :3
     death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;// Explodes in glowing vomit :3
@@ -443,6 +444,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
+    flag_map["FILTHY"] = MF_FILTHY;
     flag_map["SWARMS"] = MF_SWARMS;
     flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
@@ -460,9 +462,11 @@ void MonsterGenerator::init_flags()
     flag_map["BIRDFOOD"] = MF_BIRDFOOD;
     flag_map["DOGFOOD"] = MF_DOGFOOD;
     flag_map["MILKABLE"] = MF_MILKABLE;
+    flag_map["NO_BREED"] = MF_NO_BREED;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
     flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
     flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
+    flag_map["LOUDMOVES"] = MF_LOUDMOVES;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -569,7 +573,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
-
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
@@ -759,7 +762,6 @@ class mattack_hardcoded_wrapper : public mattack_actor
 
 mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
     : mtype_special_attack( new mattack_hardcoded_wrapper( id, f ) ) {}
-
 
 void MonsterGenerator::add_hardcoded_attack( const std::string &type, const mon_action_attack f )
 {

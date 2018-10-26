@@ -7,6 +7,7 @@
 #include <map>
 #include <vector>
 
+#include "optional.h"
 #include "game_constants.h"
 #include "string_id.h"
 #include "fire.h"
@@ -19,6 +20,9 @@ class JsonObject;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
+using mat_compacts_into = std::vector<itype_id>;
+using material_list = std::vector<material_type>;
+using material_id_list = std::vector<material_id>;
 
 class material_type
 {
@@ -28,7 +32,7 @@ class material_type
 
     private:
         std::string _name;
-        itype_id _salvaged_into = itype_id( "null" ); // this material turns into this item when salvaged
+        cata::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
         itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
         int _bash_resist = 0;                         // negative integers means susceptibility
         int _cut_resist = 0;
@@ -51,6 +55,9 @@ class material_type
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
 
+        material_id_list _compact_accepts;
+        mat_compacts_into _compacts_into;
+
     public:
         material_type();
 
@@ -61,7 +68,14 @@ class material_type
 
         material_id ident() const;
         std::string name() const;
-        itype_id salvaged_into() const;
+        /**
+         * @returns An empty optional if this material can not be
+         * salvaged into any items (e.g. for powder, liquids).
+         * Or a valid id of the item type that this can be salvaged
+         * into (e.g. clothes made of material leather can be salvaged
+         * into lather patches).
+         */
+        cata::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;
         int bash_resist() const;
         int cut_resist() const;
@@ -83,6 +97,8 @@ class material_type
 
         const mat_burn_data &burn_data( size_t intensity ) const;
         const mat_burn_products &burn_products() const;
+        const material_id_list &compact_accepts() const;
+        const mat_compacts_into &compacts_into() const;
 };
 
 namespace materials
@@ -91,6 +107,9 @@ namespace materials
 void load( JsonObject &jo, const std::string &src );
 void check();
 void reset();
+
+material_list get_all();
+material_list get_compactable();
 
 }
 

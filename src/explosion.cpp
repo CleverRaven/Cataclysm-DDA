@@ -80,7 +80,7 @@ void game::do_blast( const tripoint &p, const float power,
 
     m.bash( p, fire ? power : ( 2 * power ), true, false, false );
 
-    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp >
+    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp_first >
     open;
     std::set<tripoint> closed;
     std::map<tripoint, float> dist_map;
@@ -457,8 +457,8 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     ( visited_cache, obstacle_cache, src.x, src.y, 0, initial_cloud );
 
     // Now visited_caches are populated with density and velocity of fragments.
-    for( int x = start.x; x <= end.x; x++ ) {
-        for( int y = start.y; y <= end.y; y++ ) {
+    for( int x = start.x; x < end.x; x++ ) {
+        for( int y = start.y; y < end.y; y++ ) {
             fragment_cloud &cloud = visited_cache[x][y];
             if( cloud.density <= MIN_FRAGMENT_DENSITY ||
                 cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {

@@ -22,6 +22,10 @@ enum class iteminfo_parts : size_t {
     BASE_AMOUNT,
     BASE_DEBUG,
 
+    MED_JOY,
+    MED_PORTIONS,
+    MED_STIMULATION,
+    MED_QUENCH,
 
     FOOD_NUTRITION,
     FOOD_QUENCH,
@@ -35,10 +39,8 @@ enum class iteminfo_parts : size_t {
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
 
-
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
-
 
     AMMO_REMAINING_OR_TYPES,
     AMMO_DAMAGE_VALUE,
@@ -49,7 +51,6 @@ enum class iteminfo_parts : size_t {
     AMMO_FX_RECYCLED,
     AMMO_FX_CANTMISSFIRE,
     AMMO_FX_INDENDIARY,
-
 
     DESCRIPTION_AUX_GUNMOD_HEADER,
 
@@ -86,7 +87,6 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_GUN_MODS,
     DESCRIPTION_GUN_CASINGS,
 
-
     DESCRIPTION_GUNMOD,
     DESCRIPTION_GUNMOD_REACH,
 
@@ -101,7 +101,6 @@ enum class iteminfo_parts : size_t {
     GUNMOD_USEDON,
     GUNMOD_LOCATION,
 
-
     ARMOR_BODYPARTS,
     ARMOR_LAYER,
     ARMOR_COVERAGE,
@@ -109,7 +108,6 @@ enum class iteminfo_parts : size_t {
     ARMOR_ENCUMBRANCE,
     ARMOR_STORAGE,
     ARMOR_PROTECTION,
-
 
     BOOK_SUMMARY,
     BOOK_REQUIREMENTS_BEGINNER,
@@ -125,23 +123,18 @@ enum class iteminfo_parts : size_t {
 
     BOOK_UNREAD,
 
-
     CONTAINER_DETAILS,
-
 
     TOOL_CHARGES,
     TOOL_MAGAZINE_CURRENT,
     TOOL_MAGAZINE_COMPATIBLE,
     TOOL_CAPACITY,
 
-
     DESCRIPTION_COMPONENTS_MADEFROM,
     DESCRIPTION_COMPONENTS_DISASSEMBLE,
 
-
     QUALITIES,
     QUALITIES_CONTAINED,
-
 
     DESCRIPTION,
     DESCRIPTION_TECHNIQUES,
@@ -195,6 +188,7 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_APPLICABLE_RECIPES,
 
+    DESCRIPTION_MED_ADDICTING,
 
     // element count tracker
     NUM_VALUES
@@ -227,7 +221,6 @@ class iteminfo_query : public iteminfo_query_base
                 ( std::vector { iteminfo_parts::Foo, iteminfo_parts::Bar, ... } )
 
                 allows defining a subset with only specific bits turned on
-
 
             These should be sufficient to allow _any_ preset to be defined.
 

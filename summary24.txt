@@ -1,0 +1,100 @@
+Interface Add an omitted period
+Balance A few additions on the using of petfood
+Bugfixes Fix folding stock's unexpected decreased wielding time (fix #19892)
+Bugfixes Recover 'damaged tent' if tent is damaged (fix #19528)
+Performance Speed up vehicle::is_broken, use it a bit less
+Bugfixes consumption: check if container can be unloaded before checking if contents are consumable
+Balance overmap: don't add zlaves to monster groups.
+I18N Add an omitted gettext call on taking down tent
+I18N Ensure mattack_actors' description is localized
+Interface Change description for fungal infection in blood analysis CBM
+Balance Added brass and lead to many cartridges, pt. 1
+Mods Decreased Icecoon gun size and removed a space.
+Infrastructure Add '#pragma once' guard
+Bugfixes Drop blood if it spawns in the air
+Interface Fix misleading msgs for combined bps
+Infrastructure Move player::disp_info and print_encumbrance
+Features Allow crafting with sealed container contents
+I18N Extract strings in monster attack definitions
+Bugfixes Fix jack description to honor weight unit selection
+Balance Added weight to plastic mold
+Mods [Blazemod] Removed mininuke launcher override and added ammogroup
+Balance Buffed pipe combination gun shotgun
+Mods Move BB range into BB gun and rebalance [Blazemod] shardgun
+Mods Removed reload 550 from battle rifle and blacklisted some items [Generic Guns]
+I18N Translation template update
+Interface Mapgen palettes
+I18N Install only specified translations for curses version
+Bugfixes An assortment of small fixes in several files
+Infrastructure Partially jsonize TALK_EVAC_HUNTER
+Infrastructure Partially jsonize TALK_SCAVENGER_MERC
+Interface Small correction to vault mission text
+Interface Clarifies phone book description.
+Build Added my name/email to signoff file
+Infrastructure Move string_input_popup into a class and a separate file
+Infrastructure Regenerate health in darkness flag
+Build Fix Makefile not respecting 'FRAMEWORKSDIR' exported to environment
+Bugfixes Never give new characters unusable food or clothing (part 1)
+Bugfixes Steal / Disarm / Tazer Aggression Fixes
+Infrastructure Move FMJ ammo types into ammo_*_common item groups
+I18N Experimental path name encoding conversions (fix #19994)
+Bugfixes Fix semi-manual turret mode
+Bugfixes Improve ledge safety check
+Bugfixes Regenerate factions if none found
+Balance Reduces warmth of filter mask
+Build Bionics regression test, currently "item consuming" ones only
+Balance Added honey ball to ant_food
+Balance Updated pipe combination gun description
+Infrastructure Use classic locale for saving float options
+Balance Removes door frame requirement from door curtain
+Balance Change 700NX recipe amount
+Balance Change survival-oriented professions' clothing
+Balance Weasel now tiny
+Interface Better Character::body_window colors
+Performance Speed up some slow sections of monster code
+Interface Tiles: redraw on veh move and activity
+Balance Melee damage while wearing filthy clothing may result in infection
+Infrastructure Fully jsonize TALK_OLD_GUARD_REP
+Interface Extends Close Quarters Battle CBM description.
+Bugfixes Do not assume magazine is in user inventory
+I18N Tell string extraction script to ignore two new introduced JSON data types
+I18N Translation updates
+Interface Remove long-obsolete static spawn option, static is now the only option.
+Balance Make Vending Machines harder to break into.
+Balance Add power armor helmets to match existing spawns of power armor.
+Balance Craft one 9x18 cartridge at a time
+Mods Move filthy wound into a default mod
+Bugfixes Fix NPCs wielding worn items but not un-wearing them
+Bugfixes Gives rock floor a roof to prevent climbing exploits
+Mods Medieval Mod: Rebalance of forged sword
+Infrastructure item: point to mod item (not the base firearm item) from mod's "gun mode"
+Infrastructure changed query_int to use title instead of text
+Interface Starting clothes rearranged
+Infrastructure Move game::close to Character::close_door
+Bugfixes Fix sunlight calculation for solar panels
+Bugfixes Fixes Fertilizer Bomb gaining weight when lit.
+Infrastructure Public Works JSONify
+Balance Changes to basic repair kit
+I18N Translation tempate update
+Bugfixes Fix monster attacks not being cleared on unload
+Bugfixes Fix turrets auto-firing when set to manual
+Bugfixes Fix weird vehicle pulls
+Bugfixes Cleared "learned_recipes" on template load. Fix for #19885
+Interface Corrected formula and rewrote description for contruction scaling
+I18N Removing pt_PT of default languages
+Bugfixes fix for batch byproducts not scaling
+Mods Fix the mod [Generic Guns]
+Mods Implement printing aim accuracy as numbers
+Mods Medieval Mod changes to viking and samurai
+Mods More Survival Tools: Restores old javelin volume
+Interface Corrected glass sheet count in foreman mission text
+Mods [Generic Guns] blacklist "homemade hand cannon"
+Mods Classic Roguelike Classes updates
+Bugfixes Implements actual change forgotten in #20274
+Bugfixes Tree terrain fixes
+Balance Heal broken limbs gradually, not all at once
+Infrastructure Multiple skill requirements per construction
+Mods Medieval Mod: Starting with sheathed weapons
+Features Rags and medicine usage
+Balance Cutting up filthy clothes will yield filthy materials
+I18N Translation updates

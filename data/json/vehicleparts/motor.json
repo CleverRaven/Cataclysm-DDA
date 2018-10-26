@@ -12,7 +12,27 @@
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "ENGINE", "TOOL_WRENCH", "E_HIGHER_SKILL" ]
+    "flags": [ "ENGINE", "TOOL_WRENCH", "E_HIGHER_SKILL", "E_HEATER" ]
+  },
+  {
+    "id": "engine_electric_tiny",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": "tiny electric motor",
+    "item": "motor_tiny",
+    "difficulty": 1,
+    "durability": 80,
+    "power": 4,
+    "energy_consumption": 670,
+    "damage_modifier": 80,
+    "folded_volume": 1,
+    "breaks_into": [
+      { "item": "plastic_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 1, 3 ] }
+    ],
+    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
+    "delete": { "flags": [ "TOOL_WRENCH" ] }
   },
   {
     "id": "engine_electric_small",
@@ -23,7 +43,7 @@
     "difficulty": 1,
     "durability": 120,
     "power": 20,
-    "epower": -1000,
+    "energy_consumption": 2681,
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [
@@ -44,7 +64,7 @@
     "difficulty": 2,
     "durability": 200,
     "power": 100,
-    "epower": -5000,
+    "energy_consumption": 13405,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [
@@ -63,7 +83,7 @@
     "difficulty": 3,
     "durability": 400,
     "power": 400,
-    "epower": -40000,
+    "energy_consumption": 107239,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
@@ -81,7 +101,7 @@
     "difficulty": 4,
     "durability": 200,
     "power": 500,
-    "epower": -60000,
+    "energy_consumption": 160858,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },

@@ -9,6 +9,7 @@
 #include "projectile.h"
 #include "line.h"
 #include "debug.h"
+#include "vpart_range.h"
 #include "overmapbuffer.h"
 #include "ranged.h"
 #include "messages.h"
@@ -32,6 +33,7 @@
 #include "cata_algo.h"
 
 #include <algorithm>
+#include <memory>
 #include <numeric>
 #include <sstream>
 
@@ -293,6 +295,7 @@ float npc::character_danger( const Character &uc ) const
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
     }
+    ret += u_weap_val;
 
     ret += hp_percentage() * get_hp_max( hp_torso ) / 100.0 / my_weap_val;
 
@@ -343,7 +346,7 @@ void npc::move()
      * NPC won't avoid dangerous terrain while accompanying the player inside a vehicle
      * to keep them from inadvertantly getting themselves run over and/or cause vehicle related errors.
      */
-    if( sees_dangerous_field( pos() ) && ( !g->u.in_vehicle && is_following() ) ) {
+    if( sees_dangerous_field( pos() ) && !in_vehicle ) {
         const tripoint escape_dir = good_escape_direction( *this );
         if( escape_dir != pos() ) {
             move_to( escape_dir );
@@ -472,14 +475,16 @@ void npc::execute_action( npc_action action )
                     best_spot = p;
                 }
             }
-
+            if( is_following() ) {
+                complain_about( "napping", 30_minutes, _( "<warn_sleep>" ) );
+            }
             update_path( best_spot );
             // TODO: Handle empty path better
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
-                    if( g->u.sees( *this ) ) {
+                    if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name.c_str() );
                     }
                 }
@@ -608,7 +613,8 @@ void npc::execute_action( npc_action action )
 
         case npc_follow_player:
             update_path( g->u.pos() );
-            if( ( int )path.size() <= follow_distance() && g->u.posz() == posz() ) { // We're close enough to u.
+            if( static_cast<int>( path.size() ) <= follow_distance() &&
+                g->u.posz() == posz() ) { // We're close enough to u.
                 move_pause();
             } else if( !path.empty() ) {
                 move_to_next();
@@ -641,11 +647,8 @@ void npc::execute_action( npc_action action )
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
-            for( size_t p2 = 0; p2 < veh->parts.size(); p2++ ) {
-                if( !veh->part_flag( p2, VPFLAG_BOARDABLE ) ) {
-                    continue;
-                }
-
+            for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_BOARDABLE ) ) {
+                const size_t p2 = vp.part_index();
                 const player *passenger = veh->get_passenger( p2 );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
@@ -714,7 +717,7 @@ void npc::execute_action( npc_action action )
 
                 const int cur_part = seats[i].second;
 
-                tripoint pp = veh->global_pos3() + veh->parts[cur_part].precalc[0];
+                tripoint pp = veh->global_part_pos3( cur_part );
                 update_path( pp, true );
                 if( !path.empty() ) {
                     // All is fine
@@ -1179,8 +1182,18 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
+    const auto could_sleep = [&]() {
+        if( danger <= 0.01 ) {
+            if( get_fatigue() >= TIRED ) {
+                return true;
+            } else if( is_following() && g->u.in_sleep_state() && get_fatigue() > ( TIRED / 2 ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
     // TODO: More risky attempts at sleep when exhausted
-    if( danger <= 0.01 && get_fatigue() >= TIRED ) {
+    if( could_sleep() ) {
         if( !is_following() ) {
             set_fatigue( 0 ); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
@@ -1340,8 +1353,8 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
                                average_dispersion;
     double confident_range = even_chance_range * confidence_mult();
-    add_msg( m_debug, "confident_throw_range == %d", ( int )confident_range );
-    return ( int )confident_range;
+    add_msg( m_debug, "confident_throw_range == %d", static_cast<int>( confident_range ) );
+    return static_cast<int>( confident_range );
 }
 
 // Index defaults to -1, i.e., wielded weapon
@@ -1482,21 +1495,18 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
           );
 }
 
-void npc::move_to( const tripoint &pt, bool no_bashing )
+void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomove )
 {
-    if( g->m.has_flag( "UNSTABLE", pt ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
-    } else if( has_effect( effect_bouldering ) ) {
-        remove_effect( effect_bouldering );
-    }
-
     tripoint p = pt;
-    if( sees_dangerous_field( pt ) ) {
+    if( sees_dangerous_field( p )
+        || ( nomove != nullptr && nomove->find( p ) != nomove->end() ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        auto other_points = g->m.get_dir_circle( pos(), pt );
+        auto other_points = g->m.get_dir_circle( pos(), p );
         for( const tripoint &ot : other_points ) {
-            if( could_move_onto( ot ) ) {
+            if( could_move_onto( ot )
+                && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+
                 p = ot;
                 break;
             }
@@ -1509,6 +1519,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         p.x = rng( posx() - 1, posx() + 1 );
         p.y = rng( posy() - 1, posy() + 1 );
         p.z = posz();
+    }
+
+    // nomove is used to resolve recursive invocation, so reset destination no
+    // matter it was changed by stunned effect or not.
+    if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+        p = pos();
     }
 
     // "Long steps" are allowed when crossing z-levels
@@ -1552,7 +1568,19 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         // TODO: Have them attack each other when hostile
         npc *np = dynamic_cast<npc *>( critter );
         if( np != nullptr && !np->in_sleep_state() ) {
-            np->move_away_from( pos(), true );
+            std::unique_ptr<std::set<tripoint>> newnomove;
+            std::set<tripoint> *realnomove;
+            if( nomove != nullptr ) {
+                realnomove = nomove;
+            } else {
+                // create the no-move list
+                newnomove.reset( new std::set<tripoint>() );
+                realnomove = newnomove.get();
+            }
+            // other npcs should not try to move into this npc anymore,
+            // so infinite loop can be avoided.
+            realnomove->insert( pos() );
+            np->move_away_from( pos(), true, realnomove );
         }
 
         if( critter->pos() == p ) {
@@ -1615,6 +1643,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
+
+        if( g->m.has_flag( "UNSTABLE", pos() ) ) {
+            add_effect( effect_bouldering, 1_turns, num_bp, true );
+        } else if( has_effect( effect_bouldering ) ) {
+            remove_effect( effect_bouldering );
+        }
+
         if( in_vehicle ) {
             g->m.unboard_vehicle( old_pos );
         }
@@ -1708,12 +1743,16 @@ void npc::escape_explosion()
     move_away_from( ai_cache.dangerous_explosives, true );
 }
 
-void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
+void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoint> *nomove )
 {
     tripoint best_pos = pos();
     int best = -1;
     int chance = 2;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+            continue;
+        }
+
         if( p == pos() ) {
             continue;
         }
@@ -1740,7 +1779,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
         }
     }
 
-    move_to( best_pos, no_bash_atk );
+    move_to( best_pos, no_bash_atk, nomove );
 }
 
 void npc::move_pause()
@@ -1837,7 +1876,6 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     }
 }
 
-
 void npc::find_item()
 {
     if( is_following() && !rules.allow_pick_up ) {
@@ -1868,7 +1906,7 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
     ( const item & it, const tripoint & p ) {
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of_from_type( LIQUID ) ) {
             // Don't even consider liquids.
             return;
         }
@@ -1996,7 +2034,6 @@ void npc::pick_up_item()
         return;
     }
 
-
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     const tripoint dest = nearest_passable( wanted_item_pos, pos() );
@@ -2076,7 +2113,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of_from_type( LIQUID ) ) {
             iter++;
             continue;
         }
@@ -2195,9 +2232,10 @@ void npc::drop_items( int weight, int volume )
             rVol.erase( rVol.begin() );
             // Fix the rest of those indices.
             for( size_t i = 0; i < rVol.size(); i++ ) {
-                if( i > rVol.size() )
+                if( i > rVol.size() ) {
                     debugmsg( "npc::drop_items() - looping through rVol - Size is %d, i is %d",
                               rVol.size(), i );
+                }
                 if( rVol[i].index > index ) {
                     rVol[i].index--;
                 }
@@ -3156,23 +3194,9 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
-bool npc::complain()
+bool npc::complain_about( const std::string &issue, const time_duration &dur,
+                          const std::string &speech, const bool force )
 {
-    static const std::string infected_string = "infected";
-    static const std::string fatigue_string = "fatigue";
-    static const std::string bite_string = "bite";
-    static const std::string bleed_string = "bleed";
-    static const std::string radiation_string = "radiation";
-    static const std::string hunger_string = "hunger";
-    static const std::string thirst_string = "thirst";
-    // TODO: Allow calling for help when scared
-    if( !is_following() || !g->u.sees( *this ) ) {
-        return false;
-    }
-
-    // Don't wake player up with non-serious complaints
-    const bool do_complain = rules.allow_complain && !g->u.in_sleep_state();
-
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
     const auto complain_since = [this]( const std::string & key, const time_duration & d ) {
@@ -3188,15 +3212,41 @@ bool npc::complain()
         }
     };
 
+    // Don't wake player up with non-serious complaints
+    const bool do_complain = ( rules.allow_complain && !g->u.in_sleep_state() ) || force;
+
+    if( complain_since( issue, dur ) && do_complain ) {
+        say( speech );
+        set_complain_since( issue );
+        return true;
+    }
+    return false;
+}
+
+bool npc::complain()
+{
+    static const std::string infected_string = "infected";
+    static const std::string fatigue_string = "fatigue";
+    static const std::string bite_string = "bite";
+    static const std::string bleed_string = "bleed";
+    static const std::string radiation_string = "radiation";
+    static const std::string hunger_string = "hunger";
+    static const std::string thirst_string = "thirst";
+    // TODO: Allow calling for help when scared
+    if( !is_following() || !g->u.sees( *this ) ) {
+        return false;
+    }
+
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
-        if( complain_since( infected_string, time_duration::from_hours( 4 - eff.get_intensity() ) ) &&
-            ( do_complain || eff.get_intensity() >= 3 ) ) {
-            say( _( "My %s wound is infected..." ), body_part_name( bp ).c_str() );
-            set_complain_since( infected_string );
+        int intensity = eff.get_intensity();
+        const std::string speech = string_format( _( "My %s wound is infected..." ),
+                                   body_part_name( bp ).c_str() );
+        if( complain_about( infected_string, time_duration::from_hours( 4 - intensity ), speech,
+                            intensity >= 3 ) ) {
             // Only one complaint per turn
             return true;
         }
@@ -3205,55 +3255,47 @@ bool npc::complain()
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
         body_part bp = bp_affected( *this, effect_bite );
-        if( do_complain && complain_since( bite_string, 1_hours ) ) {
-            say( _( "The bite wound on my %s looks bad." ), body_part_name( bp ).c_str() );
-            set_complain_since( bite_string );
+        const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
+                                   body_part_name( bp ).c_str() );
+        if( complain_about( bite_string, 1_hours, speech ) ) {
             return true;
         }
     }
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( get_fatigue() > TIRED && complain_since( fatigue_string, 30_minutes ) &&
-        ( do_complain || get_fatigue() > MASSIVE_FATIGUE - 100 ) ) {
-        say( "<yawn>" );
-        set_complain_since( fatigue_string );
+    if( get_fatigue() > TIRED && complain_about( fatigue_string, 30_minutes, _( "<yawn>" ),
+            get_fatigue() > MASSIVE_FATIGUE - 100 ) )  {
         return true;
     }
 
     // Radiation every 10 minutes
-    if( radiation > 90 && complain_since( radiation_string, 10_minutes ) &&
-        ( do_complain || radiation > 150 ) ) {
-        say( _( "I'm suffering from radiation sickness..." ) );
-        set_complain_since( radiation_string );
-        return true;
+    if( radiation > 90 ) {
+        std::string speech = _( "I'm suffering from radiation sickness..." );
+        if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
+            return true;
+        }
     }
 
     // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
-    if( get_hunger() > 160 && complain_since( hunger_string, std::max( 3_hours,
-            time_duration::from_minutes( 60 * 8 - get_hunger() ) ) ) &&
-        do_complain ) {
-        say( _( "<hungry>" ) );
-        set_complain_since( hunger_string );
+    if( get_hunger() > 160 &&
+        complain_about( hunger_string, std::max( 3_hours,
+                        time_duration::from_minutes( 60 * 8 - get_hunger() ) ), _( "<hungry>" ) ) ) {
         return true;
     }
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
-    if( get_thirst() > 80 && complain_since( thirst_string, 2_hours ) &&
-        do_complain ) {
-        say( _( "<thirsty>" ) );
-        set_complain_since( thirst_string );
+    if( get_thirst() > 80 && complain_about( thirst_string, 2_hours, _( "<thirsty>" ) ) ) {
         return true;
     }
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
         body_part bp = bp_affected( *this, effect_bleed );
-        if( do_complain && complain_since( bleed_string, 5_minutes ) ) {
-            say( _( "My %s is bleeding!" ), body_part_name( bp ).c_str() );
-            set_complain_since( bleed_string );
+        std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ).c_str() );
+        if( complain_about( bleed_string, 5_minutes, speech ) ) {
             return true;
         }
     }

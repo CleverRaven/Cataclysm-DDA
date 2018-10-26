@@ -15,13 +15,17 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
+
 /**
 * \defgroup UI "The UI Menu."
 * @{
 */
 
 ////////////////////////////////////
-int getfoldedwidth (std::vector<std::string> foldedstring)
+int getfoldedwidth (const std::vector<std::string> &foldedstring)
 {
     int ret = 0;
     for (auto &i : foldedstring) {
@@ -127,6 +131,74 @@ uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string t
     query();
 }
 
+uilist::uilist()
+{
+    init();
+}
+
+uilist::uilist( const std::string &hotkeys_override )
+{
+    init();
+    if( !hotkeys_override.empty() ) {
+        hotkeys = hotkeys_override;
+    }
+}
+
+uilist::uilist( const std::string &msg, const std::vector<uimenu_entry> &opts )
+    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+{
+}
+
+uilist::uilist( const std::string &msg, const std::vector<std::string> &opts )
+    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+{
+}
+
+uilist::uilist( const std::string &msg, std::initializer_list<char const *const> opts )
+    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+{
+}
+
+uilist::uilist( int startx, int width, int starty, const std::string &msg,
+                const std::vector<uimenu_entry> &opts )
+{
+    init();
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = msg;
+    entries = opts;
+    query();
+}
+
+uilist::uilist( int startx, int width, int starty, const std::string &msg,
+                const std::vector<std::string> &opts )
+{
+    init();
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = msg;
+    for( auto it = opts.begin(); it != opts.end(); ++it ) {
+        entries.emplace_back( *it );
+    }
+    query();
+}
+
+uilist::uilist( int startx, int width, int starty, const std::string &msg,
+                std::initializer_list<char const *const> opts )
+{
+    init();
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = msg;
+    for( auto it = opts.begin(); it != opts.end(); ++it ) {
+        entries.emplace_back( *it );
+    }
+    query();
+}
+
 /*
  * Enables oneshot construction -> running -> exit
  */
@@ -146,7 +218,7 @@ void uimenu::init()
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
     w_height =
         MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // @todo: fixme: scrolling list with offset
-    ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
+    ret = dynamic_cast<uilist *>( this ) ? UIMENU_WAIT_INPUT : UIMENU_INVALID;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
@@ -169,7 +241,10 @@ void uimenu::init()
     hilight_color = h_white; // highlight for up/down selection bar
     hotkey_color = c_light_green; // hotkey text to the right of menu entry's text
     disabled_color = c_dark_gray; // disabled menu entry
-    return_invalid = false;  // return 0-(int)invalidKeyCode
+    allow_disabled = false;  // disallow selecting disabled options
+    allow_anykey = false;    // do not return on unbound keys
+    allow_cancel = true;     // allow cancelling with "QUIT" action
+    return_invalid = false;  // legacy flag
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
@@ -192,8 +267,6 @@ void uimenu::init()
     scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
     scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
-    last_fsize = -1;
-    last_vshift = -1;
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UIMENU";
     additional_actions.clear();
@@ -271,7 +344,12 @@ std::string uimenu::inputfilter()
          .window( window, 4, w_height - 1, w_width - 4 )
          .identifier( identifier );
     input_event event;
-    do {
+#ifdef __ANDROID__
+    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+        SDL_StartTextInput();
+    }
+#endif
+	do {
         // filter=filter_input->query(filter, false);
         filter = popup.query_string( false );
         event = popup.context().get_raw_input();
@@ -303,6 +381,45 @@ std::string uimenu::inputfilter()
 
     return filter;
 }
+
+/**
+ * Find the minimum width between max( min_width, 1 ) and
+ * max( max_width, min_width, 1 ) to fold the string to no more than max_lines,
+ * or no more than the minimum number of lines possible, assuming that
+ * foldstring( width ).size() decreases monotonously with width.
+ **/
+static int find_minimum_fold_width( const std::string &str, int max_lines,
+                                    int min_width, int max_width )
+{
+    if( str.empty() ) {
+        return std::max( min_width, 1 );
+    }
+    min_width = std::max( min_width, 1 );
+    // max_width could be further limited by the string width, but utf8_width is
+    // not handling linebreaks properly.
+
+    if( min_width < max_width ) {
+        // If with max_width the string still folds to more than max_lines, find the
+        // minimum width that folds the string to such number of lines instead.
+        max_lines = std::max<int>( max_lines, foldstring( str, max_width ).size() );
+        while( min_width < max_width ) {
+            int width = ( min_width + max_width ) / 2;
+            // width may equal min_width, but will always be less than max_width.
+            int lines = foldstring( str, width ).size();
+            // If the current width folds the string to no more than max_lines
+            if( lines <= max_lines ) {
+                // The minimum width is between min_width and width.
+                max_width = width;
+            } else {
+                // The minimum width is between width + 1 and max_width.
+                min_width = width + 1;
+            }
+            // The new interval will always be smaller than the previous one,
+            // so the loop is guaranteed to end.
+        }
+    }
+    return min_width;
+};
 
 /**
  * Calculate sizes, populate arrays, initialize window
@@ -359,8 +476,10 @@ void uimenu::setup()
             }
         }
         if ( desc_enabled ) {
-            // subtract one from desc_lines for the reminder of the text
-            int descwidth = utf8_width(entries[i].desc) / (desc_lines - 1);
+            const int min_width = std::min( TERMX, std::max( w_width, descwidth_final ) ) - 4;
+            const int max_width = TERMX - 4;
+            int descwidth = find_minimum_fold_width( entries[i].desc, desc_lines,
+                                                     min_width, max_width );
             descwidth += 4; // 2x border + 2x ' ' pad
             if ( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -394,10 +513,6 @@ void uimenu::setup()
         }
     }
 
-    if (w_auto && w_width > TERMX) {
-        w_width = TERMX;
-    }
-
     if(!text.empty() ) {
         int twidth = utf8_width( remove_color_tags(text) );
         bool formattxt = true;
@@ -427,33 +542,48 @@ void uimenu::setup()
             }
         } else if ( textwidth != -1 ) {
             realtextwidth = textwidth;
+            if( realtextwidth + 4 > w_width ) {
+                w_width = realtextwidth + 4;
+            }
         }
         if ( formattxt ) {
             textformatted = foldstring(text, realtextwidth);
         }
     }
 
-    if (h_auto) {
-        w_height = 2 + text_separator_line + textformatted.size() + entries.size();
-        if (desc_enabled) {
-            int w_height_final = w_height + desc_lines + 1; // add one for border
-            if (w_height_final > TERMY) {
-                desc_enabled = false; // give up
-                debugmsg("with description height would exceed terminal height (%d vs %d available)",
-                         w_height_final, TERMY);
-            } else {
-                w_height = w_height_final;
-            }
+    // shrink-to-fit
+    if( desc_enabled ) {
+        desc_lines = 0;
+        for( const uimenu_entry &ent : entries ) {
+            // -2 for borders, -2 for padding
+            desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
         }
+        if( desc_lines <= 0 ) {
+            desc_enabled = false;
+        }
+    }
+
+    if( w_auto && w_width > TERMX ) {
+        w_width = TERMX;
+    }
+
+    vmax = entries.size();
+    int additional_lines = 2 + text_separator_line + // add two for top & bottom borders
+                           static_cast<int>( textformatted.size() );
+    if( desc_enabled ) {
+        additional_lines += desc_lines + 1; // add one for description separator line
+    }
+
+    if (h_auto) {
+        w_height = vmax + additional_lines;
     }
 
     if ( w_height > TERMY ) {
         w_height = TERMY;
     }
 
-    vmax = entries.size();
-    if( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
-        vmax = w_height - ( 2 + text_separator_line ) - textformatted.size();
+    if( vmax + additional_lines > w_height ) {
+        vmax = w_height - additional_lines;
         if( vmax < 1 ) {
             if( textformatted.empty() ) {
                 popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
@@ -498,58 +628,32 @@ void uimenu::setup()
     started = true;
 }
 
-// @todo: replace content of this function by draw_scrollbar() from output.(h|cpp)
 void uimenu::apply_scrollbar()
 {
-    if ( ! scrollbar_auto ) {
+    if ( !scrollbar_auto ) {
         return;
     }
-    if ( last_vshift != vshift || last_fsize != (int)fentries.size() ) {
-        last_vshift = vshift;
-        last_fsize = fentries.size();
 
-        int sbside = ( scrollbar_side == 0 ? 0 : w_width );
-        int estart = textformatted.size() + 2;
-
-        if ( !fentries.empty() && vmax < (int)fentries.size() ) {
-            wattron(window, border_color);
-            mvwaddch(window, estart, sbside, '^');
-            wattroff(window, border_color);
-
-            wattron(window, scrollbar_nopage_color);
-            for( int i = estart + 1; i < estart + vmax - 1; i++ ) {
-                mvwaddch(window, i, sbside, LINE_XOXO);
-            }
-            wattroff(window, scrollbar_nopage_color);
-
-            wattron(window, border_color);
-            mvwaddch(window, estart + vmax - 1, sbside, 'v');
-            wattroff(window, border_color);
-
-            int svmax = vmax - 2;
-            int fentriessz = fentries.size() - vmax;
-            int sbsize = (vmax * svmax) / fentries.size();
-            if ( sbsize < 2 ) {
-                sbsize = 2;
-            }
-            int svmaxsz = svmax - sbsize;
-            int sbstart = ( vshift * svmaxsz ) / fentriessz;
-            int sbend = sbstart + sbsize;
-
-            wattron(window, scrollbar_page_color);
-            for ( int i = sbstart; i < sbend; i++ ) {
-                mvwaddch(window, i + estart + 1, sbside, LINE_XOXO);
-            }
-            wattroff(window, scrollbar_page_color);
-
-        } else {
-            wattron(window, border_color);
-            for( int i = estart; i < estart + vmax; i++ ) {
-                mvwaddch(window, i, sbside, LINE_XOXO);
-            }
-            wattroff(window, border_color);
-        }
+    int sbside = ( scrollbar_side == 0 ? 0 : w_width - 1 );
+    int estart = textformatted.size();
+    if( estart > 0 ) {
+        estart += 2;
+    } else {
+        estart = 1;
     }
+
+    scrollbar()
+    .offset_x( sbside )
+    .offset_y( estart )
+    .content_size( fentries.size() )
+    .viewport_pos( vshift )
+    .viewport_size( vmax )
+    .border_color( border_color )
+    .arrow_color( border_color )
+    .slot_color( scrollbar_nopage_color )
+    .bar_color( scrollbar_page_color )
+    .scroll_to_last( false )
+    .apply( window );
 }
 
 /**
@@ -614,13 +718,14 @@ void uimenu::show()
                 trim_and_print( window, estart + si, pad_left + 4,
                                 w_width - 5 - pad_left - pad_right, co, "%s", entry.c_str() );
             }
-            if ( !entries[ei].extratxt.txt.empty() ) {
-                mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
-                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.txt );
+            mvwzstr menu_entry_extra_text = entries[ei].extratxt;
+            if ( !menu_entry_extra_text.txt.empty() ) {
+                mvwprintz( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                           menu_entry_extra_text.color, menu_entry_extra_text.txt );
             }
-            if ( entries[ei].extratxt.sym != 0 ) {
-                mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
-                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.sym );
+            if ( menu_entry_extra_text.sym != 0 ) {
+                mvwputch ( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
             if ( callback != NULL && ei == selected ) {
                 callback->select(ei, this);
@@ -751,24 +856,30 @@ bool uimenu::scrollby( const int scrollby )
     }
 
     if ( backwards ) {
+        if( fselected < 0 ) {
+            fselected = fentries.size() - 1;
+        }
         for( size_t i = 0; i < fentries.size(); ++i ) {
-            if( fselected < 0 ) {
-                fselected = fentries.size() - 1;
-            }
             if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
                 break;
             }
             --fselected;
+            if( fselected < 0 ) {
+                fselected = fentries.size() - 1;
+            }
         }
     } else {
+        if( fselected >= ( int )fentries.size() ) {
+            fselected = 0;
+        }
         for( size_t i = 0; i < fentries.size(); ++i ) {
-            if( fselected >= (int)fentries.size() ) {
-                fselected = 0;
-            }
             if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
                 break;
             }
             ++fselected;
+            if( fselected >= ( int )fentries.size() ) {
+                fselected = 0;
+            }
         }
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
@@ -781,14 +892,17 @@ bool uimenu::scrollby( const int scrollby )
  * Handle input and update display
  *
  */
-void uimenu::query(bool loop)
+void uimenu::query( bool loop, int timeout )
 {
+    bool new_interface = dynamic_cast<uilist *>( this ) != nullptr;
     keypress = 0;
     if ( entries.empty() ) {
+        if( new_interface ) {
+            ret = UIMENU_ERROR;
+        }
         return;
     }
-    int startret = UIMENU_INVALID;
-    ret = UIMENU_INVALID;
+    ret = ( new_interface ? UIMENU_WAIT_INPUT : UIMENU_INVALID );
 
     input_context ctxt( input_category );
     ctxt.register_updown();
@@ -796,7 +910,7 @@ void uimenu::query(bool loop)
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
-    if( return_invalid ) {
+    if( new_interface ? allow_cancel : return_invalid ) {
         ctxt.register_action( "QUIT" );
     }
     ctxt.register_action( "CONFIRM" );
@@ -809,16 +923,21 @@ void uimenu::query(bool loop)
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();
+
+#ifdef __ANDROID__
+    for (const auto& entry : entries) {
+        if (entry.hotkey > 0 && entry.enabled)
+            ctxt.register_manual_key(entry.hotkey, entry.txt);
+    }
+#endif
+
     do {
-        bool skipkey = false;
-        const auto action = ctxt.handle_input();
+        const auto action = ctxt.handle_input( timeout );
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
 
-        if ( skipkey ) {
-            /* nothing */
-        } else if( scrollby( scroll_amount_from_action( action ) ) ) {
+        if( scrollby( scroll_amount_from_action( action ) ) ) {
             /* nothing */
         } else if ( action == "HELP_KEYBINDINGS" ) {
             /* nothing, handled by input_context */
@@ -828,28 +947,36 @@ void uimenu::query(bool loop)
             selected = iter->second;
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
-            } else if( return_invalid ) {
+            } else if( !new_interface && return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
+            } else if( new_interface && allow_disabled ) {
+                ret = entries[selected].retval; // disabled
             }
         } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
-            } else if ( return_invalid ) {
+            } else if ( !new_interface && return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
+            } else if( new_interface && allow_disabled ) {
+                ret = entries[selected].retval; // disabled
             }
-        } else if( action == "QUIT" ) {
-            break;
+        } else if( ( !new_interface || allow_cancel ) && action == "QUIT" ) {
+            if( new_interface ) {
+                ret = UIMENU_CANCEL;
+            } else {
+                break;
+            }
+        } else if( action == "TIMEOUT" ) {
+            ret = UIMENU_TIMEOUT;
         } else {
-            if ( callback != nullptr ) {
-                skipkey = callback->key( ctxt, event, selected, this );
-            }
-            if ( ! skipkey && return_invalid ) {
-                ret = -1;
+            bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
+            if( unhandled && ( new_interface ? allow_anykey : return_invalid ) ) {
+                ret = new_interface ? UIMENU_UNBOUND : -1;
             }
         }
 
         show();
-    } while ( loop && (ret == startret ) );
+    } while( loop && ret == ( new_interface ? UIMENU_WAIT_INPUT : UIMENU_INVALID ) );
 }
 
 ///@}
@@ -862,27 +989,27 @@ void uimenu::reset()
     init();
 }
 
-void uimenu::addentry(std::string str)
+void uimenu::addentry(const std::string &str)
 {
     entries.push_back(str);
 }
 
-void uimenu::addentry(int r, bool e, int k, std::string str)
+void uimenu::addentry(int r, bool e, int k, const std::string &str)
 {
     entries.push_back(uimenu_entry(r, e, k, str));
 }
 
-void uimenu::addentry_desc(std::string str, std::string desc)
+void uimenu::addentry_desc(const std::string &str, const std::string &desc)
 {
     entries.push_back(uimenu_entry(str, desc));
 }
 
-void uimenu::addentry_desc(int r, bool e, int k, std::string str, std::string desc)
+void uimenu::addentry_desc(int r, bool e, int k, const std::string &str, const std::string &desc)
 {
     entries.push_back(uimenu_entry(r, e, k, str, desc));
 }
 
-void uimenu::settext(std::string str)
+void uimenu::settext(const std::string &str)
 {
     text = str;
 }

@@ -227,7 +227,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const std::string &id )
+void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 
@@ -239,8 +239,8 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
     jsarr = jsobj.get_array( "tools" );
     req.load_obj_list( jsarr, req.tools );
 
-    if( !id.empty() ) {
-        req.id_ = requirement_id( id );
+    if( !id.is_null() ) {
+        req.id_ = id;
     } else if( jsobj.has_string( "id" ) ) {
         req.id_ = requirement_id( jsobj.get_string( "id" ) );
     } else {
@@ -250,11 +250,11 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
     save_requirement( req );
 }
 
-void requirement_data::save_requirement( const requirement_data &req, const std::string &id )
+void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id )
 {
     auto dup = req;
-    if( !id.empty() ) {
-        dup.id_ = requirement_id( id );
+    if( !id.is_null() ) {
+        dup.id_ = id;
     }
 
     requirements_all[ dup.id_ ] = dup;
@@ -338,7 +338,6 @@ const std::map<requirement_id, requirement_data> &requirement_data::all()
 {
     return requirements_all;
 }
-
 
 void requirement_data::check_consistency()
 {
@@ -433,11 +432,8 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     if( components.empty() ) {
         return out_buffer;
     }
-    std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Components required:" ) <<
-                 "</color>";
-    out_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    out_buffer.push_back( "<color_" + string_from_color( col ) + ">" + _( "Components required:" ) +
+                          "</color>" );
 
     std::vector<std::string> folded_buffer =
         get_folded_list( width, crafting_inv, components, batch, hilite );
@@ -457,35 +453,35 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
-        std::ostringstream buffer;
+        std::vector<std::string> list_as_string;
         std::vector<std::string> buffer_has;
-        bool already_has;
-        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            already_has = false;
-            for( auto cont : buffer_has ) {
-                if( cont == a->to_string( batch ) + a->get_color( has_one, crafting_inv, batch ) ) {
-                    already_has = true;
-                    break;
-                }
-            }
-            if( already_has ) {
+        for( const T &o : comp_list ) {
+            const std::string col = o.get_color( has_one, crafting_inv, batch );
+            const std::string text = o.to_string( batch );
+            if( std::find( buffer_has.begin(), buffer_has.end(), text + col ) != buffer_has.end() ) {
                 continue;
             }
 
-            if( a != comp_list.begin() ) {
-                buffer << "<color_white> " << _( "OR" ) << "</color> ";
-            }
-            const std::string col = a->get_color( has_one, crafting_inv, batch );
+            std::ostringstream buffer;
 
-            if( !hilite.empty() && lcmatch( a->to_string( batch ), hilite ) ) {
+            if( !hilite.empty() && lcmatch( text, hilite ) ) {
                 buffer << get_tag_from_color( yellow_background( color_from_string( col ) ) );
             } else {
                 buffer << "<color_" << col << ">";
             }
-            buffer << a->to_string( batch ) << "</color>" << "</color>";
-            buffer_has.push_back( a->to_string( batch ) + a->get_color( has_one, crafting_inv, batch ) );
+            buffer << text << "</color>" << "</color>";
+            const auto iter = std::lower_bound( list_as_string.begin(), list_as_string.end(), buffer.str() );
+            list_as_string.insert( iter, buffer.str() );
+            buffer_has.push_back( text + col );
         }
-        std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
+        std::string unfolded;
+        for( auto a = list_as_string.begin(); a != list_as_string.end(); ++a ) {
+            if( a != list_as_string.begin() ) {
+                unfolded += std::string( "<color_white> " ) + _( "OR" ) + "</color> ";
+            }
+            unfolded += *a;
+        }
+        std::vector<std::string> folded = foldstring( unfolded, width - 2 );
 
         for( size_t i = 0; i < folded.size(); i++ ) {
             if( i == 0 ) {
@@ -502,15 +498,11 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const inventory &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
-    std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Tools required:" ) <<
-                 "</color>";
-    output_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    output_buffer.push_back( "<color_" + string_from_color( col ) + ">" + _( "Tools required:" ) +
+                             "</color>" );
     if( tools.empty() && qualities.empty() ) {
-        current_line << "<color_" << string_from_color( col ) << ">" << "> " << "</color>";
-        current_line << "<color_" << string_from_color( c_green ) << ">" << _( "NONE" ) << "</color>";
-        output_buffer.push_back( current_line.str() );
+        output_buffer.push_back( "<color_" + string_from_color( col ) + ">> </color><color_" +
+                                 string_from_color( c_green ) + ">" + _( "NONE" ) + "</color>" );
         return output_buffer;
     }
 

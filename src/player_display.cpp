@@ -116,7 +116,6 @@ void player::print_encumbrance( const catacurses::window &win, int line,
 
 }
 
-
 std::string swim_cost_text( int moves )
 {
     return string_format( ngettext( "Swimming costs %+d movement point. ",
@@ -153,7 +152,6 @@ std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
 }
-
 
 int get_encumbrance( const player &p, body_part bp, bool combine )
 {
@@ -272,7 +270,6 @@ void player::disp_info()
             starvation_text <<
                             _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
         }
-
 
         if( starvation_base_penalty > 500 ) {
             starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";
@@ -499,7 +496,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         for( auto &mut : my_mutations ) {
             const auto &mdata = mut.first.obj();
             if( mdata.threshold ) {
-                race = mdata.name;
+                race = mdata.name();
                 break;
             }
         }
@@ -576,7 +573,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
         const auto &mdata = traitslist[i].obj();
         const auto color = mdata.get_display_color();
-        trim_and_print( w_traits, int( i ) + 1, 1, getmaxx( w_traits ) - 1, color, mdata.name );
+        trim_and_print( w_traits, int( i ) + 1, 1, getmaxx( w_traits ) - 1, color, mdata.name() );
     }
     wrefresh( w_traits );
 
@@ -946,13 +943,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     const auto &mdata = traitslist[i].obj();
                     const auto color = mdata.get_display_color();
                     trim_and_print( w_traits, int( 1 + i - min ), 1, getmaxx( w_traits ) - 1,
-                                    i == line ? hilite( color ) : color, mdata.name );
+                                    i == line ? hilite( color ) : color, mdata.name() );
                 }
                 if( line < traitslist.size() ) {
                     const auto &mdata = traitslist[line].obj();
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
                                         "<color_%s>%s</color>: %s", string_from_color( mdata.get_display_color() ),
-                                        mdata.name, traitslist[line]->description ) );
+                                        mdata.name(), traitslist[line]->desc() ) );
                 }
                 wrefresh( w_traits );
                 wrefresh( w_info );
@@ -975,7 +972,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         mvwprintz( w_traits, int( i + 1 ), 1, c_black, "                         " );
                         const auto color = mdata.get_display_color();
                         trim_and_print( w_traits, int( i + 1 ), 1, getmaxx( w_traits ) - 1,
-                                        color, mdata.name );
+                                        color, mdata.name() );
                     }
                     wrefresh( w_traits );
                     line = 0;

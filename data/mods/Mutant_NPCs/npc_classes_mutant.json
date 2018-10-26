@@ -287,6 +287,23 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_NPC_MUTANT_MOUSE",
+    "name": "Mouse Mutant",
+    "job_description": "I'm looking for mouse mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 4, 7 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 5 ] } }
+    ],
+    "bonus_dex": 6,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "trait_group_mouse" },
+      { "distribution": [ { "group": "trait_group_mouse_nonthres" }, { "group": "trait_group_mouse_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_NPC_MUTANT_ALPHA",
     "name": "Alpha Mutant",
     "job_description": "I'm looking for alpha mutagen... this world is no place for humans anymore, and I don't plan to keep being one.",

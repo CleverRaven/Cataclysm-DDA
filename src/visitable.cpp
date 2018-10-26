@@ -528,7 +528,6 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
     return res;
 }
 
-
 /** @relates visitable */
 template <>
 std::list<item> visitable<inventory>::remove_items_with( const
@@ -848,7 +847,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit]( const item * e ) {
-        if( e->typeId() == id && e->allow_crafting_component() && ( pseudo || !e->has_flag( "PSEUDO" ) ) ) {
+        if( e->typeId() == id &&
+            ( pseudo || ( e->allow_crafting_component() && !e->has_flag( "PSEUDO" ) ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;

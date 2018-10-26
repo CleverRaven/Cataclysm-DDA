@@ -44,7 +44,6 @@
 #include <algorithm>
 #include <cassert>
 
-
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_gasoline( "gasoline" );
@@ -190,7 +189,7 @@ void vehicle::thrust( int thd )
         consume_fuel( load );
 
         //break the engines a bit, if going too fast.
-        int strn = ( int )( strain() * strain() * 100 );
+        int strn = static_cast<int>( ( strain() * strain() * 100 ) );
         for( size_t e = 0; e < engines.size(); e++ ) {
             do_engine_damage( e, strn );
         }
@@ -327,9 +326,12 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 
     const int velocity_before = coll_velocity;
     const int sign_before = sgn( velocity_before );
-    std::vector<int> structural_indices = all_parts_at_location( part_location_structure );
-    for( size_t i = 0; i < structural_indices.size(); i++ ) {
-        const int p = structural_indices[i];
+    bool empty = true;
+    for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
+        if( part_info( p ).location != part_location_structure || parts[ p ].removed ) {
+            continue;
+        }
+        empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
@@ -356,7 +358,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         }
     }
 
-    if( structural_indices.empty() ) {
+    if( empty ) {
         // Hack for dirty vehicles that didn't yet get properly removed
         veh_collision fake_coll;
         fake_coll.type = veh_coll_other;
@@ -826,6 +828,90 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
     if( expl > 0 ) {
         g->explosion( p, expl, 0.5f, false, shrap );
+    }
+}
+
+void vehicle::pldrive( int x, int y )
+{
+    player &u = g->u;
+    int turn_delta = 15 * x;
+    const float handling_diff = handling_difficulty();
+    if( turn_delta != 0 ) {
+        float eff = steering_effectiveness();
+        if( eff < 0 ) {
+            add_msg( m_info, _( "This vehicle has no steering system installed, you can't turn it." ) );
+            return;
+        }
+
+        if( eff == 0 ) {
+            add_msg( m_bad, _( "The steering is completely broken!" ) );
+            return;
+        }
+
+        // If you've got more moves than speed, it's most likely time stop
+        // Let's get rid of that
+        u.moves = std::min( u.moves, u.get_speed() );
+
+        ///\EFFECT_DEX reduces chance of losing control of vehicle when turning
+
+        ///\EFFECT_PER reduces chance of losing control of vehicle when turning
+
+        ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
+        float skill = std::min( 10.0f,
+                                u.get_skill_level( skill_driving ) + ( u.get_dex() + u.get_per() ) / 10.0f );
+        float penalty = rng_float( 0.0f, handling_diff ) - skill;
+        int cost;
+        if( penalty > 0.0f ) {
+            // At 10 penalty (rather hard to get), we're taking 4 turns per turn
+            cost = 100 * ( 1.0f + penalty / 2.5f );
+        } else {
+            // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
+            cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
+        }
+
+        if( penalty > skill || cost > 400 ) {
+            add_msg( m_warning, _( "You fumble with the %s's controls." ), name.c_str() );
+            // Anything from a wasted attempt to 2 turns in the intended direction
+            turn_delta *= rng( 0, 2 );
+            // Also wastes next turn
+            cost = std::max( cost, u.moves + 100 );
+        } else if( one_in( 10 ) ) {
+            // Don't warn all the time or it gets spammy
+            if( cost >= u.get_speed() * 2 ) {
+                add_msg( m_warning, _( "It takes you a very long time to steer that vehicle!" ) );
+            } else if( cost >= u.get_speed() * 1.5f ) {
+                add_msg( m_warning, _( "It takes you a long time to steer that vehicle!" ) );
+            }
+        }
+
+        turn( turn_delta );
+
+        // At most 3 turns per turn, because otherwise it looks really weird and jumpy
+        u.moves -= std::max( cost, u.get_speed() / 3 + 1 );
+    }
+
+    if( y != 0 ) {
+        int thr_amount = 10 * 100;
+        if( cruise_on ) {
+            cruise_thrust( -y * thr_amount );
+        } else {
+            thrust( -y );
+            u.moves = std::min( u.moves, 0 );
+        }
+    }
+
+    // @todo: Actually check if we're on land on water (or disable water-skidding)
+    if( skidding && ( valid_wheel_config( false ) || valid_wheel_config( true ) ) ) {
+        ///\EFFECT_DEX increases chance of regaining control of a vehicle
+
+        ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
+        if( handling_diff * rng( 1, 10 ) < u.dex_cur + u.get_skill_level( skill_driving ) * 2 ) {
+            add_msg( _( "You regain control of the %s." ), name.c_str() );
+            u.practice( skill_driving, velocity / 5 );
+            velocity = int( forward_velocity() );
+            skidding = false;
+            move.init( turn_dir );
+        }
     }
 }
 

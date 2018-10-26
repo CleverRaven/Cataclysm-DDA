@@ -61,6 +61,17 @@ enum fatigue_levels {
     MASSIVE_FATIGUE = 1000
 };
 
+
+// Sleep deprivation is defined in minutes, and although most calculations scale linearly,
+// maluses are bestowed only upon reaching the tiers defined below.
+enum sleep_deprivation_levels {
+    SLEEP_DEPRIVATION_HARMLESS = 2 * 24 * 60,
+    SLEEP_DEPRIVATION_MINOR = 4 * 24 * 60,
+    SLEEP_DEPRIVATION_SERIOUS = 7 * 24 * 60,
+    SLEEP_DEPRIVATION_MAJOR = 10 * 24 * 60,
+    SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
+};
+
 struct layer_details {
 
     std::vector<int> pieces;
@@ -201,6 +212,7 @@ class Character : public Creature, public visitable<Character>
         virtual int get_starvation() const;
         virtual int get_thirst() const;
         virtual int get_fatigue() const;
+        virtual int get_sleep_deprivation() const;
         virtual int get_stomach_food() const;
         virtual int get_stomach_water() const;
 
@@ -209,6 +221,7 @@ class Character : public Creature, public visitable<Character>
         virtual void mod_starvation( int nstarvation );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
+        virtual void mod_sleep_deprivation( int nsleep_deprivation );
         virtual void mod_stomach_food( int n_stomach_food );
         virtual void mod_stomach_water( int n_stomach_water );
 
@@ -217,6 +230,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_starvation( int nstarvation );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
+        virtual void set_sleep_deprivation( int nsleep_deprivation );
         virtual void set_stomach_food( int n_stomach_food );
         virtual void set_stomach_water( int n_stomach_water );
 
@@ -323,8 +337,6 @@ class Character : public Creature, public visitable<Character>
         bool has_base_trait( const trait_id &flag ) const;
         /** Returns true if player has a trait with a flag */
         bool has_trait_flag( const std::string &flag ) const;
-        /** Returns true if player has a bionic with a flag */
-        bool has_bionic_flag( const std::string &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( long ch ) const;
 
@@ -342,17 +354,29 @@ class Character : public Creature, public visitable<Character>
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
+         * menu_header - name of item that triggers this menu
+         * show_all - show and enable choice of all limbs, not only healable
+         * precise - show numerical hp
+         * normal_bonus - heal normal limb
+         * head_bonus - heal head
+         * torso_bonus - heal torso
+         * bleed - chance to stop bleeding
+         * bite - chance to remove bite
+         * infect - chance to remove infection
+         * bandage_power - quality of bandage
+         * disinfectant_power - quality of disinfectant
          */
-        hp_part body_window( bool precise = false ) const;
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const;
+                             float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
 
+        static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
+        bool made_of_any( const std::set<material_id> &ms ) const override;
 
     private:
         /** Retrieves a stat mod of a mutation. */
@@ -529,9 +553,29 @@ class Character : public Creature, public visitable<Character>
 
         units::mass weight_carried() const;
         units::volume volume_carried() const;
+
+        /// Sometimes we need to calculate hypothetical volume or weight.  This
+        /// struct offers two possible tweaks: a collection of items and
+        /// coutnts to remove, or an entire replacement inventory.
+        struct item_tweaks {
+            item_tweaks() = default;
+            item_tweaks( const std::map<const item *, int> &w ) :
+                without_items( std::cref( w ) )
+            {}
+            item_tweaks( const inventory &r ) :
+                replace_inv( std::cref( r ) )
+            {}
+            const cata::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
+            const cata::optional<std::reference_wrapper<const inventory>> replace_inv;
+        };
+
+        units::mass weight_carried_with_tweaks( const item_tweaks & ) const;
+        units::volume volume_carried_with_tweaks( const item_tweaks & ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
-        units::volume volume_capacity_reduced_by( const units::volume &mod ) const;
+        units::volume volume_capacity_reduced_by(
+            const units::volume &mod,
+            const std::map<const item *, int> &without_items = {} ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
@@ -548,7 +592,7 @@ class Character : public Creature, public visitable<Character>
          */
         bool is_armed() const;
 
-        void drop_inventory_overflow();
+        void drop_invalid_inventory();
 
         bool has_artifact_with( const art_effect_passive effect ) const;
 
@@ -564,19 +608,12 @@ class Character : public Creature, public visitable<Character>
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
 
+        const SkillLevelMap &get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
         const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
 
         void set_skill_level( const skill_id &ident, int level );
         void mod_skill_level( const skill_id &ident, int delta );
-
-        /** Calculates skill difference
-         * @param req Required skills to be compared with.
-         * @param context An item to provide context for contextual skills. Can be null.
-         * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
-         */
-        std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req,
-                const item &context = item() ) const;
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;
@@ -687,16 +724,16 @@ class Character : public Creature, public visitable<Character>
         void on_stat_change( const std::string &, int ) override {};
         virtual void on_mutation_gain( const trait_id & ) {};
         virtual void on_mutation_loss( const trait_id & ) {};
-
     public:
         virtual void on_item_wear( const item & ) {};
         virtual void on_item_takeoff( const item & ) {};
+        virtual void on_worn_item_washed( const item & ) {};
 
     protected:
         Character();
-        Character( const Character & );
+        Character( const Character & ) = delete;
         Character( Character && );
-        Character &operator=( const Character & );
+        Character &operator=( const Character & ) = delete;
         Character &operator=( Character && );
         struct trait_data {
             /** Key to select the mutation in the UI. */
@@ -766,7 +803,9 @@ class Character : public Creature, public visitable<Character>
         int hunger;
         int starvation;
         int thirst;
+
         int fatigue;
+        int sleep_deprivation;
 
         int stomach_food;
         int stomach_water;

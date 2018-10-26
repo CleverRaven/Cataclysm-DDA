@@ -54,7 +54,7 @@
     },{
         "type" : "item_action",
         "id" : "HOTPLATE",
-        "name" : "Heat up food"
+        "name" : "Heat up food (with it)"
     },{
         "type" : "item_action",
         "id" : "MISC_REPAIR",
@@ -230,7 +230,7 @@
     },{
         "type" : "item_action",
         "id" : "CAMERA",
-        "name" : "Use"
+        "name" : "Use camera"
     },{
         "type" : "item_action",
         "id" : "CAN_GOO",
@@ -277,6 +277,14 @@
         "name" : "Turn off"
     },{
         "type" : "item_action",
+        "id" : "E_COMBATSAW_OFF",
+        "name" : "Turn on"
+    },{
+        "type" : "item_action",
+        "id" : "E_COMBATSAW_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
         "id" : "CONTACTS",
         "name" : "Apply"
     },{
@@ -286,6 +294,14 @@
     },{
         "type" : "item_action",
         "id" : "CS_LAJATANG_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "ECS_LAJATANG_OFF",
+        "name" : "Turn on"
+    },{
+        "type" : "item_action",
+        "id" : "ECS_LAJATANG_ON",
         "name" : "Turn off"
     },{
         "type" : "item_action",
@@ -381,10 +397,6 @@
         "name" : "Take"
     },{
         "type" : "item_action",
-        "id" : "FUN_HALLU",
-        "name" : "Eat"
-    },{
-        "type" : "item_action",
         "id" : "GRANADE",
         "name" : "Activate"
     },{
@@ -410,7 +422,7 @@
     },{
         "type" : "item_action",
         "id" : "HEAT_FOOD",
-        "name" : "Heat up food"
+        "name" : "Heat up food (in it)"
     },{
         "type" : "item_action",
         "id" : "HONEYCOMB",
@@ -558,6 +570,10 @@
     },{
         "type" : "item_action",
         "id" : "PURIFY_IV",
+        "name" : "Inject"
+    },{
+        "type" : "item_action",
+        "id" : "PURIFY_SMART",
         "name" : "Inject"
     },{
         "type" : "item_action",

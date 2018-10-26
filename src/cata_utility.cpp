@@ -68,7 +68,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
     }
 
     do {
-        iPos = filter.find( "," );
+        iPos = filter.find( ',' );
 
         std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
         const bool exclude = term.substr( 0, 1 ) == "-";
@@ -90,12 +90,6 @@ bool match_include_exclude( const std::string &text, std::string filter )
     } while( iPos != std::string::npos );
 
     return found;
-}
-
-bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
-                                   const std::pair<int, tripoint> &b ) const
-{
-    return a.first > b.first;
 }
 
 // --- Library functions ---
@@ -155,6 +149,9 @@ const char *velocity_units( const units_type vel_units )
 {
     if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
         return _( "mph" );
+    } else if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "t/t" ) {
+        //~ vehicle speed tiles per turn
+        return _( "t/t" );
     } else {
         switch( vel_units ) {
             case VU_VEHICLE:
@@ -197,10 +194,11 @@ const char *volume_units_long()
 
 double convert_velocity( int velocity, const units_type vel_units )
 {
+    const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     // internal units to mph conversion
     double ret = double( velocity ) / 100;
 
-    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h" ) {
+    if( type == "km/h" ) {
         switch( vel_units ) {
             case VU_VEHICLE:
                 // mph to km/h conversion
@@ -211,7 +209,10 @@ double convert_velocity( int velocity, const units_type vel_units )
                 ret *= 0.447f;
                 break;
         }
+    } else if( type == "t/t" ) {
+        ret /= 10;
     }
+
     return ret;
 }
 
@@ -255,6 +256,11 @@ double convert_volume( int volume, int *out_scale )
 double temp_to_celsius( double fahrenheit )
 {
     return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
+}
+
+double temp_to_kelvin( double fahrenheit )
+{
+    return temp_to_celsius( fahrenheit ) + 273.15;
 }
 
 double clamp_to_width( double value, int width, int &scale )

@@ -11,7 +11,7 @@ void MAP_SHARING::setSharing( bool mode )
 {
     MAP_SHARING::sharing = mode;
 }
-void MAP_SHARING::setUsername( std::string name )
+void MAP_SHARING::setUsername( const std::string &name )
 {
     MAP_SHARING::username = name;
 }
@@ -51,12 +51,12 @@ bool MAP_SHARING::isAdmin()
     return false;
 }
 
-void MAP_SHARING::setAdmins( std::set<std::string> names )
+void MAP_SHARING::setAdmins( const std::set<std::string> &names )
 {
     MAP_SHARING::admins = names;
 }
 
-void MAP_SHARING::addAdmin( std::string name )
+void MAP_SHARING::addAdmin( const std::string &name )
 {
     MAP_SHARING::admins.insert( name );
     MAP_SHARING::debuggers.insert( name );
@@ -70,12 +70,12 @@ bool MAP_SHARING::isDebugger()
     return false;
 }
 
-void MAP_SHARING::setDebuggers( std::set<std::string> names )
+void MAP_SHARING::setDebuggers( const std::set<std::string> &names )
 {
     MAP_SHARING::debuggers = names;
 }
 
-void MAP_SHARING::addDebugger( std::string name )
+void MAP_SHARING::addDebugger( const std::string &name )
 {
     MAP_SHARING::debuggers.insert( name );
 }

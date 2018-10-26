@@ -19,6 +19,8 @@
 #include <string>
 #include <vector>
 
+typedef statistics<int> move_statistics;
+
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
 {
@@ -66,7 +68,7 @@ std::ostream &operator << ( std::ostream &os, track const &value )
     return os;
 }
 
-std::ostream &operator << ( std::ostream &os, std::vector<track> vec )
+std::ostream &operator << ( std::ostream &os, const std::vector<track> &vec )
 {
     for( auto &track_instance : vec ) {
         os << track_instance << " ";
@@ -165,7 +167,7 @@ static void check_shamble_speed( const std::string monster_type, const tripoint 
                                       ( slope * 0.41 ) : 0.0 );
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
-    statistics move_stats;
+    move_statistics move_stats;
     for( int i = 0; i < 10; ++i ) {
         move_stats.add( moves_to_destination( monster_type, {0, 0, 0}, destination ) );
         if( ( move_stats.avg() / ( 10000.0 * diagonal_multiplier ) ) ==
@@ -180,11 +182,11 @@ static void check_shamble_speed( const std::string monster_type, const tripoint 
            Approx( 1.0 ).epsilon( 0.02 ) );
 }
 
-static void test_moves_to_squares( std::string monster_type, bool write_data = false )
+static void test_moves_to_squares( const std::string &monster_type, bool write_data = false )
 {
-    std::map<int, statistics> turns_at_distance;
-    std::map<int, statistics> turns_at_slope;
-    std::map<int, statistics> turns_at_angle;
+    std::map<int, move_statistics> turns_at_distance;
+    std::map<int, move_statistics> turns_at_slope;
+    std::map<int, move_statistics> turns_at_angle;
     // For the regression test we want just enough samples, for data we want a lot more.
     const int required_samples = write_data ? 100 : 20;
     const int sampling_resolution = write_data ? 1 : 20;

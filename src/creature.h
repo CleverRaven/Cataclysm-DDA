@@ -231,7 +231,8 @@ class Creature
                                               body_part bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage( Creature *source, body_part bp, int amount ) = 0;
+        virtual void apply_damage( Creature *source, body_part bp, int amount,
+                                   const bool bypass_med = false ) = 0;
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -325,9 +326,9 @@ class Creature
         bool resists_effect( const effect &e );
 
         // Methods for setting/getting misc key/value pairs.
-        void set_value( const std::string key, const std::string value );
-        void remove_value( const std::string key );
-        std::string get_value( const std::string key ) const;
+        void set_value( const std::string &key, const std::string &value );
+        void remove_value( const std::string &key );
+        std::string get_value( const std::string &key ) const;
 
         /** Processes through all the effects on the Creature. */
         virtual void process_effects();
@@ -341,6 +342,7 @@ class Creature
         virtual void set_pain( int npain );
         virtual int get_pain() const;
         virtual int get_perceived_pain() const;
+        virtual std::string get_pain_description() const;
 
         int get_moves() const;
         void mod_moves( int nmoves );
@@ -386,6 +388,12 @@ class Creature
         virtual int get_hp_max() const = 0;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
+        virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
+        // standard creature material sets
+        static const std::set<material_id> cmat_flesh;
+        static const std::set<material_id> cmat_fleshnveg;
+        static const std::set<material_id> cmat_flammable;
+        static const std::set<material_id> cmat_flameres;
         virtual field_id bloodType() const = 0;
         virtual field_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.

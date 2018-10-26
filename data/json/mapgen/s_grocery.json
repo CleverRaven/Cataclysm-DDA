@@ -11,7 +11,12 @@
       [ "hardtack", 30 ],
       [ "jihelucake", 10 ],
       [ "biscuit", 50 ],
-      [ "crackers", 40 ]
+      [ "crackers", 40 ],
+      [ "almond_unshelled", 20 ],
+      [ "pecan_unshelled", 20 ],
+      [ "cashews", 20 ],
+      [ "pistachio_unshelled", 20 ],
+      [ "peanut_unshelled", 20 ]
     ]
   },
   {
@@ -72,15 +77,27 @@
       [ "sports_drink", 40 ],
       [ "energy_drink", 40 ],
       [ "energy_drink_atomic", 5 ],
-      [ "cola", 65 ],
-      [ "creamsoda", 50 ],
-      [ "lemonlime", 60 ],
-      [ "orangesoda", 50 ],
-      [ "colamdew", 50 ],
-      [ "rootbeer", 50 ],
+      [ "cola", 35 ],
+      [ "creamsoda", 30 ],
+      [ "lemonlime", 40 ],
+      [ "orangesoda", 30 ],
+      [ "colamdew", 40 ],
+      [ "rootbeer", 30 ],
       [ "spezi", 10 ],
       [ "crispycran", 35 ],
-      [ "purple_drink", 50 ]
+      [ "purple_drink", 50 ],
+      { "item": "cola", "prob": 30, "container-item": "bottle_plastic" },
+      { "item": "creamsoda", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "lemonlime", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_plastic" },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic" },
+      { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "cola", "prob": 20, "container-item": "bottle_twoliter" },
+      { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" }
     ]
   },
   {
@@ -114,7 +131,14 @@
   {
     "id": "groce_frozen",
     "type": "item_group",
-    "items": [ [ "frozen_dinner", 80 ], [ "pizza_veggy", 50 ], [ "pizza_meat", 50 ], [ "frozen_burrito", 50 ] ]
+    "items": [
+      [ "frozen_dinner", 80 ],
+      [ "pizza_veggy", 50 ],
+      [ "pizza_meat", 50 ],
+      [ "frozen_burrito", 50 ],
+      [ "icecream_artificial", 30 ],
+      [ "icecream_candy", 20 ]
+    ]
   },
   {
     "id": "groce_meat",
@@ -137,7 +161,9 @@
       { "item": "milk", "prob": 80 },
       { "item": "cheese", "prob": 60 },
       { "item": "yoghurt", "prob": 40 },
-      { "item": "pudding", "prob": 30 }
+      { "item": "pudding", "prob": 30 },
+      { "item": "icecream", "prob": 30 },
+      { "item": "icecream_artificial", "prob": 15 }
     ]
   },
   {

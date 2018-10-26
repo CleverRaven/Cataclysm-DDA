@@ -134,7 +134,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```pit_covered``` Uncover the pit.
 - ```pedestal_temple``` Opens the temple if you have a petrified eye.
 - ```pedestal_wyrm``` Spawn wyrms.
-- ```recycler``` Recycle metal objects.
+- ```recycle_compactor``` Compress pure metal objects into basic shapes.
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
@@ -241,6 +241,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FAT``` May produce fat when butchered.
 - ```FEATHER``` May produce feathers when butchered.
 - ```FLIES``` Can fly (over water, etc.)
+- ```FILTHY``` Any clothing it drops will be filthy.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
@@ -260,11 +261,13 @@ Flags used to describe monsters and define their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
+- ```LOUDMOVES``` Mkes move noises as if ~2 sizes louder, even if flying.
 - ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
+- ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
@@ -469,6 +472,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BED``` A bed where the player can sleep.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
 - ```BELTABLE``` Seatbelt can be attached to this part.
+- ```BIKE_RACK_VEH``` Can be used to merge an adjacent single tile wide vehicle, or split a single tile wide vehicle off into its own vehicle.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA```
 - ```CAMERA_CONTROL```
@@ -488,6 +492,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DOME_LIGHT```
 - ```DOOR_MOTOR```
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
+- ```E_HEATER``` Is an engine and has a heater to warm internal vehicle items when on.
 - ```E_ALTERNATOR``` Is an engine that can power an alternator.
 - ```E_COLD_START``` Is an engine that starts much slower in cold weather.
 - ```E_COMBUSTION``` Is an engine that burns its fuel and can backfire or explode when damaged.
@@ -521,11 +526,12 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```OPENABLE``` Can be opened or closed.
 - ```OPENCLOSE_INSIDE```  Can be opened or closed, but only from inside the vehicle.
 - ```OVER``` Can be mounted over other parts.
+- ```PERPETUAL``` If paired with REACTOR, part produces electrical power without consuming fuel.
 - ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. It is damaged by running it over non-```DIGGABLE``` surfaces.
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
-- ```REACTOR```
+- ```REACTOR``` When enabled, part consumes fuel to generate epower.
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```REMOTE_CONTROLS```
@@ -813,7 +819,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
-- ```NO_FREEZE``` It spoils instantly when frozen.
+- ```FREEZERBURN``` First thaw is MUSHY, second is rotten
+- ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
@@ -823,11 +830,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_4``` "You shoot up."
 - ```PKILL_L``` Slow-release painkiller.
+- ```SMOKABLE``` Accepted by smoking rack.
+- ```SMOKED``` Not accepted by smoking rack (product of smoking).
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
-- ```SMOKED``` Not accepted by smoking rack (product of smoking).
-- ```SMOKABLE``` Accepted by smoking rack.
 
 ## Melee
 
@@ -899,6 +906,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.
 - ```FIRE``` Counts as a fire for crafting purposes.
+- ```FIRESTARTER``` Item will start fire.
 - ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
@@ -917,6 +925,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 ### Flags that apply to items, not to item types.
@@ -925,10 +934,12 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```COLD``` Item is cold (see EATEN_COLD).
 - ```FROZEN``` Item is frozen solid (used by freezer).
-- ```MUSHY``` NO_FREEZE item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
+- ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
@@ -1053,6 +1064,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 
 - ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
+- ```BIONIC_NPC_USABLE``` Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```FAKE_SMOKE``` ... Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
 - ```FIREWOOD``` ... This item can serve as a firewood. Items with this flag are sorted out to "Loot: Wood" zone
@@ -1093,9 +1105,16 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
-- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start
-- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors)
-- ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
+- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
+- ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
+- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
+- ```CHALLENGE``` Game won't choose this scenario in random game types.
+- ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
+- ```FIRE_START``` Player starts the game with fire nearby.
+- ```HELI_CRASH``` Player starts the game with various limbs wounds.
+- ```INFECTED``` Player starts the game infected.
+- ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
+- ```SUR_START``` Surrounded start, zombies outside the starting location.
 
 - ```WIN_START``` ... start in winter.
 - ```SPR_START``` ... start in spring.
@@ -1141,3 +1160,9 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
 - ```mx_science``` ... Corpses and some scientist items.
 - ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
+- ```mx_spider``` ... A big spider web, complete with spiders and eggs.
+- ```mx_jabberwock``` ... A *chance* of a jabberwock.
+- ```mx_grove``` ... All trees and shrubs become a single species of tree.
+- ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
+- ```mx_clearcut``` ... All trees become stumps.

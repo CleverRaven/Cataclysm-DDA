@@ -144,6 +144,7 @@ enum m_flag : int {
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
+    MF_FILTHY,              // Any clothing it drops will be filthy.
     MF_FISHABLE,            // It is fishable.
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
@@ -160,12 +161,14 @@ enum m_flag : int {
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
-    MF_BIRDFOOD,         // This monster will become friendly when fed bird food.
+    MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
+    MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
+    MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -316,6 +319,7 @@ struct mtype {
         bool has_flag( m_flag flag ) const;
         bool has_flag( const std::string &flag ) const;
         bool made_of( const material_id &material ) const;
+        bool made_of_any( const std::set<material_id> &materials ) const;
         void set_flag( const std::string &flag, bool state );
         bool has_anger_trigger( monster_trigger trigger ) const;
         bool has_fear_trigger( monster_trigger trigger ) const;

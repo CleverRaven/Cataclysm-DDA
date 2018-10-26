@@ -37,7 +37,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
     mLevel.clear();
     mLevelReveal.clear();
 
-    auto set_num = [&]( const std::string sType, int &iVal, const int iMin, const int iMax ) {
+    auto set_num = [&]( const std::string & sType, int &iVal, const int iMin, const int iMax ) {
         std::ostringstream ssTemp;
         ssTemp << _( "Min:" ) << iMin << " " << _( "Max:" ) << " " << iMax;
 
@@ -54,7 +54,8 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
         } while( iVal < iMin || iVal > iMax );
     };
 
-    uimenu difficulty;
+    uilist difficulty;
+    difficulty.allow_cancel = false;
     difficulty.text = _( "Game Difficulty" );
     difficulty.entries.push_back( uimenu_entry( 0, true, 'b', _( "Beginner" ) ) );
     difficulty.entries.push_back( uimenu_entry( 1, true, 'i', _( "Intermediate" ) ) );

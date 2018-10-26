@@ -26,6 +26,17 @@ generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 }
 
+matype_id martial_art_learned_from( const itype &type )
+{
+    if( !type.can_use( "MA_MANUAL" ) ) {
+        return {};
+    }
+
+    // strip "manual_" from the start of the item id, add the rest to "style_"
+    // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
+    return matype_id( "style_" + type.get_id().substr( 7 ) );
+}
+
 void load_technique( JsonObject &jo, const std::string &src )
 {
     ma_techniques.load( jo, src );
@@ -378,7 +389,6 @@ bool ma_technique::is_valid_player( const player &u ) const
     return reqs.is_valid_player( u );
 }
 
-
 ma_buff::ma_buff()
     : buff_duration( 2_turns )
 {
@@ -520,7 +530,6 @@ void martialart::apply_ongethit_buffs( player &u ) const
 {
     simultaneous_add( u, ongethit_buffs );
 }
-
 
 bool martialart::has_technique( const player &u, const matec_id &tec_id ) const
 {

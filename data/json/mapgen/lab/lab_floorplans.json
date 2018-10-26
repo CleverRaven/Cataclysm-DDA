@@ -14,7 +14,7 @@
         "       |       |       |",
         "       |       |       |",
         "       |       |       |",
-        "---?---|---?---|---+---|",
+        "---?---|---+---|---?---|",
         "       |       |       |",
         "       |       |       |",
         "       |       |       |",
@@ -41,9 +41,11 @@
         { "chunks": [ "lab_spawn_7x7" ], "x": 8, "y": 0 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 8, "y": 8 },
         { "chunks": [ "lab_spawn_7x7" ], "x": 8, "y": 16 },
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 0 },
+        { "chunks": [ "lab_spawn_7x7_wall_sw" ], "x": 15, "y": 0 },
         { "chunks": [ "lab_spawn_7x7" ], "x": 16, "y": 8 },
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 16 },
+        { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15 },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 15, "y": 7 },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 15, "y": 15 },
         { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
       ]
     }
@@ -58,7 +60,7 @@
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
-        "...............|ccccc.X|",
+        "...............|xcccc.X|",
         "...............W......X|",
         "...HtH...HtH...|-------|",
         "..-----+-----..|       |",
@@ -97,13 +99,13 @@
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 3, "y": 4 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
+        { "chunks": [ "lab_spawn_7x7_wall_sw" ], "x": 15, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 }
       ]
     }
   },
   {
-    "//": "electricity room, 50% chance of shock malfunction",
+    "//": "electricity room, 2/3 chance of shock malfunction",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -113,9 +115,9 @@
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
-        "...|...|r......|X.ccc.X|",
-        "...|...|r......|X.....X|",
-        "...|...|.......|---W---|",
+        ",,,|,,,|r......|X.ccc.X|",
+        ",,,|,,,|r......|X.....X|",
+        ",,,|,,,|.......|---W---|",
         "LLL|LLL|.......|       |",
         "...C..........l|       |",
         "..............l|       |",
@@ -150,7 +152,7 @@
       },
       "mapping": { "r": { "items": [ { "item": "hardware", "chance": 10 }, { "item": "robots", "chance": 10 } ] } },
       "place_nested": [
-        { "chunks": [ "null", "sub_fd_shock_vent" ], "x": 7, "y": 12},
+        { "chunks": [ "null", "sub_fd_shock_vent", "sub_fd_shock_vent" ], "x": 7, "y": 12},
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [0,2], "y": [0,2], "repeat": 4},
@@ -214,7 +216,8 @@
       },
       "mapping": { "c": { "items": [ { "item": "chem_lab", "chance": 20 } ] } },
       "place_nested": [
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 },
+        { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 13, "y": 1 },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 13, "y": 10 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
         { "chunks": [ [ "null", 80], [ "lab_hood_windfall", 20] ], "x": 2, "y": 2}
       ]
@@ -251,7 +254,7 @@
         "..---..---.....|       |",
         "..c|c..c|c.....?       |",
         "..c|c..c|c.....|       |",
-        "..---..---....l|       |",
+        "..---..---.....|       |",
         "..............l|       |",
         "rrr.....!.....l|-------|"
       ],
@@ -267,7 +270,7 @@
         "r": { "items": [ { "item": "cleaning", "chance": 30 } ] }
       },
       "place_nested": [
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 16 },
+        { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15 },
         { "chunks": [ [ "null", 80], [ "lab_largechem_windfall", 20] ], "x": 0, "y": 0}
       ],
       "place_monster": [
@@ -328,42 +331,94 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "rotation": [ 0, 3 ],
+      "rotation": [ 3, 4 ],
       "fill_ter": "t_thconc_floor",
       "rows": [
         "........................",
-        ".......................l",
-        "....----?-------+----..l",
-        "hh..|       |       |..l",
-        "tt..|       |       |..l",
-        "hh..|       |       |...",
-        "....?       ?       ?..l",
-        "hh..|       |       |..l",
-        "tt..|       |       |..l",
-        "hh..|       |       |..l",
-        "....----+-|---------|...",
-        "....+....f|         |...",
-        "..|---+---|         |...",
-        "..|       |         |...",
-        "..|       |         |..l",
-        "..|       |         +..l",
-        "..?       |         |..l",
-        "..|       |         |..l",
-        "..|       |         |...",
-        "..|       |         |..l",
-        "..----?--------?-----..l",
-        ".......................l",
-        ".......................l",
-        "...hth.hth.......hth...."
+        "l.......................",
+        "l..----+-------?----....",
+        "l..|       |       |..hh",
+        "l..|       |       |..tt",
+        "...|       |       |..hh",
+        "l..?       |       ?....",
+        "l..|       |       |..hh",
+        "l..|       |       |..tt",
+        "l..|       |       |..hh",
+        "...|---------|-+----....",
+        "...|         |f....+....",
+        "...|         |---+---|..",
+        "...|         |       |..",
+        "l..|         |       |..",
+        "l..+         |       |..",
+        "l..|         |       ?..",
+        "l..|         |       |..",
+        "...|         |       |..",
+        "l..|         |       |..",
+        "l..-----?--------?----..",
+        "l.......................",
+        "x.......................",
+        "-----------..-----------"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ] },
-      "mapping": { "t": { "items": [ { "item": "vending_food_items", "chance": 30 } ] } },
+      "mapping": { "t": { "items": [ { "item": "vending_food_items", "chance": 20 } ] } },
       "place_nested": [
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 5, "y": 3 },
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 13 },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 11, "y": 11 }
+        { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 3, "y": 2 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 12, "y": 3 },
+        { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 3, "y": 11 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 14, "y": 13 }
+      ]
+    }
+  },
+  {
+    "//": "rooms + reception desk",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 50,
+    "object": {
+      "rotation": [ 3, 4 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "........................",
+        "l.......................",
+        "l..-----?--------?----..",
+        "l..|         |       |..",
+        "l..|         |       |..",
+        "...|         |       |..",
+        "l..|         |       ?..",
+        "l..+         |       |..",
+        "l..|         |       |..",
+        "l..|         |       |..",
+        "...|         |---+---|..",
+        "...|         |..........",
+        "...|---------|..........",
+        "...|       |C|cccxc...hh",
+        "l..|       | +...hc...tt",
+        "l..|       |f|....c...hh",
+        "l..?       |--cc.cc.....",
+        "l..|       |T|........hh",
+        "...|       | W........tt",
+        "l..|       |S|........hh",
+        "l..----+------..........",
+        "l.................hth...",
+        "x.................hth..^",
+        "-----------..-----------"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ],
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ] },
+      "furniture": {
+        "^": "f_indoor_plant",
+        "C": "f_cupboard"
+      },
+      "mapping": {
+        "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
+        "t": { "items": [ { "item": "snacks", "chance": 10 } ] }
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 3, "y": 2 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 14, "y": 3 },
+        { "chunks": [ "lab_spawn_7x7_wall_sw" ], "x": 3, "y": 13 }
       ]
     }
   },
@@ -377,17 +432,17 @@
       "rotation": [ 0, 3 ],
       "fill_ter": "t_thconc_floor",
       "rows": [
-        ".......L...............l",
-        ".......L...............l",
-        ".......L....----?----..l",
+        ",,,,,,,L...............l",
+        ",,,,,,,L...............l",
+        ",,,,,,,L....----?----..l",
         "-------|C...|       |..l",
-        ".......L....|       |..l",
-        ".......L....|       |..l",
-        ".......L....+       ?..l",
+        ",,,,,,,L....|       |..l",
+        ",,,,,,,L....|       |..l",
+        ",,,,,,,L....+       |..l",
         "-------|....|       |..l",
         "............|       |-+-",
         "............|       |...",
-        ".....-----?----------...",
+        "x....-----?----------...",
         "....l|         |........",
         "....l|         |........",
         "--+--|         |........",
@@ -439,9 +494,12 @@
         "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] },
         "c": { "items": [ { "item": "chem_lab", "chance": 30 } ] }
       },
+      "place_monster": [
+        { "monster": "mon_turret", "x": 11, "y": 9, "chance": 20 }
+      ],
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 6, "y": 11 },
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
+        { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 12, "y": 2 },
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [0,6], "y": [4,6], "repeat": 8},
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [0,6], "y": [0,2], "repeat": 8}
       ]
@@ -521,6 +579,75 @@
         { "monster": "mon_broken_cyborg", "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
         { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
         { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 }
+      ]
+    }
+  },
+  {
+    "//": "medical wing, stemcell + centrifuge, monster in stemcell room",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 50,
+    "object": {
+      "rotation": [ 0, 1 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "....l|.......|---------|",
+        "....l|.......|         |",
+        "bb...+.......|         |",
+        "bb...+.......|         |",
+        "...ht|.......|         |",
+        "-----|..C6...+         |",
+        "....l|.......|         |",
+        "bb...+.......|         |",
+        "bb...+.......|         |",
+        "...ht|.......|         |",
+        "-----|.......|----?----|",
+        ".............M..........",
+        ".............M..........",
+        "-----|.......|----+----|",
+        "....l|.......|         |",
+        "bb...+.......|         |",
+        "bb...+.......|         |",
+        "...ht|.......|         |",
+        "-----|..Cx...?         |",
+        "...ht|.......|         |",
+        "bb...+.......|         |",
+        "bb...+.......|         |",
+        ".7..l|.......|         |",
+        "....l|.......----------|"
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": {
+        "C": "t_centrifuge",
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"],
+        "7": "t_console"
+      },
+      "items": {
+        "b": { "item": "hospital_bed", "chance": 33 },
+        "l": { "item": "surgery", "chance": 50 },
+        "t": { "item": "snacks", "chance": 15 }
+      },
+      "computers": {
+        "6": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
+        },
+        "7": {
+          "name": "Mr. Stem Cell",
+          "options": [ { "name": "Stem Cell Treatment", "action": "stemcell_treatment" } ],
+          "failures": [ { "action": "alarm" } ]
+        }
+      },
+      "place_monster": [
+        { "monster": [ "mon_broken_cyborg", "mon_zombie_electric", "mon_crawler" ], "x": [ 1, 4 ], "y": [ 19, 21 ], "chance": 90 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 13, "y": 1 },
+        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13 },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 13, "y": 10 },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 13, "y": 13 }
       ]
     }
   },
@@ -613,17 +740,17 @@
         "FFHFFf........f.........",
         ".....f........f.........",
         ".....fFFFHFFFFf.........",
-        "........................",
-        ".................|-g-g--",
+        ".......................x",
+        "x................|-g-g--",
         "-------|.........|^.....",
-        ".......L.........G......",
-        ".......L.........|..ddd.",
-        ".......L.........g..dh..",
+        ",,,,,,,L.........G......",
+        ",,,,,,,L.........|..ddd.",
+        ",,,,,,,L.........g..dh..",
         "-------|C........g......",
-        ".......L.........g......",
-        ".......L.........|dh....",
-        ".......L.........|dxd.^.",
-        ".......|.........|......"
+        ",,,,,,,L.........g......",
+        ",,,,,,,L.........|dh....",
+        ",,,,,,,L.........|dxd.^.",
+        ",,,,,,,|.........|......"
       ],
       "palettes": [ "lab_palette" ],
       "furniture": { "S": "f_null", "^": "f_indoor_plant", "f": "f_null" },
@@ -791,32 +918,32 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 1 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_strconc_floor",
       "rows": [
-        "BB|FFFt.|`````|.tFFF|BB|",
-        "..+...F.w`````w.F...+..|",
-        "TS|...F.+`````+.F...|ST|",
-        "--|V..F.w`hth`w.F..V|--|",
-        "rr--|...-w---w-...|--rr|",
-        "-+|s|...CSC|CSC...|s|+-|",
-        "....|.....C|C.....|....|",
-        ".t..+.....O|O.....+...t|",
-        "bb..|hh...f|f...hh|..bb|",
-        "bb.]|tt...C|C...tt|].bb|",
+        "BB|FFFt |`````| tFFF|BB|",
+        "  +   F w`````w F   +  |",
+        "TS|   F +`````+ F   |ST|",
+        "--|V  F w`hth`w F  V|--|",
+        "rr--|   -w---w-   |--rr|",
+        "-+|s|   CSC|CSC   |s|+-|",
+        "    |     C|C     |   x|",
+        " t  +     O|O     +   t|",
+        "bb  |hh   f|f   hh|  bb|",
+        "bb ]|tt   C|C   tt|] bb|",
         "--------+-----+--------|",
         "........................",
         "........................",
         "--------+-----+--------|",
-        "bb.]|tt...C|C...tt|].bb|",
-        "bb..|hh...f|f...hh|..bb|",
-        ".t..+.....O|O.....+...t|",
-        "....|.....C|C.....|....|",
-        "-+|s|...CSC|CSC...|s|+-|",
-        "rr--|...-w---w-...|--rr|",
-        "--|V..F.w`hth`w.F..V|--|",
-        "TS|...F.+`````+.F...|ST|",
-        "..+...F.w`````w.F...+..|",
-        "BB|FFFt.|`````|.tFFF|BB|"
+        "bb ]|tt   C|C   tt|] bb|",
+        "bb  |hh   f|f   hh|  bb|",
+        " t  +     O|O     +   t|",
+        "    |     C|C     |    |",
+        "-+|s|   CSC|CSC   |s|+-|",
+        "rr--|   -w---w-   |--rr|",
+        "--|V  F w`hth`w F  V|--|",
+        "TS|   F +`````+ F   |ST|",
+        "  +   F w`````w F   +  |",
+        "BB|FFFt |`````| tFFF|BB|"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "furniture": {

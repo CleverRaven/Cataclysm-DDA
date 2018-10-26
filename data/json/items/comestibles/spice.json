@@ -5,7 +5,7 @@
     "type": "COMESTIBLE",
     "name": "chili powder",
     "name_plural": "chili powder",
-    "description": "Chilly P, Yo!  Not very good on its own, but it might help if you use it properly, or in meth.",
+    "description": "Chilly P, Yo!  Not edible on its own, but it could be used to make seasoning.",
     "color": "red"
   },
   {
@@ -23,7 +23,7 @@
     "type": "COMESTIBLE",
     "name": "curry powder",
     "name_plural": "curry powder",
-    "description": "A blend of spices meant to be used in some South Asian dishes.  Could be eaten raw, but why would you do that?",
+    "description": "A blend of spices meant to be used in some South Asian dishes.  Can't be eaten raw, why would you even try that?",
     "color": "red"
   },
   {
