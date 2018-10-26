@@ -1594,7 +1594,8 @@
   },
   {
     "id": "chemistry_set_basic",
-    "type": "GENERIC",
+    "type": "TOOL",
+    "category": "tools",
     "name": "basic chemistry set",
     "description": "This is a basic chemistry set which includes glass containers, hoses and safety glasses.  It might be used to craft some chemistry projects if you're so inclined, but you'll need a source of heat.",
     "weight": 1884,
@@ -2134,6 +2135,7 @@
   {
     "id": "cs_lajatang_off",
     "type": "TOOL",
+    "category": "weapon",
     "name": "chainsaw lajatang (off)",
     "name_plural": "chainsaw lajatangs (off)",
     "description": "A long wooden pole with chainsaws impractically attached to both ends.  The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
@@ -2156,6 +2158,7 @@
   {
     "id": "cs_lajatang_on",
     "type": "TOOL",
+    "category": "weapon",
     "name": "chainsaw lajatang (on)",
     "name_plural": "chainsaw lajatangs (on)",
     "description": "A long wooden pole with chainsaws impractically attached to both ends.  They are currently on and draining gasoline; use this item to turn them off.",
