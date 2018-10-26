@@ -4,6 +4,8 @@
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
+#include "item.h"
+#include "recipe.h"
 
 #include <algorithm>
 #include <iterator>
@@ -215,6 +217,102 @@ void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 bool SkillLevel::can_train() const
 {
     return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
+}
+
+const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
+{
+    static const SkillLevel null_skill;
+
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
+        return null_skill;
+    }
+
+    const auto iter = find( ident );
+
+    if( iter != end() ) {
+        return iter->second;
+    }
+
+    return null_skill;
+}
+
+SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
+{
+    static SkillLevel null_skill;
+
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
+        return null_skill;
+    }
+
+    return ( *this )[ident];
+}
+
+void SkillLevelMap::mod_skill_level( const skill_id &ident, int delta )
+{
+    SkillLevel &obj = get_skill_level_object( ident );
+    obj.level( obj.level() + delta );
+}
+
+int SkillLevelMap::get_skill_level( const skill_id &ident ) const
+{
+    return get_skill_level_object( ident ).level();
+}
+
+int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const
+{
+    auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    return get_skill_level( id );
+}
+
+bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
+{
+    return meets_skill_requirements( req, item() );
+}
+
+bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
+        const item &context ) const
+{
+    return std::all_of( req.begin(), req.end(),
+    [this, &context]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( pr.first, context ) >= pr.second;
+    } );
+}
+
+std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
+    const std::map<skill_id, int> &req ) const
+{
+    return compare_skill_requirements( req, item() );
+}
+
+std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
+    const std::map<skill_id, int> &req, const item &context ) const
+{
+    std::map<skill_id, int> res;
+
+    for( const auto &elem : req ) {
+        const int diff = get_skill_level( elem.first, context ) - elem.second;
+        if( diff != 0 ) {
+            res[elem.first] = diff;
+        }
+    }
+
+    return res;
+}
+
+int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
+{
+    int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
+    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
+        over = std::min( over, elem.second );
+    }
+    return over;
+}
+
+bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
+{
+    return exceeds_recipe_requirements( rec ) >= 0;
 }
 
 //Actually take the difference in barter skill between the two parties involved

@@ -108,6 +108,7 @@
 #include "loading_ui.h"
 #include "popup.h"
 #include "sidebar.h"
+#include "activity_handlers.h"
 
 #include <map>
 #include <set>
@@ -267,6 +268,8 @@ game::game() :
     safe_mode_warning_logged( false ),
     mostseen( 0 ),
     nextweather( calendar::before_time_starts ),
+    next_npc_id( 1 ),
+    next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
     user_action_counter( 0 ),
@@ -947,12 +950,13 @@ bool game::start_game()
             std::string name = v.v->type.str();
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
-                for( auto pv : v.v->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                for( const vpart_reference vp : v.v->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
+                    const vehicle_part *const pv = &vp.vehicle().parts[vp.part_index()];
                     auto pos = v.v->global_part_pos3( *pv );
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : v.v->parts_at_relative( pv->mount.x, pv->mount.y ) ) {
+                    for( auto sp : v.v->parts_at_relative( pv->mount.x, pv->mount.y, true ) ) {
                         vehicle_stack here = v.v->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -2043,7 +2047,7 @@ void game::handle_key_blocking_activity()
             Messages::display_messages();
             refresh_all();
         } else if( action == "help" ) {
-            display_help();
+            get_help().display_help();
             refresh_all();
         }
     }
@@ -2707,7 +2711,7 @@ void game::load( const save_t &name )
         // The vehicle stores the IDs of the boarded players, so update it, too.
         if( u.in_vehicle ) {
             if( const cata::optional<vpart_reference> vp = m.veh_at(
-                        u.pos() ).part_with_feature( "BOARDABLE" ) ) {
+                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
                 vp->vehicle().parts[vp->part_index()].passenger_id = u.getID();
             }
         }
@@ -5476,11 +5480,11 @@ bool game::swap_critters( Creature &a, Creature &b )
     second.setpos( first.pos() );
     first.setpos( temp );
 
-    if( g->m.veh_at( u_or_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+    if( g->m.veh_at( u_or_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
     }
 
-    if( g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+    if( g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         g->m.board_vehicle( other_npc->pos(), other_npc );
     }
 
@@ -5801,7 +5805,8 @@ void game::control_vehicle()
 
     if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls( u.pos() );
-    } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
+    } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 &&
+               u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
             return;
         }
@@ -5823,7 +5828,7 @@ void game::control_vehicle()
         }
         vehicle *const veh = &vp->vehicle();
         veh_part = vp->part_index();
-        if( veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
+        if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
             veh->use_controls( examp );
         }
     }
@@ -6139,7 +6144,8 @@ bool game::npc_menu( npc &who )
 
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
         const bool precise = u.get_skill_level( skill_firstaid ) * 4 + u.per_cur >= 20;
-        who.body_window( precise );
+        who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
+                         0.0f, 0.0f );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
         const auto will_accept = []( const item & it ) {
@@ -8919,7 +8925,8 @@ bool game::plfire_check( const targeting_data &args )
         }
 
         if( gun->has_flag( "MOUNTED_GUN" ) ) {
-            const bool v_mountable = static_cast<bool>( m.veh_at( u.pos() ).part_with_feature( "MOUNTABLE" ) );
+            const bool v_mountable = static_cast<bool>( m.veh_at( u.pos() ).part_with_feature( "MOUNTABLE",
+                                     true ) );
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
             if( !t_mountable && !v_mountable ) {
                 add_msg( m_info,
@@ -9681,12 +9688,9 @@ bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
     if( it.is_ammo() && it.charges == 0 ) {
         return true;
     } else if( !u.can_pickVolume( it ) ) {
-        add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                 it.tname().c_str() );
-        g->m.add_item_or_charges( u.pos(), it );
+        put_into_vehicle_or_drop( u, item_drop_reason::too_large, { it } );
     } else if( !u.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
-        g->m.add_item_or_charges( u.pos(), it );
+        put_into_vehicle_or_drop( u, item_drop_reason::too_heavy, { it } );
     } else {
         auto &ni = u.i_add( it );
         add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
@@ -10093,7 +10097,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
     if( !u.is_blind() ) {
         const trap &tr = m.tr_at( dest_loc );
-        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE" ) );
+        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
+                               true ) );
         // Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
@@ -10322,7 +10327,7 @@ bool game::plmove( int dx, int dy, int dz )
         } else if( veh1 != veh0 ) {
             add_msg( m_info, _( "There is another vehicle in the way." ) );
             return false;
-        } else if( !vp1.part_with_feature( "BOARDABLE" ) ) {
+        } else if( !vp1.part_with_feature( "BOARDABLE", true ) ) {
             add_msg( m_info, _( "That part of the vehicle is currently unsafe." ) );
             return false;
         }
@@ -10332,8 +10337,8 @@ bool game::plmove( int dx, int dy, int dz )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( "SWIMMABLE", u.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, u.pos() );
-    bool fromBoat = veh0 != nullptr && !empty( veh0->parts_with_feature( VPFLAG_FLOATS ) );
-    bool toBoat = veh1 != nullptr && !empty( veh1->parts_with_feature( VPFLAG_FLOATS ) );
+    bool fromBoat = veh0 != nullptr && !empty( veh0->get_parts( VPFLAG_FLOATS ) );
+    bool toBoat = veh1 != nullptr && !empty( veh1->get_parts( VPFLAG_FLOATS ) );
 
     if( toSwimmable && toDeepWater && !toBoat ) { // Dive into water!
         // Requires confirmation if we were on dry land previously
@@ -10614,7 +10619,7 @@ bool game::walk_move( const tripoint &dest_loc )
         }
         int index = 0;
         for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
-            int amount = it->count_by_charges() ? it->charges : 1;
+            int amount = it->count();
             u.activity.values.push_back( index );
             u.activity.values.push_back( amount );
         }
@@ -10800,7 +10805,7 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     // If the new tile is a boardable part, board it
-    if( vp1.part_with_feature( "BOARDABLE" ) ) {
+    if( vp1.part_with_feature( "BOARDABLE", true ) ) {
         m.board_vehicle( u.pos(), &u );
     }
 
@@ -10893,7 +10898,7 @@ void game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( vp1.part_with_feature( "CONTROLS" ) && u.in_vehicle ) {
+    if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle ) {
         add_msg( _( "There are vehicle controls here." ) );
         add_msg( m_info, _( "%s to drive." ),
                  press_x( ACTION_CONTROL_VEHICLE ).c_str() );
@@ -10978,7 +10983,7 @@ bool game::phasing_move( const tripoint &dest_loc )
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
-        if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE" ) ) {
+        if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
             m.board_vehicle( u.pos(), &u );
         }
 
@@ -11220,7 +11225,7 @@ void game::plswim( const tripoint &p )
     }
     u.setpos( p );
     update_map( u );
-    if( m.veh_at( u.pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+    if( m.veh_at( u.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( u.pos(), &u );
     }
     u.moves -= ( movecost > 200 ? 200 : movecost )  * ( trigdist && diagonal ? 1.41 : 1 );

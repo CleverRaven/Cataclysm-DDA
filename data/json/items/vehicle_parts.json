@@ -77,7 +77,8 @@
         "volume" : 90,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 10000
+        "price" : 10000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -93,7 +94,8 @@
         "volume" : 90,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 10000
+        "price" : 10000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -109,7 +111,8 @@
         "volume" : 20,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 3500
+        "price" : 3500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -159,7 +162,8 @@
         "volume" : 80,
         "bashing" : 25,
         "category" : "veh_parts",
-        "price" : 12000
+        "price" : 12000,
+        "qualities": [ [ "ANVIL", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -235,7 +239,8 @@
         "volume" : 14,
         "bashing" : 19,
         "category" : "veh_parts",
-        "price" : 3000
+        "price" : 3000,
+        "qualities": [ [ "HAMMER", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -600,7 +605,8 @@
         "volume" : 4,
         "bashing" : 5,
         "category" : "veh_parts",
-        "price" : 6000
+        "price" : 6000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -645,7 +651,8 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 12000
+        "price" : 12000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -660,7 +667,8 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 18500
+        "price" : 18500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -674,7 +682,8 @@
         "material" : ["superalloy"],
         "volume" : 2,
         "category" : "veh_parts",
-        "price" : 8500
+        "price" : 8500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -691,7 +700,8 @@
         "cutting" : 3,
         "flags" : ["STAB"],
         "category" : "veh_parts",
-        "price" : 18500
+        "price" : 18500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -706,7 +716,8 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 16000
+        "price" : 16000,
+        "qualities": [ [ "COOK", 1 ], [ "ANVIL", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -721,7 +732,8 @@
         "volume" : 12,
         "bashing" : 8,
         "category" : "veh_parts",
-        "price" : 16000
+        "price" : 16000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",

@@ -2328,16 +2328,16 @@ void CheckMessages()
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 int veh_part = vp ? vp->part_index() : -1;
-                                if (veh->part_with_feature(veh_part, "CONTROLS") >= 0)
+                                if (veh->part_with_feature(veh_part, "CONTROLS", true) >= 0)
                                     actions.insert(ACTION_CONTROL_VEHICLE);
-                                int openablepart = veh->part_with_feature(veh_part, "OPENABLE");
+                                int openablepart = veh->part_with_feature(veh_part, "OPENABLE", true);
                                 if (openablepart >= 0 && veh->is_open(openablepart) && (dx != 0 || dy != 0)) // an open door adjacent to us
                                     actions.insert(ACTION_CLOSE);
-                                int curtainpart = veh->part_with_feature(veh_part, "CURTAIN");
+                                int curtainpart = veh->part_with_feature(veh_part, "CURTAIN", true);
                                 if (curtainpart >= 0 && veh->is_open(curtainpart) && (dx != 0 || dy != 0))
                                     actions.insert(ACTION_CLOSE);
                                 if (dx == 0 && dy == 0) {
-                                    int cargopart = veh->part_with_feature(veh_part, "CARGO");
+                                    int cargopart = veh->part_with_feature(veh_part, "CARGO", true);
                                     bool can_pickup = cargopart >= 0 && (!veh->get_items(cargopart).empty());
                                     if (can_pickup)
                                         actions.insert(ACTION_PICKUP);

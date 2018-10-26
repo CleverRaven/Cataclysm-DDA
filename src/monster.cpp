@@ -1992,12 +1992,12 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
-    if( !type->in_species( ZOMBIE ) && !type->in_species( FUNGUS ) ) {
-        return;
-    }
-    for( const auto &it : dropped ) {
-        if( it->is_armor() ) {
-            it->item_tags.insert( "FILTHY" );
+
+    if( has_flag( MF_FILTHY ) ) {
+        for( const auto &it : dropped ) {
+            if( it->is_armor() ) {
+                it->item_tags.insert( "FILTHY" );
+            }
         }
     }
 }

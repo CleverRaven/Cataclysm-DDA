@@ -14,6 +14,7 @@
 #include "mission.h"
 #include "ammo.h"
 #include "output.h"
+#include "vpart_range.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
@@ -3679,8 +3680,8 @@ std::string talk_function::camp_car_description( vehicle *car )
 {
     std::string entry = string_format( _( "Name:     %25s\n" ), car->name );
     entry += _( "----          Engines          ----\n" );
-    std::vector<vehicle_part *> part_engines = car->get_parts( "ENGINE" );
-    for( auto pt : part_engines ) {
+    for( const vpart_reference vp_ : car->get_parts( "ENGINE" ) ) {
+        const vehicle_part *const pt = &vp_.vehicle().parts[vp_.part_index()];
         const vpart_info &vp = pt->info();
         entry += string_format( _( "Engine:  %25s\n" ), vp.name() );
         entry += string_format( _( ">Status:  %24d%%\n" ), int( 100.0 * pt->hp() / vp.durability ) );

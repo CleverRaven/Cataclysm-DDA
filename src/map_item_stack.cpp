@@ -22,14 +22,14 @@ map_item_stack::map_item_stack() : example( nullptr ), totalcount( 0 )
 }
 
 map_item_stack::map_item_stack( item const *const it, const tripoint &pos ) : example( it ),
-    totalcount( it->count_by_charges() ? it->charges : 1 )
+    totalcount( it->count() )
 {
     vIG.emplace_back( pos, totalcount );
 }
 
 void map_item_stack::add_at_pos( item const *const it, const tripoint &pos )
 {
-    const int amount = it->count_by_charges() ? it->charges : 1;
+    const int amount = it->count();
 
     if( vIG.empty() || vIG.back().pos != pos ) {
         vIG.emplace_back( pos, amount );

@@ -139,7 +139,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": "-1",
+    "ranged_damage": -1,
     "dispersion": 140,
     "durability": 3,
     "modes": [

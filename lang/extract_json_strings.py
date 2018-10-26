@@ -3,7 +3,7 @@
 
 import json
 import os
-import subprocess 
+import subprocess
 from optparse import OptionParser
 from sys import platform
 
@@ -153,7 +153,8 @@ automatically_convertible = {
     "vehicle",
     "vehicle_part",
     "vitamin",
-    "WHEEL"
+    "WHEEL",
+    "help"
 }
 
 # for these objects a plural form is needed
@@ -685,7 +686,8 @@ directories = {os.path.normpath(i) for i in {
     "data/json",
     "data/mods",
     "data/core",
-    "data/legacy"
+    "data/legacy",
+    "data/help",
 }}
 to_dir = os.path.normpath("lang/json")
 
@@ -974,7 +976,7 @@ def prepare_git_file_list():
         res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
         res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
-    output = res.stdout.readlines() 
+    output = res.stdout.readlines()
     res.communicate()
     if res.returncode != 0:
         print("'git ls-files' command exited with non-zero exit code: {}".format(res.returncode))

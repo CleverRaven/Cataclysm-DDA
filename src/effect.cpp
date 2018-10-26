@@ -483,7 +483,11 @@ std::string effect::disp_name() const
         }
         ret << eff_type->name[0].translated();
         if( intensity > 1 ) {
-            ret << " [" << intensity << "]";
+            if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
+                ret << " [" << texitify_healing_power( intensity ) << "]";
+            } else {
+                ret << " [" << intensity << "]";
+            }
         }
     }
     if( bp != num_bp ) {
@@ -653,6 +657,23 @@ std::string effect::disp_desc( bool reduced ) const
     }
 
     return ret.str();
+}
+
+std::string effect::disp_short_desc( bool reduced ) const
+{
+    if( eff_type->use_desc_ints( reduced ) ) {
+        if( reduced ) {
+            return eff_type->reduced_desc[intensity - 1];
+        } else {
+            return eff_type->desc[intensity - 1];
+        }
+    } else {
+        if( reduced ) {
+            return eff_type->reduced_desc[0];
+        } else {
+            return eff_type->desc[0];
+        }
+    }
 }
 
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
@@ -1291,4 +1312,48 @@ void effect::deserialize( JsonIn &jsin )
     intensity = jo.get_int( "intensity" );
     start_time = calendar::time_of_cataclysm;
     jo.read( "start_turn", start_time );
+}
+
+std::string texitify_base_healing_power( const int power )
+{
+    if( power == 1 ) {
+        return _( "very poor" );
+    } else if( power == 2 ) {
+        return _( "poor" );
+    } else if( power == 3 ) {
+        return _( "decent" );
+    } else if( power == 4 ) {
+        return _( "good" );
+    } else if( power >= 5 ) {
+        return _( "great" );
+    }
+    if( power < 1 ) {
+        debugmsg( "Tried to convert zero or negative value." );
+    }
+    return "";
+}
+
+std::string texitify_healing_power( const int power )
+{
+    if( power >= 1 && power <= 2 ) {
+        return _( "poor" );
+    } else if( power >= 3 && power <= 4 ) {
+        return _( "decent" );
+    } else if( power >= 5 && power <= 6 ) {
+        return _( "average" );
+    } else if( power >= 7 && power <= 8 ) {
+        return _( "good" );
+    } else if( power >= 9 && power <= 10 ) {
+        return _( "very good" );
+    } else if( power >= 11 && power <= 12 ) {
+        return _( "great" );
+    } else if( power >= 13 && power <= 14 ) {
+        return _( "outstanding" );
+    } else if( power >= 15 ) {
+        return _( "perfect" );
+    }
+    if( power < 1 ) {
+        debugmsg( "Converted value out of bounds." );
+    }
+    return "";
 }

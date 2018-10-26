@@ -14,10 +14,35 @@ import os
 import sys
 import argparse
 import pathlib
+import xml.etree.ElementTree
 from datetime import date, datetime, timedelta
 
 
 log = logging.getLogger('generate_changelog')
+
+
+class MissingCommitException(Exception): pass
+
+
+class JenkinsBuild:
+    """Representation of a Jenkins Build"""
+
+    def __init__(self, number, last_hash, branch, build_dttm, is_building, build_result, block_ms, wait_ms, build_ms):
+        self.number = number
+        self.last_hash = last_hash
+        self.branch = branch
+        self.build_dttm = build_dttm
+        self.is_building = is_building
+        self.build_result = build_result
+        self.wait_ms = wait_ms
+        self.build_ms = build_ms
+        self.block_ms = block_ms
+
+    def was_successful(self):
+        return not self.is_building and self.build_result == 'SUCCESS'
+
+    def __str__(self):
+        return f'{self.__class__.__name__}[{self.number} - {self.last_hash} - {self.build_dttm} - {self.build_result}]'
 
 
 class Commit:
@@ -164,6 +189,13 @@ class CDDAPullRequest(PullRequest):
                     f'[{self.id} - {self.merge_dttm} - {self.title} BY {self.author}]')
 
 
+class JenkinsBuildFactory:
+    """Abstraction for instantiation of new Commit objects"""
+
+    def create(self, number, last_hash, branch, build_dttm, is_building, build_result, block_ms, wait_ms, build_ms):
+        return JenkinsBuild(number, last_hash, branch, build_dttm, is_building,
+                            build_result, block_ms, wait_ms, build_ms)
+
 class CommitFactory:
     """Abstraction for instantiation of new Commit objects"""
 
@@ -197,30 +229,67 @@ class CommitRepository:
         for commit in commits:
             self.add(commit)
 
-    def get_commit(self, hash_id):
-        return self.ref_by_commit_hash[hash_id] if hash_id in self.ref_by_commit_hash else None
+    def get_commit(self, commit_hash):
+        return self.ref_by_commit_hash[commit_hash] if commit_hash in self.ref_by_commit_hash else None
 
     def get_latest_commit(self):
         return self._latest_commit
 
-    def get_all_commits(self):
-        for commit in self.ref_by_commit_hash.values():
+    def get_all_commits(self, filter_by=None, sort_by=None):
+        """Return all Commits in Repository. No order is guaranteed."""
+        commit_list = self.ref_by_commit_hash.values()
+
+        if filter_by is not None:
+            commit_list = filter(filter_by, commit_list)
+
+        if sort_by is not None:
+            commit_list = sorted(commit_list, key=sort_by)
+
+        for commit in commit_list:
             yield commit
 
-    def traverse_commits_by_first_parent(self, initial_commit=None):
+    def traverse_commits_by_first_parent(self, initial_hash=None):
         """Iterate through Commits connected by the first Parent, until a parent is not found in the Repository
 
         This is like using 'git log --first-parent $commit', which avoids Commits "inside" Pull Requests / Merges.
         But returns Merge Commits (which often can be related to a single PR) and Commits directly added to a Branch.
         """
-        if initial_commit is not None:
-            commit = initial_commit
+        if initial_hash is not None:
+            commit = self.get_commit(initial_hash)
         else:
-            commit = self._latest_commit
+            commit = self.get_latest_commit()
 
         while commit is not None:
             yield commit
             commit = self.get_commit(commit.parents[0])
+
+    def get_commit_range_by_hash(self, latest_hash, oldest_hash):
+        """Return Commits between initial_hash (including) and oldest_hash (excluding) connected by the first Parent."""
+        for commit in self.traverse_commits_by_first_parent(latest_hash):
+            if commit.hash == oldest_hash:
+                return
+            yield commit
+        ### consumed the whole commit list in the Repo and didn't find oldest_hash
+        ### so returned commit list is incomplete
+        raise MissingCommitException(
+            "Can't generate commit list for specified hash range."
+            " There are missing Commits in CommitRepository."
+        )
+
+    def get_commit_range_by_date(self, latest_dttm, oldest_dttm):
+        """Return Commits between latest_dttm (including) and oldest_dttm (excluding) connected by the first Parent."""
+        for commit in self.traverse_commits_by_first_parent():
+            ### assuming that traversing by first parent have chronological order (should be DESC BY commit_dttm)
+            if commit.commit_dttm <= oldest_dttm:
+                return
+            if latest_dttm >= commit.commit_dttm > oldest_dttm:
+                yield commit
+        ### consumed the whole commit list and didn't find a commit past our build.
+        ### so returned commit list *could be* incomplete
+        raise MissingCommitException(
+            "Can't generate commit list for specified date range."
+            " There are missing Commits in CommitRepository."
+        )
 
     def purge_references(self):
         self.ref_by_commit_hash.clear()
@@ -230,31 +299,147 @@ class CDDAPullRequestRepository:
     """Groups Pull Requests for storage and common operations"""
 
     def __init__(self):
+        self.ref_by_pr_id = {}
         self.ref_by_merge_hash = {}
 
     def add(self, pull_request):
+        self.ref_by_pr_id[pull_request.id] = pull_request
         if pull_request.merge_hash is not None:
             self.ref_by_merge_hash[pull_request.merge_hash] = pull_request
 
     def add_multiple(self, pull_requests):
-        for pull_request in pull_requests:
-            self.add(pull_request)
+        for pr in pull_requests:
+            self.add(pr)
 
     def get_pr_by_merge_hash(self, merge_hash):
         return self.ref_by_merge_hash[merge_hash] if merge_hash in self.ref_by_merge_hash else None
 
-    def get_all_pr(self):
-        for pr in self.ref_by_merge_hash.values():
+    def get_all_pr(self, filter_by=None, sort_by=None):
+        """Return all Pull Requests in Repository. No order is guaranteed."""
+        pr_list = self.ref_by_pr_id.values()
+
+        if filter_by is not None:
+            pr_list = filter(filter_by, pr_list)
+
+        if sort_by is not None:
+            pr_list = sorted(pr_list, key=sort_by)
+
+        for pr in pr_list:
             yield pr
+
+    def get_merged_pr_list_by_date(self, latest_dttm, oldest_dttm):
+        """Return PullRequests merged between latest_dttm (including) and oldest_dttm (excluding)."""
+        for pr in self.get_all_pr(filter_by=lambda x: x.is_merged, sort_by=lambda x: -x.merge_dttm.timestamp()):
+            if latest_dttm >= pr.merge_dttm > oldest_dttm:
+                yield pr
 
     def purge_references(self):
         self.ref_by_merge_hash.clear()
 
 
+class JenkinsBuildRepository:
+    """Groups JenkinsBuilds for storage and common operations"""
+
+    def __init__(self):
+        self.ref_by_build_number = {}
+
+    def add(self, build):
+        if build.number is not None:
+            self.ref_by_build_number[build.number] = build
+
+    def add_multiple(self, builds):
+        for build in builds:
+            self.add(build)
+
+    def get_build_by_number(self, build_number):
+        return self.ref_by_build_number[build_number] if build_number in self.ref_by_build_number else None
+
+    def get_previous_successful_build(self, build_number):
+        for x in range(build_number - 1, 0, -1):
+            prev_build = self.get_build_by_number(x)
+            if prev_build is not None and prev_build.was_successful():
+                return prev_build
+        return None
+
+    def get_all_builds(self, filter_by=None, sort_by=None):
+        """Return all Builds in Repository. No order is guaranteed."""
+        build_list = self.ref_by_build_number.values()
+
+        if filter_by is not None:
+            build_list = filter(filter_by, build_list)
+
+        if sort_by is not None:
+            build_list = sorted(build_list, key=sort_by)
+
+        for build in build_list:
+            yield build
+
+    def purge_references(self):
+        self.ref_by_build_number.clear()
+
+
+class JenkinsApi:
+
+    JENKINS_BUILD_LIST_API = r'http://gorgon.narc.ro:8080/job/Cataclysm-Matrix/api/xml'
+
+    JENKINS_BUILD_LONG_LIST_PARAMS = {
+        'tree': r'allBuilds[number,timestamp,building,result,actions[buildingDurationMillis,waitingDurationMillis,blockedDurationMillis,lastBuiltRevision[branch[name,SHA1]]]]',
+        'xpath': r'//allBuild',
+        'wrapper': r'allBuilds',
+        'exclude': r'//action[not(buildingDurationMillis|waitingDurationMillis|blockedDurationMillis|lastBuiltRevision/branch)]'
+    }
+
+    JENKINS_BUILD_SHORT_LIST_PARAMS = {
+        'tree': r'builds[number,timestamp,building,result,actions[buildingDurationMillis,waitingDurationMillis,blockedDurationMillis,lastBuiltRevision[branch[name,SHA1]]]]',
+        'xpath': r'//build',
+        'wrapper': r'builds',
+        'exclude': r'//action[not(buildingDurationMillis|waitingDurationMillis|blockedDurationMillis|lastBuiltRevision/branch)]'
+    }
+
+    def __init__(self, build_factory):
+        self.build_factory = build_factory
+
+    def get_build_list(self):
+        """Return the builds from Jenkins. API limits the result to last 999 builds."""
+        request_url = self.JENKINS_BUILD_LIST_API + '?' + urllib.parse.urlencode(self.JENKINS_BUILD_LONG_LIST_PARAMS)
+        api_request = urllib.request.Request(request_url)
+        with urllib.request.urlopen(api_request) as api_response:
+            log.debug(f'Request DONE {api_request.full_url}')
+            api_data = xml.etree.ElementTree.fromstring(api_response.read())
+
+        for build_data in api_data:
+            yield self._create_build_from_api_data(build_data)
+
+    def _create_build_from_api_data(self, build_data):
+        """Create a JenkinsBuild instance based on data from Jenkins API"""
+        jb_number = int(build_data.find('number').text)
+        jb_build_dttm = datetime.utcfromtimestamp(int(build_data.find('timestamp').text) // 1000)
+        jb_is_building = build_data.find('building').text == 'true'
+
+        jb_block_ms = timedelta(0)
+        jb_wait_ms = timedelta(0)
+        jb_build_ms = timedelta(0)
+        jb_build_result = None
+        if not jb_is_building:
+            jb_build_result = build_data.find('result').text
+            jb_block_ms = timedelta(milliseconds=int(build_data.find(r'.//action/blockedDurationMillis').text))
+            jb_wait_ms = timedelta(milliseconds=int(build_data.find(r'.//action/waitingDurationMillis').text))
+            jb_build_ms = timedelta(milliseconds=int(build_data.find(r'.//action/buildingDurationMillis').text))
+
+        jb_last_hash = None
+        jb_branch = None
+        if jb_build_result == 'SUCCESS':
+            jb_last_hash = build_data.find(r'.//action/lastBuiltRevision/branch/SHA1').text
+            jb_branch = build_data.find(r'.//action/lastBuiltRevision/branch/name').text
+
+        return self.build_factory.create(jb_number, jb_last_hash, jb_branch, jb_build_dttm, jb_is_building,
+                                         jb_build_result, jb_block_ms, jb_wait_ms, jb_build_ms)
+
+
 class CommitApi:
 
-    def __init__(self, commit_repo, api_token):
-        self.commit_repo = commit_repo
+    def __init__(self, commit_factory, api_token):
+        self.commit_factory = commit_factory
         self.api_token = api_token
 
     def get_commit_list(self, min_commit_dttm, branch='master', max_threads=15):
@@ -305,15 +490,15 @@ class CommitApi:
         commit_dttm = datetime.fromisoformat(commit_dttm.rstrip('Z')) if commit_dttm else None
         commit_parents = tuple(p['sha'] for p in commit_data['parents'])
 
-        return self.commit_repo.create(commit_sha, commit_message, commit_dttm, commit_author, commit_parents)
+        return self.commit_factory.create(commit_sha, commit_message, commit_dttm, commit_author, commit_parents)
 
 
 class PullRequestApi:
 
     GITHUB_API_SEARCH = r'https://api.github.com/search/issues'
 
-    def __init__(self, pr_repo, api_token):
-        self.pr_repo = pr_repo
+    def __init__(self, pr_factory, api_token):
+        self.pr_factory = pr_factory
         self.api_token = api_token
 
     def search_for_pull_request(self, commit_hash):
@@ -402,7 +587,7 @@ class PullRequestApi:
         ### PR description can be empty :S example: https://github.com/CleverRaven/Cataclysm-DDA/pull/24213
         pr_body = pr_data['body'] if pr_data['body'] else ''
 
-        return self.pr_repo.create(pr_number, pr_title, pr_author, pr_state, pr_body,
+        return self.pr_factory.create(pr_number, pr_title, pr_author, pr_state, pr_body,
                                       pr_merge_hash, pr_merge_dttm, pr_update_dttm)
 
 
@@ -454,8 +639,9 @@ class MultiThreadedGitHubApi:
 
 class GitHubApiRequestBuilder:
 
-    def __init__(self, api_token):
+    def __init__(self, api_token, timezone='Etc/UTC'):
         self.api_token = api_token
+        self.timezone = timezone
 
     def create_request(self, url, params=None):
         """Creates an API request based on provided URL and GET Parameters"""
@@ -467,8 +653,11 @@ class GitHubApiRequestBuilder:
         if self.api_token is None:
             api_request = urllib.request.Request(request_url)
         else:
-            auth_headers = {'Authorization': 'token ' + self.api_token}
-            api_request = urllib.request.Request(request_url, headers=auth_headers)
+            api_headers = {
+                'Authorization': 'token ' + self.api_token,
+                'Time-Zone': self.timezone,
+            }
+            api_request = urllib.request.Request(request_url, headers=api_headers)
 
         return api_request
 
@@ -478,8 +667,8 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
 
     GITHUB_API_LIST_COMMITS = r'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/commits'
 
-    def __init__(self, api_token, since_dttm=None, sha='master', initial_page=1, step=1):
-        super().__init__(api_token)
+    def __init__(self, api_token, since_dttm=None, sha='master', initial_page=1, step=1, timezone='Etc/UTC'):
+        super().__init__(api_token, timezone)
         self.sha = sha
         self.since_dttm = since_dttm
         self.page = initial_page
@@ -528,8 +717,8 @@ class PullRequestApiGenerator(GitHubApiRequestBuilder):
 
     GITHUB_API_LIST_PR = r'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/pulls'
 
-    def __init__(self, api_token, state='all', initial_page=1, step=1):
-        super().__init__(api_token)
+    def __init__(self, api_token, state='all', initial_page=1, step=1, timezone='Etc/UTC'):
+        super().__init__(api_token, timezone)
         self.page = initial_page
         self.step = step
         self.state = state
@@ -621,8 +810,18 @@ def read_personal_token(filename):
 
 
 def main_entry(argv):
-    parser = argparse.ArgumentParser(description=
-        'Generates Changelog from now until the specified date'
+    parser = argparse.ArgumentParser(description='Generates Changelog from now until the specified date')
+
+    output_style_group = parser.add_mutually_exclusive_group(required=True)
+    output_style_group.add_argument(
+        '-D', '--group-by-date',
+        action='store_true',
+        help='Indicates changes should be grouped by Date.'
+    )
+    output_style_group.add_argument(
+        '-B', '--group-by-build',
+        action='store_true',
+        help='Indicates changes should be grouped by Build.'
     )
 
     parser.add_argument(
@@ -646,16 +845,16 @@ def main_entry(argv):
     )
 
     parser.add_argument(
-        '--verbose',
+        '-N', '--include-summary-none',
         action='store_true',
-        help='Indicates the logging system to generate more information about actions.',
+        help='Indicates if Pull Requests with Summary "None" should be included in the output."',
         default=None
     )
 
     parser.add_argument(
-        '-N', '--include-summary-none',
+        '--verbose',
         action='store_true',
-        help='Indicates if Pull Requests with Summary "None" should be included in the output."',
+        help='Indicates the logging system to generate more information about actions.',
         default=None
     )
 
@@ -671,10 +870,13 @@ def main_entry(argv):
              or not arguments.output_file.parent.is_dir())):
         raise ValueError(f"Specified directory for Output File doesn't exist: {arguments.output_file.parent}")
 
-    main(arguments.target_date, arguments.token_file, arguments.output_file, arguments.include_summary_none)
+    if arguments.group_by_date:
+        main_by_date(arguments.target_date, arguments.token_file, arguments.output_file,arguments.include_summary_none)
+    elif arguments.group_by_build:
+        main_by_build(arguments.target_date, arguments.token_file, arguments.output_file,arguments.include_summary_none)
 
 
-def main(target_dttm, token_file, output_file, include_summary_none):
+def main_by_date(target_dttm, token_file, output_file, include_summary_none):
     personal_token = read_personal_token(token_file)
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
@@ -690,13 +892,13 @@ def main(target_dttm, token_file, output_file, include_summary_none):
 
     ### build script output
     if output_file is None:
-        build_output(pr_repo, commit_repo, target_dttm, sys.stdout, include_summary_none)
+        build_output_by_date(pr_repo, commit_repo, target_dttm, sys.stdout, include_summary_none)
     else:
         with open(output_file, 'w', encoding='utf8') as opened_output_file:
-            build_output(pr_repo, commit_repo, target_dttm, opened_output_file, include_summary_none)
+            build_output_by_date(pr_repo, commit_repo, target_dttm, opened_output_file, include_summary_none)
 
 
-def build_output(pr_repo, commit_repo, target_dttm, output_file, include_summary_none):
+def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include_summary_none):
     ### group commits with no PR by date
     commits_with_no_pr = collections.defaultdict(list)
     for commit in commit_repo.traverse_commits_by_first_parent():
@@ -707,7 +909,7 @@ def build_output(pr_repo, commit_repo, target_dttm, output_file, include_summary
     pr_with_summary = collections.defaultdict(list)
     pr_with_invalid_summary = collections.defaultdict(list)
     pr_with_summary_none = collections.defaultdict(list)
-    for pr in pr_repo.get_all_pr():
+    for pr in pr_repo.get_merged_pr_list_by_date(datetime.utcnow(), target_dttm):
         if pr.has_valid_summary and pr.summ_type == SummaryType.NONE:
             pr_with_summary_none[pr.merge_date].append(pr)
         elif pr.has_valid_summary:
@@ -722,13 +924,19 @@ def build_output(pr_repo, commit_repo, target_dttm, output_file, include_summary
         if curr_date not in pr_with_summary and curr_date not in commits_with_no_pr:
             continue
 
-        print(f"{curr_date}", file=output_file)
+        print(f"{curr_date}", file=output_file, end='\n\n')
         sort_by_type = lambda pr: pr.summ_type
-        pr_list_by_date = sorted(pr_with_summary[curr_date], key=sort_by_type)
-        for pr_type, pr_list_by_category in itertools.groupby(pr_list_by_date, key=sort_by_type):
+        sorted_pr_list_by_category = sorted(pr_with_summary[curr_date], key=sort_by_type)
+        for pr_type, pr_list_by_category in itertools.groupby(sorted_pr_list_by_category, key=sort_by_type):
             print(f"    {pr_type}", file=output_file)
             for pr in pr_list_by_category:
                 print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
+            print(file=output_file)
+
+        if curr_date in commits_with_no_pr:
+            print(f"    MISC. COMMITS", file=output_file)
+            for commit in commits_with_no_pr[curr_date]:
+                print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
             print(file=output_file)
 
         if curr_date in pr_with_invalid_summary or (include_summary_none and curr_date in pr_with_summary_none):
@@ -740,11 +948,110 @@ def build_output(pr_repo, commit_repo, target_dttm, output_file, include_summary
                     print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
             print(file=output_file)
 
-        if curr_date in commits_with_no_pr:
-            print(f"    MISC. COMMITS", file=output_file)
-            for commit in commits_with_no_pr[curr_date]:
-                print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash})", file=output_file)
+        print(file=output_file)
+
+
+def main_by_build(target_dttm, token_file, output_file, include_summary_none):
+    personal_token = read_personal_token(token_file)
+    if personal_token is None:
+        log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
+
+    ### get data from GitHub API
+    commit_api = CommitApi(CommitFactory(), personal_token)
+    commit_repo = CommitRepository()
+    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm))
+
+    pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
+    pr_repo = CDDAPullRequestRepository()
+    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, merged_only=True))
+
+    jenkins_api = JenkinsApi(JenkinsBuildFactory())
+    build_repo = JenkinsBuildRepository()
+    build_repo.add_multiple((build for build in jenkins_api.get_build_list() if build.was_successful()))
+
+    ### build script output
+    if output_file is None:
+        build_output_by_build(build_repo, pr_repo, commit_repo, sys.stdout, include_summary_none)
+    else:
+        with open(output_file, 'w', encoding='utf8') as opened_output_file:
+            build_output_by_build(build_repo, pr_repo, commit_repo, opened_output_file, include_summary_none)
+
+
+def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none):
+    for build in build_repo.get_all_builds(sort_by=lambda x: -x.build_dttm.timestamp()):
+        ### we need the previous build a hash/date hash
+        ### to find commits / pull requests that got into the build
+        prev_build = build_repo.get_previous_successful_build(build.number)
+        if prev_build is None:
+            break
+
+        try:
+            commits = list(commit_repo.get_commit_range_by_hash(build.last_hash, prev_build.last_hash))
+        except MissingCommitException:
+            ### we obtained half of the build's commit with our GitHub API request
+            ### just avoid showing this build's partial data
+            break
+
+        print(f'BUILD {build.number} / {build.build_dttm} UTC+0 / {build.last_hash[:7]}', file=output_file, end='\n\n')
+        if build.last_hash == prev_build.last_hash:
+            print(f'  * No changes. Same code as BUILD {prev_build.number}.', file=output_file)
+            ### I could skip to next build here, but letting the go continue could help spot bugs in the logic
+            ### the code should not generate any output lines for these Builds.
+            #continue
+
+        ### I can get PRs by matching Build Commits to PRs by Merge Hash
+        ### This is precise, but may fail to associate some Commits to PRs leaving few "Summaries" out
+        # pull_requests = (pr_repo.get_pr_by_merge_hash(c.hash)
+        #                  for c in commits if pr_repo.get_pr_by_merge_hash(c.hash))
+        ### Another option is to find a proper Date range for the Build and find PRs by date
+        ### But I found some issues here:
+        ### * Jenkins Build Date don't end up matching the correct PRs because git fetch could be delayed like 15mins
+        ### * Using Build Commit Dates is better, but a few times it incorrectly match the PR one build later
+        ###   The worst ofender seem to be merges with message like "Merge remote-tracking branch 'origin/pr/25005'"
+        # build_commit = commit_repo.get_commit(build.last_hash)
+        # prev_build_commit = commit_repo.get_commit(prev_build.last_hash)
+        # pull_requests = pr_repo.get_merged_pr_list_by_date(build_commit.commit_dttm + timedelta(seconds=2),
+        #                                                    prev_build_commit.commit_dttm + timedelta(seconds=2))
+
+        ### I'll go with the safe method, this will show some COMMIT messages instead of the proper Summary from the PR.
+        pull_requests = (pr_repo.get_pr_by_merge_hash(c.hash) for c in commits if pr_repo.get_pr_by_merge_hash(c.hash))
+
+        commits_with_no_pr = [c for c in commits if not pr_repo.get_pr_by_merge_hash(c.hash)]
+
+        pr_with_summary = list()
+        pr_with_invalid_summary = list()
+        pr_with_summary_none = list()
+        for pr in pull_requests:
+            if pr.has_valid_summary and pr.summ_type == SummaryType.NONE:
+                pr_with_summary_none.append(pr)
+            elif pr.has_valid_summary:
+                pr_with_summary.append(pr)
+            elif not pr.has_valid_summary:
+                pr_with_invalid_summary.append(pr)
+
+        sort_by_type = lambda pr: pr.summ_type
+        sorted_pr_list_by_category = sorted(pr_with_summary, key=sort_by_type)
+        for pr_type, pr_list_by_category in itertools.groupby(sorted_pr_list_by_category, key=sort_by_type):
+            print(f"    {pr_type}", file=output_file)
+            for pr in pr_list_by_category:
+                print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
             print(file=output_file)
+
+        if len(commits_with_no_pr) > 0:
+            print(f"    MISC. COMMITS", file=output_file)
+            for commit in commits_with_no_pr:
+                print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
+            print(file=output_file)
+
+        if len(pr_with_invalid_summary) > 0 or (include_summary_none and len(pr_with_summary_none) > 0):
+            print(f"    MISC. PULL REQUESTS", file=output_file)
+            for pr in pr_with_invalid_summary:
+                print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+            if include_summary_none:
+                for pr in pr_with_summary_none:
+                    print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+            print(file=output_file)
+
         print(file=output_file)
 
 

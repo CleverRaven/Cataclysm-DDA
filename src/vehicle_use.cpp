@@ -80,8 +80,8 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
                                   const std::string &flag )
 {
     // fetch matching parts and abort early if none found
-    auto found = get_parts( flag );
-    if( found.empty() ) {
+    const auto found = get_parts( flag );
+    if( empty( found ) ) {
         return;
     }
 
@@ -89,14 +89,14 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
     bool allow = true;
 
     // determine target state - currently parts of similar type are all switched concurrently
-    bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part * e ) {
-        return e->enabled;
+    bool state = std::none_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
+        return vp.vehicle().parts[vp.part_index()].enabled;
     } );
 
     // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
     if( state ) {
-        allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part * e ) {
-            return can_enable( *e );
+        allow = std::any_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
+            return vp.vehicle().can_enable( vp.vehicle().parts[vp.part_index()] );
         } );
     }
 
@@ -104,8 +104,9 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
     options.emplace_back( -1, allow, key, msg );
 
     actions.push_back( [ = ] {
-        for( vehicle_part *e : found )
+        for( const vpart_reference vp : found )
         {
+            vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             if( e->enabled != state ) {
                 add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
                 e->enabled = state;
@@ -117,7 +118,7 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
 
 void vehicle::control_doors()
 {
-    const auto door_motors = parts_with_feature( "DOOR_MOTOR", true );
+    const auto door_motors = get_parts( "DOOR_MOTOR" );
     std::vector< int > doors_with_motors; // Indices of doors
     std::vector< tripoint > locations; // Locations used to display the doors
     // it is possible to have one door to open and one to close for single motor
@@ -390,7 +391,7 @@ void vehicle::smash_security_system()
         int p = speciality[d];
         if( part_flag( p, "SECURITY" ) && !parts[ p ].is_broken() ) {
             s = p;
-            c = part_with_feature( s, "CONTROLS" );
+            c = part_with_feature( s, "CONTROLS", true );
             break;
         }
     }
@@ -472,10 +473,10 @@ void vehicle::use_controls( const tripoint &pos )
                 refresh();
             } );
         }
-        has_electronic_controls = !get_parts( pos, "CTRL_ELECTRONIC" ).empty();
+        has_electronic_controls = !get_parts( pos, "CTRL_ELECTRONIC", false, false ).empty();
     }
 
-    if( get_parts( pos, "CONTROLS" ).empty() && !has_electronic_controls ) {
+    if( get_parts( pos, "CONTROLS", false, false ).empty() && !has_electronic_controls ) {
         add_msg( m_info, _( "No controls there" ) );
         return;
     }
@@ -634,7 +635,7 @@ bool vehicle::fold_up()
     item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
 
     // Drop stuff in containers on ground
-    for( const vpart_reference vp : parts_with_feature( "CARGO" ) ) {
+    for( const vpart_reference vp : get_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
         for( auto &elem : get_items( p ) ) {
             g->m.add_item_or_charges( g->u.pos(), elem );
@@ -827,7 +828,7 @@ void vehicle::honk_horn()
     const bool no_power = ! fuel_left( fuel_type_battery, true );
     bool honked = false;
 
-    for( const vpart_reference vp : parts_with_feature( "HORN" ) ) {
+    for( const vpart_reference vp : get_parts( "HORN" ) ) {
         const size_t p = vp.part_index();
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = part_info( p );
@@ -866,7 +867,7 @@ void vehicle::beeper_sound()
     }
 
     const bool odd_turn = calendar::once_every( 2_turns );
-    for( const vpart_reference vp : parts_with_feature( "BEEPER" ) ) {
+    for( const vpart_reference vp : get_parts( "BEEPER" ) ) {
         const size_t p = vp.part_index();
         if( ( odd_turn && part_flag( p, VPFLAG_EVENTURN ) ) ||
             ( !odd_turn && part_flag( p, VPFLAG_ODDTURN ) ) ) {
@@ -881,7 +882,8 @@ void vehicle::beeper_sound()
 
 void vehicle::play_music()
 {
-    for( auto e : get_parts( "STEREO", true ) ) {
+    for( const vpart_reference vp : get_enabled_parts( "STEREO" ) ) {
+        const vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
         iuse::play_music( g->u, global_part_pos3( *e ), 15, 30 );
     }
 }
@@ -892,14 +894,15 @@ void vehicle::play_chimes()
         return;
     }
 
-    for( auto e : get_parts( "CHIMES", true ) ) {
+    for( const vpart_reference vp : get_enabled_parts( "CHIMES" ) ) {
+        const vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
         sounds::sound( global_part_pos3( *e ), 40, _( "a simple melody blaring from the loudspeakers." ) );
     }
 }
 
 void vehicle::operate_plow()
 {
-    for( const vpart_reference vp : parts_with_feature( "PLOW" ) ) {
+    for( const vpart_reference vp : get_parts( "PLOW" ) ) {
         const size_t plow_id = vp.part_index();
         const tripoint start_plow = global_part_pos3( plow_id );
         if( g->m.has_flag( "DIGGABLE", start_plow ) ) {
@@ -915,7 +918,7 @@ void vehicle::operate_plow()
 
 void vehicle::operate_rockwheel()
 {
-    for( const vpart_reference vp : parts_with_feature( "ROCKWHEEL" ) ) {
+    for( const vpart_reference vp : get_parts( "ROCKWHEEL" ) ) {
         const size_t rockwheel_id = vp.part_index();
         const tripoint start_dig = global_part_pos3( rockwheel_id );
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
@@ -931,7 +934,7 @@ void vehicle::operate_rockwheel()
 
 void vehicle::operate_reaper()
 {
-    for( const vpart_reference vp : parts_with_feature( "REAPER" ) ) {
+    for( const vpart_reference vp : get_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = global_part_pos3( reaper_id );
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
@@ -970,7 +973,7 @@ void vehicle::operate_reaper()
 
 void vehicle::operate_planter()
 {
-    for( const vpart_reference vp : parts_with_feature( "PLANTER" ) ) {
+    for( const vpart_reference vp : get_parts( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
         const tripoint &loc = global_part_pos3( planter_id );
         vehicle_stack v = get_items( planter_id );
@@ -1006,7 +1009,7 @@ void vehicle::operate_planter()
 
 void vehicle::operate_scoop()
 {
-    for( const vpart_reference vp : parts_with_feature( "SCOOP" ) ) {
+    for( const vpart_reference vp : get_parts( "SCOOP" ) ) {
         const size_t scoop = vp.part_index();
         const int chance_to_damage_item = 9;
         const units::volume max_pickup_volume = parts[scoop].info().size / 10;
@@ -1119,7 +1122,7 @@ bool vehicle::is_open( int part_index ) const
 
 void vehicle::open_all_at( int p )
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount.x, parts[p].mount.y, true );
     for( auto &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) ) {
             // Note that this will open multi-square and non-multipart parts in the tile. This
@@ -1244,7 +1247,7 @@ void vehicle::use_bike_rack( int part )
             }
             for( int i = 0; i < 4; i++ ) {
                 point near_loc = parts[ rack_part ].mount + vehicles::cardinal_d[ i ];
-                std::vector<int> near_parts = parts_at_relative( near_loc.x, near_loc.y );
+                std::vector<int> near_parts = parts_at_relative( near_loc.x, near_loc.y, true );
                 if( near_parts.empty() ) {
                     continue;
                 }

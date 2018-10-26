@@ -4515,7 +4515,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             case AEA_FIREBALL: {
                 tripoint fireball = g->look_around();
                 if( fireball != tripoint_min ) {
-                    g->explosion( fireball, 24, 0.5, true );
+                    g->explosion( fireball, 180, 0.5, true );
                 }
             }
             break;
@@ -6726,7 +6726,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     if( !veh.is_locked || !veh.has_security_working() ) {
         return true;
     }
-    const bool advanced = !empty( veh.parts_with_feature( "REMOTE_CONTROLS", true ) );
+    const bool advanced = !empty( veh.get_parts( "REMOTE_CONTROLS" ) );
     if( advanced && veh.is_alarm_on ) {
         p.add_msg_if_player( m_bad, _( "This vehicle's security system has locked you out!" ) );
         return false;
@@ -6789,8 +6789,8 @@ vehicle *pickveh( const tripoint &center, bool advanced )
         auto &v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( "battery", true ) > 0 &&
-            ( !empty( v->parts_with_feature( advctrl, true ) ) ||
-              ( !advanced && !empty( v->parts_with_feature( ctrl, true ) ) ) ) ) {
+            ( !empty( v->get_parts( advctrl ) ) ||
+              ( !advanced && !empty( v->get_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
         }
     }
@@ -7620,21 +7620,20 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
         return 0;
     }
+    /// @todo Is this necessary?
     if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 
-    player player = *p;
-
-    player.inv.restack( player );
+    p->inv.restack( *p );
 
     const inventory_filter_preset preset( []( const item_location & location ) {
         return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
     } );
     // TODO: this should also search surrounding area, not just player inventory.
-    inventory_iuse_selector inv_s( player, _( "ITEMS TO CLEAN" ), preset );
-    inv_s.add_character_items( player );
+    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset );
+    inv_s.add_character_items( *p );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
     std::list<std::pair<int, int>> to_clean;

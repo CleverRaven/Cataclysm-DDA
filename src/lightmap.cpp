@@ -956,7 +956,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     // from happening due to mirrors becoming visible due to processing order.
     // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
-    for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_EXTENDS_VISION, true ) ) {
+    for( const vpart_reference vp : veh->get_parts( VPFLAG_EXTENDS_VISION ) ) {
         const size_t midx = vp.part_index();
         const tripoint mirror_pos = veh->global_part_pos3( midx );
         // We can utilize the current state of the seen cache to determine

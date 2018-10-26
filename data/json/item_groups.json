@@ -1056,7 +1056,8 @@
       ["magnifying_glass", 2],
       ["holy_symbol", 5],
       ["pet_carrier", 3],
-      ["eclipse_glasses", 1]
+      ["eclipse_glasses", 1],
+      ["bodypillow", 2]
     ]
   },{
     "type" : "item_group",
@@ -5025,7 +5026,8 @@
       ["sheath", 5],
       ["bootsheath", 5],
       ["holster", 4],
-      ["survnote", 2]
+      ["survnote", 2],
+      ["bodypillow", 1]
     ]
   },{
     "type" : "item_group",
@@ -5641,7 +5643,8 @@
       ["thermometer", 3],
       ["hygrometer", 3],
       ["barometer", 3],
-      ["dnd_handbook", 2]
+      ["dnd_handbook", 2],
+      ["bodypillow", 1]
     ]
   },{
     "type" : "item_group",

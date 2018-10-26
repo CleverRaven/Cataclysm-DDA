@@ -120,7 +120,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     }
 
     //Invert colors for cargo parts with stuff in them
-    int cargo_part = part_with_feature( p, VPFLAG_CARGO );
+    int cargo_part = part_with_feature( p, VPFLAG_CARGO, true );
     if( cargo_part > 0 && !get_items( cargo_part ).empty() ) {
         return invert_color( col );
     } else {
@@ -144,7 +144,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     if( p < 0 || p >= ( int )parts.size() ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y, true );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         if( y >= max_y ) {
@@ -225,7 +225,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         return;
     }
 
-    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y, true );
     std::ostringstream msg;
 
     int lines = 0;

@@ -560,9 +560,7 @@ player::player() : Character()
 }
 
 player::~player() = default;
-player::player(const player &) = default;
 player::player(player &&) = default;
-player &player::operator=(const player &) = default;
 player &player::operator=(player &&) = default;
 
 void player::normalize()
@@ -1495,8 +1493,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED" ) );
-    const bool veh_seat =static_cast<bool>( vp.part_with_feature( "SEAT" ) );
+    const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED", true ) );
+    const bool veh_seat =static_cast<bool>( vp.part_with_feature( "SEAT", true ) );
 
     // Search the floor for bedding
     if( furn_at_pos == f_bed ) {
@@ -2835,7 +2833,7 @@ bool player::has_alarm_clock() const
     return ( has_item_with_flag( "ALARMCLOCK" ) ||
              (
                  g->m.veh_at( pos() ) &&
-                 !empty( g->m.veh_at( pos() )->vehicle().parts_with_feature( "ALARMCLOCK", true ) )
+                 !empty( g->m.veh_at( pos() )->vehicle().get_parts( "ALARMCLOCK" ) )
              ) ||
              has_bionic( bio_watch )
            );
@@ -2846,7 +2844,7 @@ bool player::has_watch() const
     return ( has_item_with_flag( "WATCH" ) ||
              (
                  g->m.veh_at( pos() ) &&
-                 !empty( g->m.veh_at( pos() )->vehicle().parts_with_feature( "WATCH", true ) )
+                 !empty( g->m.veh_at( pos() )->vehicle().get_parts( "WATCH" ) )
              ) ||
              has_bionic( bio_watch )
            );
@@ -3853,14 +3851,14 @@ int player::impact( const int force, const tripoint &p )
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
-        if( vp.part_with_feature( "SHARP" ) ) {
+        if( vp.part_with_feature( "SHARP", true ) ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
 
         mod = slam ? 1.0f : fall_damage_mod();
         armor_eff = 0.25f; // Not much
-        if( !slam && vp->part_with_feature( "ROOF" ) ) {
+        if( !slam && vp->part_with_feature( "ROOF", true ) ) {
             // Roof offers better landing than frame or pavement
             effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
         }
@@ -8590,7 +8588,7 @@ bool player::takeoff( int pos )
 void player::drop( int pos, const tripoint &where )
 {
     const item &it = i_at( pos );
-    const int count = it.count_by_charges() ? it.charges : 1;
+    const int count = it.count();
 
     drop( { std::make_pair( pos, count ) }, where );
 }
@@ -9945,8 +9943,8 @@ void player::try_to_sleep( const time_duration &dur )
          furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ||
          furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
-         vp.part_with_feature( "SEAT" ) ||
-         vp.part_with_feature( "BED" ) ) ) {
+         vp.part_with_feature( "SEAT", true ) ||
+         vp.part_with_feature( "BED", true ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay && !watersleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
@@ -9988,10 +9986,10 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             // Note: shelled individuals can still use sleeping aids!
         }
         else if( vp ) {
-            if( vp.part_with_feature( "BED" ) ) {
+            if( vp.part_with_feature( "BED", true ) ) {
                 comfort += 1 + (int)comfort_level::slightly_comfortable;
             }
-            else if( vp.part_with_feature( "SEAT" ) ) {
+            else if( vp.part_with_feature( "SEAT", true ) ) {
                 comfort += 0 + (int)comfort_level::slightly_comfortable;
             }
             else {
@@ -10981,16 +10979,12 @@ void player::practice( const skill_id &id, int amount, int cap )
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
-    int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
-    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
-        over = std::min( over, elem.second );
-    }
-    return over;
+    return get_all_skills().exceeds_recipe_requirements( rec );
 }
 
 bool player::has_recipe_requirements( const recipe &rec ) const
 {
-    return exceeds_recipe_requirements( rec ) >= 0;
+    return get_all_skills().has_recipe_requirements( rec );
 }
 
 bool player::can_decomp_learn( const recipe &rec ) const
@@ -11633,168 +11627,37 @@ bool player::should_show_map_memory()
     return show_map_memory;
 }
 
-memorized_terrain_tile player::get_memorized_terrain( const tripoint &pos ) const
+memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const
 {
-    return player_map_memory.get_memorized_terrain( pos );
+    return player_map_memory.get_tile( pos );
 }
 
 void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation )
 {
-    player_map_memory.memorize_tile( pos, ter, subtile, rotation );
+    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
 }
 
-void player::finalize_tile_memory()
+void player::memorize_symbol( const tripoint &pos, const long symbol )
 {
-    player_map_memory.finalize_tile_memory( max_memorized_submaps() );
+    player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
 }
 
-void player::memorize_terrain_curses( const tripoint &pos, const long symbol )
+long player::get_memorized_symbol( const tripoint &p ) const
 {
-    player_map_memory.memorize_terrain_symbol( pos, symbol );
+    return player_map_memory.get_symbol( p );
 }
 
-void player::finalize_terrain_memory_curses()
-{
-    player_map_memory.finalize_terrain_memory_curses( max_memorized_submaps() );
-}
-
-long player::get_memorized_terrain_curses( const tripoint &p ) const
-{
-    return player_map_memory.get_memorized_terrain_curses( p );
-}
-
-size_t player::max_memorized_submaps() const
+size_t player::max_memorized_tiles() const
 {
     if( has_active_bionic( bio_memory ) ) {
-        return 20000; // 5000 overmap tiles
+        return SEEX * SEEY * 20000; // 5000 overmap tiles
     } else if( has_trait( trait_FORGETFUL ) ) {
-        return 200; // 50 overmap tiles
+        return SEEX * SEEY * 200; // 50 overmap tiles
     } else if( has_trait( trait_GOODMEMORY ) ) {
-        return 800; // 200 overmap tiles
+        return SEEX * SEEY * 800; // 200 overmap tiles
     }
-    return 400; // 100 overmap tiles
-
-}
-
-memorized_terrain_tile map_memory::get_memorized_terrain( const tripoint &pos ) const
-{
-    const tripoint p = g->m.getabs( pos );
-    if( memorized_terrain.find( p ) != memorized_terrain.end() ) {
-        return memorized_terrain.at( p );
-    }
-    return { "", 0, 0 };
-}
-
-void map_memory::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                                const int rotation )
-{
-    memorized_terrain_tmp[pos] = { ter, subtile, rotation };
-}
-
-void map_memory::finalize_tile_memory( size_t max_submaps )
-{
-    memorize_tiles( memorized_terrain_tmp, max_submaps );
-    memorized_terrain_tmp.clear();
-}
-
-void map_memory::memorize_tiles( const std::map<tripoint, memorized_terrain_tile> &tiles,
-                                 const size_t max_submaps )
-{
-    std::set<tripoint> submaps;
-    for( auto i : tiles ) {
-        const tripoint p = g->m.getabs( i.first );
-        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
-        memorized_terrain[p] = i.second;
-    }
-
-    update_submap_memory( submaps, max_submaps );
-}
-
-void map_memory::update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps )
-{
-    std::set<tripoint> erase;
-    for( auto i : submaps ) {
-        std::vector<tripoint>::iterator position = std::find( memorized_submaps.begin(),
-                memorized_submaps.end(), i );
-        if( position != memorized_submaps.end() ) {
-            memorized_submaps.erase( position );
-        }
-        memorized_submaps.push_back( i );
-    }
-
-    while( memorized_submaps.size() > max_submaps ) {
-        erase.insert( memorized_submaps.front() );
-        memorized_submaps.erase( memorized_submaps.begin() );
-    }
-    if( !erase.empty() ) {
-        clear_submap_memory( erase );
-    }
-}
-
-void map_memory::clear_submap_memory( const std::set<tripoint> &erase )
-{
-    for( auto it = memorized_terrain.cbegin(); it != memorized_terrain.cend(); ) {
-        bool delete_this = false;
-        for( auto i : erase ) {
-            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
-                delete_this = true;
-                break;
-            }
-        }
-        if( delete_this ) {
-            memorized_terrain.erase( it++ );
-        } else {
-            ++it;
-        }
-    }
-    for( auto it = memorized_terrain_curses.cbegin(); it != memorized_terrain_curses.cend(); ) {
-        bool delete_this = false;
-        for( auto i : erase ) {
-            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
-                delete_this = true;
-                break;
-            }
-        }
-        if( delete_this ) {
-            memorized_terrain_curses.erase( it++ );
-        } else {
-            ++it;
-        }
-    }
-}
-
-void map_memory::memorize_terrain_symbol( const tripoint &pos, const long symbol )
-{
-    memorized_terrain_curses_tmp[pos] = symbol;
-}
-
-void map_memory::finalize_terrain_memory_curses( const size_t max_submaps )
-{
-    memorize_terrain_symbols( memorized_terrain_curses_tmp, max_submaps );
-    memorized_terrain_curses_tmp.clear();
-}
-
-void map_memory::memorize_terrain_symbols( const std::map<tripoint, long> &tiles,
-        size_t max_submaps )
-{
-    std::set<tripoint> submaps;
-    for( auto i : tiles ) {
-        const tripoint p = g->m.getabs( i.first );
-        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
-        memorized_terrain_curses[p] = i.second;
-    }
-
-    update_submap_memory( submaps, max_submaps );
-}
-
-long map_memory::get_memorized_terrain_curses( const tripoint &pos ) const
-{
-    const tripoint p = g->m.getabs( pos );
-    if( memorized_terrain_curses.find( p ) != memorized_terrain_curses.end() ) {
-        return memorized_terrain_curses.at( p );
-    }
-    return 0;
+    return SEEX * SEEY * 400; // 100 overmap tiles
 }
 
 bool player::sees( const tripoint &t, bool ) const

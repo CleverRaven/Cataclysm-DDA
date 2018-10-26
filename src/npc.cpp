@@ -149,9 +149,7 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     }
 }
 
-npc::npc( const npc & ) = default;
 npc::npc( npc && ) = default;
-npc &npc::operator=( const npc & ) = default;
 npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
@@ -2127,7 +2125,7 @@ void npc::on_load()
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
-    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE ) && !in_vehicle ) {
+    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
     }
 }

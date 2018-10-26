@@ -45,6 +45,7 @@
 
 #include <ctime>
 #include <bitset>
+#include <limits>
 
 #include "json.h"
 
@@ -2042,7 +2043,7 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( const vpart_reference vp : parts_with_feature( VPFLAG_CARGO, true ) ) {
+    for( const vpart_reference vp : get_parts( VPFLAG_CARGO ) ) {
         const size_t cargo_index = vp.part_index();
         auto it = parts[cargo_index].items.begin();
         auto end = parts[cargo_index].items.end();
@@ -2053,7 +2054,8 @@ void vehicle::deserialize( JsonIn &jsin )
         }
     }
 
-    for( auto turret : get_parts( "TURRET", false ) ) {
+    for( const vpart_reference vp : get_parts( "TURRET" ) ) {
+        const vehicle_part *const turret = &vp.vehicle().parts[vp.part_index()];
         install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
     }
 
@@ -2091,7 +2093,8 @@ void vehicle::deserialize( JsonIn &jsin )
     /** Legacy saved games did not store part enabled status within parts */
     auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
-            for( auto e : get_parts( flag ) ) {
+            for( const vpart_reference vp : get_parts( flag ) ) {
+                vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
                 e->enabled = true;
             }
         }
@@ -2500,7 +2503,7 @@ void map_memory::store( JsonOut &jsout ) const
 {
     jsout.member( "map_memory_tiles" );
     jsout.start_array();
-    for( const auto &elem : memorized_terrain ) {
+    for( const auto &elem : tiles ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2514,7 +2517,7 @@ void map_memory::store( JsonOut &jsout ) const
 
     jsout.member( "map_memory_curses" );
     jsout.start_array();
-    for( const auto &elem : memorized_terrain_curses ) {
+    for( const auto &elem : symbols ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2528,20 +2531,22 @@ void map_memory::store( JsonOut &jsout ) const
 void map_memory::load( JsonObject &jsin )
 {
     JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
-    memorized_terrain.clear();
+    tiles.clear();
+    tile_map.clear();
     while( map_memory_tiles.has_more() ) {
         JsonObject pmap = map_memory_tiles.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        const memorized_terrain_tile m{ pmap.get_string( "tile" ), pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) };
-        memorized_terrain[p] = m;
+        memorize_tile( std::numeric_limits<int>::max(), p, pmap.get_string( "tile" ),
+                       pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) );
     }
 
     JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
-    memorized_terrain_curses.clear();
+    symbols.clear();
+    symbol_map.clear();
     while( map_memory_curses.has_more() ) {
         JsonObject pmap = map_memory_curses.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        memorized_terrain_curses[p] = pmap.get_long( "symbol" );
+        memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_long( "symbol" ) );
     }
 }
 
