@@ -137,22 +137,37 @@ struct iteminfo {
         /** Whether to print sName.  If false, use for comparisons but don't print for user. */
         bool bDrawName;
 
+        enum flags {
+            no_flags = 0,
+            is_decimal = 1 << 0, ///< Print as decimal rather than integer
+            no_newline = 1 << 1, ///< Do not follow with a newline
+            lower_is_better = 1 << 2, ///< Lower values are better for this stat
+            no_name = 1 << 3 ///< Do not print the name
+        };
+
         /**
          *  @param Type The item type of the item this iteminfo belongs to.
          *  @param Name The name of the property this iteminfo describes.
+         *  @param flags Additional flags to customize this entry
          *  @param Fmt Formatting text desired between item name and value
          *  @param Value Numerical value of this property, -999 for none.
-         *  @param _is_int If true then Value is interpreted as an integer
          *  @param Plus Character to place before value, generally '+' or '$'
-         *  @param NewLine Whether to insert newline at end of output.
-         *  @param LowerIsBetter True if lower values better for red/green coloring
-         *  @param DrawName True if item name should be displayed.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  double Value = -999,
-                  bool _is_int = true, const std::string &Plus = "", bool NewLine = true,
-                  bool LowerIsBetter = false, bool DrawName = true );
+                  flags = no_flags, double Value = -999, const std::string &Plus = "" );
+        iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
+
+inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
+{
+    using I = std::underlying_type<iteminfo::flags>::type;
+    return static_cast<iteminfo::flags>( static_cast<I>( l ) | r );
+}
+
+inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
+{
+    return l = l | r;
+}
 
 /**
  *  Possible layers that a piece of clothing/armor can occupy
