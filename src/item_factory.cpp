@@ -2009,8 +2009,9 @@ void Item_factory::load_item_category( JsonObject &jo )
         debugmsg( "Item category %s already exists", id );
         return;
     }
-    categories.emplace( id, item_category( id, _( jo.get_string( "name" ).c_str() ),
-                                           jo.get_int( "sort_rank" ) ) );
+    translation name;
+    jo.read( "name", name );
+    categories.emplace( id, item_category( id, name, jo.get_int( "sort_rank" ) ) );
 }
 
 void Item_factory::load_migration( JsonObject &jo )

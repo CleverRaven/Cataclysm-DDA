@@ -5,15 +5,17 @@ bool item_category::operator<( const item_category &rhs ) const
     if( sort_rank_ != rhs.sort_rank_ ) {
         return sort_rank_ < rhs.sort_rank_;
     }
-    if( name_ != rhs.name_ ) {
-        return name_ < rhs.name_;
+    const std::string lhsname = name();
+    const std::string rhsname = rhs.name();
+    if( lhsname != rhsname ) {
+        return lhsname < rhsname;
     }
     return id_ < rhs.id_;
 }
 
 bool item_category::operator==( const item_category &rhs ) const
 {
-    return sort_rank_ == rhs.sort_rank_ && name_ == rhs.name_ && id_ == rhs.id_;
+    return sort_rank_ == rhs.sort_rank_ && name() == rhs.name() && id_ == rhs.id_;
 }
 
 bool item_category::operator!=( const item_category &rhs ) const
@@ -23,7 +25,7 @@ bool item_category::operator!=( const item_category &rhs ) const
 
 std::string item_category::name() const
 {
-    return name_;
+    return name_.translated();
 }
 
 std::string item_category::id() const
