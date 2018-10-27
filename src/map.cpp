@@ -342,8 +342,15 @@ void map::vehmove()
     // Process item removal on the vehicles that were modified this turn.
     // Use a copy because part_removal_cleanup can modify the container.
     auto temp = dirty_vehicle_list;
+    VehicleList vehicle_list = get_vehicles();
     for( const auto &elem : temp ) {
-        ( elem )->part_removal_cleanup();
+        auto same_ptr = [ elem ]( const struct wrapped_vehicle & tgt ) {
+            return elem == tgt.v;
+        };
+        if( std::find_if( vehicle_list.begin(), vehicle_list.end(), same_ptr ) !=
+            vehicle_list.end() ) {
+            ( elem )->part_removal_cleanup();
+        }
     }
     dirty_vehicle_list.clear();
 }
