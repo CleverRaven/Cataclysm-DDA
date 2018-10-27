@@ -71,6 +71,7 @@ using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
+class map;
 
 enum damage_type : int;
 
@@ -324,7 +325,6 @@ class item : public visitable<item>
          * properties of the @ref itype (if they are visible to the player). The returned string
          * is already translated and can be *very* long.
          * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * the vector can be used to compare them to properties of another item.
          */
         std::string info( bool showtext = false ) const;
 
@@ -446,11 +446,19 @@ class item : public visitable<item>
 
         units::mass weight( bool include_contents = true ) const;
 
-        /* Total volume of an item accounting for all contained/integrated items
-         * @param integral if true return effective volume if item was integrated into another */
+        /**
+         * Total volume of an item accounting for all contained/integrated items
+         * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
+         * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
+         * @param integral if true return effective volume if this item was integrated into another
+         */
         units::volume volume( bool integral = false ) const;
 
-        /** Simplified, faster volume check for when processing time is important and exact volume is not. */
+        /**
+         * Simplified, faster volume check for when processing time is important and exact volume is not.
+         * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
+         * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
+         */
         units::volume base_volume() const;
 
         /** Volume check for corpses, helper for base_volume(). */
@@ -530,6 +538,15 @@ class item : public visitable<item>
         bool on_drop( const tripoint &pos );
 
         /**
+         * Invokes item type's @ref itype::drop_action.
+         * This function can change the item.
+         * @param pos Where is the item being placed. Note: the item isn't there yet.
+         * @param map A map object associated with that position.
+         * @return true if the item was destroyed during placement.
+         */
+        bool on_drop( const tripoint &pos, map &m );
+
+        /**
          * Consume a specific amount of items of a specific type.
          * This includes this item, and any of its contents (recursively).
          * @see item::use_charges - this is similar for items, not charges.
@@ -585,9 +602,14 @@ class item : public visitable<item>
         long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                 std::string *err = nullptr ) const;
         /**
-         * It returns the total capacity (volume) of the container.
+         * It returns the total capacity (volume) of the container for liquids.
          */
         units::volume get_container_capacity() const;
+        /**
+         * It returns the maximum volume of any contents, including liquids,
+         * ammo, magazines, weapons, etc.
+         */
+        units::volume get_total_capacity() const;
         /**
          * Puts the given item into this one, no checks are performed.
          */
@@ -621,6 +643,11 @@ class item : public visitable<item>
 
         int get_quality( const quality_id &id ) const;
         bool count_by_charges() const;
+
+        /**
+         * If count_by_charges(), returns charges, otherwise 1
+         */
+        long count() const;
         bool craft_has_charges();
 
         /**
@@ -810,10 +837,14 @@ class item : public visitable<item>
          */
         bool made_of( const material_id &mat_ident ) const;
         /**
-         * Are we solid, liquid, gas, plasma?
-         * @param from_itype If true grab phase from itype instead
+         * If contents nonempty, return true if item phase is same, else false
          */
-        bool made_of( phase_id phase, bool from_itype = false ) const;
+        bool contents_made_of( const phase_id phase ) const;
+        /**
+         * Are we solid, liquid, gas, plasma?
+         */
+        bool made_of( phase_id phase ) const;
+        bool made_of_from_type( phase_id phase ) const;
         /**
          * Whether the items is conductive.
          */
@@ -1003,6 +1034,7 @@ class item : public visitable<item>
         bool is_magazine() const;
         bool is_ammo_belt() const;
         bool is_bandolier() const;
+        bool is_holster() const;
         bool is_ammo() const;
         bool is_armor() const;
         bool is_book() const;
@@ -1176,11 +1208,11 @@ class item : public visitable<item>
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Number of charges of this item that fit into the given volume.
+         * Number of (charges of) this item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume. Only depends on the *type*
          * of this item not on its current charge count.
          *
-         * For items not counted by charges, this returns this->volume() / vol.
+         * For items not counted by charges, this returns vol / this->volume().
          */
         long charges_per_volume( const units::volume &vol ) const;
 
@@ -1373,9 +1405,9 @@ class item : public visitable<item>
          */
         int get_thickness() const;
         /**
-         * Returns clothing layer for item which will always be 0 for non-wearable items.
+         * Returns clothing layer for item.
          */
-        int get_layer() const;
+        layer_level get_layer() const;
         /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
@@ -1383,6 +1415,12 @@ class item : public visitable<item>
          * damage from attacks.
          */
         int get_coverage() const;
+        /**
+         * Returns the encumbrance value that this item has when worn, when
+         * containing a particular volume of contents.
+         * Returns 0 if this is can not be worn at all.
+         */
+        int get_encumber_when_containing( const units::volume &contents_volume ) const;
         /**
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.
@@ -1676,6 +1714,17 @@ class item : public visitable<item>
 
         /** for combustion engines the displacement (cc) */
         int engine_displacement() const;
+        /*@}*/
+
+        /**
+         * @name Bionics / CBMs
+         * Functions specific to CBMs
+         */
+        /*@{*/
+        /**
+         * Whether the CBM is an upgrade to another bionic module
+         */
+        bool is_upgrade() const;
         /*@}*/
 
         /**

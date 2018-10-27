@@ -7,6 +7,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "player.h"
+#include "popup.h"
 #ifdef TILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
@@ -31,10 +32,12 @@ class basic_animation
         }
 
         void draw() const {
-            auto window = create_wait_popup_window( _( "Hang on a bit..." ) );
-
             wrefresh( g->w_terrain );
-            wrefresh( window );
+
+            query_popup()
+            .wait_message( "%s", _( "Hang on a bit..." ) )
+            .on_top( true )
+            .show();
 
             refresh_display();
         }

@@ -464,7 +464,7 @@
     "id": "hdstowboard_sw",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
-    "looks_like": "stowboard_se",
+    "looks_like": "stowboard_sw",
     "symbol": "b"
   },
   {

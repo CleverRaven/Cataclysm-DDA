@@ -41,6 +41,7 @@
 #include "npc.h"
 #include "bionics.h"
 #include "activity_type.h"
+#include "overmap_ui.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -736,12 +737,18 @@ void update_globals( lua_State *L )
 {
     LuaReference<player>::push( L, g->u );
     luah_setglobal( L, "player", -1 );
+    // luah_setglobal pushes an extra copy of the global data before storing it,
+    // but here the original value isn't needed once the global data has been
+    // saved.
+    lua_pop( L, 1 );
 
     LuaReference<map>::push( L, g->m );
     luah_setglobal( L, "map", -1 );
+    lua_pop( L, 1 );
 
     LuaReference<game>::push( L, g );
     luah_setglobal( L, "g", -1 );
+    lua_pop( L, 1 );
 }
 
 class lua_iuse_wrapper : public iuse_actor
@@ -878,10 +885,10 @@ void CallbackArgument::Save()
             lua_pushstring( L, value_string.c_str() );
             break;
         case CallbackArgumentType::Tripoint:
-            LuaValue<tripoint>::push_reg( L, value_tripoint );
+            LuaValue<tripoint>::push( L, value_tripoint );
             break;
         case CallbackArgumentType::Item:
-            LuaValue<item>::push_reg( L, value_item );
+            LuaValue<item>::push( L, value_item );
             break;
         case CallbackArgumentType::Reference_Creature:
             LuaReference<Creature>::push( L, value_creature );

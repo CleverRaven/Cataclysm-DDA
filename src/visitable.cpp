@@ -104,7 +104,7 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
 
     self.visit_items( [&qual, level, &limit, &qty]( const item * e ) {
         if( e->get_quality( qual ) >= level ) {
-            qty = sum_no_wrap( qty, e->count_by_charges() ? int( e->charges ) : 1 );
+            qty = sum_no_wrap( qty, int( e->count() ) );
             if( qty >= limit ) {
                 return VisitResponse::ABORT; // found sufficient items
             }
@@ -120,7 +120,7 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int qty = 0;
 
     auto pos = veh.parts[ part ].mount;
-    for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
+    for( const auto &n : veh.parts_at_relative( pos.x, pos.y, true ) ) {
 
         // only unbroken parts can provide tool qualities
         if( !veh.parts[ n ].is_broken() ) {
@@ -214,7 +214,7 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int res = INT_MIN;
 
     auto pos = veh.parts[ part ].mount;
-    for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
+    for( const auto &n : veh.parts_at_relative( pos.x, pos.y, true ) ) {
 
         // only unbroken parts can provide tool qualities
         if( !veh.parts[ n ].is_broken() ) {
@@ -454,7 +454,7 @@ VisitResponse visitable<vehicle_cursor>::visit_items(
 {
     auto self = static_cast<vehicle_cursor *>( this );
 
-    int idx = self->veh.part_with_feature( self->part, "CARGO" );
+    int idx = self->veh.part_with_feature( self->part, "CARGO", true );
     if( idx >= 0 ) {
         for( auto &e : self->veh.get_items( idx ) ) {
             if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
@@ -695,7 +695,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         return res; // nothing to do
     }
 
-    int idx = cur->veh.part_with_feature( cur->part, "CARGO" );
+    int idx = cur->veh.part_with_feature( cur->part, "CARGO", true );
     if( idx < 0 ) {
         return res;
     }
@@ -847,7 +847,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit]( const item * e ) {
-        if( e->typeId() == id && e->allow_crafting_component() && ( pseudo || !e->has_flag( "PSEUDO" ) ) ) {
+        if( e->typeId() == id &&
+            ( pseudo || ( e->allow_crafting_component() && !e->has_flag( "PSEUDO" ) ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;

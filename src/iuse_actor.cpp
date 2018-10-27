@@ -43,6 +43,7 @@
 #include "skill.h"
 #include "effect.h"
 #include "map_selector.h"
+#include "item_factory.h"
 
 #include <sstream>
 #include <algorithm>
@@ -974,7 +975,9 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
     const auto center = p.global_omt_location();
     for( auto &omt : omt_types ) {
-        reveal_targets( center, omt, 0 );
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );
+        }
     }
     if( !message.empty() ) {
         p.add_msg_if_player( m_good, "%s", _( message.c_str() ) );
@@ -1446,11 +1449,10 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
-        uimenu imenu;
+        uilist imenu;
         imenu.text = string_format( _( "%s on what?" ), _( verb.c_str() ) );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
-        imenu.addentry( 2, true, MENU_AUTOASSIGN, _( "Cancel" ) );
         imenu.query();
         choice = imenu.ret;
     } else if( on_terrain ) {
@@ -1459,7 +1461,7 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
         choice = 1;
     }
 
-    if( choice < 0 || choice > 2 ) {
+    if( choice < 0 || choice > 1 ) {
         return 0;
     }
 
@@ -1610,8 +1612,6 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     auto items = g->m.i_at( p.posx(), p.posy() );
     std::vector<const item *> corpses;
 
-    const int cancel = 0;
-
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
         if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
@@ -1644,18 +1644,16 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    uimenu amenu;
+    uilist amenu;
 
-    amenu.selected = 0;
     amenu.text = _( "Selectively butcher the downed zombie into a zombie slave?" );
-    amenu.addentry( cancel, true, 'q', _( "Cancel" ) );
     for( size_t i = 0; i < corpses.size(); i++ ) {
-        amenu.addentry( i + 1, true, -1, corpses[i]->display_name().c_str() );
+        amenu.addentry( i, true, -1, corpses[i]->display_name() );
     }
 
     amenu.query();
 
-    if( cancel == amenu.ret ) {
+    if( amenu.ret < 0 ) {
         p.add_msg_if_player( _( "Make love, not zlave." ) );
         return 0;
     }
@@ -1685,7 +1683,7 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.add_morale( MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay );
     }
 
-    const int selected_corpse = amenu.ret - 1;
+    const int selected_corpse = amenu.ret;
 
     const item *body = corpses[selected_corpse];
     const mtype *mt = body->get_mtype();
@@ -2129,7 +2127,12 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     } );
 
     if( opts.size() > 1 ) {
-        pos += uimenu( true, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+        const int ret = uilist( string_format( _( "Use %s" ), it.tname() ), opts );
+        if( ret < 0 ) {
+            pos = -2;
+        } else {
+            pos += ret;
+        }
     }
 
     if( pos < -1 ) {
@@ -2161,16 +2164,27 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "Can contain items from " ), string_format( "<num> %s",
-                       volume_units_abbr() ),
-                       convert_volume( min_volume.value() ), false, "", true );
-    dump.emplace_back( "TOOL", _( "Up to " ), string_format( "<num> %s", volume_units_abbr() ),
-                       convert_volume( max_volume.value() ), false, "", max_weight <= 0 );
+    std::string message = ngettext( "Can be activated to store a suitable item.",
+                                    "Can be activated to store suitable items.", multi );
+    dump.emplace_back( "DESCRIPTION", message );
+    dump.emplace_back( "TOOL", _( "Num items: " ), "<num>", multi );
+    dump.emplace_back( "TOOL", _( "Item volume: Min: " ),
+                       string_format( "<num> %s", volume_units_abbr() ),
+                       convert_volume( min_volume.value() ), false, "", false, true );
+    dump.emplace_back( "TOOL", _( "  Max: " ),
+                       string_format( "<num> %s", volume_units_abbr() ),
+                       convert_volume( max_volume.value() ), false );
 
     if( max_weight > 0 ) {
-        dump.emplace_back( "TOOL", "holster_kg", string_format( _( " or <num> %s" ), weight_units() ),
-                           convert_weight( max_weight ), false, "", true, false, false );
+        dump.emplace_back( "TOOL", "Max item weight: ",
+                           string_format( _( "<num> %s" ), weight_units() ),
+                           convert_weight( max_weight ), false );
     }
+}
+
+units::volume holster_actor::max_stored_volume() const
+{
+    return max_volume * multi;
 }
 
 iuse_actor *bandolier_actor::clone() const
@@ -2192,11 +2206,10 @@ void bandolier_actor::load( JsonObject &obj )
 void bandolier_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( !ammo.empty() ) {
-        auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
-                                    string_format( "<stat>%s</stat>", ( *ammo.begin() )->name().c_str() ),
-        [&]( const std::string & lhs, const ammotype & rhs ) {
-            return lhs + string_format( ", <stat>%s</stat>", rhs->name().c_str() );
-        } );
+        auto str = enumerate_as_string( ammo.begin(), ammo.end(),
+        [&]( const ammotype & a ) {
+            return string_format( "<stat>%s</stat>", a->name() );
+        }, enumeration_conjunction::or_ );
 
         dump.emplace_back( "TOOL", string_format(
                                ngettext( "Can be activated to store a single round of ",
@@ -2206,20 +2219,25 @@ void bandolier_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
+bool bandolier_actor::is_valid_ammo_type( const itype &t ) const
 {
-    if( !obj.is_ammo() ) {
+    if( !t.ammo ) {
         return false;
     }
+    return std::any_of( t.ammo->type.begin(), t.ammo->type.end(),
+    [&]( const ammotype & e ) {
+        return ammo.count( e );
+    } );
+}
+
+bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
+{
     if( !bandolier.contents.empty() && ( bandolier.contents.front().typeId() != obj.typeId() ||
                                          bandolier.contents.front().charges >= capacity ) ) {
         return false;
     }
 
-    return std::any_of( obj.type->ammo->type.begin(), obj.type->ammo->type.end(),
-    [&]( const ammotype & e ) {
-        return ammo.count( e );
-    } );
+    return is_valid_ammo_type( *obj.type );
 }
 
 bool bandolier_actor::reload( player &p, item &obj ) const
@@ -2286,9 +2304,8 @@ long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    uimenu menu;
+    uilist menu;
     menu.text = _( "Store ammo" );
-    menu.return_invalid = true;
 
     std::vector<std::function<void()>> actions;
 
@@ -2316,6 +2333,24 @@ long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     return 0;
+}
+
+units::volume bandolier_actor::max_stored_volume() const
+{
+    // This is relevant only for bandoliers with the non-rigid flag.  There are
+    // no such items in the base game at time of writing, but I created some to
+    // test this and it does seem to work as expected.
+
+    // Find all valid ammo
+    auto ammo_types = Item_factory::find( [&]( const itype & t ) {
+        return is_valid_ammo_type( t );
+    } );
+    // Figure out which has the greateset volume and calculate on that basis
+    units::volume max_ammo_volume{};
+    for( auto const *ammo_type : ammo_types ) {
+        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume );
+    }
+    return max_ammo_volume * capacity;
 }
 
 iuse_actor *ammobelt_actor::clone() const
@@ -3111,7 +3146,7 @@ hp_part pick_part_to_heal(
     const std::string &menu_header,
     int limb_power, int head_bonus, int torso_bonus,
     float bleed_chance, float bite_chance, float infect_chance,
-    bool force, bool is_bandage, bool is_disinfectant )
+    bool force, float bandage_power, float disinfectant_power )
 {
     const bool bleed = bleed_chance > 0.0f;
     const bool bite = bite_chance > 0.0f;
@@ -3125,7 +3160,7 @@ hp_part pick_part_to_heal(
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,
                               limb_power, head_bonus, torso_bonus,
-                              bleed, bite, infect, is_bandage, is_disinfectant );
+                              bleed_chance, bite_chance, infect_chance, bandage_power, disinfectant_power );
         if( healed_part == num_hp_parts ) {
             return num_hp_parts;
         }
@@ -3190,13 +3225,12 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     } else if( patient.is_player() ) {
         // Player healing self - let player select
         if( healer.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
-            const std::string menu_header = it.tname();
-            bool is_bandages = bandages_power;
-            bool is_disinfectant = disinfectant_power;
+            const std::string menu_header = _( "Select a body part for: " ) + it.tname();
             healed = pick_part_to_heal( healer, patient, menu_header,
                                         limb_power, head_bonus, torso_bonus,
-                                        bleed, bite, infect, force, is_bandages, is_disinfectant );
+                                        bleed, bite, infect, force, get_bandaged_level( healer ), get_disinfected_level( healer ) );
             if( healed == num_hp_parts ) {
+                add_msg( m_info, _( "Never mind." ) );
                 return num_hp_parts; // canceled
             }
         }
@@ -3211,12 +3245,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     } else {
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
-        const std::string menu_header = it.tname();
-        bool is_bandages = bandages_power;
-        bool is_disinfectant = disinfectant_power;
+        const std::string menu_header = string_format( _( "Select a body part of %s for %s:" ),
+                                        patient.disp_name(), it.tname() );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
-                                    bleed, bite, infect, force, is_bandages, is_disinfectant );
+                                    bleed, bite, infect, force, get_bandaged_level( healer ), get_disinfected_level( healer ) );
     }
 
     if( healed != num_hp_parts ) {
@@ -3243,20 +3276,20 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( bandages_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", bandages_power, true,
-                           "", true );
+        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ),
+                           texitify_base_healing_power( ( int )bandages_power ) );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "",
-                               get_bandaged_level( g->u ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ),
+                               texitify_healing_power( get_bandaged_level( g->u ) ) );
         }
     }
 
     if( disinfectant_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base disinfecting quality:</bold> " ), "", disinfectant_power,
-                           true, "", true );
+        dump.emplace_back( "TOOL", _( "<bold>Base disinfecting quality:</bold> " ),
+                           texitify_base_healing_power( ( int )disinfectant_power ) );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual disinfecting quality:</bold> " ), "",
-                               get_disinfected_level( g->u ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Actual disinfecting quality:</bold> " ),
+                               texitify_healing_power( get_disinfected_level( g->u ) ) );
         }
     }
 
@@ -3264,14 +3297,14 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, true, "",
                            true );
         if( bleed > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Bleeding</bold>:" ), "", ( int )( bleed * 100 ), true, "",
+            dump.emplace_back( "TOOL", _( "<bold>* Bleeding</bold>:" ), "", ( int )( bleed * 100 ), true, "",
                                true );
         }
         if( bite > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Bite</bold>:" ), "", ( int )( bite * 100 ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>* Bite</bold>:" ), "", ( int )( bite * 100 ), true, "", true );
         }
         if( infect > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Infection</bold>:" ), "", ( int )( infect * 100 ), true, "",
+            dump.emplace_back( "TOOL", _( "<bold>* Infection</bold>:" ), "", ( int )( infect * 100 ), true, "",
                                true );
         }
     }
@@ -3575,10 +3608,8 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
     mods.erase( std::remove_if( mods.begin(), mods.end(), std::bind( &item::is_irremovable,
                                 std::placeholders::_1 ) ), mods.end() );
 
-    uimenu prompt;
-    prompt.selected = 0;
+    uilist prompt;
     prompt.text = _( "Remove which modification?" );
-    prompt.return_invalid = true;
 
     for( size_t i = 0; i != mods.size(); ++i ) {
         prompt.addentry( i, true, -1, mods[ i ]->tname() );

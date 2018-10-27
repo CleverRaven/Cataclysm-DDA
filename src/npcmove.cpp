@@ -647,7 +647,7 @@ void npc::execute_action( npc_action action )
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
-            for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_BOARDABLE ) ) {
+            for( const vpart_reference vp : veh->get_parts( VPFLAG_BOARDABLE ) ) {
                 const size_t p2 = vp.part_index();
                 const player *passenger = veh->get_passenger( p2 );
                 if( passenger != this && passenger != nullptr ) {
@@ -1595,7 +1595,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const optional_vpart_position ovp = g->m.veh_at( p );
         if( abs( vp->vehicle().velocity ) > 0 &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
-              !ovp.part_with_feature( VPFLAG_BOARDABLE ) ) ) {
+              !ovp.part_with_feature( VPFLAG_BOARDABLE, true ) ) ) {
             move_pause();
             return;
         }
@@ -1659,7 +1659,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             doors::close_door( g->m, *this, old_pos );
         }
 
-        if( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+        if( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
             g->m.board_vehicle( p, this );
         }
 
@@ -1906,7 +1906,7 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
     ( const item & it, const tripoint & p ) {
-        if( it.made_of( LIQUID, true ) ) {
+        if( it.made_of_from_type( LIQUID ) ) {
             // Don't even consider liquids.
             return;
         }
@@ -2113,7 +2113,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( it.made_of( LIQUID, true ) ) {
+        if( it.made_of_from_type( LIQUID ) ) {
             iter++;
             continue;
         }

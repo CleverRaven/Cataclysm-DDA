@@ -148,6 +148,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     if( shield.has_flag( "FRAGILE_MELEE" ) ) {
         const float fragile_factor = 6;
         int weak_chip = INT_MAX;
+        units::volume big_vol = 0_ml;
 
         // Items that should have no bearing on durability
         const std::set<itype_id> blacklist = { "rag",
@@ -162,7 +163,8 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
                     weak_comp = comp.typeId();
                 }
             }
-            if( comp.volume() > item::find_type( big_comp )->volume ) {
+            if( comp.volume() > big_vol ) {
+                big_vol = comp.volume();
                 big_comp = comp.typeId();
             }
         }

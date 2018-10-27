@@ -7095,6 +7095,7 @@
     "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -9809,5 +9810,26 @@
       "flags": [ "JAVELIN" ]
     },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
+  },
+  {
+    "id": "pot_xlhelmet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "XL pot helmet",
+    "description": "A huge makeshift helmet made from a canning pot.  For the truly desperate man-bear-pig.",
+    "weight": 6425,
+    "volume": 100,
+    "price": 22000,
+    "bashing": 10,
+    "material": "steel",
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD" ],
+    "coverage": 55,
+    "encumbrance": 50,
+    "warmth": 5,
+    "material_thickness": 2,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "OVERSIZE" ]
   }
 ]

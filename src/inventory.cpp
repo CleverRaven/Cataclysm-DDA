@@ -191,7 +191,7 @@ char inventory::find_usable_cached_invlet( const std::string &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( invlet_to_position( invlet ) != INT_MIN ) {
+        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
             continue;
         }
         return invlet;
@@ -404,14 +404,14 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN" );
-        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET" );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
+        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
+        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
+        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( cargo ) {
             const auto items = veh->get_items( cargo->part_index() );
@@ -841,6 +841,58 @@ units::mass inventory::weight() const
     return ret;
 }
 
+// Helper function to iterate over the intersection of the inventory and a list
+// of items given
+template<typename F>
+void for_each_item_in_both(
+    const invstack &items, const std::map<const item *, int> &other, const F &f )
+{
+    // Shortcut the logic in the common case where other is empty
+    if( other.empty() ) {
+        return;
+    }
+
+    for( const auto &elem : items ) {
+        const item &representative = elem.front();
+        auto other_it = other.find( &representative );
+        if( other_it == other.end() ) {
+            continue;
+        }
+
+        long num_to_count = other_it->second;
+        if( representative.count_by_charges() ) {
+            item copy = representative;
+            copy.charges = std::min( copy.charges, num_to_count );
+            f( copy );
+        } else {
+            for( const auto &elem_stack_iter : elem ) {
+                f( elem_stack_iter );
+                if( --num_to_count <= 0 ) {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+units::mass inventory::weight_without( const std::map<const item *, int> &without ) const
+{
+    units::mass ret = weight();
+
+    for_each_item_in_both( items, without,
+    [&]( const item & i ) {
+        ret -= i.weight();
+    }
+                         );
+
+    if( ret < 0_gram ) {
+        debugmsg( "Negative mass after removing some of inventory" );
+        ret = {};
+    }
+
+    return ret;
+}
+
 units::volume inventory::volume() const
 {
     units::volume ret = 0;
@@ -849,6 +901,24 @@ units::volume inventory::volume() const
             ret += elem_stack_iter.volume();
         }
     }
+    return ret;
+}
+
+units::volume inventory::volume_without( const std::map<const item *, int> &without ) const
+{
+    units::volume ret = volume();
+
+    for_each_item_in_both( items, without,
+    [&]( const item & i ) {
+        ret -= i.volume();
+    }
+                         );
+
+    if( ret < 0_ml ) {
+        debugmsg( "Negative volume after removing some of inventory" );
+        ret = 0_ml;
+    }
+
     return ret;
 }
 

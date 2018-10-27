@@ -179,11 +179,6 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.stackable && obj.stack_size == 0 ) {
         obj.stack_size = obj.charges_default();
     }
-    // JSON contains volume per complete stack, convert it to volume per single item
-    if( obj.count_by_charges() ) {
-        obj.volume = obj.volume / obj.stack_size;
-        obj.integral_volume = obj.integral_volume / obj.stack_size;
-    }
     // Items always should have some volume.
     // TODO: handle possible exception software?
     // TODO: make items with 0 volume an error during loading?
@@ -562,10 +557,14 @@ void Item_factory::init()
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
+    add_iuse( "E_COMBATSAW_OFF", &iuse::e_combatsaw_off );
+    add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CS_LAJATANG_OFF", &iuse::cs_lajatang_off );
     add_iuse( "CS_LAJATANG_ON", &iuse::cs_lajatang_on );
+    add_iuse( "ECS_LAJATANG_OFF", &iuse::ecs_lajatang_off );
+    add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
@@ -1698,6 +1697,7 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
+    assign( jo, "is_upgrade", slot.is_upgrade );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )

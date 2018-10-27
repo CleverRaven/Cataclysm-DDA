@@ -28,8 +28,8 @@ public class SplashScreen extends Activity {
     private static final int INSTALL_DIALOG_ID = 0;
     private ProgressDialog installDialog;
 
-    public CharSequence[] mSettingsNames = { "Use tiles", "Software rendering" };
-    public boolean[] mSettingsValues = { true, true };
+    public CharSequence[] mSettingsNames = { "Software rendering" };
+    public boolean[] mSettingsValues = { true };
 
     private String getVersionName() {
         try {

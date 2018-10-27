@@ -847,6 +847,13 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
+    "result": "smart_phone",
+    "type": "uncraft",
+    "time": 500,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens", 1 ] ] ]
+  },
+  {
     "result": "ceramic_bowl",
     "type": "uncraft",
     "time": 1000,
@@ -1154,7 +1161,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 1000,
-    "components": [ [ [ "charcoal", 40 ] ], [ [ "char_kiln", 1 ] ] ]
+    "components": [ [ [ "charcoal", 200 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "result": "knife_steak",
@@ -2137,5 +2144,14 @@
     "time": 100,
     "components": [ [ [ "paper", 10 ] ], [ [ "plastic_chunk", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pot_canning",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 4000,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
   }
 ]

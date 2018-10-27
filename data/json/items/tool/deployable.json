@@ -12,7 +12,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" },
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "metal_butcher_rack",

@@ -10,7 +10,7 @@
 #include "map_helpers.h"
 #include "player_helpers.h"
 
-static void test_repair( std::vector<item> tools, bool expect_craftable )
+static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
     clear_player();
     clear_map();
@@ -28,7 +28,7 @@ static void test_repair( std::vector<item> tools, bool expect_craftable )
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
     vehicle_part *origin_frame = nullptr;
-    for( vehicle_part *part : veh_ptr->get_parts( vehicle_origin ) ) {
+    for( vehicle_part *part : veh_ptr->get_parts( vehicle_origin, "", false, false ) ) {
         if( part->info().location == "structure" ) {
             origin_frame = part;
             break;

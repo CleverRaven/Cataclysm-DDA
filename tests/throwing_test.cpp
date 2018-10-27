@@ -235,17 +235,20 @@ void test_player_kills_monster( player &p, const std::string &mon_id, const std:
 {
     const tripoint monster_start = { 30 + range, 30, 0 };
     const tripoint player_start = { 30, 30, 0 };
-    bool mon_is_dead = false;
-    int turns, num_items;
-    int last_range = -1;
+    int failure_turns = -1;
+    int failure_num_items = -1;
+    int failure_last_range = -1;
     item it( item_id );
-    int i = 0;
+    int num_failures = 0;
 
     // We want to be real sure it isn't possible so do it a bunch of times
     // until we manage to make it happen or if we hit iterations then we're
     // good.
-    for( ; i < iterations && !mon_is_dead; i++ ) {
-        turns = num_items = 0;
+    for( int i = 0; i < iterations; i++ ) {
+        bool mon_is_dead = false;
+        int turns = 0;
+        int num_items = 0;
+        int last_range = -1;
 
         reset_player( p, pstats, player_start );
 
@@ -279,15 +282,19 @@ void test_player_kills_monster( player &p, const std::string &mon_id, const std:
 
         if( !mon_is_dead ) {
             g->remove_zombie( mon );
+        } else {
+            ++num_failures;
+            failure_turns = turns;
+            failure_num_items = num_items;
+            failure_last_range = last_range;
         }
     }
 
     INFO( "You killed him :( He had kids you know." );
-    INFO( "Test iteration: " << i );
-    INFO( "Distance - Start: " << range << " End: " << last_range );
-    INFO( "Turns: " << turns );
-    INFO( "# Items thrown: " << num_items );
-    CHECK( !mon_is_dead );
+    INFO( "Distance - Start: " << range << " End: " << failure_last_range );
+    INFO( "Turns: " << failure_turns );
+    INFO( "# Items thrown: " << failure_num_items );
+    CHECK( num_failures <= 1 );
 }
 
 TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )

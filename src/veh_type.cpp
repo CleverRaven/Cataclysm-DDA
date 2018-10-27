@@ -206,6 +206,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "location", def.location );
     assign( jo, "durability", def.durability );
     assign( jo, "damage_modifier", def.dmg_mod );
+    assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
@@ -554,7 +555,7 @@ std::string vpart_info::name() const
     return name_;
 }
 
-int vpart_info::format_description( std::ostringstream &msg, std::string format_color,
+int vpart_info::format_description( std::ostringstream &msg, const std::string &format_color,
                                     int width ) const
 {
     int lines = 1;

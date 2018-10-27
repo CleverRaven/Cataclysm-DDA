@@ -24,6 +24,7 @@ TEST_CASE( "vehicle_split_section" )
         veh_ptr = g->m.add_vehicle( vproto_id( "cross_split_test" ), vehicle_origin, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->m.destroy( vehicle_origin );
+        veh_ptr->part_removal_cleanup();
         vehs = g->m.get_vehicles();
         // destroying the center frame results in 4 new vehicles
         CHECK( vehs.size() == 4 );
@@ -43,10 +44,11 @@ TEST_CASE( "vehicle_split_section" )
         veh_ptr = g->m.add_vehicle( vproto_id( "circle_split_test" ), vehicle_origin, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->m.destroy( vehicle_origin );
+        veh_ptr->part_removal_cleanup();
         vehs = g->m.get_vehicles();
         CHECK( vehs.size() == 1 );
         if( vehs.size() == 1 ) {
-            CHECK( vehs[ 0 ].v->parts.size() == 39 );
+            CHECK( vehs[ 0 ].v->parts.size() == 38 );
         }
     }
 }

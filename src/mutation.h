@@ -92,6 +92,8 @@ struct mutation_branch {
         bool threshold;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession;
+        //True if the mutation is obtained through the debug menu
+        bool debug;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
@@ -342,7 +344,7 @@ struct mutation_category_trait {
         int iv_sleep_dur = 0;
 
         static const std::map<std::string, mutation_category_trait> &get_all();
-        static const mutation_category_trait &get_category( std::string category_id );
+        static const mutation_category_trait &get_category( const std::string &category_id );
         static void reset();
         static void check_consistency();
 

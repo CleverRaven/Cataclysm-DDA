@@ -112,7 +112,7 @@
     "copy-from": "fur",
     "color": "pink",
     "name": "faux fur pelt",
-    "description": "A small bolt of garishly colored faux fur. Can be made into clothing.",
+    "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
     "material": [ "faux_fur" ]
   },
   {
@@ -327,7 +327,8 @@
     "weight": 907,
     "volume": 1,
     "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -343,7 +344,8 @@
     "weight": 493,
     "volume": 1,
     "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -524,7 +526,8 @@
     "weight": 908,
     "volume": 6,
     "bashing": 12,
-    "to_hit": 2
+    "to_hit": 2,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -558,6 +561,7 @@
     "volume": 40,
     "bashing": 10,
     "to_hit": -10,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -1293,7 +1297,8 @@
     "material": "ceramic",
     "weight": 362,
     "volume": 1,
-    "bashing": 1
+    "bashing": 1,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1321,7 +1326,8 @@
     "material": "glass",
     "weight": 452,
     "volume": 1,
-    "bashing": 1
+    "bashing": 1,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1334,7 +1340,8 @@
     "price_postapoc": 0,
     "material": "steel",
     "weight": 525,
-    "volume": 1
+    "volume": 1,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2070,7 +2077,8 @@
     "weight": 969,
     "volume": 2,
     "bashing": 8,
-    "to_hit": -2
+    "to_hit": -2,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2415,6 +2423,20 @@
     "material": [ "cotton" ],
     "weight": 514,
     "volume": 4,
+    "flags": [ "SLEEP_AID" ],
+    "category": "other"
+  },
+  {
+    "type": "GENERIC",
+    "id": "bodypillow",
+    "symbol": "[",
+    "color": "white",
+    "name": "body pillow",
+    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily clad version on the back.",
+    "price": 1500,
+    "material": [ "cotton" ],
+    "weight": 774,
+    "volume": 7,
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },

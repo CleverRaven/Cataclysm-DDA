@@ -652,8 +652,11 @@ bool mattack::pull_metal_weapon( monster *z )
     }
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
-        if( foe->weapon.made_of( material_id( "iron" ) ) ||
-            foe->weapon.made_of( material_id( "steel" ) ) ) {
+        // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
+        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
+            ( foe->weapon.made_of( material_id( "iron" ) ) ||
+              foe->weapon.made_of( material_id( "steel" ) ) ||
+              foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
             z->moves -= att_cost_pull;   // It takes a while
             int success = 100;

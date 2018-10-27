@@ -142,6 +142,9 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = fa
  * color tags. For example `utf8_width("<color_red>text</color>")` would return 23, but
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
+
+std::string tag_colored_string( const std::string &s, nc_color color );
+
 /*@{*/
 /**
  * Removes the color tags from the input string. This might be required when the string is to
@@ -158,7 +161,7 @@ std::string remove_color_tags( const std::string &text );
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
-std::vector<std::string> foldstring( std::string str, int width );
+std::vector<std::string> foldstring( std::string str, int width, const char split = ' ' );
 
 /**
  * Print text with embedded @ref color_tags, x, y are in curses system.
@@ -202,11 +205,12 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * defeats the purpose of using `foldstring`.
  * @param color The initially used color. This can be overridden using color tags.
  * @param mes Actual message to print
+ * @param split Character after string is folded
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
  */
 int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
-                    nc_color color, const std::string &mes );
+                    nc_color color, const std::string &mes, const char split = ' ' );
 /**
  * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
@@ -273,10 +277,10 @@ int right_print( const catacurses::window &w, const int line, const int right_in
                  const nc_color FG, const std::string &mes );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
-void multipage( const catacurses::window &w, std::vector<std::string> text,
-                std::string caption = "", int begin_y = 0 );
-std::string name_and_value( std::string name, int value, int field_width );
-std::string name_and_value( std::string name, std::string value, int field_width );
+void multipage( const catacurses::window &w, const std::vector<std::string> &text,
+                const std::string &caption = "", int begin_y = 0 );
+std::string name_and_value( const std::string &name, int value, int field_width );
+std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 
 void wputch( const catacurses::window &w, nc_color FG, long ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
@@ -312,10 +316,10 @@ void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,
                          catacurses::chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0, int posx = 0,
                          int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
-                  std::string title = "", nc_color title_color = c_light_red );
+                  const std::string &title = "", nc_color title_color = c_light_red );
 void draw_tabs( const catacurses::window &w, int active_tab, ... );
 
-std::string word_rewrap( const std::string &ins, int width );
+std::string word_rewrap( const std::string &ins, int width, const uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
@@ -332,6 +336,8 @@ inline bool query_int( int &result, const char *const msg, Args &&... args )
 {
     return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
 }
+
+std::vector<std::string> get_hotkeys( const std::string &s );
 
 // for the next two functions, if cancelable is true, Esc returns the last option
 // These are legacy functions, use uilist instead!
@@ -419,10 +425,6 @@ inline void popup_player_or_npc( player &p, const char *player_mes, const char *
     }
 }
 
-catacurses::window create_popup_window( const std::string &text, PopupFlags flags );
-catacurses::window create_wait_popup_window( const std::string &text,
-        nc_color bar_color = c_light_green );
-
 /*@}*/
 
 input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
@@ -481,6 +483,7 @@ size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
+std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
@@ -537,19 +540,39 @@ inline std::string get_labeled_bar( const double val, const int width, const std
     return result;
 }
 
+enum class enumeration_conjunction {
+    none,
+    and_,
+    or_
+};
+
 /**
  * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
  * @param values A vector of strings
- * @param use_and If true, add "and" before the last element (comma otherwise).
+ * @param enumeration_conjunction Choose how to separate the last elements.
  */
 template<typename _Container>
-std::string enumerate_as_string( const _Container &values, bool use_and = true )
+std::string enumerate_as_string( const _Container &values,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
+    std::string final_separator = [&]() {
+        switch( conj ) {
+            case enumeration_conjunction::none:
+                return _( ", " );
+            case enumeration_conjunction::and_:
+                return ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+            case enumeration_conjunction::or_:
+                return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
+        }
+        debugmsg( "Unexpected conjunction" );
+        return _( ", " );
+    }
+    ();
     std::ostringstream res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
-            if( use_and && std::next( iter ) == values.end() ) {
-                res << ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+            if( std::next( iter ) == values.end() ) {
+                res << final_separator;
             } else {
                 res << _( ", " );
             }
@@ -565,10 +588,11 @@ std::string enumerate_as_string( const _Container &values, bool use_and = true )
  * @param last Iterator pointing to the last element.
  * @param pred Predicate that accepts an element and returns a representing string.
  * May return an empty string to omit the element.
- * @param use_and If true, add "and" before the last element (comma otherwise).
+ * @param enumeration_conjunction Choose how to separate the last elements.
  */
 template<typename _FIter, typename _Predicate>
-std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, bool use_and = true )
+std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
     values.reserve( size_t( std::distance( first, last ) ) );
@@ -578,7 +602,7 @@ std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, boo
             values.push_back( str );
         }
     }
-    return enumerate_as_string( values, use_and );
+    return enumerate_as_string( values, conj );
 }
 
 /**
@@ -590,8 +614,10 @@ std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, boo
  */
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c );
 
-void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected );
-void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
+void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText,
+               bool bSelected );
+void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
+                  bool bSelected,
                   bool bDecorate = true, bool bDisabled = false );
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
@@ -707,8 +733,7 @@ extern scrollingcombattext SCT;
 
 std::string wildcard_trim_rule( const std::string &sPatternIn );
 bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
-std::vector<std::string> &wildcard_split( const std::string &s, char delim,
-        std::vector<std::string> &elems );
+std::vector<std::string> string_split( const std::string &s, char delim );
 int ci_find_substr( const std::string &str1, const std::string &str2,
                     const std::locale &loc = std::locale() );
 

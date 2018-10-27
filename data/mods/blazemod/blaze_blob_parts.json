@@ -299,13 +299,22 @@
     "broken_color": "light_green",
     "difficulty": 1,
     "durability": 250,
-    "size": 10000,
+    "size": 5000,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": 20,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "gloople_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "gloople_tank",
+    "name": "gel tank (60L)",
+    "item": "gloople_tank_large",
+    "size": 60000,
+    "folded_volume": 240
   },
   {
     "id": "gloople_horizontal",
@@ -684,7 +693,7 @@
   {
     "id": "gray_tank",
     "type": "vehicle_part",
-    "name": "cocoon (25L)",
+    "name": "cocoon (30L)",
     "item": "gray_tank",
     "location": "fuel_source",
     "symbol": "O",
@@ -693,13 +702,22 @@
     "broken_color": "light_gray",
     "difficulty": 1,
     "durability": 1000,
-    "size": 25000,
+    "size": 10000,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": 40,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "gray_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "gray_tank",
+    "name": "gray tank (100L)",
+    "item": "gray_tank_large",
+    "size": 100000,
+    "folded_volume": 400
   },
   {
     "id": "gray_horizontal",
@@ -1296,13 +1314,22 @@
     "broken_color": "green",
     "difficulty": 1,
     "durability": 500,
-    "size": 20000,
+    "size": 7500,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": 30,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "oozle_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "oozle_tank",
+    "name": "ooze tank (80L)",
+    "item": "oozle_tank_large",
+    "size": 8000,
+    "folded_volume": 320
   },
   {
     "id": "oozle_horizontal",
@@ -1601,7 +1628,47 @@
     "breaks_into": [ { "item": "queengrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "description": "An amorphous mass, the living heart and brain of a blob vehicle.",
-    "flags": [ "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONICS", "SEAT", "BED", "E_ALTERNATOR", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL" ]
+    "flags": [ "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONIC", "SEAT", "BED", "E_ALTERNATOR", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL", "TURRET_MOUNT" ]
+  },
+  {
+    "id": "blob_turret_mount",
+    "type": "vehicle_part",
+    "name": "inert core",
+    "item": "queen",
+    "looks_like": "turret_mount",
+    "symbol": "X",
+    "color": "red",
+    "broken_symbol": "X",
+    "broken_color": "red",
+    "damage_modifier": 8,
+    "durability": 400,
+    "folded_volume": 1,
+    "description": "A sleeping amorphous core, acting as a rotating, universal mount for a weapon.  If your hands are empty, you can stand next to a tentacle and 'f'ire the weapon by selecting the tile.",
+    "difficulty": 2,
+    "breaks_into": [ { "item": "queengrow" } ],
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET_MOUNT", "FOLDABLE" ]
+  },
+  {
+    "id": "spouterqueen",
+    "type": "vehicle_part",
+    "name": "gel spouter",
+    "item": "spouterqueen",
+    "location": "on_roof",
+    "looks_like": "clutter",
+    "symbol": "t",
+    "broken_symbol": "#",
+    "color": "red",
+    "broken_color": "red",
+    "difficulty": 1,
+    "durability": 200,
+    "range": 60,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "queengrow" } ],
+    "description": "A living blob turned into a heavy vehicle weapon.",
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "razorqueen",

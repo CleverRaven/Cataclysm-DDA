@@ -746,12 +746,12 @@ See also VEHICLE_JSON.md
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
-"weight" : 350,                   // Weight of the item in grams
-"volume" : 1,                     // Volume, measured in 1/4 liters
+"weight" : 350,                   // Weight of the item in grams. For stackable items (ammo, comestibles) this is the weight per charge.
+"volume" : 1,                     // Volume, measured in 1/4 liters. For stackable items (ammo, comestibles) this is the volume of stack_size charges.
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price" : 100,                    // Used when bartering with NPCs
+"price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges.
 "material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
 "bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
@@ -889,6 +889,19 @@ When adding a new book, please use this color key:
 
 A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
 Never use `yellow` and `red`, those colors are reserved for sounds and infrared vision.
+
+####CBMs
+
+CBMs can be defined like this:
+
+```JSON
+"type" : "BIONIC_ITEM",         // Defines this as a CBM
+...                             // same entries as above for the generic item.
+                                // additional some CBM specific entries:
+"bionic_id" : "bio_advreactor", // ID of the installed bionic if not equaivalent to "id"
+"difficulty" : 11,              // Difficulty of installing CBM
+"is_upgrade" : true             // Whether the CBM is an upgrade of another bionic.
+```
 
 ### Comestibles
 

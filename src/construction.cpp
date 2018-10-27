@@ -336,8 +336,7 @@ void construction_menu()
             bool highlight = ( current == select );
 
             trim_and_print( w_list, i, 0, w_list_width,
-                            construction_color( con_name, highlight ),
-                            con_name );
+                            construction_color( con_name, highlight ), _( con_name.c_str() ) );
         }
 
         if( update_info ) {
@@ -375,8 +374,7 @@ void construction_menu()
                 }
                 std::string current_desc = constructs[select];
                 // Print construction name
-                trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
-                                current_desc );
+                trim_and_print( w_con, 1, pos_x, available_window_width, c_white, _( current_desc.c_str() ) );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -480,7 +478,7 @@ void construction_menu()
                                 std::string color_s = "<color_" + string_from_color( col ) + ">";
                                 return string_format( "%s%s (%d)</color>", color_s.c_str(),
                                                       skill.first.obj().name().c_str(), skill.second );
-                            }, false );
+                            }, enumeration_conjunction::none );
                         }
 
                         current_buffer.push_back( current_line.str() );
@@ -842,7 +840,7 @@ void complete_construction()
         }
     }
 
-    add_msg( m_info, _( "You finish your construction: %s." ), built.description.c_str() );
+    add_msg( m_info, _( "You finish your construction: %s." ), _( built.description.c_str() ) );
 
     // clear the activity
     u.activity.set_to_null();
@@ -1179,7 +1177,7 @@ void load_construction( JsonObject &jo )
     construction con;
     con.id = constructions.size();
 
-    con.description = _( jo.get_string( "description" ).c_str() );
+    con.description = jo.get_string( "description" ).c_str();
     if( jo.has_member( "required_skills" ) ) {
         auto sk = jo.get_array( "required_skills" );
         while( sk.has_more() ) {

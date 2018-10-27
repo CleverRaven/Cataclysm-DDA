@@ -14,9 +14,22 @@ std::string gunmod_location::name() const
     return _( _id.c_str() );
 }
 
-std::string itype::nname( unsigned int const quantity ) const
+std::string itype::nname( unsigned int quantity ) const
 {
+    // Always use singular form for liquids.
+    // (Maybe gases too?  There are no gases at the moment)
+    if( phase == LIQUID ) {
+        quantity = 1;
+    }
     return ngettext( name.c_str(), name_plural.c_str(), quantity );
+}
+
+long itype::charges_per_volume( const units::volume &vol ) const
+{
+    if( volume == 0 ) {
+        return item::INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
+    }
+    return ( stackable ? stack_size : 1 ) * vol / volume;
 }
 
 // Members of iuse struct, which is slowly morphing into a class.

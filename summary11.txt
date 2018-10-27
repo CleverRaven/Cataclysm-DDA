@@ -1,0 +1,100 @@
+Infrastructure Remove excessive inclusions from "color.cpp"
+Interface Replace invalid color 'teal' by existing 'cyan'
+Interface Show actual hotkeys in description of mutation UI
+Balance Fix oxyacetylene torch spawns
+Balance Add speed_name for fungus effect.
+Balance Add raw offal to haggis recipe
+Balance Remove meat from haggis recipe
+Infrastructure Remove unused functions printz() and mvprintz()
+Bugfixes Fix reverse order of item categories
+Balance Make rope wearable
+Infrastructure Remove commented out code and excessive comments
+Infrastructure Use center_print() function in appropriate places
+Infrastructure Use trim_and_print() instead of locally introduced function trim_to()
+Build Fix bundling liblua on OS X
+Balance Add ear plugs to gobag
+Balance Add some spaces after periods
+Balance Add vinegar to ketchup recipe
+Interface Chesthole and Chesthole32 tilesets fix windows add grafitti
+Balance Fix roasted coffee recipe
+Balance Remove bananas from juice recipe
+Interface More consistent processing of inventory letters
+Balance Add canned corn to corn including recipes
+Balance Make tongs more generic
+Mods More maintenance for Arcana and More Survival Tools
+Interface bionics UI: Implement some comments
+Infrastructure Create a function for printing right-aligned text
+Infrastructure Remove excessive inclusions from robot_finds_kitten files
+I18N Fixed terrain name translation
+Infrastructure Deconstruction_Recipes_OneStyle
+Balance Changes to cooking oil/lard/tallow.
+Bugfixes Fix the calculation for cost of vehicle repairs
+Bugfixes Fix liquid handling
+Balance Add missing garage door control.
+Balance Actualize the mission description (vitamins -> multivitamin pills)
+Build Include cstdlib in iuse_software_kitten.cpp
+Mods Fixed a spelling error in pk_item_armor.json
+Balance Increase stethoscope spawn in vet clinic
+Balance Minor spelling fixes on tools descriptions
+Infrastructure debug menu: display NPC needs
+Infrastructure Fix npc leader catch_up logic
+Balance Extend vitamins implementation
+Content Scorched children
+Infrastructure Multi pool errors messages
+Balance Correct fusion blaster CBM description
+Featurese Really nasty barfing
+Infrastructure Minor changes to morale logic
+Bugfixes Inverted logic fix
+Infrastructure Minor dependencies simplifications
+Infrastructure Simplify inclusions in bodypart.*
+Balance Scorched zombie child name/color change
+Content Funeral home
+Bugfixes Ask player instead of auto-wielding on difficult pickup
+Bugfixes Fix radio mod not working
+Balance Finish removing extra spaces from data and src folder
+Balance Adds lifting capacity to Cantilevers description
+Build Remove unnecessary inclusions from live_view.* files
+Infrastructure Right print modification
+Content Razorclaws and Shipwreck
+Balance Deconstruction_Recipes_Part_2
+Features Allow mending of faults for already installed parts
+Infrastructure Overhaul gunmod code
+Balance Brings 4.6mm reloading recipe into alignment with actual result.
+Bugfixes Fix bug where gun_skill lowered dispersion twice instead of marksmanship
+Balance set autolearn to false for 54 deconstruction-only recipes
+I18N UI improvements (for easier translation)
+Bugfixes Check if npcs are sleeping before using them.
+Balance Update to keffiyeh recipe
+Bugfixes Fixed AUG
+Infrastructure matched up alternators with engines
+Balance Add "makeshift_kevlar" to recipes that include the kevlar vests
+Infrastructure Inclusions modifications (json.h mostly)
+Balance Cooked offal and recipe.
+Bugfixes Fix NPC hallucinations and blocking hallucination attacks
+Balance Revised the description of traps.
+Bugfixes Make lighted up refillable lighter spend charges on use
+Bugfixes Fix fuel being lost when canceling the siphon action.
+Infrastructure Replace trader_avoid item group with item flag.
+Balance Update guns and ammo
+Bugfixes Refactor visual effects of bleeding/gibbing/etc and fix an issue
+Features Vehicle part armor (damage resistance)
+Balance Fix hamburger helper recipe
+Balance Sync some bullet recipes to their ammo count
+Interface Allow stunlocked players to see what is happening as it happens
+Balance remove recoil modifier from bayonets
+Interface Display JACK/LIFT amounts in kg
+Balance Rework nailguns
+Infrastructure Support inheritance for vehicle parts
+Content Fungii
+Bugfixes If not armed, say "Wield foo" instead of "Dispose of none and wield foo"
+Balance added sheathable to bokken
+Balance Adjust meat, vegg, and fruit nutrition
+Bugfixes Eternal season temperature fix
+Infrastructure Manage furniture objects by means of 'generic_factory'
+Infrastructure Rework SLIMY and VISCOUS
+Infrastructure Separate SDL framebuffer for regular text and map/overmap, along with adding more refresh calls.
+Balance fix secubot description
+Balance Bleeding also causes anaemia
+Balance Extend stats dumper
+Balance Item migration
+Balance Separate harm from sunlight to eyes and skin to albino characters

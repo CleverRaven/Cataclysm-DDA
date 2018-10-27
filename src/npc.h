@@ -441,9 +441,9 @@ class npc : public player
     public:
 
         npc();
-        npc( const npc & );
+        npc( const npc & ) = delete;
         npc( npc && );
-        npc &operator=( const npc & );
+        npc &operator=( const npc & ) = delete;
         npc &operator=( npc && );
         ~npc() override;
 
@@ -547,7 +547,7 @@ class npc : public player
         int  follow_distance() const; // How closely do we follow the player?
 
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to_u();
+        void talk_to_u( bool text_only = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items

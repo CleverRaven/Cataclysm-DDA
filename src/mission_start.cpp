@@ -105,7 +105,7 @@ static tripoint target_closest_lab_entrance( const tripoint origin, int reveal_r
     return closest;
 }
 
-static bool reveal_road( tripoint source, tripoint dest, overmapbuffer &omb )
+static bool reveal_road( const tripoint &source, const tripoint &dest, overmapbuffer &omb )
 {
     const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
     const tripoint dest_road = overmap_buffer.find_closest( dest, "road", 3, false );
@@ -1841,8 +1841,9 @@ void mission_start::reveal_refugee_center( mission *miss )
 }
 
 // Creates multiple lab consoles near tripoint place, which must have its z-level set to where consoles should go.
-void static create_lab_consoles( mission *miss, tripoint place, std::string otype, int security,
-                                 std::string comp_name, std::string download_name )
+void static create_lab_consoles( mission *miss, const tripoint &place, const std::string &otype,
+                                 int security,
+                                 const std::string &comp_name, const std::string &download_name )
 {
     // Drop four computers in nearby lab spaces so the player can stumble upon one of them.
     for( int i = 0; i < 4; ++i ) {

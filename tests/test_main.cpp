@@ -20,18 +20,29 @@
 #include <cstring>
 #include <chrono>
 
-std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
+typedef std::pair<std::string, std::string> name_value_pair_t;
+typedef std::vector<name_value_pair_t> option_overrides_t;
+
+// If tag is found as a prefix of any argument in arg_vec, the argument is
+// removed from arg_vec and the argument suffix after tag is returned.
+// Otherwise, an empty string is returned and arg_vec is unchanged.
+std::string extract_argument( std::vector<const char *> &arg_vec, const std::string &tag )
 {
-    std::vector<mod_id> ret;
-    static const char *mod_tag = "--mods=";
-    std::string mod_string;
+    std::string arg_rest;
     for( auto iter = arg_vec.begin(); iter != arg_vec.end(); iter++ ) {
-        if( strncmp( *iter, mod_tag, strlen( mod_tag ) ) == 0 ) {
-            mod_string = std::string( &( *iter )[ strlen( mod_tag ) ] );
+        if( strncmp( *iter, tag.c_str(), tag.length() ) == 0 ) {
+            arg_rest = std::string( &( *iter )[tag.length()] );
             arg_vec.erase( iter );
             break;
         }
     }
+    return arg_rest;
+}
+
+std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
+{
+    std::vector<mod_id> ret;
+    std::string mod_string = extract_argument( arg_vec, "--mods=" );
 
     const char delim = ',';
     size_t i = 0;
@@ -53,7 +64,8 @@ std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
     return ret;
 }
 
-void init_global_game_state( const std::vector<mod_id> &mods )
+void init_global_game_state( const std::vector<mod_id> &mods,
+                             option_overrides_t &option_overrides )
 {
     PATH_INFO::init_base_path( "" );
     PATH_INFO::init_user_dir( "./" );
@@ -73,6 +85,17 @@ void init_global_game_state( const std::vector<mod_id> &mods )
 
     get_options().init();
     get_options().load();
+
+    // Apply command-line option overrides for test suite execution.
+    if( option_overrides.size() > 0 ) {
+        for( auto iter = option_overrides.begin(); iter != option_overrides.end(); ++iter ) {
+            name_value_pair_t option = *iter;
+            if( get_options().has_option( option.first ) ) {
+                options_manager::cOpt &opt = get_options().get_option( option.first );
+                opt.setValue( option.second );
+            }
+        }
+    }
     init_colors();
 
     g = new game;
@@ -122,6 +145,41 @@ bool check_remove_flags( std::vector<const char *> &cont, const std::vector<cons
     return has_any;
 }
 
+// Split s on separator sep, returning parts as a pair. Returns empty string as
+// second value if no separator found.
+name_value_pair_t split_pair( const std::string &s, const char sep )
+{
+    size_t pos = s.find( sep );
+    if( pos != std::string::npos ) {
+        return name_value_pair_t( s.substr( 0, pos ), s.substr( pos + 1 ) );
+    } else {
+        return name_value_pair_t( s, "" );
+    }
+}
+
+option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec )
+{
+    option_overrides_t ret;
+    std::string option_overrides_string = extract_argument( arg_vec, "--option_overrides=" );
+    if( option_overrides_string.empty() ) {
+        return ret;
+    }
+    const char delim = ',';
+    const char sep = ':';
+    size_t i = 0;
+    size_t pos = option_overrides_string.find( delim );
+    while( pos != std::string::npos ) {
+        std::string part = option_overrides_string.substr( i, pos );
+        ret.emplace_back( split_pair( part, sep ) );
+        i = ++pos;
+        pos = option_overrides_string.find( delim, pos );
+    }
+    // Handle last part
+    std::string part = option_overrides_string.substr( i );
+    ret.emplace_back( split_pair( part, sep ) );
+    return ret;
+}
+
 int main( int argc, const char *argv[] )
 {
     Catch::Session session;
@@ -133,6 +191,8 @@ int main( int argc, const char *argv[] )
         mods.insert( mods.begin(), mod_id( "dda" ) ); // @todo move unit test items to core
     }
 
+    option_overrides_t option_overrides_for_test_suite = extract_option_overrides( arg_vec );
+
     bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
 
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
@@ -141,14 +201,19 @@ int main( int argc, const char *argv[] )
         printf( "CataclysmDDA specific options:\n" );
         printf( "  --mods=<mod1,mod2,...>       Loads the list of mods before executing tests.\n" );
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
+        printf( "  --option_overrides=n:v[,...] Name-value pairs of game options for tests.\n" );
+        printf( "                               (overrides config/options.json values)\n" );
         return result;
     }
 
     test_mode = true;
 
+    // Initialize the cata RNG with the Catch seed for reproducible tests
+    rng_set_engine_seed( session.config().rngSeed() );
+
     try {
         // TODO: Only init game if we're running tests that need it.
-        init_global_game_state( mods );
+        init_global_game_state( mods, option_overrides_for_test_suite );
     } catch( const std::exception &err ) {
         fprintf( stderr, "Terminated: %s\n", err.what() );
         fprintf( stderr,

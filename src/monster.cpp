@@ -758,6 +758,11 @@ bool monster::made_of( const material_id &m ) const
     return type->made_of( m );
 }
 
+bool monster::made_of_any( const std::set<material_id> &ms ) const
+{
+    return type->made_of_any( ms );
+}
+
 bool monster::made_of( phase_id p ) const
 {
     return type->phase == p;
@@ -876,11 +881,11 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
-        const string_id<monfaction> faction_bee( "bee" );
-        const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
-        const trait_id pheromone_insect( "PHEROMONE_INSECT" );
-        const trait_id mycus_thresh( "THRESH_MYCUS" );
-        const trait_id terrifying( "TERRIFYING" );
+        static const string_id<monfaction> faction_bee( "bee" );
+        static const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
+        static const trait_id pheromone_insect( "PHEROMONE_INSECT" );
+        static const trait_id mycus_thresh( "THRESH_MYCUS" );
+        static const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
@@ -1987,12 +1992,12 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
-    if( !type->in_species( ZOMBIE ) && !type->in_species( FUNGUS ) ) {
-        return;
-    }
-    for( const auto &it : dropped ) {
-        if( it->is_armor() ) {
-            it->item_tags.insert( "FILTHY" );
+
+    if( has_flag( MF_FILTHY ) ) {
+        for( const auto &it : dropped ) {
+            if( it->is_armor() ) {
+                it->item_tags.insert( "FILTHY" );
+            }
         }
     }
 }

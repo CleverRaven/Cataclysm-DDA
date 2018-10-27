@@ -106,7 +106,9 @@
 #include "string_input_popup.h"
 #include "monexamine.h"
 #include "loading_ui.h"
+#include "popup.h"
 #include "sidebar.h"
+#include "activity_handlers.h"
 
 #include <map>
 #include <set>
@@ -266,6 +268,8 @@ game::game() :
     safe_mode_warning_logged( false ),
     mostseen( 0 ),
     nextweather( calendar::before_time_starts ),
+    next_npc_id( 1 ),
+    next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
     user_action_counter( 0 ),
@@ -946,12 +950,13 @@ bool game::start_game()
             std::string name = v.v->type.str();
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
-                for( auto pv : v.v->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                for( const vpart_reference vp : v.v->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
+                    const vehicle_part *const pv = &vp.vehicle().parts[vp.part_index()];
                     auto pos = v.v->global_part_pos3( *pv );
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : v.v->parts_at_relative( pv->mount.x, pv->mount.y ) ) {
+                    for( auto sp : v.v->parts_at_relative( pv->mount.x, pv->mount.y, true ) ) {
                         vehicle_stack here = v.v->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -1666,10 +1671,10 @@ bool game::do_turn()
         }
 
         if( calendar::once_every( 1_minutes ) ) {
-            catacurses::window popup = create_wait_popup_window( string_format(
-                                           _( "Wait till you wake up..." ) ) );
-
-            wrefresh( popup );
+            query_popup()
+            .wait_message( "%s", _( "Wait till you wake up..." ) )
+            .on_top( true )
+            .show();
 
             catacurses::refresh();
             refresh_display();
@@ -1762,35 +1767,33 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         return false;
     }
 
-    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
-                               _( "(Y)es, (N)o, (I)gnore further similar distractions and finish." );
-
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    int ch = -1;
 
-#ifdef __ANDROID__
-    input_context ctxt( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" );
-    ctxt.register_manual_key( 'Y', "Yes" );
-    ctxt.register_manual_key( 'N', "No" );
-    ctxt.register_manual_key( 'I', "Ignore further distractions and finish" );
-#endif
-    do {
-#ifdef __ANDROID__
-        // Don't use popup() as this creates its own input context which will override the one above
-        ch = popup( stop_message, PF_NO_WAIT );
-        ch = inp_mngr.get_input_event().get_first_input();
-#else
-        ch = popup( stop_message, PF_GET_KEY );
-#endif
-    } while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
-             ch != 'Y' && ch != 'N' && ch != 'I' &&
-             ( force_uc || ( ch != 'y' && ch != 'n' && ch != 'i' ) ) );
+    const auto allow_key = [force_uc]( const input_event & evt ) {
+        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
+               // std::lower is undefined outside unsigned char range
+               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+    };
 
-    if( ch == 'Y' || ch == 'y' ) {
+    const auto &action = query_popup()
+                         .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                         .message( force_uc ?
+                                   pgettext( "cancel_activity_or_ignore_query",
+                                           "<color_light_red>%s %s (Case Sensitive)</color>" ) :
+                                   pgettext( "cancel_activity_or_ignore_query",
+                                           "<color_light_red>%s %s</color>" ),
+                                   text, u.activity.get_stop_phrase() )
+                         .option( "YES", allow_key )
+                         .option( "NO", allow_key )
+                         .option( "IGNORE", allow_key )
+                         .query()
+                         .action;
+
+    if( action == "YES" ) {
         u.cancel_activity();
         return true;
     }
-    if( ch == 'I' || ch == 'i' ) {
+    if( action == "IGNORE" ) {
         u.activity.ignore_distraction( type );
         for( auto activity : u.backlog ) {
             activity.ignore_distraction( type );
@@ -2044,7 +2047,7 @@ void game::handle_key_blocking_activity()
             Messages::display_messages();
             refresh_all();
         } else if( action == "help" ) {
-            display_help();
+            get_help().display_help();
             refresh_all();
         }
     }
@@ -2074,7 +2077,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         std::vector<iteminfo> vThisItem;
         std::vector<iteminfo> vDummy;
 
-        const bool bHPR = get_auto_pickup().has_rule( oThisItem.tname( 1, false ) );
+        const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
         const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
@@ -2227,14 +2230,14 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     break;
                 case '+':
                     if( !bHPR ) {
-                        get_auto_pickup().add_rule( oThisItem.tname( 1, false ) );
+                        get_auto_pickup().add_rule( &oThisItem );
                         add_msg( m_info, _( "'%s' added to character pickup rules." ), oThisItem.tname( 1,
                                  false ).c_str() );
                     }
                     break;
                 case '-':
                     if( bHPR ) {
-                        get_auto_pickup().remove_rule( oThisItem.tname( 1, false ) );
+                        get_auto_pickup().remove_rule( &oThisItem );
                         add_msg( m_info, _( "'%s' removed from character pickup rules." ), oThisItem.tname( 1,
                                  false ).c_str() );
                     }
@@ -2323,6 +2326,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
     ctxt.register_action( "grab" );
+    ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
     ctxt.register_action( "chat" );
     ctxt.register_action( "look" );
@@ -2395,7 +2399,10 @@ input_context get_default_mode_input_context()
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
     ctxt.register_action( "reload_tileset" );
+    ctxt.register_action( "toggle_auto_features" );
     ctxt.register_action( "toggle_auto_pulp_butcher" );
+    ctxt.register_action( "toggle_auto_mining" );
+    ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2704,7 +2711,7 @@ void game::load( const save_t &name )
         // The vehicle stores the IDs of the boarded players, so update it, too.
         if( u.in_vehicle ) {
             if( const cata::optional<vpart_reference> vp = m.veh_at(
-                        u.pos() ).part_with_feature( "BOARDABLE" ) ) {
+                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
                 vp->vehicle().parts[vp->part_index()].passenger_id = u.getID();
             }
         }
@@ -5473,11 +5480,11 @@ bool game::swap_critters( Creature &a, Creature &b )
     second.setpos( first.pos() );
     first.setpos( temp );
 
-    if( g->m.veh_at( u_or_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+    if( g->m.veh_at( u_or_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
     }
 
-    if( g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+    if( g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         g->m.board_vehicle( other_npc->pos(), other_npc );
     }
 
@@ -5798,7 +5805,8 @@ void game::control_vehicle()
 
     if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls( u.pos() );
-    } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
+    } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 &&
+               u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
             return;
         }
@@ -5820,7 +5828,7 @@ void game::control_vehicle()
         }
         vehicle *const veh = &vp->vehicle();
         veh_part = vp->part_index();
-        if( veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
+        if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
             veh->use_controls( examp );
         }
     }
@@ -6136,7 +6144,8 @@ bool game::npc_menu( npc &who )
 
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
         const bool precise = u.get_skill_level( skill_firstaid ) * 4 + u.per_cur >= 20;
-        who.body_window( precise );
+        who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
+                         0.0f, 0.0f );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
         const auto will_accept = []( const item & it ) {
@@ -6204,7 +6213,7 @@ void game::examine()
     examine( examp );
 }
 
-const std::string get_fire_fuel_string( tripoint examp )
+const std::string get_fire_fuel_string( const tripoint &examp )
 {
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
@@ -6243,7 +6252,7 @@ const std::string get_fire_fuel_string( tripoint examp )
                         return ss.str();
                     } else {
                         ss << string_format(
-                               _( "It's very well supplied and even without extra fuel might burn for at least s part of a day." ) );
+                               _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." ) );
                         return ss.str();
                     }
                 } else {
@@ -7179,9 +7188,9 @@ void game::zones_manager()
 #endif
             }
 
-            inp_mngr.set_timeout( BLINK_SPEED );
+            ctxt.set_timeout( BLINK_SPEED );
         } else {
-            inp_mngr.reset_timeout();
+            ctxt.reset_timeout();
         }
 
         wrefresh( w_terrain );
@@ -7192,7 +7201,7 @@ void game::zones_manager()
         action = ctxt.handle_input();
     } while( action != "QUIT" );
     zones_manager_open = false;
-    inp_mngr.reset_timeout();
+    ctxt.reset_timeout();
 
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
@@ -7346,7 +7355,7 @@ tripoint game::look_around( catacurses::window w_info,
         }
 
         if( select_zone && has_first_point ) {
-            inp_mngr.set_timeout( BLINK_SPEED );
+            ctxt.set_timeout( BLINK_SPEED );
         }
 
         int dx, dy;
@@ -7449,7 +7458,7 @@ tripoint game::look_around( catacurses::window w_info,
         u.view_offset.z = 0;
     }
 
-    inp_mngr.reset_timeout();
+    ctxt.reset_timeout();
 
     if( bNewWindow ) {
         w_info = catacurses::window();
@@ -8490,7 +8499,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
                               const monster *const source_mon,
                               liquid_dest_opt &target )
 {
-    if( !liquid.made_of( LIQUID, true ) ) {
+    if( !liquid.made_of_from_type( LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -8626,7 +8635,7 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint *const source_p
                                     const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of( LIQUID, true ) ) {
+    if( !liquid.made_of_from_type( LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -8719,7 +8728,7 @@ bool game::handle_liquid( item &liquid, item *const source, const int radius,
                           const vehicle *const source_veh, const int part_num,
                           const monster *const source_mon )
 {
-    if( liquid.made_of( SOLID, true ) ) {
+    if( liquid.made_of_from_type( SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -8916,7 +8925,8 @@ bool game::plfire_check( const targeting_data &args )
         }
 
         if( gun->has_flag( "MOUNTED_GUN" ) ) {
-            const bool v_mountable = static_cast<bool>( m.veh_at( u.pos() ).part_with_feature( "MOUNTABLE" ) );
+            const bool v_mountable = static_cast<bool>( m.veh_at( u.pos() ).part_with_feature( "MOUNTABLE",
+                                     true ) );
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
             if( !t_mountable && !v_mountable ) {
                 add_msg( m_info,
@@ -8941,6 +8951,7 @@ bool game::plfire()
     bool lost_weapon = ( args.held && &u.weapon != args.relevant );
     bool failed_check = !plfire_check( args );
     if( lost_weapon || failed_check ) {
+        u.cancel_activity();
         return false;
     }
 
@@ -9677,12 +9688,9 @@ bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
     if( it.is_ammo() && it.charges == 0 ) {
         return true;
     } else if( !u.can_pickVolume( it ) ) {
-        add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                 it.tname().c_str() );
-        g->m.add_item_or_charges( u.pos(), it );
+        put_into_vehicle_or_drop( u, item_drop_reason::too_large, { it } );
     } else if( !u.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
-        g->m.add_item_or_charges( u.pos(), it );
+        put_into_vehicle_or_drop( u, item_drop_reason::too_heavy, { it } );
     } else {
         auto &ni = u.i_add( it );
         add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
@@ -9828,7 +9836,7 @@ bool game::unload( item &it )
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
 
-        if( ammo.made_of( LIQUID, true ) ) {
+        if( ammo.made_of_from_type( LIQUID ) ) {
             if( !add_or_drop_with_msg( u, ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
@@ -10089,7 +10097,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
     if( !u.is_blind() ) {
         const trap &tr = m.tr_at( dest_loc );
-        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE" ) );
+        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
+                               true ) );
         // Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
@@ -10132,7 +10141,6 @@ bool game::plmove( int dx, int dy, int dz )
         if( u.has_active_mutation( trait_SHELL2 ) ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
-
         return false;
     }
 
@@ -10157,8 +10165,8 @@ bool game::plmove( int dx, int dy, int dz )
 
     if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
         int turns;
-        if( get_option<bool>( "AUTO_MINING" ) && m.has_flag( "MINEABLE", dest_loc ) &&
-            u.weapon.has_flag( "DIG_TOOL" ) ) {
+        if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 && get_option<bool>( "AUTO_MINING" ) &&
+            u.weapon.has_flag( "DIG_TOOL" ) && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
             if( u.weapon.has_flag( "POWERED" ) ) {
                 if( u.weapon.ammo_sufficient() ) {
                     turns = MINUTES( 30 );
@@ -10319,7 +10327,7 @@ bool game::plmove( int dx, int dy, int dz )
         } else if( veh1 != veh0 ) {
             add_msg( m_info, _( "There is another vehicle in the way." ) );
             return false;
-        } else if( !vp1.part_with_feature( "BOARDABLE" ) ) {
+        } else if( !vp1.part_with_feature( "BOARDABLE", true ) ) {
             add_msg( m_info, _( "That part of the vehicle is currently unsafe." ) );
             return false;
         }
@@ -10329,8 +10337,8 @@ bool game::plmove( int dx, int dy, int dz )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( "SWIMMABLE", u.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, u.pos() );
-    bool fromBoat = veh0 != nullptr && !empty( veh0->parts_with_feature( VPFLAG_FLOATS ) );
-    bool toBoat = veh1 != nullptr && !empty( veh1->parts_with_feature( VPFLAG_FLOATS ) );
+    bool fromBoat = veh0 != nullptr && !empty( veh0->get_parts( VPFLAG_FLOATS ) );
+    bool toBoat = veh1 != nullptr && !empty( veh1->get_parts( VPFLAG_FLOATS ) );
 
     if( toSwimmable && toDeepWater && !toBoat ) { // Dive into water!
         // Requires confirmation if we were on dry land previously
@@ -10595,6 +10603,28 @@ bool game::walk_move( const tripoint &dest_loc )
         }
     }
 
+    if( u.is_hauling() ) {
+        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+        // Whether the source is inside a vehicle (not supported)
+        u.activity.values.push_back( false );
+        // Whether the destination is inside a vehicle (not supported)
+        u.activity.values.push_back( false );
+        // Source relative to the player
+        u.activity.placement = u.pos() - dest_loc;
+        // Destination relative to the player
+        u.activity.coords.push_back( tripoint( 0, 0, 0 ) );
+        map_stack items = m.i_at( u.pos() );
+        if( items.empty() ) {
+            u.stop_hauling();
+        }
+        int index = 0;
+        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
+            int amount = it->count();
+            u.activity.values.push_back( index );
+            u.activity.values.push_back( amount );
+        }
+    }
+
     if( dest_loc != u.pos() ) {
         u.lifetime_stats.squares_walked++;
     }
@@ -10689,14 +10719,44 @@ void game::place_player( const tripoint &dest_loc )
         vertical_shift( dest_loc.z );
     }
 
+    if( u.is_hauling() && ( !m.can_put_items( dest_loc ) ||
+                            m.has_flag( TFLAG_DEEP_WATER, dest_loc ) ||
+                            vp1 ) ) {
+        u.stop_hauling();
+    }
+
     u.setpos( dest_loc );
     update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
 
-    //Auto pulp or butcher
-    if( get_option<bool>( "AUTO_PULP_BUTCHER" ) && mostseen == 0 ) {
-        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER_ACTION" );
+    //Auto pulp or butcher and Auto foraging
+    if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 ) {
+        static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
+
+        const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
+        if( forage_type != "off" ) {
+            static const auto forage = [&]( const tripoint & pos ) {
+                const auto &xter_t = m.ter( pos ).obj().examine;
+                const bool forage_bushes = forage_type == "both" || forage_type == "bushes";
+                const bool forage_trees = forage_type == "both" || forage_type == "trees";
+                if( xter_t == &iexamine::none ) {
+                    return;
+                } else if( ( forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
+                           ( forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
+                           ( forage_trees && xter_t == &iexamine::tree_marloss ) ||
+                           ( forage_trees && xter_t == &iexamine::harvest_ter )
+                         ) {
+                    xter_t( u, pos );
+                }
+            };
+
+            for( auto &elem : adjacentDir ) {
+                forage( u.pos() + direction_XY( elem ) );
+            }
+        }
+
+        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
         if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
             std::vector<int> corpses;
             auto items = m.i_at( u.pos() );
@@ -10727,13 +10787,12 @@ void game::place_player( const tripoint &dest_loc )
                 }
             };
 
-            pulp( u.pos() );
-
             if( pulp_butcher == "pulp_adjacent" ) {
-                static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
                 for( auto &elem : adjacentDir ) {
                     pulp( u.pos() + direction_XY( elem ) );
                 }
+            } else {
+                pulp( u.pos() );
             }
         }
     }
@@ -10746,7 +10805,7 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     // If the new tile is a boardable part, board it
-    if( vp1.part_with_feature( "BOARDABLE" ) ) {
+    if( vp1.part_with_feature( "BOARDABLE", true ) ) {
         m.board_vehicle( u.pos(), &u );
     }
 
@@ -10839,7 +10898,7 @@ void game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( vp1.part_with_feature( "CONTROLS" ) && u.in_vehicle ) {
+    if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle ) {
         add_msg( _( "There are vehicle controls here." ) );
         add_msg( m_info, _( "%s to drive." ),
                  press_x( ACTION_CONTROL_VEHICLE ).c_str() );
@@ -10924,7 +10983,7 @@ bool game::phasing_move( const tripoint &dest_loc )
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
-        if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE" ) ) {
+        if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
             m.board_vehicle( u.pos(), &u );
         }
 
@@ -11166,7 +11225,7 @@ void game::plswim( const tripoint &p )
     }
     u.setpos( p );
     update_map( u );
-    if( m.veh_at( u.pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+    if( m.veh_at( u.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( u.pos(), &u );
     }
     u.moves -= ( movecost > 200 ? 200 : movecost )  * ( trigdist && diagonal ? 1.41 : 1 );
@@ -11596,6 +11655,10 @@ void game::vertical_move( int movez, bool force )
                 monsters_following.push_back( &critter );
             }
         }
+    }
+
+    if( u.is_hauling() ) {
+        u.stop_hauling();
     }
 
     u.moves -= move_cost;

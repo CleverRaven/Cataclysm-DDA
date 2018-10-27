@@ -124,6 +124,7 @@
     "symbol": "O",
     "color": "brown",
     "broken_color": "brown",
+    "looks_like": "tank",
     "difficulty": 1,
     "durability": 150,
     "description": "A storage space for holding solid fuels.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.",

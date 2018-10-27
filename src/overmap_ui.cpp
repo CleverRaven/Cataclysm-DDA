@@ -9,6 +9,7 @@
 #include "mapbuffer.h"
 #include "mongroup.h"
 #include "npc.h"
+#include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "output.h"
@@ -19,6 +20,10 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
 
 namespace
 {
@@ -820,6 +825,12 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             const std::string old_note = overmap_buffer.note( curs );
             std::string new_note = old_note, tmp_note;
+
+#ifdef __ANDROID__
+            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                SDL_StartTextInput();
+            }
+#endif
 
             bool done = false, esc_pressed = false;
             do {

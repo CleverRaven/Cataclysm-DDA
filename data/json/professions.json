@@ -1742,7 +1742,7 @@
         "dress_shoes",
         "knit_scarf",
         "wristwatch",
-        "cell_phone",
+        "smart_phone",
         "briefcase",
         "money_bundle",
         "file"
@@ -2595,7 +2595,7 @@
         "wristwatch",
         "mbag",
         "water_mineral",
-        "cell_phone",
+        "smart_phone",
         "money_bundle"
       ],
       "male": [ "briefs" ],
