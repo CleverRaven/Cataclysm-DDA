@@ -7796,27 +7796,28 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
         BALL8_UNK = 10,
         BALL8_BAD = 15
     };
-    const static std::array<const char *, 20> tab = {
-        _( "It is certain." ),
-        _( "It is decidedly so." ),
-        _( "Without a doubt." ),
-        _( "Yes - definitely." ),
-        _( "You may rely on it." ),
-        _( "As I see it, yes." ),
-        _( "Most likely." ),
-        _( "Outlook good." ),
-        _( "Yes." ),
-        _( "Signs point to yes." ),
-        _( "Reply hazy, try again." ),
-        _( "Ask again later." ),
-        _( "Better not tell you now." ),
-        _( "Cannot predict now." ),
-        _( "Concentrate and ask again." ),
-        _( "Don't count on it." ),
-        _( "My reply is no." ),
-        _( "My sources say no." ),
-        _( "Outlook not so good." ),
-        _( "Very doubtful." )
+    const static std::array<const char *, 20> tab = {{
+            _( "It is certain." ),
+            _( "It is decidedly so." ),
+            _( "Without a doubt." ),
+            _( "Yes - definitely." ),
+            _( "You may rely on it." ),
+            _( "As I see it, yes." ),
+            _( "Most likely." ),
+            _( "Outlook good." ),
+            _( "Yes." ),
+            _( "Signs point to yes." ),
+            _( "Reply hazy, try again." ),
+            _( "Ask again later." ),
+            _( "Better not tell you now." ),
+            _( "Cannot predict now." ),
+            _( "Concentrate and ask again." ),
+            _( "Don't count on it." ),
+            _( "My reply is no." ),
+            _( "My sources say no." ),
+            _( "Outlook not so good." ),
+            _( "Very doubtful." )
+        }
     };
 
     p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname().c_str() );
