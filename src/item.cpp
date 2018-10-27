@@ -1366,21 +1366,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         int adj_disp = eff_disp - act_disp;
 
         if( parts->test( iteminfo_parts::GUN_DISPERSION_SIGHT ) ) {
-            switch( sgn( adj_disp ) ) {
-                case -1:
-                    info.emplace_back( "GUN", _( "Sight dispersion: " ),
-                                       string_format( "%i-%i = <num>", act_disp, -adj_disp ),
-                                       iteminfo::lower_is_better, eff_disp );
-                    break;
-                case 1:
-                    info.emplace_back( "GUN", _( "Sight dispersion: " ),
-                                       string_format( "%i+%i = <num>", act_disp, adj_disp ),
-                                       iteminfo::lower_is_better, eff_disp );
-                    break;
-                case 0:
-                    info.emplace_back( "GUN", _( "Sight dispersion: " ), "",
-                                       iteminfo::lower_is_better, eff_disp );
-                    break;
+            info.push_back( iteminfo( "GUN", _( "Sight dispersion: " ), "",
+                                      iteminfo::no_newline | iteminfo::lower_is_better,
+                                      act_disp ) );
+
+            if( adj_disp ) {
+                info.push_back( iteminfo( "GUN", "sight_adj_disp", "",
+                                          iteminfo::no_newline | iteminfo::lower_is_better |
+                                          iteminfo::no_name | iteminfo::show_plus,
+                                          adj_disp ) );
+                info.push_back( iteminfo( "GUN", "sight_eff_disp", _( " = <num>" ),
+                                          iteminfo::lower_is_better | iteminfo::no_name,
+                                          eff_disp ) );
             }
         }
 
