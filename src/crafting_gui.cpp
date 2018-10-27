@@ -272,11 +272,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
                                 break;
 
-                            case 'q':
+                            case 'Q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
                                 break;
 
-                            case 'Q':
+                            case 'q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
                                 break;
 
