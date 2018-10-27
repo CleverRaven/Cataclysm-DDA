@@ -7822,6 +7822,6 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname().c_str() );
     int rn = rng( 0, tab.size() - 1 );
     auto color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
-    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname().c_str(), tab[rn]);
+    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname().c_str(), tab[rn] );
     return 0;
 }
