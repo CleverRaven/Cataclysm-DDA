@@ -567,7 +567,7 @@
         "material" : ["glass"],
         "volume" : 1,
         "bashing" : 1,
-        "category" : "veh_parts",
+        "category" : "spare_parts",
         "price" : 5000
     },
     {
@@ -583,7 +583,7 @@
         "material" : ["steel"],
         "volume" : 4,
         "bashing" : 5,
-        "category" : "veh_parts",
+        "category" : "spare_parts",
         "price" : 6000
     },
     {
