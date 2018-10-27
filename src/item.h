@@ -125,9 +125,6 @@ struct iteminfo {
         /** Flag indicating type of sValue.  True if integer, false if single decimal */
         bool is_int;
 
-        /** Used to add a leading character to the printed value, usually '+' or '$'. */
-        std::string sPlus;
-
         /** Flag indicating whether a newline should be printed after printing this item */
         bool bNewLine;
 
@@ -137,12 +134,16 @@ struct iteminfo {
         /** Whether to print sName.  If false, use for comparisons but don't print for user. */
         bool bDrawName;
 
+        /** Whether to print a sign on positive values */
+        bool bShowPlus;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
             no_newline = 1 << 1, ///< Do not follow with a newline
             lower_is_better = 1 << 2, ///< Lower values are better for this stat
-            no_name = 1 << 3 ///< Do not print the name
+            no_name = 1 << 3, ///< Do not print the name
+            show_plus = 1 << 4, ///< Use a + sign for positive values
         };
 
         /**
@@ -154,7 +155,7 @@ struct iteminfo {
          *  @param Plus Character to place before value, generally '+' or '$'
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags = no_flags, double Value = -999, const std::string &Plus = "" );
+                  flags = no_flags, double Value = -999 );
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 

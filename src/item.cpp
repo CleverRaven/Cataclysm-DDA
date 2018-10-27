@@ -847,13 +847,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         const int price_preapoc = price( false ) * batch;
         const int price_postapoc = price( true ) * batch;
         if( parts->test( iteminfo_parts::BASE_PRICE ) )
-            info.push_back( iteminfo( "BASE", space + _( "Price: " ), "<num>",
+            info.push_back( iteminfo( "BASE", space + _( "Price: " ), _( "$<num>" ),
                                       iteminfo::is_decimal | iteminfo::lower_is_better,
-                                      static_cast<double>( price_preapoc ) / 100, "$" ) );
+                                      static_cast<double>( price_preapoc ) / 100 ) );
         if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
-            info.push_back( iteminfo( "BASE", space + _( "Barter value: " ), "<num>",
+            info.push_back( iteminfo( "BASE", space + _( "Barter value: " ), _( "$<num>" ),
                                       iteminfo::is_decimal | iteminfo::lower_is_better,
-                                      static_cast<double>( price_postapoc ) / 100, "$" ) );
+                                      static_cast<double>( price_postapoc ) / 100 ) );
         }
 
         int converted_volume_scale = 0;
@@ -900,10 +900,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( dmg_bash || dmg_cut || dmg_stab ) {
             if( parts->test( iteminfo_parts::BASE_TOHIT ) )
-                info.push_back( iteminfo( "BASE", space + _( "To-hit bonus: " ),
-                                          ( ( type->m_to_hit > 0 ) ? "+" : "" ),
-                                          iteminfo::no_flags,
-                                          type->m_to_hit ) );
+                info.push_back( iteminfo( "BASE", space + _( "To-hit bonus: " ), "",
+                                          iteminfo::show_plus, type->m_to_hit ) );
 
             if( parts->test( iteminfo_parts::BASE_MOVES ) )
                 info.push_back( iteminfo( "BASE", _( "Moves per attack: " ),
@@ -1244,7 +1242,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
         // @todo This doesn't cover multiple damage types
         int ammo_pierce     = has_ammo ? get_ranged_pierce( *curammo->ammo ) : 0;
-        int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
+        //int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
 
         const Skill &skill = *mod->gun_skill();
@@ -1316,13 +1314,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( has_ammo ) {
-            temp1.str( "" );
-            temp1 << ( ammo_dam.total_damage() >= 0 ? "+" : "" );
-            // ammo_damage and sum_of_damage don't need to translate.
-
+            // ammo_damage and sum_of_damage not shown so don't need to translate.
             if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) )
                 info.push_back( iteminfo( "GUN", "ammo_damage", "",
-                                          iteminfo::no_newline | iteminfo::no_name,
+                                          iteminfo::no_newline | iteminfo::no_name |
+                                          iteminfo::show_plus,
                                           ammo_dam.total_damage() ) );
             if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) )
                 info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
@@ -1334,13 +1330,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "GUN", space + _( "Armor-pierce: " ), "",
                                       iteminfo::no_newline, get_ranged_pierce( gun ) ) );
         if( has_ammo ) {
-            temp1.str( "" );
-            temp1 << ( ammo_pierce >= 0 ? "+" : "" );
             // ammo_armor_pierce and sum_of_armor_pierce don't need to translate.
             if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_LOADEDAMMO ) )
                 info.push_back( iteminfo( "GUN", "ammo_armor_pierce", "",
-                                          iteminfo::no_newline | iteminfo::no_name, ammo_pierce,
-                                          temp1.str() ) );
+                                          iteminfo::no_newline | iteminfo::no_name |
+                                          iteminfo::show_plus, ammo_pierce ) );
             if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_TOTAL ) )
                 info.push_back( iteminfo( "GUN", "sum_of_armor_pierce", _( " = <num>" ),
                                           iteminfo::no_name,
@@ -1353,13 +1347,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                       mod->gun_dispersion( false, false ) ) );
         if( has_ammo ) {
-            temp1.str( "" );
-            temp1 << ( ammo_range >= 0 ? "+" : "" );
             // ammo_dispersion and sum_of_dispersion don't need to translate.
             if( parts->test( iteminfo_parts::GUN_DISPERSION_LOADEDAMMO ) )
                 info.push_back( iteminfo( "GUN", "ammo_dispersion", "",
                                           iteminfo::no_newline | iteminfo::lower_is_better |
-                                          iteminfo::no_name, ammo_dispersion, temp1.str() ) );
+                                          iteminfo::no_name | iteminfo::show_plus,
+                                          ammo_dispersion ) );
             if( parts->test( iteminfo_parts::GUN_DISPERSION_TOTAL ) )
                 info.push_back( iteminfo( "GUN", "sum_of_dispersion", _( " = <num>" ),
                                           iteminfo::lower_is_better | iteminfo::no_name,
@@ -1508,8 +1501,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( mod.dispersion != 0 && parts->test( iteminfo_parts::GUNMOD_DISPERSION ) ) {
             info.push_back( iteminfo( "GUNMOD", _( "Dispersion modifier: " ), "",
-                                      iteminfo::lower_is_better,
-                                      mod.dispersion, ( ( mod.dispersion > 0 ) ? "+" : "" ) ) );
+                                      iteminfo::lower_is_better | iteminfo::show_plus,
+                                      mod.dispersion ) );
         }
         if( mod.sight_dispersion != -1 && parts->test( iteminfo_parts::GUNMOD_DISPERSION_SIGHT ) ) {
             info.push_back( iteminfo( "GUNMOD", _( "Sight dispersion: " ), "",
@@ -1521,17 +1514,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         int total_damage = static_cast<int>( mod.damage.total_damage() );
         if( total_damage != 0 && parts->test( iteminfo_parts::GUNMOD_DAMAGE ) ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", iteminfo::no_flags,
-                                      total_damage, ( ( total_damage > 0 ) ? "+" : "" ) ) );
+            info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", iteminfo::show_plus,
+                                      total_damage ) );
         }
         int pierce = get_ranged_pierce( mod );
         if( get_ranged_pierce( mod ) != 0 && parts->test( iteminfo_parts::GUNMOD_ARMORPIERCE ) ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", iteminfo::no_flags,
-                                      pierce, ( ( pierce > 0 ) ? "+" : "" ) ) );
+            info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", iteminfo::show_plus,
+                                      pierce ) );
         }
         if( mod.handling != 0 && parts->test( iteminfo_parts::GUNMOD_HANDLING ) ) {
-            info.emplace_back( "GUNMOD", _( "Handling modifier: " ), mod.handling > 0 ? "+" : "",
-                               iteminfo::no_flags, mod.handling );
+            info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
+                               iteminfo::show_plus, mod.handling );
         }
         if( type->mod->ammo_modifier && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
             info.push_back( iteminfo( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
@@ -1740,8 +1733,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( g->u.book_fun_for( *this ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          iteminfo::no_flags, g->u.book_fun_for( *this ),
-                                          ( g->u.book_fun_for( *this ) > 0 ? "+" : "" ) ) );
+                                          iteminfo::show_plus, g->u.book_fun_for( *this ) ) );
             }
             if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
                 auto fmt = ngettext(
@@ -2388,7 +2380,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             temp1 << elem.sFmt.c_str();
         }
         if( elem.sValue != "-999" ) {
-            temp1 << elem.sPlus << "<neutral>" << elem.sValue << "</neutral>";
+            temp1 << "<neutral>" << elem.sValue << "</neutral>";
         }
         temp1 << sPost;
         temp1 << ( ( elem.bNewLine ) ? "\n" : "" );
@@ -6134,14 +6126,18 @@ const item_category &item::get_category() const
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
-                    flags f, double Value, const std::string &Plus )
+                    flags f, double Value )
 {
     sType = Type;
     sName = replace_colors( Name );
     sFmt = replace_colors( Fmt );
     is_int = !( f & is_decimal );
     dValue = Value;
+    bShowPlus = static_cast<bool>( f & show_plus );
     std::stringstream convert;
+    if( bShowPlus ) {
+        convert << std::showpos;
+    }
     if( is_int ) {
         int dIn0i = int( Value );
         convert << dIn0i;
@@ -6150,7 +6146,6 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
         convert << std::fixed << Value;
     }
     sValue = convert.str();
-    sPlus = Plus;
     bNewLine = !( f & no_newline );
     bLowerIsBetter = static_cast<bool>( f & lower_is_better );
     bDrawName = !( f & no_name );
