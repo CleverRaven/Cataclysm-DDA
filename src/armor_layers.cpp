@@ -51,20 +51,20 @@ struct item_penalties {
 item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                                    const Character &c, int tabindex )
 {
-    auto layer = worn_item_it->get_layer();
+    layer_level layer = worn_item_it->get_layer();
 
     std::vector<body_part> body_parts_with_stacking_penalty;
     std::vector<body_part> body_parts_with_out_of_order_penalty;
     std::vector<std::set<std::string>> lists_of_bad_items_within;
 
-    for( auto bp : all_body_parts ) {
+    for( body_part bp : all_body_parts ) {
         if( bp != tabindex && num_bp != tabindex ) {
             continue;
         }
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
-        auto num_items = std::count_if( c.worn.begin(), c.worn.end(),
+        int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
             return i.get_layer() == layer && i.covers( bp );
         } );
@@ -140,13 +140,13 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                                worn_item_it->type_name( 1 ) ) - 1;
     std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3 );
     nc_color color = c_light_gray;
-    for( auto &iter : props ) {
+    for( std::string &iter : props ) {
         print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
     }
 
     std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3 );
     if( i + prot.size() < win_height ) {
-        for( auto &iter : prot ) {
+        for( std::string &iter : prot ) {
             print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
         }
     } else {
@@ -156,7 +156,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     i++;
     std::vector<std::string> layer_desc = foldstring( clothing_layer( *worn_item_it ), win_width );
     if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item_it ).empty() ) {
-        for( auto &iter : layer_desc ) {
+        for( std::string &iter : layer_desc ) {
             mvwprintz( w_sort_middle, ++i, 0, c_light_blue, iter.c_str() );
         }
     }
@@ -350,7 +350,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     std::vector<layering_item_info> s;
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
         if( elem_it->covers( static_cast<body_part>( bp ) ) ) {
-            auto penalties = get_item_penalties( elem_it, c, bp );
+            item_penalties penalties = get_item_penalties( elem_it, c, bp );
             layering_item_info t = { std::move( penalties ), elem_it->get_encumber(),
                                      elem_it->tname()
                                    };
@@ -515,7 +515,7 @@ void player::sort_armor()
                 tmp_worn.push_back( it );
             }
         } else { // bp_*
-            auto bp = static_cast<body_part>( tabindex );
+            body_part bp = static_cast<body_part>( tabindex );
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 if( it->covers( bp ) ) {
                     tmp_worn.push_back( it );
@@ -541,7 +541,7 @@ void player::sort_armor()
             }
 
             std::string name = tmp_worn[itemindex]->tname();
-            auto const penalties =
+            item_penalties const penalties =
                 get_item_penalties( tmp_worn[itemindex], *this, tabindex );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
@@ -593,7 +593,7 @@ void player::sort_armor()
                 pos++;
             }
             rightListSize++;
-            for( auto &elem : items_cover_bp( *this, cover ) ) {
+            for( layering_item_info &elem : items_cover_bp( *this, cover ) ) {
                 nc_color color = elem.penalties.color_for_stacking_badness();
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                     trim_and_print( w_sort_right, pos, 2, right_w - 5, color,
@@ -633,7 +633,7 @@ void player::sort_armor()
         // Helper function for moving items in the list
         auto shift_selected_item = [&]() {
             if( selected >= 0 ) {
-                auto to = tmp_worn[leftListIndex];
+                std::list<item>::iterator to = tmp_worn[leftListIndex];
                 if( leftListIndex > selected ) {
                     ++to;
                 }
@@ -721,9 +721,10 @@ void player::sort_armor()
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                auto new_equip_it = wear( this->i_at( loc.obtain( *this ) ) );
+                cata::optional<std::list<item>::iterator> new_equip_it =
+                    wear( this->i_at( loc.obtain( *this ) ) );
                 if( new_equip_it ) {
-                    auto bp = static_cast<body_part>( tabindex );
+                    body_part bp = static_cast<body_part>( tabindex );
                     if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
                         // Set ourselves up to be pointing at the new item
                         // TODO: This doesn't work yet because we don't save our
@@ -748,9 +749,10 @@ void player::sort_armor()
             // only equip if something valid selected!
             if( loc ) {
                 // save iterator to cursor's position
-                auto cursor_it = tmp_worn[leftListIndex];
+                std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                 // wear the item
-                if( auto new_equip_it = wear( this->i_at( loc.obtain( *this ) ) ) ) {
+                if( cata::optional<std::list<item>::iterator> new_equip_it =
+                        wear( this->i_at( loc.obtain( *this ) ) ) ) {
                     // reorder `worn` vector to place new item at cursor
                     worn.splice( cursor_it, worn, *new_equip_it );
                 } else if( is_npc() ) {

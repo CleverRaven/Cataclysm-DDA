@@ -1659,7 +1659,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     vals = std::array<encumbrance_data, num_bp>();
 
     // Figure out where new_item would be worn
-    auto new_item_position = worn.end();
+    std::list<item>::const_iterator new_item_position = worn.end();
     if( !new_item.is_null() ) {
         // const_cast required to work around g++-4.8 library bug
         // see the commit that added this comment to understand why

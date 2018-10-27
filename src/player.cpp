@@ -8403,8 +8403,8 @@ player::wear_item( const item &to_wear, bool interactive )
     const bool supertinymouse = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     last_item = to_wear.typeId();
 
-    auto position = position_to_wear_new_item( to_wear );
-    auto new_item_it = worn.insert( position, to_wear );
+    std::list<item>::iterator position = position_to_wear_new_item( to_wear );
+    std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
 
     if( interactive ) {
         add_msg_player_or_npc(
