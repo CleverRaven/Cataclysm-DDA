@@ -54,7 +54,7 @@ fi
 
 # strip line-numbers from the .pot file
 echo "> Stripping .pot file from unneeded comments"
-if ! python lang/strip_line_numbers.py lang/po/cataclysm-dda.pot
+if ! lang/strip_line_numbers.py lang/po/cataclysm-dda.pot
 then
     echo "Error in strip_line_numbers.py. Aborting"
     exit 1
@@ -70,7 +70,7 @@ fi
 
 # Check for broken Unicode symbols
 echo "> Checking for wrong Unicode symbols"
-if ! python lang/unicode_check.py lang/po/cataclysm-dda.pot
+if ! lang/unicode_check.py lang/po/cataclysm-dda.pot
 then
     echo "Updated pot file contain broken Unicode symbols. Aborting."
     exit 1

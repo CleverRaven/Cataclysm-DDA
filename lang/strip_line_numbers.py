@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 "Strip line numbers from comments in input .pot or .po file."
 
 from __future__ import print_function
