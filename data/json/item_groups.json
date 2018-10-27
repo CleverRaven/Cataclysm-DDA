@@ -4346,7 +4346,9 @@
       ["katana", 2],
       ["rapier", 3],
       ["cavalry_sabre", 2],
-      ["sf_watch", 5]
+      ["sf_watch", 5],
+      ["magic_8_ball", 1],
+      ["coin_quarter", 1]
     ]
   },{
     "type" : "item_group",
@@ -4796,7 +4798,9 @@
       ["l-stick", 1],
       ["solarpack", 5],
       ["tourist_table", 10],
-      ["thermos", 25]
+      ["thermos", 25],
+      ["magic_8_ball", 2],
+      ["coin_quarter", 2]
     ]
   },{
     "type" : "item_group",
@@ -8522,7 +8526,9 @@
       ["straw_doll", 1],
       ["pitchfork", 1],
       ["straw_sandals", 1],
-      ["holy_symbol", 10]
+      ["holy_symbol", 10],
+      ["magic_8_ball", 1],
+      ["coin_quarter", 1]
     ]
   },{
 "type"  : "item_group",

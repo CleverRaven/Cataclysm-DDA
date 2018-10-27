@@ -7781,3 +7781,47 @@ int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
     p->add_effect( effect_magnesium_supplements, 16_hours );
     return it->type->charges_to_use();
 }
+
+int iuse::coin_flip( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( m_info, _( "You flip a %s." ), it->tname().c_str() );
+    p->add_msg_if_player( m_info, one_in( 2 ) ? _( "Heads!" ) : _( "Tails!" ) );
+    return 0;
+}
+
+int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
+{
+    enum {
+        BALL8_GOOD,
+        BALL8_UNK = 10,
+        BALL8_BAD = 15
+    };
+    const static std::array<const char *, 20> tab = {
+        _( "It is certain." ),
+        _( "It is decidedly so." ),
+        _( "Without a doubt." ),
+        _( "Yes - definitely." ),
+        _( "You may rely on it." ),
+        _( "As I see it, yes." ),
+        _( "Most likely." ),
+        _( "Outlook good." ),
+        _( "Yes." ),
+        _( "Signs point to yes." ),
+        _( "Reply hazy, try again." ),
+        _( "Ask again later." ),
+        _( "Better not tell you now." ),
+        _( "Cannot predict now." ),
+        _( "Concentrate and ask again." ),
+        _( "Don't count on it." ),
+        _( "My reply is no." ),
+        _( "My sources say no." ),
+        _( "Outlook not so good." ),
+        _( "Very doubtful." )
+    };
+
+    p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname().c_str() );
+    int rn = rng( 0, tab.size() - 1 );
+    auto color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
+    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname().c_str(), tab[rn]);
+    return 0;
+}

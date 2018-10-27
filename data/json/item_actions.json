@@ -265,6 +265,10 @@
         "name" : "Clear rubble"
     },{
         "type" : "item_action",
+        "id" : "COIN_FLIP",
+        "name" : "Flip"
+    },{
+        "type" : "item_action",
         "id" : "COKE",
         "name" : "Snort coke"
     },{
@@ -443,6 +447,10 @@
         "type" : "item_action",
         "id" : "LADDER",
         "name" : "Place"
+    },{
+        "type" : "item_action",
+        "id" : "MAGIC_8_BALL",
+        "name" : "Ask"
     },{
         "type" : "item_action",
         "id" : "MARLOSS",
