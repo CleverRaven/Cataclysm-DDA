@@ -52,6 +52,7 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <iomanip>
 #include <iterator>
 #include <set>
 #include <sstream>
@@ -6136,12 +6137,11 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
         convert << std::showpos;
     }
     if( is_int ) {
-        int dIn0i = int( Value );
-        convert << dIn0i;
+        convert << std::setprecision( 0 );
     } else {
-        convert.precision( 2 );
-        convert << std::fixed << Value;
+        convert << std::setprecision( 2 );
     }
+    convert << std::fixed << Value;
     sValue = convert.str();
     bNewLine = !( f & no_newline );
     bLowerIsBetter = static_cast<bool>( f & lower_is_better );
