@@ -102,6 +102,20 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
+m_size volume_to_size( const units::volume vol )
+{
+    if( vol <= 7500_ml ) {
+        return MS_TINY;
+    } else if( vol <= 46250_ml ) {
+        return MS_SMALL;
+    } else if( vol <= 77500_ml ) {
+        return MS_MEDIUM;
+    } else if( vol <= 483750_ml ) {
+        return MS_LARGE;
+    } 
+    return MS_HUGE;
+}
+
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
@@ -110,7 +124,7 @@ void MonsterGenerator::finalize_mtypes()
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
-        mon.size = mon.volume_to_size( mon.volume );
+        mon.size = volume_to_size( mon.volume );
 
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
@@ -548,8 +562,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "color", color );
-    //const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
-    //optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
     assign( jo, "volume", volume, strict, 0_ml );
     assign( jo, "weight", weight, strict, 0_gram );
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };

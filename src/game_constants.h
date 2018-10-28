@@ -6,6 +6,8 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+#include "units.h"
+
 // Fixed window sizes
 #define HP_HEIGHT 14
 #define HP_WIDTH 7
@@ -139,6 +141,6 @@ constexpr double accuracy_grazing  = 1.0;
 #define SPRING_TEMPERATURE 65
 
 /** Character's base weight in gram */
-constexpr int CHARACTER_WEIGHT = 81500;
+constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
 
 #endif

@@ -57,23 +57,6 @@ std::string mtype::nname( unsigned int quantity ) const
     return ngettext( name.c_str(), name_plural.c_str(), quantity );
 }
 
-m_size mtype::volume_to_size( const units::volume vol ) const
-{
-    if( vol > 0_ml && vol <= 7500_ml ) {
-        return MS_TINY;
-    } else if( vol > 7500_ml && vol <= 46250_ml ) {
-        return MS_SMALL;
-    } else if( vol > 46250_ml && vol <= 77500_ml ) {
-        return MS_MEDIUM;
-    } else if( vol > 77500_ml && vol <= 483750_ml ) {
-        return MS_LARGE;
-    } else if( vol > 483750_ml ) {
-        return MS_HUGE;
-    }
-    debugmsg( "Tried to convert negative or zero volume to m_size." );
-    return MS_TINY;
-}
-
 bool mtype::has_special_attack( const std::string &attack_name ) const
 {
     return special_attacks.find( attack_name ) != special_attacks.end();
@@ -222,9 +205,9 @@ itype_id mtype::get_meat_itype() const
 
 int mtype::get_meat_chunks_count() const
 {
-    float ch = units::to_gram( weight ) * ( 0.40f - 2 * log( units::to_gram( weight ) ) );
+    float ch = to_gram( weight ) * ( 0.40f - 2 * log( to_gram( weight ) ) );
     const itype *chunk = item::find_type( get_meat_itype() );
-    return static_cast<int>( ch / units::to_gram( chunk->weight ) );
+    return static_cast<int>( ch / to_gram( chunk->weight ) );
 }
 
 std::string mtype::get_description() const

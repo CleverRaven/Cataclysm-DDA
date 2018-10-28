@@ -1539,7 +1539,7 @@ units::mass Character::get_weight() const
                         return sum + itm.weight();
                      } );
 
-    ret += units::from_gram( CHARACTER_WEIGHT );       // The base weight of the player's body
+    ret += CHARACTER_WEIGHT;       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
