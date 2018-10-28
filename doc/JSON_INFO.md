@@ -137,6 +137,14 @@ Groups of vehicle definitions with self-explanatory names of files:
 "//" : "comment", // Preferred method of leaving comments inside json files.
 ```
 
+Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context, by writing it like:
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar" }
+```
+
+Currently, only effect names and item action names support this syntax. If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
+
 ### Bionics
 
 | Identifier         | Description

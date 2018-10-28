@@ -102,7 +102,7 @@ entry of "name" is the empty string ("") or "name" is missing then the effect wi
 in the status screen.
 
 Each entry in "name" can also have an optional context:
-```C++
+```JSON
     "name": [ { "ctxt": "ECIG", "str": "Smoke" } ]
 ```
 In this case, the game will translate the name with the given context "ECIG",

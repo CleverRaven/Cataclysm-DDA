@@ -137,7 +137,9 @@ add_msg( _( "You drop the %s." ), the_item_name );
 ```
 
 Strings from the JSON files are extracted by the `lang/extract_json_strings.py`
-script, and can be translated at run time using `_()`.
+script, and can be translated at run time using `_()`. If translation context
+is desired for a JSON string, `class translation` can be used instead, which is
+documented below.
 
 #### `pgettext()`
 
@@ -189,6 +191,15 @@ The string can then be translated/retrieved with
 
 ```c++
 const std::string translated = text.translated();
+```
+
+`class translation` can also be read from JSON. The method `translation::deserialize()`
+handles deserialization from a `JsonIn` object, so it can be read from JSON
+using the appropriate JSON functions. The corresponding JSON syntax for strings
+with context is as follows:
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar" }
 ```
 
 ### Recommendations
