@@ -299,7 +299,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
                                const tripoint &where )
 {
     if( const cata::optional<vpart_reference> vp =
-        g->m.veh_at( where ).part_with_feature( "CARGO", true ) ) {
+            g->m.veh_at( where ).part_with_feature( "CARGO", true ) ) {
         put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
         return;
     }

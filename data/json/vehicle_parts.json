@@ -739,6 +739,7 @@
     "color": "light_blue",
     "broken_symbol": "#",
     "broken_color": "blue",
+    "looks_like": "minifridge",
     "damage_modifier": 80,
     "durability": 100,
     "epower": -45,

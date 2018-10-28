@@ -2047,7 +2047,7 @@ void game::handle_key_blocking_activity()
             Messages::display_messages();
             refresh_all();
         } else if( action == "help" ) {
-            display_help();
+            get_help().display_help();
             refresh_all();
         }
     }
