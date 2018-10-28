@@ -1,0 +1,220 @@
+[
+  {
+    "id": "shelter_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "jacket_evac", 100 ],
+      [ "emer_blanket", 100 ],
+      [ "mask_gas", 12 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "shelter" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |----:-++-:----|    ",
+        "    |llll......c..6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    :.b.b.b........:    ",
+        "    |..............|    ",
+        "    +......>>......+    ",
+        "    +......>>......+    ",
+        "    |..............|    ",
+        "    :.b.b.b........:    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |..........c..x|    ",
+        "    |----:-++-:----|    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "shelter" ],
+      "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "shelter" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       |---++---|       ",
+        "    |-:|........|       ",
+        "    |...........|:-|    ",
+        "    |.bbbbb.....c.6|    ",
+        "    |...........c..|    ",
+        "    :.bbbbb.....c..:    ",
+        "    |...........cc.|    ",
+        "    +.bbbbb........+    ",
+        "    +..............+    ",
+        "    |.-----..--|...|    ",
+        "    :..........|...:    ",
+        "    |.b.b.b...c|-+-|    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |.b.b.b...c|>.l|    ",
+        "    |..........|>.l|    ",
+        "    |----:-++-:----|    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "shelter" ],
+      "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "shelter" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "       |-:-++-:-|       ",
+        "    |--|........|--|    ",
+        "    |ccc........ccc|    ",
+        "    |..............|    ",
+        "   --..............--   ",
+        "   |b..............b|   ",
+        "   :b..............b:   ",
+        "   |b...|--++--|...b|   ",
+        "   |c..l|>....>|l..c|   ",
+        "   |c..l|>....>|l..c|   ",
+        "   |b...|--++--|...b|   ",
+        "   :b..............b:   ",
+        "   |b..............b|   ",
+        "   --ccc..b..b..ccc--   ",
+        "    |..c..b..b..c..|    ",
+        "    |6....b..b....x|    ",
+        "    |--|........|--|    ",
+        "       |-:-++-:-|       ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "shelter" ],
+      "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "shelter_under" ],
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "####;;;;;;;;;;;;;;;;####",
+        "####;bbbbbbbbbbbbbb;####",
+        "####;b____________b;####",
+        "####;b____________b;####",
+        "####;b____________b;####",
+        "####;b___|-++-|___b;####",
+        "####;b___|____|___b;####",
+        "####;b___+_<<_+___b;####",
+        "####;b___+_<<_+___b;####",
+        "####;b___|____|___b;####",
+        "####;b___|-++-|___b;####",
+        "####;b____________b;####",
+        "####;b____________b;####",
+        "####;b____________b;####",
+        "####;bbbbbbbbbbbbbb;####",
+        "####;;;;;;;;;;;;;;;;####",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "shelter" ],
+      "items": { "_": { "item": "shelter", "chance": 1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 10,
+    "om_terrain": [ "shelter_under" ],
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "####;;;;;;;;;;;;;;;;####",
+        "####;bbbbbbbbbbbbbb;####",
+        "####;b____________b;####",
+        "####;b____________b;####",
+        "####;b____________b;####",
+        "####;b___|-++-|___b;####",
+        "####;b___|____|___b;####",
+        "####;b___+_<<_+___b;####",
+        "####;b___+_<<_+___b;####",
+        "####;b___|____|___b;####",
+        "####;b___|-++-|___b;####",
+        "####;b____________b;####",
+        "####;b____________b;####",
+        "####;b____________b;####",
+        "####;bbbbbbbbbbbbbb;####",
+        "####;;;;;;;;;;;;;;;;####",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "shelter" ],
+      "items": { "_": { "item": "shelter", "chance": 10 } },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 5, 18 ], "y": [ 5, 18 ], "density": 0.2 } ]
+    }
+  }
+]
