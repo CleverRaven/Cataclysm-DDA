@@ -112,7 +112,7 @@ m_size volume_to_size( const units::volume vol )
         return MS_MEDIUM;
     } else if( vol <= 483750_ml ) {
         return MS_LARGE;
-    } 
+    }
     return MS_HUGE;
 }
 
