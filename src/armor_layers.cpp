@@ -350,11 +350,10 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     std::vector<layering_item_info> s;
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
         if( elem_it->covers( static_cast<body_part>( bp ) ) ) {
-            item_penalties penalties = get_item_penalties( elem_it, c, bp );
-            layering_item_info t = { std::move( penalties ), elem_it->get_encumber(),
-                                     elem_it->tname()
-                                   };
-            s.push_back( std::move( t ) );
+            s.push_back( { get_item_penalties( elem_it, c, bp ),
+                           elem_it->get_encumber(),
+                           elem_it->tname()
+                         } );
         }
     }
     return s;
