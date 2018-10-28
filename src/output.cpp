@@ -859,22 +859,8 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                         }
                     }
                 }
-                const char *fmt;
-                if( vItemDisplay[i].bShowPlus ) {
-                    if( vItemDisplay[i].is_int ) {
-                        fmt = "%+.0f";
-                    } else {
-                        fmt = "%+.2f";
-                    }
-                } else {
-                    if( vItemDisplay[i].is_int ) {
-                        fmt = "%.0f";
-                    } else {
-                        fmt = "%.2f";
-                    }
-                }
                 buffer << "<color_" << string_from_color( thisColor ) << ">"
-                       << string_format( fmt, vItemDisplay[i].dValue )
+                       << vItemDisplay[i].sValue
                        << "</color>";
             }
             buffer << sPost;
