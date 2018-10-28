@@ -261,7 +261,7 @@
     ]
   },
   {
-    "result": "sleeping_bag",
+    "result": "sleeping_bag_roll",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -275,7 +275,7 @@
     "components": [ [ [ "rag", 30 ] ] ]
   },
   {
-    "result": "sleeping_bag_fur",
+    "result": "sleeping_bag_fur_roll",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
