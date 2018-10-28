@@ -7797,32 +7797,32 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
         BALL8_BAD = 15
     };
     const static std::array<const char *, 20> tab = {{
-            _( "It is certain." ),
-            _( "It is decidedly so." ),
-            _( "Without a doubt." ),
-            _( "Yes - definitely." ),
-            _( "You may rely on it." ),
-            _( "As I see it, yes." ),
-            _( "Most likely." ),
-            _( "Outlook good." ),
-            _( "Yes." ),
-            _( "Signs point to yes." ),
-            _( "Reply hazy, try again." ),
-            _( "Ask again later." ),
-            _( "Better not tell you now." ),
-            _( "Cannot predict now." ),
-            _( "Concentrate and ask again." ),
-            _( "Don't count on it." ),
-            _( "My reply is no." ),
-            _( "My sources say no." ),
-            _( "Outlook not so good." ),
-            _( "Very doubtful." )
+            translate_marker( "It is certain." ),
+            translate_marker( "It is decidedly so." ),
+            translate_marker( "Without a doubt." ),
+            translate_marker( "Yes - definitely." ),
+            translate_marker( "You may rely on it." ),
+            translate_marker( "As I see it, yes." ),
+            translate_marker( "Most likely." ),
+            translate_marker( "Outlook good." ),
+            translate_marker( "Yes." ),
+            translate_marker( "Signs point to yes." ),
+            translate_marker( "Reply hazy, try again." ),
+            translate_marker( "Ask again later." ),
+            translate_marker( "Better not tell you now." ),
+            translate_marker( "Cannot predict now." ),
+            translate_marker( "Concentrate and ask again." ),
+            translate_marker( "Don't count on it." ),
+            translate_marker( "My reply is no." ),
+            translate_marker( "My sources say no." ),
+            translate_marker( "Outlook not so good." ),
+            translate_marker( "Very doubtful." )
         }
     };
 
     p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname().c_str() );
     int rn = rng( 0, tab.size() - 1 );
     auto color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
-    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname().c_str(), tab[rn] );
+    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname().c_str(), _( tab[rn] ) );
     return 0;
 }
