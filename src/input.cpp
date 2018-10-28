@@ -927,6 +927,40 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
 const std::string display_help_hotkeys =
     "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
 
+bool input_context::get_shift_direction( int &dx, int &dy, const std::string &action )
+{
+    if( action == "shift_n" ) {
+        dx = 0;
+        dy = -1;
+    } else if( action == "shift_s" ) {
+        dx = 0;
+        dy = 1;
+    } else if( action == "shift_w" ) {
+        dx = -1;
+        dy = 0;
+    } else if( action ==  "shift_e" ) {
+        dx = 1;
+        dy = 0;
+    } else if( action == "shift_nw" ) {
+        dx = -1;
+        dy = -1;
+    } else if( action == "shift_ne" ) {
+        dx = 1;
+        dy = -1;
+    } else if( action == "shift_sw" ) {
+        dx = -1;
+        dy = 1;
+    } else if( action == "shift_se" ) {
+        dx = 1;
+        dy = 1;
+    } else {
+        dx = -2;
+        dy = -2;
+        return false;
+    }
+    return true;
+}
+
 void input_context::display_menu()
 {
     // Shamelessly stolen from help.cpp

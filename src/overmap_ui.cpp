@@ -785,6 +785,17 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
         ictxt.register_action( "PLACE_TERRAIN" );
         ictxt.register_action( "PLACE_SPECIAL" );
     }
+
+    // "Shift" actions for faster overmap navigation
+    ictxt.register_action( "shift_n", _( "Pan up fast" ) );
+    ictxt.register_action( "shift_s", _( "Pan down fast" ) );
+    ictxt.register_action( "shift_w", _( "Pan left fast" ) );
+    ictxt.register_action( "shift_e", _( "Pan right fast" ) );
+    ictxt.register_action( "shift_nw", _( "Pan up left fast" ) );
+    ictxt.register_action( "shift_ne", _( "Pan up right fast" ) );
+    ictxt.register_action( "shift_sw", _( "Pan down left fast" ) );
+    ictxt.register_action( "shift_se", _( "Pan down right fast" ) );
+
     ictxt.register_action( "QUIT" );
     std::string action;
     bool show_explored = true;
@@ -798,6 +809,9 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
         if( ictxt.get_direction( dirx, diry, action ) ) {
             curs.x += dirx;
             curs.y += diry;
+        } else if( ictxt.get_shift_direction( dirx, diry, action ) ) {
+            curs.x += dirx * 5;
+            curs.y += diry * 5;
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH ) {

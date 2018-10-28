@@ -587,6 +587,21 @@ class input_context
         bool get_direction( int &dx, int &dy, const std::string &action );
 
         /**
+         * Convert a shift action(ACTION_SHIFT_N, ACTION_SHIFT_SE etc) to a delta x and y.
+         * Same semantics as get_direction, only for shift actions.
+         *
+         * @return True if the action is a shift action,
+         * the delta values of associated with it have been stored in (dx,dy).
+         * False if the action is not a shift action (CONFIRM, QUIT, ...),
+         * (dx,dy) has been set to (-2,-2).
+         *
+         * @param action Action to convert.
+         * @param dx Output parameter for x delta.
+         * @param dy Output parameter for y delta.
+         */
+        bool get_shift_direction( int &dx, int &dy, const std::string &action );
+
+        /**
          * Get the coordinates associated with the last mouse click.
          *
          * TODO: This right now is more or less specific to the map window,
