@@ -8080,7 +8080,7 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
 
             item it = *obj;
             obj.remove_item();
-            return wear_item( it );
+            return !!wear_item( it );
         }
     } );
 
@@ -8334,12 +8334,14 @@ int player::item_wear_cost( const item& it ) const
     return mv;
 }
 
-bool player::wear( int pos, bool interactive )
+cata::optional<std::list<item>::iterator>
+player::wear( int pos, bool interactive )
 {
     return wear( i_at( pos ), interactive );
 }
 
-bool player::wear( item& to_wear, bool interactive )
+cata::optional<std::list<item>::iterator>
+player::wear( item& to_wear, bool interactive )
 {
     if( is_worn( to_wear ) ) {
         if( interactive ) {
@@ -8348,7 +8350,7 @@ bool player::wear( item& to_wear, bool interactive )
                                    _( "<npcname> is already wearing that.")
                                    );
         }
-        return false;
+        return cata::nullopt;
     }
     if( to_wear.is_null() ) {
         if( interactive ) {
@@ -8356,7 +8358,7 @@ bool player::wear( item& to_wear, bool interactive )
                                    _( "You don't have that item."),
                                    _( "<npcname> doesn't have that item."));
         }
-        return false;
+        return cata::nullopt;
     }
 
     bool was_weapon;
@@ -8370,39 +8372,36 @@ bool player::wear( item& to_wear, bool interactive )
         was_weapon = false;
     }
 
-    if( !wear_item( to_wear_copy, interactive ) ) {
+    auto result = wear_item( to_wear_copy, interactive );
+    if( !result ) {
         if( was_weapon ) {
             weapon = to_wear_copy;
         } else {
             inv.add_item( to_wear_copy, true );
         }
-        return false;
+        return cata::nullopt;
     }
 
-    return true;
+    return result;
 }
 
-bool player::wear_item( const item &to_wear, bool interactive )
+cata::optional<std::list<item>::iterator>
+player::wear_item( const item &to_wear, bool interactive )
 {
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
-        return false;
+        return cata::nullopt;
     }
 
     const bool was_deaf = is_deaf();
     const bool supertinymouse = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     last_item = to_wear.typeId();
 
-    // By default we put this item on after the last item on the same or any
-    // lower layer.
-    auto position = std::find_if(
-        worn.rbegin(), worn.rend(),
-        [&](const item& w) { return w.get_layer() <= to_wear.get_layer(); }
-    );
-    item &new_item = *worn.insert( position.base(), to_wear );
+    std::list<item>::iterator position = position_to_wear_new_item( to_wear );
+    std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
 
     if( interactive ) {
         add_msg_player_or_npc(
@@ -8432,15 +8431,15 @@ bool player::wear_item( const item &to_wear, bool interactive )
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
     }
 
-    new_item.on_wear( *this );
+    new_item_it->on_wear( *this );
 
-    inv.update_invlet( new_item );
-    inv.update_cache_with_item( new_item );
+    inv.update_invlet( *new_item_it );
+    inv.update_cache_with_item( *new_item_it );
 
     recalc_sight_limits();
     reset_encumbrance();
 
-    return true;
+    return new_item_it;
 }
 
 bool player::change_side( item &it, bool interactive )

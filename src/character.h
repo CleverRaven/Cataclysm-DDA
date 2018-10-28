@@ -392,7 +392,14 @@ class Character : public Creature, public visitable<Character>
 
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const;
-        /** Applies encumbrance from items only */
+
+        /** Return the position in the worn list where new_item would be
+         * put by default */
+        std::list<item>::iterator position_to_wear_new_item( const item &new_item );
+
+        /** Applies encumbrance from items only
+         * If new_item is not null, then calculate under the asumption that it
+         * is added to existing work items. */
         void item_encumb( std::array<encumbrance_data, num_bp> &vals,
                           const item &new_item ) const;
     public:
