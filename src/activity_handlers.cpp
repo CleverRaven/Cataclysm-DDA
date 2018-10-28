@@ -1113,9 +1113,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
         for( int i = 1; i <= corpse->size; i++ ) {
             g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
-                                        corpse->size + 1 ) ) );
+                                     corpse->size + 1 ) ) );
             g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
-                                        corpse->size + 1 ) ) );
+                                     corpse->size + 1 ) ) );
         }
         act->set_to_null();
         return;
