@@ -516,10 +516,15 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
         required_cleanser = 1;
     }
 
+    std::function<bool(const item &)> unfrozen = [](const item& it) {
+        const std::string frozenFlag("FROZEN");
+        return !it.has_flag(frozenFlag);
+    };
+
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required_water ) &&
-        !crafting_inv.has_charges( "water_clean", required_water ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+    if( !crafting_inv.has_charges_with( "water", required_water, unfrozen ) &&
+        !crafting_inv.has_charges_with( "water_clean", required_water, unfrozen ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of unfrozen water or clean water to wash these items." ),
                               required_water );
         act->set_to_null();
         return;
