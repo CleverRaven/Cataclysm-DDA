@@ -2509,8 +2509,13 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
     }
 
     int qty = veh->fuel_left( fuel );
-    item solid_fuel( fuel, calendar::turn, qty );
-    g->u.i_add( solid_fuel );
+    if( fuel == "plut_cell" ) {
+        item plutonium( fuel, calendar::turn, qty/PLUTONIUM_CHARGES);
+        g->u.i_add( plutonium );
+    } else {
+        item solid_fuel( fuel, calendar::turn, qty);
+        g->u.i_add( solid_fuel );
+    }
     veh->drain( fuel, qty );
 }
 
