@@ -787,14 +787,14 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     }
 
     // "Shift" actions for faster overmap navigation
-    ictxt.register_action( "shift_n", _( "Pan up fast" ) );
-    ictxt.register_action( "shift_s", _( "Pan down fast" ) );
-    ictxt.register_action( "shift_w", _( "Pan left fast" ) );
-    ictxt.register_action( "shift_e", _( "Pan right fast" ) );
-    ictxt.register_action( "shift_nw", _( "Pan up left fast" ) );
-    ictxt.register_action( "shift_ne", _( "Pan up right fast" ) );
-    ictxt.register_action( "shift_sw", _( "Pan down left fast" ) );
-    ictxt.register_action( "shift_se", _( "Pan down right fast" ) );
+    ictxt.register_action( "shift_n", _( "Pan up 5 tiles" ) );
+    ictxt.register_action( "shift_s", _( "Pan down 5 tiles" ) );
+    ictxt.register_action( "shift_w", _( "Pan left 5 tiles" ) );
+    ictxt.register_action( "shift_e", _( "Pan right 5 tiles" ) );
+    ictxt.register_action( "shift_nw", _( "Pan up left 5 tiles" ) );
+    ictxt.register_action( "shift_ne", _( "Pan up right 5 tiles" ) );
+    ictxt.register_action( "shift_sw", _( "Pan down left 5 tiles" ) );
+    ictxt.register_action( "shift_se", _( "Pan down right 5 tiles" ) );
 
     ictxt.register_action( "QUIT" );
     std::string action;

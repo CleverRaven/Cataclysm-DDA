@@ -735,6 +735,34 @@
   },
   {
     "type": "keybinding",
+    "id": "shift_n",
+    "name": "Pan up 5 tiles",
+    "category": "OVERMAP",
+    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "shift_e",
+    "name": "Pan right 5 tiles",
+    "category": "OVERMAP",
+    "bindings": [ { "input_method": "keyboard", "key": "END" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "shift_s",
+    "name": "Pan down 5 tiles",
+    "category": "OVERMAP",
+    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "shift_w",
+    "name": "Pan left 5 tiles",
+    "category": "OVERMAP",
+    "bindings": [ { "input_method": "keyboard", "key": "HOME" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ROTATE",
     "category": "OVERMAP_EDITOR",
     "name": "Rotate",
