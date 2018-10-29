@@ -8,7 +8,10 @@
 #include <cassert>
 #include <cstdlib>
 #include <cstdarg>
+#include <cstring>
+#include <algorithm>
 #include <iosfwd>
+#include <iomanip>
 #include <fstream>
 #include <streambuf>
 #include <sys/stat.h>
@@ -70,7 +73,8 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
-    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text;
+    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
+                                << text << std::flush;
 
     std::string msg_key( filename );
     msg_key += line;
@@ -93,12 +97,21 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             text.c_str(), funcname, filename, line
         );
 
+    std::string backtrace_instructions =
+        string_format(
+            _( "See %s for a full stack backtrace" ),
+            FILENAMES["debug"]
+        );
+
     fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
                     " %s\n" // translated user string: error notification
                     " -----------------------------------------------------------\n"
                     "%s"
                     " -----------------------------------------------------------\n"
+#ifdef BACKTRACE
+                    " %s\n" // translated user string: where to find backtrace
+#endif
                     " %s\n" // translated user string: space to continue
                     " %s\n" // translated user string: ignore key
 #ifdef TILES
@@ -106,6 +119,9 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #endif // TILES
                     , _( "An error has occurred! Written below is the error report:" ),
                     formatted_report,
+#ifdef BACKTRACE
+                    backtrace_instructions,
+#endif
                     _( "Press <color_white>space bar</color> to continue the game." ),
                     _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
 #ifdef TILES
@@ -369,7 +385,9 @@ struct time_info {
 
         static_assert( std::is_base_of<base, Stream>::value, "" );
 
-        out << t.hours << ':' << t.minutes << ':' << t.seconds << '.' << t.mseconds;
+        out << std::setfill( '0' );
+        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
+            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
 
         return out;
     }
@@ -406,6 +424,154 @@ std::ofstream &DebugFile::currentTime()
     return ( file << get_time() );
 }
 
+#ifdef BACKTRACE
+// Verify that a string is safe for passing as an argument to addr2line.
+// In particular, we want to avoid any characters of significance to the shell.
+bool debug_is_safe_string( const char *start, const char *finish )
+{
+    static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                         "abcdefghijklmnopqrstuvwxyz"
+                                         "01234567890_./-";
+    using std::begin;
+    using std::end;
+    const auto is_safe_char =
+    [&]( char c ) {
+        auto in_safe = std::find( begin( safe_chars ), end( safe_chars ), c );
+        return c && in_safe != end( safe_chars );
+    };
+    return std::all_of( start, finish, is_safe_char );
+}
+
+void debug_write_backtrace( std::ostream &out )
+{
+#if defined _WIN32 || defined _WIN64
+    sym.SizeOfStruct = sizeof( SYMBOL_INFO );
+    sym.MaxNameLen = max_name_len;
+    USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
+    HANDLE proc = GetCurrentProcess();
+    for( USHORT i = 0; i < num_bt; ++i ) {
+        DWORD64 off;
+        out << "\n\t(";
+        if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, &sym ) ) {
+            out << sym.Name << "+0x" << std::hex << off << std::dec;
+        }
+        out << "@" << bt[i];
+        DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
+        if( mod_base ) {
+            out << "[";
+            DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
+            // mod_len == module_path_len means insufficient buffer
+            if( mod_len > 0 && mod_len < module_path_len ) {
+                char const *mod_name = mod_path + mod_len;
+                for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
+                }
+                out << mod_name;
+            } else {
+                out << "0x" << std::hex << mod_base << std::dec;
+            }
+            out << "+0x" << std::hex << ( uintptr_t ) bt[i] - mod_base << std::dec << "]";
+        }
+        out << "), ";
+    }
+    out << "\n";
+#else
+    int count = backtrace( tracePtrs, TRACE_SIZE );
+    char **funcNames = backtrace_symbols( tracePtrs, count );
+    for( int i = 0; i < count; ++i ) {
+        out << "\n\t(" << funcNames[i] << "), ";
+    }
+    out << "\n\n\tAttempting to repeat stack trace using debug symbols...\n";
+    // Try to print the backtrace again, but this time using addr2line
+    // to extract debug info and thus get a more detailed / useful
+    // version.  If addr2line is not available this will just fail,
+    // which is fine.
+    //
+    // To make this fast, we need to call addr2line with as many
+    // addresses as possible in each commandline.  To that end, we track
+    // the binary of the frame and issue a command whenever that
+    // changes.
+    std::string addresses;
+    std::string last_binary_name;
+
+    auto call_addr2line = [&out]( const std::string & binary, const std::string & addresses ) {
+        std::string cmd = "addr2line -e " + binary + " -f -C " + addresses;
+        FILE *addr2line = popen( cmd.c_str(), "re" );
+        if( addr2line == nullptr ) {
+            out << "backtrace: popen(addr2line) failed\n";
+            return false;
+        }
+        char buf[1024];
+        while( fgets( buf, sizeof( buf ), addr2line ) ) {
+            out.write( "\t", 1 );
+            // Strip leading directories for source file path
+            char search_for[] = "/src/";
+            auto buf_end = buf + strlen( buf );
+            auto src = std::find_end( buf, buf_end,
+                                      search_for, search_for + strlen( search_for ) );
+            if( src == buf_end ) {
+                src = buf;
+            } else {
+                out.write( "...", 3 );
+            }
+            out.write( src, strlen( src ) );
+        }
+        if( 0 != pclose( addr2line ) ) {
+            // Most likely reason is that addr2line is not installed, so
+            // in this case we give up and don't try any more frames.
+            out << "backtrace: addr2line failed\n";
+            return false;
+        }
+        return true;
+    };
+
+    for( int i = 0; i < count; ++i ) {
+        // We want to call addr2Line to convert the address to a
+        // useful format
+        auto funcName = funcNames[i];
+        const auto funcNameEnd = funcName + std::strlen( funcName );
+        const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
+        auto addressStart = std::find( funcName, funcNameEnd, '[' );
+        auto addressEnd = std::find( addressStart, funcNameEnd, ']' );
+        if( binaryEnd == funcNameEnd || addressEnd == funcNameEnd ) {
+            out << "backtrace: Could not extract binary name and address from line\n";
+            continue;
+        }
+        ++addressStart;
+
+        if( !debug_is_safe_string( addressStart, addressEnd ) ) {
+            out << "backtrace: Address not safe\n";
+            continue;
+        }
+
+        if( !debug_is_safe_string( funcName, binaryEnd ) ) {
+            out << "backtrace: Binary name not safe\n";
+            continue;
+        }
+
+        std::string binary_name( funcName, binaryEnd );
+
+        if( !last_binary_name.empty() && binary_name != last_binary_name ) {
+            if( !call_addr2line( last_binary_name, addresses ) ) {
+                addresses.clear();
+                break;
+            }
+
+            addresses.clear();
+        }
+
+        last_binary_name = binary_name;
+        addresses += " ";
+        addresses.insert( addresses.end(), addressStart, addressEnd );
+    }
+
+    if( !addresses.empty() ) {
+        call_addr2line( last_binary_name, addresses );
+    }
+    free( funcNames );
+#endif
+}
+#endif
+
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
     // Error are always logged, they are important,
@@ -413,9 +579,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
         debugFile.file << std::endl;
         debugFile.currentTime() << " ";
-        if( lev != debugLevel ) {
-            debugFile.file << lev;
-        }
+        debugFile.file << lev;
         if( cl != debugClass ) {
             debugFile.file << cl;
         }
@@ -424,45 +588,8 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         // Backtrace on error.
 #ifdef BACKTRACE
         if( lev == D_ERROR ) {
-#if defined _WIN32 || defined _WIN64
-            sym.SizeOfStruct = sizeof( SYMBOL_INFO );
-            sym.MaxNameLen = max_name_len;
-            USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
-            HANDLE proc = GetCurrentProcess();
-            for( USHORT i = 0; i < num_bt; ++i ) {
-                DWORD64 off;
-                debugFile.file << "\n\t(";
-                if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, &sym ) ) {
-                    debugFile.file << sym.Name << "+0x" << std::hex << off << std::dec;
-                }
-                debugFile.file << "@" << bt[i];
-                DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
-                if( mod_base ) {
-                    debugFile.file << "[";
-                    DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
-                    // mod_len == module_path_len means insufficient buffer
-                    if( mod_len > 0 && mod_len < module_path_len ) {
-                        char const *mod_name = mod_path + mod_len;
-                        for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
-                        }
-                        debugFile.file << mod_name;
-                    } else {
-                        debugFile.file << "0x" << std::hex << mod_base << std::dec;
-                    }
-                    debugFile.file << "+0x" << std::hex << ( uintptr_t ) bt[i] - mod_base << std::dec << "]";
-                }
-                debugFile.file << "), ";
-            }
-            debugFile.file << "\n\t";
-#else
-            int count = backtrace( tracePtrs, TRACE_SIZE );
-            char **funcNames = backtrace_symbols( tracePtrs, count );
-            for( int i = 0; i < count; ++i ) {
-                debugFile.file << "\n\t(" << funcNames[i] << "), ";
-            }
-            debugFile.file << "\n\t";
-            free( funcNames );
-#endif
+            debugFile.file << "(error message will follow backtrace)";
+            debug_write_backtrace( debugFile.file );
         }
 #endif
 
@@ -471,4 +598,4 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     return nullStream;
 }
 
-// vim:tw=72:sw=1:fdm=marker:fdl=0:
+// vim:tw=72:sw=4:fdm=marker:fdl=0:
