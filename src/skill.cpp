@@ -156,7 +156,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
 
 namespace
 {
-int rustRate( int level )
+time_duration rustRate( int level )
 {
     // for n = [0, 7]
     //
@@ -165,20 +165,20 @@ int rustRate( int level )
     // 2^(n-1)
 
     unsigned const n = level < 0 ? 0 : level > 7 ? 7 : level;
-    return 1 << ( 15 - n + 1 );
+    return time_duration::from_turns( 1 << ( 15 - n + 1 ) );
 }
 } //namespace
 
 bool SkillLevel::isRusting() const
 {
     return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           to_turns<int>( calendar::turn - _lastPracticed ) > rustRate( _level );
+           calendar::turn - _lastPracticed > rustRate( _level );
 }
 
 bool SkillLevel::rust( bool charged_bio_mem )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
-    if( _level <= 0 || delta <= 0 || to_turns<int>( delta ) % rustRate( _level ) ) {
+    if( _level <= 0 || delta <= 0 || delta % rustRate( _level ) != 0 ) {
         return false;
     }
 

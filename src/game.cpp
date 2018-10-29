@@ -1735,12 +1735,12 @@ void game::process_activity()
 }
 
 void game::catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
-                            int catch_duration ) // catching function
+                            const time_duration &catch_duration ) // catching function
 {
     monster *const fish = random_entry_removed( catchables );
     //spawn the corpse, rotten by a part of the duration
-    m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + int( rng( 0,
-                           catch_duration ) ) ) );
+    m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
+                           catch_duration ) ) );
     u.add_msg_if_player( m_good, _( "You caught a %s." ), fish->type->nname().c_str() );
     //quietly kill the caught
     fish->no_corpse_quiet = true;
@@ -12841,7 +12841,7 @@ bool check_art_charge_req( item &it )
             []( const int w ) {
                 return w != 0;
             } );
-            if( !reqsmet && sum_conditions( calendar::turn - 1, calendar::turn, p.pos() ).rain_amount > 0
+            if( !reqsmet && sum_conditions( calendar::turn - 1_turns, calendar::turn, p.pos() ).rain_amount > 0
                 && !( p.in_vehicle && g->m.veh_at( p.pos() )->is_inside() ) ) {
                 reqsmet = true;
             }

@@ -307,6 +307,25 @@ inline bool assign( JsonObject &jo, const std::string &name, nc_color &val,
 }
 
 class time_duration;
+
+template<typename T>
+inline typename
+std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
+read_with_factor( JsonObject jo, const std::string &name, T &val, const T &factor )
+{
+    int tmp;
+    if( jo.read( name, tmp ) ) {
+        // JSON contained a raw number -> apply factor
+        val = tmp * factor;
+        return true;
+    } else if( jo.has_string( name ) ) {
+        // JSON contained a time duration string -> no factor
+        val = T::read_from_json_string( *jo.get_raw( name ) );
+        return true;
+    }
+    return false;
+}
+
 // This is a function template not a real function as that allows it to be defined
 // even when time_duration is *not* defined yet. When called with anything else but
 // time_duration as `val`, SFINAE (the enable_if) will disable this function and it
@@ -319,17 +338,16 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 {
     T out = 0;
     double scalar;
-    int tmp;
 
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).read( name, tmp ) ) {
+    if( read_with_factor( jo.get_object( "relative" ), name, out, factor ) ) {
         err = jo.get_object( "relative" );
         strict = false;
-        out = tmp * factor + val;
+        out = out + val;
 
     } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
         err = jo.get_object( "proportional" );
@@ -339,8 +357,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
         strict = false;
         out = val * scalar;
 
-    } else if( jo.read( name, tmp ) ) {
-        out = tmp * factor;
+    } else if( read_with_factor( jo, name, out, factor ) ) {
 
     } else {
         return false;
