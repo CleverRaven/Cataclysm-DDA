@@ -11436,6 +11436,20 @@ action_id player::get_next_auto_move_direction()
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
+bool player::defer_move( tripoint next ) {
+    // next must be adjacent to current pos
+    if( square_dist( next, pos() ) != 1 ) {
+        return false;
+    }
+    // next must be adjacent to subsequent move in any preexisting automove route
+    if( has_destination() && square_dist( auto_move_route.front(), next ) != 1 ) {
+        return false;
+    }
+    auto_move_route.insert( auto_move_route.begin(), next );
+    next_expected_position = pos();
+    return true;
+}
+
 void player::shift_destination(int shiftx, int shifty)
 {
     if( next_expected_position != tripoint_min ) {

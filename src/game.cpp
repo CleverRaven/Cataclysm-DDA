@@ -10184,6 +10184,8 @@ bool game::plmove( int dx, int dy, int dz )
                     u.activity.placement = dest_loc;
                     add_msg( _( "You start breaking the %1$s with your %2$s." ),
                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                    u.defer_move( dest_loc ); // don't move into the tile until done mining
+                    return true;
                 } else {
                     add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
                 }
@@ -10199,6 +10201,8 @@ bool game::plmove( int dx, int dy, int dz )
                 u.activity.placement = dest_loc;
                 add_msg( _( "You start breaking the %1$s with your %2$s." ),
                          m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                u.defer_move( dest_loc ); // don't move into the tile until done mining
+                return true;
             }
         } else if( u.has_active_mutation( trait_BURROW ) ) {
             if( m.move_cost( dest_loc ) == 2 ) {
@@ -10380,15 +10384,21 @@ bool game::plmove( int dx, int dy, int dz )
             add_msg( _( "You open the %1$s's %2$s." ), veh1->name.c_str(),
                      veh1->part_info( dpart ).name().c_str() );
         }
-
         u.moves -= 100;
-        on_move_effects();
+        // if auto-move is on, continue moving next turn
+        if( u.has_destination() ) {
+            u.defer_move( dest_loc );
+        }
         return true;
     }
 
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
         u.moves -= 100;
-        return false;
+        // if auto-move is on, continue moving next turn
+        if( u.has_destination() ) {
+            u.defer_move( dest_loc );
+        }
+        return true;
     }
 
     // Invalid move
