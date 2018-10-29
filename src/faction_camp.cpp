@@ -2002,26 +2002,26 @@ time_duration talk_function::companion_travel_time_calc( const std::vector<tripo
         time_duration work, int trips )
 {
     //path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
-    int one_way = 0;
+    time_duration one_way = 0;
     for( auto &om : journey ) {
         oter_id &omt_ref = overmap_buffer.ter( om.x, om.y, g->u.posz() );
         std::string om_id = omt_ref.id().c_str();
         //Player walks 1 om is roughly 2.5 min
         if( om_id == "field" ) {
-            one_way += 3;
+            one_way += 3_minutes;
         } else if( om_id == "forest" ) {
-            one_way += 4;
+            one_way += 4_minutes;
         } else if( om_id == "forest_thick" ) {
-            one_way += 5;
+            one_way += 5_minutes;
         } else if( om_id == "forest_water" ) {
-            one_way += 6;
+            one_way += 6_minutes;
         } else if( is_river( omt_ref ) ) {
-            one_way += 20;
+            one_way += 20_minutes;
         } else {
-            one_way += 4;
+            one_way += 4_minutes;
         }
     }
-    return time_duration::from_minutes( ( one_way * trips ) + to_minutes<int>( work ) );
+    return one_way * trips + work;
 }
 
 std::string talk_function::camp_trip_description( time_duration total_time,
