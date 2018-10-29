@@ -428,10 +428,24 @@
   },
   {
     "type": "keybinding",
+    "id": "SORT_ARMOR",
+    "category": "SORT_ARMOR",
+    "name": "Sort armor into natural layer order",
+    "bindings": [ { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EQUIP_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Equip armor from inventory",
     "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EQUIP_ARMOR_HERE",
+    "category": "SORT_ARMOR",
+    "name": "Equip armor from inventory at this position",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
   },
   {
     "type": "keybinding",

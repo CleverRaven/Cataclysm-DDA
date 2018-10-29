@@ -131,6 +131,19 @@ Groups of vehicle definitions with self-explanatory names of files:
 
 # Raw JS
 
+### Time duration
+
+A string containing one or more pairs of number and time duration unit. Number and unit, as well as each pair, can be separated by an arbitrary amount of spaces.
+Available units:
+- "hours", "hour", "h" - one hour
+- "days", "day", "d" - one day
+- "minutes", "minute", "m" - one minute
+- "turns", "turn", "t" - one turn,
+
+Examples:
+- " +1 day -23 hours 50m " (1*24*60 - 23*60 + 50 == 110 minutes)
+- "1 turn 1 minutes 9 turns" (2 minutes because 10 turns are 1 minute)
+
 ### All Files
 
 ```JSON
@@ -910,7 +923,7 @@ CBMs can be defined like this:
 ...                         // same entries as above for the generic item.
                             // additional some comestible specific entries:
 "addiction_type" : "crack", // Addiction type
-"spoils_in" : 0,            // How long a comestible is good for. 0 = no spoilage
+"spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
@@ -1064,7 +1077,7 @@ Every item type can have optional seed data, if the item has seed data, it's con
     "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
     "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
-    "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
+    "grow" : 91 // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
                 // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
@@ -1092,7 +1105,7 @@ Currently only vats can only accept and produce liquid items.
 
 ```JSON
 "brewable" : {
-    "time": 3600, // Time (in turns) the fermentation will take.
+    "time": 3600, // A time duration: how long the fermentation will take.
     "result": "beer" // The id of the result of the fermentation.
 }
 ```

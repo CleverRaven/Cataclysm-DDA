@@ -1544,7 +1544,9 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
 }
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 const item &it, bool power_armor )
+                 const item &it,
+                 std::array<layer_level, num_bp>& highest_layer_so_far,
+                 bool power_armor )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber();
@@ -1558,8 +1560,15 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
         if( !it.covers( bp ) ) {
             continue;
         }
+        highest_layer_so_far[bp] =
+            std::max( highest_layer_so_far[bp], item_layer );
 
-        vals[bp].layer( static_cast<layer_level>( item_layer ), layering_encumbrance );
+        // Apply layering penalty to this layer, as well as any layer worn
+        // within it that would normally be worn outside of it.
+        for( layer_level penalty_layer = item_layer;
+                penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
+            vals[bp].layer( penalty_layer, layering_encumbrance );
+        }
 
         vals[bp].armor_encumbrance += armorenc;
     }
@@ -1597,6 +1606,16 @@ int layer_details::layer( const int encumbrance )
     return total - current;
 }
 
+std::list<item>::iterator Character::position_to_wear_new_item( const item& new_item )
+{
+    // By default we put this item on after the last item on the same or any
+    // lower layer.
+    return std::find_if(
+        worn.rbegin(), worn.rend(),
+        [&](const item& w) { return w.get_layer() <= new_item.get_layer(); }
+    ).base();
+}
+
 /*
  * Encumbrance logic:
  * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
@@ -1621,13 +1640,31 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // reset all layer data
     vals = std::array<encumbrance_data, num_bp>();
 
-    const bool power_armored = is_wearing_active_power_armor();
-    for( auto &w : worn ) {
-        layer_item( vals, w, power_armored );
+    // Figure out where new_item would be worn
+    std::list<item>::const_iterator new_item_position = worn.end();
+    if( !new_item.is_null() ) {
+        // const_cast required to work around g++-4.8 library bug
+        // see the commit that added this comment to understand why
+        new_item_position =
+            const_cast<Character*>(this)->position_to_wear_new_item( new_item );
     }
 
-    if( !new_item.is_null() ) {
-        layer_item( vals, new_item, power_armored );
+    // Track highest layer observed so far so we can penalise out-of-order
+    // items
+    std::array<layer_level, num_bp> highest_layer_so_far;
+    std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
+               UNDERWEAR);
+
+    const bool power_armored = is_wearing_active_power_armor();
+    for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
+        if( w_it == new_item_position ) {
+            layer_item( vals, new_item, highest_layer_so_far, power_armored );
+        }
+        layer_item( vals, *w_it, highest_layer_so_far, power_armored );
+    }
+
+    if( worn.end() == new_item_position && !new_item.is_null() ) {
+        layer_item( vals, new_item, highest_layer_so_far, power_armored );
     }
 
     // make sure values are sane

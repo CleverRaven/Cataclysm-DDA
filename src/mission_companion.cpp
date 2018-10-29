@@ -636,18 +636,16 @@ void talk_function::caravan_depart( npc &p, const std::string &dest, const std::
 {
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     int distance = caravan_dist( dest );
-    int time = 200 + distance * 100;
+    time_duration time = 20_minutes + distance * 10_minutes;
     popup( _( "The caravan departs with an estimated total travel time of %d hours..." ),
-           int( time / 600 ) );
+           to_hours<int>( time ) );
 
     for( auto &elem : npc_list ) {
         if( elem->companion_mission_time == calendar::before_time_starts ) {
             //Adds a 10% error in estimated travel time
-            elem->companion_mission_time = calendar::turn + time_duration::from_turns( time + time * rng_float(
-                                               -.1, .1 ) );
+            elem->companion_mission_time = calendar::turn + time * rng_float( -1.1, 1.1 );
         }
     }
-
 }
 
 //Could be expanded to actually path to the site, just returns the distance

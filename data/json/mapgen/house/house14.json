@@ -102,7 +102,7 @@
         "r": "f_rack"
       },
       "toilets": { "t": {} },
-      "items": { 
+      "items": {
         "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }

@@ -317,7 +317,7 @@
       ["belgian_ale", 10],
       ["imperial_stout", 4],
       ["cell_phone", 15],
-      ["smart_phone", 25],  
+      ["smart_phone", 25],
       ["wristwatch", 15],
       ["pocketwatch", 5],
       ["umbrella", 50],
@@ -954,7 +954,7 @@
       ["atomic_light", 2],
       ["atomic_lamp", 2],
       ["cell_phone", 15],
-      ["smart_phone", 30],  
+      ["smart_phone", 30],
       ["eink_tablet_pc", 2],
       ["mobile_memory_card", 8],
       ["lighter", 60],
@@ -1365,7 +1365,7 @@
       ["pie_meat", 18],
       ["pie_maple", 9]
     ]
-  },{    
+  },{
     "type" : "item_group",
     "id" : "dessert",
     "items":[
@@ -2088,7 +2088,7 @@
       ["recipe_augs", 4],
       ["cable", 60],
       ["vac_sealer", 10],
-      ["smart_phone", 50],  
+      ["smart_phone", 50],
       ["eink_tablet_pc", 15],
       ["mobile_memory_card", 40],
       ["camera", 15],
@@ -3571,7 +3571,7 @@
       ["mag_traps", 10],
       ["mp3", 9],
       ["cell_phone", 20],
-      ["smart_phone", 20],  
+      ["smart_phone", 20],
       ["eink_tablet_pc", 5],
       ["camera", 3],
       ["camera_pro", 1],
@@ -4865,7 +4865,7 @@
       ["jerrycan", 10],
       ["rucksack", 20],
       ["heatpack", 60],
-      ["sleeping_bag", 10],
+      ["sleeping_bag_roll", 10],
       ["emer_blanket", 20],
       ["flyer", 10],
       ["helmet_liner", 20],
@@ -5458,7 +5458,7 @@
       ["double_plutonium_core", 2],
       ["battery_ups", 15],
       ["cell_phone", 15],
-      ["smart_phone", 20],  
+      ["smart_phone", 20],
       ["eink_tablet_pc", 8],
       ["mobile_memory_card", 20],
       ["camera", 5],
@@ -6631,7 +6631,7 @@
       ["eink_tablet_pc", 1],
       ["mobile_memory_card", 5],
       ["cell_phone", 10],
-      ["smart_phone", 30],  
+      ["smart_phone", 30],
       ["rag", 1],
       ["crowbar", 18],
       ["halligan", 1],
@@ -7923,7 +7923,7 @@
       ["hammer_sledge", 15],
       ["shovel", 20],
       ["cell_phone", 10],
-      ["smart_phone", 10],  
+      ["smart_phone", 10],
       ["airhorn", 5],
       ["boltcutters", 5],
       ["chestrig", 10],
@@ -8888,7 +8888,7 @@
       ["camelbak", 10],
       ["rucksack", 30],
       ["heatpack", 30],
-      ["sleeping_bag", 20],
+      ["sleeping_bag_roll", 20],
       ["duffelbag", 25],
       ["mil_mess_kit", 50],
       ["flashlight", 50],
@@ -9024,7 +9024,7 @@
       ["crackpipe", 10],
       ["weed", 10],
       ["joint", 10],
-      ["smart_phone", 20],  
+      ["smart_phone", 20],
       ["camera", 20]
     ]
   },{

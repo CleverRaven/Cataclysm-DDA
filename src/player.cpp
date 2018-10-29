@@ -3422,15 +3422,9 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     switch( bp ) {
         case bp_eyes:
             if( dam > 5 || cut_dam > 0 ) {
-                int minblind = ( dam + cut_dam ) / 10;
-                if( minblind < 1 ) {
-                    minblind = 1;
-                }
-                int maxblind = ( dam + cut_dam ) /  4;
-                if( maxblind > 5 ) {
-                    maxblind = 5;
-                }
-                add_effect( effect_blind, time_duration::from_turns( rng( minblind, maxblind ) ) );
+                const time_duration minblind = std::max( 1_turns, 1_turns * ( dam + cut_dam ) / 10 );
+                const time_duration maxblind = std::min( 5_turns, 1_turns * ( dam + cut_dam ) / 4 );
+                add_effect( effect_blind, rng( minblind, maxblind ) );
             }
             break;
         case bp_torso:
@@ -3633,7 +3627,7 @@ int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, bod
             add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
         }
     }
-    e.mod_duration( - time_duration::from_hours( 6 * remove_med ) );
+    e.mod_duration( -6_hours * remove_med );
     return intensity;
 }
 
@@ -8080,7 +8074,7 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
 
             item it = *obj;
             obj.remove_item();
-            return wear_item( it );
+            return !!wear_item( it );
         }
     } );
 
@@ -8334,12 +8328,14 @@ int player::item_wear_cost( const item& it ) const
     return mv;
 }
 
-bool player::wear( int pos, bool interactive )
+cata::optional<std::list<item>::iterator>
+player::wear( int pos, bool interactive )
 {
     return wear( i_at( pos ), interactive );
 }
 
-bool player::wear( item& to_wear, bool interactive )
+cata::optional<std::list<item>::iterator>
+player::wear( item& to_wear, bool interactive )
 {
     if( is_worn( to_wear ) ) {
         if( interactive ) {
@@ -8348,7 +8344,7 @@ bool player::wear( item& to_wear, bool interactive )
                                    _( "<npcname> is already wearing that.")
                                    );
         }
-        return false;
+        return cata::nullopt;
     }
     if( to_wear.is_null() ) {
         if( interactive ) {
@@ -8356,7 +8352,7 @@ bool player::wear( item& to_wear, bool interactive )
                                    _( "You don't have that item."),
                                    _( "<npcname> doesn't have that item."));
         }
-        return false;
+        return cata::nullopt;
     }
 
     bool was_weapon;
@@ -8370,39 +8366,36 @@ bool player::wear( item& to_wear, bool interactive )
         was_weapon = false;
     }
 
-    if( !wear_item( to_wear_copy, interactive ) ) {
+    auto result = wear_item( to_wear_copy, interactive );
+    if( !result ) {
         if( was_weapon ) {
             weapon = to_wear_copy;
         } else {
             inv.add_item( to_wear_copy, true );
         }
-        return false;
+        return cata::nullopt;
     }
 
-    return true;
+    return result;
 }
 
-bool player::wear_item( const item &to_wear, bool interactive )
+cata::optional<std::list<item>::iterator>
+player::wear_item( const item &to_wear, bool interactive )
 {
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
-        return false;
+        return cata::nullopt;
     }
 
     const bool was_deaf = is_deaf();
     const bool supertinymouse = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     last_item = to_wear.typeId();
 
-    // By default we put this item on after the last item on the same or any
-    // lower layer.
-    auto position = std::find_if(
-        worn.rbegin(), worn.rend(),
-        [&](const item& w) { return w.get_layer() <= to_wear.get_layer(); }
-    );
-    item &new_item = *worn.insert( position.base(), to_wear );
+    std::list<item>::iterator position = position_to_wear_new_item( to_wear );
+    std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
 
     if( interactive ) {
         add_msg_player_or_npc(
@@ -8432,15 +8425,15 @@ bool player::wear_item( const item &to_wear, bool interactive )
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
     }
 
-    new_item.on_wear( *this );
+    new_item_it->on_wear( *this );
 
-    inv.update_invlet( new_item );
-    inv.update_cache_with_item( new_item );
+    inv.update_invlet( *new_item_it );
+    inv.update_cache_with_item( *new_item_it );
 
     recalc_sight_limits();
     reset_encumbrance();
 
-    return true;
+    return new_item_it;
 }
 
 bool player::change_side( item &it, bool interactive )
@@ -11435,6 +11428,20 @@ action_id player::get_next_auto_move_direction()
     }
 
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
+}
+
+bool player::defer_move( tripoint next ) {
+    // next must be adjacent to current pos
+    if( square_dist( next, pos() ) != 1 ) {
+        return false;
+    }
+    // next must be adjacent to subsequent move in any preexisting automove route
+    if( has_destination() && square_dist( auto_move_route.front(), next ) != 1 ) {
+        return false;
+    }
+    auto_move_route.insert( auto_move_route.begin(), next );
+    next_expected_position = pos();
+    return true;
 }
 
 void player::shift_destination(int shiftx, int shifty)

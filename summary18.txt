@@ -11,7 +11,7 @@ Mods Add pepperbox to no old guns mod
 Interface Swaps coloration for high-level books with recipes
 Balance Made fur a "soft" material
 Infrastructure Fix loss of precision from inadvertent cast to int
-Feature Train relevant skills when installing/removing vehiclep parts
+Features Train relevant skills when installing/removing vehiclep parts
 Mods Craftable Gun Pack mod revamp.
 Interface Fix the advanced inventory volume display (related to #18411, #18288)
 Balance Removes magazine_well from RM228 PDW.
@@ -53,7 +53,7 @@ Infrastructure Rewrites
 Infrastructure Rewrites, Part 2
 Interface Rewrote the M134 description
 Interface Chesthole_iso: Adds tiles48.png and hooks for same
-Feature Track items with no covered body parts (morale)
+Features Track items with no covered body parts (morale)
 Interface Rewrites: .22 LR
 Bugfixes Fix result_mult with charge-less items
 Balance Adjust crafting quantities of dehydrated meat, canned meat
@@ -80,8 +80,8 @@ Interface Change Raccoon and sewerrat colors
 Interface Context-dependent skills and more descriptive unmet requirements
 Performance Hugely speed up crafting GUI (improved inventory visiting + subset of recipes + unit tests)
 Interface Double spaces after punctuation
-Feature Generic vehicle tanks
-Feature Scale repair times with damage
+Features Generic vehicle tanks
+Features Scale repair times with damage
 Content Add hot chocolate
 Balance Adds aluminum frames to solar vehicles
 Balance Batteries are easier to remove

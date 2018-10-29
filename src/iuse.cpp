@@ -1890,7 +1890,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
                 if( fishables.size() > 1 ) {
-                    g->catch_a_monster( fishables, pos, p, 180000 ); //catch the fish! 180000 is the time spent fishing.
+                    g->catch_a_monster( fishables, pos, p, 300_hours ); //catch the fish!
                 } else {
                     //there will always be a chance that the player will get lucky and catch a fish
                     //not existing in the fishables vector. (maybe it was in range, but wandered off)

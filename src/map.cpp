@@ -342,8 +342,15 @@ void map::vehmove()
     // Process item removal on the vehicles that were modified this turn.
     // Use a copy because part_removal_cleanup can modify the container.
     auto temp = dirty_vehicle_list;
+    VehicleList vehicle_list = get_vehicles();
     for( const auto &elem : temp ) {
-        ( elem )->part_removal_cleanup();
+        auto same_ptr = [ elem ]( const struct wrapped_vehicle & tgt ) {
+            return elem == tgt.v;
+        };
+        if( std::find_if( vehicle_list.begin(), vehicle_list.end(), same_ptr ) !=
+            vehicle_list.end() ) {
+            ( elem )->part_removal_cleanup();
+        }
     }
     dirty_vehicle_list.clear();
 }
@@ -4463,13 +4470,13 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                                     map::map_process_func processor, std::string const &signal )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
-    for( const vpart_reference vp : cur_veh.get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
+    for( const vpart_reference &vp : cur_veh.get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
         const size_t idx = vp.part_index();
         cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.get_parts( VPFLAG_CARGO );
-    for( const vpart_reference vp : cargo_parts ) {
+    for( const vpart_reference &vp : cargo_parts ) {
         process_vehicle_items( cur_veh, vp.part_index() );
     }
 
@@ -7403,7 +7410,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     VehicleList vehs = get_vehicles( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
-        for( const vpart_reference vp : v.v->get_parts() ) {
+        for( const vpart_reference &vp : v.v->get_parts() ) {
             const size_t part = vp.part_index();
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
@@ -7495,7 +7502,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         auto &outside_cache = ch.outside_cache;
         auto &transparency_cache = ch.transparency_cache;
         auto &floor_cache = ch.floor_cache;
-        for( const vpart_reference vp : v.v->get_parts() ) {
+        for( const vpart_reference &vp : v.v->get_parts() ) {
             const size_t part = vp.part_index();
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
@@ -7985,7 +7992,7 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
     auto vehs = get_vehicles();
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
-        for( const vpart_reference vp : veh.get_parts( VPFLAG_OBSTACLE ) ) {
+        for( const vpart_reference &vp : veh.get_parts( VPFLAG_OBSTACLE ) ) {
             const tripoint part_pos = vp.vehicle().global_part_pos3( vp.part_index() );
             if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
@@ -7993,7 +8000,7 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
         }
 
         // Doors, but only the closed ones
-        for( const vpart_reference vp : veh.get_parts( VPFLAG_OPENABLE ) ) {
+        for( const vpart_reference &vp : veh.get_parts( VPFLAG_OPENABLE ) ) {
             const size_t p = vp.part_index();
             if( veh.parts[p].open ) {
                 continue;

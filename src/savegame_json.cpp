@@ -1566,9 +1566,87 @@ void time_duration::serialize( JsonOut &jsout ) const
     jsout.write( turns_ );
 }
 
+time_duration time_duration::read_from_json_string( JsonIn &jsin )
+{
+    static const std::vector<std::pair<std::string, time_duration>> units = { {
+            { "turns", 1_turns },
+            { "turn", 1_turns },
+            { "t", 1_turns },
+            // @todo add seconds
+            { "minutes", 1_minutes },
+            { "minute", 1_minutes },
+            { "m", 1_minutes },
+            { "hours", 1_hours },
+            { "hour", 1_hours },
+            { "h", 1_hours },
+            { "days", 1_days },
+            { "day", 1_days },
+            { "d", 1_days },
+            // @todo maybe add seasons?
+            // @todo maybe add years? Those two things depend on season length!
+        }
+    };
+    const size_t pos = jsin.tell();
+    size_t i = 0;
+    const auto error = [&]( const char *const msg ) {
+        jsin.seek( pos + i );
+        jsin.error( msg );
+    };
+
+    const std::string s = jsin.get_string();
+    // returns whether we are at the end of the string
+    const auto skip_spaces = [&]() {
+        while( i < s.size() && s[i] == ' ' ) {
+            ++i;
+        }
+        return i >= s.size();
+    };
+    const auto get_unit = [&]() {
+        if( skip_spaces() ) {
+            error( "invalid time duration string: missing unit" );
+        }
+        for( const auto &pair : units ) {
+            const std::string &unit = pair.first;
+            if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
+                i += unit.size();
+                return pair.second;
+            }
+        }
+        error( "invalid time duration string: unknown unit" );
+        throw; // above always throws
+    };
+
+    if( skip_spaces() ) {
+        error( "invalid time duration string: empty string" );
+    }
+    time_duration result = 0;
+    do {
+        int sign_value = +1;
+        if( s[i] == '-' ) {
+            sign_value = -1;
+            ++i;
+        } else if( s[i] == '+' ) {
+            ++i;
+        }
+        if( i >= s.size() || !std::isdigit( s[i] ) ) {
+            error( "invalid time duration string: number expected" );
+        }
+        int value = 0;
+        for( ; i < s.size() && std::isdigit( s[i] ); ++i ) {
+            value = value * 10 + ( s[i] - '0' );
+        }
+        result += sign_value * value * get_unit();
+    } while( !skip_spaces() );
+    return result;
+}
+
 void time_duration::deserialize( JsonIn &jsin )
 {
-    turns_ = jsin.get_int();
+    if( jsin.test_string() ) {
+        *this = read_from_json_string( jsin );
+    } else {
+        turns_ = jsin.get_int();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2043,7 +2121,7 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( const vpart_reference vp : get_parts( VPFLAG_CARGO ) ) {
+    for( const vpart_reference &vp : get_parts( VPFLAG_CARGO ) ) {
         const size_t cargo_index = vp.part_index();
         auto it = parts[cargo_index].items.begin();
         auto end = parts[cargo_index].items.end();
@@ -2054,7 +2132,7 @@ void vehicle::deserialize( JsonIn &jsin )
         }
     }
 
-    for( const vpart_reference vp : get_parts( "TURRET" ) ) {
+    for( const vpart_reference &vp : get_parts( "TURRET" ) ) {
         const vehicle_part *const turret = &vp.vehicle().parts[vp.part_index()];
         install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
     }
@@ -2093,7 +2171,7 @@ void vehicle::deserialize( JsonIn &jsin )
     /** Legacy saved games did not store part enabled status within parts */
     auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
-            for( const vpart_reference vp : get_parts( flag ) ) {
+            for( const vpart_reference &vp : get_parts( flag ) ) {
                 vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
                 e->enabled = true;
             }
