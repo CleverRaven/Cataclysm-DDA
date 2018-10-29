@@ -45,7 +45,7 @@ Balance add NONCONDUCTIVE flag to cestus
 Interface format charges for cash_card to USD
 Interface Fix description of krav maga to match multiplier
 Bugfixes Weak mutagen fixes.
-Update components of vehicle parts available via their breaking
+Balance Update components of vehicle parts available via their breaking
 Bugfixes Fix saving character templates
 Interface Fix utility light capitalization
 Infrastructure Make vehicleDef.py work in python versions <3.6
