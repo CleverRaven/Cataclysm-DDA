@@ -1198,7 +1198,7 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "flavored bone meal tablet",
-        "description" : "Homemade calcium supplement made out of bone meal.  It's been sweetened to counteract the powdery texture and the taste of ash, almost as palatable as the pre-cataclysm tablets.",
+        "description" : "Homemade calcium supplement made out of bone meal.  Due to some sweetness mixed in to counteract the powdery texture and the taste of ash, it's almost as palatable as the pre-cataclysm tablets.",
         "weight" : 2,
         "volume" : 2,
         "price" : 300,
