@@ -11,6 +11,8 @@
 class item;
 class item_location;
 class player;
+class salvage_actor;
+
 typedef std::function<bool( const item_location & )> item_location_filter;
 
 class inventory_filter_preset : public inventory_selector_preset
@@ -75,6 +77,8 @@ item_location saw_barrel( player &p, item &tool );
 item_location wear( player &p );
 /** Choose item to take off. */
 item_location take_off( player &p );
+/** Item cut up menu. */
+item_location salvage( player &p, const salvage_actor *actor );
 /*@}*/
 
 }
