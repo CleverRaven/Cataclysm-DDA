@@ -104,7 +104,7 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
     options.emplace_back( -1, allow, key, msg );
 
     actions.push_back( [ = ] {
-        for( const vpart_reference vp : found )
+        for( const vpart_reference &vp : found )
         {
             vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             if( e->enabled != state ) {
@@ -129,7 +129,7 @@ void vehicle::control_doors()
 
     uimenu pmenu;
     pmenu.title = _( "Select door to toggle" );
-    for( const vpart_reference vp : door_motors ) {
+    for( const vpart_reference &vp : door_motors ) {
         const size_t p = vp.part_index();
         if( parts[ p ].is_unavailable() ) {
             continue;
@@ -170,7 +170,7 @@ void vehicle::control_doors()
         } else if( pmenu.ret < ( ( int )doors_with_motors.size() + CANCEL ) ) {
             int option = pmenu.ret - ( int )doors_with_motors.size();
             bool open = option == OPENBOTH || option == OPENCURTAINS;
-            for( const vpart_reference vp : door_motors ) {
+            for( const vpart_reference &vp : door_motors ) {
                 const size_t motor = vp.part_index();
                 int next_part = -1;
                 if( open ) {
@@ -635,7 +635,7 @@ bool vehicle::fold_up()
     item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
 
     // Drop stuff in containers on ground
-    for( const vpart_reference vp : get_parts( "CARGO" ) ) {
+    for( const vpart_reference &vp : get_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
         for( auto &elem : get_items( p ) ) {
             g->m.add_item_or_charges( g->u.pos(), elem );
@@ -828,7 +828,7 @@ void vehicle::honk_horn()
     const bool no_power = ! fuel_left( fuel_type_battery, true );
     bool honked = false;
 
-    for( const vpart_reference vp : get_parts( "HORN" ) ) {
+    for( const vpart_reference &vp : get_parts( "HORN" ) ) {
         const size_t p = vp.part_index();
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = part_info( p );
@@ -867,7 +867,7 @@ void vehicle::beeper_sound()
     }
 
     const bool odd_turn = calendar::once_every( 2_turns );
-    for( const vpart_reference vp : get_parts( "BEEPER" ) ) {
+    for( const vpart_reference &vp : get_parts( "BEEPER" ) ) {
         const size_t p = vp.part_index();
         if( ( odd_turn && part_flag( p, VPFLAG_EVENTURN ) ) ||
             ( !odd_turn && part_flag( p, VPFLAG_ODDTURN ) ) ) {
@@ -882,7 +882,7 @@ void vehicle::beeper_sound()
 
 void vehicle::play_music()
 {
-    for( const vpart_reference vp : get_enabled_parts( "STEREO" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
         const vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
         iuse::play_music( g->u, global_part_pos3( *e ), 15, 30 );
     }
@@ -894,7 +894,7 @@ void vehicle::play_chimes()
         return;
     }
 
-    for( const vpart_reference vp : get_enabled_parts( "CHIMES" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
         const vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
         sounds::sound( global_part_pos3( *e ), 40, _( "a simple melody blaring from the loudspeakers." ) );
     }
@@ -902,7 +902,7 @@ void vehicle::play_chimes()
 
 void vehicle::operate_plow()
 {
-    for( const vpart_reference vp : get_parts( "PLOW" ) ) {
+    for( const vpart_reference &vp : get_parts( "PLOW" ) ) {
         const size_t plow_id = vp.part_index();
         const tripoint start_plow = global_part_pos3( plow_id );
         if( g->m.has_flag( "DIGGABLE", start_plow ) ) {
@@ -918,7 +918,7 @@ void vehicle::operate_plow()
 
 void vehicle::operate_rockwheel()
 {
-    for( const vpart_reference vp : get_parts( "ROCKWHEEL" ) ) {
+    for( const vpart_reference &vp : get_parts( "ROCKWHEEL" ) ) {
         const size_t rockwheel_id = vp.part_index();
         const tripoint start_dig = global_part_pos3( rockwheel_id );
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
@@ -934,7 +934,7 @@ void vehicle::operate_rockwheel()
 
 void vehicle::operate_reaper()
 {
-    for( const vpart_reference vp : get_parts( "REAPER" ) ) {
+    for( const vpart_reference &vp : get_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = global_part_pos3( reaper_id );
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
@@ -973,7 +973,7 @@ void vehicle::operate_reaper()
 
 void vehicle::operate_planter()
 {
-    for( const vpart_reference vp : get_parts( "PLANTER" ) ) {
+    for( const vpart_reference &vp : get_parts( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
         const tripoint &loc = global_part_pos3( planter_id );
         vehicle_stack v = get_items( planter_id );
@@ -1009,7 +1009,7 @@ void vehicle::operate_planter()
 
 void vehicle::operate_scoop()
 {
-    for( const vpart_reference vp : get_parts( "SCOOP" ) ) {
+    for( const vpart_reference &vp : get_parts( "SCOOP" ) ) {
         const size_t scoop = vp.part_index();
         const int chance_to_damage_item = 9;
         const units::volume max_pickup_volume = parts[scoop].info().size / 10;
@@ -1146,7 +1146,7 @@ void vehicle::open_or_close( int const part_index, bool const opening )
     /* Find all other closed parts with the same ID in adjacent squares.
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t next_index = vp.part_index();
         if( parts[next_index].removed ) {
             continue;

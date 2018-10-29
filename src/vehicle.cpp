@@ -152,7 +152,7 @@ bool vehicle::remote_controlled( player const &p ) const
         return false;
     }
 
-    for( const vpart_reference vp : get_parts( "REMOTE_CONTROLS" ) ) {
+    for( const vpart_reference &vp : get_parts( "REMOTE_CONTROLS" ) ) {
         const size_t part = vp.part_index();
         if( rl_dist( p.pos(), global_part_pos3( part ) ) <= 40 ) {
             return true;
@@ -205,7 +205,7 @@ void vehicle::add_steerable_wheels()
 
     // Find wheels that have steerable versions.
     // Convert the wheel(s) with the largest x value.
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         if( part_flag( p, "STEERABLE" ) || part_flag( p, "TRACKED" ) ) {
             // Has a wheel that is inherently steerable
@@ -349,17 +349,17 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             blood_inside = true;
         }
 
-        for( const vpart_reference vp : get_parts( "FRIDGE" ) ) {
+        for( const vpart_reference &vp : get_parts( "FRIDGE" ) ) {
             vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             e->enabled = true;
         }
 
-        for( const vpart_reference vp : get_parts( "FREEZER" ) ) {
+        for( const vpart_reference &vp : get_parts( "FREEZER" ) ) {
             vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             e->enabled = true;
         }
 
-        for( const vpart_reference vp : get_parts( "WATER_PURIFIER" ) ) {
+        for( const vpart_reference &vp : get_parts( "WATER_PURIFIER" ) ) {
             vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             e->enabled = true;
         }
@@ -368,7 +368,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     bool blood_inside_set = false;
     int blood_inside_x = 0;
     int blood_inside_y = 0;
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         auto &pt = parts[ p ];
 
@@ -795,7 +795,7 @@ bool vehicle::has_structural_part( int const dx, int const dy ) const
  * */
 bool vehicle::is_structural_part_removed() const
 {
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t i = vp.part_index();
         if( parts[i].removed &&
             part_info( i, true ).location == part_location_structure ) {
@@ -1758,7 +1758,7 @@ void vehicle::relocate_passengers( const std::vector<player *> &passengers )
 {
     const auto boardables = get_parts( "BOARDABLE" );
     for( player *passenger : passengers ) {
-        for( const vpart_reference vp : boardables ) {
+        for( const vpart_reference &vp : boardables ) {
             const size_t p = vp.part_index();
             if( parts[ p ].passenger_id == passenger->getID() ) {
                 passenger->setpos( global_part_pos3( p ) );
@@ -1949,7 +1949,7 @@ std::vector<int> vehicle::parts_at_relative( const int dx, const int dy,
 {
     if( !use_cache ) {
         std::vector<int> res;
-        for( const vpart_reference vp : get_parts() ) {
+        for( const vpart_reference &vp : get_parts() ) {
             const size_t i = vp.part_index();
             if( parts[i].mount.x == dx && parts[i].mount.y == dy && !parts[i].removed ) {
                 res.push_back( ( int )i );
@@ -2271,7 +2271,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
     vpart_id part_id = part_info( part ).get_id();
     // create vectors of parts on the same X or Y axis
     point target = parts[ part ].mount;
-    for( const vpart_reference vp : possible_parts ) {
+    for( const vpart_reference &vp : possible_parts ) {
         const size_t possible_part = vp.part_index();
         if( parts[ possible_part ].is_unavailable() ||
             !part_info( possible_part ).has_flag( "MULTISQUARE" ) ||
@@ -2365,7 +2365,7 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
 
 int vehicle::part_at( int const dx, int const dy ) const
 {
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         if( parts[p].precalc[0].x == dx && parts[p].precalc[0].y == dy && !parts[p].removed ) {
             return ( int )p;
@@ -2390,7 +2390,7 @@ int vehicle::global_part_at( int const x, int const y ) const
 int vehicle::index_of_part( const vehicle_part *const part, bool const check_removed ) const
 {
     if( part != NULL ) {
-        for( const vpart_reference vp : get_parts() ) {
+        for( const vpart_reference &vp : get_parts() ) {
             const size_t index = vp.part_index();
             // @note Doesn't this have a bunch of copy overhead?
             vehicle_part next_part = parts[index];
@@ -2537,7 +2537,7 @@ void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
 std::vector<int> vehicle::boarded_parts() const
 {
     std::vector<int> res;
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         if( part_flag( p, VPFLAG_BOARDABLE ) &&
             parts[p].has_flag( vehicle_part::passenger_flag ) ) {
@@ -2594,7 +2594,7 @@ units::mass vehicle::total_mass() const
 units::volume vehicle::total_folded_volume() const
 {
     units::volume m = 0;
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t i = vp.part_index();
         if( parts[i].removed ) {
             continue;
@@ -2813,7 +2813,7 @@ bool vehicle::do_environmental_effects()
 {
     bool needed = false;
     // check for smoking parts
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         const tripoint part_pos = global_part_pos3( p );
 
@@ -2893,7 +2893,7 @@ void vehicle::noise_and_smoke( double load, double time )
     double muffle = 1.0;
     double m = 0.0;
     int exhaust_part = -1;
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         if( part_flag( p, "MUFFLER" ) ) {
             m = 1.0 - ( 1.0 - part_info( p ).bonus / 100.0 ) * parts[p].health_percent();
@@ -3259,7 +3259,7 @@ void vehicle::power_parts()
 {
     int epower = 0;
 
-    for( const vpart_reference vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
         const vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
         epower += pt->info().epower;
     }
@@ -3340,7 +3340,7 @@ void vehicle::power_parts()
 
         if( !reactor_working ) {
             // All reactors out of fuel or destroyed
-            for( const vpart_reference vp : get_parts( "REACTOR" ) ) {
+            for( const vpart_reference &vp : get_parts( "REACTOR" ) ) {
                 vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
                 pt->enabled = false;
             }
@@ -3361,17 +3361,17 @@ void vehicle::power_parts()
 
     if( battery_deficit != 0 ) {
         // Scoops need a special case since they consume power during actual use
-        for( const vpart_reference vp : get_parts( "SCOOP" ) ) {
+        for( const vpart_reference &vp : get_parts( "SCOOP" ) ) {
             vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
             pt->enabled = false;
         }
         // Rechargers need special case since they consume power on demand
-        for( const vpart_reference vp : get_parts( "RECHARGE" ) ) {
+        for( const vpart_reference &vp : get_parts( "RECHARGE" ) ) {
             vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
             pt->enabled = false;
         }
 
-        for( const vpart_reference vp : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
+        for( const vpart_reference &vp : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
             vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
             if( pt->info().epower < 0 ) {
                 pt->enabled = false;
@@ -3566,7 +3566,7 @@ void vehicle::idle( bool on_map )
     }
 
     if( !warm_enough_to_plant() ) {
-        for( const vpart_reference vp : get_parts( "PLANTER" ) ) {
+        for( const vpart_reference &vp : get_parts( "PLANTER" ) ) {
             vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             if( g->u.sees( global_pos3() ) ) {
                 add_msg( _( "The %s's planter turns off due to low temperature." ), name.c_str() );
@@ -3938,7 +3938,7 @@ void vehicle::refresh()
     std::vector<int>::iterator vii;
 
     // Main loop over all vehicle parts.
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         const vpart_info &vpi = part_info( p );
         if( parts[p].removed ) {
@@ -4148,7 +4148,7 @@ void vehicle::shed_loose_parts()
 void vehicle::refresh_insides()
 {
     insides_dirty = false;
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         if( parts[p].removed ) {
             continue;
@@ -4297,7 +4297,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
         return;
     }
 
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         int distance = 1 + square_dist( parts[p].mount.x, parts[p].mount.y, impact.x, impact.y );
         if( distance > 1 && part_info( p ).location == part_location_structure &&
@@ -4348,7 +4348,7 @@ bool vehicle::shift_if_needed()
         return false;
     }
     //Find a frame, any frame, to shift to
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t next_part = vp.part_index();
         if( part_info( next_part ).location == "structure"
             && !part_info( next_part ).has_flag( "PROTRUSION" )
@@ -4359,7 +4359,7 @@ bool vehicle::shift_if_needed()
         }
     }
     // There are only parts with PROTRUSION left, choose one of them.
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t next_part = vp.part_index();
         if( !parts[next_part].removed ) {
             shift_parts( parts[next_part].mount );
@@ -4544,7 +4544,7 @@ std::map<itype_id, long> vehicle::fuels_left() const
 
 bool vehicle::is_foldable() const
 {
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         if( !part_flag( vp.part_index(), "FOLDABLE" ) ) {
             return false;
         }
@@ -4721,7 +4721,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     units::quantity<float, units::mass::unit_type> xf = 0;
     units::quantity<float, units::mass::unit_type> yf = 0;
     units::mass m_total = 0;
-    for( const vpart_reference vp : get_parts() ) {
+    for( const vpart_reference &vp : get_parts() ) {
         const size_t i = vp.part_index();
         if( parts[i].removed ) {
             continue;
@@ -4786,7 +4786,7 @@ bounding_box vehicle::get_bounding_box()
     precalc_mounts( 0, turn_dir, point() );
 
     int i_use = 0;
-    for( const auto p : get_points( true ) ) {
+    for( const auto &p : get_points( true ) ) {
         point pv = parts[part_at( p.x, p.y )].precalc[i_use];
         point pt = pv;// (p.x + pv.x, p.y + pv.y);
         if( pt.x < min_x ) {
