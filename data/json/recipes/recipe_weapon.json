@@ -110,7 +110,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
+    "components": [
       [ [ "filament", 20, "LIST" ] ],
       [ [ "leather", 1 ], [ "fur", 1 ] ]
     ]
@@ -968,7 +968,7 @@
 		{ "id": "SAW_M_FINE", "level": 1 },
 		{ "id": "SCREW_FINE", "level": 1 },
 		{ "id": "WRENCH_FINE", "level": 1 },
-		{ "id": "GLARE", "level": 2 } 
+		{ "id": "GLARE", "level": 2 }
 		],
     "tools": [
 	[

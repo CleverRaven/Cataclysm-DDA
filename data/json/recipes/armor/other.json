@@ -117,7 +117,7 @@
       [ [ "string_36", 1 ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
-  },  
+  },
   {
     "result": "fur_collar",
     "type": "recipe",
@@ -149,7 +149,7 @@
       [ [ "faux_fur", 2 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },  
+  },
   {
     "result": "leather_cat_tail",
     "type": "recipe",

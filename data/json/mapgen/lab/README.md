@@ -30,7 +30,7 @@ If your layout needs to know where the doors of the room will open up into, inst
 
 # Lab JSON Full Guide
 
-## How area mapgen json works 
+## How area mapgen json works
 
 A lab is mostly made out of overmap tiles of type 'lab', 'lab_stairs', and typically one 'lab_finale'.
 
