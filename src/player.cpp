@@ -8117,12 +8117,17 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
 void player::mend_item( item_location&& obj, bool interactive )
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
-        uimenu menu( true, _( "Toggle which fault?" ) );
+        uilist menu;
+        menu.text = _( "Toggle which fault?" );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto& f : obj->faults_potential() ) {
             opts.emplace_back( f, !!obj->faults.count( f ) );
             menu.addentry( -1, true, -1, string_format( "%s %s", opts.back().second ? _( "Mend" ) : _( "Break" ),
                                                         f.obj().name().c_str() ) );
+        }
+        if( opts.empty() ) {
+            add_msg( m_info, _( "The %s doesn't have any faults to toggle." ), obj->tname() );
+            return;
         }
         menu.query();
         if( menu.ret >= 0 ) {
@@ -8155,9 +8160,8 @@ void player::mend_item( item_location&& obj, bool interactive )
 
     int sel = 0;
     if( interactive ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Mend which fault?" );
-        menu.return_invalid = true;
         menu.desc_enabled = true;
         menu.desc_lines = 0; // Let uimenu handle description height
 

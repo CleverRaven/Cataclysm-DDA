@@ -127,7 +127,7 @@ void vehicle::control_doors()
         return;
     }
 
-    uimenu pmenu;
+    uilist pmenu;
     pmenu.title = _( "Select door to toggle" );
     for( const vpart_reference &vp : door_motors ) {
         const size_t p = vp.part_index();
@@ -157,7 +157,6 @@ void vehicle::control_doors()
     pmenu.addentry( doors_with_motors.size() + CLOSEBOTH, true, MENU_AUTOASSIGN,
                     _( "Close all curtains and doors" ) );
 
-    pmenu.addentry( doors_with_motors.size() + CANCEL, true, 'q', _( "Cancel" ) );
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0; // Move the menu so that we can see our vehicle
@@ -271,14 +270,11 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
-        options.emplace_back( _( "Quit controlling electronics" ), keybind( "QUIT" ) );
-
-        uimenu menu;
-        menu.return_invalid = true;
+        uilist menu;
         menu.text = _( "Electronics controls" );
         menu.entries = options;
         menu.query();
-        valid_option = menu.ret >= 0 && menu.ret < ( int )actions.size();
+        valid_option = menu.ret >= 0 && static_cast<size_t>( menu.ret ) < actions.size();
         if( valid_option ) {
             actions[menu.ret]();
         }
@@ -588,8 +584,7 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&] { turrets_aim_single(); refresh(); } );
     }
 
-    uimenu menu;
-    menu.return_invalid = true;
+    uilist menu;
     menu.text = _( "Vehicle controls" );
     menu.entries = options;
     menu.query();

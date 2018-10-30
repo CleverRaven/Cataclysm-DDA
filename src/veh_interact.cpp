@@ -439,13 +439,19 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = true; // checked later
         break;
 
-    case 'm': // mend mode
+    case 'm': { // mend mode
         enough_morale = g->u.has_morale_to_craft();
-        valid_target = std::any_of( veh->parts.begin(), veh->parts.end(), []( const vehicle_part &pt ) {
-            return !pt.faults().empty();
+        const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+        valid_target = std::any_of( veh->parts.begin(), veh->parts.end(), [toggling]( const vehicle_part &pt ) {
+            if( toggling ) {
+                return !pt.faults_potential().empty();
+            } else {
+                return !pt.faults().empty();
+            }
         } );
         has_tools = true; // checked later
-        break;
+    }
+    break;
 
     case 'f':
         return std::any_of( veh->parts.begin(), veh->parts.end(), can_refill ) ? CAN_DO : INVALID_TARGET;
@@ -856,12 +862,12 @@ bool veh_interact::do_install( std::string &msg )
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
-                    selected_shape = uimenu( true, getbegx( w_list ), getmaxx( w_list ), getbegy( w_list ),
-                                             _("Choose shape:"), shape_ui_entries ).ret;
+                    selected_shape = uilist( getbegx( w_list ), getmaxx( w_list ), getbegy( w_list ),
+                                             _( "Choose shape:" ), shape_ui_entries );
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
                 }
-                 if( 0 <= selected_shape && (size_t) selected_shape < shapes.size() ) {
+                if( selected_shape >= 0 && static_cast<size_t>( selected_shape ) < shapes.size() ) {
                     sel_vpart_info = shapes[selected_shape];
                     sel_cmd = 'i';
                     return true; // force redraw
@@ -1026,7 +1032,14 @@ bool veh_interact::do_mend( std::string &msg )
 
     set_title( _( "Choose a part here to mend:" ) );
 
-    auto sel = []( const vehicle_part &pt ) { return !pt.faults().empty(); };
+    const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+    auto sel = [toggling]( const vehicle_part &pt ) {
+        if( toggling ) {
+            return !pt.faults_potential().empty();
+        } else {
+            return !pt.faults().empty();
+        }
+    };
 
     auto act = [&]( const vehicle_part &pt ) {
         g->u.mend_item( veh->part_base( veh->index_of_part( &pt ) ) );
@@ -1633,9 +1646,8 @@ bool veh_interact::do_assign_crew( std::string &msg )
     auto sel = []( const vehicle_part &pt ) { return pt.is_seat(); };
 
     auto act = [&]( vehicle_part &pt ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Select crew member" );
-        menu.return_invalid = true;
 
         if( pt.crew() ) {
             menu.addentry( 0, true, 'c', _( "Clear assignment" ) );
@@ -1648,7 +1660,7 @@ bool veh_interact::do_assign_crew( std::string &msg )
         menu.query();
         if( menu.ret == 0 ) {
             pt.unset_crew();
-        } else if( menu > 0 ) {
+        } else if( menu.ret > 0 ) {
             const auto &who = *g->critter_by_id<npc>( menu.ret );
             veh->assign_seat( pt, who );
         }
@@ -2404,19 +2416,21 @@ item consume_vpart_item( const vpart_id &vpid )
         selection = 0;
     } else {
         // popup menu!?
-        std::vector<std::string> options;
+        uilist menu;
+        menu.text = _( "Use which gizmo?" );
+        menu.allow_cancel = false;
         for( const auto candidate : candidates ) {
             const vpart_info &info = vpid.obj();
             if( candidate ) {
                 // In inventory.
-                options.emplace_back( info.name() );
+                menu.entries.emplace_back( info.name() );
             } else {
                 // Nearby.
-                options.emplace_back( info.name() + _(" (nearby)" ) );
+                menu.entries.emplace_back( info.name() + _( " (nearby)" ) );
             }
         }
-        selection = menu_vec(false, _("Use which gizmo?"), options);
-        selection -= 1;
+        menu.query();
+        selection = menu.ret;
     }
     std::list<item> item_used;
     //remove item from inventory. or map.
@@ -2479,14 +2493,13 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
     }
     itype_id fuel;
     if( fuels.size() > 1 ) {
-        uimenu smenu;
+        uilist smenu;
         smenu.text = _("Remove what?");
         for( auto & fuel : fuels ) {
             smenu.addentry( item::nname( fuel ) );
         }
-        smenu.addentry(_("Never mind"));
         smenu.query();
-        if( static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
+        if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
             add_msg(m_info, _("Never mind."));
             return;
         }
