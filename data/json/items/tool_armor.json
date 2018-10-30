@@ -2516,6 +2516,7 @@
         "use_action": "SOLARPACK_OFF",
         "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
     },
+    {
         "id": "helmet_riot",
         "type": "TOOL_ARMOR",
         "category": "armor",
