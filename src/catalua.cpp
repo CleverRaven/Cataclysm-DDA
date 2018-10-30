@@ -29,6 +29,7 @@
 #include "mongroup.h"
 #include "itype.h"
 #include "morale_types.h"
+#include "optional.h"
 #include "trap.h"
 #include "overmap.h"
 #include "gun_mode.h"
@@ -386,6 +387,13 @@ class LuaValue
                 lua_setglobal( L, global_name );
             }
         }
+        static void push( lua_State *const L, const cata::optional<T> &value ) {
+            if( value ) {
+                push( L, *value );
+            } else {
+                lua_pushnil( L );
+            }
+        }
         template<typename ...Args>
         static void push( lua_State *const L, Args &&... args ) {
             // Push user data,
@@ -493,6 +501,13 @@ class LuaReference : private LuaValue<T *>
                 return;
             }
             LuaValue<T *>::push( L, value );
+        }
+        static void push( lua_State *const L, const cata::optional<T> &value ) {
+            if( value ) {
+                push( L, *value );
+            } else {
+                lua_pushnil( L );
+            }
         }
         // HACK: because Lua does not known what const is.
         static void push( lua_State *const L, const T *const value ) {

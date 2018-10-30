@@ -88,7 +88,7 @@ npc::npc()
     position.x = -1;
     position.y = -1;
     position.z = 500;
-    last_player_seen_pos = no_goal_point;
+    last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = no_goal_point;
     guard_pos = no_goal_point;
@@ -1919,6 +1919,14 @@ void npc::setpos( const tripoint &pos )
             // with the same npc pointer
             debugmsg( "could not find npc %s on its old overmap", name.c_str() );
         }
+    }
+}
+
+void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+{
+    if( pos ) {
+        pos->x += dx;
+        pos->y += dy;
     }
 }
 

@@ -17,6 +17,11 @@
 #include "cata_utility.h"
 #include "calendar.h"
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 class nc_color;
 class JsonObject;
 class JsonIn;
@@ -1003,9 +1008,9 @@ class item : public visitable<item>
     public:
         /**
          * Gets the point (vehicle tile) the cable is connected to.
-         * Returns tripoint_min if not connected to anything.
+         * Returns nothing if not connected to anything.
          */
-        tripoint get_cable_target() const;
+        cata::optional<tripoint> get_cable_target() const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -1877,4 +1882,3 @@ enum hint_rating {
 item &null_item_reference();
 
 #endif
-

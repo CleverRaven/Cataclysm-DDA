@@ -592,8 +592,8 @@ void npc::execute_action( npc_action action )
         }
 
         case npc_look_for_player:
-            if( saw_player_recently() && sees( last_player_seen_pos ) ) {
-                update_path( last_player_seen_pos );
+            if( saw_player_recently() && last_player_seen_pos && sees( *last_player_seen_pos ) ) {
+                update_path( *last_player_seen_pos );
                 move_to_next();
             } else {
                 look_for_player( g->u );
@@ -1443,11 +1443,6 @@ void npc::aim()
 
 bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 {
-    if( p == tripoint_min ) {
-        add_msg( m_debug, "Pathing to tripoint_min" );
-        return false;
-    }
-
     if( p == pos() ) {
         path.clear();
         return true;
@@ -1801,7 +1796,7 @@ void npc::move_pause()
     }
 }
 
-static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to )
+static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripoint &closest_to )
 {
     if( g->m.passable( p ) ) {
         return p;
@@ -1821,7 +1816,7 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
         return *iter;
     }
 
-    return tripoint_min;
+    return cata::nullopt;
 }
 
 void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
@@ -1997,8 +1992,9 @@ void npc::find_item()
     // TODO: Move that check above, make it multi-target pathing and use it
     // to limit tiles available for choice of items
     const int dist_to_item = rl_dist( wanted_item_pos, pos() );
-    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
-    update_path( dest );
+    if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
+        update_path( *dest );
+    }
 
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
@@ -2036,8 +2032,9 @@ void npc::pick_up_item()
 
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
-    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
-    update_path( dest );
+    if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
+        update_path( *dest );
+    }
 
     const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
     if( dist_to_pickup > 1 && !path.empty() ) {
@@ -2311,11 +2308,9 @@ bool npc::find_corpse_to_pulp()
 
     const int range = 6;
 
-    const bool had_pulp_target = pulp_location != tripoint_min;
-
     const item *corpse = nullptr;
-    if( had_pulp_target && square_dist( pos(), pulp_location ) <= range ) {
-        corpse = check_tile( pulp_location );
+    if( pulp_location && square_dist( pos(), *pulp_location ) <= range ) {
+        corpse = check_tile( *pulp_location );
     }
 
     // Find the old target to avoid spamming
@@ -2328,7 +2323,7 @@ bool npc::find_corpse_to_pulp()
             corpse = check_tile( p );
 
             if( corpse != nullptr ) {
-                pulp_location = p;
+                pulp_location.emplace( p );
                 break;
             }
 
@@ -2348,18 +2343,18 @@ bool npc::find_corpse_to_pulp()
 
 bool npc::do_pulp()
 {
-    if( pulp_location == tripoint_min ) {
+    if( !pulp_location ) {
         return false;
     }
 
-    if( rl_dist( pulp_location, pos() ) > 1 || pulp_location.z != posz() ) {
+    if( rl_dist( *pulp_location, pos() ) > 1 || pulp_location->z != posz() ) {
         return false;
     }
 
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = pulp_location;
+    activity.placement = *pulp_location;
     activity.do_turn( *this );
     return moves != old_moves;
 }
@@ -2952,9 +2947,7 @@ void npc::look_for_player( player &sought )
 
 bool npc::saw_player_recently() const
 {
-    return ( last_player_seen_pos.x >= 0 && last_player_seen_pos.x < SEEX * MAPSIZE &&
-             last_player_seen_pos.y >= 0 && last_player_seen_pos.y < SEEY * MAPSIZE &&
-             last_seen_player_turn > 0 );
+    return last_player_seen_pos && g->m.inbounds( *last_player_seen_pos ) && last_seen_player_turn > 0;
 }
 
 bool npc::has_destination() const
