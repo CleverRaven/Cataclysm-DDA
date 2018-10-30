@@ -1416,10 +1416,20 @@ vehicle_part *veh_interact::get_most_repariable_part() const
 bool veh_interact::can_remove_part( int idx ) {
     sel_vehicle_part = &veh->parts[idx];
     sel_vpart_info = &sel_vehicle_part->info();
+    std::ostringstream msg;
+
+    if( sel_vehicle_part->is_broken() ) {
+        msg << string_format(
+            _( "<color_white>Removing the broken %1$s may yield some fragments.</color>\n" ),
+                sel_vehicle_part->name() );
+    } else {
+        item result_of_removal = sel_vehicle_part->properties_to_item();
+        msg << string_format(
+            _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
+            sel_vehicle_part->name(), result_of_removal.display_name() );
+    }
 
     const auto reqs = sel_vpart_info->removal_requirements();
-
-    std::ostringstream msg;
     bool ok = format_reqs( msg, reqs, sel_vpart_info->removal_skills, sel_vpart_info->removal_time( g->u ) );
 
     msg << _( "<color_white>Additional requirements:</color>\n" );
