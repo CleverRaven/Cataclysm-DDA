@@ -220,7 +220,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "an unskilled shooter with an inaccurate shotgun" ) {
         arm_shooter( shooter, "shotgun_d" );
-        test_shooting_scenario( shooter, 4, 6, 16 );
+        test_shooting_scenario( shooter, 4, 6, 17 );
         test_fast_shooting( shooter, 50, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
@@ -288,7 +288,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
         arm_shooter( shooter, "browning_blr", { "rifle_scope" } );
-        test_shooting_scenario( shooter, 25, 60, 800 );
+        test_shooting_scenario( shooter, 25, 60, 900 );
         test_fast_shooting( shooter, 100, 0.4 );
     }
 }
