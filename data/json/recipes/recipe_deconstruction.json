@@ -1682,6 +1682,16 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "vehicle_controls",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 3,
+    "time": 10000,
+    "decomp_learn": 3,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "wire", 2 ] ], [ [ "cable", 8 ] ] ]
+  },
+  {
     "result": "robot_controls",
     "type": "uncraft",
     "skill_used": "electronics",
