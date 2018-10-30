@@ -1,0 +1,32 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "source_of_anything",
+    "terrains": [ "house", "s_gas", "s_pharm", "s_hardware", "s_sports", "s_liquor", "s_gun", "s_library" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_ammo",
+    "terrains": [ "house", "s_gun" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_gun",
+    "terrains": [ "s_gun" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_weapon",
+    "terrains": [ "s_gun", "s_sports", "s_hardware" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_drink",
+    "terrains": [ "s_gas", "s_pharm", "s_liquor", "s_grocery" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_food",
+    "terrains": [ "s_grocery" ]
+  }
+]

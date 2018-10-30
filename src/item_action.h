@@ -5,11 +5,11 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "json.h"
-#include "item.h"
 
 class item_action;
 class player;
+class item;
+class JsonObject;
 
 typedef std::string item_action_id;
 typedef std::map< item_action_id, item * > item_action_map;
@@ -55,7 +55,5 @@ class item_action_generator
         void load_item_action( JsonObject &jo );
         void check_consistency() const;
 };
-
-
 
 #endif

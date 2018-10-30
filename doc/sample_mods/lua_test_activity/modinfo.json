@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "lua_test_activity",
+    "name": "Lua sample code: Player activity",
+    "description": "Sample code of player activity.",
+    "category": "content",
+    "dependencies": ["dda"]
+  }
+]

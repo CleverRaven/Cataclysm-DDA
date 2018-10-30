@@ -20,7 +20,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

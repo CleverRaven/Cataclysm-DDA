@@ -2,6 +2,8 @@
 #ifndef RET_VAL_H
 #define RET_VAL_H
 
+#include "string_formatter.h"
+
 #include <string>
 #include <type_traits>
 
@@ -12,30 +14,57 @@
  *   - an arbitrary string which additionally describes the result (may be empty).
  *
  * Template parameter T specifies the type of the value.
- * 'default_success' and 'default_failure' are optional constants that would be used
- * as defaults for the success/failure values respectively.
  */
 
-template<typename T, T default_success = T(), T default_failure = T()>
+template<typename T>
 class ret_val
 {
+        static_assert( !std::is_convertible<T, std::string>::value, "string values aren't allowed" );
+
+        template<typename S>
+        using is_convertible_to_string = typename
+                                         std::enable_if< std::is_convertible<S, std::string>::value>::type;
+
+    public:
+        /**
+         * These structures are mandatory only if you want to omit the explicit return
+         * values of type T when creating instances of @ref ret_val with make_ functions.
+         * Each of these structures must contain a static constexpr member named 'value'.
+         * The recommended way of achieving this is inheriting the specializations from
+         * @ref std::integral_constant. See the specialization for 'bool' (below) as an example.
+         */
+        struct default_success;
+        struct default_failure;
+
     public:
         ret_val() = delete;
 
-        static ret_val make_success( const std::string &msg, T val = default_success ) {
-            return ret_val( msg, val, true );
+        static ret_val make_success( T val = default_success::value ) {
+            return make_success( val, std::string() );
         }
 
-        static ret_val make_failure( const std::string &msg, T val = default_failure ) {
-            return ret_val( msg, val, false );
+        static ret_val make_failure( T val = default_failure::value ) {
+            return make_failure( val, std::string() );
         }
 
-        static ret_val make_success( T val = default_success ) {
-            return make_success( std::string(), val );
+        template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
+        static ret_val make_success( T val, const S &msg, A && ... args ) {
+            return ret_val( string_format( msg, std::forward<A>( args )... ), val, true );
         }
 
-        static ret_val make_failure( T val = default_failure ) {
-            return make_failure( std::string(), val );
+        template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
+        static ret_val make_failure( T val, const S &msg, A && ... args ) {
+            return ret_val( string_format( msg, std::forward<A>( args )... ), val, false );
+        }
+
+        template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
+        static ret_val make_success( const S &msg, A && ... args ) {
+            return make_success( default_success::value, msg, std::forward<A>( args )... );
+        }
+
+        template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
+        static ret_val make_failure( const S &msg, A && ... args ) {
+            return make_failure( default_failure::value, msg, std::forward<A>( args )... );
         }
 
         bool success() const {
@@ -64,6 +93,9 @@ class ret_val
 };
 
 template<>
-struct ret_val<bool, true, false> {};
+struct ret_val<bool>::default_success : public std::integral_constant<bool, true> {};
+
+template<>
+struct ret_val<bool>::default_failure : public std::integral_constant<bool, false> {};
 
 #endif // RET_VAL_H

@@ -52,6 +52,7 @@
       [ "pet_carrier", 30 ],
       [ "dogfood", 30 ],
       [ "catfood", 30 ],
+      [ "birdfood", 10 ],
       [ "towel", 20 ],
       [ "soap", 10 ],
       [ "gloves_medical", 20 ],
@@ -78,7 +79,8 @@
       [ "1st_aid", 30 ],
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
-      [ "vaccine_shot", 15 ]
+      [ "vaccine_shot", 15 ],
+      [ "anesthesia", 20 ]
     ]
   },
   {
@@ -153,6 +155,7 @@
             "l": "t_linoleum_white",
             "s": "t_linoleum_white",
             "t": "t_linoleum_white",
+            "D": "t_sidewalk",
             "~": "t_sidewalk"
           },
           "furniture": {
@@ -170,9 +173,7 @@
             "s": "f_sink",
             "y": "f_indoor_plant"
           },
-          "toilets": {
-            "t": {}
-          },
+          "toilets": { "t": {} },
           "place_items": [
             { "item": "trash", "x": 10, "y": 19, "chance": 50, "repeat": [ 1, 3 ] },
             { "item": "vet_softdrug", "x": 17, "y": 10, "chance": 50, "repeat": [ 2, 5 ] },
@@ -200,24 +201,9 @@
           ],
           "place_vehicles": [
             { "vehicle": "VETS", "x": 6, "y": 19, "chance": 20 },
-            {
-              "vehicle": "VETS", "x": 7, "y": 2, "chance": 15, "rotation": [
-                2,
-                3
-              ]
-            },
-            {
-              "vehicle": "VETS", "x": 15, "y": 2, "chance": 15, "rotation": [
-                2,
-                3
-              ]
-            },
-            {
-              "vehicle": "VETS", "x": 23, "y": 2, "chance": 15, "rotation": [
-                2,
-                3
-              ]
-            }
+            { "vehicle": "VETS", "x": 7, "y": 2, "chance": 15, "rotation": [ 2, 3 ] },
+            { "vehicle": "VETS", "x": 15, "y": 2, "chance": 15, "rotation": [  2, 3 ] },
+            { "vehicle": "VETS", "x": 23, "y": 2, "chance": 15, "rotation": [  2, 3 ] }
           ]
         }
       }

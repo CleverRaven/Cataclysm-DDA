@@ -176,9 +176,7 @@
         "v": "f_sink",
         "{": "f_bookcase"
       },
-      "place_signs": [
-        { "signage": "The Red Dragon Tea Shop", "x": 4, "y": 4 }
-      ],
+      "place_signs": [ { "signage": "The Red Dragon Tea Shop", "x": 4, "y": 4 } ],
       "place_items": [
         { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "tea_dishes", "x": 16, "y": 6, "chance": 30, "repeat": [ 1, 2 ] },

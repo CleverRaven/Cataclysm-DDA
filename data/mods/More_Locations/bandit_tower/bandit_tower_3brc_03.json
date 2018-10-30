@@ -1,0 +1,59 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_3brc",
+        "comment" : "bottom right corner, third and odd level floors.",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "#######==jj=====jj==jj==",
+                "#######=....|*.....|..==",
+                "#####===.Z..|-|..Z.|..==",
+                "#####===.....*|....|....",
+                "###=====k-g----k-g--....",
+                "###=xxnn...........!....",
+                "###=x.....-------k----++",
+                "###jL.TTT.|...|......|xx",
+                "###jL.TTT.+..cg..Z...|--",
+                "###jL.TTT.|...|.....*j.d",
+                "###=......--------------",
+                "###=x........!..!.......",
+                "###=--ggkgg--|..!.......",
+                "###g.........|!!===.....",
+                "###g..z......|..===..Mee",
+                "###g....z.z..|..==<<<Mee",
+                "###g..z.*....|..==<<<Mee",
+                "###g...z.z...|..==<<<Mee",
+                "###g....z....|..=MMMMMMM",
+                "###g.........|..=eeeeM==",
+                "###===-------|...eeeeM=="
+            ],
+            "rotation": 2,
+            "palettes": [
+                "tri_tower",
+                "upper_level",
+                "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "j": "t_wall_wood",
+                "k": "t_door_c"
+            },
+            "item":{
+                "x": { "item": "chitin_piece", "amount": [ 10, 20 ] }
+            },
+            "items":{
+                "L": { "item": "knifeblock", "chance": 80 },
+                "T": { "item": "knifeblock", "chance": 45 }
+            },
+            "monster": {
+                "z": { "monster": "mon_ant" },
+                "Z": { "monster": "mon_ant_soldier" }
+            }
+        }
+    }
+]

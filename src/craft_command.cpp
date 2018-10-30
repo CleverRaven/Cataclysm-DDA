@@ -17,7 +17,6 @@
 #include <string>
 #include <vector>
 
-
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
 {
@@ -57,10 +56,9 @@ void craft_command::execute()
         }
     }
 
-    const auto needs = rec->requirements();
-
     if( need_selections ) {
         item_selections.clear();
+        const auto needs = rec->requirements();
         for( const auto &it : needs.get_components() ) {
             comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
             if( is.use_from == cancel ) {
@@ -81,9 +79,11 @@ void craft_command::execute()
     }
 
     auto type = activity_id( is_long ? "ACT_LONGCRAFT" : "ACT_CRAFT" );
-    auto activity = player_activity( type, crafter->time_to_craft( *rec, batch_size ), -1, INT_MIN,
-                                     rec->ident() );
+    auto activity = player_activity( type, crafter->base_time_to_craft( *rec, batch_size ), -1, INT_MIN,
+                                     rec->ident().str() );
     activity.values.push_back( batch_size );
+    activity.values.push_back( calendar::turn );
+    activity.coords.push_back( crafter->pos() );
 
     crafter->assign_activity( activity );
 

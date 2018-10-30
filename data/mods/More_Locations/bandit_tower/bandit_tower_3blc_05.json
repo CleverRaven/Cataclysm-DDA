@@ -1,0 +1,66 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_3blc",
+        "comment" : "bottom left corner, third and odd level floors.",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "#######==ww=====ww==ww==",
+                "#######=..xx|$+..xx|xx==",
+                "#####===x...|-|....|xx==",
+                "#####===....+$|...x|....",
+                "###=====K------K----...x",
+                "###=CCCC...........K....",
+                "###=C.....-------K----++",
+                "###wC....L|lll|l|..xx|xx",
+                "###wCc....+..@..|...x|--",
+                "###wC....L|lll|l|xx..+.x",
+                "###=C.....--------------",
+                "###=CC....K..K....K.....",
+                "###=--....---|....K.....",
+                "###2......|~~|..===!!==.",
+                "###2.........|..===..Mee",
+                "###2..~...~..|..==>>>Mee",
+                "###2.~......~|..==>>>Mee",
+                "###2......~..|..==>>>Mee",
+                "###2...~.....|..=MMMMMMM",
+                "###2.~...~..~|KK=eeeeM==",
+                "###===-------|...eeeeM=="
+            ],
+            "rotation": 3,
+            "palettes": [
+                "tri_tower",
+                "upper_level",
+                "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "K": "t_door_bar_locked"
+            },
+            "furniture":{
+                "$": "f_safe_l"
+            },
+            "item":{
+                "~": { "item": "money_bundle", "amount": [ 10, 20 ] },
+                "$": { "item": "diamond", "amount": [ 0, 10 ] }
+            },
+            "items":{
+                "C": { "item": "jewelry_back", "chance": 60 },
+                "l": [ 
+                    { "item": "jewelry_front", "chance": 70 }, 
+                    { "item": "jewelry_safe", "chance": 70 }
+                ],
+                "L": { "item": "tools_common", "chance": 60 },
+                "x": { "item": "jewelry_back", "chance": 60 }
+            },
+            "npcs": {
+                "@": { "class": "raider" }
+            }
+        }
+    }
+]

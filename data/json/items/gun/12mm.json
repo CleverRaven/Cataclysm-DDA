@@ -17,7 +17,15 @@
     "dispersion": 45,
     "durability": 8,
     "ups_charges": 5,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazines": [ [ "12mm", [ "hk_g80mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   }

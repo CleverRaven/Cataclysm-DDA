@@ -6,23 +6,28 @@
 #include <SDL_ttf.h>
 
 #include "animation.h"
-#include "map.h"
+#include "lightmap.h"
+#include "line.h"
+#include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
 
+#include <memory>
 #include <list>
 #include <map>
+#include <set>
 #include <vector>
 #include <string>
 #include <unordered_map>
 
+class cata_tiles;
+class Creature;
+class player;
 class JsonObject;
 struct visibility_variables;
 
 extern void set_displaybuffer_rendertarget();
-
-void clear_texture_pool();
 
 /** Structures */
 struct tile_type {
@@ -34,23 +39,6 @@ struct tile_type {
     point offset = {0, 0};
 
     std::vector<std::string> available_subtiles;
-};
-
-struct tile {
-    /** Screen coordinates as tile number */
-    int sx, sy;
-    /** World coordinates */
-    int wx, wy;
-
-    tile() {
-        sx = wx = wy = 0;
-    }
-    tile( int x, int y, int x2, int y2 ) {
-        sx = x;
-        sy = y;
-        wx = x2;
-        wy = y2;
-    }
 };
 
 /* Enums */
@@ -88,45 +76,35 @@ struct SDL_Texture_deleter {
 };
 using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
 
+class texture
+{
+    private:
+        std::shared_ptr<SDL_Texture> sdl_texture_ptr;
+        SDL_Rect srcrect = { 0, 0, 0, 0 };
+
+    public:
+        texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect rect ) : sdl_texture_ptr( ptr ),
+            srcrect( rect ) { }
+        texture() = default;
+
+        /// Returns the width (first) and height (second) of the stored texture.
+        std::pair<int, int> dimension() const {
+            return std::make_pair( srcrect.w, srcrect.h );
+        }
+        /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
+        /// null as source rectangle (render the whole texture). Other parameters
+        /// are simply passed through.
+        int render_copy_ex( SDL_Renderer *const renderer, const SDL_Rect *const dstrect, const double angle,
+                            const SDL_Point *const center, const SDL_RendererFlip flip ) const {
+            return SDL_RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
+        }
+};
+
 struct SDL_Surface_deleter {
     // Operator overload required to leverage unique_ptr API.
     void operator()( SDL_Surface *const ptr );
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
-
-// Cache of a single tile, used to avoid redrawing what didn't change.
-struct tile_drawing_cache {
-
-    tile_drawing_cache() { };
-
-    // Sprite indices drawn on this tile.
-    // The same indices in a different order need to be drawn differently!
-    std::vector<tile_type *> sprites;
-    std::vector<int> rotations;
-
-    bool operator==( const tile_drawing_cache &other ) const {
-        if( sprites.size() != other.sprites.size() ) {
-            return false;
-        } else {
-            for( size_t i = 0; i < sprites.size(); ++i ) {
-                if( sprites[i] != other.sprites[i] || rotations[i] != other.rotations[i] ) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    bool operator!=( const tile_drawing_cache &other ) const {
-        return !( this->operator==( other ) );
-    }
-
-    void operator=( const tile_drawing_cache &other ) {
-        this->sprites = other.sprites;
-        this->rotations = other.rotations;
-    }
-};
 
 struct pixel {
     int r;
@@ -245,74 +223,110 @@ struct minimap_submap_cache {
     bool drawn;
     //flag used to indicate that the texture needs to be cleared before first use
     bool ready;
+    minimap_shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles
-    minimap_submap_cache();
+    minimap_submap_cache( minimap_shared_texture_pool &pool );
+    minimap_submap_cache( minimap_submap_cache && );
     //handle the release of the borrowed texture
     ~minimap_submap_cache();
 };
 
-using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
-
-class cata_tiles
+class tileset
 {
+    private:
+        std::string tileset_id;
+
+        int tile_width;
+        int tile_height;
+
+        // multiplier for pixel-doubling tilesets
+        float tile_pixelscale;
+
+        std::vector<texture> tile_values;
+        std::vector<texture> shadow_tile_values;
+        std::vector<texture> night_tile_values;
+        std::vector<texture> overexposed_tile_values;
+        std::vector<texture> memory_tile_values;
+
+        std::unordered_map<std::string, tile_type> tile_ids;
+
+        static const texture *get_if_available( const size_t index,
+                                                const decltype( shadow_tile_values ) &tiles ) {
+            return index < tiles.size() ? &( tiles[index] ) : nullptr;
+        }
+
+        friend class tileset_loader;
+
     public:
-        /** Default constructor */
-        cata_tiles( SDL_Renderer *render );
-        /** Default destructor */
-        ~cata_tiles();
-    protected:
-        void clear();
-    public:
-        /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
-         *  float inaccuracies. */
-        void set_draw_scale( int scale );
-    protected:
-        /** Load tileset, R,G,B, are the color components of the transparent color
-         * Returns the number of tiles that have been loaded from this tileset image
-         * @throw std::exception If the image can not be loaded.
-         */
-        int load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height );
+        int get_tile_width() const {
+            return tile_width;
+        }
+        int get_tile_height() const {
+            return tile_height;
+        }
+        float get_tile_pixelscale() const {
+            return tile_pixelscale;
+        }
+        const std::string &get_tileset_id() const {
+            return tileset_id;
+        }
 
-        /**
-         * Load tileset config file (json format).
-         * If the tileset uses the old system (one image per tileset) the image
-         * path <B>image_path</B> is used to load the tileset image.
-         * Otherwise (the tileset uses the new system) the image pathes
-         * are loaded from the json entries.
-         * @throw std::exception On any error.
-         * @param tileset_root Path to tileset root directory.
-         * @param json_conf Path to json config inside tileset_root.
-         * @param image_path Path to tiles image inside tileset_root.
-         */
-        void load_tilejson( std::string tileset_root, std::string json_conf,
-                            const std::string &image_path );
+        const texture *get_tile( const size_t index ) const {
+            return get_if_available( index, tile_values );
+        }
+        const texture *get_night_tile( const size_t index ) const {
+            return get_if_available( index, night_tile_values );
+        }
+        const texture *get_shadow_tile( const size_t index ) const {
+            return get_if_available( index, shadow_tile_values );
+        }
+        const texture *get_overexposed_tile( const size_t index ) const {
+            return get_if_available( index, overexposed_tile_values );
+        }
+        const texture *get_memory_tile( const size_t index ) const {
+            return get_if_available( index, memory_tile_values );
+        }
 
-        /**
-         * Try to load json tileset config. If json valid it lookup
-         * it parses it and load tileset.
-         * @throw std::exception On errors in the tileset definition.
-         * @param tileset_dir Path to tileset root directory.
-         * @param f File stream to read from.
-         * @param image_path
-         */
-        void load_tilejson_from_file( const std::string &tileset_dir, std::ifstream &f,
-                                      const std::string &image_path );
+        tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
+        const tile_type *find_tile_type( const std::string &id ) const;
+};
 
-        /**
-         * Load tiles from json data.This expects a "tiles" array in
-         * <B>config</B>. That array should contain all the tile definition that
-         * should be taken from an tileset image.
-         * Because the function only loads tile definitions for a single tileset
-         * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
-         * [0,size].
-         * The <B>offset</B> is automatically added to the tile index.
-         * sprite offset dictates where each sprite should render in its tile
-         * @throw std::exception On any error.
-         */
-        void load_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x = 0,
-                                      int sprite_offset_y = 0 );
+class tileset_loader
+{
+    private:
+        tileset &ts;
+        SDL_Renderer *const renderer;
 
+        int sprite_offset_x;
+        int sprite_offset_y;
+
+        int sprite_width;
+        int sprite_height;
+
+        int offset = 0;
+        int sprite_id_offset = 0;
+        int size = 0;
+
+        struct {
+            int R;
+            int G;
+            int B;
+        };
+
+        int tile_atlas_width;
+
+        void ensure_default_item_highlight();
+
+        void copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
+                                      std::vector<texture> &target );
+        void create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
+
+        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
+
+        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
+                                const std::string &s_id );
+        void load_ascii_set( JsonObject &entry );
         /**
          * Create a new tile_type, add it to tile_ids (using <B>id</B>).
          * Set the fg and bg properties of it (loaded from the json object).
@@ -320,20 +334,77 @@ class cata_tiles
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type &load_tile( JsonObject &entry, const std::string &id, int offset, int size );
+        tile_type &load_tile( JsonObject &entry, const std::string &id );
 
-        void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs, int offset,
-                                    int size, const std::string &objname );
-        void load_ascii_tilejson_from_file( JsonObject &config, int offset, int size,
-                                            int sprite_offset_x = 0, int sprite_offset_y = 0 );
-        void load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x = 0,
-                             int sprite_offset_y = 0 );
-        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
-                                const std::string &s_id );
-        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v, int offset );
+        void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
+                                    const std::string &objname );
+
+        void load_ascii( JsonObject &config );
+        /** Load tileset, R,G,B, are the color components of the transparent color
+         * Returns the number of tiles that have been loaded from this tileset image
+         * @throw std::exception If the image can not be loaded.
+         */
+        void load_tileset( std::string path );
+        /**
+         * Load tiles from json data.This expects a "tiles" array in
+         * <B>config</B>. That array should contain all the tile definition that
+         * should be taken from an tileset image.
+         * Because the function only loads tile definitions for a single tileset
+         * image, only tile indices (tile_type::fg tile_type::bg) in the interval
+         * [0,size].
+         * The <B>offset</B> is automatically added to the tile index.
+         * sprite offset dictates where each sprite should render in its tile
+         * @throw std::exception On any error.
+         */
+        void load_tilejson_from_file( JsonObject &config );
+        /**
+         * Helper function called by load.
+         * @throw std::exception On any error.
+         */
+        void load_internal( JsonObject &config, const std::string &tileset_root,
+                            const std::string &img_path );
+    public:
+        tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
+        }
+        /**
+         * @throw std::exception On any error.
+         * @param tileset_name Ident of the tileset, as it appears in the options.
+         */
+        void load( const std::string &tileset_id, bool precheck );
+};
+
+enum text_alignment {
+    TEXT_ALIGNMENT_LEFT,
+    TEXT_ALIGNMENT_CENTER,
+    TEXT_ALIGNMENT_RIGHT,
+};
+
+struct formatted_text {
+    std::string text;
+    int color;
+    text_alignment alignment;
+
+    formatted_text( const std::string &text, const int color, const text_alignment alignment )
+        : text( text ), color( color ), alignment( alignment ) {
+    }
+
+    formatted_text( const std::string &text, const int color, const direction direction );
+};
+
+class cata_tiles
+{
+    public:
+        cata_tiles( SDL_Renderer *render );
+        ~cata_tiles();
+    public:
+        /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
+         *  float inaccuracies. */
+        void set_draw_scale( int scale );
+
     public:
         /** Draw to screen */
-        void draw( int destx, int desty, const tripoint &center, int width, int height );
+        void draw( int destx, int desty, const tripoint &center, int width, int height,
+                   std::multimap<point, formatted_text> &overlay_strings );
 
         /** Minimap functionality */
         void draw_minimap( int destx, int desty, const tripoint &center, int width, int height );
@@ -342,6 +413,10 @@ class cata_tiles
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts( const int width, const int height, int &columns, int &rows ) const;
+
+        const tile_type *find_tile_with_season( std::string &id );
+        const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
+        bool find_overlay_looks_like( const bool male, const std::string &overlay, std::string &draw_id );
 
         bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
@@ -354,20 +429,16 @@ class cata_tiles
                                   const std::string &subcategory, tripoint pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
         bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                             int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                             int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
                              bool apply_night_vision_goggles );
         bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                             int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                             int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
                              bool apply_night_vision_goggles, int &height_3d );
         bool draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d );
 
-        /**
-         * Redraws all the tiles that have changed since the last frame.
-         */
-        void clear_buffer();
-
-        /** Surface/Sprite rotation specifics */
+        ///@throws std::exception upon errors.
+        ///@returns Always a valid pointer.
         SDL_Surface_Ptr create_tile_surface();
 
         /* Tile Picking */
@@ -381,6 +452,7 @@ class cata_tiles
                                const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
@@ -388,14 +460,11 @@ class cata_tiles
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
 
         bool draw_item_highlight( const tripoint &pos );
-
-    private:
-        //surface manipulation
-        SDL_Surface_Ptr create_tile_surface( int w, int h );
 
     public:
         // Animation layers
@@ -425,12 +494,16 @@ class cata_tiles
         void draw_line();
         void void_line();
 
+        void init_draw_cursor( const tripoint &p );
+        void draw_cursor();
+        void void_cursor();
+
         void init_draw_weather( weather_printable weather, std::string name );
         void draw_weather_frame();
         void void_weather();
 
         void init_draw_sct();
-        void draw_sct_frame();
+        void draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings );
         void void_sct();
 
         void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
@@ -444,9 +517,11 @@ class cata_tiles
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
+         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param force If true, forces loading the tileset even if it is already loaded.
          * @throw std::exception On any error.
          */
-        void init();
+        void load_tileset( const std::string &tileset_id, bool precheck = false, bool force = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
@@ -468,9 +543,8 @@ class cata_tiles
             return tile_ratioy;
         }
         void do_tile_loading_report();
+        point player_to_screen( int x, int y ) const;
     protected:
-        void get_tile_information( std::string dir_path, std::string &json_path,
-                                   std::string &tileset_path );
         template <typename maptype>
         void tile_loading_report( maptype const &tiletypemap, std::string const &label,
                                   std::string const &prefix = "" );
@@ -491,16 +565,16 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        std::vector<SDL_Texture_Ptr> tile_values;
-        std::unordered_map<std::string, tile_type> tile_ids;
+        std::unique_ptr<tileset> tileset_ptr;
 
-        int tile_height = 0, tile_width = 0, default_tile_width, default_tile_height;
+        int tile_height = 0;
+        int tile_width = 0;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
-        int screentile_width, screentile_height;
-        float tile_ratiox, tile_ratioy;
-        // multiplier for pixel-doubling tilesets
-        float tile_pixelscale;
+        int screentile_width = 0;
+        int screentile_height = 0;
+        float tile_ratiox = 0.0;
+        float tile_ratioy = 0.0;
 
         bool in_animation;
 
@@ -509,6 +583,7 @@ class cata_tiles
         bool do_draw_bullet;
         bool do_draw_hit;
         bool do_draw_line;
+        bool do_draw_cursor;
         bool do_draw_weather;
         bool do_draw_sct;
         bool do_draw_zones;
@@ -529,6 +604,8 @@ class cata_tiles
         std::vector<tripoint> line_trajectory;
         std::string line_endpoint_id;
 
+        std::vector<tripoint> cursors;
+
         weather_printable anim_weather;
         std::string weather_name;
 
@@ -537,16 +614,15 @@ class cata_tiles
         tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
-        int o_x, o_y;
+        int o_x = 0;
+        int o_y = 0;
         // offset for drawing, in pixels.
-        int op_x, op_y;
+        int op_x = 0;
+        int op_y = 0;
 
     private:
-        void create_default_item_highlight();
-        int last_pos_x, last_pos_y;
-        std::vector<SDL_Texture_Ptr> shadow_tile_values;
-        std::vector<SDL_Texture_Ptr> night_tile_values;
-        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
+        int last_pos_x = 0;
+        int last_pos_y = 0;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
@@ -560,7 +636,9 @@ class cata_tiles
         void prepare_minimap_cache_for_updates();
         void clear_unused_minimap_cache();
 
-        std::map< tripoint, minimap_cache_ptr> minimap_cache;
+        //the minimap texture pool which is used to reduce new texture allocation spam
+        minimap_shared_texture_pool tex_pool;
+        std::map<tripoint, minimap_submap_cache> minimap_cache;
 
         //persistent tiled minimap values
         void init_minimap( int destx, int desty, int width, int height );

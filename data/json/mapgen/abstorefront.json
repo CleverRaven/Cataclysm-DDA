@@ -41,10 +41,7 @@
         "x": "t_window_boarded",
         "|": "t_wall"
       },
-      "furniture": {
-        "B": "f_rack",
-        "c": "f_counter"
-      }
+      "furniture": { "B": "f_rack", "c": "f_counter" }
     }
   }
 ]

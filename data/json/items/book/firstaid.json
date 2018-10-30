@@ -89,5 +89,22 @@
     "max_level": 6,
     "intelligence": 8,
     "time": 30
+  },
+  {
+    "id": "booklet_firstaid",
+    "type": "BOOK",
+    "name": "First Aid Kit Instruction Booklet",
+    "name_plural": "First Aid Kit Instruction Booklets",
+    "description": "Illustrated how-to guide for your first aid kit.",
+    "weight": 60,
+    "volume": 1,
+    "price": 480,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "firstaid",
+    "max_level": 1,
+    "time": 8,
+    "fun": 1
   }
 ]

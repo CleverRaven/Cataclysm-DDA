@@ -9,18 +9,14 @@
     "color": "yellow",
     "broken_color": "red",
     "durability": 120,
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "folded_volume": 25,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 9 ] },
       { "item": "steel_chunk", "count": [ 6, 9 ] },
       { "item": "scrap", "count": [ 6, 9 ] }
     ],
-    "requirements": {
-      "install": {
-        "time": 5000,
-        "qualities": [ { "id": "WRENCH", "level": 1 } ]
-      }
-    },
+    "requirements": { "install": { "time": 5000, "qualities": [ { "id": "WRENCH", "level": 1 } ] } },
     "flags": [ "FOLDABLE", "REVERSIBLE" ]
   },
   {
@@ -46,10 +42,7 @@
     "difficulty": 1,
     "durability": 250,
     "folded_volume": 10,
-    "breaks_into": [
-      { "item": "scrap", "count": [ 1, 4 ] },
-      { "item": "small_storage_battery", "count": [ 0, 4 ] }
-    ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 0, 4 ] } ],
     "requirements": { "install": { "time": 20000 } },
     "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] }
   },
@@ -78,6 +71,7 @@
     "broken_color": "red",
     "difficulty": 2,
     "durability": 300,
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 5, 10 ] },
@@ -94,6 +88,7 @@
     "item": "storage_battery",
     "location": "on_battery_mount",
     "requirements": { "install": { "time": 1000 } },
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework to allow it to be easily swapped, though it still weighs so much that a lifting tool of some kind is necessary for most people.",
     "flags": [ "NEEDS_BATTERY_MOUNT" ]
   }
 ]

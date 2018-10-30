@@ -1,19 +1,22 @@
 #include "requirements.h"
+
 #include "json.h"
 #include "translations.h"
+#include "output.h"
 #include "game.h"
 #include "player.h"
-#include "map.h"
 #include "debug.h"
 #include "inventory.h"
-#include "output.h"
+#include "string_formatter.h"
 #include "itype.h"
 #include "item_factory.h"
-#include <sstream>
 #include "calendar.h"
-#include <cmath>
-#include <algorithm>
 #include "generic_factory.h"
+
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <sstream>
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -216,7 +219,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // @todo deduplicate qualites and combine other requirements
+    // @todo: deduplicate qualities and combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;
@@ -224,7 +227,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const std::string &id )
+void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 
@@ -236,8 +239,8 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
     jsarr = jsobj.get_array( "tools" );
     req.load_obj_list( jsarr, req.tools );
 
-    if( !id.empty() ) {
-        req.id_ = requirement_id( id );
+    if( !id.is_null() ) {
+        req.id_ = id;
     } else if( jsobj.has_string( "id" ) ) {
         req.id_ = requirement_id( jsobj.get_string( "id" ) );
     } else {
@@ -247,17 +250,11 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
     save_requirement( req );
 }
 
-void requirement_data::save_requirement( const requirement_data &req, const std::string &id )
+void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id )
 {
     auto dup = req;
-    if( !id.empty() ) {
-        dup.id_ = requirement_id( id );
-    }
-
-    if( requirements_all.find( req.id_ ) != requirements_all.end() ) {
-        DebugLog( D_INFO, DC_ALL ) << "Updated requirement: " << dup.id_.c_str();
-    } else {
-        DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
+    if( !id.is_null() ) {
+        dup.id_ = id;
     }
 
     requirements_all[ dup.id_ ] = dup;
@@ -342,7 +339,6 @@ const std::map<requirement_id, requirement_data> &requirement_data::all()
     return requirements_all;
 }
 
-
 void requirement_data::check_consistency()
 {
     for( const auto &r : all() ) {
@@ -370,7 +366,7 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
     for( auto &vec : list ) {
         // We always need to restart from the beginning in case of vector relocation
         while( true ) {
-            auto iter = std::find_if( vec.begin(), vec.end(), []( const T &req ) {
+            auto iter = std::find_if( vec.begin(), vec.end(), []( const T & req ) {
                 return req.requirement;
             } );
             if( iter == vec.end() ) {
@@ -391,22 +387,6 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 
             already_nested.insert( req_id );
             const auto &req = req_id.obj();
-            if( !req.get_qualities().empty() ) {
-                debugmsg( "Tried to inline requirement %s with qualities set (not supported)", req_id.c_str() );
-                return;
-            }
-
-            // The inlined requirement must have ONLY the type of component we are inlining
-            // That is, tools or components, not both (nor neither)
-            // Also, it must only offer alternatives, not more than one component "family" at a time
-            // @todo Remove the requirement to separate tools and components
-            // @todo Remove the requirement to have only one component "family" per inlined requirement
-            if( req.get_components().size() + req.get_tools().size() != 1 ) {
-                debugmsg( "Tried to inline requirement %s which has more than one set of elements",
-                          req_id.c_str() );
-                return;
-            }
-
             const requirement_data multiplied = req * iter->count;
             iter = vec.erase( iter );
 
@@ -419,8 +399,12 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 void requirement_data::finalize()
 {
     for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
-        inline_requirements( r.second.tools, []( const requirement_data &d ) { return d.get_tools(); } );
-        inline_requirements( r.second.components, []( const requirement_data &d ) { return d.get_components(); } );
+        inline_requirements( r.second.tools, []( const requirement_data & d ) {
+            return d.get_tools();
+        } );
+        inline_requirements( r.second.components, []( const requirement_data & d ) {
+            return d.get_components();
+        } );
         auto &vec = r.second.tools;
         for( auto &list : vec ) {
             std::vector<tool_comp> new_list;
@@ -442,19 +426,17 @@ void requirement_data::reset()
 }
 
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
-        const inventory &crafting_inv, int batch ) const
+        const inventory &crafting_inv, int batch, std::string hilite ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
         return out_buffer;
     }
-    std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Components required:" ) <<
-                 "</color>";
-    out_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    out_buffer.push_back( "<color_" + string_from_color( col ) + ">" + _( "Components required:" ) +
+                          "</color>" );
 
-    std::vector<std::string> folded_buffer = get_folded_list( width, crafting_inv, components, batch );
+    std::vector<std::string> folded_buffer =
+        get_folded_list( width, crafting_inv, components, batch, hilite );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
@@ -463,7 +445,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
-        int batch ) const
+        int batch, std::string hilite ) const
 {
     // hack: ensure 'cached' availability is up to date
     can_make_with_inventory( crafting_inv );
@@ -471,15 +453,35 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
-        std::ostringstream buffer;
-        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            if( a != comp_list.begin() ) {
-                buffer << "<color_white> " << _( "OR" ) << "</color> ";
+        std::vector<std::string> list_as_string;
+        std::vector<std::string> buffer_has;
+        for( const T &o : comp_list ) {
+            const std::string col = o.get_color( has_one, crafting_inv, batch );
+            const std::string text = o.to_string( batch );
+            if( std::find( buffer_has.begin(), buffer_has.end(), text + col ) != buffer_has.end() ) {
+                continue;
             }
-            const std::string col = a->get_color( has_one, crafting_inv, batch );
-            buffer << "<color_" << col << ">" << a->to_string( batch ) << "</color>";
+
+            std::ostringstream buffer;
+
+            if( !hilite.empty() && lcmatch( text, hilite ) ) {
+                buffer << get_tag_from_color( yellow_background( color_from_string( col ) ) );
+            } else {
+                buffer << "<color_" << col << ">";
+            }
+            buffer << text << "</color>" << "</color>";
+            const auto iter = std::lower_bound( list_as_string.begin(), list_as_string.end(), buffer.str() );
+            list_as_string.insert( iter, buffer.str() );
+            buffer_has.push_back( text + col );
         }
-        std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
+        std::string unfolded;
+        for( auto a = list_as_string.begin(); a != list_as_string.end(); ++a ) {
+            if( a != list_as_string.begin() ) {
+                unfolded += std::string( "<color_white> " ) + _( "OR" ) + "</color> ";
+            }
+            unfolded += *a;
+        }
+        std::vector<std::string> folded = foldstring( unfolded, width - 2 );
 
         for( size_t i = 0; i < folded.size(); i++ ) {
             if( i == 0 ) {
@@ -496,15 +498,11 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const inventory &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
-    std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Tools required:" ) <<
-                 "</color>";
-    output_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    output_buffer.push_back( "<color_" + string_from_color( col ) + ">" + _( "Tools required:" ) +
+                             "</color>" );
     if( tools.empty() && qualities.empty() ) {
-        current_line << "<color_" << string_from_color( col ) << ">" << "> " << "</color>";
-        current_line << "<color_" << string_from_color( c_green ) << ">" << _( "NONE" ) << "</color>";
-        output_buffer.push_back( current_line.str() );
+        output_buffer.push_back( "<color_" + string_from_color( col ) + ">> </color><color_" +
+                                 string_from_color( c_green ) + ">" + _( "NONE" ) + "</color>" );
         return output_buffer;
     }
 
@@ -545,10 +543,14 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
                                   int batch )
 {
     bool retval = true;
+    int total_UPS_charges_used = 0;
     for( const auto &set_of_tools : vec ) {
         bool has_tool_in_set = false;
+        int UPS_charges_used = std::numeric_limits<int>::max();
         for( const auto &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, batch ) ) {
+            if( tool.has( crafting_inv, batch, [ &UPS_charges_used ]( int charges ) {
+            UPS_charges_used = std::min( UPS_charges_used, charges );
+            } ) ) {
                 tool.available = a_true;
             } else {
                 tool.available = a_false;
@@ -558,11 +560,19 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
         if( !has_tool_in_set ) {
             retval = false;
         }
+        if( UPS_charges_used != std::numeric_limits<int>::max() ) {
+            total_UPS_charges_used += UPS_charges_used;
+        }
+    }
+    if( total_UPS_charges_used > 0 &&
+        total_UPS_charges_used > crafting_inv.charges_of( "UPS" ) ) {
+        return false;
     }
     return retval;
 }
 
-bool quality_requirement::has( const inventory &crafting_inv, int ) const
+bool quality_requirement::has( const inventory &crafting_inv, int,
+                               std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -576,7 +586,8 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
     return available == a_true ? "green" : "red";
 }
 
-bool tool_comp::has( const inventory &crafting_inv, int batch ) const
+bool tool_comp::has( const inventory &crafting_inv, int batch,
+                     std::function<void( int )> visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -585,7 +596,34 @@ bool tool_comp::has( const inventory &crafting_inv, int batch ) const
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
-        return crafting_inv.has_charges( type, count * batch );
+        int charges_found = crafting_inv.charges_of( type, count * batch );
+        if( charges_found == count * batch ) {
+            return true;
+        }
+        const auto &binned = crafting_inv.get_binned_items();
+        const auto iter = binned.find( type );
+        if( iter == binned.end() ) {
+            return false;
+        }
+        bool has_UPS = false;
+        for( const item *it : iter->second ) {
+            it->visit_items( [&has_UPS]( const item * e ) {
+                if( e->has_flag( "USE_UPS" ) ) {
+                    has_UPS = true;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+        }
+        if( has_UPS ) {
+            int UPS_charges_used =
+                crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found );
+            if( visitor && UPS_charges_used + charges_found >= ( count * batch ) ) {
+                visitor( UPS_charges_used );
+            }
+            charges_found += UPS_charges_used;
+        }
+        return charges_found == count * batch;
     }
 }
 
@@ -593,15 +631,13 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
 {
     if( available == a_insufficent ) {
         return "brown";
-    } else if( !by_charges() && crafting_inv.has_tools( type, std::abs( count ) ) ) {
-        return "green";
-    } else if( by_charges() && crafting_inv.has_charges( type, count * batch ) ) {
+    } else if( has( crafting_inv, batch ) ) {
         return "green";
     }
-    return has_one ? "dkgray" : "red";
+    return has_one ? "dark_gray" : "red";
 }
 
-bool item_comp::has( const inventory &crafting_inv, int batch ) const
+bool item_comp::has( const inventory &crafting_inv, int batch, std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -617,17 +653,12 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
 
 std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
-    const int cnt = std::abs( count ) * batch;
     if( available == a_insufficent ) {
         return "brown";
-    } else if( item::count_by_charges( type ) ) {
-        if( crafting_inv.has_charges( type, cnt ) ) {
-            return "green";
-        }
-    } else if( crafting_inv.has_components( type, cnt ) ) {
+    } else if( has( crafting_inv, batch ) ) {
         return "green";
     }
-    return has_one ? "dkgray" : "red";
+    return has_one ? "dark_gray" : "red";
 }
 
 template<typename T, typename ID>
@@ -713,7 +744,7 @@ static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string
 {
     // remove all instances of @id type from each of the options
     for( auto &opts : vec ) {
-        opts.erase( std::remove_if( opts.begin(), opts.end(), [&id]( const T &e ) {
+        opts.erase( std::remove_if( opts.begin(), opts.end(), [&id]( const T & e ) {
             return e.type == id;
         } ), opts.end() );
     }
@@ -778,7 +809,7 @@ requirement_data requirement_data::disassembly_requirements() const
                 replaced = true;
                 break;
             }
-
+            //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
             if( type == "sewing_kit" ||
                 type == "mold_plastic" ) {
                 new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
@@ -804,6 +835,34 @@ requirement_data requirement_data::disassembly_requirements() const
     // If that ever changes, this will be wrong!
     if( ret.qualities.empty() ) {
         ret.qualities.resize( 1 );
+    } else {
+        //If the required quality level is not empty, iterate through and replace or remove
+        //qualities with deconstruction equivalents
+        for( auto &it : ret.qualities ) {
+            bool replaced = false;
+            for( const auto &quality : it ) {
+                if( quality.type == quality_id( "SEW" ) ) {
+                    replaced = true;
+                    new_qualities.emplace_back( quality_id( "CUT" ), 1, quality.level );
+                    break;
+                }
+                if( quality.type == quality_id( "GLARE" ) ) {
+                    replaced = true;
+                    //Just remove the glare protection requirement from deconstruction
+                    //This only happens in case of a reversible recipe, an explicit
+                    //deconstruction recipe can still specify glare protection
+                    break;
+                }
+                if( quality.type == quality_id( "KNIT" ) ) {
+                    replaced = true;
+                    //Ditto for knitting needles
+                    break;
+                }
+            }
+            if( replaced ) {
+                it.clear();
+            }
+        }
     }
 
     auto &qualities = ret.qualities[0];
@@ -811,26 +870,26 @@ requirement_data requirement_data::disassembly_requirements() const
     // Remove duplicate qualities
     {
         auto itr = std::unique( qualities.begin(), qualities.end(),
-                                []( const quality_requirement & a, const quality_requirement & b ) {
-                                    return a.type == b.type;
-                                } );
+        []( const quality_requirement & a, const quality_requirement & b ) {
+            return a.type == b.type;
+        } );
         qualities.resize( std::distance( qualities.begin(), itr ) );
     }
 
     // Remove empty variant sections
     ret.tools.erase( std::remove_if( ret.tools.begin(), ret.tools.end(),
-                                     []( const std::vector<tool_comp> &tcv ) {
-                                         return tcv.empty();
-                                     } ), ret.tools.end() );
+    []( const std::vector<tool_comp> &tcv ) {
+        return tcv.empty();
+    } ), ret.tools.end() );
     // Remove unrecoverable components
     ret.components.erase( std::remove_if( ret.components.begin(), ret.components.end(),
-        []( std::vector<item_comp> &cov ) {
-            cov.erase( std::remove_if( cov.begin(), cov.end(),
-                []( const item_comp &comp ) {
-                    return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
-                } ), cov.end() );
-            return cov.empty();
-        } ), ret.components.end() );
+    []( std::vector<item_comp> &cov ) {
+        cov.erase( std::remove_if( cov.begin(), cov.end(),
+        []( const item_comp & comp ) {
+            return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
+        } ), cov.end() );
+        return cov.empty();
+    } ), ret.components.end() );
 
     return ret;
 }

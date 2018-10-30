@@ -3,7 +3,7 @@
     "result": "45_acp",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
       [ [ "45_casing", 1 ] ],
@@ -16,7 +16,7 @@
     "result": "45_jhp",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
       [ [ "45_casing", 1 ] ],
@@ -29,7 +29,7 @@
     "result": "45_super",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
       [ [ "45_casing", 1 ] ],

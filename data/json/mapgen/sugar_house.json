@@ -14,7 +14,8 @@
       [ "pie_maple", 70 ],
       [ "pork_beans", 15 ],
       [ "glazed_tenderloin", 5 ],
-      [ "cell_phone", 3 ],
+      [ "cell_phone", 1 ],
+      [ "smart_phone", 3 ],
       [ "glass", 40 ],
       [ "spoon", 25 ],
       [ "fork", 25 ],
@@ -158,9 +159,7 @@
         "s": "f_standing_tank",
         "w": "f_woodstove"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_loot": [
         { "item": "bucket", "x": 23, "y": 17, "chance": 100 },
         { "item": "bucket", "x": 23, "y": 19, "chance": 100 },

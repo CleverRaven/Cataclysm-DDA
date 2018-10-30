@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -n "${CODE_COVERAGE}" ]; then
-  pip install --user pyyaml cpp-coveralls;
+  travis_retry pip install --user pyyaml cpp-coveralls;
   export CXXFLAGS=--coverage;
   export LDFLAGS=--coverage;
 fi
@@ -10,13 +10,13 @@ fi
 if [ -n "${MXE_TARGET}" ]; then
   echo "deb http://pkg.mxe.cc/repos/apt/debian wheezy main" \
     | sudo tee /etc/apt/sources.list.d/mxeapt.list
-  sudo apt-key adv --keyserver x-hkp://keys.gnupg.net \
+  travis_retry sudo apt-key adv --keyserver x-hkp://keyserver.ubuntu.com:80 \
     --recv-keys D43A795B73B16ABE9643FE1AFD8FFF16DB45C6AB
-  sudo apt-get update
+  travis_retry sudo apt-get update
 
   MXE2_TARGET=$(echo "$MXE_TARGET" | sed 's/_/-/g')
   export MXE_DIR=/usr/lib/mxe/usr/bin
-  sudo apt-get --yes install mxe-${MXE2_TARGET}-gcc mxe-${MXE2_TARGET}-gettext mxe-${MXE2_TARGET}-glib
+  travis_retry sudo apt-get --yes install mxe-${MXE2_TARGET}-gcc mxe-${MXE2_TARGET}-gettext mxe-${MXE2_TARGET}-glib mxe-${MXE2_TARGET}-sdl2 mxe-${MXE2_TARGET}-sdl2-ttf mxe-${MXE2_TARGET}-sdl2-image mxe-${MXE2_TARGET}-sdl2-mixer
   export PLATFORM='i686-w64-mingw32.static'
   export CROSS_COMPILATION='${MXE_DIR}/${PLATFORM}-'
   # Need to overwrite CXX to make the Makefile $CROSS logic work right.

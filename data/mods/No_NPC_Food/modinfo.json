@@ -10,7 +10,10 @@
     "dependencies": [ "dda" ]
   },
   {
-    "type": "WORLD_OPTION",
-    "options": [ "NO_NPC_FOOD" ]
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_NPC_FOOD",
+    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
+    "stype": "bool",
+    "value": true
   }
 ]

@@ -104,7 +104,6 @@ void load_object(JsonObject &jo)
 void load_all_from_json(JsonIn &jsin)
 {
     char ch;
-    std::string type = "";
     jsin.eat_whitespace();
     // examine first non-whitespace char
     ch = jsin.peek();

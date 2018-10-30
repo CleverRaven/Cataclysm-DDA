@@ -1,0 +1,73 @@
+[
+  {
+    "id": "basketlg_external",
+    "type": "vehicle_part",
+    "name": "external shopping cart basket",
+    "item": "basket",
+    "location": "structure",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 1,
+    "durability": 75,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": 200,
+    "damage_modifier": 60,
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
+  },
+  {
+    "id": "basketsm_external",
+    "type": "vehicle_part",
+    "name": "external wire bike basket",
+    "item": "bike_basket",
+    "location": "structure",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 1,
+    "durability": 75,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": 60,
+    "damage_modifier": 60,
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
+  },
+  {
+    "id": "cargo_space_external",
+    "type": "vehicle_part",
+    "name": "external cargo rack",
+    "item": "cargo_rack",
+    "location": "structure",
+    "symbol": "=",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "difficulty": 3,
+    "durability": 250,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": 1000,
+    "breaks_into": [  ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
+  },
+  {
+    "id": "bike_rack",
+    "type": "vehicle_part",
+    "name": "bike rack",
+    "item": "bike_rack",
+    "location": "anywhere",
+    "symbol": "=",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "difficulty": 1,
+    "durability": 150,
+    "description": "A collection of pipes and frames for supporting a bike or other small vehicle and carrying it on your vehicle.  Move a single tile wide vehicle so that all of that vehicle's tiles are next to bike racks, and then 'e'xamine any bike rack to mount that vehicle onto the bike rack.  'e'xamine the bike rack to unmount the carried vehicle.",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 8 ] },
+      { "item": "steel_chunk", "count": [ 6, 8 ] },
+      { "item": "scrap", "count": [ 6, 8 ] }
+    ],
+    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE", "TOOL_WRENCH" ]
+  }
+]

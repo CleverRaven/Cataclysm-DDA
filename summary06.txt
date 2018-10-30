@@ -1,0 +1,100 @@
+Balance Makes BLECH properly nasty.
+Bugfixes Fix wrong usage of erase-remove.
+Bugfixes Fix debug message when starting location is not available in the world
+Bugfixes Npcs are afraid of being sapiovores
+Balance Make the anti-materiel turret more sniperish
+Interface Escapable menu for examining NPCs
+Bugfixes Fixes to vehicle turret behavior
+Mods Blazemod Mininuke_mod update
+Infrastructure Deprecate unused LEAK_RAD flag
+Bugfixes Add missing magazine to bionic thief
+Bugfixes Fix null pointer deference
+Bugfixes Fix for eyeglasses
+Bugfixes Fix crash with small screen sizes
+Interface Highlight magazine and ammo
+Infrastructure Remove unnecessary tool values from fake weapons
+Infrastructure Separate the logic of use_function and iuse_actor.
+Bugfixes Correct applying of Pixel Minimap's options
+Infrastructure Generic martial art bonuses
+Mods No magazines mod
+Mods Arcana Enhancements
+Content Ammo bandoliers
+Balance Guns in gunstores spawn with magazines
+Balance Increase magazine spawns
+Content New JSON gun basements
+Infrastructure Turrets use fake weapons
+Performance Update reload times
+Bugfixes Make items not lose durability with damage
+Infrastructure Remove player.h from monster.h and dialogue.h
+Balance Arrows recipe balance
+Bugfixes Prevent traps from spawning on stairs in labs
+Balance NPC ranged combat general update
+Interface Vision and targeting changes, 3D-ification
+Infrastructure Slightly cleaner way to handle ifdeffed code.
+Balance Add further magazine spawns
+Infrastructure Check more carefully for matching ammo
+Infrastructure Improve handling and display of reload times
+Build Exclude the directory data/json/items/gunmod from the json_whitelist.
+Content Creation of 5 new overmap special campsites
+Content Anti-robot Emp gun
+Balance Adjust zombie solider drops
+Interface Consistency in displaying/describing/picking-up map items
+Balance Buff corpse smashing, nerf butchery
+Balance Music morale nerf
+Bugfixes Fix vehicle mass calculation when boarding/unboarding it
+Balance Convert more guns to use magazines
+Balance Normalize and balance 40 and 32 ammo
+Balance Make fire truck's wheels balanced
+Content Move tunic from Medieval Stuff mod
+Bugfixes Fix melee weapon styles
+Content 3 new roadside rest stops
+Bugfixes Fix quickload crash
+Bugfixes Fix issue #15542
+Features Allow reloading of currently loaded magazine
+Infrastructure Don't require fake ammo type for UPS-only weapons
+Bugfixes Magazines retain an empty ammo item in error
+Infrastructure Normalize legacy saves to charges >= 0
+Bugfixes Fix damage attribute selection:
+Bugfixes Fix item loosing their invlet when trading.
+Bugfixes Fix picking up partial stacks.
+Bugfixes Fix invalid burst sizes for charger and laser turrets
+Bugfixes Fix NPC reload
+Infrastructure JSONized mutation encumbrance
+Infrastructure Extract coordinate conversion functions to their own module.
+Infrastructure Drop now invalid casing property
+Infrastructure Encapsulate contents and charges (part 8)
+Bugfixes Prevent software from spawning while disassembling usb drive with it
+Infrastructure Implement Lua wrapper to store and use either value or reference objects in Lua
+Bugfixes Fix aiming not reversing view offset properly
+Bugfixes Initialize variable
+Build include missing files to projects
+Infrastructure Move conversion kits and memory cards to generic.json
+Balance Remove car muffler from filter mask recipe.
+Interface Display moves when disposing of items
+Bugfixes Fix calculation prices
+Bugfixes Fix partial unloading of liquid ammo
+Infrastructure Overhaul gun noise
+Bugfixes Fix generating operator wrappers for Lua:
+Balance bio_meteorologist description change
+Infrastructure Move itms from melee.json to generic.json
+Bugfixes Drop incorrect clip_size
+Balance Overhaul cop drops
+Infrastructure Provide filters for (un)setting ammo
+Balance Rebalance armor jsons
+Interface RetroDays03-03-16
+Infrastructure Improve reloading messages
+Bugfixes Sunlight's glare no longer will make it hard to see while sleeping
+I18N Two more strings are now translatable
+Infrastructure Include for round()
+Infrastructure Remove unused mapgen code
+Bugfixes Traits encumbrance fix
+Infrastructure JSON survival basement and zombies
+Build Unit tests for reloading
+Infrastructure Allow iuse actors to describe themselves
+Balance Radiation balancing
+Features Alternative starting point systems
+Balance Uncraft car parts and misc tools
+Infrastructure Move some items from melee.json to generic.json
+Bugfixes Fixes for bugs reported by Bumpkin.
+Balance Adds magazines to LMOE and mansion starts
+Balance Rework more survivor items

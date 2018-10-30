@@ -1,0 +1,27 @@
+[
+  {
+    "id": "municipal_reactor",
+    "type": "overmap_special",
+    "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "municipal_reactor" },
+      { "point": [ 0, 0, -1 ], "overmap": "municipal_reactor_b" },
+      { "point": [ 0, 0, -2 ], "overmap": "municipal_reactor_b2" },
+      { "point": [ 0, 0, -3 ], "overmap": "municipal_reactor_b3" },
+      { "point": [ 1, 0, 0 ], "overmap": "municipal_reactor_ware" },
+      { "point": [ 1, 0, -1 ], "overmap": "municipal_reactor_ware_b" },
+      { "point": [ -1, 1, 0 ], "overmap": "road_ew" },
+      { "point": [ 0, 1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, 1, 0 ], "overmap": "road_end_east" },
+      { "point": [ 0, 2, 0 ], "overmap": "park" },
+      { "point": [ 1, 2, 0 ], "overmap": "office_cubical_north" },
+      { "point": [ -1, 2, 0 ], "overmap": "pwr_sub_s" },
+      { "point": [ -1, 0, 0 ], "overmap": "s_lot" }
+    ],
+    "locations": [ "wilderness", "swamp" ],
+    "city_distance": [ -1, 6 ],
+    "city_sizes": [ 2, 14 ],
+    "occurrences": [ 0, 4 ],
+    "rotate": false
+  }
+]

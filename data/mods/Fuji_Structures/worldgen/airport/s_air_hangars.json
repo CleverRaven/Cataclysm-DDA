@@ -1,0 +1,56 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_air_hangars" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "zzeeeeeeeeeeeeeeeeeeeezz",
+        "zzeeeeeeeeeeeeeeeeeeeezz",
+        "zzeeeeeeeeeeeeeeeeeeeezz",
+        "zzeeeeeeeeeeeeeeeeeeeezz",
+        "zadeeeeeeeazzadeeeeeeeaz",
+        "zaaccccccaazzaaccccccaaz",
+        "zadbbbbbbbazzadbbbbbbbaz",
+        "zabbbbbbbfazzabbbbbbbbaz",
+        "zabbbbbbbfazzabbbbbbbbaz",
+        "zabbbbbbbbazzabbbbbbbbaz",
+        "zabbbbbbbbazzabbbbbbbbaz",
+        "zabbbbbbbbazzabbbbbbbbaz",
+        "zabbbbbbbbazzabbbbbbbbaz",
+        "zabbbbbbbbazzabbbbbbbbaz",
+        "zabbbbbbbbazzabbbbbggbaz",
+        "zabbbbbbbbazzabbbbbggbaz",
+        "zabbbbbbbbazzabbbbbbbbaz",
+        "zabbbbbbbgazzabbbbbbbbaz",
+        "zabbbbbbggazzabbbbbbbbaz",
+        "zabbbbbbggazzabbbbbbbbaz",
+        "zagbbbbbggazzabbbbbbbbaz",
+        "haggbbbgggahhabffbbbggaz",
+        "zaaaaaaaaaazzaaaaaaaaaaz",
+        "zzzzzzzzzzzzzzzzzzzzzzzz"
+      ],
+      "terrain": {
+        "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "a": "t_wall",
+        "b": "t_thconc_floor",
+        "c": "t_door_metal_locked",
+        "d": "t_gates_mech_control",
+        "e": "t_pavement",
+        "f": "t_floor",
+        "g": "t_floor",
+        "h": "t_chainfence_v"
+      },
+      "furniture": { "f": "f_locker", "g": "f_crate_o" },
+      "place_loot": [
+        { "group": "road", "chance": 50, "repeat": [ 10 ], "x": [ 3, 8 ], "y": [ 7, 20 ] },
+        { "group": "road", "chance": 50, "repeat": [ 10 ], "x": [ 15, 20 ], "y": [ 20, 7 ] },
+        { "group": "clothing_work_mask", "chance": 50, "repeat": [ 2 ], "x": [ 9, 9 ], "y": [ 7, 7 ] },
+        { "group": "clothing_work_mask", "chance": 50, "repeat": [ 2 ], "x": [ 15, 15 ], "y": [ 21, 21 ] },
+        { "group": "tools_mechanic", "chance": 50, "repeat": [ 4 ], "x": [ 16, 16 ], "y": [ 21, 21 ] },
+        { "group": "tools_mechanic", "chance": 50, "repeat": [ 4 ], "x": [ 9, 9 ], "y": [ 8, 8 ] }
+      ]
+    }
+  }
+]

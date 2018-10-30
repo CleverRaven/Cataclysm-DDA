@@ -78,6 +78,7 @@
     "id": "manual_survival",
     "type": "BOOK",
     "name": "Pitching a Tent",
+    "name_plural": "copies of Pitching a Tent",
     "description": "A guide detailing the basics of woodsmanship and outdoor survival.",
     "weight": 454,
     "volume": 3,

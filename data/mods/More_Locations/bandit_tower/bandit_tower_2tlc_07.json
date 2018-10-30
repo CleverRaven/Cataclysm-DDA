@@ -1,0 +1,51 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_2tlc",
+        "comment" : "top left corner, second story and even levels",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "################88######",
+                "################88######",
+                "######888888888888######",
+                "######8==kk=====kk==ww==",
+                "####888=.DDD|i+.6DD|ii==",
+                "####8===..c.|-|.c.D|.i==",
+                "##888===....+i|....+.ik.",
+                "##8=====+-------+---kkk.",
+                "##8=*................*k.",
+                "##8=....@...aa...@....k+",
+                "##8k..................kd",
+                "##8kc....@.....@.....ck-",
+                "##8k...@.........@....k.",
+                "##8=c......@..@......ck.",
+                "##8=..................k.",
+                "##8=*.c.c........c.c.*k.",
+                "888kkkkkkkk!!kkk=======.",
+                "888k.........k..=====Mee",
+                "###k.........|..==>>>Mee",
+                "###k.........+..!.>>>Mee",
+                "###k*........|..!.>>>Mee",
+                "###k+k+kkk+k+|..=MMMMMMM",
+                "###kxkxxkxxkx|..=eeeeM==",
+                "###===-------|...eeeeM=="
+            ],
+            "rotation": 0,
+            "palettes": [
+                "tri_tower",
+                "upper_level",
+                "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "8": "t_bridge",
+                "k": "t_wall_wood"
+            },
+            "npcs": {
+                "@": { "class": "raider" }
+            }
+        }
+    }
+]

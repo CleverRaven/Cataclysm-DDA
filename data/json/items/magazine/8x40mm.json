@@ -39,7 +39,7 @@
     "name": "RMGD250 8x40mm drum magazine",
     "description": "A 250 round drum magazine for use with Rivtech 8x40mm caseless firearms.",
     "weight": 340,
-    "volume": 6,
+    "volume": 8,
     "price": 70000,
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
@@ -69,18 +69,17 @@
   {
     "id": "8x40_500_mag",
     "type": "MAGAZINE",
-    "name": "RMGB500 8x40mm extended magazine",
-    "description": "A 500 round box magazine for use with Rivtech 8x40mm caseless firearms.",
-    "weight": 420,
-    "volume": 8,
+    "name": "RMGB500 8x40mm drum magazine",
+    "description": "A 500 round drum magazine for use with Rivtech 8x40mm caseless firearms.",
+    "weight": 1400,
+    "volume": 16,
     "price": 100000,
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "8x40mm",
     "capacity": 500,
-    "reliability": 10,
-    "reload_time": 50
+    "reliability": 10
   },
   {
     "id": "8x40_50_mag",

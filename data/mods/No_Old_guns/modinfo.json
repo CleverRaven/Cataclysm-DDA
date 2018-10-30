@@ -16,6 +16,7 @@
       "garand",
       "garandclip",
       "m1903",
+      "3006_clip",
       "m1918",
       "m1918mag",
       "m1918bigmag",
@@ -25,11 +26,12 @@
       "thompson_drum",
       "sten",
       "sks",
-      "win70",
+      "762x39_clip",
       "mosin91_30",
       "mosin91_30_ebr",
       "mosin44",
       "mosin44_ebr",
+      "762R_clip",
       "mn_ebr_kit",
       "mn_classic_kit",
       "tokarev",
@@ -56,7 +58,9 @@
       "762R_casing",
       "762_25",
       "762_25hot",
-      "762_25typeP"
+      "762_25typeP",
+      "reloaded_762_25",
+      "762_25_casing"
     ]
   }
 ]

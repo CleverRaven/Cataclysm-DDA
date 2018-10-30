@@ -1,0 +1,13 @@
+[
+  {
+    "type": "scenario",
+    "name": "Scavenger",
+    "description": "You're a seasoned scavenger, or at least it's been a season since you've become a scavenger.  Either way, you found a bunker with a fellow scav in it.  Turns out they were a lot better at it than you were.",
+    "ident": "scav",
+    "points": 1,
+    "start_name": "Scavenger Bunker",
+    "allowed_locs": [ "s_bunker_shop_g" ],
+    "flags": [ "SUM_ADV_START" ],
+    "professions": [ "rookie", "novice" ]
+  }
+]

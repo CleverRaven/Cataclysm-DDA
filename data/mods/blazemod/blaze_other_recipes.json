@@ -1,26 +1,5 @@
 [
   {
-    "result": "rebar_plate",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "//": "sawing it down doesn't teach anything useful",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": 8000,
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
-    ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "oxy_torch", 20 ] ] ],
-    "components": [
-      [ [ "rebar", 4 ] ],
-      [ [ "scrap", 3 ] ]
-    ]
-  },
-  {
     "result": "solar_array",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -30,12 +9,11 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 180000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 300 ], [ "oxy_torch", 30 ] ] ],
     "components": [
       [ [ "pipe", 24 ], [ "rebar", 12 ] ],
       [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
@@ -53,12 +31,11 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 180000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 300 ], [ "oxy_torch", 30 ] ] ],
     "components": [
       [ [ "pipe", 24 ], [ "rebar", 12 ] ],
       [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
@@ -67,45 +44,27 @@
     ]
   },
   {
-    "result": "spring_plate",
+    "result": "solar_array2r",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": 15000,
-    "reversible": true,
+    "skills_required": [ "mechanics", 3 ],
+    "time": 180000,
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "components": [
-      [ [ "steel_plate", 1 ] ],
-      [ [ "spring", 3 ] ]
-    ]
-  },
-  {
-    "result": "tearer",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": 60000,
-    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 200 ], [ "toolset", 200 ], [ "oxy_torch", 10 ] ] ],
     "components": [
-      [ [ "scrap", 18 ], [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ],
-      [ [ "hdframe", 1 ] ],
-      [ [ "rebar", 8 ], [ "pipe", 16 ] ],
-      [ [ "chain", 2 ] ],
-      [ [ "blade", 9 ] ]
+      [ [ "pipe", 24 ], [ "rebar", 12 ] ],
+      [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
+      [ [ "spring", 6 ] ],
+      [ [ "reinforced_solar_panel_v2", 12 ] ]
     ]
-  },
+  },  
   {
     "result": "tread1",
     "type": "recipe",
@@ -195,12 +154,11 @@
     "skills_required": [ [ "mechanics", 5 ], [ "electronics", 5 ] ],
     "time": 9000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 100 ], [ "oxy_torch", 10 ] ] ],
     "components": [
       [ [ "pipe", 8 ], [ "rebar", 4 ] ],
       [ [ "wire", 20 ] ],

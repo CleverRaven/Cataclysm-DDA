@@ -1,0 +1,100 @@
+Balance Forklift gets lifting and jack capabilities. Half of the boom crane.
+Balance Medium storage battery 700 -> 7000
+Infrastructure Replace rm_prefix and rmp_format with pgettext
+Features Allow NPCs to assist with all batch crafting
+Bugfixes JSON crash fix.
+Bugfixes Fix reading wielded books
+Balance More blindfold recipes
+Bugfixes Dissector robot exception.
+Balance Allow camera(_pro) for security camera crafting.
+Bugfixes Stop door motor falling off all the time.
+Bugfixes Fix item duplication from reloading with magazine
+Balance Psychopath and Pacifist cancel each other
+Bugfixes Missing mutation, cancels, ugly and visibility values.
+Balance Grant Medium-sized robots avoid_trap 1
+Mods PRM: Add Vile Ammos
+Bugfixes Fix saline eye drop test
+Balance Delete Optical Dampers bionic from professions.
+Infrastructure Replace repeated implementations of a "file_exists" function with canonical version
+Interface Prompt for dangerous tiles when swapping with NPCs
+Mods [More Survival Tools] ammo loudness fix
+Mods [More Survival Tools] spawn plant fibre from shrubs occasionally
+Bugfixes Forbid crafting uncraft recipes
+Mods Move filthy morale penalty to a mod
+Interface Added double space after sentence breaks
+Mods fixes arcana bugs
+Balance Foot pedal power increase
+Balance Tank drone and survivor zombie death drops
+Bugfixes Fix circular saw spam
+Bugfixes Invalidate the crafting inventory after bionic removal
+Balance Make clearing rubble an activity
+Bugfixes Random char gen fixes
+Balance Telescopic Eyes prevents visual impairment from traits
+Mods PRM: Wildy Items and Mechanical Doodads
+Infrastructure Rename iuse functions' bool parameter to t
+Infrastructure Magtest
+Infrastructure Units wrapper class for volume
+Infrastructure Adds and defines new connects_to WATER
+Mods Add no npc food mod
+Balance Make stethoscopes wearable.
+Balance remove container from bed
+Balance Adds Boxer profession to Infected and Burning Building scenarios
+Features ChestHole32, Iso, adds PK, Razorclaws, coal, bio blade, offal, and more
+Interface Change keybinding for 'Toggle Doors' entry
+Build Remove freenode.txt from repo
+Infrastructure Extend stats dumper to support ARMOR
+Build Graceful migration of legacy savegames
+Build Handle obsolete items in mods
+Balance Rebalance aiming and skill training
+Mods Add more makeshift items mod.
+Mods PRM: Adds in maimed, blind, and agile blind zombie
+Mods PRM: Item Overrides and Mutants
+Bugfixes Fix adrenaline debug messages
+Balance Make meditating an activity
+Balance Increase soap spawn
+Interface STS; fixed description
+Content Adds Photojournalist profession
+Bugfixes Fix crash from rng_normal: prevent division by zero
+Balance Resized standard SCAR-H magazines to match reality
+Infrastructure Convert deconstruction recipes to uncraft
+Mods PRM: Lower item harmonica coverage
+Mods blazemod missing name of automated L523-CAR
+Features Regional weather settings
+Bugfixes Fixes steel lump recipe anomaly
+Infrastructure Strict parsing and constraints for ARMOR
+Mods PRM: Remove duplicate 40mm override
+Interface Customizable inventory menu (kinda framework) with sub columns, disabled items and item sorting
+Bugfixes Fix HK 12mm ferromagnetic Ammo flags
+Content Add offset iron sights
+Interface Ponds show up blue on map
+Mods blazemod fix wrong part name
+Interface Chesthole_iso: Adds new cans, boxes, display racks, and more.
+Bugfixes Fix uninitialized weather override
+Content Adds cuirasses, mod armor rebalancing
+Balance Charcoal yield/demand changes
+Interface Fix display of volumes
+Interface fix re-layer left column volume overflow (#18288)
+Build Remove the move
+Bugfixes Mod ammo crafting subcategory fixes
+Mods Updates to Mythological Weapons Pack replicas, recipe formatting
+Balance Add lead to deconstruction recipe of Excercise Machines
+Mods PRM: Make iron bars more common
+Balance Electric engine and alternator adjustments
+Balance Capitalize all mod titles
+Build Makefile checks also for lua5.3
+Interface Cancellable Test Item Group menu
+Balance Double the number of survivor's notes
+Balance Reduce cell phone volume to 250 mL
+Infrastructure Simplify volume/weight calculation in pickup
+Balance Grant Boomers PathAvoid1
+Balance 20x66mm pistol enhancement.
+Balance Fixes for 8x40mm sniper rifle.
+Balance Make the robe outerwear
+Interface Changed 'Report bugs' message to github from kevins email.
+Balance Make NPCs escape onto tiles with weaker fields
+Balance Allows travois and light wooden frame to use rope to installing parts
+Mods Medieval mod time and material consistency changes
+Content Reversible explosive recipes
+Content Saltpeter production and use expansions
+Bugfixes Salvage duplication/transmutation fixes
+Mods Tank mod fixes, adds bandit garage

@@ -5,11 +5,15 @@
 #include "map_iterator.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 #include "itype.h"
 #include "player.h"
 #include "cata_utility.h"
 #include "options.h"
 #include "test_statistics.h"
+
+typedef statistics<long> efficiency_stat;
 
 const efftype_id effect_blind( "blind" );
 
@@ -17,8 +21,8 @@ void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
-    while( g->num_zombies() > 0 ) {
-        g->remove_zombie( 0 );
+    for( monster &critter : g->all_monsters() ) {
+        g->remove_zombie( critter );
     }
 
     g->unload_npcs();
@@ -26,17 +30,18 @@ void clear_game( const ter_id &terrain )
     // Move player somewhere safe
     g->u.setpos( tripoint( 0, 0, 0 ) );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 1, num_bp, true );
+    g->u.add_effect( effect_blind, 1_turns, num_bp, true );
 
     for( const tripoint &p : g->m.points_in_rectangle( tripoint( 0, 0, 0 ),
-                                                       tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         g->m.furn_set( p, furn_id( "f_null" ) );
         g->m.ter_set( p, terrain );
         g->m.trap_set( p, trap_id( "tr_null" ) );
         g->m.i_clear( p );
     }
 
-    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint( 0, 0, 0 ), tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint( 0, 0, 0 ), tripoint( MAPSIZE * SEEX,
+            MAPSIZE * SEEY, 0 ) ) ) {
         g->m.destroy_vehicle( veh.v );
     }
 
@@ -45,12 +50,13 @@ void clear_game( const ter_id &terrain )
 
 // Returns how much fuel did it provide
 // But contains only fuels actually used by engines
-std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult ) {
+std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
+{
     // First we need to find the fuels to set
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
         if( pt.is_engine() ) {
             actually_used.insert( pt.info().fuel_type );
             pt.enabled = true;
@@ -76,8 +82,8 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult ) {
     // Set fuel to a given percentage
     // Batteries are special cased because they aren't liquid fuel
     std::map<itype_id, long> ret;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
 
         if( pt.is_battery() ) {
             pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult );
@@ -107,14 +113,15 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult ) {
 
 // Returns the lowest percentage of fuel left
 // ie. 1 means no fuel was used, 0 means at least one dry tank
-float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_with ) {
+float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_with )
+{
     std::map<itype_id, long> fuel_amount;
     std::set<itype_id> consumed_fuels;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
-              pt.ammo_current() != "null" ) {
+            pt.ammo_current() != "null" ) {
             fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining();
         }
 
@@ -129,7 +136,7 @@ float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_
         // Weird - we started without this fuel
         float fuel_amt_at_start = iter != started_with.end() ? iter->second : 0.0f;
         REQUIRE( fuel_amt_at_start != 0.0f );
-        left = std::min( left, (float)fuel_amount[ type ] / fuel_amt_at_start );
+        left = std::min( left, ( float )fuel_amount[ type ] / fuel_amt_at_start );
     }
 
     return left;
@@ -168,9 +175,8 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     vehicle &veh = *veh_ptr;
 
     // Remove all items from cargo to normalize weight.
-    for( size_t p = 0; p < veh.parts.size(); p++ ) {
-        auto &pt = veh.parts[ p ];
-        while( veh.remove_item( p, 0 ) );
+    for( const vpart_reference vp : veh.get_parts() ) {
+        while( veh.remove_item( vp.part_index(), 0 ) );
     }
     const auto &starting_fuel = set_vehicle_fuel( veh, fuel_level );
     // This is ugly, but improves accuracy: compare the result of fuel approx function
@@ -236,31 +242,33 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     return adjusted_tiles_travelled;
 }
 
-statistics find_inner( std::string type, std::string terrain, int delay, bool smooth ) {
-    statistics efficiency;
-    for( int i = 0; i < 10; i++) {
+efficiency_stat find_inner( std::string type, std::string terrain, int delay, bool smooth )
+{
+    efficiency_stat efficiency;
+    for( int i = 0; i < 10; i++ ) {
         efficiency.add( test_efficiency( vproto_id( type ), ter_id( terrain ), delay, -1, smooth ) );
     }
     return efficiency;
 }
 
-void print_stats( const statistics &st )
+void print_stats( const efficiency_stat &st )
 {
     if( st.min() == st.max() ) {
-        printf( "All results %d.\n", st.min() );
+        printf( "All results %ld.\n", st.min() );
     } else {
-        printf( "Min %d, Max %d, Midpoint %f.\n", st.min(), st.max(), ( st.min() + st.max() ) / 2.0 );
+        printf( "Min %ld, Max %ld, Midpoint %f.\n", st.min(), st.max(), ( st.min() + st.max() ) / 2.0 );
     }
 }
 
 void print_efficiency( const std::string &type, const std::string &terrain, int delay, bool smooth )
 {
     printf( "Testing %s on %s with %s: ",
-            type.c_str(), terrain.c_str(), (delay < 0) ? "no resets" : "resets every 5 turns" );
+            type.c_str(), terrain.c_str(), ( delay < 0 ) ? "no resets" : "resets every 5 turns" );
     print_stats( find_inner( type, terrain, delay, smooth ) );
 }
 
-void find_efficiency( std::string type ) {
+void find_efficiency( const std::string &type )
+{
     SECTION( "finding efficiency of " + type ) {
         print_efficiency( type, "t_pavement", -1, false );
         print_efficiency( type, "t_dirt", -1, false );
@@ -269,7 +277,7 @@ void find_efficiency( std::string type ) {
     }
 }
 
-int average_from_stat( const statistics &st )
+int average_from_stat( const efficiency_stat &st )
 {
     int ugly_integer = ( st.min() + st.max() ) / 2.0;
     // Round to 4 most significant places
@@ -279,7 +287,8 @@ int average_from_stat( const statistics &st )
 }
 
 // Behold: power of laziness
-void print_test_strings( std::string type ) {
+void print_test_strings( const std::string &type )
+{
     std::ostringstream ss;
     ss << "test_vehicle( \"" << type << "\", ";
     ss << average_from_stat( find_inner( type, "t_pavement", -1, false ) ) << ", ";
@@ -296,7 +305,8 @@ void print_test_strings( std::string type ) {
 void test_vehicle( std::string type,
                    long pavement_target, long dirt_target,
                    long pavement_target_w_stops, long dirt_target_w_stops,
-                   long pavement_target_smooth_stops = 0, long dirt_target_smooth_stops = 0 ) {
+                   long pavement_target_smooth_stops = 0, long dirt_target_smooth_stops = 0 )
+{
     SECTION( type + " on pavement" ) {
         test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), -1, pavement_target );
     }
@@ -322,35 +332,38 @@ void test_vehicle( std::string type,
 }
 
 std::vector<std::string> vehs_to_test = {{
-    "beetle",
-    "car",
-    "car_sports",
-    "electric_car",
-    "suv",
-    "motorcycle",
-    "quad_bike",
-    "scooter",
-    "superbike",
-    "ambulance",
-    "fire_engine",
-    "fire_truck",
-    "truck_swat",
-    "tractor_plow",
-    "apc",
-    "humvee",
-}};
+        "beetle",
+        "car",
+        "car_sports",
+        "electric_car",
+        "suv",
+        "motorcycle",
+        "quad_bike",
+        "scooter",
+        "superbike",
+        "ambulance",
+        "fire_engine",
+        "fire_truck",
+        "truck_swat",
+        "tractor_plow",
+        "apc",
+        "humvee",
+    }
+};
 
 /** This isn't a test per se, it executes this code to
  * determine the current state of vehicle efficiency.
  **/
-TEST_CASE( "vehicle_find_efficiency", "[.]" ) {
+TEST_CASE( "vehicle_find_efficiency", "[.]" )
+{
     for( const std::string &veh : vehs_to_test ) {
         find_efficiency( veh );
     }
 }
 
 /** This is even less of a test. It generates C++ lines for the actual test below */
-TEST_CASE( "vehicle_make_efficiency_case", "[.]" ) {
+TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
+{
     for( const std::string &veh : vehs_to_test ) {
         print_test_strings( veh );
     }
@@ -360,21 +373,22 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" ) {
 // Amount of fuel needed to reach safe speed.
 // Amount of cruising range for a fixed amount of fuel.
 // Fix test for electric vehicles
-TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
-    test_vehicle( "beetle", 117600, 113600, 12580, 12580 );
-    test_vehicle( "car", 115300, 95760, 12650, 8434 );
-    test_vehicle( "car_sports", 243500, 164300, 15780, 9458 );
-    test_vehicle( "electric_car", 63440, 45880, 3709, 2519 );
-    test_vehicle( "suv", 294300, 228400, 27040, 15720 );
-    test_vehicle( "motorcycle", 15370, 13050, 2304, 1322 );
-    test_vehicle( "quad_bike", 11400, 10650, 1963, 1302 );
-    test_vehicle( "scooter", 9692, 9692, 1723, 1723 );
-    test_vehicle( "superbike", 32350, 24760, 3322, 1576 );
-    test_vehicle( "ambulance", 253600, 233000, 22480, 19650 );
-    test_vehicle( "fire_engine", 296300, 286300, 24780, 23800 );
-    test_vehicle( "fire_truck", 220100, 66910, 18740, 4813 );
-    test_vehicle( "truck_swat", 198100, 69170, 21020, 4691 );
-    test_vehicle( "tractor_plow", 145500, 145500, 14120, 14120 );
-    test_vehicle( "apc", 623700, 625000, 65960, 60720 );
-    test_vehicle( "humvee", 293100, 189800, 25180, 13590 );
+TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
+{
+    test_vehicle( "beetle", 287700, 230500, 15990, 13310 );
+    test_vehicle( "car", 281700, 163300, 16070, 9336 );
+    test_vehicle( "car_sports", 323400, 185500, 16690, 9176 );
+    test_vehicle( "electric_car", 69460, 45070, 3620, 2300 );
+    test_vehicle( "suv", 589700, 288700, 31870, 15320 );
+    test_vehicle( "motorcycle", 80860, 44810, 3885, 2195 );
+    test_vehicle( "quad_bike", 52140, 35180, 3310, 2195 );
+    test_vehicle( "scooter", 71290, 66960, 3707, 3707 );
+    test_vehicle( "superbike", 94350, 10150, 4005, 1407 );
+    test_vehicle( "ambulance", 378800, 287200, 23740, 18680 );
+    test_vehicle( "fire_engine", 452700, 380000, 27350, 23150 );
+    test_vehicle( "fire_truck", 311100, 68740, 20680, 4312 );
+    test_vehicle( "truck_swat", 340100, 75240, 24760, 5527 );
+    test_vehicle( "tractor_plow", 281900, 281900, 16630, 16630 );
+    test_vehicle( "apc", 1081000, 960200, 77710, 71540 );
+    test_vehicle( "humvee", 438400, 210500, 28000, 12950 );
 }

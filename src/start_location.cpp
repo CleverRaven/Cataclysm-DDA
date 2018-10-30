@@ -3,12 +3,14 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"
+#include "mapdata.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "map.h"
 #include "mapgen.h"
+#include "map_extras.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -17,7 +19,6 @@
 #include <algorithm>
 
 const efftype_id effect_bleed( "bleed" );
-
 
 namespace
 {
@@ -50,7 +51,7 @@ const string_id<start_location> &start_location::ident() const
 
 std::string start_location::name() const
 {
-    return _name;
+    return _( _name.c_str() );
 }
 
 std::string start_location::target() const
@@ -75,7 +76,7 @@ void start_location::load_location( JsonObject &jo, const std::string &src )
 
 void start_location::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", _name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "target", _target );
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
@@ -200,10 +201,10 @@ void start_location::prepare_map( tinymap &m ) const
 tripoint start_location::find_player_initial_location() const
 {
     popup_nowait( _( "Please wait as we build your world" ) );
-    // Spiral out from the world origin scaning for a compatible starting location,
+    // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 32;
-    for( const point omp : closest_points_first( radius, point( 0, 0 ) ) ) {
+    for( const point &omp : closest_points_first( radius, point( 0, 0 ) ) ) {
         overmap &omap = overmap_buffer.get( omp.x, omp.y );
         const tripoint omtstart = omap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {
@@ -294,10 +295,9 @@ void start_location::place_player( player &u ) const
     // Need the "real" map with it's inside/outside cache and the like.
     map &m = g->m;
     // Start us off somewhere in the center of the map
-    u.setx( SEEX * int( MAPSIZE / 2 ) + 5 );
-    u.sety( SEEY * int( MAPSIZE / 2 ) + 6 );
+    u.setx( SEEX * int( MAPSIZE / 2 ) );
+    u.sety( SEEY * int( MAPSIZE / 2 ) );
     u.setz( g->get_levz() );
-
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
@@ -329,8 +329,8 @@ void start_location::place_player( player &u ) const
     };
 
     while( !found_good_spot && tries < 100 ) {
-        tripoint rand_point( ( SEEX * int( MAPSIZE / 2 ) ) + rng( 0, SEEX * 2 ),
-                             ( SEEY * int( MAPSIZE / 2 ) ) + rng( 0, SEEY * 2 ),
+        tripoint rand_point( ( SEEX * int( MAPSIZE / 2 ) ) + rng( 0, SEEX * 2 - 1 ),
+                             ( SEEY * int( MAPSIZE / 2 ) ) + rng( 0, SEEY * 2 - 1 ),
                              u.posz() );
         check_spot( rand_point );
     }
@@ -379,7 +379,7 @@ void start_location::burn( const tripoint &omtstart,
     }
     random_shuffle( valid.begin(), valid.end() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
-        m.add_field( valid[i], fd_fire, 3, 0 );
+        m.add_field( valid[i], fd_fire, 3 );
     }
     m.save();
 }
@@ -406,7 +406,7 @@ void start_location::handle_heli_crash( player &u ) const
         switch( roll ) {
             case 1:
             case 2:// Damage + Bleed
-                u.add_effect( effect_bleed, 60, bp_part );
+                u.add_effect( effect_bleed, 6_minutes, bp_part );
             /* fallthrough */
             case 3:
             case 4:

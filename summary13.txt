@@ -1,0 +1,100 @@
+Infrastructure Convert lab_notes and hints to use the snippet system
+Bugfixes Fix accessing array of body part HP out of bounds
+Infrastructure Item burning code rewrite, exploding magazines
+Bugfixes Give bio sniper a magazine for M2010 ESR
+Balance Remove memorization of recipes from reading books.
+Bugfixes Name stored action correctly
+Content Reinvent the wheel
+Infrastructure Change DynamicDataLoader to store std::function objects
+Content Cable charger bionic
+Bugfixes Hack around segfault at game start
+Infrastructure Fix mods to use new WHEEL islot
+Infrastructure Provide further default actions
+Balance Revise improved iron sights
+Balance Add light bulb and car headlight items - take two
+Balance Prohibit butchering on certain terrain/furniture
+Infrastructure Export placing traps iuse function to JSON
+Infrastructure Remove unused monster flags MF_VIS[12345]0
+Balance Rebalance wood burning and stoves
+Infrastructure Better handling of fuel leakage
+Interface Rework the waiting menu and fix 'calendar::print_duration()'
+Interface Show estimated disassembly time
+Content Lead acid batteries
+Balance Improvements for squeamish trait - take two
+Bugfixes Remove morale penalty after washing if filthy item was worn whilst washing it
+Mods PRM: Fix lab frequency
+Content Road warrior
+Infrastructure Rework "onfire" effect
+Bugfixes Fix apparently broken infinite water sources
+Balance Added range: 1 to the M1014 and removed some descriptive text.
+Balance Can, jar and bucket fixes and updates
+Bugfixes Fix bad start morale
+Infrastructure Jsonize weapon bionics
+Mods Move grenadier zeds to a new file, add blacklist mod
+Interface Rework SDL window updates to clear oversized framebuffers when regular windows are rendered. (Large GIFs)
+Bugfixes Engine starting fix
+Balance Partial fix for plutonium reload
+Balance Fix some recipe welder charges
+Content Adds Boxer profession
+Balance Add TRADER_AVOID flag to more things in generic
+Mods Remove lead plates from electro furnace in more locations mod
+Infrastructure Remove some items from item groups that have 0 probability of spawning
+Interface Improvements of the blood test window
+Infrastructure Drop set_curammo
+Balance Fix beltfeed recipe
+Balance Fix error in vitamin rate calculation
+Infrastructure Vehicle installation requirements (part 2)
+Bugfixes Fix wearing washed item giving morale penalty
+Infrastructure Account for all obstacles in mattack::stretch_attack
+Infrastructure Account for all obstacles in mattack::stretch_bite
+Infrastructure Butchery: Handle tainted bones consistently and fix offal
+Balance Change qiang to subcategory CSC_WEAPON_PIERCING
+Interface Clearer message when butchering on sealed terrain
+Bugfixes The longswipe special attack can't go through walls
+Infrastructure Fix center of mass of vehicle caclulation
+Infrastructure Fix item::liquid_units and wrap access to islot_container::contains
+Balance M14 EBR has plastic stock
+Bugfixes Check player morale for consistency and add an ability to recover
+Features Make NPCs better with (player's) meds
+Balance Remove 10x multiplier on bio_ups power
+Balance Add trader avoid flag to on or activated things in tools json
+Infrastructure Replace std::to_string by to_string
+Bugfixes Specifying ammo should imply default magazine
+Content Steel working
+Infrastructure Vehicle installation requirements (part 3)
+Interface It's -> its grammar fix.
+Balance Fix 40 mm belts & .50 caliber rifle
+Bugfixes Fix items from previous saves not having any charges even when counted by charges
+Bugfixes Set default ammo of NULL ammo type to null
+Balance Adjusted the aim_speed of the 3006 bolt-actions
+Bugfixes Fix spill crash and content cloning
+Balance Nerf Sensory Dulling
+Infrastructure Rework gibbing, refactor damage.h
+Infrastructure Handle vehicles with multiple engines
+Balance Remove VARSIZE from elbow pads.
+Infrastructure Convert ammotype to string_id
+I18N Translate the gun reload noise.
+Balance Updated Mosin
+Infrastructure JSONize two material properties
+Balance Add a guaranteed science ID in lab finale
+Bugfixes Fix unwielding/wearing removing items
+Balance Make tails prevent wearing non-fabric pants
+Bugfixes Fix item reloading costs
+Infrastructure Add an obstacle_name function
+Bugfixes Fix crash in active_item_cache
+Bugfixes Fix item charges
+Infrastructure Refactor pouring of liquids + fix non-rigid containers + partly fix tool reloading
+Interface Rework inventory columns
+Infrastructure Encapsulate itype (part 1)
+Interface add search function to all commands list
+Infrastructure Jsonize NPC class stat bonuses
+Bugfixes Fix nones misfiring
+Features NPC command: close doors you walk through
+Balance More realistic diesel recipe
+Bugfixes Fix giant pileups
+Bugfixes Fix is_armed logic inversions
+Infrastructure Fix lumber iuse getting spammed by active saws
+Infrastructure More realistic gas explosions for bloated and smoker
+Bugfixes Prevent time freeze during bionic usage
+Infrastructure Rewrite magnet bionic, add move costs to other bionics
+Interface Remove tile config defaults from Blockhead tileset part 1

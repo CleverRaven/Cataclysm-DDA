@@ -15,12 +15,11 @@ TEST_CASE( "destroy_grabbed_vehicle_section" )
         vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90 );
         REQUIRE( veh_ptr != nullptr );
         tripoint grab_point = test_origin + tripoint( 1, 0, 0 );
-        g->u.grab_type = OBJECT_VEHICLE;
-        g->u.grab_point = grab_point;
+        g->u.grab( OBJECT_VEHICLE, grab_point );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
             g->m.destroy( grab_point );
             THEN( "The player's grab is released" ) {
-                CHECK( g->u.grab_type == OBJECT_NONE );
+                CHECK( g->u.get_grab_type() == OBJECT_NONE );
                 CHECK( g->u.grab_point == tripoint_zero );
             }
         }

@@ -6,6 +6,8 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+#include "units.h"
+
 // Fixed window sizes
 #define HP_HEIGHT 14
 #define HP_WIDTH 7
@@ -44,6 +46,9 @@
 #define OMAPX 180
 #define OMAPY 180
 
+// Size of a square unit of terrain saved to a directory.
+#define SEG_SIZE 32
+
 // Items on the map with at most this distance to the player are considered available for crafting,
 // see inventory::form_from_map
 #define PICKUP_RANGE 6
@@ -57,9 +62,9 @@
 
 /** Maximum move cost when handling an item */
 #define MAX_HANDLING_COST 400
-/** Move cost of accessign an item in inventory. */
+/** Move cost of accessing an item in inventory. */
 #define INVENTORY_HANDLING_PENALTY 100
-/** Move cost of accessing an item lying on the map. @todo Less if player is crouching */
+/** Move cost of accessing an item lying on the map. @todo: Less if player is crouching */
 #define MAP_HANDLING_PENALTY 80
 /** Move cost of accessing an item lying on a vehicle. */
 #define VEHICLE_HANDLING_PENALTY 80
@@ -67,13 +72,33 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
-///\EFFECT_STR allows lifting of heavier objects */
-#define STR_LIFT_FACTOR 50_kilogram // 50kg/STR @todo revert to 10kg/STR
+/** Temperature constants */
+namespace temperatures
+{
+/** temperature at which something starts warming and can become HOT */
+constexpr int hot = 100; // ~ 38 Celsius
+
+/** the "normal" temperature midpoint between cold and hot */
+constexpr int normal = 70; // ~ 21 Celsius
+
+/** Temperature inside an active fridge in Fahrenheit  */
+constexpr int fridge = 37; // ~ 2.7 Celsius
+
+/** Temperature at which things are considered "cold" */
+constexpr int cold = 40;
+
+/** Temperature inside an active freezer in Fahrenheit  */
+constexpr int freezer = 23; // -5 Celsius
+
+/** Temperature in which water freezes in Fahrenheit  */
+constexpr int freezing = 32; // 0 Celsius
+}
+
 
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 
-/** Cap JACK requirements to support arbritrarily large vehicles */
+/** Cap JACK requirements to support arbitrarily large vehicles */
 #define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
 
 /** Maximum density of a map field */
@@ -88,8 +113,6 @@
 /** Maximum (effective) level for a stat */
 #define MAX_STAT 20
 
-/** Maximum range at which only standard dispersion applies */
-#define RANGE_SOFT_CAP 30
 /** Maximum range at which ranged attacks can be executed */
 #define RANGE_HARD_CAP 60
 
@@ -105,5 +128,19 @@ constexpr double accuracy_grazing  = 1.0;
 
 /** Effective lower bound to combat skill levels when CQB bionic is active */
 #define BIO_CQB_LEVEL 5
+
+/** Minimum size of a horde to show up on the minimap.  */
+#define HORDE_VISIBILITY_SIZE 3
+
+/** Average annual temperature in F used for climate, weather and temperature calculation */
+/** Average New England temperature = 43F/6C rounded to int */
+#define AVERAGE_ANNUAL_TEMPERATURE 43
+
+/** Base starting spring temperature in F used for climate, weather and temperature calculation */
+/** New England base spring temperature = 65F/18C rounded to int */
+#define SPRING_TEMPERATURE 65
+
+/** Character's base weight in units::mass */
+constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
 
 #endif
