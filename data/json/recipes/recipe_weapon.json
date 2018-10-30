@@ -1239,19 +1239,6 @@
   },
   {
     "type": "recipe",
-    "result": "barrel_big",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 6,
-    "time": 30000,
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 100 ], [ "small_repairkit", 300 ] ] ],
-    "components": [ [ [ "pipe", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "brass_catcher",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",

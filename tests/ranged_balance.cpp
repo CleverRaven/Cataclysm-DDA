@@ -254,12 +254,12 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "tele_sight" } );
-        test_shooting_scenario( shooter, 12, 20, 40 );
+        test_shooting_scenario( shooter, 12, 18, 40 );
         test_fast_shooting( shooter, 40, 0.4 );
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ar15", { "tele_sight" } );
-        test_shooting_scenario( shooter, 10, 24, 48 );
+        test_shooting_scenario( shooter, 10, 22, 48 );
         test_fast_shooting( shooter, 85, 0.3 );
     }
 }
