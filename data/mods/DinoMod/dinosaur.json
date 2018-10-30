@@ -658,7 +658,7 @@
     "default" : "mon_null",
     "monsters" : [
       { "monster" : "mon_compsognathus", "freq" : 1, "cost_multiplier" : 1, "pack_size" : [4,12] },
-      { "monster" : "mon_gallimimus", "freq" : 1, "cost_multiplier" : 1, "pack_size" : [4,8] },
+      { "monster" : "mon_gallimimus", "freq" : 1, "cost_multiplier" : 1, "pack_size" : [4,8] }
     ]
   },{
     "type":"monstergroup",
