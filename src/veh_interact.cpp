@@ -2496,7 +2496,9 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
         uilist smenu;
         smenu.text = _("Remove what?");
         for( auto & fuel : fuels ) {
-            if( fuel == "plut_cell" && veh->fuel_left( fuel )<500 ) continue;
+            if( fuel == "plut_cell" && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
+                continue;
+            }
             smenu.addentry( item::nname( fuel ) );
         }
         smenu.query();
@@ -2511,11 +2513,11 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
 
     int qty = veh->fuel_left( fuel );
     if( fuel == "plut_cell" ) {
-        item plutonium( fuel, calendar::turn, qty/PLUTONIUM_CHARGES);
+        item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         g->u.i_add( plutonium );
-        veh->drain( fuel, qty - ( qty%500 ) );
+        veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
     } else {
-        item solid_fuel( fuel, calendar::turn, qty);
+        item solid_fuel( fuel, calendar::turn, qty );
         g->u.i_add( solid_fuel );
         veh->drain( fuel, qty );
     }
