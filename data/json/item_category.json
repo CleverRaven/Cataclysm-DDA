@@ -30,12 +30,6 @@
     "sort_rank": 5
   },
   {
-    "id": "traps",
-    "type": "ITEM_CATEGORY",
-    "name": "TRAPS",
-    "sort_rank": 6
-  },
-  {
     "id": "deployables",
     "type": "ITEM_CATEGORY",
     "name": "DEPLOYABLES",
@@ -76,18 +70,6 @@
     "type": "ITEM_CATEGORY",
     "name": "MEDICAL STUFF",
     "sort_rank": 13
-  },
-  {
-    "id": "food_perish",
-    "type": "ITEM_CATEGORY",
-    "name": "FOOD-PERISH",
-    "sort_rank": 14
-  },
-  {
-    "id": "drinks_perish",
-    "type": "ITEM_CATEGORY",
-    "name": "DRINKS-PERISH",
-    "sort_rank": 15
   },
   {
     "id": "food",
@@ -204,12 +186,6 @@
     "sort_rank": 34
   },
   {
-    "id": "manuals",
-    "type": "ITEM_CATEGORY",
-    "name": "MANUALS",
-    "sort_rank": 35
-  },
-  {
     "id": "books",
     "type": "ITEM_CATEGORY",
     "name": "BOOKS",
@@ -228,45 +204,9 @@
     "sort_rank": 38
   },
   {
-    "id": "v_elec",
-    "type": "ITEM_CATEGORY",
-    "name": "VEHICLE ELECTRONICS",
-    "sort_rank": 39
-  },
-  {
-    "id": "frames",
-    "type": "ITEM_CATEGORY",
-    "name": "FRAMES",
-    "sort_rank": 38
-  },
-  {
-    "id": "motors",
-    "type": "ITEM_CATEGORY",
-    "name": "MOTORS",
-    "sort_rank": 38
-  },
-  {
-    "id": "platting",
-    "type": "ITEM_CATEGORY",
-    "name": "PLATTING",
-    "sort_rank": 38
-  },
-  {
-    "id": "rigs",
-    "type": "ITEM_CATEGORY",
-    "name": "VEHICLE RIGS",
-    "sort_rank": 38
-  },
-  {
     "id": "v_weapons",
     "type": "ITEM_CATEGORY",
     "name": "VEHICLE WEAPONS",
-    "sort_rank": 38
-  },
-  {
-    "id": "wheels",
-    "type": "ITEM_CATEGORY",
-    "name": "WHEELS",
     "sort_rank": 38
   },
   {
@@ -286,11 +226,5 @@
     "type": "ITEM_CATEGORY",
     "name": "OTHER",
     "sort_rank": 48
-  },
-  {
-    "id": "trash",
-    "type": "ITEM_CATEGORY",
-    "name": "TRASH",
-    "sort_rank": 49
   }
 ]
