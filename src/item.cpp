@@ -536,8 +536,8 @@ long item::charges_per_volume( const units::volume &vol ) const
         return INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
     }
     // Type cast to prevent integer overflow with large volume containers like the cargo dimension
-    return count_by_charges() ? vol * static_cast<int64_t>(type->stack_size) / type->volume
-                                : vol / volume();
+    return count_by_charges() ? vol * static_cast<int64_t>( type->stack_size ) / type->volume
+           : vol / volume();
 }
 
 bool item::stacks_with( const item &rhs ) const
