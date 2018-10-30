@@ -167,7 +167,7 @@
         "special_freq":[0],
         "death_function":"NORMAL",
         "special_attack":["NONE"],
-        "description":"Look at those teeth! Tiny little claws though.",
+        "description":"Look at those teeth!  Tiny little claws though.",
         "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "BLEED", "ATTACKMON", "BONES", "LEATHER", "FAT", "WARM"],
         "anger_triggers":["STALK", "PLAYER_WEAK", "HURT"],
         "fear_triggers":["SOUND", "FIRE"],
