@@ -13,6 +13,7 @@
 #include "damage.h"
 #include "calendar.h"
 #include "mapdata.h"
+#include "optional.h"
 
 #include <unordered_set>
 #include <memory>
@@ -145,10 +146,10 @@ class player : public Character
 {
     public:
         player();
-        player( const player & );
+        player( const player & ) = delete;
         player( player && );
         ~player() override;
-        player &operator=( const player & );
+        player &operator=( const player & ) = delete;
         player &operator=( player && );
 
         // newcharacter.cpp
@@ -984,10 +985,15 @@ class player : public Character
         int item_wear_cost( const item &to_wear ) const;
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        bool wear( int pos, bool interactive = true );
-        bool wear( item &to_wear, bool interactive = true );
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        bool wear_item( const item &to_wear, bool interactive = true );
+        cata::optional<std::list<item>::iterator>
+        wear( int pos, bool interactive = true );
+        cata::optional<std::list<item>::iterator>
+        wear( item &to_wear, bool interactive = true );
+        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * If interactive is false, don't alert the player or drain moves on completion.
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
@@ -998,9 +1004,8 @@ class player : public Character
         bool takeoff( const item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where = tripoint_min );
-        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min,
-                   bool stash = false );
+        void drop( int pos, const tripoint &where );
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -1366,6 +1371,7 @@ class player : public Character
         void start_destination_activity();
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
+        bool defer_move( tripoint next );
         void shift_destination( int shiftx, int shifty );
 
         // Grab furniture / vehicle
@@ -1742,9 +1748,9 @@ class player : public Character
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        tripoint destination_point = tripoint_min;
+        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
-        tripoint next_expected_position;
+        cata::optional<tripoint> next_expected_position;
 
         inventory cached_crafting_inventory;
         int cached_moves;

@@ -201,14 +201,6 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-enum butcher_type : int {
-    BUTCHER,        // quick butchery
-    BUTCHER_FULL,   // full workshop butchery
-    F_DRESS,        // field dressing a corpse
-    QUARTER,        // quarter a corpse
-    DISSECT         // dissect a corpse for CBMs
-};
-
 bool check_butcher_cbm( const int roll )
 {
     // 2/3 chance of failure with a roll of 0, 2/6 with a roll of 1, 2/9 etc.
@@ -412,6 +404,15 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         }
     }
 
+    act.moves_left = butcher_time_to_cut( u, corpse_item, action );
+}
+
+int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action )
+{
+    const mtype &corpse = *corpse_item.get_mtype();
+    const int factor = u.max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
+                                      quality_id( "BUTCHER" ) );
+
     int time_to_cut = 0;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
@@ -438,14 +439,11 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         time_to_cut = 500;
     }
 
-    bool corpse_dressed = items[act.index].has_flag( "FIELD_DRESS" ) ||
-                          items[act.index].has_flag( "FIELD_DRESS_FAILED" );
-
     switch( action ) {
         case BUTCHER:
             break;
         case BUTCHER_FULL:
-            if( !corpse_dressed ) {
+            if( !corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) {
                 time_to_cut *= 6;
             } else {
                 time_to_cut *= 4;
@@ -465,7 +463,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             break;
     }
 
-    act.moves_left = time_to_cut;
+    return time_to_cut;
 }
 
 void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p,
@@ -1050,15 +1048,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    time_point age = corpse_item.birthday();
+    time_point bday = corpse_item.birthday();
     const field_id type_blood = corpse->bloodType();
     const field_id type_gib = corpse->gibType();
 
-    // corpse decays at 75% factor, but meat shares age and not relative_rot so this takes care of it
+    // corpse decays at 75% factor, but meat shares birthday and not relative_rot so this takes care of it
     // no FIELD_DRESS_FAILED here as it gets no benefit
     if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
-        age = time_point::from_turn( to_turn<int>( age ) + ( ( calendar::turn - to_turn<int>
-                                     ( age ) ) * 3 / 4 ) );
+        bday += corpse_item.age() * 3 / 4;
     }
 
     if( action == QUARTER ) {
@@ -1107,25 +1104,25 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 p->add_msg_if_player( m_warning,
                                       _( "You made so many mistakes during the process that you doubt even vultures will be interested in what's left of it." ) );
                 break;
-                g->m.i_rem( p->pos(), act->index );
-                g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-                g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-                for( int i = 1; i <= corpse->size; i++ ) {
-                    g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
-                                             corpse->size + 1 ) ) );
-                    g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
-                                             corpse->size + 1 ) ) );
-                }
-                act->set_to_null();
-                return;
         }
+        g->m.i_rem( p->pos(), act->index );
+        g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        for( int i = 1; i <= corpse->size; i++ ) {
+            g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
+                                     corpse->size + 1 ) ) );
+            g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
+                                     corpse->size + 1 ) ) );
+        }
+        act->set_to_null();
+        return;
     }
 
     // all action types - yields
     if( corpse->harvest.is_null() ) {
-        butchery_drops_hardcoded( &corpse_item, corpse, p, age, roll_butchery, action );
+        butchery_drops_hardcoded( &corpse_item, corpse, p, bday, roll_butchery, action );
     } else {
-        butchery_drops_harvest( &corpse_item, *corpse, *p, age, roll_butchery, action );
+        butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action );
     }
 
     // reveal hidden items / hidden content
@@ -1137,7 +1134,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                       corpse->nname().c_str() );
                 g->m.add_item_or_charges( p->pos(), content );
             } else if( content.is_bionic() ) {
-                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, age );
+                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, bday );
             }
         }
     }
@@ -1514,7 +1511,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
                 p->add_msg_if_player( _( "You didn't catch anything." ) );
             }
         } else {
-            g->catch_a_monster( fishables, p->pos(), p, 30000 );
+            g->catch_a_monster( fishables, p->pos(), p, 50_hours );
         }
 
     } else {
@@ -2275,7 +2272,7 @@ struct weldrig_hack {
             return false;
         }
 
-        part = veh->part_with_feature( part, "WELDRIG" );
+        part = veh->part_with_feature( part, "WELDRIG", true );
         return part >= 0;
     }
 

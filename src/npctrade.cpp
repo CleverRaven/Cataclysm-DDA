@@ -189,10 +189,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         cash = 0;
     }
 
-    // Make a temporary copy of the NPC to make sure volume calculations are correct
-    npc temp = p;
-    units::volume volume_left = temp.volume_capacity() - temp.volume_carried();
-    units::mass weight_left = temp.weight_capacity() - temp.weight_carried();
+    // Make a temporary copy of the NPC inventory to make sure volume calculations are correct
+    inventory temp = p.inv;
+    units::volume volume_left = p.volume_capacity() - p.volume_carried();
+    units::mass weight_left = p.weight_capacity() - p.weight_carried();
 
     do {
 #ifdef __ANDROID__
@@ -228,10 +228,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     without.insert( pricing.loc.get_item() );
                 }
             }
-            temp.inv = inventory_exchange( p.inv, without, added );
 
-            volume_left = temp.volume_capacity() - temp.volume_carried();
-            weight_left = temp.weight_capacity() - temp.weight_carried();
+            temp = inventory_exchange( p.inv, without, added );
+
+            volume_left = p.volume_capacity() - p.volume_carried_with_tweaks( { temp } );
+            weight_left = p.weight_capacity() - p.weight_carried_with_tweaks( { temp } );
             mvwprintz( w_head, 3, 2, ( volume_left < 0 || weight_left < 0 ) ? c_red : c_green,
                        _( "Volume: %s %s, Weight: %.1f %s" ),
                        format_volume( volume_left ).c_str(), volume_units_abbr(),

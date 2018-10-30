@@ -7,7 +7,8 @@
     "default_faction": "",
     "species": [ "ZOMBIE" ],
     "diff": 100,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 10000,
     "speed": 100,
     "material": [ "flesh" ],
@@ -18,7 +19,7 @@
     "melee_cut": 0,
     "vision_day": 1,
     "death_function": [ "MELT" ],
-    "flags": [ "REGENERATES_50", "IMMOBILE", "NOT_HALLUCINATION" ]
+    "flags": [ "REGENERATES_50", "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
     "id": "mon_albino_penguin",
@@ -29,7 +30,8 @@
     "categories": [ "WILDLIFE" ],
     "species": [ "NETHER" ],
     "diff": 11,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 200,
     "speed": 50,
     "material": [ "flesh" ],
@@ -72,7 +74,8 @@
     "default_faction": "razorclaw",
     "species": [ "MUTANT" ],
     "diff": 50,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 120,
     "speed": 95,
     "material": [ "flesh" ],
@@ -104,7 +107,8 @@
     "default_faction": "mutant",
     "species": [ "HORROR" ],
     "diff": 30,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 250,
     "speed": 70,
     "material": [ "flesh" ],
@@ -130,7 +134,8 @@
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
     "diff": 4,
-    "size": "TINY",
+    "volume": "750 ml",
+    "weight": 1000,
     "hp": 10,
     "speed": 230,
     "material": [ "flesh" ],
@@ -158,7 +163,8 @@
     "default_faction": "bear",
     "species": [ "ZOMBIE" ],
     "diff": 10,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 100,
     "speed": 90,
     "material": [ "flesh" ],
@@ -195,7 +201,8 @@
       "FAT",
       "FIREPROOF",
       "NO_BREATHE",
-      "POISON"
+      "POISON",
+      "FILTHY"
     ]
   },
   {
@@ -206,7 +213,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 4,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 70,
     "speed": 60,
     "material": [ "flesh" ],
@@ -239,7 +247,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -251,7 +260,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 5,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 80,
     "material": [ "flesh" ],
@@ -275,7 +285,8 @@
     "default_faction": "blob",
     "species": [ "NETHER", "BLOB" ],
     "diff": 19,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 70,
     "symbol": "O",
@@ -302,7 +313,8 @@
     "default_faction": "blob",
     "species": [ "NETHER", "BLOB" ],
     "diff": 40,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 400,
     "speed": 50,
     "symbol": "O",
@@ -327,7 +339,8 @@
     "default_faction": "blob",
     "species": [ "NETHER", "BLOB" ],
     "diff": 10,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 160,
     "speed": 90,
     "symbol": "O",
@@ -355,7 +368,8 @@
     "default_faction": "blob",
     "species": [ "NETHER", "BLOB" ],
     "diff": 2,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 40,
     "speed": 50,
     "symbol": "o",
@@ -380,7 +394,8 @@
     "description": "A defiled human body, once living.  Tortured to death long ago, it remains chained to the altar, the putrescent flays of its peeled skin quivering like so much flotsam upon a murky pond.",
     "default_faction": "cult",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 40,
     "speed": 200,
     "material": [ "flesh" ],
@@ -394,7 +409,7 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_boomer",
@@ -404,7 +419,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 40,
     "speed": 55,
     "material": [ "flesh" ],
@@ -436,7 +452,8 @@
       "BONES",
       "FAT",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1"
+      "PATH_AVOID_DANGER_1",
+      "FILTHY"
     ]
   },
   {
@@ -447,7 +464,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 7,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 30,
     "speed": 40,
     "material": [ "flesh" ],
@@ -478,7 +496,8 @@
       "NO_BREATHE",
       "BONES",
       "FAT",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -489,7 +508,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 15,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 110,
     "speed": 85,
     "material": [ "flesh" ],
@@ -522,7 +542,8 @@
       "BONES",
       "FAT",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1"
+      "PATH_AVOID_DANGER_1",
+      "FILTHY"
     ]
   },
   {
@@ -533,7 +554,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 2,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 100,
     "symbol": "o",
@@ -551,7 +573,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 2,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 100,
     "symbol": "O",
@@ -569,7 +592,8 @@
     "default_faction": "science",
     "species": [ "ROBOT" ],
     "diff": 4,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 60,
     "speed": 90,
     "material": [ "steel" ],
@@ -610,7 +634,8 @@
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
     "diff": 20,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 95,
     "material": [ "flesh" ],
@@ -630,7 +655,7 @@
     "special_attacks": [ [ "LONGSWIPE", 8 ], { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 21 } ] } ],
     "death_drops": { "groups": [ [ "vault_wanderer", 1 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_chickenbot",
@@ -640,7 +665,8 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 32,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 90,
     "speed": 115,
     "material": [ "steel" ],
@@ -671,7 +697,8 @@
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
     "diff": 8,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 60,
     "speed": 110,
     "material": [ "flesh" ],
@@ -688,10 +715,10 @@
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 5 ], [ "dresser", 10 ], [ "ammo", 18 ] ]
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "LEATHER", "BONES" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "LEATHER", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_copbot",
@@ -701,7 +728,8 @@
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 12,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 100,
     "material": [ "steel" ],
@@ -731,7 +759,8 @@
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
     "diff": 16,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 180,
     "speed": 80,
     "material": [ "flesh" ],
@@ -757,7 +786,8 @@
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
     "diff": 20,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 120,
     "speed": 100,
     "material": [ "flesh" ],
@@ -782,7 +812,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 50,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 800,
     "speed": 140,
     "symbol": "S",
@@ -821,7 +852,8 @@
     "default_faction": "cult",
     "species": [ "ZOMBIE" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 100,
     "material": [ "flesh" ],
@@ -837,7 +869,7 @@
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "LEATHER", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "LEATHER", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_dog_skeleton",
@@ -847,7 +879,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 12,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 12,
     "speed": 100,
     "material": [ "bone" ],
@@ -866,7 +899,7 @@
     "vision_night": 3,
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL", "SPLATTER" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "BONES" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_dog_thing",
@@ -876,7 +909,8 @@
     "default_faction": "mutant",
     "species": [ "NETHER" ],
     "diff": 5,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 25,
     "speed": 150,
     "material": [ "flesh" ],
@@ -902,7 +936,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE" ],
     "diff": 12,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 42,
     "speed": 105,
     "material": [ "flesh" ],
@@ -934,7 +969,8 @@
       "REVIVES",
       "FUR",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -945,7 +981,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 12,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 24,
     "speed": 105,
     "material": [ "flesh" ],
@@ -962,7 +999,7 @@
     "vision_night": 4,
     "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_eyebot",
@@ -972,7 +1009,8 @@
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 2,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 20,
     "speed": 120,
     "material": [ "steel" ],
@@ -996,7 +1034,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 20,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 70,
     "material": [ "flesh" ],
@@ -1023,7 +1062,7 @@
     },
     "death_function": [ "FIREBALL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "BLEED", "PUSH_MON", "DRIPS_NAPALM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "BLEED", "PUSH_MON", "DRIPS_NAPALM", "FILTHY" ]
   },
   {
     "id": "mon_flaming_eye",
@@ -1033,7 +1072,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 27,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 300,
     "speed": 90,
     "material": [ "flesh" ],
@@ -1058,7 +1098,8 @@
     "default_faction": "cult",
     "species": [ "ZOMBIE" ],
     "diff": 20,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 200,
     "speed": 120,
     "material": [ "flesh" ],
@@ -1074,7 +1115,7 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_flying_polyp",
@@ -1084,7 +1125,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 42,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 350,
     "speed": 280,
     "material": [ "flesh" ],
@@ -1121,7 +1163,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 18,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 30,
     "speed": 100,
     "material": [ "veggy" ],
@@ -1145,7 +1188,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 25,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 40,
     "speed": 100,
     "material": [ "stone" ],
@@ -1171,7 +1215,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 18,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 30,
     "speed": 100,
     "material": [ "veggy" ],
@@ -1198,7 +1243,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 6,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 10,
     "speed": 100,
     "material": [ "veggy" ],
@@ -1222,7 +1268,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 12,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 40,
     "material": [ "veggy" ],
@@ -1247,7 +1294,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 40,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 300,
     "speed": 100,
     "material": [ "stone" ],
@@ -1271,7 +1319,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 40,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 300,
     "speed": 100,
     "material": [ "stone" ],
@@ -1296,7 +1345,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 40,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 300,
     "speed": 100,
     "material": [ "stone" ],
@@ -1325,7 +1375,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 6,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 70,
     "speed": 70,
     "material": [ "veggy" ],
@@ -1352,7 +1403,8 @@
     "default_faction": "blob",
     "species": [ "NETHER" ],
     "diff": 20,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 200,
     "speed": 40,
     "symbol": "O",
@@ -1375,7 +1427,8 @@
     "description": "Your precious generator, noisily humming away.  Defend it at all costs!",
     "default_faction": "player",
     "species": [ "UNKNOWN" ],
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 500,
     "speed": 100,
     "material": [ "steel" ],
@@ -1396,7 +1449,8 @@
     "default_faction": "crayfish",
     "species": [ "MUTANT" ],
     "diff": 9,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 50,
     "speed": 130,
     "material": [ "flesh" ],
@@ -1422,7 +1476,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 20,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 400,
     "speed": 80,
     "material": [ "flesh" ],
@@ -1462,7 +1517,8 @@
     "default_faction": "worm",
     "species": [ "WORM" ],
     "diff": 25,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 210,
     "speed": 180,
     "material": [ "flesh" ],
@@ -1487,7 +1543,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 15,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 180,
     "material": [ "flesh" ],
@@ -1510,7 +1567,8 @@
     "default_faction": "worm",
     "species": [ "WORM" ],
     "diff": 2,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 20,
     "speed": 80,
     "material": [ "flesh" ],
@@ -1533,7 +1591,8 @@
     "description": "Mom?",
     "default_faction": "factionless",
     "species": [ "HALLUCINATION" ],
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 5,
     "speed": 100,
     "material": [ "flesh" ],
@@ -1554,7 +1613,8 @@
     "description": "The multi-cooker's got a mind of its own!  Look out!",
     "default_faction": "factionless",
     "species": [ "HALLUCINATION" ],
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 5,
     "speed": 50,
     "material": [ "steel" ],
@@ -1576,7 +1636,8 @@
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],
     "diff": 2,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 70,
     "material": [ "steel" ],
@@ -1599,7 +1660,8 @@
     "default_faction": "mutant",
     "species": [ "NETHER" ],
     "diff": 14,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 120,
     "material": [ "flesh" ],
@@ -1623,7 +1685,8 @@
     "description": "An image made from light, nearly identical to the real deal.",
     "default_faction": "factionless",
     "species": [ "UNKNOWN" ],
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 1,
     "speed": 150,
     "symbol": "@",
@@ -1646,7 +1709,8 @@
     "default_faction": "cult",
     "species": [ "ZOMBIE" ],
     "diff": 13,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 110,
     "material": [ "flesh" ],
@@ -1662,7 +1726,7 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS", "LEATHER", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS", "LEATHER", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_human_snail",
@@ -1672,7 +1736,8 @@
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
     "diff": 10,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 80,
     "speed": 50,
     "material": [ "flesh" ],
@@ -1698,7 +1763,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 28,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 280,
     "speed": 180,
     "symbol": "s",
@@ -1734,7 +1800,8 @@
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
     "diff": 8,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 90,
     "speed": 80,
     "material": [ "flesh" ],
@@ -1754,7 +1821,7 @@
     "special_attacks": [ [ "LUNGE", 20 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_irradiated_wanderer_2",
@@ -1764,7 +1831,8 @@
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
     "diff": 12,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 90,
     "speed": 88,
     "material": [ "flesh" ],
@@ -1785,7 +1853,7 @@
     "special_attacks": [ [ "LUNGE", 15 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_irradiated_wanderer_3",
@@ -1795,7 +1863,8 @@
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
     "diff": 15,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 95,
     "material": [ "flesh" ],
@@ -1816,7 +1885,7 @@
     "special_attacks": [ [ "LUNGE", 10 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_irradiated_wanderer_4",
@@ -1826,7 +1895,8 @@
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
     "diff": 20,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 100,
     "material": [ "flesh" ],
@@ -1847,7 +1917,7 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_jabberwock",
@@ -1857,7 +1927,8 @@
     "default_faction": "jabberwock",
     "species": [ "ABERRATION" ],
     "diff": 50,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 400,
     "speed": 140,
     "material": [ "flesh" ],
@@ -1901,7 +1972,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 6,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 30,
     "speed": 100,
     "material": [ "flesh" ],
@@ -1928,7 +2000,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 26,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 210,
     "speed": 120,
     "material": [ "flesh" ],
@@ -1972,7 +2045,8 @@
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],
     "diff": 4,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 40,
     "material": [ "steel" ],
@@ -1997,7 +2071,8 @@
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
     "diff": 18,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 130,
     "material": [ "flesh" ],
@@ -2025,7 +2100,8 @@
     "default_faction": "player",
     "species": [ "MUTANT" ],
     "diff": 19,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 40,
     "speed": 100,
     "symbol": "O",
@@ -2052,7 +2128,8 @@
     "default_faction": "razorclaw",
     "species": [ "MUTANT" ],
     "diff": 20,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 85,
     "material": [ "flesh" ],
@@ -2084,7 +2161,8 @@
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 11,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 100,
     "material": [ "steel" ],
@@ -2112,7 +2190,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 14,
-    "size": "TINY",
+    "volume": "750 ml",
+    "weight": 1000,
     "hp": 60,
     "speed": 90,
     "symbol": "A",
@@ -2155,7 +2234,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 6,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 40,
     "speed": 90,
     "material": [ "flesh" ],
@@ -2181,7 +2261,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 16,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 50,
     "speed": 110,
     "material": [ "flesh" ],
@@ -2211,7 +2292,8 @@
       "BLEED",
       "NO_BREATHE",
       "PATH_AVOID_DANGER_2",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "FILTHY"
     ]
   },
   {
@@ -2222,7 +2304,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 20,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 400,
     "speed": 90,
     "symbol": "&",
@@ -2262,7 +2345,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 30,
     "speed": 60,
     "material": [ "bone" ],
@@ -2284,7 +2368,7 @@
     "upgrades": { "half_life": 15, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL", "SPLATTER" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES" ]
+    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_skitterbot",
@@ -2294,7 +2378,8 @@
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 12,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 40,
     "speed": 130,
     "material": [ "steel" ],
@@ -2320,7 +2405,8 @@
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
     "diff": 13,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 300,
     "speed": 60,
     "material": [ "flesh" ],
@@ -2359,7 +2445,8 @@
     "default_faction": "slug",
     "species": [ "MOLLUSK" ],
     "diff": 16,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 190,
     "speed": 60,
     "material": [ "flesh" ],
@@ -2387,7 +2474,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 1,
-    "size": "TINY",
+    "volume": "750 ml",
+    "weight": 1000,
     "hp": 4,
     "speed": 100,
     "material": [ "veggy" ],
@@ -2410,7 +2498,8 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 52,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 240,
     "speed": 75,
     "material": [ "steel" ],
@@ -2440,7 +2529,8 @@
     "default_faction": "mutant",
     "species": [ "NETHER" ],
     "diff": 30,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 160,
     "speed": 140,
     "material": [ "flesh" ],
@@ -2466,7 +2556,8 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 26,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 80,
     "speed": 90,
     "material": [ "steel" ],
@@ -2494,7 +2585,8 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 20,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 30,
     "speed": 100,
     "material": [ "steel" ],
@@ -2520,7 +2612,8 @@
     "default_faction": "mutant",
     "species": [ "HORROR" ],
     "diff": 12,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 70,
     "speed": 90,
     "material": [ "flesh" ],
@@ -2545,7 +2638,8 @@
     "default_faction": "vortex",
     "species": [ "UNKNOWN" ],
     "diff": 1,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 20,
     "speed": 120,
     "material": [ "powder" ],
@@ -2565,7 +2659,8 @@
     "default_faction": "worm",
     "species": [ "WORM" ],
     "diff": 10,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 50,
     "speed": 80,
     "material": [ "flesh" ],
@@ -2589,7 +2684,8 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 32,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 320,
     "speed": 80,
     "material": [ "flesh" ],
@@ -2615,7 +2711,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 13,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 48,
     "speed": 116,
     "material": [ "flesh" ],
@@ -2645,7 +2742,8 @@
       "NO_BREATHE",
       "REVIVES",
       "FUR",
-      "BONES"
+      "BONES",
+      "FILTHY"
     ]
   },
   {
@@ -2656,7 +2754,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 12,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 180,
     "speed": 120,
     "material": [ "flesh" ],
@@ -2689,7 +2788,8 @@
       "FUR",
       "BONES",
       "FAT",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -2701,7 +2801,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 70,
     "material": [ "flesh" ],
@@ -2732,7 +2833,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -2743,7 +2845,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 65,
     "speed": 80,
     "material": [ "flesh" ],
@@ -2776,7 +2879,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -2788,7 +2892,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 25,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 70,
     "material": [ "flesh" ],
@@ -2809,7 +2914,7 @@
     "death_drops": "mon_zombie_armored_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_bio_op",
@@ -2819,7 +2924,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 25,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 95,
     "material": [ "flesh" ],
@@ -2855,7 +2961,8 @@
       "ACIDPROOF",
       "NO_BREATHE",
       "REVIVES",
-      "BONES"
+      "BONES",
+      "FILTHY"
     ]
   },
   {
@@ -2866,7 +2973,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 15,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 110,
     "material": [ "flesh" ],
@@ -2913,7 +3021,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -2924,7 +3033,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 20,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 105,
     "material": [ "flesh" ],
@@ -2956,7 +3066,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -2967,7 +3078,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 24,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 280,
     "speed": 95,
     "material": [ "flesh" ],
@@ -3000,7 +3112,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3011,7 +3124,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 24,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 200,
     "speed": 90,
     "material": [ "flesh" ],
@@ -3045,7 +3159,8 @@
       "REVIVES",
       "BONES",
       "PUSH_MON",
-      "NIGHT_INVISIBILITY"
+      "NIGHT_INVISIBILITY",
+      "FILTHY"
     ]
   },
   {
@@ -3056,7 +3171,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 22,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 275,
     "speed": 110,
     "material": [ "flesh" ],
@@ -3090,7 +3206,8 @@
       "CBM_SUBS",
       "NO_BREATHE",
       "REVIVES",
-      "BONES"
+      "BONES",
+      "FILTHY"
     ]
   },
   {
@@ -3101,7 +3218,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 50,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 200,
     "speed": 50, "//": "slow walk speed - intimidating!",
     "material": [ "flesh" ],
@@ -3129,7 +3247,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "ELECTRIC_FIELD"
+      "ELECTRIC_FIELD",
+      "FILTHY"
     ]
   },
   {
@@ -3141,7 +3260,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 70,
     "material": [ "flesh" ],
@@ -3175,7 +3295,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3186,7 +3307,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 25,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 140,
     "speed": 75,
     "material": [ "flesh" ],
@@ -3236,7 +3358,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3248,7 +3371,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 1,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 60,
     "speed": 20,
     "material": [ "flesh" ],
@@ -3277,7 +3401,8 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES"
+      "BONES",
+      "FILTHY"
     ]
   },
   {
@@ -3288,7 +3413,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 50,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 10000,
     "speed": 200,
     "material": [ "flesh" ],
@@ -3306,7 +3432,7 @@
     "special_attacks": [ [ "DANCE", 30 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "REGENERATES_50", "BONES", "POISON", "FAT" ]
+    "flags": [ "WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "REGENERATES_50", "BONES", "POISON", "FAT", "FILTHY" ]
   },
   {
     "id": "mon_zombie_dog",
@@ -3317,7 +3443,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 12,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 36,
     "speed": 105,
     "material": [ "flesh" ],
@@ -3333,7 +3460,7 @@
     "vision_night": 4,
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_electric",
@@ -3343,7 +3470,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 12,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 85,
     "speed": 105,
     "material": [ "flesh" ],
@@ -3377,7 +3505,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3389,7 +3518,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 95,
     "speed": 55,
     "material": [ "flesh" ],
@@ -3423,7 +3553,8 @@
       "REVIVES",
       "BONES",
       "FAT",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3434,7 +3565,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 10,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 100,
     "material": [ "flesh" ],
@@ -3456,7 +3588,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 8, "into": "mon_zombie_brute" },
-    "flags": [ "SEES", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES" ]
+    "flags": [ "SEES", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_fireman",
@@ -3467,7 +3599,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 70,
     "material": [ "flesh" ],
@@ -3501,7 +3634,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3512,7 +3646,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 6,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 60,
     "speed": 45,
     "material": [ "flesh" ],
@@ -3531,7 +3666,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON" ]
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_gasbag",
@@ -3541,7 +3676,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 15,
     "speed": 80,
     "material": [ "flesh" ],
@@ -3558,7 +3694,7 @@
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_grabber",
@@ -3568,7 +3704,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 95,
     "speed": 80,
     "material": [ "flesh" ],
@@ -3602,7 +3739,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3613,7 +3751,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 15,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 110,
     "speed": 85,
     "material": [ "flesh" ],
@@ -3645,7 +3784,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3657,7 +3797,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 70,
     "material": [ "flesh" ],
@@ -3689,7 +3830,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3700,7 +3842,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 20,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 70,
     "material": [ "flesh" ],
@@ -3720,7 +3863,7 @@
     "vision_night": 3,
     "special_attacks": [ [ "STRETCH_BITE", 10 ], [ "STRETCH_ATTACK", 5 ] ],
     "death_function": [ "BLOBSPLIT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "FILTHY" ]
   },
   {
     "id": "mon_zombie_hulk",
@@ -3730,7 +3873,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 50,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 480,
     "speed": 130,
     "material": [ "flesh" ],
@@ -3764,7 +3908,8 @@
       "REVIVES",
       "BONES",
       "FAT",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -3775,7 +3920,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 6,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 90,
     "speed": 110,
     "material": [ "flesh" ],
@@ -3802,7 +3948,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into": "mon_zombie_predator" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_jackson",
@@ -3812,7 +3958,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 100,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 100,
     "material": [ "flesh" ],
@@ -3832,7 +3979,7 @@
     "special_attacks": [ [ "JACKSON", 0 ] ],
     "death_drops": "jackson_drops",
     "death_function": [ "JACKSON" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "BASHES", "BLEED", "NO_BREATHE", "BONES", "POISON" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "BASHES", "BLEED", "NO_BREATHE", "BONES", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_mancroc",
@@ -3842,7 +3989,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 16,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 100,
     "material": [ "flesh" ],
@@ -3890,7 +4038,8 @@
       "REVIVES",
       "BONES",
       "PUSH_MON",
-      "SWIMS"
+      "SWIMS",
+      "FILTHY"
     ]
   },
   {
@@ -3901,7 +4050,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 16,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 180,
     "speed": 90,
     "material": [ "flesh" ],
@@ -3935,7 +4085,8 @@
       "REVIVES",
       "BONES",
       "PATH_AVOID_DANGER_2",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "FILTHY"
     ]
   },
   {
@@ -3946,7 +4097,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 16,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 100,
     "material": [ "flesh" ],
@@ -3979,7 +4131,8 @@
       "REVIVES",
       "BONES",
       "PATH_AVOID_DANGER_1",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "FILTHY"
     ]
   },
   {
@@ -3990,7 +4143,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 9,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 55,
     "speed": 70,
     "material": [ "flesh" ],
@@ -4023,7 +4177,8 @@
       "REVIVES",
       "BONES",
       "LEATHER",
-      "FAT"
+      "FAT",
+      "FILTHY"
     ],
     "//": "1d8->2d5, minor bonus over 1d9"
   },
@@ -4035,7 +4190,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 50,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 90,
     "speed": 140,
     "material": [ "flesh" ],
@@ -4072,7 +4228,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_rot",
@@ -4083,7 +4239,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 55,
     "speed": 70,
     "material": [ "flesh" ],
@@ -4113,7 +4270,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -4124,7 +4282,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 4,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 70,
     "speed": 105,
     "material": [ "flesh" ],
@@ -4151,7 +4310,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 10, "into": "mon_zombie_hunter" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_scientist",
@@ -4161,7 +4320,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 75,
     "material": [ "flesh" ],
@@ -4198,7 +4358,8 @@
       "BONES",
       "PUSH_MON",
       "PATH_AVOID_DANGER_2",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "FILTHY"
     ]
   },
   {
@@ -4209,7 +4370,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 1,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 40,
     "speed": 60,
     "material": [ "flesh" ],
@@ -4230,7 +4392,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_screecher",
@@ -4240,7 +4402,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 15,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 85,
     "speed": 100,
     "material": [ "flesh" ],
@@ -4259,7 +4422,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES" ]
+    "flags": [ "SEES", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_shady",
@@ -4270,7 +4433,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 80,
     "speed": 70,
     "material": [ "flesh" ],
@@ -4302,7 +4466,8 @@
       "REVIVES",
       "BONES",
       "PUSH_MON",
-      "NIGHT_INVISIBILITY"
+      "NIGHT_INVISIBILITY",
+      "FILTHY"
     ]
   },
   {
@@ -4313,7 +4478,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 60,
     "speed": 95,
     "material": [ "flesh" ],
@@ -4345,7 +4511,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -4356,7 +4523,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 10,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 75,
     "speed": 110,
     "material": [ "flesh" ],
@@ -4388,7 +4556,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -4400,7 +4569,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 20,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 80,
     "material": [ "flesh" ],
@@ -4433,7 +4603,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -4445,7 +4616,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 90,
     "speed": 85,
     "material": [ "flesh" ],
@@ -4479,7 +4651,8 @@
       "REVIVES",
       "BONES",
       "PUSH_MON",
-      "NOHEAD"
+      "NOHEAD",
+      "FILTHY"
     ]
   },
   {
@@ -4490,7 +4663,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 9,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 70,
     "speed": 95,
     "material": [ "flesh" ],
@@ -4523,7 +4697,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -4534,7 +4709,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 120,
     "speed": 90,
     "material": [ "flesh" ],
@@ -4562,7 +4738,7 @@
     "death_drops": "mon_zombie_survivor_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_swimmer",
@@ -4572,7 +4748,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 10,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 70,
     "speed": 95,
     "material": [ "flesh" ],
@@ -4605,7 +4782,8 @@
       "SWIMS",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -4616,7 +4794,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 6,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 85,
     "speed": 75,
     "material": [ "flesh" ],
@@ -4636,7 +4815,7 @@
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CBM_TECH", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CBM_TECH", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_tough",
@@ -4647,7 +4826,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 100,
     "speed": 85,
     "material": [ "flesh" ],
@@ -4681,7 +4861,8 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES",
-      "PUSH_MON"
+      "PUSH_MON",
+      "FILTHY"
     ]
   },
   {
@@ -4692,7 +4873,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 14,
-    "size": "LARGE",
+    "volume": "92500 ml",
+    "weight": 120000,
     "hp": 210,
     "speed": 140,
     "material": [ "flesh" ],
@@ -4711,7 +4893,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "FAT", "FILTHY" ]
   },
   {
     "id": "mon_zougar",
@@ -4721,7 +4903,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 13,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 65,
     "speed": 126,
     "material": [ "flesh" ],
@@ -4741,7 +4924,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_skeleton_hulk",
@@ -4751,7 +4934,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 50,
-    "size": "HUGE",
+    "volume": "875000 ml",
+    "weight": 200000,
     "hp": 480,
     "speed": 60,
     "material": [ "bone" ],
@@ -4786,7 +4970,8 @@
       "REVIVES",
       "BONES",
       "PUSH_MON",
-      "HARDTOSHOOT"
+      "HARDTOSHOOT",
+      "FILTHY"
     ]
   }
 ]

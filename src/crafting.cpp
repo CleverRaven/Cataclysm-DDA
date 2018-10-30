@@ -26,6 +26,7 @@
 #include "vpart_position.h"
 #include "vehicle.h"
 #include "crafting_gui.h"
+#include "activity_handlers.h"
 
 #include <algorithm> //std::min
 #include <iostream>
@@ -305,7 +306,8 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO" ) ) {
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+                true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 if( is_container_eligible_for_crafting( it, false ) ) {
                     conts.emplace_back( &it );
@@ -458,13 +460,9 @@ static void set_item_inventory( item &newit )
         g->u.inv.assign_empty_invlet( newit, g->u );
         // We might not have space for the item
         if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
-            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                     newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
+            put_into_vehicle_or_drop( g->u, item_drop_reason::too_large, { newit } );
         } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
-                     newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
+            put_into_vehicle_or_drop( g->u, item_drop_reason::too_heavy, { newit } );
         } else {
             newit = g->u.i_add( newit );
             add_msg( m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str() );
@@ -1436,6 +1434,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
     }
 
+    std::list<item> drop_items;
+
     for( const item &newit : components ) {
         const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
         if( dis.difficulty != 0 && !comp_success ) {
@@ -1472,18 +1472,14 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( "CARGO" );
-
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
-        } else if( vp && vp->vehicle().add_item( vp->part_index(), act_item ) ) {
-            // add_item did put the items in the vehicle, nothing further to be done
         } else {
-            // TODO: For items counted by charges, add as much as we can to the vehicle, and
-            // the rest on the ground (see dropping code and @vehicle::add_charges)
-            g->m.add_item_or_charges( pos(), act_item );
+            drop_items.push_back( act_item );
         }
     }
+
+    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items );
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
         if( can_decomp_learn( dis ) ) {

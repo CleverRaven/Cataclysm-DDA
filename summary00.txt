@@ -54,15 +54,15 @@ Infrastructure Add pthread back for sound support
 Balance Made DEX prevent cuts from broken glass more often
 Interface Allow cancelling crafting from component/tool selection menus
 Interface Added MShock Modded Tileset Series 21
-Re-implements snares as mod content
+Mods Re-implements snares as mod content
 Infrastructure Fix is-worn function and remove redundant function
 Mods Arcana mod Added the l-sticks to the martial art overrides
 Infrastructure Changed small strings and long strings into ammunition, allowing them stack
 Infrastructure Moved from melee.json to ammo.json
-Tank Mod: Added military IDs to the military vehicles
-Tank Mod: Edits to bandit bulldozer
-Tank Mod: Edits to Military AFV
-Tank Mod: Altered the range of main guns
+Mods Tank Mod: Added military IDs to the military vehicles
+Mods Tank Mod: Edits to bandit bulldozer
+Mods Tank Mod: Edits to Military AFV
+Mods Tank Mod: Altered the range of main guns
 Bugfixes Fix for flickering in SDL version
 Balance Make farming yield multiples of default charge of a plant item on gather
 Content Added Light stick

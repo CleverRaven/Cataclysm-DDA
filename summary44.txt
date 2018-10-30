@@ -6,10 +6,10 @@ Content Alternative full butchery requirements: fiber mat.
 Bugfixes Fixes for butchery and smoking rack.
 Bugfixes Fixed overlapping menu columns after filtering
 Bugfixes Fix UI string overlapping for high dodge values.
-I18N i18n: add missing translate marker in npctalk.cpp
-I18N i18n: camp_menial_sort_pts translate marker
-I18N i18n: make script extract base camp recipe description
-I18N i18n: more missing translate marker in mission_companion.cpp
+I18N add missing translate marker in npctalk.cpp
+I18N camp_menial_sort_pts translate marker
+I18N make script extract base camp recipe description
+I18N more missing translate marker in mission_companion.cpp
 Bugfixes Electric firestarter would count as a fire source
 Bugfixes Fixed bow dampening
 Build Removing gunmod crash fix (VS compilation)
@@ -50,15 +50,7 @@ Balance obsolete impossible gunmods
 Interface Highlight hints in map ui
 Interface Small QOL change to location sidebar window
 Bugfixes Fix first aid kit json type
-Content Process of adding Whaley's Locations (1 of 9)
-Content Process of adding Whaley's Locations (2 of 9)
-Content Process of adding Whaley's Locations (3 of 9)
-Content Process of adding Whaley's Locations (4 of 9)
-Content Process of adding Whaley's Locations (5 of 9)
-Content Process of adding Whaley's Locations (6 of 9)
-Content Process of adding Whaley's Locations (7 of 9)
-Content Process of adding Whaley's Locations (8 of 9)
-Content Process of adding Whaley's Locations (9 of 9)
+Content Add Whaley's Locations
 Interface Fix unknown command message when exiting from the ESC menu
 Interface Make mining less tedious, part 2
 Content Zoo Keeper profession
