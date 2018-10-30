@@ -11,6 +11,7 @@
 #include "damage.h"
 #include "pathfinding.h"
 #include "mattack_common.h"
+#include "units.h"
 
 #include <bitset>
 #include <string>
@@ -217,6 +218,8 @@ struct mtype {
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
         m_size size;
+        units::volume volume;
+        units::mass weight;
         std::vector<material_id> mat;
         phase_id phase;
         std::set<m_flag> flags;
