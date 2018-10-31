@@ -1290,8 +1290,7 @@ void cata_tiles::process_minimap_cache_updates()
 
     for( auto &mcp : minimap_cache ) {
         if( !mcp.second.update_list.empty() ) {
-            printErrorIf( SDL_SetRenderTarget( renderer.get(), mcp.second.minimap_tex.get() ) != 0,
-                          "SDL_SetRenderTarget failed" );
+            SetRenderTarget( renderer, mcp.second.minimap_tex );
 
             //draw a default dark-colored rectangle over the texture which may have been used previously
             if( !mcp.second.ready ) {
@@ -1484,8 +1483,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
     //update minimap textures
     process_minimap_cache_updates();
     //prepare to copy to intermediate texture
-    printErrorIf( SDL_SetRenderTarget( renderer.get(), main_minimap_tex.get() ) != 0,
-                  "SDL_SetRenderTarget failed" );
+    SetRenderTarget( renderer, main_minimap_tex );
 
     //attempt to draw the submap cache if any of its tiles are exposed in the minimap area
     //the drawn flag prevents it from being drawn more than once
