@@ -1516,15 +1516,13 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             tripoint drawpoint( ( p.x / SEEX ) * SEEX - start_x, ( p.y / SEEY ) * SEEY - start_y, p.z );
             drawrect.x = drawpoint.x * minimap_tile_size.x;
             drawrect.y = drawpoint.y * minimap_tile_size.y;
-            printErrorIf( SDL_RenderCopy( renderer.get(), it->second.minimap_tex.get(), NULL, &drawrect ) != 0,
-                          "SDL_RenderCopy failed" );
+            RenderCopy( renderer, it->second.minimap_tex, nullptr, &drawrect );
         }
     }
     //set display buffer to main screen
     set_displaybuffer_rendertarget();
     //paint intermediate texture to screen
-    printErrorIf( SDL_RenderCopy( renderer.get(), main_minimap_tex.get(), NULL,
-                                  &minimap_clip_rect ) != 0, "SDL_RenderCopy failed" );
+    RenderCopy( renderer, main_minimap_tex, nullptr, &minimap_clip_rect );
 
     //unused submap caches get deleted
     clear_unused_minimap_cache();
