@@ -2161,14 +2161,13 @@ void vehicle::deserialize( JsonIn &jsin )
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
             if( it->needs_processing() ) {
-                active_items.add( it, vp.part().mount );
+                active_items.add( it, vp.mount() );
             }
         }
     }
 
     for( const vpart_reference &vp : get_parts( "TURRET" ) ) {
-        const vehicle_part &turret = vp.part();
-        install_part( turret.mount.x, turret.mount.y, vpart_id( "turret_mount" ), false );
+        install_part( vp.mount().x, vp.mount().y, vpart_id( "turret_mount" ), false );
     }
 
     /* After loading, check if the vehicle is from the old rules and is missing

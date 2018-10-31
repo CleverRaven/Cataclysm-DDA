@@ -73,6 +73,12 @@ class vpart_position
          */
         // Name chosen to match Creature::pos
         tripoint pos() const;
+        /**
+         * Returns the mount point: the point in the vehicles own coordinate system.
+         * This system is independent of movement / rotation.
+         */
+        // @todo change to return tripoint.
+        point mount() const;
 };
 
 /**

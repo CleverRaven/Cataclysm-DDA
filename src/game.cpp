@@ -952,12 +952,11 @@ bool game::start_game()
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
                 for( const vpart_reference &vp : v.v->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
-                    const vehicle_part &pv = vp.part();
                     const tripoint pos = vp.pos();
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : v.v->parts_at_relative( pv.mount, true ) ) {
+                    for( auto sp : v.v->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = v.v->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {

@@ -213,7 +213,7 @@ void vehicle::add_steerable_wheels()
             return;
         }
 
-        if( vp.part().mount.x < axle ) {
+        if( vp.mount().x < axle ) {
             // there is another axle in front of this
             continue;
         }
@@ -222,11 +222,11 @@ void vehicle::add_steerable_wheels()
             vpart_id steerable_id( vp.info().get_id().str() + "_steerable" );
             if( steerable_id.is_valid() ) {
                 // We can convert this.
-                if( vp.part().mount.x != axle ) {
+                if( vp.mount().x != axle ) {
                     // Found a new axle further forward than the
                     // existing one.
                     wheels.clear();
-                    axle = vp.part().mount.x;
+                    axle = vp.mount().x;
                 }
 
                 wheels.push_back( std::make_pair( static_cast<int>( p ), steerable_id ) );
@@ -456,7 +456,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             * the "front" of the vehicle (since the driver's seat is at (0, 0).
             * We'll be generous with the blood, since some may disappear before
             * the player gets a chance to see the vehicle. */
-            if( blood_covered && pt.mount.x > 0 ) {
+            if( blood_covered && vp.mount().x > 0 ) {
                 if( one_in( 3 ) ) {
                     //Loads of blood. (200 = completely red vehicle part)
                     pt.blood = rng( 200, 600 );
@@ -470,15 +470,15 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                 // blood is splattered around (blood_inside_x, blood_inside_y),
                 // coordinates relative to mount point; the center is always a seat
                 if( blood_inside_set ) {
-                    int distSq = std::pow( ( blood_inside_x - pt.mount.x ), 2 ) +
-                                 std::pow( ( blood_inside_y - pt.mount.y ), 2 );
+                    int distSq = std::pow( ( blood_inside_x - vp.mount().x ), 2 ) +
+                                 std::pow( ( blood_inside_y - vp.mount().y ), 2 );
                     if( distSq <= 1 ) {
                         pt.blood = rng( 200, 400 ) - distSq * 100;
                     }
                 } else if( part_flag( p, "SEAT" ) ) {
                     // Set the center of the bloody mess inside
-                    blood_inside_x = pt.mount.x;
-                    blood_inside_y = pt.mount.y;
+                    blood_inside_x = vp.mount().x;
+                    blood_inside_y = vp.mount().y;
                     blood_inside_set = true;
                 }
             }
@@ -1942,7 +1942,7 @@ std::vector<int> vehicle::parts_at_relative( const point &dp,
     if( !use_cache ) {
         std::vector<int> res;
         for( const vpart_reference &vp : get_parts() ) {
-            if( vp.part().mountx == dp && !vp.part().removed ) {
+            if( vp.mount() == dp && !vp.part().removed ) {
                 res.push_back( ( int )vp.part_index() );
             }
         }
@@ -2125,8 +2125,7 @@ std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const
 
 cata::optional<std::string> vpart_position::get_label() const
 {
-    const vehicle_part &part = vehicle().parts[part_index()];
-    const auto it = vehicle().labels.find( label( part.mount.x, part.mount.y ) );
+    const auto it = vehicle().labels.find( label( mount().x, mount().y ) );
     if( it == vehicle().labels.end() ) {
         return cata::nullopt;
     }
@@ -2140,14 +2139,13 @@ cata::optional<std::string> vpart_position::get_label() const
 void vpart_position::set_label( const std::string &text ) const
 {
     auto &labels = vehicle().labels;
-    const vehicle_part &part = vehicle().parts[part_index()];
-    const auto it = labels.find( label( part.mount.x, part.mount.y ) );
+    const auto it = labels.find( label( mount().x, mount().y ) );
     //@todo empty text should remove the label instead of just storing an empty string, see get_label
     if( it == labels.end() ) {
-        labels.insert( label( part.mount.x, part.mount.y, text ) );
+        labels.insert( label( mount().x, mount().y, text ) );
     } else {
         // labels should really be a map
-        labels.insert( labels.erase( it ), label( part.mount.x, part.mount.y, text ) );
+        labels.insert( labels.erase( it ), label( mount().x, mount().y, text ) );
     }
 }
 
@@ -2268,10 +2266,10 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
             vp.info().get_id() != part_id )  {
             continue;
         }
-        if( vp.part().mount.x == target.x ) {
+        if( vp.mount().x == target.x ) {
             x_parts.push_back( vp.part_index() );
         }
-        if( vp.part().mount.y == target.y ) {
+        if( vp.mount().y == target.y ) {
             y_parts.push_back( vp.part_index() );
         }
     }
@@ -2384,7 +2382,7 @@ int vehicle::index_of_part( const vehicle_part *const part, bool const check_rem
             if( !check_removed && next_part.removed ) {
                 continue;
             }
-            if( part->id == next_part.id && part->mount == next_part.mount ) {
+            if( part->id == next_part.id && part->mount == vp.mount() ) {
                 return vp.part_index();
             }
         }
@@ -3961,7 +3959,7 @@ void vehicle::refresh()
             extra_drag += vpi.power;
         }
         // Build map of point -> all parts in that point
-        const point pt = vp.part().mount;
+        const point pt = vp.mount();
         // This will keep the parts at point pt sorted
         vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), static_cast<int>( p ),
                                 svpv );
@@ -4141,7 +4139,7 @@ void vehicle::refresh_insides()
         for( int i = 0; i < 4; i++ ) { // let's check four neighbor parts
             int ndx = i < 2 ? ( i == 0 ? -1 : 1 ) : 0;
             int ndy = i < 2 ? 0 : ( i == 2 ? - 1 : 1 );
-            std::vector<int> parts_n3ar = parts_at_relative( vp.part().mount +
+            std::vector<int> parts_n3ar = parts_at_relative( vp.mount() +
                                           point( ndx, ndy ), true );
             bool cover = false; // if we aren't covered from sides, the roof at p won't save us
             for( auto &j : parts_n3ar ) {
@@ -4276,7 +4274,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
 
     for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
-        int distance = 1 + square_dist( vp.part().mount.x, vp.part().mount.y, impact.x, impact.y );
+        int distance = 1 + square_dist( vp.mount().x, vp.mount().y, impact.x, impact.y );
         if( distance > 1 && part_info( p ).location == part_location_structure &&
             !part_info( p ).has_flag( "PROTRUSION" ) ) {
             damage_direct( p, rng( dmg1, dmg2 ) / ( distance * distance ), type );
@@ -4329,7 +4327,7 @@ bool vehicle::shift_if_needed()
         if( vp.info().location == "structure"
             && !vp.info().has_flag( "PROTRUSION" )
             && !vp.part().removed ) {
-            shift_parts( vp.part().mount );
+            shift_parts( vp.mount() );
             refresh();
             return true;
         }
@@ -4337,7 +4335,7 @@ bool vehicle::shift_if_needed()
     // There are only parts with PROTRUSION left, choose one of them.
     for( const vpart_reference &vp : get_parts() ) {
         if( !vp.part().removed ) {
-            shift_parts( vp.part().mount );
+            shift_parts( vp.mount() );
             refresh();
             return true;
         }
@@ -4571,6 +4569,11 @@ const vpart_info &vpart_reference::info() const
     return part().info();
 }
 
+point vpart_position::mount() const
+{
+    return vehicle().parts[part_index()].mount;
+}
+
 tripoint vpart_position::pos() const
 {
     return vehicle().global_part_pos3( part_index() );
@@ -4741,8 +4744,8 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             xf += vp.part().precalc[0].x * m_part;
             yf += vp.part().precalc[0].y * m_part;
         } else {
-            xf += vp.part().mount.x * m_part;
-            yf += vp.part().mount.y * m_part;
+            xf += vp.mount().x * m_part;
+            yf += vp.mount().y * m_part;
         }
 
         m_total += m_part;

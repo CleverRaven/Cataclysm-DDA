@@ -640,7 +640,7 @@ void npc::execute_action( npc_action action )
             // This is mount point, not actual position
             point last_dest( INT_MIN, INT_MIN );
             if( !path.empty() && veh_pointer_or_null( g->m.veh_at( path[path.size() - 1] ) ) == veh ) {
-                last_dest = vp.part().mount;
+                last_dest = vp->mount();
             }
 
             // Prioritize last found path, then seats
@@ -666,7 +666,7 @@ void npc::execute_action( npc_action action )
 
                 int priority = 0;
 
-                if( pt.mount == last_dest ) {
+                if( vp.mount() == last_dest ) {
                     // Shares mount point with last known path
                     // We probably wanted to go there in the last turn
                     priority = 4;
