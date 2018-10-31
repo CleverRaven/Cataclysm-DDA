@@ -194,10 +194,10 @@ enum object_type {
 struct point {
     int x = 0;
     int y = 0;
-    point() = default;
-    point( int X, int Y ) : x( X ), y( Y ) {}
+    constexpr point() = default;
+    constexpr point( int X, int Y ) : x( X ), y( Y ) {}
 
-    point operator+( const point &rhs ) const {
+    constexpr point operator+( const point &rhs ) const {
         return point( x + rhs.x, y + rhs.y );
     }
     point &operator+=( const point &rhs ) {
@@ -205,7 +205,7 @@ struct point {
         y += rhs.y;
         return *this;
     }
-    point operator-( const point &rhs ) const {
+    constexpr point operator-( const point &rhs ) const {
         return point( x - rhs.x, y - rhs.y );
     }
     point &operator-=( const point &rhs ) {
@@ -231,15 +231,15 @@ struct hash<point> {
 };
 }
 
-inline bool operator<( const point &a, const point &b )
+inline constexpr bool operator<( const point &a, const point &b )
 {
     return a.x < b.x || ( a.x == b.x && a.y < b.y );
 }
-inline bool operator==( const point &a, const point &b )
+inline constexpr bool operator==( const point &a, const point &b )
 {
     return a.x == b.x && a.y == b.y;
 }
-inline bool operator!=( const point &a, const point &b )
+inline constexpr bool operator!=( const point &a, const point &b )
 {
     return !( a == b );
 }
