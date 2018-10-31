@@ -40,5 +40,28 @@
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
     "no_dmg_msg_u": "The %1$s tries to claw at you, but fails to.",
     "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "briefcase_smash",
+    "cooldown": 20,
+    "move_cost": 150,
+    "damage_max_instance": [
+      {
+        "damage_type": "bash",
+        "amount": 15,
+        "armor_penetration": 0,
+        "armor_multiplier": 0.5
+      }
+    ],
+    "body_parts": [ [ "TORSO", 1 ] ],
+    "effects": [
+      { "id": "downed", "duration": 3 }
+    ],
+    "hit_dmg_u": "The %1$s smashes you in the chest with the briefcase!",
+    "hit_dmg_npc": "The %1$s smashes <npcname> down with a briefcase!",
+    "no_dmg_msg_u": "The %1$s tries to smash you with the briefcase, but you withstand the blows!",
+    "no_dmg_msg_npc": "The %1$s tries to smash <npcname> down using its briefcase, but fails to do so!"
   }
 ]

@@ -223,6 +223,49 @@
     {
         "type" : "item_group",
         "subtype": "collection",
+        "//": "tie with a chance for a tie clip, not all CEO's wear ties",
+        "id": "ceo_tie",
+        "entries":
+        [
+            { "item": "skinny_tie" },
+            { "item": "tieclip", "prob" : 25 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "distribution",
+        "//": "Storytelling through objects, for some reason these CEO's killed themselves using these objects. (canister -> blob). Why they did this? nobody knows.",
+        "id": "ceo_items",
+        "entries":
+        [
+            { "item": "coke", "charges-min": 1, "charges-max": 15, "prob": 10},
+            { "item": "bag_plastic", "prob": 5},
+            { "item": "syringe", "prob": 5},
+            { "item": "canister_empty", "prob": 2},
+            { "item": "bottle_plastic_small", "prob": 20}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_ceo_zombie_death_drops",
+        "//": "CEO drop list, sadly there is no pantsuit to represent female CEO's, yet.",
+        "entries":
+        [
+            { "item": "briefcase", "damage": [2, 4] },
+            { "item": "suit", "damage": [0, 2] },
+            { "item": "tophat", "damage": [1, 4], "prob": 5 },
+            { "group": "underwear", "damage": [1, 4] },
+            { "group": "shoes", "damage": [1, 4] },
+            { "group": "ceo_tie", "damage": [1, 4], "prob": 75 },
+            { "group": "ceo_items", "prob": 30 },
+            { "item": "cash_card", "charges-min": 2000, "charges-max": 100000 },
+            { "item": "money_bundle", "count": [5, 50], "prob": 25 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
         "id": "mon_zombie_survivor_elite_death_drops",
         "entries":
         [
