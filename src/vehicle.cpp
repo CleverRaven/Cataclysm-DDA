@@ -177,7 +177,7 @@ void vehicle::add_missing_frames()
         std::pair<int, int> mount_location = std::make_pair( next_x, next_y );
 
         if( locations_checked.count( mount_location ) == 0 ) {
-            std::vector<int> parts_here = parts_at_relative( next_x, next_y, false );
+            std::vector<int> parts_here = parts_at_relative( point( next_x, next_y ), false );
             bool found = false;
             for( auto &elem : parts_here ) {
                 if( part_info( elem ).location == part_location_structure ) {
@@ -521,7 +521,7 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
             continue;
         }
 
-        std::vector<int> parts_in_square = parts_at_relative( part.mount.x, part.mount.y, true );
+        std::vector<int> parts_in_square = parts_at_relative( part.mount, true );
         int structures_found = 0;
         for( auto &square_part_index : parts_in_square ) {
             if( part_info( square_part_index ).location == part_location_structure ) {
@@ -560,7 +560,7 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
         if( part.removed ) {
             continue;
         }
-        std::vector<int> parts_here = parts_at_relative( part.mount.x, part.mount.y, true );
+        std::vector<int> parts_here = parts_at_relative( part.mount, true );
         for( int other_i = static_cast<int>( parts_here.size() ) - 1; other_i >= 0; other_i -- ) {
             int other_p = parts_here[ other_i ];
             if( p == other_p ) {
@@ -774,7 +774,7 @@ int vehicle::power_to_epower( int const power )
 
 bool vehicle::has_structural_part( int const dx, int const dy ) const
 {
-    std::vector<int> parts_here = parts_at_relative( dx, dy, false );
+    std::vector<int> parts_here = parts_at_relative( point( dx, dy ), false );
 
     for( auto &elem : parts_here ) {
         if( part_info( elem ).location == part_location_structure &&
@@ -820,7 +820,7 @@ bool vehicle::can_mount( int const dx, int const dy, const vpart_id &id ) const
         return false;
     }
 
-    const std::vector<int> parts_in_square = parts_at_relative( dx, dy, false );
+    const std::vector<int> parts_in_square = parts_at_relative( point( dx, dy ), false );
 
     //First part in an empty square MUST be a structural part
     if( parts_in_square.empty() && part.location != part_location_structure ) {
@@ -1081,7 +1081,7 @@ bool vehicle::can_unmount( int const p, std::string &reason ) const
     //Structural parts have extra requirements
     if( part_info( p ).location == part_location_structure ) {
 
-        std::vector<int> parts_in_square = parts_at_relative( dx, dy, false );
+        std::vector<int> parts_in_square = parts_at_relative( point( dx, dy ), false );
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
         for( auto &elem : parts_in_square ) {
@@ -1106,7 +1106,7 @@ bool vehicle::can_unmount( int const p, std::string &reason ) const
             for( int i = 0; i < 4; i++ ) {
                 int next_x = i < 2 ? ( i == 0 ? -1 : 1 ) : 0;
                 int next_y = i < 2 ? 0 : ( i == 2 ? -1 : 1 );
-                std::vector<int> parts_over_there = parts_at_relative( dx + next_x, dy + next_y, false );
+                std::vector<int> parts_over_there = parts_at_relative( point( dx + next_x, dy + next_y ), false );
                 //Ignore empty squares
                 if( !parts_over_there.empty() ) {
                     //Just need one part from the square to track the x/y
@@ -1179,7 +1179,7 @@ bool vehicle::is_connected( vehicle_part const &to, vehicle_part const &from,
                 continue;
             }
 
-            std::vector<int> parts_there = parts_at_relative( next.x, next.y, true );
+            std::vector<int> parts_there = parts_at_relative( next, true );
 
             if( !parts_there.empty() && !parts[ parts_there[ 0 ] ].removed &&
                 part_info( parts_there[ 0 ] ).location == "structure" &&
@@ -1372,7 +1372,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             if( j < 4 ) {
                 mapping carry_map;
                 point old_mount = carry_veh->parts[ carry_part ].mount;
-                carry_map.carry_parts_here = carry_veh->parts_at_relative( old_mount.x, old_mount.y, true );
+                carry_map.carry_parts_here = carry_veh->parts_at_relative( old_mount, true );
                 carry_map.rack_part = rack_part;
                 carry_map.carry_mount = carry_mount;
                 carry_map.old_mount = old_mount;
@@ -1532,7 +1532,7 @@ bool vehicle::remove_part( int p )
     const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
     // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
     if( no_label || grab_found ) {
-        if( parts_at_relative( vp_mount.x, vp_mount.y, false ).empty() ) {
+        if( parts_at_relative( vp_mount, false ).empty() ) {
             if( no_label ) {
                 labels.erase( iter );
             }
@@ -1700,8 +1700,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
         };
 
         std::vector<int> veh_parts;
-        push_neighbor( test_part, parts_at_relative( parts[ test_part ].mount.x,
-                       parts[ test_part ].mount.y, true ) );
+        push_neighbor( test_part, parts_at_relative( parts[ test_part ].mount, true ) );
         while( !search_queue.empty() ) {
             std::pair<int, std::vector<int>> test_set = pop_neighbor();
             test_part = test_set.first;
@@ -1715,7 +1714,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
             for( size_t i = 0; i < 4; i++ ) {
                 int dx = parts[ test_part ].mount.x + vehicles::cardinal_d[ i ].x;
                 int dy = parts[ test_part ].mount.y + vehicles::cardinal_d[ i ].y;
-                std::vector<int> all_neighbor_parts = parts_at_relative( dx, dy, true );
+                std::vector<int> all_neighbor_parts = parts_at_relative( point( dx, dy ), true );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
                     if( parts[ p ].removed ) {
@@ -1937,19 +1936,19 @@ void vehicle::break_part_into_pieces( int p, int x, int y, bool scatter )
     }
 }
 
-std::vector<int> vehicle::parts_at_relative( const int dx, const int dy,
+std::vector<int> vehicle::parts_at_relative( const point &dp,
         bool const use_cache ) const
 {
     if( !use_cache ) {
         std::vector<int> res;
         for( const vpart_reference &vp : get_parts() ) {
-            if( vp.part().mount.x == dx && vp.part().mount.y == dy && !vp.part().removed ) {
+            if( vp.part().mountx == dp && !vp.part().removed ) {
                 res.push_back( ( int )vp.part_index() );
             }
         }
         return res;
     } else {
-        const auto &iter = relative_parts.find( point( dx, dy ) );
+        const auto &iter = relative_parts.find( dp );
         if( iter != relative_parts.end() ) {
             return iter->second;
         } else {
@@ -2035,7 +2034,7 @@ int vehicle::part_with_feature( int part, const std::string &flag, bool unbroken
 
 int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
 {
-    std::vector<int> parts_here = parts_at_relative( pt.x, pt.y, false );
+    std::vector<int> parts_here = parts_at_relative( pt, false );
     for( auto &elem : parts_here ) {
         if( part_flag( elem, flag ) && ( !unbroken || !parts[ elem ].is_broken() ) ) {
             return elem;
@@ -2154,7 +2153,7 @@ void vpart_position::set_label( const std::string &text ) const
 
 int vehicle::next_part_to_close( int p, bool outside ) const
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount.x, parts[p].mount.y, true );
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true );
 
     // We want reverse, since we close the outermost thing first (curtains), and then the innermost thing (door)
     for( std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
@@ -2173,7 +2172,7 @@ int vehicle::next_part_to_close( int p, bool outside ) const
 
 int vehicle::next_part_to_open( int p, bool outside ) const
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount.x, parts[p].mount.y, true );
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true );
 
     // We want forwards, since we open the innermost thing first (curtains), and then the innermost thing (door)
     for( auto &elem : parts_here ) {
@@ -2409,7 +2408,7 @@ int vehicle::part_displayed_at( int const local_x, int const local_y ) const
     // it's clear where the magic number comes from.
     const int ON_ROOF_Z = 9;
 
-    std::vector<int> parts_in_square = parts_at_relative( local_x, local_y, true );
+    std::vector<int> parts_in_square = parts_at_relative( point( local_x, local_y ), true );
 
     if( parts_in_square.empty() ) {
         return -1;
@@ -2445,8 +2444,7 @@ int vehicle::part_displayed_at( int const local_x, int const local_y ) const
 
 int vehicle::roof_at_part( const int part ) const
 {
-    std::vector<int> parts_in_square = parts_at_relative( parts[part].mount.x, parts[part].mount.y,
-                                       true );
+    std::vector<int> parts_in_square = parts_at_relative( parts[part].mount, true );
     for( const int p : parts_in_square ) {
         if( part_info( p ).location == "on_roof" || part_flag( p, "ROOF" ) ) {
             return p;
@@ -4143,8 +4141,8 @@ void vehicle::refresh_insides()
         for( int i = 0; i < 4; i++ ) { // let's check four neighbor parts
             int ndx = i < 2 ? ( i == 0 ? -1 : 1 ) : 0;
             int ndy = i < 2 ? 0 : ( i == 2 ? - 1 : 1 );
-            std::vector<int> parts_n3ar = parts_at_relative( vp.part().mount.x + ndx,
-                                          vp.part().mount.y + ndy, true );
+            std::vector<int> parts_n3ar = parts_at_relative( vp.part().mount +
+                                          point( ndx, ndy ), true );
             bool cover = false; // if we aren't covered from sides, the roof at p won't save us
             for( auto &j : parts_n3ar ) {
                 // another roof -- cover
@@ -4193,7 +4191,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         return dmg;
     }
 
-    std::vector<int> pl = parts_at_relative( parts[p].mount.x, parts[p].mount.y, true );
+    std::vector<int> pl = parts_at_relative( parts[p].mount, true );
     if( pl.empty() ) {
         // We ran out of non removed parts at this location already.
         return dmg;
@@ -4321,7 +4319,7 @@ void vehicle::shift_parts( const point delta )
  */
 bool vehicle::shift_if_needed()
 {
-    std::vector<int> vehicle_origin = parts_at_relative( 0, 0, true );
+    std::vector<int> vehicle_origin = parts_at_relative( point( 0, 0 ), true );
     if( !vehicle_origin.empty() && !parts[ vehicle_origin[ 0 ] ].removed ) {
         // Shifting is not needed.
         return false;
@@ -4359,7 +4357,7 @@ int vehicle::break_off( int p, int dmg )
     const tripoint pos = global_part_pos3( p );
     if( part_info( p ).location == part_location_structure ) {
         // For structural parts, remove other parts first
-        std::vector<int> parts_in_square = parts_at_relative( parts[p].mount.x, parts[p].mount.y, true );
+        std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, true );
         for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
             // Ignore the frame being destroyed
             if( parts_in_square[index] == p ) {
