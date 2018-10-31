@@ -1031,7 +1031,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
         SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-        printErrorIf( SDL_RenderFillRect( renderer.get(), &clipRect ) != 0, "SDL_RenderFillRect failed" );
+        RenderFillRect( renderer, &clipRect );
     }
 
     int posx = center.x;
@@ -1313,7 +1313,7 @@ void cata_tiles::process_minimap_cache_updates()
                     rectangle.x = p.x * minimap_tile_size.x;
                     rectangle.y = p.y * minimap_tile_size.y;
 
-                    printErrorIf( SDL_RenderFillRect( renderer.get(), &rectangle ) != 0, "SDL_RenderFillRect failed" );
+                    RenderFillRect( renderer, &rectangle );
                 }
             }
             mcp.second.update_list.clear();
@@ -2216,7 +2216,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         belowRect.y += tile_height / 8;
     }
     SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 );
-    printErrorIf( SDL_RenderFillRect( renderer.get(), &belowRect ) != 0, "SDL_RenderFillRect failed" );
+    RenderFillRect( renderer, &belowRect );
 
     return true;
 }
