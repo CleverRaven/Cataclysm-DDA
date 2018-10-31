@@ -47,15 +47,15 @@ Interface Keep new item's invlet if original stack does not have one
 Infrastructure Low hanging astyling, the return of the revenge.
 Interface Alert about book required intelligence when needed
 Bugfixes Small changes in AIM
-I128 Translate missed message
-I128 Don't translate terrain/furniture names upon loading
+I18N Translate missed message
+I18N Don't translate terrain/furniture names upon loading
 Infrastructure Remove game::mon_at
 Build Some small code enhancements for SDL builds
-I18n Translate mission monster names in mission_start.cpp
+I18N Translate mission monster names in mission_start.cpp
 Balance Change chunk of chitin category
 Infrastructure Turn some more recipes to use requirement system
 Infrastructure Allow toilet water source to be reported to the crafting action when the toilet is emptied by the crafting action
-I128 Pgettext "Shot" as damage
+I18N Pgettext "Shot" as damage
 Mods Add reloaded 7.62x25 to No Antique Firearms mod blacklist
 Infrastructure Don't use "ammo_bullet" components when uncrafting ammo
 Interface Recipe learned message fix when dissassembling
