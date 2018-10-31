@@ -388,9 +388,8 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, surf->w / sprite_width,
                                             surf->h / sprite_height );
 
-    const std::shared_ptr<SDL_Texture> texture_ptr( SDL_CreateTextureFromSurface( renderer.get(),
-            surf.get() ), &SDL_DestroyTexture );
-    throwErrorIf( !texture_ptr, "SDL_CreateTextureFromSurface failed" );
+    const std::shared_ptr<SDL_Texture> texture_ptr = CreateTextureFromSurface( renderer, surf );
+    assert( texture_ptr );
 
     for( const SDL_Rect rect : input_range ) {
         assert( offset.x % sprite_width == 0 );
@@ -2598,9 +2597,7 @@ void tileset_loader::ensure_default_item_highlight()
     assert( surface );
     throwErrorIf( SDL_FillRect( surface.get(), NULL, SDL_MapRGBA( surface->format, 0, 0, 127,
                                 highlight_alpha ) ) != 0, "SDL_FillRect failed" );
-    SDL_Texture_Ptr texture( SDL_CreateTextureFromSurface( renderer.get(), surface.get() ) );
-    throwErrorIf( !texture, "Failed to create texture for default item highlight" );
-    ts.tile_values.emplace_back( std::move( texture ), SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
+    ts.tile_values.emplace_back( CreateTextureFromSurface( renderer, surface ), SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
     ts.tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {index} ), 1 );
 }
 
