@@ -824,9 +824,8 @@ void vehicle::honk_horn()
     bool honked = false;
 
     for( const vpart_reference &vp : get_parts( "HORN" ) ) {
-        const size_t p = vp.part_index();
         //Only bicycle horn doesn't need electricity to work
-        const vpart_info &horn_type = part_info( p );
+        const vpart_info &horn_type = vp.info();
         if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
             continue;
         }
@@ -835,7 +834,7 @@ void vehicle::honk_horn()
             honked = true;
         }
         //Get global position of horn
-        const auto horn_pos = global_part_pos3( p );
+        const auto horn_pos = global_part_pos3( vp.part_index() );
         //Determine sound
         if( horn_type.bonus >= 110 ) {
             //~ Loud horn sound
@@ -869,9 +868,8 @@ void vehicle::beeper_sound()
             continue;
         }
 
-        const vpart_info &beeper_type = part_info( p );
         //~ Beeper sound
-        sounds::sound( global_part_pos3( p ), beeper_type.bonus, _( "beep!" ) );
+        sounds::sound( global_part_pos3( p ), vp.info().bonus, _( "beep!" ) );
     }
 }
 
@@ -931,9 +929,9 @@ void vehicle::operate_reaper()
     for( const vpart_reference &vp : get_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = global_part_pos3( reaper_id );
-        const int plant_produced =  rng( 1, vp.part().info().bonus );
+        const int plant_produced =  rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
-        const units::volume max_pickup_volume = vp.part().info().size / 20;
+        const units::volume max_pickup_volume = vp.info().size / 20;
         if( g->m.furn( reaper_pos ) != f_plant_harvest ||
             !g->m.has_items( reaper_pos ) ) {
             continue;
@@ -1006,7 +1004,7 @@ void vehicle::operate_scoop()
     for( const vpart_reference &vp : get_parts( "SCOOP" ) ) {
         const size_t scoop = vp.part_index();
         const int chance_to_damage_item = 9;
-        const units::volume max_pickup_volume = vp.part().info().size / 10;
+        const units::volume max_pickup_volume = vp.info().size / 10;
         const std::array<std::string, 4> sound_msgs = {{
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }

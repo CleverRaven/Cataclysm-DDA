@@ -961,10 +961,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         const tripoint mirror_pos = veh->global_part_pos3( midx );
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
-        if( !veh->part_info( midx ).has_flag( "CAMERA" ) &&
+        if( !vp.info().has_flag( "CAMERA" ) &&
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
-        } else if( !veh->part_info( midx ).has_flag( "CAMERA_CONTROL" ) ) {
+        } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( midx );
         } else {
             if( origin == mirror_pos && veh->camera_on ) {

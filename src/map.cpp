@@ -1137,7 +1137,7 @@ std::string map::disp_name( const tripoint &p )
 std::string map::obstacle_name( const tripoint &p )
 {
     if( const cata::optional<vpart_reference> vp = veh_at( p ).obstacle_at_part() ) {
-        return vp->part().info().name();
+        return vp->info().name();
     }
     return name( p );
 }

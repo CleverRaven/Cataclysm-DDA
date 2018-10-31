@@ -6,6 +6,7 @@
 
 class vehicle;
 struct vehicle_part;
+class vpart_info;
 
 /**
  * This is a wrapper over a vehicle pointer and a reference to a part of it.
@@ -27,6 +28,8 @@ class vpart_reference : public vpart_position
 
         /// Yields the \ref vehicle_part object referenced by this. @see vehicle::parts
         vehicle_part &part() const;
+        /// See @ref vehicle_part::info
+        const vpart_info &info() const;
 };
 
 #endif
