@@ -862,9 +862,8 @@ void vehicle::beeper_sound()
 
     const bool odd_turn = calendar::once_every( 2_turns );
     for( const vpart_reference &vp : get_parts( "BEEPER" ) ) {
-        const size_t p = vp.part_index();
-        if( ( odd_turn && part_flag( p, VPFLAG_EVENTURN ) ) ||
-            ( !odd_turn && part_flag( p, VPFLAG_ODDTURN ) ) ) {
+        if( ( odd_turn && vp.has_feature( VPFLAG_EVENTURN ) ) ||
+            ( !odd_turn && vp.has_feature( VPFLAG_ODDTURN ) ) ) {
             continue;
         }
 
@@ -947,7 +946,7 @@ void vehicle::operate_reaper()
             g->m.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), _( "Swish" ) );
-        if( part_flag( reaper_id, "CARGO" ) ) {
+        if( vp.has_feature( "CARGO" ) ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
                 if( ( iter->volume() <= max_pickup_volume ) &&
@@ -970,7 +969,7 @@ void vehicle::operate_planter()
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( g->m.ter( loc ) != t_dirtmound && part_flag( planter_id,  "ADVANCED_PLANTER" ) ) {
+                if( g->m.ter( loc ) != t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
                 } else if( g->m.ter( loc ) == t_dirtmound ) {

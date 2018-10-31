@@ -1964,7 +1964,7 @@ void npc::find_item()
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
-        if( !cargo || cargo->vehicle().part_flag( cargo->part_index(), locked_string ) ) {
+        if( !cargo || cargo->has_feature( locked_string ) ) {
             continue;
         }
 
@@ -2016,7 +2016,7 @@ void npc::pick_up_item()
 
     const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
-    const bool has_cargo = vp && !vp->vehicle().part_flag( vp->part_index(), "LOCKED" );
+    const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||

@@ -366,7 +366,7 @@ void map::generate_lightmap( const int zlev )
             if( !inbounds( pp ) ) {
                 continue;
             }
-            if( v->part_flag( p, VPFLAG_CARGO ) && !v->part_flag( p, "COVERED" ) ) {
+            if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( "COVERED" ) ) {
                 add_light_from_items( pp, v->get_items( p ).begin(), v->get_items( p ).end() );
             }
         }
