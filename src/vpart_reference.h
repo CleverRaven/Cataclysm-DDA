@@ -5,6 +5,7 @@
 #include "vpart_position.h"
 
 class vehicle;
+struct vehicle_part;
 
 /**
  * This is a wrapper over a vehicle pointer and a reference to a part of it.
@@ -23,6 +24,9 @@ class vpart_reference : public vpart_position
         vpart_reference( const vpart_reference & ) = default;
 
         using vpart_position::vehicle;
+
+        /// Yields the \ref vehicle_part object referenced by this. @see vehicle::parts
+        vehicle_part &part() const;
 };
 
 #endif

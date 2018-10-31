@@ -467,7 +467,7 @@ task_reason veh_interact::cant_do (char mode)
     case 's': // siphon mode
         valid_target = false;
         for( const vpart_reference &vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
-            if( veh->parts[vp.part_index()].base.contents_made_of( LIQUID ) ) {
+            if( vp.part().base.contents_made_of( LIQUID ) ) {
                 valid_target = true;
                 break;
             }
@@ -548,8 +548,7 @@ bool veh_interact::can_self_jack()
     int lvl = jack_quality( *veh );
 
     for( const vpart_reference &vp : veh->get_parts( "SELF_JACK" ) ) {
-        const vehicle_part *const jack = &vp.vehicle().parts[vp.part_index()];
-        if( jack->base.has_quality( SELF_JACK, lvl ) ) {
+        if( vp.part().base.has_quality( SELF_JACK, lvl ) ) {
             return true;
         }
     }
@@ -2449,7 +2448,7 @@ void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     for( const vpart_reference &vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
-        if( veh->parts[vp.part_index()].get_base().contents_made_of( LIQUID ) ) {
+        if( vp.part().get_base().contents_made_of( LIQUID ) ) {
             has_liquid = true;
             break;
         }

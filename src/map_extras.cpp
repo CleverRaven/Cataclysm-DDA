@@ -137,8 +137,8 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 2:
             case 3: // Full clown car
                 for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_SEATBELT ) ) {
-                    const vehicle_part *const p = &vp.vehicle().parts[vp.part_index()];
-                    const auto pos = wreckage->global_part_pos3( *p );
+                    const vehicle_part &p = vp.part();
+                    const auto pos = wreckage->global_part_pos3( p );
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0 ||
                         wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
@@ -154,7 +154,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y, true ) ) {
+                    for( auto sp : wreckage->parts_at_relative( p.mount.x, p.mount.y, true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -166,8 +166,8 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 4:
             case 5: // 2/3rds clown car
                 for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_SEATBELT ) ) {
-                    const vehicle_part *const p = &vp.vehicle().parts[vp.part_index()];
-                    auto pos = wreckage->global_part_pos3( *p );
+                    const vehicle_part &p = vp.part();
+                    auto pos = wreckage->global_part_pos3( p );
                     // Spawn pilots in seats with controls.
                     if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
                         wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
@@ -179,7 +179,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y, true ) ) {
+                    for( auto sp : wreckage->parts_at_relative( p.mount.x, p.mount.y, true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -190,12 +190,12 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 break;
             case 6: // Just pilots
                 for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
-                    const vehicle_part *const p = &vp.vehicle().parts[vp.part_index()];
-                    auto pos = wreckage->global_part_pos3( *p );
+                    const vehicle_part &p = vp.part();
+                    auto pos = wreckage->global_part_pos3( p );
                     m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y, true ) ) {
+                    for( auto sp : wreckage->parts_at_relative( p.mount.x, p.mount.y, true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {

@@ -56,7 +56,7 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;
     for( const vpart_reference vp : v.get_parts() ) {
-        auto &pt = v.parts[ vp.part_index() ];
+        vehicle_part &pt = vp.part();
         if( pt.is_engine() ) {
             actually_used.insert( pt.info().fuel_type );
             pt.enabled = true;
@@ -83,7 +83,7 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
     // Batteries are special cased because they aren't liquid fuel
     std::map<itype_id, long> ret;
     for( const vpart_reference vp : v.get_parts() ) {
-        auto &pt = v.parts[ vp.part_index() ];
+        vehicle_part &pt = vp.part();
 
         if( pt.is_battery() ) {
             pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult );
@@ -118,7 +118,7 @@ float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_
     std::map<itype_id, long> fuel_amount;
     std::set<itype_id> consumed_fuels;
     for( const vpart_reference vp : v.get_parts() ) {
-        auto &pt = v.parts[ vp.part_index() ];
+        vehicle_part &pt = vp.part();
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
             pt.ammo_current() != "null" ) {

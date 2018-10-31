@@ -90,13 +90,13 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
 
     // determine target state - currently parts of similar type are all switched concurrently
     bool state = std::none_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
-        return vp.vehicle().parts[vp.part_index()].enabled;
+        return vp.part().enabled;
     } );
 
     // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
     if( state ) {
         allow = std::any_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
-            return vp.vehicle().can_enable( vp.vehicle().parts[vp.part_index()] );
+            return vp.vehicle().can_enable( vp.part() );
         } );
     }
 
@@ -106,10 +106,10 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
     actions.push_back( [ = ] {
         for( const vpart_reference &vp : found )
         {
-            vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
-            if( e->enabled != state ) {
-                add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
-                e->enabled = state;
+            vehicle_part &e = vp.part();
+            if( e.enabled != state ) {
+                add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e.name().c_str() );
+                e.enabled = state;
             }
         }
         refresh();
@@ -131,7 +131,7 @@ void vehicle::control_doors()
     pmenu.title = _( "Select door to toggle" );
     for( const vpart_reference &vp : door_motors ) {
         const size_t p = vp.part_index();
-        if( parts[ p ].is_unavailable() ) {
+        if( vp.part().is_unavailable() ) {
             continue;
         }
         const std::array<int, 2> doors = { { next_part_to_open( p ), next_part_to_close( p ) } };
@@ -878,8 +878,7 @@ void vehicle::beeper_sound()
 void vehicle::play_music()
 {
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        const vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
-        iuse::play_music( g->u, global_part_pos3( *e ), 15, 30 );
+        iuse::play_music( g->u, global_part_pos3( vp.part() ), 15, 30 );
     }
 }
 
@@ -890,8 +889,8 @@ void vehicle::play_chimes()
     }
 
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
-        const vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
-        sounds::sound( global_part_pos3( *e ), 40, _( "a simple melody blaring from the loudspeakers." ) );
+        sounds::sound( global_part_pos3( vp.part() ), 40,
+                       _( "a simple melody blaring from the loudspeakers." ) );
     }
 }
 
@@ -932,9 +931,9 @@ void vehicle::operate_reaper()
     for( const vpart_reference &vp : get_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = global_part_pos3( reaper_id );
-        const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
+        const int plant_produced =  rng( 1, vp.part().info().bonus );
         const int seed_produced = rng( 1, 3 );
-        const units::volume max_pickup_volume = parts[ reaper_id ].info().size / 20;
+        const units::volume max_pickup_volume = vp.part().info().size / 20;
         if( g->m.furn( reaper_pos ) != f_plant_harvest ||
             !g->m.has_items( reaper_pos ) ) {
             continue;
@@ -1007,7 +1006,7 @@ void vehicle::operate_scoop()
     for( const vpart_reference &vp : get_parts( "SCOOP" ) ) {
         const size_t scoop = vp.part_index();
         const int chance_to_damage_item = 9;
-        const units::volume max_pickup_volume = parts[scoop].info().size / 10;
+        const units::volume max_pickup_volume = vp.part().info().size / 10;
         const std::array<std::string, 4> sound_msgs = {{
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
@@ -1143,18 +1142,18 @@ void vehicle::open_or_close( int const part_index, bool const opening )
      * Openable parts, and stops trunks from opening side doors and the like. */
     for( const vpart_reference &vp : get_parts() ) {
         const size_t next_index = vp.part_index();
-        if( parts[next_index].removed ) {
+        if( vp.part().removed ) {
             continue;
         }
 
         //Look for parts 1 square off in any cardinal direction
-        const int dx = parts[next_index].mount.x - parts[part_index].mount.x;
-        const int dy = parts[next_index].mount.y - parts[part_index].mount.y;
+        const int dx = vp.part().mount.x - vp.part().mount.x;
+        const int dy = vp.part().mount.y - vp.part().mount.y;
         const int delta = dx * dx + dy * dy;
 
         const bool is_near = ( delta == 1 );
         const bool is_id = part_info( next_index ).get_id() == part_info( part_index ).get_id();
-        const bool do_next = !!parts[next_index].open ^ opening;
+        const bool do_next = !!vp.part().open ^ opening;
 
         if( is_near && is_id && do_next ) {
             open_or_close( next_index, opening );
