@@ -1030,8 +1030,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                       "SDL_RenderSetClipRect failed" );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        printErrorIf( SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, 255 ) != 0,
-                      "SDL_SetRenderDrawColor failed" );
+        SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         printErrorIf( SDL_RenderFillRect( renderer.get(), &clipRect ) != 0, "SDL_RenderFillRect failed" );
     }
 
@@ -1217,8 +1216,7 @@ void cata_tiles::draw_rhombus( int destx, int desty, int size, SDL_Color color, 
         for( int yOffset = -size + abs( xOffset ); yOffset <= size - abs( xOffset ); yOffset++ ) {
             if( xOffset < widthLimit && yOffset < heightLimit ) {
                 int divisor = 2 * ( abs( yOffset ) == size - abs( xOffset ) ) + 1;
-                printErrorIf( SDL_SetRenderDrawColor( renderer.get(), color.r / divisor, color.g / divisor,
-                                                      color.b / divisor, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
+                SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255 );
                 printErrorIf( SDL_RenderDrawPoint( renderer.get(), destx + xOffset, desty + yOffset ) != 0,
                               "SDL_RenderDrawPoint failed" );
             }
@@ -1298,8 +1296,7 @@ void cata_tiles::process_minimap_cache_updates()
             //draw a default dark-colored rectangle over the texture which may have been used previously
             if( !mcp.second.ready ) {
                 mcp.second.ready = true;
-                printErrorIf( SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, 255 ) != 0,
-                              "SDL_SetRenderDrawColor failed" );
+                SetRenderDrawColor( renderer, 0, 0, 0, 255 );
                 printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderClear failed" );
             }
 
@@ -1307,8 +1304,7 @@ void cata_tiles::process_minimap_cache_updates()
                 const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
                 const SDL_Color c = current_pix.getSdlColor();
 
-                printErrorIf( SDL_SetRenderDrawColor( renderer.get(), c.r, c.g, c.b, c.a ) != 0,
-                              "SDL_SetRenderDrawColor failed" );
+                SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
 
                 if( draw_with_dots ) {
                     printErrorIf( SDL_RenderDrawPoint( renderer.get(), p.x * minimap_tile_size.x,
@@ -2219,8 +2215,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
-    printErrorIf( SDL_SetRenderDrawColor( renderer.get(), tercol.r, tercol.g, tercol.b, 255 ) != 0,
-                  "SDL_SetRenderDrawColor failed" );
+    SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 );
     printErrorIf( SDL_RenderFillRect( renderer.get(), &belowRect ) != 0, "SDL_RenderFillRect failed" );
 
     return true;
