@@ -953,7 +953,7 @@ bool game::start_game()
             if( name.find( search ) != std::string::npos ) {
                 for( const vpart_reference &vp : v.v->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
                     const vehicle_part &pv = vp.part();
-                    auto pos = v.v->global_part_pos3( pv );
+                    const tripoint pos = vp.pos();
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"

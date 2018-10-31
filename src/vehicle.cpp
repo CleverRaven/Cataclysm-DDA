@@ -153,8 +153,7 @@ bool vehicle::remote_controlled( player const &p ) const
     }
 
     for( const vpart_reference &vp : get_parts( "REMOTE_CONTROLS" ) ) {
-        const size_t part = vp.part_index();
-        if( rl_dist( p.pos(), global_part_pos3( part ) ) <= 40 ) {
+        if( rl_dist( p.pos(), vp.pos() ) <= 40 ) {
             return true;
         }
     }
@@ -1755,7 +1754,7 @@ void vehicle::relocate_passengers( const std::vector<player *> &passengers )
     for( player *passenger : passengers ) {
         for( const vpart_reference &vp : boardables ) {
             if( vp.part().passenger_id == passenger->getID() ) {
-                passenger->setpos( global_part_pos3( vp.part_index() ) );
+                passenger->setpos( vp.pos() );
             }
         }
     }
@@ -2802,12 +2801,10 @@ bool vehicle::do_environmental_effects()
     bool needed = false;
     // check for smoking parts
     for( const vpart_reference &vp : get_parts() ) {
-        const tripoint part_pos = global_part_pos3( vp.part_index() );
-
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
-        if( vp.part().blood > 0 && g->m.is_outside( part_pos ) ) {
+        if( vp.part().blood > 0 && g->m.is_outside( vp.pos() ) ) {
             needed = true;
             if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
                 vp.part().blood--;
@@ -4574,6 +4571,11 @@ vehicle_part &vpart_reference::part() const
 const vpart_info &vpart_reference::info() const
 {
     return part().info();
+}
+
+tripoint vpart_position::pos() const
+{
+    return vehicle().global_part_pos3( part_index() );
 }
 
 inline int modulo( int v, int m )

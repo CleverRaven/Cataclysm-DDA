@@ -834,7 +834,7 @@ void vehicle::honk_horn()
             honked = true;
         }
         //Get global position of horn
-        const auto horn_pos = global_part_pos3( vp.part_index() );
+        const tripoint horn_pos = vp.pos();
         //Determine sound
         if( horn_type.bonus >= 110 ) {
             //~ Loud horn sound
@@ -869,14 +869,14 @@ void vehicle::beeper_sound()
         }
 
         //~ Beeper sound
-        sounds::sound( global_part_pos3( p ), vp.info().bonus, _( "beep!" ) );
+        sounds::sound( vp.pos(), vp.info().bonus, _( "beep!" ) );
     }
 }
 
 void vehicle::play_music()
 {
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( g->u, global_part_pos3( vp.part() ), 15, 30 );
+        iuse::play_music( g->u, vp.pos(), 15, 30 );
     }
 }
 
@@ -887,7 +887,7 @@ void vehicle::play_chimes()
     }
 
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
-        sounds::sound( global_part_pos3( vp.part() ), 40,
+        sounds::sound( vp.pos(), 40,
                        _( "a simple melody blaring from the loudspeakers." ) );
     }
 }
@@ -895,14 +895,13 @@ void vehicle::play_chimes()
 void vehicle::operate_plow()
 {
     for( const vpart_reference &vp : get_parts( "PLOW" ) ) {
-        const size_t plow_id = vp.part_index();
-        const tripoint start_plow = global_part_pos3( plow_id );
+        const tripoint start_plow = vp.pos();
         if( g->m.has_flag( "DIGGABLE", start_plow ) ) {
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
             const int speed = velocity;
             const int v_damage = rng( 3, speed );
-            damage( plow_id, v_damage, DT_BASH, false );
+            damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_plow, v_damage, _( "Clanggggg!" ) );
         }
     }
@@ -911,14 +910,13 @@ void vehicle::operate_plow()
 void vehicle::operate_rockwheel()
 {
     for( const vpart_reference &vp : get_parts( "ROCKWHEEL" ) ) {
-        const size_t rockwheel_id = vp.part_index();
-        const tripoint start_dig = global_part_pos3( rockwheel_id );
+        const tripoint start_dig = vp.pos();
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
             g->m.ter_set( start_dig, t_pit_shallow );
         } else {
             const int speed = velocity;
             const int v_damage = rng( 3, speed );
-            damage( rockwheel_id, v_damage, DT_BASH, false );
+            damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_dig, v_damage, _( "Clanggggg!" ) );
         }
     }
@@ -928,7 +926,7 @@ void vehicle::operate_reaper()
 {
     for( const vpart_reference &vp : get_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
-        const tripoint reaper_pos = global_part_pos3( reaper_id );
+        const tripoint reaper_pos = vp.pos();
         const int plant_produced =  rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
@@ -967,7 +965,7 @@ void vehicle::operate_planter()
 {
     for( const vpart_reference &vp : get_parts( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
-        const tripoint &loc = global_part_pos3( planter_id );
+        const tripoint loc = vp.pos();
         vehicle_stack v = get_items( planter_id );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
