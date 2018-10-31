@@ -348,12 +348,10 @@ bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
     display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
-    if( !display_buffer ) {
-        dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
+    if( printErrorIf( !display_buffer, "Failed to create window buffer" ) ) {
         return false;
     }
-    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
-        dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
+    if( printErrorIf( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0, "SDL_SetRenderTarget failed" ) ) {
         return false;
     }
     ClearScreen();
@@ -443,8 +441,7 @@ void WinCreate()
 
         renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
-        if( !renderer ) {
-            dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
+        if( printErrorIf( !renderer, "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
         } else if( !SetupRenderTarget() ) {
             dbg( D_ERROR ) << "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
@@ -492,13 +489,9 @@ void WinCreate()
             dbg( D_WARNING ) << "You have more than one gamepads/joysticks plugged in, only the first will be used.";
         }
         joystick = SDL_JoystickOpen(0);
-        if( joystick == nullptr ) {
-            dbg( D_ERROR ) << "Opening the first joystick failed: " << SDL_GetError();
-        } else {
-            const int ret = SDL_JoystickEventState(SDL_ENABLE);
-            if( ret < 0 ) {
-                dbg( D_ERROR ) << "SDL_JoystickEventState(SDL_ENABLE) failed: " << SDL_GetError();
-            }
+        printErrorIf( joystick == nullptr, "SDL_JoystickOpen failed" );
+        if( joystick ) {
+            printErrorIf( SDL_JoystickEventState(SDL_ENABLE) < 0, "SDL_JoystickEventState(SDL_ENABLE) failed" );
         }
     } else {
         joystick = NULL;
@@ -611,9 +604,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
         src_rect.h = dst_rect.h;
     }
 
-    if ( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-    } else {
+    if( !printErrorIf( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0, "SDL_BlitSurface failed" ) ) {
         sglyph = std::move( surface );
     }
 
@@ -1456,8 +1447,7 @@ void toggle_fullscreen_window()
     static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight;
 
     if ( fullscreen ) {
-        if( SDL_SetWindowFullscreen( window.get(), 0 ) != 0 ) {
-            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+        if( printErrorIf( SDL_SetWindowFullscreen( window.get(), 0 ) != 0, "SDL_SetWindowFullscreen failed" ) ) {
             return;
         }
         SDL_RestoreWindow( window.get() );
@@ -1466,8 +1456,7 @@ void toggle_fullscreen_window()
     } else {
         restore_win_w = WindowWidth;
         restore_win_h = WindowHeight;
-        if( SDL_SetWindowFullscreen( window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0 ) {
-            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+        if( printErrorIf( SDL_SetWindowFullscreen( window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0, "SDL_SetWindowFullscreen failed" ) ) {
             return;
         }
     }

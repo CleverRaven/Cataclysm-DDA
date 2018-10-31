@@ -52,8 +52,9 @@ using TTF_Font_Ptr = std::unique_ptr<TTF_Font, TTF_Font_deleter>;
 /**
  * If the @p condition is `true`, an error (including the given @p message
  * and the output of @ref SDL_GetError) is logged to the debug log.
+ * @returns \p condition, in other words: return whether an error was logged.
  */
-void printErrorIf( bool condition, const char *message );
+bool printErrorIf( bool condition, const char *message );
 /**
  * If the @p condition is `true`, an exception (including the given @p message
  * and the output of @ref SDL_GetError) is thrown.

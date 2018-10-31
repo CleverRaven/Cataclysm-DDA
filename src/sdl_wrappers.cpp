@@ -12,12 +12,13 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-void printErrorIf( const bool condition, const char *const message )
+bool printErrorIf( const bool condition, const char *const message )
 {
     if( !condition ) {
-        return;
+        return false;
     }
     dbg( D_ERROR ) << message << ": " << SDL_GetError();
+    return true;
 }
 
 void throwErrorIf( const bool condition, const char *const message )
