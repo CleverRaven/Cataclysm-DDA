@@ -248,14 +248,14 @@ struct tripoint {
     int x = 0;
     int y = 0;
     int z = 0;
-    tripoint() = default;
-    tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
-    explicit tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
+    constexpr tripoint() = default;
+    constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
+    explicit constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
 
-    tripoint operator+( const tripoint &rhs ) const {
+    constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
     }
-    tripoint operator-( const tripoint &rhs ) const {
+    constexpr tripoint operator-( const tripoint &rhs ) const {
         return tripoint( x - rhs.x, y - rhs.y, z - rhs.z );
     }
     tripoint &operator+=( const tripoint &rhs ) {
@@ -264,14 +264,14 @@ struct tripoint {
         z += rhs.z;
         return *this;
     }
-    tripoint operator-() const {
+    constexpr tripoint operator-() const {
         return tripoint( -x, -y, -z );
     }
     /*** some point operators and functions ***/
-    tripoint operator+( const point &rhs ) const {
+    constexpr tripoint operator+( const point &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z );
     }
-    tripoint operator-( const point &rhs ) const {
+    constexpr tripoint operator-( const point &rhs ) const {
         return tripoint( x - rhs.x, y - rhs.y, z );
     }
     tripoint &operator+=( const point &rhs ) {
@@ -315,11 +315,11 @@ struct hash<tripoint> {
 };
 }
 
-inline bool operator==( const tripoint &a, const tripoint &b )
+inline constexpr bool operator==( const tripoint &a, const tripoint &b )
 {
     return a.x == b.x && a.y == b.y && a.z == b.z;
 }
-inline bool operator!=( const tripoint &a, const tripoint &b )
+inline constexpr bool operator!=( const tripoint &a, const tripoint &b )
 {
     return !( a == b );
 }
