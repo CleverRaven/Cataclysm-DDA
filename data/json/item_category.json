@@ -3,120 +3,228 @@
     "id": "guns",
     "type": "ITEM_CATEGORY",
     "name": "GUNS",
-    "sort_rank": -22
+    "sort_rank": 1
+  },
+  {
+    "id": "bows",
+    "type": "ITEM_CATEGORY",
+    "name": "BOWS",
+    "sort_rank": 2
   },
   {
     "id": "magazines",
     "type": "ITEM_CATEGORY",
     "name": "MAGAZINES",
-    "sort_rank": -21
+    "sort_rank": 3
   },
   {
-    "id": "ammo",
+    "id": "throwing",
     "type": "ITEM_CATEGORY",
-    "name": "AMMO",
-    "sort_rank": -20
+    "name": "THROWING",
+    "sort_rank": 4
   },
   {
     "id": "weapons",
     "type": "ITEM_CATEGORY",
     "name": "WEAPONS",
-    "sort_rank": -19
+    "sort_rank": 5
+  },
+  {
+    "id": "deployables",
+    "type": "ITEM_CATEGORY",
+    "name": "DEPLOYABLES",
+    "sort_rank": 7
   },
   {
     "id": "tools",
     "type": "ITEM_CATEGORY",
     "name": "TOOLS",
-    "sort_rank": -18
-  },
-  {
-    "id": "clothing",
-    "type": "ITEM_CATEGORY",
-    "name": "CLOTHING",
-    "sort_rank": -17
-  },
-  {
-    "id": "food",
-    "type": "ITEM_CATEGORY",
-    "name": "FOOD",
-    "sort_rank": -16
-  },
-  {
-    "id": "drugs",
-    "type": "ITEM_CATEGORY",
-    "name": "DRUGS",
-    "sort_rank": -15
-  },
-  {
-    "id": "books",
-    "type": "ITEM_CATEGORY",
-    "name": "BOOKS",
-    "sort_rank": -14
-  },
-  {
-    "id": "mods",
-    "type": "ITEM_CATEGORY",
-    "name": "MODS",
-    "sort_rank": -13
-  },
-  {
-    "id": "mutagen",
-    "type": "ITEM_CATEGORY",
-    "name": "MUTAGENS",
-    "sort_rank": -12
-  },
-  {
-    "id": "bionics",
-    "type": "ITEM_CATEGORY",
-    "name": "BIONICS",
-    "sort_rank": -12
-  },
-  {
-    "id": "veh_parts",
-    "type": "ITEM_CATEGORY",
-    "name": "VEHICLE PARTS",
-    "sort_rank": -10
-  },
-  {
-    "id": "other",
-    "type": "ITEM_CATEGORY",
-    "name": "OTHER",
-    "sort_rank": -9
-  },
-  {
-    "id": "fuel",
-    "type": "ITEM_CATEGORY",
-    "name": "FUEL",
-    "sort_rank": -8
-  },
-  {
-    "id": "seeds",
-    "type": "ITEM_CATEGORY",
-    "name": "SEEDS",
-    "sort_rank": -7
-  },
-  {
-    "id": "chems",
-    "type": "ITEM_CATEGORY",
-    "name": "CHEMICAL STUFF",
-    "sort_rank": 5
-  },
-  {
-    "id": "spare_parts",
-    "type": "ITEM_CATEGORY",
-    "name": "SPARE PARTS",
     "sort_rank": 8
   },
   {
-    "id": "artifacts",
+    "id": "tools_craft",
     "type": "ITEM_CATEGORY",
-    "name": "ARTIFACTS",
+    "name": "CRAFTING TOOLS",
+    "sort_rank": 9
+  },
+  {
+    "id": "equipment",
+    "type": "ITEM_CATEGORY",
+    "name": "EQUIPMENT",
     "sort_rank": 10
   },
   {
     "id": "armor",
     "type": "ITEM_CATEGORY",
     "name": "ARMOR",
+    "sort_rank": 11
+  },
+  {
+    "id": "clothing",
+    "type": "ITEM_CATEGORY",
+    "name": "CLOTHING",
+    "sort_rank": 12
+  },
+  {
+    "id": "medical",
+    "type": "ITEM_CATEGORY",
+    "name": "MEDICAL STUFF",
+    "sort_rank": 13
+  },
+  {
+    "id": "food",
+    "type": "ITEM_CATEGORY",
+    "name": "FOOD",
+    "sort_rank": 16
+  },
+  {
+    "id": "drinks",
+    "type": "ITEM_CATEGORY",
+    "name": "DRINKS",
+    "sort_rank": 17
+  },
+  {
+    "id": "snacks",
+    "type": "ITEM_CATEGORY",
+    "name": "SNACKS",
+    "sort_rank": 18
+  },
+  {
+    "id": "booze",
+    "type": "ITEM_CATEGORY",
+    "name": "BOOZE",
+    "sort_rank": 19
+  },
+  {
+    "id": "drugs",
+    "type": "ITEM_CATEGORY",
+    "name": "DRUGS",
     "sort_rank": 20
+  },
+  {
+    "id": "ammo",
+    "type": "ITEM_CATEGORY",
+    "name": "AMMO",
+    "sort_rank": 21
+  },
+  {
+    "id": "fuel",
+    "type": "ITEM_CATEGORY",
+    "name": "FUEL",
+    "sort_rank": 22
+  },
+  {
+    "id": "charges",
+    "type": "ITEM_CATEGORY",
+    "name": "CHARGES",
+    "sort_rank": 23
+  },
+  {
+    "id": "containers",
+    "type": "ITEM_CATEGORY",
+    "name": "CONTAINERS",
+    "sort_rank": 24
+  },
+  {
+    "id": "mutagen",
+    "type": "ITEM_CATEGORY",
+    "name": "MUTAGEN",
+    "sort_rank": 25
+  },
+  {
+    "id": "bionics",
+    "type": "ITEM_CATEGORY",
+    "name": "BIONICS",
+    "sort_rank": 26
+  },
+  {
+    "id": "mods",
+    "type": "ITEM_CATEGORY",
+    "name": "MODS",
+    "sort_rank": 27
+  },
+  {
+    "id": "transitional",
+    "type": "ITEM_CATEGORY",
+    "name": "TRANSITIONAL",
+    "sort_rank": 28
+  },
+  {
+    "id": "spare_parts",
+    "type": "ITEM_CATEGORY",
+    "name": "SPARE PARTS",
+    "sort_rank": 29
+  },
+  {
+    "id": "materials",
+    "type": "ITEM_CATEGORY",
+    "name": "MATERIALS",
+    "sort_rank": 30
+  },
+  {
+    "id": "seeds",
+    "type": "ITEM_CATEGORY",
+    "name": "SEEDS",
+    "sort_rank": 31
+  },
+  {
+    "id": "plants",
+    "type": "ITEM_CATEGORY",
+    "name": "PLANTS",
+    "sort_rank": 32
+  },
+  {
+    "id": "chems",
+    "type": "ITEM_CATEGORY",
+    "name": "CHEMICAL STUFF",
+    "sort_rank": 33
+  },
+  {
+    "id": "packed",
+    "type": "ITEM_CATEGORY",
+    "name": "PACKED",
+    "sort_rank": 34
+  },
+  {
+    "id": "books",
+    "type": "ITEM_CATEGORY",
+    "name": "BOOKS",
+    "sort_rank": 36
+  },
+  {
+    "id": "entertain",
+    "type": "ITEM_CATEGORY",
+    "name": "ENTERTAINMENT",
+    "sort_rank": 37
+  },
+  {
+    "id": "vehicle_parts",
+    "type": "ITEM_CATEGORY",
+    "name": "VEHICLE PARTS",
+    "sort_rank": 38
+  },
+  {
+    "id": "v_weapons",
+    "type": "ITEM_CATEGORY",
+    "name": "VEHICLE WEAPONS",
+    "sort_rank": 38
+  },
+  {
+    "id": "artifacts",
+    "type": "ITEM_CATEGORY",
+    "name": "ARTIFACTS",
+    "sort_rank": 46
+  },
+  {
+    "id": "salvage",
+    "type": "ITEM_CATEGORY",
+    "name": "SALVAGE",
+    "sort_rank": 47
+  },
+  {
+    "id": "other",
+    "type": "ITEM_CATEGORY",
+    "name": "OTHER",
+    "sort_rank": 48
   }
 ]
