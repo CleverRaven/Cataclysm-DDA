@@ -1966,7 +1966,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     }
 
     auto char_type = item::find_type( "unfinished_charcoal" );
-    int char_charges = ( 100 - loss ) * total_volume / 100 / char_type->volume;
+    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
     if( char_charges < 1 ) {
         add_msg( _("The batch in this kiln is too small to yield any charcoal.") );
         return;
@@ -2043,7 +2043,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
 
     item result( "charcoal", calendar::turn );
-    result.charges = total_volume / char_type->volume;
+    result.charges = char_type->charges_per_volume( total_volume  );
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
@@ -2886,7 +2886,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
         //~ %1$s - furniture, %2$d - number, %3$s items.
         add_msg(_("The %1$s contains %2$d %3$s."), f.name().c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
     }
-    const int max_amount_in_furn = f.max_volume / ammo->volume;
+    const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
@@ -3013,9 +3013,9 @@ static int getNearPumpCount(const tripoint &p)
     return result;
 }
 
-static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
+static cata::optional<tripoint> getNearFilledGasTank(const tripoint &center, long &gas_units)
 {
-    tripoint tank_loc = tripoint_min;
+    cata::optional<tripoint> tank_loc;
     int distance = INT_MAX;
     gas_units = 0;
 
@@ -3029,14 +3029,14 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
         if( new_distance >= distance ) {
             continue;
         }
-        if( tank_loc == tripoint_min ) {
+        if( !tank_loc ) {
             // Return a potentially empty tank, but only if we don't find a closer full one.
-            tank_loc = tmp;
+            tank_loc.emplace( tmp );
         }
         for( auto &k : g->m.i_at(tmp)) {
             if(k.made_of(LIQUID)) {
                 distance = new_distance;
-                tank_loc = tmp;
+                tank_loc.emplace( tmp );
                 gas_units = k.charges;
                 break;
             }
@@ -3121,7 +3121,7 @@ static long getGasPricePerLiter( int discount )
     }
 }
 
-static tripoint getGasPumpByNumber( const tripoint &p, int number )
+static cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number )
 {
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
@@ -3130,15 +3130,11 @@ static tripoint getGasPumpByNumber( const tripoint &p, int number )
             return tmp;
         }
     }
-    return tripoint_min;
+    return cata::nullopt;
 }
 
 static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
 {
-    if( src == tripoint_min ) {
-        return false;
-    }
-
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( LIQUID ) ) {
@@ -3168,10 +3164,6 @@ static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
 
 static long fromPumpFuel( const tripoint &dst, const tripoint &src )
 {
-    if( src == tripoint_min ) {
-        return -1;
-    }
-
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( LIQUID ) ) {
@@ -3228,11 +3220,12 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     long tankGasUnits;
-    tripoint pTank = getNearFilledGasTank( examp, tankGasUnits );
-    if( pTank == tripoint_min ) {
+    const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
+    if( !pTank_ ) {
         popup( str_to_illiterate_str( _( "Failure! No gas tank found!" ) ).c_str() );
         return;
     }
+    const tripoint pTank = *pTank_;
 
     if( tankGasUnits == 0 ) {
         popup( str_to_illiterate_str(
@@ -3326,8 +3319,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             liters = maximum_liters;
         }
 
-        tripoint pGasPump = getGasPumpByNumber( examp,  uistate.ags_pay_gas_selected_pump );
-        if( !toPumpFuel( pTank, pGasPump, liters * 1000 ) ) {
+        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,  uistate.ags_pay_gas_selected_pump );
+        if( !pGasPump || !toPumpFuel( pTank, *pGasPump, liters * 1000 ) ) {
             return;
         }
 
@@ -3358,8 +3351,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                 add_msg( _( "Nothing happens." ) );
                 break;
             case HACK_SUCCESS:
-                tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
-                if( toPumpFuel( pTank, pGasPump, tankGasUnits ) ) {
+                const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
+                if( pGasPump && toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
                     add_msg( _( "You hack the terminal and route all available fuel to your pump!" ) );
                     sounds::sound( p.pos(), 6, _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ) );
                 } else {
@@ -3381,8 +3374,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         cashcard = &( p.i_at( pos ) );
         // Okay, we have a cash card. Now we need to know what's left in the pump.
-        tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
-        long amount = fromPumpFuel( pTank, pGasPump );
+        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
+        long amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
             cashcard->charges += amount * pricePerUnit / 1000.0f;

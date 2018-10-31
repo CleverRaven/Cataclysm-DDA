@@ -21,9 +21,6 @@ class npc_template;
 template<typename T>
 class string_id;
 
-namespace talk_function
-{
-
 enum camp_tab_mode {
     TAB_MAIN,
     TAB_N,
@@ -36,16 +33,8 @@ enum camp_tab_mode {
     TAB_NW
 };
 
-/**
- * Adds the id's to the correct vectors (ie tabs) in the UI.
- * @param id is string displayed
- * @param dir is the direction of the expansion from the central camp "[N]"
- * @param priority turns the mission key yellow and pushes to front of main tab
- * @param possible grays the mission key when false
- */
-void mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors,
-                       const std::string &id, const std::string &name_display = "",
-                       const std::string &dir = "", bool priority = false, bool possible = true );
+namespace talk_function
+{
 
 ///Changes an NPC follower to a camp manager
 void become_overseer( npc & );
@@ -55,6 +44,7 @@ void start_camp( npc & );
 void recover_camp( npc & );
 ///Changes an NPC camp manager to a follower
 void remove_overseer( npc & );
+
 /**
  * Counts or destroys and drops the bash items of all furniture that matches @ref furn_id f in the map tile
  * @param omt_tgt, the targeted OM tile
@@ -197,41 +187,5 @@ std::string name_mission_tabs( npc &p, const std::string &id, const std::string 
 std::map<std::string, std::string> camp_recipe_deck( const std::string &om_cur );
 /// Determines what the absolute max (out of 9999) that can be crafted using inventory and food supplies
 int camp_recipe_batch_max( const recipe making, const inventory &total_inv );
-/// Trains NPC @ref comp, in skill_tested for duration time_worked at difficulty 1, several groups of skills can also be input
-int companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
-                             time_duration time_worked = 1_hours, int difficulty = 1 );
-int companion_skill_trainer( npc &comp, const skill_id &skill_tested,
-                             time_duration time_worked = 1_hours,
-                             int difficulty = 1 );
-//Combat functions
-bool companion_om_combat_check( const std::vector<std::shared_ptr<npc>> &group,
-                                const tripoint &om_tgt,
-                                bool try_engage = false );
-void force_on_force( const std::vector<std::shared_ptr<npc>> &defender, const std::string &def_desc,
-                     const std::vector<std::shared_ptr<npc>> &attacker, const std::string &att_desc, int advantage );
-bool force_on_force( const std::vector<std::shared_ptr<npc>> &defender, const std::string &def_desc,
-                     const std::vector< monster * > &monsters_fighting, const std::string &att_desc, int advantage );
-int combat_score( const std::vector<std::shared_ptr<npc>> &group );    //Used to determine retreat
-int combat_score( const std::vector< monster * > &group );
-void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
-                    const std::vector<std::shared_ptr<npc>> &defender );
-void attack_random( const std::vector< monster * > &group,
-                    const std::vector<std::shared_ptr<npc>> &defender );
-void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
-                    const std::vector< monster * > &group );
-std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
-
-//Utility functions
-/// Returns npcs that have the given companion mission.
-std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id,
-                               bool contains = false );
-std::vector<npc *> companion_sort( std::vector<npc *> available,
-                                   const std::string &skill_tested = "" );
-std::vector<comp_rank> companion_rank( const std::vector<npc *> &available, bool adj = true );
-npc *companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
-npc *companion_choose_return( npc &p, const std::string &id, const time_point &deadline );
-void companion_return( npc &comp );               //Return NPC to your party
-std::vector<item *> loot_building( const tripoint
-                                   site ); //Smash stuff, steal valuables, and change map maker
 };
 #endif

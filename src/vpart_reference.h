@@ -2,7 +2,7 @@
 #ifndef VPART_REFERENCE_H
 #define VPART_REFERENCE_H
 
-#include <functional>
+#include "vpart_position.h"
 
 class vehicle;
 
@@ -14,23 +14,15 @@ class vehicle;
  * Most functions just forward to the equally named functions in the @ref vehicle
  * class, so see there for documentation.
  */
-class vpart_reference
+class vpart_reference : public vpart_position
 {
     private:
-        std::reference_wrapper<::vehicle> vehicle_;
-        size_t part_index_;
 
     public:
-        vpart_reference( ::vehicle &v, const size_t part ) : vehicle_( v ), part_index_( part ) { }
+        vpart_reference( ::vehicle &v, const size_t part ) : vpart_position( v, part ) { }
         vpart_reference( const vpart_reference & ) = default;
 
-        ::vehicle &vehicle() const {
-            return vehicle_.get();
-        }
-        //@todo remove this
-        size_t part_index() const {
-            return part_index_;
-        }
+        using vpart_position::vehicle;
 };
 
 #endif

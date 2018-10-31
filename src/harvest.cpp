@@ -105,6 +105,11 @@ void harvest_list::finalize_all()
     }
 }
 
+void harvest_list::reset()
+{
+    harvest_all.clear();
+}
+
 const std::map<harvest_id, harvest_list> &harvest_list::all()
 {
     return harvest_all;

@@ -67,6 +67,7 @@
 #include "loading_ui.h"
 #include "recipe_groups.h"
 #include "mod_tileset.h"
+#include "help.h"
 
 #include <assert.h>
 #include <string>
@@ -436,6 +437,7 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
+    harvest_list::reset();
     json_flag::reset();
     requirement_data::reset();
     vitamin::reset();

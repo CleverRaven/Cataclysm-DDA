@@ -581,7 +581,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
         return ret;
     }
 
-    const long old_amt = it.count_by_charges() ? it.charges : 1l;
+    const long old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item );
         const long new_amt = std::max( 1l, ( long )std::round( inf.ratio * old_amt ) );

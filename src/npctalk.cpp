@@ -1991,45 +1991,35 @@ void talk_response::effect_fun_t::set_companion_mission( std::string &role_id )
     };
 }
 
-void talk_response::effect_fun_t::set_u_add_effect( std::string &new_effect, std::string &duration_str )
+void talk_response::effect_fun_t::set_u_add_permanent_effect( std::string &new_effect )
 {
-    function = [new_effect, duration_str]( const dialogue &d ) {
+    function = [new_effect]( const dialogue &d ) {
         player &u = *d.alpha;
-        bool permanent = false;
-        int duration = 0;
-        if( duration_str == "PERMANENT" ) {
-            permanent = true;
-        } else {
-            try {
-                duration = std::stoi( duration_str );
-            } catch( const std::invalid_argument & ) {
-                debugmsg( "Invalid effect duration '%s'.", duration_str );
-            } catch( const std::out_of_range & ) {
-                debugmsg( "Effect duration '%s' out of range.", duration_str );
-            }
-        }
-        u.add_effect( efftype_id( new_effect ), time_duration::from_turns( duration ), num_bp, permanent );
+        u.add_effect( efftype_id( new_effect ), 0_turns, num_bp, true );
     };
 }
 
-void talk_response::effect_fun_t::set_npc_add_effect( std::string &new_effect, std::string &duration_str )
+void talk_response::effect_fun_t::set_u_add_effect( std::string &new_effect, const time_duration &duration )
 {
-    function = [new_effect, duration_str]( const dialogue &d ) {
+    function = [new_effect, duration]( const dialogue &d ) {
+        player &u = *d.alpha;
+        u.add_effect( efftype_id( new_effect ), duration, num_bp, false );
+    };
+}
+
+void talk_response::effect_fun_t::set_npc_add_permanent_effect( std::string &new_effect )
+{
+    function = [new_effect]( const dialogue &d ) {
         npc &p = *d.beta;
-        bool permanent = false;
-        int duration = 0;
-        if( duration_str == "PERMANENT" ) {
-            permanent = true;
-        } else {
-            try {
-                duration = std::stoi( duration_str );
-            } catch( const std::invalid_argument & ) {
-                debugmsg( "Invalid effect duration '%s'.", duration_str );
-            } catch( const std::out_of_range & ) {
-                debugmsg( "Effect duration '%s' out of range.", duration_str );
-            }
-        }
-        p.add_effect( efftype_id( new_effect ), time_duration::from_turns( duration ), num_bp, permanent );
+        p.add_effect( efftype_id( new_effect ), 0_turns, num_bp, true );
+    };
+}
+
+void talk_response::effect_fun_t::set_npc_add_effect( std::string &new_effect, const time_duration &duration )
+{
+    function = [new_effect, duration]( const dialogue &d ) {
+        npc &p = *d.beta;
+        p.add_effect( efftype_id( new_effect ), duration, num_bp, false );
     };
 }
 
@@ -2181,18 +2171,18 @@ void talk_response::effect_t::parse_sub_effect( JsonObject jo )
         subeffect_fun.set_companion_mission( role_id );
     } else if( jo.has_string( "u_add_effect" ) ) {
         std::string new_effect = jo.get_string( "u_add_effect" );
-        std::string duration;
-        if( jo.has_string( "duration" ) ) {
-            duration = jo.get_string( "duration" );
+        if( jo.has_string( "duration" ) && jo.get_string( "duration" ) == "PERMANENT" ) {
+            subeffect_fun.set_u_add_permanent_effect( new_effect );
+        } else {
+            subeffect_fun.set_u_add_effect( new_effect, time_duration::from_turns( jo.get_int( "duration" ) ) );
         }
-        subeffect_fun.set_u_add_effect( new_effect, duration );
     } else if( jo.has_string( "npc_add_effect" ) ) {
         std::string new_effect = jo.get_string( "npc_add_effect" );
-        std::string duration;
-        if( jo.has_string( "duration" ) ) {
-            duration = jo.get_string( "duration" );
+        if( jo.has_string( "duration" ) && jo.get_string( "duration" ) == "PERMANENT" ) {
+            subeffect_fun.set_npc_add_permanent_effect( new_effect );
+        } else {
+            subeffect_fun.set_npc_add_effect( new_effect, time_duration::from_turns( jo.get_int( "duration" ) ) );
         }
-        subeffect_fun.set_npc_add_effect( new_effect, duration );
     } else if( jo.has_string( "u_add_trait" ) ) {
         std::string new_trait = jo.get_string( "u_add_trait" );
         subeffect_fun.set_u_add_trait( new_trait );

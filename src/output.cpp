@@ -119,6 +119,15 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
     return lines;
 }
 
+
+std::string tag_colored_string( const std::string &s, nc_color color )
+{
+    // @todo: Make this tag generation a function, put it in good place
+    std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
+    std::string color_tag_close = "</color>";
+    return color_tag_open + s + color_tag_close;
+}
+
 std::vector<std::string> split_by_color( const std::string &s )
 {
     std::vector<std::string> ret;
@@ -598,6 +607,25 @@ bool query_int( int &result, const std::string &text )
     }
     result = atoi( popup.text().c_str() );
     return true;
+}
+
+std::vector<std::string> get_hotkeys( const std::string &s )
+{
+    std::vector<std::string> hotkeys;
+    size_t start = s.find_first_of( '<' );
+    size_t end = s.find_first_of( '>' );
+    if( start != std::string::npos && end != std::string::npos ) {
+        // hotkeys separated by '|' inside '<' and '>', for example "<e|E|?>"
+        size_t lastsep = start;
+        size_t sep = s.find_first_of( '|', start );
+        while( sep < end ) {
+            hotkeys.push_back( s.substr( lastsep + 1, sep - lastsep - 1 ) );
+            lastsep = sep;
+            sep = s.find_first_of( '|', sep + 1 );
+        }
+        hotkeys.push_back( s.substr( lastsep + 1, end - lastsep - 1 ) );
+    }
+    return hotkeys;
 }
 
 // compatibility stub for uimenu(cancelable, mes, options)

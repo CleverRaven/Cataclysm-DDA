@@ -985,6 +985,33 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const saw_barrel_actor &actor;
 };
 
+class salvage_inventory_preset: public inventory_selector_preset
+{
+    public:
+        salvage_inventory_preset( const salvage_actor *actor ) :
+            inventory_selector_preset(), actor( actor ) {
+
+            append_cell( [ actor ]( const item_location & loc ) {
+                return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
+                                              *loc.get_item() ) / 100 ) );
+            }, _( "TIME" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return actor->valid_to_cut_up( *loc.get_item() );
+        }
+
+    private:
+        const salvage_actor *actor;
+};
+
+item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
+{
+    return inv_internal( p, salvage_inventory_preset( actor ),
+                         _( "Cut up what?" ), 1,
+                         _( "You have nothing to cut up." ) );
+}
+
 item_location game_menus::inv::saw_barrel( player &p, item &tool )
 {
     const auto actor = dynamic_cast<const saw_barrel_actor *>
@@ -1026,7 +1053,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
     return inv_s.execute();
 }
 
-void game_menus::inv::compare( player &p, const tripoint &offset )
+void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset )
 {
     p.inv.restack( p );
 
@@ -1036,9 +1063,9 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
     inv_s.set_title( _( "Compare" ) );
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
-    if( offset != tripoint_min ) {
-        inv_s.add_map_items( p.pos() + offset );
-        inv_s.add_vehicle_items( p.pos() + offset );
+    if( offset ) {
+        inv_s.add_map_items( p.pos() + *offset );
+        inv_s.add_vehicle_items( p.pos() + *offset );
     } else {
         inv_s.add_nearby_items();
     }
