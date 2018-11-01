@@ -2960,6 +2960,7 @@ void npc::reach_destination()
     // Guarding NPCs want a specific point, not just an overmap tile
     // Rest stops having a goal after reaching it
     if( !is_guarding() ) {
+        visited_point.insert( goal );
         goal = no_goal_point;
         return;
     }
@@ -3021,13 +3022,33 @@ void npc::set_destination()
     tripoint surface_omt_loc = global_omt_location();
     surface_omt_loc.z = 0;
 
-    std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
+    std::string dest_type, current_dest_type;
+    tripoint current_goal;
+    int current_goal_dist, goal_dist = -1;
+    npc_need needs_final;
+    for( npc_need &i : needs ) {
+        for( int k = 0; k < 30; k++ ) {
+            current_dest_type = get_location_for( i )->get_random_terrain().id().str();
+            current_goal = overmap_buffer.find_closest( surface_omt_loc, current_dest_type, 0, false, false );
+            current_goal_dist = square_dist( surface_omt_loc, current_goal );
+            if( ( ( current_goal_dist < goal_dist ) || ( goal_dist = -1 ) ) &&
+                visited_point.find( current_goal ) == visited_point.end() ) {
+                goal = current_goal;
+                goal_dist = current_goal_dist;
+                needs_final = i; // only for debug purpose
+                dest_type = current_dest_type; // same with needs_final
+            }
+        }
+    }
+    /*std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
     goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name() <<
                                "] with ["
                                << get_need_str_id( needs.front() ) << "] is [" << dest_type << "] in ["
-                               << goal.x << "," << goal.y << "," << goal.z << "].";
+                               << goal.x << "," << goal.y << "," << goal.z << "].";*/
+    add_msg( m_debug, "npc::set_destination - new goal for NPC [%s] with [%s] is [%s] in [%d, %d, %d].",
+             get_name(), get_need_str_id( needs_final ), dest_type, goal.x, goal.y, goal.z );
 }
 
 void npc::go_to_destination()

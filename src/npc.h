@@ -720,6 +720,7 @@ class npc : public player
         void set_destination(); // Pick a place to go
         void go_to_destination(); // Move there; on the micro scale
         void reach_destination(); // We made it!
+        std::unordered_set<tripoint> visited_point; // Remember the place we have been
 
         void guard_current_pos();
 

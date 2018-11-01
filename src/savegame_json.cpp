@@ -1246,6 +1246,7 @@ void npc::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
+
     //@todo time_point does not have a default constructor, need to read in the map manually
     {
         complaints.clear();
@@ -1256,6 +1257,7 @@ void npc::load( JsonObject &data )
             complaints.emplace( key, p );
         }
     }
+    data.read( "visited_point", visited_point );
 }
 
 /*
@@ -1324,6 +1326,7 @@ void npc::store( JsonOut &json ) const
 
     json.member( "last_updated", last_updated );
     json.member( "complaints", complaints );
+    json.member( "visited_point", visited_point );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
