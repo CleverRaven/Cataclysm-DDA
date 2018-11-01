@@ -5770,7 +5770,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
         const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
                                                units::volume( 0 ) );
 
-        res = std::min<int64_t>( liquid.charges_per_volume( volume_to_expand ), res );
+        res = std::min<long>( liquid.charges_per_volume( volume_to_expand ), res );
 
         if( res == 0 && err != nullptr ) {
             *err = string_format( _( "That %s doesn't have room to expand." ), tname().c_str() );
