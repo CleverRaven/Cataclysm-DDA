@@ -2169,7 +2169,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             redraw = true;
             return false;
         }
-        amount = std::min( room_for, static_cast<int64_t>(amount) );
+        amount = std::min<int64_t>( room_for, amount );
     }
     // Map and vehicles have a maximal item count, check that. Inventory does not have this.
     if( destarea != AIM_INVENTORY &&

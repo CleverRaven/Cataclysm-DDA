@@ -150,7 +150,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
             if( one_in(10 + p.get_dex()) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name().c_str());
                 static const auto max_spill_volume = units::from_liter( 1 );
-                const long max_spill_charges = std::max( static_cast<int64_t>(1l),
+                const long max_spill_charges = std::max<int64_t>( 1,
                                                 item_it->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
                 const int qty = rng( 1l, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
