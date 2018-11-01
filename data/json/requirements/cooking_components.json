@@ -79,11 +79,14 @@
         [ "blueberries", 6 ],
         [ "cherries", 6 ],
         [ "cranberries", 6 ],
+		[ "elderberries", 6 ],
         [ "grapefruit", 1 ],
         [ "grapes", 6 ],
+		[ "huckleberries", 6 ],
         [ "kiwi", 1 ],
         [ "mango", 1 ],
         [ "melon", 2 ],
+		[ "mulberries", 6 ],
         [ "orange", 1 ],
         [ "papaya", 1 ],
         [ "peach", 1 ],
@@ -93,9 +96,6 @@
         [ "pomegranate", 1 ],
         [ "raspberries", 6 ],
         [ "strawberries", 6 ],
-        [ "huckleberries", 6 ],
-        [ "mulberries", 6 ],
-        [ "elderberries", 6 ],
         [ "watermelon", 1 ]
       ]
     ]
@@ -113,11 +113,14 @@
         [ "irradiated_blueberries", 6 ],
         [ "irradiated_cherries", 1 ],
         [ "irradiated_cranberries", 6 ],
+		[ "irradiated_elderberries", 6 ],
         [ "irradiated_grapefruit", 1 ],
         [ "irradiated_grapes", 2 ],
+		[ "irradiated_huckleberries", 6 ],
         [ "irradiated_kiwi", 1 ],
         [ "irradiated_mango", 1 ],
         [ "irradiated_melon", 2 ],
+		[ "irradiated_mulberries", 6 ],
         [ "irradiated_orange", 1 ],
         [ "irradiated_papaya", 1 ],
         [ "irradiated_peach", 1 ],
@@ -127,9 +130,6 @@
         [ "irradiated_pomegranate", 1 ],
         [ "irradiated_raspberries", 6 ],
         [ "irradiated_strawberries", 6 ],
-        [ "irradiated_huckleberries", 6 ],
-        [ "irradiated_mulberries", 6 ],
-        [ "irradiated_elderberries", 6 ],
         [ "irradiated_watermelon", 1 ]
       ]
     ]
