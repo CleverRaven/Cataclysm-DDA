@@ -6731,7 +6731,7 @@
     "time": 3000,
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "lemonade", 1 ] ], [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ] ] ]
+    "components": [ [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ] ] ]
   },
   {
     "type": "recipe",
