@@ -1342,7 +1342,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         }
 
         static const auto volume_per_turn = units::from_liter( 4 );
-        const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
+        const long charges_per_turn = std::max( static_cast<int64_t>(1l),
+                                        liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
 

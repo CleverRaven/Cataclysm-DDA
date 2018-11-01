@@ -93,8 +93,8 @@ long item_stack::amount_can_fit( const item &it ) const
         return 0l;
     }
     // Call max because a tile may have been overfilled to begin with (e.g. #14115)
-    long ret = std::max( 0l, it.charges_per_volume( free_volume() ) );
-    return it.count_by_charges() ? std::min( ret, it.charges ) : ret;
+    int64_t ret = std::max( static_cast<int64_t>(0l), it.charges_per_volume( free_volume() ) );
+    return it.count_by_charges() ? std::min( ret, static_cast<int64_t>(it.charges) ) : ret;
 }
 
 item *item_stack::stacks_with( const item &it )

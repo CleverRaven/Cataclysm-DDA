@@ -1224,8 +1224,9 @@ class item : public visitable<item>
          * of this item not on its current charge count.
          *
          * For items not counted by charges, this returns vol / this->volume().
+         * Cast to int64_t to prevent integer overflow for large containers like cargo dimensions
          */
-        long charges_per_volume( const units::volume &vol ) const;
+        int64_t charges_per_volume( const units::volume &vol ) const;
 
         /**
          * @name Item variables

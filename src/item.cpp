@@ -530,7 +530,7 @@ item item::in_container( const itype_id &cont ) const
     }
 }
 
-long item::charges_per_volume( const units::volume &vol ) const
+int64_t item::charges_per_volume( const units::volume &vol ) const
 {
     if( type->volume == 0 ) {
         return INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
@@ -5770,7 +5770,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
         const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
                                                units::volume( 0 ) );
 
-        res = std::min( liquid.charges_per_volume( volume_to_expand ), res );
+        res = std::min( liquid.charges_per_volume( volume_to_expand ), static_cast<int64_t>(res) );
 
         if( res == 0 && err != nullptr ) {
             *err = string_format( _( "That %s doesn't have room to expand." ), tname().c_str() );

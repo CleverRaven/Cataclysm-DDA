@@ -2162,14 +2162,14 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
 
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
-    const long room_for = it.charges_per_volume( free_volume );
+    const int64_t room_for = it.charges_per_volume( free_volume );
     if( amount > room_for && squares[destarea].id != AIM_WORN ) {
         if( room_for <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
             redraw = true;
             return false;
         }
-        amount = std::min( room_for, amount );
+        amount = std::min( room_for, static_cast<int64_t>(amount) );
     }
     // Map and vehicles have a maximal item count, check that. Inventory does not have this.
     if( destarea != AIM_INVENTORY &&
