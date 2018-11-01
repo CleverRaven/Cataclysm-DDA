@@ -140,7 +140,7 @@
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 50 }
       ],
       "place_nested": [
-        { 
+        {
           "chunks": [
             [ "lab_filltank_mutagen", 100 ],
             [ "lab_filltank_mutagen_plant", 2 ],

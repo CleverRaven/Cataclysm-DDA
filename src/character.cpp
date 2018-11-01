@@ -25,6 +25,7 @@
 #include "cata_utility.h"
 #include "pathfinding.h"
 #include "string_formatter.h"
+#include "activity_handlers.h"
 
 #include <algorithm>
 #include <sstream>
@@ -152,9 +153,7 @@ Character::Character() : Creature(), visitable<Character>(), hp_cur( {
 }
 
 Character::~Character() = default;
-Character::Character( const Character & ) = default;
 Character::Character( Character && ) = default;
-Character &Character::operator=( const Character & ) = default;
 Character &Character::operator=( Character && ) = default;
 
 field_id Character::bloodType() const
@@ -1026,18 +1025,37 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
 
 units::mass Character::weight_carried() const
 {
-    units::mass ret = 0;
-    ret += weapon.weight();
-    for( auto &i : worn ) {
-        ret += i.weight();
-    }
-    ret += inv.weight();
-    return ret;
+    return weight_carried_with_tweaks( {} );
 }
 
 units::volume Character::volume_carried() const
 {
     return inv.volume();
+}
+
+units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
+{
+    const std::map<const item *, int> empty;
+    const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
+
+    units::mass ret = 0;
+    if( !without.count( &weapon ) ) {
+        ret += weapon.weight();
+    }
+    for( auto &i : worn ) {
+        if( !without.count( &i ) ) {
+            ret += i.weight();
+        }
+    }
+    const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    ret += i.weight_without( without );
+    return ret;
+}
+
+units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
+{
+    const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    return tweaks.without_items ? i.volume_without( *tweaks.without_items ) : i.volume();
 }
 
 units::mass Character::weight_capacity() const
@@ -1095,7 +1113,8 @@ units::volume Character::volume_capacity() const
     return volume_capacity_reduced_by( 0 );
 }
 
-units::volume Character::volume_capacity_reduced_by( const units::volume &mod ) const
+units::volume Character::volume_capacity_reduced_by(
+    const units::volume &mod, const std::map<const item *, int> &without_items ) const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         return units::volume_max;
@@ -1103,7 +1122,9 @@ units::volume Character::volume_capacity_reduced_by( const units::volume &mod ) 
 
     units::volume ret = -mod;
     for( auto &i : worn ) {
-        ret += i.get_storage();
+        if( !without_items.count( &i ) ) {
+            ret += i.get_storage();
+        }
     }
     if( has_bionic( bionic_id( "bio_storage" ) ) ) {
         ret += 2000_ml;
@@ -1183,11 +1204,8 @@ void Character::drop_invalid_inventory()
     }
 
     if( volume_carried() > volume_capacity() ) {
-        for( auto &item_to_drop :
-             inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
-            g->m.add_item_or_charges( pos(), item_to_drop );
-        }
-        add_msg_if_player( m_bad, _( "Some items tumble to the ground." ) );
+        auto items_to_drop = inv.remove_randomly_by_volume( volume_carried() - volume_capacity() );
+        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, items_to_drop );
     }
 }
 
@@ -1233,47 +1251,29 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     } );
 }
 
-SkillLevel &Character::get_skill_level_object( const skill_id &ident )
+const SkillLevelMap &Character::get_all_skills() const
 {
-    static SkillLevel null_skill;
-
-    if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
-    } else {
-        return ( *_skills )[ident];
-    }
-
-    null_skill.level( 0 );
-    return null_skill;
-}
-
-int Character::get_skill_level( const skill_id &ident ) const
-{
-    return get_skill_level_object( ident ).level();
+    return *_skills;
 }
 
 const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
 {
-    static const SkillLevel null_skill;
+    return _skills->get_skill_level_object( ident );
+}
 
-    if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
-        return null_skill;
-    }
+SkillLevel &Character::get_skill_level_object( const skill_id &ident )
+{
+    return _skills->get_skill_level_object( ident );
+}
 
-    const auto iter = _skills->find( ident );
-
-    if( iter != _skills->end() ) {
-        return iter->second;
-    }
-
-    return null_skill;
+int Character::get_skill_level( const skill_id &ident ) const
+{
+    return _skills->get_skill_level( ident );
 }
 
 int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill(
-                                       ident ) ).level();
+    return _skills->get_skill_level( ident, context );
 }
 
 void Character::set_skill_level( const skill_id &ident, const int level )
@@ -1283,23 +1283,7 @@ void Character::set_skill_level( const skill_id &ident, const int level )
 
 void Character::mod_skill_level( const skill_id &ident, const int delta )
 {
-    SkillLevel &obj = get_skill_level_object( ident );
-    obj.level( obj.level() + delta );
-}
-
-std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req,
-        const item &context ) const
-{
-    std::map<skill_id, int> res;
-
-    for( const auto &elem : req ) {
-        const int diff = get_skill_level( elem.first, context ) - elem.second;
-        if( diff != 0 ) {
-            res[elem.first] = diff;
-        }
-    }
-
-    return res;
+    _skills->mod_skill_level( ident, delta );
 }
 
 std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
@@ -1312,7 +1296,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
         }
     };
 
-    check_req( _( "strength" ),     get_str(), it.type->min_str );
+    check_req( _( "strength" ),     get_str(), it.get_min_str() );
     check_req( _( "dexterity" ),    get_dex(), it.type->min_dex );
     check_req( _( "intelligence" ), get_int(), it.type->min_int );
     check_req( _( "perception" ),   get_per(), it.type->min_per );
@@ -1329,14 +1313,12 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
         const item &context ) const
 {
-    return std::all_of( req.begin(), req.end(), [this, &context]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first, context ) >= pr.second;
-    } );
+    return _skills->meets_skill_requirements( req, context );
 }
 
 bool Character::meets_stat_requirements( const item &it ) const
 {
-    return get_str() >= it.type->min_str &&
+    return get_str() >= it.get_min_str() &&
            get_dex() >= it.type->min_dex &&
            get_int() >= it.type->min_int &&
            get_per() >= it.type->min_per;
@@ -1539,7 +1521,7 @@ units::mass Character::get_weight() const
                         return sum + itm.weight();
                      } );
 
-    ret += Creature::get_weight(); // The base weight of the player's body
+    ret += CHARACTER_WEIGHT;       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
@@ -1562,7 +1544,9 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
 }
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 const item &it, bool power_armor )
+                 const item &it,
+                 std::array<layer_level, num_bp>& highest_layer_so_far,
+                 bool power_armor )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber();
@@ -1576,8 +1560,15 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
         if( !it.covers( bp ) ) {
             continue;
         }
+        highest_layer_so_far[bp] =
+            std::max( highest_layer_so_far[bp], item_layer );
 
-        vals[bp].layer( static_cast<layer_level>( item_layer ), layering_encumbrance );
+        // Apply layering penalty to this layer, as well as any layer worn
+        // within it that would normally be worn outside of it.
+        for( layer_level penalty_layer = item_layer;
+                penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
+            vals[bp].layer( penalty_layer, layering_encumbrance );
+        }
 
         vals[bp].armor_encumbrance += armorenc;
     }
@@ -1615,6 +1606,16 @@ int layer_details::layer( const int encumbrance )
     return total - current;
 }
 
+std::list<item>::iterator Character::position_to_wear_new_item( const item& new_item )
+{
+    // By default we put this item on after the last item on the same or any
+    // lower layer.
+    return std::find_if(
+        worn.rbegin(), worn.rend(),
+        [&](const item& w) { return w.get_layer() <= new_item.get_layer(); }
+    ).base();
+}
+
 /*
  * Encumbrance logic:
  * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
@@ -1639,13 +1640,31 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // reset all layer data
     vals = std::array<encumbrance_data, num_bp>();
 
-    const bool power_armored = is_wearing_active_power_armor();
-    for( auto &w : worn ) {
-        layer_item( vals, w, power_armored );
+    // Figure out where new_item would be worn
+    std::list<item>::const_iterator new_item_position = worn.end();
+    if( !new_item.is_null() ) {
+        // const_cast required to work around g++-4.8 library bug
+        // see the commit that added this comment to understand why
+        new_item_position =
+            const_cast<Character*>(this)->position_to_wear_new_item( new_item );
     }
 
-    if( !new_item.is_null() ) {
-        layer_item( vals, new_item, power_armored );
+    // Track highest layer observed so far so we can penalise out-of-order
+    // items
+    std::array<layer_level, num_bp> highest_layer_so_far;
+    std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
+               UNDERWEAR);
+
+    const bool power_armored = is_wearing_active_power_armor();
+    for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
+        if( w_it == new_item_position ) {
+            layer_item( vals, new_item, highest_layer_so_far, power_armored );
+        }
+        layer_item( vals, *w_it, highest_layer_so_far, power_armored );
+    }
+
+    if( worn.end() == new_item_position && !new_item.is_null() ) {
+        layer_item( vals, new_item, highest_layer_so_far, power_armored );
     }
 
     // make sure values are sane
@@ -1796,7 +1815,7 @@ int Character::ranged_dex_mod() const
 int Character::ranged_per_mod() const
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
-    return std::max( ( 20.0 - get_per() ) * 1.0, 0.0 );
+    return std::max( ( 20.0 - get_per() ) * 1.2, 0.0 );
 }
 
 int Character::get_healthy() const
@@ -2071,15 +2090,10 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
-hp_part Character::body_window( bool precise ) const
-{
-    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0, 0, 0 );
-}
-
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const
+                                float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -2113,21 +2127,29 @@ hp_part Character::body_window( const std::string &menu_header,
     };
 
     const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
-        if( hp <= 0 ) {
-            return "-----";
-        } else if( precise ) {
+        if( hp <= 0 )
+        {
+            return "==%==";
+        } else if( precise )
+        {
             return string_format( "%d", hp );
-        } else {
-            return string_format( "%-5s", get_hp_bar( hp, maximal_hp, false ).first );
+        } else
+        {
+            std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
+            nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
+
+            return tag_colored_string( h_bar, h_bar_col ) + tag_colored_string( std::string( 5 - h_bar.size(),
+                    '.' ), c_white );
         }
     };
 
     uilist bmenu;
+    bmenu.desc_enabled = true;
     bmenu.text = menu_header;
 
-    // Add a header line so player can see the color of all other lines.
+
     bmenu.hilight_disabled = true;
-    bmenu.addentry( parts.size(), false, 0, _( "Select a body part:" ) );
+    bool is_valid_choice = false;
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const auto &e = parts[i];
@@ -2136,83 +2158,175 @@ hp_part Character::body_window( const std::string &menu_header,
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
         const int bonus = e.bonus;
-        // This will c_light_gray if the part does not have any effects cured by the item
+        // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
-        const nc_color state_col = limb_color( bp, bleed, bite, infect );
+        const nc_color state_col = limb_color( bp, bleed > 0.0f ? true : false, bite > 0.0f ? true : false,
+                                               infect > 0.0f ? true : false );
         const bool has_curable_effect = state_col != c_light_gray;
-        // The same as in the main UI sidebar. Independent of the capability of the healing item!
+        // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
-        const bool has_any_effect = all_state_col != c_light_gray;
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = current_hp == 0;
-        // This considers only the effects that can *not* be removed.
-        const nc_color new_state_col = limb_color( bp, !bleed, !bite, !infect );
 
         if( show_all ) {
             e.allowed = true;
         } else if( has_curable_effect ) {
             e.allowed = true;
         } else if( limb_is_broken ) {
-            continue;
-        } else if( current_hp < maximal_hp && ( e.bonus != 0 || is_bandage || is_disinfectant ) ) {
+            e.allowed = false;
+        } else if( current_hp < maximal_hp && ( e.bonus != 0 || bandage_power > 0.0f  ||
+                                                disinfectant_power > 0.0f ) ) {
             e.allowed = true;
         } else {
-            continue;
+            e.allowed = false;
         }
-
-        bool bandaged = has_effect( effect_bandaged, e.bp );
-        bool disinfected = has_effect( effect_disinfected, e.bp );
-
-        bool treated = true;
-        std::string treatment_str;
-        if( bandaged && disinfected ) {
-            treatment_str = string_format( _( "(bandaged [%d] & disinfected [%d])" ),
-                                           get_effect_int( effect_bandaged, e.bp ),
-                                           get_effect_int( effect_disinfected, e.bp ) );
-        } else if( bandaged ) {
-            treatment_str = string_format( _( "(bandaged [%d])" ),
-                                           get_effect_int( effect_bandaged, e.bp ) );
-        } else if( disinfected ) {
-            treatment_str = string_format( _( "(disinfected [%d])" ),
-                                           get_effect_int( effect_disinfected, e.bp ) );
-        } else {
-            treated = false;
-        }
-
-        const int new_hp = clamp( current_hp + bonus, 0, maximal_hp );
 
         std::stringstream msg;
+        std::stringstream desc;
+        const std::string arrow = " <color_yellow>-></color> ";
+        const std::string plus = " <color_light_green>[+]</color> ";
+        bool bleeding = has_effect( effect_bleed, e.bp );
+        bool bitten = has_effect( effect_bite, e.bp );
+        bool infected = has_effect( effect_infected, e.bp );
+        bool bandaged = has_effect( effect_bandaged, e.bp );
+        bool disinfected = has_effect( effect_disinfected, e.bp );
+        const int b_power = get_effect_int( effect_bandaged, e.bp );
+        const int d_power = get_effect_int( effect_disinfected, e.bp );
+        int new_b_power = static_cast<int>( std::floor( bandage_power ) );
+        if( bandaged ) {
+            const effect &eff = get_effect( effect_bandaged, e.bp );
+            if( new_b_power > eff.get_max_intensity() ) {
+                new_b_power = eff.get_max_intensity();
+            }
 
-        const nc_color old_hp_col = has_any_effect ? all_state_col :
-                                    limb_is_broken ? c_dark_gray : c_green;
+        }
+        int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
+        // this prevents false prediction of effects that overreach maximum limits
+        if( disinfected ) {
+            const effect &eff = get_effect( effect_disinfected, e.bp );
+            if( new_d_power > eff.get_max_intensity() ) {
+                new_d_power = eff.get_max_intensity();
+            }
+
+        }
+        const int new_hp = clamp( current_hp + bonus, 0, maximal_hp );
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg << string_format( "<color_%s>%s</color> <color_%s>%s</color>",
+        msg << string_format( "<color_%s>%s</color> %s",
                               color_name( all_state_col ), aligned_name,
-                              color_name( old_hp_col ), hp_str( current_hp, maximal_hp ) );
+                              hp_str( current_hp, maximal_hp ) );
+        desc << string_format( "<color_%s>%s</color> %s",
+                               color_name( all_state_col ), e.name,
+                               hp_str( current_hp, maximal_hp ) );
         if( current_hp != new_hp || has_curable_effect ) {
-            const nc_color new_hp_col = has_any_effect ? new_state_col :
-                                        limb_is_broken ? c_dark_gray : c_green;
-            msg << string_format( " <color_dark_gray>-></color> <color_%s>%s</color>",
-                                  color_name( new_hp_col ), hp_str( new_hp, maximal_hp ) );
-        }
-        if( treated ) {
-            msg << string_format( " <color_%s>%s</color>",
-                                  color_name( all_state_col ), treatment_str );
+            msg << arrow << string_format( "%s", hp_str( new_hp, maximal_hp ) );
+            desc << arrow << string_format( "%s", hp_str( new_hp, maximal_hp ) ) << "\n";
+        } else {
+            desc << "\n";
         }
 
-        bmenu.addentry( i, true, MENU_AUTOASSIGN, msg.str() );
+        if( limb_is_broken ) {
+            desc << tag_colored_string( _( "It is broken. It needs a splint or surgical attention." ),
+                                        c_red ) << "\n";
+        }
+
+        // BLEEDING block
+        if( bleeding ) {
+            desc << "<color_red>" << string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
+                                                    get_effect( effect_bleed, e.bp ).disp_short_desc() );
+            desc << "</color>\n";
+            if( bleed > 0.0f ) {
+                desc << arrow << tag_colored_string( string_format( _( "Chance to stop: %d %%" ),
+                                                     int( bleed * 100 ) ), c_light_green ) << "\n";
+            } else {
+                desc << arrow << tag_colored_string( _( "This will not stop the bleeding." ),
+                                                     c_yellow ) << "\n";
+            }
+        }
+        // BANDAGE block
+        if( bandaged ) {
+            desc << string_format( _( "Bandaged [%s]" ),
+                                   texitify_healing_power( b_power ) ) << "\n";
+            if( new_b_power > b_power ) {
+                desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
+                                                     texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+            } else if( new_b_power > 0 ) {
+                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this." ),
+                                                     c_yellow ) << "\n";
+            }
+        } else if( new_b_power > 0 && e.allowed ) {
+            desc << plus << arrow << tag_colored_string( string_format( _( "Expected bandage quality: %s" ),
+                    texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+        }
+        // BITTEN block
+        if( bitten ) {
+            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_bite,
+                                        e.bp ).get_speed_name() ), c_red );
+            desc << tag_colored_string( string_format( _( "It has a deep bite wound that needs cleaning." ) ),
+                                        c_red ) << "\n";
+            if( bite > 0 ) {
+                desc << arrow << tag_colored_string( string_format( _( "Chance to clean and disinfect: %d %%" ),
+                                                     int( bite * 100 ) ), c_light_green ) << "\n";
+            } else {
+                desc << arrow << tag_colored_string( _( "This will not help in cleaning this wound." ),
+                                                     c_yellow ) << "\n";
+            }
+        }
+        // INFECTED block
+        if( infected ) {
+            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_infected,
+                                        e.bp ).get_speed_name() ), c_red );
+            desc << tag_colored_string( string_format(
+                                            _( "It has a deep wound that looks infected. Antibiotics might be required." ) ),
+                                        c_red ) << "\n";
+            if( infect > 0 ) {
+                desc << arrow << tag_colored_string( string_format( _( "Chance to heal infection: %d %%" ),
+                                                     int( infect * 100 ) ), c_light_green ) << "\n";
+            } else {
+                desc << arrow << tag_colored_string( _( "This will not help in healing infection." ),
+                                                     c_yellow ) << "\n";
+            }
+        }
+        // DISINFECTANT (general) block
+        if( disinfected ) {
+            desc << string_format( _( "Disinfected [%s]" ),
+                                   texitify_healing_power( d_power ) ) << "\n";
+            if( new_d_power > d_power ) {
+                desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
+                                                     texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+            } else if( new_d_power > 0 ) {
+                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this." ),
+                                                     c_yellow ) << "\n";
+            }
+        } else if( new_d_power > 0 && e.allowed ) {
+            desc << plus << arrow << tag_colored_string( string_format(
+                        _( "Expected disinfection quality: %s" ),
+                        texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+        }
+        // END of blocks
+
+        if( ( !e.allowed && !limb_is_broken ) || ( show_all && current_hp == maximal_hp &&
+                !limb_is_broken && !bitten && !infected && !bleeding ) ) {
+            desc << tag_colored_string( string_format( _( "Healthy." ) ), c_green ) << "\n";
+        }
+        if( !e.allowed ) {
+            desc << arrow << tag_colored_string( _( "You don't expect any effect from using this." ),
+                                                 c_yellow );
+        } else {
+            is_valid_choice = true;
+        }
+        bmenu.addentry_desc( i, e.allowed, MENU_AUTOASSIGN, msg.str(), desc.str() );
     }
 
-    if( bmenu.entries.size() == 1 ) { // Only the header was added
-        bmenu.entries[0].txt = _( "No healable part" );
+    if( !is_valid_choice ) { // no body part can be chosen for this item/effect
+        bmenu.init();
+        bmenu.desc_enabled = false;
+        bmenu.text = _( "No limb would benefit from it." );
+        bmenu.addentry( parts.size(), true, 'q', "%s", _( "Cancel" ) );
     }
-
-    // Force cursor to the header
-    bmenu.setup();
-    bmenu.fselected = bmenu.selected = 0;
 
     bmenu.query();
-    if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() && parts[bmenu.ret].allowed ) {
+    if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() &&
+        parts[bmenu.ret].allowed ) {
         return parts[bmenu.ret].hp;
     } else {
         return num_hp_parts;
@@ -2630,14 +2744,6 @@ std::vector<body_part> Character::get_all_body_parts( bool main ) const
     };
 
     return main ? main_bps : all_bps;
-}
-
-// @todo: Better place for it?
-std::string tag_colored_string( const std::string &s, nc_color color )
-{
-    // @todo: Make this tag generation a function, put it in good place
-    std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
-    return color_tag_open + s;
 }
 
 std::string Character::extended_description() const

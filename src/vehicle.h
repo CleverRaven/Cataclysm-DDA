@@ -6,6 +6,7 @@
 #include "tileray.h"
 #include "damage.h"
 #include "item.h"
+#include "item_group.h"
 #include "line.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
@@ -732,6 +733,13 @@ class vehicle
          */
         void remove_remote_part( int part_num );
 
+        /**
+         * Returns an ItemList of the pieces that should arise from breaking
+         * this part.
+         * @param p The index of the part to break.
+         */
+        item_group::ItemList pieces_for_broken_part( int p );
+
         void break_part_into_pieces( int p, int x, int y, bool scatter = false );
         /**
          * Yields a range containing all parts (including broken ones) that can be
@@ -740,21 +748,44 @@ class vehicle
         // @todo maybe not include broken ones? Have a separate function for that?
         // @todo rename to just `parts()` and rename the data member to `parts_`.
         vehicle_part_range get_parts() const;
+        /**
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are not broken. Removed parts are also excluded. The enabled status
+         * of the part is ignored.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> get_parts( std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_parts( vpart_bitflags f ) const;
+        /**@}*/
+        /**
+         * Like @ref get_parts, but also yields broken parts.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> get_parts_including_broken(
+            std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_parts_including_broken(
+            vpart_bitflags f ) const;
+        /**@}*/
+        /**
+         * Like @ref get_parts, but only yield enabled parts. They must still be unbroken.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> get_enabled_parts( std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_enabled_parts( vpart_bitflags f ) const;
+        /**@}*/
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
-        std::vector<int> parts_at_relative( int dx, int dy, bool use_cache = true ) const;
+        std::vector<int> parts_at_relative( int dx, int dy, bool use_cache ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
-        int part_with_feature( int p, const std::string &f, bool unbroken = true ) const;
-        int part_with_feature_at_relative( const point &pt, const std::string &f,
-                                           bool unbroken = true ) const;
-        int part_with_feature( int p, vpart_bitflags f, bool unbroken = true ) const;
+        int part_with_feature( int p, const std::string &f, bool unbroken ) const;
+        int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
-        int avail_part_with_feature( int p, const std::string &f, bool unbroken = true ) const;
-        int avail_part_with_feature_at_relative( const point &pt, const std::string &f,
-                bool unbroken = true ) const;
-        int avail_part_with_feature( int p, vpart_bitflags f, bool unbroken = true ) const;
+        int avail_part_with_feature( int p, const std::string &f, bool unbroken ) const;
+        int avail_part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        int avail_part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with specified flag
@@ -773,35 +804,16 @@ class vehicle
         bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
 
         /**
-         *  Get all unbroken vehicle parts with specified flag
-         *  @param flag Flag to get parts for
-         *  @param enabled if set part must also be enabled to be considered
-         */
-        std::vector<vehicle_part *> get_parts( const std::string &flag, bool enabled = false );
-        std::vector<const vehicle_part *> get_parts( const std::string &flag, bool enabled = false ) const;
-
-        /**
-         *  Get all unbroken vehicle parts with cached with a given bitflag
-         *  @param flag Flag to check for
-         *  @param enabled if set part must also be enabled to be considered
-         *  @param enabled if you want to get broken parts too
-         */
-        std::vector<vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false,
-                                               bool include_broken_parts = false );
-        std::vector<const vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false,
-                bool include_broken_parts = false ) const;
-
-        /**
          *  Get all unbroken vehicle parts at specified position
          *  @param pos position to check
          *  @param flag if set only flags with this part will be considered
          *  @param enabled if set part must also be enabled to be considered
          *  @param enabled if you want to get broken parts too
          */
-        std::vector<vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "",
-                                               bool enabled = false, bool include_broken_parts = false );
-        std::vector<const vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "",
-                bool enabled = false, bool include_broken_parts = false ) const;
+        std::vector<vehicle_part *> get_parts( const tripoint &pos, const std::string &flag, bool enabled,
+                                               bool include_broken_parts );
+        std::vector<const vehicle_part *> get_parts( const tripoint &pos, const std::string &flag,
+                bool enabled, bool include_broken_parts ) const;
 
         /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
         bool can_enable( const vehicle_part &pt, bool alert = false ) const;
@@ -829,18 +841,6 @@ class vehicle
          *  @return part index or -1 if no part
          */
         int next_part_to_close( int p, bool outside = false ) const;
-        /**
-         * Yields a range of parts of this vehicle that each have the given feature
-         * and are (optionally) unbroken.
-         * @param unbroken If `true`, only unbroken parts are considered, otherwise
-         * even broken parts are in the range.
-         */
-        /**@{*/
-        vehicle_part_with_feature_range<std::string> parts_with_feature( std::string feature,
-                bool unbroken = true ) const;
-        vehicle_part_with_feature_range<vpart_bitflags> parts_with_feature( vpart_bitflags f,
-                bool unbroken = true ) const;
-        /**@}*/
 
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;

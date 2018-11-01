@@ -153,6 +153,7 @@ void body_part_struct::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
 
     mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "name_plural", name_multiple );
     mandatory( jo, was_loaded, "heading_singular", name_as_heading_singular );
     mandatory( jo, was_loaded, "heading_plural", name_as_heading_multiple );
     optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
@@ -221,14 +222,19 @@ void body_part_struct::check() const
     }
 }
 
-std::string body_part_name( body_part bp )
+std::string body_part_name( body_part bp, int number )
 {
-    return _( get_bp( bp ).name.c_str() );
+    const auto &bdy = get_bp( bp );
+    return ngettext( bdy.name.c_str(),
+                     bdy.name_multiple.c_str(), number );
 }
 
-std::string body_part_name_accusative( body_part bp )
+std::string body_part_name_accusative( body_part bp, int number )
 {
-    return pgettext( "bodypart_accusative", get_bp( bp ).name.c_str() );
+    const auto &bdy = get_bp( bp );
+    return npgettext( "bodypart_accusative",
+                      bdy.name.c_str(),
+                      bdy.name_multiple.c_str(), number );
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )

@@ -112,6 +112,7 @@
     "mod_targets": [ "shotgun", "rifle" ],
     "dispersion_modifier": 10,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
   },
   {
@@ -231,7 +232,8 @@
       "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
-    }
+    },
+    "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "id": "masterkey",
@@ -285,6 +287,7 @@
     "mod_targets": [ "pistol" ],
     "dispersion_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "STAB" ]
   },
   {

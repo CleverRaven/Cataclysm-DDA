@@ -376,7 +376,7 @@
         "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
         "c": { "items": [ { "item": "kitchen", "chance": 20 } ] },
         "O": { "items": [ { "item": "oven", "chance": 20 } ] }
-      }      
+      }
     }
   },
   {
@@ -407,7 +407,7 @@
         "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
         "c": { "items": [ { "item": "kitchen", "chance": 20 } ] },
         "O": { "items": [ { "item": "oven", "chance": 20 } ] }
-      }      
+      }
     }
   },
   {

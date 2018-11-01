@@ -17,6 +17,11 @@
 #include "cata_utility.h"
 #include "calendar.h"
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 class nc_color;
 class JsonObject;
 class JsonIn;
@@ -173,6 +178,12 @@ enum layer_level {
     /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
 };
+
+inline layer_level &operator++( layer_level &l )
+{
+    l = static_cast<layer_level>( l + 1 );
+    return l;
+}
 
 class item : public visitable<item>
 {
@@ -446,11 +457,19 @@ class item : public visitable<item>
 
         units::mass weight( bool include_contents = true ) const;
 
-        /* Total volume of an item accounting for all contained/integrated items
-         * @param integral if true return effective volume if item was integrated into another */
+        /**
+         * Total volume of an item accounting for all contained/integrated items
+         * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
+         * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
+         * @param integral if true return effective volume if this item was integrated into another
+         */
         units::volume volume( bool integral = false ) const;
 
-        /** Simplified, faster volume check for when processing time is important and exact volume is not. */
+        /**
+         * Simplified, faster volume check for when processing time is important and exact volume is not.
+         * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
+         * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
+         */
         units::volume base_volume() const;
 
         /** Volume check for corpses, helper for base_volume(). */
@@ -635,6 +654,11 @@ class item : public visitable<item>
 
         int get_quality( const quality_id &id ) const;
         bool count_by_charges() const;
+
+        /**
+         * If count_by_charges(), returns charges, otherwise 1
+         */
+        long count() const;
         bool craft_has_charges();
 
         /**
@@ -984,9 +1008,9 @@ class item : public visitable<item>
     public:
         /**
          * Gets the point (vehicle tile) the cable is connected to.
-         * Returns tripoint_min if not connected to anything.
+         * Returns nothing if not connected to anything.
          */
-        tripoint get_cable_target() const;
+        cata::optional<tripoint> get_cable_target() const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -1195,11 +1219,11 @@ class item : public visitable<item>
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Number of charges of this item that fit into the given volume.
+         * Number of (charges of) this item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume. Only depends on the *type*
          * of this item not on its current charge count.
          *
-         * For items not counted by charges, this returns this->volume() / vol.
+         * For items not counted by charges, this returns vol / this->volume().
          */
         long charges_per_volume( const units::volume &vol ) const;
 
@@ -1692,6 +1716,10 @@ class item : public visitable<item>
          * Does it require gunsmithing tools to repair.
          */
         bool is_firearm() const;
+        /**
+         * Returns the reload time of the gun. Returns 0 if not a gun.
+         */
+        int get_reload_time() const;
         /*@}*/
 
         /**
@@ -1831,6 +1859,8 @@ class item : public visitable<item>
         t_item_vector components;
 
         int get_gun_ups_drain() const;
+
+        int get_min_str() const;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
@@ -1858,4 +1888,3 @@ enum hint_rating {
 item &null_item_reference();
 
 #endif
-

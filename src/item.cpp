@@ -535,7 +535,9 @@ long item::charges_per_volume( const units::volume &vol ) const
     if( type->volume == 0 ) {
         return INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
     }
-    return count_by_charges() ? vol / type->volume : vol / volume();
+    // Type cast to prevent integer overflow with large volume containers like the cargo dimension
+    return count_by_charges() ? vol * static_cast<int64_t>( type->stack_size ) / type->volume
+           : vol / volume();
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -844,8 +846,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::BASE_REQUIREMENTS ) ) {
             // Display any minimal stat or skill requirements for the item
             std::vector<std::string> req;
-            if( type->min_str > 0 ) {
-                req.push_back( string_format( "%s %d", _( "strength" ), type->min_str ) );
+            if( get_min_str() > 0 ) {
+                req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
             }
             if( type->min_dex > 0 ) {
                 req.push_back( string_format( "%s %d", _( "dexterity" ), type->min_dex ) );
@@ -1342,7 +1344,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) )
             info.emplace_back( "GUN", _( "Reload time: " ),
                                has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
-                               int( gun.reload_time / 16.67 ), true, "", true, true );
+                               int( mod->get_reload_time() / 16.67 ), true, "", true, true );
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
             std::vector<std::string> fm;
@@ -1444,6 +1446,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( type->mod->ammo_modifier && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
             info.push_back( iteminfo( "GUNMOD",
                                       string_format( _( "Ammo: <stat>%s</stat>" ), type->mod->ammo_modifier->name().c_str() ) ) );
+        }
+        if( mod.reload_modifier != 0 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
+            info.emplace_back( "GUNMOD", _( "Reload modifier: " ), _( "<num>%" ), mod.reload_modifier, true, "",
+                               true, true );
+        }
+        if( mod.min_str_required_mod > 0 && parts->test( iteminfo_parts::GUNMOD_STRENGTH ) ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Minimum strength required modifier: " ), "",
+                                      mod.min_str_required_mod ) );
         }
 
         temp1.str( "" );
@@ -2487,7 +2497,7 @@ void item::on_wield( player &p, int mv )
             d /= std::max( p.get_skill_level( melee_skill() ), 1 );
         }
 
-        int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;
+        int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
         p.moves -= penalty;
         mv += penalty;
     }
@@ -2996,6 +3006,14 @@ units::volume item::base_volume() const
         return corpse_volume( corpse->size );
     }
 
+    if( count_by_charges() ) {
+        if( type->volume % type->stack_size == 0_ml ) {
+            return type->volume / type->stack_size;
+        } else {
+            return type->volume / type->stack_size + 1_ml;
+        }
+    }
+
     return type->volume;
 }
 
@@ -3020,7 +3038,11 @@ units::volume item::volume( bool integral ) const
     }
 
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret *= charges;
+        auto num = ret * static_cast<int64_t>( charges );
+        ret = num / type->stack_size;
+        if( num % type->stack_size != 0_ml ) {
+            ret += 1_ml;
+        }
     }
 
     // Non-rigid items add the volume of the content
@@ -3625,6 +3647,11 @@ bool item::count_by_charges() const
     return type->count_by_charges();
 }
 
+long item::count() const
+{
+    return count_by_charges() ? charges : 1;
+}
+
 bool item::craft_has_charges()
 {
     if( count_by_charges() ) {
@@ -4064,6 +4091,20 @@ bool item::is_firearm() const
 {
     static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
     return is_gun() && !has_flag( primitive_flag );
+}
+
+int item::get_reload_time() const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+
+    int reload_time = type->gun->reload_time;
+    for( const auto mod : gunmods() ) {
+        reload_time = int( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
+    }
+
+    return reload_time;
 }
 
 bool item::is_silent() const
@@ -4734,7 +4775,7 @@ int item::gun_range( const player *p ) const
 
     // Reduce bow range until player has twice minimm required strength
     if( has_flag( "STR_DRAW" ) ) {
-        ret += std::max( 0.0, ( p->get_str() - type->min_str ) * 0.5 );
+        ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
     }
 
     return std::max( 0, ret );
@@ -5283,7 +5324,7 @@ int item::reload_option::moves() const
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
         if( parent->is_gun() ) {
-            mv += parent->type->gun->reload_time;
+            mv += parent->get_reload_time();
         } else if( parent->is_tool() ) {
             mv += 100;
         }
@@ -6616,10 +6657,10 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     return false;
 }
 
-tripoint item::get_cable_target() const
+cata::optional<tripoint> item::get_cable_target() const
 {
     if( get_var( "state" ) != "pay_out_cable" ) {
-        return tripoint_min;
+        return cata::nullopt;
     }
 
     int source_x = get_var( "source_x", 0 );
@@ -6627,18 +6668,17 @@ tripoint item::get_cable_target() const
     int source_z = get_var( "source_z", 0 );
     tripoint source( source_x, source_y, source_z );
 
-    tripoint relpos = g->m.getlocal( source );
-    return relpos;
+    return g->m.getlocal( source );
 }
 
 bool item::process_cable( player *p, const tripoint &pos )
 {
-    const tripoint &source = get_cable_target();
-    if( source == tripoint_min ) {
+    const cata::optional<tripoint> source = get_cable_target();
+    if( !source ) {
         return false;
     }
 
-    if( !g->m.veh_at( source ) || ( source.z != g->get_levz() && !g->m.has_zlevels() ) ) {
+    if( !g->m.veh_at( *source ) || ( source->z != g->get_levz() && !g->m.has_zlevels() ) ) {
         if( p != nullptr && p->has_item( *this ) ) {
             p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
@@ -6646,7 +6686,7 @@ bool item::process_cable( player *p, const tripoint &pos )
         return false;
     }
 
-    int distance = rl_dist( pos, source );
+    int distance = rl_dist( pos, *source );
     int max_charges = type->maximum_charges();
     charges = max_charges - distance;
 
@@ -7112,4 +7152,17 @@ bool item::is_upgrade() const
         return false;
     }
     return type->bionic->is_upgrade;
+}
+
+int item::get_min_str() const
+{
+    if( type->gun ) {
+        int min_str = type->min_str;
+        for( const auto mod : gunmods() ) {
+            min_str += mod->type->gunmod->min_str_required_mod;
+        }
+        return min_str > 0 ? min_str : 0;
+    } else {
+        return type->min_str;
+    }
 }

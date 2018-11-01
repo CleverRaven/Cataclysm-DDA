@@ -344,10 +344,7 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
     wrefresh( w_help );
 }
 
-/*
- * main()
- */
-tripoint editmap::edit()
+cata::optional<tripoint> editmap::edit()
 {
     target = g->u.pos() + g->u.view_offset;
     input_context ctxt( "EDITMAP" );
@@ -429,7 +426,7 @@ tripoint editmap::edit()
     if( action == "CONFIRM" ) {
         return target;
     }
-    return tripoint_min;
+    return cata::nullopt;
 }
 
 // pending radiation / misc edit

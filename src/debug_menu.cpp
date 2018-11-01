@@ -39,11 +39,11 @@ class mission_debug
 
 void teleport_short()
 {
-    const tripoint where( g->look_around() );
-    if( where == tripoint_min || where == g->u.pos() ) {
+    const cata::optional<tripoint> where = g->look_around();
+    if( !where || *where == g->u.pos() ) {
         return;
     }
-    g->place_player( where );
+    g->place_player( *where );
     const tripoint new_pos( g->u.pos() );
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
@@ -407,9 +407,8 @@ void character_edit_menu()
             mission_debug::edit( p );
             break;
         case D_TELE: {
-            tripoint newpos = g->look_around();
-            if( newpos != tripoint_min ) {
-                p.setpos( newpos );
+            if( const cata::optional<tripoint> newpos = g->look_around() ) {
+                p.setpos( *newpos );
                 if( p.is_player() ) {
                     g->update_map( g->u );
                 }
