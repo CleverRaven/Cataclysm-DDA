@@ -183,10 +183,10 @@ void npc::talk_to_u( bool text_only )
     if( get_attitude() == NPCATT_TALK ) {
         set_attitude( NPCATT_NULL );
     } else if( get_attitude() == NPCATT_FLEE && !has_mind_control ) {
-        add_msg( _( "%s is fleeing from you!" ), name.c_str() );
+        add_msg( _( "%s is fleeing from you!" ), name );
         return;
     } else if( get_attitude() == NPCATT_KILL && !has_mind_control ) {
-        add_msg( _( "%s is hostile!" ), name.c_str() );
+        add_msg( _( "%s is hostile!" ), name );
         return;
     }
     dialogue d;
@@ -301,7 +301,7 @@ void npc::talk_to_u( bool text_only )
 
         // Don't query if we're training the player
     } else if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
-        g->cancel_activity_or_ignore_query( distraction_type::talked_to,  string_format( _( "%s talked to you." ), name.c_str() ) );
+        g->cancel_activity_or_ignore_query( distraction_type::talked_to,  string_format( _( "%s talked to you." ), name ) );
     }
 }
 
@@ -1574,8 +1574,8 @@ int topic_category( const talk_topic &the_topic )
 
 void talk_function::start_camp( npc &p )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
+    const tripoint omt_pos = p.global_omt_location();
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
     if( omt_ref.id() != "field" ){
         popup( _("You must build your camp in an empty field.") );
@@ -1642,7 +1642,7 @@ void talk_function::start_camp( npc &p )
     }
 
     editmap edit;
-    if (!edit.mapgen_set( "faction_base_camp_0", tripoint(omt_pos.x, omt_pos.y, p.posz() ) ) ){
+    if (!edit.mapgen_set( "faction_base_camp_0", omt_pos) ){
         popup( _("You weren't able to survey the camp site.") );
         return;
     }
@@ -1651,8 +1651,8 @@ void talk_function::start_camp( npc &p )
 
 void talk_function::recover_camp( npc &p )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
+    const tripoint omt_pos = p.global_omt_location();
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     if( !om_min_level( "faction_base_camp_0", omt_ref.id().c_str() ) ){
         popup( _("There is no faction camp here to recover!") );
         return;
@@ -1663,7 +1663,7 @@ void talk_function::recover_camp( npc &p )
 
 void talk_function::become_overseer( npc &p )
 {
-    add_msg( _( "%s has become a camp manager." ), p.name.c_str() );
+    add_msg( _( "%s has become a camp manager." ), p.name );
     if( p.name.find( _(", Camp Manager") ) == std::string::npos ){
         p.name = p.name + _(", Camp Manager");
     }
@@ -1685,7 +1685,7 @@ void talk_function::remove_overseer( npc &p )
         p.name = p.name.substr( 0, suffix );
     }
 
-    add_msg( _( "%s has abandoned the camp." ), p.name.c_str() );
+    add_msg( _( "%s has abandoned the camp." ), p.name );
     p.companion_mission_role_id.clear();
     stop_guard(p);
 }
@@ -2049,17 +2049,17 @@ void talk_response::effect_fun_t::set_u_buy_item( std::string &item_name, int co
             u.i_add( new_item );
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
-                popup( _( "%1$s gives you a %2$s" ), p.name.c_str(), new_item.tname().c_str() );
+                popup( _( "%1$s gives you a %2$s" ), p.name, new_item.tname() );
             } else {
                 //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                popup( _( "%1$s gives you %2$d %3$s" ), p.name.c_str(), count, new_item.tname().c_str() );
+                popup( _( "%1$s gives you %2$d %3$s" ), p.name, count, new_item.tname() );
             }
         } else {
             item container( container_name, calendar::turn );
             container.emplace_back( item_name, calendar::turn, count );
             u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "%1$s gives you a %2$s" ), p.name.c_str(), container.tname().c_str() );
+            popup( _( "%1$s gives you a %2$s" ), p.name, container.tname() );
         }
         u.cash -= cost;
     };
@@ -2450,8 +2450,9 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_string( "u_at_om_location" ) ) {
         const std::string &location = jo.get_string( "u_at_om_location" );
         condition = [location]( const dialogue & d ) {
-            const point omt_pos = ms_to_omt_copy( g->m.getabs( d.alpha->posx(), d.alpha->posy() ) );
-            oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, d.alpha->posz() );
+            const tripoint omt_pos = d.alpha->global_omt_location();
+            oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+
             if( location == "FACTION_CAMP_ANY" ) {
                 return talk_function::om_min_level( "faction_base_camp_1", omt_ref.id().c_str() );
             } else {
@@ -2923,9 +2924,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     if( allow_use ) {
         add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-                 p.weapon.tname().c_str(), our_ammo, cur_weapon_value );
+                 p.weapon.tname(), our_ammo, cur_weapon_value );
         add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                 given.tname().c_str(), new_ammo, new_weapon_value );
+                 given.tname(), new_ammo, new_weapon_value );
         if( new_weapon_value > cur_weapon_value ) {
             p.wield( given );
             taken = true;

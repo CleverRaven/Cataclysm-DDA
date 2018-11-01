@@ -52,13 +52,13 @@ void remove_overseer( npc & );
  * @param chance of destruction, 0 to 1.00
  * @param force_bash, whether you want to destroy the furniture and drop the items vs counting the furniture
  */
-int om_harvest_furn( npc &comp, const point &omt_tgt, const furn_id &f, float chance = 1.0,
+int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, float chance = 1.0,
                      bool force_bash = true );
 /// Exact same as om_harvest_furn but functions on terrain
-int om_harvest_ter( npc &comp, const point &omt_tgt, const ter_id &f, float chance = 1.0,
+int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &f, float chance = 1.0,
                     bool force_bash = true );
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, @ref take, whether you take the item or count it
-int om_harvest_itm( npc &comp, const point &omt_tgt, float chance = 1.0, bool take = true );
+int om_harvest_itm( npc &comp, const tripoint &omt_tgt, float chance = 1.0, bool take = true );
 /// Counts or cuts trees into trunks and trunks into logs, if both are false it returns the total of the two combined
 int om_harvest_trees( npc &comp, const tripoint &omt_tgt, float chance = 1.0, bool force_cut = true,
                       bool force_cut_trunk = true );
@@ -107,7 +107,7 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 int om_carry_weight_to_trips( npc &comp, const std::vector<item *> &itms );
 
 /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
-bool om_camp_upgrade( npc &p, const point &omt_pos );
+bool om_camp_upgrade( npc &p, const tripoint &omt_pos );
 /// Returns the description for the recipe of the next building @ref bldg
 std::string om_upgrade_description( const std::string &bldg );
 /// Currently does the same as om_upgrade_description but should convert fire charges to raw charcoal needed and allow dark craft
@@ -122,8 +122,10 @@ std::vector<std::string> om_all_upgrade_levels( const std::string &bldg );
 bool om_min_level( const std::string &target, const std::string &bldg );
 /// Is the @ref bldg of the same type as the @ref target and how many levels greater is it, -1 for no match, 0 for same
 int om_over_level( const std::string &target, const std::string &bldg );
+/// Returns the numerical suffix of the @ref bldg
+int om_upgrade_level( const std::string &bldg );
 /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
-bool upgrade_return( npc &p, const point &omt_pos, const std::string &miss );
+bool upgrade_return( npc &p, const tripoint &omt_pos, const std::string &miss );
 /// Called when a companion completes a gathering @ref task mission
 bool camp_gathering_return( npc &p, const std::string &task );
 /// Called on completion of recruiting, returns the new NPC.
@@ -131,11 +133,26 @@ void camp_recruit_return( npc &p, const std::string &task, int score );
 void camp_craft_construction( npc &p, const mission_entry &cur_key,
                               const std::map<std::string, std::string> &recipes, const std::string &miss_id,
                               const tripoint &omt_pos, const std::vector<std::pair<std::string, tripoint>> &om_expansions );
-std::string camp_recruit_evaluation( npc &p, const std::string &base,
-                                     const std::vector<std::pair<std::string, tripoint>> &om_expansions,
-                                     bool raw_score = false );
+int camp_recruit_evaluation( const std::string &base,
+                             const std::vector<std::pair<std::string, tripoint>> &om_expansions, int &sbase, int &sexpansions,
+                             int &sfaction, int &sbonus );
+int camp_recruit_evaluation( const std::string &base,
+                             const std::vector<std::pair<std::string, tripoint>> &om_expansions );
+std::string camp_recruit_start( npc &p, const std::string &base,
+                                const std::vector<std::pair<std::string, tripoint>> &om_expansions );
+/// Called when a companion is sent to cut logs
+void start_camp_upgrade( npc &p, const std::string &bldg );
+void start_cut_logs( npc &p );
+void start_setup_hide_site( npc &p );
+void start_relay_hide_site( npc &p );
+/// Called when a compansion is sent to start fortifications
+void start_fortifications( std::string &bldg_exp, npc &p );
+void start_combat_mission( std::string &miss, npc &p );
+
 /// Called when a companion completes a chop shop @ref task mission
 bool camp_garage_chop_start( npc &p, const std::string &task );
+/// Called when a companion completes any mission and calls companion_return
+void camp_companion_return( npc &comp );
 /**
  * Perform any mix of the three farm tasks.
  * @param harvest, should the NPC harvest every harvestable plant
@@ -145,6 +162,8 @@ bool camp_garage_chop_start( npc &p, const std::string &task );
 bool camp_farm_return( npc &p, const std::string &task, bool harvest, bool plant, bool plow );
 /// Sorts all items within most of the confines of the camp into piles designated by the player or defaulted to
 bool camp_menial_return( npc &p );
+void camp_fortifications_return( npc &p );
+void combat_mission_return( std::string &miss, npc &p );
 /**
  * Sets the location of the sorting piles used above.
  * @param reset_pts, reverts all previous points to defaults.  Called/checked so we can add new point with compatability
@@ -159,9 +178,9 @@ bool camp_distribute_food( npc &p );
 std::vector<std::pair<std::string, tripoint>> om_building_region( npc &p, int range,
         bool purge = false );
 /// Converts the camp and expansion points into direction strings, "[NW]"
-std::string om_simple_dir( const point &omt_pos, const tripoint &omt_tar );
+std::string om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 /// Returns a string for the number of plants that are harvestable, plots ready to plany, and ground that needs tilling
-std::string camp_farm_description( const point &omt_pos, bool harvest = true, bool plots = true,
+std::string camp_farm_description( const tripoint &omt_pos, bool harvest = true, bool plots = true,
                                    bool plow = true );
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
