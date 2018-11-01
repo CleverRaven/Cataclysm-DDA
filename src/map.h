@@ -8,6 +8,7 @@
 #include "int_id.h"
 #include "item_stack.h"
 #include "lightmap.h"
+#include "shadowcasting.h"
 #include "string_id.h"
 
 #include <array>
@@ -168,7 +169,7 @@ struct level_cache {
     bool outside_cache_dirty;
     bool floor_cache_dirty;
 
-    float lm[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    four_quadrants lm[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float sm[MAPSIZE * SEEX][MAPSIZE * SEEY];
     // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
     // This is only valid for the duration of generate_lightmap
@@ -254,6 +255,13 @@ class map
          */
         void on_vehicle_moved( const int zlev );
 
+        struct ApparentLight {
+            bool obstructed;
+            float apparent_light;
+        };
+        /** Helper function for light claculation; exposed here for map editor
+         */
+        static ApparentLight apparent_light_helper( const level_cache &map_cache, const tripoint &p );
         /** Determine the visible light level for a tile, based on light_at
          * for the tile, vision distance, etc
          *

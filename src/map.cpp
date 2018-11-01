@@ -5363,7 +5363,7 @@ void map::update_visibility_cache( const int zlev )
     visibility_variables_cache.variables_set = true; // Not used yet
     visibility_variables_cache.g_light_level = static_cast<int>( g->light_level( zlev ) );
     visibility_variables_cache.vision_threshold = g->u.get_vision_threshold(
-                get_cache_ref( g->u.posz() ).lm[g->u.posx()][g->u.posy()] );
+                get_cache_ref( g->u.posz() ).lm[g->u.posx()][g->u.posy()].max() );
 
     visibility_variables_cache.u_clairvoyance = g->u.clairvoyance();
     visibility_variables_cache.u_sight_impaired = g->u.sight_impaired();
@@ -8010,7 +8010,8 @@ level_cache::level_cache()
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     floor_cache_dirty = false;
-    std::fill_n( &lm[0][0], map_dimensions, 0.0f );
+    constexpr four_quadrants four_zeros( 0.0f );
+    std::fill_n( &lm[0][0], map_dimensions, four_zeros );
     std::fill_n( &sm[0][0], map_dimensions, 0.0f );
     std::fill_n( &light_source_buffer[0][0], map_dimensions, 0.0f );
     std::fill_n( &outside_cache[0][0], map_dimensions, false );

@@ -238,7 +238,7 @@ void shadowcasting_runoff( int iterations, bool test_bresenham = false )
     auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
-        castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+        castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_squares_experiment, transparency_cache, offsetX, offsetY );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
@@ -290,7 +290,7 @@ void shadowcasting_3d_2d( int iterations )
     auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
-        castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+        castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_squares_control, transparency_cache, offsetX, offsetY );
     }
     auto end1 = std::chrono::high_resolution_clock::now();
@@ -391,7 +391,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         }
     }
 
-    castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+    castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
         seen_squares, transparency_cache, ORIGIN.x, ORIGIN.y );
 
     // Compares the whole grid, but out-of-bounds compares will de-facto pass.
