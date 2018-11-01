@@ -5403,56 +5403,6 @@ const visibility_variables &map::get_visibility_variables_cache() const
     return visibility_variables_cache;
 }
 
-lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
-{
-    const int dist = rl_dist( g->u.pos(), p );
-
-    // Clairvoyance overrides everything.
-    if( dist <= cache.u_clairvoyance ) {
-        return LL_BRIGHT;
-    }
-    const auto &map_cache = get_cache_ref( p.z );
-    const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
-    const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
-    const float apparent_light = vis * map_cache.lm[p.x][p.y];
-
-    // Unimpaired range is an override to strictly limit vision range based on various conditions,
-    // but the player can still see light sources.
-    if( dist > g->u.unimpaired_range() ) {
-        if( !obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
-            return LL_BRIGHT_ONLY;
-        } else {
-            return LL_DARK;
-        }
-    }
-    if( obstructed ) {
-        if( apparent_light > LIGHT_AMBIENT_LIT ) {
-            if( apparent_light > cache.g_light_level ) {
-                // This represents too hazy to see detail,
-                // but enough light getting through to illuminate.
-                return LL_BRIGHT_ONLY;
-            } else {
-                // If it's not brighter than the surroundings, it just ends up shadowy.
-                return LL_LOW;
-            }
-        } else {
-            return LL_BLANK;
-        }
-    }
-    // Then we just search for the light level in descending order.
-    if( apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
-        return LL_BRIGHT;
-    }
-    if( apparent_light > LIGHT_AMBIENT_LIT ) {
-        return LL_LIT;
-    }
-    if( apparent_light > cache.vision_threshold ) {
-        return LL_LOW;
-    } else {
-        return LL_BLANK;
-    }
-}
-
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const
 {
     switch( ll ) {
