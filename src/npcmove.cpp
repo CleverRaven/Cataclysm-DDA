@@ -3032,7 +3032,7 @@ void npc::set_destination()
             current_goal = overmap_buffer.find_closest( surface_omt_loc, current_dest_type, 0, false, false );
             current_goal_dist = square_dist( surface_omt_loc, current_goal );
             if( ( ( current_goal_dist < goal_dist ) || ( goal_dist = -1 ) ) &&
-                visited_point.find( current_goal ) == visited_point.end() ) {
+                visited_point.find( current_goal ) != visited_point.end() ) {
                 goal = current_goal;
                 goal_dist = current_goal_dist;
                 needs_final = i; // only for debug purpose
