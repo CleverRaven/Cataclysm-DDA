@@ -68,6 +68,10 @@ const skill_id skill_tailor( "tailor" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
+const skill_id skill_rifle( "rifle" );
+const skill_id skill_pistol( "pistol" );
+const skill_id skill_shotgun( "shotgun" );
+const skill_id skill_smg( "smg" );
 const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
@@ -704,8 +708,6 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
         }
     }
 
-    int y = 0;
-    int i = 0;
     int money = 0;
     for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
@@ -714,37 +716,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
             money += ( time / 600 ) * 9;
         } else if( elem->has_companion_mission() ) {
             money += ( time / 600 ) * 18;
-            i = 0;
-            while( i < experience ) {
-                y = rng( 0, 100 );
-                if( y < 60 ) {
-                    const skill_id best = elem->best_skill();
-                    if( best ) {
-                        elem->practice( best, 10 );
-                    } else {
-                        elem->practice( skill_melee, 10 );
-                    }
-                } else if( y < 70 ) {
-                    elem->practice( skill_survival, 10 );
-                } else if( y < 80 ) {
-                    elem->practice( skill_melee, 10 );
-                } else if( y < 85 ) {
-                    elem->practice( skill_firstaid, 10 );
-                } else if( y < 90 ) {
-                    elem->practice( skill_speech, 10 );
-                } else if( y < 92 ) {
-                    elem->practice( skill_bashing, 10 );
-                } else if( y < 94 ) {
-                    elem->practice( skill_stabbing, 10 );
-                } else if( y < 96 ) {
-                    elem->practice( skill_cutting, 10 );
-                } else if( y < 98 ) {
-                    elem->practice( skill_dodge, 10 );
-                } else {
-                    elem->practice( skill_unarmed, 10 );
-                }
-                i++;
-            };
+            companion_skill_trainer( *elem, "combat", experience * 10_minutes, 10 );
             companion_return( *elem );
         }
     }
@@ -1163,36 +1135,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
     int money = rng( 25, 450 );
     g->u.cash += money * 100;
 
-    int y = 0;
-    int i = 0;
-    while( i < experience ) {
-        y = rng( 0, 100 );
-        if( y < 40 ) {
-            comp->practice( skill_survival, 10 );
-        } else if( y < 60 ) {
-            comp->practice( skill_mechanics, 10 );
-        } else if( y < 75 ) {
-            comp->practice( skill_electronics, 10 );
-        } else if( y < 81 ) {
-            comp->practice( skill_melee, 10 );
-        } else if( y < 86 ) {
-            comp->practice( skill_firstaid, 10 );
-        } else if( y < 90 ) {
-            comp->practice( skill_speech, 10 );
-        } else if( y < 92 ) {
-            comp->practice( skill_bashing, 10 );
-        } else if( y < 94 ) {
-            comp->practice( skill_stabbing, 10 );
-        } else if( y < 96 ) {
-            comp->practice( skill_cutting, 10 );
-        } else if( y < 98 ) {
-            comp->practice( skill_dodge, 10 );
-        } else {
-            comp->practice( skill_unarmed, 10 );
-        }
-        i++;
-    }
-
+    companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
     popup( _( "%s returns from patrol having earned $%d and a fair bit of experience..." ),
            comp->name, money );
     if( one_in( 10 ) ) {
@@ -1266,36 +1209,7 @@ bool talk_function::scavenging_raid_return( npc &p )
     int money = rng( 200, 900 );
     g->u.cash += money * 100;
 
-    int y = 0;
-    int i = 0;
-    while( i < experience ) {
-        y = rng( 0, 100 );
-        if( y < 40 ) {
-            comp->practice( skill_survival, 10 );
-        } else if( y < 60 ) {
-            comp->practice( skill_mechanics, 10 );
-        } else if( y < 75 ) {
-            comp->practice( skill_electronics, 10 );
-        } else if( y < 81 ) {
-            comp->practice( skill_melee, 10 );
-        } else if( y < 86 ) {
-            comp->practice( skill_firstaid, 10 );
-        } else if( y < 90 ) {
-            comp->practice( skill_speech, 10 );
-        } else if( y < 92 ) {
-            comp->practice( skill_bashing, 10 );
-        } else if( y < 94 ) {
-            comp->practice( skill_stabbing, 10 );
-        } else if( y < 96 ) {
-            comp->practice( skill_cutting, 10 );
-        } else if( y < 98 ) {
-            comp->practice( skill_dodge, 10 );
-        } else {
-            comp->practice( skill_unarmed, 10 );
-        }
-        i++;
-    }
-
+    companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
     popup( _( "%s returns from the raid having earned $%d and a fair bit of experience..." ),
            comp->name, money );
     if( one_in( 20 ) ) {
@@ -1325,9 +1239,8 @@ bool talk_function::labor_return( npc &p )
         return false;
     }
 
-    //@todo actually it's hours, not turns
-    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
-    int money = 8 * turns;
+    float hours = to_hours<float>( calendar::turn - comp->companion_mission_time );
+    int money = 8 * hours;
     g->u.cash += money * 100;
 
     companion_skill_trainer( *comp, "menial", calendar::turn - comp->companion_mission_time, 1 );
@@ -1335,7 +1248,7 @@ bool talk_function::labor_return( npc &p )
     popup( _( "%s returns from working as a laborer having earned $%d and a bit of experience..." ),
            comp->name, money );
     companion_return( *comp );
-    if( turns >= 8 && one_in( 8 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
+    if( hours >= 8 && one_in( 8 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
         p.set_mutation( trait_NPC_MISSION_LEV_1 );
         popup( _( "%s feels more confident in your companions and is willing to let them participate in advanced tasks." ),
                p.name );
@@ -1379,9 +1292,8 @@ bool talk_function::carpenter_return( npc &p )
         }
     }
 
-    //@todo actually it's hours, not turns
-    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
-    int money = 12 * turns;
+    float hours = to_hours<float>( calendar::turn - comp->companion_mission_time );
+    int money = 12 * hours;
     g->u.cash += money * 100;
 
     companion_skill_trainer( *comp, "construction", calendar::turn - comp->companion_mission_time, 2 );
@@ -1457,9 +1369,8 @@ bool talk_function::forage_return( npc &p )
         }
     }
 
-    //@todo actually it's hours, not turns
-    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
-    int money = 10 * turns;
+    float hours = to_hours<float>( calendar::turn - comp->companion_mission_time );
+    int money = 10 * hours;
     g->u.cash += money * 100;
 
     companion_skill_trainer( *comp, "gathering", calendar::turn - comp->companion_mission_time, 2 );
@@ -1703,77 +1614,87 @@ void talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &def
 }
 
 // skill training support functions
-int talk_function::companion_skill_trainer( npc &comp, const std::string &skill_tested,
+void talk_function::companion_skill_trainer( npc &comp, const std::string &skill_tested,
         time_duration time_worked, int difficulty )
 {
     difficulty = std::max( 1, difficulty );
-    float checks = to_minutes<int>( time_worked ) / 10.0;
-    int total = difficulty * checks;
-    int i = 0;
+    int checks = 1 + to_minutes<int>( time_worked ) / 10;
 
+    weighted_int_list<skill_id> skill_practice;
     if( skill_tested.empty() || skill_tested == "gathering" ) {
-        weighted_int_list<skill_id> gathering_practice;
-        gathering_practice.add( skill_survival, 80 );
-        gathering_practice.add( skill_traps, 5 );
-        gathering_practice.add( skill_fabrication, 5 );
-        gathering_practice.add( skill_archery, 5 );
-        gathering_practice.add( skill_melee, 5 );
-        while( i < checks ) {
-            comp.practice( *gathering_practice.pick(), difficulty );
-            i++;
+        skill_practice.add( skill_survival, 80 );
+        skill_practice.add( skill_traps, 15 );
+        skill_practice.add( skill_fabrication, 10 );
+        skill_practice.add( skill_archery, 5 );
+        skill_practice.add( skill_melee, 5 );
+        skill_practice.add( skill_swimming, 5 );
+    } else if( skill_tested.empty() || skill_tested == "trapping" ) {
+        skill_practice.add( skill_traps, 80 );
+        skill_practice.add( skill_survival, 15 );
+        skill_practice.add( skill_fabrication, 10 );
+        skill_practice.add( skill_archery, 5 );
+        skill_practice.add( skill_melee, 5 );
+        skill_practice.add( skill_swimming, 5 );
+    } else if( skill_tested == "hunting" ) {
+        skill_practice.add( skill_gun, 60 );
+        skill_practice.add( skill_archery, 45 );
+        skill_practice.add( skill_rifle, 45 );
+        skill_practice.add( skill_pistol, 25 );
+        skill_practice.add( skill_shotgun, 25 );
+        // who shoots Bambi with an Uzi?
+        skill_practice.add( skill_smg, 25 );
+        skill_practice.add( skill_dodge, 15 );
+        skill_practice.add( skill_survival, 15 );
+        skill_practice.add( skill_melee, 10 );
+        skill_practice.add( skill_firstaid, 10 );
+        skill_practice.add( skill_bashing, 10 );
+        skill_practice.add( skill_stabbing, 10 );
+        skill_practice.add( skill_cutting, 10 );
+        skill_practice.add( skill_unarmed, 10 );
+    } else if( skill_tested == "menial" ) {
+        skill_practice.add( skill_fabrication, 60 );
+        skill_practice.add( skill_tailor, 15 );
+        skill_practice.add( skill_speech, 15 );
+        skill_practice.add( skill_cooking, 15 );
+        skill_practice.add( skill_survival, 10 );
+        skill_practice.add( skill_mechanics, 10 );
+    } else if( skill_tested == "construction" ) {
+        skill_practice.add( skill_fabrication, 70 );
+        skill_practice.add( skill_mechanics, 20 );
+        skill_practice.add( skill_survival, 10 );
+    } else if( skill_tested == "recruiting" ) {
+        skill_practice.add( skill_speech, 70 );
+        skill_practice.add( skill_survival, 25 );
+        skill_practice.add( skill_melee, 5 );
+    } else if( skill_tested == "combat" ) {
+        const skill_id best_skill = comp.best_skill();
+        if( best_skill ) {
+            skill_practice.add( best_skill, 30 );
         }
-        return total;
+        skill_practice.add( skill_melee, 20 );
+        skill_practice.add( skill_dodge, 20 );
+        skill_practice.add( skill_archery, 15 );
+        skill_practice.add( skill_survival, 10 );
+        skill_practice.add( skill_firstaid, 10 );
+        skill_practice.add( skill_bashing, 10 );
+        skill_practice.add( skill_stabbing, 10 );
+        skill_practice.add( skill_cutting, 10 );
+        skill_practice.add( skill_unarmed, 10 );
+        skill_practice.add( skill_gun, 5 );
+    } else {
+        comp.practice( skill_id( skill_tested ), difficulty * to_minutes<int>( time_worked ) / 10 );
+        return;
     }
-
-    if( skill_tested == "menial" ) {
-        weighted_int_list<skill_id> menial_practice;
-        menial_practice.add( skill_fabrication, 60 );
-        menial_practice.add( skill_survival, 10 );
-        menial_practice.add( skill_speech, 15 );
-        menial_practice.add( skill_tailor, 5 );
-        menial_practice.add( skill_cooking, 10 );
-        while( i < checks ) {
-            comp.practice( *menial_practice.pick(), difficulty );
-            i++;
-        }
-        return total;
+    for( int i = 0; i < checks; i++ ) {
+        comp.practice( *skill_practice.pick(), difficulty );
     }
-
-    if( skill_tested == "construction" ) {
-        weighted_int_list<skill_id> construction_practice;
-        construction_practice.add( skill_fabrication, 80 );
-        construction_practice.add( skill_survival, 10 );
-        construction_practice.add( skill_mechanics, 10 );
-        while( i < checks ) {
-            comp.practice( *construction_practice.pick(), difficulty );
-            i++;
-        }
-        return total;
-    }
-
-    if( skill_tested == "recruiting" ) {
-        weighted_int_list<skill_id> construction_practice;
-        construction_practice.add( skill_speech, 70 );
-        construction_practice.add( skill_survival, 25 );
-        construction_practice.add( skill_melee, 5 );
-        while( i < checks ) {
-            comp.practice( *construction_practice.pick(), difficulty );
-            i++;
-        }
-        return total;
-    }
-    comp.practice( skill_id( skill_tested ), total );
-    return total;
 }
 
-int talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_tested,
+void talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_tested,
         time_duration time_worked, int difficulty )
 {
-    difficulty = ( ( difficulty <= 0 ) ? difficulty : 1 );
-    float checks = to_minutes<int>( time_worked ) / 10.0;
-    int total = difficulty * checks;
-    comp.practice( skill_tested, total );
-    return total;
+    difficulty = std::max( 1, difficulty );
+    comp.practice( skill_tested, difficulty * to_minutes<int>( time_worked ) / 10 );
 }
 
 void talk_function::companion_return( npc &comp )
