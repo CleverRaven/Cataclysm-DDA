@@ -1,0 +1,100 @@
+Balance Nerfed pneumatic weapon loudness and removed obsolete flag from PAR
+Build Add equality operator to tripoint_range.
+Bugfixes Deconstructing rope & pulley will result in a dirt instead of a dirt floor supporting roof
+Balance Double-barrelled shotgun trap drops DBS
+Bugfixes Redraw terrain in 'look around' menu
+I18N Add dedicated zone_type class and use a string_id for the zone type
+Infrastructure Use unique_ptr instead of raw owning pointers.
+Interface Encapsulate NPC attitude
+Interface Fourth chunk of terrain descriptions
+Features Make smoke decay outside of the reality bubble.
+Balance Rebalanced hacks' weight, volume and crafting recipes
+Balance Reduce chances for finding a katana in the katana House
+Bugfixes Fixed showing of debug message and not destroying blood draw kit while wielding it
+Interface Removed mention of bashing damage from BARK mutation
+Balance Changed the number of loot items in bunkers
+I18N fix bosnian spelling
+Interface Trim trait names in player display
+Balance Add sheet metal to display rack furniture.
+Features implement deployable furniture items
+Bugfixes Fix morale effect bonus/penalty
+Interface Add new book varians to tilesets
+Infrastructure Change monster death callbacks to take a reference instead of a pointer
+Interface Spelling/grammar fixes for options menu
+Content remove brazier construction
+Content Pallet lifter for fast battery swapping.
+Infrastructure Artifact readability
+Interface Added dimension unit to wheel width
+Bugfixes Fixed not showing "Profession items:" text
+Balance Remove mutation side effect from unsuccessful bionics installation
+Balance Condiments/sandwich topping fix
+Infrastructure Remove unused members of the inventory class
+Balance Added more comestibles to grocery store spawns
+Balance Allow giving ranged weapons non-piercing damage, modify corrosive zed
+Interface Fifth chunk of terrain descriptions
+Infrastructure Iterate over all_body_parts instead of using num_bp
+Infrastructure Upgrade (npc) faction code
+Infrastructure Use a dedicated string_id for mod identifiers.
+Interface ChestHole Tilesets Update: Adds back anti-mat turrets and zharks and a few more
+Bugfixes Fix incorrect color definitions
+Content Add Speedloaders.
+Balance Add prices to cakes
+Features Allow shelter NPC to provide tips
+Bugfixes Don't enforce trait points limit in freeform
+Features Morale craft speed penalty
+Interface Changing sidebar style from options menu no longer require restarting the game
+Bugfixes Use the correct inventory when sorting NPC's armor
+Infrastructure Simplify computer console data serialization
+I18N Make faction epilogues translatable
+Interface Remove SAVE_SLEEP option
+Balance Use concrete floors rather than pavement in cathedral basement
+Bugfixes Taking off clothes via the 'sort armor' menu doesn't remove them from the menu until it is closed and reopened
+Content Remove Solar Panels CBM
+Balance Poppy flowers react less often during rain.
+Infrastructure Rename game::spawn_mon to perhaps_add_random_npc
+Balance Add material field to teas
+Infrastructure Draw_border() supports title processing
+Infrastructure Isolate sidebar code
+Infrastructure More and more astyling.
+Infrastructure Compress Basic menu sound effects to Ogg Vorbis
+Interface Make items with a player-assigned inventory letter always come first in inventory
+Balance Add new "CLIMB_SIMPLE" flag
+Interface Skip crafting submenus if no options available
+Content Add mutation to remove healing during sleep.
+Mods Modifications to "NPC traits" mod
+Infrastructure Unhardcoded NPC destinations (using overmap locations)
+Bugfixes Fix previews for overmap specials in the editor
+Interface Sixth chunk of terrain descriptions
+Features Fully random Play Now!
+Bugfixes Recalc sight limits and speed bonus AFTER calculating stats
+Bugfixes Skip crafting submenus if no options available (fixup)
+Infrastructure Extract world and player save path to a function
+Bugfixes Quarterpanel Durability Fix
+Content Turret mounts
+Balance Adds a speedloader to item groups and rename it
+Mods Restore "CBM:Solar Panels" in Bright Nights mod
+Content Software Lights on!
+Balance Allow Survivor [Utility] Belt to sheathe small knifes
+Balance Allow chestrig to store small magazines
+Content Add dashboards to trucks and emergeny vehicles
+Content Move forklift from Tanks mod to mainline
+I18N Options: translate menu text string
+Infrastructure Add a global function to get a reference to a null item.
+Infrastructure Convert more code to use new time classes
+Infrastructure Improving modding support via adding ability to load game options directly from JSON
+Mods Fix turrets in Tanks mod
+Balance Buffed animals' morale gain if the player has Animal Empathy
+Bugfixes Added .357 Magnum speedloader based on coregame .38 speedloader to fix error message
+Interface Seventh chunk of terrain descriptions
+Balance Changed Shaolin Tiger style scaling to no longer include 3x (up to 24x) perception.
+Balance Improved helicopter special, rifle_milspec, and launcher spawns.
+Balance Changing creatures critical damage multipliers on gun hit
+Infrastructure Encapsulate WORLD::world_path into a function
+Content Added stripper clips to M1903 and Mosin
+Content Acidic Ant Expansion - Acidic Chitin Item & Equipment
+Interface Move a note about shortcuts in center of message list window
+Interface Clamp blood loss to range [0...100]
+Bugfixes Fix inventory compare input handling
+Bugfixes Resolves #23472 - change name from 55-gallon drum to 200-liter drum
+Bugfixes Fix mapgen extras
+Bugfixes Fixed gourmand trait showing one value in the consume menu while actually giving another value

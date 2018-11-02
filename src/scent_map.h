@@ -2,14 +2,19 @@
 #ifndef SCENT_H
 #define SCENT_H
 
+#include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "cursesdef.h"
+#include "optional.h"
 
 #include <array>
 
 class map;
 class game;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 class scent_map
 {
@@ -18,8 +23,8 @@ class scent_map
         using scent_array = std::array<std::array<T, SEEY *MAPSIZE>, SEEX *MAPSIZE>;
 
         scent_array<int> grscent;
-        tripoint player_last_position = tripoint_min;
-        int player_last_moved = -1;
+        cata::optional<tripoint> player_last_position;
+        time_point player_last_moved = calendar::before_time_starts;
 
         const game &gm;
 
@@ -29,7 +34,7 @@ class scent_map
         void deserialize( const std::string &data );
         std::string serialize() const;
 
-        void draw( WINDOW *w, int div, const tripoint &center ) const;
+        void draw( const catacurses::window &w, int div, const tripoint &center ) const;
 
         void update( const tripoint &center, map &m );
         void reset();

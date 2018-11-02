@@ -26,6 +26,7 @@
   {
     "id": "nailgun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "nail gun",
     "description": "A tool used to drive nails into wood or other material.  It could also be used as a ad-hoc weapon.",
     "weight": 3904,
@@ -57,15 +58,7 @@
     "clip_size": 0,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "relative": {
-      "weight": 1000,
-      "volume": 6,
-      "range": 3,
-      "ranged_damage": 4
-    },
-    "proportional": {
-      "price": 3,
-      "dispersion": 0.5
-    }
+    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": 4 },
+    "proportional": { "price": 3, "dispersion": 0.5 }
   }
 ]

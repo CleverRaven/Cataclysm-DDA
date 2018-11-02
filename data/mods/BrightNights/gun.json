@@ -3,7 +3,7 @@
     "id": "laser_rifle_cheap",
     "type": "GUN",
     "name": "shoddy laser rifle",
-    "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargable batteries.",
+    "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargeable batteries.",
     "weight": 8000,
     "volume": 10,
     "price": 40000,

@@ -18,7 +18,7 @@
         { "group": "survivor_grenades", "prob": 15, "damage": [ 1, 4 ] },
         { "group": "stash_food", "prob": 40 }
       ] },
-      { "item": "cash_card" }
+      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 }
     ]
   },
   {
@@ -86,7 +86,8 @@
       [ "spear_forked", 10 ],
       [ "spear_knife", 10 ],
       [ "spear_rebar", 10 ],
-      [ "spear_wood", 10 ]
+      [ "spear_wood", 10 ],
+      [ "spear_homemade_halfpike", 10 ]
     ]
   },
   {

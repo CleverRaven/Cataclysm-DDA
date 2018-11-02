@@ -2,10 +2,15 @@
 
 #include "output.h"
 #include "game.h"
+#include "string_formatter.h"
 #include "map.h"
 #include "translations.h"
 #include "catacharset.h" // center_text_pos
 #include "color.h"
+
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "cursesport.h"
+#endif
 
 #include <algorithm> // min & max
 #include <string>
@@ -24,7 +29,7 @@ void live_view::init()
     hide();
 }
 
-int live_view::draw( WINDOW *win, int const max_height )
+int live_view::draw( const catacurses::window &win, int const max_height )
 {
     if( !enabled ) {
         return 0;
@@ -45,10 +50,10 @@ int live_view::draw( WINDOW *win, int const max_height )
     // status bar. This hack allows the border around the live view box to
     // be drawn only as big as it needs to be, while still leaving the
     // window tall enough. Won't work for ncurses in Linux, but that doesn't
-    // currently support the mouse. If and when it does, there'll need to
+    // currently support the mouse. If and when it does, there will need to
     // be a different code path here that works for ncurses.
-    const int original_height = win->height;
-    win->height = live_view_box_height;
+    const int original_height = win.get<cata_cursesport::WINDOW>()->height;
+    win.get<cata_cursesport::WINDOW>()->height = live_view_box_height;
 #endif
 
     draw_border( win );
@@ -62,7 +67,7 @@ int live_view::draw( WINDOW *win, int const max_height )
     wprintz( win, c_white, title_suffix );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-    win->height = original_height;
+    win.get<cata_cursesport::WINDOW>()->height = original_height;
 #endif
 
     return live_view_box_height;

@@ -7009,7 +7009,7 @@ namespace Catch {
             if( lastSlash != std::string::npos )
                 filename = filename.substr( lastSlash+1 );
 
-            std::string::size_type lastDot = filename.find_last_of( "." );
+            std::string::size_type lastDot = filename.find_last_of( '.' );
             if( lastDot != std::string::npos )
                 filename = filename.substr( 0, lastDot );
 

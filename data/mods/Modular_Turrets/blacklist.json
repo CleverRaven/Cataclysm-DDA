@@ -1,0 +1,6 @@
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [ "control_laptop", "cerberus_laser", "bot_turret", "bot_rifleturret", "bot_antimateriel", "bot_laserturret" ]
+  }
+]

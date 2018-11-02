@@ -10,7 +10,7 @@
     "components": [
         [ [ "pilot_light", 1 ] ],
         [ [ "canister_empty", 1 ] ],
-        [ [ "chem_rdx", 1 ] ]
+        [ [ "chem_rdx", 2 ] ]
     ]
   }
 ]

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "record_weather",
+    "type": "item_group",
+    "items": [ [ "record_weather", 100 ] ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "station_radio" ],
+    "weight": 500,
+    "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
+    "object": {
+      "rows": [
+        "                        ",
+        "        FffffffffffffF  ",
+        "        F____________F  ",
+        "   |----|______&&&&__F  ",
+        "   |....=______&&&&__F  ",
+        "   |x.ll|______&&&&__F  ",
+        "   |----|______&&&&__F  ",
+        "        F____________F  ",
+        " |--------|__________G  ",
+        " |tS|eSc.r|__________F  ",
+        " w..+.....=__________F  ",
+        " |-----|..|----------|  ",
+        " |..doo|..|..dW..h...|  ",
+        " w..h..|..D.hxW.c6c..|  ",
+        " |a....|..|...+......|  ",
+        " |--+--|..|-----WWW--|  ",
+        " |.+.................|  ",
+        " |l|..............ch.|  ",
+        " |--+--|--+--|....c..|  ",
+        " |o....|....o|--==-w-|  ",
+        " |o.d..|..d.o|  ss      ",
+        " |o.h..|..h..|  ss      ",
+        " |-www-|-www-|  ss      ",
+        "                ss      "
+      ],
+      "terrain": {
+        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "+": "t_door_c",
+        "=": "t_door_locked_alarm",
+        "D": "t_door_locked",
+        "|": "t_wall",
+        "-": "t_wall",
+        "w": "t_window_alarm",
+        "W": "t_window",
+        ".": "t_floor",
+        "o": "t_floor",
+        "d": "t_floor",
+        "h": "t_floor",
+        "a": "t_floor",
+        "l": "t_floor",
+        "c": "t_floor",
+        "t": "t_floor",
+        "S": "t_floor",
+        "e": "t_floor",
+        "r": "t_floor",
+        "6": "t_floor",
+        "_": "t_pavement",
+        "&": "t_radio_tower",
+        "s": "t_sidewalk",
+        "x": "t_console_broken",
+        "F": "t_chainfence",
+        "f": "t_chainfence",
+        "G": "t_chaingate_l"
+      },
+      "furniture": {
+        "o": "f_bookcase",
+        "d": "f_desk",
+        "h": "f_chair",
+        "a": "f_armchair",
+        "l": "f_locker",
+        "c": "f_counter",
+        "S": "f_sink",
+        "e": "f_fridge",
+        "r": "f_trashcan"
+      },
+      "toilets": { "t": {  } },
+      "computers": {
+        "6": {
+          "name": "Broadcasting Control",
+          "security": 2,
+          "options": [
+            { "name": "ERROR:  SIGNAL DISCONNECT", "action": "tower_unresponsive" },
+            { "name": "Install Repeater Mod", "action": "repeater_mod" }
+          ]
+        }
+      },
+      "items": {
+        "o": { "item": "novels", "chance": 70 },
+        "r": { "item": "trash", "chance": 70 },
+        "d": { "item": "office", "chance": 70 },
+        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] }
+      },
+      "place_loot": [
+        { "group": "record_weather", "x": 18, "y": 13 },
+        { "group": "cleaning", "x": 2, "y": 17, "chance": 70 },
+        { "group": "electronics", "x": [ 6, 7 ], "y": 5, "chance": 80 }
+      ]
+    }
+  }
+]

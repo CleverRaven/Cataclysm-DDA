@@ -1,0 +1,15 @@
+[
+  {
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "bio_mod",
+    "name": "Bionics Systems Mod",
+    "authors": [ "Noctifer-de-Mortem" ],
+    "maintainers": [ "Noctifer-de-Mortem" ],
+    "description": "Adds and rebalances bionics and CBMs.",
+    "category": "items",
+    "dependencies": [ "dda" ],
+    "path": "",
+    "obsolete": true
+  }
+]

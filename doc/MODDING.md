@@ -1,14 +1,14 @@
 # Modding guide
 
-Certain features of the game can be modified without rebuilding the game from source code; you should be able to just modify the pertinent files and run the game to see your changes.  This attempts to document these features.
+Certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.
 
-An in-depth review of all json files and their appropriate fields is available in [JSON_INFO.md](JSON_INFO.md).
+The majority of modding is done by editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON_INFO.md](JSON_INFO.md).
 
 ## Adding a profession.
 
 Let's say we want to add a "survivalist" profession.
 
-We'll say this profession starts with archery, survival, traps, beef jerky and a few survival items.  We'll set the starting cost at 3 points since it modifies skills and items.  We could do that with the following entries:
+We'll say this profession starts with archery, survival, traps, beef jerky and a few survival items.  We'll set the starting cost at 3 points since it modifies skills and items. We can do that with the following entries:
 
 ````json
 {
@@ -39,7 +39,7 @@ We'll say this profession starts with archery, survival, traps, beef jerky and a
 },
 ````
 
-After adding this to the professions.json file, we should see the new profession show up in the character creation screen.
+After adding this to the `data/json/professions` file, we should see the new profession show up in the character creation screen.
 
 ## Adding an item
 1.  Open the appropriate json in `data/json/items` and add your item near similar types.
@@ -50,6 +50,6 @@ After adding this to the professions.json file, we should see the new profession
 
 ## Important note on json files
 
-The following characters: `[ { , } ] : "` are *very* important when adding or modifying the JSON files for technical reasons.  This means a single missing `,` or `[` or `}` can be the difference between a working file and a hanging game at startup.
+The following characters: `[ { , } ] : "` are *very* important when adding or modifying JSON files. This means a single missing `,` or `[` or `}` can be the difference between a working file and a hanging game at startup.
 
 Many editors have features that let you track `{ [` and `] }` to see if they're balanced (ie, have a matching opposite); [Notepad++](https://notepad-plus-plus.org/) is a popular, free editor on Windows that contains this feature.  On Linux, there are a plethora of options, and you probably already have a preferred one 🙂

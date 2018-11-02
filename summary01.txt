@@ -1,0 +1,100 @@
+Infrastructure Wrap up _("translated weight units") to the dedicated function
+Bugfixes Set the right string for steering difficulty message.
+Interface Enable spaces in tileset and sounpack names
+Bugfixes escape grab when no more grabby monsters adjacent
+Interface Random alternate sprite graphics
+Mods Basic lua console
+Bugfixes Use WINDOW_PTR to enforce cleanup of curses windows in crafting menu.
+Interface Option to disable item info highlighting. Color changes for readability.
+Content New Profession: Parkour Practitioner
+Infrastructure re-seed RNG after choosing tiles
+Content The Red Dragon Teashop
+Infrastructure Add constant for base move cost when handling items
+Bugfixes Consume correct amount of plutonium on reload
+Balance Reduce XM-P plasma blast size.
+Infrastructure Do not skip move all items in adv inv when moving from center to inv
+Infrastructure Remove previous invlet from nearby items when max_invlet is exhausted…
+Bugfixes Bugfix reveal map wrong coords
+Infrastructure deduplicate hacking code for gas pump, card reader, electronic gun safe
+Bugfixes don't allow vehicle planter to operate in the cold, same as planting by hand
+Bugfixes fix opening containers on the ground in AIM, regression
+Content Hotel improvements (JSON, new lobbies, updated item, monster, and vehicle spawns)
+Bugfixes Fix "Crash at world load in a freshly unpacked game"
+Content Adds burglar profession and swag bag
+Performance switch from rand() to a simple mix/hash function for random tiles, also more speedup
+Interface MShock Modded Tileset Series 23
+Bugfixes Wielding fixes
+Interface Enable music shuffling.
+Infrastructure 8-way rotation of some ascii line drawing characters for vehicles
+Infrastructure Automatically rotate movement in isometric mode
+Bugfixes Fix crash from changing monster::special_attacks while iteration over it.
+I18N Translatable moon phase
+Infrastructure Push node class for A* down into overmap implementation.
+Features Allow unloading of items on adjacent tiles
+Features Reload using magazines (part 4)
+Features Reload using magazines (part 5)
+Content Lab and mutant start: Adds ears and tails to traits
+Infrastructure Fix weighted list RNG on platforms with a different RAND_MAX value
+Content Muh Nightvisuns! [Shady Zombies]
+Content Mix condensed milk and water for 2 milk.
+Features allow mixing liquids into a container instead of a CONTAIN tool
+Interface City spacing option
+Infrastructure consolidate duplicate entries on the kill count screen and memorial entries
+Bugfixes fix radiation dropping to zero during regen
+Infrastructure preserve dest area when moving to [A] in AIM
+Content Adds Cinnamon
+Infrastructure Change calcs in choosing of headlights direction
+Infrastructure simulate old city_size density behavior
+Content Add Optical Dampers CBM
+Bugfixes Add missing plus sign to temperature converge math.
+Bugfixes Fix crash from finishing music playlist.
+Bugfixes Set the correct z coordinate for vehicle tiles.
+Interface MShock Modded Tileset Series 24
+Content Add chai tea
+Content Convert bullwhip to use reach attack
+Content Football Field
+Interface Escapable menus
+Interface Translatable velocity units
+Features Allow dropping liquids to adjacent containers
+Bugfixes Always set curammo when reloading items
+Bugfixes Consume water from toilets when crafting
+Bugfixes Fixed bugs in "list all items around the player"
+Bugfixes fix ranged circular distance check
+Content Adjust various boots receipts
+Content Implement minimum stat and skill requirements for items
+Interface New Isometric tileset, new 16x16 tileset, lots of additions to 32 and 24 ChestHole tilesets.
+Bugfixes Check tools for charges before applying a reduction in price relative to charges remaining.
+Bugfixes Handle the case where an unrelated key is hit during the butcher menu.
+Infrastructure Add function for temperature conversion (from F to C)
+Infrastructure Jsonize mutation warmth properties
+Content Scorpion451's XL Holster
+Features Repairing items as a long action
+Features Forbid learning uncraft recipes at chargen
+Bugfixes Added sewing_kit tool to recipe to make empty MBR vest
+Infrastructure Further migration of items from melee.json to generic.json
+Performance JSON optimization: removed many default values
+Bugfixes Fix #14556.
+Infrastructure check for use_tiles when making tile_iso decisions
+Content Splint split
+Bugfixes Toolbox fix
+Interface Adds VoidDweller's changes to ChestHole32, and shortens the iso tileset name.
+Interface Correct plural name of roasted coffee beans
+Features iuse actor heal for jsonized healing items
+Bugfixes Make blobs stop breeding indefinitely
+Bugfixes Remove reference to inexistent item
+Content Add recipe for chocpretzels and choco_coffee_beans
+Content Wearable binoculars V2 Updated
+Bugfixes Fix AIM losing items on move all (finally?)
+Features Allow more actions for adjacent tiles
+Bugfixes Fix reloading of weapons with auxiliary mods
+Performance Remove effective no-op in player::fire_gun
+Infrastructure Simplify consumption of UPS in player::fire_gun
+Content Make zombies drop tainted leather
+Bugfixes Nightvision fix for RM13 armor.
+Bugfixes Fix radiation dropping way too fast
+Bugfixes Fix uncrafting not respecting requirements
+Bugfixes Fix zero division in fire_gun
+Bugfixes Coffees plural fix
+Content Soylent green
+Interface Clearer message when insufficient ammo to reload
+Infrastructure Resistances update (including fire resistance)

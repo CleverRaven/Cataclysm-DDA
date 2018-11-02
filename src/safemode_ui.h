@@ -7,11 +7,13 @@
 #include <vector>
 #include <locale>
 #include <algorithm>
-#include "json.h"
 #include "enums.h"
 #include "creature.h"
 
-class safemode : public JsonSerializer, public JsonDeserializer
+class JsonIn;
+class JsonOut;
+
+class safemode
 {
     private:
         enum Tabs : int {
@@ -71,7 +73,7 @@ class safemode : public JsonSerializer, public JsonDeserializer
 
         void create_rules();
         void add_rules( std::vector<rules_class> &rules_in );
-        void set_rule( const rules_class rule_in, const std::string name_in, rule_state rs_in );
+        void set_rule( const rules_class rule_in, const std::string &name_in, rule_state rs_in );
 
     public:
         std::string lastmon_whitelist;
@@ -96,9 +98,8 @@ class safemode : public JsonSerializer, public JsonDeserializer
 
         bool empty() const;
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 safemode &get_safemode();

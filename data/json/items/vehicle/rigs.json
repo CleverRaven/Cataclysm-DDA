@@ -19,7 +19,7 @@
     "description": "Assembled from a chemistry set attached to a complex wiring harness, it is well suited to most any chemistry project you could imagine.  Unable to utilize standard batteries, it requires an external supply of electricity to operate."
   },
   {
-    "id" : "craftrig",
+    "id": "craftrig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
     "name": "FOODCO kitchen buddy",
@@ -32,6 +32,13 @@
     "type": "GENERIC",
     "name": "vehicle forge rig",
     "description": "A forge rig made to run off a vehicle's storage battery with integrated tool storage for metalworking equipment."
+  },
+  {
+    "id": "kilnrig",
+    "copy-from": "vehicle_rig",
+    "type": "GENERIC",
+    "name": "vehicle kiln",
+    "description": "An electric kiln made to run off a vehicle's storage battery."
   },
   {
     "id": "kitchen_unit",

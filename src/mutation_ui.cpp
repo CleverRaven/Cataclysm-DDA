@@ -7,6 +7,7 @@
 #include "output.h"
 #include "player.h"
 #include "translations.h"
+#include "string_formatter.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -15,7 +16,7 @@
 const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
-void draw_exam_window( WINDOW *win, const int border_y )
+void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
@@ -29,7 +30,8 @@ const auto shortcut_desc = []( const std::string &comment, const std::string &ke
                           string_format( "<color_yellow>%s</color>", keys.c_str() ).c_str() );
 };
 
-void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_context &ctxt )
+void show_mutations_titlebar( const catacurses::window &window, std::string &menu_mode,
+                              input_context &ctxt )
 {
     werase( window );
     std::ostringstream desc;
@@ -42,7 +44,7 @@ void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_cont
              shortcut_desc( _( "%s to examine mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == "examining" ) {
-        desc << "<color_ltblue>" << _( "Examining" ) << "</color>  " <<
+        desc << "<color_light_blue>" << _( "Examining" ) << "</color>  " <<
              shortcut_desc( _( "%s to activate mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != "reassigning" ) {
@@ -56,7 +58,7 @@ void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_cont
 void player::power_mutations()
 {
     if( !is_player() ) {
-        // TODO: Implement NPCs activating muts
+        // TODO: Implement NPCs activating mutations
         return;
     }
 
@@ -102,18 +104,19 @@ void player::power_mutations()
     int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
     int START_X = ( TERMX - WIDTH ) / 2;
     int START_Y = ( TERMY - HEIGHT ) / 2;
-    WINDOW *wBio = newwin( HEIGHT, WIDTH, START_Y, START_X );
+    catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, START_Y, START_X );
 
-    // Description window @ the bottom of the bio window
+    // Description window @ the bottom of the bionic window
     int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
     int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
-    WINDOW *w_description = newwin( DESCRIPTION_HEIGHT, WIDTH - 2,
-                                    DESCRIPTION_START_Y, START_X + 1 );
+    catacurses::window w_description = catacurses::newwin( DESCRIPTION_HEIGHT, WIDTH - 2,
+                                       DESCRIPTION_START_Y, START_X + 1 );
 
     // Title window
     int TITLE_START_Y = START_Y + 1;
     int HEADER_LINE_Y = TITLE_HEIGHT + 1; // + lines with text in titlebar, local
-    WINDOW *w_title = newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1 );
+    catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y,
+                                 START_X + 1 );
 
     int scroll_position = 0;
     int second_column = 32 + ( TERMX - FULL_SCREEN_WIDTH ) /
@@ -125,6 +128,15 @@ void player::power_mutations()
     ctxt.register_action( "TOGGLE_EXAMINE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+#ifdef __ANDROID__
+    for( const auto &p : passive ) {
+        ctxt.register_manual_key( my_mutations[p].key, p.obj().name() );
+    }
+    for( const auto &a : active ) {
+        ctxt.register_manual_key( my_mutations[a].key, a.obj().name() );
+    }
+#endif
+
     bool redraw = true;
     std::string menu_mode = "activating";
 
@@ -146,15 +158,15 @@ void player::power_mutations()
             mvwputch( wBio, HEADER_LINE_Y, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
 
             // Captions
-            mvwprintz( wBio, HEADER_LINE_Y + 1, 2, c_ltblue, _( "Passive:" ) );
-            mvwprintz( wBio, HEADER_LINE_Y + 1, second_column, c_ltblue, _( "Active:" ) );
+            mvwprintz( wBio, HEADER_LINE_Y + 1, 2, c_light_blue, _( "Passive:" ) );
+            mvwprintz( wBio, HEADER_LINE_Y + 1, second_column, c_light_blue, _( "Active:" ) );
 
             if( menu_mode == "examining" ) {
                 draw_exam_window( wBio, DESCRIPTION_LINE_Y );
             }
             nc_color type;
             if( passive.empty() ) {
-                mvwprintz( wBio, list_start_y, 2, c_ltgray, _( "None" ) );
+                mvwprintz( wBio, list_start_y, 2, c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < passive.size(); i++ ) {
                     const auto &md = passive[i].obj();
@@ -163,13 +175,13 @@ void player::power_mutations()
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
                     }
-                    type = ( has_base_trait( passive[i] ) ? c_cyan : c_ltcyan );
-                    mvwprintz( wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name.c_str() );
+                    type = ( has_base_trait( passive[i] ) ? c_cyan : c_light_cyan );
+                    mvwprintz( wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name() );
                 }
             }
 
             if( active.empty() ) {
-                mvwprintz( wBio, list_start_y, second_column, c_ltgray, _( "None" ) );
+                mvwprintz( wBio, list_start_y, second_column, c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < active.size(); i++ ) {
                     const auto &md = active[i].obj();
@@ -179,14 +191,14 @@ void player::power_mutations()
                         break;
                     }
                     if( td.powered ) {
-                        type = ( has_base_trait( active[i] ) ? c_green : c_ltgreen );
+                        type = ( has_base_trait( active[i] ) ? c_green : c_light_green );
                     } else {
-                        type = ( has_base_trait( active[i] ) ? c_red : c_ltred );
+                        type = ( has_base_trait( active[i] ) ? c_red : c_light_red );
                     }
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type, td.key );
                     std::ostringstream mut_desc;
-                    mut_desc << md.name;
+                    mut_desc << md.name();
                     if( md.cost > 0 && md.cooldown > 0 ) {
                         //~ RU means Resource Units
                         mut_desc << string_format( _( " - %d RU / %d turns" ),
@@ -207,11 +219,11 @@ void player::power_mutations()
 
             // Scrollbar
             if( scroll_position > 0 ) {
-                mvwputch( wBio, HEADER_LINE_Y + 2, 0, c_ltgreen, '^' );
+                mvwputch( wBio, HEADER_LINE_Y + 2, 0, c_light_green, '^' );
             }
             if( scroll_position < max_scroll_position && max_scroll_position > 0 ) {
                 mvwputch( wBio, ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) - 1,
-                          0, c_ltgreen, 'v' );
+                          0, c_light_green, 'v' );
             }
         }
         wrefresh( wBio );
@@ -227,7 +239,7 @@ void player::power_mutations()
             }
             redraw = true;
             const long newch = popup_getkey( _( "%s; enter new letter." ),
-                                             mutation_branch::get_name( mut_id ).c_str() );
+                                             mutation_branch::get_name( mut_id ) );
             wrefresh( wBio );
             if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
                 continue;
@@ -273,38 +285,29 @@ void player::power_mutations()
             if( menu_mode == "activating" ) {
                 if( mut_data.activated ) {
                     if( my_mutations[mut_id].powered ) {
-                        add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name.c_str() );
+                        add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
 
                         deactivate_mutation( mut_id );
-                        delwin( w_title );
-                        delwin( w_description );
-                        delwin( wBio );
                         // Action done, leave screen
                         break;
                     } else if( ( !mut_data.hunger || get_hunger() <= 400 ) &&
                                ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 
-                        // this will clear the mutations menu for targeting purposes
-                        werase( wBio );
-                        wrefresh( wBio );
-                        delwin( w_title );
-                        delwin( w_description );
-                        delwin( wBio );
                         g->draw();
-                        add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name.c_str() );
+                        add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
                         activate_mutation( mut_id );
                         // Action done, leave screen
                         break;
                     } else {
-                        popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name.c_str() );
+                        popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name() );
                         redraw = true;
                         continue;
                     }
                 } else {
                     popup( _( "\
 You cannot activate %s!  To read a description of \
-%s, press '!', then '%c'." ), mut_data.name.c_str(), mut_data.name.c_str(),
+%s, press '!', then '%c'." ), mut_data.name(), mut_data.name(),
                            my_mutations[mut_id].key );
                     redraw = true;
                 }
@@ -313,17 +316,9 @@ You cannot activate %s!  To read a description of \
                 draw_exam_window( wBio, DESCRIPTION_LINE_Y );
                 // Clear the lines first
                 werase( w_description );
-                fold_and_print( w_description, 0, 0, WIDTH - 2, c_ltblue, mut_data.description );
+                fold_and_print( w_description, 0, 0, WIDTH - 2, c_light_blue, mut_data.desc() );
                 wrefresh( w_description );
             }
         }
-    }
-    //if we activated a mutation, already killed the windows
-    if( !( menu_mode == "activating" ) ) {
-        werase( wBio );
-        wrefresh( wBio );
-        delwin( w_title );
-        delwin( w_description );
-        delwin( wBio );
     }
 }

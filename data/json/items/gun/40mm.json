@@ -75,7 +75,7 @@
     "reload": 400,
     "modes": [
       [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ],
-      [ "AUTO", "auto", 10, "NPC_AVOID" ]
+      [ "AUTO", "auto", 6, "NPC_AVOID" ]
     ],
     "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
     "flags": [ "MOUNTED_GUN" ]

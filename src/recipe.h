@@ -2,7 +2,7 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include "item.h"
+#include "string_id.h"
 #include "requirements.h"
 
 #include <map>
@@ -12,26 +12,36 @@
 
 class recipe_dictionary;
 class Skill;
-
+class item;
 using skill_id = string_id<Skill>;
 using itype_id = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
+class recipe;
+using recipe_id = string_id<recipe>;
+class Character;
 
 class recipe
 {
         friend class recipe_dictionary;
 
+    private:
+        itype_id result_ = "null";
+
     public:
         recipe();
 
-        itype_id result = "null";
-
         operator bool() const {
-            return result != "null";
+            return result_ != "null";
+        }
+
+        const itype_id &result() const {
+            return result_;
         }
 
         std::string category;
         std::string subcategory;
+
+        std::string description;
 
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
@@ -41,7 +51,7 @@ class recipe
             return requirements_;
         }
 
-        const std::string &ident() const {
+        const recipe_id &ident() const {
             return ident_;
         }
 
@@ -49,10 +59,16 @@ class recipe
             return requirements_.is_blacklisted();
         }
 
+        /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
+        bool never_learn = false;
+
         /** If recipe can be used for disassembly fetch the combined requirements */
         requirement_data disassembly_requirements() const {
             return reversible ? requirements().disassembly_requirements() : requirement_data();
         }
+
+        /// @returns The name (@ref item::nname) of the resulting item (@ref result).
+        std::string result_name() const;
 
         std::map<itype_id, int> byproducts;
 
@@ -65,7 +81,8 @@ class recipe
 
         //Create a string list to describe the skill requirements fir this recipe
         // Format: skill_name(amount), skill_name(amount)
-        std::string required_skills_string() const;
+        // Character object (if provided) used to color levels
+        std::string required_skills_string( const Character * ) const;
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
@@ -91,7 +108,7 @@ class recipe
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
     private:
-        std::string ident_;
+        recipe_id ident_ = recipe_id::NULL_ID();
 
         /** Abstract recipes can be inherited from but are themselves disposed of at finalization */
         bool abstract = false;

@@ -1,0 +1,100 @@
+Interface Collapse Duplicate items into one in crafting interface
+Content Butchering yields for fungal towers and other structures
+Content New basement variant, with and without hidden autodoc
+Interface Third category to traits screen for traits worth zero points 
+Build Sort object files to link them in reproducible order
+Content Stone adze can now splint trunks into planks
+Content  Disposable filters for filter, gas, PBA, and survivor masks, as well as filters for hazmat and ANBC suits
+Interface Checks if move all in advanced inventory will exceed tile capacity, and queries user if it will
+Bugfixes Fixes spelling of "noise canceling headgear"
+Bugfixes Fixes sidebar not refreshing when zooming in or out
+Balance Asthma attacks occur less frequently during sleep
+Mods Adds Model 10 revolver to extended realistic guns, reduces .38 speedloader ammo capacity to six
+Balance Zombies cannot bite without grabbing 
+Features Autodoc can uninstall bionics
+Interface Query if an item would increase carried weight to 4 times higher than the max weight, but can still be picked up by wielding the item
+Mods Blacklists multivitamins and calcium tablets from spawning with the simplified nutrition mod
+Features Added control over amount of houses with basements, and basements can have individual weights. Also adds scenario that spawns in basement with autodoc
+Interface Adds description for weapons with 'DURABLE_MELEE' and 'FRAGILE_MELEE' 
+Features Adds JSON data for carrion spawning, and for animal reproduction
+Bugfixes Adds periods to some descriptions
+Content Adds new narcosis effect that Characters cannot be prematurely woken from
+Features Adds option to disable music and sound
+Content Rolling papers made from one sheet of paper, not 5
+Features Adds anesthesia, makes it required to use autodoc, removes need of tool and first aid kit to uninstall bionics. No longer need painkiller threshold to install bionics
+Bugfixes restored CATTLEFODDER tag and starting_ammo for milkable animals
+Bugfixes Fixes ring artifacts being plural
+Features Underground temperatures relatively constant and independent from weather patterns. Food decay calculation, now includes those temperatures
+Interface Removed ability to uninstall bionics through the bionics UI
+Bugfixes Fixes CBM items not being deleted after installation in some cases, prevented installation of upgraded version of bionic if there is no base version, and if there is already a superior version
+Balance Reduces crafting time of rolling paper to match production
+Interface Alternate message for activating vibrator without charges
+Balance Forked Spears have 'FRAGILE_MELEE' tag
+Bugfixes Redraws terrain in inventory selector menu
+Features Nearby hordes appear on minimap
+Balance Makes shotguns shorter range and less accurate
+Mods Allows symlinks for Linux
+Content Add WATER_FRIENDLY flag to canteens, hip flasks, and waterskins
+Bugfixes Fixes zapback on throwing 
+Content Adds slowhealer2 and slowhealer3 traits
+Interface Provides more information about the relative age and spoil progress of foods
+Features Two new variants of the military bunker basement
+Balance Components of a weapons now impact durability, fragile weapons last twice as long and may drop crafting components when broken
+Bugfixes Fixes mutants not being able to wear hip flask and watches
+Features Moves social modifiers of mutations to JSON
+Features Rates of hunger, thirst, fatigue, and learning moved to JSON, healing mutations use relative values instead of absolute
+Bugfixes Prevents character from waking up from lack of fatigue or noise while under the effect of narcosis
+Infrastructure Code Optimizations
+Infrastructure Optimized remaining AUTO_WALL_SYMBOL terrains
+Features Adds shelf life to many foods, previously canned or vacuum packed food has shelf life when opened.
+Content Replaces heavy sticks with long sticks in many recipes
+Infrastructure Code Optimizations Step 2
+Bugfixes Translate faction strings
+Content 50% chance of partial lighting in labs
+Content Kimonos are now fancy
+Interface Hordes can be toggled separately from other overlays on the map
+Content Lightstrips can be charged in the dark
+Bugfixes Fast healer and slow healer variants now exclusive traits
+Bugfixes Fix aspic description to reflect spoil changes
+Interface Adds extended descriptions, sorts and colors descriptions
+Bugfixes Alters vorpal message so it doesn't specify body part
+Content Adds solar backpack
+Features Adds hints on how to uninstall/install bionics
+Bugfixes Vending machines in motels will now spawn their loot inside of them
+Infrastructure Allow partial queries for item.info
+Features Four new artifact effects
+Content Recipes to extract seeds from some fruits and vegetables
+Features Include/Exclude filter for overmap search
+Content Extra requirements before an artifact will charged\
+Content Adds pickled eggs
+Bugfixes Saber Teeth and Mandibles mutations are now mutually exclusive
+Content Additional doctor's office variant, a private bionics clinic
+Balance Chloromorphosis mutation works in more types of weather, but only outside, and only at or above a certain light level 
+Content CVD machine can now coat piercing weapons
+Bugfixes Some comestibles missing the "milk" tag now have it
+Build Add Linux and Windows SDL builds to Travis CI
+Bugfixes Fixes formatting that broke recipes in blazemod
+Content Bionic descriptions updated to match surgical installation
+Content Heavy duty variants of door, opaque door and trunk door
+Features More railroad terrain variants, made diagonal tracks subway railroads 7 tiles wide
+Infrastructure Updated blazemod with requirements
+Features Carrion can now eat adjacent crops or food
+Bugfixes Harvested items have a birthday set to current turn, not the beginning of the cataclysm
+Bugfixes Adds charge requirements to artifacts in old saves
+Balance Skeleton armor increased by 50%, skeletons slower and harder to shoot. Adds Skeletal Juggernaut
+Bugfixes Fixes the difficulty value of plague vectors
+Content Recipe for boy shorts
+Bugfixes Giant locusts that flee into deep water drown
+Features Allow place_monster to optionally place a randomized monster using a weighted list
+Features Adds firewood source that automatically adds fuel to fire when it is 2/3s consumed
+Content Raw hides can be turned into simple bags to transport remains of creatures
+Content Adds variability in decay of food created before cataclysm
+Bugfixes Food no longer decays in ice labs
+Bugfixes Garlic cloves will now decay
+Bugfixes Braziers can be deployed while standing on furniture
+Bugfixes Opening unlocked door through the crowbar iuse will now cost time instead of adding it
+Content Adds folding knife
+Bugfixes Fixes failure to spawn military roadblock extra
+Interface Centralize formatting of money
+Bugfixes Fixes reloading UI sometimes incorrectly handling Enter key
+Bugfixes Crafting menu will no longer sometimes display component in red even though an alternative has been satisfied

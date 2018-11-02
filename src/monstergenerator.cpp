@@ -10,6 +10,7 @@
 #include "mattack_actors.h"
 #include "monattack.h"
 #include "mondeath.h"
+#include "json.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -29,7 +30,7 @@ const mtype_id mon_generator( "mon_generator" );
 
 /** @relates string_id */
 template<>
-const mtype& string_id<mtype>::obj() const
+const mtype &string_id<mtype>::obj() const
 {
     return MonsterGenerator::generator().mon_templates->obj( *this );
 }
@@ -43,7 +44,7 @@ bool string_id<mtype>::is_valid() const
 
 /** @relates string_id */
 template<>
-const species_type& string_id<species_type>::obj() const
+const species_type &string_id<species_type>::obj() const
 {
     return MonsterGenerator::generator().mon_species->obj( *this );
 }
@@ -56,12 +57,11 @@ bool string_id<species_type>::is_valid() const
 }
 
 MonsterGenerator::MonsterGenerator()
-: mon_templates( new generic_factory<mtype>( "monster type", "id", "alias" ) )
-, mon_species( new generic_factory<species_type>( "species" ) )
+    : mon_templates( "monster type", "id", "alias" )
+    , mon_species( "species" )
 {
     mon_templates->insert( mtype() );
     mon_species->insert( species_type() );
-    //ctor
     init_phases();
     init_attack();
     init_defense();
@@ -70,10 +70,7 @@ MonsterGenerator::MonsterGenerator()
     init_trigger();
 }
 
-MonsterGenerator::~MonsterGenerator()
-{
-    reset();
-}
+MonsterGenerator::~MonsterGenerator() = default;
 
 void MonsterGenerator::reset()
 {
@@ -87,7 +84,7 @@ void MonsterGenerator::reset()
 
     attack_map.clear();
     // Hardcode attacks need to be re-added here
-    // @todo Move initialization from constructor to init()
+    // @todo: Move initialization from constructor to init()
     init_attack();
 }
 
@@ -105,14 +102,29 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
+m_size volume_to_size( const units::volume vol )
+{
+    if( vol <= 7500_ml ) {
+        return MS_TINY;
+    } else if( vol <= 46250_ml ) {
+        return MS_SMALL;
+    } else if( vol <= 77500_ml ) {
+        return MS_MEDIUM;
+    } else if( vol <= 483750_ml ) {
+        return MS_LARGE;
+    }
+    return MS_HUGE;
+}
+
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
     for( const auto &elem : mon_templates->get_all() ) {
-        mtype &mon = const_cast<mtype&>( elem );
+        mtype &mon = const_cast<mtype &>( elem );
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
+        mon.size = volume_to_size( mon.volume );
 
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
@@ -170,24 +182,24 @@ void MonsterGenerator::set_mtype_flags( mtype &mon )
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
     m_flag nflag;
-    for (std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag) {
-        nflag = m_flag(*flag);
+    for( std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag ) {
+        nflag = m_flag( *flag );
         mon.bitflags[nflag] = true;
     }
     monster_trigger ntrig;
-    for (std::set<monster_trigger>::iterator trig = mon.anger.begin(); trig != mon.anger.end();
-         ++trig) {
-        ntrig = monster_trigger(*trig);
+    for( std::set<monster_trigger>::iterator trig = mon.anger.begin(); trig != mon.anger.end();
+         ++trig ) {
+        ntrig = monster_trigger( *trig );
         mon.bitanger[ntrig] = true;
     }
-    for (std::set<monster_trigger>::iterator trig = mon.fear.begin(); trig != mon.fear.end();
-         ++trig) {
-        ntrig = monster_trigger(*trig);
+    for( std::set<monster_trigger>::iterator trig = mon.fear.begin(); trig != mon.fear.end();
+         ++trig ) {
+        ntrig = monster_trigger( *trig );
         mon.bitfear[ntrig] = true;
     }
-    for (std::set<monster_trigger>::iterator trig = mon.placate.begin(); trig != mon.placate.end();
-         ++trig) {
-        ntrig = monster_trigger(*trig);
+    for( std::set<monster_trigger>::iterator trig = mon.placate.begin(); trig != mon.placate.end();
+         ++trig ) {
+        ntrig = monster_trigger( *trig );
         mon.bitplacate[ntrig] = true;
     }
 }
@@ -201,10 +213,14 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
     if( mon.path_settings.bash_strength < 0 ) {
         mon.path_settings.bash_strength = mon.bash_skill;
     }
+
+    if( mon.has_flag( MF_CLIMBS ) ) {
+        mon.path_settings.climb_cost = 3;
+    }
 }
 
 template <typename T>
-void MonsterGenerator::apply_set_to_set(std::set<T> from, std::set<T> &to)
+void MonsterGenerator::apply_set_to_set( std::set<T> from, std::set<T> &to )
 {
     for( const auto &elem : from ) {
         to.insert( elem );
@@ -223,6 +239,7 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_death()
 {
     death_map["NORMAL"] = &mdeath::normal;// Drop a body
+    death_map["SPLATTER"] = &mdeath::splatter;//Explodes in gibs and chunks
     death_map["ACID"] = &mdeath::acid;// Acid instead of a body
     death_map["BOOMER"] = &mdeath::boomer;// Explodes in vomit :3
     death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;// Explodes in glowing vomit :3
@@ -247,12 +264,14 @@ void MonsterGenerator::init_death()
     death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
-    death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;// Gives a message about destroying ammo and then calls "BROKEN"
+    // Gives a message about destroying ammo and then calls "BROKEN"
+    death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
     death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
     death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
     death_map["PREG_ROACH"] = &mdeath::preg_roach;// Spawn some cockroach nymphs
+    death_map["FIREBALL"] = &mdeath::fireball;// Explode in a fireball
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
@@ -263,6 +282,8 @@ void MonsterGenerator::init_death()
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
+    add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
+    add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
@@ -273,6 +294,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "ACID_BARF", mattack::acid_barf );
     add_hardcoded_attack( "ACID_ACCURATE", mattack::acid_accurate );
     add_hardcoded_attack( "SHOCKSTORM", mattack::shockstorm );
+    add_hardcoded_attack( "SHOCKING_REVEAL", mattack::shocking_reveal );
     add_hardcoded_attack( "PULL_METAL_WEAPON", mattack::pull_metal_weapon );
     add_hardcoded_attack( "BOOMER", mattack::boomer );
     add_hardcoded_attack( "BOOMER_GLOW", mattack::boomer_glow );
@@ -285,6 +307,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SPIT_SAP", mattack::spit_sap );
     add_hardcoded_attack( "TRIFFID_HEARTBEAT", mattack::triffid_heartbeat );
     add_hardcoded_attack( "FUNGUS", mattack::fungus );
+    add_hardcoded_attack( "FUNGUS_CORPORATE", mattack::fungus_corporate );
     add_hardcoded_attack( "FUNGUS_HAZE", mattack::fungus_haze );
     add_hardcoded_attack( "FUNGUS_BIG_BLOSSOM", mattack::fungus_big_blossom );
     add_hardcoded_attack( "FUNGUS_INJECT", mattack::fungus_inject );
@@ -337,6 +360,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RANGED_PULL", mattack::ranged_pull );
     add_hardcoded_attack( "GRAB", mattack::grab );
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
+    add_hardcoded_attack( "DOOT", mattack::doot );
 }
 
 void MonsterGenerator::init_defense()
@@ -424,6 +448,7 @@ void MonsterGenerator::init_flags()
     flag_map["VERMIN"] = MF_VERMIN;
     flag_map["NOGIB"] = MF_NOGIB;
     flag_map["ABSORBS"] = MF_ABSORBS;
+    flag_map["ABSORBS_SPLITS"] = MF_ABSORBS_SPLITS;
     flag_map["LARVA"] = MF_LARVA;
     flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;
     flag_map["ACID_BLOOD"] = MF_ACID_BLOOD;
@@ -434,6 +459,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
+    flag_map["FILTHY"] = MF_FILTHY;
     flag_map["SWARMS"] = MF_SWARMS;
     flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
@@ -446,8 +472,16 @@ void MonsterGenerator::init_flags()
     flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
     flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
     flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
+    flag_map["CATFOOD"] = MF_CATFOOD;
+    flag_map["CATTLEFODDER"] = MF_CATTLEFODDER;
+    flag_map["BIRDFOOD"] = MF_BIRDFOOD;
+    flag_map["DOGFOOD"] = MF_DOGFOOD;
     flag_map["MILKABLE"] = MF_MILKABLE;
+    flag_map["NO_BREED"] = MF_NO_BREED;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
+    flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
+    flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
+    flag_map["LOUDMOVES"] = MF_LOUDMOVES;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -456,7 +490,8 @@ void MonsterGenerator::set_species_ids( mtype &mon )
         if( s.is_valid() ) {
             mon.species_ptrs.insert( &s.obj() );
         } else {
-            debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon.id.c_str() );
+            debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists",
+                      s.c_str(), mon.id.c_str() );
         }
     }
 }
@@ -475,7 +510,8 @@ mon_effect_data load_mon_effect_data( JsonObject &e )
                             e.get_int( "chance", 100 ) );
 }
 
-class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader> {
+class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>
+{
     public:
         mon_effect_data get_next( JsonIn &jin ) const {
             JsonObject e = jin.get_object();
@@ -484,7 +520,9 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
         template<typename C>
         void erase_next( JsonIn &jin, C &container ) const {
             const efftype_id id = efftype_id( jin.get_string() );
-            reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data &e ) { return e.id == id; } );
+            reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data & e ) {
+                return e.id == id;
+            } );
         }
 };
 
@@ -497,7 +535,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     // Name and name plural are not translated here, but when needed in
     // combination with the actual count in `mtype::nname`.
     mandatory( jo, was_loaded, "name", name );
-    // default behaviour: Assume the regular plural form (appending an “s”)
+    // default behavior: Assume the regular plural form (appending an “s”)
     optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
     optional( jo, was_loaded, "description", description );
 
@@ -517,10 +555,16 @@ void mtype::load( JsonObject &jo, const std::string &src )
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
     }
+    if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
+    }
 
-    optional( jo, was_loaded, "color", color, color_reader{} );
-    const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
-    optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
+    assign( jo, "color", color );
+    assign( jo, "volume", volume, strict, 0_ml );
+    assign( jo, "weight", weight, strict, 0_gram );
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
     optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 
@@ -544,7 +588,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
-
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
@@ -619,12 +662,43 @@ void mtype::load( JsonObject &jo, const std::string &src )
     } else if( jo.has_member( "upgrades" ) ) {
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
-        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {}, mongroup_id::NULL_ID() );
-        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID() );
+        optional( up, was_loaded, "age_grow", age_grow, -1 );
+        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {},
+                  mongroup_id::NULL_ID() );
+        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {},
+                  mtype_id::NULL_ID() );
         upgrades = true;
     }
 
-    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID() );
+    //Reproduction
+    if( jo.has_member( "reproduction" ) ) {
+        JsonObject repro = jo.get_object( "reproduction" );
+        optional( repro, was_loaded, "baby_count", baby_count, -1 );
+        optional( repro, was_loaded, "baby_timer", baby_timer, -1 );
+        optional( repro, was_loaded, "baby_monster", baby_monster, auto_flags_reader<mtype_id> {},
+                  mtype_id::NULL_ID() );
+        optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
+                  "null" );
+        if( jo.has_member( "baby_flags" ) ) {
+            baby_flags.clear();
+            JsonArray baby_tags = jo.get_array( "baby_flags" );
+            while( baby_tags.has_more() ) {
+                baby_flags.push_back( baby_tags.next_string() );
+            }
+        }
+        reproduces = true;
+    }
+
+    if( jo.has_member( "biosignature" ) ) {
+        JsonObject biosig = jo.get_object( "biosignature" );
+        optional( biosig, was_loaded, "biosig_timer", biosig_timer, -1 );
+        optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
+                  "null" );
+        biosignatures = true;
+    }
+
+    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
+              mtype_id::NULL_ID() );
 
     const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
@@ -676,7 +750,7 @@ mtype_id MonsterGenerator::get_valid_hallucination() const
     return random_entry( hallucination_monsters );
 }
 
-m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
+m_flag MonsterGenerator::m_flag_from_string( const std::string &flag ) const
 {
     return flag_map.find( flag )->second;
 }
@@ -704,19 +778,21 @@ class mattack_hardcoded_wrapper : public mattack_actor
 mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
     : mtype_special_attack( new mattack_hardcoded_wrapper( id, f ) ) {}
 
-
-void MonsterGenerator::add_hardcoded_attack( const std::string &type, const mon_action_attack f ) {
+void MonsterGenerator::add_hardcoded_attack( const std::string &type, const mon_action_attack f )
+{
     add_attack( mtype_special_attack( type, f ) );
 }
 
-void MonsterGenerator::add_attack( mattack_actor *ptr ) {
+void MonsterGenerator::add_attack( mattack_actor *ptr )
+{
     add_attack( mtype_special_attack( ptr ) );
 }
 
-void MonsterGenerator::add_attack( const mtype_special_attack &wrapper ) {
+void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
+{
     if( attack_map.count( wrapper->id ) > 0 ) {
         if( test_mode ) {
-            debugmsg( "Overwritting monster attack with id %s", wrapper->id.c_str() );
+            debugmsg( "Overwriting monster attack with id %s", wrapper->id.c_str() );
         }
 
         attack_map.erase( wrapper->id );
@@ -732,7 +808,8 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
     const std::string attack_type = obj.get_string( "attack_type", type );
 
     if( type != "monster_attack" && attack_type != type ) {
-        obj.throw_error( "Specifying \"attack_type\" is only allowed when \"type\" is \"monster_attack\" or not specified", "type" );
+        obj.throw_error( "Specifying \"attack_type\" is only allowed when \"type\" is \"monster_attack\" or not specified",
+                         "type" );
     }
 
     mattack_actor *new_attack = nullptr;
@@ -790,7 +867,8 @@ void mtype::add_special_attack( JsonObject obj, const std::string &src )
 
     if( special_attacks.count( new_attack->id ) > 0 ) {
         special_attacks.erase( new_attack->id );
-        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), new_attack->id );
+        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(),
+                                     new_attack->id );
         if( iter != special_attacks_names.end() ) {
             special_attacks_names.erase( iter );
         }
@@ -830,13 +908,15 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
     special_attacks_names.push_back( name );
 }
 
-void mtype::add_special_attacks( JsonObject &jo, const std::string &member, const std::string &src ) {
+void mtype::add_special_attacks( JsonObject &jo, const std::string &member,
+                                 const std::string &src )
+{
 
     if( !jo.has_array( member ) ) {
         return;
     }
 
-    JsonArray outer = jo.get_array(member);
+    JsonArray outer = jo.get_array( member );
     while( outer.has_more() ) {
         if( outer.test_array() ) {
             add_special_attack( outer.next_array(), src );
@@ -848,7 +928,8 @@ void mtype::add_special_attacks( JsonObject &jo, const std::string &member, cons
     }
 }
 
-void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_name, const std::string & )
+void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_name,
+                                    const std::string & )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         special_attacks.erase( name );
@@ -864,12 +945,12 @@ void MonsterGenerator::check_monster_definitions() const
     for( const auto &mon : mon_templates->get_all() ) {
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
-                debugmsg("monster %s has invalid species %s", mon.id.c_str(), spec.c_str());
+                debugmsg( "monster %s has invalid species %s", mon.id.c_str(), spec.c_str() );
             }
         }
-        if (!mon.death_drops.empty() && !item_group::group_is_defined(mon.death_drops)) {
-            debugmsg("monster %s has unknown death drop item group: %s", mon.id.c_str(),
-                     mon.death_drops.c_str());
+        if( !mon.death_drops.empty() && !item_group::group_is_defined( mon.death_drops ) ) {
+            debugmsg( "monster %s has unknown death drop item group: %s", mon.id.c_str(),
+                      mon.death_drops.c_str() );
         }
         for( auto &m : mon.mat ) {
             if( m.str() == "null" || !m.is_valid() ) {
@@ -877,29 +958,30 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
         if( !mon.revert_to_itype.empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
-            debugmsg("monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
-                     mon.revert_to_itype.c_str());
+            debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
+                      mon.revert_to_itype.c_str() );
         }
-        for( auto & s : mon.starting_ammo ) {
+        for( auto &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon.id.c_str() );
             }
         }
-        for( auto & e : mon.atk_effs ) {
+        for( auto &e : mon.atk_effs ) {
             if( !e.id.is_valid() ) {
                 debugmsg( "attack effect %s of monster %s is unknown", e.id.c_str(), mon.id.c_str() );
             }
         }
 
-        for( const auto& e : mon.emit_fields ) {
+        for( const auto &e : mon.emit_fields ) {
             if( !e.is_valid() ) {
                 debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), e.c_str() );
             }
         }
 
         if( mon.upgrades ) {
-            if( mon.half_life <= 0 ) {
-                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
+            if( mon.half_life < 0 && mon.age_grow < 0 ) {
+                debugmsg( "half_life %d and age_grow %d (<0) of monster %s is invalid",
+                          mon.half_life, mon.age_grow, mon.id.c_str() );
             }
             if( !mon.upgrade_into && !mon.upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon.id.c_str() );
@@ -909,11 +991,50 @@ void MonsterGenerator::check_monster_definitions() const
             }
             if( !mon.upgrade_into.is_valid() ) {
                 debugmsg( "upgrade_into %s of monster %s is not a valid monster id",
-                           mon.upgrade_into.c_str(), mon.id.c_str() );
+                          mon.upgrade_into.c_str(), mon.id.c_str() );
             }
             if( !mon.upgrade_group.is_valid() ) {
                 debugmsg( "upgrade_group %s of monster %s is not a valid monster group id",
-                           mon.upgrade_group.c_str(), mon.id.c_str() );
+                          mon.upgrade_group.c_str(), mon.id.c_str() );
+            }
+        }
+
+        if( mon.reproduces ) {
+            if( mon.baby_timer < 1 ) {
+                debugmsg( "Time between reproductions (%d) is invalid for %s",
+                          mon.baby_timer, mon.id.c_str() );
+            }
+            if( mon.baby_count < 1 ) {
+                debugmsg( "Number of children (%d) is invalid for %s",
+                          mon.baby_count, mon.id.c_str() );
+            }
+            if( !mon.baby_monster && mon.baby_egg == "null" ) {
+                debugmsg( "No baby or egg defined for monster %s", mon.id.c_str() );
+            }
+            if( mon.baby_monster && mon.baby_egg != "null" ) {
+                debugmsg( "Both an egg and a live birth baby are defined for %s", mon.id.c_str() );
+            }
+            if( !mon.baby_monster.is_valid() ) {
+                debugmsg( "baby_monster %s of monster %s is not a valid monster id",
+                          mon.baby_monster.c_str(), mon.id.c_str() );
+            }
+            if( !item::type_is_defined( mon.baby_egg ) ) {
+                debugmsg( "item_id %s of monster %s is not a valid item id",
+                          mon.baby_egg.c_str(), mon.id.c_str() );
+            }
+        }
+
+        if( mon.biosignatures ) {
+            if( mon.biosig_timer < 1 ) {
+                debugmsg( "Time between biosignature drops (%d) is invalid for %s",
+                          mon.biosig_timer, mon.id.c_str() );
+            }
+            if( mon.biosig_item == "null" ) {
+                debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );
+            }
+            if( !item::type_is_defined( mon.biosig_item ) ) {
+                debugmsg( "item_id %s of monster %s is not a valid item id",
+                          mon.biosig_item.c_str(), mon.id.c_str() );
             }
         }
     }

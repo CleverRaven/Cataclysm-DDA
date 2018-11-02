@@ -1,6 +1,7 @@
 #include "fault.h"
 
 #include "debug.h"
+#include "json.h"
 #include "translations.h"
 #include "requirements.h"
 
@@ -47,16 +48,15 @@ void fault::load_fault( JsonObject &jo )
 
     } else {
         auto req = jo.get_object( "requirements" );
-        auto req_id = std::string( "inline_fault_" ) += f.id_.str();
+        const requirement_id req_id( std::string( "inline_fault_" ) + f.id_.str() );
         requirement_data::load_requirement( req, req_id );
-        f.requirements_ = requirement_id( req_id );
+        f.requirements_ = req_id;
     }
 
     if( faults_all.find( f.id_ ) != faults_all.end() ) {
         jo.throw_error( "parsed fault overwrites existing definition", "id" );
     } else {
         faults_all[ f.id_ ] = f;
-        DebugLog( D_INFO, DC_ALL ) << "Loaded fault: " << f.name_;
     }
 }
 

@@ -19,6 +19,24 @@
     "time": 30
   },
   {
+    "id": "jewelry_book",
+    "type": "BOOK",
+    "name": "Antique Adornments",
+    "name_plural": "Antique Adornments",
+    "description": "A comprehensive and illustrated history of crown, bracelet, necklace and others.",
+    "weight": 600,
+    "volume": 5,
+    "price": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 6,
+    "max_level": 6,
+    "intelligence": 8,
+    "time": 60
+  },
+  {
     "id": "mag_fabrication",
     "type": "BOOK",
     "name": "Crafty Crafter's Quarterly",

@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_action",
+    "id": "TEST_GAIN_MORALE",
+    "name": "Gain morale! (+100)"
+  }
+]

@@ -1,13 +1,13 @@
 File Layout
 ===========
 
-- src/catalua.cpp - Core of the lua mod, glueing lua to the cataclysm C++ engine.
-- src/catalua.h   - Export of some public lua-related functions, do not use these outside #ifdef LUA
-- lua/autoexec.lua - Lua-side initialization of important data structures(metatables for classes etc.)
-- lua/class_definitions.lua - Definitions of classes and functions that bindings will be generated from
-- lua/generate_bindings.lua - Custom binding generator for cataclysm, can generate class and function bindings.
-- lua/catabindings.cpp - Output of generate_bindings.lua
-- data/main.lua - Script that will be called on cataclysm startup. You can define functions here and call them in the lua debug interpreter.
+- `src/catalua.cpp` - Core of the lua mod, glueing lua to the cataclysm C++ engine.
+- `src/catalua.h` - Export of some public lua-related functions, do not use these outside #ifdef LUA
+- `lua/autoexec.lua` - Lua-side initialization of important data structures(metatables for classes etc.)
+- `lua/class_definitions.lua` - Definitions of classes and functions that bindings will be generated from
+- `lua/generate_bindings.lua` - Custom binding generator for cataclysm, can generate class and function bindings.
+- `lua/catabindings.cpp` - Output of generate_bindings.lua
+- `data/main.lua` - Script that will be called on cataclysm startup. You can define functions here and call them in the lua debug interpreter.
 
 Adding new functionality
 ========================
@@ -139,3 +139,49 @@ To add a new wrapped class, you have to do several things:
 - Add the relevant metatable to lua/autoexec.lua, e.g. `monster_metatable = generate_metatable("monster", classes.monster)`
 
 Eventually, the latter should be automated, but right now it's necessary. Note that the class name should be the exact same in lua as in C++, otherwise the binding generator will fail. That limitation might be removed at some point.
+
+Callbacks
+---------
+
+Following Lua-callbacks exist:
+
+*game-related*:
+
+- `on_savegame_loaded` runs when saved game is loaded;
+- `on_weather_changed(weather_new, weather_old)` runs when weather is changed.
+
+*calendar-related*:
+
+- `on_turn_passed` runs once each turn (once per 6 seconds or 10 times per minute);
+- `on_minute_passed` runs once per minute;
+- `on_hour_passed` runs once per hour (at the beginning of the hour);
+- `on_day_passed` runs once per day (at midnight);
+- `on_year_passed` runs once per year (on first day of the year at midnight).
+
+*player-related*:
+
+- `on_player_skill_increased(player_id, source, skill_id, level)` runs whenever player skill is increased (previously known as `on_skill_increased`);
+- `on_player_dodge(player_id, source, difficulty)` runs whenever player have dodged;
+- `on_player_hit(player_id, source, body_part)` runs whenever player were hit;
+- `on_player_hurt(player_id, source, disturb)` runs whenever player were hurt;
+- `on_player_mutation_gain(player_id, mutation_id)` runs whenever player gains mutation;
+- `on_player_mutation_loss(player_id, mutation_id)` runs whenever player loses mutation;
+- `on_player_stat_change(player_id, stat_id, stat_value)` runs whenever player stats are changed;
+- `on_player_effect_int_changes(player_id, effect_id, intensity, bodypart)` runs whenever intensity of effect on player has changed;
+- `on_player_item_wear(player_id, item_id)` runs whenever player wears some clothes on;
+- `on_player_item_takeoff(player_id, item_id)` runs whenever player takes some clothes off;
+- `on_mission_assignment(player_id, mission_id)` runs whenever player is assigned to mission;
+- `on_mission_finished(player_id, mission_id)` runs whenever player finishes the mission.
+
+__Note for `player_id`:__ Value of -1 (when game is not started) or 1 (when game is started) are used for player character, values bigger than 1 are used for npcs.
+
+*mapgen-related*:
+
+- `on_mapgen_finished(mapgen_generator_type, mapgen_terrain_type_id, mapgen_terrain_coordinates)` runs whenever `builtin`, `json` or `lua` mapgen is finished generating.
+
+Some callbacks provide arguments which can be useful (see example mods).
+
+Example mods
+============
+
+See `/doc/sample_mods` folder.

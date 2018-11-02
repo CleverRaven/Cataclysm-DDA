@@ -2,9 +2,7 @@
   {
     "id": "municipal_reactor",
     "type": "overmap_special",
-    "connections": [
-      { "point": [ -1, 1, 0 ], "terrain": "road" }
-    ],
+    "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road" } ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "municipal_reactor" },
       { "point": [ 0, 0, -1 ], "overmap": "municipal_reactor_b" },

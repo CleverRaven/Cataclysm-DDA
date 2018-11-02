@@ -1,0 +1,48 @@
+[
+  {
+    "type": "palette",
+    "id": "subway",
+    "terrain": {
+      " ": [ "t_dirt", "t_dirt", "t_grass" ],
+      "|": "t_wall",
+      "-": "t_wall_glass",
+      ";": "t_door_glass_c",
+      ".": "t_floor",
+      "S": "t_sidewalk",
+      "*": "t_shrub",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up"
+    },
+    "furniture": { "&": "f_trashcan", "b": "f_bench", "1": "f_indoor_plant", "2": "f_indoor_plant_y" }
+  },
+  {
+    "type": "palette",
+    "id": "subway_underground",
+    "terrain": {
+      "#": "t_rock",
+      "R": "t_rock_red",
+      "G": "t_rock_green",
+      "B": "t_rock_blue",
+      ".": "t_rock_floor",
+      "_": "t_thconc_floor",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "^": "t_railroad_rubble",
+      "t": "t_railroad_tie",
+      "-": "t_railroad_tie_h",
+      "|": "t_railroad_tie_v",
+      "/": "t_railroad_tie_d",
+      "X": "t_railroad_track",
+      "H": "t_railroad_track_h",
+      "V": "t_railroad_track_v",
+      "D": "t_railroad_track_d",
+      "E": "t_railroad_track_d1",
+      "F": "t_railroad_track_d2",
+      "x": "t_railroad_track_on_tie",
+      "h": "t_railroad_track_h_on_tie",
+      "v": "t_railroad_track_v_on_tie",
+      "d": "t_railroad_track_d_on_tie"
+    },
+    "furniture": { "&": "f_trashcan", "b": "f_bench" }
+  }
+]

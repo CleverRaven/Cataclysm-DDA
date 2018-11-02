@@ -172,9 +172,7 @@
         { "item": "elec_parts", "x": 11, "y": [ 4, 9 ], "chance": 90, "repeat": [ 2, 3 ] },
         { "item": "elec_parts", "x": 9, "y": [ 4, 9 ], "chance": 90, "repeat": [ 2, 3 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 } ]
     }
   },
   {
@@ -244,9 +242,7 @@
         { "item": "vending_drink_home_impr", "x": 10, "y": 10, "chance": 80, "repeat": [ 5, 8 ] },
         { "item": "hardware_trash", "x": 17, "y": 11, "chance": 100, "repeat": [ 2, 8 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 } ]
     }
   },
   {
@@ -312,9 +308,7 @@
         "r": "f_rack",
         "s": "f_sink"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "place_items": [
         { "item": "raw_materials", "x": [ 12, 18 ], "y": 17, "chance": 70, "repeat": [ 2, 3 ] },
         { "item": "raw_materials", "x": 18, "y": [ 9, 12 ], "chance": 70, "repeat": [ 2, 3 ] },
@@ -329,9 +323,7 @@
         { "item": "hardware_clothing", "x": [ 1, 7 ], "y": 21, "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "hand_tools", "x": [ 1, 7 ], "y": 23, "chance": 35, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 } ]
     }
   },
   {
@@ -415,9 +407,7 @@
         { "item": "paint", "x": [ 19, 20 ], "y": [ 6, 7 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "hardware_trash", "x": 7, "y": 1, "chance": 100, "repeat": [ 3, 8 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 } ]
     }
   },
   {
@@ -496,12 +486,8 @@
         { "item": "hardware_trash", "x": 19, "y": 22, "chance": 100, "repeat": [ 2, 8 ] },
         { "item": "vending_drink_home_impr", "x": 1, "y": 22, "chance": 90, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "warehouse_vehicles", "x": 5, "y": 17, "chance": 40 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 } ],
+      "place_vehicles": [ { "vehicle": "warehouse_vehicles", "x": 5, "y": 17, "chance": 40 } ]
     }
   },
   {
@@ -568,12 +554,8 @@
         "t": "f_toilet",
         "x": "f_crate_c"
       },
-      "place_items": [
-        { "item": "hardware_trash", "x": [ 0, 1 ], "y": [ 10, 11 ], "chance": 100, "repeat": [ 3, 8 ] }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.5 }
-      ]
+      "place_items": [ { "item": "hardware_trash", "x": [ 0, 1 ], "y": [ 10, 11 ], "chance": 100, "repeat": [ 3, 8 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.5 } ]
     }
   }
 ]

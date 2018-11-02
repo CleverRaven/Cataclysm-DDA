@@ -1,0 +1,50 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_3blc",
+        "comment" : "bottom left corner, third and odd level floors.",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "#######==ww=====ww==ww==",
+                "#######=..BB|d+..BB+.d==",
+                "#####===....|-|....|jj==",
+                "#####===....+d|....|nnnn",
+                "###=====+------+----...*",
+                "###=*...................",
+                "###=....................",
+                "###g..nTTn..nTTn..nTTn..",
+                "###g..nTTn..nTTn@.nTTn..",
+                "###g..nTTn..nTTn..nTTn..",
+                "###=....................",
+                "###=*.......@...........",
+                "###=---jj+----..........",
+                "###2.g.....BB|..===!!==.",
+                "###2.g...ljjj|..===..Mee",
+                "###2.g.....BB|..==>>>Mee",
+                "###2.g...ljjj|..==>>>Mee",
+                "###2.g.....BB|..==>>>Mee",
+                "###2.g...ljjj|..=MMMMMMM",
+                "###2.+.....BB|..=eeeeM==",
+                "###===-------|...eeeeM=="
+            ],
+            "rotation": 3,
+            "palettes": [
+                "tri_tower",
+                "upper_level",
+                "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "j": "t_wall_wood"
+            },
+            "npcs": {
+                "@": { "class": "thug" }
+            }
+        }
+    }
+]

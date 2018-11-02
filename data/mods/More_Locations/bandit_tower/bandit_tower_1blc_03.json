@@ -1,0 +1,76 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_1blc",
+        "comment" : "bottom left corner, ground floor",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_pavement",
+            "rows": [
+                "===#####PPPPPPPP#####===",
+                "=#######PPPPPPPP########",
+                "=#######PPPPPPPP########",
+                "#######               ==",
+                "#######               ==",
+                "#####=====[][][][][]====",
+                "#####===*           9   ",
+                "###  ===                ",
+                "PPP    k                ",
+                "PPP    k     v          ",
+                "PPP    k                ",
+                "PPP    k      @         ",
+                "PPP    k                ",
+                "PPP    kkkkkk--    ----!",
+                "PPP          |jjjjjjjjjj",
+                "PPP      @    jjjjjjjjjj",
+                "###           jj===!!==]",
+                "###           jj===jjMee",
+                "###           jj==>>>Mee",
+                "###          |jj==>>>Mee",
+                "###          |jj==>>>Mee",
+                "=##          |jj=MMMMMMM",
+                "=##          |jj=eeYYM==",
+                "=##===       !jj]eYeeM=="
+            ],
+            "rotation": 3,
+            "palettes": [
+               "tri_tower",
+               "ground_level",
+               "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "9": "t_gates_mech_control",
+                "j": "t_concrete_floor",
+                "k": "t_scrap_wall",
+                "P": "t_pavement",
+                "y": "t_pavement_y"
+            },
+            "mapping": {
+                "e": {
+                      "items": { "item": "trash", "chance": 95 },
+                      "fields": { "field": "fd_blood" }
+                },
+                "Y": {
+                    "terrain": "t_elevator",
+                    "furniture": "f_dumpster",
+                    "fields": { "field": "fd_blood", "chance": 50 },
+                    "items": [
+                        { "item": "trash_cart", "chance": 95 },
+                        { "item": "monparts", "chance": 50 },
+                        { "item": "wreckage", "chance": 25 },
+                        { "item": "cloning_vat", "chance": 25 },
+                        { "item": "trash_forest", "chance": 70 }
+                    ],
+                    "item": { "item": "corpse", "amount": [ 0, 4 ] }
+                }
+            },
+            "vehicles": {
+                "v": { "vehicle": "parkinglot", "chance": 80, "status": 0 }
+            },
+            "npcs": {
+                "@": { "class": "bandit" }
+            }
+        }
+    }
+]

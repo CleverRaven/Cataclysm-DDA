@@ -612,9 +612,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -728,9 +726,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -844,9 +840,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -964,9 +958,7 @@
         { "item": "sewage_plant", "x": [ 12, 13 ], "y": [ 13, 13 ], "chance": 60 },
         { "item": "sewage_plant", "x": [ 12, 13 ], "y": [ 13, 13 ], "chance": 60 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -1306,9 +1298,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -1422,9 +1412,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -1538,9 +1526,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -1654,9 +1640,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -1770,9 +1754,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -1886,9 +1868,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -2002,12 +1982,8 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_items": [
-        { "item": "cop_evidence", "x": [ 2, 3 ], "y": [ 16, 16 ], "chance": 60 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_items": [ { "item": "cop_evidence", "x": [ 2, 3 ], "y": [ 16, 16 ], "chance": 60 } ],
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -2238,9 +2214,7 @@
         { "item": "vault_survival", "x": [ 21, 21 ], "y": [ 20, 23 ], "chance": 85 },
         { "item": "vault_survival", "x": [ 22, 23 ], "y": [ 20, 20 ], "chance": 85 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -2359,12 +2333,8 @@
         { "group": "survivor_weapons", "x": [ 18, 20 ], "y": [ 20, 23 ], "chance": 30, "ammo": 100, "magazine": 100 },
         { "group": "survivor_weapons", "x": [ 5, 6 ], "y": [ 22, 23 ], "chance": 50, "ammo": 100, "magazine": 100 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "humvee", "x": 18, "y": 22, "chance": 100, "rotation": 270 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ],
+      "place_vehicles": [ { "vehicle": "humvee", "x": 18, "y": 22, "chance": 100, "rotation": 270 } ]
     }
   },
   {
@@ -2478,9 +2448,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -2594,9 +2562,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -2710,9 +2676,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -2826,9 +2790,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -2942,9 +2904,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -3058,9 +3018,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -3293,9 +3251,7 @@
         { "item": "vault_survival", "x": [ 22, 23 ], "y": [ 3, 3 ], "chance": 85 },
         { "item": "cannedfood", "x": [ 15, 16 ], "y": [ 21, 22 ], "chance": 90 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -3410,12 +3366,8 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_items": [
-        { "item": "cannedfood", "x": [ 7, 8 ], "y": [ 15, 16 ], "chance": 90 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 }
-      ]
+      "place_items": [ { "item": "cannedfood", "x": [ 7, 8 ], "y": [ 15, 16 ], "chance": 90 } ],
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
   {
@@ -3530,12 +3482,8 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_items": [
-        { "item": "consumer_electronics", "x": [ 3, 3 ], "y": [ 4, 5 ], "chance": 70 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_items": [ { "item": "consumer_electronics", "x": [ 3, 3 ], "y": [ 4, 5 ], "chance": 70 } ],
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -3649,9 +3597,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -3765,9 +3711,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -3881,12 +3825,8 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_items": [
-        { "item": "homebooks", "x": [ 18, 19 ], "y": [ 15, 15 ], "chance": 90 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_items": [ { "item": "homebooks", "x": [ 18, 19 ], "y": [ 15, 15 ], "chance": 90 } ],
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -4006,9 +3946,7 @@
         { "item": "pawn", "x": [ 19, 20 ], "y": [ 4, 6 ], "chance": 70 },
         { "item": "pawn", "x": [ 23, 23 ], "y": [ 4, 8 ], "chance": 70 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -4122,9 +4060,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -4355,12 +4291,8 @@
         { "item": "cannedfood", "x": [ 6, 7 ], "y": [ 15, 16 ], "chance": 90 },
         { "item": "cannedfood", "x": [ 7, 8 ], "y": [ 18, 19 ], "chance": 90 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "humvee", "x": 13, "y": 16, "chance": 100, "rotation": 270 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ],
+      "place_vehicles": [ { "vehicle": "humvee", "x": 13, "y": 16, "chance": 100, "rotation": 270 } ]
     }
   },
   {
@@ -4474,9 +4406,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -4590,9 +4520,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -4706,9 +4634,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -4822,9 +4748,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -4938,9 +4862,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -5054,9 +4976,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -5170,9 +5090,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -5399,9 +5317,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -5515,9 +5431,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -5631,9 +5545,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -5747,9 +5659,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -5863,9 +5773,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ]
     }
   },
   {
@@ -5979,9 +5887,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ]
     }
   },
   {
@@ -6095,9 +6001,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -6211,9 +6115,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -6327,12 +6229,8 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_items": [
-        { "item": "alcohol", "x": [ 2, 2 ], "y": [ 14, 14 ], "chance": 90 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_items": [ { "item": "alcohol", "x": [ 2, 2 ], "y": [ 14, 14 ], "chance": 90 } ],
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -6446,9 +6344,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -6566,9 +6462,7 @@
         { "item": "sewage_plant", "x": [ 14, 16 ], "y": [ 10, 10 ], "chance": 70 },
         { "item": "sewage_plant", "x": [ 14, 16 ], "y": [ 12, 12 ], "chance": 70 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -6682,9 +6576,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -6798,9 +6690,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -6914,9 +6804,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -7030,9 +6918,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -7146,9 +7032,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 13, 18 ], "y": [ 2, 10 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 13, 18 ], "y": [ 2, 10 ], "density": 0.25 } ]
     }
   },
   {
@@ -7262,9 +7146,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -7604,9 +7486,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -7720,9 +7600,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -7836,9 +7714,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -7952,9 +7828,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -8068,9 +7942,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -8184,9 +8056,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -8300,9 +8170,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -8981,9 +8849,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -9097,9 +8963,7 @@
         "z": "f_crate_c",
         "{": "f_rubble"
       },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 18, 23 ], "y": [ 0, 5 ], "density": 0.3 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 18, 23 ], "y": [ 0, 5 ], "density": 0.15 } ]
     }
   },
   {

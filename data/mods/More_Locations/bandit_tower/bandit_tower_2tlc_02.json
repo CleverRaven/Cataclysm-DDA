@@ -1,0 +1,58 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_2tlc",
+        "comment" : "top left corner, second story and even levels",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "################88######",
+                "################88######",
+                "################88######",
+                "#######==ww=====++==ww==",
+                "#######=...c..........==",
+                "#####===.TTTT......TT.==",
+                "#####===.TTTT......TTc..",
+                "###=====....c......TT...",
+                "###=..c.......@...c.....",
+                "###=..TTTT...........-++",
+                "###w..TTTT..TT......a|XX",
+                "###w....c...TTc.....i|--",
+                "###w.TT.....TT.@.....+.X",
+                "###=.TT..............---",
+                "###=.TT.................",
+                "###=......----..........",
+                "888+......|RU|..=======.",
+                "888+........C|..=====Mee",
+                "###g....C...C|..==>>>Mee",
+                "###|L...C...s|....>>>Mee",
+                "###gL...C...o|....>>>Mee",
+                "###|L...C...C|..=MMMMMMM",
+                "###gL..xW.XXU|..=eeeeM==",
+                "###===-------|...eeeeM=="
+            ],
+            "rotation": 0,
+            "palettes": [
+                "tri_tower",
+                "upper_level",
+                "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "5": "t_pavement",
+                "8": "t_bridge"
+            },
+            "items":{
+                "C": { "item": "knifeblock", "chance": 60 },
+                "L": [ { "item": "pasta", "chance": 50 }, { "item": "stash_food", "chance": 50 } ],
+                "R": { "item": "produce", "chance": 75 },
+                "U": { "item": "cannedfood", "chance": 75 },
+                "X": { "item": "stash_wood", "chance": 60, "count": 2 }
+            },
+            "npcs": {
+                "@": { "class": "bandit" }
+            }
+        }
+    }
+]

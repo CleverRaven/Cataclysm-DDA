@@ -11,6 +11,7 @@
     "price": 0,
     "bashing": 1,
     "material": "wood",
+    "flags": [ "NO_SALVAGE" ],
     "symbol": "=",
     "color": "brown",
     "count": 50,

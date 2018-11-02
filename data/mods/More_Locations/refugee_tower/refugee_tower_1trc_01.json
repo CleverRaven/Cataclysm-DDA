@@ -1,0 +1,52 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "refugee_tower_1trc",
+        "comment" : "top right corner, ground floor",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_pavement",
+            "rows": [
+                "===#####PPPPPPPP#####===",
+                "=#######PPPPPPPP########",
+                "=#######PPPPPPPP########",
+                "#######               ==",
+                "#######               ==",
+                "#####===      v       ==",
+                "#####===                ",
+                "###  ===                ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP          --kkkk----!",
+                "PPP          |jjjjjjjjjj",
+                "PPP          kjjjjjjjjjj",
+                "###          kjj===!!==j",
+                "###          kjj===  Mee",
+                "###          kjj==>>>Mee",
+                "###          |jj==>>>Mee",
+                "###          |jj==>>>Mee",
+                "=##          |jj=MMMMMMM",
+                "=##          |jj=eeeeM==",
+                "=##===       !jjjeeeeM=="
+            ],
+            "rotation": 1,
+            "palettes": [
+               "tri_tower",
+               "ground_level"
+            ],
+            "terrain":{
+                "j": "t_concrete_floor",
+                "k": "t_wall_wood",
+                "P": "t_pavement",
+                "y": "t_pavement_y"
+            },
+            "vehicles": {
+                "v": { "vehicle": "suburban_home", "chance": 20 }
+            }
+        }
+    }
+]

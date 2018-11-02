@@ -61,10 +61,17 @@
 	"folders":
 	[
 		{
+			"folder_exclude_patterns":
+			[
+				"Cataclysm.app"
+			],
 			"path": "."
 		},
 		{
 			"path": "~/.cataclysm-dda"
+		},
+		{
+			"path": "~/Library/Application Support/Cataclysm"
 		}
 	],
 	"settings":
@@ -73,9 +80,9 @@
 		{
 			"options_c++":
 			{
-                "use_only_additional_options": true,
-                "additional_options_file": ".astylerc"
-            }
+				"additional_options_file": ".astylerc",
+				"use_only_additional_options": true
+			}
 		}
 	}
 }

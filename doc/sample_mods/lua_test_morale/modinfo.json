@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "lua_test_morale",
+    "name": "Lua sample code: Morale",
+    "description": "Sample code of morale related functions.",
+    "category": "content",
+    "dependencies": ["dda"]
+  }
+]

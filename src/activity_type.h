@@ -30,10 +30,10 @@ class activity_type
         activity_id id_;
         bool rooted_ = false;
         std::string stop_phrase_ = "THIS IS A BUG";
-        bool abortable_ = true;
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
+        bool refuel_fires = false;
 
     public:
         const activity_id &id() const {
@@ -41,9 +41,6 @@ class activity_type
         }
         bool rooted() const {
             return rooted_;
-        }
-        bool abortable() const {
-            return abortable_;
         }
         bool suspendable() const {
             return suspendable_;
@@ -56,6 +53,12 @@ class activity_type
         }
         bool no_resume() const {
             return no_resume_;
+        }
+        /**
+         * If true, player will refuel one adjacent fire if there is firewood spot adjacent.
+         */
+        bool will_refuel_fires() const {
+            return refuel_fires;
         }
 
         void call_do_turn( player_activity *, player * ) const;

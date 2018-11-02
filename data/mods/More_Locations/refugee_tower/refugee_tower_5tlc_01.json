@@ -1,0 +1,62 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "refugee_tower_5tlc",
+        "comment" : "top left corner, roof, fifth floor or odd level",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_flat_roof",
+            "rows": [
+                "#######################8",
+                "#######################8",
+                "#######################8",
+                "#######2222222222222222 ",
+                "#######2                ",
+                "#####222                ",
+                "#####2                  ",
+                "###222                  ",
+                "###2                    ",
+                "###2                    ",
+                "###2                    ",
+                "###2            00  00  ",
+                "###2            00  00  ",
+                "###2                    ",
+                "###2            00  00  ",
+                "###2            00  00  ",
+                "###2            ========",
+                "###2            =l,,,=mm",
+                "###2            =l,,L=mm",
+                "###2            !,,,L=mm",
+                "###2     v      !,,,,!m5",
+                "###2          55========",
+                "###2          55=mmmm===",
+                "888             =mmm5==="
+            ],
+            "rotation": 0,
+            "palettes": [
+                "tri_tower",
+                "upper_level",
+                "refugee_tower_stuff"
+            ],
+            "terrain":{
+                " ": "t_flat_roof",
+                ",": "t_concrete_floor",
+                "5": "t_machinery_heavy",
+                "I": "t_flat_roof",
+                "l": "t_concrete_floor",
+                "L": "t_concrete_floor"
+            },
+            "furniture":{
+                "0": "f_standing_tank"
+            },
+            "items": {
+                "l": [ { "item": "cleaning", "chance": 50 }, { "item": "chem_home", "chance": 40 } ],
+                "L": [ { "item": "mechanics", "chance": 70 }, { "item": "plumber_gear", "chance": 30 } ]
+            },
+            "vehicles": {
+                "v": { "vehicle": "portable_generator", "chance": 10, "status": 0 }
+            }
+        }
+    }
+]

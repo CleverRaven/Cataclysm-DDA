@@ -9,11 +9,11 @@
     "price": 4000,
     "material": "steel",
     "symbol": "#",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo_type": "22",
     "capacity": 30,
     "reliability": 5,
-    "reload_time": 200
+    "reload_time": 500
   },
   {
     "id": "smg_38_mag",
@@ -28,8 +28,8 @@
     "id": "smg_9mm_mag",
     "copy-from": "smg_22_mag",
     "type": "MAGAZINE",
-    "name": "pipe SMG: 9mm magazine",
-    "description": "An improvised magazine made for the pipe SMG: 9mm, holds 25 rounds.",
+    "name": "pipe SMG: 9x19mm magazine",
+    "description": "An improvised magazine made for the pipe SMG: 9x19mm, holds 25 rounds.",
     "ammo_type": "9mm",
     "capacity": 25
   },

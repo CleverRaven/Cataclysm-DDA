@@ -1,0 +1,41 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "mega_1brc",
+    "comment": "ground floor. bottom right corner",
+    "weight": 100,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,----------------WWWW",
+        ",,,,|f..ff....ff..f|WWWW",
+        ",,,,|f..ff....ff..f--gg-",
+        ",,,,|I..ff....ff..I.....",
+        ",,,,|f..ff....ff..f.....",
+        ",,,,|f..ff....ff..f.....",
+        ",,,,|f..ff....ff..f.....",
+        ",,,,|f..ff....ff..f.....",
+        ",,,,|...................",
+        ",,,,|...................",
+        ",,,,|r..rrrrrrrrrrrrrr..",
+        ",,,,|r..................",
+        ",,,,|r..rrrrrrrrrrrrrr..",
+        ",,,,|r..................",
+        ",,,,|r..rrrrrrrrrrrrrr..",
+        ",,---r..................",
+        ",,|RRI..rrrrrrrrrrIrrr..",
+        ",,|R....................",
+        ",,|R....................",
+        ",,|R.RR..RR..RR..RR.....",
+        ",,|R.RR..RR..RR..RR.....",
+        ",,|R...................."
+      ],
+      "rotation": 2,
+      "palettes": [ "megastore", "mega_goods_e" ],
+      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+    }
+  }
+]
