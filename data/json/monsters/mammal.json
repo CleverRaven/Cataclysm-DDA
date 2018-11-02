@@ -92,7 +92,7 @@
     "species": [ "MAMMAL" ],
     "diff": 3,
     "volume": "750 ml",
-    "weight": 1000,
+    "weight": 200,
     "hp": 6,
     "speed": 100,
     "material": [ "flesh" ],
