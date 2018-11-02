@@ -1021,8 +1021,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             } while( action != "CONFIRM" && action != "QUIT" );
             action.clear();
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
-            uimenu pmenu;
-            // This simplifies overmap_special selection using uimenu
+            uilist pmenu;
+            // This simplifies overmap_special selection using uilist
             std::vector<const overmap_special *> oslist;
             const bool terrain = action == "PLACE_TERRAIN";
 
@@ -1038,7 +1038,6 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                     pmenu.addentry( oslist.size() - 1, true, 0, elem.id.str() );
                 }
             }
-            pmenu.return_invalid = true;
             pmenu.query();
 
             if( pmenu.ret >= 0 ) {
