@@ -180,7 +180,7 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.stackable && obj.stack_size == 0 ) {
         obj.stack_size = std::min( obj.charges_default(), 200 );
     }
-    
+
     // Items always should have some volume.
     // TODO: handle possible exception software?
     // TODO: make items with 0 volume an error during loading?
@@ -194,7 +194,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Set max volume for containers to prevent integer overflow
-    if (obj.container && obj.container->contains > units::from_milliliter( 10000000 ) ) {
+    if( obj.container && obj.container->contains > units::from_milliliter( 10000000 ) ) {
         obj.container->contains = units::from_milliliter( 10000000 );
     }
 
