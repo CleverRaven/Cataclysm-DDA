@@ -273,12 +273,10 @@ void player::disp_info()
 
         if( starvation_base_penalty > 500 ) {
             starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";
-        }
-        if( starvation_base_penalty > 1000 ) {
-            starvation_text << _( "Dexterity" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
-        }
-        if( starvation_base_penalty > 1000 ) {
-            starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+            if( starvation_base_penalty > 1000 ) {
+                starvation_text << _( "Dexterity" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+                starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+            }
         }
 
         int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
