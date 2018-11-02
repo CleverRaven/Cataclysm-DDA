@@ -33,7 +33,26 @@
       ],
       "set": [ { "point": "furniture", "id": "f_shackle", "x": [ 2, 14 ], "y": [ 2, 21 ], "chance": 3 } ],
       "terrain": {
-        "O": ["t_tree_pine", "t_tree", "t_shrub", "t_shrub", "t_tree_young", "t_tree_young", "t_grass", "t_grass", "t_grass", "t_dirt", "t_grass", "t_shrub", "t_grass", "t_dirt", "t_tree_young", "t_grass", "t_grass", "t_dirt"],
+        "O": [
+          "t_tree_pine",
+          "t_tree",
+          "t_shrub",
+          "t_shrub",
+          "t_tree_young",
+          "t_tree_young",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_dirt",
+          "t_grass",
+          "t_shrub",
+          "t_grass",
+          "t_dirt",
+          "t_tree_young",
+          "t_grass",
+          "t_grass",
+          "t_dirt"
+        ],
         " ": "t_sidewalk",
         "+": "t_door_c",
         "-": "t_wall",
@@ -42,15 +61,10 @@
         "x": "t_window_boarded",
         "|": "t_wall"
       },
-      "furniture": {
-      "B": "f_rack",
-      "c": "f_counter"
-      },
-      "items": {
-        ".": { "item": "trash", "chance": 12 }
-      },
+      "furniture": { "B": "f_rack", "c": "f_counter" },
+      "items": { ".": { "item": "trash", "chance": 12 } },
       "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
-      }
+    }
   },
   {
     "type": "mapgen",
@@ -86,7 +100,26 @@
       ],
       "set": [ { "point": "furniture", "id": "f_shackle", "x": [ 2, 14 ], "y": [ 2, 21 ], "chance": 3 } ],
       "terrain": {
-        "O": ["t_tree_pine", "t_tree", "t_shrub", "t_shrub", "t_tree_young", "t_tree_young", "t_grass", "t_grass", "t_grass", "t_dirt", "t_grass", "t_shrub", "t_grass", "t_dirt", "t_tree_young", "t_grass", "t_grass", "t_dirt"],
+        "O": [
+          "t_tree_pine",
+          "t_tree",
+          "t_shrub",
+          "t_shrub",
+          "t_tree_young",
+          "t_tree_young",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_dirt",
+          "t_grass",
+          "t_shrub",
+          "t_grass",
+          "t_dirt",
+          "t_tree_young",
+          "t_grass",
+          "t_grass",
+          "t_dirt"
+        ],
         " ": "t_sidewalk",
         "_": "t_pavement",
         "~": "t_pavement_y",
@@ -100,16 +133,8 @@
         "R": "t_sidewalk",
         "|": "t_wall"
       },
-      "furniture": {
-      "B": "f_rack",
-      "R": "f_dumpster",
-      "l": "f_locker",
-      "b": "f_bench",
-      "c": "f_counter"
-      },
-      "items": {
-        ".": { "item": "trash", "chance": 15 }
-      },
+      "furniture": { "B": "f_rack", "R": "f_dumpster", "l": "f_locker", "b": "f_bench", "c": "f_counter" },
+      "items": { ".": { "item": "trash", "chance": 15 } },
       "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
     }
   }

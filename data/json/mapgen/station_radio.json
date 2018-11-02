@@ -164,7 +164,6 @@
         "f": "t_chainfence",
         "G": "t_chaingate_l",
         "#": "t_brick_wall"
-
       },
       "furniture": {
         "o": "f_bookcase",
@@ -194,13 +193,10 @@
         "R": { "item": "trash", "chance": 70 },
         "d": { "item": "office", "chance": 70 },
         "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
-		"P": { "item": "electronics", "chance": 70 },
+        "P": { "item": "electronics", "chance": 70 },
         "l": { "item": "cleaning", "chance": 70 }
       },
-      "place_loot": [
-        { "group": "record_weather", "x": 19, "y": 13 }
-      ]
+      "place_loot": [ { "group": "record_weather", "x": 19, "y": 13 } ]
     }
   }
 ]
-
