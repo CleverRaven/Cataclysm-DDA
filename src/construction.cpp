@@ -90,9 +90,9 @@ static void place_construction( const std::string &desc );
 
 std::vector<construction> constructions;
 
-// Color standarization for string streams
-static const std::string color_title = "<color_c_light_red>"; //color for titles
-static const std::string color_data = "<color_c_cyan>"; //color for data parts
+// Color standardization for string streams
+static const deferred_color color_title = def_c_light_red; //color for titles
+static const deferred_color color_data = def_c_cyan; //color for data parts
 
 void standardize_construction_times( int const time )
 {
@@ -421,7 +421,7 @@ void construction_menu()
                             } else {
                                 result_string = ter_str_id( current_con->post_terrain ).obj().name();
                             }
-                            current_line << color_title << result_string.c_str() << "</color>";
+                            current_line << colorize( result_string, color_title );
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
@@ -429,13 +429,18 @@ void construction_menu()
 
                             // display description of the result for multi-stages
                             current_line.str( "" );
-                            current_line << _( "Result: " ) << color_data;
+                            current_line << _( "Result: " );
                             if( current_con->post_is_furniture ) {
-                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
+                                current_line << colorize(
+                                                 furn_str_id( current_con->post_terrain ).obj().description,
+                                                 color_data
+                                             );
                             } else {
-                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
+                                current_line << colorize(
+                                                 ter_str_id( current_con->post_terrain ).obj().description,
+                                                 color_data
+                                             );
                             }
-                            current_line << "</color>";
                             folded_result_string = foldstring( current_line.str(), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
@@ -443,13 +448,18 @@ void construction_menu()
                             // display description of the result for single stages
                         } else if( !current_con->post_terrain.empty() ) {
                             current_line.str( "" );
-                            current_line << _( "Result: " ) << color_data;
+                            current_line << _( "Result: " );
                             if( current_con->post_is_furniture ) {
-                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
+                                current_line << colorize(
+                                                 furn_str_id( current_con->post_terrain ).obj().description,
+                                                 color_data
+                                             );
                             } else {
-                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
+                                current_line << colorize(
+                                                 ter_str_id( current_con->post_terrain ).obj().description,
+                                                 color_data
+                                             );
                             }
-                            current_line << "</color>";
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
@@ -493,8 +503,8 @@ void construction_menu()
                             } else {
                                 require_string = ter_str_id( current_con->pre_terrain ).obj().name();
                             }
-                            current_line << _( "Requires: " ) << color_data
-                                         << require_string.c_str() << "</color>";
+                            current_line << _( "Requires: " )
+                                         << colorize( require_string, color_data );
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
@@ -502,8 +512,8 @@ void construction_menu()
                         }
                         if( !current_con->pre_note.empty() ) {
                             current_line.str( "" );
-                            current_line << _( "Annotation: " ) << color_data
-                                         << _( current_con->pre_note.c_str() ) << "</color>";
+                            current_line << _( "Annotation: " )
+                                         << colorize( current_con->pre_note, color_data );
                             std::vector<std::string> folded_result_string =
                                 foldstring( current_line.str(), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
@@ -1355,9 +1365,7 @@ int construction::adjusted_time() const
 std::string construction::get_time_string() const
 {
     const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
-    std::ostringstream time_text;
-    time_text << _( "Time to complete: " ) << color_data << to_string( turns ) << "</color>";
-    return time_text.str();
+    return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 
 std::vector<std::string> construction::get_folded_time_string( int width ) const

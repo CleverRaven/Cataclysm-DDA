@@ -2778,13 +2778,13 @@ std::string Character::extended_description() const
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
-        ss << tag_colored_string( bp_heading, name_color );
+        ss << colorize( bp_heading, name_color );
         // Align them. There is probably a less ugly way to do it
         ss << std::string( longest - bp_heading.size() + 1, ' ' );
-        ss << tag_colored_string( hp_bar.first, hp_bar.second );
+        ss << colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
         // @todo: Integrate into get_hp_bar somehow
-        ss << tag_colored_string( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
+        ss << colorize( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
         ss << std::endl;
     }
 

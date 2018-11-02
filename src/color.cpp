@@ -648,6 +648,11 @@ std::string get_tag_from_color( const nc_color color )
     return "<color_" + string_from_color( color ) + ">";
 }
 
+std::string colorize( const std::string &text, const nc_color color )
+{
+    return get_tag_from_color( color ) + text + "</color>";
+}
+
 nc_color get_note_color( std::string const &note_id )
 {
     auto const candidate_color = color_by_string_map.find( note_id );
