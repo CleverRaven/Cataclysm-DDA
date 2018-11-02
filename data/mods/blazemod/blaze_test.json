@@ -723,7 +723,7 @@
     "broken_color": "magenta",
     "difficulty": 8,
     "durability": 400,
-    "size": 1000000,
+    "size": 40000,
     "breaks_into": [],
     "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
   },
