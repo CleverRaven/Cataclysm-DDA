@@ -3622,7 +3622,7 @@ const std::string &get_music_description()
         return rare;
     }
 
-    size_t i = ( size_t )rng( 0, descriptions.size() * 2 );
+    size_t i = static_cast<size_t>( rng( 0, descriptions.size() * 2 ) );
     if( i < descriptions.size() ) {
         return descriptions[i];
     }

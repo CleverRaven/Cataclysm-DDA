@@ -775,7 +775,7 @@ bool main_menu::new_character_tab()
                         popup( _( "Sorry, something went wrong." ) );
                     } else {
                         templates.erase( templates.begin() + sel3 );
-                        if( ( size_t )sel3 > templates.size() - 1 ) {
+                        if( static_cast<size_t>( sel3 ) > templates.size() - 1 ) {
                             sel3--;
                         }
                     }

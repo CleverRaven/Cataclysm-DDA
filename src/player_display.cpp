@@ -998,7 +998,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     max = bionicslist.size();
                 } else {
                     min = line - ( bionics_useful_size_y - 1 ) / 2;
-                    max = std::min( bionicslist.size(), ( size_t )( 1 + line + bionics_useful_size_y / 2 ) );
+                    max = std::min( bionicslist.size(), static_cast<size_t>( 1 + line + bionics_useful_size_y / 2 ) );
                 }
 
                 for( size_t i = min; i < max; i++ ) {

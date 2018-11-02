@@ -156,9 +156,9 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
         const size_t numtabs = tabs.size();
-        while( ( size_t )curtab < numtabs ) {
+        while( static_cast<size_t>( curtab ) < numtabs ) {
             lasttab = curtab;
-            draw_worldgen_tabs( wf_win, ( size_t )curtab );
+            draw_worldgen_tabs( wf_win, static_cast<size_t>( curtab ) );
             curtab += tabs[curtab]( wf_win, retworld );
 
             // If it is -1, or for unsigned size_t, it would be max.
@@ -679,7 +679,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
         int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
-            if( iNum >= ( size_t )start && iNum < ( size_t )( start + larger ) ) {
+            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
                 if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
                     trim_and_print( w, iNum - start, 1, wwidth, c_magenta, mSortCategory[iNum] );
@@ -767,7 +767,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     wrefresh( w_border );
 
     while( true ) {
-        draw_mod_list( w_mods, start, ( size_t )cursor, world_mods, true, _( "--NO ACTIVE MODS--" ),
+        draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods, true, _( "--NO ACTIVE MODS--" ),
                        catacurses::window() );
         wrefresh( w_mods );
 

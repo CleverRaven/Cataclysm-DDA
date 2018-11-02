@@ -135,7 +135,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                     const Character &c, int tabindex )
 {
     const int win_width = getmaxx( w_sort_middle );
-    const size_t win_height = ( size_t )getmaxy( w_sort_middle );
+    const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
     size_t i = fold_and_print( w_sort_middle, 0, 1, win_width - 1, c_white,
                                worn_item_it->type_name( 1 ) ) - 1;
     std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3 );

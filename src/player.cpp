@@ -7947,7 +7947,7 @@ bool player::pick_style() // Style selection menu
 
     uilist kmenu;
     kmenu.text = string_format( _( "Select a style. (press %s for more info)" ), ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
-    ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
+    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
     kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );

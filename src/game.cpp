@@ -9329,7 +9329,7 @@ void game::butcher()
             return;
         }
 
-        ret = ( size_t )kmenu.ret;
+        ret = static_cast<size_t>( kmenu.ret );
         if( ret >= MULTISALVAGE && ret < NUM_BUTCHER_ACTIONS ) {
             butcher_select = BUTCHER_OTHER;
             indexer_index = ret;
