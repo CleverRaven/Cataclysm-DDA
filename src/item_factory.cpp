@@ -176,9 +176,11 @@ void Item_factory::finalize_pre( itype &obj )
         obj.integral_volume = obj.volume;
     }
     // for ammo and comestibles stack size defaults to count of initial charges
+    // Set max stack size to 200 to prevent integer overflow
     if( obj.stackable && obj.stack_size == 0 ) {
-        obj.stack_size = obj.charges_default();
+        obj.stack_size = std::min(obj.charges_default(), 200);
     }
+    
     // Items always should have some volume.
     // TODO: handle possible exception software?
     // TODO: make items with 0 volume an error during loading?
@@ -189,6 +191,11 @@ void Item_factory::finalize_pre( itype &obj )
         if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
             obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
         }
+    }
+
+    // Set max volume for containers to prevent integer overflow
+    if (obj.container && obj.container->contains > units::from_milliliter( 10000000 ) ) {
+        obj.container->contains = units::from_milliliter( 10000000 );
     }
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
