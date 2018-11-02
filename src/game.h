@@ -15,6 +15,7 @@
 #include <map>
 #include <unordered_map>
 #include <list>
+#include <memory>
 #include <stdarg.h>
 
 extern const int savegame_version;
@@ -304,7 +305,7 @@ class game
         /** Returns the number of creatures through the creature_tracker size() function. */
         size_t num_zombies() const;
         /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
-        monster &zombie(const int idx);
+        monster &zombie( const int idx ) const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
         void remove_zombie(const int idx);
@@ -520,7 +521,7 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
 
-        std::vector<npc *> active_npc;
+        std::vector<std::shared_ptr<npc>> active_npc;
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 
@@ -828,7 +829,10 @@ public:
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
 private:
-        void wield(int pos = INT_MIN); // Wield a weapon  'w'
+        void wield();
+        void wield( int pos ); // Wield a weapon  'w'
+        void wield( item_location& loc );
+
         void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
         void plthrow(int pos = INT_MIN); // Throw an item  't'
@@ -933,8 +937,7 @@ private:
 
         // ########################## DATA ################################
 
-        int last_target; // The last monster targeted
-        bool last_target_was_npc;
+        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;

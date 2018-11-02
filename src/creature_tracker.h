@@ -3,6 +3,8 @@
 #define CREATURE_TRACKER_H
 
 #include "enums.h"
+
+#include <memory>
 #include <vector>
 #include <unordered_map>
 
@@ -14,8 +16,7 @@ class Creature_tracker
         Creature_tracker();
         ~Creature_tracker();
         /** Returns the monster at the given index. */
-        monster &find( int index );
-        const monster &find( int index ) const;
+        const std::shared_ptr<monster> &find( int index ) const;
         /** Returns the monster index of the monster at the given tripoint. */
         int mon_at( const tripoint &coords ) const;
         /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
@@ -35,7 +36,7 @@ class Creature_tracker
         bool kill_marked_for_death();
 
     private:
-        std::vector<monster *> monsters_list;
+        std::vector<std::shared_ptr<monster>> monsters_list;
         std::unordered_map<tripoint, size_t> monsters_by_location;
         /** Remove the monsters entry in @ref monsters_by_location */
         void remove_from_location_map( const monster &critter );

@@ -259,7 +259,6 @@ game::game() :
     w_blackspace(nullptr),
     dangerous_proximity(5),
     pixel_minimap_option(0),
-    last_target( -1 ),
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
@@ -742,8 +741,6 @@ void game::setup()
     next_npc_id = 1;
     next_faction_id = 1;
     next_mission_id = 1;
-    last_target = -1;  // We haven't targeted any monsters yet
-    last_target_was_npc = false;
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
@@ -767,6 +764,7 @@ void game::setup()
 
     // reset kill counts
     kills.clear();
+    npc_kills.clear();
     scent.reset();
 
     remoteveh_cache_turn = INT_MIN;
@@ -928,9 +926,8 @@ void game::load_npcs()
 {
     const int radius = int(MAPSIZE / 2) - 1;
     // uses submap coordinates
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
-    std::vector<npc *> just_added;
-    for( auto temp : npcs ) {
+    std::vector<std::shared_ptr<npc>> just_added;
+    for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
         if( temp->is_active() ) {
             continue;
         }
@@ -965,7 +962,7 @@ void game::load_npcs()
         }
     }
 
-    for( auto npc : just_added ) {
+    for( const auto &npc : just_added ) {
         npc->on_load();
     }
 
@@ -974,7 +971,7 @@ void game::load_npcs()
 
 void game::unload_npcs()
 {
-    for( auto npc : active_npc ) {
+    for( const auto &npc : active_npc ) {
         npc->on_unload();
     }
 
@@ -997,15 +994,15 @@ void game::create_starting_npcs()
 
     //We don't want more than one starting npc per shelter
     const int radius = 1;
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
-    if (!npcs.empty()) {
+    if( !overmap_buffer.get_npcs_near_player( radius ).empty() ) {
         return; //There is already an NPC in this shelter
     }
 
-    npc *tmp = new npc();
+    std::shared_ptr<npc> tmp = std::make_shared<npc>();
     tmp->normalize();
     tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point( 1, 1 ) );
+    overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
@@ -1812,7 +1809,7 @@ int game::assign_mission_id()
 
 npc *game::find_npc(int id)
 {
-    return overmap_buffer.find_npc(id);
+    return overmap_buffer.find_npc( id ).get();
 }
 
 int game::kill_count( const mtype_id& mon )
@@ -3285,7 +3282,7 @@ bool game::handle_action()
             if (safe_mode == SAFE_MODE_STOP) {
                 add_msg(m_info, _("Ignoring enemy!"));
                 for( auto &elem : new_seen_mon ) {
-                    monster &critter = critter_tracker->find( elem );
+                    monster &critter = zombie( elem );
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 set_safe_mode( SAFE_MODE_ON );
@@ -3516,7 +3513,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     const bool is_self = square_dist( mouse_target.x, mouse_target.y, u.posx(), u.posy() ) <= 0;
     int mouse_selected_mondex = mon_at( mouse_target );
     if (mouse_selected_mondex != -1) {
-        monster &critter = critter_tracker->find(mouse_selected_mondex);
+        monster &critter = zombie( mouse_selected_mondex );
         if (!u.sees(critter)) {
             add_msg(_("Nothing relevant here."));
             return false;
@@ -4045,10 +4042,11 @@ void game::debug()
         break;
 
         case 5: {
-            npc *temp = new npc();
+            std::shared_ptr<npc> temp = std::make_shared<npc>();
             temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() + point( -4, -4 ) );
+            overmap_buffer.insert_npc( temp );
             temp->form_opinion( u );
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
@@ -4077,7 +4075,7 @@ void game::debug()
                   _( "NPCs are NOT going to spawn." ) ),
                 num_zombies(), active_npc.size(), events.size() );
             if( !active_npc.empty() ) {
-                for( auto & elem : active_npc ) {
+                for( const auto &elem : active_npc ) {
                     tripoint t = ( elem )->global_sm_location();
                     add_msg( m_info, _( "%s: map (%d:%d) pos (%d:%d)" ), ( elem )->name.c_str(), t.x,
                              t.y, ( elem )->posx(), ( elem )->posy() );
@@ -4089,7 +4087,7 @@ void game::debug()
             break;
         }
         case 8:
-            for( auto & elem : active_npc ) {
+            for( const auto &elem : active_npc ) {
                 add_msg( _( "%s's head implodes!" ), ( elem )->name.c_str() );
                 ( elem )->hp_cur[bp_head] = 0;
             }
@@ -4458,7 +4456,7 @@ void game::disp_NPC_epilogues()
     std::vector<std::string> data;
     epilogue epi;
     //This search needs to be expanded to all NPCs
-    for( auto &elem : active_npc ) {
+    for( const auto &elem : active_npc ) {
         if(elem->is_friend()) {
             if (elem->male){
                 epi.random_by_group("male", elem->name);
@@ -4660,7 +4658,7 @@ struct npc_dist_to_player {
     const tripoint ppos;
     npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
     // Operator overload required to leverage sort API.
-    bool operator()( const npc *a, const npc *b ) const {
+    bool operator()( const std::shared_ptr<npc> &a, const std::shared_ptr<npc> &b ) const {
         const tripoint apos = a->global_omt_location();
         const tripoint bpos = b->global_omt_location();
         return square_dist( ppos.x, ppos.y, apos.x, apos.y ) <
@@ -4678,7 +4676,7 @@ void game::disp_NPCs()
     const tripoint &lpos = u.pos();
     mvwprintz( w, 0, 0, c_white, _("Your overmap position: %d, %d, %d"), ppos.x, ppos.y, ppos.z );
     mvwprintz( w, 1, 0, c_white, _("Your local position: %d, %d, %d"), lpos.x, lpos.y, lpos.z );
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
+    std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
     std::sort(npcs.begin(), npcs.end(), npc_dist_to_player() );
     size_t i;
     for( i = 0; i < 20 && i < npcs.size(); i++ ) {
@@ -5045,11 +5043,11 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     // Draw monsters
     for( size_t i = 0; i < num_zombies(); i++ ) {
-        draw_critter( critter_tracker->find( i ), center );
+        draw_critter( zombie( i ), center );
     }
 
     // Draw NPCs
-    for( const npc* n : active_npc ) {
+    for( const auto &n : active_npc ) {
         draw_critter( *n, center );
     }
 
@@ -5522,7 +5520,7 @@ std::vector<monster*> game::get_fishable(int distance)
 {
     std::vector<monster*> unique_fish;
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker->find(i);
+        monster &critter = zombie( i );
 
         if (critter.has_flag(MF_FISHABLE)) {
             int mondist = rl_dist( u.pos(), critter.pos() );
@@ -5681,7 +5679,7 @@ int game::mon_info(WINDOW *w)
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
-                monster &critter = critter_tracker->find(new_seen_mon.back());
+                monster &critter = zombie( new_seen_mon.back() );
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
@@ -5850,7 +5848,7 @@ void game::cleanup_dead()
     bool monster_is_dead = critter_tracker->kill_marked_for_death();
 
     bool npc_is_dead = false;
-    for( auto &n : active_npc ) {
+    for( const auto &n : active_npc ) {
         if( n->is_dead() ) {
             n->die( nullptr ); // make sure this has been called to create corpses etc.
             npc_is_dead = true;
@@ -5860,7 +5858,7 @@ void game::cleanup_dead()
     if( monster_is_dead ) {
         // From here on, pointers to creatures get invalidated as dead creatures get removed.
         for( size_t i = 0; i < num_zombies(); ) {
-            if( critter_tracker->find( i ).is_dead() ) {
+            if( zombie( i ).is_dead() ) {
                 remove_zombie( i );
             } else {
                 i++;
@@ -5871,7 +5869,7 @@ void game::cleanup_dead()
     if( npc_is_dead ) {
         for( auto it = active_npc.begin(); it != active_npc.end(); ) {
             if( (*it)->is_dead() ) {
-                overmap_buffer.remove_npc( (*it)->getID() );
+                overmap_buffer.remove_npc( ( *it )->getID() );
                 it = active_npc.erase( it );
             } else {
                 it++;
@@ -5909,7 +5907,7 @@ void game::monmove()
             cached_lev = m.get_abs_sub();
         }
 
-        monster &critter = critter_tracker->find(i);
+        monster &critter = zombie( i );
         while (!critter.is_dead() && !critter.can_move_to(critter.pos())) {
             // If we can't move to our current position, assign us to a new one
                 dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
@@ -5976,7 +5974,7 @@ void game::monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( size_t i = 0; i < num_zombies(); ) {
-        monster &critter = critter_tracker->find( i );
+        monster &critter = zombie( i );
         if( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
             critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
             critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
@@ -5988,7 +5986,7 @@ void game::monmove()
     }
 
     // Now, do active NPCs.
-    for( auto np : active_npc ) {
+    for( const auto &np : active_npc ) {
         if( np->is_dead() ) {
             continue;
         }
@@ -6053,7 +6051,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
         }
     }
     for( size_t i = 0; i < num_zombies(); i++ ) {
-        monster &critter = critter_tracker->find(i);
+        monster &critter = zombie( i );
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
@@ -6078,13 +6076,13 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
 
     sounds::sound( p, force * force * dam_mult / 2, _("Crack!") );
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker->find(i);
+        monster &critter = zombie( i );
         if( rl_dist( critter.pos(), p ) <= radius ) {
             add_msg(_("%s is caught in the shockwave!"), critter.name().c_str());
             knockback( p, critter.pos(), force, stun, dam_mult);
         }
     }
-    for( auto &elem : active_npc ) {
+    for( const auto &elem : active_npc ) {
         if( rl_dist( ( elem )->pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), ( elem )->name.c_str() );
             knockback( p, ( elem )->pos(), force, stun, dam_mult );
@@ -6132,7 +6130,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
     }
     int force_remaining = 0;
     if (zid != -1) {
-        monster *targ = &critter_tracker->find(zid);
+        monster *targ = &zombie( zid );
         if (stun > 0) {
             targ->add_effect( effect_stunned, stun);
             add_msg(_("%s was stunned!"), targ->name().c_str());
@@ -6453,7 +6451,7 @@ void game::scrambler_blast( const tripoint &p )
 {
     int mondex = mon_at( p );
     if (mondex != -1) {
-        monster &critter = critter_tracker->find(mondex);
+        monster &critter = zombie( mondex );
         if (critter.has_flag(MF_ELECTRONIC)) {
             critter.make_friendly();
         }
@@ -6495,7 +6493,7 @@ void game::emp_blast( const tripoint &p )
     }
     int mondex = mon_at(p);
     if (mondex != -1) {
-        monster &critter = critter_tracker->find(mondex);
+        monster &critter = zombie( mondex );
         if (critter.has_flag(MF_ELECTRONIC)) {
             int deact_chance = 0;
             const auto mon_item_id = critter.type->revert_to_itype;
@@ -6561,7 +6559,7 @@ npc *game::npc_by_id(const int id) const
 {
     for( auto &cur_npc : active_npc ) {
         if( cur_npc->getID() == id ) {
-            return cur_npc;
+            return cur_npc.get();
         }
     }
     return nullptr;
@@ -6579,7 +6577,7 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
     }
     for( auto &cur_npc : active_npc ) {
         if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
-            return dynamic_cast<T*>( cur_npc );
+            return dynamic_cast<T*>( cur_npc.get() );
         }
     }
     return nullptr;
@@ -6633,9 +6631,9 @@ size_t game::num_zombies() const
     return critter_tracker->size();
 }
 
-monster &game::zombie(const int idx)
+monster &game::zombie( const int idx ) const
 {
-    return critter_tracker->find(idx);
+    return *critter_tracker->find( idx );
 }
 
 bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
@@ -6645,11 +6643,6 @@ bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
 
 void game::remove_zombie(const int idx)
 {
-    if( last_target == idx && !last_target_was_npc ) {
-        last_target = -1;
-    } else if( last_target > idx && !last_target_was_npc ) {
-        last_target--;
-    }
     critter_tracker->remove(idx);
 }
 
@@ -6682,7 +6675,7 @@ int game::mon_at( const tripoint &p, bool allow_hallucination ) const
 {
     const int mon_index = critter_tracker->mon_at( p );
     if( mon_index == -1 ||
-        allow_hallucination || !critter_tracker->find( mon_index ).is_hallucination() ) {
+        allow_hallucination || !zombie( mon_index ).is_hallucination() ) {
         return mon_index;
     }
 
@@ -6946,7 +6939,7 @@ void game::smash()
 
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
-        u.handle_melee_wear();
+        u.handle_melee_wear( u.weapon );
         u.moves -= move_cost;
         const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
         u.mod_stat("stamina", mod_sta);
@@ -9424,7 +9417,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             iLastActivePos = recentered;
         } else if (action == "fire") {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                last_target = mon_at( cCurMon->pos(), true );
+                last_target = critter_tracker->find( mon_at( cCurMon->pos(), true ) );
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
             }
@@ -10823,44 +10816,43 @@ bool game::unload( item &it )
 
 void game::wield( int pos )
 {
-    if( u.weapon.has_flag( "NO_UNWIELD" ) ) {
-        // Bionics can't be unwielded
-        add_msg( m_info, _( "You cannot unwield your %s." ), u.weapon.tname().c_str() );
-        return;
-    }
+    item_location loc( u, &u.i_at( pos ) );
+    wield( loc );
+}
 
-    item_location loc;
-    if( pos != INT_MIN ) {
-        loc = item_location( u, &u.i_at( pos ) );
-    } else {
-        const auto filter = []( const item &it ) {
-            return it.made_of( SOLID );
-        };
-        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
-    }
+void game::wield( item_location& loc )
+{
+    if( u.is_armed() ) {
+        const bool is_unwielding = u.is_wielding( *loc );
+        const auto ret = u.can_unwield( *loc );
 
-    if( !loc ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    // Minor hack: special case owned weapons here
-    // @todo Move that to player::wield
-    bool in_inv = loc.where() == item_location::type::character;
-
-    // Weapons need invlets to access, give one if not already assigned.
-    item &it = *loc;
-    if( !it.is_null() && it.invlet == 0 ) {
-        u.inv.assign_empty_invlet( it, true );
-    }
-
-    // If called for the current weapon then try unwielding it
-    if( u.wield( &it == &u.weapon ? u.ret_null : it ) ) {
-        u.recoil = MAX_RECOIL;
-        // Rest of the hack: remove the item if it wasn't removed in player::wield
-        if( !in_inv ) {
-            loc.remove_item();
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
         }
+
+        u.unwield();
+
+        if( is_unwielding ) {
+            return;
+        }
+    }
+
+    const auto ret = u.can_wield( *loc );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
+    }
+
+    u.wield( u.i_at( loc.obtain( u ) ) );
+}
+
+void game::wield()
+{
+    item_location loc = game_menus::inv::wield( u );
+
+    if( loc ) {
+        wield( loc );
+    } else {
+        add_msg( _( "Never mind." ) );
     }
 }
 
@@ -10879,12 +10871,12 @@ void game::read()
 void game::chat()
 {
     std::vector<npc *> available;
-    for( auto &elem : active_npc ) {
+    for( const auto &elem : active_npc ) {
         // @todo Get rid of the z-level check when z-level vision gets "better"
         if( u.posz() == elem->posz() &&
             u.sees( elem->pos() ) &&
             rl_dist( u.pos(), elem->pos() ) <= 24 ) {
-            available.push_back( elem );
+            available.push_back( elem.get() );
         }
     }
 
@@ -12576,11 +12568,11 @@ void game::vertical_move(int movez, bool force)
         shift_monsters( 0, 0, movez );
     }
 
-    std::vector<npc *> npcs_to_bring;
+    std::vector<std::shared_ptr<npc>> npcs_to_bring;
     std::vector<monster *> monsters_following;
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
-                      [this]( npc *np ) {
+                      [this]( const std::shared_ptr<npc> &np ) {
             return np->is_friend() && rl_dist( np->pos(), u.pos() ) < 2;
         } );
     }
@@ -12609,7 +12601,7 @@ void game::vertical_move(int movez, bool force)
             return !is_empty( c );
         } );
 
-        for( npc *np : npcs_to_bring ) {
+        for( const auto &np : npcs_to_bring ) {
             const auto found = std::find_if( candidates.begin(), candidates.end(),
                 [this, np]( const tripoint &c ) {
                 return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
@@ -12879,8 +12871,7 @@ void game::update_map(int &x, int &y)
     u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
 
     // Shift NPCs
-    for (auto it = active_npc.begin();
-         it != active_npc.end();) {
+    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
         (*it)->shift(shiftx, shifty);
         if( (*it)->posx() < 0 - SEEX * 2 || (*it)->posy() < 0 - SEEX * 2 ||
             (*it)->posx() > SEEX * (MAPSIZE + 2) || (*it)->posy() > SEEY * (MAPSIZE + 2) ) {
@@ -13232,7 +13223,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 
     if( x_in_y( density, 100 ) ) {
-        npc *tmp = new npc();
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
         tmp->normalize();
         tmp->randomize();
         //tmp->stock_missions();
@@ -13263,6 +13254,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         }
         // adds the npc to the correct overmap.
         tmp->spawn_at_sm( msx, msy, 0 );
+        overmap_buffer.insert_npc( tmp );
         tmp->form_opinion( u );
         tmp->mission = NPC_MISSION_NULL;
         tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );
@@ -13411,8 +13403,7 @@ void game::nuke( const tripoint &p )
     tmpmap.save();
     overmap_buffer.ter(x, y, 0) = oter_id( "crater" );
     // Kill any npcs on that omap location.
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
-    for( auto &npc : npcs ) {
+    for( const auto &npc : overmap_buffer.get_npcs_near_omt( x, y, 0, 0 ) ) {
         npc->marked_for_death = true;
     }
 }
@@ -13631,14 +13622,11 @@ void game::process_artifact(item *it, player *p)
             break;
 
         case AEP_SMOKE:
-            if (one_in(10)) {
-                tripoint pt( p->posx() + rng(-1, 1),
-                             p->posy() + rng(-1, 1),
+            if( one_in( 10 ) ) {
+                tripoint pt( p->posx() + rng( -1, 1 ),
+                             p->posy() + rng( -1, 1 ),
                              p->posz() );
-                if( m.add_field( pt, fd_smoke, rng(1, 3), 0 ) ) {
-                    add_msg(_("The %s emits some smoke."),
-                            it->tname().c_str());
-                }
+                m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
             }
             break;
 
@@ -13890,6 +13878,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
         case AEP_SICK:
             add_msg(m_bad, _("You feel unwell."));
             break;
+
+        case AEP_SMOKE:
+            add_msg( m_warning, _( "A cloud of smoke appears." ) );
+            break;
         default:
             //Suppress warnings
             break;
@@ -13950,8 +13942,10 @@ overmap &game::get_cur_om() const
 std::vector<npc *> game::allies()
 {
     std::vector<npc *> res;
-    std::copy_if( active_npc.begin(), active_npc.end(), std::back_inserter( res ), []( const npc *e ) {
-        return !e->is_dead_state() && e->is_friend();
-    } );
+    for( const auto &e : active_npc ) {
+        if( !e->is_dead_state() && e->is_friend() ) {
+            res.push_back( e.get() );
+        }
+    }
     return res;
 }

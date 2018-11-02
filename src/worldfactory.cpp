@@ -998,6 +998,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift('-', cursel[1], active_mod_order);
                 redraw_active = true;
+                redraw_description = true;
             }
         } else if( action == "NEXT_CATEGORY_TAB" ) {
             if(  active_header == 0  ) {

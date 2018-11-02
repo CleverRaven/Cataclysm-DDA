@@ -88,8 +88,8 @@ struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
 
-    id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
-    std::shared_ptr<sid_or_sid> default_groundcover_str;
+    weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
+    std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     int num_forests           = 250;  // amount of forest groupings per overmap
     int forest_size_min       = 15;   // size range of a forest group
@@ -107,7 +107,10 @@ struct regional_settings {
 
     std::unordered_map<std::string, map_extras> region_extras;
 
-    regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
+    regional_settings() : id("null"), default_oter("field")
+    {
+        default_groundcover.add( t_null, 0 );
+    }
     void setup();
 };
 
@@ -353,25 +356,25 @@ public:
   std::vector<city> cities;
   std::vector<city> roads_out;
 
-        /// Adds the npc. The overmap takes ownership of the pointer.
-        void insert_npc( npc *who );
-        /// Removes the npc, and deletes the pointer.
-        void erase_npc( npc *who );
+        /// Adds the npc to the contained list of npcs ( @ref npcs ).
+        void insert_npc( std::shared_ptr<npc> who );
+        /// Removes the npc and returns it ( or returns nullptr if not found ).
+        std::shared_ptr<npc> erase_npc( const int id );
 
         void for_each_npc( std::function<void( npc & )> callback );
         void for_each_npc( std::function<void( const npc & )> callback ) const;
 
-        npc *find_npc( int id );
+        std::shared_ptr<npc> find_npc( int id ) const;
 
-        const std::vector<npc*> &get_npcs() const {
+        const std::vector<std::shared_ptr<npc>> &get_npcs() const {
             return npcs;
         }
+        std::vector<std::shared_ptr<npc>> get_npcs( const std::function<bool( const npc & )> &predicate ) const;
 
  private:
     friend class overmapbuffer;
-        friend class npc; //@todo get rid of this.
 
-        std::vector<npc*> npcs;
+        std::vector<std::shared_ptr<npc>> npcs;
 
     bool nullbool = false;
     point loc{ 0, 0 };

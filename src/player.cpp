@@ -109,6 +109,7 @@ const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
+const efftype_id effect_depressants( "depressants" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
 const efftype_id effect_downed( "downed" );
@@ -124,9 +125,11 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_happy( "happy" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_lack_sleep( "lack_sleep" );
 const efftype_id effect_lying_down( "lying_down" );
@@ -134,14 +137,18 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_pkill( "pkill" );
 const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_recover( "recover" );
+const efftype_id effect_sad( "sad" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
+const efftype_id effect_stim( "stim" );
+const efftype_id effect_stim_overdose( "stim_overdose" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_took_prozac( "took_prozac" );
@@ -153,6 +160,7 @@ const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
 
 const matype_id style_none( "style_none" );
+const matype_id style_kicks( "style_kicks" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
@@ -576,7 +584,7 @@ player::player() : Character()
     grab_point = {0, 0, 0};
     grab_type = OBJECT_NONE;
     move_mode = "walk";
-    style_selected = matype_id( "style_none" );
+    style_selected = style_none;
     keep_hands_free = false;
     focus_pool = 100;
     last_item = itype_id( "null" );
@@ -632,7 +640,7 @@ void player::normalize()
 {
     Character::normalize();
 
-    style_selected = matype_id( "style_none" );
+    style_selected = style_none;
 
     recalc_hp();
 
@@ -700,6 +708,22 @@ void player::reset_stats()
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
+    const auto set_fake_effect_dur = [this]( const efftype_id &type, int dur ) {
+        effect &eff = get_effect( type );
+        if( eff.get_duration() == dur ) {
+            return;
+        }
+
+        if( eff.is_null() && dur > 0 ) {
+            add_effect( type, dur, num_bp, true );
+        } else if( dur > 0 ) {
+            eff.set_duration( dur );
+        } else {
+            remove_effect( type, num_bp );
+        }
+    };
+    // Painkiller
+    set_fake_effect_dur( effect_pkill, pkill );
 
     // Pain
     if( get_perceived_pain() > 0 ) {
@@ -712,41 +736,18 @@ void player::reset_stats()
             add_miss_reason( _( "Your pain distracts you!" ), unsigned( ppen.dexterity ) );
         }
     }
-    // Morale
-    if( abs( get_morale_level() ) >= 100 ) {
-        mod_str_bonus( get_morale_level() / 180 );
-        int dex_mod = get_morale_level() / 200;
-        mod_dex_bonus( dex_mod );
-        if( dex_mod < 0 ) {
-            add_miss_reason( _( "What's the point of fighting?" ), unsigned( -dex_mod ) );
-        }
-        mod_per_bonus( get_morale_level() / 125 );
-        mod_int_bonus( get_morale_level() / 100 );
-    }
+
     // Radiation
-    if( radiation > 0 ) {
-        mod_str_bonus( -radiation / 80 );
-        int dex_mod = -radiation / 110;
-        mod_dex_bonus( dex_mod );
-        if( dex_mod < 0 ) {
-            add_miss_reason( _( "Radiation weakens you." ), unsigned( -dex_mod ) );
-        }
-        mod_per_bonus( -radiation / 100 );
-        mod_int_bonus( -radiation / 120 );
-    }
+    set_fake_effect_dur( effect_irradiated, radiation );
+    // Morale
+    const int morale = get_morale_level();
+    set_fake_effect_dur( effect_happy, morale );
+    set_fake_effect_dur( effect_sad, -morale );
+
     // Stimulants
-    mod_dex_bonus( stim / 10 );
-    mod_per_bonus( stim /  7 );
-    mod_int_bonus( stim /  6 );
-    if( stim >= 30 ) {
-        int dex_mod = -1 * abs( stim - 15 ) / 8;
-        mod_dex_bonus( dex_mod );
-        add_miss_reason( _( "You shake with the excess stimulation." ), unsigned( -dex_mod ) );
-        mod_per_bonus( -1 * abs( stim - 15 ) / 12 );
-        mod_int_bonus( -1 * abs( stim - 15 ) / 14 );
-    } else if( stim < 0 ) {
-        add_miss_reason( _( "You feel woozy." ), unsigned( -stim / 10 ) );
-    }
+    set_fake_effect_dur( effect_stim, stim );
+    set_fake_effect_dur( effect_depressants, -stim );
+    set_fake_effect_dur( effect_stim_overdose, stim - 30 );
     // Hunger
     if( get_hunger() >= 500 ) {
         // We die at 6000
@@ -1837,40 +1838,12 @@ void player::recalc_speed_bonus()
 
     mod_speed_bonus( -get_pain_penalty().speed );
 
-    if( get_painkiller() >= 10 ) {
-        int pkill_penalty = int( get_painkiller() * .1 );
-        if( pkill_penalty > 30 ) {
-            pkill_penalty = 30;
-        }
-        mod_speed_bonus( -pkill_penalty );
-    }
-
-    if( abs( get_morale_level() ) >= 100 ) {
-        int morale_bonus = get_morale_level() / 25;
-        if( morale_bonus < -10 ) {
-            morale_bonus = -10;
-        } else if( morale_bonus > 10 ) {
-            morale_bonus = 10;
-        }
-        mod_speed_bonus( morale_bonus );
-    }
-
-    if( radiation >= 40 ) {
-        int rad_penalty = radiation / 40;
-        if( rad_penalty > 20 ) {
-            rad_penalty = 20;
-        }
-        mod_speed_bonus( -rad_penalty );
-    }
-
     if( get_thirst() > 40 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
     if( get_hunger() > 100 ) {
         mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
     }
-
-    mod_speed_bonus( stim > 10 ? 10 : stim / 4 );
 
     for( auto maps : effects ) {
         for( auto i : maps.second ) {
@@ -2422,32 +2395,9 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _( "Ongoing Effects:" ) << eol;
     bool had_effect = false;
-    if( get_morale_level() >= 100 ) {
-        had_effect = true;
-        memorial_file << indent << _( "Elated" ) << eol;
-    }
-    if( get_morale_level() <= -100 ) {
-        had_effect = true;
-        memorial_file << indent << _( "Depressed" ) << eol;
-    }
     if( get_perceived_pain() > 0 ) {
         had_effect = true;
         memorial_file << indent << _( "Pain" ) << " (" << get_perceived_pain() << ")";
-    }
-    if( stim > 0 ) {
-        had_effect = true;
-        int dexbonus = stim / 10;
-        if( abs( stim ) >= 30 ) {
-            dexbonus -= abs( stim - 15 ) /  8;
-        }
-        if( dexbonus < 0 ) {
-            memorial_file << indent << _( "Stimulant Overdose" ) << eol;
-        } else {
-            memorial_file << indent << _( "Stimulant" ) << eol;
-        }
-    } else if( stim < 0 ) {
-        had_effect = true;
-        memorial_file << indent << _( "Depressants" ) << eol;
     }
     if( !had_effect ) {
         memorial_file << indent << _( "(None)" ) << eol;
@@ -2660,7 +2610,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     std::string style;
     const auto style_color = is_armed() ? c_red : c_blue;
     const auto &cur_style = style_selected.obj();
-    if( cur_style.weapon_valid( weapon ) ) {
+    if( cur_style.force_unarmed || cur_style.weapon_valid( weapon ) ) {
         style = cur_style.name;
     } else if( is_armed() ) {
         style = _( "Normal" );
@@ -3732,7 +3682,7 @@ void player::on_dodge( Creature *source, float difficulty )
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
-        matec_id tec = pick_technique( *source, false, true, false );
+        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
         if( tec != tec_none ) {
             melee_attack( *source, false, tec );
         }
@@ -6866,7 +6816,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( is_armed() && can_unwield( weapon, false ) ) {
+    if( is_armed() && can_unwield( weapon ).success() ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -7742,74 +7692,63 @@ bool player::can_wear( const item& it, bool alert ) const
     return true;
 }
 
-bool player::can_wield( const item &it, bool alert ) const
+ret_val<bool> player::can_wield( const item &it ) const
 {
-    if( it.is_two_handed(*this) && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") ) ) {
-        if( it.has_flag("ALWAYS_TWOHAND") ) {
-            if( alert ) {
-                add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
-            }
-            if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("Something you are wearing hinders the use of both hands.") );
-            }
-        } else {
-            if( alert ) {
-                add_msg( m_info, _("You are too weak to wield %s with only one arm."),
-                         it.tname().c_str() );
-            }
-            if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("Something you are wearing hinders the use of both hands.") );
-            }
-        }
-        return false;
+    if( it.made_of( LIQUID ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
-    return true;
+
+    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+        if( worn_with_flag( "RESTRICT_HANDS" ) ) {
+            return ret_val<bool>::make_failure( _( "Something you are wearing hinders the use of both hands." ) );
+        } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
+            return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() );
+        } else {
+            return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() );
+        }
+    }
+
+    return ret_val<bool>::make_success();
 }
 
-bool player::can_unwield( const item& it, bool alert ) const
+ret_val<bool> player::can_unwield( const item& it ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
-        if( alert ) {
-            add_msg( m_info, _( "You cannot unwield your %s" ), it.tname().c_str() );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname().c_str() );
     }
 
-    return true;
+    return ret_val<bool>::make_success();
+}
+
+bool player::is_wielding( const item& target ) const
+{
+    return &weapon == &target;
 }
 
 bool player::wield( item& target )
 {
-    if( !can_unwield( weapon ) || !can_wield( target ) ) {
+    if( is_wielding( target ) ) {
+        return true;
+    }
+
+    if( !can_wield( target ).success() ) {
+        return false;
+    }
+
+    if( !unwield() ) {
         return false;
     }
 
     if( target.is_null() ) {
-        return dispose_item( item_location( *this, &weapon ),
-                             string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) );
+        return true;
     }
-
-    if( &weapon == &target ) {
-        add_msg( m_info, _( "You're already wielding that!" ) );
-        return false;
-    }
-
-    int mv = 0;
-
-    if( is_armed() ) {
-        if( !wield( ret_null ) ) {
-            return false;
-        }
-        inv.unsort();
-    }
-
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
     // Worn items (including guns with shoulder straps) are faster but still slower
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
     bool worn = is_worn( target );
-    mv += item_handling_cost( target, true, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+    int mv = item_handling_cost( target, true, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
     if( worn ) {
         target.on_takeoff( *this );
@@ -7825,6 +7764,7 @@ bool player::wield( item& target )
     }
 
     last_item = weapon.typeId();
+    recoil = MAX_RECOIL;
 
     weapon.on_wield( *this, mv );
 
@@ -7834,27 +7774,51 @@ bool player::wield( item& target )
     return true;
 }
 
+bool player::unwield()
+{
+    if( weapon.is_null() ) {
+        return true;
+    }
+
+    if( !can_unwield( weapon ).success() ) {
+        return false;
+    }
+
+    const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
+
+    if ( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        return false;
+    }
+
+    inv.unsort();
+
+    return true;
+}
+
 // ids of martial art styles that are available with the bio_cqb bionic.
-static const std::array<matype_id, 4> bio_cqb_styles {{
+static const std::vector<matype_id> bio_cqb_styles {{
     matype_id{ "style_karate" }, matype_id{ "style_judo" }, matype_id{ "style_muay_thai" }, matype_id{ "style_biojutsu" }
 }};
 
 class ma_style_callback : public uimenu_callback
 {
+private:
+    size_t offset;
+    const std::vector<matype_id> &styles;
 public:
+    ma_style_callback( int style_offset, const std::vector<matype_id> &selectable_styles )
+        : offset( style_offset )
+        , styles( selectable_styles )
+    {}
+
     bool key(const input_event &event, int entnum, uimenu *menu) override {
         if( event.get_first_input() != '?' ) {
             return false;
         }
         matype_id style_selected;
         const size_t index = entnum;
-        if( g->u.has_active_bionic( bio_cqb ) && index < menu->entries.size() ) {
-            const size_t id = menu->entries[index].retval - 2;
-            if( id < bio_cqb_styles.size() ) {
-                style_selected = bio_cqb_styles[id];
-            }
-        } else if( index >= 3 && index - 3 < g->u.ma_styles.size() ) {
-            style_selected = g->u.ma_styles[index - 3];
+        if( index >= offset && index - offset < styles.size() ) {
+            style_selected = styles[index - offset];
         }
         if( !style_selected.str().empty() ) {
             const martialart &ma = style_selected.obj();
@@ -7865,6 +7829,10 @@ public:
                 buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
                     return mid.obj().name;
                 } );
+            }
+            if( ma.force_unarmed ) {
+                buffer << "\n\n \n\n";
+                buffer << _( "This style forces you to use unarmed strikes, even if wielding a weapon." );
             }
             if( !ma.weapons.empty() ) {
                 buffer << "\n\n \n\n";
@@ -7883,75 +7851,51 @@ public:
 
 bool player::pick_style() // Style selection menu
 {
-    //Create menu
-    // Entries:
-    // 0: Cancel
-    // 1: No style
-    // x: dynamic list of selectable styles
+    enum style_selection {
+        KEEP_HANDS_FREE = 0,
+        STYLE_OFFSET
+    };
 
-    //If there are style already, cursor starts there
+    // If there are style already, cursor starts there
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
+    std::vector<matype_id> selectable_styles = {{
+        style_none, style_kicks
+    }};
+    const std::vector<matype_id> &real_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles : ma_styles;
+    selectable_styles.insert( selectable_styles.end(), real_styles.begin(), real_styles.end() );
 
     uimenu kmenu;
+    kmenu.return_invalid = true;
     kmenu.text = _("Select a style (press ? for more info)");
-    std::unique_ptr<ma_style_callback> ma_style_info(new ma_style_callback());
-    kmenu.callback = ma_style_info.get();
+    ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
+    kmenu.callback = &callback;
     kmenu.desc_enabled = true;
-    kmenu.addentry( 0, true, 'c', _("Cancel") );
-    if (keep_hands_free) {
-      kmenu.addentry_desc( 1, true, 'h', _("Keep hands free (on)"), _("When this is enabled, player won't wield things unless explicitly told to."));
+    kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h', keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
+                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
+
+    kmenu.selected = STYLE_OFFSET;
+
+    for( size_t i = 0; i < selectable_styles.size(); i++ ) {
+        auto &style = selectable_styles[i].obj();
+        //Check if this style is currently selected
+        if( selectable_styles[i] == style_selected ) {
+            kmenu.selected = i + STYLE_OFFSET;
+        }
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, style.name, style.description );
     }
-    else {
-      kmenu.addentry_desc( 1, true, 'h', _("Keep hands free (off)"), _("When this is enabled, player won't wield things unless explicitly told to."));
-    }
 
-    if (has_active_bionic( bio_cqb ) ) {
-        for(size_t i = 0; i < bio_cqb_styles.size(); i++) {
-            if( bio_cqb_styles[i].is_valid() ) {
-                auto &style = bio_cqb_styles[i].obj();
-                kmenu.addentry_desc( i + 2, true, -1, style.name, style.description );
-            }
-        }
+    kmenu.query();
+    int selection = kmenu.ret;
 
-        kmenu.query();
-        const size_t selection = kmenu.ret;
-        if ( selection >= 2 && selection - 2 < bio_cqb_styles.size() ) {
-            style_selected = bio_cqb_styles[selection - 2];
-        }
-        else if ( selection == 1 ) {
-            keep_hands_free = !keep_hands_free;
-        } else {
-            return false;
-        }
-    }
-    else {
-        kmenu.addentry( 2, true, 'n', _("No style") );
-        kmenu.selected = 2;
-        kmenu.return_invalid = true; //cancel with any other keys
-
-        for (size_t i = 0; i < ma_styles.size(); i++) {
-            auto &style = ma_styles[i].obj();
-                //Check if this style is currently selected
-                if( ma_styles[i] == style_selected ) {
-                    kmenu.selected =i+3; //+3 because there are "cancel", "keep hands free" and "no style" first in the list
-                }
-                kmenu.addentry_desc( i+3, true, -1, style.name , style.description );
-        }
-
-        kmenu.query();
-        int selection = kmenu.ret;
-
-        //debugmsg("selected %d",choice);
-        if (selection >= 3)
-            style_selected = ma_styles[selection - 3];
-        else if (selection == 2)
-            style_selected = matype_id( "style_none" );
-        else if (selection == 1)
-            keep_hands_free = !keep_hands_free;
-        else
-            return false;
+    //debugmsg("selected %d",choice);
+    if( selection >= STYLE_OFFSET ) {
+        style_selected = selectable_styles[selection - STYLE_OFFSET];
+    } else if( selection == KEEP_HANDS_FREE ) {
+        keep_hands_free = !keep_hands_free;
+    } else {
+        return false;
     }
 
     return true;
@@ -8048,9 +7992,9 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
                 return false;
             }
 
-            auto res = wear_item( *obj );
+            item it = *obj;
             obj.remove_item();
-            return res;
+            return wear_item( it );
         }
     } );
 
@@ -8555,7 +8499,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
     activity.placement = target - pos();
 
     for( auto item_pair : what ) {
-        if( can_unwield( i_at( item_pair.first ) ) ) {
+        if( can_unwield( i_at( item_pair.first ) ).success() ) {
             activity.values.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
@@ -9417,7 +9361,7 @@ bool player::read( int inventory_position, const bool continuous )
             it.typeId() == "cookbook_human" ) {
             elem->add_morale( MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it.type );
         } else if( elem->has_trait( trait_SPIRITUAL ) && it.has_flag( "INSPIRATIONAL" ) ) {
-            elem->add_morale( MORALE_BOOK, 15, 90, minutes + 60, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, 90, minutes + 60, minutes, false, it.type );
         } else {
             elem->add_morale( MORALE_BOOK, 0, type->fun * 15, minutes + 30, minutes, false, it.type );
         }
@@ -10619,26 +10563,13 @@ int player::adjust_for_focus(int amount) const
         effective_focus -= 15;
     }
     double tmp = amount * (effective_focus / 100.0);
-    int ret = int(tmp);
-    if (rng(0, 100) < 100 * (tmp - ret))
-    {
-        ret++;
-    }
-    return ret;
+    return roll_remainder(tmp);
 }
 
 void player::practice( const skill_id &id, int amount, int cap )
 {
     SkillLevel &level = get_skill_level( id );
     const Skill &skill = id.obj();
-    // Double amount, but only if level.exercise isn't a small negative number?
-    if (level.exercise() < 0) {
-        if (amount >= -level.exercise()) {
-            amount -= level.exercise();
-        } else {
-            amount += amount;
-        }
-    }
 
     if( !level.can_train() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
@@ -10904,14 +10835,16 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     }
 
     auto target = std::next( container.contents.begin(), pos );
-    if( !can_wield( *target ) ) {
+    const auto ret = can_wield( *target );
+    if( !ret.success() ) {
+        add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
     }
 
     int mv = 0;
 
     if( is_armed() ) {
-        if( !wield( ret_null ) ) {
+        if( !unwield() ) {
             return false;
         }
         inv.unsort();
@@ -11488,9 +11421,9 @@ std::vector<Creature *> get_creatures_if( std::function<bool (const Creature &)>
             result.push_back( &critter );
         }
     }
-    for( auto & n : g->active_npc ) {
+    for( const auto &n : g->active_npc ) {
         if( pred( *n ) ) {
-            result.push_back( n );
+            result.push_back( n.get() );
         }
     }
     if( pred( g->u ) ) {
@@ -11829,7 +11762,7 @@ const pathfinding_settings &player::get_pathfinding_settings() const
 std::set<tripoint> player::get_path_avoid() const
 {
     std::set<tripoint> ret;
-    for( const npc *np : g->active_npc ) {
+    for( const auto &np : g->active_npc ) {
         if( sees( *np ) ) {
             ret.insert( np->pos() );
         }

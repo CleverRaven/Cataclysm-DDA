@@ -527,7 +527,7 @@ void player::sort_armor()
                     worn.insert( iter, new_equip );
                 } else if( is_npc() ) {
                     // @todo Pass the reason here
-                    popup( _( "Can't put this on" ) );
+                    popup( _( "Can't put this on!" ) );
                 }
             }
             draw_grid( w_sort_armor, left_w, middle_w );

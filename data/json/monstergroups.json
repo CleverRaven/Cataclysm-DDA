@@ -1407,5 +1407,38 @@
       "monsters" : [
         { "monster" : "mon_blank", "freq" : 50, "cost_multiplier" : 0 }
       ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_ZOMBIE_PRISON",
+      "default" : "mon_zombie",
+      "monsters" : [
+        { "monster" : "mon_zombie", "freq" : 200, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_fat", "freq" : 100, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_tough", "freq" : 50, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_brute", "freq" : 30, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_grabber", "freq" : 10, "cost_multiplier": 0},
+        { "monster" : "mon_zombie_electric", "freq" : 10, "cost_multiplier": 0}
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_ZOMBIE_COP",
+      "default" : "mon_zombie_cop",
+      "monsters" : [
+        { "monster" : "mon_zombie_cop", "freq" : 100, "cost_multiplier": 0}
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_ROBOT_EYEBOT",
+      "default" : "mon_eyebot",
+      "monsters" : [
+        { "monster" : "mon_eyebot", "freq" : 100, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_ROBOT_SECUBOT",
+      "default" : "mon_secubot",
+      "monsters" : [
+        { "monster" : "mon_secubot", "freq" : 100, "cost_multiplier" : 0 }
+      ]
   }
 ]

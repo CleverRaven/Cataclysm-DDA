@@ -82,6 +82,7 @@
     "armor_cut": 30,
     "vision_day": 30,
     "vision_night": 20,
+    "path_settings": { "max_dist": 50 },
     "special_attacks": [
       [ "SHRIEK_ALERT", 6 ],
       [ "SHRIEK_STUN", 1 ]
@@ -89,7 +90,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_2", "QUEEN" ]
   },
   {
     "id": "mon_amigara_horror",
@@ -3489,7 +3490,7 @@
     "armor_cut": 18,
     "vision_day": 30,
     "vision_night": 15,
-    "path_settings": { "max_dist": 5 },
+    "path_settings": { "max_dist": 50 },
     "special_attacks": [
       [ "SHRIEK_ALERT", 6 ],
       [ "SHRIEK_STUN", 1 ]
@@ -3497,7 +3498,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_riotbot",

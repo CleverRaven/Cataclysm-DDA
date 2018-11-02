@@ -473,7 +473,7 @@ void monster::move()
         } else {
             for( auto &i : g->active_npc ) {
                 if( goal == i->pos() ) {
-                    current_attitude = attitude( i );
+                    current_attitude = attitude( i.get() );
                 }
             }
         }

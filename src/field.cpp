@@ -937,6 +937,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     one_in( 200 - cur->getFieldDensity() * 50 ) ) {
                                     ter_set( p, t_dirt );
                                     furn_set( p, f_ash );
+                                    add_item_or_charges( p, item( "ash" ) );
                                 }
                             } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
                                 // We're hanging in the air - let's fall down
