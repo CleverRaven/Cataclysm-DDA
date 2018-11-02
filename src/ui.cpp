@@ -349,7 +349,7 @@ std::string uimenu::inputfilter()
         SDL_StartTextInput();
     }
 #endif
-	do {
+    do {
         // filter=filter_input->query(filter, false);
         filter = popup.query_string( false );
         event = popup.context().get_raw_input();
