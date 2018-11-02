@@ -593,8 +593,8 @@ void player::sort_armor()
             }
             rightListSize++;
             for( layering_item_info &elem : items_cover_bp( *this, cover ) ) {
-                nc_color color = elem.penalties.color_for_stacking_badness();
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
+                    nc_color color = elem.penalties.color_for_stacking_badness();
                     trim_and_print( w_sort_right, pos, 2, right_w - 5, color,
                                     elem.name );
                     char plus = elem.penalties.badness() > 0 ? '+' : ' ';
