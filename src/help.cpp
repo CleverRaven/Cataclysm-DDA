@@ -107,8 +107,6 @@ void help::draw_menu( const catacurses::window &win )
 Please press one of the following for help on that topic:\n\
 Press ESC to return to the game." ) ) + 1;
 
-    std::vector<std::string> headers;
-
     size_t half_size = help_texts.size() / 2;
     int second_column = getmaxx( win ) / 2;
     for( size_t i = 0; i < help_texts.size(); i++ ) {

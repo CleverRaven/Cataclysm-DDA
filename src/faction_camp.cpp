@@ -99,7 +99,6 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
 {
     std::string entry;
 
-    std::string mission_role = p.companion_mission_role_id;
     //Used to determine what kind of OM the NPC is sitting in to determine the missions and upgrades
     const tripoint omt_pos = p.global_omt_location();
     oter_id &omt_ref = overmap_buffer.ter( omt_pos );
