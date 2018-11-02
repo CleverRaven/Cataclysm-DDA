@@ -141,13 +141,13 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3 );
     nc_color color = c_light_gray;
     for( std::string &iter : props ) {
-        print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
+        print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter );
     }
 
     std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3 );
     if( i + prot.size() < win_height ) {
         for( std::string &iter : prot ) {
-            print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
+            print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter );
         }
     } else {
         return;

@@ -1621,7 +1621,7 @@ size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_colo
                        const std::string &fmt )
 {
     std::string text = shortcut_text( shortcut_color, fmt );
-    print_colored_text( w, -1, -1, text_color, text_color, text.c_str() );
+    print_colored_text( w, -1, -1, text_color, text_color, text );
 
     return utf8_width( remove_color_tags( text ) );
 }
