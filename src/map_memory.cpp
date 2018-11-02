@@ -19,14 +19,14 @@ void lru_cache<T>::insert( int limit, const tripoint &pos, const T &t )
 
     if( found == map.end() ) {
         // Need new entry in map.  Make the new list entry and point to it.
-        ordered_list.emplace_front( pos, t );
-        map[pos] = ordered_list.begin();
+        ordered_list.emplace_back( pos, t );
+        map[pos] = std::prev( ordered_list.end() );
         trim( limit );
     } else {
         // Splice existing entry to the back.  Does not invalidate the
         // iterator, so no need to change the map.
         auto list_iterator = found->second;
-        ordered_list.splice( ordered_list.begin(), ordered_list, list_iterator );
+        ordered_list.splice( ordered_list.end(), ordered_list, list_iterator );
         // Update the moved item
         list_iterator->second = t;
     }
@@ -36,8 +36,8 @@ template<typename T>
 void lru_cache<T>::trim( int limit )
 {
     while( ordered_list.size() > static_cast<size_t>( limit ) ) {
-        map.erase( ordered_list.back().first );
-        ordered_list.pop_back();
+        map.erase( ordered_list.front().first );
+        ordered_list.pop_front();
     }
 }
 
