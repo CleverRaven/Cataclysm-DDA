@@ -1,0 +1,220 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_garage" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "     EEEEEE    EEEEEE   ",
+        "     EEEEEE    EEEEEE   ",
+        "     EEEEEE    EEEEEE   ",
+        "     EEEEEE    EEEEEE   ",
+        "    eEEEEEE   eEEEEEE   ",
+        " ----======----======-- ",
+        " |c.eM#MM#M...eM#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..MMMMMMMMMMMMMMMM.| ",
+        " |....................| ",
+        " |---............HHHHH| ",
+        " |ts|............HLLLL| ",
+        " |-+|............Hbbbb| ",
+        " |...............$....+ ",
+        " |^W|............Hhbbb| ",
+        " |xx|ccccccccccccH6LLL| ",
+        " |----::::--::::------| ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "E": "t_pavement",
+        "$": "t_door_glass_c",
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_floor",
+        "6": "t_console_broken",
+        ":": "t_window",
+        "=": "t_door_metal_locked",
+        "H": "t_wall_glass",
+        "e": "t_gates_mech_control",
+        "|": "t_wall",
+        "W": "t_chainfence_h",
+        "^": "t_chaingate_c",
+        "M": "t_metal_floor",
+        "#": "t_grate"
+      },
+      "furniture": {
+        "L": "f_locker",
+        "b": "f_bench",
+        "c": "f_counter",
+        "s": "f_sink",
+        "t": "f_toilet",
+        "x": "f_crate_c",
+        "h": "f_chair"
+      },
+      "items": {
+        "L": { "item": "clothing_work_set", "chance": 25 },
+        "c": { "item": "mechanics", "chance": 20 },
+        "x": { "item": "mechanics", "chance": 10 }
+      },
+      "place_vehicles": [
+        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_garage" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "   ~~~~~~       ~~~~~~  ",
+        "    ~~~~~~    * ~~~~~~  ",
+        "    ~~~~~~      ~~~~~~  ",
+        "    ~~~~~~ *   ~~~~~~  *",
+        "  *  ~~~~~~    ~~~~~~   ",
+        " WWWW~~~~~~WWWW~~~~~~WW ",
+        " Wz  ~~~~~~ *  ~~~~~~ W ",
+        " W*  ~~~~~~    ~~~~~~ W ",
+        " W  z~~~~~~  * ~~~~~~ W ",
+        " W z  ~~~~~~   ~~~~~~ W ",
+        " W  * ~~~~~~   ~~~~~~ W ",
+        " W    ~~~~~~  ~~~~~~  W ",
+        " W J  ~~~~~~  ~~~~~~ *W ",
+        " ^______~~~~~~~~~~~ zzW ",
+        " wwwwww_~~~~~~~~~w6dwww ",
+        " wx.xxw_~~~~~~~~~wdhLLw ",
+        " wcxx.w_~~~~~~~~_wd..Lw ",
+        " wc..xD_~~~~~~~~_+....+ ",
+        " wc.x.w_~~~~~~~~_ww+www ",
+        " wxxx.w__________ws..tw ",
+        " wwwwwwUUUUUUUUUUwwwwww ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "~": ["t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
+        "_": ["t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
+        "*": ["t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
+        "J": "t_water_pump",
+        "D": "t_door_locked",
+        "+": "t_door_c",
+        "w": "t_wall_log",
+        "U": "t_brick_wall",
+        ".": "t_floor",
+        "6": "t_console_broken",
+        ":": "t_window",
+        "W": "t_chainfence_h",
+        "^": "t_chaingate_c",
+        "z": "t_dirt"
+      },
+      "furniture": {
+        "L": "f_locker",
+        "c": "f_counter",
+        "s": "f_sink",
+        "t": "f_toilet",
+        "x": "f_crate_c",
+        "h": "f_chair",
+        "d": "f_desk",
+        "z": ["f_wreckage", "f_toilet", "f_dumpster", "f_sink" ]
+      },
+      "items": {
+        "L": { "item": "clothing_work_set", "chance": 25 },
+        "c": { "item": "mechanics", "chance": 10 },
+        "x": { "item": "mechanics", "chance": 20 }
+      },
+      "place_vehicles": [
+        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_garage" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "    EEEEEE      XXX     ",
+        "    EEEEEE      XXX     ",
+        "    EEEEEE      XXX     ",
+        "    EEEEEE      XXX     ",
+        "   eEEEEEEXXXXXXXXXXXXXX",
+        " ---======-----HHOHH---X",
+        " |.eM#MM#M..|.........|X",
+        " |..M#MM#M..|b........|X",
+        " :..M#MM#M..:b..|-ddd-|X",
+        " :..M#MM#M..:b..|..h..|X",
+        " :..M#MM#M..:b..|--.--|X",
+        " |..M#MM#M..|b..|...hd|X",
+        " |..MMMMMM..|...+.6ddd|X",
+        " |..........|...|-----|X",
+        " |---....---|-+-|LLLLL|X",
+        " |..............|bbbbb|X",
+        " |WWWW..WWWW|...+.....|X",
+        " |c........c|------+--|X",
+        " |c.xx..xx.c|xx.+T|...OX",
+        " |c.xx..xx.c|x..-|----|X",
+        " |c.........O..xx|XXXXXX",
+        " |cccccccccc|----|XXXXXX",
+        " |----------|WWWWWWWWWWW",
+        "                        "
+      ],
+       "terrain": {
+        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "E": "t_pavement",
+        "X": "t_sidewalk",
+        "$": "t_door_glass_c",
+        "+": "t_door_c",
+        "O": "t_door_locked",
+        "-": "t_wall",
+        ".": "t_floor",
+        "6": "t_console_broken",
+        ":": "t_window",
+        "=": "t_door_metal_locked",
+        "H": "t_wall_glass",
+        "e": "t_gates_mech_control",
+        "|": "t_wall",
+        "W": "t_chainfence_h",
+        "^": "t_chaingate_c",
+        "M": "t_metal_floor",
+        "#": "t_grate"
+      },
+      "furniture": {
+        "L": "f_locker",
+        "T": "f_rack",
+        "b": "f_bench",
+        "d": "f_desk",
+        "c": "f_counter",
+        "s": "f_sink",
+        "t": "f_toilet",
+        "x": "f_crate_c",
+        "h": "f_chair"
+      },
+      "items": {
+        "L": { "item": "clothing_work_set", "chance": 25 },
+        "c": { "item": "mechanics", "chance": 10 },
+        "x": { "item": "mechanics", "chance": 20 },
+        "d": { "item": "office", "chance": 70 },
+        "T": { "item": "cleaning", "chance": 70 }
+      },
+      "place_vehicles": [
+        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 }
+      ]
+    }
+  }
+]
