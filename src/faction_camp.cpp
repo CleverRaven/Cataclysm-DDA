@@ -2312,7 +2312,8 @@ int talk_function::camp_recipe_batch_max( const recipe making, const inventory &
     while( batch_size > 0 ) {
         while( iter < max_checks ) {
             if( making.requirements().can_make_with_inventory( total_inv, max_batch + batch_size ) &&
-                static_cast<size_t>( camp_food_supply() ) > ( max_batch + batch_size ) * time_to_food( making_time ) ) {
+                static_cast<size_t>( camp_food_supply() ) > ( max_batch + batch_size ) * time_to_food(
+                    making_time ) ) {
                 max_batch += batch_size;
             }
             iter++;
