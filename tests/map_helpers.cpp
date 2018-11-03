@@ -4,6 +4,7 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "player.h"
+#include "field.h"
 
 void wipe_map_terrain()
 {
@@ -25,6 +26,23 @@ void clear_creatures()
     // Remove any interfering monsters.
     g->clear_zombies();
     g->unload_npcs();
+}
+
+void clear_fields( int zlevel )
+{
+    const int mapsize = g->m.getmapsize() * SEEX;
+    for( int x = 0; x < mapsize; ++x ) {
+        for( int y = 0; y < mapsize; ++y ) {
+            const tripoint p( x, y, zlevel );
+            std::vector<field_id> fields;
+            for( auto &pr : g->m.field_at( p ) ) {
+                fields.push_back( pr.second.getFieldType() );
+            }
+            for( field_id f : fields ) {
+                g->m.remove_field( p, f );
+            }
+        }
+    }
 }
 
 void clear_map()
