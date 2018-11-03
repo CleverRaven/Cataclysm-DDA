@@ -128,7 +128,7 @@
     "id": "TALK_MISSION_FAILURE",
     "type": "talk_topic",
     "category": "CATEGORY_MISSION",
-    "responses": [ { "text": "I'm sorry.  I did what I could.", "topic": "TALK_NONE" } ]
+    "responses": [ { "text": "I'm sorry.  I did what I could.", "topic": "TALK_NONE", "effect": "clear_mission" } ]
   },
   {
     "id": "TALK_MISSION_REWARD",
