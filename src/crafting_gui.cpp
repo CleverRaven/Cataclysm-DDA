@@ -272,11 +272,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
                                 break;
 
-                            case 'q':
+                            case 'Q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
                                 break;
 
-                            case 'Q':
+                            case 'q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
                                 break;
 
@@ -658,28 +658,53 @@ const recipe *select_crafting_recipe( int &batch_size )
             redraw = true;
             keepline = true;
         } else if( action == "FILTER" ) {
+            struct SearchPrefix {
+                char key;
+                std::string example;
+                std::string description;
+            };
+            std::vector<SearchPrefix> prefixes = {
+                { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
+                { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
+                { 's', _( "cooking" ), _( "<color_cyan>skill</color> required to craft" ) },
+                { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
+                { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
+                { 'h', _( "yes" ), _( "recipes which are <color_cyan>hidden</color> or not" ) },
+                { 'm', _( "no" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
+            };
+            int max_example_length = 0;
+            for( const auto &prefix : prefixes ) {
+                max_example_length = std::max( max_example_length, utf8_width( prefix.example ) );
+            }
+            std::string spaces( max_example_length, ' ' );
+
+            std::string description =
+                _( "The default is to search result names.  Some single-character prefixes "
+                   "can be used with a colon (:) to search in other ways.\n"
+                   "\n"
+                   "<color_white>Examples:</color>\n" );
+
+            {
+                std::string example_name = _( "shirt" );
+                auto padding = max_example_length - utf8_width( example_name );
+                description += string_format(
+                                   _( "  <color_white>%s</color>%.*s    %s\n" ),
+                                   example_name, padding, spaces,
+                                   _( "<color_cyan>name</color> of resulting item" ) );
+            }
+
+            for( const auto &prefix : prefixes ) {
+                auto padding = max_example_length - utf8_width( prefix.example );
+                description += string_format(
+                                   _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
+                                   prefix.key, prefix.example, padding, spaces, prefix.description );
+            }
+
             string_input_popup()
             .title( _( "Search:" ) )
             .width( 85 )
-            .description( _( "Special prefixes for requirements:\n"
-                             "  [t] search tools\n"
-                             "  [c] search components\n"
-                             "  [q] search qualities\n"
-                             "  [s] search skills\n"
-                             "Special prefixes for results:\n"
-                             "  [Q] search qualities\n"
-                             "Other:\n"
-                             "  [h] search for hidden\n"
-                             "  [m] search for memorized or not\n"
-                             "Examples:\n"
-                             "  t:soldering iron\n"
-                             "  c:two by four\n"
-                             "  q:metal sawing\n"
-                             "  s:cooking\n"
-                             "  Q:fine bolt turning\n"
-                             "  h:yes\n"
-                             "  m:no"
-                           ) )
+            .description( description )
+            .desc_color( c_light_gray )
             .edit( filterstring );
             redraw = true;
         } else if( action == "QUIT" ) {
