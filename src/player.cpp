@@ -6978,7 +6978,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity)
     return ret;
 }
 
-bool player::use_charges_if_avail(itype_id it, long quantity)
+bool player::use_charges_if_avail(const itype_id &it, long quantity)
 {
     if (has_charges(it, quantity))
     {
@@ -11426,7 +11426,7 @@ action_id player::get_next_auto_move_direction()
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
-bool player::defer_move( tripoint next ) {
+bool player::defer_move( const tripoint &next ) {
     // next must be adjacent to current pos
     if( square_dist( next, pos() ) != 1 ) {
         return false;

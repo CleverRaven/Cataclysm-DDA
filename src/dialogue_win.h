@@ -41,7 +41,7 @@ class dialogue_window
         bool can_scroll_down;
 
         void print_history( size_t hilight_lines );
-        bool print_responses( int yoffset, std::vector<talk_data> responses );
+        bool print_responses( int yoffset, const std::vector<talk_data> &responses );
 
         std::string npc_name;
 };
