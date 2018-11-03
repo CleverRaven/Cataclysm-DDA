@@ -2380,7 +2380,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             save();
             if( ingame && world_options_changed ) {
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
-                world_generator->save_world( world_generator->active_world, false );
+                world_generator->active_world->save();
             }
         } else {
             used_tiles_changed = false;

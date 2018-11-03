@@ -117,7 +117,7 @@ WORLDPTR worldfactory::add_world( WORLDPTR retworld )
     // add world to world list
     all_worlds[ retworld->world_name ] = retworld;
 
-    if( !save_world( retworld ) ) {
+    if( !retworld->save() ) {
         std::string worldname = retworld->world_name;
         if( all_worlds[ worldname ] != retworld ) {
             delete retworld;
@@ -218,7 +218,7 @@ WORLDPTR worldfactory::make_new_world( special_game_id special_type )
     // add world to world list!
     all_worlds[worldname] = special_world;
 
-    if( !save_world( special_world ) ) {
+    if( !special_world->save() ) {
         delete all_worlds[worldname];
         delete special_world;
         all_worlds.erase( worldname );
@@ -240,7 +240,7 @@ WORLDPTR worldfactory::convert_to_world( const std::string &origin_path )
     newworld->world_name = worldname;
 
     // save world as conversion world
-    if( save_world( newworld, true ) ) {
+    if( newworld->save( true ) ) {
         // move files from origin_path into new world path
         for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
             std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
@@ -262,31 +262,22 @@ void worldfactory::set_active_world( WORLDPTR world )
     world_generator->active_world = world;
 }
 
-bool worldfactory::save_world( WORLDPTR world, bool is_conversion )
+bool WORLD::save( const bool is_conversion ) const
 {
-    // if world is NULL then change it to the active_world
-    if( !world ) {
-        world = active_world;
-    }
-    // if the active_world is NULL then return w/o saving
-    if( !world ) {
-        return false;
-    }
-
-    if( !assure_dir_exist( world->folder_path() ) ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world->world_name <<
+    if( !assure_dir_exist( folder_path() ) ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world_name <<
                                     "] directory for saving";
         return false;
     }
 
     if( !is_conversion ) {
-        const auto savefile = world->folder_path() + "/" + FILENAMES["worldoptions"];
+        const auto savefile = folder_path() + "/" + FILENAMES["worldoptions"];
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
             jout.start_array();
 
-            for( auto &elem : world->WORLD_OPTIONS ) {
+            for( auto &elem : WORLD_OPTIONS ) {
                 // Skip hidden option because it is set by mod and should not be saved
                 if( elem.second.getDefaultText() != "" ) {
                     jout.start_object();
@@ -307,7 +298,7 @@ bool worldfactory::save_world( WORLDPTR world, bool is_conversion )
         }
     }
 
-    mman->save_mods_list( world );
+    world_generator->get_mod_manager().save_mods_list( const_cast<WORLDPTR>( this ) );
     return true;
 }
 
@@ -354,7 +345,7 @@ void worldfactory::init()
         if( !load_world_options( all_worlds[worldname] ) ) {
             all_worlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
             all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
-            save_world( all_worlds[worldname] );
+            all_worlds[worldname]->save();
         }
     }
 
@@ -1468,7 +1459,7 @@ bool worldfactory::load_world_options( WORLDPTR &world )
 
     const auto legacy_path = world->folder_path() + "/" + FILENAMES["legacy_worldoptions"];
     if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
-        if( save_world( world ) ) {
+        if( world->save() ) {
             // Remove old file as the options have been saved to the new file.
             remove_file( legacy_path );
         }

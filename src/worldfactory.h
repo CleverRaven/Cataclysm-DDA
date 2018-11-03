@@ -69,6 +69,8 @@ struct WORLD {
         bool save_exists( const save_t &name ) const;
         void add_save( const save_t &name );
 
+        bool save( bool is_conversion = false ) const;
+
         void load_options( JsonIn &jsin );
         void load_legacy_options( std::istream &fin );
 };
@@ -96,7 +98,6 @@ class worldfactory
         bool has_world( const std::string &name ) const;
 
         void set_active_world( WORLDPTR world );
-        bool save_world( WORLDPTR world = NULL, bool is_conversion = false );
 
         void init();
 
