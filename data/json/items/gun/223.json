@@ -215,7 +215,7 @@
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-MBR rifle",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with Leadworks gyro-stabilization system system and foregrip available for greater control.  Additionally it comes with grenade launcher module for dealing with hard targets.  Like the rest of the family, though, it doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with Leadworks gyro-stabilization system and foregrip available for greater control.  Additionally it comes with grenade launcher module for dealing with hard targets.  Like the rest of the family, though, it doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
     "relative": {
