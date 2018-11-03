@@ -715,6 +715,83 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
     return overmap::invalid_tripoint;
 }
 
+tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string &type,
+                                      int const radius, bool must_be_seen, bool allow_subtype_matches,
+                                      const std::unordered_set<tripoint> &visited_point )
+{
+    // Check the origin before searching adjacent tiles!
+    if( allow_subtype_matches
+        ? check_ot_subtype( type, origin.x, origin.y, origin.z )
+        : check_ot_type( type, origin.x, origin.y, origin.z ) ) {
+        return origin;
+    }
+
+    // Function overloading for NPC pathfinding
+    // visited_point is added to check points NPC has been, if any of them matches function ignores the location
+
+    int max = ( radius == 0 ? OMAPX * 5 : radius );
+    const int z = origin.z;
+    // expanding box
+    for( int dist = 0; dist <= max; dist++ ) {
+        // each edge length is 2*dist-2, because corners belong to one edge
+        // south is +y, north is -y
+        for( int i = 0; i < dist * 2; i++ ) {
+            //start at northwest, scan north edge
+            int x = origin.x - dist + i;
+            int y = origin.y - dist;
+            if( allow_subtype_matches
+                ? check_ot_subtype( type, x, y, z )
+                : check_ot_type( type, x, y, z ) ) {
+                if( !must_be_seen || seen( x, y, z ) ) {
+                    if( visited_point.find( origin ) == visited_point.end() ) {
+                        return tripoint( x, y, z );
+                    }
+                }
+            }
+
+            //start at southeast, scan south
+            x = origin.x + dist - i;
+            y = origin.y + dist;
+            if( allow_subtype_matches
+                ? check_ot_subtype( type, x, y, z )
+                : check_ot_type( type, x, y, z ) ) {
+                if( !must_be_seen || seen( x, y, z ) ) {
+                    if( visited_point.find( origin ) == visited_point.end() ) {
+                        return tripoint( x, y, z );
+                    }
+                }
+            }
+
+            //start at southwest, scan west
+            x = origin.x - dist;
+            y = origin.y + dist - i;
+            if( allow_subtype_matches
+                ? check_ot_subtype( type, x, y, z )
+                : check_ot_type( type, x, y, z ) ) {
+                if( !must_be_seen || seen( x, y, z ) ) {
+                    if( visited_point.find( origin ) == visited_point.end() ) {
+                        return tripoint( x, y, z );
+                    }
+                }
+            }
+
+            //start at northeast, scan east
+            x = origin.x + dist;
+            y = origin.y - dist + i;
+            if( allow_subtype_matches
+                ? check_ot_subtype( type, x, y, z )
+                : check_ot_type( type, x, y, z ) ) {
+                if( !must_be_seen || seen( x, y, z ) ) {
+                    if( visited_point.find( origin ) == visited_point.end() ) {
+                        return tripoint( x, y, z );
+                    }
+                }
+            }
+        }
+    }
+    return overmap::invalid_tripoint;
+}
+
 std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin, const std::string &type,
         int dist, bool must_be_seen )
 {
