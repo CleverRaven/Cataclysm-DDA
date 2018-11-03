@@ -1681,9 +1681,8 @@ bool vehicle::find_and_split_vehicles( int exclude )
             }
             checked_parts.insert( test_part );
             for( size_t i = 0; i < 4; i++ ) {
-                int dx = parts[ test_part ].mount.x + vehicles::cardinal_d[ i ].x;
-                int dy = parts[ test_part ].mount.y + vehicles::cardinal_d[ i ].y;
-                std::vector<int> all_neighbor_parts = parts_at_relative( point( dx, dy ), true );
+                const point dp = parts[test_part].mount + vehicles::cardinal_d[ i ];
+                std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
                     if( parts[ p ].removed ) {
