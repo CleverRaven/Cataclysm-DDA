@@ -203,14 +203,14 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     if( styles.size() == 1 ) {
         return styles.front();
     }
-    uimenu menu;
+    uilist menu;
+    menu.allow_cancel = false;
     menu.text = _( "Pick your style:" );
     menu.desc_enabled = true;
     for( auto &s : styles ) {
         auto &style = s.obj();
         menu.addentry_desc( _( style.name.c_str() ), _( style.description.c_str() ) );
     }
-    menu.selected = 0;
     while( true ) {
         menu.query( true );
         auto &selected = styles[menu.ret];
