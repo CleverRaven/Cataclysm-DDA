@@ -6244,7 +6244,7 @@ const std::string get_fire_fuel_string( const tripoint &examp )
                                _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
                         return ss.str();
                     } else if( fire_age <= 3_hours ) {
-                        ss << string_format( _( "It's looks solid, and will burn for a few hours without extra fuel." ) );
+                        ss << string_format( _( "It looks solid, and will burn for a few hours without extra fuel." ) );
                         return ss.str();
                     } else {
                         ss << string_format(
@@ -9419,9 +9419,9 @@ void game::butcher()
             smenu.addentry_col( BUTCHER_FULL, true, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
                                 _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
             smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
-                                _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
+                                _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside.  Yields internal organs.  Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
             smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
-                                _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+                                _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
                                 _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
             smenu.query();
