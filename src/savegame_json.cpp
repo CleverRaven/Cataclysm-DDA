@@ -2155,7 +2155,7 @@ void vehicle::deserialize( JsonIn &jsin )
     }
 
     for( const vpart_reference &vp : get_parts( "TURRET" ) ) {
-        install_part( vp.mount().x, vp.mount().y, vpart_id( "turret_mount" ), false );
+        install_part( vp.mount(), vpart_id( "turret_mount" ), false );
     }
 
     /* After loading, check if the vehicle is from the old rules and is missing

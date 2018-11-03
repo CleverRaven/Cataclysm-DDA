@@ -2588,7 +2588,7 @@ void veh_interact::complete_vehicle()
 
         g->u.invalidate_crafting_inventory();
 
-        int partnum = !base.is_null() ? veh->install_part( dx, dy, part_id, std::move( base ) ) : -1;
+        int partnum = !base.is_null() ? veh->install_part( point( dx, dy ), part_id, std::move( base ) ) : -1;
         if(partnum < 0) {
             debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             break;
@@ -2777,7 +2777,7 @@ void veh_interact::complete_vehicle()
             item removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
-            int partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
+            int partnum = veh->install_part( point( dx, dy ), part_id, consume_vpart_item( part_id ) );
             if( partnum < 0 ) {
                 debugmsg( "complete_vehicle tire change fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             }

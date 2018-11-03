@@ -1192,29 +1192,28 @@ bool vehicle::is_connected( vehicle_part const &to, vehicle_part const &from,
 
 /**
  * Installs a part into this vehicle.
- * @param dx The x coordinate of where to install the part.
- * @param dy The y coordinate of where to install the part.
+ * @param dp The coordinate of where to install the part.
  * @param id The string ID of the part to install. (see vehicle_parts.json)
  * @param force Skip check of whether we can mount the part here.
  * @return false if the part could not be installed, true otherwise.
  */
-int vehicle::install_part( int dx, int dy, const vpart_id &id, bool force )
+int vehicle::install_part( const point dp, const vpart_id &id, bool force )
 {
-    if( !( force || can_mount( point( dx, dy ), id ) ) ) {
+    if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dx, dy, vehicle_part( id, dx, dy, item( id.obj().item ) ) );
+    return install_part( dp, vehicle_part( id, dp.x, dp.y, item( id.obj().item ) ) );
 }
 
-int vehicle::install_part( int dx, int dy, const vpart_id &id, item &&obj, bool force )
+int vehicle::install_part( const point dp, const vpart_id &id, item &&obj, bool force )
 {
-    if( !( force || can_mount( point( dx, dy ), id ) ) ) {
+    if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dx, dy, vehicle_part( id, dx, dy, std::move( obj ) ) );
+    return install_part( dp, vehicle_part( id, dp.x, dp.y, std::move( obj ) ) );
 }
 
-int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
+int vehicle::install_part( const point dp, const vehicle_part &new_part )
 {
     // Should be checked before installing the part
     bool enable = false;
@@ -1255,8 +1254,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 
     pt.enabled = enable;
 
-    pt.mount.x = dx;
-    pt.mount.y = dy;
+    pt.mount = dp;
 
     refresh();
     return parts.size() - 1;
