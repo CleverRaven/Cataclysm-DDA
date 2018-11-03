@@ -2745,7 +2745,7 @@ void veh_interact::complete_vehicle()
             }
 
         } else {
-            auto pieces = veh->pieces_for_broken_part( vehicle_part );
+            auto pieces = veh->parts[vehicle_part].pieces_for_broken_part();
             resulting_items.insert(resulting_items.end(), pieces.begin(), pieces.end());
         }
 

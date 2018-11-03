@@ -355,6 +355,11 @@ struct vehicle_part {
          * the hp (item damage), fuel charges (battery or liquids), aspect, ...
          */
         item properties_to_item() const;
+        /**
+         * Returns an ItemList of the pieces that should arise from breaking
+         * this part.
+         */
+        item_group::ItemList pieces_for_broken_part() const;
 };
 
 class turret_data
@@ -730,13 +735,6 @@ class vehicle
          * a vehicle part on both sides.
          */
         void remove_remote_part( int part_num );
-
-        /**
-         * Returns an ItemList of the pieces that should arise from breaking
-         * this part.
-         * @param p The index of the part to break.
-         */
-        item_group::ItemList pieces_for_broken_part( int p );
 
         void break_part_into_pieces( int p, int x, int y, bool scatter );
         /**

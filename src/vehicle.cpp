@@ -1871,9 +1871,10 @@ int vehicle::find_part( const item &it ) const
     return idx != parts.end() ? std::distance( parts.begin(), idx ) : INT_MIN;
 }
 
-item_group::ItemList vehicle::pieces_for_broken_part( int p )
+item_group::ItemList vehicle_part::pieces_for_broken_part() const
 {
-    const std::string &group = part_info( p ).breaks_into_group;
+    const std::string &group = info().breaks_into_group;
+    // @todo make it optional? Or use id of empty item group?
     if( group.empty() ) {
         return {};
     }
@@ -1890,7 +1891,7 @@ item_group::ItemList vehicle::pieces_for_broken_part( int p )
  */
 void vehicle::break_part_into_pieces( int p, int x, int y, bool scatter )
 {
-    for( item &piece : pieces_for_broken_part( p ) ) {
+    for( item &piece : parts[p].pieces_for_broken_part() ) {
         // TODO: balance audit, ensure that less pieces are generated than one would need
         // to build the component (smash a vehicle box that took 10 lumps of steel,
         // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
