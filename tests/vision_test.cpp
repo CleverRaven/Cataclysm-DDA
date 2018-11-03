@@ -18,6 +18,7 @@ void full_map_test( const char *const( &setup )[N],
     const efftype_id effect_narcosis( "narcosis" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
+    g->reset_light_level();
     g->u.clear_effects();
     clear_map();
 
@@ -148,6 +149,23 @@ void full_map_test( const char *const( &setup )[N],
 
 static constexpr int midnight = HOURS( 0 );
 static constexpr int midday = HOURS( 12 );
+
+TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
+{
+    constexpr const char *setup[] = {
+        "   ",
+        "   ",
+        " U ",
+    };
+
+    constexpr const char *expected_results[] = {
+        "BBB",
+        "BBB",
+        "BBB",
+    };
+
+    full_map_test( setup, expected_results, midday );
+}
 
 TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
 {
