@@ -1724,7 +1724,7 @@ int veh_interact::part_at( int dx, int dy )
 {
     int vdx = -ddx - dy;
     int vdy = dx - ddy;
-    return veh->part_displayed_at( vdx, vdy );
+    return veh->part_displayed_at( point( vdx, vdy ) );
 }
 
 /**

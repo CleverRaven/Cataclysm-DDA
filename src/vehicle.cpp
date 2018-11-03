@@ -1939,8 +1939,7 @@ cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
 
 cata::optional<vpart_reference> vpart_position::part_displayed() const
 {
-    const point mnt = mount();
-    int part_id = vehicle().part_displayed_at( mnt.x, mnt.y );
+    int part_id = vehicle().part_displayed_at( mount() );
     if( part_id == -1 ) {
         return cata::nullopt;
     }
@@ -2373,11 +2372,10 @@ int vehicle::index_of_part( const vehicle_part *const part, bool const check_rem
  * Returns which part (as an index into the parts list) is the one that will be
  * displayed for the given square. Returns -1 if there are no parts in that
  * square.
- * @param local_x The local x-coordinate.
- * @param local_y The local y-coordinate.
+ * @param dp The local coordinate.
  * @return The index of the part that will be displayed.
  */
-int vehicle::part_displayed_at( int const local_x, int const local_y ) const
+int vehicle::part_displayed_at( const point dp ) const
 {
     // Z-order is implicitly defined in game::load_vehiclepart, but as
     // numbers directly set on parts rather than constants that can be
@@ -2385,7 +2383,7 @@ int vehicle::part_displayed_at( int const local_x, int const local_y ) const
     // it's clear where the magic number comes from.
     const int ON_ROOF_Z = 9;
 
-    std::vector<int> parts_in_square = parts_at_relative( point( local_x, local_y ), true );
+    std::vector<int> parts_in_square = parts_at_relative( dp, true );
 
     if( parts_in_square.empty() ) {
         return -1;

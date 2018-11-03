@@ -5280,7 +5280,7 @@ void map::add_splatter( const field_id type, const tripoint &where, int intensit
         if( const optional_vpart_position vp = veh_at( where ) ) {
             vehicle *const veh = &vp->vehicle();
             // Might be -1 if all the vehicle's parts at where are marked for removal
-            const int part = veh->part_displayed_at( vp->mount().x, vp->mount().y );
+            const int part = veh->part_displayed_at( vp->mount() );
             if( part != -1 ) {
                 veh->parts[part].blood += 200 * std::min( intensity, 3 ) / 3;
                 return;
