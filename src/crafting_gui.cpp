@@ -444,7 +444,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             }
         } else {
-            for( size_t i = 0; i < current.size() && i < static_cast<size_t>( dataHeight ) + 1 ; ++i ) {
+            for( size_t i = 0; i < current.size() && i < static_cast<size_t>( dataHeight ) + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
                     tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name.c_str() );
