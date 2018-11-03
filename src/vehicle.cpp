@@ -158,30 +158,25 @@ bool vehicle::remote_controlled( player const &p ) const
 void vehicle::add_missing_frames()
 {
     static const vpart_id frame_id( "frame_vertical" );
-    const vpart_info &frame_part = frame_id.obj(); // NOT static, could be different each time
-    //No need to check the same (x, y) spot more than once
-    std::set< std::pair<int, int> > locations_checked;
+    //No need to check the same spot more than once
+    std::set<point> locations_checked;
     for( auto &i : parts ) {
-        int next_x = i.mount.x;
-        int next_y = i.mount.y;
-        std::pair<int, int> mount_location = std::make_pair( next_x, next_y );
+        if( locations_checked.count( i.mount ) != 0 ) {
+            continue;
+        }
+        locations_checked.insert( i.mount );
 
-        if( locations_checked.count( mount_location ) == 0 ) {
-            std::vector<int> parts_here = parts_at_relative( point( next_x, next_y ), false );
-            bool found = false;
-            for( auto &elem : parts_here ) {
-                if( part_info( elem ).location == part_location_structure ) {
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                // Install missing frame
-                parts.emplace_back( frame_part.get_id(), next_x, next_y, item( frame_part.item ) );
+        bool found = false;
+        for( auto &elem : parts_at_relative( i.mount, false ) ) {
+            if( part_info( elem ).location == part_location_structure ) {
+                found = true;
+                break;
             }
         }
-
-        locations_checked.insert( mount_location );
+        if( !found ) {
+            // Install missing frame
+            parts.emplace_back( frame_id, i.mount.x, i.mount.y, item( frame_id->item ) );
+        }
     }
 }
 
