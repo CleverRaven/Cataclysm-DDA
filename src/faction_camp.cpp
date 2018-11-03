@@ -1591,7 +1591,7 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
             }
             comp->companion_mission_inv.add_item( p_all[prt].properties_to_item() );
         } else if( !skill_destroy ) {
-            car->break_part_into_pieces( prt, comp->posx(), comp->posy() );
+            car->break_part_into_pieces( prt, comp->posx(), comp->posy(), false );
         }
         p_all.erase( p_all.begin() + 0 );
     }

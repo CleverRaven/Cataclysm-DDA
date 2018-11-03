@@ -738,7 +738,7 @@ class vehicle
          */
         item_group::ItemList pieces_for_broken_part( int p );
 
-        void break_part_into_pieces( int p, int x, int y, bool scatter = false );
+        void break_part_into_pieces( int p, int x, int y, bool scatter );
         /**
          * Yields a range containing all parts (including broken ones) that can be
          * iterated over.
