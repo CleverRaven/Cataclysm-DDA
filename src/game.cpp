@@ -11459,7 +11459,7 @@ cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts 
     }
 
     const tripoint &upos = g->u.pos();
-    uimenu pmenu;
+    uilist pmenu;
     pmenu.title = _( "Climb where?" );
     int num = 0;
     for( const tripoint &pt : pts ) {
@@ -11470,9 +11470,6 @@ cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts 
         pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s" ), direction.c_str() );
     }
 
-    pmenu.addentry( num, true, 'q', "%s", _( "Cancel" ) );
-
-    pmenu.selected = num;
     pmenu.query();
     const int ret = pmenu.ret;
     if( ret < 0 || ret >= num ) {
