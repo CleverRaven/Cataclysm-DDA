@@ -360,12 +360,6 @@ struct vehicle_part {
          * this part.
          */
         item_group::ItemList pieces_for_broken_part() const;
-        /**
-         * Breaks the part into the pieces defined by its breaks_into entry.
-         * @param pos The map coordinate to place pieces at (give or take).
-         * @param scatter If true, pieces are scattered near the target square.
-         */
-        void break_into_pieces( tripoint pos, bool scatter ) const;
 };
 
 class turret_data
