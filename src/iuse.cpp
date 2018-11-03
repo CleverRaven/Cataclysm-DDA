@@ -7360,13 +7360,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             const vpart_id vpid( it->typeId() );
 
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
+            vehicle_part source_part( vpid, vcoords, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = g->m.getabs( target_veh->global_pos3() );
             source_veh->install_part( vcoords, source_part );
 
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
+            vehicle_part target_part( vpid, vcoords, item( *it ) );
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
