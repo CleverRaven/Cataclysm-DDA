@@ -24,7 +24,7 @@ class lru_cache
         using Pair = std::pair<tripoint, T>;
 
         void insert( int limit, const tripoint &, const T & );
-        T get( const tripoint & ) const;
+        T get( const tripoint &, const T &default_ ) const;
 
         void clear();
         const std::list<Pair> &list() const;

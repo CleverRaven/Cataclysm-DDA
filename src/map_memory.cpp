@@ -3,13 +3,13 @@
 #include <algorithm>
 
 template<typename T>
-T lru_cache<T>::get( const tripoint &pos ) const
+T lru_cache<T>::get( const tripoint &pos, const T &default_ ) const
 {
     auto found = map.find( pos );
     if( found != map.end() ) {
         return found->second->second;
     }
-    return T{}; // Value or aggregate initialized (in particular, integers are zero-initialized)
+    return default_;
 }
 
 template<typename T>
@@ -57,9 +57,11 @@ const std::list<typename lru_cache<T>::Pair> &lru_cache<T>::list() const
 template class lru_cache<memorized_terrain_tile>;
 template class lru_cache<long>;
 
+static const memorized_terrain_tile default_tile{ "", 0, 0 };
+
 memorized_terrain_tile map_memory::get_tile( const tripoint &pos ) const
 {
-    return tile_cache.get( pos );
+    return tile_cache.get( pos, default_tile );
 }
 
 void map_memory::memorize_tile( int limit, const tripoint &pos, const std::string &ter,
@@ -70,7 +72,7 @@ void map_memory::memorize_tile( int limit, const tripoint &pos, const std::strin
 
 long map_memory::get_symbol( const tripoint &pos ) const
 {
-    return symbol_cache.get( pos );
+    return symbol_cache.get( pos, 0 );
 }
 
 void map_memory::memorize_symbol( int limit, const tripoint &pos, const long symbol )
