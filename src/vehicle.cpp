@@ -2330,10 +2330,10 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
     }
 }
 
-int vehicle::part_at( int const dx, int const dy ) const
+int vehicle::part_at( const point dp ) const
 {
     for( const vpart_reference &vp : get_parts() ) {
-        if( vp.part().precalc[0].x == dx && vp.part().precalc[0].y == dy && !vp.part().removed ) {
+        if( vp.part().precalc[0] == dp && !vp.part().removed ) {
             return static_cast<int>( vp.part_index() );
         }
     }
@@ -2342,7 +2342,7 @@ int vehicle::part_at( int const dx, int const dy ) const
 
 int vehicle::global_part_at( int const x, int const y ) const
 {
-    return part_at( x - global_pos3().x, y - global_pos3().y );
+    return part_at( point( x - global_pos3().x, y - global_pos3().y ) );
 }
 
 /**
@@ -4750,9 +4750,8 @@ bounding_box vehicle::get_bounding_box()
     precalc_mounts( 0, turn_dir, point() );
 
     int i_use = 0;
-    for( const auto &p : get_points( true ) ) {
-        point pv = parts[part_at( p.x, p.y )].precalc[i_use];
-        point pt = pv;// (p.x + pv.x, p.y + pv.y);
+    for( const tripoint &p : get_points( true ) ) {
+        const point pt = parts[part_at( point( p.x, p.y ) )].precalc[i_use];
         if( pt.x < min_x ) {
             min_x = pt.x;
         }

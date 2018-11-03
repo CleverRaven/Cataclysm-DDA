@@ -867,7 +867,7 @@ class vehicle
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
-        int part_at( int dx, int dy ) const;
+        int part_at( point dp ) const;
         int global_part_at( int x, int y ) const;
         int part_displayed_at( int local_x, int local_y ) const;
         int roof_at_part( int p ) const;
