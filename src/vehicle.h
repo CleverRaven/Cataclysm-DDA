@@ -360,6 +360,12 @@ struct vehicle_part {
          * this part.
          */
         item_group::ItemList pieces_for_broken_part() const;
+        /**
+         * Breaks the part into the pieces defined by its breaks_into entry.
+         * @param pos The map coordinate to place pieces at (give or take).
+         * @param scatter If true, pieces are scattered near the target square.
+         */
+        void break_into_pieces( tripoint pos, bool scatter ) const;
 };
 
 class turret_data
@@ -735,8 +741,6 @@ class vehicle
          * a vehicle part on both sides.
          */
         void remove_remote_part( int part_num );
-
-        void break_part_into_pieces( int p, int x, int y, bool scatter );
         /**
          * Yields a range containing all parts (including broken ones) that can be
          * iterated over.

@@ -1882,22 +1882,15 @@ item_group::ItemList vehicle_part::pieces_for_broken_part() const
     return item_group::items_from( group, calendar::turn );
 }
 
-/**
- * Breaks the specified part into the pieces defined by its breaks_into entry.
- * @param p The index of the part to break.
- * @param x The map x-coordinate to place pieces at (give or take).
- * @param y The map y-coordinate to place pieces at (give or take).
- * @param scatter If true, pieces are scattered near the target square.
- */
-void vehicle::break_part_into_pieces( int p, int x, int y, bool scatter )
+void vehicle_part::break_into_pieces( const tripoint pos, bool scatter ) const
 {
-    for( item &piece : parts[p].pieces_for_broken_part() ) {
+    for( item &piece : pieces_for_broken_part() ) {
         // TODO: balance audit, ensure that less pieces are generated than one would need
         // to build the component (smash a vehicle box that took 10 lumps of steel,
         // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
-        const int actual_x = scatter ? x + rng( -SCATTER_DISTANCE, SCATTER_DISTANCE ) : x;
-        const int actual_y = scatter ? y + rng( -SCATTER_DISTANCE, SCATTER_DISTANCE ) : y;
-        tripoint dest( actual_x, actual_y, smz );
+        const int actual_x = scatter ? pos.x + rng( -SCATTER_DISTANCE, SCATTER_DISTANCE ) : pos.x;
+        const int actual_y = scatter ? pos.y + rng( -SCATTER_DISTANCE, SCATTER_DISTANCE ) : pos.y;
+        tripoint dest( actual_x, actual_y, pos.z );
         g->m.add_item_or_charges( dest, piece );
     }
 }
@@ -4329,7 +4322,7 @@ int vehicle::break_off( int p, int dmg )
                     add_msg( m_bad, _( "The %s's %s breaks into pieces!" ), name,
                              parts[ parts_in_square[ index ] ].name() );
                 }
-                break_part_into_pieces( parts_in_square[index], pos.x, pos.y, true );
+                parts[parts_in_square[index]].break_into_pieces( pos, true );
             } else {
                 // Intact (but possibly damaged) part - remove it in one piece
                 if( g->u.sees( pos ) ) {
@@ -4345,7 +4338,7 @@ int vehicle::break_off( int p, int dmg )
         if( g->u.sees( pos ) ) {
             add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         }
-        break_part_into_pieces( p, pos.x, pos.y, true );
+        parts[p].break_into_pieces( pos, true );
         remove_part( p );
         find_and_split_vehicles( p );
     } else {
@@ -4354,7 +4347,7 @@ int vehicle::break_off( int p, int dmg )
             add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         }
 
-        break_part_into_pieces( p, pos.x, pos.y, true );
+        parts[p].break_into_pieces( pos, true );
         remove_part( p );
     }
 
