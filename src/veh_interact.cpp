@@ -1790,7 +1790,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }
-            if( veh->can_mount( vdx, vdy, vp.get_id() ) ) {
+            if( veh->can_mount( point( vdx, vdy ), vp.get_id() ) ) {
                 if( vp.get_id() != vpart_shapes[ vp.name() + vp.item ][ 0 ]->get_id() ) {
                     continue;    // only add first shape to install list
                 }
