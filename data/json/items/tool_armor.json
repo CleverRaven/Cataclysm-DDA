@@ -816,7 +816,7 @@
         "type": "TOOL_ARMOR",
         "category": "armor",
         "name": "XL survivor firemask",
-        "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes regardless of your state of mutation.  It provides excellent protection from heat, smoke, teargas, and shrapnel.   It must be prepared before use.",
+        "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes regardless of your state of mutation.  It provides excellent protection from heat, smoke, teargas, and shrapnel.  It must be prepared before use.",
         "weight": 1108,
         "volume": 5,
         "price": 24000,
