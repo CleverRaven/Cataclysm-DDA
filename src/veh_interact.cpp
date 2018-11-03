@@ -467,7 +467,7 @@ task_reason veh_interact::cant_do (char mode)
     case 's': // siphon mode
         valid_target = false;
         for( const vpart_reference &vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
-            if( veh->parts[vp.part_index()].base.contents_made_of( LIQUID ) ) {
+            if( vp.part().base.contents_made_of( LIQUID ) ) {
                 valid_target = true;
                 break;
             }
@@ -548,8 +548,7 @@ bool veh_interact::can_self_jack()
     int lvl = jack_quality( *veh );
 
     for( const vpart_reference &vp : veh->get_parts( "SELF_JACK" ) ) {
-        const vehicle_part *const jack = &vp.vehicle().parts[vp.part_index()];
-        if( jack->base.has_quality( SELF_JACK, lvl ) ) {
+        if( vp.part().base.has_quality( SELF_JACK, lvl ) ) {
             return true;
         }
     }
@@ -597,9 +596,7 @@ bool veh_interact::can_install_part() {
     int dif_eng = 0;
     if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
         for( const vpart_reference &vp : veh->get_parts() ) {
-            const size_t p = vp.part_index();
-            if( veh->part_flag( p, "ENGINE" ) &&
-                veh->part_flag( p, "E_HIGHER_SKILL" ) ) {
+            if( vp.has_feature( "ENGINE" ) && vp.has_feature( "E_HIGHER_SKILL" ) ) {
                 engines++;
                 dif_eng = dif_eng / 2 + 8;
             }
@@ -1812,7 +1809,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
     parts_here.clear();
     wheel = NULL;
     if( cpart >= 0 ) {
-        parts_here = veh->parts_at_relative( veh->parts[cpart].mount.x, veh->parts[cpart].mount.y, true );
+        parts_here = veh->parts_at_relative( veh->parts[cpart].mount, true );
         for( size_t i = 0; i < parts_here.size(); i++ ) {
             auto &pt = veh->parts[parts_here[i]];
 
@@ -2459,7 +2456,7 @@ void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     for( const vpart_reference &vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
-        if( veh->parts[vp.part_index()].get_base().contents_made_of( LIQUID ) ) {
+        if( vp.part().get_base().contents_made_of( LIQUID ) ) {
             has_liquid = true;
             break;
         }
@@ -2771,7 +2768,7 @@ void veh_interact::complete_vehicle()
     }
 
     case 'c':
-        std::vector<int> parts = veh->parts_at_relative( dx, dy, true );
+        std::vector<int> parts = veh->parts_at_relative( point( dx, dy ), true );
         if( parts.size() ) {
             item removed_wheel;
             int replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );

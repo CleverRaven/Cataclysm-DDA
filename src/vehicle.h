@@ -775,7 +775,7 @@ class vehicle
         /**@}*/
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
-        std::vector<int> parts_at_relative( int dx, int dy, bool use_cache ) const;
+        std::vector<int> parts_at_relative( const point &dp, bool use_cache ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
         int part_with_feature( int p, const std::string &f, bool unbroken ) const;
@@ -1371,7 +1371,7 @@ class vehicle
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
         int removed_part_count;            // Subtract from parts.size() to get the real part count.
         std::map<point, std::vector<int> >
-        relative_parts;    // parts_at_relative(x,y) is used a lot (to put it mildly)
+        relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
