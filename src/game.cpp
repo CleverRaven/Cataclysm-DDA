@@ -9159,6 +9159,7 @@ void game::butcher()
     }
 
     const int factor = u.max_quality( quality_id( "BUTCHER" ) );
+    const int factorD = u.max_quality( quality_id( "CUT_FINE" ) );
     static const char *no_knife_msg = _( "You don't have a butchering tool." );
     static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
 
@@ -9166,7 +9167,7 @@ void game::butcher()
     if( m.has_flag( "SEALED", u.pos() ) ) {
         if( m.sees_some_items( u.pos(), u ) ) {
             add_msg( m_info, _( "You can't access the items here." ) );
-        } else if( factor > INT_MIN ) {
+        } else if( factor > INT_MIN || factorD > INT_MIN ) {
             add_msg( m_info, no_corpse_msg );
         } else {
             add_msg( m_info, no_knife_msg );
@@ -9225,13 +9226,13 @@ void game::butcher()
         }
     }
 
-    // Clear corpses if butcher factor is INT_MIN
-    if( factor == INT_MIN ) {
+    // Clear corpses if butcher and dissect factors are INT_MIN
+    if( factor == INT_MIN && factorD == INT_MIN ) {
         corpses.clear();
     }
 
     if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
-        if( factor > INT_MIN ) {
+        if( factor > INT_MIN || factorD > INT_MIN ) {
             add_msg( m_info, no_corpse_msg );
         } else {
             add_msg( m_info, no_knife_msg );
@@ -9289,7 +9290,7 @@ void game::butcher()
         add_disassemblables( kmenu, items, disassembly_stacks, i );
         add_salvagables( kmenu, items, salvage_stacks, i, *salvage_iuse );
 
-        if( corpses.size() > 1 ) {
+        if( corpses.size() > 1 && factor > INT_MIN ) {
             int time_to_cut = 0;
             for( auto index : corpses ) {
                 time_to_cut += butcher_time_to_cut( u, items[index], BUTCHER );
