@@ -2755,7 +2755,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "fire_drill",
