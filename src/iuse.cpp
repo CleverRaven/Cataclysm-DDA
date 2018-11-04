@@ -433,6 +433,8 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_neutral,
                                   _( "You inhale some vapor from your advanced electronic cigarette." ) );
             p->use_charges( "nicotine_liquid", 1 );
+            item dummy_ecig = item( "ecig", calendar::turn );
+            p->consume_effects( dummy_ecig );
         } else {
             p->add_msg_if_player( m_info, _( "You don't have any nicotine liquid!" ) );
             return 0;
