@@ -178,10 +178,10 @@ void Item_factory::finalize_pre( itype &obj )
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
     if( obj.stackable ) {
-        if ( obj.stack_size == 0 ) {
+        if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         }
-        else if (obj.stack_size > 200) {
+        else if( obj.stack_size > 200 ) {
             debugmsg(obj.id + " stack size is too large, reducing to 200");
             obj.stack_size = 200;
         }
