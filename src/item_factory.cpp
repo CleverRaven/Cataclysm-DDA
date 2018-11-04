@@ -182,7 +182,7 @@ void Item_factory::finalize_pre( itype &obj )
             obj.stack_size = obj.charges_default();
         }
         else if( obj.stack_size > 200 ) {
-            debugmsg(obj.id + " stack size is too large, reducing to 200");
+            debugmsg( obj.id + " stack size is too large, reducing to 200" );
             obj.stack_size = 200;
         }
     }
@@ -201,7 +201,7 @@ void Item_factory::finalize_pre( itype &obj )
 
     // Set max volume for containers to prevent integer overflow
     if( obj.container && obj.container->contains > units::from_milliliter( 10000000 ) ) {
-        debugmsg(obj.id + " storage volume is too large, reducing to 10000000");
+        debugmsg( obj.id + " storage volume is too large, reducing to 10000000" );
         obj.container->contains = units::from_milliliter( 10000000 );
     }
 
