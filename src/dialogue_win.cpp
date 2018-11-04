@@ -93,7 +93,7 @@ static int RESPONSE_AREA_HEIGHT( int win_height )
     return win_height - 2 - 2 - 1;
 }
 
-bool dialogue_window::print_responses( int const yoffset, std::vector<talk_data> responses )
+bool dialogue_window::print_responses( int const yoffset, const std::vector<talk_data> &responses )
 {
     if( text_only ) {
         return false;

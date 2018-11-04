@@ -2954,7 +2954,7 @@ void player::shout( std::string msg )
     }
 
     if ( msg.empty() ) {
-        msg = msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
+        msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
@@ -3343,7 +3343,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     if( dam > 0 && g->u.sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
 
-        if( dam > 0 && is_player() && source ) {
+        if( is_player() && source ) {
             //monster hits player melee
             SCT.add( posx(), posy(),
                      direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
@@ -6978,7 +6978,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity)
     return ret;
 }
 
-bool player::use_charges_if_avail(itype_id it, long quantity)
+bool player::use_charges_if_avail(const itype_id &it, long quantity)
 {
     if (has_charges(it, quantity))
     {
@@ -7947,7 +7947,7 @@ bool player::pick_style() // Style selection menu
 
     uilist kmenu;
     kmenu.text = string_format( _( "Select a style. (press %s for more info)" ), ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
-    ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
+    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
     kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
@@ -11139,7 +11139,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
                             return elem.display_name();
                         } );
         if( opts.size() > 1 ) {
-            pos = ( uimenu( false, _("Wield what?"), opts ) ) - 1;
+            pos = uilist( _( "Wield what?" ), opts );
+            if( pos < 0 ) {
+                return false;
+            }
         } else {
             pos = 0;
         }
@@ -11426,7 +11429,7 @@ action_id player::get_next_auto_move_direction()
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
-bool player::defer_move( tripoint next ) {
+bool player::defer_move( const tripoint &next ) {
     // next must be adjacent to current pos
     if( square_dist( next, pos() ) != 1 ) {
         return false;

@@ -844,17 +844,15 @@ void map::board_vehicle( const tripoint &pos, player *p )
         }
         return;
     }
-    vehicle *const veh = &vp->vehicle();
-    const int seat_part = vp->part_index();
-    if( veh->parts[seat_part].has_flag( vehicle_part::passenger_flag ) ) {
-        player *psg = veh->get_passenger( seat_part );
+    if( vp->part().has_flag( vehicle_part::passenger_flag ) ) {
+        player *psg = vp->vehicle().get_passenger( vp->part_index() );
         debugmsg( "map::board_vehicle: passenger (%s) is already there",
                   psg ? psg->name.c_str() : "<null>" );
         unboard_vehicle( pos );
     }
-    veh->parts[seat_part].set_flag( vehicle_part::passenger_flag );
-    veh->parts[seat_part].passenger_id = p->getID();
-    veh->invalidate_mass();
+    vp->part().set_flag( vehicle_part::passenger_flag );
+    vp->part().passenger_id = p->getID();
+    vp->vehicle().invalidate_mass();
 
     p->setpos( pos );
     p->in_vehicle = true;
@@ -877,18 +875,16 @@ void map::unboard_vehicle( const tripoint &p )
         }
         return;
     }
-    vehicle *const veh = &vp->vehicle();
-    const int seat_part = vp->part_index();
-    passenger = veh->get_passenger( seat_part );
+    passenger = vp->vehicle().get_passenger( vp->part_index() );
     if( !passenger ) {
         debugmsg( "map::unboard_vehicle: passenger not found" );
         return;
     }
     passenger->in_vehicle = false;
     passenger->controlling_vehicle = false;
-    veh->parts[seat_part].remove_flag( vehicle_part::passenger_flag );
-    veh->skidding = true;
-    veh->invalidate_mass();
+    vp->part().remove_flag( vehicle_part::passenger_flag );
+    vp->vehicle().skidding = true;
+    vp->vehicle().invalidate_mass();
 }
 
 vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
@@ -1141,7 +1137,7 @@ std::string map::disp_name( const tripoint &p )
 std::string map::obstacle_name( const tripoint &p )
 {
     if( const cata::optional<vpart_reference> vp = veh_at( p ).obstacle_at_part() ) {
-        return vp->vehicle().parts[vp->part_index()].info().name();
+        return vp->info().name();
     }
     return name( p );
 }
@@ -2700,9 +2696,7 @@ bool map::mop_spills( const tripoint &p )
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
         vehicle *const veh = &vp->vehicle();
-        const int vpart = vp->part_index();
-        std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount.x,
-                                      veh->parts[vpart].mount.y, true );
+        std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
         for( auto &elem : parts_here ) {
             if( veh->parts[elem].blood > 0 ) {
                 veh->parts[elem].blood = 0;
@@ -4468,8 +4462,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
-        const size_t idx = vp.part_index();
-        cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ), engine_heater_is_on );
+        vp.part().process_contents( vp.pos(), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.get_parts( VPFLAG_CARGO );
@@ -4485,7 +4478,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         }
         auto const it = std::find_if( begin( cargo_parts ),
         end( cargo_parts ), [&]( const vpart_reference & part ) {
-            return active_item.location == cur_veh.parts[part.part_index()].mount;
+            return active_item.location == part.mount();
         } );
 
         if( it == end( cargo_parts ) ) {
@@ -4493,10 +4486,9 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         }
         auto &item_iter = active_item.item_iterator;
         // Find the cargo part and coordinates corresponding to the current active item.
-        const size_t part_index = ( *it ).part_index();
-        const vehicle_part &pt = cur_veh.parts[part_index];
-        const tripoint item_loc = cur_veh.global_part_pos3( part_index );
-        auto items = cur_veh.get_items( static_cast<int>( part_index ) );
+        const vehicle_part &pt = it->part();
+        const tripoint item_loc = it->pos();
+        auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
         int it_temp = g->get_temperature( item_loc );
         float it_insulation = 1.0;
         if( item_iter->is_food() || item_iter->is_food_container() ) {
@@ -5292,10 +5284,8 @@ void map::add_splatter( const field_id type, const tripoint &where, int intensit
     if( type == fd_blood || type == fd_gibs_flesh ) { // giblets are also good for painting
         if( const optional_vpart_position vp = veh_at( where ) ) {
             vehicle *const veh = &vp->vehicle();
-            const int anchor_part = vp->part_index();
             // Might be -1 if all the vehicle's parts at where are marked for removal
-            const int part = veh->part_displayed_at( veh->parts[anchor_part].mount.x,
-                             veh->parts[anchor_part].mount.y );
+            const int part = veh->part_displayed_at( vp->mount().x, vp->mount().y );
             if( part != -1 ) {
                 veh->parts[part].blood += 200 * std::min( intensity, 3 ) / 3;
                 return;
@@ -7408,9 +7398,8 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
         for( const vpart_reference &vp : v.v->get_parts() ) {
-            const size_t part = vp.part_index();
-            int px = v.x + v.v->parts[part].precalc[0].x;
-            int py = v.y + v.v->parts[part].precalc[0].y;
+            int px = v.x + vp.part().precalc[0].x;
+            int py = v.y + vp.part().precalc[0].y;
             if( v.z != sz ) {
                 break;
             }
@@ -7419,7 +7408,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
                 continue;
             }
 
-            if( vpart_position( *v.v, part ).obstacle_at_part() ) {
+            if( vp.obstacle_at_part() ) {
                 obstacle_cache[px][py].velocity = 1000.0f;
                 obstacle_cache[px][py].density = 0.0f;
             }
@@ -7501,24 +7490,24 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         auto &floor_cache = ch.floor_cache;
         for( const vpart_reference &vp : v.v->get_parts() ) {
             const size_t part = vp.part_index();
-            int px = v.x + v.v->parts[part].precalc[0].x;
-            int py = v.y + v.v->parts[part].precalc[0].y;
+            int px = v.x + vp.part().precalc[0].x;
+            int py = v.y + vp.part().precalc[0].y;
             if( !inbounds( px, py ) ) {
                 continue;
             }
 
-            if( vpart_position( *v.v, part ).is_inside() ) {
+            if( vp.is_inside() ) {
                 outside_cache[px][py] = false;
             }
 
-            if( v.v->part_flag( part, VPFLAG_OPAQUE ) && !v.v->parts[part].is_broken() ) {
+            if( vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken() ) {
                 int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE, true );
                 if( dpart < 0 || !v.v->parts[dpart].open ) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 }
             }
 
-            if( v.v->part_flag( part, VPFLAG_BOARDABLE ) && !v.v->parts[part].is_broken() ) {
+            if( vp.has_feature( VPFLAG_BOARDABLE ) && !vp.part().is_broken() ) {
                 floor_cache[px][py] = true;
             }
         }
@@ -7990,7 +7979,7 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
         for( const vpart_reference &vp : veh.get_parts( VPFLAG_OBSTACLE ) ) {
-            const tripoint part_pos = vp.vehicle().global_part_pos3( vp.part_index() );
+            const tripoint part_pos = vp.pos();
             if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
@@ -7998,12 +7987,11 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
 
         // Doors, but only the closed ones
         for( const vpart_reference &vp : veh.get_parts( VPFLAG_OPENABLE ) ) {
-            const size_t p = vp.part_index();
-            if( veh.parts[p].open ) {
+            if( vp.part().open ) {
                 continue;
             }
 
-            const tripoint part_pos = veh.global_part_pos3( p );
+            const tripoint part_pos = vp.pos();
             if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
