@@ -43,7 +43,7 @@
             },
             "mapping": {
                 "H": {
-                    "item": { "item": "zinc_powder", "count": 50 },
+                    "item": { "item": "chem_zinc_powder", "count": 50 }
                 }
             }
         }
