@@ -1937,6 +1937,7 @@
       ["magnifying_glass", 5],
       ["chem_chromium_oxide", 5],
       ["chem_thermite", 10],
+      ["chem_zinc_powder", 10],
       ["denat_alcohol", 25],
       ["tourist_table", 1]
     ]
@@ -5172,6 +5173,7 @@
       ["charcoal", 15],
       ["chem_hydrogen_peroxide", 15],
       ["chem_carbide", 10],
+      ["chem_zinc_powder", 10],
       ["denat_alcohol", 10]
     ]
   },{
@@ -5225,6 +5227,7 @@
       ["chem_saltpetre", 15],
       ["chem_nitric_acid", 15],
       ["chem_chromium_oxide", 10],
+      ["chem_zinc_powder", 10],
       ["denat_alcohol", 10]
     ]
   },{
