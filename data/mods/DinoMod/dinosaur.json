@@ -24,7 +24,7 @@
         "melee_dice_sides":2,
         "melee_cut":1,
         "dodge":4,
-	    "vision_day": 50,
+        "vision_day": 50,
         "armor_bash":1,
         "armor_cut":0,
         "hp":20,
