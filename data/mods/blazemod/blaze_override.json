@@ -24,7 +24,7 @@
     "range": 5,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
-    "flags": [ "TURRET", "MANUAL", "USE_TANKS" ]
+    "flags": [ "TURRET", "USE_TANKS" ]
   },
   {
     "id": "auto_m1918",
@@ -41,7 +41,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "m1918", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "am249",
@@ -58,7 +58,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "m249", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "aplasma_gun",
@@ -74,7 +74,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ],
-    "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "afusion_gun",
@@ -91,7 +91,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "ftk93", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "am2browning",
@@ -108,7 +108,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "m2browning", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "auto_m240",
@@ -125,7 +125,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "m240", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "auto_m60",
@@ -142,7 +142,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "m60", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "auto_abzats",
@@ -159,7 +159,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "abzats", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "auto_m134",
@@ -176,7 +176,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "m134", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "auto_mk19",
@@ -193,7 +193,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "mark19", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "auto_rm614",
@@ -210,7 +210,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "rm614_lmg", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "auto_rm298",
@@ -227,7 +227,7 @@
     "range": 12,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "rm298", "prob": 50 } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "awatercannon",
@@ -243,7 +243,7 @@
     "range": 7,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
-    "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "pool_ball",

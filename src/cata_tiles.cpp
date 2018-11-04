@@ -1231,11 +1231,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT, false );
     }
     if( g->u.controlling_vehicle ) {
-        tripoint indicator_offset = g->get_veh_dir_indicator_location( true );
-        if( indicator_offset != tripoint_min ) {
+        if( cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
             draw_from_id_string( "cursor", C_NONE, empty_string, {
-                indicator_offset.x + g->u.posx(),
-                indicator_offset.y + g->u.posy(), center.z
+                indicator_offset->x + g->u.posx(),
+                indicator_offset->y + g->u.posy(), center.z
             },
             0, 0, LL_LIT, false );
         }
@@ -1975,8 +1974,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         {
             // new scope for variable declarations
             const optional_vpart_position vp = g->m.veh_at( pos );
-            vehicle_part &part = vp->vehicle().parts[vp->part_index()];
-            seed = part.mount.x + part.mount.y * 65536;
+            seed = vp->mount().x + vp->mount().y * 65536;
         }
         break;
         case C_ITEM:
@@ -2494,7 +2492,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
                 break;
         }
     }
-    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO" );
+    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
 
     if( !veh->forward_velocity() ) {

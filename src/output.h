@@ -337,6 +337,8 @@ inline bool query_int( int &result, const char *const msg, Args &&... args )
     return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
 }
 
+std::vector<std::string> get_hotkeys( const std::string &s );
+
 // for the next two functions, if cancelable is true, Esc returns the last option
 // These are legacy functions, use uilist instead!
 int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );

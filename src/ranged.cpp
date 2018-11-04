@@ -1200,9 +1200,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         pc.cancel_activity();
 
         tripoint targ( 0, 0, 0 );
+        cata::optional<tripoint> mouse_pos;
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.
-        if( action == "SELECT" && ctxt.get_coordinates( g->w_terrain, targ.x, targ.y ) ) {
+        if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
+            targ = *mouse_pos;
             if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
                 // Snap to target doesn't currently work with tiles.
                 targ.x += dst.x - src.x;
@@ -1465,7 +1467,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     const optional_vpart_position vp = g->m.veh_at( pos );
     std::vector<vehicle_part *> cargo;
     if( vp && weap.has_flag( "VEHICLE" ) ) {
-        cargo = vp->vehicle().get_parts( pos, "CARGO" );
+        cargo = vp->vehicle().get_parts( pos, "CARGO", false, false );
     }
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {

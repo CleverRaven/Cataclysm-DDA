@@ -12,7 +12,7 @@ extern bool test_mode;
 loading_ui::loading_ui( bool display )
 {
     if( display && !test_mode ) {
-        menu.reset( new uimenu );
+        menu.reset( new uilist );
         menu->settext( _( "Loading" ) );
     }
 }

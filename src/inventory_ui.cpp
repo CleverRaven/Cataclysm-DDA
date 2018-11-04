@@ -1055,7 +1055,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO" );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
     if( !vp ) {
         return;
     }

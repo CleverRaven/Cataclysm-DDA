@@ -17,6 +17,11 @@
 #include "cata_utility.h"
 #include "calendar.h"
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 class nc_color;
 class JsonObject;
 class JsonIn;
@@ -173,6 +178,12 @@ enum layer_level {
     /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
 };
+
+inline layer_level &operator++( layer_level &l )
+{
+    l = static_cast<layer_level>( l + 1 );
+    return l;
+}
 
 class item : public visitable<item>
 {
@@ -997,13 +1008,17 @@ class item : public visitable<item>
     public:
         /**
          * Gets the point (vehicle tile) the cable is connected to.
-         * Returns tripoint_min if not connected to anything.
+         * Returns nothing if not connected to anything.
          */
-        tripoint get_cable_target() const;
+        cata::optional<tripoint> get_cable_target( player *carrier, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
         void reset_cable( player *carrier );
+        /**
+         * Helper to attach a cable to cable charger in a vehicle
+         */
+        void set_cable_charger();
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -1705,6 +1720,10 @@ class item : public visitable<item>
          * Does it require gunsmithing tools to repair.
          */
         bool is_firearm() const;
+        /**
+         * Returns the reload time of the gun. Returns 0 if not a gun.
+         */
+        int get_reload_time() const;
         /*@}*/
 
         /**
@@ -1844,6 +1863,8 @@ class item : public visitable<item>
         t_item_vector components;
 
         int get_gun_ups_drain() const;
+
+        int get_min_str() const;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
@@ -1871,4 +1892,3 @@ enum hint_rating {
 item &null_item_reference();
 
 #endif
-

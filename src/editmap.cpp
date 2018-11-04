@@ -344,10 +344,7 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
     wrefresh( w_help );
 }
 
-/*
- * main()
- */
-tripoint editmap::edit()
+cata::optional<tripoint> editmap::edit()
 {
     target = g->u.pos() + g->u.view_offset;
     input_context ctxt( "EDITMAP" );
@@ -429,7 +426,7 @@ tripoint editmap::edit()
     if( action == "CONFIRM" ) {
         return target;
     }
-    return tripoint_min;
+    return cata::nullopt;
 }
 
 // pending radiation / misc edit
@@ -694,9 +691,9 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     for( std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end();
          ++it ) {
         const std::string suffix = ( isvert ? it->first : it->second );
-        const std::string asuffix = ( isvert ? it->second : it->first );
         const int slen = suffix.size();
         if( sidlen > slen && tersid.substr( sidlen - slen, slen ) == suffix ) {
+            const std::string asuffix = ( isvert ? it->second : it->first );
             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
             const ter_str_id tid( terasid );
 

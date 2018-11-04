@@ -63,6 +63,27 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
     }
 };
 
+template<typename T>
+void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+{
+    if( obj ) {
+        jsout.write( *obj );
+    } else {
+        jsout.write_null();
+    }
+}
+
+template<typename T>
+void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+{
+    if( jsin.test_null() ) {
+        obj.reset();
+    } else {
+        obj.emplace();
+        jsin.read( *obj );
+    }
+}
+
 std::vector<item> item::magazine_convert()
 {
     std::vector<item> res;
@@ -1105,10 +1126,19 @@ void npc::load( JsonObject &data )
         data.read( "omz", position.z ); // omz/mapz got moved to position.z
     }
 
-    data.read( "plx", last_player_seen_pos.x );
-    data.read( "ply", last_player_seen_pos.y );
-    if( !data.read( "plz", last_player_seen_pos.z ) ) {
-        last_player_seen_pos.z = posz();
+    if( data.has_member( "plx" ) ) {
+        last_player_seen_pos.emplace();
+        data.read( "plx", last_player_seen_pos->x );
+        data.read( "ply", last_player_seen_pos->y );
+        if( !data.read( "plz", last_player_seen_pos->z ) ) {
+            last_player_seen_pos->z = posz();
+        }
+        // old code used tripoint_min to indicate "not a valid point"
+        if( *last_player_seen_pos == tripoint_min ) {
+            last_player_seen_pos.reset();
+        }
+    } else {
+        data.read( "last_player_seen_pos", last_player_seen_pos );
     }
 
     data.read( "goalx", goal.x );
@@ -1119,9 +1149,18 @@ void npc::load( JsonObject &data )
     data.read( "guardy", guard_pos.y );
     data.read( "guardz", guard_pos.z );
 
-    data.read( "pulp_locationx", pulp_location.x );
-    data.read( "pulp_locationy", pulp_location.y );
-    data.read( "pulp_locationz", pulp_location.z );
+    if( data.has_member( "pulp_locationx" ) ) {
+        pulp_location.emplace();
+        data.read( "pulp_locationx", pulp_location->x );
+        data.read( "pulp_locationy", pulp_location->y );
+        data.read( "pulp_locationz", pulp_location->z );
+        // old code used tripoint_min to indicate "not a valid point"
+        if( *pulp_location == tripoint_min ) {
+            pulp_location.reset();
+        }
+    } else {
+        data.read( "pulp_location", pulp_location );
+    }
 
     if( data.read( "mission", misstmp ) ) {
         mission = npc_mission( misstmp );
@@ -1251,9 +1290,7 @@ void npc::store( JsonOut &json ) const
 
     json.member( "submap_coords", submap_coords );
 
-    json.member( "plx", last_player_seen_pos.x );
-    json.member( "ply", last_player_seen_pos.y );
-    json.member( "plz", last_player_seen_pos.z );
+    json.member( "last_player_seen_pos", last_player_seen_pos );
 
     json.member( "goalx", goal.x );
     json.member( "goaly", goal.y );
@@ -1263,9 +1300,7 @@ void npc::store( JsonOut &json ) const
     json.member( "guardy", guard_pos.y );
     json.member( "guardz", guard_pos.z );
 
-    json.member( "pulp_locationx", pulp_location.x );
-    json.member( "pulp_locationy", pulp_location.y );
-    json.member( "pulp_locationz", pulp_location.z );
+    json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // @todo: stringid
     if( !fac_id.str().empty() ) { // set in constructor
@@ -1566,9 +1601,87 @@ void time_duration::serialize( JsonOut &jsout ) const
     jsout.write( turns_ );
 }
 
+time_duration time_duration::read_from_json_string( JsonIn &jsin )
+{
+    static const std::vector<std::pair<std::string, time_duration>> units = { {
+            { "turns", 1_turns },
+            { "turn", 1_turns },
+            { "t", 1_turns },
+            // @todo add seconds
+            { "minutes", 1_minutes },
+            { "minute", 1_minutes },
+            { "m", 1_minutes },
+            { "hours", 1_hours },
+            { "hour", 1_hours },
+            { "h", 1_hours },
+            { "days", 1_days },
+            { "day", 1_days },
+            { "d", 1_days },
+            // @todo maybe add seasons?
+            // @todo maybe add years? Those two things depend on season length!
+        }
+    };
+    const size_t pos = jsin.tell();
+    size_t i = 0;
+    const auto error = [&]( const char *const msg ) {
+        jsin.seek( pos + i );
+        jsin.error( msg );
+    };
+
+    const std::string s = jsin.get_string();
+    // returns whether we are at the end of the string
+    const auto skip_spaces = [&]() {
+        while( i < s.size() && s[i] == ' ' ) {
+            ++i;
+        }
+        return i >= s.size();
+    };
+    const auto get_unit = [&]() {
+        if( skip_spaces() ) {
+            error( "invalid time duration string: missing unit" );
+        }
+        for( const auto &pair : units ) {
+            const std::string &unit = pair.first;
+            if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
+                i += unit.size();
+                return pair.second;
+            }
+        }
+        error( "invalid time duration string: unknown unit" );
+        throw; // above always throws
+    };
+
+    if( skip_spaces() ) {
+        error( "invalid time duration string: empty string" );
+    }
+    time_duration result = 0;
+    do {
+        int sign_value = +1;
+        if( s[i] == '-' ) {
+            sign_value = -1;
+            ++i;
+        } else if( s[i] == '+' ) {
+            ++i;
+        }
+        if( i >= s.size() || !std::isdigit( s[i] ) ) {
+            error( "invalid time duration string: number expected" );
+        }
+        int value = 0;
+        for( ; i < s.size() && std::isdigit( s[i] ); ++i ) {
+            value = value * 10 + ( s[i] - '0' );
+        }
+        result += sign_value * value * get_unit();
+    } while( !skip_spaces() );
+    return result;
+}
+
 void time_duration::deserialize( JsonIn &jsin )
 {
-    turns_ = jsin.get_int();
+    if( jsin.test_string() ) {
+        *this = read_from_json_string( jsin );
+    } else {
+        turns_ = jsin.get_int();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2043,19 +2156,18 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( const vpart_reference vp : parts_with_feature( VPFLAG_CARGO, true ) ) {
-        const size_t cargo_index = vp.part_index();
-        auto it = parts[cargo_index].items.begin();
-        auto end = parts[cargo_index].items.end();
+    for( const vpart_reference &vp : get_parts( VPFLAG_CARGO ) ) {
+        auto it = vp.part().items.begin();
+        auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
             if( it->needs_processing() ) {
-                active_items.add( it, parts[cargo_index].mount );
+                active_items.add( it, vp.mount() );
             }
         }
     }
 
-    for( auto turret : get_parts( "TURRET", false ) ) {
-        install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
+    for( const vpart_reference &vp : get_parts( "TURRET" ) ) {
+        install_part( vp.mount().x, vp.mount().y, vpart_id( "turret_mount" ), false );
     }
 
     /* After loading, check if the vehicle is from the old rules and is missing
@@ -2092,8 +2204,8 @@ void vehicle::deserialize( JsonIn &jsin )
     /** Legacy saved games did not store part enabled status within parts */
     auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
-            for( auto e : get_parts( flag ) ) {
-                e->enabled = true;
+            for( const vpart_reference &vp : get_parts( flag ) ) {
+                vp.part().enabled = true;
             }
         }
     };
@@ -2501,7 +2613,7 @@ void map_memory::store( JsonOut &jsout ) const
 {
     jsout.member( "map_memory_tiles" );
     jsout.start_array();
-    for( const auto &elem : tiles ) {
+    for( const auto &elem : tile_cache.list() ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2515,7 +2627,7 @@ void map_memory::store( JsonOut &jsout ) const
 
     jsout.member( "map_memory_curses" );
     jsout.start_array();
-    for( const auto &elem : symbols ) {
+    for( const auto &elem : symbol_cache.list() ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2529,8 +2641,7 @@ void map_memory::store( JsonOut &jsout ) const
 void map_memory::load( JsonObject &jsin )
 {
     JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
-    tiles.clear();
-    tile_map.clear();
+    tile_cache.clear();
     while( map_memory_tiles.has_more() ) {
         JsonObject pmap = map_memory_tiles.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
@@ -2539,8 +2650,7 @@ void map_memory::load( JsonObject &jsin )
     }
 
     JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
-    symbols.clear();
-    symbol_map.clear();
+    symbol_cache.clear();
     while( map_memory_curses.has_more() ) {
         JsonObject pmap = map_memory_curses.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
