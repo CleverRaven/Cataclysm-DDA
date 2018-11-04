@@ -92,9 +92,6 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 #define SUCCESS_ACTION(func)  ret.back().success.set_effect( func )
 #define FAILURE_ACTION(func)  ret.back().failure.set_effect( func )
 
-#define SUCCESS_ACTION_CONSEQUENCE(func, con)  ret.back().success.set_effect_consequence( func, con )
-#define FAILURE_ACTION_CONSEQUENCE(func, con)  ret.back().failure.set_effect_consequence( func, con )
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 int topic_category( const talk_topic &topic );
@@ -368,44 +365,14 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
-
     } else if( topic == "TALK_DELIVER_ASK" ) {
         return bulk_trade_inquire( *p, the_topic.item_type );
-
-    } else if( topic == "TALK_DELIVER_CONFIRM" ) {
-        return _( "Pleasure doing business!" );
-
-    } else if( topic == "TALK_SHELTER" ) {
-        switch( rng( 1, 2 ) ) {
-            case 1:
-                return _( "Well, I guess it's just us." );
-            case 2:
-                return _( "At least we've got shelter." );
-        }
-    } else if( topic == "TALK_SHELTER_ADVICE" ) {
-        return get_hint();
-    } else if( topic == "TALK_SHELTER_PLANS" ) {
-        switch( rng( 1, 5 ) ) {
-            case 1:
-                return _( "I don't know, look for supplies and other survivors I guess." );
-            case 2:
-                return _( "Maybe we should start boarding up this place." );
-            case 3:
-                return _( "I suppose getting a car up and running should really be useful if we have to disappear quickly from here." );
-            case 4:
-                return _( "We could look for one of those farms out here. They can provide plenty of food and aren't close to the cities." );
-            case 5:
-                return _( "We should probably stay away from those cities, even if there's plenty of useful stuff there." );
-        }
-
     } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
         if( p->has_effect( effect_asked_for_item ) ) {
             return _( "You just asked me for stuff; ask later." );
         }
         return _( "Why should I share my equipment with you?" );
 
-    } else if( topic == "TALK_GIVE_EQUIPMENT" ) {
-        return _( "Okay, here you go." );
 
     } else if( topic == "TALK_DENY_EQUIPMENT" ) {
         if( p->op_of_u.anger >= p->hostile_anger_level() - 4 ) {
@@ -426,39 +393,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } else {
             return _( "Here's what I can teach you..." );
         }
-
-    } else if( topic == "TALK_TRAIN_START" ) {
-        return _( "Alright, let's begin." );
-
-    } else if( topic == "TALK_TRAIN_FORCE" ) {
-        return _( "Alright, let's begin." );
-
-    } else if( topic == "TALK_SUGGEST_FOLLOW" ) {
-        if( p->has_effect( effect_infection ) ) {
-            return _( "Not until I get some antibiotics..." );
-        }
-        if( p->has_effect( effect_asked_to_follow ) ) {
-            return _( "You asked me recently; ask again later." );
-        }
-        return _( "Why should I travel with you?" );
-
-    } else if( topic == "TALK_AGREE_FOLLOW" ) {
-        return _( "You got it, I'm with you!" );
-
-    } else if( topic == "TALK_DENY_FOLLOW" ) {
-        return _( "Yeah... I don't think so." );
-
     } else if( topic == "TALK_LEADER" ) {
         return _( "What is it?" );
-
-    } else if( topic == "TALK_LEAVE" ) {
-        return _( "You're really leaving?" );
-
-    } else if( topic == "TALK_PLAYER_LEADS" ) {
-        return _( "Alright.  You can lead now." );
-
-    } else if( topic == "TALK_LEADER_STAYS" ) {
-        return _( "No.  I'm the leader here." );
 
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         // TODO: this ignores the z-component
@@ -482,20 +418,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_FRIEND" ) {
         return _( "What is it?" );
 
-    } else if( topic == "TALK_FRIEND_GUARD" ) {
-        return _( "I'm on watch." );
-
-    } else if( topic == "TALK_DENY_GUARD" ) {
-        return _( "Not a bloody chance, I'm going to get left behind!" );
-
     } else if( topic == "TALK_DENY_TRAIN" ) {
         return the_topic.reason;
-
-    } else if( topic == "TALK_DENY_PERSONAL" ) {
-        return _( "I'd prefer to keep that to myself." );
-
-    } else if( topic == "TALK_FRIEND_UNCOMFORTABLE" ) {
-        return _( "I really don't feel comfortable doing so..." );
 
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
         std::stringstream status;
@@ -881,7 +805,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                     break;
             }
         }
-
     } else if( topic == "TALK_MISSION_SUCCESS" ) {
         int mission_value = 0;
         if( miss == nullptr ) {
@@ -929,7 +852,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         add_response( _( "Works for me." ), "TALK_DELIVER_CONFIRM", the_topic.item_type );
         add_response( _( "Maybe later." ), "TALK_DONE" );
-
     } else if( topic == "TALK_DELIVER_CONFIRM" ) {
         bulk_trade_accept( *p, the_topic.item_type );
         add_response_done( _( "You might be seeing more of me..." ) );
@@ -937,22 +859,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         if( g->u.charges_of( "bandages" ) > 0 ) {
             add_response( _( "Delivering bandages." ), "TALK_DELIVER_ASK", itype_id( "bandages" ) );
         }
-    } else if( topic == "TALK_SHELTER" ) {
-        add_response( _( "What should we do now?" ), "TALK_SHELTER_PLANS" );
-        add_response( _( "Any tips?" ), "TALK_SHELTER_ADVICE" );
-        add_response( _( "Can I do anything for you?" ), "TALK_MISSION_LIST" );
-        if( !p->is_following() ) {
-            add_response( _( "Want to travel with me?" ), "TALK_SUGGEST_FOLLOW" );
-        }
-        add_response( _( "Let's trade items." ), "TALK_NONE", &talk_function::start_trade );
-        add_response( _( "I can't leave the shelter without equipment..." ), "TALK_SHARE_EQUIPMENT" );
-        add_response_done( _( "Well, bye." ) );
-    } else if( topic == "TALK_SHELTER_ADVICE" ) {
-        add_response_none( _( "Thanks!" ) );
-    } else if( topic == "TALK_SHELTER_PLANS" ) {
-        // TODO: Add _("follow me")
-        add_response_none( _( "Hmm, okay." ) );
-
     } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
         if( p->has_effect( effect_asked_for_item ) ) {
             add_response_none( _( "Okay, fine." ) );
@@ -1003,16 +909,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_done( _( "Never mind, I'll do without.  Bye." ) );
         }
 
-    } else if( topic == "TALK_GIVE_EQUIPMENT" ) {
-        add_response_none( _( "Thank you!" ) );
-        add_response( _( "Thanks!  But can I have some more?" ), "TALK_SHARE_EQUIPMENT" );
-        add_response_done( _( "Thanks, see you later!" ) );
-
-    } else if( topic == "TALK_DENY_EQUIPMENT" ) {
-        add_response_none( _( "Okay, okay, sorry." ) );
-        add_response( _( "Seriously, give me more stuff!" ), "TALK_SHARE_EQUIPMENT" );
-        add_response_done( _( "Okay, fine, bye." ) );
-
     } else if( topic == "TALK_TRAIN" ) {
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             player_activity &backlog = g->u.backlog.front();
@@ -1053,115 +949,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         add_response_none( _( "Eh, never mind." ) );
 
-    } else if( topic == "TALK_TRAIN_START" ) {
-        if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
-            add_response( _( "Sounds good." ), "TALK_DONE", &talk_function::start_training );
-            add_response_none( _( "On second thought, never mind." ) );
-        } else {
-            add_response( _( "Okay.  Lead the way." ), "TALK_DONE", &talk_function::lead_to_safety );
-            add_response( _( "No, we'll be okay here." ), "TALK_TRAIN_FORCE" );
-            add_response_none( _( "On second thought, never mind." ) );
-        }
-
-    } else if( topic == "TALK_TRAIN_FORCE" ) {
-        add_response( _( "Sounds good." ), "TALK_DONE", &talk_function::start_training );
-        add_response_none( _( "On second thought, never mind." ) );
-
-    } else if( topic == "TALK_SUGGEST_FOLLOW" ) {
-        if( p->has_effect( effect_infection ) ) {
-            add_response_none( _( "Understood.  I'll get those antibiotics." ) );
-        } else if( p->has_effect( effect_asked_to_follow ) ) {
-            add_response_none( _( "Right, right, I'll ask later." ) );
-        } else {
-            int strength = 4 * p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust +
-                           ( 10 - p->personality.bravery );
-            int weakness = 3 * ( p->personality.altruism - std::max( 0, p->op_of_u.fear ) ) +
-                           p->personality.bravery - 3 * p->op_of_u.anger + 2 * p->op_of_u.value;
-            int friends = 2 * p->op_of_u.trust + 2 * p->op_of_u.value - 2 * p->op_of_u.anger;
-            RESPONSE( _( "I can keep you safe." ) );
-            TRIAL( TALK_TRIAL_PERSUADE, strength * 2 );
-            SUCCESS( "TALK_AGREE_FOLLOW" );
-            SUCCESS_ACTION( &talk_function::follow );
-            SUCCESS_OPINION( 1, 0, 1, 0, 0 );
-            FAILURE( "TALK_DENY_FOLLOW" );
-            FAILURE_ACTION( &talk_function::deny_follow );
-            FAILURE_OPINION( 0, 0, -1, 1, 0 );
-            RESPONSE( _( "You can keep me safe." ) );
-            TRIAL( TALK_TRIAL_PERSUADE, weakness * 2 );
-            SUCCESS( "TALK_AGREE_FOLLOW" );
-            SUCCESS_ACTION( &talk_function::follow );
-            SUCCESS_OPINION( 0, 0, -1, 0, 0 );
-            FAILURE( "TALK_DENY_FOLLOW" );
-            FAILURE_ACTION( &talk_function::deny_follow );
-            FAILURE_OPINION( 0, -1, -1, 1, 0 );
-            RESPONSE( _( "We're friends, aren't we?" ) );
-            TRIAL( TALK_TRIAL_PERSUADE, friends * 1.5 );
-            SUCCESS( "TALK_AGREE_FOLLOW" );
-            SUCCESS_ACTION( &talk_function::follow );
-            SUCCESS_OPINION( 2, 0, 0, -1, 0 );
-            FAILURE( "TALK_DENY_FOLLOW" );
-            FAILURE_ACTION( &talk_function::deny_follow );
-            FAILURE_OPINION( -1, -2, -1, 1, 0 );
-            RESPONSE( _( "I'll kill you if you don't." ) );
-            TRIAL( TALK_TRIAL_INTIMIDATE, strength * 2 );
-            SUCCESS( "TALK_AGREE_FOLLOW" );
-            SUCCESS_ACTION( &talk_function::follow );
-            SUCCESS_OPINION( -4, 3, -1, 4, 0 );
-            FAILURE( "TALK_DENY_FOLLOW" );
-            FAILURE_OPINION( -4, 0, -5, 10, 0 );
-        }
-
-    } else if( topic == "TALK_AGREE_FOLLOW" ) {
-        add_response( _( "Awesome!" ), "TALK_FRIEND" );
-        add_response_done( _( "Okay, let's go!" ) );
-
-    } else if( topic == "TALK_DENY_FOLLOW" ) {
-        add_response_none( _( "Oh, okay." ) );
-
-    } else if( topic == "TALK_LEADER" ) {
-        int persuade = p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust -
-                       p->personality.bravery - p->personality.aggression;
-        if( p->has_destination() ) {
-            add_response( _( "How much further?" ), "TALK_HOW_MUCH_FURTHER" );
-        }
-        add_response( _( "I'm going to go my own way for a while." ), "TALK_LEAVE" );
-        if( !p->has_effect( effect_asked_to_lead ) ) {
-            RESPONSE( _( "I'd like to lead for a while." ) );
-            TRIAL( TALK_TRIAL_PERSUADE, persuade );
-            SUCCESS( "TALK_PLAYER_LEADS" );
-            SUCCESS_ACTION( &talk_function::follow );
-            FAILURE( "TALK_LEADER_STAYS" );
-            FAILURE_OPINION( 0, 0, -1, -1, 0 );
-            RESPONSE( _( "Step aside.  I'm leader now." ) );
-            TRIAL( TALK_TRIAL_INTIMIDATE, 40 );
-            SUCCESS( "TALK_PLAYER_LEADS" );
-            SUCCESS_ACTION( &talk_function::follow );
-            SUCCESS_OPINION( -1, 1, -1, 1, 0 );
-            FAILURE( "TALK_LEADER_STAYS" );
-            FAILURE_OPINION( -1, 0, -1, 1, 0 );
-        }
-        add_response( _( "Can I do anything for you?" ), "TALK_MISSION_LIST" );
-        add_response( _( "Let's trade items." ), "TALK_NONE", &talk_function::start_trade );
-        add_response_done( _( "Let's go." ) );
-
-    } else if( topic == "TALK_LEAVE" ) {
-        add_response_none( _( "Nah, I'm just kidding." ) );
-        add_response( _( "Yeah, I'm sure.  Bye." ), "TALK_DONE", &talk_function::leave );
-
-    } else if( topic == "TALK_PLAYER_LEADS" ) {
-        add_response( _( "Good.  Something else..." ), "TALK_FRIEND" );
-        add_response_done( _( "Alright, let's go." ) );
-
-    } else if( topic == "TALK_LEADER_STAYS" ) {
-        add_response_none( _( "Okay, okay." ) );
-
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         add_response_none( _( "Okay, thanks." ) );
         add_response_done( _( "Let's keep moving." ) );
-
-    } else if( topic == "TALK_FRIEND_GUARD" ) {
-        add_response( _( "I need you to come with me." ), "TALK_FRIEND", &talk_function::stop_guard );
-        add_response_done( _( "See you around." ) );
 
     } else if( topic == "TALK_FRIEND" || topic == "TALK_GIVE_ITEM" || topic == "TALK_USE_ITEM" ) {
         if( p->is_following() ) {
@@ -1237,15 +1027,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "I need you to come with me." ), "TALK_FRIEND", &talk_function::stop_guard );
             add_response_done( _( "Bye." ) );
         }
-
-    } else if( topic == "TALK_FRIEND_UNCOMFORTABLE" ) {
-        add_response( _( "I'll give you some space." ), "TALK_FRIEND" );
-
-    } else if( topic == "TALK_DENY_TRAIN" ) {
-        add_response( _( "Very well..." ), "TALK_FRIEND" );
-
-    } else if( topic == "TALK_DENY_PERSONAL" ) {
-        add_response( _( "I understand..." ), "TALK_FRIEND" );
 
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
         add_response( _( "Change your engagement rules..." ), "TALK_COMBAT_ENGAGEMENT" );
