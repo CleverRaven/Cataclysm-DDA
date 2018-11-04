@@ -7511,7 +7511,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
                            can_partial_reload( _can_partial_reload )
             {}
 
-            bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
+            bool key( const input_context &, const input_event &event, int idx, uilist *menu ) override {
                 auto cur_key = event.get_first_input();
                 if( default_to != -1 && cur_key == last_key ) {
                     // Select the first entry on the list

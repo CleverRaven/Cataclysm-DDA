@@ -44,7 +44,7 @@ class wish_mutate_callback: public uimenu_callback
             vTraits.clear();
             pTraits.clear();
         }
-        bool key( const input_context &, const input_event &event, int entnum, uimenu *menu ) override {
+        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
             if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
@@ -62,7 +62,7 @@ class wish_mutate_callback: public uimenu_callback
             return false;
         }
 
-        void select( int entnum, uimenu *menu ) override {
+        void select( int entnum, uilist *menu ) override {
             if( ! started ) {
                 started = true;
                 padding = std::string( menu->pad_right - 1, ' ' );
@@ -291,7 +291,7 @@ class wish_monster_callback: public uimenu_callback
             lastent = -2;
         }
 
-        void setup( uimenu *menu ) {
+        void setup( uilist *menu ) {
             w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right, 1,
                                          menu->w_x + menu->w_width - 1 - menu->pad_right );
             padding = std::string( getmaxx( w_info ), ' ' );
@@ -299,7 +299,7 @@ class wish_monster_callback: public uimenu_callback
             wrefresh( w_info );
         }
 
-        bool key( const input_context &, const input_event &event, int entnum, uimenu *menu ) override {
+        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
             ( void )entnum; // unused
             ( void )menu; // unused
             if( event.get_first_input() == 'f' ) {
@@ -319,7 +319,7 @@ class wish_monster_callback: public uimenu_callback
             return false;
         }
 
-        void select( int entnum, uimenu *menu ) override {
+        void select( int entnum, uilist *menu ) override {
             if( ! started ) {
                 started = true;
                 setup( menu );
@@ -348,7 +348,7 @@ class wish_monster_callback: public uimenu_callback
                        ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
         }
 
-        void refresh( uimenu *menu ) override {
+        void refresh( uilist *menu ) override {
             ( void )menu; // unused
             wrefresh( w_info );
         }
@@ -424,7 +424,7 @@ class wish_item_callback: public uimenu_callback
             incontainer( false ), has_flag( false ), msg(), standard_itype_ids( ids ) {
         }
         bool key( const input_context &, const input_event &event, int /*entnum*/,
-                  uimenu * /*menu*/ ) override {
+                  uilist * /*menu*/ ) override {
             if( event.get_first_input() == 'f' ) {
                 incontainer = !incontainer;
                 return true;
@@ -441,7 +441,7 @@ class wish_item_callback: public uimenu_callback
             return false;
         }
 
-        void select( int entnum, uimenu *menu ) override {
+        void select( int entnum, uilist *menu ) override {
             const int starty = 3;
             const int startx = menu->w_width - menu->pad_right;
             const std::string padding( menu->pad_right, ' ' );

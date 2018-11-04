@@ -250,7 +250,7 @@ class ma_style_callback : public uimenu_callback
             , styles( selectable_styles )
         {}
 
-        bool key( const input_context &ctxt, const input_event &event, int entnum, uimenu *menu ) override;
+        bool key( const input_context &ctxt, const input_event &event, int entnum, uilist *menu ) override;
         ~ma_style_callback() override = default;
 };
 
