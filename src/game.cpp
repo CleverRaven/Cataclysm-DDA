@@ -10053,10 +10053,9 @@ bool game::disable_robot( const tripoint &p )
     }
     const auto mid = critter.type->id;
     const auto mon_item_id = critter.type->revert_to_itype;
-    if( !mon_item_id.empty() ) {
-        if( !query_yn( _( "Deactivate the %s?" ), critter.name().c_str() ) ) {
-            return false;
-        }
+    if( !mon_item_id.empty() &&
+        query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
+
         u.moves -= 100;
         m.add_item_or_charges( p.x, p.y, critter.to_item() );
         if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
@@ -10071,14 +10070,14 @@ bool game::disable_robot( const tripoint &p )
     }
     // Manhacks are special, they have their own menu here.
     if( mid == mon_manhack ) {
-        int choice = 0;
+        int choice = UIMENU_CANCEL;
         if( critter.has_effect( effect_docile ) ) {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
+            choice = uilist( _( "Reprogram the manhack?" ), { _( "Engage targets." ) } );
         } else {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Follow me." ), _( "Cancel" ), NULL );
+            choice = uilist( _( "Reprogram the manhack?" ), { _( "Follow me." ) } );
         }
         switch( choice ) {
-            case 1:
+            case 0:
                 if( critter.has_effect( effect_docile ) ) {
                     critter.remove_effect( effect_docile );
                     if( one_in( 3 ) ) {
@@ -11459,7 +11458,7 @@ cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts 
     }
 
     const tripoint &upos = g->u.pos();
-    uimenu pmenu;
+    uilist pmenu;
     pmenu.title = _( "Climb where?" );
     int num = 0;
     for( const tripoint &pt : pts ) {
@@ -11470,9 +11469,6 @@ cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts 
         pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s" ), direction.c_str() );
     }
 
-    pmenu.addentry( num, true, 'q', "%s", _( "Cancel" ) );
-
-    pmenu.selected = num;
     pmenu.query();
     const int ret = pmenu.ret;
     if( ret < 0 || ret >= num ) {
