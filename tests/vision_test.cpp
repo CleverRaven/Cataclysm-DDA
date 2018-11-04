@@ -14,6 +14,7 @@ void full_map_test( const char *const( &setup )[N],
                     calendar time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
+    const ter_id t_floor( "t_floor" );
     const ter_id t_utility_light( "t_utility_light" );
     const efftype_id effect_narcosis( "narcosis" );
 
@@ -45,14 +46,23 @@ void full_map_test( const char *const( &setup )[N],
     tripoint origin;
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
-            if( setup[y][x] == 'U' ) {
+            if( setup[y][x] == 'U' || setup[y][x] == 'u' ) {
                 origin = g->u.pos() - point( x, y );
                 break;
             }
         }
     }
-    tripoint player_offset = g->u.pos() - origin;
-    REQUIRE( setup[player_offset.y][player_offset.x] == 'U' );
+
+    {
+        // Sanity check on player placement
+        tripoint player_offset = g->u.pos() - origin;
+        REQUIRE( player_offset.y >= 0 );
+        REQUIRE( player_offset.y < height );
+        REQUIRE( player_offset.x >= 0 );
+        REQUIRE( player_offset.x < width );
+        char player_char = setup[player_offset.y][player_offset.x];
+        REQUIRE( ( player_char == 'U' || player_char == 'u' ) );
+    }
 
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
@@ -66,6 +76,10 @@ void full_map_test( const char *const( &setup )[N],
                 case '#':
                     g->m.ter_set( p, t_brick_wall );
                     break;
+                case '-':
+                case 'u':
+                    g->m.ter_set( p, t_floor );
+                    break;
                 case 'U':
                     // Already handled above
                     break;
@@ -75,8 +89,8 @@ void full_map_test( const char *const( &setup )[N],
         }
     }
 
-    g->m.build_map_cache( origin.z );
     g->m.update_visibility_cache( origin.z );
+    g->m.build_map_cache( origin.z );
 
     const level_cache &cache = g->m.access_cache( origin.z );
     const visibility_variables &vvcache =
@@ -85,7 +99,13 @@ void full_map_test( const char *const( &setup )[N],
     std::ostringstream fields;
     std::ostringstream transparency;
     std::ostringstream seen;
+    std::ostringstream lm;
+    std::ostringstream apparent_light;
     std::ostringstream obstructed;
+    transparency << std::setprecision( 3 );
+    seen << std::setprecision( 3 );
+    apparent_light << std::setprecision( 3 );
+
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
@@ -94,61 +114,77 @@ void full_map_test( const char *const( &setup )[N],
                 fields << pr.second.name() << ',';
             }
             fields << ' ';
-            transparency << cache.transparency_cache[p.x][p.y] << ' ';
-            seen << cache.seen_cache[p.x][p.y] << ' ';
+            transparency << std::setw( 6 )
+                         << cache.transparency_cache[p.x][p.y] << ' ';
+            seen << std::setw( 6 ) << cache.seen_cache[p.x][p.y] << ' ';
+            four_quadrants this_lm = cache.lm[p.x][p.y];
+            std::string lm_s =
+                string_format( "(%.2f,%.2f,%.2f,%.2f)",
+                               this_lm[quadrant::NE], this_lm[quadrant::SE],
+                               this_lm[quadrant::SW], this_lm[quadrant::NW] );
+            lm << lm_s << ' ';
+            apparent_light << std::setw( 6 ) << al.apparent_light << ' ';
             obstructed << ( al.obstructed ? '#' : '.' ) << ' ';
         }
         fields << '\n';
         transparency << '\n';
         seen << '\n';
+        lm << '\n';
+        apparent_light << '\n';
         obstructed << '\n';
     }
 
     INFO( "origin: " << origin );
     INFO( "player: " << g->u.pos() );
     INFO( "unimpaired_range: " << g->u.unimpaired_range() );
+    INFO( "vision_threshold: " << vvcache.vision_threshold );
     INFO( "fields:\n" << fields.str() );
     INFO( "transparency:\n" << transparency.str() );
     INFO( "seen:\n" << seen.str() );
+    INFO( "lm:\n" << lm.str() );
+    INFO( "apparent_light:\n" << apparent_light.str() );
     INFO( "obstructed:\n" << obstructed.str() );
+
+    bool success = true;
+    std::ostringstream expected;
+    std::ostringstream observed;
 
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            four_quadrants lm = cache.lm[p.x][p.y];
-            std::string lm_s =
-                string_format( "(%.2f,%.2f,%.2f,%.2f)",
-                               lm[quadrant::NE], lm[quadrant::SE],
-                               lm[quadrant::SW], lm[quadrant::NW] );
-            float seen = cache.seen_cache[p.x][p.y];
-            INFO( "x=" << x << ", y=" << y <<
-                  ", lm=" << lm_s << ", seen=" << seen );
             lit_level level = g->m.apparent_light_at( p, vvcache );
-            lit_level expected_level;
-            switch( expected_results[y][x] ) {
-                case 'D':
-                    expected_level = LL_DARK;
-                    break;
-                case 'L':
-                    expected_level = LL_LOW;
-                    break;
-                case 'B':
-                    expected_level = LL_BRIGHT;
-                    break;
-                case '-':
-                    expected_level = LL_BLANK;
-                    break;
-                default:
-                    FAIL( "unexpected result char '" <<
-                          expected_results[y][x] << "'" );
+            const char exp_char = expected_results[y][x];
+            if( exp_char < '0' || exp_char > '9' ) {
+                FAIL( "unexpected result char '" <<
+                      expected_results[y][x] << "'" );
             }
-            CHECK( level == expected_level );
+            int expected_level = exp_char - '0';
+
+            observed << level << ' ';
+            expected << expected_level << ' ';
+            if( level != expected_level ) {
+                success = false;
+            }
         }
+        observed << '\n';
+        expected << '\n';
     }
+
+    INFO( "observed:\n" << observed.str() );
+    INFO( "expected:\n" << expected.str() );
+    CHECK( success );
 }
 
 static constexpr int midnight = HOURS( 0 );
 static constexpr int midday = HOURS( 12 );
+
+// The following characters are used in these setups:
+// ' ' - empty, outdoors
+// '-' - empty, indoors
+// 'U' - player, outdoors
+// 'u' - player, indoors
+// 'L' - light, indoors
+// '#' - wall
 
 TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
 {
@@ -159,9 +195,47 @@ TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
     };
 
     constexpr const char *expected_results[] = {
-        "BBB",
-        "BBB",
-        "BBB",
+        "444",
+        "444",
+        "444",
+    };
+
+    full_map_test( setup, expected_results, midday );
+}
+
+TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
+{
+    constexpr const char *setup[] = {
+        "###",
+        "#u#",
+        "###",
+    };
+
+    constexpr const char *expected_results[] = {
+        "111",
+        "141",
+        "111",
+    };
+
+    full_map_test( setup, expected_results, midday );
+}
+
+TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
+{
+    constexpr const char *setup[] = {
+        "#########",
+        "#-------#",
+        "#u-------",
+        "#-------#",
+        "#########",
+    };
+
+    constexpr const char *expected_results[] = {
+        "114444444",
+        "114444444",
+        "144444444",
+        "114444444",
+        "114444444",
     };
 
     full_map_test( setup, expected_results, midday );
@@ -171,14 +245,12 @@ TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
 {
     constexpr const char *setup[] = {
         "   ",
-        "   ",
         " U ",
     };
 
     constexpr const char *expected_results[] = {
-        "LLL",
-        "LLL",
-        "LBL",
+        "111",
+        "141",
     };
 
     full_map_test( setup, expected_results, midnight );
@@ -193,9 +265,9 @@ TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
     };
 
     constexpr const char *expected_results[] = {
-        "BBB",
-        "BBB",
-        "BBB",
+        "444",
+        "444",
+        "444",
     };
 
     full_map_test( setup, expected_results, midnight );
@@ -210,9 +282,9 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
     };
 
     constexpr const char *expected_results[] = {
-        "---",
-        "LLL",
-        "LBL",
+        "666",
+        "111",
+        "141",
     };
 
     full_map_test( setup, expected_results, midnight );
