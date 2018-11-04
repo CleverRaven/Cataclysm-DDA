@@ -3622,7 +3622,7 @@ const std::string &get_music_description()
         return rare;
     }
 
-    size_t i = ( size_t )rng( 0, descriptions.size() * 2 );
+    size_t i = static_cast<size_t>( rng( 0, descriptions.size() * 2 ) );
     if( i < descriptions.size() ) {
         return descriptions[i];
     }
@@ -7369,21 +7369,17 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             }
 
             tripoint target_global = g->m.getabs( vpos );
-            const auto veh_part_coordinates = []( const vehicle & veh, const int part_num ) {
-                return veh.parts[part_num].mount;
-            };
-
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
             const vpart_id vpid( it->typeId() );
 
-            point vcoords = veh_part_coordinates( *source_veh, source_vp->part_index() );
+            point vcoords = source_vp->mount();
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = g->m.getabs( target_veh->global_pos3() );
             source_veh->install_part( vcoords.x, vcoords.y, source_part );
 
-            vcoords = veh_part_coordinates( *target_veh, target_vp->part_index() );
+            vcoords = target_vp->mount();
             vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),

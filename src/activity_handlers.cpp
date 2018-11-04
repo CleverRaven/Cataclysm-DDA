@@ -257,7 +257,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
 
     int factor = u.max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) : quality_id( "BUTCHER" ) );
     auto items = g->m.i_at( u.pos() );
-    if( ( size_t )act.index >= items.size() ) {
+    if( static_cast<size_t>( act.index ) >= items.size() ) {
         // Let it print a msg for lack of corpses
         act.index = INT_MAX;
         return;
@@ -1161,15 +1161,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 switch( rng( 1, 3 ) ) {
                     case 1:
                         p->add_msg_if_player( m_warning,
-                                              _( "You unskillfully hack up the corpse and chop off some excess body parts. You're left wondering how you did so poorly." ) );
+                                              _( "You unskillfully hack up the corpse and chop off some excess body parts.  You're left wondering how you did so poorly." ) );
                         break;
                     case 2:
                         p->add_msg_if_player( m_warning,
-                                              _( "Your unskilled hands slip and damage the corpse. You still hope it's not a total waste though." ) );
+                                              _( "Your unskilled hands slip and damage the corpse.  You still hope it's not a total waste though." ) );
                         break;
                     case 3:
                         p->add_msg_if_player( m_warning,
-                                              _( "You did something wrong and hacked the corpse badly. Maybe it's still recoverable." ) );
+                                              _( "You did something wrong and hacked the corpse badly.  Maybe it's still recoverable." ) );
                         break;
                 }
                 corpse_item.set_flag( "FIELD_DRESS_FAILED" );
@@ -1966,7 +1966,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     float light = actor->light_mod( p->pos() );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
-        add_msg( m_bad, _( "There is not enough sunlight to start a fire now. You stop trying." ) );
+        add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
         p->cancel_activity();
     }
 }
@@ -2270,7 +2270,7 @@ struct weldrig_hack {
 
         part = act.values[1];
         veh = veh_pointer_or_null( g->m.veh_at( act.coords[0] ) );
-        if( veh == nullptr || veh->parts.size() <= ( size_t )part ) {
+        if( veh == nullptr || veh->parts.size() <= static_cast<size_t>( part ) ) {
             part = -1;
             return false;
         }

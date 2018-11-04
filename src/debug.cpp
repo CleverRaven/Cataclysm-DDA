@@ -97,11 +97,13 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             text.c_str(), funcname, filename, line
         );
 
+#ifdef BACKTRACE
     std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
             FILENAMES["debug"]
         );
+#endif
 
     fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space

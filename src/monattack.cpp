@@ -403,7 +403,7 @@ bool mattack::howl( monster *z )
 
     if( z->friendly != 0 ) { // TODO: Make this use mon's faction when those are in
         for( monster &other : g->all_monsters() ) {
-            if( other.type != z->type || z->friendly != 0 ) {
+            if( other.type != z->type ) {
                 continue;
             }
             // Quote KA101: Chance of friendlying other howlers in the area, I'd imagine:

@@ -867,7 +867,7 @@ void color_manager::show_gui()
 
                 ui_templates.query();
 
-                if( ui_templates.ret >= 0 && ( size_t )ui_templates.ret < vFiles.size() ) {
+                if( ui_templates.ret >= 0 && static_cast<size_t>( ui_templates.ret ) < vFiles.size() ) {
                     bStuffChanged = true;
 
                     clear();
@@ -923,7 +923,7 @@ void color_manager::show_gui()
 
             ui_colors.query();
 
-            if( ui_colors.ret >= 0 && ( size_t )ui_colors.ret < name_color_map.size() ) {
+            if( ui_colors.ret >= 0 && static_cast<size_t>( ui_colors.ret ) < name_color_map.size() ) {
                 bStuffChanged = true;
 
                 iter = name_color_map.begin();

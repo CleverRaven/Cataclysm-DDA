@@ -2298,7 +2298,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             const invslice &stacks = g->u.inv.slice();
 
             // check index first
-            if( stacks.size() > ( size_t )uistate.adv_inv_container_index ) {
+            if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
                 auto &it = stacks[uistate.adv_inv_container_index]->front();
                 if( is_container_valid( &it ) ) {
                     container = &it;
@@ -2318,7 +2318,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
             auto &worn = g->u.worn;
-            size_t idx = ( size_t )uistate.adv_inv_container_index;
+            size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
             if( worn.size() > idx ) {
                 auto iter = worn.begin();
                 std::advance( iter, idx );
@@ -2349,7 +2349,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                                       i_stacked( m.i_at( pos ) );
 
             // check index first
-            if( stacks.size() > ( size_t )uistate.adv_inv_container_index ) {
+            if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
                 auto it = stacks[uistate.adv_inv_container_index].front();
                 if( is_container_valid( it ) ) {
                     container = it;

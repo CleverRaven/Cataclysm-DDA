@@ -10302,7 +10302,6 @@
     "calories": 52,
     "description": "A mixed drink made of whiskey and lemon juice.",
     "price": 800,
-    "//": "Since includes non-alcohol lemonade, 250mL is the serving size, so priced as such.",
     "material": "alcohol",
     "volume": 2,
     "phase": "liquid",
