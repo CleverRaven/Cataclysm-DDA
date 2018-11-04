@@ -10,6 +10,7 @@
 #include "cursesdef.h"
 #include "pimpl.h"
 #include "item_location.h"
+#include "optional.h"
 
 #include <array>
 #include <vector>
@@ -226,12 +227,12 @@ class game
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
-         * or tripoint_min to indicate no indicator should be drawn.
+         * or nothing to indicate no indicator should be drawn.
          * Based on the vehicle the player is driving, if any.
          * @param next If true, bases it on the vehicle the vehicle will turn to next turn,
          * instead of the one it is currently facing.
          */
-        tripoint get_veh_dir_indicator_location( bool next ) const;
+        cata::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
 
         /** Make map a reference here, to avoid map.h in game.h */
@@ -274,8 +275,8 @@ class game
         void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move( int z, bool force );
-        /** Returns the other end of the stairs (if any), otherwise tripoint_min. May query, affect u etc.  */
-        tripoint find_or_make_stairs( map &mp, int z_after, bool &rope_ladder );
+        /** Returns the other end of the stairs (if any). May query, affect u etc.  */
+        cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
         void vertical_shift( int dest_z );
         /** Add goes up/down auto_notes (if turned on) */
@@ -333,8 +334,8 @@ class game
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
-        /** Spawns a hallucination at a determined position (or random position close to the player). */
-        bool spawn_hallucination( const tripoint &p = tripoint_min );
+        /** Spawns a hallucination at a determined position. */
+        bool spawn_hallucination( const tripoint &p );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
@@ -519,7 +520,7 @@ class game
         void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
-                              int catch_duration = 0 );
+                              const time_duration &catch_duration );
         /** Returns the list of currently fishable monsters within distance of the player. */
         std::vector<monster *> get_fishable( int distance );
         /** Flings the input creature in the given direction. */
@@ -549,7 +550,7 @@ class game
 
         void peek();
         void peek( const tripoint &p );
-        tripoint look_debug();
+        cata::optional<tripoint> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
@@ -558,10 +559,9 @@ class game
         void zones_manager();
 
         // Look at nearby terrain ';', or select zone points
-        tripoint look_around();
-        tripoint look_around( catacurses::window w_info,
-                              tripoint &center, tripoint start_point,
-                              bool has_first_point, bool select_zone );
+        cata::optional<tripoint> look_around();
+        cata::optional<tripoint> look_around( catacurses::window w_info, tripoint &center,
+                                              tripoint start_point, bool has_first_point, bool select_zone );
 
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -928,7 +928,7 @@ class game
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
 
-        void drop( int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
+        void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void reassign_item( int pos = INT_MIN ); // Reassign the letter of an item  '='

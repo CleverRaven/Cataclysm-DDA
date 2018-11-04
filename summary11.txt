@@ -42,7 +42,7 @@ Balance Extend vitamins implementation
 Content Scorched children
 Infrastructure Multi pool errors messages
 Balance Correct fusion blaster CBM description
-Featurese Really nasty barfing
+Features Really nasty barfing
 Infrastructure Minor changes to morale logic
 Bugfixes Inverted logic fix
 Infrastructure Minor dependencies simplifications

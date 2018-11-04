@@ -383,6 +383,31 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( spoils > 0 ) {
                     return to_string_clipped( spoils );
                 }
+                //~ Used for permafood shelf life in the Eat menu
+                return std::string( _( "indefinite" ) );
+            }, _( "SHELF LIFE" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                if( g->u.can_estimate_rot() ) {
+                    const islot_comestible item = get_edible_comestible( loc );
+                    if( item.spoils > 0 ) {
+                        return get_freshness( loc );
+                    }
+                    return std::string( "---" );
+                }
+                return std::string();
+            }, _( "FRESHNESS" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( g->u.can_estimate_rot() ) {
+                    const islot_comestible item = get_edible_comestible( loc );
+                    if( item.spoils > 0 ) {
+                        if( !get_comestible_item( loc ).rotten() ) {
+                            return get_time_left_rounded( loc );
+                        }
+                    }
+                    return std::string( "---" );
+                }
                 return std::string();
             }, _( "SPOILS IN" ) );
 
@@ -480,6 +505,45 @@ class comestible_inventory_preset : public inventory_selector_preset
             }
             static const islot_comestible dummy {};
             return dummy;
+        }
+
+        std::string get_time_left_rounded( const item_location &loc ) {
+            const item &it = get_comestible_item( loc );
+            const double relative_rot = it.get_relative_rot();
+            const time_duration shelf_life = get_edible_comestible( loc ).spoils;
+            time_duration time_left = shelf_life - shelf_life * relative_rot;
+
+            // Correct for an estimate that exceeds shelf life -- this happens especially with
+            // fresh items.
+            if( time_left > shelf_life ) {
+                time_left = shelf_life;
+            }
+
+            if( it.is_going_bad() ) {
+                return _( "soon!" );
+            }
+
+            return to_string_approx( time_left );
+        }
+
+        std::string get_freshness( const item_location &loc ) {
+            const item &it = get_comestible_item( loc );
+            const double rot_progress = it.get_relative_rot();
+            if( it.is_fresh() ) {
+                return _( "fresh" );
+            } else if( rot_progress < 0.3 ) {
+                return _( "quite fresh" );
+            } else if( rot_progress < 0.5 ) {
+                return _( "near midlife" );
+            } else if( rot_progress < 0.7 ) {
+                return _( "past midlife" );
+            } else if( rot_progress < 0.9 ) {
+                return _( "getting older" );
+            } else if( !it.rotten() ) {
+                return _( "old" );
+            } else {
+                return _( "rotten" );
+            }
         }
 
     private:
@@ -921,6 +985,33 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const saw_barrel_actor &actor;
 };
 
+class salvage_inventory_preset: public inventory_selector_preset
+{
+    public:
+        salvage_inventory_preset( const salvage_actor *actor ) :
+            inventory_selector_preset(), actor( actor ) {
+
+            append_cell( [ actor ]( const item_location & loc ) {
+                return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
+                                              *loc.get_item() ) / 100 ) );
+            }, _( "TIME" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return actor->valid_to_cut_up( *loc.get_item() );
+        }
+
+    private:
+        const salvage_actor *actor;
+};
+
+item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
+{
+    return inv_internal( p, salvage_inventory_preset( actor ),
+                         _( "Cut up what?" ), 1,
+                         _( "You have nothing to cut up." ) );
+}
+
 item_location game_menus::inv::saw_barrel( player &p, item &tool )
 {
     const auto actor = dynamic_cast<const saw_barrel_actor *>
@@ -962,7 +1053,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
     return inv_s.execute();
 }
 
-void game_menus::inv::compare( player &p, const tripoint &offset )
+void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset )
 {
     p.inv.restack( p );
 
@@ -972,9 +1063,9 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
     inv_s.set_title( _( "Compare" ) );
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
-    if( offset != tripoint_min ) {
-        inv_s.add_map_items( p.pos() + offset );
-        inv_s.add_vehicle_items( p.pos() + offset );
+    if( offset ) {
+        inv_s.add_map_items( p.pos() + *offset );
+        inv_s.add_vehicle_items( p.pos() + *offset );
     } else {
         inv_s.add_nearby_items();
     }

@@ -179,11 +179,6 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.stackable && obj.stack_size == 0 ) {
         obj.stack_size = obj.charges_default();
     }
-    // JSON contains volume per complete stack, convert it to volume per single item
-    if( obj.count_by_charges() ) {
-        obj.volume = obj.volume / obj.stack_size;
-        obj.integral_volume = obj.integral_volume / obj.stack_size;
-    }
     // Items always should have some volume.
     // TODO: handle possible exception software?
     // TODO: make items with 0 volume an error during loading?
@@ -1657,6 +1652,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "mode_modifier", slot.mode_modifier );
+    assign( jo, "reload_modifier", slot.reload_modifier );
+    assign( jo, "min_str_required_mod", slot.min_str_required_mod );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )

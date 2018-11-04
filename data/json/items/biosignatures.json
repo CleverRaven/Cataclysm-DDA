@@ -5,7 +5,7 @@
     "name": "bird litter",
     "weight": 40,
     "color": "brown",
-    "spoils_in": 112,
+    "spoils_in": "4 days 16 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,

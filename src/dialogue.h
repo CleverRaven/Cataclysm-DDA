@@ -17,6 +17,7 @@
 
 class JsonObject;
 class mission;
+class time_duration;
 class time_point;
 class npc;
 class item;
@@ -110,8 +111,10 @@ struct talk_response {
                 effect_fun_t( talkfunction_ptr effect );
                 effect_fun_t( std::function<void( npc & )> effect );
                 void set_companion_mission( std::string &role_id );
-                void set_u_add_effect( std::string &new_effect, std::string &duration );
-                void set_npc_add_effect( std::string &new_effect, std::string &duration );
+                void set_u_add_permanent_effect( std::string &new_effect );
+                void set_u_add_effect( std::string &new_effect, const time_duration &duration );
+                void set_npc_add_permanent_effect( std::string &new_effect );
+                void set_npc_add_effect( std::string &new_effect, const time_duration &duration );
                 void set_u_add_trait( std::string &new_trait );
                 void set_npc_add_trait( std::string &new_trait );
                 void set_u_buy_item( std::string &new_trait, int cost, int count, std::string &container_name );

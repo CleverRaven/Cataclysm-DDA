@@ -158,7 +158,7 @@ void dealt_damage_instance::set_damage( damage_type dt, int amount )
 }
 int dealt_damage_instance::type_damage( damage_type dt ) const
 {
-    if( ( size_t )dt < dealt_dams.size() ) {
+    if( static_cast<size_t>( dt ) < dealt_dams.size() ) {
         return dealt_dams[dt];
     }
 

@@ -88,7 +88,7 @@ npc::npc()
     position.x = -1;
     position.y = -1;
     position.z = 500;
-    last_player_seen_pos = no_goal_point;
+    last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = no_goal_point;
     guard_pos = no_goal_point;
@@ -149,9 +149,7 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     }
 }
 
-npc::npc( const npc & ) = default;
 npc::npc( npc && ) = default;
-npc &npc::operator=( const npc & ) = default;
 npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
@@ -939,7 +937,7 @@ bool npc::wear_if_wanted( const item &it )
     }
 
     if( splint ) {
-        return wear_item( it, false );
+        return !!wear_item( it, false );
     }
 
     const int it_encumber = it.get_encumber();
@@ -967,7 +965,7 @@ bool npc::wear_if_wanted( const item &it )
 
         if( encumb_ok && can_wear( it ).success() ) {
             // @todo: Hazmat/power armor makes this not work due to 1 boots/headgear limit
-            return wear_item( it, false );
+            return !!wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
@@ -1924,6 +1922,14 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
+void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+{
+    if( pos ) {
+        pos->x += dx;
+        pos->y += dy;
+    }
+}
+
 void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {
@@ -2127,7 +2133,7 @@ void npc::on_load()
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
-    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE ) && !in_vehicle ) {
+    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
     }
 }

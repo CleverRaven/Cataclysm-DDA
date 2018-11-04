@@ -203,14 +203,14 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     if( styles.size() == 1 ) {
         return styles.front();
     }
-    uimenu menu;
+    uilist menu;
+    menu.allow_cancel = false;
     menu.text = _( "Pick your style:" );
     menu.desc_enabled = true;
     for( auto &s : styles ) {
         auto &style = s.obj();
         menu.addentry_desc( _( style.name.c_str() ), _( style.description.c_str() ) );
     }
-    menu.selected = 0;
     while( true ) {
         menu.query( true );
         auto &selected = styles[menu.ret];
@@ -1205,7 +1205,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             }
         } else if( action == "DOWN" ) {
             iCurrentLine[iCurWorkingPage]++;
-            if( ( size_t ) iCurrentLine[iCurWorkingPage] >= traits_size[iCurWorkingPage] ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "CONFIRM" ) {
@@ -1650,10 +1650,10 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
                    currentSkill->name().c_str(), cost );
 
         // We want recipes from profession skills displayed, but without boosting the skills
-        // Hack: copy the entire player, boost the clone's skills
-        player prof_u = u;
+        // Copy the skills, and boost the copy
+        SkillLevelMap with_prof_skills = u.get_all_skills();
         for( const auto &sk : prof_skills ) {
-            prof_u.mod_skill_level( sk.first, sk.second );
+            with_prof_skills.mod_skill_level( sk.first, sk.second );
         }
 
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
@@ -1662,10 +1662,13 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
             //Find out if the current skill and its level is in the requirement list
             auto req_skill = r.required_skills.find( currentSkill->ident() );
             int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
+            bool would_autolearn_recipe =
+                recipe_dict.all_autolearn().count( &r ) &&
+                with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
 
-            if( !prof_u.knows_recipe( &r ) &&
+            if( !would_autolearn_recipe &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
-                prof_u.has_recipe_requirements( r ) )  {
+                with_prof_skills.has_recipe_requirements( r ) )  {
 
                 recipes[r.skill_used->name()].emplace_back(
                     r.result_name(),
@@ -2151,7 +2154,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "QUIT" );
 
-    uimenu select_location;
+    uilist select_location;
     select_location.text = _( "Select a starting location." );
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
@@ -2376,9 +2379,11 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( const auto &loc : start_location::get_all() ) {
-                if( loc.name() == select_location.entries[ select_location.selected ].txt ) {
-                    u.start_location = loc.ident();
+            if( select_location.ret >= 0 ) {
+                for( const auto &loc : start_location::get_all() ) {
+                    if( loc.name() == select_location.entries[ select_location.ret ].txt ) {
+                        u.start_location = loc.ident();
+                    }
                 }
             }
             werase( select_location.window );

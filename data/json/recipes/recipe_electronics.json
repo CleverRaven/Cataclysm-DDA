@@ -1462,7 +1462,7 @@
     { "id": "HAMMER", "level": 1 },
     { "id": "SCREW_FINE", "level": 1 }
   ],
-  "components": [ 
+  "components": [
     [ [ "plastic_chunk", 1 ] ],
     [ [ "scrap", 1 ] ],
     [ [ "cable", 3 ] ]

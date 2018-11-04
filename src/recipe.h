@@ -18,6 +18,7 @@ using itype_id = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
 class recipe;
 using recipe_id = string_id<recipe>;
+class Character;
 
 class recipe
 {
@@ -80,7 +81,8 @@ class recipe
 
         //Create a string list to describe the skill requirements fir this recipe
         // Format: skill_name(amount), skill_name(amount)
-        std::string required_skills_string() const;
+        // Character object (if provided) used to color levels
+        std::string required_skills_string( const Character * ) const;
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
