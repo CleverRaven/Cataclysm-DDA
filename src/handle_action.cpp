@@ -934,6 +934,20 @@ static void read()
     }
 }
 
+static void reach_attach(int range, player &u) 
+{
+    g->temp_exit_fullscreen();
+    g->m.draw( g->w_terrain, u.pos() );
+    std::vector<tripoint> trajectory;
+    trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon, range );
+    if( !trajectory.empty() ) {
+        u.reach_attack( trajectory.back() );
+    }
+    g->draw_ter();
+    wrefresh( g->w_terrain );
+    g->reenter_fullscreen();
+}
+
 static void fire()
 {
     player &u = g->u;
@@ -1042,16 +1056,10 @@ static void fire()
         g->plfire( u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        g->temp_exit_fullscreen();
-        g->m.draw( g->w_terrain, u.pos() );
-        std::vector<tripoint> trajectory;
-        trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon, range );
-        if( !trajectory.empty() ) {
-            u.reach_attack( trajectory.back() );
-        }
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->reenter_fullscreen();
+        reach_attach(range, u);
+    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count("REACH_ATTACK") ) {
+        int range = u.weapon.gun_current_mode().qty;
+        reach_attach(range, u);
     }
 }
 
