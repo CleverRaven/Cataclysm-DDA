@@ -330,7 +330,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
             cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) /
-                                                                                       critter->ranged_target_size(), 0.4 );
+                                                                  critter->ranged_target_size(), 0.4 );
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
