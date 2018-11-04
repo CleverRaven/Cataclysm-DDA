@@ -25,6 +25,7 @@
 #include "cata_utility.h"
 #include "pathfinding.h"
 #include "string_formatter.h"
+#include "activity_handlers.h"
 
 #include <algorithm>
 #include <sstream>
@@ -1203,11 +1204,8 @@ void Character::drop_invalid_inventory()
     }
 
     if( volume_carried() > volume_capacity() ) {
-        for( auto &item_to_drop :
-             inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
-            g->m.add_item_or_charges( pos(), item_to_drop );
-        }
-        add_msg_if_player( m_bad, _( "Some items tumble to the ground." ) );
+        auto items_to_drop = inv.remove_randomly_by_volume( volume_carried() - volume_capacity() );
+        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, items_to_drop );
     }
 }
 
@@ -1298,7 +1296,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
         }
     };
 
-    check_req( _( "strength" ),     get_str(), it.type->min_str );
+    check_req( _( "strength" ),     get_str(), it.get_min_str() );
     check_req( _( "dexterity" ),    get_dex(), it.type->min_dex );
     check_req( _( "intelligence" ), get_int(), it.type->min_int );
     check_req( _( "perception" ),   get_per(), it.type->min_per );
@@ -1320,7 +1318,7 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
 
 bool Character::meets_stat_requirements( const item &it ) const
 {
-    return get_str() >= it.type->min_str &&
+    return get_str() >= it.get_min_str() &&
            get_dex() >= it.type->min_dex &&
            get_int() >= it.type->min_int &&
            get_per() >= it.type->min_per;
@@ -1523,7 +1521,7 @@ units::mass Character::get_weight() const
                         return sum + itm.weight();
                      } );
 
-    ret += Creature::get_weight(); // The base weight of the player's body
+    ret += CHARACTER_WEIGHT;       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
@@ -1546,7 +1544,9 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
 }
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 const item &it, bool power_armor )
+                 const item &it,
+                 std::array<layer_level, num_bp>& highest_layer_so_far,
+                 bool power_armor )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber();
@@ -1560,8 +1560,15 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
         if( !it.covers( bp ) ) {
             continue;
         }
+        highest_layer_so_far[bp] =
+            std::max( highest_layer_so_far[bp], item_layer );
 
-        vals[bp].layer( static_cast<layer_level>( item_layer ), layering_encumbrance );
+        // Apply layering penalty to this layer, as well as any layer worn
+        // within it that would normally be worn outside of it.
+        for( layer_level penalty_layer = item_layer;
+                penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
+            vals[bp].layer( penalty_layer, layering_encumbrance );
+        }
 
         vals[bp].armor_encumbrance += armorenc;
     }
@@ -1599,6 +1606,16 @@ int layer_details::layer( const int encumbrance )
     return total - current;
 }
 
+std::list<item>::iterator Character::position_to_wear_new_item( const item& new_item )
+{
+    // By default we put this item on after the last item on the same or any
+    // lower layer.
+    return std::find_if(
+        worn.rbegin(), worn.rend(),
+        [&](const item& w) { return w.get_layer() <= new_item.get_layer(); }
+    ).base();
+}
+
 /*
  * Encumbrance logic:
  * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
@@ -1623,13 +1640,31 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // reset all layer data
     vals = std::array<encumbrance_data, num_bp>();
 
-    const bool power_armored = is_wearing_active_power_armor();
-    for( auto &w : worn ) {
-        layer_item( vals, w, power_armored );
+    // Figure out where new_item would be worn
+    std::list<item>::const_iterator new_item_position = worn.end();
+    if( !new_item.is_null() ) {
+        // const_cast required to work around g++-4.8 library bug
+        // see the commit that added this comment to understand why
+        new_item_position =
+            const_cast<Character*>(this)->position_to_wear_new_item( new_item );
     }
 
-    if( !new_item.is_null() ) {
-        layer_item( vals, new_item, power_armored );
+    // Track highest layer observed so far so we can penalise out-of-order
+    // items
+    std::array<layer_level, num_bp> highest_layer_so_far;
+    std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
+               UNDERWEAR);
+
+    const bool power_armored = is_wearing_active_power_armor();
+    for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
+        if( w_it == new_item_position ) {
+            layer_item( vals, new_item, highest_layer_so_far, power_armored );
+        }
+        layer_item( vals, *w_it, highest_layer_so_far, power_armored );
+    }
+
+    if( worn.end() == new_item_position && !new_item.is_null() ) {
+        layer_item( vals, new_item, highest_layer_so_far, power_armored );
     }
 
     // make sure values are sane
@@ -1780,7 +1815,7 @@ int Character::ranged_dex_mod() const
 int Character::ranged_per_mod() const
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
-    return std::max( ( 20.0 - get_per() ) * 1.0, 0.0 );
+    return std::max( ( 20.0 - get_per() ) * 1.2, 0.0 );
 }
 
 int Character::get_healthy() const
@@ -2726,7 +2761,7 @@ std::string Character::extended_description() const
     const auto &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
-    size_t longest = std::accumulate( bps.begin(), bps.end(), ( size_t )0,
+    size_t longest = std::accumulate( bps.begin(), bps.end(), static_cast<size_t>( 0 ),
     []( size_t m, body_part bp ) {
         return std::max( m, body_part_name_as_heading( bp, 1 ).size() );
     } );
@@ -2743,13 +2778,13 @@ std::string Character::extended_description() const
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
-        ss << tag_colored_string( bp_heading, name_color );
+        ss << colorize( bp_heading, name_color );
         // Align them. There is probably a less ugly way to do it
         ss << std::string( longest - bp_heading.size() + 1, ' ' );
-        ss << tag_colored_string( hp_bar.first, hp_bar.second );
+        ss << colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
         // @todo: Integrate into get_hp_bar somehow
-        ss << tag_colored_string( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
+        ss << colorize( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
         ss << std::endl;
     }
 

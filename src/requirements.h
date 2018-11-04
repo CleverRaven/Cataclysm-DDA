@@ -68,7 +68,7 @@ struct tool_comp : public component {
     bool has( const inventory &crafting_inv, int batch = 1,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
     bool by_charges() const;
 };
 
@@ -80,7 +80,7 @@ struct item_comp : public component {
     bool has( const inventory &crafting_inv, int batch = 1,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
 };
 
 struct quality_requirement {
@@ -99,7 +99,7 @@ struct quality_requirement {
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
 };
 
 /**
@@ -129,7 +129,7 @@ struct quality_requirement {
  *   void check_consistency(const std::string &display_name) const;
  * Color to be used for displaying the requirement. has_one is true of the
  * player fulfills an alternative requirement:
- *   std::string get_color(bool has_one, const inventory &crafting_inv) const;
+ *   nc_color get_color(bool has_one, const inventory &crafting_inv) const;
 */
 struct requirement_data {
         // temporarily break encapsulation pending migration of legacy parts

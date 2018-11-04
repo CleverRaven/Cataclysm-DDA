@@ -43,7 +43,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -61,7 +60,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -79,7 +77,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -97,7 +94,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -115,7 +111,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -133,7 +128,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -151,7 +145,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -169,7 +162,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -187,7 +179,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -205,7 +196,6 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],
@@ -240,7 +230,6 @@
     "components": [
       [ [ "lens", 3 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 5 ] ],
@@ -257,7 +246,6 @@
     "components": [
       [ [ "metal_tank_little", 2 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 5 ] ],
@@ -274,7 +262,6 @@
     "components": [
       [ [ "lens", 3 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 5 ] ],
@@ -291,7 +278,6 @@
     "components": [
       [ [ "lens", 3 ] ],
       [ [ "power_supply", 5 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 5 ] ],
@@ -308,7 +294,6 @@
     "components": [
       [ [ "pipe", 3 ] ],
       [ [ "power_supply", 5 ] ],
-      [ [ "tuned_mechanism", 1 ] ],
       [ [ "clockworks", 1 ] ],
       [ [ "wire", 5 ] ],
       [ [ "scrap", 2 ] ],

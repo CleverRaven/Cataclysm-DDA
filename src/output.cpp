@@ -265,7 +265,7 @@ int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int w
     nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring( text, width, split );
-    for( int line_num = 0; ( size_t )line_num < textformatted.size(); line_num++ ) {
+    for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
         print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
     return textformatted.size();
@@ -278,7 +278,7 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
     nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring( text, width );
-    for( int line_num = 0; ( size_t )line_num < textformatted.size(); line_num++ ) {
+    for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
         if( line_num + begin_y - begin_line == iWinHeight ) {
             break;
         }
@@ -607,6 +607,25 @@ bool query_int( int &result, const std::string &text )
     }
     result = atoi( popup.text().c_str() );
     return true;
+}
+
+std::vector<std::string> get_hotkeys( const std::string &s )
+{
+    std::vector<std::string> hotkeys;
+    size_t start = s.find_first_of( '<' );
+    size_t end = s.find_first_of( '>' );
+    if( start != std::string::npos && end != std::string::npos ) {
+        // hotkeys separated by '|' inside '<' and '>', for example "<e|E|?>"
+        size_t lastsep = start;
+        size_t sep = s.find_first_of( '|', start );
+        while( sep < end ) {
+            hotkeys.push_back( s.substr( lastsep + 1, sep - lastsep - 1 ) );
+            lastsep = sep;
+            sep = s.find_first_of( '|', sep + 1 );
+        }
+        hotkeys.push_back( s.substr( lastsep + 1, end - lastsep - 1 ) );
+    }
+    return hotkeys;
 }
 
 // compatibility stub for uimenu(cancelable, mes, options)
@@ -1602,7 +1621,7 @@ size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_colo
                        const std::string &fmt )
 {
     std::string text = shortcut_text( shortcut_color, fmt );
-    print_colored_text( w, -1, -1, text_color, text_color, text.c_str() );
+    print_colored_text( w, -1, -1, text_color, text_color, text );
 
     return utf8_width( remove_color_tags( text ) );
 }

@@ -429,7 +429,7 @@ bool WinCreate()
 
 #ifdef __ANDROID__
     // Bugfix for red screen on Samsung S3/Mali
-	// https://forums.libsdl.org/viewtopic.php?t=11445
+    // https://forums.libsdl.org/viewtopic.php?t=11445
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5); 
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6); 
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5); 
@@ -451,9 +451,9 @@ bool WinCreate()
         return false;
     }
 #ifndef __ANDROID__
-	// On Android SDL seems janky in windowed mode so we're fullscreen all the time.
-	// Fullscreen mode is now modified so it obeys terminal width/height, rather than
-	// overwriting it with this calculation.
+    // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
+    // Fullscreen mode is now modified so it obeys terminal width/height, rather than
+    // overwriting it with this calculation.
     if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
         // Ignore previous values, use the whole window, but nothing more.
@@ -512,7 +512,7 @@ bool WinCreate()
     SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
 
 #ifdef __ANDROID__
-	// TODO: Not too sure why this works to make fullscreen on Android behave. :/
+    // TODO: Not too sure why this works to make fullscreen on Android behave. :/
     if ( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
     }
@@ -572,10 +572,10 @@ void cleanup_sound();
 void WinDestroy()
 {
 #ifdef __ANDROID__
-	if ( touch_joystick ) {
-	    SDL_DestroyTexture( touch_joystick );
-		touch_joystick = NULL;
-	}
+    if ( touch_joystick ) {
+        SDL_DestroyTexture( touch_joystick );
+        touch_joystick = NULL;
+    }
 #endif
 
 #ifdef SDL_SOUND
@@ -841,9 +841,9 @@ void refresh_display()
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
     SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear( renderer.get() );
-	if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, &dstrect ) != 0 ) {
+    if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, &dstrect ) != 0 ) {
 #else
-	if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0 ) {
+    if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0 ) {
 #endif
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
@@ -1257,7 +1257,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
                                              terminal_framebuffer;
 
 #ifdef __ANDROID__
-			// BUGFIX: Prevents an occasional crash when viewing player info. This seems like it might be a cross-platform issue in the experimental build
+            // BUGFIX: Prevents an occasional crash when viewing player info. This seems like it might be a cross-platform issue in the experimental build
             if (fby >= (int)framebuffer.size() || fbx >= (int)framebuffer[fby].chars.size())
                 continue;
 #endif
@@ -1789,19 +1789,19 @@ bool remove_expired_actions_from_quick_shortcuts(const std::string& category) {
     if (category != "DEFAULTMODE")
         return false;
 
-	bool ret = false;
+    bool ret = false;
     quick_shortcuts_t& qsl = quick_shortcuts_map[get_quick_shortcut_name(category)];
     quick_shortcuts_t::iterator it = qsl.begin();
     while (it != qsl.end()) {
         if (g->get_user_action_counter() - (*it).shortcut_last_used_action_counter > remove_turns) {
             it = qsl.erase(it);
-			ret = true;
-		}
+            ret = true;
+        }
         else {
             ++it;
-		}
+        }
     }
-	return ret;
+    return ret;
 }
 
 void remove_stale_inventory_quick_shortcuts() {
@@ -2031,7 +2031,7 @@ void draw_quick_shortcuts() {
 
 void draw_virtual_joystick() {
 
-	// Bail out if we don't need to draw the joystick
+    // Bail out if we don't need to draw the joystick
     if (!get_option<bool>("ANDROID_SHOW_VIRTUAL_JOYSTICK") || 
         finger_down_time <= 0 || 
         SDL_GetTicks() - finger_down_time <= (unsigned long)get_option<int>("ANDROID_INITIAL_DELAY") || 
@@ -2244,7 +2244,7 @@ void CheckMessages()
     {
         needs_sdl_surface_visibility_refresh = false;
 
-		// Call Java show_sdl_surface()
+        // Call Java show_sdl_surface()
         JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
         jobject activity = (jobject)SDL_AndroidGetActivity();
         jclass clazz(env->GetObjectClass(activity));
@@ -2328,16 +2328,16 @@ void CheckMessages()
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 int veh_part = vp ? vp->part_index() : -1;
-                                if (veh->part_with_feature(veh_part, "CONTROLS") >= 0)
+                                if (veh->part_with_feature(veh_part, "CONTROLS", true) >= 0)
                                     actions.insert(ACTION_CONTROL_VEHICLE);
-                                int openablepart = veh->part_with_feature(veh_part, "OPENABLE");
+                                int openablepart = veh->part_with_feature(veh_part, "OPENABLE", true);
                                 if (openablepart >= 0 && veh->is_open(openablepart) && (dx != 0 || dy != 0)) // an open door adjacent to us
                                     actions.insert(ACTION_CLOSE);
-                                int curtainpart = veh->part_with_feature(veh_part, "CURTAIN");
+                                int curtainpart = veh->part_with_feature(veh_part, "CURTAIN", true);
                                 if (curtainpart >= 0 && veh->is_open(curtainpart) && (dx != 0 || dy != 0))
                                     actions.insert(ACTION_CLOSE);
                                 if (dx == 0 && dy == 0) {
-                                    int cargopart = veh->part_with_feature(veh_part, "CARGO");
+                                    int cargopart = veh->part_with_feature(veh_part, "CARGO", true);
                                     bool can_pickup = cargopart >= 0 && (!veh->get_items(cargopart).empty());
                                     if (can_pickup)
                                         actions.insert(ACTION_PICKUP);
@@ -2429,7 +2429,7 @@ void CheckMessages()
 
                 for(const auto& action : actions) {
                     if (add_best_key_for_action_to_quick_shortcuts(action, touch_input_context.get_category(), !get_option<bool>("ANDROID_SHORTCUT_AUTOADD_FRONT")))
-						needupdate = true;
+                        needupdate = true;
                 }
 
                 size_t old_size = qsl.size();
@@ -2440,8 +2440,8 @@ void CheckMessages()
             }
         }
 
-		if (remove_expired_actions_from_quick_shortcuts(touch_input_context.get_category()))
-			needupdate = true;
+        if (remove_expired_actions_from_quick_shortcuts(touch_input_context.get_category()))
+            needupdate = true;
 
         // Toggle quick shortcuts on/off
         if (ac_back_down_time > 0 && ticks - ac_back_down_time > (unsigned long)get_option<int>("ANDROID_INITIAL_DELAY")) {
@@ -2523,11 +2523,11 @@ void CheckMessages()
                 case SDL_WINDOWEVENT_RESTORED:
                     needupdate = true;
 #ifdef __ANDROID__
-					needs_sdl_surface_visibility_refresh = true;
-					if(android_is_hardware_keyboard_available()) {
-						SDL_StopTextInput();
-						SDL_StartTextInput();
-					}
+                    needs_sdl_surface_visibility_refresh = true;
+                    if(android_is_hardware_keyboard_available()) {
+                        SDL_StopTextInput();
+                        SDL_StartTextInput();
+                    }
 #endif
                     break;
                 case SDL_WINDOWEVENT_RESIZED:
@@ -2584,7 +2584,7 @@ void CheckMessages()
             case SDL_KEYUP:
             {
 #ifdef __ANDROID__
-				// Toggle virtual keyboard with Android back button
+                // Toggle virtual keyboard with Android back button
                 if (ev.key.keysym.sym == SDLK_AC_BACK) {
                     if (ticks - ac_back_down_time <= (unsigned long)get_option<int>("ANDROID_INITIAL_DELAY")) {
                         if (SDL_IsTextInputActive())
@@ -3094,7 +3094,7 @@ void catacurses::init_interface()
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
 #ifdef __ANDROID__
-	// Make sure we initialize preview_terminal_width/height to sensible values
+    // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
     preview_terminal_height = TERMINAL_HEIGHT * fontheight;
 #endif
@@ -3167,7 +3167,7 @@ input_event input_manager::get_input_event() {
 
     wrefresh( catacurses::stdscr );
 
-	if (inputdelay < 0)
+    if (inputdelay < 0)
     {
         do
         {
@@ -3226,9 +3226,10 @@ void rescale_tileset(int size) {
     game_ui::init_ui();
 }
 
-bool input_context::get_coordinates( const catacurses::window &capture_win_, int& x, int& y) {
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
+{
     if(!coordinate_input_received) {
-        return false;
+        return cata::nullopt;
     }
 
     cata_cursesport::WINDOW *const capture_win = ( capture_win_.get() ? capture_win_ : g->w_terrain ).get<cata_cursesport::WINDOW>();
@@ -3260,10 +3261,10 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
     // Check if click is within bounds of the window we care about
     if( coordinate_x < win_left || coordinate_x > win_right ||
         coordinate_y < win_top || coordinate_y > win_bottom ) {
-        // add_msg( m_info, "out of bounds");
-        return false;
+        return cata::nullopt;
     }
 
+    int x, y;
     if ( tile_iso && use_tiles ) {
         const int screen_column = round( (float) ( coordinate_x - win_left - (( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
         const int screen_row = round( (float) ( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
@@ -3279,7 +3280,7 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
         y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
     }
 
-    return true;
+    return tripoint( x, y, g->get_levz() );
 }
 
 int get_terminal_width() {

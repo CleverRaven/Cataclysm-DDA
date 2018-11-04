@@ -190,8 +190,7 @@ itype_id vehicle_part::ammo_current() const
 long vehicle_part::ammo_capacity() const
 {
     if( is_tank() ) {
-        return base.get_container_capacity() / std::max( item::find_type( ammo_current() )->volume,
-                units::from_milliliter( 1 ) );
+        return item::find_type( ammo_current() )->charges_per_volume( base.get_container_capacity() );
     }
 
     if( is_fuel_store( false ) || is_turret() ) {

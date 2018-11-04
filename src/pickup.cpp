@@ -75,36 +75,39 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     auto turret = veh->turret_query( pos );
 
-    const bool has_kitchen = ( veh->avail_part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
-    const bool has_faucet = ( veh->avail_part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
-    const bool has_weldrig = ( veh->avail_part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
-    const bool has_chemlab = ( veh->avail_part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
-    const bool has_purify = ( veh->avail_part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
-    const bool has_controls = ( ( veh->avail_part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) );
+    const bool has_kitchen = ( veh->avail_part_with_feature( veh_root_part, "KITCHEN", true ) >= 0 );
+    const bool has_faucet = ( veh->avail_part_with_feature( veh_root_part, "FAUCET", true ) >= 0 );
+    const bool has_weldrig = ( veh->avail_part_with_feature( veh_root_part, "WELDRIG", true ) >= 0 );
+    const bool has_chemlab = ( veh->avail_part_with_feature( veh_root_part, "CHEMLAB", true ) >= 0 );
+    const bool has_purify = ( veh->avail_part_with_feature( veh_root_part, "WATER_PURIFIER",
+                              true ) >= 0 );
+    const bool has_controls = ( ( veh->avail_part_with_feature( veh_root_part, "CONTROLS",
+                                  true ) >= 0 ) );
     const bool has_electronics = ( ( veh->avail_part_with_feature( veh_root_part,
-                                     "CTRL_ELECTRONIC" ) >= 0 ) );
+                                     "CTRL_ELECTRONIC", true ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
-    const int washing_machine_part = veh->avail_part_with_feature( veh_root_part, "WASHING_MACHINE" );
+    const int washing_machine_part = veh->avail_part_with_feature( veh_root_part, "WASHING_MACHINE",
+                                     true );
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
                               veh->parts[washing_machine_part].enabled;
     const int monster_capture_part = veh->avail_part_with_feature( veh_root_part,
-                                     "CAPTURE_MONSTER_VEH" );
+                                     "CAPTURE_MONSTER_VEH", true );
     const bool has_monster_capture = ( monster_capture_part >= 0 );
-    const int bike_rack_part = veh->avail_part_with_feature( veh_root_part, "BIKE_RACK_VEH" );
+    const int bike_rack_part = veh->avail_part_with_feature( veh_root_part, "BIKE_RACK_VEH", true );
     const bool has_bike_rack = ( bike_rack_part >= 0 );
 
 
-    typedef enum {
+    enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
         USE_BIKE_RACK
-    } options;
-    uimenu selectmenu;
+    };
+    uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
     selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), veh->tracking_toggle_string() );
@@ -179,9 +182,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     if( selectmenu.entries.size() == 1 ) {
         choice = selectmenu.entries.front().retval;
     } else {
-        selectmenu.return_invalid = true;
         selectmenu.text = _( "Select an action" );
-        selectmenu.selected = 0;
         selectmenu.query();
         choice = selectmenu.ret;
     }
@@ -198,7 +199,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         return true;
     };
 
-    switch( static_cast<options>( choice ) ) {
+    switch( choice ) {
         case USE_BIKE_RACK: {
             veh->use_bike_rack( bike_rack_part );
             return DONE;
@@ -242,7 +243,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     act.coords.push_back( pos );
                     // Finally tell if it is the vehicle part with welding rig
                     act.values.resize( 2 );
-                    act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
+                    act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG", true );
                 }
             }
             return DONE;
@@ -398,10 +399,8 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
 
     player &u = g->u;
 
-    uimenu amenu;
-    amenu.return_invalid = true;
+    uilist amenu;
 
-    amenu.selected = 0;
     amenu.text = explain;
 
     offered_swap = true;
@@ -506,7 +505,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             picked_up = false;
             break;
         case WEAR:
-            picked_up = u.wear_item( newit );
+            picked_up = !!u.wear_item( newit );
             break;
         case WIELD:
             if( wield_check.success() ) {
@@ -534,7 +533,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
         // Intentional fallthrough
         case STASH:
             auto &entry = mapPickup[newit.tname()];
-            entry.second += newit.count_by_charges() ? newit.charges : 1;
+            entry.second += newit.count();
             entry.first = u.i_add( newit );
             picked_up = true;
             break;
@@ -1041,7 +1040,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         //Count charges
                         //TODO: transition to the item_location system used for the inventory
                         unsigned long charges_total = 0;
-                        for( const auto item : stacked_here[true_it] ) {
+                        for( const auto &item : stacked_here[true_it] ) {
                             charges_total += item._item.charges;
                         }
                         //Picking up none or all the cards in a stack
@@ -1178,7 +1177,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
 
             if( it._item.count_by_charges() ) {
-                size_t num_picked = std::min( ( size_t )it._item.charges, count );
+                size_t num_picked = std::min( static_cast<size_t>( it._item.charges ), count );
                 pick_values.push_back( { static_cast<int>( it.idx ), static_cast<int>( num_picked ) } );
                 count -= num_picked;
             } else {
@@ -1225,12 +1224,12 @@ void show_pickup_message( const PickupMap &mapPickup )
     }
 }
 
-bool Pickup::handle_spillable_contents( player &p, item &it, map &m )
+bool Pickup::handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
         const item &it_cont = it.contents.front();
         int num_charges = it_cont.charges;
-        while( !it.spill_contents( p ) ) {
+        while( !it.spill_contents( c ) ) {
             if( num_charges > it_cont.charges ) {
                 num_charges = it_cont.charges;
             } else {
@@ -1241,12 +1240,12 @@ bool Pickup::handle_spillable_contents( player &p, item &it, map &m )
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents
         if( it.is_bucket_nonempty() ) {
-            p.add_msg_player_or_npc(
+            c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name().c_str(), m.name( p.pos() ).c_str()
+                it.display_name(), m.name( c.pos() )
             );
-            m.add_item_or_charges( p.pos(), it );
+            m.add_item_or_charges( c.pos(), it );
             return true;
         }
     }

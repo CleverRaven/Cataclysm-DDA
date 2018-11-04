@@ -7,6 +7,8 @@
 #include "omdata.h"
 #include "ui.h"
 #include "trap.h"
+#include "optional.h"
+
 #include <vector>
 #include <map>
 #include <list>
@@ -46,7 +48,7 @@ class editmap
         tripoint pos2screen( const tripoint &p );
         tripoint screen2pos( const tripoint &p );
         bool eget_direction( tripoint &p, const std::string &action ) const;
-        tripoint edit();
+        cata::optional<tripoint> edit();
         void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view( bool update_info = false );
         int edit_ter();

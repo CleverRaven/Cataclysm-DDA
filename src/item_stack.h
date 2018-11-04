@@ -35,6 +35,7 @@ class item_stack
         virtual std::list<item>::iterator erase( std::list<item>::iterator it ) = 0;
         virtual void push_back( const item &newitem ) = 0;
         virtual void insert_at( std::list<item>::iterator, const item &newitem ) = 0;
+        virtual void clear();
         item &front();
         item &operator[]( size_t index );
 

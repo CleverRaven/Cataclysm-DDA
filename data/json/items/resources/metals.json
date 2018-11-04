@@ -11,7 +11,8 @@
     "price_postapoc": 125,
     "material": [ "aluminum" ],
     "symbol": ",",
-    "color": "light_gray"
+    "color": "light_gray",
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "id": "bismuth",

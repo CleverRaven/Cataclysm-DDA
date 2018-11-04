@@ -155,6 +155,7 @@ input_context game::get_player_input( std::string &action )
         wPrint.endy = iEndY;
 
         ctxt.set_timeout( 125 );
+        bool initial_draw = true;
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview( ctxt, action ) || uquit == QUIT_WATCH ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
@@ -259,9 +260,12 @@ input_context game::get_player_input( std::string &action )
                 }
             }
 
-            werase( w_terrain );
+            if( initial_draw ) {
+                werase( w_terrain );
 
-            draw_ter();
+                draw_ter();
+                initial_draw = false;
+            }
             draw_weather( wPrint );
 
             if( uquit != QUIT_WATCH ) {
@@ -373,14 +377,14 @@ static void pldrive( int x, int y )
         return;
     }
     if( !remote ) {
-        int pctr = veh->part_with_feature( part, "CONTROLS" );
+        int pctr = veh->part_with_feature( part, "CONTROLS", true );
         if( pctr < 0 ) {
             add_msg( m_info, _( "You can't drive the vehicle from here. You need controls!" ) );
             u.controlling_vehicle = false;
             return;
         }
     } else {
-        if( empty( veh->parts_with_feature( "REMOTE_CONTROLS", true ) ) ) {
+        if( empty( veh->get_parts( "REMOTE_CONTROLS" ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
             return;
         }
@@ -425,8 +429,9 @@ static void open()
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
-            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE" ) ) {
-                const std::string name = veh->part_info( already_open->part_index() ).name();
+            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
+                    true ) ) {
+                const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name.c_str() );
             }
             u.moves += 100;
@@ -1078,7 +1083,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    tripoint mouse_target = tripoint_min;
+    cata::optional<tripoint> mouse_target;
 
     // quit prompt check (ACTION_QUIT only grabs 'Q')
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
@@ -1130,23 +1135,24 @@ bool game::handle_action()
                 return false;
             }
 
-            int mx = 0;
-            int my = 0;
-            if( !ctxt.get_coordinates( w_terrain, mx, my ) || !u.sees( tripoint( mx, my, u.posz() ) ) ) {
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            if( !mouse_pos ) {
+                return false;
+            } else if( !u.sees( *mouse_pos ) ) {
                 // Not clicked in visible terrain
                 return false;
             }
-            mouse_target = tripoint( mx, my, u.posz() );
+            mouse_target = mouse_pos;
 
             if( act == ACTION_SELECT ) {
                 // Note: The following has the potential side effect of
                 // setting auto-move destination state in addition to setting
                 // act.
-                if( !try_get_left_click_action( act, mouse_target ) ) {
+                if( !try_get_left_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             } else if( act == ACTION_SEC_SELECT ) {
-                if( !try_get_right_click_action( act, mouse_target ) ) {
+                if( !try_get_right_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             }
@@ -1380,8 +1386,8 @@ bool game::handle_action()
             case ACTION_CLOSE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't close things while you're in your shell." ) );
-                } else if( mouse_target != tripoint_min ) {
-                    doors::close_door( m, u, mouse_target );
+                } else if( mouse_target ) {
+                    doors::close_door( m, u, *mouse_target );
                 } else {
                     close();
                 }
@@ -1400,8 +1406,8 @@ bool game::handle_action()
             case ACTION_EXAMINE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't examine your surroundings while you're in your shell." ) );
-                } else if( mouse_target != tripoint_min ) {
-                    examine( mouse_target );
+                } else if( mouse_target ) {
+                    examine( *mouse_target );
                 } else {
                     examine();
                 }
@@ -1472,7 +1478,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_COMPARE:
-                game_menus::inv::compare( u );
+                game_menus::inv::compare( u, cata::nullopt );
                 break;
 
             case ACTION_ORGANIZE:
@@ -1754,7 +1760,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_HELP:
-                display_help();
+                get_help().display_help();
                 refresh_all();
                 break;
 

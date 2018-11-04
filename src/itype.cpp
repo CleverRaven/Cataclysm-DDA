@@ -24,6 +24,14 @@ std::string itype::nname( unsigned int quantity ) const
     return ngettext( name.c_str(), name_plural.c_str(), quantity );
 }
 
+long itype::charges_per_volume( const units::volume &vol ) const
+{
+    if( volume == 0 ) {
+        return item::INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
+    }
+    return ( stackable ? stack_size : 1 ) * vol / volume;
+}
+
 // Members of iuse struct, which is slowly morphing into a class.
 bool itype::has_use() const
 {

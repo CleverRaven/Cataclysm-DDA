@@ -1,6 +1,6 @@
 Infrastructure NPC debug menu update
 Balance Remove telescopic eyes cbm from starting professions
-InfrastructureJson fixes to prepper garage and 2 floor motel
+Infrastructure Json fixes to prepper garage and 2 floor motel
 Features Faucets allow crafting of all tank liquids
 Bugfixes Fix early reporting of turret ammo shortage
 Bugfixes Suppress useless debugmsg
@@ -10,7 +10,7 @@ Infrastructure New characters: Start with loaded/holstered guns and sheathed bla
 I18N Localize firing modes of guns
 I18N Localize mission dialogues
 Content Vitamin additons: pine needle tea and wastebread
-PerformanceSpam fewer popups while saving submaps (they can be slow)
+Performance Spam fewer popups while saving submaps (they can be slow)
 Bugfixes Convert burned out torch into torch_done properly (fix #19395)
 I18N Display localized ammo type names
 I18N Display localized car names in debug menu
@@ -19,7 +19,7 @@ Infrastructure Use positional placeholders in some stealing messages
 Content Disassembly recipes for RC car and RC control
 Infrastructure Better handling of item templates
 Bugfixes Fix failing unit tests for vehicle_turret
-PerformanceImprove performance of damage calculation
+Performance Improve performance of damage calculation
 Infrastructure Move crafting rig definitions to JSON
 Infrastructure Split engine load in to electrical and propulsion
 Infrastructure Update JSON serialization code
@@ -32,7 +32,7 @@ Infrastructure Overmap overhaul (step 4)
 Interface Use a wider type for symbols
 Balance Buff regen mutations, nerf regen due to health stat
 Build Allow installation in a path with whitespaces
-PerformanceDefer autopickup item lookups until first use.
+Performance Defer autopickup item lookups until first use.
 Bugfixes Fix autopickup UI's "S"witch option, which did nothing.
 Build Fix compilation issue for #19303
 Bugfixes Reveal some mission target locations on start
@@ -48,7 +48,7 @@ Infrastructure Initialize bChar in the auto_pickup ctor.
 Balance Buffed 30x113 ammo belt capacity
 Bugfixes Prevent toggling of parts not currently enablable
 Bugfixes Fix unit tests for NPC needs
-PerformanceCache item types for inventory; huge crafting GUI speedup
+Performance Cache item types for inventory; huge crafting GUI speedup
 Bugfixes Fix craft requiring exact numbers of items
 Bugfixes Fix harvest drops not stacking
 Bugfixes Hack around long overflow in water crafting

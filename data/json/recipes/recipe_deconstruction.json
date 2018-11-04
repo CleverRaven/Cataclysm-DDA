@@ -1085,7 +1085,7 @@
       [ [ "lighter", 1 ] ],
       [ [ "pockknife", 1 ] ],
       [ [ "rollmat", 1 ] ],
-      [ [ "sleeping_bag", 1 ] ],
+      [ [ "sleeping_bag_roll", 1 ] ],
       [ [ "ear_plugs", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
@@ -1680,6 +1680,16 @@
     "time": 500,
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "vehicle_controls",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 3,
+    "time": 10000,
+    "decomp_learn": 3,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "wire", 2 ] ], [ [ "cable", 8 ] ] ]
   },
   {
     "result": "robot_controls",
