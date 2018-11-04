@@ -134,5 +134,37 @@
       { "x": -1, "y": 0, "parts": [ "frame_vertical", "engine_v6" ] },
       { "x": -2, "y": 0, "parts": [ "frame_vertical", "engine_v6" ] }
     ]
+  },
+  {
+    "id": "reactor_test",
+    "type": "vehicle",
+    "name": "Reactor test",
+    "parts": [
+      { "x": 0, "y": 0, "part": "frame_vertical" },
+      { "x": 0, "y": 0, "parts": [ "minireactor" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "seat", "dashboard", "storage_battery" ] }
+    ]
+  },
+  {
+    "id": "solar_panel_test",
+    "type": "vehicle",
+    "name": "Solar test",
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 3, "y": 0, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 3, "y": 1, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 2, "y": 2, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 3, "y": 2, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 0, "y": 3, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 1, "y": 3, "parts": [ "frame_vertical", "solar_panel" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "seat", "battery_car" ] }
+    ]
   }
 ]

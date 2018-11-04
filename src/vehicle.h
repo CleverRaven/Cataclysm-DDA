@@ -570,8 +570,8 @@ class vehicle
         // get vpart epowerinfo for part number.
         int part_epower_w( int index ) const;
 
-        // convert watts to vpower units of 1/2 HP.
-        static int watts_to_vhp( int power_w );
+        // convert watts over time to battery energy
+        int power_to_energy_bat( const int power_w, const time_duration t ) const;
 
         // convert vhp to watts.
         static int vhp_to_watts( int power );

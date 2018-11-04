@@ -68,6 +68,9 @@ static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 const skill_id skill_mechanics( "mechanics" );
 
+// 1 kJ per battery charge
+const int bat_energy_j = 1000;
+
 inline int modulo( int v, int m );
 //
 // Point dxs for the adjacent cardinal tiles.
@@ -744,18 +747,16 @@ int vehicle::part_epower_w( int const index ) const
     return e * parts[ index ].health_percent();
 }
 
-int vehicle::watts_to_vhp( int const power_w )
+int vehicle::power_to_energy_bat( const int power_w, const time_duration t ) const
 {
-    // Convert epower units (watts) to vpower units
-    // Used primarily for calculating battery charge/discharge
-    // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr int conversion_factor = 373; // 373 373 watts == 1 power_vhp == 0.5 HP
-    int power_vhp = power_w / conversion_factor;
-    // epower remainder results in chance at additional charge/discharge
-    if( x_in_y( abs( power_w % conversion_factor ), conversion_factor ) ) {
-        power_vhp += power_w >= 0 ? 1 : -1;
-    }
-    return power_vhp;
+    // Integrate constant epower (watts) over time to get units of battery energy
+    int seconds = static_cast<int>( to_minutes<double>( t ) * 60 );
+    int energy_j = power_w * seconds;
+    int energy_bat = energy_j / bat_energy_j;
+    int sign = power_w >= 0 ? 1 : -1;
+    // energy_bat remainder results in chance at additional charge/discharge
+    energy_bat += x_in_y( abs( energy_j % bat_energy_j ), bat_energy_j ) ? sign : 0;
+    return energy_bat;
 }
 
 int vehicle::vhp_to_watts( int const power_vhp )
@@ -3256,47 +3257,43 @@ void vehicle::power_parts()
         }
     }
 
-    int epower_capacity_left = vhp_to_watts( fuel_capacity( fuel_type_battery ) - fuel_left(
-                                   fuel_type_battery ) );
-    if( has_part( "REACTOR", true ) && epower_capacity_left - epower > 0 ) {
+    int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
+    int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
+                                        fuel_left( fuel_type_battery ) - delta_energy_bat );
+    if( !reactors.empty() && storage_deficit_bat > 0 ) {
         // Still not enough surplus epower to fully charge battery
         // Produce additional epower from any reactors
         bool reactor_working = false;
         for( auto &elem : reactors ) {
+            // the amount of energy the reactor generates each turn
+            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
             } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
                 reactor_working = true;
-                epower += part_epower_w( elem );
+                delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
             } else if( parts[elem].ammo_remaining() > 0 ) {
                 // Efficiency: one unit of fuel is this many units of battery
-                // Note: One battery is roughly 373 units of epower
+                // Note: One battery is 1 kJ
                 const int efficiency = part_info( elem ).power;
                 const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
-
-                const int elem_epower = std::min( part_epower_w( elem ), vhp_to_watts( avail_fuel ) );
+                const int elem_energy_bat = std::min( gen_energy_bat, avail_fuel );
                 // Cap output at what we can achieve and utilize
-                const int reactors_output = std::min( elem_epower, epower_capacity_left - epower );
-                // Units of fuel consumed before adjustment for efficiency
-                const int battery_consumed = watts_to_vhp( reactors_output );
+                const int reactors_output_bat = std::min( elem_energy_bat, storage_deficit_bat );
                 // Fuel consumed in actual units of the resource
-                int fuel_consumed = battery_consumed / efficiency;
+                int fuel_consumed = reactors_output_bat / efficiency;
                 // Remainder has a chance of resulting in more fuel consumption
-                if( x_in_y( battery_consumed % efficiency, efficiency ) ) {
-                    fuel_consumed++;
-                }
-
+                fuel_consumed += x_in_y( reactors_output_bat % efficiency, efficiency ) ? 1 : 0;
                 parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
                 reactor_working = true;
-
-                epower += reactors_output;
+                delta_energy_bat += reactors_output_bat;
             }
         }
 
         if( !reactor_working ) {
             // All reactors out of fuel or destroyed
-            for( const vpart_reference &vp : get_parts( "REACTOR" ) ) {
-                vp.part().enabled = false;
+            for( auto &elem : reactors ) {
+                parts[ elem ].enabled = false;
             }
             if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
                 add_msg( _( "The %s's reactor dies!" ), name );
@@ -3305,12 +3302,12 @@ void vehicle::power_parts()
     }
 
     int battery_deficit = 0;
-    if( epower > 0 ) {
+    if( delta_energy_bat > 0 ) {
         // store epower surplus in battery
-        charge_battery( watts_to_vhp( epower ) );
+        charge_battery( delta_energy_bat );
     } else if( epower < 0 ) {
         // draw epower deficit from battery
-        battery_deficit = discharge_battery( abs( watts_to_vhp( epower ) ) );
+        battery_deficit = discharge_battery( abs( delta_energy_bat ) );
     }
 
     if( battery_deficit != 0 ) {
@@ -4609,6 +4606,7 @@ void vehicle::update_time( const time_point &update_to )
         // We don't need to check every turn
         return;
     }
+    time_duration elapsed = update_to - last_update;
     last_update = update_to;
 
     // Weather stuff, only for z-levels >= 0
@@ -4643,14 +4641,13 @@ void vehicle::update_time( const time_point &update_to )
 
         double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = divide_roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ), 1.0 );
-        double cost_to_purify = watts_to_vhp( ( qty + ( tank->can_reload( water_clean ) ?
-                                                tank->ammo_remaining() : 0 ) )
-                                              * item::find_type( "water_purifier" )->charges_to_use() );
+        int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
+        int cost_to_purify = c_qty * item::find_type( "water_purifier" )->charges_to_use();
 
         if( qty > 0 ) {
             if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) &&
                 ( fuel_left( "battery" ) > cost_to_purify ) ) {
-                tank->ammo_set( "water_clean", tank->ammo_remaining() + qty );
+                tank->ammo_set( "water_clean", c_qty );
                 discharge_battery( cost_to_purify );
             } else {
                 tank->ammo_set( "water", tank->ammo_remaining() + qty );
@@ -4660,7 +4657,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     if( !solar_panels.empty() ) {
-        int epower = 0;
+        int epower_w = 0;
         for( int part : solar_panels ) {
             if( parts[ part ].is_unavailable() ) {
                 continue;
@@ -4670,12 +4667,13 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            epower += ( part_epower_w( part ) * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
+            epower_w += part_epower_w( part );
         }
-
-        if( epower > 0 ) {
-            add_msg( m_debug, "%s got %d epower from solar panels", name, epower );
-            charge_battery( watts_to_vhp( epower ) );
+        double intensity = accum_weather.sunlight / DAYLIGHT_LEVEL / to_turns<double>( elapsed );
+        int energy_bat = power_to_energy_bat( epower_w * intensity, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg( m_debug, "%s got %d kJ energy from solar panels", name, energy_bat );
+            charge_battery( energy_bat );
         }
     }
 }
