@@ -52,7 +52,7 @@ class zone_options
             return true;
         };
 
-        /* query options, first uimenu should allow to pick an option to edit (if more than one)
+        /* query options, first uilist should allow to pick an option to edit (if more than one)
          * returns true if something is changed, otherwise returns false */
         virtual bool query() {
             return false;
