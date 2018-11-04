@@ -1,7 +1,7 @@
-#include "debug.h"
 #include "itype.h"
-#include "game.h"
-#include "item_factory.h"
+#include "debug.h"
+#include "player.h"
+#include "output.h"
 #include "translations.h"
 
 #include <stdexcept>
@@ -14,9 +14,22 @@ std::string gunmod_location::name() const
     return _( _id.c_str() );
 }
 
-std::string itype::nname( unsigned int const quantity ) const
+std::string itype::nname( unsigned int quantity ) const
 {
+    // Always use singular form for liquids.
+    // (Maybe gases too?  There are no gases at the moment)
+    if( phase == LIQUID ) {
+        quantity = 1;
+    }
     return ngettext( name.c_str(), name_plural.c_str(), quantity );
+}
+
+long itype::charges_per_volume( const units::volume &vol ) const
+{
+    if( volume == 0 ) {
+        return item::INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
+    }
+    return ( stackable ? stack_size : 1 ) * vol / volume;
 }
 
 // Members of iuse struct, which is slowly morphing into a class.
@@ -58,7 +71,7 @@ long itype::invoke( player &p, item &it, const tripoint &pos ) const
     if( !has_use() ) {
         return 0;
     }
-    return use_methods.begin()->second.call( p, it, false, pos );
+    return invoke( p, it, pos, use_methods.begin()->first );
 }
 
 long itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
@@ -70,5 +83,17 @@ long itype::invoke( player &p, item &it, const tripoint &pos, const std::string 
         return 0;
     }
 
+    const auto ret = use->can_call( p, it, false, pos );
+
+    if( !ret.success() ) {
+        p.add_msg_if_player( m_info, ret.str() );
+        return 0;
+    }
+
     return use->call( p, it, false, pos );
+}
+
+std::string gun_type_type::name() const
+{
+    return pgettext( "gun_type_type", name_.c_str() );
 }

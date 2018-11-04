@@ -4,6 +4,7 @@
 #include "json.h"
 #include "generic_factory.h"
 #include "output.h"
+#include "string_formatter.h"
 
 #include <array>
 #include <vector>
@@ -26,7 +27,7 @@ struct rotatable_symbol {
 
 std::vector<rotatable_symbol> symbols;
 
-} // anonymouse namespace
+} // anonymous namespace
 
 namespace rotatable_symbols
 {

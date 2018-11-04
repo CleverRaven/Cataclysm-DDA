@@ -1,0 +1,61 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "furniture" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        " |ggggggggg++ggggggggg| ",
+        " |.C.h.H......O.O.&.&.| ",
+        " |B......c............| ",
+        " |B......c............| ",
+        " |cccccccc...#.m..e..B| ",
+        " |bb...........m..e..B| ",
+        " |d..........mm...e..B| ",
+        " |bb.................B| ",
+        " |bb.....dd..OO..oo...| ",
+        " |#......dd..OO..oo..B| ",
+        " |h..................B| ",
+        " |h......EE..CC..&&..B| ",
+        " |H......EE..CC..&&..B| ",
+        " |H...................| ",
+        " |......BBBBBBBBBBBBBB| ",
+        " |DD------------------| ",
+        " |......D               ",
+        " |BBBB..D               ",
+        " |------|               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_pavement", "+": "t_door_c", "-": "t_wall", "D": "t_door_locked", "g": "t_wall_glass", "|": "t_wall" },
+      "furniture": {
+        "#": "f_table",
+        "&": "f_fridge",
+        "B": "f_rack",
+        "C": "f_cupboard",
+        "E": "f_bookcase",
+        "H": "f_armchair",
+        "O": "f_oven",
+        "b": "f_bed",
+        "c": "f_counter",
+        "d": "f_dresser",
+        "e": "f_desk",
+        "h": "f_chair",
+        "m": "f_sofa",
+        "o": "f_toilet"
+      },
+      "place_items": [
+        { "item": "tools_carpentry", "x": 21, "y": [ 5, 8 ], "chance": 50, "repeat": 2 },
+        { "item": "hardware", "x": 21, "y": [ 10, 13 ], "chance": 50, "repeat": 2 },
+        { "item": "hardware", "x": [ 8, 21 ], "y": 15, "chance": 75, "repeat": 4 },
+        { "item": "tools_carpentry", "x": [ 2, 5 ], "y": 18, "chance": 75, "repeat": 2 },
+        { "item": "magazines", "x": 2, "y": [ 3, 4 ], "chance": 75, "repeat": 1 }
+      ]
+    }
+  }
+]

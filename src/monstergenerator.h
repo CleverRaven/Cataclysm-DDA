@@ -2,15 +2,17 @@
 #ifndef MONSTER_GENERATOR_H
 #define MONSTER_GENERATOR_H
 
-#include "json.h"
 #include "enums.h"
 #include "string_id.h"
 #include "mattack_common.h"
+#include "pimpl.h"
 
 #include <map>
 #include <memory>
+#include <vector>
 #include <set>
 
+class JsonObject;
 class Creature;
 struct mtype;
 enum m_flag : int;
@@ -19,7 +21,7 @@ enum m_size : int;
 class monster;
 class Creature;
 struct dealt_projectile_attack;
-using mon_action_death  = void ( * )( monster * );
+using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 using mtype_id = string_id<mtype>;
@@ -64,19 +66,24 @@ class MonsterGenerator
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
 
-
         void check_monster_definitions() const;
 
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
+        /**
+         * Registers a LUA based monster attack function.
+         * @param name The name that is used in the json data to refer to the LUA function.
+         * It is stored in @ref attack_map
+         * @param lua_function The LUA id of the LUA function.
+         */
+        void register_monattack_lua( const std::string &name, int lua_function );
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
 
     protected:
-        m_flag m_flag_from_string( std::string flag ) const;
+        m_flag m_flag_from_string( const std::string &flag ) const;
     private:
-        /** Default constructor */
         MonsterGenerator();
 
         // Init functions
@@ -107,9 +114,8 @@ class MonsterGenerator
         friend class string_id<species_type>;
         friend class string_id<mattack_actor>;
 
-        // Using unique_ptr here to avoid including generic_factory.h in this header.
-        std::unique_ptr<generic_factory<mtype>> mon_templates;
-        std::unique_ptr<generic_factory<species_type>> mon_species;
+        pimpl<generic_factory<mtype>> mon_templates;
+        pimpl<generic_factory<species_type>> mon_species;
         std::vector<mtype_id> hallucination_monsters;
 
         std::map<std::string, phase_id> phase_map;

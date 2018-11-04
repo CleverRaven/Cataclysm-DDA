@@ -26,11 +26,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "turns_per_charge": 5,
-    "proportional": {
-      "weight": 0.21,
-      "volume": 0.25,
-      "price": 0.2
-    },
+    "proportional": { "weight": 0.21, "volume": 0.25, "price": 0.2 },
     "use_action": "RADIOCONTROL"
   },
   {
@@ -44,11 +40,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "revert_to": "radio_car",
-    "proportional": {
-      "weight": 0.73,
-      "volume": 0.75,
-      "price": 0.8
-    },
+    "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
     "use_action": "RADIOCAR",
     "flags": [ "RADIO_CONTAINER" ]
   },

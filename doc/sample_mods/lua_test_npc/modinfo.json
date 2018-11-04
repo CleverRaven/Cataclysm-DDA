@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "lua_test_npc",
+    "name": "Lua sample code: NPC",
+    "authors": [ "LISP" ],
+    "maintainers": [ "LISP" ],
+    "description": "Sample code of NPC related functions.",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  }
+]

@@ -7,7 +7,8 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 14,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 30,
     "speed": 100,
     "material": [ "steel" ],
@@ -30,12 +31,7 @@
         "require_sunlight": true
       }
     ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 10 ],
-        [ "laserturret", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 10 ], [ "laserturret", 1 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
@@ -47,7 +43,8 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 30,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 40,
     "speed": 100,
     "material": [ "steel" ],
@@ -58,6 +55,7 @@
     "armor_bash": 14,
     "armor_cut": 16,
     "luminance": 210,
+    "revert_to_itype": "bot_antimateriel",
     "starting_ammo": { "50bmg": 100 },
     "special_attacks": [
       {
@@ -65,6 +63,7 @@
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "m107a1",
+        "ammo_type": "50bmg",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
@@ -78,12 +77,7 @@
         "no_ammo_sound": "a chk!"
       }
     ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 9 ],
-        [ "turret_bmg", 2 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 9 ], [ "turret_bmg", 2 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
@@ -91,11 +85,12 @@
     "id": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "milspec turret",
-    "description": "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
+    "description": "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9x19mm model and an automated M4 carbine.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 20,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 40,
     "speed": 100,
     "material": [ "steel" ],
@@ -117,18 +112,10 @@
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 8 ] ],
         "fake_dex": 10,
         "range": 18,
-        "ranges": [
-          [ 0, 8, "AUTO" ],
-          [ 9, 16, "DEFAULT" ]
-        ]
+        "ranges": [ [ 0, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ]
       }
     ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 9 ],
-        [ "turret_rifle", 2 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 9 ], [ "turret_rifle", 2 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   }

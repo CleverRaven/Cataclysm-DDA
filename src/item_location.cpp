@@ -6,6 +6,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_selector.h"
+#include "json.h"
 #include "character.h"
 #include "player.h"
 #include "vehicle.h"
@@ -13,9 +14,11 @@
 #include "veh_type.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "vpart_position.h"
 #include "translations.h"
 
 #include <climits>
+#include <list>
 #include <algorithm>
 
 template <typename T>
@@ -55,6 +58,7 @@ class item_location::impl
         class item_on_vehicle;
 
         impl() = default;
+        impl( std::list<item> *what ) :  what( &what->front() ), whatstart( what ) {}
         impl( item *what ) : what( what ) {}
         impl( int idx ) : idx( idx ) {}
 
@@ -100,9 +104,25 @@ class item_location::impl
             return what;
         }
 
+        // Add up the total charges of a stack of items
+        long charges_in_stack( unsigned int countOnly ) const {
+            long sum = 0L;
+            unsigned int c = countOnly;
+            // If the list points to a nullpointer, then the target pointer must still be valid
+            if( whatstart == nullptr ) {
+                return target()->charges;
+            }
+            for( std::list<item>::iterator it = whatstart->begin(); it != whatstart->end() && c; ++it, --c ) {
+                sum += it->charges;
+            }
+            return sum;
+        }
+
     private:
         mutable item *what = nullptr;
         mutable int idx = -1;
+        //Only used for stacked cash card currently, needed to be able to process a stack of different items
+        mutable std::list<item> *whatstart = nullptr;
 };
 
 class item_location::impl::nowhere : public item_location::impl
@@ -122,6 +142,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
     public:
         item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
+        item_on_map( const map_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
@@ -183,7 +204,7 @@ class item_location::impl::item_on_map : public item_location::impl
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur );
 
-            //@ todo handle unpacking costs
+            //@todo: handle unpacking costs
 
             return mv;
         }
@@ -193,17 +214,35 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 };
 
+static bool gun_has_item( const item &gun, const item *it )
+{
+    if( !gun.is_gun() ) {
+        return false;
+    }
+
+    if( gun.magazine_current() == it ) {
+        return true;
+    }
+
+    auto gms = gun.gunmods();
+    return !gms.empty() && std::find( gms.begin(), gms.end(), it ) != gms.end();
+}
+
 class item_location::impl::item_on_person : public item_location::impl
 {
     private:
         Character &who;
 
     public:
+        item_on_person( Character &who, std::list<item> *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
 
         bool valid() const override {
-            return target() && who.has_item( *target() );
+            const item *targ = target();
+            return targ && who.has_item_with( [targ]( const item & it ) {
+                return &it == targ || gun_has_item( it, targ );
+            } );
         }
 
         void serialize( JsonOut &js ) const override {
@@ -280,7 +319,7 @@ class item_location::impl::item_on_person : public item_location::impl
 
             auto parents = who.parents( *target() );
             if( !parents.empty() && who.is_worn( *parents.back() ) ) {
-                // if outermost parent item is worn status effects (eg. GRABBED) are not applied
+                // if outermost parent item is worn status effects (e.g. GRABBED) are not applied
                 // holsters may also adjust the volume cost factor
 
                 if( parents.back()->can_holster( obj, true ) ) {
@@ -300,12 +339,12 @@ class item_location::impl::item_on_person : public item_location::impl
 
             } else {
                 // it is more expensive to obtain items from the inventory
-                // @todo calculate cost for searching in inventory proportional to item volume
+                // @todo: calculate cost for searching in inventory proportional to item volume
                 mv += dynamic_cast<player &>( who ).item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
             }
 
             if( &ch != &who ) {
-                // @todo implement movement cost for transfering item between characters
+                // @todo: implement movement cost for transferring item between characters
             }
 
             return mv;
@@ -323,6 +362,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
+        item_on_vehicle( const vehicle_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
@@ -397,7 +437,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                      VEHICLE_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
-            //@ todo handle unpacking costs
+            //@todo: handle unpacking costs
 
             return mv;
         }
@@ -422,11 +462,20 @@ const item_location item_location::nowhere;
 item_location::item_location()
     : ptr( new impl::nowhere() ) {}
 
+item_location::item_location( const map_cursor &mc, std::list<item> *which )
+    : ptr( new impl::item_on_map( mc, which ) ) {}
+
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new impl::item_on_map( mc, which ) ) {}
 
+item_location::item_location( Character &ch, std::list<item> *which )
+    : ptr( new impl::item_on_person( ch, which ) ) {}
+
 item_location::item_location( Character &ch, item *which )
     : ptr( new impl::item_on_person( ch, which ) ) {}
+
+item_location::item_location( const vehicle_cursor &vc, std::list<item> *which )
+    : ptr( new impl::item_on_vehicle( vc, which ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new impl::item_on_vehicle( vc, which ) ) {}
@@ -489,12 +538,17 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new impl::item_on_map( pos, idx ) );
 
     } else if( type == "vehicle" ) {
-        auto *veh = g->m.veh_at( pos );
+        vehicle *const veh = veh_pointer_or_null( g->m.veh_at( pos ) );
         int part = obj.get_int( "part" );
         if( veh && part >= 0 && part < int( veh->parts.size() ) ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     }
+}
+
+long item_location::charges_in_stack( unsigned int countOnly ) const
+{
+    return ptr->charges_in_stack( countOnly );
 }
 
 item_location::type item_location::where() const

@@ -274,7 +274,7 @@
     "copy-from": "plasma_rifle",
     "type": "GUN",
     "name": "plasma rifle",
-    "description": "Developed by a cutting edge weapons research team together with DARPA, this UPS-powerd energy weapon heats hydrogen to create plasma and envelopes it with polymers to reduce blooming.  While powerful, it suffers from short range.  It accepts hydrogen canisters as ammunition."
+    "description": "Developed by a cutting edge weapons research team together with DARPA, this UPS-powered energy weapon heats hydrogen to create plasma and envelopes it with polymers to reduce blooming.  While powerful, it suffers from short range.  It accepts hydrogen canisters as ammunition."
   },
   {
     "id": "deagle_44",
@@ -284,5 +284,12 @@
     "description": "A powerful semi-automatic pistol which fires revolver rounds.  Loads a detachable, 7-round magazine.",
     "ammo": "44",
     "magazines": [ [ "44", [ "deaglemag" ] ] ]
+  },
+  {
+    "id": "m3_carlgustav",
+    "copy-from": "m3_carlgustav",
+    "type": "GUN",
+    "name": "recoilless rifle",
+    "description": "The recoilless rifle is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle commonly used by the US military."
   }
 ]

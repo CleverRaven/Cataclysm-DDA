@@ -1,0 +1,100 @@
+Bugfixes Fix all projectiles causing explosions
+Bugfixes Make RELOAD_AND_SHOOT items reloadable
+Balance Fire station built from brick
+Interface Escapable menu for sorting items in advanced inventory
+Bugfixes Remove auto-attempt to repair item on entry to repair menu.
+Content Adds ammo bandoliers
+Balance Drop more legacy item groups and add magazines
+Infrastructure Drop unused parameter from visitable class
+Bugfixes Ensure gun_noise cannot become negative
+Balance Helmet netting becomes obsolete
+Balance Rework more tool groups
+Balance Update 44 reloaded ammo to match base
+Features Vehicles can spawn items with magazines and ammo
+Balance Adjust torch description to not explicitly say gasoline.
+Features Stumbling and following improvements
+Bugfixes Debug build crash when smashing the last bit of a vehicle
+Interface Add visual evidence of vomiting
+Features NPCs reloading mags
+Balance Set default for addiction_type in comestibles
+Infrastructure Encapsulate pain
+Balance Remove UPS component from UPS battery mod
+Balance Add alternative magazines
+Balance Add more magazine drops for milspec weapons
+Balance Drop stash_ammo item group
+Balance Drop unused item groups (guns/ammo)
+Bugfixes Fix bad conditional in item::ammo_set
+Balance Rebalance flintlock weapons
+Build Throw exception on debugmsg in unit tests
+Mods Update magazine blacklisting mod
+Mods PKs Rebalancing Mod: Blobs and zoms
+Infrastructure Change iexamine signature
+Bugfixes Fix NPCs invoking reach attacks with standalone gunmods
+Content Real French Fries
+Balance Remove default entries from comestibles part 1
+Bugfixes Fixes Item_modifier::modify() not setting curammo appropriately
+Features Apply persistent morale
+Bugfixes Fix a crash on load with a non-existing mod
+Balance Vehicle part weight/efficiency adjustments
+Balance Remove default entries from comestibles part 2
+Bugfixes fix #14786 - pumpkinbug: spawn at least one item upon harvesting a bush
+Balance Add flags to SKS
+Balance Add weight and volume of default magazine
+Balance Drop remaining ues of tools and bigtools
+Bugfixes Fix regression of ammo_effects
+Bugfixes Misc gunmod fixes
+Balance Reduce recoil penalty during burst fire
+Balance Drop charge rifle
+Balance Remove default entries from comestibles part 3
+Balance Fuel balancing (part 1)
+Infrastructure Implement visitable::remove_items_with
+Content Add mechanical winch for brick walls
+Balance Add plural names for ammunition
+Features Headgear now can actually be worn with power armor
+Content Vet Clinic Update
+Infrastructure Remove ATTACKMON from monsters that don't need it
+Balance Remove default entries from comestibles part 5
+Balance Update some materials in comestibles
+Build Bump minimum supported compiler versions. (please comment if you have a use case that requires an older compiler)
+Balance Necropolis mapgen -> general mapgen. Part 2.
+Bugfixes Fixes a divide by zero situation with zero dex
+Infrastructure De-uglify code for wearing headgear with power armor
+Interface More robust aim bars
+Infrastructure Make DIG iuse do something useful
+Bugfixes Vehicle collision bugfixes
+Bugfixes fix water tanks not getting drained without a kitchen unit present
+Bugfixes Fixed a main menu spelling error.
+Infrastructure Renamed car_corner_aban1 from green to car corner
+Balance Necropolis mapgen fixes
+Interface Prevent window minimize on fullscreen borderless when focus lost
+Interface Rearange main rendering method to place curses cursor on @ at the end.
+Features Allow autolearn at different level than crafting difficulty
+Content Buckets
+Interface Chinese credits and motd
+Infrastructure Remove null material from item definitions.
+Features Alcohol mixing for storage
+Features Bring back NPC hunger and thirst
+Bugfixes Fix monsters seeing at full range in darkness underground
+Bugfixes Fix turrets having infinite (but very weak) ammo
+Features NPCs pulping corpses
+Interface Add a cache refresh before drawing pixel minimap.
+Bugfixes Added check to assure items with no batteries are not required to use batteries to cauterize wounds
+Infrastructure Provide default for reload time
+Bugfixes respect allergies and check for already worn boots/hats for oversized clothing. fixes #15834
+Balance Adrenaline rebalance
+Bugfixes Fix NPCs eating entire stacks at once
+Infrastructure Static helpers
+Interface Adjust armor layer UI help text
+Interface armor layer UI: Make ? key display keybindings menu
+Bugfixes Check if you can drop items before dropping items
+Interface Describe vehicle parts as interior/exterior, not in/out
+Bugfixes Fix live_view off-by-one error
+Balance Add inaccuracy penalty whilst driving
+Interface Add option to select which video display is used
+Interface Examine critters before vehicles
+Bugfixes Fix items becoming buckets when they shouldn't
+Bugfixes Fix NPC sight range dropping below 1
+Balance Make rain drenching slower, harder to completely avoid
+Bugfixes Don't abort pickup from vehicles on SEALED terrain
+Bugfixes Don't clear terminal at exit when TILES=1
+I18N Fix of untranslated (sub)category in crafting gui.

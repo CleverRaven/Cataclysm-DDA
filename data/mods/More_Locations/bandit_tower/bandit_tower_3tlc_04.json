@@ -1,0 +1,60 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_3tlc",
+        "comment" : "top left corner, third and odd level floors.",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "#######==ff=====ff==ww==",
+                "#######=..z.|x+....|bb==",
+                "#####===....|-|..z.|..==",
+                "#####===......|....|....",
+                "###=====fffFff-fFff-....",
+                "###=..........F.........",
+                "###=l.....-------ffFf-++",
+                "###fl.....|lll|W|....|xx",
+                "###fl.....+....~|..z.|--",
+                "###fl.....|lll|0|....+.x",
+                "###=l.....--------------",
+                "###=......F..F....F.....",
+                "###=-ffFff---|....F.....",
+                "###f.........|..===!!==.",
+                "###f....zz...|..===..Mee",
+                "###f.........|..==<<<Mee",
+                "###f.........|..==<<<Mee",
+                "###f....zz...|FF==<<<Mee",
+                "###f.zz......|..=MMMMMMM",
+                "###f.........|..=eeeeM==",
+                "###===-------|...eeeeM=="
+            ],
+            "rotation": 0,
+            "palettes": [
+                "tri_tower",
+                "upper_level",
+                "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "f": "t_chainfence_v",
+                "F": "t_chaingate_c"
+            },
+            "item":{
+                "l": [ 
+                    { "item": "pet_carrier", "chance": 10 }, 
+                    { "item": "dog_whistle", "chance": 10 }, 
+                    { "item": "kevlar_harness", "chance": 10 }, 
+                    { "item": "leather_collar", "chance": 10 }
+                ],
+                "x": { "item": "dogfood", "amount": [ 10, 20 ] }
+            },
+            "monster":{
+                "z": { "monster": "mon_dog" }
+            }
+        }
+    }
+]

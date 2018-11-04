@@ -1,0 +1,100 @@
+Infrastructure Remove duplication of font settings code
+Infrastructure Implement and use a copy_file function
+Mods Removed DangerNoodle from Extended Realistic Guns maintainer list
+Balance Add CUT_FINE 1 to Pocket Knife
+Balance Brought military armor naming in line with the rest of the platings
+Balance Reduced bottlejack weight (12>7) + increased scissors (1.2>3)
+Infrastructure Added ability for mutations to spawn items via JSON.
+Balance Anti-glare Compensators now can help with sun irritating albino's eyes
+Bugfixes Bow/Quiver fixes
+Bugfixes No thunder while sleeping
+Content Added alternative crafting options for welding goggles
+Infrastructure Jsonize mutation messages
+Performance Losslessly compress all tiles
+Mods Added Urban Development Mod
+Infrastructure Move hardcoded temperature effects to functions
+Bugfixes Grammar fixes
+Performance Remove unused consts in newcharacter.cpp
+Infrastructure Initialize mapgen_cfunction_map directly
+Bugfixes Convert line endings of Urban Development mod to LF
+Balance Moved crossbows and bolts crafting over to fabrication
+Balance Restored the old CW-24 30-round ammo capacity and buffed CW-24 extended magazine
+Content Bone flute
+I18N Extract iv_sleep_message
+Balance Change the empty canister material to steel
+Infrastructure Remove unused function declaration.
+Infrastructure Pgettext "L" as "liter" to differentiate it from "L" as "Light"
+Bugfixes Fix dairy farm.
+Performance Don't store translated material attributes.
+Interface Overmap overhaul (step 9)
+Interface Some enhancements and fixes to pixel minimap
+Infrastructure Changed mod->aim_cost to allow 0 aim cost sights
+Interface Add deconstruction recipes for missing ammo types
+Features Removed ability to pry open closed non-locked doors
+Balance "No one is immune to fire"
+Infrastructure Remove unused function find_furn_id
+I18N Leave color command of auto notes untranslated
+Mods Urban Development Part 2
+Bugfixes Fix some vehicle bugs
+Infrastructure Remove dependency on json.h from enums.h
+Balance Added metal smoother to tools_construction
+Balance Change batch craft xp gain formula to be more similar to individual
+Interface Display actual nutrition acquired, rework rotten food penalties
+Bugfixes Fix infinite move edge case with irradiated wanderers, version 2.
+Balance Rare martial art books spawn
+Balance Changed recipies to use filament group.
+I18N Translation for message about infection caused through filthy items
+Infrastructure Add intermediate clairvoyance level.
+Features Allow resolutions up to 8K UHD (7680×4320)
+Bugfixes Fake-item-granting bionics now invalidate crafting inventory cache
+Interface Ranch border visible on overmap
+Balance Nerfed .50 BMG ball cartridge weight
+Infrastructure Update issue template
+Content Diesel V12 engine and Heavy Duty Cargo Truck
+Balance Halves power usage on optical_cloak
+Interface Added weapons category for batons.
+Bugfixes Minor punctuation fixes
+Bugfixes Prevent profession items from being auto worn at character creation
+Features Search the overmap around the cursor
+Bugfixes World related fixes
+Infrastructure Added the ability to load mods from user_dir/mods
+Infrastructure Add wrapper function for finding suitable points for mapgen
+I18N Make the trap name field private and untranslated, translate it later
+Infrastructure Remove some unused inventory code
+Interface Vehicle UI: Highlight parts for removal in overview
+Bugfixes Correct the t_tree_hickory entry
+Infrastructure Moved radio_tower mapgen to JSON
+Infrastructure Moved sub_station mapgen to JSON
+Balance Allow deconstruction of t_door_frame
+Infrastructure Moved bank mapgen to json
+Infrastructure Moved LMOE mapgen to json
+I18N Translate ammo name when needed, not when loaded.
+Bugfixes Fix negative health not being applied
+Balance Fix 9mm and 7.62x25 uncraft recipes
+Bugfixes Fixed starting mission for SFC
+Balance Add earplugs to multiple professions
+Interface Keep harvested underbrush terrain name unchanged like other harvestables.
+Interface Make crafting properly use misc. liquids from vehicles
+Balance Stop infinite hickory nuts
+Bugfixes Replaced custom_flags with custom-flags in data/json/professions.json
+Content Added metal and sandbag backstop to s_gun0.json gun range, and earplugs
+Infrastructure JSONized mapgen_basement_junk.cpp gunsafe
+Balance Remove kinetic bullet puller from paper cartridge uncraft recipe
+Balance Allow placement of reinforced machines through place_vending and fix the low amount of spawned items
+Infrastructure Astyling continues...
+Balnace Raised 2x4 ingredient req from 1 to 2 for some arrows
+Features Always save the latest created character as a template "Last Character".
+Interface Color NPC/Player background cyan when grabbed.
+Balance Added gunsmith kit to tools_gunsmith itemgroup
+Features Give players back the ability to hear soft sounds from their own tile
+Mods Adds light survivor cargo pants to no survivor gear mod
+Balance Drop Floodlight power drain to be in line with headlights.
+I18N Actually translate material name.
+Interface Remove item::serialize overload with the boolean parameter.
+Infrastructure Reset npc kill count, just like monster kill count.
+I18N Translate name of starting location on the fly.
+Bugfixes Fix spiritual applying morale too soon
+Infrastructure Show that palettes can include toilets
+Bugfixes Remove ammo recipe uncraft duplicates
+Bugfixes Razorclaws avoid metal wreckage
+I18N Translated sentence in veh_interact.cpp

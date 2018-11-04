@@ -42,7 +42,7 @@
       "items":[
         [ "e1776", 2 ],
         ["hk_mp5eod", 2],
-        ["ltcarb", 4]
+        ["light_carb", 4]
       ]
     },
     {
@@ -50,14 +50,14 @@
       "id" : "cop_armory",
       "items":[
         ["arccan", 5],
-        ["ltcarb", 5]
+        ["light_carb", 5]
       ]
     },
     {
       "type" : "item_group",
-      "id" : "prison_Weapons",
+      "id" : "prison_weapons",
       "items":[
-        ["ltcarb", 5]
+        ["light_carb", 5]
       ]
     },
     {
@@ -65,7 +65,7 @@
       "id" : "cop_weapons",
       "items":[
         ["arccan", 5],
-        ["ltcarb", 5]
+        ["light_carb", 5]
       ]
     },
     {

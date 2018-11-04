@@ -2,9 +2,9 @@
 
 **Opening new issue?** Please read [ISSUES.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/ISSUES.md) first.
 
-Contributing to Cataclysm: Dark Days Ahead is easy - simply fork the repository here on GitHub, make your changes, and then send us a pull request.
+Contributing to Cataclysm: Dark Days Ahead is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
-Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license.  The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever.  See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
 
 ## Guidelines
@@ -18,7 +18,7 @@ There are a couple of guidelines we suggest sticking to:
 
 ## Code Style
 
-Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See [CODE_STYLE](../doc/CODE_STYLE.md) for details
+Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See [CODE_STYLE](../doc/CODE_STYLE.md) for details.
 
 ## Translations
 
@@ -92,12 +92,21 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
         $ git clone https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
         # Clones your fork of the repository into the current directory in terminal
 
-3. Add this repository as a remote.
+3. Set commit message template.
+
+        $ git config --local commit.template .gitmessage
+
+4. Add this repository as a remote.
 
         $ cd Cataclysm-DDA
         # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
+
+For further details about commit message guidelines please visit:
+- [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
+- [chris.beams.io](https://chris.beams.io/posts/git-commit/)
+- [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
 
 #### Update your `master` branch
 
@@ -134,11 +143,41 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
 ## Pull Request Notes
-* Mark pull requests that are still being worked on by adding [WIP] before the title
-    * When a pull request is ready to be reviewed remove the [WIP]
-* Mark pull requests that need commenting/testing by others with [CR] before the title
-    * [WIP] has higher precedence than [CR]. Feel free to remove [CR] when you feel you got enough information
-* If the pull request fixes a issue listed on github, include "fixes #???" into the text, where ??? is the number of the issue. This automatically closes the issue when the PR is pulled in, and allows mergers to work slightly faster. For further details see issue #2419.
+If you file a PR but you're still working on it, please add a [WIP] before the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
+
+If you are also looking for suggestions then mark it with [CR] — "comments requested". You can use both [WIP] and [CR] to indicated that you need opinion/code review/suggestions to continue working (e.g. "[WIP] [CR] Super awesome big feature"). Feel free to remove [CR] when you feel you got enough information to proceed.
+
+This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
+
+### All PRs should have a "Summary" line
+Summary is a one-line description of your change that will be extracted and added to the project changelog at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt
+
+The format is: ```SUMMARY: Category "description"```
+
+The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N.
+
+Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
+Or, if you want it treated as a minor tweak that doesn't appear in the changelog:
+```SUMMARY: None```
+
+See the Changelog Guidelines at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md for explanations of the categories.
+
+### Closing issues using keywords
+
+One more thing: when marking your PR as closing, fixing, or resolving issues, please include "XXXX #???" somewhere in the description, where XXX is on this list:
+* close
+* closes
+* closed
+* fix
+* fixes
+* fixed
+* resolve
+* resolves
+* resolved
+
+The "???" is the issue number. This automatically closes the issue when the PR is pulled in, and allows merges to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
+
+See https://help.github.com/articles/closing-issues-using-keywords/ for more.
 
 ## Advanced Techniques
 
@@ -183,25 +222,6 @@ You can also set the tracking information at the same time as creating the branc
         To https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
         xxxx..xxxx  new_feature -> new_feature
 
-#### PR Tags
-If you file a PR but you're still working on it, please add a [WIP] before the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
-
-If you are also looking for suggestions then mark it with [CR] - "comments requested". You can use both [WIP] and [CR] to indicated that you need opinion/code review/suggestions to continue working (e.g. "[WIP] [CR] Super awesome big feature"). Feel free to remove [CR] when you feel you got enough information to proceed.
-
-This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
-
-One more thing: when marking your PR as closing, fixing, or resolving issues, please include "XXXX #???" somewhere in the description, where XXX is on this list:
-close
-closes
-closed
-fix
-fixes
-fixed
-resolve
-resolves
-resolved
-The "???" is the issue number. This automatically closes the issue when the PR is pulled in, and allows merges to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
-
 ## In-game testing, test environment and the debug menu
 
 Whether you are implementing a new feature or whether you are fixing a bug, it is always a good practice to test your changes in-game. It can be a hard task to create the exact conditions by playing a normal game to be able to test your changes, which is why there is a debug menu. There is no default key to bring up the menu so you will need to assign one first.
@@ -244,7 +264,7 @@ Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to t
 └────────────────────────────────────────────┘
 ```
 
-With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://tools.cataclysmdda.com/wiki).
+With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php).
 
 ## Frequently Asked Questions
 

@@ -1,0 +1,58 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_3brc",
+        "comment" : "bottom right corner, third and odd level floors.",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "#######==ww=====ww==ww==",
+                "#######=L...c.....L|LL==",
+                "#####===.......c...|..==",
+                "#####===..c......c.|....",
+                "###=====+------+----....",
+                "###=*..............+....",
+                "###=......1-----1+----++",
+                "###.......|Y...Y|cccc|dd",
+                "###.......+..~..|CCTT|--",
+                "###......@|Y...Y|BBTT+dd",
+                "###=......1-----1-------",
+                "###=.........!..........",
+                "###=--....---|..........",
+                "###jbb....|bb|..===!!==.",
+                "###jb...c...b|..===..Mee",
+                "###jb...TT..b|..==<<<Mee",
+                "###jb..cTT..b|..==<<<Mee",
+                "###jb.......b|..==<<<Mee",
+                "###jb...a...b|..=MMMMMMM",
+                "###j*bbbbbbb*|..=eeeeM==",
+                "###===-------|...eeeeM=="
+            ],
+            "rotation": 2,
+            "palettes": [
+                "tri_tower",
+                "upper_level",
+                "bandit_tower_stuff"
+            ],
+            "terrain":{
+                "j": "t_wall_wood",
+                "Y": "t_column"
+            },
+            "items":{
+                "b": { "item": "novels", "chance": 40 },
+                "L": [ 
+                    { "item": "mussto_stringinst", "chance": 50 }, 
+                    { "item": "mussto_windinst", "chance": 50 }
+                ]
+            },
+            "npcs": {
+                "@": { "class": "thug" }
+            }
+        }
+    }
+]

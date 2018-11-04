@@ -7,12 +7,13 @@
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 19,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 80,
     "speed": 70,
     "material": [ "steel" ],
     "symbol": "R",
-    "color": "dkgray",
+    "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
     "armor_bash": 14,
@@ -37,7 +38,7 @@
       ]
     },
     "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ]
   },
   {
     "id": "mon_turret",
@@ -47,12 +48,13 @@
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 14,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 30,
     "speed": 100,
     "material": [ "steel" ],
     "symbol": "2",
-    "color": "ltgray",
+    "color": "light_gray",
     "aggression": 100,
     "morale": 100,
     "armor_bash": 14,
@@ -69,8 +71,7 @@
           [ 0, 6, "AUTO" ],
           [ 7, 12, "DEFAULT" ]
         ]
-      }
-    ],
+      }, [ "PARROT", 40 ] ],
     "death_drops": {
       "groups": [
         [ "robots", 10 ],

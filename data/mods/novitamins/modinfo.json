@@ -9,7 +9,14 @@
     "dependencies": [ "dda" ]
   },
   {
-    "type": "WORLD_OPTION",
-    "options": [ "NO_VITAMINS" ]
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_VITAMINS",
+    "info": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [ "calcium_tablet", "vitamins" ]
   }
 ]

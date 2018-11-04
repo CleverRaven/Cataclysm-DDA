@@ -145,7 +145,7 @@ This function is useful when the original string's meaning is ambiguous in
 isolation. For example, the word "blue", which can mean either a color or an
 emotion.
 
-In adition to the translatable string, `pgettext` recieves a context which is
+In addition to the translatable string, `pgettext` receives a context which is
 provided to the translators, but is not part of the translated string itself.
 This function's first parameter is the context, the second is the string to be
 translated:
@@ -211,7 +211,7 @@ So for example if your local language is New Zealand English (en_NZ), and you wa
 
 
 [1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
-[2]: http://smf.cataclysmdda.com/index.php?board=14.0
+[2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion
 [3]: https://docs.transifex.com/
 [4]: ../lang/notes
 [5]: https://www.gnu.org/software/gettext/

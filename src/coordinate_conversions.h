@@ -8,14 +8,14 @@
  * Coordinate systems used here are:
  * overmap (om): the position of an overmap. Each overmap stores
  * this as overmap::loc (access with overmap::pos()).
- * There is a unique overmap for each overmap coord.
+ * There is a unique overmap for each overmap coordinate.
  *
  * segment (seg): A segment is a unit of terrain saved to a directory.
- * Each segment contains 32x32 overmap terrains, and is used only for
+ * Each segment contains SEG_SIZExSEG_SIZE overmap terrains, and is used only for
  * saving/loading submaps, see mapbuffer.cpp.
  * Translation from omt to seg:
- * om.x /= 32
- * om.y /= 32
+ * om.x /= SEG_SIZE
+ * om.y /= SEG_SIZE
  * (with special handling for negative values).
  *
  * overmap terrain (omt): the position of a overmap terrain (oter_id).
@@ -176,7 +176,7 @@ inline point ms_to_sm_remain( point &p )
     return ms_to_sm_remain( p.x, p.y );
 }
 // submap back to map squares, basically: x *= SEEX
-// Note: this gives you the map square coords of the top-left corner
+// Note: this gives you the map square coordinates of the top-left corner
 // of the given submap.
 point sm_to_ms_copy( int x, int y );
 inline point sm_to_ms_copy( const point &p )
@@ -216,6 +216,5 @@ inline point ms_to_omt_remain( point &p )
 }
 // overmap terrain to map segment.
 tripoint omt_to_seg_copy( const tripoint &p );
-
 
 #endif

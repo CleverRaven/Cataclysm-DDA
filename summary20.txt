@@ -1,0 +1,100 @@
+Interface Extend the inventory UI framework and customize gunmod installation menu
+Bugfixes Welder fix and minor buff
+Bugfixes Fix visible item search regressions
+Balance Change flask material
+Balance Change fetlock furs from legwear to footwear
+Mods Added cam_control to AFV driver's seats [Tank mod].
+Bugfixes Remove debug monster from hallu monsters spawning (fix #18343)
+Bugfixes Fix autolearn not working for some recipes
+Infrastructure NPC json update
+Content Cargo pants cutoffs
+Bugfixes Fix blobs splitting onto an NPC's tile
+Balance Rebalanced combination shotgun gunmods
+Build Update CATCH to v1.5.8
+I18N Update translators credits
+Infrastructure Tag known-to-fail unit tests with [!mayfail]
+Balance Added BB spawn
+Mods Fixed 30mm belt [Tank mod]
+Balance Add night vision from perception, fix flashlight exploit
+Features Implement NPCs picking plants
+Balance Rebalances shotgun slugs, description change
+Infrastructure Add inheritance support to generic factory
+Features Assign NPC's as vehicle crew members
+Infrastructure Convert non-AMMO items to GENERIC
+Bugfixes Fix turret installation for IRREMOVABLE mods
+Interface UI improvements for holsters
+Balance Update Necropolis part 2
+Bugfixes Don't autopickup from sealed furniture
+Bugfixes Fix e-ink tablet recipes
+Bugfixes Fix mishandled limits for items counted by charges
+Bugfixes Fixed vehicle repairing edgecase
+Bugfixes Fix debug mode crash when repairing a broken last part on a vehicle w
+Mods Added mufflers to Tanks [Tank mod]
+I18N Display localized name of firing modes
+Mods Ammo Variety Mod
+Mods Fixes hammer of the hunter, island temple basement (Arcana mod)
+Infrastructure Overhaul mod support (part 1)
+Infrastructure Pass JSON src to generic factory load()
+Infrastructure Only update player_last_moved if the player moved
+Bugfixes Fix vehicle dismantling crash
+Balance Updated 7.62x25 guns+ammo
+I18N Ignore 'data/mods/replacements.json' when extracting translation strings
+Interface Drop that "no monster description" debugmsg
+Bugfixes Fix overmap specials in mods
+Bugfixes Fix unintended buff to melee weapon skills
+Infrastructure Remove redundant entry in tool quality (amount:1)
+Infrastructure Dispersion round 2
+Bugfixes Fix #19077
+Interface Make [LOAD] the default highlighted entry in main menu if saves exist
+Content Mutant NPC update
+Balance Cap JACK requirements increased to 8000kg in constants.h.
+Interface Option to sort items by staleness, first ones to rot on top
+Balance Adds container tags to makeshift pots (MST) and stone pots
+Interface Add inheritance, strict and bounds-checking to MONSTER
+Build Support loading worlds from CLI
+Interface Make the crafting UI difficulty match what is used when crafting.
+Interface Make the repair time shown in the vehicle UI match the actual time taken
+Balance Adds storage to lumberjack
+I18N Corrected translation template
+I18N Replace UTF-8 sequence '0xC2 0xA0' with normal ASCII space '0x20'
+I18N Translation updates
+Mods Update dinosuar butcher yields [Dino Mod]
+Mods Maintenance for Icecoons mod
+I18N Display localized string of armor flags
+I18N Display localized string of mod description
+Bugfixes Fix generic factory aliases
+Bugfixes Fix IRREMOVABLE being inherited
+Bugfixes Fix items not overflowing
+Bugfixes Make explosions bash the starting point
+Mods Floodlight renaming (blazemod part)
+Infrastructure Partial astyling of bionics.cpp
+Infrastructure Remove redundant entry in tool quality (amount:1), part 2
+Build Always require RFC 4627 compliant JSON
+Bugfixes Fix regressions in vehicle interaction UI
+Bugfixes Fixed flamethrower bug
+I18N Display localized player activity stop phrase
+Infrastructure Add validity checks for gates
+Features Teleporation to adjacent overmaps
+Infrastructure Overmap specials overhaul (step 2)
+Interface Add a simple draw benchmark in the debug menu.
+Bugfixes Fixed sorting of contained food by spoilage
+Infrastructure Skip validation of obsolete mods
+Balance Remove mx_special chance from refugee centers
+Balance Update map extras
+Bugfixes Fix fruit restocking
+Bugfixes Get rid of useless debug messages from the 100 zombies mission
+Infrastructure Jsonize most of the refugee center's merchant's talk topics
+Features Make it possible to carve inscriptions into bone.
+Bugfixes Fix disassembly crash
+Mods Added more content to Expanded Realistic Guns
+Bugfixes Updated 5x50 cases
+Bugfixes Fix advanced inventory and buckets
+Bugfixes Fix dummy not being loaded
+Balance Added 5.45x39 and missing ammo types to the 223 coversion kit
+Balance Converted sword bayonet into a melee weapon
+Bugfixes Ammo linkages are stackable
+I18N Display localized unit of maximum aiming time
+Interface Adaptive (windowed or fullscreen) inventory menus
+Balance Updated COP 38
+I18N Display localized "You hear %s"
+I18N Localize official provided mods only

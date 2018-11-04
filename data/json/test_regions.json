@@ -2,7 +2,6 @@
    {
       "type": "region_settings",
       "id": "desert_test",                  "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
-      "house_basement_chance": 2,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
       "default_groundcover": [ [ "t_searth_test", 3 ], [ "t_sand", 1 ] ],
       "field_coverage": {                   "//": "biome settings for builtin field mapgen",
@@ -22,6 +21,130 @@
           },
           "boosted_other_percent": 20.0,    "//": "...accounts for this % of plant coverage"
       },
+      "forest_mapgen_settings": {
+        "forest": {
+            "sparseness_adjacency_factor": 3,
+            "item_group": "forest",
+            "item_group_chance": 1,
+            "item_spawn_iterations": 1,
+            "clear_groundcover": false,
+            "groundcover": {
+            },
+            "clear_components": false,
+            "components": {
+                "trees": {
+                    "sequence": 0,
+                    "chance": 20,
+                    "clear_types": false,
+                    "types": {
+                        "t_tree_willow": 1,
+                        "t_tree_dead": 1,
+                        "f_mutcactus_test": 200
+                    }
+                },
+                "other": {
+                    "sequence": 1,
+                    "chance": 20,
+                    "clear_types": false,
+                    "types": {
+                        "t_shrub": 1
+                    }
+                },
+                "water": {
+                    "sequence": 2,
+                    "chance": 1,
+                    "clear_types": false,
+                    "types": {
+                    }
+                }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
+            }
+        },
+        "forest_thick": {
+            "sparseness_adjacency_factor": 4,
+            "item_group": "forest",
+            "item_group_chance": 1,
+            "item_spawn_iterations": 1,
+            "clear_groundcover": false,
+            "groundcover": {
+            },
+            "clear_components": false,
+            "components": {
+                "trees": {
+                    "sequence": 0,
+                    "chance": 20,
+                    "clear_types": false,
+                    "types": {
+                        "f_mutcactus_test": 4,
+                        "t_tree_dead": 1
+                    }
+                },
+                "other": {
+                    "sequence": 1,
+                    "chance": 10,
+                    "clear_types": false,
+                    "types": {
+                        "t_shrub": 16,
+                        "t_pit": 1
+                    }
+                },
+                "water": {
+                    "sequence": 2,
+                    "chance": 1,
+                    "clear_types": false,
+                    "types": {
+                    }
+                }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
+            }
+        },
+        "forest_water": {
+            "sparseness_adjacency_factor": 2,
+            "item_group": "forest",
+            "item_group_chance": 1,
+            "item_spawn_iterations": 1,
+            "clear_groundcover": false,
+            "groundcover": {
+            },
+            "clear_components": false,
+            "components": {
+                "trees": {
+                    "sequence": 0,
+                    "chance": 100,
+                    "clear_types": false,
+                    "types": {
+                        "t_tree_willow": 2,
+                        "t_tree_dead": 1
+                    }
+                },
+                "other": {
+                    "sequence": 1,
+                    "chance": 10,
+                    "clear_types": false,
+                    "types": {
+                        "t_grass": 2,
+                        "t_shrub": 2,
+                        "t_dirt": 1
+                    }
+                },
+                "water": {
+                    "sequence": 2,
+                    "chance": 20,
+                    "clear_types": false,
+                    "types": {
+                        "t_water_sh": 1
+                    }
+                }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
+            }
+        }
+      },
       "num_forests": 2,                     "//": "# of forest chunks",
       "forest_size_min": 1,                 "//": "size range of forest chunk",
       "forest_size_max": 100,               "//": "note: 32400 tiles in omap, 250*minmax = 3750-10000 default_oters become forests",
@@ -32,6 +155,15 @@
           "type": "town",
           "shop_radius": 80,                "//": "tldr: less means more",
           "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "house_basement_chance": 1,       "//": "one_in(n) chance a house has basement",
+          "houses": {
+              "house": 1,
+              "house_base": 1
+          },
+          "basements": {
+              "basement": 1,
+              "basement_bionic": 1
+          },
           "parks": {
               "park": 2,
               "pool": 1
@@ -61,7 +193,7 @@
       "id" : "s_restaurant_deserted_test",
       "name" : "abandoned drive-through",
       "sym" : 94,
-      "color" : "dkgray_magenta",
+      "color" : "dark_gray_magenta",
       "see_cost" : 5,
       "extras" : "build",
       "mondensity" : 2,
@@ -96,7 +228,7 @@
                        "   dd                   "
                    ],
                    "terrain":{
-                       " ": "t_null",
+                       " ": "t_sand",
                        "d": "t_floor",
                        "5": "t_wall_glass",
                        "%": "t_wall_glass",
@@ -150,7 +282,7 @@
       "id" : "t_searth_test",
       "name": "scorched earth",
       "symbol": ".",
-      "color": "ltgray",
+      "color": "light_gray",
       "move_cost": 2,
       "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
    },

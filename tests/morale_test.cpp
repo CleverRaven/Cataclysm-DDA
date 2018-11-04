@@ -24,8 +24,8 @@ TEST_CASE( "player_morale" )
     }
 
     GIVEN( "temporary morale (food)" ) {
-        m.add( MORALE_FOOD_GOOD, 20, 40, 20, 10 );
-        m.add( MORALE_FOOD_BAD, -10, -20, 20, 10 );
+        m.add( MORALE_FOOD_GOOD, 20, 40, 20_turns, 10_turns );
+        m.add( MORALE_FOOD_BAD, -10, -20, 20_turns, 10_turns );
 
         CHECK( m.has( MORALE_FOOD_GOOD ) == 20 );
         CHECK( m.has( MORALE_FOOD_BAD ) == -10 );
@@ -33,19 +33,19 @@ TEST_CASE( "player_morale" )
 
         WHEN( "it decays" ) {
             AND_WHEN( "it's just started" ) {
-                m.decay( 10 );
+                m.decay( 10_turns );
                 CHECK( m.has( MORALE_FOOD_GOOD ) == 20 );
                 CHECK( m.has( MORALE_FOOD_BAD ) == -10 );
                 CHECK( m.get_level() == 10 );
             }
             AND_WHEN( "it's halfway there" ) {
-                m.decay( 15 );
+                m.decay( 15_turns );
                 CHECK( m.has( MORALE_FOOD_GOOD ) == 10 );
                 CHECK( m.has( MORALE_FOOD_BAD ) == -5 );
                 CHECK( m.get_level() == 5 );
             }
             AND_WHEN( "it's finished" ) {
-                m.decay( 20 );
+                m.decay( 20_turns );
                 CHECK( m.has( MORALE_FOOD_GOOD ) == 0 );
                 CHECK( m.has( MORALE_FOOD_BAD ) == 0 );
                 CHECK( m.get_level() == 0 );
@@ -74,8 +74,8 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "it's added/subtracted (no cap)" ) {
-            m.add( MORALE_FOOD_GOOD, 10, 40, 20, 10, false );
-            m.add( MORALE_FOOD_BAD, -10, -20, 20, 10, false );
+            m.add( MORALE_FOOD_GOOD, 10, 40, 20_turns, 10_turns, false );
+            m.add( MORALE_FOOD_BAD, -10, -20, 20_turns, 10_turns, false );
 
             CHECK( m.has( MORALE_FOOD_GOOD ) == 30 );
             CHECK( m.has( MORALE_FOOD_BAD ) == -20 );
@@ -84,8 +84,8 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "it's added/subtracted (with a cap)" ) {
-            m.add( MORALE_FOOD_GOOD, 5, 10, 20, 10, true );
-            m.add( MORALE_FOOD_BAD, -5, -10, 20, 10, true );
+            m.add( MORALE_FOOD_GOOD, 5, 10, 20_turns, 10_turns, true );
+            m.add( MORALE_FOOD_BAD, -5, -10, 20_turns, 10_turns, true );
 
             CHECK( m.has( MORALE_FOOD_GOOD ) == 10 );
             CHECK( m.has( MORALE_FOOD_BAD ) == -10 );
@@ -99,7 +99,7 @@ TEST_CASE( "player_morale" )
         CHECK( m.has( MORALE_PERM_MASOCHIST ) == 5 );
 
         WHEN( "it decays" ) {
-            m.decay( 100 );
+            m.decay( 100_turns );
             THEN( "nothing happens" ) {
                 CHECK( m.has( MORALE_PERM_MASOCHIST ) == 5 );
                 CHECK( m.get_level() == 5 );
@@ -312,20 +312,20 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
             }
-            AND_WHEN( "1 minute has passed" ) {
-                m.decay( 1 );
+            AND_WHEN( "1 turn has passed" ) {
+                m.decay( 1_turns );
                 CHECK( m.get_level() == -2 );
             }
-            AND_WHEN( "2 minutes have passed" ) {
-                m.decay( 2 );
+            AND_WHEN( "2 turns have passed" ) {
+                m.decay( 2_turns );
                 CHECK( m.get_level() == -4 );
             }
-            AND_WHEN( "3 minutes have passed" ) {
-                m.decay( 3 );
+            AND_WHEN( "3 turns have passed" ) {
+                m.decay( 3_turns );
                 CHECK( m.get_level() == -6 );
             }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60 );
+            AND_WHEN( "6 minutes have passed" ) {
+                m.decay( 6_minutes );
                 CHECK( m.get_level() == -10 );
             }
         }
@@ -347,20 +347,20 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
             }
-            AND_WHEN( "1 minute has passed" ) {
-                m.decay( 1 );
+            AND_WHEN( "1 turn has passed" ) {
+                m.decay( 1_turns );
                 CHECK( m.get_level() == -2 );
             }
-            AND_WHEN( "9 minutes have passed" ) {
-                m.decay( 9 );
+            AND_WHEN( "9 turns have passed" ) {
+                m.decay( 9_turns );
                 CHECK( m.get_level() == -18 );
             }
-            AND_WHEN( "10 minutes have passed" ) {
-                m.decay( 10 );
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1_minutes );
                 CHECK( m.get_level() == -20 );
             }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60 );
+            AND_WHEN( "6 minutes have passed" ) {
+                m.decay( 6_minutes );
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "warmed up afterwards" ) {
@@ -377,7 +377,7 @@ TEST_CASE( "player_morale" )
                 m.on_effect_int_change( effect_cold, 0, bp_foot_l );
                 m.on_effect_int_change( effect_cold, 0, bp_foot_r );
 
-                m.decay( 10 );
+                m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
             }
         }
@@ -399,20 +399,20 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
             }
-            AND_WHEN( "1 minute has passed" ) {
-                m.decay( 1 );
+            AND_WHEN( "1 turn has passed" ) {
+                m.decay( 1_turns );
                 CHECK( m.get_level() == -2 );
             }
-            AND_WHEN( "2 minutes have passed" ) {
-                m.decay( 2 );
+            AND_WHEN( "2 turns have passed" ) {
+                m.decay( 2_turns );
                 CHECK( m.get_level() == -4 );
             }
-            AND_WHEN( "3 minutes have passed" ) {
-                m.decay( 3 );
+            AND_WHEN( "3 turns have passed" ) {
+                m.decay( 3_turns );
                 CHECK( m.get_level() == -6 );
             }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60 );
+            AND_WHEN( "6 minutes have passed" ) {
+                m.decay( 6_minutes );
                 CHECK( m.get_level() == -10 );
             }
         }
@@ -434,20 +434,20 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
             }
-            AND_WHEN( "1 minute has passed" ) {
-                m.decay( 1 );
+            AND_WHEN( "1 turn has passed" ) {
+                m.decay( 1_turns );
                 CHECK( m.get_level() == -2 );
             }
-            AND_WHEN( "9 minutes have passed" ) {
-                m.decay( 9 );
+            AND_WHEN( "9 turns have passed" ) {
+                m.decay( 9_turns );
                 CHECK( m.get_level() == -18 );
             }
-            AND_WHEN( "10 minutes have passed" ) {
-                m.decay( 10 );
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1_minutes );
                 CHECK( m.get_level() == -20 );
             }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60 );
+            AND_WHEN( "6 minutes have passed" ) {
+                m.decay( 6_minutes );
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "cooled afterwards" ) {
@@ -464,7 +464,7 @@ TEST_CASE( "player_morale" )
                 m.on_effect_int_change( effect_hot, 0, bp_foot_l );
                 m.on_effect_int_change( effect_hot, 0, bp_foot_r );
 
-                m.decay( 10 );
+                m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
             }
         }

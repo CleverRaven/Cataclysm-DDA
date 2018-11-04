@@ -1,4 +1,4 @@
-# Martial arts and technique JSON file contents
+# Martial arts and techniques JSON file contents
 
 ### Martial arts
 
@@ -63,18 +63,18 @@
 
 ### Bonuses
 
-Bonuses contain 2 to 4 tokens, in order:
+Bonuses contain 2 to 4 of the following tokens, in order:
 
 * Affected statistic. Any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor", "arpen"
-* Damage type ("bash", "cut", "heat", etc.) when the statistic is damage, armor or arpen
+* Damage type ("bash", "cut", "heat", etc.) if the affected statistic is damage, armor, or arpen
 * Scaling stat. Any of: "str", "dex", "int", "per"
 * The value of the bonus itself
 
 Bonuses must be written in the correct order.
 
-If affected statistic requires a damage type, a damage type must be provided. Otherwise damage type must not be specified.
+If the affected statistic requires a damage type, a damage type must be provided. Otherwise, damage type must not be specified.
 
-If scaling stat is specified, the value of the bonus is multiplied by given stat of the user stat.
+If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat.
 
 Tokens of `useless` type will not cause an error, but will not have any effect.
 For example, `speed` in a technique will have no effect (`movecost` should be used for techniques).

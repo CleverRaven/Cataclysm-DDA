@@ -3,7 +3,7 @@
 
 import json
 import os
-import subprocess 
+import subprocess
 from optparse import OptionParser
 
 # Must parse command line arguments here
@@ -36,13 +36,15 @@ git_files_list = {
 
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {
+    "data/json/overmap_terrain.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
+    "data/mods/alt_map_key/overmap_terrain.json",
     "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
-    "data/mods/PKs_Rebalance/monsters/",
     "data/mods/More_Survival_Tools/start_locations.json",
+    "data/mods/NPC_Traits/npc_classes.json",
     "data/mods/Tanks/monsters.json"
 }
 
@@ -62,11 +64,11 @@ ignore_files = {
 # these objects have no translatable strings
 ignorable = {
     "BULLET_PULLING",
+    "city_building",
     "colordef",
     "emit",
-    "epilogue", # FIXME right now this object can't be translated correctly
+    "EXTERNAL_OPTION",
     "GAME_OPTION",
-    "harvest",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
@@ -77,6 +79,7 @@ ignorable = {
     "MONSTER_FACTION",
     "monstergroup",
     "MONSTER_WHITELIST",
+    "mutation_type",
     "overlay_order",
     "overmap_connection",
     "overmap_location",
@@ -88,6 +91,7 @@ ignorable = {
     "requirement",
     "rotatable_symbol",
     "SPECIES",
+    "trait_group",
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
@@ -115,6 +119,7 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
+    "epilogue",
     "faction",
     "fault",
     "furniture",
@@ -147,7 +152,8 @@ automatically_convertible = {
     "vehicle",
     "vehicle_part",
     "vitamin",
-    "WHEEL"
+    "WHEEL",
+    "help"
 }
 
 # for these objects a plural form is needed
@@ -175,6 +181,11 @@ use_format_strings = {
 ##
 ##  SPECIALIZED EXTRACTION FUNCTIONS
 ##
+
+def extract_harvest(item):
+    outfile = get_outfile("harvest")
+    if "message" in item:
+        writestr(outfile, item["message"])
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
@@ -284,7 +295,7 @@ def extract_effect_type(item):
         else:
             writestr(outfile, item.get("speed_name"), comment="Speed name of effect(s) '{}'.".format(', '.join(name)))
 
-    # aplly and remove memorial messages.
+    # apply and remove memorial messages.
     msg = item.get("apply_memorial_log")
     if not name:
         writestr(outfile, msg, context="memorial_male")
@@ -328,6 +339,16 @@ def extract_gun(item):
         modes = item.get("modes")
         for fire_mode in modes:
             writestr(outfile, fire_mode[1])
+    if "skill" in item:
+        # legacy code: the "gun type" is calculated in `item::gun_type` and
+        # it's basically the skill id, except for archery (which is either
+        # bow or crossbow). Once "gun type" is loaded from JSON, it should
+        # be extracted directly.
+        if not item.get("skill") == "archery":
+            writestr(outfile, item.get("skill"), context="gun_type_type")
+    if "reload_noise" in item:
+        item_reload_noise = item.get("reload_noise")
+        writestr(outfile, item_reload_noise)
 
 
 def extract_gunmod(item):
@@ -349,9 +370,16 @@ def extract_gunmod(item):
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
+    if "mode_modifier" in item:
+        modes = item.get("mode_modifier")
+        for fire_mode in modes:
+            writestr(outfile, fire_mode[1])
     if "location" in item:
         location = item.get("location")
         writestr(outfile, location)
+    if "mod_targets" in item:
+        for target in item["mod_targets"]:
+            writestr(outfile, target, context="gun_type_type")
 
 
 def extract_professions(item):
@@ -422,6 +450,13 @@ def extract_mapgen(item):
             for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
                 sign = v.get("signage", None)
                 writestr(outfile, sign, comment="Sign")
+        elif objkey == "computers":
+            for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
+                if "name" in v:
+                    writestr(outfile, v.get("name"), comment="Computer name")
+                if "options" in v:
+                    for opt in v.get("options"):
+                        writestr(outfile, opt.get("name"), comment="Computer option")
 
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")
@@ -441,6 +476,16 @@ def extract_recipes(item):
         for arr in item["book_learn"]:
             if len(arr) >= 3 and len(arr[2]) > 0:
                 writestr(outfile, arr[2])
+    if "description" in item:
+        writestr(outfile, item["description"])
+
+
+def extract_recipe_group(item):
+    outfile = get_outfile("recipe_group")
+    if "recipes" in item:
+        for i in item.get("recipes"):
+            writestr(outfile, i.get("description"))
+
 
 def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
@@ -521,10 +566,17 @@ def extract_mutation(item):
 
     if "attacks" in item:
         attacks = item.get("attacks")
-        if "attack_text_u" in attacks:
-            writestr(outfile, attacks.get("attack_text_u"))
-        if "attack_text_npc" in attacks:
-            writestr(outfile, attacks.get("attack_text_npc"))
+        if type(attacks) is list:
+            for i in attacks:
+                if "attack_text_u" in i:
+                    writestr(outfile, i.get("attack_text_u"))
+                if "attack_text_npc" in i:
+                    writestr(outfile, i.get("attack_text_npc"))
+        else:
+            if "attack_text_u" in attacks:
+                writestr(outfile, attacks.get("attack_text_u"))
+            if "attack_text_npc" in attacks:
+                writestr(outfile, attacks.get("attack_text_npc"))
 
     if "spawn_item" in item:
         writestr(outfile, item.get("spawn_item").get("message"))
@@ -598,6 +650,7 @@ def extract_gate(item):
 
 # these objects need to have their strings specially extracted
 extract_specials = {
+    "harvest" : extract_harvest,
     "body_part": extract_bodypart,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
@@ -613,6 +666,7 @@ extract_specials = {
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
+    "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
     "talk_topic": extract_talk_topic,
     "gate": extract_gate,
@@ -628,7 +682,8 @@ directories = {
     "data/json",
     "data/mods",
     "data/core",
-    "data/legacy"
+    "data/legacy",
+    "data/help",
 }
 to_dir = "lang/json"
 
@@ -711,6 +766,7 @@ use_action_msgs = {
     "lacks_fuel_message",
     "failure_message",
     "descriptions",
+    "use_message",
     "noise_message",
     "bury_question",
     "done_message",
@@ -824,16 +880,9 @@ def extract(item, infilename):
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
-    if "reload_noise" in item:
-        writestr(outfile, item["reload_noise"], **kwargs)
-        wrote = True
     if "messages" in item:
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
-            wrote = True
-    if "mod_targets" in item:
-        for target in item["mod_targets"]:
-            writestr(outfile, target, **kwargs)
             wrote = True
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:
@@ -912,8 +961,8 @@ def add_fake_types():
 
 def prepare_git_file_list():
     command_str = "git ls-files"
-    res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True) 
-    output = res.stdout.readlines() 
+    res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+    output = res.stdout.readlines()
     res.communicate()
     if res.returncode != 0:
         print("'git ls-files' command exited with non-zero exit code: {}".format(res.returncode))

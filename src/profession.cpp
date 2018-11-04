@@ -1,17 +1,17 @@
+#include "profession.h"
 #include <iostream>
 #include <sstream>
 #include <iterator>
-
-#include "profession.h"
+#include <map>
 
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "bionics.h"
 #include "text_snippets.h"
 #include "rng.h"
 #include "translations.h"
 #include "addiction.h"
+#include "item_group.h"
 #include "pldata.h"
 #include "itype.h"
 #include "generic_factory.h"
@@ -400,14 +400,14 @@ const profession::StartingSkillList profession::skills() const
     return _starting_skills;
 }
 
-bool profession::has_flag( std::string flag ) const
+bool profession::has_flag( const std::string &flag ) const
 {
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( player *u, int points ) const
+bool profession::can_pick( const player &u, const int points ) const
 {
-    if( point_cost() - u->prof->point_cost() > points ) {
+    if( point_cost() - u.prof->point_cost() > points ) {
         return false;
     }
 
@@ -581,7 +581,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
         return ret;
     }
 
-    const long old_amt = it.count_by_charges() ? it.charges : 1l;
+    const long old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item );
         const long new_amt = std::max( 1l, ( long )std::round( inf.ratio * old_amt ) );

@@ -3,74 +3,41 @@
 #define NAME_H
 
 #include <string>
-#include <vector>
-#include <map>
-#include <stdint.h>
 
-typedef enum {
-    nameIsMaleName = 1,
-    nameIsFemaleName = 2,
-    nameIsUnisexName = 3,
-    nameIsGivenName = 4,
-    nameIsFamilyName = 8,
-    nameIsTownName = 16,
-    nameIsFullName = 32,
-    nameIsWorldName = 64
-} nameFlags;
-
-class NameGenerator;
-class JsonObject;
-class JsonIn;
-
-class Name
-{
-    public:
-        Name();
-        Name( std::string name, uint32_t type );
-
-        static NameGenerator &generator();
-        static std::string generate( bool male );
-
-        static std::string get( uint32_t searchFlags );
-
-        std::string value() const {
-            return _value;
-        }
-        uint32_t type() const {
-            return _type;
-        }
-
-    private:
-        std::string _value;
-        uint32_t _type;
+enum nameFlags {
+    nameIsMaleName   = 1 << 0,
+    nameIsFemaleName = 1 << 1,
+    nameIsUnisexName = nameIsMaleName | nameIsFemaleName,
+    nameIsGivenName  = 1 << 2,
+    nameIsFamilyName = 1 << 3,
+    nameIsTownName   = 1 << 4,
+    nameIsFullName   = 1 << 5,
+    nameIsWorldName  = 1 << 6
 };
 
-class NameGenerator
+namespace Name
 {
-    public:
-        static NameGenerator &generator() {
-            static NameGenerator generator;
+/// Load names from given json file to use for generation
+void load_from_file( std::string const &filename );
 
-            return generator;
-        }
+/// Return a random name given search flags
+std::string get( nameFlags searchFlags );
 
-        void load_name( JsonObject &jo );
-        void load( JsonIn &jsin );
+/// Return a random full name given gender
+std::string generate( bool is_male );
 
-        std::string generateName( bool male );
-
-        std::string getName( uint32_t searchFlags );
-        void clear_names();
-    private:
-        NameGenerator();
-
-        NameGenerator( NameGenerator const & );
-        void operator=( NameGenerator const & );
-        std::vector<uint32_t> uint32_tsFromFlags( uint32_t searchFlags ) const;
-
-        std::map< uint32_t, std::vector<Name> > names;
+/// Clear names used for generation
+void clear();
 };
 
-void load_names_from_file( const std::string &filename );
+inline nameFlags operator|( nameFlags l, nameFlags r )
+{
+    return static_cast<nameFlags>( static_cast<unsigned>( l ) | static_cast<unsigned>( r ) );
+}
+
+inline nameFlags operator&( nameFlags l, nameFlags r )
+{
+    return static_cast<nameFlags>( static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
+}
 
 #endif

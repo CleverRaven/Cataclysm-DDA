@@ -1,4 +1,6 @@
 #include "item_stack.h"
+
+#include "units.h"
 #include "item.h"
 
 #include <list>
@@ -12,6 +14,14 @@ size_t item_stack::size() const
 bool item_stack::empty() const
 {
     return mystack->empty();
+}
+
+void item_stack::clear()
+{
+    // An acceptable implementation for list; would be bad for vector
+    while( !empty() ) {
+        erase( begin() );
+    }
 }
 
 std::list<item>::iterator item_stack::begin()
@@ -105,4 +115,9 @@ const item *item_stack::stacks_with( const item &it ) const
         }
     }
     return nullptr;
+}
+
+units::volume item_stack::free_volume() const
+{
+    return max_volume() - stored_volume();
 }

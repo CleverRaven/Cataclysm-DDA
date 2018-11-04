@@ -1,0 +1,113 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "captive_clothing",
+    "subtype": "collection",
+    "items":[
+      { "distribution": [
+        { "collection": [
+          { "group": "captive_pants" },
+          { "group": "captive_shirt" }
+        ], "chance": 100 },
+        { "group": "captive_suit", "chance": 20 }
+      ] },
+      { "group": "captive_gloves", "prob": 40 },
+      { "group": "captive_shoes" },
+      { "group": "captive_masks", "prob": 30 },
+      { "group": "captive_eyes", "prob": 20 },
+      { "group": "captive_hat", "prob": 60 },
+      { "group": "captive_extra" }
+      ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_pants",
+    "//" : "overriding common NPC item groups kills male/female clothing, so socks but no underwear.",
+    "subtype": "collection",
+    "items":[
+      { "distribution": [
+        { "item": "jeans", "chance": 100, "damage": [ 1, 2 ] },
+        { "item": "pants", "chance": 100, "damage": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_shirt",
+    "items":[
+        { "item": "tshirt", "chance": 100, "damage": [ 1, 2 ] },
+        { "item": "longshirt", "chance": 100, "damage": [ 1, 2 ] },
+        { "item": "undershirt", "chance": 100, "damage": [ 1, 2 ] },
+        { "item": "sweatshirt", "chance": 50, "damage": [ 1, 2 ] }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_suit",
+    "items":[
+        { "item": "jumpsuit", "chance": 100, "damage": [ 1, 2 ] }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_gloves",
+    "items":[
+        { "item": "gloves_wraps", "chance": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_shoes",
+    "subtype": "collection",
+    "items":[
+      { "distribution": [
+        { "item": "footrags", "chance": 200 },
+        { "item": "sneakers", "chance": 10, "damage": [ 1, 2 ] }
+      ] }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_masks",
+    "items":[
+        { "item": "scarf_loose", "chance": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_eyes",
+    "items":[
+        { "item": "glasses_eye", "chance": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_hat",
+    "items":[
+        { "item": "hat_cotton", "chance": 100, "damage": [ 1, 2 ] },
+        { "item": "hat_knit", "chance": 100, "damage": [ 1, 2 ] }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_extra",
+    "subtype": "collection",
+    "items":[
+      { "distribution": [
+        { "item": "leather_pouch", "chance": 300 },
+        { "item": "mbag", "chance": 5 },
+        { "item": "fanny", "chance": 5 }
+        ] , "prob": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "captive_gear",
+    "subtype": "collection",
+    "items":[
+      { "distribution": [
+        { "item": "primitive_knife", "chance": 100 },
+        { "item": "glass_shiv", "chance": 50 },
+        { "item": "rock", "chance": 200 },
+        { "item": "soap", "chance": 100 },
+        { "item": "hairpin", "chance": 100 },
+        { "item": "bottle_plastic", "chance": 100 },
+        { "item": "can_food_unsealed", "chance": 100 },
+        { "item": "string_6", "chance": 20 }
+      ] , "prob": 90 },
+      { "item": "cig", "prob": 35 },
+      { "item": "lighter", "prob": 35 }
+    ]
+  }
+]
