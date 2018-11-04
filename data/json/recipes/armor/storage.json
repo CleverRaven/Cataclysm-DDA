@@ -650,6 +650,22 @@
     ]
   },
   {
+    "result": "axe_belt",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "bashing", 2 ],
+    "time": 15000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [
+      [ [ "leather", 7 ], [ "tanned_hide", 1 ] ],
+      [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ]
+    ]
+  },
+  {
     "result": "spearsling",
     "type": "recipe",
     "category": "CC_ARMOR",

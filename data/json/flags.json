@@ -340,6 +340,12 @@
     "description": "This item can be stored in a sling of the appropriate size."
   },
   {
+    "id": "SHEATH_AXE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a belt of the appropriate size."
+  },
+  {
     "id": "SHEATH_GOLF",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],

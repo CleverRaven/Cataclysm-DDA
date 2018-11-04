@@ -1216,6 +1216,33 @@
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "axe_belt",
+    "type": "ARMOR",
+    "name": "axe belt",
+    "description": "A belt with a metal loop for holding an axe or mace.  Activate to holster/draw a weapon.",
+    "weight": 160,
+    "volume": 9,
+    "price": 200,
+    "to_hit": -1,
+    "material": [ "leather", "iron" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Holster axe/mace",
+      "holster_msg": "You holster your %s.",
+      "max_volume": 5,
+      "max_weight": 1500,
+      "draw_cost": 70,
+      "flags": [ "SHEATH_AXE" ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "WAIST", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "spearsling",
     "type": "ARMOR",
     "name": "spear strap",
