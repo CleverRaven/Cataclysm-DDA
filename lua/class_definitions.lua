@@ -1193,13 +1193,17 @@ classes = {
         functions = {
         }
     },
-    uimenu = {
+    uilist = {
         attributes = {
             title = {
                 type = "string",
                 writable = true
             },
             selected = {
+                type = "int",
+                writable = false
+            },
+            ret = {
                 type = "int",
                 writable = false
             }
@@ -2204,9 +2208,14 @@ global_functions = {
         rval = "string"
     },
     create_uimenu = {
-        cpp_name = "create_uimenu",
+        cpp_name = "create_uilist_no_cancel",
         args = {},
-        rval = "uimenu&"
+        rval = "uilist&"
+    },
+    create_uilist = {
+        cpp_name = "create_uilist",
+        args = {},
+        rval = "uilist&"
     },
     get_terrain_type = {
         cpp_name = "get_terrain_type",
