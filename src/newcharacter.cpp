@@ -1205,7 +1205,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             }
         } else if( action == "DOWN" ) {
             iCurrentLine[iCurWorkingPage]++;
-            if( ( size_t ) iCurrentLine[iCurWorkingPage] >= traits_size[iCurWorkingPage] ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "CONFIRM" ) {

@@ -1177,7 +1177,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
 
             if( it._item.count_by_charges() ) {
-                size_t num_picked = std::min( ( size_t )it._item.charges, count );
+                size_t num_picked = std::min( static_cast<size_t>( it._item.charges ), count );
                 pick_values.push_back( { static_cast<int>( it.idx ), static_cast<int>( num_picked ) } );
                 count -= num_picked;
             } else {

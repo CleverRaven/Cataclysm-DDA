@@ -257,7 +257,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
 
     int factor = u.max_quality( quality_id( "BUTCHER" ) );
     auto items = g->m.i_at( u.pos() );
-    if( ( size_t )act.index >= items.size() || factor == INT_MIN ) {
+    if( static_cast<size_t>( act.index ) >= items.size() || factor == INT_MIN ) {
         // Let it print a msg for lack of corpses
         act.index = INT_MAX;
         return;
@@ -2267,7 +2267,7 @@ struct weldrig_hack {
 
         part = act.values[1];
         veh = veh_pointer_or_null( g->m.veh_at( act.coords[0] ) );
-        if( veh == nullptr || veh->parts.size() <= ( size_t )part ) {
+        if( veh == nullptr || veh->parts.size() <= static_cast<size_t>( part ) ) {
             part = -1;
             return false;
         }
