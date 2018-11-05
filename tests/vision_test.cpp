@@ -93,6 +93,12 @@ void full_map_test( const std::vector<std::string> &setup,
         }
     }
 
+    // We have to run thw whole thing twice, because the first time through the
+    // player's vision_threshold is based on the previous lighting level (so
+    // they might, for example, have poor nightvision due to having just been
+    // in daylight)
+    g->m.update_visibility_cache( origin.z );
+    g->m.build_map_cache( origin.z );
     g->m.update_visibility_cache( origin.z );
     g->m.build_map_cache( origin.z );
 
@@ -250,8 +256,8 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
             "##########",
         },
         {
-            "1144444111",
-            "1144444411",
+            "1144444166",
+            "1144444466",
             "1444444444",
             "1144444444",
             "1144444444",
