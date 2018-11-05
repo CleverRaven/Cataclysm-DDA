@@ -8,9 +8,8 @@
 
 #include "map_helpers.h"
 
-template<size_t N>
-void full_map_test( const char *const( &setup )[N],
-                    const char *const( &expected_results )[N],
+void full_map_test( const std::vector<std::string> &setup,
+                    const std::vector<std::string> &expected_results,
                     calendar time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
@@ -32,16 +31,17 @@ void full_map_test( const char *const( &setup )[N],
 
     calendar::turn = time;
 
-    int height = N;
+    int height = setup.size();
     REQUIRE( height > 0 );
-    int width = strlen( setup[0] );
+    REQUIRE( static_cast<size_t>( height ) == expected_results.size() );
+    int width = setup[0].size();
 
-    for( const char *line : setup ) {
-        REQUIRE( strlen( line ) == static_cast<size_t>( width ) );
+    for( const std::string &line : setup ) {
+        REQUIRE( line.size() == static_cast<size_t>( width ) );
     }
 
-    for( const char *line : expected_results ) {
-        REQUIRE( strlen( line ) == static_cast<size_t>( width ) );
+    for( const std::string &line : expected_results ) {
+        REQUIRE( line.size() == static_cast<size_t>( width ) );
     }
 
     tripoint origin;
@@ -179,6 +179,16 @@ void full_map_test( const char *const( &setup )[N],
     CHECK( success );
 }
 
+struct vision_test_case {
+    std::vector<std::string> setup;
+    std::vector<std::string> expected_results;
+    calendar time;
+
+    void test_all() {
+        full_map_test( setup, expected_results, time );
+    }
+};
+
 static constexpr int midnight = HOURS( 0 );
 static constexpr int midday = HOURS( 12 );
 
@@ -193,104 +203,116 @@ static constexpr int midday = HOURS( 12 );
 
 TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
 {
-    constexpr const char *setup[] = {
-        "   ",
-        "   ",
-        " U ",
+    vision_test_case t {
+        {
+            "   ",
+            "   ",
+            " U ",
+        },
+        {
+            "444",
+            "444",
+            "444",
+        },
+        midday
     };
 
-    constexpr const char *expected_results[] = {
-        "444",
-        "444",
-        "444",
-    };
-
-    full_map_test( setup, expected_results, midday );
+    t.test_all();
 }
 
 TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
 {
-    constexpr const char *setup[] = {
-        "###",
-        "#u#",
-        "###",
+    vision_test_case t {
+        {
+            "###",
+            "#u#",
+            "###",
+        },
+        {
+            "111",
+            "141",
+            "111",
+        },
+        midday
     };
 
-    constexpr const char *expected_results[] = {
-        "111",
-        "141",
-        "111",
-    };
-
-    full_map_test( setup, expected_results, midday );
+    t.test_all();
 }
 
 TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
 {
-    constexpr const char *setup[] = {
-        "##########",
-        "#--------#",
-        "#u-------#",
-        "#--------=",
-        "##########",
+    vision_test_case t {
+        {
+            "##########",
+            "#--------#",
+            "#u-------#",
+            "#--------=",
+            "##########",
+        },
+        {
+            "1144444111",
+            "1144444411",
+            "1444444444",
+            "1144444444",
+            "1144444444",
+        },
+        midday
     };
 
-    constexpr const char *expected_results[] = {
-        "1144444111",
-        "1144444411",
-        "1444444444",
-        "1144444444",
-        "1144444444",
-    };
-
-    full_map_test( setup, expected_results, midday );
+    t.test_all();
 }
 
 TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
 {
-    constexpr const char *setup[] = {
-        "   ",
-        " U ",
+    vision_test_case t {
+        {
+            "   ",
+            " U ",
+        },
+        {
+            "111",
+            "141",
+        },
+        midnight
     };
 
-    constexpr const char *expected_results[] = {
-        "111",
-        "141",
-    };
-
-    full_map_test( setup, expected_results, midnight );
+    t.test_all();
 }
 
 TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
 {
-    constexpr const char *setup[] = {
-        " L ",
-        "   ",
-        " U ",
+    vision_test_case t {
+        {
+            " L ",
+            "   ",
+            " U ",
+        },
+        {
+            "444",
+            "444",
+            "444",
+        },
+        midnight
     };
 
-    constexpr const char *expected_results[] = {
-        "444",
-        "444",
-        "444",
-    };
-
-    full_map_test( setup, expected_results, midnight );
+    t.test_all();
 }
 
 TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
 {
-    constexpr const char *setup[] = {
-        " L ",
-        "###",
-        " U ",
+    vision_test_case t {
+        {
+            " L ",
+            "###",
+            " U ",
+        },
+        {
+            "666",
+            "111",
+            "141",
+        },
+        midnight
     };
 
-    constexpr const char *expected_results[] = {
-        "666",
-        "111",
-        "141",
-    };
-
-    full_map_test( setup, expected_results, midnight );
+    t.test_all();
 }
