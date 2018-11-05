@@ -1182,7 +1182,7 @@ int editmap::edit_fld()
             uberdraw = !uberdraw;
             update_view( false );
         }
-    } while( fmenu.ret != UIMENU_CANCEL );
+    } while( fmenu.ret != UILIST_CANCEL );
     g->draw_sidebar();
     return ret;
 }
@@ -1362,7 +1362,7 @@ int editmap::edit_itm()
                 }
                 g->draw_ter( target );
                 wrefresh( g->w_terrain );
-            } while( imenu.ret != UIMENU_CANCEL );
+            } while( imenu.ret != UILIST_CANCEL );
             g->draw_sidebar();
             update_view( true );
         } else if( ilmenu.ret == static_cast<int>( items.size() ) ) {
@@ -1380,7 +1380,7 @@ int editmap::edit_itm()
             ilmenu.filterlist();
             ilmenu.refresh();
         }
-    } while( ilmenu.ret != UIMENU_CANCEL );
+    } while( ilmenu.ret != UILIST_CANCEL );
     g->draw_sidebar();
     return ret;
 }
@@ -1554,7 +1554,7 @@ int editmap::select_shape( shapetype shape, int mode )
                 smenu.addentry( -2, true, 'p', pgettext( "shape", "Point" ) );
                 smenu.selected = ( int )shape;
                 smenu.query();
-                if( smenu.ret == UIMENU_CANCEL ) {
+                if( smenu.ret == UILIST_CANCEL ) {
                     // canceled
                 } else if( smenu.ret != -2 ) {
                     shape = ( shapetype )smenu.ret;
@@ -1696,9 +1696,9 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
         int gpmenupos = gpmenu.selected;
         gpmenu.query( false, BLINK_SPEED * 3 );
 
-        if( gpmenu.ret == UIMENU_TIMEOUT ) {
+        if( gpmenu.ret == UILIST_TIMEOUT ) {
             showpreview = !showpreview;
-        } else if( gpmenu.ret != UIMENU_UNBOUND ) {
+        } else if( gpmenu.ret != UILIST_UNBOUND ) {
             if( gpmenu.ret == 0 ) {
 
                 cleartmpmap( tmpmap );
@@ -1803,7 +1803,7 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
             gmenu.show();
             gmenu.refresh();
         }
-    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UIMENU_CANCEL );
+    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UILIST_CANCEL );
 
     update_view( true );
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
@@ -2131,7 +2131,7 @@ int editmap::edit_mapgen()
         if( gmenu.ret > 0 ) {
             mapgen_preview( tc, gmenu );
         }
-    } while( gmenu.ret != UIMENU_CANCEL );
+    } while( gmenu.ret != UILIST_CANCEL );
     g->draw_sidebar();
     return ret;
 }

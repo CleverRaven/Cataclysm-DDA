@@ -17,11 +17,11 @@
 /**
  * uilist constants
  */
-const int UIMENU_ERROR = -1024;
-const int UIMENU_WAIT_INPUT = -1025;
-const int UIMENU_UNBOUND = -1026;
-const int UIMENU_CANCEL = -1027;
-const int UIMENU_TIMEOUT = -1028;
+const int UILIST_ERROR = -1024;
+const int UILIST_WAIT_INPUT = -1025;
+const int UILIST_UNBOUND = -1026;
+const int UILIST_CANCEL = -1027;
+const int UILIST_TIMEOUT = -1028;
 const int MENU_ALIGN_LEFT = -1;
 const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
@@ -187,8 +187,8 @@ class uilist: public ui_container
         int pad_left;
         int pad_right;
         bool allow_disabled; // return on selecting disabled entry, default false
-        bool allow_anykey; // return UIMENU_UNBOUND on keys unbound & unhandled by callback, default false
-        bool allow_cancel; // return UIMENU_CANCEL on "QUIT" action, default true
+        bool allow_anykey; // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
+        bool allow_cancel; // return UILIST_CANCEL on "QUIT" action, default true
         bool hilight_disabled;
         bool hilight_full;
         int vshift;

@@ -574,7 +574,7 @@ void debug_menu::wishskill( player *p )
         int skill_id = -1;
         int skset = -1;
         int sksel = skmenu.selected - skoffset;
-        if( skmenu.ret == UIMENU_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
+        if( skmenu.ret == UILIST_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
                                               skmenu.keypress == KEY_RIGHT ) ) {
             if( sksel >= 0 && sksel < static_cast<int>( Skill::skills.size() ) ) {
                 skill_id = sksel;
@@ -642,5 +642,5 @@ void debug_menu::wishskill( player *p )
                 }
             }
         }
-    } while( skmenu.ret != UIMENU_CANCEL );
+    } while( skmenu.ret != UILIST_CANCEL );
 }

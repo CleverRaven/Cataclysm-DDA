@@ -123,7 +123,7 @@ void uilist::init()
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
     w_height =
         MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // @todo: fixme: scrolling list with offset
-    ret = UIMENU_WAIT_INPUT;
+    ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
@@ -811,10 +811,10 @@ void uilist::query( bool loop, int timeout )
 {
     keypress = 0;
     if ( entries.empty() ) {
-        ret = UIMENU_ERROR;
+        ret = UILIST_ERROR;
         return;
     }
-    ret = UIMENU_WAIT_INPUT;
+    ret = UILIST_WAIT_INPUT;
 
     input_context ctxt( input_category );
     ctxt.register_updown();
@@ -869,18 +869,18 @@ void uilist::query( bool loop, int timeout )
                 ret = entries[selected].retval; // disabled
             }
         } else if( allow_cancel && action == "QUIT" ) {
-            ret = UIMENU_CANCEL;
+            ret = UILIST_CANCEL;
         } else if( action == "TIMEOUT" ) {
-            ret = UIMENU_TIMEOUT;
+            ret = UILIST_TIMEOUT;
         } else {
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && allow_anykey ) {
-                ret = UIMENU_UNBOUND;
+                ret = UILIST_UNBOUND;
             }
         }
 
         show();
-    } while( loop && ret == UIMENU_WAIT_INPUT );
+    } while( loop && ret == UILIST_WAIT_INPUT );
 }
 
 ///@}

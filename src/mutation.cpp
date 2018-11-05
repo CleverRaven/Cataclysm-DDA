@@ -349,7 +349,7 @@ void player::activate_mutation( const trait_id &mut )
             _( "Churn up ground" )
         } );
         tripoint dirp;
-        if( choice == UIMENU_CANCEL ) {
+        if( choice == UILIST_CANCEL ) {
             tdata.powered = false;
         } else if( choice != 0 ) {
             tdata.powered = false;

@@ -131,10 +131,10 @@ void string_input_popup::show_history( utf8_wrapper &ret )
                 }
                 _position = ret.size();
                 finished = true;
-            } else if( hmenu.ret == UIMENU_UNBOUND && hmenu.keypress == 'd' ) {
+            } else if( hmenu.ret == UILIST_UNBOUND && hmenu.keypress == 'd' ) {
                 hist.clear();
                 finished = true;
-            } else if( hmenu.ret != UIMENU_UNBOUND ) {
+            } else if( hmenu.ret != UILIST_UNBOUND ) {
                 finished = true;
             }
         } while( !finished );
