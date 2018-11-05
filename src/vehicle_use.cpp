@@ -1132,6 +1132,7 @@ void vehicle::open_or_close( int const part_index, bool const opening )
         return;
     }
 
+    const point origin = parts[part_index].mount;
     /* Find all other closed parts with the same ID in adjacent squares.
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
@@ -1142,8 +1143,8 @@ void vehicle::open_or_close( int const part_index, bool const opening )
         }
 
         //Look for parts 1 square off in any cardinal direction
-        const int dx = vp.mount().x - vp.mount().x;
-        const int dy = vp.mount().y - vp.mount().y;
+        const int dx = vp.mount().x - origin.x;
+        const int dy = vp.mount().y - origin.y;
         const int delta = dx * dx + dy * dy;
 
         const bool is_near = ( delta == 1 );
