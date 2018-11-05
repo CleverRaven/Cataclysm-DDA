@@ -361,7 +361,7 @@ cata::optional<tripoint> editmap::edit()
     std::string action;
 
     uberdraw = uistate.editmap_nsa_viewmode;
-    infoHeight = 14;
+    infoHeight = 20;
 
     w_info = catacurses::newwin( infoHeight, width, TERMY - infoHeight, offsetX );
     w_help = catacurses::newwin( 3, width - 2, TERMY - 3, offsetX + 1 );
@@ -627,7 +627,7 @@ void editmap::update_view( bool update_info )
         }
 
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras.c_str() );
-        off++;  // 4-5
+        off++;  // 9
 
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
@@ -636,13 +636,13 @@ void editmap::update_view( bool update_info )
                        cur.name().c_str(), cur.getFieldType(),
                        cur.getFieldDensity(), to_turns<int>( cur.getFieldAge() )
                      );
-            off++; // 5ish
+            off++; // 10ish
         }
 
         if( cur_trap != tr_null ) {
             auto &t = cur_trap.obj();
             mvwprintz( w_info, off, 1, t.color, _( "trap: %s (%d)" ), t.name().c_str(), cur_trap.to_i() );
-            off++; // 6
+            off++; // 11
         }
 
         if( critter != nullptr ) {
