@@ -776,6 +776,7 @@
     "name": "border collie",
     "description": "An athletic and hyperactive dog that loves to herd animals and jump, the border collie is an agile attacker.  Although they can be easy to train, they don't work well in packs.",
     "hp": 19,
+    "weight": 16000,
     "speed": 200,
     "aggression": 3,
     "morale": 10,
