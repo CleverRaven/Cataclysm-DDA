@@ -1060,7 +1060,7 @@
     "name": "German shepherd",
     "description": "The original K-9 breed.  An easy to train and great attack dog that will also defend its owner to the death, however they don't work well in packs.",
     "volume": "62500 ml",
-    "weight": 81500,
+    "weight": 35000,
     "hp": 36,
     "aggression": 3,
     "morale": 10,
