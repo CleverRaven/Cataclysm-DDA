@@ -982,6 +982,7 @@
     "description": "A weiner dog!  This awkward looking dog can be a useful watch dog, plus it looks adorable as it bumbles around, also making it hard to shoot.",
     "diff": 5,
     "hp": 10,
+    "weight": 10000,
     "speed": 135,
     "aggression": 3,
     "morale": 10,
