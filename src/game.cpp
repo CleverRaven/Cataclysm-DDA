@@ -952,12 +952,11 @@ bool game::start_game()
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
                 for( const vpart_reference &vp : v.v->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
-                    const vehicle_part *const pv = &vp.vehicle().parts[vp.part_index()];
-                    auto pos = v.v->global_part_pos3( *pv );
+                    const tripoint pos = vp.pos();
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : v.v->parts_at_relative( pv->mount.x, pv->mount.y, true ) ) {
+                    for( auto sp : v.v->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = v.v->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -2707,7 +2706,7 @@ void game::load( const save_t &name )
         if( u.in_vehicle ) {
             if( const cata::optional<vpart_reference> vp = m.veh_at(
                         u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
-                vp->vehicle().parts[vp->part_index()].passenger_id = u.getID();
+                vp->part().passenger_id = u.getID();
             }
         }
     }
@@ -6244,7 +6243,7 @@ const std::string get_fire_fuel_string( const tripoint &examp )
                                _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
                         return ss.str();
                     } else if( fire_age <= 3_hours ) {
-                        ss << string_format( _( "It's looks solid, and will burn for a few hours without extra fuel." ) );
+                        ss << string_format( _( "It looks solid, and will burn for a few hours without extra fuel." ) );
                         return ss.str();
                     } else {
                         ss << string_format(
@@ -9330,7 +9329,7 @@ void game::butcher()
             return;
         }
 
-        ret = ( size_t )kmenu.ret;
+        ret = static_cast<size_t>( kmenu.ret );
         if( ret >= MULTISALVAGE && ret < NUM_BUTCHER_ACTIONS ) {
             butcher_select = BUTCHER_OTHER;
             indexer_index = ret;
@@ -9419,9 +9418,9 @@ void game::butcher()
             smenu.addentry_col( BUTCHER_FULL, true, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
                                 _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
             smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
-                                _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
+                                _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside.  Yields internal organs.  Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
             smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
-                                _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+                                _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
                                 _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
             smenu.query();
@@ -10054,10 +10053,9 @@ bool game::disable_robot( const tripoint &p )
     }
     const auto mid = critter.type->id;
     const auto mon_item_id = critter.type->revert_to_itype;
-    if( !mon_item_id.empty() ) {
-        if( !query_yn( _( "Deactivate the %s?" ), critter.name().c_str() ) ) {
-            return false;
-        }
+    if( !mon_item_id.empty() &&
+        query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
+
         u.moves -= 100;
         m.add_item_or_charges( p.x, p.y, critter.to_item() );
         if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
@@ -10072,14 +10070,14 @@ bool game::disable_robot( const tripoint &p )
     }
     // Manhacks are special, they have their own menu here.
     if( mid == mon_manhack ) {
-        int choice = 0;
+        int choice = UIMENU_CANCEL;
         if( critter.has_effect( effect_docile ) ) {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
+            choice = uilist( _( "Reprogram the manhack?" ), { _( "Engage targets." ) } );
         } else {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Follow me." ), _( "Cancel" ), NULL );
+            choice = uilist( _( "Reprogram the manhack?" ), { _( "Follow me." ) } );
         }
         switch( choice ) {
-            case 1:
+            case 0:
                 if( critter.has_effect( effect_docile ) ) {
                     critter.remove_effect( effect_docile );
                     if( one_in( 3 ) ) {
@@ -11460,7 +11458,7 @@ cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts 
     }
 
     const tripoint &upos = g->u.pos();
-    uimenu pmenu;
+    uilist pmenu;
     pmenu.title = _( "Climb where?" );
     int num = 0;
     for( const tripoint &pt : pts ) {
@@ -11471,9 +11469,6 @@ cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts 
         pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s" ), direction.c_str() );
     }
 
-    pmenu.addentry( num, true, 'q', "%s", _( "Cancel" ) );
-
-    pmenu.selected = num;
     pmenu.query();
     const int ret = pmenu.ret;
     if( ret < 0 || ret >= num ) {

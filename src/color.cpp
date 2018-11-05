@@ -648,6 +648,11 @@ std::string get_tag_from_color( const nc_color color )
     return "<color_" + string_from_color( color ) + ">";
 }
 
+std::string colorize( const std::string &text, const nc_color color )
+{
+    return get_tag_from_color( color ) + text + "</color>";
+}
+
 nc_color get_note_color( std::string const &note_id )
 {
     auto const candidate_color = color_by_string_map.find( note_id );
@@ -862,7 +867,7 @@ void color_manager::show_gui()
 
                 ui_templates.query();
 
-                if( ui_templates.ret >= 0 && ( size_t )ui_templates.ret < vFiles.size() ) {
+                if( ui_templates.ret >= 0 && static_cast<size_t>( ui_templates.ret ) < vFiles.size() ) {
                     bStuffChanged = true;
 
                     clear();
@@ -918,7 +923,7 @@ void color_manager::show_gui()
 
             ui_colors.query();
 
-            if( ui_colors.ret >= 0 && ( size_t )ui_colors.ret < name_color_map.size() ) {
+            if( ui_colors.ret >= 0 && static_cast<size_t>( ui_colors.ret ) < name_color_map.size() ) {
                 bStuffChanged = true;
 
                 iter = name_color_map.begin();

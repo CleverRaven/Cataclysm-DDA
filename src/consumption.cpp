@@ -24,6 +24,8 @@
 
 namespace
 {
+const skill_id skill_survival( "survival" );
+const skill_id skill_cooking( "cooking" );
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
@@ -1174,6 +1176,11 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
 int player::get_acquirable_energy( const item &it ) const
 {
     return get_acquirable_energy( it, get_cbm_rechargeable_with( it ) );
+}
+
+bool player::can_estimate_rot() const
+{
+    return get_skill_level( skill_cooking ) >= 3 || get_skill_level( skill_survival ) >= 4;
 }
 
 bool player::can_consume_as_is( const item &it ) const

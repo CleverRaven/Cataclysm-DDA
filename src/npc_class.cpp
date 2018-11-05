@@ -285,7 +285,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
 
 const npc_class_id &npc_class::from_legacy_int( int i )
 {
-    if( i < 0 || ( size_t )i >= legacy_ids.size() ) {
+    if( i < 0 || static_cast<size_t>( i ) >= legacy_ids.size() ) {
         debugmsg( "Invalid legacy class id: %d", i );
         return npc_class_id::NULL_ID();
     }

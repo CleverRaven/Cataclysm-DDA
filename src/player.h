@@ -917,6 +917,9 @@ class player : public Character
         /** Check player's capability of consumption overall */
         bool can_consume( const item &it ) const;
 
+        /** True if the player has enough skill (in cooking or survival) to estimate time to rot */
+        bool can_estimate_rot() const;
+
         bool is_wielding( const item &target ) const;
         /**
          * Removes currently wielded item (if any) and replaces it with the target item.
@@ -1246,7 +1249,7 @@ class player : public Character
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity );
-        bool use_charges_if_avail( itype_id it, long quantity );// Uses up charges
+        bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
         std::list<item> use_charges( const itype_id &what, long qty ); // Uses up charges
 
@@ -1371,7 +1374,7 @@ class player : public Character
         void start_destination_activity();
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
-        bool defer_move( tripoint next );
+        bool defer_move( const tripoint &next );
         void shift_destination( int shiftx, int shifty );
 
         // Grab furniture / vehicle

@@ -2160,19 +2160,17 @@ void vehicle::deserialize( JsonIn &jsin )
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_parts( VPFLAG_CARGO ) ) {
-        const size_t cargo_index = vp.part_index();
-        auto it = parts[cargo_index].items.begin();
-        auto end = parts[cargo_index].items.end();
+        auto it = vp.part().items.begin();
+        auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
             if( it->needs_processing() ) {
-                active_items.add( it, parts[cargo_index].mount );
+                active_items.add( it, vp.mount() );
             }
         }
     }
 
     for( const vpart_reference &vp : get_parts( "TURRET" ) ) {
-        const vehicle_part *const turret = &vp.vehicle().parts[vp.part_index()];
-        install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
+        install_part( vp.mount().x, vp.mount().y, vpart_id( "turret_mount" ), false );
     }
 
     /* After loading, check if the vehicle is from the old rules and is missing
@@ -2210,8 +2208,7 @@ void vehicle::deserialize( JsonIn &jsin )
     auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
             for( const vpart_reference &vp : get_parts( flag ) ) {
-                vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
-                e->enabled = true;
+                vp.part().enabled = true;
             }
         }
     };
@@ -2619,7 +2616,7 @@ void map_memory::store( JsonOut &jsout ) const
 {
     jsout.member( "map_memory_tiles" );
     jsout.start_array();
-    for( const auto &elem : tiles ) {
+    for( const auto &elem : tile_cache.list() ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2633,7 +2630,7 @@ void map_memory::store( JsonOut &jsout ) const
 
     jsout.member( "map_memory_curses" );
     jsout.start_array();
-    for( const auto &elem : symbols ) {
+    for( const auto &elem : symbol_cache.list() ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2647,8 +2644,7 @@ void map_memory::store( JsonOut &jsout ) const
 void map_memory::load( JsonObject &jsin )
 {
     JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
-    tiles.clear();
-    tile_map.clear();
+    tile_cache.clear();
     while( map_memory_tiles.has_more() ) {
         JsonObject pmap = map_memory_tiles.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
@@ -2657,8 +2653,7 @@ void map_memory::load( JsonObject &jsin )
     }
 
     JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
-    symbols.clear();
-    symbol_map.clear();
+    symbol_cache.clear();
     while( map_memory_curses.has_more() ) {
         JsonObject pmap = map_memory_curses.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );

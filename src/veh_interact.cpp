@@ -467,7 +467,7 @@ task_reason veh_interact::cant_do (char mode)
     case 's': // siphon mode
         valid_target = false;
         for( const vpart_reference &vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
-            if( veh->parts[vp.part_index()].base.contents_made_of( LIQUID ) ) {
+            if( vp.part().base.contents_made_of( LIQUID ) ) {
                 valid_target = true;
                 break;
             }
@@ -548,8 +548,7 @@ bool veh_interact::can_self_jack()
     int lvl = jack_quality( *veh );
 
     for( const vpart_reference &vp : veh->get_parts( "SELF_JACK" ) ) {
-        const vehicle_part *const jack = &vp.vehicle().parts[vp.part_index()];
-        if( jack->base.has_quality( SELF_JACK, lvl ) ) {
+        if( vp.part().base.has_quality( SELF_JACK, lvl ) ) {
             return true;
         }
     }
@@ -597,9 +596,7 @@ bool veh_interact::can_install_part() {
     int dif_eng = 0;
     if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
         for( const vpart_reference &vp : veh->get_parts() ) {
-            const size_t p = vp.part_index();
-            if( veh->part_flag( p, "ENGINE" ) &&
-                veh->part_flag( p, "E_HIGHER_SKILL" ) ) {
+            if( vp.has_feature( "ENGINE" ) && vp.has_feature( "E_HIGHER_SKILL" ) ) {
                 engines++;
                 dif_eng = dif_eng / 2 + 8;
             }
@@ -1416,10 +1413,20 @@ vehicle_part *veh_interact::get_most_repariable_part() const
 bool veh_interact::can_remove_part( int idx ) {
     sel_vehicle_part = &veh->parts[idx];
     sel_vpart_info = &sel_vehicle_part->info();
+    std::ostringstream msg;
+
+    if( sel_vehicle_part->is_broken() ) {
+        msg << string_format(
+            _( "<color_white>Removing the broken %1$s may yield some fragments.</color>\n" ),
+                sel_vehicle_part->name() );
+    } else {
+        item result_of_removal = sel_vehicle_part->properties_to_item();
+        msg << string_format(
+            _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
+            sel_vehicle_part->name(), result_of_removal.display_name() );
+    }
 
     const auto reqs = sel_vpart_info->removal_requirements();
-
-    std::ostringstream msg;
     bool ok = format_reqs( msg, reqs, sel_vpart_info->removal_skills, sel_vpart_info->removal_time( g->u ) );
 
     msg << _( "<color_white>Additional requirements:</color>\n" );
@@ -1802,7 +1809,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
     parts_here.clear();
     wheel = NULL;
     if( cpart >= 0 ) {
-        parts_here = veh->parts_at_relative( veh->parts[cpart].mount.x, veh->parts[cpart].mount.y, true );
+        parts_here = veh->parts_at_relative( veh->parts[cpart].mount, true );
         for( size_t i = 0; i < parts_here.size(); i++ ) {
             auto &pt = veh->parts[parts_here[i]];
 
@@ -2449,7 +2456,7 @@ void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     for( const vpart_reference &vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
-        if( veh->parts[vp.part_index()].get_base().contents_made_of( LIQUID ) ) {
+        if( vp.part().get_base().contents_made_of( LIQUID ) ) {
             has_liquid = true;
             break;
         }
@@ -2496,6 +2503,9 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
         uilist smenu;
         smenu.text = _("Remove what?");
         for( auto & fuel : fuels ) {
+            if( fuel == "plut_cell" && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
+                continue;
+            }
             smenu.addentry( item::nname( fuel ) );
         }
         smenu.query();
@@ -2509,9 +2519,16 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
     }
 
     int qty = veh->fuel_left( fuel );
-    item solid_fuel( fuel, calendar::turn, qty );
-    g->u.i_add( solid_fuel );
-    veh->drain( fuel, qty );
+    if( fuel == "plut_cell" ) {
+        item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
+        g->u.i_add( plutonium );
+        veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
+    } else {
+        item solid_fuel( fuel, calendar::turn, qty );
+        g->u.i_add( solid_fuel );
+        veh->drain( fuel, qty );
+    }
+
 }
 
 /**
@@ -2751,7 +2768,7 @@ void veh_interact::complete_vehicle()
     }
 
     case 'c':
-        std::vector<int> parts = veh->parts_at_relative( dx, dy, true );
+        std::vector<int> parts = veh->parts_at_relative( point( dx, dy ), true );
         if( parts.size() ) {
             item removed_wheel;
             int replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );

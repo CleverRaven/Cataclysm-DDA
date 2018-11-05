@@ -362,12 +362,11 @@ void map::generate_lightmap( const int zlev )
 
         for( const vpart_reference &vp : v->get_parts() ) {
             const size_t p = vp.part_index();
-            tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
-                          v->parts[p].precalc[0];
+            const tripoint pp = vp.pos();
             if( !inbounds( pp ) ) {
                 continue;
             }
-            if( v->part_flag( p, VPFLAG_CARGO ) && !v->part_flag( p, "COVERED" ) ) {
+            if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( "COVERED" ) ) {
                 add_light_from_items( pp, v->get_items( p ).begin(), v->get_items( p ).end() );
             }
         }
@@ -957,18 +956,17 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
     for( const vpart_reference &vp : veh->get_parts( VPFLAG_EXTENDS_VISION ) ) {
-        const size_t midx = vp.part_index();
-        const tripoint mirror_pos = veh->global_part_pos3( midx );
+        const tripoint mirror_pos = vp.pos();
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
-        if( !veh->part_info( midx ).has_flag( "CAMERA" ) &&
+        if( !vp.info().has_flag( "CAMERA" ) &&
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
-        } else if( !veh->part_info( midx ).has_flag( "CAMERA_CONTROL" ) ) {
-            mirrors.emplace_back( midx );
+        } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
+            mirrors.emplace_back( vp.part_index() );
         } else {
             if( origin == mirror_pos && veh->camera_on ) {
-                cam_control = midx;
+                cam_control = vp.part_index();
             }
         }
     }

@@ -1974,8 +1974,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         {
             // new scope for variable declarations
             const optional_vpart_position vp = g->m.veh_at( pos );
-            vehicle_part &part = vp->vehicle().parts[vp->part_index()];
-            seed = part.mount.x + part.mount.y * 65536;
+            seed = vp->mount().x + vp->mount().y * 65536;
         }
         break;
         case C_ITEM:

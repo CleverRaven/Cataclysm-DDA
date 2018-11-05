@@ -640,7 +640,7 @@ void npc::execute_action( npc_action action )
             // This is mount point, not actual position
             point last_dest( INT_MIN, INT_MIN );
             if( !path.empty() && veh_pointer_or_null( g->m.veh_at( path[path.size() - 1] ) ) == veh ) {
-                last_dest = veh->parts[vp->part_index()].mount;
+                last_dest = vp->mount();
             }
 
             // Prioritize last found path, then seats
@@ -648,8 +648,7 @@ void npc::execute_action( npc_action action )
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
             for( const vpart_reference &vp : veh->get_parts( VPFLAG_BOARDABLE ) ) {
-                const size_t p2 = vp.part_index();
-                const player *passenger = veh->get_passenger( p2 );
+                const player *passenger = veh->get_passenger( vp.part_index() );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
@@ -663,11 +662,11 @@ void npc::execute_action( npc_action action )
                     return !who || who->getID() == getID();
                 };
 
-                const auto &pt = veh->parts[p2];
+                const vehicle_part &pt = vp.part();
 
                 int priority = 0;
 
-                if( pt.mount == last_dest ) {
+                if( vp.mount() == last_dest ) {
                     // Shares mount point with last known path
                     // We probably wanted to go there in the last turn
                     priority = 4;
@@ -678,7 +677,7 @@ void npc::execute_action( npc_action action )
                     const npc *who = pt.crew();
                     priority = who && who->getID() == getID() ? 3 : 2;
 
-                } else if( vpart_position( *veh, p2 ).is_inside() ) {
+                } else if( vp.is_inside() ) {
                     priority = 1;
                 }
 
@@ -686,7 +685,7 @@ void npc::execute_action( npc_action action )
                     my_spot = priority;
                 }
 
-                seats.push_back( std::make_pair( priority, static_cast<int>( p2 ) ) );
+                seats.push_back( std::make_pair( priority, static_cast<int>( vp.part_index() ) ) );
             }
 
             if( my_spot >= 3 ) {
@@ -1965,7 +1964,7 @@ void npc::find_item()
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
-        if( !cargo || cargo->vehicle().part_flag( cargo->part_index(), locked_string ) ) {
+        if( !cargo || cargo->has_feature( locked_string ) ) {
             continue;
         }
 
@@ -2017,7 +2016,7 @@ void npc::pick_up_item()
 
     const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
-    const bool has_cargo = vp && !vp->vehicle().part_flag( vp->part_index(), "LOCKED" );
+    const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||

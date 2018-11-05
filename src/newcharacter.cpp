@@ -203,14 +203,14 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     if( styles.size() == 1 ) {
         return styles.front();
     }
-    uimenu menu;
+    uilist menu;
+    menu.allow_cancel = false;
     menu.text = _( "Pick your style:" );
     menu.desc_enabled = true;
     for( auto &s : styles ) {
         auto &style = s.obj();
         menu.addentry_desc( _( style.name.c_str() ), _( style.description.c_str() ) );
     }
-    menu.selected = 0;
     while( true ) {
         menu.query( true );
         auto &selected = styles[menu.ret];
@@ -1205,7 +1205,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             }
         } else if( action == "DOWN" ) {
             iCurrentLine[iCurWorkingPage]++;
-            if( ( size_t ) iCurrentLine[iCurWorkingPage] >= traits_size[iCurWorkingPage] ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "CONFIRM" ) {
@@ -2154,7 +2154,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "QUIT" );
 
-    uimenu select_location;
+    uilist select_location;
     select_location.text = _( "Select a starting location." );
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
@@ -2379,9 +2379,11 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( const auto &loc : start_location::get_all() ) {
-                if( loc.name() == select_location.entries[ select_location.selected ].txt ) {
-                    u.start_location = loc.ident();
+            if( select_location.ret >= 0 ) {
+                for( const auto &loc : start_location::get_all() ) {
+                    if( loc.name() == select_location.entries[ select_location.ret ].txt ) {
+                        u.start_location = loc.ident();
+                    }
                 }
             }
             werase( select_location.window );
