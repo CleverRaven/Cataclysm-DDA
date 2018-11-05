@@ -350,7 +350,6 @@ void talk_function::give_equipment( npc &p )
 
 void talk_function::give_aid( npc &p )
 {
-    g->u.cash -= 20000;
     p.add_effect( effect_currently_busy, 30_minutes );
     body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -372,7 +371,6 @@ void talk_function::give_aid( npc &p )
 
 void talk_function::give_all_aid( npc &p )
 {
-    g->u.cash -= 30000;
     p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     body_part bp_healed;
@@ -398,7 +396,6 @@ void talk_function::give_all_aid( npc &p )
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
-    g->u.cash -= 1000;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
@@ -407,7 +404,6 @@ void talk_function::buy_haircut( npc &p )
 void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
-    g->u.cash -= 500;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
@@ -436,7 +432,6 @@ void talk_function::buy_10_logs( npc &p )
     bay.save();
 
     p.add_effect( effect_currently_busy, 1_days );
-    g->u.cash -= 200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name );
 }
 
@@ -463,7 +458,6 @@ void talk_function::buy_100_logs( npc &p )
     bay.save();
 
     p.add_effect( effect_currently_busy, 7_days );
-    g->u.cash -= 1200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name );
 }
 
