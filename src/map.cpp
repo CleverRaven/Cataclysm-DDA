@@ -1118,7 +1118,7 @@ std::string map::furnname( const int x, const int y )
 }
 // End of 2D overloads for furniture
 
-  void map::set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture )
+void map::set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture )
 {
     furn_set( p, new_furniture );
     ter_set( p, new_terrain );
