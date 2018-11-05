@@ -605,16 +605,16 @@ void editmap::update_view( bool update_info )
         map::ApparentLight al = map::apparent_light_helper( map_cache, target );
         int apparent_light = static_cast<int>(
                                  g->m.apparent_light_at( target, g->m.get_visibility_variables_cache() ) );
-        mvwprintw( w_info, off++, 1, _( "apparent light: %.5f (%d)" ),
-                   al.apparent_light, apparent_light );
+        mvwprintw( w_info, off++, 1, _( "outside: %d obstructed: %d" ),
+                   static_cast<int>( g->m.is_outside( target ) ),
+                   static_cast<int>( al.obstructed ) );
         mvwprintw( w_info, off++, 1, _( "light_at: (%.2f,%.2f,%.2f,%.2f)" ),
                    map_cache.lm[target.x][target.y][quadrant::NE],
                    map_cache.lm[target.x][target.y][quadrant::SE],
                    map_cache.lm[target.x][target.y][quadrant::SW],
                    map_cache.lm[target.x][target.y][quadrant::NW] );
-        mvwprintw( w_info, off++, 1, _( "outside: %d obstructed: %d" ),
-                   static_cast<int>( g->m.is_outside( target ) ),
-                   static_cast<int>( al.obstructed ) );
+        mvwprintw( w_info, off++, 1, _( "apparent light: %.5f (%d)" ),
+                   al.apparent_light, apparent_light );
         std::string extras;
         if( veh_in >= 0 ) {
             extras += _( " [vehicle]" );
