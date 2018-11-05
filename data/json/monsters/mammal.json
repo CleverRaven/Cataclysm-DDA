@@ -1111,7 +1111,7 @@
     "//": "Rare, location specific only",
     "description": "A large and powerful breed, the Great Pyrenees has a beautiful, thick white coat.  Originally bred to deter wolves and other predators, now faced with protecting livestock from shambling hordes of undead.",
     "volume": "62500 ml",
-    "weight": 81500,
+    "weight": 52500,
     "hp": 40,
     "speed": 100,
     "aggression": 3,
