@@ -128,11 +128,7 @@ void full_map_test( const std::vector<std::string> &setup,
                          << cache.transparency_cache[p.x][p.y] << ' ';
             seen << std::setw( 6 ) << cache.seen_cache[p.x][p.y] << ' ';
             four_quadrants this_lm = cache.lm[p.x][p.y];
-            std::string lm_s =
-                string_format( "(%.2f,%.2f,%.2f,%.2f)",
-                               this_lm[quadrant::NE], this_lm[quadrant::SE],
-                               this_lm[quadrant::SW], this_lm[quadrant::NW] );
-            lm << lm_s << ' ';
+            lm << this_lm.to_string() << ' ';
             apparent_light << std::setw( 6 ) << al.apparent_light << ' ';
             obstructed << ( al.obstructed ? '#' : '.' ) << ' ';
         }

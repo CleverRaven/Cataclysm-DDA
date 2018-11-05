@@ -608,11 +608,8 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off++, 1, _( "outside: %d obstructed: %d" ),
                    static_cast<int>( g->m.is_outside( target ) ),
                    static_cast<int>( al.obstructed ) );
-        mvwprintw( w_info, off++, 1, _( "light_at: (%.2f,%.2f,%.2f,%.2f)" ),
-                   map_cache.lm[target.x][target.y][quadrant::NE],
-                   map_cache.lm[target.x][target.y][quadrant::SE],
-                   map_cache.lm[target.x][target.y][quadrant::SW],
-                   map_cache.lm[target.x][target.y][quadrant::NW] );
+        mvwprintw( w_info, off++, 1, _( "light_at: %s" ),
+                   map_cache.lm[target.x][target.y].to_string() );
         mvwprintw( w_info, off++, 1, _( "apparent light: %.5f (%d)" ),
                    al.apparent_light, apparent_light );
         std::string extras;

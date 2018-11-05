@@ -32,6 +32,13 @@ constexpr double PI     = 3.14159265358979323846;
 constexpr double HALFPI = 1.57079632679489661923;
 constexpr double SQRT_2 = 1.41421356237309504880;
 
+std::string four_quadrants::to_string() const
+{
+    return string_format( "(%.2f,%.2f,%.2f,%.2f)",
+                          ( *this )[quadrant::NE], ( *this )[quadrant::SE],
+                          ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
+}
+
 void map::add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
                                 std::list<item>::iterator end )
 {

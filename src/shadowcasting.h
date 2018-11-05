@@ -37,6 +37,7 @@ struct four_quadrants {
     float max() const {
         return *std::max_element( values.begin(), values.end() );
     }
+    std::string to_string() const;
 
     friend four_quadrants operator*( const four_quadrants &l, const four_quadrants &r ) {
         four_quadrants result;
