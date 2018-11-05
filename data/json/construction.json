@@ -55,7 +55,7 @@
         "time" : 60,
         "qualities": [ [
             { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 }
-        ] ],
+        ] ],F
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
         "post_special" : "done_trunk_plank"
@@ -2004,7 +2004,7 @@
         "category" : "DIG",
         "required_skills" : [ [ "fabrication", 5 ], [ "survival", 3 ] ],
         "time" : 420,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ],
+        "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
                        [ { "id": "DIG", "level": 2 } ]
                        ],
@@ -2023,7 +2023,7 @@
         "category" : "DIG",
         "required_skills" : [ [ "fabrication", 6 ], [ "survival", 4 ] ],
         "time" : 480,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ],
+        "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
                        [ { "id": "DIG", "level": 2 } ]
                        ],
@@ -2043,7 +2043,7 @@
         "category" : "DIG",
         "required_skills" : [ [ "fabrication", 6 ], [ "survival", 4 ] ],
         "time" : 480,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ],
+        "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
                        [ { "id": "DIG", "level": 2 } ]
                        ],
