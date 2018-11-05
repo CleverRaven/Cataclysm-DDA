@@ -190,8 +190,65 @@ struct vision_test_case {
     std::vector<std::string> expected_results;
     calendar time;
 
-    void test_all() {
+    static void transpose( std::vector<std::string> &v ) {
+        if( v.empty() ) {
+            return;
+        }
+        std::vector<std::string> new_v( v[0].size() );
+
+        for( size_t x = 0; x < v.size(); ++x ) {
+            for( size_t y = 0; y < new_v.size(); ++y ) {
+                new_v[y].push_back( v[x].at( y ) );
+            }
+        }
+
+        v = new_v;
+    }
+
+    void transpose() {
+        transpose( setup );
+        transpose( expected_results );
+    }
+
+    void reflect_x() {
+        for( std::string &s : setup ) {
+            std::reverse( s.begin(), s.end() );
+        }
+        for( std::string &s : expected_results ) {
+            std::reverse( s.begin(), s.end() );
+        }
+    }
+
+    void reflect_y() {
+        std::reverse( setup.begin(), setup.end() );
+        std::reverse( expected_results.begin(), expected_results.end() );
+    }
+
+    void test() const {
         full_map_test( setup, expected_results, time );
+    }
+
+    void test_all_transformations() const {
+        // Three reflections generate all possible rotations and reflections of
+        // the test case
+        for( int transform = 0; transform < 8; ++transform ) {
+            INFO( "test case transformation: " << transform );
+            vision_test_case copy( *this );
+            if( transform & 1 ) {
+                copy.transpose();
+            }
+            if( transform & 2 ) {
+                copy.reflect_x();
+            }
+            if( transform & 4 ) {
+                copy.reflect_y();
+            }
+            copy.test();
+        }
+    }
+
+    void test_all() const {
+        test_all_transformations();
     }
 };
 
