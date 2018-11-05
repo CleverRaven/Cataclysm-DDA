@@ -5335,7 +5335,7 @@
     "calories": 130,
     "description": "Delicious fermented dairy.  It tastes of vanilla.",
     "price": 190,
-    "material": [ "milk", "dairy"],
+    "material": [ "milk", "dairy" ],
     "volume": 1,
     "phase": "liquid",
     "flags": [ "FREEZERBURN" ],
@@ -8371,7 +8371,7 @@
     "calories": 35,
     "description": "Milk that has been curdled with vinegar and rennet.  It still needs to be salted and drained of whey.",
     "price": 10,
-    "material": ["milk", "dairy"],
+    "material": [ "milk", "dairy" ],
     "volume": 1,
     "phase": "liquid",
     "fun": -12
