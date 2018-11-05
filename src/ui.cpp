@@ -171,7 +171,7 @@ void uilist::init()
     scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
     hotkeys = DEFAULT_HOTKEYS;
-    input_category = "UIMENU";
+    input_category = "UILIST";
     additional_actions.clear();
 }
 
