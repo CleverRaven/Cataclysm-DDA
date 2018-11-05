@@ -572,7 +572,7 @@
     "name": "bulldog",
     "description": "The American bulldog is a hardy, well built dog, that seems suited for surviving the apocalypse.",
     "volume": "62500 ml",
-    "weight": 81500,
+    "weight": 25000,
     "hp": 47,
     "speed": 135,
     "aggression": 4,
