@@ -56,7 +56,7 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;
     for( const vpart_reference vp : v.get_parts() ) {
-        auto &pt = v.parts[ vp.part_index() ];
+        vehicle_part &pt = vp.part();
         if( pt.is_engine() ) {
             actually_used.insert( pt.info().fuel_type );
             pt.enabled = true;
@@ -83,7 +83,7 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
     // Batteries are special cased because they aren't liquid fuel
     std::map<itype_id, long> ret;
     for( const vpart_reference vp : v.get_parts() ) {
-        auto &pt = v.parts[ vp.part_index() ];
+        vehicle_part &pt = vp.part();
 
         if( pt.is_battery() ) {
             pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult );
@@ -118,7 +118,7 @@ float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_
     std::map<itype_id, long> fuel_amount;
     std::set<itype_id> consumed_fuels;
     for( const vpart_reference vp : v.get_parts() ) {
-        auto &pt = v.parts[ vp.part_index() ];
+        vehicle_part &pt = vp.part();
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
             pt.ammo_current() != "null" ) {
@@ -378,12 +378,12 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 287700, 230500, 15990, 13310 );
     test_vehicle( "car", 281700, 163300, 16070, 9336 );
     test_vehicle( "car_sports", 323400, 185500, 16690, 9176 );
-    test_vehicle( "electric_car", 69420, 45080, 3620, 2300 );
+    test_vehicle( "electric_car", 69460, 45070, 3620, 2300 );
     test_vehicle( "suv", 589700, 288700, 31870, 15320 );
-    test_vehicle( "motorcycle", 80860, 45920, 3885, 2195 );
+    test_vehicle( "motorcycle", 80860, 44810, 3885, 2195 );
     test_vehicle( "quad_bike", 52140, 35180, 3310, 2195 );
-    test_vehicle( "scooter", 71290, 71290, 3707, 3707 );
-    test_vehicle( "superbike", 94350, 10270, 4005, 1556 );
+    test_vehicle( "scooter", 71290, 66960, 3707, 3707 );
+    test_vehicle( "superbike", 94350, 10150, 4005, 1407 );
     test_vehicle( "ambulance", 378800, 287200, 23740, 18680 );
     test_vehicle( "fire_engine", 452700, 380000, 27350, 23150 );
     test_vehicle( "fire_truck", 311100, 68740, 20680, 4312 );

@@ -414,6 +414,21 @@
     ]
   },
   {
+    "result": "pants_faux_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 40000,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
+    "using": [ [ "sewing_standard", 18 ] ],
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "faux_fur", 6 ] ]
+    ]
+  },
+  {
     "result": "pants_leather",
     "type": "recipe",
     "category": "CC_ARMOR",

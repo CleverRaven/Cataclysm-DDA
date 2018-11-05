@@ -519,7 +519,7 @@ player::player() : Character()
     sight_max = 9999;
     last_batch = 0;
     lastconsumed = itype_id( "null" );
-    next_expected_position = tripoint_min;
+    next_expected_position = cata::nullopt;
     death_drops = true;
     show_map_memory = true;
 
@@ -2954,7 +2954,7 @@ void player::shout( std::string msg )
     }
 
     if ( msg.empty() ) {
-        msg = msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
+        msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
@@ -3343,7 +3343,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     if( dam > 0 && g->u.sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
 
-        if( dam > 0 && is_player() && source ) {
+        if( is_player() && source ) {
             //monster hits player melee
             SCT.add( posx(), posy(),
                      direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
@@ -5585,7 +5585,7 @@ void player::suffer()
                         str[0] = toupper( str[0] );
 
                         add_msg( m_bad, str.c_str() );
-                        drop( get_item_position( &weapon ) );
+                        drop( get_item_position( &weapon ), pos() );
                     }
                     done_effect = true;
                 }
@@ -6978,7 +6978,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity)
     return ret;
 }
 
-bool player::use_charges_if_avail(itype_id it, long quantity)
+bool player::use_charges_if_avail(const itype_id &it, long quantity)
 {
     if (has_charges(it, quantity))
     {
@@ -7351,10 +7351,9 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
         return reload_option();
     }
 
-    uimenu menu;
-    menu.text = string_format( base.is_watertight_container() ? _("Refill %s") : _("Reload %s" ),
-            base.tname().c_str() );
-    menu.return_invalid = true;
+    uilist menu;
+    menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) : _( "Reload %s" ),
+            base.tname() );
     menu.w_width = -1;
     menu.w_height = -1;
 
@@ -7544,7 +7543,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     menu.callback = &cb;
 
     menu.query();
-    if( menu.ret < 0 || menu.ret >= ( int ) opts.size() ) {
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= opts.size() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
         return reload_option();
     }
@@ -7879,57 +7878,6 @@ static const std::vector<matype_id> bio_cqb_styles {{
     matype_id{ "style_karate" }, matype_id{ "style_judo" }, matype_id{ "style_muay_thai" }, matype_id{ "style_biojutsu" }
 }};
 
-class ma_style_callback : public uimenu_callback
-{
-private:
-    size_t offset;
-    const std::vector<matype_id> &styles;
-
-public:
-    ma_style_callback( int style_offset, const std::vector<matype_id> &selectable_styles )
-        : offset( style_offset )
-        , styles( selectable_styles )
-    {}
-
-    bool key(const input_context &ctxt, const input_event &event, int entnum, uimenu *menu) override {
-        const std::string action = ctxt.input_to_action( event );
-        if( action != "SHOW_DESCRIPTION" ) {
-            return false;
-        }
-        matype_id style_selected;
-        const size_t index = entnum;
-        if( index >= offset && index - offset < styles.size() ) {
-            style_selected = styles[index - offset];
-        }
-        if( !style_selected.str().empty() ) {
-            const martialart &ma = style_selected.obj();
-            std::ostringstream buffer;
-            buffer << ma.name << "\n\n \n\n";
-            if( !ma.techniques.empty() ) {
-                buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
-                buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
-                    return string_format( "%s: %s", _( mid.obj().name.c_str() ), _( mid.obj().description.c_str() ) );
-                } );
-            }
-            if( ma.force_unarmed ) {
-                buffer << "\n\n \n\n";
-                buffer << _( "This style forces you to use unarmed strikes, even if wielding a weapon." );
-            }
-            if( !ma.weapons.empty() ) {
-                buffer << "\n\n \n\n";
-                buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
-                buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string &wid ) {
-                    return item::nname( wid );
-                } );
-            }
-            popup(buffer.str(), PF_NONE);
-            menu->redraw();
-        }
-        return true;
-    }
-    ~ma_style_callback() override = default;
-};
-
 bool player::pick_style() // Style selection menu
 {
     enum style_selection {
@@ -7946,10 +7894,9 @@ bool player::pick_style() // Style selection menu
     input_context ctxt( "MELEE_STYLE_PICKER" );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
-    uimenu kmenu;
-    kmenu.return_invalid = true;
+    uilist kmenu;
     kmenu.text = string_format( _( "Select a style. (press %s for more info)" ), ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
-    ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
+    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
     kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
@@ -7971,7 +7918,6 @@ bool player::pick_style() // Style selection menu
     kmenu.query();
     int selection = kmenu.ret;
 
-    //debugmsg("selected %d",choice);
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
     } else if( selection == KEEP_HANDS_FREE ) {
@@ -8023,9 +7969,8 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
 
 bool player::dispose_item( item_location &&obj, const std::string& prompt )
 {
-    uimenu menu;
+    uilist menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname().c_str() ) : prompt;
-    menu.return_invalid = true;
 
     using dispose_option = struct {
         std::string prompt;
@@ -8117,12 +8062,17 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
 void player::mend_item( item_location&& obj, bool interactive )
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
-        uimenu menu( true, _( "Toggle which fault?" ) );
+        uilist menu;
+        menu.text = _( "Toggle which fault?" );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto& f : obj->faults_potential() ) {
             opts.emplace_back( f, !!obj->faults.count( f ) );
             menu.addentry( -1, true, -1, string_format( "%s %s", opts.back().second ? _( "Mend" ) : _( "Break" ),
                                                         f.obj().name().c_str() ) );
+        }
+        if( opts.empty() ) {
+            add_msg( m_info, _( "The %s doesn't have any faults to toggle." ), obj->tname() );
+            return;
         }
         menu.query();
         if( menu.ret >= 0 ) {
@@ -8155,9 +8105,8 @@ void player::mend_item( item_location&& obj, bool interactive )
 
     int sel = 0;
     if( interactive ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Mend which fault?" );
-        menu.return_invalid = true;
         menu.desc_enabled = true;
         menu.desc_lines = 0; // Let uimenu handle description height
 
@@ -8286,7 +8235,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     /** @EFFECT_SHOTGUN decreases time taken to reload a shotgun */
     /** @EFFECT_LAUNCHER decreases time taken to reload a launcher */
 
-    int cost = ( it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time ) * qty;
+    int cost = ( it.is_gun() ? it.get_reload_time() : it.type->magazine->reload_time ) * qty;
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
     mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
@@ -8547,7 +8496,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
-                drop( get_item_position( &it ) );
+                drop( get_item_position( &it ), pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
@@ -8586,7 +8535,7 @@ void player::drop( int pos, const tripoint &where )
     drop( { std::make_pair( pos, count ) }, where );
 }
 
-void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash )
+void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &target, bool stash )
 {
     const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
 
@@ -8594,7 +8543,6 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
         return;
     }
 
-    const tripoint target = ( where != tripoint_min ) ? where : pos();
     if( rl_dist( pos(), target ) > 1 || !( stash || g->m.can_put_items( target ) ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                        _( "<npcname> can't place items here!" ) );
@@ -9041,8 +8989,7 @@ void player::gunmod_add( item &gun, item &mod )
 
     // if chance of success <100% prompt user to continue
     if( roll < 100 ) {
-        uimenu prompt;
-        prompt.return_invalid = true;
+        uilist prompt;
         prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(),
                                      gun.tname().c_str() );
 
@@ -9363,7 +9310,7 @@ bool player::read( int inventory_position, const bool continuous )
     if( !continuous ) {
         //only show the menu if there's useful information or multiple options
         if( skill || !nonlearners.empty() || !fun_learners.empty() ) {
-            uimenu menu;
+            uilist menu;
 
             // Some helpers to reduce repetition:
             auto length = []( const std::pair<npc *, std::string> &elem ) {
@@ -9395,7 +9342,6 @@ bool player::read( int inventory_position, const bool continuous )
                 menu.entries.push_back( header );
             };
 
-            menu.return_invalid = true;
             menu.title = !skill ? string_format( _( "Reading %s" ), it.type_name().c_str() ) :
                          string_format( _( "Reading %s (can train %s from %d to %d)" ), it.type_name().c_str(),
                                         skill_name.c_str(), type->req, type->level );
@@ -9429,7 +9375,7 @@ bool player::read( int inventory_position, const bool continuous )
             }
 
             menu.query( true );
-            if( menu.ret == UIMENU_INVALID ) {
+            if( menu.ret == UIMENU_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
                 return false;
             }
@@ -11142,7 +11088,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
                             return elem.display_name();
                         } );
         if( opts.size() > 1 ) {
-            pos = ( uimenu( false, _("Wield what?"), opts ) ) - 1;
+            pos = uilist( _( "Wield what?" ), opts );
+            if( pos < 0 ) {
+                return false;
+            }
         } else {
             pos = 0;
         }
@@ -11173,7 +11122,8 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     container.contents.erase( target );
     container.on_contents_changed();
 
-    inv.assign_empty_invlet( weapon, *this, true );
+    inv.update_invlet( weapon );
+    inv.update_cache_with_item( weapon );
     last_item = weapon.typeId();
 
     /**
@@ -11363,15 +11313,15 @@ void player::set_destination(const std::vector<tripoint> &route, const player_ac
 {
     auto_move_route = route;
     this->destination_activity = destination_activity;
-    destination_point = g->m.getabs( route.back() );
+    destination_point.emplace( g->m.getabs( route.back() ) );
 }
 
 void player::clear_destination()
 {
     auto_move_route.clear();
     destination_activity = player_activity();
-    destination_point = tripoint_min;
-    next_expected_position = tripoint_min;
+    destination_point = cata::nullopt;
+    next_expected_position = cata::nullopt;
 }
 
 bool player::has_destination() const
@@ -11381,8 +11331,7 @@ bool player::has_destination() const
 
 bool player::has_destination_activity() const
 {
-    tripoint dest = g->m.getlocal( destination_point );
-    return !destination_activity.is_null() && position == dest;
+    return !destination_activity.is_null() && destination_point && position == g->m.getlocal( *destination_point );
 }
 
 void player::start_destination_activity()
@@ -11407,17 +11356,17 @@ action_id player::get_next_auto_move_direction()
         return ACTION_NULL;
     }
 
-    if (next_expected_position != tripoint_min ) {
-        if( pos() != next_expected_position ) {
+    if( next_expected_position ) {
+        if( pos() != *next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
     }
 
-    next_expected_position = auto_move_route.front();
+    next_expected_position.emplace( auto_move_route.front() );
     auto_move_route.erase(auto_move_route.begin());
 
-    tripoint dp = next_expected_position - pos();
+    tripoint dp = *next_expected_position - pos();
 
     // Make sure the direction is just one step and that
     // all diagonal moves have 0 z component
@@ -11430,7 +11379,7 @@ action_id player::get_next_auto_move_direction()
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
-bool player::defer_move( tripoint next ) {
+bool player::defer_move( const tripoint &next ) {
     // next must be adjacent to current pos
     if( square_dist( next, pos() ) != 1 ) {
         return false;
@@ -11446,9 +11395,9 @@ bool player::defer_move( tripoint next ) {
 
 void player::shift_destination(int shiftx, int shifty)
 {
-    if( next_expected_position != tripoint_min ) {
-        next_expected_position.x += shiftx;
-        next_expected_position.y += shifty;
+    if( next_expected_position ) {
+        next_expected_position->x += shiftx;
+        next_expected_position->y += shifty;
     }
 
     for( auto &elem : auto_move_route ) {

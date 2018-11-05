@@ -63,6 +63,27 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
     }
 };
 
+template<typename T>
+void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+{
+    if( obj ) {
+        jsout.write( *obj );
+    } else {
+        jsout.write_null();
+    }
+}
+
+template<typename T>
+void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+{
+    if( jsin.test_null() ) {
+        obj.reset();
+    } else {
+        obj.emplace();
+        jsin.read( *obj );
+    }
+}
+
 std::vector<item> item::magazine_convert()
 {
     std::vector<item> res;
@@ -1105,10 +1126,19 @@ void npc::load( JsonObject &data )
         data.read( "omz", position.z ); // omz/mapz got moved to position.z
     }
 
-    data.read( "plx", last_player_seen_pos.x );
-    data.read( "ply", last_player_seen_pos.y );
-    if( !data.read( "plz", last_player_seen_pos.z ) ) {
-        last_player_seen_pos.z = posz();
+    if( data.has_member( "plx" ) ) {
+        last_player_seen_pos.emplace();
+        data.read( "plx", last_player_seen_pos->x );
+        data.read( "ply", last_player_seen_pos->y );
+        if( !data.read( "plz", last_player_seen_pos->z ) ) {
+            last_player_seen_pos->z = posz();
+        }
+        // old code used tripoint_min to indicate "not a valid point"
+        if( *last_player_seen_pos == tripoint_min ) {
+            last_player_seen_pos.reset();
+        }
+    } else {
+        data.read( "last_player_seen_pos", last_player_seen_pos );
     }
 
     data.read( "goalx", goal.x );
@@ -1119,9 +1149,18 @@ void npc::load( JsonObject &data )
     data.read( "guardy", guard_pos.y );
     data.read( "guardz", guard_pos.z );
 
-    data.read( "pulp_locationx", pulp_location.x );
-    data.read( "pulp_locationy", pulp_location.y );
-    data.read( "pulp_locationz", pulp_location.z );
+    if( data.has_member( "pulp_locationx" ) ) {
+        pulp_location.emplace();
+        data.read( "pulp_locationx", pulp_location->x );
+        data.read( "pulp_locationy", pulp_location->y );
+        data.read( "pulp_locationz", pulp_location->z );
+        // old code used tripoint_min to indicate "not a valid point"
+        if( *pulp_location == tripoint_min ) {
+            pulp_location.reset();
+        }
+    } else {
+        data.read( "pulp_location", pulp_location );
+    }
 
     if( data.read( "mission", misstmp ) ) {
         mission = npc_mission( misstmp );
@@ -1251,9 +1290,7 @@ void npc::store( JsonOut &json ) const
 
     json.member( "submap_coords", submap_coords );
 
-    json.member( "plx", last_player_seen_pos.x );
-    json.member( "ply", last_player_seen_pos.y );
-    json.member( "plz", last_player_seen_pos.z );
+    json.member( "last_player_seen_pos", last_player_seen_pos );
 
     json.member( "goalx", goal.x );
     json.member( "goaly", goal.y );
@@ -1263,9 +1300,7 @@ void npc::store( JsonOut &json ) const
     json.member( "guardy", guard_pos.y );
     json.member( "guardz", guard_pos.z );
 
-    json.member( "pulp_locationx", pulp_location.x );
-    json.member( "pulp_locationy", pulp_location.y );
-    json.member( "pulp_locationz", pulp_location.z );
+    json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // @todo: stringid
     if( !fac_id.str().empty() ) { // set in constructor
@@ -2122,19 +2157,17 @@ void vehicle::deserialize( JsonIn &jsin )
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_parts( VPFLAG_CARGO ) ) {
-        const size_t cargo_index = vp.part_index();
-        auto it = parts[cargo_index].items.begin();
-        auto end = parts[cargo_index].items.end();
+        auto it = vp.part().items.begin();
+        auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
             if( it->needs_processing() ) {
-                active_items.add( it, parts[cargo_index].mount );
+                active_items.add( it, vp.mount() );
             }
         }
     }
 
     for( const vpart_reference &vp : get_parts( "TURRET" ) ) {
-        const vehicle_part *const turret = &vp.vehicle().parts[vp.part_index()];
-        install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
+        install_part( vp.mount().x, vp.mount().y, vpart_id( "turret_mount" ), false );
     }
 
     /* After loading, check if the vehicle is from the old rules and is missing
@@ -2172,8 +2205,7 @@ void vehicle::deserialize( JsonIn &jsin )
     auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
             for( const vpart_reference &vp : get_parts( flag ) ) {
-                vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
-                e->enabled = true;
+                vp.part().enabled = true;
             }
         }
     };
@@ -2581,7 +2613,7 @@ void map_memory::store( JsonOut &jsout ) const
 {
     jsout.member( "map_memory_tiles" );
     jsout.start_array();
-    for( const auto &elem : tiles ) {
+    for( const auto &elem : tile_cache.list() ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2595,7 +2627,7 @@ void map_memory::store( JsonOut &jsout ) const
 
     jsout.member( "map_memory_curses" );
     jsout.start_array();
-    for( const auto &elem : symbols ) {
+    for( const auto &elem : symbol_cache.list() ) {
         jsout.start_object();
         jsout.member( "x", elem.first.x );
         jsout.member( "y", elem.first.y );
@@ -2609,8 +2641,7 @@ void map_memory::store( JsonOut &jsout ) const
 void map_memory::load( JsonObject &jsin )
 {
     JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
-    tiles.clear();
-    tile_map.clear();
+    tile_cache.clear();
     while( map_memory_tiles.has_more() ) {
         JsonObject pmap = map_memory_tiles.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
@@ -2619,8 +2650,7 @@ void map_memory::load( JsonObject &jsin )
     }
 
     JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
-    symbols.clear();
-    symbol_map.clear();
+    symbol_cache.clear();
     while( map_memory_curses.has_more() ) {
         JsonObject pmap = map_memory_curses.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );

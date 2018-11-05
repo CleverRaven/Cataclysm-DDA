@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-26 22:02+0800\n"
+"POT-Creation-Date: 2018-11-02 15:23+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9566,9 +9566,44 @@ msgid_plural "sleeping bags"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action menu_text for sleeping bag.
+#. ~ Use action menu_text for fur sleeping bag.
+#: lang/json/ARMOR_from_json.py
+msgid "Roll up"
+msgstr ""
+
+#. ~ Use action msg for sleeping bag.
+#: lang/json/ARMOR_from_json.py
+msgid "You roll up the sleeping bag, preparing it for transport."
+msgstr ""
+
 #. ~ Description for sleeping bag
 #: lang/json/ARMOR_from_json.py
 msgid "A large sleeping bag that covers you head to toe."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "rolled sleeping bag"
+msgid_plural "rolled sleeping bags"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action menu_text for rolled sleeping bag.
+#. ~ Use action menu_text for rolled fur sleeping bag.
+#: lang/json/ARMOR_from_json.py
+msgid "Unroll"
+msgstr ""
+
+#. ~ Use action msg for rolled sleeping bag.
+#: lang/json/ARMOR_from_json.py
+msgid "You unroll the sleeping bag."
+msgstr ""
+
+#. ~ Description for rolled sleeping bag
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A large sleeping bag rolled up for transport.  It has a strap to carry it "
+"with."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -9577,9 +9612,32 @@ msgid_plural "fur sleeping bags"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action msg for fur sleeping bag.
+#: lang/json/ARMOR_from_json.py
+msgid "You roll up the fur sleeping bag, preparing it for transport."
+msgstr ""
+
 #. ~ Description for fur sleeping bag
 #: lang/json/ARMOR_from_json.py
 msgid "A large sleeping bag lined with fur.  Who needs a tent?"
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "rolled fur sleeping bag"
+msgid_plural "rolled fur sleeping bags"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for rolled fur sleeping bag.
+#: lang/json/ARMOR_from_json.py
+msgid "You unroll up the fur sleeping bag."
+msgstr ""
+
+#. ~ Description for rolled fur sleeping bag
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A large sleeping bag lined with fur, rolled for transport.  It has a strap "
+"to carry it with."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -24307,7 +24365,7 @@ msgstr ""
 #. ~ Description for bone meal tablet
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Homemade calcium supplement made out of bone meal. Tastes horribly and is "
+"Homemade calcium supplement made out of bone meal.  Tastes horrible and is "
 "hard to swallow but it does its job."
 msgstr ""
 
@@ -24318,9 +24376,9 @@ msgstr ""
 #. ~ Description for flavored bone meal tablet
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Homemade calcium supplement made out of bone meal. Due to some sweetness "
-"mixed in to counteract the powdery texture and the taste of ash, almost as "
-"palatable as the pre-cataclysm tablets."
+"Homemade calcium supplement made out of bone meal.  Due to some sweetness "
+"mixed in to counteract the powdery texture and the taste of ash, it's almost "
+"as palatable as the pre-cataclysm tablets."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24874,7 +24932,7 @@ msgid ""
 "fruit.  It has been supplemented with extra vitamins and minerals"
 msgstr ""
 
-#: lang/json/COMESTIBLE_from_json.py src/mission_companion.cpp
+#: lang/json/COMESTIBLE_from_json.py src/faction_camp.cpp
 msgid "seeds"
 msgid_plural "seeds"
 msgstr[0] ""
@@ -41062,10 +41120,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "labrador mutt"
+msgid "Labrador mutt"
 msgstr ""
 
-#. ~ Description for labrador mutt
+#. ~ Description for Labrador mutt
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "This once average Labrador mixed breed dog has clearly gone feral.  You can "
@@ -41074,10 +41132,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "labrador puppy"
+msgid "Labrador puppy"
 msgstr ""
 
-#. ~ Description for labrador puppy
+#. ~ Description for Labrador puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An adorable, defenseless Labrador puppy.  Much safer to tame than adult "
@@ -41091,7 +41149,7 @@ msgstr ""
 #. ~ Description for bulldog
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"The American Bulldog is a hardy, well built dog, that seems suited for "
+"The American bulldog is a hardy, well built dog, that seems suited for "
 "surviving the apocalypse."
 msgstr ""
 
@@ -41102,7 +41160,7 @@ msgstr ""
 #. ~ Description for bulldog puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless American Bulldog puppy.  Much safer to tame than "
+"An adorable, defenseless American bulldog puppy.  Much safer to tame than "
 "adult counterparts."
 msgstr ""
 
@@ -41113,9 +41171,9 @@ msgstr ""
 #. ~ Description for pit bull mix
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"The oft-misunderstood Pit Bull is not actually a single breed but a label "
-"for several such as American Pit Bull Terrier and American Staffordshire "
-"Terrier.  Average abilities and well-known for their 'lock jaw' which isn't "
+"The oft-misunderstood pit bull is not actually a single breed but a label "
+"for several such as the American pit bull terrier and American Staffordshire "
+"terrier.  Average abilities and well-known for their 'lock jaw' which isn't "
 "real but their incredible determination is."
 msgstr ""
 
@@ -41126,7 +41184,7 @@ msgstr ""
 #. ~ Description for pit bull puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless Pit Bull puppy.  Much safer to tame than adult "
+"An adorable, defenseless pit bull puppy.  Much safer to tame than adult "
 "counterparts."
 msgstr ""
 
@@ -41137,7 +41195,7 @@ msgstr ""
 #. ~ Description for beagle
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable Beagle that has managed to survive the apocalypse.  Being agile "
+"An adorable beagle that has managed to survive the apocalypse.  Being agile "
 "and small, they are difficult to shoot at.  Generally attacks in packs."
 msgstr ""
 
@@ -41148,7 +41206,7 @@ msgstr ""
 #. ~ Description for beagle puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless Beagle puppy.  Much safer to tame than adult "
+"An adorable, defenseless beagle puppy.  Much safer to tame than adult "
 "counterparts."
 msgstr ""
 
@@ -41160,7 +41218,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An athletic and hyperactive dog that loves to herd animals and jump, the "
-"Border Collie is an agile attacker.  Although they can be easy to train, "
+"border collie is an agile attacker.  Although they can be easy to train, "
 "they don't work well in packs."
 msgstr ""
 
@@ -41171,7 +41229,7 @@ msgstr ""
 #. ~ Description for border collie puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless Border Collie puppy.  Much safer to tame than adult "
+"An adorable, defenseless border collie puppy.  Much safer to tame than adult "
 "counterparts."
 msgstr ""
 
@@ -41182,7 +41240,7 @@ msgstr ""
 #. ~ Description for boxer mastiff
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An ordinary breed full of affection, the Boxer Mastiff doesn't otherwise "
+"An ordinary breed full of affection, the boxer mastiff doesn't otherwise "
 "stand out amongst other dogs with its capabilities."
 msgstr ""
 
@@ -41193,15 +41251,15 @@ msgstr ""
 #. ~ Description for boxer puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless Boxer puppy.  Much safer to tame than adult "
+"An adorable, defenseless boxer puppy.  Much safer to tame than adult "
 "counterparts."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "chihuahua"
+msgid "Chihuahua"
 msgstr ""
 
-#. ~ Description for chihuahua
+#. ~ Description for Chihuahua
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "It's a tiny Chihuahua.  How it has managed to survive is a miracle; although "
@@ -41209,10 +41267,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "chihuahua puppy"
+msgid "Chihuahua puppy"
 msgstr ""
 
-#. ~ Description for chihuahua puppy
+#. ~ Description for Chihuahua puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An adorable, defenseless Chihuahua puppy.  Much safer to tame than adult "
@@ -41237,15 +41295,15 @@ msgstr ""
 #. ~ Description for dachshund puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless Dachshund puppy.  Much safer to tame than adult "
+"An adorable, defenseless dachshund puppy.  Much safer to tame than adult "
 "counterparts."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "german shepherd"
+msgid "German shepherd"
 msgstr ""
 
-#. ~ Description for german shepherd
+#. ~ Description for German shepherd
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "The original K-9 breed.  An easy to train and great attack dog that will "
@@ -41253,21 +41311,21 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "german shepherd puppy"
+msgid "German shepherd puppy"
 msgstr ""
 
-#. ~ Description for german shepherd puppy
+#. ~ Description for German shepherd puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless German Shepherd puppy.  Much safer to tame than "
+"An adorable, defenseless German shepherd puppy.  Much safer to tame than "
 "adult counterparts."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "great pyrenees"
+msgid "Great Pyrenees"
 msgstr ""
 
-#. ~ Description for great pyrenees
+#. ~ Description for Great Pyrenees
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A large and powerful breed, the Great Pyrenees has a beautiful, thick white "
@@ -41276,10 +41334,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "great pyrenees puppy"
+msgid "Great Pyrenees puppy"
 msgstr ""
 
-#. ~ Description for great pyrenees puppy
+#. ~ Description for Great Pyrenees puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An adorable, defenseless Great Pyrenees puppy.  Much safer to tame than "
@@ -41293,7 +41351,7 @@ msgstr ""
 #. ~ Description for rottweiler
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"Terrifying breed to face feral, as the Rottweiler breed is descended from "
+"Terrifying breed to face feral, as the rottweiler breed is descended from "
 "Roman legion mastiffs.  Robust and vicious, quite capable of mauling a human "
 "to death."
 msgstr ""
@@ -41305,7 +41363,7 @@ msgstr ""
 #. ~ Description for rottweiler puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless Rottweiler puppy.  Much safer to tame than adult "
+"An adorable, defenseless rottweiler puppy.  Much safer to tame than adult "
 "counterparts."
 msgstr ""
 
@@ -41316,8 +41374,8 @@ msgstr ""
 #. ~ Description for cattle dog
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An agile and sturdy breed that is welcome on any farm, the Australian Cattle "
-"Dog is adept at leaping fences and herding livestock."
+"An agile and sturdy breed that is welcome on any farm, the Australian cattle "
+"dog is adept at leaping fences and herding livestock."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41327,7 +41385,7 @@ msgstr ""
 #. ~ Description for cattle dog puppy
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An adorable, defenseless Australian Cattle Dog puppy.  Much safer to tame "
+"An adorable, defenseless Australian cattle dog puppy.  Much safer to tame "
 "than adult counterparts."
 msgstr ""
 
@@ -60799,7 +60857,7 @@ msgstr ""
 #: lang/json/gun_from_json.py
 #: lang/json/gun_from_json.py lang/json/gunmod_from_json.py
 #: lang/json/gunmod_from_json.py
-#: lang/json/gunmod_from_json.py src/item.cpp
+#: src/item.cpp
 msgctxt "gun_type_type"
 msgid "pistol"
 msgstr ""
@@ -65563,6 +65621,34 @@ msgid ""
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
+msgid "belt feed adapter"
+msgid_plural "belt feed adapters"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A kit providing the necessary parts for permanently converting a firearm "
+"from magazine to belt-feed.  Guaranteed to void your warranty."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "magazine"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "tuned mechanism"
+msgid_plural "tuned mechanisms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A set of finely tuned internal components which increase the precision and "
+"reliably of a firearm."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
 msgid "arrow rest"
 msgid_plural "arrow rests"
 msgstr[0] ""
@@ -65746,8 +65832,7 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A set of ergonomic replacement furniture for a firearm improving handling "
-"and accuracy."
+"A set of ergonomic replacement furniture for a firearm improving handling."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -65797,22 +65882,6 @@ msgid "emitter"
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
-msgid "belt feed adapter"
-msgid_plural "belt feed adapters"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"A kit providing the necessary parts for permanently converting a firearm "
-"from magazine to belt-feed.  Guaranteed to void your warranty."
-msgstr ""
-
-#: lang/json/gunmod_from_json.py
-msgid "magazine"
-msgstr ""
-
-#: lang/json/gunmod_from_json.py
 msgid "leadworks magazine adapter"
 msgid_plural "leadworks magazine adapters"
 msgstr[0] ""
@@ -65832,19 +65901,8 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid ""
-"A precision weighted trigger assembly that improves a firearm's accuracy."
-msgstr ""
-
-#: lang/json/gunmod_from_json.py
-msgid "tuned mechanism"
-msgid_plural "tuned mechanisms"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/gunmod_from_json.py
-msgid ""
-"A set of finely tuned internal components which increase the precision and "
-"reliably of a firearm."
+"A precision weighted trigger assembly that slightly improves a firearm's "
+"accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -66006,7 +66064,7 @@ msgstr[1] ""
 #: lang/json/gunmod_from_json.py
 msgid ""
 "An advanced unit that straps onto the side of your firearm and reduces "
-"vibration, greatly reducing recoil and increasing accuracy."
+"vibration, greatly reducing recoil and slightly increasing accuracy."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -67312,8 +67370,8 @@ msgstr ""
 msgid ""
 "Note that while several ammo types exist for a given caliber and magazine "
 "type, you can't mix and match these types into a single magazine. You can't "
-"for example load 9x19mm JHP and 9x19 FMJ ammo into the same magazine, since "
-"a magazine always requires identical rounds to be loaded in it."
+"for example load 9x19mm JHP and 9x19mm FMJ ammo into the same magazine, "
+"since a magazine always requires identical rounds to be loaded in it."
 msgstr ""
 
 #: lang/json/help_from_json.py
@@ -69241,7 +69299,15 @@ msgid "Assign invlets to armor"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Sort armor into natural layer order"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Equip armor from inventory"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Equip armor from inventory at this position"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -91229,14 +91295,14 @@ msgid ""
 "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of "
 "a man carrying a somewhat confused horse on his shoulders.  He is flanked by "
 "two scantily clad nurses who hold bloody chainsaws and give approving thumbs "
-"up.  His bulging knees and elbows are stiched and seem to be the source of "
+"up.  His bulging knees and elbows are stitched and seem to be the source of "
 "his ability.  The caption reads:  \"Brand new!  Horse power at hand!\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of "
-"a man smiling while being relentlesly punched by a boxer.  He doesn't even "
+"a man smiling while being relentlessly punched by a boxer.  He doesn't even "
 "sweat as punches have no effect on him.  Two scantily clad nurses give "
 "approving thumbs up from the background.  The caption reads:  \"Bouncy as "
 "never before!  Absorb those shocks!\""
@@ -98621,9 +98687,10 @@ msgstr ""
 #: src/iuse.cpp
 #: src/iuse_actor.cpp
 #: src/iuse_actor.cpp src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp
+#: src/npctalk.cpp
+#: src/pickup.cpp src/player.cpp
 #: src/player.cpp
-#: src/player.cpp src/veh_interact.cpp
+#: src/veh_interact.cpp
 msgid "Never mind."
 msgstr ""
 
@@ -110832,6 +110899,59 @@ msgid "Hang on a bit..."
 msgstr ""
 
 #: src/armor_layers.cpp
+msgid "<color_light_blue>close to your skin</color>"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "of <color_light_blue>normal</color> clothing"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "on your <color_light_blue>waist</color>"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "of <color_light_blue>outer</color> clothing"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "<color_light_blue>strapped</color> to you"
+msgstr ""
+
+#: src/armor_layers.cpp
+#, c-format
+msgid ""
+"Wearing multiple items %s on your <color_light_red>%s</color> is adding "
+"encumbrance there."
+msgid_plural ""
+"Wearing multiple items %s on your <color_light_red>%s</color> is adding "
+"encumbrance there."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/armor_layers.cpp
+#, c-format
+msgid ""
+"Wearing this outside items it would normally be beneath is adding "
+"encumbrance to your <color_light_red>%s</color>."
+msgid_plural ""
+"Wearing this outside items it would normally be beneath is adding "
+"encumbrance to your <color_light_red>%s</color>."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/armor_layers.cpp
+#, c-format
+msgid ""
+"Wearing this outside your <color_light_blue>%s</color> is adding encumbrance "
+"to your <color_light_red>%s</color>."
+msgid_plural ""
+"Wearing this outside your <color_light_blue>%s</color> is adding encumbrance "
+"to your <color_light_red>%s</color>."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/armor_layers.cpp
 msgid "This is worn next to the skin."
 msgstr ""
 
@@ -111001,18 +111121,22 @@ msgstr ""
 #, c-format
 msgid ""
 "Use the arrow- or keypad keys to navigate the left list.\n"
-"Press [%s] to select highlighted armor for reordering.\n"
-"Use   [%s] / [%s] to scroll the right list.\n"
-"Press [%s] to assign special inventory letters to clothing.\n"
-"Press [%s] to change the side on which item is worn.\n"
-"Use   [%s] to equip an armor item from the inventory.\n"
-"Press [%s] to remove selected armor from oneself.\n"
+"[%s] to select highlighted armor for reordering.\n"
+"[%s] / [%s] to scroll the right list.\n"
+"[%s] to assign special inventory letters to clothing.\n"
+"[%s] to change the side on which item is worn.\n"
+"[%s] to sort armor into natural layer order.\n"
+"[%s] to equip a new item.\n"
+"[%s] to equip a new item at the currently selected position.\n"
+"[%s] to remove selected armor from oneself.\n"
 " \n"
 "[Encumbrance and Warmth] explanation:\n"
 "The first number is the summed encumbrance from all clothing on that "
 "bodypart.\n"
 "The second number is an additional encumbrance penalty caused by wearing "
-"multiple items on one of the bodypart's layers.\n"
+"multiple items on one of the bodypart's layers or wearing items outside of "
+"other items they would normally be work beneath (e.g. a shirt over a "
+"backpack).\n"
 "The sum of these values is the effective encumbrance value your character "
 "has for that bodypart."
 msgstr ""
@@ -112095,6 +112219,12 @@ msgstr ""
 
 #: src/bionics.cpp
 msgid ""
+"You need to connect the cable to yourself and the solar pack before your "
+"solar pack can charge your system."
+msgstr ""
+
+#: src/bionics.cpp
+msgid ""
 "You might plug in your solar pack to the cable charging system, if you "
 "unfold it."
 msgstr ""
@@ -112594,6 +112724,13 @@ msgstr[1] ""
 
 #: src/calendar.cpp
 #, c-format
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/calendar.cpp
+#, c-format
 msgid "%d season"
 msgid_plural "%d seasons"
 msgstr[0] ""
@@ -112640,6 +112777,14 @@ msgstr[1] ""
 #, c-format
 msgid "%3d     day"
 msgid_plural "%3d    days"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Right-aligned time string. should right-align with other strings with this same comment
+#: src/calendar.cpp
+#, c-format
+msgid "%3d    week"
+msgid_plural "%3d   weeks"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -113077,8 +113222,7 @@ msgstr ""
 
 #: src/character.cpp src/game.cpp
 #: src/game.cpp src/iexamine.cpp src/inventory_ui.cpp
-#: src/npctalk_funcs.cpp src/pickup.cpp
-#: src/turret.cpp src/vehicle_use.cpp
+#: src/pickup.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -114376,7 +114520,7 @@ msgstr ""
 msgid "Result: "
 msgstr ""
 
-#: src/construction.cpp src/crafting_gui.cpp src/recipe.cpp
+#: src/construction.cpp src/crafting_gui.cpp
 msgid "N/A"
 msgstr ""
 
@@ -115113,36 +115257,36 @@ msgstr ""
 
 #: src/crafting_gui.cpp
 #, c-format
-msgid "Skills used: %s"
+msgid "Primary skill used: <color_cyan>%s</color>"
 msgstr ""
 
 #: src/crafting_gui.cpp
 #, c-format
-msgid "Required skills: %s"
+msgid "Difficulty: <color_%s>%d</color>"
 msgstr ""
 
 #: src/crafting_gui.cpp
 #, c-format
-msgid "Difficulty: %d"
+msgid "Your skill level: <color_%s>%d</color>"
 msgstr ""
 
 #: src/crafting_gui.cpp
-msgid "Your skill level: N/A"
-msgstr ""
-
-#: src/crafting_gui.cpp
-#, c-format
-msgid "Your skill level: %d"
+msgid "Your skill level: <color_yellow>N/A</color>"
 msgstr ""
 
 #: src/crafting_gui.cpp
 #, c-format
-msgid "Time to complete: %s"
+msgid "Other skills used: %s"
 msgstr ""
 
 #: src/crafting_gui.cpp
 #, c-format
-msgid "Dark craftable? %s"
+msgid "Time to complete: <color_cyan>%s</color>"
+msgstr ""
+
+#: src/crafting_gui.cpp
+#, c-format
+msgid "Dark craftable? <color_cyan>%s</color>"
 msgstr ""
 
 #: src/crafting_gui.cpp src/defense.cpp
@@ -115372,6 +115516,11 @@ msgstr ""
 
 #: src/creature.cpp
 msgid "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)"
+msgstr ""
+
+#: src/debug.cpp
+#, c-format
+msgid "See %s for a full stack backtrace"
 msgstr ""
 
 #: src/debug.cpp
@@ -116590,7 +116739,7 @@ msgstr ""
 msgid "You must construct expansions in fields."
 msgstr ""
 
-#: src/editmap.cpp src/mission_companion.cpp
+#: src/editmap.cpp src/faction_camp.cpp
 msgid ""
 "Engine cannot support merging vehicles from two overmaps, please remove them "
 "from the OM tile."
@@ -118595,6 +118744,1477 @@ msgstr ""
 msgid "Combat Ability:    %s"
 msgstr ""
 
+#: src/faction_camp.cpp
+msgid " [DONE]\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " left]\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Upgrade Camp"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working to expand your camp!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#: src/mission_companion.cpp
+msgid ""
+"\n"
+" \n"
+"Do you wish to bring your allies back into your party?"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Ally from Upgrading"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Busy crafting!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " (Finish) Crafting"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Gather Materials"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Searching for materials to upgrade the camp.\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Ally from Gathering"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Distribute food to your follower and fill you larders.  Place the food you "
+"wish to distribute opposite the tent door between the manager and wall.\n"
+" \n"
+"Effects:\n"
+"> Increases your faction's food supply value which in turn is used to pay "
+"laborers for their time\n"
+" \n"
+"Must have enjoyability >= -6\n"
+"Perishable food liquidated at penalty depending on upgrades and rot time:\n"
+"> Rotten: 0%%\n"
+"> Rots in < 2 days: 60%%\n"
+"> Rots in < 5 days: 80%%\n"
+" \n"
+"Total faction food stock: %d kcal or %d day's rations"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Distribute Food"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Notes:\n"
+"Reset the points that items are sorted to using the [ Menial Labor ] "
+"mission.\n"
+" \n"
+"Effects:\n"
+"> Assignable Points: food, food for distribution, seeds, weapons, clothing, "
+"bionics, all kinds of tools, wood, trash, books, medication, and ammo.\n"
+"> Items sitting on any type of furniture will not be moved.\n"
+"> Items that are not listed in one of the categories are defaulted to the "
+"tools group."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Reset Sort Points"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to gather light brush and heavy sticks.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Gathering Possibilities:\n"
+"> heavy sticks\n"
+"> withered plants\n"
+"> splintered wood\n"
+" \n"
+"Risk: Very Low\n"
+"Time: 3 Hours, Repeated\n"
+"Positions: %d/3\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Collect Firewood"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Searching for firewood.\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Firewood Gatherers"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to do low level chores and sort supplies.\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Material left outside on the ground will be sorted into the four crates in "
+"front of the tent.\n"
+"Default, top to bottom:  Clothing, Food, Books/Bionics, and Tools.  Wood "
+"will be piled to the south.  Trash to the north.\n"
+" \n"
+"Risk: None\n"
+"Time: 3 Hours\n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Menial Labor"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Performing menial labor...\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"\n"
+" \n"
+"Do you wish to bring your allies back into your party?\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Menial Laborer"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Your base has become large enough to support an expansion.  Expansions open "
+"up new opportunities but can be expensive and time consuming.  Pick them "
+"carefully, only 8 can be built at each camp.\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Choose any one of the available expansions.  Starting with a farm or "
+"lumberyard are always a solid choice since food is used to support companion "
+"missions and wood is your primary construction material.\n"
+" \n"
+"Risk: None\n"
+"Time: 3 Hours \n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Expand Base"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Surveying for expansion...\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Surveyor"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to a nearby forest to cut logs.\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: 1 \n"
+"Effects:\n"
+"> 50%% of trees/trunks at the forest position will be cut down.\n"
+"> 100%% of total material will be brought back.\n"
+"> Repeatable with diminishing returns.\n"
+" \n"
+"Risk: None\n"
+"Time: 6 Hour Base + Travel Time + Cutting Time\n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Cut Logs"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Cutting logs in the woods...\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Log Cutter"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to build an improvised shelter and stock it with equipment "
+"at a distant map location.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: 3\n"
+"Effects:\n"
+"> Good for setting up resupply or contingency points.\n"
+"> Gear is left unattended and could be stolen.\n"
+"> Time dependent on weight of equipment being sent forward.\n"
+" \n"
+"Risk: Medium\n"
+"Time: 6 Hour Construction + Travel\n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Setup Hide Site"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Setting up a hide site...\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Hide Setup"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Push gear out to a hide site or bring gear back from one.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: 1\n"
+"Effects:\n"
+"> Good for returning equipment you left in the hide site shelter.\n"
+"> Gear is left unattended and could be stolen.\n"
+"> Time dependent on weight of equipment being sent forward or back.\n"
+" \n"
+"Risk: Medium\n"
+"Time: 1 Hour Base + Travel\n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Relay Hide Site"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Transfering gear to a hide site...\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Hide Relay"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to edible plans.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Foraging Possibilities:\n"
+"> wild vegetables\n"
+"> fruits and nuts dependening on season\n"
+"May produce less food than consumed!\n"
+"Risk: Very Low\n"
+"Time: 4 Hours, Repeated\n"
+"Positions: %d/3\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Forage for plants"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Foraging for edible plants.\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Foragers"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to set traps for small game.\n"
+" \n"
+"Skill used: trapping\n"
+"Difficulty: N/A \n"
+"Trappinng Possibilities:\n"
+"> small and tiny animal corpses\n"
+"May produce less food than consumed!\n"
+"Risk: Low\n"
+"Time: 6 Hours, Repeated\n"
+"Positions: %d/2\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Trap Small Game"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Trapping Small Game.\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Trappers"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to hunt large animals.\n"
+" \n"
+"Skill used: marksmanship\n"
+"Difficulty: N/A \n"
+"Hunting Possibilities:\n"
+"> small, medium, or large animal corpses\n"
+"May produce less food than consumed!\n"
+"Risk: Medium\n"
+"Time: 6 Hours, Repeated\n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Hunt Large Animals"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Hunting large animals.\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Hunter"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Construct Map Fortifications"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Construct Spiked Trench"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Constructing fortifications...\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Finish Map Fortifications"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recruit Companions"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Searching for recruits.\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Recruiter"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion out into the great unknown.  High survival skills are "
+"needed to avoid combat but you should expect an encounter or two.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: 3\n"
+"Effects:\n"
+"> Select checkpoints to customize path.\n"
+"> Reveals terrain around the path.\n"
+"> Can bounce off hide sites to extend range.\n"
+" \n"
+"Risk: High\n"
+"Time: Travel\n"
+"Positions: %d/3\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Scout Mission"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Scouting the region.\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Scout"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to purge the wasteland.  Their goal is to kill anything "
+"hostile they encounter and return when their wounds are too great or the "
+"odds are stacked against them.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: 4\n"
+"Effects:\n"
+"> Pulls creatures encountered into combat instead of fleeing.\n"
+"> Select checkpoints to customize path.\n"
+"> Can bounce off hide sites to extend range.\n"
+" \n"
+"Risk: Very High\n"
+"Time: Travel\n"
+"Positions: %d/3\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Combat Patrol"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Patrolling the region.\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Combat Patrol"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " Expansion Upgrade"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working to upgrade your expansions!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " Expansion"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Ally, "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Notes:\n"
+"Have a companion attempt to completely dissemble a vehicle into components.\n"
+" \n"
+"Skill used: mechanics\n"
+"Difficulty: 2 \n"
+"Effects:\n"
+"> Removed parts placed on the furniture in the garage.\n"
+"> Skill plays a huge role to determine what is salvaged.\n"
+" \n"
+"Risk: None\n"
+"Time: Skill Based \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " Chop Shop"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working at the chop shop...\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " (Finish) Chop Shop"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working in your kitchen!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " (Finish) Cooking"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working in your blacksmith shop!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " (Finish) Smithing"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Notes:\n"
+"Plow any spaces that have reverted to dirt or grass.\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Restores only the plots created in the last expansion upgrade.\n"
+"> Does not damage existing crops.\n"
+" \n"
+"Risk: None\n"
+"Time: 5 Min / Plot \n"
+"Positions: 0/1 \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " Plow Fields"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working to plow your fields!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " (Finish) Plow Fields"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Notes:\n"
+"Plant designated seeds in the spaces that have already been tilled.\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Choose which seed type or all of your seeds.\n"
+"> Stops when out of seeds or planting locations.\n"
+"> Will plant in ALL dirt mounds in the expansion.\n"
+" \n"
+"Risk: None\n"
+"Time: 1 Min / Plot \n"
+"Positions: 0/1 \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " Plant Fields"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working to plant your fields!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " (Finish) Plant Fields"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Notes:\n"
+"Harvest any plants that are ripe and bring the produce back.\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Will dump all harvesting products onto your location.\n"
+" \n"
+"Risk: None\n"
+"Time: 3 Min / Plot \n"
+"Positions: 0/1 \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " Harvest Fields"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working to harvest your fields!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " (Finish) Harvest Fields"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working on your farm!\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to search for materials..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "There are too many companions working on this mission!"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to search for firewood..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You don't have enough food stored to feed your companion."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to dig ditches and scrub toilets..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from working in the woods..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from working on the hide site..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from shuttling gear between the hide site..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to search for edible plants..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to set traps for small animals..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to hunt for meat..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to search for recruits..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to survey land..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You have already selected a surveyor!"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "begins to upgrade the expansion..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You already have a worker upgrading that expansion!"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You don't have the materials for the upgrade."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from your farm with something..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns to you with something..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from your kitchen with something..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from your blacksmith shop with something..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "begins plowing the field..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You already have someone plowing that field."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You have no additional seeds to give your companions..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "begins planting the field..."
+msgstr ""
+
+#: src/faction_camp.cpp src/mission_companion.cpp
+msgid "Which seeds do you wish to have planted?"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You already have someone planting that field."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "begins to harvest the field..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You already have someone harvesting that field."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You already have someone working in that garage."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from your garage..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You already have a companion upgrading the camp."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "begins to upgrade the camp..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Forests and swamps are the only valid cutting locations."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Trip Estimate:\n"
+"%s"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to cut logs..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Forests, swamps, and fields are valid hide site locations."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to build a hide site..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You need equipment to setup a hide site..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You must select an existing hide site."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Bring gear back?"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs for the hide site..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You need equipment to transport between the hide site..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Select a start and end point.  Line must be straight. Fields, forests, and "
+"swamps are valid fortification locations.  In addition to existing "
+"fortification constructions."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Select an end point."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Invalid terrain in construction path."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You don't have the material to build the fortification."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "begins constructing fortifications..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Select checkpoints until you reach maximum range or select the last point "
+"again to end."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs on patrol..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You don't have the materials to craft that"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Batch crafting %s [MAX: %d]: "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Your batch is too large!"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You already have someone working in that expansion."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "begins to work..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"       Chopping this vehicle:\n"
+"%s"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "begins working in the garage..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Your companion seems disappointed that your pantry is empty..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from upgrading the camp having earned a bit of experience..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from doing the dirty work to keep the camp running..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Sorting points have changed, forcing reset."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "gathering materials"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "foraging for edible plants"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "trapping small animals"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "hunting for meat"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from %s carrying supplies and has a bit more experience..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from constructing fortifications..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from searching for recruits with a bit more experience..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s encountered %s..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s didn't find anyone to recruit..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s convinced %s to hear a recruitment offer from you..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s wasn't interested in anything %s had to offer..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"NPC Overview:\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Name:  %20s\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Strength:        %10d\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Dexterity:       %10d\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Intelligence:    %10d\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Perception:      %10d\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Top 3 Skills:\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Asking for:\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"> Food:     %10d days\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Faction Food:%9d days\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Recruit Chance: %10d%%\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Select an option:"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Increase Food"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Decrease Food"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Make Offer"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Not Interested"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You decide you aren't interested..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s has been convinced to join!"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s wasn't interested..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Your companion hit a river and didn't know how to swim..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Your companion hit a river and didn't know how to swim well enough to "
+"cross..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s didn't return from patrol..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from patrol..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Select an expansion:"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You choose to wait..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from surveying for the expansion."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "No seeds to plant!"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s returns from working your fields..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "MAIN"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "  [N] "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " [NE] "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "  [E] "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " [SE] "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "  [S] "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " [SW] "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "  [W] "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid " [NW] "
+msgstr ""
+
+#: src/faction_camp.cpp
+#: src/mission_companion.cpp
+msgid "Base Missions"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Farm Expansion"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Garage Expansion"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Kitchen Expansion"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Blacksmith Expansion"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Empty Expansion"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Select a location between  %d and  %d tiles away."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"You must select a target between %d and %d range from the base.  Range: %d"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "You must be able to see the target that you select."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Do you want to bounce off this location to extend range?"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "food for you"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "food for companions"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "weapons"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "clothing"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "bionics"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "all kinds of tools"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "wood of various sorts"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "trash and rotting food"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "books"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "medication"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "ammo"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Reset point: %s?"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"                    Items       New Point       Old Point\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"\n"
+" \n"
+"             Save Points?"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Revert to default points?"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">Distance:%15.2f (km)\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">One Way: %15d (trips)\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">Covered: %15.2f (km)\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">Distance:%15d (m)\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">Covered: %15d (m)\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">Travel:  %23s\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">Working: %23s\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Total:    %23s\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Food:     %15d (kcal)\n"
+" \n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"%s\n"
+" \n"
+"Skill used: %s\n"
+"Difficulty: %d\n"
+"%s \n"
+"Risk: None\n"
+"Time: %s\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Skill used: %s\n"
+"Difficulty: %d\n"
+"%s\n"
+"Time: %s\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Recruiting additional followers is very dangerous and expensive.  The "
+"outcome is heavily dependent on the skill of the companion you send and the "
+"appeal of your base.\n"
+" \n"
+"Skill used: speech\n"
+"Difficulty: 2 \n"
+"Base Score:                   +%3d%%\n"
+"> Expansion Bonus:            +%3d%%\n"
+"> Faction Bonus:              +%3d%%\n"
+"> Special Bonus:              +%3d%%\n"
+" \n"
+"Total: Skill                  +%3d%%\n"
+" \n"
+"Risk: High\n"
+"Time: 4 Days\n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+"Notes: \n"
+"Send a companion to gather materials for the next camp upgrade.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Gathering Possibilities:\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid ""
+" \n"
+"Risk: Very Low\n"
+"Time: 3 Hours, Repeated\n"
+"Positions: "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Harvestable: "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Ready for Planting: "
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Needs Plowing: "
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Name:     %25s\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "----          Engines          ----\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Engine:  %25s\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">Status:  %24d%%\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ">Fuel:    %25s\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "----  Fuel Storage & Battery   ----\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Estimated Chop Time:         5 Days\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "No items are located at the drop point..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "You distribute %d kcal worth of food to your companions."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "While %s, a silent specter approaches %s..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s notices the antlered horror and slips away before it gets too close."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Another survivor approaches %s asking for directions."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Fearful that he may be an agent of some hostile faction, %s doesn't mention "
+"the camp."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "The two part on friendly terms and the survivor isn't seen again."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s didn't detect the ambush until it was too late!"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "The bull moose charged %s from the tree line..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Despite being caught off guard %s was able to run away until the moose gave "
+"up pursuit."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "The jabberwock grabbed %s by the arm from behind and began to scream."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Terrified, %s spun around and delivered a massive kick to the creature's "
+"torso..."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Collapsing into a pile of gore, %s walked away unscathed..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "(Sounds like bullshit, you wonder what really happened.)"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"%s turned to find the hideous black eyes of a giant wasp staring back from "
+"only a few feet away..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "The screams were terrifying, there was nothing anyone could do."
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "Pieces of %s were found strewn across a few bushes."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "(You wonder if your companions are fit to work on their own...)"
+msgstr ""
+
 #: src/field.cpp
 msgid "blood splatter"
 msgstr ""
@@ -119661,6 +121281,14 @@ msgid "Test trait group"
 msgstr ""
 
 #: src/game.cpp
+msgid "Show debug message"
+msgstr ""
+
+#: src/game.cpp
+msgid "Crash game (test crash handling)"
+msgstr ""
+
+#: src/game.cpp
 msgid "Quit to Main Menu"
 msgstr ""
 
@@ -120402,7 +122030,7 @@ msgstr ""
 msgid "Use which item?"
 msgstr ""
 
-#: src/game.cpp src/iuse.cpp src/veh_interact.cpp
+#: src/game.cpp src/iuse.cpp
 msgid "Never mind"
 msgstr ""
 
@@ -120889,7 +122517,7 @@ msgctxt "butchery menu"
 msgid "Cut up %s (%d)"
 msgstr ""
 
-#. ~ Name and number of items listed for disassembling
+#. ~ Name, number of items and time to complete disassembling
 #: src/game.cpp
 #, c-format
 msgctxt "butchery menu"
@@ -120926,7 +122554,7 @@ msgid "Choose corpse to butcher / item to disassemble"
 msgstr ""
 
 #: src/game.cpp
-msgid "Butcher everything"
+msgid "Quick butcher everything"
 msgstr ""
 
 #: src/game.cpp
@@ -120938,7 +122566,7 @@ msgid "Disassemble everything"
 msgstr ""
 
 #: src/game.cpp
-msgid "Cut up all you can"
+msgid "Cut up everything"
 msgstr ""
 
 #: src/game.cpp
@@ -120962,7 +122590,7 @@ msgstr ""
 
 #: src/game.cpp
 msgid ""
-"This techinque is used when you are in a hurry, but still want to harvest "
+"This technique is used when you are in a hurry, but still want to harvest "
 "something from the corpse.  Yields are lower as you don't try to be precise, "
 "but it's useful if you don't want to set up a workshop.  Prevents zombies "
 "from raising."
@@ -122081,6 +123709,19 @@ msgstr ""
 msgid "JOY"
 msgstr ""
 
+#. ~ Used for permafood shelf life in the Eat menu
+#: src/game_inventory.cpp
+msgid "indefinite"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "SHELF LIFE"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "FRESHNESS"
+msgstr ""
+
 #: src/game_inventory.cpp
 msgid "SPOILS IN"
 msgstr ""
@@ -122111,6 +123752,38 @@ msgstr ""
 
 #: src/game_inventory.cpp
 msgid "You're fully charged"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "soon!"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "fresh"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "quite fresh"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "near midlife"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "past midlife"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "getting older"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "old"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "rotten"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -122254,6 +123927,14 @@ msgstr ""
 #: src/game_inventory.cpp
 #, c-format
 msgid "You have no weapons you could put into your %s."
+msgstr ""
+
+#: src/game_inventory.cpp src/iuse.cpp
+msgid "Cut up what?"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "You have nothing to cut up."
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -124722,6 +126403,67 @@ msgid "black"
 msgstr ""
 
 #: src/item.cpp
+#, c-format
+msgid ""
+"* This food looks as <good>fresh</good> as it can be.  It still has <info>"
+"%s</info> until it spoils."
+msgstr ""
+
+#: src/item.cpp
+msgid "* This food looks as <good>fresh</good> as it can be."
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid ""
+"* This food looks <bad>old</bad>.  It's just <info>%s</info> from becoming "
+"inedible."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* This food looks <bad>old</bad>.  It's on the brink of becoming inedible."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* This food looks <info>fine</info>.  If you were more skilled in cooking or "
+"survival, you might be able to make a better estimation."
+msgstr ""
+
+#. ~ here, %s is an approximate time span, e.g., "over 2 weeks" or "about 1 season"
+#: src/item.cpp
+#, c-format
+msgid ""
+"* This food looks <good>quite fresh</good>.  It has <info>%s</info> until it "
+"spoils."
+msgstr ""
+
+#. ~ here, %s is an approximate time span, e.g., "over 2 weeks" or "about 1 season"
+#: src/item.cpp
+#, c-format
+msgid ""
+"* This food looks like it is reaching its <neutral>midlife</neutral>.  "
+"There's <info>%s</info> before it spoils."
+msgstr ""
+
+#. ~ here, %s is an approximate time span, e.g., "over 2 weeks" or "about 1 season"
+#: src/item.cpp
+#, c-format
+msgid ""
+"* This food looks like it has <neutral>passed its midlife</neutral>.  "
+"Edible, but will go bad in <info>%s</info>."
+msgstr ""
+
+#. ~ here, %s is an approximate time span, e.g., "over 2 weeks" or "about 1 season"
+#: src/item.cpp
+#, c-format
+msgid ""
+"* This food looks like it <bad>will be old soon</bad>.  It has <info>%s</"
+"info>, so if you plan to use it, it's now or never."
+msgstr ""
+
+#: src/item.cpp
 msgid "Category: "
 msgstr ""
 
@@ -124891,39 +126633,8 @@ msgstr ""
 #: src/item.cpp
 #, c-format
 msgid ""
-"* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to "
-"rot from full freshness, at room temperature."
-msgstr ""
-
-#: src/item.cpp
-msgid "* This food looks as <good>fresh</good> as it can be."
-msgstr ""
-
-#: src/item.cpp
-msgid ""
-"* This food looks <good>still quite fresh</good>. It's far from becoming old."
-msgstr ""
-
-#: src/item.cpp
-msgid ""
-"* This food looks like it is reaching its <neutral>midlife</neutral>. It has "
-"some time ahead before spoiling."
-msgstr ""
-
-#: src/item.cpp
-msgid ""
-"* This food looks like it has <neutral>passed its midlife</neutral>. Edible, "
-"but will go old sooner rather then later."
-msgstr ""
-
-#: src/item.cpp
-msgid ""
-"* This food looks like it <bad>will be old soon</bad>. It's now or never, if "
-"you plan to use it."
-msgstr ""
-
-#: src/item.cpp
-msgid "* This food looks <bad>old</bad>. It's on a brink of becoming inedible."
+"* This food is <neutral>perishable</neutral>, and at room temperature has an "
+"estimated nominal shelf life of <info>%s</info>."
 msgstr ""
 
 #: src/item.cpp
@@ -125149,6 +126860,18 @@ msgstr ""
 #: src/item.cpp
 #, c-format
 msgid "Ammo: <stat>%s</stat>"
+msgstr ""
+
+#: src/item.cpp
+msgid "<num>%"
+msgstr ""
+
+#: src/item.cpp
+msgid "Reload modifier: "
+msgstr ""
+
+#: src/item.cpp
+msgid "Minimum strength required modifier: "
 msgstr ""
 
 #: src/item.cpp
@@ -127790,7 +129513,9 @@ msgid "You cannot use the %1$s with another of it's kind."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You unfold solar array from the pack and plug it in."
+msgid ""
+"You unfold solar array from the pack.  You still need to connect it with a "
+"cable."
 msgstr ""
 
 #: src/iuse.cpp
@@ -127942,10 +129667,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You waste a lot of the wood."
-msgstr ""
-
-#: src/iuse.cpp src/iuse_actor.cpp
-msgid "Cut up what?"
 msgstr ""
 
 #: src/iuse.cpp
@@ -129184,11 +130905,23 @@ msgid ""
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Attach cable to vehicle where?"
+msgid "Using cable:"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Using cable:"
+msgid "Attach cable to vehicle"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Attach cable to self"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Attach cable to solar pack"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Attach cable to vehicle where?"
 msgstr ""
 
 #: src/iuse.cpp
@@ -132638,10 +134371,6 @@ msgid "Outpost Missions"
 msgstr ""
 
 #: src/mission_companion.cpp
-msgid "Base Missions"
-msgstr ""
-
-#: src/mission_companion.cpp
 msgid "Junk Shop Missions"
 msgstr ""
 
@@ -132683,13 +134412,6 @@ msgstr ""
 
 #: src/mission_companion.cpp
 msgid " hours] \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"\n"
-" \n"
-"Do you wish to bring your allies back into your party?"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -132780,555 +134502,6 @@ msgstr ""
 
 #: src/mission_companion.cpp
 msgid "Recover Ally from Carpentry Work"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Upgrade Camp"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Gather Materials"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Distribute food to your follower and fill you larders.  Place the food you "
-"wish to distribute opposite the tent door between the manager and wall.\n"
-" \n"
-"Effects:\n"
-"> Increases your faction's food supply value which in turn is used to pay "
-"laborers for their time\n"
-" \n"
-"Must have enjoyability >= -6\n"
-"Perishable food liquidated at penalty depending on upgrades and rot time:\n"
-"> Rotten: 0%%\n"
-"> Rots in < 2 days: 60%%\n"
-"> Rots in < 5 days: 80%%\n"
-" \n"
-"Total faction food stock: %d kcal or %d day's rations"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Distribute Food"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Notes:\n"
-"Reset the points that items are sorted to using the [ Menial Labor ] "
-"mission.\n"
-" \n"
-"Effects:\n"
-"> Assignable Points: food, food for distribution, seeds, weapons, clothing, "
-"bionics, all kinds of tools, wood, trash, books, medication, and ammo.\n"
-"> Items sitting on any type of furniture will not be moved.\n"
-"> Items that are not listed in one of the categories are defaulted to the "
-"tools group."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Reset Sort Points"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Send a companion to gather light brush and heavy sticks.\n"
-" \n"
-"Skill used: survival\n"
-"Difficulty: N/A \n"
-"Gathering Possibilities:\n"
-"> heavy sticks\n"
-"> withered plants\n"
-"> splintered wood\n"
-" \n"
-"Risk: Very Low\n"
-"Time: 3 Hours, Repeated\n"
-"Positions: %d/3\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Collect Firewood"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Send a companion to do low level chores and sort supplies.\n"
-" \n"
-"Skill used: fabrication\n"
-"Difficulty: N/A \n"
-"Effects:\n"
-"> Material left outside on the ground will be sorted into the four crates in "
-"front of the tent.\n"
-"Default, top to bottom:  Clothing, Food, Books/Bionics, and Tools.  Wood "
-"will be piled to the south.  Trash to the north.\n"
-" \n"
-"Risk: None\n"
-"Time: 3 Hours\n"
-"Positions: %d/1\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Menial Labor"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Your base has become large enough to support an expansion.  Expansions open "
-"up new opportunities but can be expensive and time consuming.  Pick them "
-"carefully, only 8 can be built at each camp.\n"
-" \n"
-"Skill used: fabrication\n"
-"Difficulty: N/A \n"
-"Effects:\n"
-"> Choose any one of the available expansions.  Starting with a farm or "
-"lumberyard are always a solid choice since food is used to support companion "
-"missions and wood is your primary construction material.\n"
-" \n"
-"Risk: None\n"
-"Time: 3 Hours \n"
-"Positions: %d/1\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Expand Base"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Send a companion to a nearby forest to cut logs.\n"
-" \n"
-"Skill used: fabrication\n"
-"Difficulty: 1 \n"
-"Effects:\n"
-"> 50%% of trees/trunks at the forest position will be cut down.\n"
-"> 50%% of total material will be brought back.\n"
-"> Repeatable with diminishing returns.\n"
-" \n"
-"Risk: Low-Medium\n"
-"Time: 6 Hour Base + Travel Time + Cutting Time\n"
-"Positions: %d/1\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Cut Logs"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Send a companion to build an improvised shelter and stock it with equipment "
-"at a distant map location.\n"
-" \n"
-"Skill used: survival\n"
-"Difficulty: 3\n"
-"Effects:\n"
-"> Good for setting up resupply or contingency points.\n"
-"> Gear is left unattended and could be stolen.\n"
-"> Time dependent on weight of equipment being sent forward.\n"
-" \n"
-"Risk: Medium\n"
-"Time: 6 Hour Construction + Travel\n"
-"Positions: %d/1\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Setup Hide Site"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Push gear out to a hide site or bring gear back from one.\n"
-" \n"
-"Skill used: survival\n"
-"Difficulty: 1\n"
-"Effects:\n"
-"> Good for returning equipment you left in the hide site shelter.\n"
-"> Gear is left unattended and could be stolen.\n"
-"> Time dependent on weight of equipment being sent forward or back.\n"
-" \n"
-"Risk: Medium\n"
-"Time: 1 Hour Base + Travel\n"
-"Positions: %d/1\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Relay Hide Site"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Construct Map Fortifications"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Construct Spiked Trench"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recruit Companions"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Send a companion out into the great unknown.  High survival skills are "
-"needed to avoid combat but you should expect an encounter or two.\n"
-" \n"
-"Skill used: survival\n"
-"Difficulty: 3\n"
-"Effects:\n"
-"> Select checkpoints to customize path.\n"
-"> Reveals terrain around the path.\n"
-"> Can bounce off hide sites to extend range.\n"
-" \n"
-"Risk: High\n"
-"Time: Travel\n"
-"Positions: %d/3\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Scout Mission"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Send a companion to purge the wasteland.  Their goal is to kill anything "
-"hostile they encounter and return when their wounds are too great or the "
-"odds are stacked against them.\n"
-" \n"
-"Skill used: survival\n"
-"Difficulty: 4\n"
-"Effects:\n"
-"> Pulls creatures encountered into combat instead of fleeing.\n"
-"> Select checkpoints to customize path.\n"
-"> Can bounce off hide sites to extend range.\n"
-" \n"
-"Risk: Very High\n"
-"Time: Travel\n"
-"Positions: %d/3\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Combat Patrol"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " Expansion Upgrade"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Notes:\n"
-"Have a companion attempt to completely dissemble a vehicle into components.\n"
-" \n"
-"Skill used: mechanics\n"
-"Difficulty: 2 \n"
-"Effects:\n"
-"> Removed parts placed on the furniture in the garage.\n"
-"> Skill plays a huge role to determine what is salvaged.\n"
-" \n"
-"Risk: None\n"
-"Time: Skill Based \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " Chop Shop"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Notes:\n"
-"Plow any spaces that have reverted to dirt or grass.\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"\n"
-" \n"
-"Skill used: fabrication\n"
-"Difficulty: N/A \n"
-"Effects:\n"
-"> Restores only the plots created in the last expansion upgrade.\n"
-"> Does not damage existing crops.\n"
-" \n"
-"Risk: None\n"
-"Time: 5 Min / Plot \n"
-"Positions: 0/1 \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " Plow Fields"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Notes:\n"
-"Plant designated seeds in the spaces that have already been tilled.\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"\n"
-" \n"
-"Skill used: survival\n"
-"Difficulty: N/A \n"
-"Effects:\n"
-"> Choose which seed type or all of your seeds.\n"
-"> Stops when out of seeds or planting locations.\n"
-"> Will plant in ALL dirt mounds in the expansion.\n"
-" \n"
-"Risk: None\n"
-"Time: 1 Min / Plot \n"
-"Positions: 0/1 \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " Plant Fields"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Notes:\n"
-"Harvest any plants that are ripe and bring the produce back.\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"\n"
-" \n"
-"Skill used: survival\n"
-"Difficulty: N/A \n"
-"Effects:\n"
-"> Will dump all harvesting products onto your location.\n"
-" \n"
-"Risk: None\n"
-"Time: 3 Min / Plot \n"
-"Positions: 0/1 \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " Harvest Fields"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working to expand your camp!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " hours left] \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " minutes left] \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " [DONE]\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Ally from Upgrading"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working to upgrade your expansions!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " Expansion"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Ally, "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working at the chop shop...\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "/120 hours] \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " (Finish) Chop Shop"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working in your kitchen!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " [ALMOST DONE]\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " (Finish) Cooking"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working in your blacksmith shop!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " (Finish) Smithing"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working to plow your fields!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "/~48 hours] \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " (Finish) Plow Fields"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working to plant your fields!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "/4 hours] \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " (Finish) Plant Fields"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working to harvest your fields!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "/~10 hours] \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " (Finish) Harvest Fields"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Working on your farm!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " (Finish) Crafting"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Busy crafting!\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Searching for materials to upgrade the camp.\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "/3 hours] \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Ally from Gathering"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Searching for firewood.\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Firewood Gatherers"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Performing menial labor...\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"\n"
-" \n"
-"Do you wish to bring your allies back into your party?\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Menial Laborer"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Surveying for expansion...\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Surveyor"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Cutting logs in the woods...\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Log Cutter"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Setting up a hide site...\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Hide Setup"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Constructing fortifications...\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Finish Map Fortifications"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Searching for recruits.\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Recruiter"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Scouting the region.\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Scout"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Patrolling the region.\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Recover Combat Patrol"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -133535,235 +134708,6 @@ msgid "departs to work as a laborer..."
 msgstr ""
 
 #: src/mission_companion.cpp
-msgid "You don't have enough food stored to feed your companion."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "begins to upgrade the camp..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You already have a companion upgrading the camp."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You don't have the materials for the upgrade."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from your garage..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from your kitchen with something..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from your blacksmith shop with something..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from your farm with something..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns to you with something..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs to search for materials..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "There are too many companions working on this mission!"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs to search for firewood..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs to dig ditches and scrub toilets..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs to survey land..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You have already selected a surveyor!"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "begins to upgrade the expansion..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You already have a worker upgrading that expansion!"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Forests and swamps are the only valid cutting locations."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Trip Estimate:\n"
-"%s"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs to cut logs..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from working in the woods..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Forests, swamps, and fields are valid hide site locations."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs to build a hide site..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You need equipment to setup a hide site..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from working on the hide site..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You must select an existing hide site."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Bring gear back?"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs for the hide site..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You need equipment to transport between the hide site..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from shuttling gear between the hide site..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Select a start and end point.  Line must be straight. Fields, forests, and "
-"swamps are valid fortification locations.  In addition to existing "
-"fortification constructions."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Select an end point."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Invalid terrain in construction path."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You don't have the material to build the fortification."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "begins constructing fortifications..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from constructing fortifications..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs to search for recruits..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Select checkpoints until you reach maximum range or select the last point "
-"again to end."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "departs on patrol..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Your companion hit a river and didn't know how to swim..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Your companion hit a river and didn't know how to swim well enough to "
-"cross..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s didn't return from patrol..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from patrol..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You already have someone working in that garage."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "begins plowing the field..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You already have someone plowing that field."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You have no additional seeds to give your companions..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "begins planting the field..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Which seeds do you wish to have planted?"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You already have someone planting that field."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "begins to harvest the field..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You already have someone harvesting that field."
-msgstr ""
-
-#: src/mission_companion.cpp
 msgid "departs to work as a carpenter..."
 msgstr ""
 
@@ -133957,241 +134901,6 @@ msgstr ""
 
 #: src/mission_companion.cpp
 #, c-format
-msgid ""
-"Notes:\n"
-"%s\n"
-" \n"
-"Skill used: %s\n"
-"Difficulty: %d\n"
-"%s \n"
-"Risk: None\n"
-"Time: %s\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Skill used: %s\n"
-"Difficulty: %d\n"
-"%s\n"
-"Time: %s\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"Notes: \n"
-"Send a companion to gather materials for the next camp upgrade.\n"
-" \n"
-"Skill used: survival\n"
-"Difficulty: N/A \n"
-"Gathering Possibilities:\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-" \n"
-"Risk: Very Low\n"
-"Time: 3 Hours, Repeated\n"
-"Positions: "
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from upgrading the camp having earned a bit of experience..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "While gathering supplies, a silent specter approaches %s..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s notices the antlered horror and slips away before it gets too close."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "The survivor approaches %s asking for directions."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Fearful that he may be an agent of some hostile faction, %s doesn't mention "
-"the camp."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "The two part on friendly terms and the survivor isn't seen again."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s didn't detect the ambush until it was too late!"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "The bull moose charged %s from the tree line..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Despite being caught off guard %s was able to run away until the moose gave "
-"up pursuit."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "The jabberwock grabbed %s by the arm from behind and began to scream."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Terrified, %s spun around and delivered a massive kick to the creature's "
-"torso..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Collapsing into a pile of gore, %s walked away unscathed..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "(Sounds like bullshit, you wonder what really happened.)"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"%s turned to find the hideous black eyes of a giant wasp staring back from "
-"only a few feet away..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "The screams were terrifying, there was nothing anyone could do."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Pieces of %s were found strewn across a few bushes."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "(You wonder if your companions are fit to work on their own...)"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"%s returns from gathering materials carrying supplies and has a bit more "
-"experience..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Your companion seems disappointed that your pantry is empty..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"       Chopping this vehicle:\n"
-"%s"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "begins working in the garage..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "No seeds to plant!"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from working your fields..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from doing the dirty work to keep the camp running..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Sorting points have changed, forcing reset."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Select an expansion:"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You choose to wait..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from surveying for the expansion."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "No items are located at the drop point..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "You distribute %d kcal worth of food to your companions."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Harvestable: "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Ready for Planting: "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Needs Plowing: "
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Name:     %25s\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "----          Engines          ----\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Engine:  %25s\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">Status:  %24d%%\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">Fuel:    %25s\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "----  Fuel Storage & Battery   ----\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Estimated Chop Time:         5 Days\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
 msgid "While %s was framing a building one of the walls began to collapse..."
 msgstr ""
 
@@ -134345,370 +135054,6 @@ msgstr ""
 
 #: src/mission_companion.cpp
 msgid "No one returns to your party..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "MAIN"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "  [N] "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " [NE] "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "  [E] "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " [SE] "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "  [S] "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " [SW] "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "  [W] "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid " [NW] "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Farm Expansion"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Garage Expansion"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Kitchen Expansion"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Blacksmith Expansion"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Empty Expansion"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Select a location between  %d and  %d tiles away."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"You must select a target between %d and %d range from the base.  Range: %d"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You must be able to see the target that you select."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Do you want to bounce off this location to extend range?"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">Distance:%15.2f (km)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">One Way: %15d (trips)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">Covered: %15.2f (km)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">Distance:%15d (m)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">Covered: %15d (m)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">Travel:  %15d (hours)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ">Working: %15d (hours)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Total:    %15d (days)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Total:    %15d (hours)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Total:    %15d (minutes)\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Food:     %15d (kcal)\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "food for you"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "food for companions"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "weapons"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "clothing"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "bionics"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "all kinds of tools"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "wood of various sorts"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "trash and rotting food"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "books"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "medication"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "ammo"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Reset point: %s?"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"                    Items       New Point       Old Point\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"\n"
-" \n"
-"             Save Points?"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Revert to default points?"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You don't have the materials to craft that"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Batch crafting %s [MAX: %d]: "
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Your batch is too large!"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You already have someone working in that expansion."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "begins to work..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Notes:\n"
-"Recruiting additional followers is very dangerous and expensive.  The "
-"outcome is heavily dependent on the skill of the companion you send and the "
-"appeal of your base.\n"
-" \n"
-"Skill used: speech\n"
-"Difficulty: 2 \n"
-"Base Score:                   +%3d%%\n"
-"> Expansion Bonus:            +%3d%%\n"
-"> Faction Bonus:              +%3d%%\n"
-"> Special Bonus:              +%3d%%\n"
-" \n"
-"Total: Skill                  +%3d%%\n"
-" \n"
-"Risk: High\n"
-"Time: 4 Days\n"
-"Positions: %d/1\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s returns from searching for recruits with a bit more experience..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s encountered %s..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s didn't find anyone to recruit..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s convinced %s to hear a recruitment offer from you..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s wasn't interested in anything %s had to offer..."
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid ""
-"NPC Overview:\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Name:  %20s\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Strength:        %10d\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Dexterity:       %10d\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "Intelligence:    %10d\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Perception:      %10d\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Top 3 Skills:\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Asking for:\n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"> Food:     %10d days\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Faction Food:%9d days\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid ""
-"Recruit Chance: %10d%%\n"
-" \n"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Select an option:"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Increase Food"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Decrease Food"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Make Offer"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "Not Interested"
-msgstr ""
-
-#: src/mission_companion.cpp
-msgid "You decide you aren't interested..."
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s has been convinced to join!"
-msgstr ""
-
-#: src/mission_companion.cpp
-#, c-format
-msgid "%s wasn't interested..."
 msgstr ""
 
 #: src/mission_companion.h
@@ -144024,6 +144369,11 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
+msgid "The %s doesn't have any faults to toggle."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
 msgid "The %s doesn't have any faults to mend."
 msgstr ""
 
@@ -145854,6 +146204,10 @@ msgstr ""
 
 #: src/ranged.cpp
 msgid "kerblam!"
+msgstr ""
+
+#: src/recipe.cpp
+msgid "<color_cyan>none</color>"
 msgstr ""
 
 #: src/requirements.cpp
@@ -148118,10 +148472,6 @@ msgstr ""
 
 #: src/vehicle_use.cpp
 msgid "Camera system won't turn on"
-msgstr ""
-
-#: src/vehicle_use.cpp
-msgid "Quit controlling electronics"
 msgstr ""
 
 #: src/vehicle_use.cpp

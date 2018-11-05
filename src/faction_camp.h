@@ -52,15 +52,17 @@ void remove_overseer( npc & );
  * @param chance of destruction, 0 to 1.00
  * @param force_bash, whether you want to destroy the furniture and drop the items vs counting the furniture
  */
-int om_harvest_furn( npc &comp, const point &omt_tgt, const furn_id &f, float chance = 1.0,
+int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, float chance = 1.0,
                      bool force_bash = true );
 /// Exact same as om_harvest_furn but functions on terrain
-int om_harvest_ter( npc &comp, const point &omt_tgt, const ter_id &f, float chance = 1.0,
+int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &f, float chance = 1.0,
                     bool force_bash = true );
-/// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, @ref take, whether you take the item or count it
-int om_harvest_itm( npc &comp, const point &omt_tgt, float chance = 1.0, bool take = true );
+/// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total mass and volume
+/// @ref take, whether you take the item or count it
+std::pair<units::mass, units::volume> om_harvest_itm( npc *comp, const tripoint &omt_tgt,
+        float chance = 1.0, bool take = true );
 /// Counts or cuts trees into trunks and trunks into logs, if both are false it returns the total of the two combined
-int om_harvest_trees( npc &comp, const tripoint &omt_tgt, float chance = 1.0, bool force_cut = true,
+int om_cutdown_trees( const tripoint &omt_tgt, float chance = 1.0, bool force_cut = true,
                       bool force_cut_trunk = true );
 /// Creates an improvised shelter at @ref omt_tgt and dumps the @ref itms into the building
 bool om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<item *> &itms,
@@ -103,11 +105,14 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, 
 std::string camp_trip_description( time_duration total_time, time_duration working_time,
                                    time_duration travel_time,
                                    int distance, int trips, int need_food );
-/// Determines how many trips a given NPC @ref comp will take to move all of the items @ref itms
-int om_carry_weight_to_trips( npc &comp, const std::vector<item *> &itms );
+/// Determines how many round trips a given NPC @ref comp will take to move all of the items @ref itms
+int om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp = nullptr );
+/// Determines how many trips it takes to move @ref mass and @ref volume of items with @ref carry_mass and @ref carry_volume moved per trip
+int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
+                              units::volume carry_volume );
 
 /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
-bool om_camp_upgrade( npc &p, const point &omt_pos );
+bool om_camp_upgrade( npc &p, const tripoint &omt_pos );
 /// Returns the description for the recipe of the next building @ref bldg
 std::string om_upgrade_description( const std::string &bldg );
 /// Currently does the same as om_upgrade_description but should convert fire charges to raw charcoal needed and allow dark craft
@@ -122,20 +127,49 @@ std::vector<std::string> om_all_upgrade_levels( const std::string &bldg );
 bool om_min_level( const std::string &target, const std::string &bldg );
 /// Is the @ref bldg of the same type as the @ref target and how many levels greater is it, -1 for no match, 0 for same
 int om_over_level( const std::string &target, const std::string &bldg );
+/// Returns the numerical suffix of the @ref bldg
+int om_upgrade_level( const std::string &bldg );
 /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
-bool upgrade_return( npc &p, const point &omt_pos, const std::string &miss );
+bool upgrade_return( npc &p, const tripoint &omt_pos, const std::string &miss );
 /// Called when a companion completes a gathering @ref task mission
-bool camp_gathering_return( npc &p, const std::string &task );
+bool camp_gathering_return( npc &p, const std::string &task, time_duration min_time );
 /// Called on completion of recruiting, returns the new NPC.
 void camp_recruit_return( npc &p, const std::string &task, int score );
 void camp_craft_construction( npc &p, const mission_entry &cur_key,
                               const std::map<std::string, std::string> &recipes, const std::string &miss_id,
                               const tripoint &omt_pos, const std::vector<std::pair<std::string, tripoint>> &om_expansions );
-std::string camp_recruit_evaluation( npc &p, const std::string &base,
-                                     const std::vector<std::pair<std::string, tripoint>> &om_expansions,
-                                     bool raw_score = false );
+int camp_recruit_evaluation( const std::string &base,
+                             const std::vector<std::pair<std::string, tripoint>> &om_expansions, int &sbase, int &sexpansions,
+                             int &sfaction, int &sbonus );
+int camp_recruit_evaluation( const std::string &base,
+                             const std::vector<std::pair<std::string, tripoint>> &om_expansions );
+std::string camp_recruit_start( npc &p, const std::string &base,
+                                const std::vector<std::pair<std::string, tripoint>> &om_expansions );
+/// Called when a companion is sent to cut logs
+void start_camp_upgrade( npc &p, const std::string &bldg );
+void start_cut_logs( npc &p );
+void start_setup_hide_site( npc &p );
+void start_relay_hide_site( npc &p );
+/// Called when a compansion is sent to start fortifications
+void start_fortifications( std::string &bldg_exp, npc &p );
+void start_combat_mission( std::string &miss, npc &p );
+
 /// Called when a companion completes a chop shop @ref task mission
 bool camp_garage_chop_start( npc &p, const std::string &task );
+
+/**
+ * spawn items or corpses based on search attempts
+ * @param skill, skill level of the search
+ * @param groupd_id, name of the item_group that provides the items
+ * @param task, string to identify what types of corpses to provide ( _faction_camp_hunting or _faction_camp_trapping )
+ * @param attempts, number of skill checks to make
+ * @param difficulty, a random number from 0 to difficulty is created for each attempt, and if skill is higher, an item or corpse is spawned
+ */
+void camp_search_results( int skill, const Group_tag &group_id, int attempts, int difficulty );
+void camp_hunting_results( int skill, const std::string &task, int attempts, int difficulty );
+
+/// Called when a companion completes any mission and calls companion_return
+void camp_companion_return( npc &comp );
 /**
  * Perform any mix of the three farm tasks.
  * @param harvest, should the NPC harvest every harvestable plant
@@ -145,6 +179,8 @@ bool camp_garage_chop_start( npc &p, const std::string &task );
 bool camp_farm_return( npc &p, const std::string &task, bool harvest, bool plant, bool plow );
 /// Sorts all items within most of the confines of the camp into piles designated by the player or defaulted to
 bool camp_menial_return( npc &p );
+void camp_fortifications_return( npc &p );
+void combat_mission_return( std::string &miss, npc &p );
 /**
  * Sets the location of the sorting piles used above.
  * @param reset_pts, reverts all previous points to defaults.  Called/checked so we can add new point with compatability
@@ -159,9 +195,9 @@ bool camp_distribute_food( npc &p );
 std::vector<std::pair<std::string, tripoint>> om_building_region( npc &p, int range,
         bool purge = false );
 /// Converts the camp and expansion points into direction strings, "[NW]"
-std::string om_simple_dir( const point &omt_pos, const tripoint &omt_tar );
+std::string om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 /// Returns a string for the number of plants that are harvestable, plots ready to plany, and ground that needs tilling
-std::string camp_farm_description( const point &omt_pos, bool harvest = true, bool plots = true,
+std::string camp_farm_description( const tripoint &omt_pos, bool harvest = true, bool plots = true,
                                    bool plow = true );
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
@@ -187,5 +223,16 @@ std::string name_mission_tabs( npc &p, const std::string &id, const std::string 
 std::map<std::string, std::string> camp_recipe_deck( const std::string &om_cur );
 /// Determines what the absolute max (out of 9999) that can be crafted using inventory and food supplies
 int camp_recipe_batch_max( const recipe making, const inventory &total_inv );
+
+/*
+ * check if a companion survives a random encounter
+ * @param comp the companion
+ * @param situation what the survivor is doing
+ * @param favor a number added to the survivor's skills to see if he can avoid the encounter
+ * @param threat a number indicating how dangerous the encounter is
+ * TODO: Convert to JSON basic on dynamic line type structure
+ */
+bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat );
+
 };
 #endif

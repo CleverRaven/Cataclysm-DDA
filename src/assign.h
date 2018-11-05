@@ -217,6 +217,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
             units::volume::value_type tmp;
             std::string suffix;
             std::istringstream str( obj.get_string( name ) );
+            str.imbue( std::locale::classic() );
             str >> tmp >> suffix;
             if( str.peek() != std::istringstream::traits_type::eof() ) {
                 obj.throw_error( "syntax error when specifying volume", name );

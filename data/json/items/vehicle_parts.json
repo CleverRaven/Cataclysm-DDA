@@ -248,7 +248,7 @@
         "name" : "vehicle controls",
         "name_plural" : "sets of vehicle controls",
         "description" : "A set of various vehicle controls.  Useful for crafting.",
-        "weight" : 2721,
+        "weight" : 6000,
         "to_hit" : -4,
         "color" : "light_cyan",
         "symbol" : "$",
@@ -263,7 +263,7 @@
         "id" : "vehicle_dashboard",
         "name" : "dashboard",
         "description" : "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
-        "weight" : 6000,
+        "weight" : 2721,
         "to_hit" : -2,
         "color" : "cyan",
         "symbol" : "$",
@@ -588,7 +588,7 @@
         "material" : ["glass"],
         "volume" : 1,
         "bashing" : 1,
-        "category" : "veh_parts",
+        "category" : "spare_parts",
         "price" : 5000
     },
     {
@@ -604,7 +604,7 @@
         "material" : ["steel"],
         "volume" : 4,
         "bashing" : 5,
-        "category" : "veh_parts",
+        "category" : "spare_parts",
         "price" : 6000,
         "qualities": [ [ "COOK", 1 ] ]
     },

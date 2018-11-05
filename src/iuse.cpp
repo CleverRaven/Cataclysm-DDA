@@ -433,6 +433,8 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_neutral,
                                   _( "You inhale some vapor from your advanced electronic cigarette." ) );
             p->use_charges( "nicotine_liquid", 1 );
+            item dummy_ecig = item( "ecig", calendar::turn );
+            p->consume_effects( dummy_ecig );
         } else {
             p->add_msg_if_player( m_info, _( "You don't have any nicotine liquid!" ) );
             return 0;
@@ -3622,7 +3624,7 @@ const std::string &get_music_description()
         return rare;
     }
 
-    size_t i = ( size_t )rng( 0, descriptions.size() * 2 );
+    size_t i = static_cast<size_t>( rng( 0, descriptions.size() * 2 ) );
     if( i < descriptions.size() ) {
         return descriptions[i];
     }
@@ -3696,7 +3698,8 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
                               it->tname().c_str() );
         return 0;
     }
-    p->add_msg_if_player( _( "You unfold solar array from the pack and plug it in." ) );
+    p->add_msg_if_player(
+        _( "You unfold solar array from the pack.  You still need to connect it with a cable." ) );
 
     if( it->typeId() == "solarpack" ) {
         it->convert( "solarpack_on" );
@@ -4513,9 +4516,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_FIREBALL: {
-                tripoint fireball = g->look_around();
-                if( fireball != tripoint_min ) {
-                    g->explosion( fireball, 180, 0.5, true );
+                if( const cata::optional<tripoint> fireball = g->look_around() ) {
+                    g->explosion( *fireball, 180, 0.5, true );
                 }
             }
             break;
@@ -4558,9 +4560,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_ACIDBALL: {
-                tripoint acidball = g->look_around();
-                if( acidball != tripoint_min ) {
-                    for( const tripoint &tmp : g->m.points_in_radius( acidball, 1 ) ) {
+                if( const cata::optional<tripoint> acidball = g->look_around() ) {
+                    for( const tripoint &tmp : g->m.points_in_radius( *acidball, 1 ) ) {
                         g->m.add_field( tmp, fd_acid, rng( 2, 3 ) );
                     }
                 }
@@ -6108,12 +6109,13 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
     if( c_shot == choice ) {
 
-        tripoint aim_point = g->look_around();
+        const cata::optional<tripoint> aim_point_ = g->look_around();
 
-        if( aim_point == tripoint_min ) {
+        if( !aim_point_ ) {
             p->add_msg_if_player( _( "Never mind." ) );
             return 0;
         }
+        const tripoint aim_point = *aim_point_;
 
         if( aim_point == p->pos() ) {
             p->add_msg_if_player( _( "You decide not to flash yourself." ) );
@@ -7229,8 +7231,40 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
+    const bool has_bio_cable = p->has_bionic( bionic_id( "bio_cable" ) );
+    const bool has_solar_pack = p->is_wearing( "solarpack" ) || p->is_wearing( "q_solarpack" );
+    const bool has_solar_pack_on = p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" );
+    const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
 
+    const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
+        it->set_var( "state", state );
+        it->active = true;
+        it->process( p, p->pos(), false );
+        p->moves -= 15;
+    };
     if( initial_state == "attach_first" ) {
+        if( has_bio_cable ) {
+            uilist kmenu;
+            kmenu.text = _( "Using cable:" );
+            kmenu.addentry( 0, true, -1, _( "Attach cable to vehicle" ) );
+            kmenu.addentry( 1, true, -1, _( "Attach cable to self" ) );
+            if( wearing_solar_pack ) {
+                kmenu.addentry( 2, has_solar_pack_on, -1, _( "Attach cable to solar pack" ) );
+            }
+            kmenu.query();
+            int choice = kmenu.ret;
+
+            if( choice < 0 ) {
+                return 0; // we did nothing.
+            } else if( choice == 1 ) {
+                set_cable_active( p, it, "cable_charger" );
+                return 0;
+            } else if( choice == 2 ) {
+                set_cable_active( p, it, "solar_pack" );
+                return 0;
+            }
+            // fall through for attaching to a vehicle
+        }
         tripoint posp;
         if( !choose_adjacent( _( "Attach cable to vehicle where?" ), posp ) ) {
             return 0;
@@ -7242,19 +7276,43 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             return 0;
         } else {
             const auto abspos = g->m.getabs( posp );
-            it->active = true;
-            it->set_var( "state", "pay_out_cable" );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", g->get_levz() );
-            it->process( p, p->pos(), false );
+            set_cable_active( p, it, "pay_out_cable" );
         }
-        p->moves -= 15;
-    } else if( initial_state == "pay_out_cable" ) {
+    } else {
+        auto const confirm_source_vehicle = []( player * p, item * it, const bool detach_if_missing ) {
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
+            tripoint source_local = g->m.getlocal( source_global );
+            const optional_vpart_position source_vp = g->m.veh_at( source_local );
+            vehicle *const source_veh = veh_pointer_or_null( source_vp );
+            if( detach_if_missing && source_veh == nullptr ) {
+                if( p != nullptr && p->has_item( *it ) ) {
+                    p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                }
+                it->reset_cable( p );
+            }
+            return source_vp;
+        };
+
+        const bool paying_out = initial_state == "pay_out_cable";
+        const bool cable_cbm = initial_state == "cable_charger";
+        const bool solar_pack = initial_state == "solar_pack";
+        bool loose_ends = paying_out || cable_cbm || solar_pack;
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
-        kmenu.addentry( 0, true, -1, _( "Attach loose end of the cable" ) );
+        kmenu.addentry( 0, paying_out || cable_cbm, -1, _( "Attach loose end of the cable" ) );
         kmenu.addentry( 1, true, -1, _( "Detach and re-spool the cable" ) );
+        if( has_bio_cable && loose_ends ) {
+            kmenu.addentry( 2, !cable_cbm, -1, _( "Attach cable to self" ) );
+            // can't attach solar backpacks to cars
+            if( wearing_solar_pack && cable_cbm ) {
+                kmenu.addentry( 3, has_solar_pack_on, -1, _( "Attach cable to solar pack" ) );
+            }
+        }
         kmenu.query();
         int choice = kmenu.ret;
 
@@ -7263,25 +7321,47 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         } else if( choice == 1 ) {
             it->reset_cable( p );
             return 0;
+        } else if( choice == 2 ) {
+            // connecting self to backpack or car
+            if( solar_pack ) {
+                set_cable_active( p, it, "solar_pack_link" );
+                return 0;
+            }
+            const optional_vpart_position source_vp = confirm_source_vehicle( p, it, true );
+            if( veh_pointer_or_null( source_vp ) != nullptr ) {
+                set_cable_active( p, it, "cable_charger_link" );
+            }
+            return 0;
+        } else if( choice == 3 ) {
+            // connecting self to backpack
+            set_cable_active( p, it, "solar_pack_link" );
+            return 0;
+        }
+
+        const optional_vpart_position source_vp = confirm_source_vehicle( p, it, paying_out );
+        vehicle *const source_veh = veh_pointer_or_null( source_vp );
+        if( source_veh == nullptr && paying_out ) {
+            return 0;
         }
 
         tripoint vpos;
         if( !choose_adjacent( _( "Attach cable to vehicle where?" ), vpos ) ) {
             return 0;
         }
+
         const optional_vpart_position target_vp = g->m.veh_at( vpos );
         if( !target_vp ) {
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return 0;
+        } else if( cable_cbm ) {
+            const auto abspos = g->m.getabs( vpos );
+            it->set_var( "source_x", abspos.x );
+            it->set_var( "source_y", abspos.y );
+            it->set_var( "source_z", g->get_levz() );
+            set_cable_active( p, it, "cable_charger_link" );
+            return 0;
         } else {
             vehicle *const target_veh = &target_vp->vehicle();
-            tripoint source_global( it->get_var( "source_x", 0 ),
-                                    it->get_var( "source_y", 0 ),
-                                    it->get_var( "source_z", 0 ) );
-            tripoint source_local = g->m.getlocal( source_global );
-            const optional_vpart_position source_vp = g->m.veh_at( source_local );
-            vehicle *const source_veh = veh_pointer_or_null( source_vp );
-
             if( source_veh == target_veh ) {
                 if( p != nullptr && p->has_item( *it ) ) {
                     p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
@@ -7291,31 +7371,21 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             }
 
             tripoint target_global = g->m.getabs( vpos );
-
-            if( source_veh == nullptr ) {
-                if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                }
-                it->reset_cable( p );
-                return 0;
-            }
-
-            const auto veh_part_coordinates = []( const vehicle & veh, const int part_num ) {
-                return veh.parts[part_num].mount;
-            };
-
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
             const vpart_id vpid( it->typeId() );
 
-            point vcoords = veh_part_coordinates( *source_veh, source_vp->part_index() );
+            point vcoords = source_vp->mount();
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = g->m.getabs( target_veh->global_pos3() );
             source_veh->install_part( vcoords.x, vcoords.y, source_part );
 
-            vcoords = veh_part_coordinates( *target_veh, target_vp->part_index() );
+            vcoords = target_vp->mount();
             vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
             target_part.target.first = source_global;
             target_part.target.second = g->m.getabs( source_veh->global_pos3() );
             target_veh->install_part( vcoords.x, vcoords.y, target_part );
@@ -7780,4 +7850,49 @@ int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
     }
     p->add_effect( effect_magnesium_supplements, 16_hours );
     return it->type->charges_to_use();
+}
+
+int iuse::coin_flip( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( m_info, _( "You flip a %s." ), it->tname().c_str() );
+    p->add_msg_if_player( m_info, one_in( 2 ) ? _( "Heads!" ) : _( "Tails!" ) );
+    return 0;
+}
+
+int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
+{
+    enum {
+        BALL8_GOOD,
+        BALL8_UNK = 10,
+        BALL8_BAD = 15
+    };
+    const static std::array<const char *, 20> tab = {{
+            translate_marker( "It is certain." ),
+            translate_marker( "It is decidedly so." ),
+            translate_marker( "Without a doubt." ),
+            translate_marker( "Yes - definitely." ),
+            translate_marker( "You may rely on it." ),
+            translate_marker( "As I see it, yes." ),
+            translate_marker( "Most likely." ),
+            translate_marker( "Outlook good." ),
+            translate_marker( "Yes." ),
+            translate_marker( "Signs point to yes." ),
+            translate_marker( "Reply hazy, try again." ),
+            translate_marker( "Ask again later." ),
+            translate_marker( "Better not tell you now." ),
+            translate_marker( "Cannot predict now." ),
+            translate_marker( "Concentrate and ask again." ),
+            translate_marker( "Don't count on it." ),
+            translate_marker( "My reply is no." ),
+            translate_marker( "My sources say no." ),
+            translate_marker( "Outlook not so good." ),
+            translate_marker( "Very doubtful." )
+        }
+    };
+
+    p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname().c_str() );
+    int rn = rng( 0, tab.size() - 1 );
+    auto color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
+    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname().c_str(), _( tab[rn] ) );
+    return 0;
 }

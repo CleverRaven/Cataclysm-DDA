@@ -29,6 +29,7 @@
 #include "mongroup.h"
 #include "itype.h"
 #include "morale_types.h"
+#include "optional.h"
 #include "trap.h"
 #include "overmap.h"
 #include "gun_mode.h"
@@ -386,8 +387,17 @@ class LuaValue
                 lua_setglobal( L, global_name );
             }
         }
-        template<typename ...Args>
-        static void push( lua_State *const L, Args &&... args ) {
+        template<typename U>
+        static void push( lua_State *const L, const cata::optional<U> &value ) {
+            if( value ) {
+                push( L, *value );
+            } else {
+                lua_pushnil( L );
+            }
+        }
+        template<typename ...Args,
+                 typename std::enable_if<std::is_constructible<T, Args...>::value, int>::type = 0 >
+        static void push( lua_State *const L, Args && ... args ) {
             // Push user data,
             T *value_in_lua = static_cast<T *>( lua_newuserdata( L, sizeof( T ) ) );
             // Push metatable,
@@ -493,6 +503,14 @@ class LuaReference : private LuaValue<T *>
                 return;
             }
             LuaValue<T *>::push( L, value );
+        }
+        template<typename U>
+        static void push( lua_State *const L, const cata::optional<U> &value ) {
+            if( value ) {
+                push( L, *value );
+            } else {
+                lua_pushnil( L );
+            }
         }
         // HACK: because Lua does not known what const is.
         static void push( lua_State *const L, const T *const value ) {

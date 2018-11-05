@@ -1036,6 +1036,8 @@ Gun mods can be defined like this:
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
 "ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
+"reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
+"min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
 
 ### Tools
@@ -1123,6 +1125,8 @@ For this to work, the item needs to be a tool that consumes charges upon invocat
 - `ARTC_SOLAR` Recharges in sunlight
 - `ARTC_PAIN` Creates pain to recharge
 - `ARTC_HP` Drains HP to recharge
+- `ARTC_FATIGUE` Creates fatigue to recharge
+- `ARTC_PORTAL` Consumes portals to recharge
 
 #### `Effects_carried`
 
@@ -1208,6 +1212,8 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_LIGHT` Temporary light source
 - `AEA_GROWTH` Grow plants, a la triffid queen
 - `AEA_HURTALL` Hurts all monsters!
+- `AEA_FUN` Temporary morale bonus
+- `AEA_SPLIT` Split between good and bad
 - `AEA_RADIATION` Spew radioactive gas
 - `AEA_PAIN` Increases player pain
 - `AEA_MUTATE` Chance of mutation
@@ -1221,6 +1227,7 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_FLASH` Flashbang
 - `AEA_VOMIT` User vomits
 - `AEA_SHADOWS` Summon shadow creatures
+- `AEA_STAMINA_EMPTY` Empties most of the player's stamina gauge
 
 ### Software Data
 

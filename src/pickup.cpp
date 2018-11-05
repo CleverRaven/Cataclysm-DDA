@@ -102,12 +102,12 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_bike_rack = ( bike_rack_part >= 0 );
 
 
-    typedef enum {
+    enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
         USE_BIKE_RACK
-    } options;
-    uimenu selectmenu;
+    };
+    uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
     selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), veh->tracking_toggle_string() );
@@ -182,9 +182,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     if( selectmenu.entries.size() == 1 ) {
         choice = selectmenu.entries.front().retval;
     } else {
-        selectmenu.return_invalid = true;
         selectmenu.text = _( "Select an action" );
-        selectmenu.selected = 0;
         selectmenu.query();
         choice = selectmenu.ret;
     }
@@ -201,7 +199,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         return true;
     };
 
-    switch( static_cast<options>( choice ) ) {
+    switch( choice ) {
         case USE_BIKE_RACK: {
             veh->use_bike_rack( bike_rack_part );
             return DONE;
@@ -401,10 +399,8 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
 
     player &u = g->u;
 
-    uimenu amenu;
-    amenu.return_invalid = true;
+    uilist amenu;
 
-    amenu.selected = 0;
     amenu.text = explain;
 
     offered_swap = true;
@@ -1181,7 +1177,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
 
             if( it._item.count_by_charges() ) {
-                size_t num_picked = std::min( ( size_t )it._item.charges, count );
+                size_t num_picked = std::min( static_cast<size_t>( it._item.charges ), count );
                 pick_values.push_back( { static_cast<int>( it.idx ), static_cast<int>( num_picked ) } );
                 count -= num_picked;
             } else {

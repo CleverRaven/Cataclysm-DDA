@@ -356,9 +356,9 @@ bool effect_type::use_name_ints() const
 bool effect_type::use_desc_ints( bool reduced ) const
 {
     if( reduced ) {
-        return ( ( size_t )max_intensity <= reduced_desc.size() );
+        return ( static_cast<size_t>( max_intensity ) <= reduced_desc.size() );
     } else {
-        return ( ( size_t )max_intensity <= desc.size() );
+        return ( static_cast<size_t>( max_intensity ) <= desc.size() );
     }
 }
 

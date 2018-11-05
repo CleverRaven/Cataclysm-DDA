@@ -1415,12 +1415,12 @@ bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
         return false;
     }
 
-    if( ( size_t )place.x.valmax > mapgensize_x - 1 ) {
+    if( static_cast<size_t>( place.x.valmax ) > mapgensize_x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
         return false;
     }
 
-    if( ( size_t )place.y.valmax > mapgensize_y - 1 ) {
+    if( static_cast<size_t>( place.y.valmax ) > mapgensize_y - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
         return false;
     }

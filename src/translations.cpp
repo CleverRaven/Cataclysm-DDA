@@ -129,8 +129,8 @@ void select_language()
 
     wrefresh( catacurses::stdscr );
 
-    uimenu sm;
-    sm.selected = 0;
+    uilist sm;
+    sm.allow_cancel = false;
     sm.text = _( "Select your language" );
     for( size_t i = 0; i < languages.size(); i++ ) {
         sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second );

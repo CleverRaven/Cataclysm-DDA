@@ -91,10 +91,10 @@ std::string help::get_dir_grid()
 
     for( auto dir : movearray ) {
         std::vector<char> keys = keys_bound_to( dir );
-        movement = string_replace( movement, "<" + action_ident( dir ) + "_0>",
-                                   string_format( "<color_light_blue>%s</color>", keys[0] ) );
-        movement = string_replace( movement, "<" + action_ident( dir ) + "_1>",
-                                   string_format( "<color_light_blue>%s</color>", keys[1] ) );
+        for( size_t i = 0; i < keys.size(); i++ ) {
+            movement = string_replace( movement, "<" + action_ident( dir ) + string_format( "_%d>", i ),
+                                       string_format( "<color_light_blue>%s</color>", keys[i] ) );
+        }
     }
 
     return movement;
@@ -106,8 +106,6 @@ void help::draw_menu( const catacurses::window &win )
     int y = fold_and_print( win, 0, 1, getmaxx( win ) - 2, c_white, _( "\
 Please press one of the following for help on that topic:\n\
 Press ESC to return to the game." ) ) + 1;
-
-    std::vector<std::string> headers;
 
     size_t half_size = help_texts.size() / 2;
     int second_column = getmaxx( win ) / 2;

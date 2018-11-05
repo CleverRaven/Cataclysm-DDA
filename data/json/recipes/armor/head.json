@@ -265,6 +265,18 @@
     "components": [ [ [ "fur", 3 ] ] ]
   },
   {
+    "result": "hat_faux_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 40000,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "recipe_fauxfur", 1 ] ],
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "faux_fur", 3 ] ] ]
+  },
+  {
     "result": "hat_hard",
     "type": "recipe",
     "category": "CC_ARMOR",

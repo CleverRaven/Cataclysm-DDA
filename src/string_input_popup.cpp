@@ -97,38 +97,49 @@ void string_input_popup::show_history( utf8_wrapper &ret )
         return;
     }
     std::vector<std::string> &hist = uistate.gethistory( _identifier );
-    uimenu hmenu;
+    uilist hmenu;
     hmenu.title = _( "d: delete history" );
-    hmenu.return_invalid = true;
+    hmenu.allow_anykey = true;
     for( size_t h = 0; h < hist.size(); h++ ) {
         hmenu.addentry( h, true, -2, hist[h] );
     }
     if( !ret.empty() && ( hmenu.entries.empty() ||
                           hmenu.entries[hist.size() - 1].txt != ret.str() ) ) {
         hmenu.addentry( hist.size(), true, -2, ret.str() );
-        hmenu.selected = hist.size();
-    } else {
-        hmenu.selected = hist.size() - 1;
     }
-    // number of lines that make up the menu window: title,2*border+entries
-    hmenu.w_height = 3 + hmenu.entries.size();
-    hmenu.w_y = getbegy( w ) - hmenu.w_height;
-    if( hmenu.w_y < 0 ) {
-        hmenu.w_y = 0;
-        hmenu.w_height = std::max( getbegy( w ), 4 );
-    }
-    hmenu.w_x = getbegx( w );
 
-    hmenu.query();
-    if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
-        ret = hmenu.entries[hmenu.ret].txt;
-        if( hmenu.ret < ( int )hist.size() ) {
-            hist.erase( hist.begin() + hmenu.ret );
-            hist.push_back( ret.str() );
+    if( !hmenu.entries.empty() ) {
+        hmenu.selected = hmenu.entries.size() - 1;
+
+        // number of lines that make up the menu window: 2*border+entries
+        hmenu.w_height = 2 + hmenu.entries.size();
+        hmenu.w_y = getbegy( w ) - hmenu.w_height;
+        if( hmenu.w_y < 0 ) {
+            hmenu.w_y = 0;
+            hmenu.w_height = std::max( getbegy( w ), 4 );
         }
-        _position = ret.size();
-    } else if( hmenu.keypress == 'd' ) {
-        hist.clear();
+        hmenu.w_x = getbegx( w );
+
+        bool finished = false;
+        do {
+            hmenu.query();
+            if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
+                ret = hmenu.entries[hmenu.ret].txt;
+                if( static_cast<size_t>( hmenu.ret ) < hist.size() ) {
+                    hist.erase( hist.begin() + hmenu.ret );
+                    hist.push_back( ret.str() );
+                }
+                _position = ret.size();
+                finished = true;
+            } else if( hmenu.ret == UIMENU_UNBOUND && hmenu.keypress == 'd' ) {
+                hist.clear();
+                finished = true;
+            } else if( hmenu.ret != UIMENU_UNBOUND ) {
+                finished = true;
+            }
+        } while( !finished );
+        werase( hmenu.window );
+        wrefresh( hmenu.window );
     }
 }
 
