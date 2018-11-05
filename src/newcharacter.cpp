@@ -204,15 +204,18 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     if( styles.size() == 1 ) {
         return styles.front();
     }
+
+    input_context ctxt( "MELEE_STYLE_PICKER" );
+    ctxt.register_action( "SHOW_DESCRIPTION" );
+
     uilist menu;
     menu.allow_cancel = false;
     menu.text = _( "Pick your style:" );
-    menu.desc_enabled = true;
-    menu.input_category = "MELEE_STYLE_PICKER";
-    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
-
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
+    menu.input_category = "MELEE_STYLE_PICKER";
+    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
+    menu.desc_enabled = true;
 
     for( auto &s : styles ) {
         auto &style = s.obj();
