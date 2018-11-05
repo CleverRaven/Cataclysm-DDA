@@ -14,6 +14,7 @@ void full_map_test( const char *const( &setup )[N],
                     calendar time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
+    const ter_id t_window_frame( "t_window_frame" );
     const ter_id t_floor( "t_floor" );
     const ter_id t_utility_light( "t_utility_light" );
     const efftype_id effect_narcosis( "narcosis" );
@@ -75,6 +76,9 @@ void full_map_test( const char *const( &setup )[N],
                     break;
                 case '#':
                     g->m.ter_set( p, t_brick_wall );
+                    break;
+                case '=':
+                    g->m.ter_set( p, t_window_frame );
                     break;
                 case '-':
                 case 'u':
@@ -185,6 +189,7 @@ static constexpr int midday = HOURS( 12 );
 // 'u' - player, indoors
 // 'L' - light, indoors
 // '#' - wall
+// '=' - window frame
 
 TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
 {
@@ -223,19 +228,19 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
 TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
 {
     constexpr const char *setup[] = {
-        "#########",
-        "#-------#",
-        "#u-------",
-        "#-------#",
-        "#########",
+        "##########",
+        "#--------#",
+        "#u-------#",
+        "#--------=",
+        "##########",
     };
 
     constexpr const char *expected_results[] = {
-        "114444444",
-        "114444444",
-        "144444444",
-        "114444444",
-        "114444444",
+        "1144444111",
+        "1144444411",
+        "1444444444",
+        "1144444444",
+        "1144444444",
     };
 
     full_map_test( setup, expected_results, midday );
