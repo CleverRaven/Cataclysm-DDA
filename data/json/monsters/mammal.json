@@ -633,6 +633,7 @@
     "name": "pit bull mix",
     "description": "The oft-misunderstood pit bull is not actually a single breed but a label for several such as the American pit bull terrier and American Staffordshire terrier.  Average abilities and well-known for their 'lock jaw' which isn't real but their incredible determination is.",
     "hp": 27,
+    "weight": 25000,
     "speed": 135,
     "aggression": 3,
     "morale": 11,
