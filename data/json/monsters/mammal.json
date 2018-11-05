@@ -1244,6 +1244,7 @@
     "name": "cattle dog",
     "description": "An agile and sturdy breed that is welcome on any farm, the Australian cattle dog is adept at leaping fences and herding livestock.",
     "hp": 20,
+    "weight": 18000,
     "speed": 200,
     "aggression": 3,
     "morale": 10,
