@@ -651,9 +651,7 @@ void cast_zlight_segment(
     float new_start_minor = 1.0f;
 
     T last_intensity = 0.0;
-    // Making this static prevents it from being needlessly constructed/destructed all the time.
     static constexpr tripoint origin( 0, 0, 0 );
-    // But each instance of the method needs one of these.
     tripoint delta( 0, 0, 0 );
     tripoint current( 0, 0, 0 );
     for( int distance = row; distance <= radius; distance++ ) {
@@ -918,9 +916,7 @@ void castLight( Out( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
         return;
     }
     T last_intensity = 0.0;
-    // Making this static prevents it from being needlessly constructed/destructed all the time.
     static constexpr tripoint origin( 0, 0, 0 );
-    // But each instance of the method needs one of these.
     tripoint delta( 0, 0, 0 );
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
