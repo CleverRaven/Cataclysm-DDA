@@ -697,6 +697,7 @@
     "name": "beagle",
     "description": "An adorable beagle that has managed to survive the apocalypse.  Being agile and small, they are difficult to shoot at.  Generally attacks in packs.",
     "diff": 5,
+    "weight": 10000,
     "hp": 13,
     "speed": 135,
     "melee_skill": 2,
