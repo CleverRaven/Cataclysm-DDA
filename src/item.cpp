@@ -626,7 +626,7 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-void item::put_in( item payload )
+void item::put_in( const item &payload )
 {
     contents.push_back( payload );
 }

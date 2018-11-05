@@ -442,7 +442,7 @@ void string_input_popup::edit( int &value )
     }
 }
 
-string_input_popup &string_input_popup::text( std::string value )
+string_input_popup &string_input_popup::text( const std::string &value )
 {
     _text = value;
     auto u8size = utf8_wrapper( _text ).size();

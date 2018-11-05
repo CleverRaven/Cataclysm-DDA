@@ -1343,7 +1343,7 @@ std::vector<std::string> input_context::filter_strings_by_phrase(
     return filtered_strings;
 }
 
-void input_context::set_edittext( std::string s )
+void input_context::set_edittext( const std::string &s )
 {
     edittext = s;
 }

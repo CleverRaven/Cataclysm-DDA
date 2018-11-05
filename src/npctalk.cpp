@@ -1871,7 +1871,7 @@ void talk_response::effect_fun_t::set_change_faction_rep( int rep_change )
     };
 }
 
-void talk_response::effect_t::set_effect_consequence( effect_fun_t fun, dialogue_consequence con )
+void talk_response::effect_t::set_effect_consequence( const effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, con );

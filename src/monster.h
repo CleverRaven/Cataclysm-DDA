@@ -369,7 +369,8 @@ class monster : public Creature
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
-        void add_item( item it );   // Add an item to inventory
+        // Add an item to inventory
+        void add_item( const item &it );
 
         /**
          * Makes monster react to heard sound

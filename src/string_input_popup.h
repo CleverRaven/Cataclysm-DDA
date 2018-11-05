@@ -92,7 +92,7 @@ class string_input_popup
          * It's optional default is an empty string.
          */
         /**@{*/
-        string_input_popup &text( std::string value );
+        string_input_popup &text( const std::string &value );
         const std::string &text() const {
             return _text;
         }

@@ -646,7 +646,7 @@ class input_context
         /**
         * Get/Set edittext to display IME unspecified string.
         */
-        void set_edittext( std::string s );
+        void set_edittext( const std::string &s );
         std::string get_edittext();
 
         void set_iso( bool mode = true );
