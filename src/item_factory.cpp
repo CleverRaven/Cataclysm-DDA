@@ -180,8 +180,7 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.stackable ) {
         if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
-        }
-        else if( obj.stack_size > 200 ) {
+        } else if( obj.stack_size > 200 ) {
             debugmsg( obj.id + " stack size is too large, reducing to 200" );
             obj.stack_size = 200;
         }
