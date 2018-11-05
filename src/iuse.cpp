@@ -433,6 +433,8 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_neutral,
                                   _( "You inhale some vapor from your advanced electronic cigarette." ) );
             p->use_charges( "nicotine_liquid", 1 );
+            item dummy_ecig = item( "ecig", calendar::turn );
+            p->consume_effects( dummy_ecig );
         } else {
             p->add_msg_if_player( m_info, _( "You don't have any nicotine liquid!" ) );
             return 0;
@@ -3622,7 +3624,7 @@ const std::string &get_music_description()
         return rare;
     }
 
-    size_t i = ( size_t )rng( 0, descriptions.size() * 2 );
+    size_t i = static_cast<size_t>( rng( 0, descriptions.size() * 2 ) );
     if( i < descriptions.size() ) {
         return descriptions[i];
     }
@@ -7848,4 +7850,49 @@ int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
     }
     p->add_effect( effect_magnesium_supplements, 16_hours );
     return it->type->charges_to_use();
+}
+
+int iuse::coin_flip( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( m_info, _( "You flip a %s." ), it->tname().c_str() );
+    p->add_msg_if_player( m_info, one_in( 2 ) ? _( "Heads!" ) : _( "Tails!" ) );
+    return 0;
+}
+
+int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
+{
+    enum {
+        BALL8_GOOD,
+        BALL8_UNK = 10,
+        BALL8_BAD = 15
+    };
+    const static std::array<const char *, 20> tab = {{
+            translate_marker( "It is certain." ),
+            translate_marker( "It is decidedly so." ),
+            translate_marker( "Without a doubt." ),
+            translate_marker( "Yes - definitely." ),
+            translate_marker( "You may rely on it." ),
+            translate_marker( "As I see it, yes." ),
+            translate_marker( "Most likely." ),
+            translate_marker( "Outlook good." ),
+            translate_marker( "Yes." ),
+            translate_marker( "Signs point to yes." ),
+            translate_marker( "Reply hazy, try again." ),
+            translate_marker( "Ask again later." ),
+            translate_marker( "Better not tell you now." ),
+            translate_marker( "Cannot predict now." ),
+            translate_marker( "Concentrate and ask again." ),
+            translate_marker( "Don't count on it." ),
+            translate_marker( "My reply is no." ),
+            translate_marker( "My sources say no." ),
+            translate_marker( "Outlook not so good." ),
+            translate_marker( "Very doubtful." )
+        }
+    };
+
+    p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname().c_str() );
+    int rn = rng( 0, tab.size() - 1 );
+    auto color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
+    p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname().c_str(), _( tab[rn] ) );
+    return 0;
 }

@@ -2283,7 +2283,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
         int prev_y = parts[ x_parts[ 0 ] ].mount.y;
         int i;
         bool found_part = x_parts[ 0 ] == part;
-        for( i = 1; ( size_t )i < x_parts.size(); i++ ) {
+        for( i = 1; static_cast<size_t>( i ) < x_parts.size(); i++ ) {
             found_part |= x_parts[ i ] == part;
             // if the Y difference is > 1, there's a break in the run
             if( std::abs( parts[ x_parts[ i ] ].mount.y - prev_y )  > 1 ) {
@@ -2295,7 +2295,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
             }
             prev_y = parts[ x_parts[ i ] ].mount.y;
         }
-        for( size_t j = first_part; j < ( size_t )i; j++ ) {
+        for( size_t j = first_part; j < static_cast<size_t>( i ); j++ ) {
             x_ret.push_back( x_parts[ j ] );
         }
         ret_parts.push_back( x_ret );
@@ -2310,7 +2310,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
         int prev_x = parts[ y_parts[ 0 ] ].mount.x;
         int i;
         bool found_part = y_parts[ 0 ] == part;
-        for( i = 1; ( size_t )i < y_parts.size(); i++ ) {
+        for( i = 1; static_cast<size_t>( i ) < y_parts.size(); i++ ) {
             found_part |= y_parts[ i ] == part;
             if( std::abs( parts[ y_parts[ i ] ].mount.x - prev_x )  > 1 ) {
                 if( found_part ) {
@@ -2320,7 +2320,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
             }
             prev_x = parts[ y_parts[ i ] ].mount.x;
         }
-        for( size_t j = first_part; j < ( size_t )i; j++ ) {
+        for( size_t j = first_part; j < static_cast<size_t>( i ); j++ ) {
             y_ret.push_back( y_parts[ j ] );
         }
         ret_parts.push_back( y_ret );

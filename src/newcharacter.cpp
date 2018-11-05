@@ -28,6 +28,7 @@
 #include "string_input_popup.h"
 #include "worldfactory.h"
 #include "json.h"
+#include "martialarts.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>
@@ -203,14 +204,24 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     if( styles.size() == 1 ) {
         return styles.front();
     }
-    uimenu menu;
-    menu.text = _( "Pick your style:" );
+
+    input_context ctxt( "MELEE_STYLE_PICKER" );
+    ctxt.register_action( "SHOW_DESCRIPTION" );
+
+    uilist menu;
+    menu.allow_cancel = false;
+    menu.text = string_format( _( "Select a style. (press %s for more info)" ),
+                               ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
+    ma_style_callback callback( 0, styles );
+    menu.callback = &callback;
+    menu.input_category = "MELEE_STYLE_PICKER";
+    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
     menu.desc_enabled = true;
+
     for( auto &s : styles ) {
         auto &style = s.obj();
         menu.addentry_desc( _( style.name.c_str() ), _( style.description.c_str() ) );
     }
-    menu.selected = 0;
     while( true ) {
         menu.query( true );
         auto &selected = styles[menu.ret];
@@ -1205,7 +1216,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             }
         } else if( action == "DOWN" ) {
             iCurrentLine[iCurWorkingPage]++;
-            if( ( size_t ) iCurrentLine[iCurWorkingPage] >= traits_size[iCurWorkingPage] ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "CONFIRM" ) {

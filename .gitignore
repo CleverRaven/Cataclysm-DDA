@@ -51,6 +51,7 @@ Debug*/
 *.user
 *.vcxproj.filters
 .vscode/
+*.code-workspace
 
 # Temporary and backup files
 *~
