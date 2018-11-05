@@ -691,9 +691,9 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     for( std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end();
          ++it ) {
         const std::string suffix = ( isvert ? it->first : it->second );
-        const std::string asuffix = ( isvert ? it->second : it->first );
         const int slen = suffix.size();
         if( sidlen > slen && tersid.substr( sidlen - slen, slen ) == suffix ) {
+            const std::string asuffix = ( isvert ? it->second : it->first );
             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
             const ter_str_id tid( terasid );
 

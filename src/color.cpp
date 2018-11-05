@@ -486,13 +486,13 @@ void init_colors()
 
     // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
-        {"br", {c_brown, _( "brown" )}}, {"lg", {c_light_gray, _( "light gray" )}},
-        {"dg", {c_dark_gray, _( "dark gray" )}}, {"r", {c_light_red, _( "light red" )}},
-        {"R", {c_red, _( "red" )}}, {"g", {c_light_green, _( "light green" )}},
-        {"G", {c_green, _( "green" )}}, {"b", {c_light_blue, _( "light blue" )}},
-        {"B", {c_blue, _( "blue" )}}, {"W", {c_white, _( "white" )}},
-        {"C", {c_cyan, _( "cyan" )}}, {"c", {c_light_cyan, _( "light cyan" )}},
-        {"P", {c_pink, _( "pink" )}}, {"m", {c_magenta, _( "magenta" )}}
+        {"br", {c_brown, translate_marker( "brown" )}}, {"lg", {c_light_gray, translate_marker( "light gray" )}},
+        {"dg", {c_dark_gray, translate_marker( "dark gray" )}}, {"r", {c_light_red, translate_marker( "light red" )}},
+        {"R", {c_red, translate_marker( "red" )}}, {"g", {c_light_green, translate_marker( "light green" )}},
+        {"G", {c_green, translate_marker( "green" )}}, {"b", {c_light_blue, translate_marker( "light blue" )}},
+        {"B", {c_blue, translate_marker( "blue" )}}, {"W", {c_white, translate_marker( "white" )}},
+        {"C", {c_cyan, translate_marker( "cyan" )}}, {"c", {c_light_cyan, translate_marker( "light cyan" )}},
+        {"P", {c_pink, translate_marker( "pink" )}}, {"m", {c_magenta, translate_marker( "magenta" )}}
     };
 }
 
@@ -867,7 +867,7 @@ void color_manager::show_gui()
 
                 ui_templates.query();
 
-                if( ui_templates.ret >= 0 && ( size_t )ui_templates.ret < vFiles.size() ) {
+                if( ui_templates.ret >= 0 && static_cast<size_t>( ui_templates.ret ) < vFiles.size() ) {
                     bStuffChanged = true;
 
                     clear();
@@ -923,7 +923,7 @@ void color_manager::show_gui()
 
             ui_colors.query();
 
-            if( ui_colors.ret >= 0 && ( size_t )ui_colors.ret < name_color_map.size() ) {
+            if( ui_colors.ret >= 0 && static_cast<size_t>( ui_colors.ret ) < name_color_map.size() ) {
                 bStuffChanged = true;
 
                 iter = name_color_map.begin();

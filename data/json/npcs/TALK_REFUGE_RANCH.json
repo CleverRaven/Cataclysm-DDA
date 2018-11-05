@@ -100,12 +100,17 @@
       "no": "The rate is a bit steep but I still have my quotas that I need to fulfill.  The logs will be dropped off in the garage at the entrance to the camp.  I'll need a bit of time before I can deliver another load."
     },
     "responses": [
-      { "text": "[$2000, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition": { "npc_service": 2000 } },
+      {
+        "text": "[$2000, 1d] 10 logs",
+        "topic": "TALK_DONE",
+        "effect": [ "buy_10_logs", { "u_spend_cash": 200000 } ],
+        "condition": { "npc_service": 200000 }
+      },
       {
         "text": "[$12000, 7d] 100 logs",
         "topic": "TALK_DONE",
-        "effect": "buy_100_logs",
-        "condition": { "npc_service": 12000 }
+        "effect": [ "buy_100_logs", { "u_spend_cash": 1200000 } ],
+        "condition": { "npc_service": 1200000 }
       },
       { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
       { "text": "I'll be back later.", "topic": "TALK_RANCH_WOODCUTTER" }
@@ -265,14 +270,14 @@
       {
         "text": "[$200, 30m] I need you to patch me up.",
         "topic": "TALK_DONE",
-        "effect": "give_aid",
-        "condition": { "npc_service": 200 }
+        "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
+        "condition": { "npc_service": 20000 }
       },
       {
         "text": "[$500, 1h] I need you to patch me up.",
         "topic": "TALK_DONE",
-        "effect": "give_all_aid",
-        "condition": { "npc_service": 200 }
+        "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
+        "condition": { "npc_service": 50000 }
       },
       { "text": "I should be fine.", "topic": "TALK_RANCH_NURSE" }
     ]
@@ -429,14 +434,14 @@
       {
         "text": "[$5] I'll have a shave",
         "topic": "TALK_RANCH_BARBER_CUT",
-        "effect": "buy_shave",
-        "condition": { "npc_service": 5 }
+        "effect": [ "buy_shave", { "u_spend_cash": 500 } ],
+        "condition": { "npc_service": 500 }
       },
       {
         "text": "[$10] I'll get a haircut",
         "topic": "TALK_RANCH_BARBER_CUT",
-        "effect": "buy_haircut",
-        "condition": { "npc_service": 10 }
+        "effect": [ "buy_haircut", { "u_spend_cash": 1000 } ],
+        "condition": { "npc_service": 1000 }
       },
       { "text": "Maybe another time...", "topic": "TALK_DONE" }
     ]

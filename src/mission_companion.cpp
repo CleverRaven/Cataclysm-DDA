@@ -1628,7 +1628,7 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
         skill_practice.add( skill_archery, 5 );
         skill_practice.add( skill_melee, 5 );
         skill_practice.add( skill_swimming, 5 );
-    } else if( skill_tested.empty() || skill_tested == "trapping" ) {
+    } else if( skill_tested == "trapping" ) {
         skill_practice.add( skill_traps, 80 );
         skill_practice.add( skill_survival, 15 );
         skill_practice.add( skill_fabrication, 10 );

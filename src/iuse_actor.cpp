@@ -2155,7 +2155,7 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( pos >= 0 ) {
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, pos, draw_cost, false );
+            p.wield_contents( it, pos, false, draw_cost );
         } else {
             p.wield_contents( it, pos );
         }

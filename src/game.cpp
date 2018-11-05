@@ -9329,7 +9329,7 @@ void game::butcher()
             return;
         }
 
-        ret = ( size_t )kmenu.ret;
+        ret = static_cast<size_t>( kmenu.ret );
         if( ret >= MULTISALVAGE && ret < NUM_BUTCHER_ACTIONS ) {
             butcher_select = BUTCHER_OTHER;
             indexer_index = ret;
@@ -10053,10 +10053,9 @@ bool game::disable_robot( const tripoint &p )
     }
     const auto mid = critter.type->id;
     const auto mon_item_id = critter.type->revert_to_itype;
-    if( !mon_item_id.empty() ) {
-        if( !query_yn( _( "Deactivate the %s?" ), critter.name().c_str() ) ) {
-            return false;
-        }
+    if( !mon_item_id.empty() &&
+        query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
+
         u.moves -= 100;
         m.add_item_or_charges( p.x, p.y, critter.to_item() );
         if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
@@ -10071,14 +10070,14 @@ bool game::disable_robot( const tripoint &p )
     }
     // Manhacks are special, they have their own menu here.
     if( mid == mon_manhack ) {
-        int choice = 0;
+        int choice = UIMENU_CANCEL;
         if( critter.has_effect( effect_docile ) ) {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
+            choice = uilist( _( "Reprogram the manhack?" ), { _( "Engage targets." ) } );
         } else {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Follow me." ), _( "Cancel" ), NULL );
+            choice = uilist( _( "Reprogram the manhack?" ), { _( "Follow me." ) } );
         }
         switch( choice ) {
-            case 1:
+            case 0:
                 if( critter.has_effect( effect_docile ) ) {
                     critter.remove_effect( effect_docile );
                     if( one_in( 3 ) ) {
@@ -11459,7 +11458,7 @@ cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts 
     }
 
     const tripoint &upos = g->u.pos();
-    uimenu pmenu;
+    uilist pmenu;
     pmenu.title = _( "Climb where?" );
     int num = 0;
     for( const tripoint &pt : pts ) {
@@ -11470,9 +11469,6 @@ cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts 
         pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s" ), direction.c_str() );
     }
 
-    pmenu.addentry( num, true, 'q', "%s", _( "Cancel" ) );
-
-    pmenu.selected = num;
     pmenu.query();
     const int ret = pmenu.ret;
     if( ret < 0 || ret >= num ) {
@@ -12647,6 +12643,19 @@ void game::process_artifact( item &it, player &p )
                             u.mod_fatigue( 3 * rng( 1, 3 ) );
                             u.mod_stat( "stamina", -9 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
                             it.charges++;
+                        }
+                        break;
+                    // Portals are energetic enough to charge the item.
+                    // Tears in reality are consumed too, but can't charge it.
+                    case ARTC_PORTAL:
+                        for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
+                            m.remove_field( dest, fd_fatigue );
+                            if( m.tr_at( dest ).loadid == tr_portal ) {
+                                add_msg( m_good, _( "The portal collapses!" ) );
+                                m.remove_trap( dest );
+                                it.charges++;
+                                break;
+                            }
                         }
                         break;
                 }

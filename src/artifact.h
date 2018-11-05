@@ -59,6 +59,7 @@ enum art_charge : int {
     ARTC_PAIN,    // Creates pain to recharge
     ARTC_HP,      // Drains HP to recharge
     ARTC_FATIGUE, // Creates fatigue to recharge
+    ARTC_PORTAL,  // Consumes portals
     NUM_ARTCS
 };
 

@@ -20,6 +20,7 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "cata_utility.h"
 
 #ifdef __ANDROID__
 #include "SDL_keyboard.h"
@@ -221,7 +222,7 @@ point draw_notes( int z )
     bool redraw = true;
     point result( -1, -1 );
 
-    mvwprintz( w_notes, 1, 1, c_light_gray, title.c_str() );
+    mvwprintz( w_notes, 1, 1, c_white, title.c_str() );
     do {
 #ifdef __ANDROID__
         input_context ctxt( "DRAW_NOTES" );
@@ -238,8 +239,17 @@ point draw_notes( int z )
                     continue;
                 }
                 // Print letter ('a' <=> cur_it == start)
-                mvwputch( w_notes, i + 2, 1, c_white, 'a' + i );
-                mvwprintz( w_notes, i + 2, 3, c_light_gray, "- %s", notes[cur_it].second.c_str() );
+                mvwputch( w_notes, i + 2, 1, c_blue, 'a' + i );
+                mvwputch( w_notes, i + 2, 3, c_light_gray, '-' );
+
+                const std::string note_text = notes[cur_it].second;
+                const auto om_symbol = get_note_display_info( note_text );
+                const std::string tmp_note = string_format( "%s%c</color> <color_yellow>%s</color>",
+                                             get_tag_from_color( std::get<1>( om_symbol ) ),
+                                             std::get<0>( om_symbol ),
+                                             note_text.substr( std::get<2>( om_symbol ),
+                                                     std::string::npos ) );
+                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note.c_str() );
 #ifdef __ANDROID__
                 ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
 #endif
@@ -553,8 +563,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
           target.x >= offset_x + om_map_width ||
           target.y < offset_y ||
           target.y >= offset_y + om_map_height ) ) {
-        int marker_x = std::max( 0, std::min( om_map_width  - 1, target.x - offset_x ) );
-        int marker_y = std::max( 0, std::min( om_map_height - 1, target.y - offset_y ) );
+        int marker_x = clamp( target.x - offset_x, 0, om_map_width  - 1 );
+        int marker_y = clamp( target.y - offset_y, 0, om_map_height - 1 );
         long marker_sym = ' ';
 
         switch( direction_from( cursx, cursy, target.x, target.y ) ) {
@@ -709,6 +719,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             ++y;
         }
 
+        const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
+        const bool is_explored = overmap_buffer.is_explored( cursx, cursy, z );
+
         print_hint( "LEVEL_UP" );
         print_hint( "LEVEL_DOWN" );
         print_hint( "CENTER" );
@@ -716,11 +729,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "CREATE_NOTE" );
         print_hint( "DELETE_NOTE" );
         print_hint( "LIST_NOTES" );
-        print_hint( "TOGGLE_BLINKING" );
-        print_hint( "TOGGLE_OVERLAYS" );
+        print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
+        print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
-        print_hint( "TOGGLE_EXPLORED" );
+        print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
