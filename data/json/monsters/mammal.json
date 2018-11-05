@@ -503,7 +503,7 @@
     "species": [ "MAMMAL" ],
     "diff": 10,
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": 30000,
     "hp": 30,
     "speed": 150,
     "material": [ "flesh" ],
