@@ -1296,10 +1296,10 @@ class vehicle
         void operate_reaper();
         void operate_plow();
         void operate_rockwheel();
-        void add_toggle_to_opts( std::vector<uimenu_entry> &options,
+        void add_toggle_to_opts( std::vector<uilist_entry> &options,
                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
                                  const std::string &flag );
-        void set_electronics_menu_options( std::vector<uimenu_entry> &options,
+        void set_electronics_menu_options( std::vector<uilist_entry> &options,
                                            std::vector<std::function<void()>> &actions );
         //main method for the control of multiple electronics
         void control_electronics();

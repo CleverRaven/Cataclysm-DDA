@@ -578,12 +578,12 @@ action_id handle_action_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::string catgname;
 
-#define REGISTER_ACTION(name) entries.emplace_back(uimenu_entry(name, true, hotkey_for_action(name), \
-        ctxt.get_action_name(action_ident(name))));
-#define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
+#define REGISTER_ACTION( name ) entries.emplace_back( name, true, hotkey_for_action(name), \
+        ctxt.get_action_name( action_ident( name ) ) );
+#define REGISTER_CATEGORY( name )  categories_by_int[last_category] = name; \
     catgname = name; \
     catgname += "..."; \
-    entries.emplace_back(uimenu_entry(last_category, true, -1, catgname)); \
+    entries.emplace_back( last_category, true, -1, catgname ); \
     last_category++;
 
     // Calculate weightings for the various actions to give the player suggestions
@@ -651,8 +651,8 @@ action_id handle_action_menu()
     std::string category = "back";
 
     while( true ) {
-        std::vector<uimenu_entry> entries;
-        uimenu_entry *entry;
+        std::vector<uilist_entry> entries;
+        uilist_entry *entry;
         std::map<int, std::string> categories_by_int;
         int last_category = NUM_ACTIONS + 1;
 
@@ -790,8 +790,8 @@ action_id handle_action_menu()
         if( category != "back" ) {
             std::string msg = _( "Back" );
             msg += "...";
-            entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
-                                                hotkey_for_action( ACTION_ACTIONMENU ), msg ) );
+            entries.emplace_back( 2 * NUM_ACTIONS, true,
+                                  hotkey_for_action( ACTION_ACTIONMENU ), msg );
         }
 
         std::string title = _( "Actions" );
@@ -838,13 +838,11 @@ action_id handle_action_menu()
 action_id handle_main_menu()
 {
     const input_context ctxt = get_default_mode_input_context();
-    std::vector<uimenu_entry> entries;
+    std::vector<uilist_entry> entries;
 
     auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.emplace_back( uimenu_entry( name, true, hotkey_for_action( name ),
-                                            ctxt.get_action_name( action_ident( name ) )
-                                          )
-                            );
+        entries.emplace_back( name, true, hotkey_for_action( name ),
+                              ctxt.get_action_name( action_ident( name ) ) );
     };
 
     REGISTER_ACTION( ACTION_HELP );

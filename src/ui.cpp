@@ -50,7 +50,7 @@ uilist::uilist( const std::string &hotkeys_override )
     }
 }
 
-uilist::uilist( const std::string &msg, const std::vector<uimenu_entry> &opts )
+uilist::uilist( const std::string &msg, const std::vector<uilist_entry> &opts )
     : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
 {
 }
@@ -66,7 +66,7 @@ uilist::uilist( const std::string &msg, std::initializer_list<char const *const>
 }
 
 uilist::uilist( int startx, int width, int starty, const std::string &msg,
-                const std::vector<uimenu_entry> &opts )
+                const std::vector<uilist_entry> &opts )
 {
     init();
     w_x = startx;
@@ -133,7 +133,7 @@ void uilist::init()
     window = catacurses::window();         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
-    entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...@todo: submenu stuff)
+    entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ...@todo: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
@@ -463,7 +463,7 @@ void uilist::setup()
     // shrink-to-fit
     if( desc_enabled ) {
         desc_lines = 0;
-        for( const uimenu_entry &ent : entries ) {
+        for( const uilist_entry &ent : entries ) {
             // -2 for borders, -2 for padding
             desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
         }
@@ -895,27 +895,27 @@ void uilist::reset()
 
 void uilist::addentry( const std::string &str )
 {
-    entries.push_back(str);
+    entries.emplace_back( str );
 }
 
 void uilist::addentry( int r, bool e, int k, const std::string &str )
 {
-    entries.push_back(uimenu_entry(r, e, k, str));
+    entries.emplace_back( r, e, k, str );
 }
 
 void uilist::addentry_desc( const std::string &str, const std::string &desc )
 {
-    entries.push_back(uimenu_entry(str, desc));
+    entries.emplace_back( str, desc );
 }
 
 void uilist::addentry_desc( int r, bool e, int k, const std::string &str, const std::string &desc )
 {
-    entries.push_back(uimenu_entry(r, e, k, str, desc));
+    entries.emplace_back( r, e, k, str, desc );
 }
 
 void uilist::addentry_col( int r, bool e, int k, const std::string &str, const std::string &column, const std::string &desc )
 {
-    entries.push_back(uimenu_entry(r, e, k, str, desc, column));
+    entries.emplace_back( r, e, k, str, desc, column );
 }
 
 void uilist::settext( const std::string &str )

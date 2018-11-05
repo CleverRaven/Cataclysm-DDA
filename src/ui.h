@@ -43,9 +43,9 @@ struct mvwzstr {
 };
 
 /**
- * uimenu_entry: entry line for uilist
+ * uilist_entry: entry line for uilist
  */
-struct uimenu_entry {
+struct uilist_entry {
     int retval;                 // return this int
     bool enabled;               // darken, and forbid scrolling if hilight_disabled is false
     bool force_color = false;   // Never darken this option
@@ -58,30 +58,30 @@ struct uimenu_entry {
     mvwzstr extratxt;
 
     //std::string filtertxt; // possibly useful
-    uimenu_entry( std::string T ) : retval( -1 ), enabled( true ), hotkey( -1 ), txt( T ) {
+    uilist_entry( std::string T ) : retval( -1 ), enabled( true ), hotkey( -1 ), txt( T ) {
         text_color = c_red_red;
     };
-    uimenu_entry( std::string T, std::string D ) : retval( -1 ), enabled( true ), hotkey( -1 ),
+    uilist_entry( std::string T, std::string D ) : retval( -1 ), enabled( true ), hotkey( -1 ),
         txt( T ), desc( D ) {
         text_color = c_red_red;
     };
-    uimenu_entry( std::string T, int K ) : retval( -1 ), enabled( true ), hotkey( K ), txt( T ) {
+    uilist_entry( std::string T, int K ) : retval( -1 ), enabled( true ), hotkey( K ), txt( T ) {
         text_color = c_red_red;
     };
-    uimenu_entry( int R, bool E, int K, std::string T ) : retval( R ), enabled( E ), hotkey( K ),
+    uilist_entry( int R, bool E, int K, std::string T ) : retval( R ), enabled( E ), hotkey( K ),
         txt( T ) {
         text_color = c_red_red;
     };
-    uimenu_entry( int R, bool E, int K, std::string T, std::string D ) : retval( R ), enabled( E ),
+    uilist_entry( int R, bool E, int K, std::string T, std::string D ) : retval( R ), enabled( E ),
         hotkey( K ), txt( T ), desc( D ) {
         text_color = c_red_red;
     };
-    uimenu_entry( int R, bool E, int K, std::string T, std::string D, std::string C ) : retval( R ),
+    uilist_entry( int R, bool E, int K, std::string T, std::string D, std::string C ) : retval( R ),
         enabled( E ),
         hotkey( K ), txt( T ), desc( D ), ctxt( C ) {
         text_color = c_red_red;
     };
-    uimenu_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
+    uilist_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
         enabled( E ), hotkey( K ), txt( T ),
         hotkey_color( H ), text_color( C ) {};
 };
@@ -171,7 +171,7 @@ class uilist: public ui_container
         int max_entry_len;
         int max_column_len;
         std::string title;
-        std::vector<uimenu_entry> entries;
+        std::vector<uilist_entry> entries;
         std::map<int, int> keymap;
         bool desc_enabled;
         int desc_lines;
@@ -208,11 +208,11 @@ class uilist: public ui_container
         uilist();
         uilist( const std::string &hotkeys_override );
         // query() will be called at the end of these convenience constructors
-        uilist( const std::string &msg, const std::vector<uimenu_entry> &opts );
+        uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
         uilist( const std::string &msg, std::initializer_list<char const *const> opts );
         uilist( int startx, int width, int starty, const std::string &msg,
-                const std::vector<uimenu_entry> &opts );
+                const std::vector<uilist_entry> &opts );
         uilist( int startx, int width, int starty, const std::string &msg,
                 const std::vector<std::string> &opts );
         uilist( int startx, int width, int starty, const std::string &msg,
