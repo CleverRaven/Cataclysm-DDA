@@ -269,7 +269,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
 
     if( action != DISSECT ) {
         if( factor == INT_MIN ) {
-            u.add_msg_if_player( m_info, 
+            u.add_msg_if_player( m_info,
                                  _( "None of your cutting tools are suitable for butchering." ) );
             act.set_to_null();
             return;

@@ -8410,7 +8410,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 std::vector<vehicle *> nearby_vehicles_for( const itype_id &ft )
 {
     std::vector<vehicle *> result;
-    for( auto &&p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+    for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         vehicle *const veh = veh_pointer_or_null( g->m.veh_at( p ) );
         // TODO: constify fuel_left and fuel_capacity
         // TODO: add a fuel_capacity_left function
