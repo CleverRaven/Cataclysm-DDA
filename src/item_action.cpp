@@ -38,7 +38,7 @@ char key_bound_to( const input_context &ctxt, const item_action_id &act )
     return keys.empty() ? '\0' : keys[0];
 }
 
-class actmenu_cb : public uimenu_callback
+class actmenu_cb : public uilist_callback
 {
     private:
         const action_map am;

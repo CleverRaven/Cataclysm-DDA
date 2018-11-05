@@ -2062,7 +2062,7 @@ int editmap::mapgen_retarget()
     return ret;
 }
 
-class edit_mapgen_callback : public uimenu_callback
+class edit_mapgen_callback : public uilist_callback
 {
     private:
         editmap *_e;

@@ -20,7 +20,7 @@
 
 #include <sstream>
 
-class wish_mutate_callback: public uimenu_callback
+class wish_mutate_callback: public uilist_callback
 {
     public:
         int lastlen;           // last menu entry
@@ -268,7 +268,7 @@ void debug_menu::wishmutate( player *p )
     } while( wmenu.ret >= 0 );
 }
 
-class wish_monster_callback: public uimenu_callback
+class wish_monster_callback: public uilist_callback
 {
     public:
         int lastent;           // last menu entry
@@ -412,7 +412,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> p )
     } while( wmenu.ret >= 0 );
 }
 
-class wish_item_callback: public uimenu_callback
+class wish_item_callback: public uilist_callback
 {
     public:
         bool incontainer;

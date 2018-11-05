@@ -154,7 +154,7 @@ void uilist::init()
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
     vshift = 0;              // scrolling menu offset
     vmax = 0;                // max entries area rows
-    callback = NULL;         // * uimenu_callback
+    callback = NULL;         // * uilist_callback
     filter.clear();          // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
     fselected = 0;           // fentries[selected]

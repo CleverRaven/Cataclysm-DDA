@@ -7495,7 +7495,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
         menu.addentry( i, true, hotkey, draw_row( i ) );
     }
 
-    struct reload_callback : public uimenu_callback {
+    struct reload_callback : public uilist_callback {
         public:
             std::vector<item::reload_option> &opts;
             const std::function<std::string( int )> draw_row;

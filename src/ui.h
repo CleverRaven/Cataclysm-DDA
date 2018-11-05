@@ -106,7 +106,7 @@ class ui_container
 /**
  * Generic multi-function callback for highlighted items, key presses, and window control. Example:
  *
- * class monmenu_cb: public uimenu_callback {
+ * class monmenu_cb: public uilist_callback {
  *   public:
  *   bool key(int ch, int num, uilist * menu) {
  *     if ( ch == 'k' && num > 0 ) {
@@ -137,7 +137,7 @@ class uilist;
 * event completely". This is unchanged before or after the PR.
 * @{
 */
-class uimenu_callback
+class uilist_callback
 {
     public:
         virtual void select( int /*entnum*/, uilist * ) {};
@@ -147,7 +147,7 @@ class uimenu_callback
         };
         virtual void refresh( uilist * ) {};
         virtual void redraw( uilist * ) {};
-        virtual ~uimenu_callback() = default;
+        virtual ~uilist_callback() = default;
 };
 /*@}*/
 /**
@@ -203,7 +203,7 @@ class uilist: public ui_container
         nc_color scrollbar_page_color;
         int scrollbar_side;
 
-        uimenu_callback *callback;
+        uilist_callback *callback;
 
         uilist();
         uilist( const std::string &hotkeys_override );
@@ -262,7 +262,7 @@ class uilist: public ui_container
  * Callback for uilist that pairs menu entries with points
  * When an entry is selected, view will be centered on the paired point
  */
-class pointmenu_cb : public uimenu_callback
+class pointmenu_cb : public uilist_callback
 {
     private:
         const std::vector< tripoint > &points;

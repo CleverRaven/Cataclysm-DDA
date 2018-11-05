@@ -238,7 +238,7 @@ class martialart
         std::vector<mabuff_id> ongethit_buffs;
 };
 
-class ma_style_callback : public uimenu_callback
+class ma_style_callback : public uilist_callback
 {
     private:
         size_t offset;
