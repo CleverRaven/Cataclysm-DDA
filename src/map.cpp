@@ -1078,7 +1078,7 @@ bool map::displace_water( const tripoint &p )
 
 // 2D overloads for furniture
 // To be removed once not needed
-void map::set( const int x, const int y, const ter_id new_terrain, const furn_id new_furniture )
+void map::set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture )
 {
     furn_set( x, y, new_furniture );
     ter_set( x, y, new_terrain );
@@ -1107,7 +1107,7 @@ furn_id map::furn( const int x, const int y ) const
     return current_submap->get_furn( lx, ly );
 }
 
-void map::furn_set( const int x, const int y, const furn_id new_furniture )
+void map::furn_set( const int x, const int y, const furn_id &new_furniture )
 {
     furn_set( tripoint( x, y, abs_sub.z ), new_furniture );
 }
@@ -1118,7 +1118,7 @@ std::string map::furnname( const int x, const int y )
 }
 // End of 2D overloads for furniture
 
-void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture )
+  void map::set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture )
 {
     furn_set( p, new_furniture );
     ter_set( p, new_terrain );
@@ -1160,7 +1160,7 @@ furn_id map::furn( const tripoint &p ) const
     return current_submap->get_furn( lx, ly );
 }
 
-void map::furn_set( const tripoint &p, const furn_id new_furniture )
+void map::furn_set( const tripoint &p, const furn_id &new_furniture )
 {
     if( !inbounds( p ) ) {
         return;
@@ -1254,7 +1254,7 @@ ter_id map::ter( const int x, const int y ) const
     return current_submap->get_ter( lx, ly );
 }
 
-bool map::ter_set( const int x, const int y, const ter_id new_terrain )
+bool map::ter_set( const int x, const int y, const ter_id &new_terrain )
 {
     return ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
 }
@@ -1361,7 +1361,7 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-bool map::ter_set( const tripoint &p, const ter_id new_terrain )
+bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
 {
     if( !inbounds( p ) ) {
         return false;
@@ -2356,13 +2356,13 @@ void map::make_rubble( const tripoint &p )
     make_rubble( p, f_rubble, false, t_dirt, false );
 }
 
-void map::make_rubble( const tripoint &p, const furn_id rubble_type, const bool items )
+void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items )
 {
     make_rubble( p, rubble_type, items, t_dirt, false );
 }
 
-void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_id floor_type,
-                       bool overwrite )
+void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items,
+                       const ter_id &floor_type, bool overwrite )
 {
     if( overwrite ) {
         ter_set( p, floor_type );
@@ -3652,7 +3652,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     return false;
 }
 
-void map::translate( const ter_id from, const ter_id to )
+void map::translate( const ter_id &from, const ter_id &to )
 {
     if( from == to ) {
         debugmsg( "map::translate %s => %s",
@@ -3674,7 +3674,7 @@ void map::translate( const ter_id from, const ter_id to )
 }
 
 //This function performs the translate function within a given radius of the player.
-void map::translate_radius( const ter_id from, const ter_id to, float radi, const tripoint &p,
+void map::translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                             const bool same_submap )
 {
     if( from == to ) {

@@ -5632,7 +5632,7 @@ void game::exam_vehicle( vehicle &veh, int cx, int cy )
     }
 }
 
-bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
+bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg )
 {
     // TODO: Z
     const int &x = p.x;

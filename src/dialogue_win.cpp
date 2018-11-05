@@ -138,7 +138,7 @@ void dialogue_window::refresh_response_display()
     can_scroll_up = false;
 }
 
-void dialogue_window::display_responses( int const hilight_lines, std::vector<talk_data> responses,
+void dialogue_window::display_responses( int const hilight_lines, const std::vector<talk_data> &responses,
         const long &ch )
 {
     if( text_only ) {

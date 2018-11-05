@@ -108,8 +108,8 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 /// Determines how many round trips a given NPC @ref comp will take to move all of the items @ref itms
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items with @ref carry_mass and @ref carry_volume moved per trip
-int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
-                              units::volume carry_volume );
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume );
 
 /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
 bool om_camp_upgrade( npc &p, const tripoint &omt_pos );
@@ -222,7 +222,7 @@ std::string name_mission_tabs( npc &p, const std::string &id, const std::string 
 /// Creats a map of all the recipes that are available to a building at om_cur, "ALL" for all possible
 std::map<std::string, std::string> camp_recipe_deck( const std::string &om_cur );
 /// Determines what the absolute max (out of 9999) that can be crafted using inventory and food supplies
-int camp_recipe_batch_max( const recipe making, const inventory &total_inv );
+int camp_recipe_batch_max( const recipe &making, const inventory &total_inv );
 
 /*
  * check if a companion survives a random encounter
