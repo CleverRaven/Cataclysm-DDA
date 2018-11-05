@@ -248,7 +248,18 @@ struct vision_test_case {
     }
 
     void test_all() const {
-        test_all_transformations();
+        // Disabling 3d tests for now since 3d sight casting is actually
+        // different (it sees round corners more).
+        /*{
+            INFO( "using 3d casting" );
+            fov_3d = true;
+            test_all_transformations();
+        }*/
+        {
+            INFO( "using 2d casting" );
+            fov_3d = false;
+            test_all_transformations();
+        }
     }
 };
 
