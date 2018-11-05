@@ -9704,5 +9704,121 @@
   "name": "mass grave",
   "sym": 88,
   "color": "yellow"
+  },
+  {
+    "abstract": "generic_railroad_station",
+    "type": "overmap_terrain",
+    "name": "railroad station",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": 82,
+    "color": "light_green"
+  },
+  {
+    "abstract": "generic_railroad_station_under",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station",
+    "color": "dark_gray"
+  },
+  {
+    "abstract": "generic_railroad_station_parking_lot",
+    "type": "overmap_terrain",
+    "name": "railroad station parking lot",
+    "copy-from": "generic_railroad_station",
+    "sym": 79,
+    "color": "dark_gray"
+  },
+  {
+    "id": "railroad_station_0_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station",
+    "sym": 4194424
+  },
+  {
+    "id": "railroad_station_0_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station",
+    "sym": 4194424
+  },
+  {
+    "id": "railroad_station_0_3",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station",
+    "sym": 4194424
+  },
+  {
+    "id": "railroad_station_0_4",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station",
+    "sym": 4194424
+  },
+  {
+    "id": "railroad_station_1_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station"
+  },
+  {
+    "id": "railroad_station_1_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station"
+  },
+  {
+    "id": "railroad_station_1_3",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station"
+  },
+  {
+    "id": "railroad_station_1_4",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station"
+  },
+  {
+    "id": "railroad_station_2_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_parking_lot"
+  },
+  {
+    "id": "railroad_station_2_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_parking_lot"
+  },
+  {
+    "id": "railroad_station_2_3",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_parking_lot"
+  },
+  {
+    "id": "railroad_station_2_4",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_parking_lot"
+  },
+  {
+    "id": "railroad_station_under_0_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_under"
+  },
+  {
+    "id": "railroad_station_under_0_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_under"
+  },
+  {
+    "id": "railroad_station_under_0_3",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_under"
+  },
+  {
+    "id": "railroad_station_under_1_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_under"
+  },
+  {
+    "id": "railroad_station_under_1_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_under"
+  },
+  {
+    "id": "railroad_station_under_1_3",
+    "type": "overmap_terrain",
+    "copy-from": "generic_railroad_station_under"
   }
 ]
