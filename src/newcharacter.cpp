@@ -210,7 +210,8 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style. (press %s for more info)" ), ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
+    menu.text = string_format( _( "Select a style. (press %s for more info)" ),
+                               ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
