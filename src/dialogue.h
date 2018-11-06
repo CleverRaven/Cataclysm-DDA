@@ -349,8 +349,6 @@ class json_talk_response
  */
 class json_talk_topic
 {
-    public:
-
     private:
         bool replace_built_in_responses = false;
         std::vector<json_talk_response> responses;
