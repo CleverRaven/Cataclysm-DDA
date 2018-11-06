@@ -9085,12 +9085,12 @@
           "rotates": false
         },
         {
-          "id": "meat_vac",
+          "id": "meat_salted",
           "fg": 462,
           "rotates": false
         },
         {
-          "id": "hflesh_vac",
+          "id": "hflesh_salted",
           "fg": 462,
           "rotates": false
         },
@@ -9275,7 +9275,7 @@
           "rotates": false
         },
         {
-          "id": "fish_vac",
+          "id": "salted_fish",
           "fg": 477,
           "rotates": false
         },
@@ -10345,7 +10345,7 @@
           "rotates": false
         },
         {
-          "id": "apple_vac",
+          "id": "apple_sugar",
           "fg": 552,
           "rotates": false
         },
@@ -10382,11 +10382,6 @@
         {
           "id": "royal_jelly",
           "fg": 555,
-          "rotates": false
-        },
-        {
-          "id": "salted_fish",
-          "fg": 556,
           "rotates": false
         },
         {
@@ -11880,7 +11875,7 @@
           "rotates": false
         },
         {
-          "id": "veggy_vac",
+          "id": "veggy_salted",
           "fg": 602,
           "rotates": false
         },
@@ -13305,13 +13300,8 @@
           "rotates": false
         },
         {
-          "id": "bag_apple_vac",
+          "id": "plastic_bag_vac",
           "fg": 788,
-          "rotates": false
-        },
-        {
-          "id": "bag_fish_vac",
-          "fg": 789,
           "rotates": false
         },
         {
@@ -13322,21 +13312,6 @@
         {
           "id": "mortar_build",
           "fg": 789,
-          "rotates": false
-        },
-        {
-          "id": "bag_meat_vac",
-          "fg": 790,
-          "rotates": false
-        },
-        {
-          "id": "bag_hflesh_vac",
-          "fg": 790,
-          "rotates": false
-        },
-        {
-          "id": "bag_veggy_vac",
-          "fg": 791,
           "rotates": false
         },
         {

@@ -2098,7 +2098,7 @@
         [ "salted_fish", 3 ],
         [ "fish_smoked", 2 ],
         [ "fish_pickled", 1 ],
-        [ "fish_vac", 2 ],
+        [ "salted_fish", 2 ],
         [ "fish_canned", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ]
@@ -3233,12 +3233,12 @@
         [ "jerky", 3 ],
         [ "salted_fish", 2 ],
         [ "meat_pickled", 1 ],
-        [ "meat_vac", 1 ],
+        [ "meat_salted", 1 ],
         [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
         [ "can_spam", 1 ],
         [ "fish_pickled", 1 ],
-        [ "fish_vac", 1 ],
+        [ "salted_fish", 1 ],
         [ "fish_canned", 1 ],
         [ "cracklins", 4 ],
         [ "can_sardine", 1 ],
@@ -3272,12 +3272,12 @@
         [ "jerky", 3 ],
         [ "salted_fish", 2 ],
         [ "meat_pickled", 1 ],
-        [ "meat_vac", 1 ],
+        [ "meat_salted", 1 ],
         [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
         [ "can_spam", 1 ],
         [ "fish_pickled", 1 ],
-        [ "fish_vac", 1 ],
+        [ "salted_fish", 1 ],
         [ "fish_canned", 1 ],
         [ "cracklins", 4 ],
         [ "can_sardine", 1 ],
@@ -3704,7 +3704,7 @@
       [
         [ "veggy", 2 ],
         [ "veggy_wild", 2 ],
-        [ "veggy_vac", 2 ],
+        [ "veggy_salted", 2 ],
         [ "rehydrated_veggy", 2 ],
         [ "dry_veggy", 2 ],
         [ "mushroom", 2 ],
@@ -3735,7 +3735,7 @@
       [
         [ "veggy", 2 ],
         [ "veggy_wild", 2 ],
-        [ "veggy_vac", 2 ],
+        [ "veggy_salted", 2 ],
         [ "rehydrated_veggy", 2 ],
         [ "dry_veggy", 2 ],
         [ "mushroom", 2 ],
@@ -3765,7 +3765,7 @@
       [
         [ "veggy", 2 ],
         [ "veggy_wild", 2 ],
-        [ "veggy_vac", 2 ],
+        [ "veggy_salted", 2 ],
         [ "rehydrated_veggy", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
@@ -3794,7 +3794,7 @@
       [
         [ "veggy", 2 ],
         [ "veggy_wild", 2 ],
-        [ "veggy_vac", 2 ],
+        [ "veggy_salted", 2 ],
         [ "rehydrated_veggy", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
@@ -3824,7 +3824,7 @@
       [
         [ "veggy", 2 ],
         [ "veggy_wild", 2 ],
-        [ "veggy_vac", 2 ],
+        [ "veggy_salted", 2 ],
         [ "celery", 2 ],
         [ "irradiated_celery", 2 ],
         [ "cabbage", 2 ],
@@ -3915,13 +3915,13 @@
         [ "meat", 2 ],
         [ "meat_canned", 2 ],
         [ "can_chicken", 2 ],
-        [ "meat_vac", 2 ],
+        [ "meat_salted", 2 ],
         [ "rehydrated_meat", 2 ],
         [ "dry_meat", 2 ],
         [ "fish", 3 ],
         [ "fish_canned", 3 ],
         [ "can_tuna", 3 ],
-        [ "fish_vac", 3 ],
+        [ "salted_fish", 3 ],
         [ "rehydrated_fish", 3 ],
         [ "dry_fish", 3 ]
       ],
@@ -3945,7 +3945,7 @@
       [
         [ "human_flesh", 2 ],
         [ "human_canned", 1 ],
-        [ "hflesh_vac", 2 ],
+        [ "hflesh_salted", 2 ],
         [ "rehydrated_hflesh", 2 ],
         [ "dry_hflesh", 2 ]
       ],
@@ -4408,7 +4408,7 @@
         [ "salted_fish", 3 ],
         [ "fish_smoked", 4 ],
         [ "fish_pickled", 2 ],
-        [ "fish_vac", 4 ],
+        [ "salted_fish", 4 ],
         [ "fish_canned", 2 ],
         [ "can_salmon", 2 ],
         [ "can_tuna", 2 ]
@@ -4554,7 +4554,9 @@
   },
   {
     "type": "recipe",
-    "result": "bag_meat_vac",
+    "result": "meat_salted",
+    "id_suffix": "vacuum_packed",
+    "container": "plastic_bag_vac",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -4572,7 +4574,9 @@
   },
   {
     "type": "recipe",
-    "result": "bag_fish_vac",
+    "result": "salted_fish",
+    "id_suffix": "vacuum_packed",
+    "container": "plastic_bag_vac",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -4585,12 +4589,14 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "bag_plastic", 1 ] ],
       [ [ "fish", 2 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 5 ], [ "salt", 10 ], [ "chem_saltpetre", 5 ] ]
+      [ [ "salt_water", 1 ], [ "saline", 5 ], [ "salt", 5 ], [ "chem_saltpetre", 2 ] ]
     ]
   },
   {
     "type": "recipe",
-    "result": "bag_hflesh_vac",
+    "result": "hflesh_salted",
+    "id_suffix": "vacuum_packed",
+    "container": "plastic_bag_vac",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -4608,7 +4614,9 @@
   },
   {
     "type": "recipe",
-    "result": "bag_veggy_vac",
+    "result": "veggy_salted",
+    "id_suffix": "vacuum_packed",
+    "container": "plastic_bag_vac",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -4626,7 +4634,9 @@
   },
   {
     "type": "recipe",
-    "result": "bag_apple_vac",
+    "result": "apple_sugar",
+    "id_suffix": "vacuum_packed",
+    "container": "plastic_bag_vac",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -4945,7 +4955,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
-        [ "hflesh_vac", 1 ],
+        [ "hflesh_salted", 1 ],
         [ "human_canned", 1 ],
         [ "hflesh_aspic", 1 ],
         [ "human_smoked", 1 ],
@@ -4960,7 +4970,7 @@
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
-        [ "veggy_vac", 1 ],
+        [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -5029,7 +5039,7 @@
         [ "bologna", 5 ],
         [ "fish_cooked", 1 ],
         [ "bacon", 2 ],
-        [ "meat_vac", 2 ],
+        [ "meat_salted", 2 ],
         [ "fried_spam", 2 ],
         [ "rehydrated_meat", 2 ],
         [ "fish_smoked", 1 ],
@@ -5053,7 +5063,7 @@
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
-        [ "veggy_vac", 1 ],
+        [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -6467,7 +6477,7 @@
         [ "salted_fish", 3 ],
         [ "fish_smoked", 2 ],
         [ "fish_pickled", 1 ],
-        [ "fish_vac", 2 ],
+        [ "salted_fish", 2 ],
         [ "fish_canned", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ]
@@ -6530,7 +6540,7 @@
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
-        [ "veggy_vac", 1 ],
+        [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -6903,7 +6913,7 @@
         [ "dry_hflesh", 1 ],
         [ "human_canned", 1 ],
         [ "jerky_human", 1 ],
-        [ "hflesh_vac", 1 ],
+        [ "hflesh_salted", 1 ],
         [ "human_smoked", 1 ]
       ],
       [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]

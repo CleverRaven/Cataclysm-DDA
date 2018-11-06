@@ -470,5 +470,30 @@
     "id": "lasagne_cooked",
     "type": "MIGRATION",
     "replace": "spaghetti_cooked"
+  },
+  {
+    "id": "fish_vac",
+    "type": "MIGRATION",
+    "replace": "salted_fish"
+  },
+  {
+    "id": "apple_vac",
+    "type": "MIGRATION",
+    "replace": "apple_sugar"
+  },
+  {
+    "id": "hflesh_vac",
+    "type": "MIGRATION",
+    "replace": "hflesh_salted"
+  },
+  {
+    "id": "meat_vac",
+    "type": "MIGRATION",
+    "replace": "meat_salted"
+  },
+  {
+    "id": "veggy_vac",
+    "type": "MIGRATION",
+    "replace": "veggy_salted"
   }
 ]
