@@ -1455,7 +1455,6 @@ class map
                               bool low_light, bool bright_light, bool inorder ) const;
 
         long determine_wall_corner( const tripoint &p ) const;
-        void cache_seen( const int fx, const int fy, const int tx, const int ty, const int max_range );
         // apply a circular light pattern immediately, however it's best to use...
         void apply_light_source( const tripoint &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant

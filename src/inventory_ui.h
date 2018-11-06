@@ -551,7 +551,6 @@ class inventory_selector
             }
         }
         void toggle_navigation_mode();
-        void reassign_custom_invlets();
 
         /** Entry has been added */
         virtual void on_entry_add( const inventory_entry & ) {}
