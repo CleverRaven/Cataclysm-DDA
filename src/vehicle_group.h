@@ -3,13 +3,14 @@
 #define VEHICLE_GROUP_H
 
 #include "mapgen.h"
-#include <string>
-#include <memory>
-#include <unordered_map>
-
 #include "optional.h"
+#include "rng.h"
 #include "string_id.h"
 #include "weighted_list.h"
+
+#include <memory>
+#include <string>
+#include <unordered_map>
 
 class JsonObject;
 class VehicleGroup;

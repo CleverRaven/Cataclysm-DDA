@@ -1,13 +1,12 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "animation.h"
+#include "cursesport.h"
+
 #include "catacharset.h"
 #include "color.h"
-#include "cursesport.h"
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
 
-#include <cstring> // strlen
 #include <stdexcept>
 
 /**

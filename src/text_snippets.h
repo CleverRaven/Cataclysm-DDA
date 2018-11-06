@@ -3,8 +3,8 @@
 #define TEXT_SNIPPET_H
 
 #include <map>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 class JsonObject;

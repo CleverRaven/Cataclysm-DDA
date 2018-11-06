@@ -1,19 +1,19 @@
 #include "mapdata.h"
 
+#include "calendar.h"
 #include "color.h"
-#include "init.h"
+#include "debug.h"
 #include "game_constants.h"
-#include "string_formatter.h"
 #include "generic_factory.h"
 #include "harvest.h"
-#include "debug.h"
-#include "translations.h"
-#include "output.h"
+#include "iexamine.h"
+#include "init.h"
 #include "item.h"
 #include "item_group.h"
-#include "calendar.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "trap.h"
-#include "iexamine.h"
 
 #include <unordered_map>
 

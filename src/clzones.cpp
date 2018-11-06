@@ -1,19 +1,17 @@
 #include "clzones.h"
-#include "game.h"
-#include "json.h"
-#include "debug.h"
-#include "output.h"
+
 #include "cata_utility.h"
+#include "debug.h"
+#include "game.h"
+#include "iexamine.h"
+#include "item_category.h"
+#include "itype.h"
+#include "json.h"
+#include "line.h"
+#include "output.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
-#include "string_input_popup.h"
-#include "line.h"
-#include "item.h"
-#include "itype.h"
-#include "item_category.h"
-#include "iexamine.h"
-
-#include <iostream>
 
 zone_manager::zone_manager()
 {

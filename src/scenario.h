@@ -4,10 +4,9 @@
 
 #include "string_id.h"
 
+#include <set>
 #include <string>
 #include <vector>
-#include <map>
-#include <set>
 
 class scenario;
 class profession;

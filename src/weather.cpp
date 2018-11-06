@@ -1,26 +1,26 @@
 #include "weather.h"
 
+#include "calendar.h"
+#include "cata_utility.h"
 #include "coordinate_conversions.h"
+#include "game.h"
+#include "game_constants.h"
+#include "map.h"
+#include "math.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
-#include "calendar.h"
-#include "game.h"
-#include "map.h"
-#include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "trap.h"
-#include "math.h"
+#include "player.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "weather_gen.h"
-#include "sounds.h"
-#include "cata_utility.h"
-#include "player.h"
-#include "game_constants.h"
 
-#include <vector>
 #include <sstream>
+#include <vector>
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );

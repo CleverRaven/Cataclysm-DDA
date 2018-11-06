@@ -2,13 +2,13 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
+#include "compatibility.h"
 //@todo: replace with std::optional
 #include "optional.h"
-#include "compatibility.h"
 
 #include <string>
-#include <typeinfo>
 #include <type_traits>
+#include <typeinfo>
 #include <utility>
 
 namespace cata

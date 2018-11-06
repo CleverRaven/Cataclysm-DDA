@@ -1,38 +1,39 @@
 #include "monster.h"
 
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "item.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mondeath.h"
-#include "output.h"
-#include "game.h"
-#include "projectile.h"
-#include "debug.h"
-#include "rng.h"
-#include "item.h"
-#include "translations.h"
-#include "overmapbuffer.h"
-#include <sstream>
-#include <stdlib.h>
-#include <algorithm>
-#include <numeric>
-#include "cursesdef.h"
-#include "effect.h"
+#include "mapdata.h"
 #include "melee.h"
 #include "messages.h"
-#include "mondefense.h"
 #include "mission.h"
-#include "mongroup.h"
+#include "mondeath.h"
+#include "mondefense.h"
 #include "monfaction.h"
-#include "string_formatter.h"
-#include "options.h"
-#include "trap.h"
-#include "line.h"
-#include "mapdata.h"
+#include "mongroup.h"
 #include "mtype.h"
-#include "field.h"
-#include "sounds.h"
 #include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "overmapbuffer.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "trap.h"
+
+#include <algorithm>
+#include <cstdlib>
+#include <numeric>
+#include <sstream>
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.

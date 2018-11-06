@@ -1,24 +1,21 @@
+#include "ammo.h"
+#include "compatibility.h"
 #include "game.h"
+#include "init.h"
+#include "item_factory.h"
+#include "iuse_actor.h"
+#include "loading_ui.h"
+#include "npc.h"
+#include "player.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vitamin.h"
 
 #include <algorithm>
 #include <iostream>
 #include <iterator>
-
-#include "compatibility.h"
-#include "init.h"
-#include "item_factory.h"
-#include "iuse_actor.h"
-#include "recipe_dictionary.h"
-#include "player.h"
-#include "vehicle.h"
-#include "string_formatter.h"
-#include "veh_type.h"
-#include "skill.h"
-#include "vitamin.h"
-#include "npc.h"
-#include "ammo.h"
-#include "crafting.h"
-#include "loading_ui.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )

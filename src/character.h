@@ -2,17 +2,20 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "visitable.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "bodypart.h"
-#include "calendar.h"
 #include "pldata.h"
+#include "rng.h"
+#include "visitable.h"
 
-#include <map>
-#include <vector>
 #include <bitset>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 class Skill;
 struct pathfinding_settings;

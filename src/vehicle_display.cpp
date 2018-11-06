@@ -1,32 +1,22 @@
 #include "vehicle.h"
 
-#include "coordinate_conversions.h"
-#include "output.h"
-#include "game.h"
-#include "veh_interact.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "messages.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "debug.h"
-#include "translations.h"
-#include "options.h"
-#include "veh_type.h"
-#include "itype.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "coordinate_conversions.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "game.h"
+#include "itype.h"
+#include "options.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vpart_position.h"
 
-#include <sstream>
-#include <stdlib.h>
-#include <set>
-#include <queue>
-#include <math.h>
-#include <array>
-#include <numeric>
 #include <algorithm>
-#include <cassert>
+#include <set>
+#include <sstream>
 
 static const std::string part_location_structure( "structure" );
 

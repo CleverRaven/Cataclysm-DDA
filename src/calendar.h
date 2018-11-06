@@ -2,9 +2,9 @@
 #ifndef CALENDAR_H
 #define CALENDAR_H
 
-#include <string>
-
 #include "optional.h"
+
+#include <string>
 
 class time_duration;
 class time_point;

@@ -2,9 +2,9 @@
 #ifndef CATACHARSET_H
 #define CATACHARSET_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
-#include <array>
+
 #define ANY_LENGTH 5
 #define UNKNOWN_UNICODE 0xFFFD
 

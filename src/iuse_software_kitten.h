@@ -3,6 +3,7 @@
 #define SOFTWARE_KITTEN_H
 
 #include "color.h"
+
 #include <string>
 
 namespace catacurses

@@ -2,22 +2,22 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "calendar.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "calendar.h"
-#include "posix_time.h"
 #include "int_id.h"
-#include "cursesdef.h"
-#include "pimpl.h"
 #include "item_location.h"
 #include "optional.h"
+#include "pimpl.h"
+#include "posix_time.h"
 
 #include <array>
-#include <vector>
-#include <map>
-#include <unordered_map>
 #include <list>
+#include <map>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 
 extern const int savegame_version;
 extern int save_loading_version;

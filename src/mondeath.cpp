@@ -1,27 +1,28 @@
 #include "mondeath.h"
-#include "monster.h"
-#include "game.h"
-#include "map.h"
+
+#include "event.h"
+#include "field.h"
 #include "fungal_effects.h"
-#include "map_iterator.h"
-#include "rng.h"
+#include "game.h"
+#include "itype.h"
+#include "iuse_actor.h"
 #include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mtype.h"
 #include "output.h"
+#include "player.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "iuse_actor.h"
 #include "translations.h"
-#include "morale_types.h"
-#include "event.h"
-#include "itype.h"
-#include "mtype.h"
-#include "field.h"
-#include "player.h"
 
-#include <math.h>  // rounding
-#include <sstream>
 #include <algorithm>
+#include <cmath>
+#include <sstream>
 #include <vector>
 
 const mtype_id mon_blob( "mon_blob" );

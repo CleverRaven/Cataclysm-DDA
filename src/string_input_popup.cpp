@@ -1,16 +1,16 @@
 #include "string_input_popup.h"
 
-#include "uistate.h"
-#include "input.h"
 #include "catacharset.h"
+#include "compatibility.h"
+#include "input.h"
 #include "output.h"
 #include "ui.h"
-#include "compatibility.h"
-#ifdef __ANDROID__
-#include "SDL_keyboard.h"
-#include "options.h"
-#endif
+#include "uistate.h"
 
+#ifdef __ANDROID__
+#include "options.h"
+#include "SDL_keyboard.h"
+#endif
 
 #include <cstdlib>
 

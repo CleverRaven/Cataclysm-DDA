@@ -1,17 +1,17 @@
 #include "iuse_software.h"
 
+#include "cursesdef.h"
 #include "iuse_software_kitten.h"
+#include "iuse_software_lightson.h"
+#include "iuse_software_minesweeper.h"
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
-#include "iuse_software_minesweeper.h"
-#include "iuse_software_lightson.h"
-#include "string_formatter.h"
-#include "cursesdef.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "translations.h"
 
-#include <string>
 #include <map>
+#include <string>
 
 bool play_videogame( const std::string &function_name,
                      std::map<std::string, std::string> &game_data,

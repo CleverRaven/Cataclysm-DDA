@@ -1,18 +1,14 @@
 #include "bonuses.h"
+
+#include "character.h"
 #include "damage.h"
 #include "json.h"
-#include "character.h"
-#include "debug.h"
-#include "translations.h"
 #include "output.h"
+#include "translations.h"
 
-#include <map>
+#include <sstream>
 #include <string>
 #include <utility>
-#include <sstream>
-#include <vector>
-
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
 
 bool needs_damage_type( affected_stat as )
 {

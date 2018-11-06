@@ -1,9 +1,13 @@
 #include "catacharset.h"
-#include <string.h>
-#include "debug.h"
+
 #include "cursesdef.h"
-#include "wcwidth.h"
+#include "debug.h"
 #include "options.h"
+#include "wcwidth.h"
+
+#include <cstring>
+#include <array>
+
 #if (defined _WIN32 || defined WINDOWS)
 #include "platform_win.h"
 #include "mmsystem.h"

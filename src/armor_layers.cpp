@@ -1,20 +1,18 @@
+#include "cata_utility.h"
+#include "catacharset.h" // used for utf8_width()
 #include "game.h"
 #include "game_inventory.h"
-#include "player.h"
-#include "catacharset.h" // used for utf8_width()
 #include "input.h"
-#include "output.h"
 #include "item.h"
-#include "string_formatter.h"
-#include "units.h"
-#include "translations.h"
-#include "npc.h"
-#include "cata_utility.h"
 #include "line.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
 
-#include <vector>
-#include <string>
 #include <algorithm>
+#include <string>
+#include <vector>
 
 namespace
 {

@@ -2,10 +2,7 @@
 #ifndef NPCTALK_H
 #define NPCTALK_H
 
-#include <memory>
-#include <vector>
 #include <string>
-#include <functional>
 
 namespace talk_function
 {

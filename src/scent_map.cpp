@@ -1,9 +1,10 @@
 #include "scent_map.h"
+
 #include "calendar.h"
 #include "color.h"
+#include "game.h"
 #include "map.h"
 #include "output.h"
-#include "game.h"
 
 #include <cassert>
 #include <cmath>

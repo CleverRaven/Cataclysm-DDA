@@ -3,7 +3,6 @@
 #define CATA_TILES_H
 
 #include <SDL.h>
-#include <SDL_ttf.h>
 
 #include "animation.h"
 #include "lightmap.h"
@@ -14,7 +13,6 @@
 #include "weighted_list.h"
 
 #include <memory>
-#include <list>
 #include <map>
 #include <set>
 #include <vector>

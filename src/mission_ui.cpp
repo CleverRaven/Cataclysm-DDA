@@ -1,16 +1,15 @@
-#include "game.h"
-#include "player.h"
-#include "output.h"
-#include "input.h"
 #include "mission.h"
-#include "weather.h"
+
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "string_formatter.h"
+#include "game.h"
+#include "input.h"
+#include "output.h"
+#include "player.h"
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
 
 void game::list_missions()
 {

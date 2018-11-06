@@ -2,8 +2,8 @@
 #ifndef EMIT_H
 #define EMIT_H
 
-#include "string_id.h"
 #include "field.h"
+#include "string_id.h"
 
 #include <map>
 #include <string>

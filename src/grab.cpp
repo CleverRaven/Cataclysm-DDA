@@ -1,11 +1,11 @@
 #include "game.h"
 #include "map.h"
-#include "output.h"
-#include "vpart_position.h"
-#include "player.h"
-#include "vehicle.h"
 #include "messages.h"
+#include "output.h"
+#include "player.h"
 #include "sounds.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {

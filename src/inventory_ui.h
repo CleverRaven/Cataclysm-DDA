@@ -2,17 +2,17 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
-#include <limits>
-#include <memory>
-#include <functional>
-
 #include "color.h"
-#include "units.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
 #include "item_location.h"
 #include "pimpl.h"
+#include "units.h"
+
+#include <functional>
+#include <limits>
+#include <memory>
 
 class Character;
 

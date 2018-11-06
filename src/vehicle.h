@@ -2,25 +2,24 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include "active_item_cache.h"
 #include "calendar.h"
-#include "tileray.h"
 #include "damage.h"
 #include "item.h"
 #include "item_group.h"
-#include "line.h"
 #include "item_stack.h"
-#include "active_item_cache.h"
+#include "line.h"
 #include "string_id.h"
+#include "tileray.h"
 #include "ui.h"
 #include "units.h"
 
-#include <vector>
 #include <array>
-#include <map>
 #include <list>
-#include <string>
-#include <iosfwd>
+#include <map>
 #include <stack>
+#include <string>
+#include <vector>
 
 class nc_color;
 class map;

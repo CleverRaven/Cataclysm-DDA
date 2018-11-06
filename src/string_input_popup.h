@@ -1,14 +1,13 @@
 #ifndef STRING_INPUT_POPUP_H
 #define STRING_INPUT_POPUP_H
 
-#include "cursesdef.h"
 #include "color.h"
+#include "cursesdef.h"
 
-#include <string>
-#include <memory>
-#include <map>
-#include <set>
 #include <functional>
+#include <map>
+#include <memory>
+#include <string>
 
 class input_context;
 struct input_event;

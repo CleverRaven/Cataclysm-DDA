@@ -1,6 +1,7 @@
 #include "path_info.h"
-#include "options.h"
+
 #include "filesystem.h"
+#include "options.h"
 #include "translations.h"
 #include <cstdlib>
 #include <locale.h>

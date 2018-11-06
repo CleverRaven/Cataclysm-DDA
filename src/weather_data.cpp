@@ -1,14 +1,13 @@
 #include "weather.h"
-#include "translations.h"
-#include "color.h"
-#include "catacharset.h"
-#include "game_constants.h"
 
-#include <map>
-#include <vector>
-#include <string>
+#include "color.h"
+#include "game_constants.h"
+#include "translations.h"
+
 #include <array>
 #include <cmath>
+#include <map>
+#include <vector>
 
 /**
  * @ingroup Weather

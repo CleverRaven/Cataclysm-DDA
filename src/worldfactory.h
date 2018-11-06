@@ -7,11 +7,11 @@
 #include "string_id.h"
 
 #include <functional>
-#include <map>
-#include <vector>
-#include <string>
-#include <memory>
 #include <iosfwd>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
 class JsonIn;
 class JsonObject;

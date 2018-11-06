@@ -4,13 +4,10 @@
 
 #include "string_id.h"
 
-#include <vector>
 #include <map>
 #include <stack>
 #include <string>
-#include <sstream>
-#include <algorithm>
-#include <memory>
+#include <vector>
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;

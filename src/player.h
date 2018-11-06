@@ -2,22 +2,22 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "character.h"
-#include "map_memory.h"
-#include "pimpl.h"
-#include "item.h"
-#include "player_activity.h"
-#include "weighted_list.h"
-#include "game_constants.h"
-#include "ret_val.h"
-#include "damage.h"
 #include "calendar.h"
+#include "character.h"
+#include "damage.h"
+#include "game_constants.h"
+#include "item.h"
+#include "map_memory.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "weighted_list.h"
 
-#include <unordered_set>
-#include <memory>
 #include <array>
+#include <memory>
+#include <unordered_set>
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 

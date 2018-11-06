@@ -2,11 +2,11 @@
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
+#include "units.h"
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
-
-#include "units.h"
 
 // Fixed window sizes
 #define HP_HEIGHT 14

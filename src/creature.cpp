@@ -1,25 +1,25 @@
 #include "creature.h"
+
 #include "item.h"
-#include "output.h"
+#include "anatomy.h"
+#include "debug.h"
+#include "effect.h"
+#include "field.h"
 #include "game.h"
+#include "itype.h"
 #include "map.h"
 #include "messages.h"
-#include "rng.h"
-#include "translations.h"
 #include "monster.h"
-#include "vpart_position.h"
-#include "effect.h"
 #include "mtype.h"
 #include "npc.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "debug.h"
-#include "field.h"
+#include "output.h"
 #include "projectile.h"
-#include "anatomy.h"
+#include "rng.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #include <algorithm>
-#include <numeric>
 #include <cmath>
 #include <map>
 

@@ -1,32 +1,24 @@
-#include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "dialogue.h"
-#include "rng.h"
-#include "line.h"
-#include "debug.h"
-#include "catacharset.h"
-#include "overmapbuffer.h"
-#include "translations.h"
-#include "input.h"
-#include "item_group.h"
-#include "compatibility.h"
-#include "cata_utility.h"
-#include "itype.h"
-#include "map_selector.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "skill.h"
-#include "help.h"
-#include "overmap.h"
 #include "npctrade.h"
 
+#include "cata_utility.h"
+#include "debug.h"
+#include "game.h"
+#include "help.h"
+#include "input.h"
+#include "item_group.h"
+#include "map.h"
+#include "map_selector.h"
+#include "npc.h"
+#include "output.h"
+#include "skill.h"
 #include "string_formatter.h"
-#include <vector>
-#include <string>
-#include <sstream>
+#include "translations.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
+
 #include <algorithm>
+#include <string>
+#include <vector>
 
 const skill_id skill_barter( "barter" );
 

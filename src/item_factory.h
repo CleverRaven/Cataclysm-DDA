@@ -2,16 +2,15 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include <string>
-#include <memory>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <memory>
-#include <list>
-#include <functional>
-
 #include "itype.h"
+
+#include <functional>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 bool item_is_blacklisted( const std::string &id );
 

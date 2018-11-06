@@ -3,14 +3,14 @@
 #define INPUT_H
 
 #include <functional>
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
+
 #ifdef __ANDROID__
 #include <list>
 #include <algorithm>
 #endif
-#include <utility>
 
 struct tripoint;
 namespace cata

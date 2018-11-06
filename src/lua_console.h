@@ -2,12 +2,12 @@
 #ifndef LUA_CONSOLE_H
 #define LUA_CONSOLE_H
 
-#include "output.h"
 #include "cursesdef.h"
+#include "output.h"
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 class nc_color;
 

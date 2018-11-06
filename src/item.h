@@ -2,20 +2,19 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include "calendar.h"
+#include "cata_utility.h"
+#include "debug.h"
+#include "item_location.h"
+#include "string_id.h"
+#include "visitable.h"
+
 #include <climits>
+#include <list>
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
-#include <list>
-#include <unordered_set>
-#include <set>
-#include <map>
-
-#include "visitable.h"
-#include "string_id.h"
-#include "item_location.h"
-#include "debug.h"
-#include "cata_utility.h"
-#include "calendar.h"
 
 namespace cata
 {

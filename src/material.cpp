@@ -1,15 +1,15 @@
 #include "material.h"
 
-#include "debug.h"
+#include "assign.h"
 #include "damage.h" // damage_type
-#include "json.h"
-#include "translations.h"
+#include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "assign.h"
+#include "json.h"
+#include "translations.h"
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace
 {

@@ -1,26 +1,26 @@
 #include "safemode_ui.h"
 
-#include "game.h"
-#include "player.h"
-#include "output.h"
-#include "debug.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "cata_utility.h"
-#include "path_info.h"
+#include "debug.h"
 #include "filesystem.h"
+#include "game.h"
 #include "input.h"
-#include "mtype.h"
 #include "json.h"
-#include "options.h"
 #include "monstergenerator.h"
+#include "mtype.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <fstream>
+#include <locale>
 #include <sstream>
 #include <string>
-#include <locale>
 
 safemode &get_safemode()
 {

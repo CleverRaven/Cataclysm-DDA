@@ -1,31 +1,27 @@
 #include "action.h"
-#include "output.h"
-#include "options.h"
-#include "path_info.h"
+
+#include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
-#include "map.h"
 #include "iexamine.h"
-#include "player.h"
-#include "options.h"
-#include "messages.h"
-#include "translations.h"
 #include "input.h"
-#include "crafting.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "ui.h"
-#include "trap.h"
-#include "itype.h"
 #include "mapdata.h"
-#include "cata_utility.h"
+#include "messages.h"
+#include "optional.h"
+#include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "translations.h"
+#include "trap.h"
+#include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "optional.h"
 
-#include <istream>
-#include <sstream>
-#include <iterator>
 #include <algorithm>
+#include <istream>
+#include <iterator>
 
 extern bool tile_iso;
 

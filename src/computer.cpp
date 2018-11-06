@@ -1,35 +1,35 @@
 #include "computer.h"
+
 #include "coordinate_conversions.h"
-#include "game.h"
-#include "map.h"
 #include "debug.h"
+#include "event.h"
+#include "field.h"
+#include "game.h"
+#include "input.h"
+#include "json.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mission.h"
 #include "monster.h"
+#include "mtype.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
-#include "output.h"
-#include "json.h"
 #include "overmapbuffer.h"
-#include "messages.h"
-#include "sounds.h"
-#include "rng.h"
-#include "mission.h"
-#include "translations.h"
-#include "monster.h"
-#include "event.h"
-#include "trap.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "string_formatter.h"
-#include "field.h"
 #include "player.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
-#include "input.h"
-#include "map_iterator.h"
-#include "line.h"
+#include "translations.h"
+#include "trap.h"
 
-#include <string>
-#include <sstream>
 #include <algorithm>
+#include <sstream>
+#include <string>
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );

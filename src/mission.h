@@ -2,15 +2,15 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include <vector>
-#include <string>
+#include "calendar.h"
+#include "enums.h"
+#include "npc_favor.h"
+
 #include <functional>
 #include <iosfwd>
 #include <map>
-
-#include "enums.h"
-#include "calendar.h"
-#include "npc_favor.h"
+#include <string>
+#include <vector>
 
 class player;
 class mission;

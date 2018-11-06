@@ -2,10 +2,10 @@
 #ifndef QUANTITY_CATA_H
 #define QUANTITY_CATA_H
 
-#include <utility>
 #include <cstddef>
 #include <limits>
 #include <ostream>
+#include <utility>
 
 namespace units
 {

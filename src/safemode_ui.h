@@ -2,13 +2,14 @@
 #ifndef SEFEMODE_UI_H
 #define SEFEMODE_UI_H
 
-#include <unordered_map>
-#include <string>
-#include <vector>
-#include <locale>
-#include <algorithm>
-#include "enums.h"
 #include "creature.h"
+#include "enums.h"
+
+#include <algorithm>
+#include <locale>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 class JsonIn;
 class JsonOut;

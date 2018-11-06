@@ -9,12 +9,11 @@
 #include "string_id.h"
 #include "translations.h"
 
+#include <bitset>
+#include <list>
+#include <set>
 #include <string>
 #include <vector>
-#include <limits>
-#include <list>
-#include <bitset>
-#include <set>
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;

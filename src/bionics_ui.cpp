@@ -1,13 +1,12 @@
-#include "player.h"
-#include "action.h"
+#include "bionics.h"
+
+#include "catacharset.h"
 #include "game.h"
 #include "input.h"
-#include "bionics.h"
-#include "bodypart.h"
-#include "translations.h"
-#include "catacharset.h"
 #include "output.h"
+#include "player.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 #include <algorithm> //std::min
 #include <sstream>

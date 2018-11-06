@@ -1,40 +1,37 @@
 #include "crafting.h"
 
+#include "activity_handlers.h"
+#include "ammo.h"
+#include "bionics.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "craft_command.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "input.h"
-#include "bionics.h"
 #include "inventory.h"
+#include "item.h"
 #include "itype.h"
-#include "ammo.h"
 #include "map.h"
 #include "messages.h"
-#include "item.h"
 #include "npc.h"
-#include "calendar.h"
 #include "options.h"
 #include "output.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
-#include "vpart_reference.h"
 #include "translations.h"
 #include "ui.h"
-#include "vpart_position.h"
 #include "vehicle.h"
-#include "crafting_gui.h"
-#include "activity_handlers.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
-#include <algorithm> //std::min
-#include <iostream>
-#include <math.h>    //sqrt
-#include <queue>
-#include <string>
+#include <algorithm>
+#include <cmath>
 #include <sstream>
-#include <numeric>
+#include <string>
 
 const efftype_id effect_contacts( "contacts" );
 

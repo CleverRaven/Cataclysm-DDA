@@ -2,16 +2,16 @@
 #ifndef UI_H
 #define UI_H
 
-#include "enums.h"
-#include <stdlib.h>
 #include "color.h"
 #include "cursesdef.h"
+#include "enums.h"
 #include "string_formatter.h"
 
-#include <vector>
-#include <string>
+#include <cstdlib>
 #include <map>
+#include <string>
 #include <utility>
+#include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**

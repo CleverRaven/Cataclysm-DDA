@@ -2,20 +2,20 @@
 #if !defined(SUBMAP_H)
 #define SUBMAP_H
 
-#include "game_constants.h"
-#include "basecamp.h"
-#include "item.h"
-#include "field.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "active_item_cache.h"
+#include "basecamp.h"
 #include "calendar.h"
+#include "computer.h"
+#include "field.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "string_id.h"
 
-#include <vector>
 #include <list>
-#include <map>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 class map;
 class vehicle;

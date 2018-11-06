@@ -1,16 +1,15 @@
-#include <algorithm>
-
 #include "calendar.h"
 #include "game.h"
-#include "output.h"
-#include "player.h"
-#include "monster.h"
+#include "harvest.h"
+#include "input.h"
 #include "map.h"
 #include "mapdata.h"
+#include "output.h"
+#include "player.h"
 #include "string_formatter.h"
-#include "input.h"
 #include "ui.h"
-#include "harvest.h"
+
+#include <algorithm>
 
 const skill_id skill_survival( "survival" );
 

@@ -1,31 +1,28 @@
 // Monster movement code; essentially, the AI
 
-#include "monster.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "field.h"
+#include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "debug.h"
-#include "game.h"
-#include "output.h"
-#include "line.h"
-#include "rng.h"
-#include "pldata.h"
+#include "mapdata.h"
 #include "messages.h"
-#include "cursesdef.h"
-#include "trap.h"
-#include "sounds.h"
 #include "monattack.h"
 #include "monfaction.h"
-#include "translations.h"
-#include "npc.h"
-#include "mapdata.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
+#include "npc.h"
+#include "output.h"
+#include "pldata.h"
+#include "rng.h"
 #include "scent_map.h"
+#include "sounds.h"
+#include "translations.h"
+#include "trap.h"
 
-#include <stdlib.h>
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
+#include <cmath>
 
 #define MONSTER_FOLLOW_DIST 8
 

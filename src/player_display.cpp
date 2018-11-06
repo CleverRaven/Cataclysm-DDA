@@ -1,18 +1,18 @@
 #include "player.h"
+
+#include "addiction.h"
+#include "bionics.h"
+#include "effect.h"
 #include "game.h"
+#include "input.h"
 #include "mutation.h"
-#include "output.h"
 #include "options.h"
-#include "weather.h"
+#include "output.h"
+#include "profession.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "units.h"
-#include "profession.h"
-#include "effect.h"
-#include "input.h"
-#include "addiction.h"
-#include "skill.h"
-#include "bionics.h"
-#include "messages.h"
+#include "weather.h"
 
 #include <algorithm>
 
