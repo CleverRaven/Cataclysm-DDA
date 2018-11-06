@@ -185,6 +185,7 @@ struct vision_test_case {
     std::vector<std::string> setup;
     std::vector<std::string> expected_results;
     calendar time;
+    bool test_3d;
 
     static void transpose( std::vector<std::string> &v ) {
         if( v.empty() ) {
@@ -246,11 +247,11 @@ struct vision_test_case {
     void test_all() const {
         // Disabling 3d tests for now since 3d sight casting is actually
         // different (it sees round corners more).
-        /*{
+        if( test_3d ) {
             INFO( "using 3d casting" );
             fov_3d = true;
             test_all_transformations();
-        }*/
+        }
         {
             INFO( "using 2d casting" );
             fov_3d = false;
@@ -284,7 +285,8 @@ TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
             "444",
             "444",
         },
-        midday
+        midday,
+        true
     };
 
     t.test_all();
@@ -303,7 +305,8 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
             "141",
             "111",
         },
-        midday
+        midday,
+        true
     };
 
     t.test_all();
@@ -326,7 +329,8 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
             "1144444444",
             "1144444444",
         },
-        midday
+        midday,
+        false // 3D FOV gives different results here due to it seeing round corners more
     };
 
     t.test_all();
@@ -343,7 +347,8 @@ TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
             "111",
             "141",
         },
-        midnight
+        midnight,
+        true
     };
 
     t.test_all();
@@ -362,7 +367,8 @@ TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
             "444",
             "444",
         },
-        midnight
+        midnight,
+        true
     };
 
     t.test_all();
@@ -381,7 +387,8 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
             "111",
             "141",
         },
-        midnight
+        midnight,
+        true
     };
 
     t.test_all();
