@@ -3180,7 +3180,7 @@ input_event input_manager::get_input_event() {
     else if (inputdelay > 0)
     {
         unsigned long starttime=SDL_GetTicks();
-        unsigned long endtime;
+        unsigned long endtime = 0;
         bool timedout = false;
         do
         {
@@ -3702,10 +3702,10 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
     result->abuf = ( Uint8 * )malloc( result->alen * sizeof( Uint8 ) );
     result->volume = s->volume;
     for( i = 0; i < s_out; i++ ) {
-        Sint16 lt;
-        Sint16 rt;
-        Sint16 lt_out;
-        Sint16 rt_out;
+        Sint16 lt = 0;
+        Sint16 rt = 0;
+        Sint16 lt_out = 0;
+        Sint16 rt_out = 0;
         Sint64 lt_avg = 0;
         Sint64 rt_avg = 0;
         Uint32 begin = ( Uint32 )( ( float )i / pitch_real );

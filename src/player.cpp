@@ -5993,8 +5993,7 @@ void player::suffer()
             slow_rad += ((tank_plut * 0.1) + (reactor_plut * 0.01));
             //begin power generation
             if (reactor_plut > 0) {
-                int power_gen;
-                power_gen = 0;
+                int power_gen = 0;
                 if (has_bionic( bio_advreactor ) ) {
                     if ((reactor_plut * 0.05) > 2000){
                         power_gen = 2000;
@@ -11214,7 +11213,7 @@ bool player::uncanny_dodge()
 tripoint player::adjacent_tile() const
 {
     std::vector<tripoint> ret;
-    int dangerous_fields;
+    int dangerous_fields = 0;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
         if( p == pos() ) {
             // Don't consider player position

@@ -222,10 +222,9 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
 void monfactions::load_monster_faction( JsonObject &jo )
 {
     // Factions inherit values from their parent factions - this is set during finalization
-    std::set< std::string > by_mood, neutral, friendly;
-    by_mood = jo.get_tags( "by_mood" );
-    neutral = jo.get_tags( "neutral" );
-    friendly = jo.get_tags( "friendly" );
+    std::set< std::string > by_mood = jo.get_tags( "by_mood" );
+    std::set< std::string > neutral = jo.get_tags( "neutral" );
+    std::set< std::string > friendly = jo.get_tags( "friendly" );
     // Need to make sure adding new factions won't invalidate our current faction's reference
     // That +1 is for base faction
     faction_list.reserve( faction_list.size() + by_mood.size() + neutral.size() + friendly.size() + 1 );

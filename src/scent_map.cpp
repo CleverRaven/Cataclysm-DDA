@@ -193,9 +193,8 @@ void scent_map::update( const tripoint &center, map &m )
                 } else {
                     this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
                 }
-                int temp_scent;
                 // take the old scent and subtract what diffuses out
-                temp_scent = scent_here * ( 10 * 1000 - squares_used * this_diffusivity );
+                int temp_scent = scent_here * ( 10 * 1000 - squares_used * this_diffusivity );
                 // neighboring walls and reduce_scent squares absorb some scent
                 temp_scent -= scent_here * this_diffusivity * ( 90 - squares_used ) / 5;
                 // we've already summed neighboring scent values in the y direction in the previous

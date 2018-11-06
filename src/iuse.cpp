@@ -7697,14 +7697,12 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
     inv_s.add_character_items( *p );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
-    std::list<std::pair<int, int>> to_clean;
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
         return 0;
     }
-
-    to_clean = inv_s.execute();
-    if( to_clean.size() == 0 ) {
+    std::list<std::pair<int, int>> to_clean = inv_s.execute();
+    if( to_clean.empty() ) {
         return 0;
     }
     int required_water = 0;

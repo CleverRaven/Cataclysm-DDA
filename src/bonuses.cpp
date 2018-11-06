@@ -127,11 +127,10 @@ void bonus_container::load( JsonArray &jarr, bool mult )
     while( jarr.has_more() ) {
         JsonArray qualifiers = jarr.next_array();
 
-        affected_stat as;
         damage_type dt = DT_NULL;
 
         const std::string affected_stat_string = qualifiers.next_string();
-        as = affected_stat_from_string( affected_stat_string );
+        affected_stat as = affected_stat_from_string( affected_stat_string );
         if( as == AFFECTED_NULL ) {
             jarr.throw_error( "Invalid affected stat" );
         }

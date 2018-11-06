@@ -109,8 +109,7 @@ bool dialogue_window::print_responses( int const yoffset, const std::vector<talk
     size_t const fold_width = xoffset - 2 - 2 - 2;
 
     int curline = min_line - ( int ) yoffset;
-    size_t i;
-    for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
+    for( size_t i = 0; i < responses.size() && curline <= max_line; i++ ) {
         const std::vector<std::string> folded = foldstring( responses[i].second, fold_width );
         const nc_color &color = responses[i].first;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {

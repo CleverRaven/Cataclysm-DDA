@@ -36,8 +36,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type", "nam
 void recipe_group_data::load( JsonObject &jo, const std::string & )
 {
     building_type = jo.get_string( "building_type" );
-    JsonArray jsarr;
-    jsarr = jo.get_array( "recipes" );
+    JsonArray jsarr = jo.get_array( "recipes" );
     while( jsarr.has_more() ) {
         JsonObject ordering = jsarr.next_object();
         std::string name_id = ordering.get_string( "id" );

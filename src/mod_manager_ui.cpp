@@ -253,21 +253,16 @@ bool mod_ui::can_shift_down( long selection, const std::vector<mod_id> &active_l
     std::vector<mod_id> dependents = mm_tree.get_dependents_of_X_as_strings(
                                          active_list[selection] );
 
-    int newsel;
-    int oldsel;
-    mod_id selstring;
-    mod_id modstring;
-
     // figure out if we can move down!
     if( selection == ( int )active_list.size() - 1 ) {
         // can't move down, don't bother trying
         return false;
     }
-    newsel = selection;
-    oldsel = selection + 1;
+    int newsel = selection;
+    int oldsel = selection + 1;
 
-    modstring = active_list[newsel];
-    selstring = active_list[oldsel];
+    mod_id modstring = active_list[newsel];
+    mod_id selstring = active_list[oldsel];
 
     if( modstring->core ||
         std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end() ) {

@@ -57,7 +57,6 @@ std::string get_cat_name( const std::string &prefixed_name )
 
 void load_recipe_category( JsonObject &jsobj )
 {
-    JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
 
     if( category.find( "CC_" ) != 0 ) {
@@ -69,7 +68,7 @@ void load_recipe_category( JsonObject &jsobj )
     std::string cat_name = get_cat_name( category );
 
     craft_subcat_list[category] = std::vector<std::string>();
-    subcats = jsobj.get_array( "recipe_subcategories" );
+    JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
         std::string subcat_id = subcats.next_string();
         if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
