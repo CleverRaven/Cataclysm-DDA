@@ -255,13 +255,14 @@ class map
          */
         void on_vehicle_moved( const int zlev );
 
-        struct ApparentLight {
+        struct apparent_light_info {
             bool obstructed;
             float apparent_light;
         };
         /** Helper function for light claculation; exposed here for map editor
          */
-        static ApparentLight apparent_light_helper( const level_cache &map_cache, const tripoint &p );
+        static apparent_light_info apparent_light_helper( const level_cache &map_cache,
+                const tripoint &p );
         /** Determine the visible light level for a tile, based on light_at
          * for the tile, vision distance, etc
          *

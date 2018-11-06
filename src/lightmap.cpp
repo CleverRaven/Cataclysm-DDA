@@ -465,7 +465,8 @@ float map::light_transparency( const tripoint &p ) const
 
 // End of tile light/transparency
 
-map::ApparentLight map::apparent_light_helper( const level_cache &map_cache, const tripoint &p )
+map::apparent_light_info map::apparent_light_helper( const level_cache &map_cache,
+        const tripoint &p )
 {
     const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
@@ -534,7 +535,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         return LL_BRIGHT;
     }
     const auto &map_cache = get_cache_ref( p.z );
-    const ApparentLight a = apparent_light_helper( map_cache, p );
+    const apparent_light_info a = apparent_light_helper( map_cache, p );
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
@@ -584,7 +585,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const auto &map_cache = get_cache_ref( t.z );
-    const ApparentLight a = apparent_light_helper( map_cache, t );
+    const apparent_light_info a = apparent_light_helper( map_cache, t );
     const float light_at_player = map_cache.lm[g->u.posx()][g->u.posy()].max();
     return !a.obstructed &&
            ( a.apparent_light > g->u.get_vision_threshold( light_at_player ) ||

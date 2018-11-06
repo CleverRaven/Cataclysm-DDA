@@ -602,7 +602,7 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off++, 1, _( "transparency: %.5f, visibility: %.5f," ),
                    map_cache.transparency_cache[target.x][target.y],
                    map_cache.seen_cache[target.x][target.y] );
-        map::ApparentLight al = map::apparent_light_helper( map_cache, target );
+        map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
         int apparent_light = static_cast<int>(
                                  g->m.apparent_light_at( target, g->m.get_visibility_variables_cache() ) );
         mvwprintw( w_info, off++, 1, _( "outside: %d obstructed: %d" ),

@@ -119,7 +119,7 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            map::ApparentLight al = g->m.apparent_light_helper( cache, p );
+            map::apparent_light_info al = g->m.apparent_light_helper( cache, p );
             for( auto &pr : g->m.field_at( p ) ) {
                 fields << pr.second.name() << ',';
             }
