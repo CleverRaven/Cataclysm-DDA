@@ -26,7 +26,7 @@ void check_lethality( std::string explosive_id, int range, float lethality,
     float lethality_ratio = 0.0;
     do {
         // Clear map
-        clear_map();
+        clear_map_and_put_player_underground();
         // Spawn some monsters in a circle.
         tripoint origin( 30, 30, 0 );
         for( const tripoint monster_position : closest_tripoints_first( range, origin ) ) {
@@ -84,7 +84,7 @@ std::vector<int> get_part_hp( vehicle *veh )
 void check_vehicle_damage( std::string explosive_id, std::string vehicle_id, int range )
 {
     // Clear map
-    clear_map();
+    clear_map_and_put_player_underground();
     tripoint origin( 30, 30, 0 );
 
     vehicle *target_vehicle = g->m.add_vehicle( vproto_id( vehicle_id ), origin, 0, -1, 0 );

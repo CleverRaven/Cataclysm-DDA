@@ -47,8 +47,16 @@ void clear_fields( int zlevel )
 
 void clear_map()
 {
+    for( int z = OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
+        clear_fields( z );
+    }
     wipe_map_terrain();
     clear_creatures();
+}
+
+void clear_map_and_put_player_underground()
+{
+    clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
     g->u.setpos( { 0, 0, -2 } );
 }
