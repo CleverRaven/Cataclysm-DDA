@@ -715,7 +715,7 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
     return overmap::invalid_tripoint;
 }
 
-tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string &type,
+cata::optional<tripoint> overmapbuffer::find_closest( const tripoint &origin, const std::string &type,
                                       int const radius, bool must_be_seen, bool allow_subtype_matches,
                                       const std::unordered_set<tripoint> &visited_point )
 {

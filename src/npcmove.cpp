@@ -3031,7 +3031,7 @@ void npc::set_destination()
             current_goal = overmap_buffer.find_closest( surface_omt_loc, current_dest_type, 0, false, false,
                            visited_point );
             current_goal_dist = square_dist( surface_omt_loc, current_goal );
-            if( ( current_goal_dist < goal_dist ) || ( goal_dist == -1 ) ) {
+            if( current_goal_dist < goal_dist  ||  goal_dist == -1 ) {
                 goal = current_goal;
                 goal_dist = current_goal_dist;
                 needs_final = i; // only for debug purpose
@@ -3039,13 +3039,7 @@ void npc::set_destination()
             }
         }
     }
-    /*std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
-    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
-
-    DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name() <<
-                               "] with ["
-                               << get_need_str_id( needs.front() ) << "] is [" << dest_type << "] in ["
-                               << goal.x << "," << goal.y << "," << goal.z << "].";*/
+   
     add_msg( m_debug, "npc::set_destination - new goal for NPC [%s] with [%s] is [%s] in [%d, %d, %d].",
              get_name(), get_need_str_id( needs_final ), dest_type, goal.x, goal.y, goal.z );
 }
