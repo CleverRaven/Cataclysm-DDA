@@ -2220,8 +2220,6 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_LAB( "GROUP_LAB" );
-    static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
-    static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to

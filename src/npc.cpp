@@ -301,7 +301,6 @@ void npc::randomize( const npc_class_id &type )
         debugmsg( "Invalid NPC class %s", type.c_str() );
         myclass = npc_class_id::NULL_ID();
     } else if( type.is_null() && !one_in( 5 ) ) {
-        npc_class_id typetmp;
         myclass = npc_class::random_common();
     } else {
         myclass = type;

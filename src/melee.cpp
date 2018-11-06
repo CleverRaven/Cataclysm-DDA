@@ -40,7 +40,6 @@ static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_melee( "melee" );
-static const skill_id skill_dodge( "dodge" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );

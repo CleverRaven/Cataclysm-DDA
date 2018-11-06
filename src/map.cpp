@@ -360,7 +360,6 @@ bool map::vehproceed()
     VehicleList vehs = get_vehicles();
     vehicle *cur_veh = nullptr;
     float max_of_turn = 0;
-    tripoint pt;
     // First horizontal movement
     for( auto &vehs_v : vehs ) {
         if( vehs_v.v->of_turn > max_of_turn ) {
