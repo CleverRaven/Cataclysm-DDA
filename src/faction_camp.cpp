@@ -2752,8 +2752,9 @@ time_duration talk_function::companion_travel_time_calc( const std::vector<tripo
     return work + one_way * trips * 1_minutes;
 }
 
-int talk_function::om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
-        const units::mass &carry_mass, const units::volume &carry_volume )
+int talk_function::om_carry_weight_to_trips( units::mass mass, units::volume volume,
+        units::mass carry_mass,
+        units::volume carry_volume )
 {
     int trips_m = 1 + mass / carry_mass;
     int trips_v = 1 + volume / carry_volume;

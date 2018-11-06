@@ -108,8 +108,8 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 /// Determines how many round trips a given NPC @ref comp will take to move all of the items @ref itms
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items with @ref carry_mass and @ref carry_volume moved per trip
-int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
-                              const units::mass &carry_mass, const units::volume &carry_volume );
+int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
+                              units::volume carry_volume );
 
 /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
 bool om_camp_upgrade( npc &p, const tripoint &omt_pos );
