@@ -260,8 +260,8 @@ class overmapbuffer
         tripoint find_closest( const tripoint &origin, const std::string &type, int radius,
                                bool must_be_seen, bool allow_subtype_matches = false );
 
-        cata::optional<tripoint> find_closest( const tripoint &origin, const std::string &type, int radius,
-                                               bool must_be_seen, bool allow_subtype_matches, const std::unordered_set<tripoint> &visited_point );
+        tripoint find_closest( const tripoint &origin, const std::string &type, int radius,
+                               bool must_be_seen, bool allow_subtype_matches, const std::unordered_set<tripoint> &visited_point );
 
         /* These 4 functions return the overmap that contains the given
          * overmap terrain coordinate.
