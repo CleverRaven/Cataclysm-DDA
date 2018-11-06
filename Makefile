@@ -234,9 +234,9 @@ LDFLAGS += $(PROFILE)
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
     ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-      OPTLEVEL = -Os
+      OPTLEVEL = -O0
     else
-      OPTLEVEL = -O3
+      OPTLEVEL = -O0
     endif
   else
     # MXE ICE Workaround
