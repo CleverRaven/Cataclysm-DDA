@@ -1,3 +1,7 @@
+#pragma once
+#ifndef NPCTRADE_H
+#define NPCTRADE_H
+
 #include "npc.h"
 #include "itype.h"
 #include "game.h"
@@ -27,3 +31,5 @@ inventory inventory_exchange( inventory &inv,
 std::vector<item_pricing> init_selling( npc &p );
 std::vector<item_pricing> init_buying( npc &p, player &u );
 bool trade( npc &p, int cost, const std::string &deal );
+
+#endif
