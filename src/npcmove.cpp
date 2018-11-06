@@ -3039,7 +3039,7 @@ void npc::set_destination()
             }
         }
     }
-   
+
     add_msg( m_debug, "npc::set_destination - new goal for NPC [%s] with [%s] is [%s] in [%d, %d, %d].",
              get_name(), get_need_str_id( needs_final ), dest_type, goal.x, goal.y, goal.z );
 }
