@@ -6544,7 +6544,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
                                       m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
-                                    get_fire_fuel_string( lp ) ) - 1;
+                                        get_fire_fuel_string( lp ) ) - 1;
             line += lines;
         } else {
             mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
@@ -8814,7 +8814,8 @@ void game::plthrow( int pos )
     m.draw( w_terrain, u.pos() );
 
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown,
+                                       range );
     if( trajectory.empty() ) {
         return;
     }
