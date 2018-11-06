@@ -719,7 +719,16 @@ void player::complete_craft()
 
         if( newit.goes_bad() ) {
             newit.set_relative_rot( max_relative_rot );
+        } else {
+            if( newit.is_container() ) {
+                for( item &in : newit.contents ) {
+                    if( in.goes_bad() ) {
+                        in.set_relative_rot( max_relative_rot );
+                    }
+                }
+            }
         }
+
         if( should_heat ) {
             newit.heat_up();
         } else {
