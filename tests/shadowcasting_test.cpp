@@ -97,30 +97,37 @@ bool bresenham_visibility_check( int offsetX, int offsetY, int x, int y,
     return visible;
 }
 
-void shadowcasting_runoff( int iterations, bool test_bresenham = false )
+void randomly_fill_transparency(
+    float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    unsigned int numerator = NUMERATOR, unsigned int denominator = DENOMINATOR )
 {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
     const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator( seed );
-    std::uniform_int_distribution<unsigned int> distribution( 0, DENOMINATOR );
+    std::uniform_int_distribution<unsigned int> distribution( 0, denominator );
     auto rng = std::bind( distribution, generator );
-
-    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {
         for( float &square : inner ) {
-            if( rng() < NUMERATOR ) {
+            if( rng() < numerator ) {
                 square = LIGHT_TRANSPARENCY_SOLID;
             } else {
                 square = LIGHT_TRANSPARENCY_CLEAR;
             }
         }
     }
+}
+
+void shadowcasting_runoff( int iterations, bool test_bresenham = false )
+{
+    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+
+    randomly_fill_transparency( transparency_cache );
 
     map dummy;
 
@@ -249,27 +256,12 @@ void shadowcasting_runoff( int iterations, bool test_bresenham = false )
 
 void shadowcasting_3d_2d( int iterations )
 {
-    // Copy-paste of the above, but for newest FoV vs. the "new" one
-    const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator( seed );
-    std::uniform_int_distribution<unsigned int> distribution( 0, DENOMINATOR );
-    auto rng = std::bind( distribution, generator );
-
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{false}};
 
-    // Initialize the transparency value of each square to a random value.
-    for( auto &inner : transparency_cache ) {
-        for( float &square : inner ) {
-            if( rng() < NUMERATOR ) {
-                square = LIGHT_TRANSPARENCY_SOLID;
-            } else {
-                square = LIGHT_TRANSPARENCY_CLEAR;
-            }
-        }
-    }
+    randomly_fill_transparency( transparency_cache );
 
     map dummy;
 
