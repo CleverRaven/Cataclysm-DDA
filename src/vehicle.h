@@ -457,22 +457,12 @@ class turret_data
  * Struct used for storing labels
  * (easier to json opposed to a std::map<point, std::string>)
  */
-struct label {
+struct label : public point {
     label() = default;
-    label( int const x, int const y ) : x( x ), y( y ) {}
-    label( const int x, const int y, std::string text ) : x( x ), y( y ), text( std::move( text ) ) {}
+    label( const point &p ) : point( p ) {}
+    label( const point &p, std::string text ) : point( p ), text( std::move( text ) ) {}
 
-    int         x = 0;
-    int         y = 0;
     std::string text;
-
-    // these are stored in a set
-    bool operator<( const label &rhs ) const noexcept {
-        return ( x != rhs.x ) ? ( x < rhs.x ) : ( y < rhs.y );
-    }
-
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
 };
 
 /**

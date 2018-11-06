@@ -1493,7 +1493,7 @@ bool vehicle::remove_part( int p )
     }
 
     const point &vp_mount = parts[p].mount;
-    const auto iter = labels.find( label( vp_mount.x, vp_mount.y ) );
+    const auto iter = labels.find( label( vp_mount ) );
     const bool no_label = iter != labels.end();
     const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
     // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
@@ -1805,11 +1805,11 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 new_vehicle->parts.back().mount = new_mount;
             }
             // remove labels associated with the mov_part
-            const auto iter = labels.find( label( cur_mount.x, cur_mount.y ) );
+            const auto iter = labels.find( label( cur_mount ) );
             if( iter != labels.end() ) {
                 std::string label_str = iter->text;
                 labels.erase( iter );
-                new_labels.insert( label( new_mount.x, new_mount.y, label_str ) );
+                new_labels.insert( label( new_mount, label_str ) );
             }
             // remove the passenger from the old new vehicle
             if( passenger ) {
@@ -2080,7 +2080,7 @@ std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const
 
 cata::optional<std::string> vpart_position::get_label() const
 {
-    const auto it = vehicle().labels.find( label( mount().x, mount().y ) );
+    const auto it = vehicle().labels.find( label( mount() ) );
     if( it == vehicle().labels.end() ) {
         return cata::nullopt;
     }
@@ -2094,13 +2094,13 @@ cata::optional<std::string> vpart_position::get_label() const
 void vpart_position::set_label( const std::string &text ) const
 {
     auto &labels = vehicle().labels;
-    const auto it = labels.find( label( mount().x, mount().y ) );
+    const auto it = labels.find( label( mount() ) );
     //@todo empty text should remove the label instead of just storing an empty string, see get_label
     if( it == labels.end() ) {
-        labels.insert( label( mount().x, mount().y, text ) );
+        labels.insert( label( mount(), text ) );
     } else {
         // labels should really be a map
-        labels.insert( labels.erase( it ), label( mount().x, mount().y, text ) );
+        labels.insert( labels.erase( it ), label( mount(), text ) );
     }
 }
 
@@ -4231,7 +4231,7 @@ void vehicle::shift_parts( const point delta )
 
     decltype( labels ) new_labels;
     for( auto &l : labels ) {
-        new_labels.insert( label( l.x - delta.x, l.y - delta.y, l.text ) );
+        new_labels.insert( label( l - delta, l.text ) );
     }
     labels = new_labels;
 

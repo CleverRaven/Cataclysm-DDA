@@ -2078,20 +2078,20 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-void label::deserialize( JsonIn &jsin )
+void deserialize( label &val, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    data.read( "x", x );
-    data.read( "y", y );
-    data.read( "text", text );
+    data.read( "x", val.x );
+    data.read( "y", val.y );
+    data.read( "text", val.text );
 }
 
-void label::serialize( JsonOut &json ) const
+void serialize( const label &val, JsonOut &json )
 {
     json.start_object();
-    json.member( "x", x );
-    json.member( "y", y );
-    json.member( "text", text );
+    json.member( "x", val.x );
+    json.member( "y", val.y );
+    json.member( "text", val.text );
     json.end_object();
 }
 
