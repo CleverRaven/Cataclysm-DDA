@@ -723,7 +723,9 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
     if( allow_subtype_matches
         ? check_ot_subtype( type, origin.x, origin.y, origin.z )
         : check_ot_type( type, origin.x, origin.y, origin.z ) ) {
-        return origin;
+        if( visited_point.find( origin ) == visited_point.end() ) {
+            return origin;
+        }
     }
 
     // Function overloading for NPC pathfinding
@@ -743,7 +745,7 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
                 ? check_ot_subtype( type, x, y, z )
                 : check_ot_type( type, x, y, z ) ) {
                 if( !must_be_seen || seen( x, y, z ) ) {
-                    if( visited_point.find( origin ) == visited_point.end() ) {
+                    if( visited_point.find( tripoint( x, y, z ) ) == visited_point.end() ) {
                         return tripoint( x, y, z );
                     }
                 }
@@ -756,7 +758,7 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
                 ? check_ot_subtype( type, x, y, z )
                 : check_ot_type( type, x, y, z ) ) {
                 if( !must_be_seen || seen( x, y, z ) ) {
-                    if( visited_point.find( origin ) == visited_point.end() ) {
+                    if( visited_point.find( tripoint( x, y, z ) ) == visited_point.end() ) {
                         return tripoint( x, y, z );
                     }
                 }
@@ -769,7 +771,7 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
                 ? check_ot_subtype( type, x, y, z )
                 : check_ot_type( type, x, y, z ) ) {
                 if( !must_be_seen || seen( x, y, z ) ) {
-                    if( visited_point.find( origin ) == visited_point.end() ) {
+                    if( visited_point.find( tripoint( x, y, z ) ) == visited_point.end() ) {
                         return tripoint( x, y, z );
                     }
                 }
@@ -782,7 +784,7 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
                 ? check_ot_subtype( type, x, y, z )
                 : check_ot_type( type, x, y, z ) ) {
                 if( !must_be_seen || seen( x, y, z ) ) {
-                    if( visited_point.find( origin ) == visited_point.end() ) {
+                    if( visited_point.find( tripoint( x, y, z ) ) == visited_point.end() ) {
                         return tripoint( x, y, z );
                     }
                 }

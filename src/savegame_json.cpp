@@ -1247,6 +1247,10 @@ void npc::load( JsonObject &data )
         last_updated = calendar::turn;
     }
 
+    if( !data.read( "visited_point", visited_point ) ) {
+        visited_point = std::unordered_set<tripoint>();
+    }
+
     //@todo time_point does not have a default constructor, need to read in the map manually
     {
         complaints.clear();
@@ -1257,7 +1261,6 @@ void npc::load( JsonObject &data )
             complaints.emplace( key, p );
         }
     }
-    data.read( "visited_point", visited_point );
 }
 
 /*
