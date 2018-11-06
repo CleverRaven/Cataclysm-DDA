@@ -3028,7 +3028,7 @@ void npc::set_destination()
     for( npc_need &i : needs ) {
         for( int k = 0; k < 30; k++ ) {
             current_dest_type = get_location_for( i )->get_random_terrain().id().str();
-            current_goal = overmap_buffer.find_closest( surface_omt_loc, current_dest_type, 0, false, false,
+            current_goal = *overmap_buffer.find_closest( surface_omt_loc, current_dest_type, 0, false, false,
                            visited_point );
             current_goal_dist = square_dist( surface_omt_loc, current_goal );
             if( current_goal_dist < goal_dist  ||  goal_dist == -1 ) {
