@@ -13,6 +13,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <unordered_set>
 
 class JsonObject;
 class JsonIn;
