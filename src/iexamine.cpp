@@ -4109,7 +4109,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
-                pop << "... that it is empty.";
+                pop << _("... that it is empty.");
             } else {
                 for( size_t i = 0; i < items_here.size(); i++ ) {
                     auto &it = items_here[i];
