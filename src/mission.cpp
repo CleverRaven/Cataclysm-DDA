@@ -332,8 +332,10 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
+
+        default:
+            return false;
     }
-    return false;
 }
 
 bool mission::has_deadline() const
