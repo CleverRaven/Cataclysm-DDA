@@ -937,7 +937,7 @@ static void read()
 // Perform a reach attach
 // range - the range of the current weapon.
 // u - player
-static void reach_attach(int range, player &u) 
+static void reach_attach( int range, player &u ) 
 {
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
@@ -1059,10 +1059,10 @@ static void fire()
         g->plfire( u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        reach_attach(range, u);
-    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count("REACH_ATTACK") ) {
+        reach_attach( range, u );
+    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
         int range = u.weapon.gun_current_mode().qty;
-        reach_attach(range, u);
+        reach_attach( range, u );
     }
 }
 
