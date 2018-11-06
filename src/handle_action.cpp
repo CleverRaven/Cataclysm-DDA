@@ -934,6 +934,9 @@ static void read()
     }
 }
 
+// Perform a reach attach
+// range - the range of the current weapon.
+// u - player
 static void reach_attach(int range, player &u) 
 {
     g->temp_exit_fullscreen();
