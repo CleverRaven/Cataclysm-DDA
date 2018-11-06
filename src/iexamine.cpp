@@ -4125,10 +4125,8 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         case 1: //activate
             if ( active ) {
                 add_msg( _("It is already lit and smoking.") );
-                break;
             } else {
                 smoker_activate( p, examp );
-                break;
             }
             break;
         case 2: // load food

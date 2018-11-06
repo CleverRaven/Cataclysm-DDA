@@ -3200,9 +3200,6 @@ hp_part pick_part_to_heal(
             return healed_part;
         }
     }
-
-    // Won't happen?
-    return num_hp_parts;
 }
 
 hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it, bool force ) const

@@ -287,7 +287,6 @@ class string_formatter
                                          std::forward<Args>( args )... ) );
                 default:
                     throw_error( "Unsupported format conversion: " + std::string( 1, c ) );
-                    break;
             }
         }
 

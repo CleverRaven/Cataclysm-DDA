@@ -5466,8 +5466,6 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     } else {
         return LL_BLANK;
     }
-    // Is this ever supposed to happen?
-    return LL_DARK;
 }
 
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const

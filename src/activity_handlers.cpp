@@ -278,7 +278,6 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                 u.add_msg_if_player( m_info, _( "None of your tools are sharp and precise enough to do that." ) );
                 act.set_to_null();
                 return;
-                break;
             case 1:
                 u.add_msg_if_player( m_info, _( "You could use a better tool, but this will do." ) );
                 break;
@@ -1209,7 +1208,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             }
             act->set_to_null();
             return;
-            break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
             g->m.i_rem( p->pos(), act->index );
