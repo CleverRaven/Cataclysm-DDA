@@ -1,13 +1,12 @@
 #include "catch/catch.hpp"
 
-#include "morale.h"
-#include "morale_types.h"
-
 #include "bodypart.h"
 #include "effect.h"
 #include "game.h"
-#include "itype.h"
 #include "item.h"
+#include "itype.h"
+#include "morale.h"
+#include "morale_types.h"
 
 #include <string>
 

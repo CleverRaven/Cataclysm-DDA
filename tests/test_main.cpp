@@ -5,6 +5,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "init.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "mod_manager.h"
 #include "morale.h"
@@ -14,7 +15,6 @@
 #include "pathfinding.h"
 #include "player.h"
 #include "worldfactory.h"
-#include "loading_ui.h"
 
 #include <algorithm>
 #include <cstring>

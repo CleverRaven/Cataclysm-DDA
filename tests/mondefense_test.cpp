@@ -1,12 +1,11 @@
 #include "catch/catch.hpp"
 
 #include "item.h"
+#include "map_helpers.h"
 #include "mondefense.h"
 #include "monster.h"
 #include "npc.h"
 #include "projectile.h"
-
-#include "map_helpers.h"
 
 void test_zapback( Creature &attacker, bool expect_damage,
                    const dealt_projectile_attack *proj = nullptr )

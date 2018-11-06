@@ -1,8 +1,7 @@
 #include "catch/catch.hpp"
 
-#include "mutation.h"
-
 #include "game.h"
+#include "mutation.h"
 #include "npc.h"
 #include "player.h"
 

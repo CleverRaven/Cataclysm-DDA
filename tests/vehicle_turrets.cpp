@@ -1,12 +1,12 @@
 #include "catch/catch.hpp"
 
+#include "ammo.h"
 #include "game.h"
 #include "itype.h"
-#include "ammo.h"
 #include "map.h"
-#include "vehicle.h"
-#include "veh_type.h"
 #include "player.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 static std::vector<const vpart_info *> turret_types()
 {

@@ -1,26 +1,20 @@
 #include "catch/catch.hpp"
 
-#include "ballistics.h"
 #include "dispersion.h"
 #include "game.h"
-#include "monattack.h"
-#include "monster.h"
-#include "npc.h"
-#include "units.h"
-#include "player.h"
-#include "map.h"
 #include "item.h"
 #include "itype.h"
-#include "monster.h"
-#include "projectile.h"
-#include "ranged.h"
 #include "line.h"
-
-#include "test_statistics.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
+#include "npc.h"
+#include "player.h"
+#include "projectile.h"
+#include "test_statistics.h"
 
-#include <vector>
 #include <ostream>
+#include <vector>
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
