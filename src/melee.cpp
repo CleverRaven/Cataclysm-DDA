@@ -369,7 +369,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 
     if( hit_spread < 0 ) {
         int stumble_pen = stumble( *this, cur_weapon );
-        sfx::generate_melee_sound( pos(), t.pos(), 0, 0 );
+        sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
 
             if( one_in( 2 ) ) {
@@ -459,7 +459,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
                     material = "steel";
                 }
             }
-            sfx::generate_melee_sound( pos(), t.pos(), 1, t.is_monster(), material );
+            sfx::generate_melee_sound( pos(), t.pos(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic

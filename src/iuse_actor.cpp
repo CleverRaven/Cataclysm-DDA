@@ -1537,7 +1537,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         return true;
     }
 
-    return 0;
+    return false;
 }
 
 long cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
