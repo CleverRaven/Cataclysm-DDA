@@ -116,6 +116,7 @@ class recipe_subset
         enum class search_type {
             name,
             skill,
+            primary_skill,
             component,
             tool,
             quality,

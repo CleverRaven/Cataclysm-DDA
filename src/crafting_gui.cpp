@@ -270,6 +270,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
                                 break;
 
+                            case 'p':
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::primary_skill );
+                                break;
+
                             case 'Q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
                                 break;
@@ -664,7 +668,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             std::vector<SearchPrefix> prefixes = {
                 { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
                 { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
-                { 's', _( "cooking" ), _( "<color_cyan>skill</color> required to craft" ) },
+                { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
+                { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
                 { 'h', _( "yes" ), _( "recipes which are <color_cyan>hidden</color> or not" ) },
