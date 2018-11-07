@@ -10,6 +10,7 @@
 #include "json.h"
 #include "map.h"
 #include "map_selector.h"
+#include "output.h"
 #include "player.h"
 #include "translations.h"
 #include "veh_type.h"
@@ -405,8 +406,11 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         std::string describe( const Character *ch ) const override {
             vpart_position part_pos( cur.veh, cur.part );
             std::string res;
+            if( auto label = part_pos.get_label() ) {
+                res = tag_colored_string( *label, c_light_blue ) + " ";
+            }
             if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
-                res = cargo_part->part().name();
+                res += cargo_part->part().name();
             } else {
                 debugmsg( "item in vehicle part without cargo storage" );
             }
