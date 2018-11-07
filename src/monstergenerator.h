@@ -93,7 +93,6 @@ class MonsterGenerator
         void init_defense();
         void init_trigger();
         void init_flags();
-        void init_mf_attitude();
 
         void add_hardcoded_attack( const std::string &type, const mon_action_attack f );
         void add_attack( mattack_actor *ptr );
