@@ -413,7 +413,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
 
             calcStartPos( offset, sel, FULL_SCREEN_HEIGHT - 3, cur_key_list.size() );
 
-            for( size_t i = 0; ( int )i < FULL_SCREEN_HEIGHT - 3 &&
+            for( size_t i = 0; static_cast<int>( i ) < FULL_SCREEN_HEIGHT - 3 &&
                  ( i + offset ) < cur_key_list.size(); i++ ) {
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );

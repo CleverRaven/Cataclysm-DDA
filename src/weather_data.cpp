@@ -130,7 +130,7 @@ int calc_hourly_rotpoints_at_temp( const int temp )
     const int cutoffrot = 3540; // ..almost 6 times the base rate. bacteria hate the heat too
 
     const int dsteps = dropoff - temperatures::freezing;
-    const int dstep = ( 35.91 * std::pow( 2.0, ( float )dropoff / 16.0 ) / dsteps );
+    const int dstep = ( 35.91 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
 
     if( temp < temperatures::freezing ) {
         return 0;
@@ -139,7 +139,7 @@ int calc_hourly_rotpoints_at_temp( const int temp )
     } else if( temp < dropoff ) {
         return ( ( temp - temperatures::freezing ) * dstep );
     } else {
-        return int( ( 35.91 * std::pow( 2.0, ( float )temp / 16.0 ) ) + 0.5 );
+        return int( ( 35.91 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) ) + 0.5 );
     }
 }
 

@@ -849,10 +849,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         const int price_postapoc = price( true ) * batch;
         if( parts->test( iteminfo_parts::BASE_PRICE ) )
             info.push_back( iteminfo( "BASE", space + _( "Price: " ), "<num>",
-                                      ( double )price_preapoc / 100, false, "$", true, true ) );
+                                      static_cast<double>( price_preapoc ) / 100, false, "$", true, true ) );
         if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
             info.push_back( iteminfo( "BASE", space + _( "Barter value: " ), "<num>",
-                                      ( double )price_postapoc / 100, false, "$", true, true ) );
+                                      static_cast<double>( price_postapoc ) / 100, false, "$", true, true ) );
         }
 
         int converted_volume_scale = 0;
@@ -1814,7 +1814,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( q.first == quality_jack || q.first == quality_lift ) {
             str = string_format(
                       _( "Has level <info>%1$d %2$s</info> quality and is rated at <info>%3$d</info> %4$s" ),
-                      q.second, q.first.obj().name.c_str(), ( int )convert_weight( q.second * TOOL_LIFT_FACTOR ),
+                      q.second, q.first.obj().name.c_str(),
+                      static_cast<int>( convert_weight( q.second * TOOL_LIFT_FACTOR ) ),
                       weight_units() );
         } else {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
@@ -3657,7 +3658,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return false;
     }
     int age_in_hours = to_hours<int>( age() );
-    age_in_hours -= int( ( float )burnt / ( volume() / 250_ml ) );
+    age_in_hours -= int( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
     if( damage_level( 4 ) > 0 ) {
         age_in_hours /= ( damage_level( 4 ) + 1 );
     }
@@ -3789,7 +3790,7 @@ int item::cut_resist( bool to_self ) const
 int item::stab_resist( bool to_self ) const
 {
     // Better than hardcoding it in multiple places
-    return ( int )( 0.8f * cut_resist( to_self ) );
+    return static_cast<int>( 0.8f * cut_resist( to_self ) );
 }
 
 int item::acid_resist( bool to_self ) const
@@ -5691,7 +5692,7 @@ bool item::getlight( float &luminance, int &width, int &direction ) const
     width = 0;
     direction = 0;
     if( light.luminance > 0 ) {
-        luminance = ( float )light.luminance;
+        luminance = static_cast<float>( light.luminance );
         if( light.width > 0 ) {  // width > 0 is a light arc
             width = light.width;
             direction = light.direction;
@@ -5700,7 +5701,7 @@ bool item::getlight( float &luminance, int &width, int &direction ) const
     } else {
         const int lumint = getlight_emit();
         if( lumint > 0 ) {
-            luminance = ( float )lumint;
+            luminance = static_cast<float>( lumint );
             return true;
         }
     }
@@ -6194,7 +6195,7 @@ bool item::can_holster( const item &obj, bool ignore ) const
         return false; // item is not a suitable holster for obj
     }
 
-    if( !ignore && ( int ) contents.size() >= ptr->multi ) {
+    if( !ignore && static_cast<int>( contents.size() ) >= ptr->multi ) {
         return false; // item is already full
     }
 

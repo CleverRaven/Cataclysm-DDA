@@ -4175,7 +4175,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( activity_id( "ACT_OXYTORCH" ), moves, ( int )ter, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_OXYTORCH" ), moves, static_cast<int>( ter ),
+                        p->get_item_position( it ) );
     p->activity.placement = dirp;
     p->activity.values.push_back( charges );
 
@@ -4217,7 +4218,8 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_HACKSAW" ), moves, ( int )ter, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_HACKSAW" ), moves, static_cast<int>( ter ),
+                        p->get_item_position( it ) );
     p->activity.placement = dirp;
 
     return it->type->charges_to_use();
@@ -6783,7 +6785,7 @@ vehicle *pickveh( const tripoint &center, bool advanced )
         }
     }
     std::vector<tripoint> locations;
-    for( int i = 0; i < ( int )vehs.size(); i++ ) {
+    for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         auto veh = vehs[i];
         locations.push_back( veh->global_pos3() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
@@ -6799,7 +6801,7 @@ vehicle *pickveh( const tripoint &center, bool advanced )
     pmenu.w_y = 0;
     pmenu.query();
 
-    if( pmenu.ret < 0 || pmenu.ret >= ( int )vehs.size() ) {
+    if( pmenu.ret < 0 || pmenu.ret >= static_cast<int>( vehs.size() ) ) {
         return nullptr;
     } else {
         return vehs[pmenu.ret];
@@ -7441,10 +7443,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == "barometer" ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
-                print_pressure( ( int )weatherPoint.pressure ).c_str() );
+                print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         } else {
             p->add_msg_if_player( m_neutral, _( "Pressure: %s." ),
-                                  print_pressure( ( int )weatherPoint.pressure ).c_str() );
+                                  print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         }
     }
 

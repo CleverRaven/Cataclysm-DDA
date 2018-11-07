@@ -414,7 +414,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
                 }
                 return ins;
             default:
-                str += ( char )c;
+                str += static_cast<char>( c );
         }
     }
 }

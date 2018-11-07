@@ -273,11 +273,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_mass() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_aerodynamics() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_friction() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
-                                                 false ) / 2.0f ) ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_mass() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_aerodynamics() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_friction() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
+                                        false ) / 2.0f ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {

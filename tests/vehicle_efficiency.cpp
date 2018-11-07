@@ -135,7 +135,7 @@ float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_
         // Weird - we started without this fuel
         float fuel_amt_at_start = iter != started_with.end() ? iter->second : 0.0f;
         REQUIRE( fuel_amt_at_start != 0.0f );
-        left = std::min( left, ( float )fuel_amount[ type ] / fuel_amt_at_start );
+        left = std::min( left, static_cast<float>( fuel_amount[type] ) / fuel_amt_at_start );
     }
 
     return left;

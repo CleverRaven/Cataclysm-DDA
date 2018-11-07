@@ -755,7 +755,7 @@ static double get_capacity_fraction( int capacity, int volume )
     double fr = 1;
 
     if( capacity > volume ) {
-        fr = ( double )volume / capacity;
+        fr = static_cast<double>( volume ) / capacity;
     }
 
     return fr;

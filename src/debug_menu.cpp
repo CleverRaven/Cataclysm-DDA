@@ -398,7 +398,7 @@ void character_edit_menu()
             }
 
             types.query();
-            if( types.ret >= 0 && types.ret < ( int )mts.size() ) {
+            if( types.ret >= 0 && types.ret < static_cast<int>( mts.size() ) ) {
                 np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
             }
         }
@@ -427,7 +427,7 @@ void character_edit_menu()
             }
 
             classes.query();
-            if( classes.ret < ( int )ids.size() && classes.ret >= 0 ) {
+            if( classes.ret < static_cast<int>( ids.size() ) && classes.ret >= 0 ) {
                 np->randomize( ids[ classes.ret ] );
             }
         }
@@ -506,7 +506,7 @@ void mission_debug::edit_npc( npc &who )
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= static_cast<int>( all_missions.size() ) ) {
         return;
     }
 
@@ -539,7 +539,7 @@ void mission_debug::edit_player()
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= static_cast<int>( all_missions.size() ) ) {
         return;
     }
 

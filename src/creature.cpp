@@ -536,7 +536,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     impact.mult_damage( damage_mult );
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
-        float dmg_ratio = ( float )impact.total_damage() / get_hp_max( player::bp_to_hp( bp_hit ) );
+        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( player::bp_to_hp(
+                              bp_hit ) );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -1452,7 +1453,7 @@ std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude
         }
     };
 
-    if( ( int ) att < 0 || ( int ) att >= ( int ) strings.size() ) {
+    if( static_cast<int>( att ) < 0 || static_cast<int>( att ) >= static_cast<int>( strings.size() ) ) {
         return strings.back();
     }
 

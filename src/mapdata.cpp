@@ -341,7 +341,7 @@ void map_data_common_t::load_symbol( JsonObject &jo )
         } else if( str.length() != 1 ) {
             jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
         }
-        return ( int ) str[0];
+        return static_cast<int>( str[0] );
     } );
 
     const bool has_color = jo.has_member( "color" );
@@ -1037,7 +1037,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
                 // @todo: A better inline name - can't use id or name here because it's not set yet
                 size_t num = harvest_list::all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
-                                         string_format( "harvest_inline_%d", ( int )num ) );
+                                         string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
             } else if( harvest_jo.has_string( "id" ) ) {
                 hl = harvest_id( harvest_jo.get_string( "id" ) );
             } else {

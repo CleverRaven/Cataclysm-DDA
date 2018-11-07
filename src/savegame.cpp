@@ -197,8 +197,8 @@ void game::unserialize( std::istream &fin )
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = ( season_type )data.get_int( "initial_season",
-                                   static_cast<int>( SPRING ) );
+        calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
+                                   static_cast<int>( SPRING ) ) );
         data.read( "last_target", tmptar );
         data.read( "last_target_type", tmptartyp );
         data.read( "run_mode", tmprun );
@@ -1096,7 +1096,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
                 }
                 lastval = value;
                 json.start_array();
-                json.write( ( bool )value );
+                json.write( static_cast<bool>( value ) );
                 count = 1;
             } else {
                 count++;

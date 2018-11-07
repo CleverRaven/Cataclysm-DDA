@@ -94,7 +94,7 @@ static std::array<firing_statistics, 5> firing_test( const dispersion_sources &d
         // either above or below the threshold.
         projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
         threshold_within_confidence_interval = false;
-        for( int i = 0; i < ( int )accuracy_levels.size(); ++i ) {
+        for( int i = 0; i < static_cast<int>( accuracy_levels.size() ); ++i ) {
             firing_stats[i].add( aim.missed_by < accuracy_levels[i] );
             if( thresholds[i] == -1 ) {
                 continue;
@@ -295,7 +295,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 static void range_test( const std::array<double, 5> &test_thresholds )
 {
     int index = 0;
-    for( index = 0; index < ( int )accuracy_levels.size(); ++index ) {
+    for( index = 0; index < static_cast<int>( accuracy_levels.size() ); ++index ) {
         if( test_thresholds[index] >= 0 ) {
             break;
         }

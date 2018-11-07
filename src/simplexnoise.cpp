@@ -534,7 +534,7 @@ float raw_noise_4d( const float x, const float y, const float z, const float w )
 
 int fastfloor( const float x )
 {
-    return x > 0 ? ( int ) x : ( int ) x - 1;
+    return x > 0 ? static_cast<int>( x ) : static_cast<int>( x ) - 1;
 }
 
 float dot( const int *g, const float x, const float y )

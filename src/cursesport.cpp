@@ -601,7 +601,7 @@ void catacurses::waddch( const window &win, const chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = ( char )ch;
+            charcode = static_cast<char>( ch );
             break;
     }
     char buffer[2] = { charcode, '\0' };

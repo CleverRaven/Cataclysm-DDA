@@ -158,7 +158,7 @@ void vehicle::thrust( int thd )
     //find power ratio used of engines max
     double load;
     if( cruise_on ) {
-        load = ( ( float )abs( vel_inc ) ) / std::max( ( thrusting ? accel : brk ), 1 );
+        load = static_cast<float>( abs( vel_inc ) ) / std::max( ( thrusting ? accel : brk ), 1 );
     } else {
         load = ( thrusting ? 1.0 : 0.0 );
     }
@@ -706,7 +706,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     }
 
     if( smashed && !vert_coll ) {
-        int turn_amount = rng( 1, 3 ) * sqrt( ( double )part_dmg );
+        int turn_amount = rng( 1, 3 ) * sqrt( static_cast<double>( part_dmg ) );
         turn_amount /= 15;
         if( turn_amount < 1 ) {
             turn_amount = 1;
@@ -1303,7 +1303,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "You lose control of the %s." ),
                                             _( "<npcname> loses control of the %s." ),
                                             veh.name.c_str() );
-                int turn_amount = ( rng( 1, 3 ) * sqrt( ( double )abs( veh.velocity ) ) / 2 ) / 15;
+                int turn_amount = ( rng( 1, 3 ) * sqrt( static_cast<double>( abs( veh.velocity ) ) ) / 2 ) / 15;
                 if( turn_amount < 1 ) {
                     turn_amount = 1;
                 }

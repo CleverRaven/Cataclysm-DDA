@@ -96,7 +96,7 @@ std::vector<char> keys_bound_to( action_id act )
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    input_event event( ( long ) ch, CATA_INPUT_KEYBOARD );
+    input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
     const std::string action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -799,14 +799,15 @@ action_id handle_action_menu()
 
         int width = 0;
         for( auto &cur_entry : entries ) {
-            if( width < ( int )cur_entry.txt.length() ) {
+            if( width < static_cast<int>( cur_entry.txt.length() ) ) {
                 width = cur_entry.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
         int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
+        int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+                 ( entries.size() ) - 2 ) / 2 - 1 : 0;
         int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                 std::max( iy, 0 ), title, entries );
 
@@ -823,7 +824,7 @@ action_id handle_action_menu()
         } else if( selection > NUM_ACTIONS ) {
             category = categories_by_int[selection];
         } else {
-            return ( action_id ) selection;
+            return static_cast<action_id>( selection );
         }
     }
 
@@ -856,14 +857,15 @@ action_id handle_main_menu()
 
     int width = 0;
     for( auto &entry : entries ) {
-        if( width < ( int )entry.txt.length() ) {
+        if( width < static_cast<int>( entry.txt.length() ) ) {
             width = entry.txt.length();
         }
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
     int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
+    int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+             ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
@@ -872,7 +874,7 @@ action_id handle_main_menu()
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
     } else {
-        return ( action_id ) selection;
+        return static_cast<action_id>( selection );
     }
 }
 

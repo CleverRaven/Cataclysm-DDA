@@ -408,7 +408,8 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
 constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
 static float gurney_spherical( const double charge, const double mass )
 {
-    return ( float )( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ), -0.5 ) * TYPICAL_GURNEY_CONSTANT );
+    return static_cast<float>( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ),
+                                         -0.5 ) * TYPICAL_GURNEY_CONSTANT );
 }
 
 // Calculate cross-sectional area of a steel sphere in cm^2 based on mass of fragment.

@@ -122,7 +122,7 @@ int player::nutrition_for( const item &comest ) const
         nutr *= 1.5f;
     }
 
-    return ( int )nutr;
+    return static_cast<int>( nutr );
 }
 
 std::pair<int, int> player::fun_for( const item &comest ) const

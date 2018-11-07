@@ -140,7 +140,7 @@ std::string map_data_common_t::extended_description() const
                 continue;
             }
 
-            identical_harvest.insert( std::make_pair( hv, ( season_type )season ) );
+            identical_harvest.insert( std::make_pair( hv, static_cast<season_type>( season ) ) );
         }
         // Now print them in order of seasons
         // @todo: Highlight current season

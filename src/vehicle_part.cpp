@@ -142,12 +142,12 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return ( 1.0 - ( double )base.damage() / base.max_damage() );
+    return ( 1.0 - static_cast<double>( base.damage() ) / base.max_damage() );
 }
 
 double vehicle_part::damage_percent() const
 {
-    return ( double )base.damage() / base.max_damage();
+    return static_cast<double>( base.damage() ) / base.max_damage();
 }
 
 /** parts are considered broken at zero health */

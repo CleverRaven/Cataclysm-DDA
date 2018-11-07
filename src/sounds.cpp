@@ -130,9 +130,9 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         sound_clusters.push_back(
             // Assure the compiler that these int->float conversions are safe.
         {
-            ( float ) recent_sounds[index].first.x, ( float ) recent_sounds[index].first.y,
-            ( float ) recent_sounds[index].first.z,
-            ( float ) recent_sounds[index].second, ( float ) recent_sounds[index].second
+            static_cast<float>( recent_sounds[index].first.x ), static_cast<float>( recent_sounds[index].first.y ),
+            static_cast<float>( recent_sounds[index].first.z ),
+            static_cast<float>( recent_sounds[index].second ), static_cast<float>( recent_sounds[index].second )
         } );
         vector_quick_remove( recent_sounds, index );
     }
@@ -143,23 +143,24 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         for( auto centroid_iter = sound_clusters.begin(); centroid_iter != cluster_end;
              ++centroid_iter ) {
             // Scale the distance between the two by the max possible distance.
-            tripoint centroid_pos { ( int ) centroid_iter->x, ( int ) centroid_iter->y, ( int ) centroid_iter->z };
+            tripoint centroid_pos { static_cast<int>( centroid_iter->x ), static_cast<int>( centroid_iter->y ), static_cast<int>( centroid_iter->z ) };
             const int dist = rl_dist( sound_event_pair.first, centroid_pos );
             if( dist * dist < dist_factor ) {
                 found_centroid = centroid_iter;
                 dist_factor = dist * dist;
             }
         }
-        const float volume_sum = ( float ) sound_event_pair.second + found_centroid->weight;
+        const float volume_sum = static_cast<float>( sound_event_pair.second ) + found_centroid->weight;
         // Set the centroid location to the average of the two locations, weighted by volume.
-        found_centroid->x = ( float )( ( sound_event_pair.first.x * sound_event_pair.second ) +
-                                       ( found_centroid->x * found_centroid->weight ) ) / volume_sum;
-        found_centroid->y = ( float )( ( sound_event_pair.first.y * sound_event_pair.second ) +
-                                       ( found_centroid->y * found_centroid->weight ) ) / volume_sum;
-        found_centroid->z = ( float )( ( sound_event_pair.first.z * sound_event_pair.second ) +
-                                       ( found_centroid->z * found_centroid->weight ) ) / volume_sum;
+        found_centroid->x = static_cast<float>( ( sound_event_pair.first.x * sound_event_pair.second ) +
+                                                ( found_centroid->x * found_centroid->weight ) ) / volume_sum;
+        found_centroid->y = static_cast<float>( ( sound_event_pair.first.y * sound_event_pair.second ) +
+                                                ( found_centroid->y * found_centroid->weight ) ) / volume_sum;
+        found_centroid->z = static_cast<float>( ( sound_event_pair.first.z * sound_event_pair.second ) +
+                                                ( found_centroid->z * found_centroid->weight ) ) / volume_sum;
         // Set the centroid volume to the larger of the volumes.
-        found_centroid->volume = std::max( found_centroid->volume, ( float ) sound_event_pair.second );
+        found_centroid->volume = std::max( found_centroid->volume,
+                                           static_cast<float>( sound_event_pair.second ) );
         // Set the centroid weight to the sum of the weights.
         found_centroid->weight = volume_sum;
     }
@@ -180,7 +181,7 @@ int get_signal_for_hordes( const centroid &centr )
     int vol_hordes = ( ( centr.z < 0 ) ? vol / ( underground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
         //Calculating horde hearing signal
-        int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
+        int sig_power = std::ceil( static_cast<float>( vol_hordes ) / hordes_sig_div );
         //Capping minimum horde hearing signal
         sig_power = std::max( sig_power, min_sig_cap );
         //Capping extremely high signal to hordes
@@ -240,8 +241,8 @@ void sounds::process_sound_markers( player *p )
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
         // deafened players or players with sub-par hearing to begin with.
-        const int felt_volume = ( int )( raw_volume * std::min( 1.0f,
-                                         volume_multiplier ) ) - distance_to_sound;
+        const int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
+                                volume_multiplier ) ) - distance_to_sound;
 
         // Deafening is based on the felt volume, as a player may be too deaf to
         // hear the deafening sound but still suffer additional hearing loss.
@@ -273,7 +274,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
-        const int heard_volume = ( int )( ( raw_volume - weather_vol ) * volume_multiplier ) -
+        const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) * volume_multiplier ) -
                                  distance_to_sound;
 
         if( heard_volume <= 0 && pos != p->pos() ) {
@@ -420,7 +421,8 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     std::vector<tripoint> cluster_centroids;
     cluster_centroids.reserve( sound_clusters.size() );
     for( const auto &sound : sound_clusters ) {
-        cluster_centroids.emplace_back( ( int )sound.x, ( int )sound.y, ( int )sound.z );
+        cluster_centroids.emplace_back( static_cast<int>( sound.x ), static_cast<int>( sound.y ),
+                                        static_cast<int>( sound.z ) );
     }
     return { sound_locations, cluster_centroids };
 }

@@ -2128,7 +2128,7 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     int pos = 0;
     std::vector<std::string> opts;
 
-    if( ( int ) it.contents.size() < multi ) {
+    if( static_cast<int>( it.contents.size() ) < multi ) {
         opts.push_back( prompt );
         pos = -1;
     }
@@ -3149,7 +3149,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
     practice_amount = std::max( 9.0f, practice_amount );
 
-    healer.practice( skill_firstaid, ( int )practice_amount );
+    healer.practice( skill_firstaid, static_cast<int>( practice_amount ) );
     return it.type->charges_to_use();
 }
 
@@ -3249,7 +3249,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             return healed;
         } else if( healer.activity.id() == activity_id( "ACT_FIRSTAID" ) ) {
             // Completed activity, extract body part from it.
-            healed = ( hp_part )healer.activity.values[0];
+            healed = static_cast<hp_part>( healer.activity.values[0] );
         }
     } else {
         // Player healing NPC
@@ -3286,7 +3286,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
     if( bandages_power > 0 ) {
         dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ),
-                           texitify_base_healing_power( ( int )bandages_power ) );
+                           texitify_base_healing_power( static_cast<int>( bandages_power ) ) );
         if( g != nullptr ) {
             dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ),
                                texitify_healing_power( get_bandaged_level( g->u ) ) );
@@ -3295,7 +3295,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
     if( disinfectant_power > 0 ) {
         dump.emplace_back( "TOOL", _( "<bold>Base disinfecting quality:</bold> " ),
-                           texitify_base_healing_power( ( int )disinfectant_power ) );
+                           texitify_base_healing_power( static_cast<int>( disinfectant_power ) ) );
         if( g != nullptr ) {
             dump.emplace_back( "TOOL", _( "<bold>Actual disinfecting quality:</bold> " ),
                                texitify_healing_power( get_disinfected_level( g->u ) ) );
@@ -3306,14 +3306,17 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, true, "",
                            true );
         if( bleed > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Bleeding</bold>:" ), "", ( int )( bleed * 100 ), true, "",
+            dump.emplace_back( "TOOL", _( "<bold>* Bleeding</bold>:" ), "", static_cast<int>( bleed * 100 ),
+                               true, "",
                                true );
         }
         if( bite > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Bite</bold>:" ), "", ( int )( bite * 100 ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>* Bite</bold>:" ), "", static_cast<int>( bite * 100 ), true,
+                               "", true );
         }
         if( infect > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Infection</bold>:" ), "", ( int )( infect * 100 ), true, "",
+            dump.emplace_back( "TOOL", _( "<bold>* Infection</bold>:" ), "", static_cast<int>( infect * 100 ),
+                               true, "",
                                true );
         }
     }

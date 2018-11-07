@@ -370,7 +370,7 @@ void overmap::unserialize_legacy( std::istream &fin )
             radio_tower tmp;
             int tmp_type;
             fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
-            tmp.type = ( radio_type )tmp_type;
+            tmp.type = static_cast<radio_type>( tmp_type );
             getline( fin, tmp.message ); // Chomp endl
             getline( fin, tmp.message );
             radios.push_back( tmp );

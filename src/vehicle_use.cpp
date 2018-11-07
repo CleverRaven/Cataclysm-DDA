@@ -153,11 +153,11 @@ void vehicle::control_doors()
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
-        if( pmenu.ret < ( int )doors_with_motors.size() ) {
+        if( pmenu.ret < static_cast<int>( doors_with_motors.size() ) ) {
             int part = doors_with_motors[pmenu.ret];
             open_or_close( part, !( parts[part].open ) );
-        } else if( pmenu.ret < ( ( int )doors_with_motors.size() + CANCEL ) ) {
-            int option = pmenu.ret - ( int )doors_with_motors.size();
+        } else if( pmenu.ret < ( static_cast<int>( doors_with_motors.size() ) + CANCEL ) ) {
+            int option = pmenu.ret - static_cast<int>( doors_with_motors.size() );
             bool open = option == OPENBOTH || option == OPENCURTAINS;
             for( const vpart_reference &vp : door_motors ) {
                 const size_t motor = vp.part_index();
@@ -284,9 +284,9 @@ void vehicle::control_engines()
     }
 
     //show menu until user finishes
-    while( e_toggle >= 0 && e_toggle < ( int )engines.size() ) {
+    while( e_toggle >= 0 && e_toggle < static_cast<int>( engines.size() ) ) {
         e_toggle = select_engine();
-        if( e_toggle >= 0 && e_toggle < ( int )engines.size() &&
+        if( e_toggle >= 0 && e_toggle < static_cast<int>( engines.size() ) &&
             ( active_count > 1 || !is_part_on( engines[e_toggle] ) ) ) {
             active_count += ( !is_part_on( engines[e_toggle] ) ) ? 1 : -1;
             toggle_specific_engine( e_toggle, !is_part_on( engines[e_toggle] ) );
@@ -1054,7 +1054,7 @@ void vehicle::alarm()
                     _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                 }
             };
-            sounds::sound( global_pos3(), ( int ) rng( 45, 80 ), random_entry_ref( sound_msgs ) );
+            sounds::sound( global_pos3(), static_cast<int>( rng( 45, 80 ) ), random_entry_ref( sound_msgs ) );
             if( one_in( 1000 ) ) {
                 is_alarm_on = false;
             }

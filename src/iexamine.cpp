@@ -1749,7 +1749,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     int seed_index = query_seed( seed_entries );
 
     // Did we cancel?
-    if( seed_index < 0 || seed_index >= (int)seed_entries.size() ) {
+    if( seed_index < 0 || seed_index >= static_cast<int>( seed_entries.size() ) ) {
         add_msg(_("You saved your seeds for later."));
         return;
     }
@@ -2273,7 +2273,7 @@ void iexamine::keg(player &p, const tripoint &examp)
     const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
-    for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
+    for (int i = 0; i < static_cast<int>( g->m.i_at(examp).size() ); i++) {
         if (!g->m.i_at(examp)[i].made_of_from_type( LIQUID ) || liquid_present) {
             g->m.add_item_or_charges(examp, g->m.i_at(examp)[i]);
             g->m.i_rem( examp, i );

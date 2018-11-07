@@ -522,7 +522,7 @@ void Character::recalc_hp()
         new_max_hp[hp_head] *= 0.8;
     }
     for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] *= ( float )new_max_hp[i] / ( float )hp_max[i];
+        hp_cur[i] *= static_cast<float>( new_max_hp[i] ) / static_cast<float>( hp_max[i] );
         hp_max[i] = new_max_hp[i];
     }
 }
@@ -637,7 +637,7 @@ float Character::get_vision_threshold( float light_level ) const
 
     // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0 + ( ( ( float )light_level - LIGHT_AMBIENT_MINIMAL ) /
+    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) - LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f - encumb( bp_eyes ) / 10.0f;
@@ -655,7 +655,7 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
-    return std::min( ( float )LIGHT_AMBIENT_LOW, threshold_for_range( range ) * dimming_from_light );
+    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ), threshold_for_range( range ) * dimming_from_light );
 }
 
 bool Character::has_bionic( const bionic_id &b ) const
