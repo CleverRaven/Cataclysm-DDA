@@ -16,6 +16,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 
 #include <climits>
 #include <list>
@@ -402,7 +403,13 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = cur.veh.parts[ cur.part ].name();
+            vpart_position part_pos( cur.veh, cur.part );
+            std::string res;
+            if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
+                res = cargo_part->part().name();
+            } else {
+                debugmsg( "item in vehicle part without cargo storage" );
+            }
             if( ch ) {
                 res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
             }
