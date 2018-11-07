@@ -119,6 +119,11 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 } );
             }
 
+            case search_type::description_result: {
+                const item result = r->create_result();
+                return lcmatch( result.info( true ), txt );
+            }
+
             default:
                 return false;
         }

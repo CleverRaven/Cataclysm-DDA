@@ -282,6 +282,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
                                 break;
 
+                            case 'd':
+                                picking = available_recipes.search( qry.substr( 2 ),
+                                                                    recipe_subset::search_type::description_result );
+                                break;
+
                             case 'm': {
                                 auto &learned = g->u.get_learned_recipes();
                                 if( query_is_yes( qry ) ) {
@@ -667,6 +672,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             };
             std::vector<SearchPrefix> prefixes = {
                 { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
+                //~ Example result description search term
+                { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
                 { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
                 { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
                 { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },

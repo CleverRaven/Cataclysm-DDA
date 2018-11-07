@@ -120,7 +120,8 @@ class recipe_subset
             component,
             tool,
             quality,
-            quality_result
+            quality_result,
+            description_result
         };
 
         /** Find recipes matching query (left anchored partial matches are supported) */
