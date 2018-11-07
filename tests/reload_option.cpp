@@ -55,7 +55,6 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 
     item &belt = dummy.i_add( item( "belt308", 0, 0 ) );
     item &ammo = dummy.i_add( item( "308", 0, belt.ammo_capacity() ) );
-    item &links = dummy.i_add( item( "ammolink308", 0, belt.ammo_capacity() ) );
     item_location ammo_location( dummy, &ammo );
     // Belt is populated with "charges" rounds by the item constructor.
     belt.ammo_unset();

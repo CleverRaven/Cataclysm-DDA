@@ -72,9 +72,6 @@ static field            nulfield;          // Returned when &field_at() is asked
 static int              null_temperature;  // Because radiation does it too
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
 
-// Less for performance and more so that it's visible for when ter_t gets its string_id
-static std::string null_ter_t = "t_null";
-
 // Map stack methods.
 std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
 {

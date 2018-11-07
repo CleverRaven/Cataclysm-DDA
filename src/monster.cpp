@@ -129,9 +129,6 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
-static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
-static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::map<m_size, std::string> size_names {
     {m_size::MS_TINY, translate_marker( "tiny" )},

@@ -195,7 +195,6 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     }
     int reset_counter = 0;
     long tiles_travelled = 0;
-    int turn_count = 0;
     int cycles_left = cycle_limit;
     bool accelerating = true;
     CHECK( veh.safe_velocity() > 0 );

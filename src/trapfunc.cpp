@@ -33,7 +33,6 @@ const efftype_id effect_tetanus( "tetanus" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 

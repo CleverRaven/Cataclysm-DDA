@@ -61,7 +61,6 @@ static auto can_refill = []( const vehicle_part &pt )
 
 namespace
 {
-const std::string repair_hotkeys( "r1234567890" );
 const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
 const quality_id SELF_JACK( "SELF_JACK" );

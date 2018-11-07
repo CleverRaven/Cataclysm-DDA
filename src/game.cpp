@@ -186,7 +186,6 @@ const efftype_id effect_winded( "winded" );
 static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_GRAZER( "GRAZER" );
-static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -4091,7 +4090,6 @@ void game::draw_minimap()
             }
             const int omx = cursx + i;
             const int omy = cursy + j;
-            tripoint const cur_pos {omx, omy, get_levz()};
             if( overmap_buffer.get_horde_size( omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE ) {
                 tripoint const cur_pos {omx, omy, get_levz()};
                 if( overmap_buffer.seen( omx, omy, get_levz() )
@@ -7468,8 +7466,6 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
 
     std::vector<tripoint> points = closest_tripoints_first( iRadius, u.pos() );
 
-    tripoint last_pos;
-
     for( auto &points_p_it : points ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
@@ -10451,7 +10447,6 @@ bool game::ramp_move( const tripoint &dest_loc )
     }
 
     const tripoint above_u( u.posx(), u.posy(), u.posz() + 1 );
-    const tripoint above_dest( dest_loc.x, dest_loc.y, dest_loc.z + 1 );
     if( m.has_floor_or_support( above_u ) ) {
         add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
         return false;
