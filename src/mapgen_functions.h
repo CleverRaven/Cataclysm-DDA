@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BUILDING_GENERATION_H
-#define BUILDING_GENERATION_H
+#ifndef MAPGEN_FUNCTIONS_H
+#define MAPGEN_FUNCTIONS_H
 
 #include "enums.h"
 #include "int_id.h"

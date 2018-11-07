@@ -1,8 +1,6 @@
 #pragma once
 #ifndef MTYPE_H
 #define MTYPE_H
-// SEE ALSO: monitemsdef.cpp, which defines data on which items any given
-// monster may carry.
 
 #include "color.h"
 #include "damage.h"

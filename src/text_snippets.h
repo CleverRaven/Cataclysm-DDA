@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TEXT_SNIPPET_H
-#define TEXT_SNIPPET_H
+#ifndef TEXT_SNIPPETS_H
+#define TEXT_SNIPPETS_H
 
 #include <map>
 #include <string>

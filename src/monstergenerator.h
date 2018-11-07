@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONSTER_GENERATOR_H
-#define MONSTER_GENERATOR_H
+#ifndef MONSTERGENERATOR_H
+#define MONSTERGENERATOR_H
 
 #include "enums.h"
 #include "mattack_common.h"

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SEFEMODE_UI_H
-#define SEFEMODE_UI_H
+#ifndef SAFEMODE_UI_H
+#define SAFEMODE_UI_H
 
 #include "creature.h"
 #include "enums.h"
