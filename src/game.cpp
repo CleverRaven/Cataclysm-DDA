@@ -10560,16 +10560,16 @@ bool game::walk_move( const tripoint &dest_loc )
     if( slowed ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
         if( mcost_to >= mcost_from ) {
-            if( vp_there ) {
+            if( auto displayed_part = vp_there.part_displayed() ) {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ),
-                         vp_there->vehicle().part_info( vp_there->part_index() ).name().c_str() );
+                         displayed_part->part().name() );
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ).c_str() );
             }
         } else {
-            if( vp_here ) {
+            if( auto displayed_part = vp_here.part_displayed() ) {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ),
-                         vp_here->vehicle().part_info( vp_here->part_index() ).name().c_str() );
+                         displayed_part->part().name() );
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ).c_str() );
             }
