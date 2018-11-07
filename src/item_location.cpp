@@ -415,7 +415,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 debugmsg( "item in vehicle part without cargo storage" );
             }
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
+                res += " " + direction_suffix( ch->pos(), part_pos.pos() );
             }
             return res;
         }
