@@ -5,7 +5,7 @@
 # We're using the fairly typical convention that any file ending in _test.cpp
 # is a test executable.
 SOURCES = $(wildcard *.cpp)
-OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
+OBJS = $(sort $(SOURCES:%.cpp=$(ODIR)/%.o))
 
 CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 
