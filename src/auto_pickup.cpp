@@ -20,7 +20,6 @@
 
 #include <algorithm>
 #include <sstream>
-#include <string>
 
 auto_pickup &get_auto_pickup()
 {

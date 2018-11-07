@@ -6,7 +6,6 @@
 #include "string_id.h"
 
 #include <map>
-#include <string>
 #include <utility>
 #include <vector>
 

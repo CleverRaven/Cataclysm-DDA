@@ -6,7 +6,6 @@
 #include "string_id.h"
 
 #include <list>
-#include <string>
 #include <vector>
 
 class inventory;

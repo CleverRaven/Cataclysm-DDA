@@ -22,6 +22,7 @@
 #include "translations.h"
 #include "worldfactory.h"
 
+#include <algorithm>
 #include <cmath>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "

@@ -13,7 +13,6 @@
 #include "string_id.h"
 
 #include <list>
-#include <string>
 
 class game;
 class item;

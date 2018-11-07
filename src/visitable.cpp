@@ -6,7 +6,6 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "map.h"
 #include "map_selector.h"
 #include "player.h"

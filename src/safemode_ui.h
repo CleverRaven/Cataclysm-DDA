@@ -5,8 +5,6 @@
 #include "creature.h"
 #include "enums.h"
 
-#include <algorithm>
-#include <locale>
 #include <string>
 #include <unordered_map>
 #include <vector>

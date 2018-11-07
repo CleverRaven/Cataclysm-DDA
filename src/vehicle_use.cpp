@@ -1,6 +1,5 @@
 #include "vehicle.h"
 
-#include "catacharset.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"

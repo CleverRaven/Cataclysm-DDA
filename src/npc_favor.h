@@ -4,8 +4,6 @@
 
 #include "string_id.h"
 
-#include <string>
-
 using itype_id = std::string;
 class Skill;
 using skill_id = string_id<Skill>;

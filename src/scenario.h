@@ -5,7 +5,6 @@
 #include "string_id.h"
 
 #include <set>
-#include <string>
 #include <vector>
 
 class scenario;

@@ -4,8 +4,6 @@
 
 #include "string_id.h"
 
-#include <string>
-
 class addiction;
 class player;
 enum add_type : int;

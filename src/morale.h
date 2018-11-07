@@ -5,11 +5,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
-#include "string_id.h"
 
 #include <functional>
 #include <map>
-#include <string>
 #include <vector>
 
 class item;

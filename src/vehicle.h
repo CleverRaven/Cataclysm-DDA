@@ -18,7 +18,6 @@
 #include <list>
 #include <map>
 #include <stack>
-#include <string>
 #include <vector>
 
 class nc_color;

@@ -12,7 +12,6 @@
 #include <bitset>
 #include <list>
 #include <set>
-#include <string>
 #include <vector>
 
 struct MonsterGroup;

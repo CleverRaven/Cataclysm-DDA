@@ -8,7 +8,6 @@
 #include "units.h"
 
 #include <functional>
-#include <string>
 #include <vector>
 
 class Creature;

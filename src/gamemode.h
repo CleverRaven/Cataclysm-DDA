@@ -7,7 +7,6 @@
 #include "string_id.h"
 
 #include <memory>
-#include <string>
 #include <vector>
 
 enum action_id : int;

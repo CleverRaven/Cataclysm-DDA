@@ -16,7 +16,6 @@
 #include <bitset>
 #include <map>
 #include <set>
-#include <string>
 #include <vector>
 
 class Creature;

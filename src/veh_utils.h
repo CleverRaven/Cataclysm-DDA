@@ -1,4 +1,5 @@
 #pragma once
+
 #include "string_id.h"
 
 class vehicle;
