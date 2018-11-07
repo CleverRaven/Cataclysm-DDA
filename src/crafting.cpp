@@ -1009,7 +1009,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
-                std::string tmpStr = string_format( "%s (%d/%d charges nearby)",
+                std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
                                                     item::nname( map_ha.type ),
                                                     ( map_ha.count * batch ),
                                                     map_inv.charges_of( map_ha.type ) );
@@ -1021,7 +1021,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         }
         for( auto &player_ha : player_has ) {
             if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
-                std::string tmpStr = string_format( "%s (%d/%d charges on person)",
+                std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
                                                     item::nname( player_ha.type ),
                                                     ( player_ha.count * batch ),
                                                     charges_of( player_ha.type ) );
