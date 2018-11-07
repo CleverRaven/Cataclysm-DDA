@@ -71,7 +71,7 @@ class player_morale
         {
             public:
                 morale_point(
-                    morale_type type = MORALE_NULL,
+                    const morale_type &type = MORALE_NULL,
                     const itype *item_type = nullptr,
                     int bonus = 0,
                     int max_bonus = 0,

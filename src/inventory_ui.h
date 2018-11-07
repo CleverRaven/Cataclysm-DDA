@@ -492,7 +492,7 @@ class inventory_selector
 
         static stats get_weight_and_volume_stats(
             units::mass weight_carried, units::mass weight_capacity,
-            units::volume volume_carried, units::volume volume_capacity );
+            const units::volume &volume_carried, const units::volume &volume_capacity );
 
         /** Get stats to display in top right.
          *
@@ -551,7 +551,6 @@ class inventory_selector
             }
         }
         void toggle_navigation_mode();
-        void reassign_custom_invlets();
 
         /** Entry has been added */
         virtual void on_entry_add( const inventory_entry & ) {}

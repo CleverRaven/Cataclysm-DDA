@@ -1263,7 +1263,7 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 
 inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     units::mass weight_carried, units::mass weight_capacity,
-    units::volume volume_carried, units::volume volume_capacity )
+    const units::volume &volume_carried, const units::volume &volume_capacity )
 {
     return {
         {

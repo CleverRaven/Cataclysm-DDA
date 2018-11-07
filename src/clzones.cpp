@@ -232,7 +232,7 @@ void plot_options::deserialize( JsonObject &jo_zone )
     seed = jo_zone.get_string( "seed", "" );
 };
 
-cata::optional<std::string> zone_manager::query_name( std::string default_name ) const
+cata::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
     string_input_popup popup;
     popup

@@ -1440,15 +1440,12 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
             case CATFOOD:
                 return feedpet( p, mon, MF_CATFOOD,
                                 _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
-                break;
             case CATTLEFODDER:
                 return feedpet( p, mon, MF_CATTLEFODDER,
                                 _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
-                break;
             case BIRDFOOD:
                 return feedpet( p, mon, MF_BIRDFOOD,
                                 _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
-                break;
         }
 
     } else {
@@ -3548,8 +3545,6 @@ int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
         case 0: {
             return iuse::tazer2( p, it, t, pos );
         }
-        break;
-
         case 1: {
             if( !it->ammo_sufficient() ) {
                 p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
@@ -3581,8 +3576,6 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
                 case 0: {
                     return iuse::tazer2( p, it, t, pos );
                 }
-                break;
-
                 case 1: {
                     p->add_msg_if_player( _( "You turn off the light." ) );
                     it->convert( "shocktonfa_off" ).active = false;
@@ -4327,7 +4320,6 @@ int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
                 }
                 return 0;
             }
-            break;
             case 1: {
                 tripoint temp = pos;
                 if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
@@ -4371,7 +4363,6 @@ int iuse::battletorch_lit( player *p, item *it, bool t, const tripoint &pos )
                 }
                 return 0;
             }
-            break;
             case 1: {
                 tripoint temp = pos;
                 if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
@@ -7706,14 +7697,12 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
     inv_s.add_character_items( *p );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
-    std::list<std::pair<int, int>> to_clean;
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
         return 0;
     }
-
-    to_clean = inv_s.execute();
-    if( to_clean.size() == 0 ) {
+    std::list<std::pair<int, int>> to_clean = inv_s.execute();
+    if( to_clean.empty() ) {
         return 0;
     }
     int required_water = 0;

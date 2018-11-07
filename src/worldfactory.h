@@ -128,7 +128,6 @@ class worldfactory
         static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
-    protected:
     private:
         std::map<std::string, WORLDPTR> all_worlds;
 

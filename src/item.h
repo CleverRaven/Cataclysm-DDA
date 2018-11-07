@@ -624,7 +624,7 @@ class item : public visitable<item>
         /**
          * Puts the given item into this one, no checks are performed.
          */
-        void put_in( item payload );
+        void put_in( const item &payload );
 
         /** Stores a newly constructed item at the end of this item's contents */
         template<typename ... Args>

@@ -444,7 +444,7 @@ class player : public Character
         void ma_ongethit_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff( mabuff_id buff_id ) const;
+        bool has_mabuff( const mabuff_id &buff_id ) const;
         /** Returns true if the player has access to the entered martial art */
         bool has_martialart( const matype_id &ma_id ) const;
         /** Adds the entered martial art to the player's list */

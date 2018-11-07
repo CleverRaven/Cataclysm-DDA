@@ -1537,7 +1537,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         return true;
     }
 
-    return 0;
+    return false;
 }
 
 long cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -3200,9 +3200,6 @@ hp_part pick_part_to_heal(
             return healed_part;
         }
     }
-
-    // Won't happen?
-    return num_hp_parts;
 }
 
 hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it, bool force ) const

@@ -2197,7 +2197,7 @@ void monster::make_ally( const monster &z )
     faction = z.faction;
 }
 
-void monster::add_item( item it )
+void monster::add_item( const item &it )
 {
     inv.push_back( it );
 }

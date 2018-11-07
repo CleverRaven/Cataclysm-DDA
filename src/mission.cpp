@@ -270,13 +270,11 @@ bool mission::is_complete( const int _npc_id ) const
             const tripoint cur_pos = g->u.global_omt_location();
             return ( rl_dist( cur_pos, target ) <= 1 );
         }
-        break;
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
             return is_ot_type( type->target_id.str(), cur_ter );
         }
-        break;
 
         case MGOAL_FIND_ITEM: {
             inventory tmp_inv = u.crafting_inventory();
@@ -338,7 +336,6 @@ bool mission::is_complete( const int _npc_id ) const
         default:
             return false;
     }
-    return false;
 }
 
 bool mission::has_deadline() const

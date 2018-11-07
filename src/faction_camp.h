@@ -222,7 +222,7 @@ std::string name_mission_tabs( npc &p, const std::string &id, const std::string 
 /// Creats a map of all the recipes that are available to a building at om_cur, "ALL" for all possible
 std::map<std::string, std::string> camp_recipe_deck( const std::string &om_cur );
 /// Determines what the absolute max (out of 9999) that can be crafted using inventory and food supplies
-int camp_recipe_batch_max( const recipe making, const inventory &total_inv );
+int camp_recipe_batch_max( const recipe &making, const inventory &total_inv );
 
 /*
  * check if a companion survives a random encounter

@@ -56,9 +56,7 @@ void PATH_INFO::init_user_dir( const char *ud )
 
 void PATH_INFO::update_pathname( const std::string &name, const std::string &path )
 {
-    std::map<std::string, std::string>::iterator iter;
-
-    iter = FILENAMES.find( name );
+    std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
     if( iter != FILENAMES.end() ) {
         FILENAMES[name] = path;
     } else {

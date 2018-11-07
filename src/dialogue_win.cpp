@@ -109,8 +109,7 @@ bool dialogue_window::print_responses( int const yoffset, const std::vector<talk
     size_t const fold_width = xoffset - 2 - 2 - 2;
 
     int curline = min_line - ( int ) yoffset;
-    size_t i;
-    for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
+    for( size_t i = 0; i < responses.size() && curline <= max_line; i++ ) {
         const std::vector<std::string> folded = foldstring( responses[i].second, fold_width );
         const nc_color &color = responses[i].first;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
@@ -138,7 +137,8 @@ void dialogue_window::refresh_response_display()
     can_scroll_up = false;
 }
 
-void dialogue_window::display_responses( int const hilight_lines, std::vector<talk_data> responses,
+void dialogue_window::display_responses( int const hilight_lines,
+        const std::vector<talk_data> &responses,
         const long &ch )
 {
     if( text_only ) {

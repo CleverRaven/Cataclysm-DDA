@@ -2302,7 +2302,7 @@ std::map<std::string, std::string> talk_function::camp_recipe_deck( const std::s
     return cooking_recipes;
 }
 
-int talk_function::camp_recipe_batch_max( const recipe making, const inventory &total_inv )
+int talk_function::camp_recipe_batch_max( const recipe &making, const inventory &total_inv )
 {
     int max_batch = 0;
     int max_checks = 9;

@@ -24,9 +24,8 @@ static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
 namespace
 {
-static const std::string item_name_placeholder = "%s"; // Used to address an item name
 
-bool is_permanent_morale( const morale_type id )
+bool is_permanent_morale( const morale_type &id )
 {
     static const std::set<morale_type> permanent_morale = {{
             MORALE_PERM_OPTIMIST,

@@ -159,7 +159,7 @@ public:
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window( const catacurses::window &win );
     bool draw_window( const catacurses::window &win, int offsetx, int offsety );
@@ -183,7 +183,7 @@ public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) override;
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -219,7 +219,7 @@ public:
     BitmapFont( int w, int h, const std::string &path );
     ~BitmapFont() override = default;
 
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) override;
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
 protected:
@@ -690,7 +690,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
 }
 
-void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
+void CachedTTFFont::OutputChar(const std::string &ch, int const x, int const y, unsigned char const color)
 {
     key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
 
@@ -722,7 +722,7 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
 #endif
 }
 
-void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
 {
     int len = ch.length();
     const char *s = ch.c_str();
@@ -1408,7 +1408,7 @@ int HandleDPad()
  * -1 when a ALT+number sequence has been started,
  * or something that a call to ncurses getch would return.
  */
-long sdl_keysym_to_curses( SDL_Keysym keysym )
+long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
     if( get_option<bool>( "DIAG_MOVE_WITH_MODIFIERS" ) ) {
@@ -3180,7 +3180,7 @@ input_event input_manager::get_input_event() {
     else if (inputdelay > 0)
     {
         unsigned long starttime=SDL_GetTicks();
-        unsigned long endtime;
+        unsigned long endtime = 0;
         bool timedout = false;
         do
         {
@@ -3702,10 +3702,10 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
     result->abuf = ( Uint8 * )malloc( result->alen * sizeof( Uint8 ) );
     result->volume = s->volume;
     for( i = 0; i < s_out; i++ ) {
-        Sint16 lt;
-        Sint16 rt;
-        Sint16 lt_out;
-        Sint16 rt_out;
+        Sint16 lt = 0;
+        Sint16 rt = 0;
+        Sint16 lt_out = 0;
+        Sint16 rt_out = 0;
         Sint64 lt_avg = 0;
         Sint64 rt_avg = 0;
         Uint32 begin = ( Uint32 )( ( float )i / pitch_real );

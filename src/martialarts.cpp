@@ -886,7 +886,7 @@ bool player::can_melee() const
     } );
 }
 
-bool player::has_mabuff( mabuff_id id ) const
+bool player::has_mabuff( const mabuff_id &id ) const
 {
     return search_ma_buff_effect( *effects, [&id]( const ma_buff & b, const effect & ) {
         return b.id == id;

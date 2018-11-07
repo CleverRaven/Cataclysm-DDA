@@ -127,9 +127,7 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 // shared utility functions
 int within_visual_range( monster *z, int max_range )
 {
-    int dist;
-
-    dist = rl_dist( z->pos(), g->u.pos() );
+    int dist = rl_dist( z->pos(), g->u.pos() );
     if( dist > max_range || !z->sees( g->u ) ) {
         return -1;    // Out of range
     }

@@ -702,7 +702,7 @@ void draw_points( const catacurses::window &w, points_left &points, int netPoint
 }
 
 template <class Compare>
-void draw_sorting_indicator( const catacurses::window &w_sorting, input_context ctxt,
+void draw_sorting_indicator( const catacurses::window &w_sorting, const input_context &ctxt,
                              Compare sorter )
 {
     auto const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );

@@ -153,7 +153,7 @@ struct talk_response {
                 /**
                  * Sets an effect to a function object and consequence to explicitly given one.
                  */
-                void set_effect_consequence( effect_fun_t eff, dialogue_consequence con );
+                void set_effect_consequence( const effect_fun_t &eff, dialogue_consequence con );
                 void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
 
 
@@ -349,8 +349,6 @@ class json_talk_response
  */
 class json_talk_topic
 {
-    public:
-
     private:
         bool replace_built_in_responses = false;
         std::vector<json_talk_response> responses;

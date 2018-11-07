@@ -154,7 +154,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
                                     iOffsetX );
 
         int curtab = 0;
-        int lasttab; // give placement memory to menus, sorta.
+        int lasttab = 0; // give placement memory to menus, sorta.
         const size_t numtabs = tabs.size();
         while( static_cast<size_t>( curtab ) < numtabs ) {
             lasttab = curtab;

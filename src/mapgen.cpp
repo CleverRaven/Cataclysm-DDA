@@ -106,7 +106,7 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( oter_id there, int dir_from_here );
+bool connects_to( const oter_id &there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
@@ -2212,16 +2212,14 @@ void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const m
 // track down what is and isn't supposed to be carried around between bits of code.
 // I suggest that we break the function down into smaller parts
 
-void map::draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                    const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                    const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
-                    const int zlevel, const regional_settings *rsettings )
+void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
+                    const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
+                    const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
+                    const oter_id &t_above, const oter_id &t_below, const time_point &when,
+                    const float density, const int zlevel, const regional_settings *rsettings )
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_LAB( "GROUP_LAB" );
-    static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
-    static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -7336,7 +7334,7 @@ void map::rotate( int turns )
 }
 
 // Hideous function, I admit...
-bool connects_to( oter_id there, int dir )
+bool connects_to( const oter_id &there, int dir )
 {
     switch( dir ) {
         case 2:

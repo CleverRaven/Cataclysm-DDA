@@ -35,8 +35,6 @@ bool play_videogame( const std::string &function_name,
         }
 
         return foundkitten;
-
-        return true;
     } else if( function_name == "snake_game" ) {
         snake_game sg;
         int iScore = sg.start_game();

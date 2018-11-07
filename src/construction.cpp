@@ -37,14 +37,10 @@
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
-static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
 

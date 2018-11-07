@@ -12,8 +12,7 @@ TEST_CASE( "vehicle_split_section" )
         tripoint test_origin( 15, 15, 0 );
         g->u.setpos( test_origin );
         tripoint vehicle_origin = tripoint( 10, 10, 0 );
-        VehicleList vehs;
-        vehs = g->m.get_vehicles();
+        VehicleList vehs = g->m.get_vehicles();
         vehicle *veh_ptr;
         for( auto &vehs_v : vehs ) {
             veh_ptr = vehs_v.v;

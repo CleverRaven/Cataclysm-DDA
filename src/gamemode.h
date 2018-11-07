@@ -138,14 +138,12 @@ struct defense_game : public special_game {
 
     private:
         void init_to_style( defense_style new_style );
-        void load_style( std::string style_name );
 
         void setup();
         void refresh_setup( const catacurses::window &w, int selection );
         void init_mtypes();
         void init_constructions();
         void init_map();
-        std::vector<itype_id> carvan_items( caravan_category cat );
 
         void spawn_wave();
         void caravan();

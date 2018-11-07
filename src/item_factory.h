@@ -331,7 +331,6 @@ class Item_factory
         void add_entry( Item_group &sg, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
-        void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
         void set_qualities_from_json( JsonObject &jo, const std::string &member, itype &def );
         void set_properties_from_json( JsonObject &jo, const std::string &member, itype &def );
 

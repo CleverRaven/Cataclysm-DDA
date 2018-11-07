@@ -1749,7 +1749,7 @@ std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
     }
 
     struct companion_sort_skill {
-        companion_sort_skill( std::string skill_tested ) {
+        companion_sort_skill( const std::string &skill_tested ) {
             this->skill_tested = skill_tested;
         }
 

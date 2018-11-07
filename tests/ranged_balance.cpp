@@ -82,8 +82,8 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
-static std::array<firing_statistics, 5> firing_test( dispersion_sources dispersion, int range,
-        std::array<double, 5> thresholds )
+static std::array<firing_statistics, 5> firing_test( const dispersion_sources &dispersion,
+        int range, const std::array<double, 5> &thresholds )
 {
     std::array<firing_statistics, 5> firing_stats;
     bool threshold_within_confidence_interval = false;

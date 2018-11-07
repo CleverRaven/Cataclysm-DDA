@@ -213,13 +213,12 @@ int cursorx_to_position( const char *line, int cursorx, int *prevpos, int maxlen
 
 std::string utf8_truncate( std::string s, size_t length )
 {
-    int last_pos;
 
     if( length == 0 || s.empty() ) {
         return s;
     }
 
-    last_pos = cursorx_to_position( s.c_str(), length, NULL, -1 );
+    int last_pos = cursorx_to_position( s.c_str(), length, NULL, -1 );
 
     return s.substr( 0, last_pos );
 }

@@ -4447,11 +4447,10 @@ int game::mon_info( const catacurses::window &w )
 
     // Print the symbols of all monsters in all directions.
     for( int i = 0; i < 8; i++ ) {
-        int symroom;
         point pr( xcoords[i] + widths[i] + 1, ycoords[i] + startrow );
 
         // The list of symbols needs a space on each end.
-        symroom = ( width / 3 ) - widths[i] - 2;
+        int symroom = ( width / 3 ) - widths[i] - 2;
         const int typeshere_npc = unique_types[i].size();
         const int typeshere_mon = unique_mons[i].size();
         const int typeshere = typeshere_mon + typeshere_npc;
@@ -5154,7 +5153,6 @@ void game::emp_blast( const tripoint &p )
     // TODO: Implement z part
     int x = p.x;
     int y = p.y;
-    int rn;
     const bool sight = g->u.sees( p );
     if( m.has_flag( "CONSOLE", x, y ) ) {
         if( sight ) {
@@ -5165,7 +5163,7 @@ void game::emp_blast( const tripoint &p )
     }
     // TODO: More terrain effects.
     if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ) {
-        rn = rng( 1, 100 );
+        int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
@@ -5632,7 +5630,7 @@ void game::exam_vehicle( vehicle &veh, int cx, int cy )
     }
 }
 
-bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
+bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg )
 {
     // TODO: Z
     const int &x = p.x;
@@ -6545,9 +6543,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
         if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
                                       m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
-            int lines;
-            lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
-                                    get_fire_fuel_string( lp ) ) - 1;
+            int lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
+                                        get_fire_fuel_string( lp ) ) - 1;
             line += lines;
         } else {
             mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
@@ -8817,8 +8814,8 @@ void game::plthrow( int pos )
     m.draw( w_terrain, u.pos() );
 
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory;
-    trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown,
+                                       range );
     if( trajectory.empty() ) {
         return;
     }
@@ -10894,9 +10891,8 @@ void game::place_player( const tripoint &dest_loc )
                 }
                 int and_the_rest = 0;
                 for( size_t i = 0; i < names.size(); ++i ) {
-                    std::string fmt;
                     //~ number of items: "<number> <item>"
-                    fmt = ngettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
+                    std::string fmt = ngettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
                     names[i] = string_format( fmt, counts[i], names[i].c_str() );
                     // Skip the first two.
                     if( i > 1 ) {
@@ -12589,8 +12585,7 @@ void game::process_artifact( item &it, player &p )
 {
     const bool worn = p.is_worn( it );
     const bool wielded = ( &it == &p.weapon );
-    std::vector<art_effect_passive> effects;
-    effects = it.type->artifact->effects_carried;
+    std::vector<art_effect_passive> effects = it.type->artifact->effects_carried;
     if( worn ) {
         auto &ew = it.type->artifact->effects_worn;
         effects.insert( effects.end(), ew.begin(), ew.end() );
