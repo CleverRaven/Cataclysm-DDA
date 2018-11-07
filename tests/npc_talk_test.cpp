@@ -8,7 +8,6 @@
 #include "game.h"
 #include "map.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "overmapbuffer.h"
 #include "player.h"
 

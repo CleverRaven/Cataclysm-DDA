@@ -4,7 +4,6 @@
 #include "dispersion.h"
 #include "game.h"
 #include "map_helpers.h"
-#include "monattack.h"
 #include "monster.h"
 #include "npc.h"
 #include "test_statistics.h"

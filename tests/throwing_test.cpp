@@ -5,7 +5,6 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
-#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"

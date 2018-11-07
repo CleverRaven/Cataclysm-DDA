@@ -1,13 +1,10 @@
 #include "catch/catch.hpp"
 
 #include "creature.h"
-#include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "mapdata.h"
 #include "monster.h"
-#include "mtype.h"
 #include "options.h"
 #include "player.h"
 #include "test_statistics.h"
