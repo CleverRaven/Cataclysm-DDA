@@ -789,7 +789,7 @@ const std::string &input_context::handle_input( const int timeout )
     inp_mngr.set_timeout( timeout );
     next_action.type = CATA_INPUT_ERROR;
     const std::string *result = &CATA_ERROR;
-    while( 1 ) {
+    while( true ) {
         next_action = inp_mngr.get_input_event();
         if( next_action.type == CATA_INPUT_TIMEOUT ) {
             result = &TIMEOUT;

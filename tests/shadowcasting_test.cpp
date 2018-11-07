@@ -258,7 +258,7 @@ void shadowcasting_3d_2d( int iterations )
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{false}};
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {

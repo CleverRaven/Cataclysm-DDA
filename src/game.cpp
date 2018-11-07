@@ -1194,7 +1194,7 @@ bool game::cleanup_at_end()
                                    iOffsetX );
         draw_border( w_rip );
 
-        sfx::do_player_death_hurt( g->u, 1 );
+        sfx::do_player_death_hurt( g->u, true );
         sfx::fade_audio_group( 1, 2000 );
         sfx::fade_audio_group( 2, 2000 );
         sfx::fade_audio_group( 3, 2000 );

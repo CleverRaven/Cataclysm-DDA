@@ -7504,7 +7504,7 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
                               it->tname().c_str() );
         return 0;
     }
-    capture_monster_act( p, it, 0, pos );
+    capture_monster_act( p, it, false, pos );
     return 0;
 }
 
