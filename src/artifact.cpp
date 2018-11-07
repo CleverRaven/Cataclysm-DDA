@@ -1,17 +1,14 @@
 #include "artifact.h"
 
-#include "output.h" // string_format
-#include "item_factory.h"
-#include "debug.h"
-#include "json.h"
-#include "string_formatter.h"
 #include "cata_utility.h"
+#include "item_factory.h"
+#include "json.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 
-#include <bitset>
-#include <cmath>
 #include <array>
+#include <cmath>
 #include <sstream>
 
 template<typename V, typename B>

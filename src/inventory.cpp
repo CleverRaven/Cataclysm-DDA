@@ -1,23 +1,22 @@
 #include "inventory.h"
-#include <sstream>
-#include "game.h"
-#include "map.h"
-#include "iexamine.h"
+
 #include "debug.h"
-#include "iuse.h"
-#include "vpart_reference.h"
-#include "iuse_actor.h"
-#include "options.h"
-#include "vpart_position.h"
-#include "npc.h"
+#include "game.h"
+#include "iexamine.h"
 #include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
+#include "iuse_actor.h"
+#include "map.h"
 #include "map_iterator.h"
-#include <algorithm>
+#include "mapdata.h"
 #include "messages.h" //for rust message
+#include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
+#include <algorithm>
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );

@@ -1,18 +1,17 @@
 #include "morale.h"
-#include "morale_types.h"
 
+#include "bodypart.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "input.h"
 #include "item.h"
 #include "itype.h"
-#include "output.h"
-#include "cursesdef.h"
+#include "morale_types.h"
 #include "options.h"
-#include "bodypart.h"
+#include "output.h"
 #include "translations.h"
-#include "catacharset.h"
-#include "weather.h"
-#include "input.h"
 
 #include <algorithm>
 #include <set>

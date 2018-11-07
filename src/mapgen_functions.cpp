@@ -1,29 +1,28 @@
 #include "mapgen_functions.h"
 
-#include "mapgen.h"
-#include "map_iterator.h"
-#include "output.h"
-#include "line.h"
-#include "mapgenformat.h"
-#include "overmap.h"
-#include "options.h"
-#include "debug.h"
-#include "scenario.h"
-#include "item.h"
-#include "translations.h"
-#include "vpart_position.h"
-#include "trap.h"
-#include <array>
-#include "vehicle_group.h"
 #include "computer.h"
-#include "mapdata.h"
-#include "map.h"
-#include "omdata.h"
+#include "debug.h"
 #include "field.h"
+#include "item.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "mapgen.h"
+#include "mapgenformat.h"
+#include "omdata.h"
+#include "options.h"
+#include "overmap.h"
+#include "translations.h"
+#include "trap.h"
+#include "vehicle_group.h"
+#include "vpart_position.h"
+
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <iterator>
 #include <random>
-#include <chrono>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

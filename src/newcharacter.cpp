@@ -1,43 +1,40 @@
+#include "addiction.h"
+#include "bionics.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "crafting.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "martialarts.h"
+#include "mutation.h"
+#include "name.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
 #include "player.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
-#include "scenario.h"
-#include "start_location.h"
-#include "input.h"
-#include "output.h"
-#include "bionics.h"
-#include "units.h"
 #include "rng.h"
-#include "game.h"
-#include "name.h"
-#include "string_formatter.h"
-#include "options.h"
+#include "scenario.h"
 #include "skill.h"
-#include "catacharset.h"
-#include "debug.h"
-#include "char_validity_check.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "addiction.h"
-#include "ui.h"
-#include "mutation.h"
-#include "crafting.h"
+#include "start_location.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui.h"
 #include "worldfactory.h"
-#include "json.h"
-#include "martialarts.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
-#include <cstring>
-#include <sstream>
-#include <vector>
+
 #include <algorithm>
 #include <cassert>
+#include <sstream>
+#include <vector>
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat

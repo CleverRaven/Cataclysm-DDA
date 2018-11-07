@@ -1,13 +1,15 @@
 #include "animation.h"
+
 #include "game.h"
 #include "map.h"
-#include "options.h"
-#include "output.h"
 #include "monster.h"
 #include "mtype.h"
-#include "weather.h"
+#include "options.h"
+#include "output.h"
 #include "player.h"
 #include "popup.h"
+#include "weather.h"
+
 #ifdef TILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
@@ -17,7 +19,6 @@ extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #endif
 
 #include <algorithm>
-#include <array>
 
 bool is_valid_in_w_terrain( int x, int y ); // see game.cpp
 

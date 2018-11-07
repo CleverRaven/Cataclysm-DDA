@@ -1,52 +1,42 @@
 #include "monattack.h"
-#include "monster.h"
 
 #include "ballistics.h"
-#include "dispersion.h"
-#include "game.h"
-#include "debug.h"
-#include "map.h"
-#include "output.h"
-#include "fungal_effects.h"
-#include "rng.h"
-#include "line.h"
 #include "bodypart.h"
-#include "material.h"
-#include "speech.h"
-#include "messages.h"
-#include "sounds.h"
+#include "debug.h"
+#include "dispersion.h"
 #include "effect.h"
-#include "mondefense.h"
-#include "projectile.h"
-#include "iuse_actor.h"
-#include "gun_mode.h"
-#include "weighted_list.h"
-#include "vpart_position.h"
-#include "mongroup.h"
-#include "translations.h"
-#include "morale_types.h"
-#include "npc.h"
 #include "event.h"
-#include "ui.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
-#include "mtype.h"
 #include "field.h"
+#include "fungal_effects.h"
+#include "game.h"
+#include "gun_mode.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "line.h"
+#include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mondefense.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mtype.h"
+#include "npc.h"
+#include "output.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "speech.h"
 #include "text_snippets.h"
-#include <map>
+#include "translations.h"
+#include "ui.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "weighted_list.h"
 
 #include <algorithm>
-
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
-
-// for loading monster dialogue:
-#include <iostream>
-
-#include <limits>  // std::numeric_limits
+#include <cmath>
+#include <map>
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );

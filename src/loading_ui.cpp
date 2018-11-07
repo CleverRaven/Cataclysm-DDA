@@ -1,7 +1,8 @@
 #include "loading_ui.h"
+
+#include "color.h"
 #include "output.h"
 #include "ui.h"
-#include "color.h"
 
 #ifdef TILES
 #include "SDL.h"

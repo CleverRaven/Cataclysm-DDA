@@ -2,12 +2,12 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include <string>
+#include "int_id.h"
+#include "string_id.h"
+
 #include <array>
 #include <bitset>
-
-#include "string_id.h"
-#include "int_id.h"
+#include <string>
 
 class JsonObject;
 

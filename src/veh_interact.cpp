@@ -1,42 +1,42 @@
 #include "veh_interact.h"
-#include <string>
-#include "vehicle.h"
-#include "overmapbuffer.h"
-#include "game.h"
-#include "player.h"
+
 #include "action.h"
-#include "map.h"
-#include "output.h"
+#include "activity_handlers.h"
+#include "cata_utility.h"
 #include "catacharset.h"
-#include "string_formatter.h"
-#include "map_selector.h"
 #include "crafting.h"
-#include "options.h"
 #include "debug.h"
-#include "skill.h"
+#include "fault.h"
+#include "game.h"
+#include "itype.h"
+#include "map.h"
+#include "map_selector.h"
 #include "messages.h"
+#include "npc.h"
+#include "output.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "skill.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
 #include "translations.h"
-#include "veh_type.h"
-#include "vpart_position.h"
 #include "ui.h"
+#include "veh_type.h"
+#include "veh_utils.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-#include "itype.h"
-#include "cata_utility.h"
-#include "vehicle_selector.h"
-#include "fault.h"
-#include "npc.h"
-#include "string_input_popup.h"
-#include "veh_utils.h"
-#include "activity_handlers.h"
 
+#include <algorithm>
+#include <cassert>
 #include <cmath>
-#include <list>
 #include <functional>
 #include <iterator>
-#include <algorithm>
+#include <list>
 #include <numeric>
-#include <cassert>
+#include <string>
 
 static inline const char *status_color( bool status )
 {

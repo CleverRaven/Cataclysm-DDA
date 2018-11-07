@@ -5,8 +5,8 @@
 #include "shadowcasting.h"
 
 #include <chrono>
+#include <cstdio>
 #include <random>
-#include "stdio.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;

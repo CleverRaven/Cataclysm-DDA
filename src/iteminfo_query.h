@@ -2,8 +2,8 @@
 #ifndef ITEMINFOQUERY_H
 #define ITEMINFOQUERY_H
 
-#include <string>
 #include <bitset>
+#include <string>
 #include <vector>
 
 enum class iteminfo_parts : size_t {

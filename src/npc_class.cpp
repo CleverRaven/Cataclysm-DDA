@@ -1,10 +1,11 @@
 #include "npc_class.h"
-#include "skill.h"
+
 #include "debug.h"
-#include "rng.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "mutation.h"
+#include "rng.h"
+#include "skill.h"
 #include "trait_group.h"
 
 #include <list>

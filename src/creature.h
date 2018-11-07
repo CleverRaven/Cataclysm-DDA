@@ -2,17 +2,17 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "pimpl.h"
 #include "bodypart.h"
-#include "string_id.h"
+#include "pimpl.h"
 #include "string_formatter.h"
+#include "string_id.h"
 
+#include <climits>
+#include <map>
+#include <set>
 #include <string>
 #include <unordered_map>
-#include <map>
 #include <vector>
-#include <set>
-#include <climits>
 
 enum game_message_type : int;
 class nc_color;

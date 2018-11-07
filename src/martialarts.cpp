@@ -1,20 +1,21 @@
 #include "martialarts.h"
-#include "player.h"
+
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
-#include "json.h"
-#include "translations.h"
-#include "itype.h"
-#include "damage.h"
-#include "output.h"
+#include "generic_factory.h"
 #include "input.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "translations.h"
 
+#include <algorithm>
 #include <map>
 #include <string>
-#include <algorithm>
-#include "generic_factory.h"
-#include "string_formatter.h"
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
@@ -317,7 +318,6 @@ void clear_techniques_and_martial_arts()
     ma_techniques.reset();
 }
 
-#include "messages.h"
 bool ma_requirements::is_valid_player( const player &u ) const
 {
     for( const auto &buff_id : req_buffs ) {

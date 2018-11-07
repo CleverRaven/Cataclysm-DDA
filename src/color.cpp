@@ -1,17 +1,17 @@
 #include "color.h"
-#include "output.h"
-#include "debug.h"
-#include "input.h"
-#include "path_info.h"
+
 #include "cata_utility.h"
+#include "debug.h"
 #include "filesystem.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "translations.h"
+#include "input.h"
 #include "json.h"
+#include "output.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "ui.h"
 
 #include <algorithm> // for std::count
-#include <iostream>
 
 void nc_color::serialize( JsonOut &jsout ) const
 {

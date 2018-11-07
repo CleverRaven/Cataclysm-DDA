@@ -1,17 +1,17 @@
 #include "requirements.h"
 
-#include "json.h"
-#include "translations.h"
-#include "output.h"
-#include "game.h"
-#include "player.h"
-#include "debug.h"
-#include "inventory.h"
-#include "string_formatter.h"
-#include "itype.h"
-#include "item_factory.h"
 #include "calendar.h"
+#include "debug.h"
+#include "game.h"
 #include "generic_factory.h"
+#include "inventory.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 #include <algorithm>
 #include <cmath>

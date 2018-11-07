@@ -1,40 +1,40 @@
 #include "vehicle.h"
 
-#include "coordinate_conversions.h"
-#include "map.h"
-#include "output.h"
-#include "game.h"
-#include "item.h"
-#include "veh_interact.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "messages.h"
-#include "iexamine.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "debug.h"
-#include "sounds.h"
-#include "translations.h"
 #include "ammo.h"
-#include "options.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "coordinate_conversions.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "game.h"
+#include "iexamine.h"
+#include "item.h"
+#include "itype.h"
+#include "map.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "ui.h"
+#include "veh_interact.h"
 #include "veh_type.h"
-#include "itype.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 #include "weather.h"
-#include "cata_utility.h"
 
-#include <sstream>
-#include <stdlib.h>
-#include <set>
-#include <queue>
-#include <math.h>
-#include <array>
-#include <numeric>
 #include <algorithm>
+#include <array>
 #include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_gasoline( "gasoline" );

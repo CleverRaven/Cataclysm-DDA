@@ -1,7 +1,9 @@
 #include "catch/catch.hpp"
+
 #include "name.h"
-#include <string>
+
 #include <set>
+#include <string>
 
 class IsOneOf : public Catch::MatcherBase<std::string>
 {

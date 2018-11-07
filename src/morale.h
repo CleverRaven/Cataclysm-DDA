@@ -2,16 +2,15 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "string_id.h"
-#include "calendar.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "morale_types.h"
+#include "string_id.h"
 
-#include <stdlib.h>
+#include <functional>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
-#include <functional>
 
 class item;
 class JsonIn;

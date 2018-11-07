@@ -1,21 +1,18 @@
 #include "mondefense.h"
 
 #include "ballistics.h"
+#include "bodypart.h"
+#include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
-#include "gun_mode.h"
-#include "monster.h"
-#include "creature.h"
 #include "game.h"
+#include "messages.h"
+#include "monster.h"
 #include "output.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
-#include "line.h"
-#include "bodypart.h"
-#include "messages.h"
 #include "translations.h"
-#include "field.h"
-#include "player.h"
 
 #include <algorithm>
 

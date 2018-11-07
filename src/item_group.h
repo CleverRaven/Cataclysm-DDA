@@ -4,10 +4,9 @@
 
 #include "optional.h"
 
-#include <vector>
-#include <set>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;

@@ -2,19 +2,17 @@
 
 #include "game.h"
 #include "inventory_ui.h"
-#include "options.h"
-#include "player.h"
-#include "crafting.h"
-#include "output.h"
-#include "recipe_dictionary.h"
-#include "string_formatter.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "skill.h"
 #include "map.h"
+#include "options.h"
+#include "output.h"
+#include "player.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "string_formatter.h"
 
-#include <algorithm>
 #include <functional>
 
 typedef std::function<bool( const item & )> item_filter;

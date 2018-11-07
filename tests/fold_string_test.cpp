@@ -1,8 +1,8 @@
 #include "catch/catch.hpp"
 
-#include <initializer_list>
-
 #include "output.h"
+
+#include <initializer_list>
 
 template<class IterResult, class IterExpect>
 static void check_equal( IterResult beg_res, IterResult end_res,

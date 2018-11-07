@@ -2,10 +2,8 @@
 #ifndef FACTION_CAMP_H
 #define FACTION_CAMP_H
 
-#include <memory>
-#include <vector>
 #include <string>
-#include <functional>
+#include <vector>
 
 class martialart;
 class JsonObject;

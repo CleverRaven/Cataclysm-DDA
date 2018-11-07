@@ -1,5 +1,6 @@
-#include "json.h"
 #include "mutation.h"
+
+#include "json.h"
 
 struct mutation_type {
     std::string id;

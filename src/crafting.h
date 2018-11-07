@@ -3,7 +3,6 @@
 #define CRAFTING_H
 
 #include <list>
-#include <vector>
 
 class item;
 class inventory;

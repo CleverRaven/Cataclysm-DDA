@@ -1,10 +1,10 @@
 #include "mod_manager.h"
-#include "input.h"
-#include "output.h"
+
 #include "debug.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "dependency_tree.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 #include <algorithm>
 

@@ -2,18 +2,19 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
-#include "character.h"
-#include "enums.h" // tripoint
 #include "bodypart.h"
-#include "damage.h"
 #include "calendar.h"
+#include "character.h"
+#include "damage.h"
+#include "enums.h" // tripoint
 #include "string_id.h"
-#include <string>
-#include <vector>
-#include <utility>
+
 #include <map>
 #include <set>
+#include <string>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 class nc_color;
 class JsonObject;

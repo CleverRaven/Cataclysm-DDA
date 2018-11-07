@@ -2,9 +2,9 @@
 
 #include "game.h"
 #include "map.h"
-#include "vehicle.h"
-#include "veh_type.h"
 #include "player.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 TEST_CASE( "destroy_grabbed_vehicle_section" )
 {

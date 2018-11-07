@@ -1,21 +1,22 @@
 #include "options.h"
-#include "game.h"
-#include "output.h"
-#include "debug.h"
-#include "translations.h"
-#include "filesystem.h"
-#include "string_formatter.h"
-#include "cursesdef.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "json.h"
-#include "sounds.h"
+
 #include "cata_utility.h"
-#include "input.h"
-#include "worldfactory.h"
 #include "catacharset.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "filesystem.h"
+#include "game.h"
 #include "game_constants.h"
+#include "input.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "output.h"
+#include "path_info.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "worldfactory.h"
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -29,13 +30,13 @@
 #include <jni.h>
 #endif
 
-#include <stdlib.h>
-#include <string>
-#include <locale>
-#include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <cstdlib>
+#include <locale>
 #include <memory>
+#include <sstream>
+#include <string>
 
 bool trigdist;
 bool use_tiles;

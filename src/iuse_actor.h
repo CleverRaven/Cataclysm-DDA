@@ -2,19 +2,17 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
-#include "iuse.h"
-#include "game_constants.h"
+#include "calendar.h"
 #include "color.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
-#include "int_id.h"
-#include "explosion.h"
 #include "units.h"
-#include "calendar.h"
 
-#include <limits.h>
-#include <set>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 

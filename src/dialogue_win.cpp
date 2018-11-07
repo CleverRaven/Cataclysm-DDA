@@ -1,20 +1,16 @@
-#include "game.h"
-#include "map.h"
 #include "dialogue_win.h"
-#include "cata_utility.h"
-#include "catacharset.h"
-#include "debug.h"
-#include "compatibility.h"
-#include "input.h"
-#include "output.h"
-#include "ui.h"
-#include "translations.h"
 
-#include "string_formatter.h"
-#include <vector>
-#include <string>
-#include <sstream>
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "map.h"
+#include "output.h"
+#include "translations.h"
+#include "ui.h"
+
 #include <algorithm>
+#include <string>
+#include <vector>
 
 void dialogue_window::open_dialogue( bool text_only )
 {

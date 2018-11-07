@@ -2,10 +2,9 @@
 #ifndef ADDICTION_H
 #define ADDICTION_H
 
-#include <string>
-#include <functional>
-
 #include "string_id.h"
+
+#include <string>
 
 class addiction;
 class player;

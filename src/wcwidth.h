@@ -60,9 +60,8 @@
  * Latest version: http://www.cl.cam.ac.uk/~mgk25/ucs/wcwidth.c
  */
 
-#include <stdint.h>
+#include <cstdint>
 #include <wchar.h>
-#include <stdint.h>
 
 struct interval {
     uint32_t first;

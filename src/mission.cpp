@@ -1,21 +1,21 @@
 #include "mission.h"
-#include "game.h"
+
 #include "debug.h"
-#include "overmapbuffer.h"
-#include "translations.h"
-#include "requirements.h"
-#include "string_formatter.h"
-#include "overmap.h"
-#include "line.h"
+#include "game.h"
 #include "io.h"
+#include "line.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "requirements.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "translations.h"
 
-#include <sstream>
+#include <algorithm>
 #include <memory>
 #include <unordered_map>
-#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

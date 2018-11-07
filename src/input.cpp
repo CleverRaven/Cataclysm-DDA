@@ -1,29 +1,28 @@
 #include "input.h"
+
 #include "action.h"
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "json.h"
-#include "output.h"
-#include "game.h"
-#include "path_info.h"
 #include "filesystem.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "catacharset.h"
-#include "optional.h"
-#include "cata_utility.h"
-#include "options.h"
-#include "string_input_popup.h"
-#include "cursesdef.h"
-#include "popup.h"
+#include "game.h"
 #include "help.h"
+#include "json.h"
+#include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
+#include "popup.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
 
+#include <algorithm>
+#include <ctype.h>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include <errno.h>
-#include <ctype.h>
-#include <algorithm>
 
 using std::min; // from <algorithm>
 using std::max;

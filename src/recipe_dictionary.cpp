@@ -1,16 +1,15 @@
 #include "recipe_dictionary.h"
 
-#include "itype.h"
-#include "generic_factory.h"
-#include "item_factory.h"
-#include "item.h"
-#include "init.h"
 #include "cata_utility.h"
 #include "crafting.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
 #include "skill.h"
 
 #include <algorithm>
-#include <numeric>
 
 recipe_dictionary recipe_dict;
 

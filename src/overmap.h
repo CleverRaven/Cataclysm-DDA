@@ -2,25 +2,22 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "omdata.h"
-#include "overmap_types.h"
-#include "mapdata.h"
-#include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
-#include "weather_gen.h"
+#include "omdata.h"
+#include "overmap_types.h"
 #include "regional_settings.h"
+#include "weighted_list.h"
 
-#include <array>
 #include <algorithm>
+#include <array>
+#include <functional>
 #include <iosfwd>
-#include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <functional>
-#include <memory>
 
 class input_context;
 class JsonObject;

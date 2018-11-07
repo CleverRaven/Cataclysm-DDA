@@ -1,33 +1,30 @@
 #include "output.h"
-#include <string>
-#include <vector>
-#include <cstdarg>
-#include <cstring>
-#include <stdlib.h>
-#include <sstream>
-#include <stdexcept>
-#include <algorithm>
-#include <map>
-#include <memory>
-#include <errno.h>
 
-#include "color.h"
-#include "input.h"
-#include "rng.h"
-#include "options.h"
-#include "cursesdef.h"
-#include "string_formatter.h"
+#include "cata_utility.h"
 #include "catacharset.h"
-#include "units.h"
-#include "debug.h"
-#include "path_info.h"
-#include "ui.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "input.h"
 #include "item.h"
 #include "line.h"
 #include "name.h"
-#include "cata_utility.h"
+#include "options.h"
 #include "popup.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "ui.h"
+#include "units.h"
+
+#include <algorithm>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <map>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"

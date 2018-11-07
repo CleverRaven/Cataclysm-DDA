@@ -1,18 +1,18 @@
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
+#include "calendar.h"
 #include "itype.h"
+#include "json.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
 #include "overmap.h"
-#include "json.h"
 #include "player_activity.h"
-#include "calendar.h"
 
-#include <unordered_map>
-#include <string>
 #include <sstream>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace std

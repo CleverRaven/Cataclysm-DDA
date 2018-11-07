@@ -1,17 +1,16 @@
 #include "catch/catch.hpp"
 
+#include "cata_utility.h"
 #include "game.h"
+#include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "vehicle.h"
+#include "player.h"
+#include "test_statistics.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-#include "itype.h"
-#include "player.h"
-#include "cata_utility.h"
-#include "options.h"
-#include "test_statistics.h"
 
 typedef statistics<long> efficiency_stat;
 

@@ -1,25 +1,25 @@
 #include "explosion.h"
 
-#include "fragment_cloud.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "creature.h"
+#include "debug.h"
+#include "field.h"
+#include "fragment_cloud.h"
 #include "game.h"
 #include "item_factory.h"
+#include "json.h"
 #include "map.h"
+#include "messages.h"
+#include "output.h"
+#include "player.h"
 #include "projectile.h"
 #include "shadowcasting.h"
-#include "json.h"
-#include "creature.h"
-#include "character.h"
-#include "player.h"
-#include "monster.h"
-#include "vpart_position.h"
-#include "output.h"
-#include "debug.h"
-#include "messages.h"
-#include "translations.h"
 #include "sounds.h"
+#include "translations.h"
 #include "vehicle.h"
-#include "field.h"
+#include "vpart_position.h"
+
 #include <algorithm>
 #include <chrono>
 // For M_PI
@@ -27,6 +27,9 @@
 #include <cmath>
 #include <queue>
 #include <random>
+
+
+
 
 static const itype_id null_itype( "null" );
 

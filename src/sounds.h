@@ -4,8 +4,8 @@
 
 #include "enums.h" // For point
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class monster;
 class player;

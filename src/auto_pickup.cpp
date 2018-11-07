@@ -1,26 +1,26 @@
 #include "auto_pickup.h"
-#include "game.h"
-#include "player.h"
-#include "output.h"
-#include "json.h"
-#include "debug.h"
-#include "item_factory.h"
-#include "translations.h"
-#include "cata_utility.h"
-#include "path_info.h"
-#include "string_formatter.h"
-#include "filesystem.h"
-#include "input.h"
-#include "options.h"
-#include "itype.h"
-#include "string_input_popup.h"
-#include "string_id.h"
-#include "material.h"
 
-#include <stdlib.h>
+#include "cata_utility.h"
+#include "debug.h"
+#include "filesystem.h"
+#include "game.h"
+#include "input.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "material.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "string_input_popup.h"
+#include "translations.h"
+
+#include <algorithm>
 #include <sstream>
 #include <string>
-#include <locale>
 
 auto_pickup &get_auto_pickup()
 {

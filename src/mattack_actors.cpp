@@ -1,20 +1,18 @@
 #include "mattack_actors.h"
-#include <vector>
 
 #include "game.h"
+#include "generic_factory.h"
+#include "gun_mode.h"
+#include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "itype.h"
-#include "monster.h"
 #include "messages.h"
-#include "translations.h"
-#include "sounds.h"
-#include "gun_mode.h"
+#include "monster.h"
 #include "npc.h"
 #include "output.h"
-#include "debug.h"
-#include "generic_factory.h"
-#include "line.h"
+#include "sounds.h"
+#include "translations.h"
 
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );

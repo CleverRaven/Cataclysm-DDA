@@ -1,29 +1,28 @@
 #include "crafting_gui.h"
 
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "crafting.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "player.h"
-#include "itype.h"
-#include "input.h"
-#include "game.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "skill.h"
-#include "catacharset.h"
-#include "output.h"
-#include "json.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 #include "ui.h"
 #include "uistate.h"
 
-#include "debug.h"
-
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 enum TAB_MODE {
     NORMAL,

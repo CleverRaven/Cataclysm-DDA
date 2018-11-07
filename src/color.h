@@ -3,11 +3,11 @@
 #define COLOR_H
 
 #include <array>
-#include <string>
+#include <functional>
 #include <list>
+#include <string>
 #include <unordered_map>
 #include <utility>
-#include <functional>
 
 #define all_colors get_all_colors()
 

@@ -1,9 +1,6 @@
-#include "player.h"
-
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
-#include "output.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -11,16 +8,18 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "string_formatter.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 namespace
 {

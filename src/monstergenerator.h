@@ -3,14 +3,14 @@
 #define MONSTER_GENERATOR_H
 
 #include "enums.h"
-#include "string_id.h"
 #include "mattack_common.h"
 #include "pimpl.h"
+#include "string_id.h"
 
 #include <map>
 #include <memory>
-#include <vector>
 #include <set>
+#include <vector>
 
 class JsonObject;
 class Creature;

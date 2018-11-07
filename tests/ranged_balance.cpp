@@ -3,13 +3,12 @@
 #include "ballistics.h"
 #include "dispersion.h"
 #include "game.h"
+#include "map_helpers.h"
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
-#include "units.h"
-
 #include "test_statistics.h"
-#include "map_helpers.h"
+#include "units.h"
 
 #include <vector>
 

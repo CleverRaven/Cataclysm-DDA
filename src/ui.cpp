@@ -1,19 +1,19 @@
 #include "ui.h"
-#include "catacharset.h"
-#include "output.h"
-#include "debug.h"
-#include <sstream>
-#include <stdlib.h>
-#include <algorithm>
-#include <iterator>
-#include "input.h"
-#include "cursesdef.h"
-#include "uistate.h"
-#include "options.h"
-#include "game.h"
-#include "player.h"
+
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "output.h"
+#include "player.h"
 #include "string_input_popup.h"
+#include "uistate.h"
+
+#include <algorithm>
+#include <cstdarg>
+#include <iterator>
 
 #ifdef __ANDROID__
 #include "SDL_keyboard.h"

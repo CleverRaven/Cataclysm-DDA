@@ -1,8 +1,10 @@
 #include "monfaction.h"
+
 #include "debug.h"
 #include "json.h"
-#include <vector>
+
 #include <queue>
+#include <vector>
 
 std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
 std::vector< monfaction > faction_list;

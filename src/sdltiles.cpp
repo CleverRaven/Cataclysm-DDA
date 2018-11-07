@@ -1,37 +1,35 @@
 #if (defined TILES)
-#include "game.h"
+#include "cata_tiles.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
 #include "color_loader.h"
+#include "cursesdef.h"
 #include "cursesport.h"
+#include "debug.h"
+#include "filesystem.h"
 #include "font_loader.h"
+#include "game.h"
 #include "game_ui.h"
+#include "get_version.h"
+#include "init.h"
+#include "input.h"
 #include "loading_ui.h"
 #include "options.h"
 #include "output.h"
-#include "input.h"
-#include "color.h"
-#include "catacharset.h"
-#include "cursesdef.h"
-#include "debug.h"
-#include "player.h"
-#include "translations.h"
-#include "cata_tiles.h"
-#include "get_version.h"
-#include "init.h"
 #include "path_info.h"
-#include "string_formatter.h"
-#include "filesystem.h"
-#include "lightmap.h"
+#include "player.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
+
 #include <algorithm>
 #include <cstring>
-#include <vector>
 #include <fstream>
-#include <sstream>
-#include <sys/stat.h>
+#include <limits>
 #include <memory>
 #include <stdexcept>
-#include <limits>
+#include <vector>
 
 #ifdef __linux__
 #   include <cstdlib> // getenv()/setenv()

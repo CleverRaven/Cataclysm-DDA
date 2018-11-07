@@ -1,12 +1,11 @@
 #include "catch/catch.hpp"
 
-#include <iostream>
-#include <sstream>
-
-#include "player.h"
 #include "game.h"
 #include "map.h"
 #include "options.h"
+#include "player.h"
+
+#include <sstream>
 
 const trait_id trait_debug_storage( "DEBUG_STORAGE" );
 

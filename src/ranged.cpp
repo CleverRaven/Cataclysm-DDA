@@ -2,37 +2,34 @@
 
 #include "ballistics.h"
 #include "cata_utility.h"
-#include "gun_mode.h"
+#include "debug.h"
 #include "dispersion.h"
 #include "game.h"
-#include "map.h"
-#include "debug.h"
-#include "output.h"
-#include "line.h"
-#include "string_formatter.h"
-#include "rng.h"
-#include "item.h"
-#include "options.h"
-#include "action.h"
+#include "gun_mode.h"
 #include "input.h"
-#include "vpart_position.h"
-#include "messages.h"
-#include "projectile.h"
-#include "sounds.h"
-#include "translations.h"
-#include "monster.h"
-#include "npc.h"
-#include "trap.h"
+#include "item.h"
 #include "itype.h"
-#include "vehicle.h"
-#include "field.h"
-#include "mtype.h"
+#include "line.h"
+#include "map.h"
+#include "messages.h"
+#include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
+#include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #include <algorithm>
-#include <vector>
-#include <string>
 #include <cmath>
+#include <string>
+#include <vector>
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );

@@ -1,11 +1,10 @@
 #include "catch/catch.hpp"
 
-#include "bionics.h"
-#include "item.h"
 #include "ammo.h"
-#include "itype.h"
-#include "game.h"
 #include "bionics.h"
+#include "game.h"
+#include "item.h"
+#include "itype.h"
 #include "player.h"
 
 void clear_bionics( player &p )

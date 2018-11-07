@@ -2,16 +2,16 @@
 
 #include "action.h"
 #include "catacharset.h"
-#include "input.h"
-#include "output.h"
 #include "cursesdef.h"
-#include "translations.h"
-#include "text_snippets.h"
+#include "input.h"
 #include "json.h"
+#include "output.h"
 #include "path_info.h"
-#include <cmath>  // max in help_main
-#include <vector>
+#include "text_snippets.h"
+#include "translations.h"
+
 #include <algorithm>
+#include <vector>
 
 help &get_help()
 {

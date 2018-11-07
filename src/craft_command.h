@@ -2,8 +2,8 @@
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
-#include "string_id.h"
 #include "requirements.h"
+#include "string_id.h"
 
 #include <list>
 #include <string>

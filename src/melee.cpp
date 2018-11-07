@@ -1,32 +1,30 @@
 #include "melee.h"
-#include "player.h"
+
+#include "cata_utility.h"
 #include "debug.h"
+#include "field.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "itype.h"
+#include "line.h"
 #include "map.h"
-#include "debug.h"
-#include "rng.h"
+#include "map_iterator.h"
 #include "martialarts.h"
 #include "messages.h"
-#include "mutation.h"
-#include "sounds.h"
-#include "translations.h"
-#include "map_iterator.h"
 #include "monster.h"
-#include "npc.h"
-#include "itype.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "line.h"
 #include "mtype.h"
-#include "field.h"
-#include "cata_utility.h"
+#include "mutation.h"
+#include "npc.h"
+#include "output.h"
+#include "player.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
 
-#include <sstream>
-#include <stdlib.h>
 #include <algorithm>
-
-#include "cursesdef.h"
+#include <cstdlib>
+#include <sstream>
 
 static const bionic_id bio_cqb( "bio_cqb" );
 

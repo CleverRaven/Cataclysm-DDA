@@ -1,33 +1,31 @@
 #include "pickup.h"
 
 #include "auto_pickup.h"
-#include "game.h"
-#include "player.h"
-#include "map.h"
-#include "messages.h"
-#include "translations.h"
-#include "input.h"
-#include "output.h"
-#include "options.h"
-#include "ui.h"
-#include "itype.h"
-#include "vpart_position.h"
-#include "vehicle.h"
-#include "vpart_reference.h"
-#include "mapdata.h"
 #include "cata_utility.h"
-#include "string_formatter.h"
 #include "debug.h"
-#include "vehicle_selector.h"
-#include "veh_interact.h"
-#include "item_search.h"
+#include "game.h"
+#include "input.h"
 #include "item_location.h"
+#include "item_search.h"
+#include "itype.h"
+#include "map.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "options.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui.h"
+#include "veh_interact.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 #include <map>
-#include <vector>
 #include <string>
-#include <cstring>
+#include <vector>
 
 typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;

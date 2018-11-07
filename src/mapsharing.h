@@ -8,9 +8,9 @@
 #include <sys/file.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
+#include <cstdio>
 #endif // __linux__
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <string>
 #include <set>

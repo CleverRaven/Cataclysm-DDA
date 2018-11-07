@@ -1,32 +1,27 @@
 #include "sounds.h"
 
 #include "coordinate_conversions.h"
-#include "game.h"
-#include "map.h"
 #include "debug.h"
-#include "enums.h"
-#include "output.h"
-#include "overmapbuffer.h"
 #include "effect.h"
-#include "translations.h"
+#include "enums.h"
+#include "game.h"
+#include "item.h"
+#include "itype.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "line.h"
-#include "string_formatter.h"
-#include "mtype.h"
-#include "weather.h"
 #include "npc.h"
-#include "item.h"
+#include "output.h"
+#include "overmapbuffer.h"
 #include "player.h"
-#include "path_info.h"
-#include "options.h"
-#include "time.h"
-#include "mapdata.h"
-#include "itype.h"
-#include "map_iterator.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "weather.h"
 
-#include <chrono>
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 
 #ifdef SDL_SOUND

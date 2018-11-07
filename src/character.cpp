@@ -1,35 +1,35 @@
 #include "character.h"
-#include "game.h"
-#include "map.h"
+
+#include "activity_handlers.h"
 #include "bionics.h"
-#include "map_selector.h"
-#include "effect.h"
-#include "vehicle_selector.h"
+#include "cata_utility.h"
 #include "debug.h"
-#include "mission.h"
-#include "translations.h"
-#include "itype.h"
-#include "options.h"
-#include "map_iterator.h"
+#include "effect.h"
 #include "field.h"
+#include "game.h"
+#include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "map_selector.h"
 #include "messages.h"
-#include "input.h"
+#include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "player.h"
 #include "mutation.h"
-#include "skill.h"
-#include "vehicle.h"
+#include "options.h"
 #include "output.h"
-#include "veh_interact.h"
-#include "cata_utility.h"
 #include "pathfinding.h"
+#include "player.h"
+#include "skill.h"
 #include "string_formatter.h"
-#include "activity_handlers.h"
+#include "translations.h"
+#include "veh_interact.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 
 #include <algorithm>
-#include <sstream>
 #include <numeric>
+#include <sstream>
 
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );

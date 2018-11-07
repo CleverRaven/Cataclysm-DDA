@@ -1,17 +1,16 @@
 #include "iuse_software_minesweeper.h"
 
-#include "output.h"
-#include "ui.h"
-#include "rng.h"
-#include "input.h"
 #include "catacharset.h"
-#include "translations.h"
+#include "input.h"
+#include "output.h"
+#include "rng.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui.h"
 
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
-#include <cstdlib>
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
