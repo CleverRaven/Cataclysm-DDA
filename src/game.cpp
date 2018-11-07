@@ -50,7 +50,6 @@
 #include "mapdata.h"
 #include "mapsharing.h"
 #include "martialarts.h"
-#include "material.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"

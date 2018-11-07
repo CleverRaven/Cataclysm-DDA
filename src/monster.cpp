@@ -32,7 +32,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <numeric>
 #include <sstream>
 
 // Limit the number of iterations for next upgrade_time calculations.

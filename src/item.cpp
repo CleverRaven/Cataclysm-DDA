@@ -41,7 +41,6 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "ui.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"

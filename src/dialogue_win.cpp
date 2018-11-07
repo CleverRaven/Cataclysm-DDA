@@ -6,7 +6,6 @@
 #include "map.h"
 #include "output.h"
 #include "translations.h"
-#include "ui.h"
 
 #include <algorithm>
 #include <string>

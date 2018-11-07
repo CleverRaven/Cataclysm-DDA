@@ -8,7 +8,6 @@
 #include "string_id.h"
 
 #include <map>
-#include <memory>
 #include <set>
 #include <vector>
 

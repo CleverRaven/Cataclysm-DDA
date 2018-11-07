@@ -7,8 +7,6 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "init.h"
-#include "item.h"
 #include "item_group.h"
 #include "output.h"
 #include "string_formatter.h"

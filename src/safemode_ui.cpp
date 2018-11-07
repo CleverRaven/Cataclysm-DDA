@@ -18,7 +18,6 @@
 
 #include <cstdlib>
 #include <fstream>
-#include <locale>
 #include <sstream>
 #include <string>
 

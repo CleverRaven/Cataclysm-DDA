@@ -22,7 +22,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <sstream>
 #include <vector>
 
 const mtype_id mon_blob( "mon_blob" );

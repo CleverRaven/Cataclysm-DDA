@@ -1,7 +1,6 @@
 #include "mutation.h"
 
 #include "action.h"
-#include "debug.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -9,17 +8,11 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "messages.h"
 #include "monster.h"
-#include "options.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "player.h"
-#include "sounds.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "vitamin.h"
 
 #include <algorithm>
 

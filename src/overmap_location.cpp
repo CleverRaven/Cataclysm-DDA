@@ -5,7 +5,6 @@
 #include "rng.h"
 
 #include <algorithm>
-#include <unordered_map>
 
 namespace
 {
