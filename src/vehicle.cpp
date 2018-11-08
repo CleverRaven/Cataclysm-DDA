@@ -2316,11 +2316,6 @@ int vehicle::part_at( const point dp ) const
     return -1;
 }
 
-int vehicle::global_part_at( int const x, int const y ) const
-{
-    return part_at( point( x - global_pos3().x, y - global_pos3().y ) );
-}
-
 /**
  * Given a vehicle part which is inside of this vehicle, returns the index of
  * that part. This exists solely because activities relating to vehicle editing
