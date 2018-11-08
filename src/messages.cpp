@@ -12,6 +12,7 @@
 #include "translations.h"
 
 #ifdef __ANDROID__
+#include "options.h"
 #include "SDL_keyboard.h"
 #endif
 
