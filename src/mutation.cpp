@@ -119,13 +119,6 @@ int Character::get_mod( const trait_id &mut, std::string arg ) const
     if( found != mod_data.end() ) {
         ret += found->second;
     }
-    /* Deactivated due to inability to store active mutation state
-    if (has_active_mutation(mut)) {
-        found = mod_data.find(std::make_pair(true, arg));
-        if (found != mod_data.end()) {
-            ret += found->second;
-        }
-    } */
     return ret;
 }
 
