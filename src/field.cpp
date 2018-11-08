@@ -1,34 +1,32 @@
 #include "field.h"
-#include "rng.h"
-#include "map.h"
+
+#include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "emit.h"
 #include "enums.h"
 #include "fire.h"
-#include "game.h"
 #include "fungal_effects.h"
-#include "messages.h"
-#include "vpart_position.h"
-#include "translations.h"
-#include "material.h"
-#include "monster.h"
-#include "npc.h"
-#include "trap.h"
+#include "game.h"
 #include "itype.h"
-#include "emit.h"
-#include "vehicle.h"
-#include "output.h"
-#include "calendar.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "emit.h"
-#include "scent_map.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "morale_types.h"
+#include "mapdata.h"
+#include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
+#include "output.h"
+#include "rng.h"
+#include "scent_map.h"
+#include "submap.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
-#include <queue>
 #include <algorithm>
+#include <queue>
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -46,6 +44,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teargas( "teargas" );
 const efftype_id effect_webbed( "webbed" );
 
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 
 #define INBOUNDS(x, y) \
@@ -558,32 +557,17 @@ int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
     return ter.movecost + furn.movecost;
 }
 
-// A helper to turn neighbor index back into a tripoint
-// Ugly, but can save time where it matters
-tripoint offset_by_index( const size_t index, const tripoint &base )
-{
-    switch( index ) {
-        case 0:
-            return tripoint( base.x - 1, base.y - 1, base.z );
-        case 1:
-            return tripoint( base.x, base.y - 1, base.z );
-        case 2:
-            return tripoint( base.x + 1, base.y - 1, base.z );
-        case 3:
-            return tripoint( base.x - 1, base.y, base.z );
-        case 4:
-            return tripoint( base.x + 1, base.y, base.z );
-        case 5:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        case 6:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        case 7:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        default:
-            debugmsg( "offset_by_index got invalid index: %d", index );
-            return tripoint_min;
+static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { -1, -1, 0 },
+        {  0, -1, 0 },
+        { +1, -1, 0 },
+        { -1,  0, 0 },
+        { +1,  0, 0 },
+        { -1, +1, 0 },
+        {  0, +1, 0 },
+        { +1, +1, 0 },
     }
-}
+};
 
 bool at_edge( const size_t x, const size_t y )
 {
@@ -617,14 +601,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
         const bool east = pt.x < SEEX * my_MAPSIZE - 1;
         const bool south = pt.y < SEEY * my_MAPSIZE - 1;
         return std::array< maptile, 8 > { {
-                maptile_has_bounds( {pt.x - 1, pt.y - 1, pt.z}, west &&north ),
-                maptile_has_bounds( {pt.x, pt.y - 1, pt.z}, north ),
-                maptile_has_bounds( {pt.x + 1, pt.y - 1, pt.z}, east &&north ),
-                maptile_has_bounds( {pt.x - 1, pt.y, pt.z}, west ),
-                maptile_has_bounds( {pt.x + 1, pt.y, pt.z}, east ),
-                maptile_has_bounds( {pt.x - 1, pt.y + 1, pt.z}, west &&south ),
-                maptile_has_bounds( {pt.x, pt.y + 1, pt.z}, south ),
-                maptile_has_bounds( {pt.x + 1, pt.y + 1, pt.z}, east &&south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[0], west &&north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[1], north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[2], east &&north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[3], west ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[4], east ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[5], west &&south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[6], south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[7], east &&south ),
             }
         };
     };
@@ -687,7 +671,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         }
 
         auto neighs = get_neighbors( p );
-        const size_t end_it = ( size_t )rng( 0, neighs.size() - 1 );
+        const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
         std::vector<size_t> spread;
         spread.reserve( 8 );
         // Start at end_it + 1, then wrap around until i == end_it
@@ -1060,7 +1044,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // if there is more fire there, make it bigger and give it some fuel.
                                 // This is how big fires spend their excess age:
                                 // making other fires bigger. Flashpoint.
-                                const size_t end_it = ( size_t )rng( 0, neighs.size() - 1 );
+                                const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                                 for( size_t i = ( end_it + 1 ) % neighs.size();
                                      i != end_it && cur.getFieldAge() < 0_turns;
                                      i = ( i + 1 ) % neighs.size() ) {
@@ -1144,7 +1128,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // Our iterator will start at end_i + 1 and increment from there and then wrap around.
                         // This guarantees it will check all neighbors, starting from a random one
-                        const size_t end_i = ( size_t )rng( 0, neighs.size() - 1 );
+                        const size_t end_i = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                         for( size_t i = ( end_i + 1 ) % neighs.size();
                              i != end_i; i = ( i + 1 ) % neighs.size() ) {
                             if( one_in( cur.getFieldDensity() * 2 ) ) {
@@ -1181,7 +1165,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                                    nearwebfld || ( dst.get_item_count() > 0 && flammable_items_at( offset_by_index( i, p ) ) &&
+                                    nearwebfld || ( dst.get_item_count() > 0 &&
+                                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
                                                     one_in( 5 ) )
                                 ) ) {
                                 dst.add_field( fd_fire, 1, 0_turns ); // Nearby open flammable ground? Set it on fire.
@@ -2021,7 +2006,13 @@ void map::player_in_field( player &u )
                 }
 
                 if( total_damage > 0 ) {
-                    u.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
+                    if( u.has_trait( trait_ELECTRORECEPTORS ) ) {
+                        u.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
+                                                 _( "<npcname> is shocked!" ) );
+                        u.mod_pain( total_damage / 2 );
+                    } else {
+                        u.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
+                    }
                 } else {
                     u.add_msg_player_or_npc( _( "The electric cloud doesn't affect you." ),
                                              _( "The electric cloud doesn't seem to affect <npcname>." ) );
@@ -2212,25 +2203,20 @@ void map::monster_in_field( monster &z )
 
             // MATERIALS-TODO: Use fire resistance
             case fd_fire:
-                if( z.has_flag( MF_FIREPROOF ) ) {
+                if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
                     return;
                 }
                 // TODO: Replace the section below with proper json values
-                if( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                    z.made_of( material_id( "iflesh" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flesh ) ) {
                     dam += 3;
                 }
                 if( z.made_of( material_id( "veggy" ) ) ) {
                     dam += 12;
                 }
-                if( z.made_of( material_id( "paper" ) ) || z.made_of( LIQUID ) ||
-                    z.made_of( material_id( "powder" ) ) ||
-                    z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) ||
-                    z.made_of( material_id( "wool" ) ) ) {
+                if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                     dam += 20;
                 }
-                if( z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) ||
-                    z.made_of( material_id( "steel" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flameres ) ) {
                     dam += -20;
                 }
                 if( z.has_flag( MF_FLIES ) ) {
@@ -2273,9 +2259,7 @@ void map::monster_in_field( monster &z )
                 break;
 
             case fd_tear_gas:
-                if( ( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                      z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) ) ) &&
-                    !z.has_flag( MF_NO_BREATHE ) ) {
+                if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( MF_NO_BREATHE ) ) {
                     if( cur.getFieldDensity() == 3 ) {
                         z.add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
                         dam += rng( 4, 10 );
@@ -2296,9 +2280,7 @@ void map::monster_in_field( monster &z )
                 break;
 
             case fd_relax_gas:
-                if( ( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                      z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) ) ) &&
-                    !z.has_flag( MF_NO_BREATHE ) ) {
+                if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( MF_NO_BREATHE ) ) {
                     z.add_effect( effect_stunned, rng( cur.getFieldDensity() * 4_turns,
                                                        cur.getFieldDensity() * 8_turns ) );
                 }
@@ -2339,21 +2321,19 @@ void map::monster_in_field( monster &z )
 
             // MATERIALS-TODO: Use fire resistance
             case fd_flame_burst:
-                if( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                    z.made_of( material_id( "iflesh" ) ) ) {
+                if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
+                    return;
+                }
+                if( z.made_of_any( Creature::cmat_flesh ) ) {
                     dam += 3;
                 }
                 if( z.made_of( material_id( "veggy" ) ) ) {
                     dam += 12;
                 }
-                if( z.made_of( material_id( "paper" ) ) || z.made_of( LIQUID ) ||
-                    z.made_of( material_id( "powder" ) ) ||
-                    z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) ||
-                    z.made_of( material_id( "wool" ) ) ) {
+                if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                     dam += 50;
                 }
-                if( z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) ||
-                    z.made_of( material_id( "steel" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flameres ) ) {
                     dam += -25;
                 }
                 dam += rng( 0, 8 );
@@ -2393,21 +2373,19 @@ void map::monster_in_field( monster &z )
 
             case fd_incendiary:
                 // MATERIALS-TODO: Use fire resistance
-                if( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) ||
-                    z.made_of( material_id( "iflesh" ) ) ) {
+                if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
+                    return;
+                }
+                if( z.made_of_any( Creature::cmat_flesh ) ) {
                     dam += 3;
                 }
                 if( z.made_of( material_id( "veggy" ) ) ) {
                     dam += 12;
                 }
-                if( z.made_of( material_id( "paper" ) ) || z.made_of( LIQUID ) ||
-                    z.made_of( material_id( "powder" ) ) ||
-                    z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) ||
-                    z.made_of( material_id( "wool" ) ) ) {
+                if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                     dam += 20;
                 }
-                if( z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) ||
-                    z.made_of( material_id( "steel" ) ) ) {
+                if( z.made_of_any( Creature::cmat_flameres ) ) {
                     dam += -5;
                 }
 
@@ -2416,17 +2394,13 @@ void map::monster_in_field( monster &z )
                 } else if( cur.getFieldDensity() == 2 ) {
                     dam += rng( 6, 12 );
                     z.moves -= 20;
-                    if( !z.made_of( LIQUID ) && !z.made_of( material_id( "stone" ) ) &&
-                        !z.made_of( material_id( "kevlar" ) ) &&
-                        !z.made_of( material_id( "steel" ) ) && !z.has_flag( MF_FIREY ) ) {
+                    if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                         z.add_effect( effect_onfire, rng( 8_turns, 12_turns ) );
                     }
                 } else if( cur.getFieldDensity() == 3 ) {
                     dam += rng( 10, 20 );
                     z.moves -= 40;
-                    if( !z.made_of( LIQUID ) && !z.made_of( material_id( "stone" ) ) &&
-                        !z.made_of( material_id( "kevlar" ) ) &&
-                        !z.made_of( material_id( "steel" ) ) && !z.has_flag( MF_FIREY ) ) {
+                    if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                         z.add_effect( effect_onfire, rng( 12_turns, 16_turns ) );
                     }
                 }
@@ -2458,7 +2432,7 @@ void map::monster_in_field( monster &z )
     }
 
     if( dam > 0 ) {
-        z.apply_damage( nullptr, bp_torso, dam );
+        z.apply_damage( nullptr, bp_torso, dam, true );
         z.check_dead_state();
     }
 }
@@ -2733,7 +2707,7 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
                     continue;
                 }
 
-                open.push( { ( float )rl_dist( center, pt ), pt } );
+                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
             }
         }
     }

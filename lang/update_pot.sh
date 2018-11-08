@@ -31,7 +31,7 @@ xgettext --default-domain="cataclysm-dda" \
          --keyword="translate_marker" \
          --keyword="translate_marker_context:1c,2" \
          --from-code="UTF-8" \
-         src/*.cpp src/*.h lang/json/*.py lang/extra/android/*.cpp
+         src/*.cpp src/*.h lang/json/*.py
 if [ $? -ne 0 ]; then
     echo "Error in xgettext. Aborting"
     exit 1

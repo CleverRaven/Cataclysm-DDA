@@ -1,52 +1,47 @@
 #include "mapgen.h"
 
-#include "coordinate_conversions.h"
-#include "drawing_primitives.h"
-#include "omdata.h"
-#include "output.h"
-#include "game.h"
-#include "fungal_effects.h"
-#include "rng.h"
-#include "line.h"
-#include "debug.h"
-#include "options.h"
-#include "vpart_range.h"
 #include "ammo.h"
-#include "item_group.h"
-#include "mapgen_functions.h"
-#include "string_formatter.h"
-#include "mapgenformat.h"
-#include "mapbuffer.h"
-#include "overmapbuffer.h"
+#include "catalua.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "drawing_primitives.h"
 #include "enums.h"
-#include "monstergenerator.h"
-#include "vpart_position.h"
-#include "mongroup.h"
+#include "game.h"
+#include "item_group.h"
+#include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "mapgen_functions.h"
+#include "mapgenformat.h"
+#include "mongroup.h"
+#include "mtype.h"
+#include "npc.h"
+#include "omdata.h"
+#include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "submap.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "overmap.h"
-#include "mapgen_functions.h"
-#include "mtype.h"
-#include "itype.h"
-#include "computer.h"
-#include "optional.h"
-#include "map_iterator.h"
+#include "vehicle.h"
+#include "vehicle_group.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <sstream>
-#include "json.h"
-#include "coordinates.h"
-#include "npc.h"
-#include "vehicle.h"
-#include "vehicle_group.h"
-#include "catalua.h"
-#include "text_snippets.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -67,6 +62,7 @@ const mtype_id mon_dog_thing( "mon_dog_thing" );
 const mtype_id mon_eyebot( "mon_eyebot" );
 const mtype_id mon_flaming_eye( "mon_flaming_eye" );
 const mtype_id mon_flying_polyp( "mon_flying_polyp" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
 const mtype_id mon_fungal_fighter( "mon_fungal_fighter" );
 const mtype_id mon_gelatin( "mon_gelatin" );
 const mtype_id mon_gozu( "mon_gozu" );
@@ -105,7 +101,7 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( oter_id there, int dir_from_here );
+bool connects_to( const oter_id &there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
@@ -1294,7 +1290,7 @@ class jmapgen_computer : public jmapgen_piece
         }
 };
 
-static void load_weighted_entries( JsonObject &jsi, std::string json_key,
+static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
     JsonArray jarr = jsi.get_array( json_key );
@@ -1409,17 +1405,17 @@ jmapgen_objects::jmapgen_objects( int off_x, int off_y, size_t mapsize_x, size_t
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || place.x.val > ( int )mapgensize_x - 1 ||
-        place.y.val < 0 || place.y.val > ( int )mapgensize_y - 1 ) {
+    if( place.x.val < 0 || place.x.val > static_cast<int>( mapgensize_x ) - 1 ||
+        place.y.val < 0 || place.y.val > static_cast<int>( mapgensize_y ) - 1 ) {
         return false;
     }
 
-    if( ( size_t )place.x.valmax > mapgensize_x - 1 ) {
+    if( static_cast<size_t>( place.x.valmax ) > mapgensize_x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
         return false;
     }
 
-    if( ( size_t )place.y.valmax > mapgensize_y - 1 ) {
+    if( static_cast<size_t>( place.y.valmax ) > mapgensize_y - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
         return false;
     }
@@ -1877,7 +1873,7 @@ void mapgen_function_json_base::setup_common()
                 } else if( ! qualifies ) {  // fill_ter should make this kosher
                     parray.throw_error(
                         string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, ( char )tmpkey ) );
+                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
                 }
                 auto iter_furn = format_furniture.find( tmpkey );
                 if( iter_furn != format_furniture.end() ) {
@@ -2004,7 +2000,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
             case JMAPGEN_SETMAP_LINE_RADIATION: {
                 const std::vector<point> line = line_to( x_get(), y_get(), x2_get(), y2_get(), 0 );
                 for( auto &i : line ) {
-                    m.set_radiation( i.x, i.y, ( int )val.get() );
+                    m.set_radiation( i.x, i.y, static_cast<int>( val.get() ) );
                 }
             }
             break;
@@ -2038,7 +2034,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
                 const int cy2 = y2_get();
                 for( int tx = cx; tx <= cx2; tx++ ) {
                     for( int ty = cy; ty <= cy2; ty++ ) {
-                        m.set_radiation( tx, ty, ( int )val.get() );
+                        m.set_radiation( tx, ty, static_cast<int>( val.get() ) );
                     }
                 }
             }
@@ -2211,16 +2207,14 @@ void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const m
 // track down what is and isn't supposed to be carried around between bits of code.
 // I suggest that we break the function down into smaller parts
 
-void map::draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                    const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                    const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
-                    const int zlevel, const regional_settings *rsettings )
+void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
+                    const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
+                    const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
+                    const oter_id &t_above, const oter_id &t_below, const time_point &when,
+                    const float density, const int zlevel, const regional_settings *rsettings )
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_LAB( "GROUP_LAB" );
-    static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
-    static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -3424,7 +3418,7 @@ ___DEEE|.R.|...,,...|sss\n",
 
         // Lab special effects.
         if( one_in( 10 ) ) {
-            switch( rng( 1, 6 ) ) {
+            switch( rng( 1, 7 ) ) {
                 // full flooding/sewage
                 case 1: {
                     if( is_ot_subtype( "stairs", terrain_type ) || is_ot_subtype( "ice", terrain_type ) ) {
@@ -3436,7 +3430,8 @@ ___DEEE|.R.|...,,...|sss\n",
                     for( int i = 0; i < SEEX * 2 - 1; i++ ) {
                         for( int j = 0; j < SEEY * 2 - 1; j++ ) {
                             // We spare some terrain to make it look better visually.
-                            if( !one_in( 10 ) && ( t_thconc_floor == ter( i, j ) || t_strconc_floor == ter( i, j ) ) ) {
+                            if( !one_in( 10 ) && ( t_thconc_floor == ter( i, j ) || t_strconc_floor == ter( i, j ) ||
+                                                   t_thconc_floor_olight == ter( i, j ) ) ) {
                                 ter_set( i, j, fluid_type );
                             } else if( has_flag_ter( "DOOR", i, j ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3458,7 +3453,8 @@ ___DEEE|.R.|...,,...|sss\n",
                     auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( int x, int y ) {
-                            if( t_thconc_floor == ter( x, y ) || t_strconc_floor == ter( x, y ) ) {
+                            if( t_thconc_floor == ter( x, y ) || t_strconc_floor == ter( x, y ) ||
+                                t_thconc_floor_olight == ter( x, y ) ) {
                                 ter_set( x, y, fluid_type );
                             } else if( has_flag_ter( "DOOR", x, y ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3512,11 +3508,11 @@ ___DEEE|.R.|...,,...|sss\n",
                     create_anomaly( center, random_entry( valid_props ), false );
                     break;
                 }
-                // damaged mininuke accident.
+                // radioactive accident.
                 case 6: {
                     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
                     if( has_flag_ter( "WALL", center.x, center.y ) ) {
-                        return;  // just skip it, we don't want to risk embedding radiation out of sight.
+                        break;  // just skip it, we don't want to risk embedding radiation out of sight.
                     }
                     draw_rough_circle( [this]( int x, int y ) {
                         set_radiation( x, y, 10 );
@@ -3543,9 +3539,62 @@ ___DEEE|.R.|...,,...|sss\n",
                     if( one_in( 2 ) ) {
                         add_spawn( mon_hazmatbot, 1, center.x + 1, center.y );
                     }
-                    // damaged mininuke thrown past edge of rubble so the player can see it.
-                    spawn_item( center.x - 2 + 4 * rng( 0, 1 ), center.y + rng( -2, 2 ),
-                                "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                    // damaged mininuke/plut thrown past edge of rubble so the player can see it.
+                    int marker_x = center.x - 2 + 4 * rng( 0, 1 );
+                    int marker_y = center.y + rng( -2, 2 );
+                    if( one_in( 4 ) ) {
+                        spawn_item( marker_x, marker_y,
+                                    "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                    } else {
+                        item newliquid( "plut_slurry_dense", calendar::time_of_cataclysm );
+                        newliquid.charges = 1;
+                        add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ), newliquid );
+                    }
+                    break;
+                }
+                // portal with fungal invasion
+                case 7: {
+                    for( int i = 0; i < SEEX * 2 - 1; i++ ) {
+                        for( int j = 0; j < SEEY * 2 - 1; j++ ) {
+                            // Create a mostly spread fungal area throughout entire lab.
+                            if( !one_in( 5 ) && ( has_flag( "FLAT", i, j ) ) ) {
+                                ter_set( i, j, t_fungus_floor_in );
+                                if( has_flag_furn( "ORGANIC", i, j ) ) {
+                                    furn_set( i, j, f_fungal_clump );
+                                }
+                            } else if( has_flag_ter( "DOOR", i, j ) && !one_in( 5 ) ) {
+                                ter_set( i, j, t_fungus_floor_in );
+                            } else if( has_flag_ter( "WALL", i, j ) && one_in( 3 ) ) {
+                                ter_set( i, j, t_fungus_wall );
+                            }
+                        }
+                    }
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+
+                    // Make a portal surrounded by more dense fungal stuff and a fungaloid.
+                    draw_rough_circle( [this]( int x, int y ) {
+                        if( has_flag_ter( "GOES_DOWN", x, y ) ||
+                            has_flag_ter( "GOES_UP", x, y ) ||
+                            has_flag_ter( "CONSOLE", x, y ) ) {
+                            return; // spare stairs and consoles.
+                        }
+                        if( has_flag_ter( "WALL", x, y ) ) {
+                            ter_set( x, y, t_fungus_wall );
+                        } else {
+                            ter_set( x, y, t_fungus_floor_in );
+                            if( one_in( 3 ) ) {
+                                furn_set( x, y, f_flower_fungal );
+                            } else if( one_in( 10 ) ) {
+                                ter_set( x, y, t_marloss );
+                            }
+                        }
+                    }, center.x, center.y, 3 );
+                    ter_set( center.x, center.y, t_fungus_floor_in );
+                    furn_set( center.x, center.y, f_null );
+                    trap_set( center, tr_portal );
+
+                    add_spawn( mon_fungaloid, 1, center.x - 2 + 4 * rng( 0, 1 ), center.y + rng( -2, 2 ) );
+
                     break;
                 }
             }
@@ -6703,9 +6752,9 @@ void map::place_vending( int x, int y, const std::string &type, bool reinforced 
     }
 }
 
-int map::place_npc( int x, int y, const string_id<npc_template> &type )
+int map::place_npc( int x, int y, const string_id<npc_template> &type, bool force )
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ) {
+    if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     std::shared_ptr<npc> temp = std::make_shared<npc>();
@@ -6716,7 +6765,8 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     return temp->getID();
 }
 
-std::vector<item *> map::place_items( const items_location loc, const int chance, const tripoint &f,
+std::vector<item *> map::place_items( const items_location &loc, const int chance,
+                                      const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
@@ -6726,7 +6776,7 @@ std::vector<item *> map::place_items( const items_location loc, const int chance
 
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
-std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
+std::vector<item *> map::place_items( const items_location &loc, int chance, int x1, int y1,
                                       int x2, int y2, bool ongrass, const time_point &turn,
                                       int magazine, int ammo )
 {
@@ -6782,7 +6832,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
     return res;
 }
 
-std::vector<item *> map::put_items_from_loc( items_location loc, const tripoint &p,
+std::vector<item *> map::put_items_from_loc( const items_location &loc, const tripoint &p,
         const time_point &turn )
 {
     const auto items = item_group::items_from( loc, turn );
@@ -6900,7 +6950,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    const bool can_float = size( veh->parts_with_feature( "FLOATS" ) ) > 2;
+    const bool can_float = size( veh->get_parts( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
@@ -7279,7 +7329,7 @@ void map::rotate( int turns )
 }
 
 // Hideous function, I admit...
-bool connects_to( oter_id there, int dir )
+bool connects_to( const oter_id &there, int dir )
 {
     switch( dir ) {
         case 2:

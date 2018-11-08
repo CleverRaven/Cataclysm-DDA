@@ -816,7 +816,7 @@
         "description" : "A liquid that is made up of propylene glycol, vegetable glycerin, flavorings and nicotine.",
         "container" : "bottle_plastic_small",
         "phase" : "liquid",
-        "volume" : 0,
+        "volume" : 1,
         "weight" : 2,
         "ammo_type" : "components",
         "count" : 50

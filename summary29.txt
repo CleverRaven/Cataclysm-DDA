@@ -1,0 +1,100 @@
+Interface Fix signs message in extended description
+Bugfixes Fix string to const char * convent error.
+Content food processor
+Content Add a food processor to the FOODCO kitchen buddy
+Infrastructure Add char_validity_check unit-test
+Interface Talk to NPCs from the menu for examining them
+Bugfixes Prevent infinite loop in monster movement
+Infrastructure Fixes for misc issues found by valgrind.
+Balance Removed plastic from materials of jumpsuit and xl jumpsuit
+Infrastructure Remove unused 'utf8_substr' function
+Infrastructure Remove sudo from travis config since trusty is the default now.
+Interface Added ability to save and restore default layout for advanced inventory.
+Features Contained fires will burn through all its items continuously
+Infrastructure Add catacharset.cpp unit test
+Interface [minor]Fix two broken wiki link
+Performance Faster inventory menus
+Bugfixes Fix overmap special spawning
+Build Improve dependency file generation in the makefiles
+I18N Add 'translate_marker' macro for xgettext to extract strings for translation
+Infrastructure Removed unused 'erease_utf8_by_cw' function
+Infrastructure Update Catch to v1.9.6
+Balance Changes to Mediaval Swordsmanship counterattack
+Bugfixes fix: damaged arms cause more acid damage when crawling through puddles
+I18N Fix language switching not affecting weather names
+Performance Fix weather data performance impact.
+Balance Makeshift flotation vest
+Features Gunmods contribute "ammo_effects" to the main weapon
+Infrastructure Add missing include for setlocale.
+Interface Renamed Vacutainer© to Blood draw kit.
+Interface Forgot to recalc panes when restoring advanced inventory layout.
+Features Health rework
+Infrastructure Shorten calendar::day_of_week
+Balance Small martial arts fixes
+Interface In the crafting GUI, show which books provide this recipe
+Interface Added point pool restriction option in world generation settings
+I18N i18n: Fix language switching not affecting material names
+I18N i18n: Fix language switching not affecting mod selection UI (part 1)
+Bugfixes Prevent loaded batteries from being heavier
+Infrastructure Astyling, the revenge.
+Content Dairy farm
+I18N i18n: Decouple calendar::name_season from static const array
+Features Change crossbow firing skills to match related firearms.
+Features Moddable Milking Monsters
+Interface Customize Consume Item menu
+Balance Make metabolic mutations more interesting
+Infrastructure Still more astyling.
+Interface Added more informative text when trying to install bionics depending on player's first aid skill
+Mods Atomic vehicles for Bright nights mod
+Infrastructure Use dedicated type for mass/weight values.
+Infrastructure Use get_files_from_path instead of platform dependant code.
+Infrastructure Use shared_ptr in oter_mapgen instead of raw pointers to store mapgen_function
+I18N i18n: Fix language switching not affecting lighting level names
+Infrastructure Another attempt at travis+makefile+clang
+Features Crossbow firing skill update, part 2
+Balance Added trench knife to Pentjak Silat and Eskrima techniques
+Interface No exact numbers of damage on NPC attack
+Infrastructure Remove unneeded const
+Balance Small fix for json (martial arts)
+Balance Small fix for json (newspaper)
+Interface Added monster info in extended description.
+Infrastructure Fix links to docs/*
+Interface Fix player lifetime stats
+I18N Store untranslated strings in fieldlist
+Infrastructure Use references to npc instead of pointers in mission_companion.cpp
+Balance Buffed M240 durability to 9
+Bugfixes Fix the crash when attaching UPS conversion mod (#21293)
+Interface Smarter animation delays + UI popups with a "hourglass"
+Interface Add default book recipe difficulty instead of requiring it to be specified every time
+Bugfixes Fix NPC trade and item rewards
+Mods Fix plural names in Arcana mod
+Interface Forbid options for waiting till X when underground
+Infrastructure Updated terrain in farm mapgen
+Balance Changed Barrett M107 into a weapons system
+Balance Nerfed .357 Magnum P ammo to 20 count
+Infrastructure Add JSON mapgen for computer class, jsonize evac shelter
+Balance Allow disassembly of glass sheets into shards
+I18N Fix translation of material names for menu item name
+I18N Unneeded translate call
+I18N Don't store the translated name of options / tool tips / values / page names.
+I18N Don't store translated artifact strings.
+Performance Implement deferred color loading. Fix field coloring.
+Balance Home Improvement superstore itemgroup overhaul, part 1
+Infrastructure Overmap overhaul (step 8)
+Infrastructure Replace pointers with references in iuse actors
+Infrastructure Crossbow and bolts moved to ranged json out of archery.json
+I18N Don't store translated mtype description.
+Infrastructure Automatically initialize static faction data
+Infrastructure Body part jsonization: part 2
+Infrastructure Turn MIN_RECOIL into MAX_RECOIL, standardize "hip fire" recoil
+Infrastructure STR_DRAW math calculation change
+Balance Removed OBSTACLE on cranes and UNMOUNT ON DAMAGE
+Build Fixed compile problem in VS.
+Balance Added floor under makeshift bed in alternate farmhouse
+Infrastructure Added myself to SIGNOFF
+Balance Changed USP .45 into Tactical model and removed "ranged_damage"
+Bugfixes Fix NPC infinite loop
+Balance Changed Lawnmower Weight
+Bugfixes Fixed taming dogs
+Features Option to yell sentences
+Bugfixes Fix font settings loading

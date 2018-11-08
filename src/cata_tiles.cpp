@@ -1,49 +1,46 @@
 #if (defined TILES)
 #include "cata_tiles.h"
 
-#include "coordinate_conversions.h"
-#include "debug.h"
-#include "json.h"
-#include "path_info.h"
-#include "monstergenerator.h"
-#include "item_factory.h"
-#include "item.h"
-#include "veh_type.h"
-#include "filesystem.h"
-#include "sounds.h"
-#include "map.h"
-#include "trap.h"
-#include "monster.h"
-#include "vpart_position.h"
-#include "options.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "npc.h"
+#include "cata_utility.h"
 #include "catacharset.h"
-#include "itype.h"
-#include "vpart_reference.h"
-#include "vehicle.h"
-#include "game.h"
-#include "mapdata.h"
-#include "mtype.h"
+#include "clzones.h"
+#include "coordinate_conversions.h"
+#include "cursesport.h"
+#include "debug.h"
 #include "field.h"
-#include "weather.h"
-#include "weighted_list.h"
-#include "submap.h"
+#include "game.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "map.h"
+#include "mapdata.h"
+#include "mod_tileset.h"
+#include "monster.h"
+#include "monstergenerator.h"
+#include "mtype.h"
+#include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
-#include "cata_utility.h"
-#include "cursesport.h"
+#include "path_info.h"
+#include "player.h"
 #include "rect_range.h"
-#include "clzones.h"
-#include "mod_tileset.h"
+#include "sounds.h"
+#include "submap.h"
+#include "trap.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
+#include "weather.h"
+#include "weighted_list.h"
 
-#include <cassert>
 #include <algorithm>
-#include <fstream>
-#include <stdlib.h>     /* srand, rand */
-#include <sstream>
 #include <array>
+#include <cassert>
+#include <cstdlib>
+#include <fstream>
 
 #include <SDL_image.h>
 
@@ -207,6 +204,7 @@ cata_tiles::cata_tiles( SDL_Renderer *render )
     do_draw_bullet = false;
     do_draw_hit = false;
     do_draw_line = false;
+    do_draw_cursor = false;
     do_draw_weather = false;
     do_draw_sct = false;
     do_draw_zones = false;
@@ -567,8 +565,8 @@ void cata_tiles::set_draw_scale( int scale )
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
     tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
 
-    tile_ratiox = ( ( float )tile_width / ( float )fontwidth );
-    tile_ratioy = ( ( float )tile_height / ( float )fontheight );
+    tile_ratiox = ( static_cast<float>( tile_width ) / static_cast<float>( fontwidth ) );
+    tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
 }
 
 void tileset_loader::load( const std::string &tileset_id, const bool precheck )
@@ -1183,11 +1181,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
 
-    g->u.finalize_tile_memory();
-
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
-                   do_draw_weather || do_draw_sct ||
+                   do_draw_cursor || do_draw_weather || do_draw_sct ||
                    do_draw_zones;
 
     draw_footsteps_frame();
@@ -1221,6 +1217,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             draw_zones_frame();
             void_zones();
         }
+        if( do_draw_cursor ) {
+            draw_cursor();
+            void_cursor();
+        }
     } else if( g->u.posx() + g->u.view_offset.x != g->ter_view_x ||
                g->u.posy() + g->u.view_offset.y != g->ter_view_y ) {
         // check to see if player is located at ter
@@ -1228,11 +1228,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT, false );
     }
     if( g->u.controlling_vehicle ) {
-        tripoint indicator_offset = g->get_veh_dir_indicator_location( true );
-        if( indicator_offset != tripoint_min ) {
+        if( cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
             draw_from_id_string( "cursor", C_NONE, empty_string, {
-                indicator_offset.x + g->u.posx(),
-                indicator_offset.y + g->u.posy(), center.z
+                indicator_offset->x + g->u.posx(),
+                indicator_offset->y + g->u.posy(), center.z
             },
             0, 0, LL_LIT, false );
         }
@@ -1637,10 +1636,10 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
         int &rows ) const
 {
-    columns = tile_iso ? ceil( ( double ) width / tile_width ) * 2 + 4 : ceil( (
-                  double ) width / tile_width );
-    rows = tile_iso ? ceil( ( double ) height / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil( (
-                double ) height / tile_height );
+    columns = tile_iso ? ceil( static_cast<double>( width ) / tile_width ) * 2 + 4 : ceil(
+                  static_cast<double>( width ) / tile_width );
+    rows = tile_iso ? ceil( static_cast<double>( height ) / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil(
+               static_cast<double>( height ) / tile_height );
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,
@@ -1972,8 +1971,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         {
             // new scope for variable declarations
             const optional_vpart_position vp = g->m.veh_at( pos );
-            vehicle_part &part = vp->vehicle().parts[vp->part_index()];
-            seed = part.mount.x + part.mount.y * 65536;
+            seed = vp->mount().x + vp->mount().y * 65536;
         }
         break;
         case C_ITEM:
@@ -2283,7 +2281,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
     }
 
     const std::string &tname = t.obj().id.str();
-    g->u.memorize_tile( p, tname, subtile, rotation );
+    g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
 
     return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );
@@ -2294,8 +2292,8 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
     if( !g->u.should_show_map_memory() ) {
         return false;
     }
-    const memorized_terrain_tile t = g->u.get_memorized_terrain( p );
-    if( t.tile == "" ) {
+    const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+    if( t.tile.empty() ) {
         return false;
     }
 
@@ -2327,7 +2325,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     // get the name of this furniture piece
     const std::string &f_name = f_id.obj().id.str();
-    g->u.memorize_tile( p, f_name, subtile, rotation );
+    g->u.memorize_tile( g->m.getabs( p ), f_name, subtile, rotation );
 
     bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
                                     nv_goggles_activated, height_3d );
@@ -2355,7 +2353,7 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
     int rotation = 0;
     get_tile_values( tr.loadid, neighborhood, subtile, rotation );
 
-    g->u.memorize_tile( p, tr.id.str(), subtile, rotation );
+    g->u.memorize_tile( g->m.getabs( p ), tr.id.str(), subtile, rotation );
 
     return draw_from_id_string( tr.id.str(), C_TRAP, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );
@@ -2491,11 +2489,11 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
                 break;
         }
     }
-    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO" );
+    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
 
     if( !veh->forward_velocity() ) {
-        g->u.memorize_tile( p, vpid, subtile, veh_dir );
+        g->u.memorize_tile( g->m.getabs( p ), vpid, subtile, veh_dir );
     }
 
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
@@ -2528,7 +2526,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
     if( zone && zone->has_options() ) {
         auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
 
-        if( option && option->get_mark() != "" ) {
+        if( option && !option->get_mark().empty() ) {
             return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,
                                         nv_goggles_activated, height_3d );
         }
@@ -2673,6 +2671,11 @@ void cata_tiles::init_draw_line( const tripoint &p, std::vector<tripoint> trajec
     line_endpoint_id = std::move( name );
     line_trajectory = std::move( trajectory );
 }
+void cata_tiles::init_draw_cursor( const tripoint &p )
+{
+    do_draw_cursor = true;
+    cursors.emplace_back( p );
+}
 void cata_tiles::init_draw_weather( weather_printable weather, std::string name )
 {
     do_draw_weather = true;
@@ -2722,6 +2725,11 @@ void cata_tiles::void_line()
     line_pos = { -1, -1, -1 };
     line_endpoint_id.clear();
     line_trajectory.clear();
+}
+void cata_tiles::void_cursor()
+{
+    do_draw_cursor = false;
+    cursors.clear();
 }
 void cata_tiles::void_weather()
 {
@@ -2871,7 +2879,12 @@ void cata_tiles::draw_line()
 
     draw_from_id_string( line_endpoint_id, line_trajectory.back(), 0, 0, LL_LIT, false );
 }
-
+void cata_tiles::draw_cursor()
+{
+    for( const tripoint &p : cursors ) {
+        draw_from_id_string( "cursor", p, 0, 0, LL_LIT, false );
+    }
+}
 void cata_tiles::draw_weather_frame()
 {
 

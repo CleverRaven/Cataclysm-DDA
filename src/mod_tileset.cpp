@@ -1,4 +1,5 @@
 #include "mod_tileset.h"
+
 #include "json.h"
 
 #include <algorithm>
@@ -49,7 +50,7 @@ mod_tileset::mod_tileset( const mod_tileset &obj )
     copy( obj.compatibility.begin(), obj.compatibility.end(), back_inserter( compatibility ) );
 }
 
-bool mod_tileset::is_compatible( std::string tileset_id ) const
+bool mod_tileset::is_compatible( const std::string &tileset_id ) const
 {
     auto iter = std::find( compatibility.begin(), compatibility.end(), tileset_id );
     if( iter == compatibility.end() ) {
@@ -58,7 +59,7 @@ bool mod_tileset::is_compatible( std::string tileset_id ) const
     return true;
 }
 
-void mod_tileset::add_compatible_tileset( std::string tileset_id )
+void mod_tileset::add_compatible_tileset( const std::string &tileset_id )
 {
     compatibility.push_back( tileset_id );
 }

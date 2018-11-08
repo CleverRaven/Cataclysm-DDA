@@ -1,37 +1,26 @@
 #include "sidebar.h"
 
-#include "player.h"
-#include "string_formatter.h"
-#include "effect.h"
-#include "game.h"
-#include "map.h"
-#include "options.h"
-#include "gun_mode.h"
-#include "weather.h"
-#include "item.h"
-#include "translations.h"
-#include "vpart_position.h"
+#include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "effect.h"
+#include "game.h"
+#include "gun_mode.h"
+#include "item.h"
+#include "map.h"
 #include "martialarts.h"
+#include "options.h"
 #include "output.h"
-#include "input.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "vehicle.h"
-#include "cata_utility.h"
+#include "vpart_position.h"
+#include "weather.h"
 
-#include <iterator>
-
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
-
-#include <ctime>
-#include <algorithm>
-#include <numeric>
+#include <cmath>
+#include <cstdlib>
 #include <string>
-#include <sstream>
-#include <stdlib.h>
-#include <limits>
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -486,7 +475,8 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         int speedox = sideStyle ? 0 : 28;
         int speedoy = sideStyle ? 5 :  3;
 
-        const bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        const bool metric = type == "km/h";
         // @todo: Logic below is not applicable to translated units and should be changed
         const int velx    = metric ? 4 : 3; // strlen(units) + 1
         const int cruisex = metric ? 9 : 8; // strlen(units) + 6
@@ -502,8 +492,8 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
         mvwprintz( w, speedoy, speedox,        col_indf1, speedo, velocity_units( VU_VEHICLE ) );
-        mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
-                   int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
+        mvwprintz( w, speedoy, speedox + velx, col_vel,   type == "t/t" ? "%4.1f" : "%4.0f",
+                   convert_velocity( veh->velocity, VU_VEHICLE ) );
         if( veh->cruise_on ) {
             mvwprintz( w, speedoy, speedox + cruisex, c_light_green, "%4d",
                        int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );

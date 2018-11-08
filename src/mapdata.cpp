@@ -1,19 +1,17 @@
 #include "mapdata.h"
 
+#include "calendar.h"
 #include "color.h"
-#include "init.h"
+#include "debug.h"
 #include "game_constants.h"
-#include "string_formatter.h"
 #include "generic_factory.h"
 #include "harvest.h"
-#include "debug.h"
-#include "translations.h"
-#include "output.h"
-#include "item.h"
-#include "item_group.h"
-#include "calendar.h"
-#include "trap.h"
 #include "iexamine.h"
+#include "item_group.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "trap.h"
 
 #include <unordered_map>
 
@@ -341,7 +339,7 @@ void map_data_common_t::load_symbol( JsonObject &jo )
         } else if( str.length() != 1 ) {
             jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
         }
-        return ( int ) str[0];
+        return static_cast<int>( str[0] );
     } );
 
     const bool has_color = jo.has_member( "color" );
@@ -883,7 +881,8 @@ furn_id f_null,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
         f_smoking_rack, f_smoking_rack_active,
         f_robotic_arm, f_vending_reinforced,
-        f_brazier;
+        f_brazier,
+        f_autodoc_couch;
 
 void set_furn_ids()
 {
@@ -987,6 +986,7 @@ void set_furn_ids()
     f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
+    f_autodoc_couch = furn_id( "f_autodoc_couch" );
 }
 
 size_t ter_t::count()
@@ -1035,7 +1035,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
                 // @todo: A better inline name - can't use id or name here because it's not set yet
                 size_t num = harvest_list::all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
-                                         string_format( "harvest_inline_%d", ( int )num ) );
+                                         string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
             } else if( harvest_jo.has_string( "id" ) ) {
                 hl = harvest_id( harvest_jo.get_string( "id" ) );
             } else {

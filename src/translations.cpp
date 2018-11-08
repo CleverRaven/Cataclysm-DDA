@@ -1,16 +1,17 @@
+#include "translations.h"
+
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
-#include <stdlib.h>
+#include <cstdlib>
 #define __STRICT_ANSI__
 #endif
 
-#include "translations.h"
-#include "path_info.h"
 #include "name.h"
+#include "path_info.h"
 
-#include <string>
-#include <set>
 #include <algorithm>
+#include <set>
+#include <string>
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -22,7 +23,7 @@ static void reload_names()
 }
 
 #ifdef LOCALIZE
-#include <stdlib.h> // for getenv()/setenv()/putenv()
+#include <cstdlib> // for getenv()/setenv()/putenv()
 #include "options.h"
 #include "debug.h"
 #include "ui.h"
@@ -129,8 +130,8 @@ void select_language()
 
     wrefresh( catacurses::stdscr );
 
-    uimenu sm;
-    sm.selected = 0;
+    uilist sm;
+    sm.allow_cancel = false;
     sm.text = _( "Select your language" );
     for( size_t i = 0; i < languages.size(); i++ ) {
         sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second );

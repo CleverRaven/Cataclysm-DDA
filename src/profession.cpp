@@ -1,20 +1,19 @@
 #include "profession.h"
-#include <iostream>
-#include <sstream>
-#include <iterator>
-#include <map>
 
+#include "addiction.h"
 #include "debug.h"
+#include "generic_factory.h"
+#include "item_group.h"
+#include "itype.h"
 #include "json.h"
 #include "player.h"
-#include "text_snippets.h"
-#include "rng.h"
-#include "translations.h"
-#include "addiction.h"
-#include "item_group.h"
 #include "pldata.h"
-#include "itype.h"
-#include "generic_factory.h"
+#include "text_snippets.h"
+#include "translations.h"
+
+#include <cmath>
+#include <iterator>
+#include <map>
 
 namespace
 {
@@ -581,10 +580,10 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
         return ret;
     }
 
-    const long old_amt = it.count_by_charges() ? it.charges : 1l;
+    const long old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item );
-        const long new_amt = std::max( 1l, ( long )std::round( inf.ratio * old_amt ) );
+        const long new_amt = std::max( 1l, static_cast<long>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {
             for( long i = 0; i < new_amt; i++ ) {

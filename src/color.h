@@ -3,11 +3,11 @@
 #define COLOR_H
 
 #include <array>
-#include <string>
+#include <functional>
 #include <list>
+#include <string>
 #include <unordered_map>
 #include <utility>
-#include <functional>
 
 #define all_colors get_all_colors()
 
@@ -369,12 +369,6 @@ class nc_color
         // Returns this attribute plus A_BLINK.
         nc_color blink() const;
         bool is_blink() const;
-        // Returns this attribute plus A_ITALIC.
-        nc_color italic() const;
-        bool is_italic() const;
-        // Returns this attribute plus A_UNDERLINE.
-        nc_color underline() const;
-        bool is_underline() const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -490,6 +484,7 @@ std::string string_from_color( const nc_color color );
 nc_color bgcolor_from_string( const std::string &color );
 nc_color get_color_from_tag( const std::string &s, const nc_color base_color );
 std::string get_tag_from_color( const nc_color color );
+std::string colorize( const std::string &text, const nc_color color );
 
 nc_color get_note_color( std::string const &note_id );
 std::list<std::pair<std::string, std::string>> get_note_color_names();

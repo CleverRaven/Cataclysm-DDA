@@ -4,7 +4,6 @@
 #include "inventory.h"
 #include "item.h"
 
-
 TEST_CASE( "visitable_summation" )
 {
     inventory test_inv;

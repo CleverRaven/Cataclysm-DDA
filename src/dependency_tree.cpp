@@ -1,9 +1,10 @@
 #include "dependency_tree.h"
 
-#include <set>
-#include <algorithm>
 #include "debug.h"
 #include "output.h"
+
+#include <algorithm>
+#include <set>
 
 std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 
@@ -48,7 +49,7 @@ std::string dependency_node::s_errors()
     std::stringstream ret;
     for( auto &elem : all_errors ) {
         ret << error_keyvals[( unsigned )( elem.first )];
-        ret << enumerate_as_string( elem.second, false );
+        ret << enumerate_as_string( elem.second, enumeration_conjunction::none );
     }
     return ret.str();
 }

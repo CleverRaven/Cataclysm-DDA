@@ -2,19 +2,17 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
-#include "inventory.h"
-#include "input.h"
-#include "cursesdef.h"
-#include "string_id.h"
 #include "color.h"
-#include "int_id.h"
-#include "requirements.h"
+#include "cursesdef.h"
+#include "input.h"
+#include "inventory.h"
 #include "player_activity.h"
+#include "requirements.h"
+#include "string_id.h"
 
-#include <string>
-#include <vector>
 #include <map>
 #include <sstream>
+#include <vector>
 
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
@@ -212,7 +210,7 @@ class veh_interact
         void allocate_windows();
         void do_main_loop();
 
-        void cache_tool_availability_update_lifting( tripoint world_cursor_pos );
+        void cache_tool_availability_update_lifting( const tripoint &world_cursor_pos );
 
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
         bool can_self_jack();

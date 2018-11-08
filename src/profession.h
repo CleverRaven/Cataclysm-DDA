@@ -4,10 +4,9 @@
 
 #include "string_id.h"
 
-#include <string>
-#include <vector>
-#include <set>
 #include <list>
+#include <set>
+#include <vector>
 
 template<typename T>
 class generic_factory;

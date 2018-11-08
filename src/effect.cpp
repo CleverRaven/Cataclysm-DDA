@@ -1,12 +1,13 @@
 #include "effect.h"
+
 #include "debug.h"
-#include "rng.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "player.h"
-#include "translations.h"
-#include "messages.h"
 #include "json.h"
+#include "messages.h"
+#include "output.h"
+#include "player.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 #include <map>
 #include <sstream>
@@ -356,9 +357,9 @@ bool effect_type::use_name_ints() const
 bool effect_type::use_desc_ints( bool reduced ) const
 {
     if( reduced ) {
-        return ( ( size_t )max_intensity <= reduced_desc.size() );
+        return ( static_cast<size_t>( max_intensity ) <= reduced_desc.size() );
     } else {
-        return ( ( size_t )max_intensity <= desc.size() );
+        return ( static_cast<size_t>( max_intensity ) <= desc.size() );
     }
 }
 
@@ -484,7 +485,11 @@ std::string effect::disp_name() const
         }
         ret << _( eff_type->name[0].c_str() );
         if( intensity > 1 ) {
-            ret << " [" << intensity << "]";
+            if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
+                ret << " [" << texitify_healing_power( intensity ) << "]";
+            } else {
+                ret << " [" << intensity << "]";
+            }
         }
     }
     if( bp != num_bp ) {
@@ -654,6 +659,23 @@ std::string effect::disp_desc( bool reduced ) const
     }
 
     return ret.str();
+}
+
+std::string effect::disp_short_desc( bool reduced ) const
+{
+    if( eff_type->use_desc_ints( reduced ) ) {
+        if( reduced ) {
+            return eff_type->reduced_desc[intensity - 1];
+        } else {
+            return eff_type->desc[intensity - 1];
+        }
+    } else {
+        if( reduced ) {
+            return eff_type->reduced_desc[0];
+        } else {
+            return eff_type->desc[0];
+        }
+    }
 }
 
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
@@ -1082,7 +1104,7 @@ double effect::get_addict_mod( const std::string &arg, int addict_level ) const
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if( arg == "PKILL" ) {
         if( eff_type->pkill_addict_reduces ) {
-            return 1.0 / std::max( ( double )addict_level * 2.0, 1.0 );
+            return 1.0 / std::max( static_cast<double>( addict_level ) * 2.0, 1.0 );
         } else {
             return 1.0;
         }
@@ -1282,9 +1304,53 @@ void effect::deserialize( JsonIn &jsin )
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    bp = ( body_part )jo.get_int( "bp" );
+    bp = static_cast<body_part>( jo.get_int( "bp" ) );
     permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
     start_time = calendar::time_of_cataclysm;
     jo.read( "start_turn", start_time );
+}
+
+std::string texitify_base_healing_power( const int power )
+{
+    if( power == 1 ) {
+        return _( "very poor" );
+    } else if( power == 2 ) {
+        return _( "poor" );
+    } else if( power == 3 ) {
+        return _( "decent" );
+    } else if( power == 4 ) {
+        return _( "good" );
+    } else if( power >= 5 ) {
+        return _( "great" );
+    }
+    if( power < 1 ) {
+        debugmsg( "Tried to convert zero or negative value." );
+    }
+    return "";
+}
+
+std::string texitify_healing_power( const int power )
+{
+    if( power >= 1 && power <= 2 ) {
+        return _( "poor" );
+    } else if( power >= 3 && power <= 4 ) {
+        return _( "decent" );
+    } else if( power >= 5 && power <= 6 ) {
+        return _( "average" );
+    } else if( power >= 7 && power <= 8 ) {
+        return _( "good" );
+    } else if( power >= 9 && power <= 10 ) {
+        return _( "very good" );
+    } else if( power >= 11 && power <= 12 ) {
+        return _( "great" );
+    } else if( power >= 13 && power <= 14 ) {
+        return _( "outstanding" );
+    } else if( power >= 15 ) {
+        return _( "perfect" );
+    }
+    if( power < 1 ) {
+        debugmsg( "Converted value out of bounds." );
+    }
+    return "";
 }

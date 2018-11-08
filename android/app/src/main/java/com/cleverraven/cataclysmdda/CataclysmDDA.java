@@ -38,6 +38,10 @@ public class CataclysmDDA extends SDLActivity {
         return getResources().getConfiguration().keyboard == Configuration.KEYBOARD_QWERTY;
     }
 
+    private float getDisplayDensity() {
+        return getResources().getDisplayMetrics().density;
+    }
+
     public void show_sdl_surface() {
         try {
             runOnUiThread(new Runnable() {

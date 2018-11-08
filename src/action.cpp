@@ -1,31 +1,27 @@
 #include "action.h"
-#include "output.h"
-#include "options.h"
-#include "path_info.h"
+
+#include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
-#include "map.h"
 #include "iexamine.h"
-#include "player.h"
-#include "options.h"
-#include "messages.h"
-#include "translations.h"
 #include "input.h"
-#include "crafting.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "ui.h"
-#include "trap.h"
-#include "itype.h"
 #include "mapdata.h"
-#include "cata_utility.h"
+#include "messages.h"
+#include "optional.h"
+#include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "translations.h"
+#include "trap.h"
+#include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "optional.h"
 
-#include <istream>
-#include <sstream>
-#include <iterator>
 #include <algorithm>
+#include <istream>
+#include <iterator>
 
 extern bool tile_iso;
 
@@ -100,7 +96,7 @@ std::vector<char> keys_bound_to( action_id act )
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    input_event event( ( long ) ch, CATA_INPUT_KEYBOARD );
+    input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
     const std::string action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -168,6 +164,8 @@ std::string action_ident( action_id act )
             return "pickup";
         case ACTION_GRAB:
             return "grab";
+        case ACTION_HAUL:
+            return "haul";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -294,8 +292,14 @@ std::string action_ident( action_id act )
             return "toggle_pixel_minimap";
         case ACTION_RELOAD_TILESET:
             return "reload_tileset";
+        case ACTION_TOGGLE_AUTO_FEATURES:
+            return "toggle_auto_features";
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
             return "toggle_auto_pulp_butcher";
+        case ACTION_TOGGLE_AUTO_MINING:
+            return "toggle_auto_mining";
+        case ACTION_TOGGLE_AUTO_FORAGING:
+            return "toggle_auto_foraging";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -376,7 +380,10 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_TOGGLE_PIXEL_MINIMAP:
         case ACTION_RELOAD_TILESET:
         case ACTION_TIMEOUT:
+        case ACTION_TOGGLE_AUTO_FEATURES:
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
+        case ACTION_TOGGLE_AUTO_MINING:
+        case ACTION_TOGGLE_AUTO_FORAGING:
             return false;
         default:
             return true;
@@ -730,6 +737,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
+            REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
@@ -743,7 +751,10 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_FEATURES );
             REGISTER_ACTION( ACTION_TOGGLE_AUTO_PULP_BUTCHER );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_MINING );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_FORAGING );
         } else if( category == _( "Craft" ) ) {
             REGISTER_ACTION( ACTION_CRAFT );
             REGISTER_ACTION( ACTION_RECRAFT );
@@ -788,14 +799,15 @@ action_id handle_action_menu()
 
         int width = 0;
         for( auto &cur_entry : entries ) {
-            if( width < ( int )cur_entry.txt.length() ) {
+            if( width < static_cast<int>( cur_entry.txt.length() ) ) {
                 width = cur_entry.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
         int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
+        int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+                 ( entries.size() ) - 2 ) / 2 - 1 : 0;
         int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                 std::max( iy, 0 ), title, entries );
 
@@ -812,7 +824,7 @@ action_id handle_action_menu()
         } else if( selection > NUM_ACTIONS ) {
             category = categories_by_int[selection];
         } else {
-            return ( action_id ) selection;
+            return static_cast<action_id>( selection );
         }
     }
 
@@ -845,14 +857,15 @@ action_id handle_main_menu()
 
     int width = 0;
     for( auto &entry : entries ) {
-        if( width < ( int )entry.txt.length() ) {
+        if( width < static_cast<int>( entry.txt.length() ) ) {
             width = entry.txt.length();
         }
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
     int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
+    int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+             ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
@@ -861,7 +874,7 @@ action_id handle_main_menu()
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
     } else {
-        return ( action_id ) selection;
+        return static_cast<action_id>( selection );
     }
 }
 

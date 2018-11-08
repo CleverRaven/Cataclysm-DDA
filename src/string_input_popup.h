@@ -1,14 +1,14 @@
+#pragma once
 #ifndef STRING_INPUT_POPUP_H
 #define STRING_INPUT_POPUP_H
 
-#include "cursesdef.h"
 #include "color.h"
+#include "cursesdef.h"
 
-#include <string>
-#include <memory>
-#include <map>
-#include <set>
 #include <functional>
+#include <map>
+#include <memory>
+#include <string>
 
 class input_context;
 struct input_event;
@@ -82,7 +82,7 @@ class string_input_popup
          * The title: short string before the actual input field.
          * It's optional, default is an empty string.
          */
-        string_input_popup &title( std::string value ) {
+        string_input_popup &title( const std::string &value ) {
             _title = value;
             return *this;
         }
@@ -92,7 +92,7 @@ class string_input_popup
          * It's optional default is an empty string.
          */
         /**@{*/
-        string_input_popup &text( std::string value );
+        string_input_popup &text( const std::string &value );
         const std::string &text() const {
             return _text;
         }
@@ -101,7 +101,7 @@ class string_input_popup
          * Additional help text, shown below the input box.
          * It's optional, default is an empty text.
          */
-        string_input_popup &description( std::string value ) {
+        string_input_popup &description( const std::string &value ) {
             _description = value;
             return *this;
         }
@@ -113,7 +113,7 @@ class string_input_popup
          * If the input is not canceled, the new input is
          * added to the history.
          */
-        string_input_popup &identifier( std::string value ) {
+        string_input_popup &identifier( const std::string &value ) {
             _identifier = value;
             return *this;
         }

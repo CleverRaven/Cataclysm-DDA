@@ -351,7 +351,6 @@ classes = {
             { name = "knockback", rval = nil, args = { "tripoint", "tripoint", "int", "int", "int" } },
             { name = "light_level", rval = "int", args = { "int" } },
             { name = "look_around", rval = "tripoint", args = { } },
-            { name = "look_debug", rval = "tripoint", args = { } },
             { name = "natural_light_level", rval = "float", args = { "int" } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
             { name = "num_creatures", rval = "int", args = { } },
@@ -367,13 +366,16 @@ classes = {
             { name = "save", rval = "bool", args = { } },
             { name = "scrambler_blast", rval = nil, args = { "tripoint" } },
             { name = "shockwave", rval = nil, args = { "tripoint", "int", "int", "int", "int", "bool" } },
-            { name = "spawn_hallucination", rval = "bool", args = { } },
+            { name = "spawn_hallucination", rval = "bool", args = { "tripoint" } },
             { name = "summon_mon", rval = "monster&", args = { "mtype_id", "tripoint" } },
             { name = "swap_critters", rval = "bool", args = { "Creature", "Creature" } },
             { name = "teleport", rval = nil, args = { }, optional_args = { "player", "bool" } },
             { name = "unload", rval = nil, args = { "item" } },
             { name = "unload", rval = nil, args = { }, optional_args = { "int" }  },
             { name = "use_computer", rval = nil, args = { "tripoint" } },
+            { name = "reload_npcs", rval = nil, args = { } },
+            { name = "place_player", rval = nil, args = { "tripoint" } },
+            { name = "place_player_overmap", rval = nil, args = { "tripoint" } },
         }
     },
     -- TODO: activity_id is to be moved into activity_type.string_id.
@@ -1500,7 +1502,6 @@ classes = {
             { name = "get_speed_bonus", rval = "int", args = { } },
             { name = "get_throw_resist", rval = "int", args = { } },
             { name = "get_value", rval = "string", args = { "string" } },
-            { name = "get_weight", rval = "mass", args = { } },
             { name = "gibType", rval = "field_id", args = { } },
             { name = "has_effect", rval = "bool", args = { "efftype_id" }, optional_args = { "body_part" } },
             { name = "has_grab_break_tec", rval = "bool", args = { } },
@@ -1645,6 +1646,8 @@ classes = {
             { name = "get_melee", rval = "float", args = { } },
             { name = "get_random_body_part", rval = "body_part", args = { "bool" } },
             { name = "get_size", rval = "m_size", args = { } },
+            { name = "get_volume", rval = "volume", args = { } },
+            { name = "get_weight", rval = "mass", args = { } },
             { name = "gibType", rval = "field_id", args = { } },
             { name = "group_bash_skill", rval = "int", args = { "tripoint" } },
             { name = "has_grab_break_tec", rval = "bool", args = { } },
@@ -2284,6 +2287,11 @@ global_functions = {
         cpp_name = "get_omt_dir",
         args = { "overmap", "tripoint" },
         rval = "overmap_direction"
+    },
+    omap_choose_point = {
+        cpp_name = "ui::omap::choose_point",
+        args = { "tripoint" },
+        rval = "tripoint"
     }
 }
 

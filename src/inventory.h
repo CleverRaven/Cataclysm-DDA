@@ -2,16 +2,15 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "visitable.h"
-#include "item.h"
 #include "enums.h"
+#include "item.h"
+#include "visitable.h"
 
 #include <list>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
-#include <functional>
-#include <unordered_map>
 
 class map;
 class npc;
@@ -149,7 +148,9 @@ class inventory : public visitable<inventory>
         void rust_iron_items();
 
         units::mass weight() const;
+        units::mass weight_without( const std::map<const item *, int> & ) const;
         units::volume volume() const;
+        units::volume volume_without( const std::map<const item *, int> & ) const;
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );

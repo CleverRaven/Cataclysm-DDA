@@ -69,7 +69,7 @@
     "type": "GUN",
     "name": "LeMat revolver",
     "//": "Could only find barrel figures for the Baby LeMat; this is a best-guess estimate.",
-    "description": "A modernized version of the original LeMat revolver, a rare and expensive firearm produced during the civil war.  With  a capacity of 9 modern .44 cartridges and a single 12 gauge shell, it makes a great companion for those who wander the \"Earth-that-was\".",
+    "description": "A modernized version of the original LeMat revolver, a rare and expensive firearm produced during the civil war.  With a capacity of 9 modern .44 cartridges and a single 12 gauge shell, it makes a great companion for those who wander the \"Earth-that-was\".",
     "weight": 1295,
     "volume": 3,
     "price": 86100,

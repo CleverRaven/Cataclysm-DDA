@@ -2,11 +2,9 @@
 #ifndef WEIGHTED_LIST_H
 #define WEIGHTED_LIST_H
 
-#include "rng.h"
-#include <vector>
-#include <functional>
 #include <cstdlib>
-#include <cmath>
+#include <functional>
+#include <vector>
 
 template <typename W, typename T> struct weighted_object {
     weighted_object( const T &obj, const W &weight ) : obj( obj ), weight( weight ) {}
@@ -230,7 +228,8 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
     protected:
 
         size_t pick_ent( unsigned int randi ) const override {
-            double picked = ( double )( randi % RAND_MAX ) / ( double )RAND_MAX * ( this->total_weight );
+            double picked = static_cast<double>( randi % RAND_MAX ) / static_cast<double>( RAND_MAX ) *
+                            ( this->total_weight );
             double accumulated_weight = 0;
             size_t i;
             for( i = 0; i < this->objects.size(); i++ ) {

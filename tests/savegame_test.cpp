@@ -236,5 +236,5 @@ TEST_CASE( "Reading a legacy overmap save." )
     check_test_overmap_data( *test_map_2 );
 
     // Now clean up.
-    remove_file( new_save_name.c_str() );
+    remove_file( new_save_name );
 }

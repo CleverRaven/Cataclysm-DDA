@@ -1,55 +1,29 @@
 #include "vehicle.h"
 
 #include "coordinate_conversions.h"
-#include "map.h"
-#include "mapbuffer.h"
-#include "output.h"
+#include "debug.h"
 #include "game.h"
 #include "item.h"
-#include "veh_interact.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "overmapbuffer.h"
+#include "itype.h"
+#include "map.h"
+#include "mapdata.h"
+#include "material.h"
 #include "messages.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "debug.h"
+#include "output.h"
 #include "sounds.h"
 #include "translations.h"
-#include "ammo.h"
-#include "options.h"
-#include "material.h"
-#include "monster.h"
-#include "npc.h"
-#include "veh_type.h"
 #include "trap.h"
-#include "itype.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "weather.h"
-#include "map_iterator.h"
-#include "vehicle_selector.h"
-#include "cata_utility.h"
+#include "veh_type.h"
+#include "vpart_reference.h"
 
-#include <sstream>
-#include <stdlib.h>
-#include <set>
-#include <queue>
-#include <math.h>
-#include <array>
-#include <numeric>
 #include <algorithm>
+#include <array>
 #include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <set>
 
 static const std::string part_location_structure( "structure" );
-static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_gasoline( "gasoline" );
-static const itype_id fuel_type_diesel( "diesel" );
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_water( "water_clean" );
 static const itype_id fuel_type_muscle( "muscle" );
 
 const efftype_id effect_stunned( "stunned" );
@@ -158,7 +132,7 @@ void vehicle::thrust( int thd )
     //find power ratio used of engines max
     double load;
     if( cruise_on ) {
-        load = ( ( float )abs( vel_inc ) ) / std::max( ( thrusting ? accel : brk ), 1 );
+        load = static_cast<float>( abs( vel_inc ) ) / std::max( ( thrusting ? accel : brk ), 1 );
     } else {
         load = ( thrusting ? 1.0 : 0.0 );
     }
@@ -326,9 +300,12 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 
     const int velocity_before = coll_velocity;
     const int sign_before = sgn( velocity_before );
-    std::vector<int> structural_indices = all_parts_at_location( part_location_structure );
-    for( size_t i = 0; i < structural_indices.size(); i++ ) {
-        const int p = structural_indices[i];
+    bool empty = true;
+    for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
+        if( part_info( p ).location != part_location_structure || parts[ p ].removed ) {
+            continue;
+        }
+        empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
@@ -355,7 +332,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         }
     }
 
-    if( structural_indices.empty() ) {
+    if( empty ) {
         // Hack for dirty vehicles that didn't yet get properly removed
         veh_collision fake_coll;
         fake_coll.type = veh_coll_other;
@@ -428,7 +405,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     // Damage armor before damaging any other parts
     // Actually target, not just damage - spiked plating will "hit back", for example
-    const int armor_part = part_with_feature( ret.part, VPFLAG_ARMOR );
+    const int armor_part = part_with_feature( ret.part, VPFLAG_ARMOR, true );
     if( armor_part >= 0 ) {
         ret.part = armor_part;
     }
@@ -468,11 +445,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     } else if( ( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) ||
                ( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&
                  // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
-                 ( part_with_feature( ret.part, VPFLAG_WHEEL ) >= 0 ||
+                 ( part_with_feature( ret.part, VPFLAG_WHEEL, true ) >= 0 ||
                    !g->m.has_flag_ter_or_furn( "TINY", p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
-                 !( part_with_feature( ret.part, "PROTRUSION" ) >= 0 &&
+                 !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
                     g->m.has_flag_ter_or_furn( "SHORT", p ) ) &&
                  // These are bashable, but don't interact with vehicles.
                  !g->m.has_flag_ter_or_furn( "NOCOLLIDE", p ) ) ) {
@@ -703,7 +680,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     }
 
     if( smashed && !vert_coll ) {
-        int turn_amount = rng( 1, 3 ) * sqrt( ( double )part_dmg );
+        int turn_amount = rng( 1, 3 ) * sqrt( static_cast<double>( part_dmg ) );
         turn_amount /= 15;
         if( turn_amount < 1 ) {
             turn_amount = 1;
@@ -729,7 +706,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
 void vehicle::handle_trap( const tripoint &p, int part )
 {
-    int pwh = part_with_feature( part, VPFLAG_WHEEL );
+    int pwh = part_with_feature( part, VPFLAG_WHEEL, true );
     if( pwh < 0 ) {
         return;
     }
@@ -1276,7 +1253,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
         }
 
         bool throw_from_seat = false;
-        if( veh.part_with_feature( ps, VPFLAG_SEATBELT ) == -1 ) {
+        if( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) == -1 ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
             throw_from_seat = d_vel * rng( 80, 120 ) / 100 > ( psg->str_cur * 1.5 + 5 );
         }
@@ -1300,7 +1277,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "You lose control of the %s." ),
                                             _( "<npcname> loses control of the %s." ),
                                             veh.name.c_str() );
-                int turn_amount = ( rng( 1, 3 ) * sqrt( ( double )abs( veh.velocity ) ) / 2 ) / 15;
+                int turn_amount = ( rng( 1, 3 ) * sqrt( static_cast<double>( abs( veh.velocity ) ) ) / 2 ) / 15;
                 if( turn_amount < 1 ) {
                     turn_amount = 1;
                 }

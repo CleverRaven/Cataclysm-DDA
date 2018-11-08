@@ -1,12 +1,13 @@
 #include "monexamine.h"
-#include "monster.h"
-#include "item.h"
-#include "game.h"
-#include "translations.h"
-#include "messages.h"
-#include "mtype.h"
+
 #include "calendar.h"
+#include "game.h"
+#include "item.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "player.h"
+#include "translations.h"
 #include <utility>
 
 const efftype_id effect_milked( "milked" );

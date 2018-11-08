@@ -1,18 +1,14 @@
 #include "catch/catch.hpp"
 
 #include "creature.h"
-#include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
-#include "mapdata.h"
+#include "map_helpers.h"
 #include "monster.h"
-#include "mtype.h"
 #include "options.h"
 #include "player.h"
-#include "vehicle.h"
-
-#include "map_helpers.h"
 #include "test_statistics.h"
+#include "vehicle.h"
 
 #include <fstream>
 #include <sstream>
@@ -68,7 +64,7 @@ std::ostream &operator << ( std::ostream &os, track const &value )
     return os;
 }
 
-std::ostream &operator << ( std::ostream &os, std::vector<track> vec )
+std::ostream &operator << ( std::ostream &os, const std::vector<track> &vec )
 {
     for( auto &track_instance : vec ) {
         os << track_instance << " ";
@@ -182,7 +178,7 @@ static void check_shamble_speed( const std::string monster_type, const tripoint 
            Approx( 1.0 ).epsilon( 0.02 ) );
 }
 
-static void test_moves_to_squares( std::string monster_type, bool write_data = false )
+static void test_moves_to_squares( const std::string &monster_type, bool write_data = false )
 {
     std::map<int, move_statistics> turns_at_distance;
     std::map<int, move_statistics> turns_at_slope;

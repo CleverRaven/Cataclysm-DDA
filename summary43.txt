@@ -1,0 +1,100 @@
+Features Vehicle curtain flag changes
+Features Better milking: make milking a long action that gets all the milk it can
+Content Add special effects to 1 in 10 lab sections.
+Content Cosmic's Golf Course
+Bugfixes Issue Fixes
+Content Mainline some of blaze and tank mods
+Bugfixes vehicle power miscellaneous fixes
+Interface Martial arts techniques description
+Balance Adds SHEATH_SPEAR flag to additional weapons
+Balance Simplify work pants and work t-shirts
+Balance Adjust FRAG effect explosion distance factor
+Infrastructure Update vehicleDef.py to produce better vehicle templates
+Interface Fix incorrect description of disinfectant soaked rag.
+Balance Tremendously armors the 60" roller drum
+Infrastructure Fixed regression (2018-08-09)
+Interface Adds bandit garage to Alternative Map Key
+Content Little bit more location atmosphere.
+Mods Crazy Cataclysm - mi-go went to the movies
+Balance Placing planks over the pit and removing planks from the pit will now consume time
+Balance Buffs .50 BMG damage
+Infrastructure Add EATEN_HOT and EATEN_COLD flag descriptions
+Content Add more phrases to NPCs
+Bugfixes Small mapgen fixes
+Bugfixes canned tomato in glass jar fix
+Features Chainsaw and a tree
+Content Move narcolepsy from "schizophrenic" to new trait.
+Content Adds the Pyromania character trait
+Interface Renames survivor guns to "handmade" or "crude" to show their quality level
+Balance Fixed nail count in coat rack
+Balance Makes the prime mutations give a bonus to gradual bonus to stats < 15.
+Balance Replace utility lights with overhead lights, revise light probability.
+Content More Dog Breeds - Now With Puppies Edition
+Infrastructure Moved generic watches to tools + styling
+Build SDL windows: allow HDPI displays
+Infrastructure tilesets: add support for looks_like field
+Balance Replaced palisade with log wall in two vacant houses
+Balance Make mining less tedious
+Balance Reduced shelf life of Scrambled Eggs
+Infrastructure Removed duplicate overmap_terrain.json entries
+Bugfixes Removes duplicate M24 lines to fix error
+Interface Fixed gluten free vegetable sandwich plural
+Bugfixes cata_tiles: fix some bugs in looks_like handling
+Bugfixes tilesets and looks_like: add some looks_like to cover ChestHole gaps
+Infrastructure Update tools/vehicleDef.py to export multiple in save and include items
+Interface Capitalize Canadian
+Content Adds LOVES_BOOKS and HATES_BOOKS traits
+Content Cannibal pemmican
+Content CBMs and NPCs
+Mods Crazy Catcalysm: turrets - let them speak
+Features Option to spawn starting npc
+Balance Make knit hat helmet compatible.
+Content Adds the Game Master and Bionic Game Master professions
+Content More Duplexes
+Bugfixes Fix bad npc talk tag
+Content Adds New Animal-related Vehicle and Part
+Infrastructure Jsonify gas station
+I18N New languages
+Infrastructure Rename 'add' to 'place_item', make chance function like place_items.
+Balance Use long stick for polearms with wooden handles
+Content Adds New Animal-related Locations
+Content Javelin Bag
+Bugfixes Minor Bookworm fixes
+Build Use github's multiple issue template feature.
+Balance 7.62x51mm ammo creates 7.62x51mm casings
+Bugfixes More fixups for looks_like support in tilesets
+Infrastructure vehicles: take advantage of the EXTRA_DRAG flag and astyle refresh()
+Balance Cyberjunkie starting items and skills fix
+Content Implement Coffee Tree based on Kent Coffee Tree
+Content Add growable tobacco plant
+Balance set armor category on ornamental plate armor
+I18N Add missing translate marker in camp system
+Bugfixes Fixes for recycle center and steel compactor
+Bugfixes Fix Bugged Puppy JSON Entries
+Content Adds classic kids theater manual
+Interface vehicle controls: split CONTROLS and CONTROLS_ELECTRONIC in examine
+Content Pillows and other possible sleep aid items.
+Bugfixes Quick fix for tin recipe
+Build Makefile updates for MSYS2
+Features Field dressing corpses aka Butchery overhaul
+Features Smoking rack interactions expansion
+Features Freezer & freeze mechanics overhaul
+Content Adding Coffee tree to locations
+Bugfixes Fix placement of overmap specials with city size 0
+Content Added more railroad terrains
+Balance Lab dead-end improvements, mostly getting rid of blue floors
+Balance Make portals unavoidably teleport you.
+Build Properly work-around broken SDL 2.0.5 key events on Linux
+Balance food recipes: add large_stomach to haggis ingredients
+Balance Make nailboard traps craftable from nailboards
+Features Add reminder effects for some medicine
+Content Add tree stumps (forest's table)
+Bugfixes Fix for freezing bugs - part 2
+Bugfixes Fix for multiple food temperature flags
+Content Leather tarp for butchering (or picnic)
+Bugfixes Quick Fix for CBMs suspected in every butchered corpse.
+Infrastructure Add auto-prefix for DEBUG_SYMBOLS flag
+Build Debug stack trace & crash handler for Windows
+Interface Wrong "its"
+Interface Pyromania -> Pyromaniac
+Interface Adds an option to suppress "Unknown command: 'X' (Y)" messages

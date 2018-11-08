@@ -1,16 +1,15 @@
 #include "iuse_software_lightson.h"
 
-#include "output.h"
-#include "ui.h"
-#include "rng.h"
-#include "input.h"
 #include "cursesdef.h"
+#include "input.h"
+#include "output.h"
+#include "rng.h"
 #include "translations.h"
+#include "ui.h"
 
+#include <algorithm>
 #include <string>
 #include <vector>
-#include <map>
-#include <algorithm>
 
 void lightson_game::new_level()
 {

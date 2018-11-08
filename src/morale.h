@@ -2,16 +2,13 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "string_id.h"
-#include "calendar.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "morale_types.h"
 
-#include <stdlib.h>
-#include <string>
-#include <vector>
-#include <map>
 #include <functional>
+#include <map>
+#include <vector>
 
 class item;
 class JsonIn;
@@ -60,6 +57,7 @@ class player_morale
         void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
+        void on_worn_item_washed( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
         void store( JsonOut &jsout ) const;
@@ -70,7 +68,7 @@ class player_morale
         {
             public:
                 morale_point(
-                    morale_type type = MORALE_NULL,
+                    const morale_type &type = MORALE_NULL,
                     const itype *item_type = nullptr,
                     int bonus = 0,
                     int max_bonus = 0,

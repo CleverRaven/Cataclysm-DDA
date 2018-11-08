@@ -6,12 +6,11 @@
 #include "itype.h"
 #include "line.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "monster.h"
+#include "test_statistics.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include "map_helpers.h"
-#include "test_statistics.h"
 
 void check_lethality( std::string explosive_id, int range, float lethality,
                       float epsilon )
@@ -110,7 +109,7 @@ void check_vehicle_damage( std::string explosive_id, std::string vehicle_id, int
         if( target_vehicle->parts[ i ].name() == "windshield" ||
             target_vehicle->parts[ i ].name() == "headlight" ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else {
+        } else if( target_vehicle->parts[ i ].name() != "clock" ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }

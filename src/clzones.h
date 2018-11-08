@@ -3,16 +3,15 @@
 #define CLZONES_H
 
 #include "enums.h"
-#include "string_id.h"
 #include "item.h"
 #include "optional.h"
+#include "string_id.h"
 
-#include <vector>
-#include <string>
-#include <unordered_map>
 #include <map>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 class JsonIn;
 class JsonOut;
@@ -21,9 +20,12 @@ class zone_type
 {
     private:
         std::string name_;
+        std::string desc_;
     public:
-        explicit zone_type( const std::string &name ) : name_( name ) {}
+        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
+            desc_( desc ) {}
         std::string name() const;
+        std::string desc() const;
 };
 using zone_type_id = string_id<zone_type>;
 
@@ -169,7 +171,7 @@ class zone_manager
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
         const zone_data *get_top_zone( const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where ) const;
-        cata::optional<std::string> query_name( std::string default_name = "" ) const;
+        cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
         cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
 

@@ -1,17 +1,17 @@
 #include "recipe.h"
 
 #include "calendar.h"
+#include "game_constants.h"
 #include "generic_factory.h"
-#include "itype.h"
 #include "item.h"
-#include "string_formatter.h"
+#include "itype.h"
 #include "output.h"
 #include "skill.h"
-#include "game_constants.h"
+#include "string_formatter.h"
 
 #include <algorithm>
+#include <cmath>
 #include <numeric>
-#include <math.h>
 
 struct oter_t;
 using oter_str_id = string_id<oter_t>;
@@ -369,14 +369,17 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
-std::string recipe::required_skills_string() const
+std::string recipe::required_skills_string( const Character *c ) const
 {
     if( required_skills.empty() ) {
-        return _( "N/A" );
+        return _( "<color_cyan>none</color>" );
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
-    []( const std::pair<skill_id, int> &skill ) {
-        return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
+    [&]( const std::pair<skill_id, int> &skill ) {
+        auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        return string_format( "<color_cyan>%s</color> <color_%s>(%d)</color>",
+                              skill.first.obj().name(), difficulty_color, skill.second );
     } );
 }
 

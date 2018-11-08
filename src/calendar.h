@@ -2,9 +2,9 @@
 #ifndef CALENDAR_H
 #define CALENDAR_H
 
-#include <string>
-
 #include "optional.h"
+
+#include <string>
 
 class time_duration;
 class time_point;
@@ -259,6 +259,8 @@ constexpr T to_hours( const time_duration duration );
 template<typename T>
 constexpr T to_days( const time_duration duration );
 template<typename T>
+constexpr T to_weeks( const time_duration duration );
+template<typename T>
 constexpr T to_moves( const time_duration duration );
 
 template<typename T>
@@ -308,6 +310,8 @@ class time_duration
     public:
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
+
+        static time_duration read_from_json_string( JsonIn &jsin );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -366,6 +370,10 @@ class time_duration
         template<typename T>
         friend constexpr T to_days( const time_duration duration ) {
             return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 );
+        }
+        template<typename T>
+        friend constexpr T to_weeks( const time_duration duration ) {
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 * 7 );
         }
         template<typename T>
         friend constexpr T to_moves( const time_duration duration ) {
@@ -473,11 +481,11 @@ constexpr time_duration operator"" _days( const unsigned long long int v )
  * 0 so it's skipped).
  */
 std::string to_string( const time_duration &d );
-/**
- * Returns a number and a unit as in the string returned by @ref to_string_clipped.
- * If the duration is "forever", the optional int has no value.
- */
-std::pair<cata::optional<int>, std::string> to_num_and_unit( const time_duration &d );
+
+enum class clipped_align {
+    none,
+    right,
+};
 /**
  * Returns a string showing a duration as whole number of appropriate units, e.g.
  * "10 days" or "1 minute".
@@ -485,7 +493,7 @@ std::pair<cata::optional<int>, std::string> to_num_and_unit( const time_duration
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
  */
-std::string to_string_clipped( const time_duration &d );
+std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.

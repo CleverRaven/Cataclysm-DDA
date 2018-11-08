@@ -2,14 +2,13 @@
 
 #include "game.h"
 #include "item.h"
+#include "itype.h"
+#include "mutation.h"
 #include "player.h"
 #include "profession.h"
 #include "scenario.h"
-#include "mutation.h"
 #include "string_id.h"
-#include "itype.h"
 
-#include <algorithm>
 #include <set>
 #include <sstream>
 #include <string>

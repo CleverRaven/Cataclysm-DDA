@@ -1,48 +1,27 @@
 #include "vehicle.h"
 
 #include "coordinate_conversions.h"
-#include "map.h"
-#include "output.h"
+#include "debug.h"
 #include "game.h"
 #include "item.h"
-#include "veh_interact.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "messages.h"
-#include "iexamine.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "debug.h"
-#include "sounds.h"
-#include "translations.h"
-#include "ammo.h"
-#include "options.h"
-#include "monster.h"
-#include "npc.h"
-#include "veh_type.h"
 #include "itype.h"
+#include "map.h"
+#include "messages.h"
+#include "npc.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vpart_position.h"
 #include "weather.h"
-#include "cata_utility.h"
 
-#include <sstream>
-#include <stdlib.h>
-#include <set>
-#include <queue>
-#include <math.h>
-#include <array>
-#include <numeric>
 #include <algorithm>
 #include <cassert>
+#include <cmath>
+#include <set>
 
 static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_gasoline( "gasoline" );
-static const itype_id fuel_type_diesel( "diesel" );
 static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_water( "water_clean" );
-static const itype_id fuel_type_muscle( "muscle" );
-
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -142,12 +121,12 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return ( 1.0 - ( double )base.damage() / base.max_damage() );
+    return ( 1.0 - static_cast<double>( base.damage() ) / base.max_damage() );
 }
 
 double vehicle_part::damage_percent() const
 {
-    return ( double )base.damage() / base.max_damage();
+    return static_cast<double>( base.damage() ) / base.max_damage();
 }
 
 /** parts are considered broken at zero health */
@@ -190,8 +169,7 @@ itype_id vehicle_part::ammo_current() const
 long vehicle_part::ammo_capacity() const
 {
     if( is_tank() ) {
-        return base.get_container_capacity() / std::max( item::find_type( ammo_current() )->volume,
-                units::from_milliliter( 1 ) );
+        return item::find_type( ammo_current() )->charges_per_volume( base.get_container_capacity() );
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -283,36 +261,37 @@ float vehicle_part::consume_energy( const itype_id &ftype, float energy )
     return 0.0f;
 }
 
-bool vehicle_part::can_reload( const itype_id &obj ) const
+bool vehicle_part::can_reload( const item &obj ) const
 {
     // first check part is not destroyed and can contain ammo
     if( !is_fuel_store() ) {
         return false;
     }
 
-    if( is_reactor() ) {
-        return base.is_reloadable_with( obj );
-    }
+    if( !obj.is_null() ) {
+        const itype_id obj_type = obj.typeId();
+        if( is_reactor() ) {
+            return base.is_reloadable_with( obj_type );
+        }
 
-    if( !obj.empty() ) {
         // forbid filling tanks with solids or non-material things
-        if( is_tank() && item::find_type( obj )->phase <= SOLID ) {
+        if( is_tank() && ( obj.made_of( SOLID ) || obj.made_of( PNULL ) ) ) {
             return false;
         }
         // forbid putting liquids, gasses, and plasma in things that aren't tanks
-        else if( item::find_type( obj )->phase > SOLID && !is_tank() ) {
+        else if( !obj.made_of( SOLID ) && !is_tank() ) {
             return false;
         }
         // prevent mixing of different ammo
-        if( ammo_current() != "null" && ammo_current() != obj ) {
+        if( ammo_current() != "null" && ammo_current() != obj_type ) {
             return false;
         }
         // For storage with set type, prevent filling with different types
-        if( info().fuel_type != fuel_type_none && info().fuel_type != obj ) {
+        if( info().fuel_type != fuel_type_none && info().fuel_type != obj_type ) {
             return false;
         }
         // don't fill magazines with inappropriate fuel
-        if( !is_tank() && !base.is_reloadable_with( obj ) ) {
+        if( !is_tank() && !base.is_reloadable_with( obj_type ) ) {
             return false;
         }
     }
@@ -320,16 +299,22 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
     return ammo_remaining() < ammo_capacity();
 }
 
-void vehicle_part::process_contents( const tripoint &pos )
+void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
 {
-    if( !base.contents.empty() ) {
-        base.process( nullptr, pos, false );
+    // for now we only care about processing food containers since things like
+    // fuel don't care about temperature yet
+    if( base.is_food_container() ) {
+        int temp = g->get_temperature( pos );
+        if( e_heater ) {
+            temp = std::max( temp, temperatures::cold + 1 );
+        }
+        base.process( nullptr, pos, false, temp, 1 );
     }
 }
 
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
-    if( !is_tank() || !can_reload( liquid.typeId() ) ) {
+    if( !is_tank() || !can_reload( liquid ) ) {
         return false;
     }
 

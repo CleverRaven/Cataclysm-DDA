@@ -2,9 +2,8 @@
 
 #include "game.h"
 #include "map.h"
-#include "player.h"
-
 #include "map_helpers.h"
+#include "player.h"
 
 TEST_CASE( "destroy_grabbed_furniture" )
 {

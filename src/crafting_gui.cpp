@@ -1,29 +1,28 @@
 #include "crafting_gui.h"
 
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "crafting.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "player.h"
-#include "itype.h"
-#include "input.h"
-#include "game.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "skill.h"
-#include "catacharset.h"
-#include "output.h"
-#include "json.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 #include "ui.h"
 #include "uistate.h"
 
-#include "debug.h"
-
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 enum TAB_MODE {
     NORMAL,
@@ -57,7 +56,6 @@ std::string get_cat_name( const std::string &prefixed_name )
 
 void load_recipe_category( JsonObject &jsobj )
 {
-    JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
 
     if( category.find( "CC_" ) != 0 ) {
@@ -69,7 +67,7 @@ void load_recipe_category( JsonObject &jsobj )
     std::string cat_name = get_cat_name( category );
 
     craft_subcat_list[category] = std::vector<std::string>();
-    subcats = jsobj.get_array( "recipe_subcategories" );
+    JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
         std::string subcat_id = subcats.next_string();
         if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
@@ -272,11 +270,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
                                 break;
 
-                            case 'q':
+                            case 'Q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
                                 break;
 
-                            case 'Q':
+                            case 'q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
                                 break;
 
@@ -444,7 +442,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             }
         } else {
-            for( size_t i = 0; i < current.size() && i < ( size_t )dataHeight + 1; ++i ) {
+            for( size_t i = 0; i < current.size() && i < static_cast<size_t>( dataHeight ) + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
                     tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name.c_str() );
@@ -520,29 +518,40 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( display_mode == 0 ) {
                 const int width = getmaxx( w_data ) - xpos - item_info_x;
-                mvwprintz( w_data, ypos++, xpos, col, _( "Skills used: %s" ),
-                           ( !current[line]->skill_used ? _( "N/A" ) :
-                             current[line]->skill_used.obj().name().c_str() ) );
-                ypos += fold_and_print( w_data, ypos, xpos, width, col, _( "Required skills: %s" ),
-                                        current[line]->required_skills_string().c_str() );
-                mvwprintz( w_data, ypos++, xpos, col, _( "Difficulty: %d" ),
-                           current[ line ]->difficulty );
-                if( !current[line]->skill_used ) {
-                    mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: N/A" ) );
-                } else {
-                    mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: %d" ),
-                               g->u.get_skill_level( current[line]->skill_used ) );
-                }
+                print_colored_text(
+                    w_data, ypos++, xpos, col, col,
+                    string_format( _( "Primary skill used: <color_cyan>%s</color>" ),
+                                   ( !current[line]->skill_used ? _( "N/A" ) :
+                                     current[line]->skill_used.obj().name() ) ) );
+                auto player_skill = g->u.get_skill_level( current[line]->skill_used );
+                std::string difficulty_color =
+                    current[ line ]->difficulty > player_skill ? "yellow" : "green";
+                print_colored_text(
+                    w_data, ypos++, xpos, col, col,
+                    string_format( _( "Difficulty: <color_%s>%d</color>" ),
+                                   difficulty_color, current[ line ]->difficulty ) );
+                std::string skill_level_string =
+                    current[line]->skill_used ?
+                    string_format( _( "Your skill level: <color_%s>%d</color>" ),
+                                   difficulty_color, player_skill ) :
+                    _( "Your skill level: <color_yellow>N/A</color>" );
+                print_colored_text( w_data, ypos++, xpos, col, col, skill_level_string );
+                ypos += fold_and_print( w_data, ypos, xpos, width, col,
+                                        _( "Other skills used: %s" ),
+                                        current[line]->required_skills_string( &g->u ) );
 
                 const int expected_turns = g->u.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
-                ypos += fold_and_print( w_data, ypos, xpos, pane, col, _( "Time to complete: %s" ),
+                ypos += fold_and_print( w_data, ypos, xpos, pane, col,
+                                        _( "Time to complete: <color_cyan>%s</color>" ),
                                         to_string( time_duration::from_turns( expected_turns ) ) );
 
-                mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),
-                           current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
-                           current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
-                           _( "Impossible" ) );
+                print_colored_text(
+                    w_data, ypos++, xpos, col, col,
+                    string_format( _( "Dark craftable? <color_cyan>%s</color>" ),
+                                   current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
+                                   current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
+                                   _( "Impossible" ) ) );
                 ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
 
@@ -647,28 +656,53 @@ const recipe *select_crafting_recipe( int &batch_size )
             redraw = true;
             keepline = true;
         } else if( action == "FILTER" ) {
+            struct SearchPrefix {
+                char key;
+                std::string example;
+                std::string description;
+            };
+            std::vector<SearchPrefix> prefixes = {
+                { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
+                { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
+                { 's', _( "cooking" ), _( "<color_cyan>skill</color> required to craft" ) },
+                { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
+                { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
+                { 'h', _( "yes" ), _( "recipes which are <color_cyan>hidden</color> or not" ) },
+                { 'm', _( "no" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
+            };
+            int max_example_length = 0;
+            for( const auto &prefix : prefixes ) {
+                max_example_length = std::max( max_example_length, utf8_width( prefix.example ) );
+            }
+            std::string spaces( max_example_length, ' ' );
+
+            std::string description =
+                _( "The default is to search result names.  Some single-character prefixes "
+                   "can be used with a colon (:) to search in other ways.\n"
+                   "\n"
+                   "<color_white>Examples:</color>\n" );
+
+            {
+                std::string example_name = _( "shirt" );
+                auto padding = max_example_length - utf8_width( example_name );
+                description += string_format(
+                                   _( "  <color_white>%s</color>%.*s    %s\n" ),
+                                   example_name, padding, spaces,
+                                   _( "<color_cyan>name</color> of resulting item" ) );
+            }
+
+            for( const auto &prefix : prefixes ) {
+                auto padding = max_example_length - utf8_width( prefix.example );
+                description += string_format(
+                                   _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
+                                   prefix.key, prefix.example, padding, spaces, prefix.description );
+            }
+
             string_input_popup()
             .title( _( "Search:" ) )
             .width( 85 )
-            .description( _( "Special prefixes for requirements:\n"
-                             "  [t] search tools\n"
-                             "  [c] search components\n"
-                             "  [q] search qualities\n"
-                             "  [s] search skills\n"
-                             "Special prefixes for results:\n"
-                             "  [Q] search qualities\n"
-                             "Other:\n"
-                             "  [h] search for hidden\n"
-                             "  [m] search for memorized or not\n"
-                             "Examples:\n"
-                             "  t:soldering iron\n"
-                             "  c:two by four\n"
-                             "  q:metal sawing\n"
-                             "  s:cooking\n"
-                             "  Q:fine bolt turning\n"
-                             "  h:yes\n"
-                             "  m:no"
-                           ) )
+            .description( description )
+            .desc_color( c_light_gray )
             .edit( filterstring );
             redraw = true;
         } else if( action == "QUIT" ) {
@@ -774,7 +808,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
     if( rel_menu.ret != UIMENU_CANCEL ) {
-        return rel_menu.entries[ rel_menu.ret ].txt.substr( 2 ); // 2 = prefix length
+        std::wstring wstr_recipe_name = utf8_to_wstr( rel_menu.entries[ rel_menu.ret ].txt );
+        return wstr_to_utf8( wstr_recipe_name.substr( 2 ) ); // 2 = prefix length
     }
 
     return "";

@@ -1,25 +1,26 @@
 #include "veh_type.h"
-#include "requirements.h"
-#include "vehicle.h"
-#include "debug.h"
-#include "item_group.h"
-#include "json.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "color.h"
-#include "itype.h"
-#include "ammo.h"
-#include "vehicle_group.h"
-#include "init.h"
-#include "output.h"
-#include "generic_factory.h"
-#include "character.h"
-#include "flag.h"
 
+#include "ammo.h"
+#include "character.h"
+#include "color.h"
+#include "debug.h"
+#include "flag.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item_group.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "requirements.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vehicle_group.h"
+
+#include <numeric>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
-#include <sstream>
-#include <numeric>
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -206,6 +207,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "location", def.location );
     assign( jo, "durability", def.durability );
     assign( jo, "damage_modifier", def.dmg_mod );
+    assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
@@ -554,7 +556,7 @@ std::string vpart_info::name() const
     return name_;
 }
 
-int vpart_info::format_description( std::ostringstream &msg, std::string format_color,
+int vpart_info::format_description( std::ostringstream &msg, const std::string &format_color,
                                     int width ) const
 {
     int lines = 1;

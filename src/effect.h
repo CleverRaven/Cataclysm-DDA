@@ -2,10 +2,12 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include "pldata.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "enums.h"
+#include "pldata.h"
 #include "string_id.h"
+
 #include <unordered_map>
 #include <tuple>
 #include <vector>
@@ -156,6 +158,8 @@ class effect
         std::string disp_name() const;
         /** Returns the description displayed in the player status window. */
         std::string disp_desc( bool reduced = false ) const;
+        /** Returns the short description as set in json. */
+        std::string disp_short_desc( bool reduced = false ) const;
         /** Returns true if a description will be formatted as "Your" + body_part + description. */
         bool use_part_descs() const;
 
@@ -283,6 +287,9 @@ class effect
 
 void load_effect_type( JsonObject &jo );
 void reset_effect_types();
+
+std::string texitify_base_healing_power( const int power );
+std::string texitify_healing_power( const int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON

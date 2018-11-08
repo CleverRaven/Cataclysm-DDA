@@ -2,21 +2,25 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include "calendar.h"
+#include "cata_utility.h"
+#include "debug.h"
+#include "item_location.h"
+#include "string_id.h"
+#include "visitable.h"
+
 #include <climits>
+#include <list>
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
-#include <list>
-#include <unordered_set>
-#include <set>
-#include <map>
 
-#include "visitable.h"
-#include "string_id.h"
-#include "item_location.h"
-#include "debug.h"
-#include "cata_utility.h"
-#include "calendar.h"
-
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 class nc_color;
 class JsonObject;
 class JsonIn;
@@ -71,6 +75,7 @@ using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
+class map;
 
 enum damage_type : int;
 
@@ -172,6 +177,12 @@ enum layer_level {
     /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
 };
+
+inline layer_level &operator++( layer_level &l )
+{
+    l = static_cast<layer_level>( l + 1 );
+    return l;
+}
 
 class item : public visitable<item>
 {
@@ -324,7 +335,6 @@ class item : public visitable<item>
          * properties of the @ref itype (if they are visible to the player). The returned string
          * is already translated and can be *very* long.
          * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * the vector can be used to compare them to properties of another item.
          */
         std::string info( bool showtext = false ) const;
 
@@ -446,11 +456,19 @@ class item : public visitable<item>
 
         units::mass weight( bool include_contents = true ) const;
 
-        /* Total volume of an item accounting for all contained/integrated items
-         * @param integral if true return effective volume if item was integrated into another */
+        /**
+         * Total volume of an item accounting for all contained/integrated items
+         * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
+         * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
+         * @param integral if true return effective volume if this item was integrated into another
+         */
         units::volume volume( bool integral = false ) const;
 
-        /** Simplified, faster volume check for when processing time is important and exact volume is not. */
+        /**
+         * Simplified, faster volume check for when processing time is important and exact volume is not.
+         * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
+         * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
+         */
         units::volume base_volume() const;
 
         /** Volume check for corpses, helper for base_volume(). */
@@ -530,6 +548,15 @@ class item : public visitable<item>
         bool on_drop( const tripoint &pos );
 
         /**
+         * Invokes item type's @ref itype::drop_action.
+         * This function can change the item.
+         * @param pos Where is the item being placed. Note: the item isn't there yet.
+         * @param map A map object associated with that position.
+         * @return true if the item was destroyed during placement.
+         */
+        bool on_drop( const tripoint &pos, map &m );
+
+        /**
          * Consume a specific amount of items of a specific type.
          * This includes this item, and any of its contents (recursively).
          * @see item::use_charges - this is similar for items, not charges.
@@ -585,13 +612,18 @@ class item : public visitable<item>
         long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                 std::string *err = nullptr ) const;
         /**
-         * It returns the total capacity (volume) of the container.
+         * It returns the total capacity (volume) of the container for liquids.
          */
         units::volume get_container_capacity() const;
         /**
+         * It returns the maximum volume of any contents, including liquids,
+         * ammo, magazines, weapons, etc.
+         */
+        units::volume get_total_capacity() const;
+        /**
          * Puts the given item into this one, no checks are performed.
          */
-        void put_in( item payload );
+        void put_in( const item &payload );
 
         /** Stores a newly constructed item at the end of this item's contents */
         template<typename ... Args>
@@ -621,6 +653,11 @@ class item : public visitable<item>
 
         int get_quality( const quality_id &id ) const;
         bool count_by_charges() const;
+
+        /**
+         * If count_by_charges(), returns charges, otherwise 1
+         */
+        long count() const;
         bool craft_has_charges();
 
         /**
@@ -714,8 +751,22 @@ class item : public visitable<item>
          */
         void calc_temp( const int temp, const float insulation, const time_duration &time );
 
+        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
+        int get_static_temp_counter() const;
+
+        /** Set temperature tags and counter according to a static counter */
+        void set_temp_from_static( const int counter );
+
         /** the last time the temperature was updated for this item */
         time_point last_temp_check = calendar::time_of_cataclysm;
+
+        /**
+         * Current phase state, inherits a default at room temperature from
+         * itype and can be changed through item processing.  This is a static
+         * cast to avoid importing the entire enums.h header here, zero is
+         * PNULL.
+         */
+        phase_id current_phase = static_cast<phase_id>( 0 );
     public:
         time_duration get_rot() const {
             return rot;
@@ -796,9 +847,14 @@ class item : public visitable<item>
          */
         bool made_of( const material_id &mat_ident ) const;
         /**
+         * If contents nonempty, return true if item phase is same, else false
+         */
+        bool contents_made_of( const phase_id phase ) const;
+        /**
          * Are we solid, liquid, gas, plasma?
          */
         bool made_of( phase_id phase ) const;
+        bool made_of_from_type( phase_id phase ) const;
         /**
          * Whether the items is conductive.
          */
@@ -951,9 +1007,9 @@ class item : public visitable<item>
     public:
         /**
          * Gets the point (vehicle tile) the cable is connected to.
-         * Returns tripoint_min if not connected to anything.
+         * Returns nothing if not connected to anything.
          */
-        tripoint get_cable_target() const;
+        cata::optional<tripoint> get_cable_target( player *carrier, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -988,6 +1044,7 @@ class item : public visitable<item>
         bool is_magazine() const;
         bool is_ammo_belt() const;
         bool is_bandolier() const;
+        bool is_holster() const;
         bool is_ammo() const;
         bool is_armor() const;
         bool is_book() const;
@@ -1043,6 +1100,8 @@ class item : public visitable<item>
         bool can_reload_with( const itype_id &ammo ) const;
         /** Returns true if this item can be reloaded with specified ammo type at this moment. */
         bool is_reloadable_with( const itype_id &ammo ) const;
+        /** Returns true if not empty if it's liquid, it's not currently frozen in resealable container */
+        bool can_unload_liquid() const;
     private:
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
@@ -1159,11 +1218,11 @@ class item : public visitable<item>
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Number of charges of this item that fit into the given volume.
+         * Number of (charges of) this item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume. Only depends on the *type*
          * of this item not on its current charge count.
          *
-         * For items not counted by charges, this returns this->volume() / vol.
+         * For items not counted by charges, this returns vol / this->volume().
          */
         long charges_per_volume( const units::volume &vol ) const;
 
@@ -1356,9 +1415,9 @@ class item : public visitable<item>
          */
         int get_thickness() const;
         /**
-         * Returns clothing layer for item which will always be 0 for non-wearable items.
+         * Returns clothing layer for item.
          */
-        int get_layer() const;
+        layer_level get_layer() const;
         /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
@@ -1366,6 +1425,12 @@ class item : public visitable<item>
          * damage from attacks.
          */
         int get_coverage() const;
+        /**
+         * Returns the encumbrance value that this item has when worn, when
+         * containing a particular volume of contents.
+         * Returns 0 if this is can not be worn at all.
+         */
+        int get_encumber_when_containing( const units::volume &contents_volume ) const;
         /**
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.
@@ -1650,6 +1715,10 @@ class item : public visitable<item>
          * Does it require gunsmithing tools to repair.
          */
         bool is_firearm() const;
+        /**
+         * Returns the reload time of the gun. Returns 0 if not a gun.
+         */
+        int get_reload_time() const;
         /*@}*/
 
         /**
@@ -1659,6 +1728,17 @@ class item : public visitable<item>
 
         /** for combustion engines the displacement (cc) */
         int engine_displacement() const;
+        /*@}*/
+
+        /**
+         * @name Bionics / CBMs
+         * Functions specific to CBMs
+         */
+        /*@{*/
+        /**
+         * Whether the CBM is an upgrade to another bionic module
+         */
+        bool is_upgrade() const;
         /*@}*/
 
         /**
@@ -1778,6 +1858,8 @@ class item : public visitable<item>
         t_item_vector components;
 
         int get_gun_ups_drain() const;
+
+        int get_min_str() const;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
@@ -1805,4 +1887,3 @@ enum hint_rating {
 item &null_item_reference();
 
 #endif
-
