@@ -422,12 +422,10 @@ void player::sort_armor()
     int tabindex = num_bp;
     const int tabcount = num_bp + 1;
 
-    int leftListSize;
     int leftListIndex  = 0;
     int leftListOffset = 0;
     int selected       = -1;
 
-    int rightListSize;
     int rightListOffset = 0;
 
     std::vector<std::list<item>::iterator> tmp_worn;
@@ -519,8 +517,8 @@ void player::sort_armor()
                 }
             }
         }
-        leftListSize = ( static_cast<int>( tmp_worn.size() ) < cont_h - 2 ) ? static_cast<int>
-                       ( tmp_worn.size() ) : cont_h - 2;
+        int leftListSize = ( static_cast<int>( tmp_worn.size() ) < cont_h - 2 ) ? static_cast<int>
+                           ( tmp_worn.size() ) : cont_h - 2;
 
         // Ensure leftListIndex is in bounds
         int new_index_upper_bound = std::max( 0, int( tmp_worn.size() ) - 1 );
@@ -578,7 +576,7 @@ void player::sort_armor()
         right_print( w_sort_right, 0, 0, c_light_gray, _( "Encumbrance" ) );
 
         // Right list
-        rightListSize = 0;
+        int rightListSize = 0;
         for( int cover = 0, pos = 1; cover < num_bp; cover++ ) {
             bool combined = false;
             if( cover > 3 && cover % 2 == 0 &&

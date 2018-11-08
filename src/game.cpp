@@ -3026,8 +3026,7 @@ void game::debug()
             break;
 
         case 6: {
-            std::string s;
-            s = _( "Location %d:%d in %d:%d, %s\n" );
+            std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
             popup_top(
@@ -8127,7 +8126,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     int iActive = 0; // monster index that we're looking at
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2 - 1;
     int iStartPos = 0;
-    tripoint iActivePos;
     cata::optional<tripoint> iLastActivePos;
     Creature *cCurMon = nullptr;
 
@@ -8352,7 +8350,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             }
 
             // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
-            iActivePos = cCurMon->pos() - u.pos();
+            tripoint iActivePos = cCurMon->pos() - u.pos();
             if( ( !iLastActivePos || iActivePos != *iLastActivePos ) || action == "HELP_KEYBINDINGS" ) {
                 iLastActivePos.emplace( iActivePos );
                 centerlistview( iActivePos );

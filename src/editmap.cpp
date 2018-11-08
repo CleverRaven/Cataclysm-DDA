@@ -102,8 +102,6 @@ void edit_json( SAVEOBJ &it )
     std::string save1 = serialize( it );
     std::string osave1 = save1;
     std::vector<std::string> fs1 = fld_string( save1, TERMX - 10 );
-    std::string save2;
-    std::vector<std::string> fs2;
     do {
         uilist tm;
 
@@ -118,8 +116,8 @@ void edit_json( SAVEOBJ &it )
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
             }
-            save2 = serialize( it );
-            fs2 = fld_string( save2, TERMX - 10 );
+            std::string save2 = serialize( it );
+            std::vector<std::string> fs2 = fld_string( save2, TERMX - 10 );
 
             tm.addentry( -1, false, -2, "== Reloaded: =====================" );
             for( size_t s = 0; s < fs2.size(); ++s ) {
@@ -1052,13 +1050,12 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id id
 
 void editmap::setup_fmenu( uilist &fmenu )
 {
-    std::string fname;
     fmenu.entries.clear();
     for( int i = 0; i < num_fields; i++ ) {
         const field_id fid = static_cast<field_id>( i );
         const field_t &ftype = fieldlist[fid];
         int fdens = 1;
-        fname = ftype.name( fdens - 1 );
+        std::string fname = ftype.name( fdens - 1 );
         fmenu.addentry( fid, true, -2, fname );
         fmenu.entries[fid].extratxt.left = 1;
         fmenu.entries[fid].extratxt.txt = string_format( "%c", ftype.sym );

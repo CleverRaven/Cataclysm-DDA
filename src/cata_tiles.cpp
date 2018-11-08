@@ -952,7 +952,6 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
  * The JSON data (loaded here) contains tile ids relative to the associated image.
  * They are translated into global ids by adding the @p offset, which is the number of
  * previously loaded tiles (excluding the tiles from the associated image).
- * @param entry
  * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids). Any existing
  * definition of the same id is overridden.
  * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.

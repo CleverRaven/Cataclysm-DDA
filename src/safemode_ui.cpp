@@ -400,7 +400,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 void safemode::test_pattern( const int tab_in, const int row_in )
 {
     std::vector<std::string> creature_list;
-    std::string creature_name;
 
     auto &temp_rules = ( tab_in == GLOBAL_TAB ) ? global_rules : character_rules;
 
@@ -415,7 +414,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
     //Loop through all monster mtypes
     for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-        creature_name = mtype.nname();
+        std::string creature_name = mtype.nname();
         if( wildcard_match( creature_name, temp_rules[row_in].rule ) ) {
             creature_list.push_back( creature_name );
         }

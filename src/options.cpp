@@ -2127,14 +2127,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
              i < iStartPos + ( ( iContentHeight > static_cast<int>( mPageItems[iCurrentPage].size() ) ) ?
                                static_cast<int>( mPageItems[iCurrentPage].size() ) : iContentHeight ); i++ ) {
 
-            int line_pos; // Current line position in window.
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
             bool hasPrerequisite = current_opt.hasPrerequisite();
             bool prerequisiteEnabled = !hasPrerequisite ||
                                        cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
 
-            line_pos = i - iStartPos;
+            int line_pos = i - iStartPos; // Current line position in window.
 
             sTemp.str( "" );
             sTemp << i + 1 - iBlankOffset;

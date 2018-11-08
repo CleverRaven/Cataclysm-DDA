@@ -687,14 +687,13 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 {
     size_t pos = item_tag.find( '=' );
     if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string var_name;
         std::string val_decoded;
         int svarlen = 0;
         int svarsep = 0;
         svarsep = item_tag.find( '=' );
         svarlen = item_tag.size();
         val_decoded.clear();
-        var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
+        std::string var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
         for( int s = svarsep + 1; s < svarlen;
              s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
             if( item_tag[s] == ivaresc && s < svarlen - 2 ) {

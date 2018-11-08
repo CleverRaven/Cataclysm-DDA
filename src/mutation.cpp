@@ -689,8 +689,7 @@ void player::mutate_category( const std::string &cat )
     }
 
     // Pull the category's list for valid mutations
-    std::vector<trait_id> valid;
-    valid = mutations_category[cat];
+    std::vector<trait_id> valid = mutations_category[cat];
 
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation

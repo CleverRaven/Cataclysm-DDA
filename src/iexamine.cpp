@@ -3361,8 +3361,6 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        item *cashcard;
-
         const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );
 
         if( pos == INT_MIN ) {
@@ -3370,7 +3368,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             return;
         }
 
-        cashcard = &( p.i_at( pos ) );
+        item *cashcard = &( p.i_at( pos ) );
         // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
@@ -3867,7 +3865,6 @@ void smoker_finalize(player &, const tripoint &examp)
 void smoker_load_food( player &p, const tripoint &examp, const units::volume &remaining_capacity )
 {
     std::vector<item_comp> comps;
-    std::list<item> moved;
 
     if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
         p.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
@@ -3960,7 +3957,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         return it.rotten();
     } );
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
-    moved = p.consume_items( selected, 1 );
+    std::list<item> moved = p.consume_items( selected, 1 );
 
     // hack, because consume_items doesn't seem to care of what item is consumed despite filters
     // TODO: find a way to filter out rotten items from those actualy consumed

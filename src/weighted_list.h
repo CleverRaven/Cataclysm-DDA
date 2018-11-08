@@ -183,9 +183,8 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
         void precalc() {
             precalc_array.clear();
             precalc_array.reserve( this->total_weight ); // to avoid additional reallocations
-            size_t i;
             // weights [3,1,5] will produce vector of indices [0,0,0,1,2,2,2,2,2]
-            for( i = 0; i < this->objects.size(); i++ ) {
+            for( size_t i = 0; i < this->objects.size(); i++ ) {
                 precalc_array.resize( precalc_array.size() + this->objects[i].weight, i );
             }
         }

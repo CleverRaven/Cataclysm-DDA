@@ -940,8 +940,8 @@ static void reach_attach( int range, player &u )
 {
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
-    std::vector<tripoint> trajectory;
-    trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon, range );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
+                                       range );
     if( !trajectory.empty() ) {
         u.reach_attack( trajectory.back() );
     }

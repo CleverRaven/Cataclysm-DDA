@@ -336,10 +336,9 @@ void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_
 
     // We need to save the layers because we will draw them in reverse order
     std::list< std::map<tripoint, explosion_tile> > layers;
-    bool changed;
     while( !neighbors.empty() ) {
         std::map<tripoint, explosion_tile> layer;
-        changed = false;
+        bool changed = false;
         // Find a layer that can be drawn
         for( const auto &pr : neighbors ) {
             if( pr.second.neighborhood != all_neighbors ) {

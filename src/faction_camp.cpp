@@ -2774,12 +2774,11 @@ std::vector<tripoint> talk_function::om_companion_path( const tripoint &start, i
         bool bounce )
 {
     std::vector<tripoint> scout_points;
-    tripoint spt;
     tripoint last = start;
     int range = range_start;
     int def_range = range_start;
     while( range > 3 ) {
-        spt = om_target_tile( last, 0, range, {}, false, true, last, false );
+        tripoint spt = om_target_tile( last, 0, range, {}, false, true, last, false );
         if( spt == tripoint( -999, -999, -999 ) ) {
             scout_points.clear();
             return scout_points;
