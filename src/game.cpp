@@ -1323,7 +1323,7 @@ bool game::cleanup_at_end()
                     case 2:
                         queryDelete = true;
                         break;
-                }s
+                }
             }
 
             if( queryDelete || get_option<std::string>( "WORLD_END" ) == "delete" ) {
