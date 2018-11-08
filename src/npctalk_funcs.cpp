@@ -612,5 +612,3 @@ void talk_function::start_training( npc &p )
     g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
-
-

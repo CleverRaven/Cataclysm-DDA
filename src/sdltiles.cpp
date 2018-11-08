@@ -2026,7 +2026,6 @@ void draw_quick_shortcuts() {
     }
 }
 
-
 void draw_virtual_joystick() {
 
     // Bail out if we don't need to draw the joystick

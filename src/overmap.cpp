@@ -719,8 +719,6 @@ const std::vector<oter_t> &overmap_terrains::get_all()
     return terrains.get_all();
 }
 
-
-
 const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &p ) const
 {
     const auto iter = std::find_if( terrains.begin(),

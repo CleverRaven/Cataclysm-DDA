@@ -64,7 +64,6 @@ enum fatigue_levels {
     MASSIVE_FATIGUE = 1000
 };
 
-
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.
 enum sleep_deprivation_levels {

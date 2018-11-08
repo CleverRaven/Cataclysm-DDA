@@ -560,7 +560,6 @@ static void haul()
     }
 }
 
-
 static void smash()
 {
     player &u = g->u;

@@ -232,7 +232,6 @@ double temp_to_celsius( double fahrenheit );
  */
 double temp_to_kelvin( double fahrenheit );
 
-
 /**
  * Clamp (number and space wise) value to with,
  * taking into account the specified preferred scale,

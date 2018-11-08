@@ -372,8 +372,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             return _( "You just asked me for stuff; ask later." );
         }
         return _( "Why should I share my equipment with you?" );
-
-
     } else if( topic == "TALK_DENY_EQUIPMENT" ) {
         if( p->op_of_u.anger >= p->hostile_anger_level() - 4 ) {
             return _( "<no>, and if you ask again, <ill_kill_you>!" );
@@ -1441,7 +1439,6 @@ void talk_function::recover_camp( npc &p )
     become_overseer( p );
 }
 
-
 void talk_function::become_overseer( npc &p )
 {
     add_msg( _( "%s has become a camp manager." ), p.name );
@@ -2059,7 +2056,6 @@ void talk_response::effect_t::parse_string_effect( const std::string &type, Json
     // more functions can be added here, they don't need to be in the map above.
     jo.throw_error( "unknown effect string", type );
 }
-
 
 void talk_response::effect_t::load_effect( JsonObject &jo )
 {

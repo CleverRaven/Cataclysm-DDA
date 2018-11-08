@@ -1999,8 +1999,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This item can be <info>worn with a helmet</info>." ) ) );
             }
-
-
             const bool little = g->u.has_trait( trait_id( "SMALL2" ) ) ||
                                 g->u.has_trait( trait_id( "SMALL_OK" ) );
             if( has_flag( "FIT" ) && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_FITS ) ) {
@@ -7169,7 +7167,6 @@ bool item::on_drop( const tripoint &pos, map &m )
     }
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
-
 
 time_duration item::age() const
 {

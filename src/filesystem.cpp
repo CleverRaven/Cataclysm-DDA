@@ -14,7 +14,6 @@
 #include <sys/stat.h>
 #include <vector>
 
-
 #ifdef _MSC_VER
 #   include "wdirent.h"
 #   include <direct.h>

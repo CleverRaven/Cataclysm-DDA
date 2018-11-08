@@ -504,7 +504,6 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
-
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current

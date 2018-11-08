@@ -297,7 +297,6 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
-
     if( cur_om_level >= 7 ) {
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
         mission_key.text["Setup Hide Site"] = string_format( _( "Notes:\n"
@@ -916,7 +915,6 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == "Recover Surveyor" ) {
         camp_expansion_select( p );
     }
-
 
     if( cur_key.id == cur_key.dir + " Expansion Upgrade" ) {
         for( const auto &e : om_expansions ) {
@@ -3301,7 +3299,6 @@ std::string talk_function::camp_direction( const std::string &line )
     return line.substr( line.find_last_of( '[' ),
                         line.find_last_of( ']' ) - line.find_last_of( '[' ) + 1 );
 }
-
 
 // food supply
 int talk_function::camp_food_supply( int change, bool return_days )

@@ -24,7 +24,6 @@ class npc_template;
 template<typename T>
 class string_id;
 
-
 struct mission_entry {
     std::string id;
     std::string name_display;

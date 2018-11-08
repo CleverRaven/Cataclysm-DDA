@@ -256,5 +256,4 @@ class zone_manager::zone_data
         }
 };
 
-
 #endif

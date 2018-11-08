@@ -1819,8 +1819,6 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                     passengers.push_back( passenger );
                 }
             }
-
-
             // transfer the vehicle_part to the new vehicle
             new_vehicle->parts.emplace_back( parts[ mov_part ] );
             if( !split_mounts.empty() ) {
