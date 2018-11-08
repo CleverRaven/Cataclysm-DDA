@@ -75,7 +75,7 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<ite
  * @param must_see whether the user can select points in the unknown/fog of war
  * @param popup_notice toggles if the user should be shown ranges before being allowed to pick
  * @param source if you are selecting multiple points this is where the OM is centered to start
- * @param bounce 
+ * @param bounce
  */
 tripoint om_target_tile( const tripoint &omt_pos, int min_range = 1, int range = 1,
                          const std::vector<std::string> &possible_om_types = {},
