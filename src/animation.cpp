@@ -102,7 +102,7 @@ tripoint relative_view_pos( player const &u, tripoint const &p ) noexcept
 }
 
 // Convert p to screen position relative to the current terrain view
-static tripoint relative_view_pos( game const &g, tripoint const &p ) noexcept
+tripoint relative_view_pos( game const &g, tripoint const &p ) noexcept
 {
     return { POSX + p.x - g.ter_view_x,
              POSY + p.y - g.ter_view_y,
