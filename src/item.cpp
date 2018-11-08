@@ -1243,7 +1243,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
         // @todo This doesn't cover multiple damage types
         int ammo_pierce     = has_ammo ? get_ranged_pierce( *curammo->ammo ) : 0;
-        //int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
 
         const Skill &skill = *mod->gun_skill();
