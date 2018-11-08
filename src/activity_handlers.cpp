@@ -460,6 +460,10 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
     }
 
+    if( corpse_item.has_flag( "QUARTERED" ) ) {
+        time_to_cut /= 4;
+    }
+
     return time_to_cut;
 }
 
