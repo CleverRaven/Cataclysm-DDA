@@ -362,7 +362,7 @@ bool overmapbuffer::has_vehicle( int x, int y, int z )
         }
     }
 
-    return false;;
+    return false;
 }
 
 std::vector<om_vehicle> overmapbuffer::get_vehicle( int x, int y, int z )

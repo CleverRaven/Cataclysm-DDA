@@ -369,7 +369,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set( const zone_type_id &ty
         return std::unordered_set<tripoint>();
     }
 
-    return type_iter->second;;
+    return type_iter->second;
 }
 
 bool zone_manager::has( const zone_type_id &type, const tripoint &where ) const

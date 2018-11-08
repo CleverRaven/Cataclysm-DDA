@@ -1334,7 +1334,7 @@ void monster::knock_back_from( const tripoint &p )
         die( nullptr );
         return;
     }
-    tripoint to = pos();;
+    tripoint to = pos();
     if( p.x < posx() ) {
         to.x++;
     }
