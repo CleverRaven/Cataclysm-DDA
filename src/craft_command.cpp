@@ -2,20 +2,16 @@
 
 #include "debug.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
-#include "inventory.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
-#include "crafting.h"
 
-#include <list>
 #include <sstream>
-#include <string>
-#include <vector>
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const

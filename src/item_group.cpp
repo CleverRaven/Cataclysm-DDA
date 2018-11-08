@@ -1,16 +1,16 @@
 #include "item_group.h"
-#include "item_factory.h"
-#include "rng.h"
-#include "item.h"
-#include "debug.h"
-#include "ammo.h"
-#include "itype.h"
-#include "game_constants.h"
-#include "json.h"
 
-#include <map>
+#include "ammo.h"
+#include "debug.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "rng.h"
+
 #include <algorithm>
 #include <cassert>
+#include <map>
 
 static const std::string null_item_id( "null" );
 

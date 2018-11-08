@@ -4,8 +4,8 @@
 
 #include "int_id.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 struct ter_t;
 using ter_id = int_id<ter_t>;

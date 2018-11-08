@@ -1,71 +1,60 @@
 #include "item.h"
 
-#include "flag.h"
-#include "string_formatter.h"
 #include "advanced_inv.h"
-#include "player.h"
-#include "enums.h"
-#include "item_category.h"
-#include "damage.h"
-#include "dispersion.h"
-#include "output.h"
-#include "skill.h"
-#include "vitamin.h"
+#include "ammo.h"
 #include "bionics.h"
 #include "bodypart.h"
-#include "game.h"
-#include "gun_mode.h"
-#include "map.h"
+#include "cata_utility.h"
+#include "damage.h"
 #include "debug.h"
-#include "cursesdef.h"
-#include "text_snippets.h"
-#include "vpart_position.h"
-#include "material.h"
-#include "item_factory.h"
-#include "projectile.h"
+#include "dispersion.h"
 #include "effect.h" // for weed_msg
-#include "item_group.h"
-#include "options.h"
-#include "messages.h"
-#include "artifact.h"
-#include "itype.h"
-#include "ammo.h"
-#include "iuse_actor.h"
-#include "compatibility.h"
-#include "translations.h"
-#include "crafting.h"
-#include "recipe_dictionary.h"
-#include "requirements.h"
-#include "martialarts.h"
-#include "npc.h"
-#include "ui.h"
-#include "vehicle.h"
-#include "mtype.h"
-#include "ranged.h"
+#include "enums.h"
+#include "fault.h"
 #include "field.h"
 #include "fire.h"
-#include "weather.h"
-#include "catacharset.h"
-#include "cata_utility.h"
-#include "input.h"
-#include "fault.h"
-#include "vehicle_selector.h"
-#include "vpart_reference.h"
-#include "units.h"
-#include "ret_val.h"
-#include "iteminfo_query.h"
+#include "flag.h"
+#include "game.h"
 #include "game_constants.h"
+#include "gun_mode.h"
 #include "iexamine.h"
+#include "item_category.h"
+#include "item_factory.h"
+#include "iteminfo_query.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "map.h"
+#include "martialarts.h"
+#include "material.h"
+#include "messages.h"
+#include "mtype.h"
+#include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "player.h"
+#include "projectile.h"
+#include "ranged.h"
+#include "recipe_dictionary.h"
+#include "requirements.h"
+#include "ret_val.h"
+#include "skill.h"
+#include "string_formatter.h"
+#include "text_snippets.h"
+#include "translations.h"
+#include "units.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
+#include "vitamin.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
+#include "weather.h"
 
-#include <cmath> // floor
-#include <sstream>
 #include <algorithm>
-#include <unordered_set>
-#include <set>
 #include <array>
-#include <tuple>
-#include <iterator>
 #include <cassert>
+#include <iterator>
+#include <set>
+#include <sstream>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -626,7 +615,7 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-void item::put_in( item payload )
+void item::put_in( const item &payload )
 {
     contents.push_back( payload );
 }
@@ -859,10 +848,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         const int price_postapoc = price( true ) * batch;
         if( parts->test( iteminfo_parts::BASE_PRICE ) )
             info.push_back( iteminfo( "BASE", space + _( "Price: " ), "<num>",
-                                      ( double )price_preapoc / 100, false, "$", true, true ) );
+                                      static_cast<double>( price_preapoc ) / 100, false, "$", true, true ) );
         if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
             info.push_back( iteminfo( "BASE", space + _( "Barter value: " ), "<num>",
-                                      ( double )price_postapoc / 100, false, "$", true, true ) );
+                                      static_cast<double>( price_postapoc ) / 100, false, "$", true, true ) );
         }
 
         int converted_volume_scale = 0;
@@ -1824,7 +1813,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( q.first == quality_jack || q.first == quality_lift ) {
             str = string_format(
                       _( "Has level <info>%1$d %2$s</info> quality and is rated at <info>%3$d</info> %4$s" ),
-                      q.second, q.first.obj().name.c_str(), ( int )convert_weight( q.second * TOOL_LIFT_FACTOR ),
+                      q.second, q.first.obj().name.c_str(),
+                      static_cast<int>( convert_weight( q.second * TOOL_LIFT_FACTOR ) ),
                       weight_units() );
         } else {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
@@ -2450,7 +2440,6 @@ nc_color item::color_in_inventory() const
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
         // ltred if you have one but not the other
-        ammotype amtype = ammo_type();
         bool has_gun = u.has_item_with( [this]( const item & it ) {
             return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
         } );
@@ -3667,7 +3656,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return false;
     }
     int age_in_hours = to_hours<int>( age() );
-    age_in_hours -= int( ( float )burnt / ( volume() / 250_ml ) );
+    age_in_hours -= int( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
     if( damage_level( 4 ) > 0 ) {
         age_in_hours /= ( damage_level( 4 ) + 1 );
     }
@@ -3799,7 +3788,7 @@ int item::cut_resist( bool to_self ) const
 int item::stab_resist( bool to_self ) const
 {
     // Better than hardcoding it in multiple places
-    return ( int )( 0.8f * cut_resist( to_self ) );
+    return static_cast<int>( 0.8f * cut_resist( to_self ) );
 }
 
 int item::acid_resist( bool to_self ) const
@@ -5701,7 +5690,7 @@ bool item::getlight( float &luminance, int &width, int &direction ) const
     width = 0;
     direction = 0;
     if( light.luminance > 0 ) {
-        luminance = ( float )light.luminance;
+        luminance = static_cast<float>( light.luminance );
         if( light.width > 0 ) {  // width > 0 is a light arc
             width = light.width;
             direction = light.direction;
@@ -5710,7 +5699,7 @@ bool item::getlight( float &luminance, int &width, int &direction ) const
     } else {
         const int lumint = getlight_emit();
         if( lumint > 0 ) {
-            luminance = ( float )lumint;
+            luminance = static_cast<float>( lumint );
             return true;
         }
     }
@@ -6204,7 +6193,7 @@ bool item::can_holster( const item &obj, bool ignore ) const
         return false; // item is not a suitable holster for obj
     }
 
-    if( !ignore && ( int ) contents.size() >= ptr->multi ) {
+    if( !ignore && static_cast<int>( contents.size() ) >= ptr->multi ) {
         return false; // item is already full
     }
 

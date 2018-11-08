@@ -1,27 +1,27 @@
 #include "mondeath.h"
-#include "monster.h"
-#include "game.h"
-#include "map.h"
+
+#include "event.h"
+#include "field.h"
 #include "fungal_effects.h"
-#include "map_iterator.h"
-#include "rng.h"
+#include "game.h"
+#include "itype.h"
+#include "iuse_actor.h"
 #include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mtype.h"
 #include "output.h"
+#include "player.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "iuse_actor.h"
 #include "translations.h"
-#include "morale_types.h"
-#include "event.h"
-#include "itype.h"
-#include "mtype.h"
-#include "field.h"
-#include "player.h"
 
-#include <math.h>  // rounding
-#include <sstream>
 #include <algorithm>
+#include <cmath>
 #include <vector>
 
 const mtype_id mon_blob( "mon_blob" );
@@ -418,10 +418,10 @@ void mdeath::guilt( monster &z )
 
     add_msg( msgtype, msg.c_str(), z.name().c_str() );
 
-    int moraleMalus = -50 * ( 1.0 - ( ( float ) kill_count / maxKills ) );
-    int maxMalus = -250 * ( 1.0 - ( ( float ) kill_count / maxKills ) );
-    time_duration duration = 30_minutes * ( 1.0 - ( ( float ) kill_count / maxKills ) );
-    time_duration decayDelay = 3_minutes * ( 1.0 - ( ( float ) kill_count / maxKills ) );
+    int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+    int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+    time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+    time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {

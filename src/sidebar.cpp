@@ -1,37 +1,26 @@
 #include "sidebar.h"
 
-#include "player.h"
-#include "string_formatter.h"
-#include "effect.h"
-#include "game.h"
-#include "map.h"
-#include "options.h"
-#include "gun_mode.h"
-#include "weather.h"
-#include "item.h"
-#include "translations.h"
-#include "vpart_position.h"
+#include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "effect.h"
+#include "game.h"
+#include "gun_mode.h"
+#include "item.h"
+#include "map.h"
 #include "martialarts.h"
+#include "options.h"
 #include "output.h"
-#include "input.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "vehicle.h"
-#include "cata_utility.h"
+#include "vpart_position.h"
+#include "weather.h"
 
-#include <iterator>
-
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
-
-#include <ctime>
-#include <algorithm>
-#include <numeric>
+#include <cmath>
+#include <cstdlib>
 #include <string>
-#include <sstream>
-#include <stdlib.h>
-#include <limits>
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );

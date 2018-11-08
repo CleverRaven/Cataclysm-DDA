@@ -1,7 +1,8 @@
-#include "map.h"
 #pragma once
 #ifndef RECIPE_GROUPS_H
 #define RECIPE_GROUPS_H
+
+#include "map.h"
 
 #include <string>
 

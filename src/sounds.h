@@ -4,8 +4,8 @@
 
 #include "enums.h" // For point
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class monster;
 class player;
@@ -69,7 +69,7 @@ void play_ambient_variant_sound( const std::string &id, const std::string &varia
                                  int duration );
 void generate_gun_sound( const player &source, const item &firing );
 void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
-                           bool targ_mon = 0, const std::string &material = "flesh" );
+                           bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );

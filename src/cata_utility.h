@@ -2,11 +2,11 @@
 #ifndef CATA_UTILITY_H
 #define CATA_UTILITY_H
 
-#include <utility>
-#include <string>
-#include <vector>
 #include <fstream>
 #include <functional>
+#include <string>
+#include <utility>
+#include <vector>
 
 class item;
 class Creature;

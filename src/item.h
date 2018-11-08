@@ -2,20 +2,19 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include "calendar.h"
+#include "cata_utility.h"
+#include "debug.h"
+#include "item_location.h"
+#include "string_id.h"
+#include "visitable.h"
+
 #include <climits>
+#include <list>
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
-#include <list>
-#include <unordered_set>
-#include <set>
-#include <map>
-
-#include "visitable.h"
-#include "string_id.h"
-#include "item_location.h"
-#include "debug.h"
-#include "cata_utility.h"
-#include "calendar.h"
 
 namespace cata
 {
@@ -624,7 +623,7 @@ class item : public visitable<item>
         /**
          * Puts the given item into this one, no checks are performed.
          */
-        void put_in( item payload );
+        void put_in( const item &payload );
 
         /** Stores a newly constructed item at the end of this item's contents */
         template<typename ... Args>
@@ -1015,10 +1014,6 @@ class item : public visitable<item>
          * Helper to bring a cable back to its initial state.
          */
         void reset_cable( player *carrier );
-        /**
-         * Helper to attach a cable to cable charger in a vehicle
-         */
-        void set_cable_charger();
 
         /**
          * Whether the item should be processed (by calling @ref process).

@@ -2,8 +2,8 @@
 #ifndef ITEM_STACK_H
 #define ITEM_STACK_H
 
-#include <list>
 #include <cstddef>
+#include <list>
 
 class item;
 namespace units

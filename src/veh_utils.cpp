@@ -1,15 +1,16 @@
 #include "veh_utils.h"
-#include <algorithm>
-#include <map>
 
 #include "calendar.h"
 #include "craft_command.h"
-#include "vehicle.h"
-#include "output.h"
-#include "veh_type.h"
-#include "player.h"
-#include "messages.h"
 #include "game.h"
+#include "messages.h"
+#include "output.h"
+#include "player.h"
+#include "veh_type.h"
+#include "vehicle.h"
+
+#include <algorithm>
+#include <map>
 
 namespace veh_utils
 {

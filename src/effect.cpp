@@ -1,12 +1,13 @@
 #include "effect.h"
+
 #include "debug.h"
-#include "rng.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "player.h"
-#include "translations.h"
-#include "messages.h"
 #include "json.h"
+#include "messages.h"
+#include "output.h"
+#include "player.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 #include <map>
 #include <sstream>
@@ -1103,7 +1104,7 @@ double effect::get_addict_mod( const std::string &arg, int addict_level ) const
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if( arg == "PKILL" ) {
         if( eff_type->pkill_addict_reduces ) {
-            return 1.0 / std::max( ( double )addict_level * 2.0, 1.0 );
+            return 1.0 / std::max( static_cast<double>( addict_level ) * 2.0, 1.0 );
         } else {
             return 1.0;
         }
@@ -1303,7 +1304,7 @@ void effect::deserialize( JsonIn &jsin )
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    bp = ( body_part )jo.get_int( "bp" );
+    bp = static_cast<body_part>( jo.get_int( "bp" ) );
     permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
     start_time = calendar::time_of_cataclysm;

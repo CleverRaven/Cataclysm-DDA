@@ -1,25 +1,26 @@
 #include "overmapbuffer.h"
+
+#include "cata_utility.h"
 #include "coordinate_conversions.h"
-#include "overmap_connection.h"
-#include "overmap_types.h"
-#include "overmap.h"
+#include "debug.h"
+#include "filesystem.h"
 #include "game.h"
 #include "line.h"
 #include "map.h"
-#include "debug.h"
-#include "monster.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "npc.h"
+#include "overmap.h"
+#include "overmap_connection.h"
+#include "overmap_types.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
-#include "npc.h"
 #include "vehicle.h"
-#include "filesystem.h"
-#include "cata_utility.h"
 
 #include <algorithm>
 #include <cassert>
+#include <cstdlib>
 #include <sstream>
-#include <stdlib.h>
 
 overmapbuffer overmap_buffer;
 

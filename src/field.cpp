@@ -1,34 +1,32 @@
 #include "field.h"
-#include "rng.h"
-#include "map.h"
+
+#include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "emit.h"
 #include "enums.h"
 #include "fire.h"
-#include "game.h"
 #include "fungal_effects.h"
-#include "messages.h"
-#include "vpart_position.h"
-#include "translations.h"
-#include "material.h"
-#include "monster.h"
-#include "npc.h"
-#include "trap.h"
+#include "game.h"
 #include "itype.h"
-#include "emit.h"
-#include "vehicle.h"
-#include "output.h"
-#include "calendar.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "emit.h"
-#include "scent_map.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "morale_types.h"
+#include "mapdata.h"
+#include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
+#include "output.h"
+#include "rng.h"
+#include "scent_map.h"
+#include "submap.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
-#include <queue>
 #include <algorithm>
+#include <queue>
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -2709,7 +2707,7 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
                     continue;
                 }
 
-                open.push( { ( float )rl_dist( center, pt ), pt } );
+                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
             }
         }
     }

@@ -1,36 +1,36 @@
 #include "npc.h"
 
-#include "dispersion.h"
-#include "rng.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "output.h"
-#include "projectile.h"
-#include "line.h"
-#include "debug.h"
-#include "vpart_range.h"
-#include "overmapbuffer.h"
-#include "ranged.h"
-#include "messages.h"
 #include "ammo.h"
-#include "translations.h"
-#include "veh_type.h"
-#include "monster.h"
-#include "vpart_position.h"
+#include "cata_algo.h"
+#include "debug.h"
+#include "dispersion.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "gates.h"
+#include "gun_mode.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "effect.h"
-#include "vehicle.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
-#include "vpart_reference.h"
-#include "sounds.h"
-#include "gates.h"
+#include "output.h"
 #include "overmap_location.h"
-#include "gun_mode.h"
+#include "overmapbuffer.h"
+#include "projectile.h"
+#include "ranged.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "visitable.h"
-#include "cata_algo.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 
 #include <algorithm>
 #include <memory>
@@ -820,7 +820,7 @@ void npc::choose_target()
         int dist = rl_dist( pos(), mon.pos() );
         // @todo: This should include ranged attacks in calculation
         float scaled_distance = std::max( 1.0f, dist / mon.speed_rating() );
-        float hp_percent = ( float )( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
+        float hp_percent = static_cast<float>( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
         float critter_danger = mon.type->difficulty * ( hp_percent / 2.0f + 0.5f );
 
         auto att = mon.attitude( this );
@@ -1305,16 +1305,12 @@ double npc::confidence_mult() const
     switch( rules.aim ) {
         case AIM_WHEN_CONVENIENT:
             return emergency() ? 1.5f : 1.0f;
-            break;
         case AIM_SPRAY:
             return 2.0f;
-            break;
         case AIM_PRECISE:
             return emergency() ? 1.0f : 0.75f;
-            break;
         case AIM_STRICTLY_PRECISE:
             return 0.5f;
-            break;
     }
 
     return 1.0f;
@@ -1404,7 +1400,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 {
     int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ),
                                    gun.ammo_capacity() );
-    const float turns_til_reloaded = ( float )rltime / get_speed();
+    const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
     const Creature *target = current_target();
     if( target == nullptr ) {

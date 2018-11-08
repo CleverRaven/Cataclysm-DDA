@@ -1,20 +1,15 @@
 #include "catch/catch.hpp"
 
-#include "common_types.h"
-#include "player.h"
-#include "npc.h"
-#include "npc_class.h"
-#include "game.h"
-#include "map.h"
-#include "text_snippets.h"
-#include "field.h"
-#include "overmapbuffer.h"
-#include "dialogue.h"
-#include "faction.h"
-#include "player.h"
-#include "effect.h"
 #include "calendar.h"
 #include "coordinate_conversions.h"
+#include "dialogue.h"
+#include "effect.h"
+#include "faction.h"
+#include "game.h"
+#include "map.h"
+#include "npc.h"
+#include "overmapbuffer.h"
+#include "player.h"
 
 #include <string>
 

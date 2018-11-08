@@ -1,44 +1,42 @@
 #include "activity_handlers.h"
 
-#include "game.h"
-#include "map.h"
-#include "player.h"
 #include "action.h"
-#include "veh_interact.h"
-#include "debug.h"
-#include "translations.h"
-#include "sounds.h"
-#include "iuse_actor.h"
-#include "skill.h"
+#include "catalua.h"
+#include "clzones.h"
+#include "construction.h"
 #include "craft_command.h"
-#include "rng.h"
-#include "requirements.h"
+#include "debug.h"
+#include "fault.h"
+#include "field.h"
+#include "game.h"
+#include "gates.h"
+#include "harvest.h"
+#include "iexamine.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "martialarts.h"
+#include "messages.h"
 #include "mongroup.h"
 #include "morale_types.h"
-#include "string_formatter.h"
-#include "output.h"
-#include "vpart_position.h"
-#include "messages.h"
-#include "martialarts.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
-#include "iexamine.h"
 #include "mtype.h"
-#include "field.h"
-#include "weather.h"
+#include "output.h"
+#include "player.h"
+#include "requirements.h"
+#include "rng.h"
+#include "skill.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "ui.h"
-#include "map_iterator.h"
-#include "gates.h"
-#include "catalua.h"
-#include "fault.h"
-#include "construction.h"
-#include "harvest.h"
-#include "clzones.h"
+#include "veh_interact.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
-#include <math.h>
-#include <sstream>
 #include <algorithm>
+#include <cmath>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -278,7 +276,6 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                 u.add_msg_if_player( m_info, _( "None of your tools are sharp and precise enough to do that." ) );
                 act.set_to_null();
                 return;
-                break;
             case 1:
                 u.add_msg_if_player( m_info, _( "You could use a better tool, but this will do." ) );
                 break;
@@ -461,6 +458,10 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
         case DISSECT:
             time_to_cut *= 6;
             break;
+    }
+
+    if( corpse_item.has_flag( "QUARTERED" ) ) {
+        time_to_cut /= 4;
     }
 
     return time_to_cut;
@@ -1209,7 +1210,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             }
             act->set_to_null();
             return;
-            break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
             g->m.i_rem( p->pos(), act->index );
@@ -1484,7 +1484,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
-    hp_part healed = ( hp_part )act->values[0];
+    hp_part healed = static_cast<hp_part>( act->values[0] );
     long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 
@@ -1859,7 +1859,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            float stamina_ratio = ( float )p->stamina / p->get_stamina_max();
+            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             p->mod_stat( "stamina", stamina_ratio * -40 );
 
             moves += 100 / std::max( 0.25f, stamina_ratio );
@@ -2240,7 +2240,7 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 
     rmenu.query();
     if( rmenu.ret >= REPEAT_ONCE && rmenu.ret <= REPEAT_EVENT ) {
-        return ( repeat_type )rmenu.ret;
+        return static_cast<repeat_type>( rmenu.ret );
     }
 
     return REPEAT_CANCEL;
@@ -2300,7 +2300,7 @@ struct weldrig_hack {
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
-    repeat_type repeat = ( repeat_type )act->get_value( 0, REPEAT_INIT );
+    repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
     weldrig_hack w_hack;
     item_location *ploc = nullptr;
 

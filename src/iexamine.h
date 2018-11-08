@@ -9,11 +9,10 @@
 #ifndef IEXAMINE_H
 #define IEXAMINE_H
 
-#include <string>
-#include <list>
-
-#include "string_id.h"
 #include "itype.h"
+#include "string_id.h"
+
+#include <list>
 
 class game;
 class item;

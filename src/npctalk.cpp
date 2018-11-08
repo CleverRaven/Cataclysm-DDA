@@ -1,50 +1,51 @@
-#include "npc.h"
-#include "npc_class.h"
-#include "auto_pickup.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "dialogue.h"
-#include "rng.h"
-#include "line.h"
-#include "debug.h"
-#include "catacharset.h"
-#include "messages.h"
-#include "mission.h"
-#include "morale_types.h"
+#include "npctrade.h"
+
 #include "ammo.h"
-#include "units.h"
-#include "overmapbuffer.h"
-#include "json.h"
-#include "vpart_position.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "input.h"
-#include "item_group.h"
-#include "compatibility.h"
+#include "auto_pickup.h"
 #include "basecamp.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "compatibility.h"
+#include "coordinate_conversions.h"
+#include "debug.h"
+#include "dialogue.h"
+#include "editmap.h"
+#include "faction_camp.h"
+#include "game.h"
+#include "help.h"
+#include "input.h"
+#include "item_group.h"
 #include "itype.h"
-#include "text_snippets.h"
+#include "json.h"
+#include "line.h"
+#include "map.h"
 #include "map_selector.h"
+#include "martialarts.h"
+#include "messages.h"
+#include "mission.h"
+#include "mission_companion.h"
+#include "morale_types.h"
+#include "npc.h"
+#include "npc_class.h"
+#include "npctalk.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "rng.h"
+#include "skill.h"
+#include "string_formatter.h"
+#include "text_snippets.h"
+#include "translations.h"
+#include "ui.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "skill.h"
-#include "ui.h"
-#include "help.h"
-#include "coordinate_conversions.h"
-#include "overmap.h"
-#include "editmap.h"
-#include "npctalk.h"
-#include "npctrade.h"
-#include "faction_camp.h"
-#include "mission_companion.h"
+#include "vpart_position.h"
 
-#include "string_formatter.h"
-#include <vector>
-#include <string>
-#include <sstream>
 #include <algorithm>
+#include <sstream>
+#include <string>
+#include <vector>
 
 const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );
@@ -66,7 +67,6 @@ const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_PROF_FED( "PROF_FED" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -1871,7 +1871,7 @@ void talk_response::effect_fun_t::set_change_faction_rep( int rep_change )
     };
 }
 
-void talk_response::effect_t::set_effect_consequence( effect_fun_t fun, dialogue_consequence con )
+void talk_response::effect_t::set_effect_consequence( const effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, con );

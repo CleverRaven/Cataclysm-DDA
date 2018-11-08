@@ -1,68 +1,54 @@
 #include "vehicle.h"
 
+#include "ammo.h"
+#include "cata_utility.h"
 #include "coordinate_conversions.h"
-#include "map.h"
-#include "mapbuffer.h"
-#include "output.h"
+#include "debug.h"
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
-#include "veh_interact.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "overmapbuffer.h"
-#include "messages.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "debug.h"
-#include "sounds.h"
-#include "translations.h"
-#include "ammo.h"
-#include "options.h"
-#include "monster.h"
-#include "npc.h"
-#include "veh_type.h"
-#include "vpart_range.h"
 #include "itype.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "weather.h"
 #include "json.h"
+#include "map.h"
 #include "map_iterator.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "output.h"
+#include "overmapbuffer.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "submap.h"
+#include "translations.h"
+#include "veh_interact.h"
+#include "veh_type.h"
 #include "vehicle_selector.h"
-#include "cata_utility.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
+#include "weather.h"
 
-#include <sstream>
-#include <stdlib.h>
-#include <set>
-#include <queue>
-#include <math.h>
-#include <array>
-#include <numeric>
 #include <algorithm>
+#include <array>
 #include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
 #include <unordered_map>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
-static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_gasoline( "gasoline" );
-static const itype_id fuel_type_diesel( "diesel" );
 static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_water( "water_clean" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const std::string part_location_structure( "structure" );
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
-static const fault_id fault_diesel( "fault_engine_pump_diesel" );
-static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
-static const fault_id fault_pump( "fault_engine_pump_fuel" );
-static const fault_id fault_starter( "fault_engine_starter" );
 static const fault_id fault_filter_air( "fault_engine_filter_air" );
 static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
@@ -694,7 +680,7 @@ void vehicle::backfire( const int e ) const
 
 const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 {
-    if( index < ( int )parts.size() ) {
+    if( index < static_cast<int>( parts.size() ) ) {
         if( !parts[index].removed || include_removed ) {
             return parts[index].info();
         }
@@ -733,7 +719,7 @@ int vehicle::part_power( int const index, bool const at_full_hp ) const
     // provides a floor otherwise
     float dpf = part_info( index ).engine_damaged_power_factor();
     double effective_percent = dpf + ( ( 1 - dpf ) * health );
-    return ( int )( pwr * effective_percent );
+    return static_cast<int>( pwr * effective_percent );
 }
 
 // alternators, solar panels, reactors, and accessories all have epower.
@@ -1028,7 +1014,7 @@ bool vehicle::can_unmount( int const p ) const
 
 bool vehicle::can_unmount( int const p, std::string &reason ) const
 {
-    if( p < 0 || p > ( int )parts.size() ) {
+    if( p < 0 || p > static_cast<int>( parts.size() ) ) {
         return false;
     }
 
@@ -1395,7 +1381,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 vehicle_part &carried_part = parts.back();
                 carried_part.mount = carry_map.carry_mount;
                 carried_part.carry_names.push( unique_id );
-                carried_part.enabled = 0;
+                carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
@@ -1419,7 +1405,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
  */
 bool vehicle::remove_part( int p )
 {
-    if( p >= ( int )parts.size() ) {
+    if( p >= static_cast<int>( parts.size() ) ) {
         debugmsg( "Tried to remove part %d but only %d parts!", p, parts.size() );
         return false;
     }
@@ -1942,7 +1928,7 @@ std::vector<int> vehicle::parts_at_relative( const point &dp,
         std::vector<int> res;
         for( const vpart_reference &vp : get_parts() ) {
             if( vp.mount() == dp && !vp.part().removed ) {
-                res.push_back( ( int )vp.part_index() );
+                res.push_back( static_cast<int>( vp.part_index() ) );
             }
         }
         return res;
@@ -2333,7 +2319,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
 
 bool vehicle::part_flag( int part, const std::string &flag ) const
 {
-    if( part < 0 || part >= ( int )parts.size() || parts[part].removed ) {
+    if( part < 0 || part >= static_cast<int>( parts.size() ) || parts[part].removed ) {
         return false;
     } else {
         return part_info( part ).has_flag( flag );
@@ -2342,7 +2328,7 @@ bool vehicle::part_flag( int part, const std::string &flag ) const
 
 bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
 {
-    if( part < 0 || part >= ( int )parts.size() || parts[part].removed ) {
+    if( part < 0 || part >= static_cast<int>( parts.size() ) || parts[part].removed ) {
         return false;
     } else {
         return part_info( part ).has_flag( flag );
@@ -2353,7 +2339,7 @@ int vehicle::part_at( int const dx, int const dy ) const
 {
     for( const vpart_reference &vp : get_parts() ) {
         if( vp.part().precalc[0].x == dx && vp.part().precalc[0].y == dy && !vp.part().removed ) {
-            return ( int )vp.part_index();
+            return static_cast<int>( vp.part_index() );
         }
     }
     return -1;
@@ -2522,7 +2508,7 @@ std::vector<int> vehicle::boarded_parts() const
     for( const vpart_reference &vp : get_parts() ) {
         if( vp.has_feature( VPFLAG_BOARDABLE ) &&
             vp.part().has_flag( vehicle_part::passenger_flag ) ) {
-            res.push_back( ( int )vp.part_index() );
+            res.push_back( static_cast<int>( vp.part_index() ) );
         }
     }
     return res;
@@ -2775,7 +2761,7 @@ int vehicle::acceleration( bool const fueled ) const
         ///\EFFECT_STR caps vehicle weight for muscle engines
         const units::mass move_mass = std::max( g->u.str_cur * 25_gram, 150_gram ) * 1000;
         if( mass <= move_mass ) {
-            return ( int )( safe_velocity( fueled ) * k_mass() / ( 1 + strain() ) / 10 );
+            return static_cast<int>( safe_velocity( fueled ) * k_mass() / ( 1 + strain() ) / 10 );
         } else {
             return 0;
         }
@@ -2825,7 +2811,7 @@ int vehicle::safe_velocity( bool const fueled ) const
             cnt++;
         }
     }
-    for( int a = 0; a < ( int )alternators.size(); a++ ) {
+    for( int a = 0; a < static_cast<int>( alternators.size() ); a++ ) {
         if( is_alternator_on( a ) ) {
             pwrs += part_power( alternators[a] ); // alternator parts have negative power
         }
@@ -2833,7 +2819,7 @@ int vehicle::safe_velocity( bool const fueled ) const
     if( cnt > 0 ) {
         pwrs = pwrs * 4 / ( 4 + cnt - 1 );
     }
-    return ( int )( pwrs * k_dynamics() * k_mass() ) * 80;
+    return static_cast<int>( pwrs * k_dynamics() * k_mass() ) * 80;
 }
 
 void vehicle::spew_smoke( double joules, int part, int density )
@@ -3036,7 +3022,7 @@ float vehicle::strain() const
     if( velocity < sv && velocity > -sv ) {
         return 0;
     } else {
-        return ( float )( abs( velocity ) - sv ) / ( float )( mv - sv );
+        return static_cast<float>( abs( velocity ) - sv ) / static_cast<float>( mv - sv );
     }
 }
 
@@ -3203,7 +3189,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!
-    if( load > 0 && one_in( ( int )( 1 / load ) ) &&
+    if( load > 0 && one_in( static_cast<int>( 1 / load ) ) &&
         fuel_left( fuel_type_muscle ) > 0 ) {
         //charge bionics when using muscle engine
         if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
@@ -3271,7 +3257,7 @@ void vehicle::power_parts()
             }
         }
         if( alternators_epower > 0 ) {
-            alternator_load = ( float )abs( alternators_power );
+            alternator_load = static_cast<float>( abs( alternators_power ) );
             epower += alternators_epower;
         }
     }
@@ -3430,11 +3416,11 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
                 int target_loss = current_loss + current_veh->part_info( p ).epower;
                 connected_vehs.push( std::make_pair( target_veh, target_loss ) );
 
-                float loss_amount = ( ( float )amount * ( float )target_loss ) / 100;
+                float loss_amount = ( static_cast<float>( amount ) * static_cast<float>( target_loss ) ) / 100;
                 g->u.add_msg_if_player( m_debug, "Visiting remote %p with %d power (loss %f, which is %d percent)",
                                         ( void * )target_veh, amount, loss_amount, target_loss );
 
-                amount = action( target_veh, amount, ( int )loss_amount );
+                amount = action( target_veh, amount, static_cast<int>( loss_amount ) );
                 g->u.add_msg_if_player( m_debug, "After remote %p, %d power", ( void * )target_veh, amount );
 
                 if( amount < 1 ) {
@@ -3520,7 +3506,7 @@ void vehicle::idle( bool on_map )
             }
         }
 
-        idle_rate = ( float )alternator_load / ( float )engines_power;
+        idle_rate = static_cast<float>( alternator_load ) / static_cast<float>( engines_power );
         if( idle_rate < 0.01 ) {
             idle_rate = 0.01;    // minimum idle is 1% of full throttle
         }
@@ -3662,7 +3648,7 @@ long vehicle::add_charges( int part, const item &itm )
 
 bool vehicle::add_item( int part, const item &itm )
 {
-    if( part < 0 || part >= ( int )parts.size() ) {
+    if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
         debugmsg( "int part (%d) is out of range", part );
         return false;
     }
@@ -3721,7 +3707,7 @@ bool vehicle::add_item_at( int part, std::list<item>::iterator index, item itm )
 
 bool vehicle::remove_item( int part, int itemdex )
 {
-    if( itemdex < 0 || itemdex >= ( int )parts[part].items.size() ) {
+    if( itemdex < 0 || itemdex >= static_cast<int>( parts[part].items.size() ) ) {
         return false;
     }
 

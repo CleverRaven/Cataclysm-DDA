@@ -2,13 +2,12 @@
 
 #include "game.h"
 #include "map.h"
-#include "vehicle.h"
-#include "veh_type.h"
-#include "player.h"
-#include "requirements.h"
-
 #include "map_helpers.h"
+#include "player.h"
 #include "player_helpers.h"
+#include "requirements.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {

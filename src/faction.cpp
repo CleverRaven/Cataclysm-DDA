@@ -1,23 +1,21 @@
 #include "faction.h"
-#include <sstream>
 
-#include "rng.h"
-#include "math.h"
-#include "string_formatter.h"
-#include "output.h"
-#include "debug.h"
-#include "input.h"
+#include "catacharset.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "catacharset.h"
-
+#include "input.h"
 #include "json.h"
+#include "math.h"
+#include "output.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 
+#include <cstdlib>
 #include <map>
 #include <string>
-#include <cstdlib>
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 

@@ -2,9 +2,9 @@
 #ifndef INT_ID_H
 #define INT_ID_H
 
+#include <functional>
 #include <string>
 #include <type_traits>
-#include <functional>
 
 template<typename T>
 class string_id;
