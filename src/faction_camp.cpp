@@ -2,7 +2,7 @@
 #include "ammo.h"
 #include "bionics.h"
 #include "catacharset.h"
-#include "compatibility.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"

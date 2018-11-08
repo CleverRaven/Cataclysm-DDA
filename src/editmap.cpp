@@ -3,7 +3,7 @@
 #include "artifact.h"
 #include "auto_pickup.h"
 #include "calendar.h"
-#include "compatibility.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"

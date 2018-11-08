@@ -6,7 +6,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "compatibility.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
