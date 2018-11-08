@@ -1,7 +1,9 @@
 #include "speech.h"
+
 #include "json.h"
-#include "translations.h"
 #include "rng.h"
+#include "translations.h"
+
 #include <map>
 #include <vector>
 

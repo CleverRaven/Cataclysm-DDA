@@ -1,53 +1,53 @@
 #include "iuse_actor.h"
+
 #include "action.h"
+#include "ammo.h"
 #include "assign.h"
 #include "bionics.h"
-#include "item.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "crafting.h"
+#include "debug.h"
+#include "effect.h"
+#include "event.h"
+#include "field.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "map.h"
-#include "debug.h"
-#include "monster.h"
-#include "mutation.h"
-#include "overmapbuffer.h"
-#include "sounds.h"
-#include "translations.h"
-#include "morale_types.h"
-#include "vitamin.h"
-#include "messages.h"
-#include "material.h"
-#include "event.h"
-#include "crafting.h"
-#include "ui.h"
-#include "output.h"
-#include "itype.h"
-#include "string_formatter.h"
-#include "bodypart.h"
-#include "vehicle.h"
-#include "mtype.h"
-#include "mapdata.h"
-#include "ammo.h"
-#include "field.h"
-#include "weather.h"
-#include "trap.h"
-#include "calendar.h"
-#include "pldata.h"
-#include "requirements.h"
-#include "recipe_dictionary.h"
-#include "player.h"
 #include "generic_factory.h"
-#include "map_iterator.h"
-#include "cata_utility.h"
-#include "string_input_popup.h"
-#include "options.h"
-#include "skill.h"
-#include "effect.h"
-#include "map_selector.h"
+#include "item.h"
 #include "item_factory.h"
+#include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "map_selector.h"
+#include "mapdata.h"
+#include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mtype.h"
+#include "mutation.h"
+#include "options.h"
+#include "output.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "pldata.h"
+#include "recipe_dictionary.h"
+#include "requirements.h"
+#include "skill.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "trap.h"
+#include "ui.h"
+#include "vehicle.h"
+#include "vitamin.h"
+#include "weather.h"
 
-#include <sstream>
 #include <algorithm>
-#include <numeric>
+#include <sstream>
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
@@ -1537,7 +1537,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         return true;
     }
 
-    return 0;
+    return false;
 }
 
 long cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -2128,7 +2128,7 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     int pos = 0;
     std::vector<std::string> opts;
 
-    if( ( int ) it.contents.size() < multi ) {
+    if( static_cast<int>( it.contents.size() ) < multi ) {
         opts.push_back( prompt );
         pos = -1;
     }
@@ -3149,7 +3149,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
     practice_amount = std::max( 9.0f, practice_amount );
 
-    healer.practice( skill_firstaid, ( int )practice_amount );
+    healer.practice( skill_firstaid, static_cast<int>( practice_amount ) );
     return it.type->charges_to_use();
 }
 
@@ -3200,9 +3200,6 @@ hp_part pick_part_to_heal(
             return healed_part;
         }
     }
-
-    // Won't happen?
-    return num_hp_parts;
 }
 
 hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it, bool force ) const
@@ -3252,7 +3249,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             return healed;
         } else if( healer.activity.id() == activity_id( "ACT_FIRSTAID" ) ) {
             // Completed activity, extract body part from it.
-            healed = ( hp_part )healer.activity.values[0];
+            healed = static_cast<hp_part>( healer.activity.values[0] );
         }
     } else {
         // Player healing NPC
@@ -3289,7 +3286,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
     if( bandages_power > 0 ) {
         dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ),
-                           texitify_base_healing_power( ( int )bandages_power ) );
+                           texitify_base_healing_power( static_cast<int>( bandages_power ) ) );
         if( g != nullptr ) {
             dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ),
                                texitify_healing_power( get_bandaged_level( g->u ) ) );
@@ -3298,7 +3295,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
     if( disinfectant_power > 0 ) {
         dump.emplace_back( "TOOL", _( "<bold>Base disinfecting quality:</bold> " ),
-                           texitify_base_healing_power( ( int )disinfectant_power ) );
+                           texitify_base_healing_power( static_cast<int>( disinfectant_power ) ) );
         if( g != nullptr ) {
             dump.emplace_back( "TOOL", _( "<bold>Actual disinfecting quality:</bold> " ),
                                texitify_healing_power( get_disinfected_level( g->u ) ) );
@@ -3309,14 +3306,17 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, true, "",
                            true );
         if( bleed > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Bleeding</bold>:" ), "", ( int )( bleed * 100 ), true, "",
+            dump.emplace_back( "TOOL", _( "<bold>* Bleeding</bold>:" ), "", static_cast<int>( bleed * 100 ),
+                               true, "",
                                true );
         }
         if( bite > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Bite</bold>:" ), "", ( int )( bite * 100 ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>* Bite</bold>:" ), "", static_cast<int>( bite * 100 ), true,
+                               "", true );
         }
         if( infect > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Infection</bold>:" ), "", ( int )( infect * 100 ), true, "",
+            dump.emplace_back( "TOOL", _( "<bold>* Infection</bold>:" ), "", static_cast<int>( infect * 100 ),
+                               true, "",
                                true );
         }
     }

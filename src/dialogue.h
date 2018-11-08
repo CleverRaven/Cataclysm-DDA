@@ -2,18 +2,13 @@
 #ifndef DIALOGUE_H
 #define DIALOGUE_H
 
+#include "dialogue_win.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "npctalk.h"
-#include "dialogue_win.h"
 
-#include <memory>
-#include <vector>
-#include <string>
 #include <functional>
+#include <string>
+#include <vector>
 
 class JsonObject;
 class mission;
@@ -153,7 +148,7 @@ struct talk_response {
                 /**
                  * Sets an effect to a function object and consequence to explicitly given one.
                  */
-                void set_effect_consequence( effect_fun_t eff, dialogue_consequence con );
+                void set_effect_consequence( const effect_fun_t &eff, dialogue_consequence con );
                 void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
 
 
@@ -349,8 +344,6 @@ class json_talk_response
  */
 class json_talk_topic
 {
-    public:
-
     private:
         bool replace_built_in_responses = false;
         std::vector<json_talk_response> responses;

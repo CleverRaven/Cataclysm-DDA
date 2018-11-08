@@ -1,13 +1,14 @@
 #include "calendar.h"
+
+#include "options.h"
+#include "output.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
+
+#include <array>
 #include <cmath>
 #include <limits>
-#include <array>
-
-#include "output.h"
-#include "options.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "rng.h"
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );

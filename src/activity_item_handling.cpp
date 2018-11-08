@@ -1,39 +1,37 @@
 #include "activity_handlers.h"
 
-#include "game.h"
-#include "map.h"
-#include "mapdata.h"
-#include "item.h"
-#include "player_activity.h"
 #include "action.h"
+#include "clzones.h"
+#include "creature.h"
+#include "debug.h"
 #include "enums.h"
 #include "field.h"
 #include "fire.h"
-#include "creature.h"
-#include "pickup.h"
-#include "translations.h"
+#include "game.h"
+#include "item.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "optional.h"
 #include "output.h"
+#include "pickup.h"
+#include "player.h"
+#include "player_activity.h"
+#include "requirements.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "trap.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-#include "veh_type.h"
-#include "player.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "pickup.h"
-#include "requirements.h"
-#include "map_iterator.h"
-#include "clzones.h"
 
+#include <algorithm>
+#include <cassert>
 #include <list>
 #include <vector>
-#include <cassert>
-#include <algorithm>
-#include <numeric>
 
 void cancel_aim_processing();
 
@@ -757,7 +755,7 @@ static double get_capacity_fraction( int capacity, int volume )
     double fr = 1;
 
     if( capacity > volume ) {
-        fr = ( double )volume / capacity;
+        fr = static_cast<double>( volume ) / capacity;
     }
 
     return fr;

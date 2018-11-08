@@ -2,16 +2,15 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include <string>
-#include <memory>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <memory>
-#include <list>
-#include <functional>
-
 #include "itype.h"
+
+#include <functional>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 bool item_is_blacklisted( const std::string &id );
 
@@ -331,7 +330,6 @@ class Item_factory
         void add_entry( Item_group &sg, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
-        void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
         void set_qualities_from_json( JsonObject &jo, const std::string &member, itype &def );
         void set_properties_from_json( JsonObject &jo, const std::string &member, itype &def );
 

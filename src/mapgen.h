@@ -2,12 +2,12 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-#include <map>
-#include <string>
-#include <memory>
-#include <vector>
-
 #include "int_id.h"
+
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
 class time_point;
 struct ter_t;
@@ -391,7 +391,7 @@ enum room_type {
 
 void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
 // helpful functions
-bool connects_to( oter_id there, int dir );
+bool connects_to( const oter_id &there, int dir );
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
 void line( map *m, const ter_id type, int x1, int y1, int x2, int y2 );

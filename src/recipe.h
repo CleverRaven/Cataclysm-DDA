@@ -2,12 +2,11 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include "string_id.h"
 #include "requirements.h"
+#include "string_id.h"
 
 #include <map>
 #include <set>
-#include <string>
 #include <vector>
 
 class recipe_dictionary;

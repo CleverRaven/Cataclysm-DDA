@@ -2,12 +2,12 @@
 #ifndef GAMEMODE_H
 #define GAMEMODE_H
 
-#include <vector>
-#include <string>
-#include <memory>
-#include "enums.h"
 #include "calendar.h"
+#include "enums.h"
 #include "string_id.h"
+
+#include <memory>
+#include <vector>
 
 enum action_id : int;
 using itype_id = std::string;
@@ -138,14 +138,12 @@ struct defense_game : public special_game {
 
     private:
         void init_to_style( defense_style new_style );
-        void load_style( std::string style_name );
 
         void setup();
         void refresh_setup( const catacurses::window &w, int selection );
         void init_mtypes();
         void init_constructions();
         void init_map();
-        std::vector<itype_id> carvan_items( caravan_category cat );
 
         void spawn_wave();
         void caravan();

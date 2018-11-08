@@ -1,24 +1,20 @@
 #pragma once
 #ifndef MTYPE_H
 #define MTYPE_H
-// SEE ALSO: monitemsdef.cpp, which defines data on which items any given
-// monster may carry.
 
-#include "enums.h"
 #include "color.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "damage.h"
-#include "pathfinding.h"
+#include "enums.h"
+#include "int_id.h"
 #include "mattack_common.h"
+#include "pathfinding.h"
+#include "string_id.h"
 #include "units.h"
 
 #include <bitset>
-#include <string>
-#include <vector>
-#include <set>
 #include <map>
-#include <math.h>
+#include <set>
+#include <vector>
 
 class Creature;
 class monster;

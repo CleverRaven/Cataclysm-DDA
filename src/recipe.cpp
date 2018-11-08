@@ -1,17 +1,17 @@
 #include "recipe.h"
 
 #include "calendar.h"
+#include "game_constants.h"
 #include "generic_factory.h"
-#include "itype.h"
 #include "item.h"
-#include "string_formatter.h"
+#include "itype.h"
 #include "output.h"
 #include "skill.h"
-#include "game_constants.h"
+#include "string_formatter.h"
 
 #include <algorithm>
+#include <cmath>
 #include <numeric>
-#include <math.h>
 
 struct oter_t;
 using oter_str_id = string_id<oter_t>;

@@ -1,18 +1,18 @@
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
+#include "calendar.h"
 #include "itype.h"
+#include "json.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
 #include "overmap.h"
-#include "json.h"
 #include "player_activity.h"
-#include "calendar.h"
 
-#include <unordered_map>
-#include <string>
 #include <sstream>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace std
@@ -370,7 +370,7 @@ void overmap::unserialize_legacy( std::istream &fin )
             radio_tower tmp;
             int tmp_type;
             fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
-            tmp.type = ( radio_type )tmp_type;
+            tmp.type = static_cast<radio_type>( tmp_type );
             getline( fin, tmp.message ); // Chomp endl
             getline( fin, tmp.message );
             radios.push_back( tmp );

@@ -3,7 +3,6 @@
 #define CATA_TILES_H
 
 #include <SDL.h>
-#include <SDL_ttf.h>
 
 #include "sdl_wrappers.h"
 #include "animation.h"
@@ -15,7 +14,6 @@
 #include "weighted_list.h"
 
 #include <memory>
-#include <list>
 #include <map>
 #include <set>
 #include <vector>
@@ -438,8 +436,6 @@ class cata_tiles
         void get_rotation_and_subtile( const char val, const int num_connects, int &rota, int &subtype );
 
         /** Drawing Layers */
-        void draw_single_tile( const tripoint &p, const lit_level ll,
-                               const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
@@ -458,8 +454,6 @@ class cata_tiles
 
     public:
         // Animation layers
-        bool draw_hit( const tripoint &p );
-
         void init_explosion( const tripoint &p, int radius );
         void draw_explosion_frame();
         void void_explosion();
@@ -500,8 +494,6 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
-        /** Overmap Layer : Not used for now, do later*/
-        bool draw_omap();
 
     public:
         /**

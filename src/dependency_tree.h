@@ -4,13 +4,9 @@
 
 #include "string_id.h"
 
-#include <vector>
 #include <map>
 #include <stack>
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <memory>
+#include <vector>
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
@@ -77,7 +73,6 @@ class dependency_tree
         dependency_node *get_node( mod_id key );
 
         std::map<mod_id, dependency_node> master_node_map;
-    protected:
     private:
         // Don't need to be called directly. Only reason to call these are during initialization phase.
         void build_node_map( std::map<mod_id, std::vector<mod_id > > key_dependency_map );

@@ -1,26 +1,25 @@
 #include "safemode_ui.h"
 
-#include "game.h"
-#include "player.h"
-#include "output.h"
-#include "debug.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "cata_utility.h"
-#include "path_info.h"
+#include "debug.h"
 #include "filesystem.h"
+#include "game.h"
 #include "input.h"
-#include "mtype.h"
 #include "json.h"
-#include "options.h"
 #include "monstergenerator.h"
+#include "mtype.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <locale>
 
 safemode &get_safemode()
 {
@@ -192,7 +191,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         calcStartPos( start_pos, line, content_height, current_tab.size() );
 
         // display safe mode
-        for( int i = start_pos; i < ( int )current_tab.size(); i++ ) {
+        for( int i = start_pos; i < static_cast<int>( current_tab.size() ); i++ ) {
             if( i >= start_pos &&
                 i < start_pos + std::min( content_height, static_cast<int>( current_tab.size() ) ) ) {
 
@@ -239,7 +238,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             //Only allow loaded games to use the char sheet
         } else if( action == "DOWN" ) {
             line++;
-            if( line >= ( int )current_tab.size() ) {
+            if( line >= static_cast<int>( current_tab.size() ) ) {
                 line = 0;
             }
         } else if( action == "UP" ) {
@@ -259,7 +258,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
             changes_made = true;
             current_tab.erase( current_tab.begin() + line );
-            if( line > ( int )current_tab.size() - 1 ) {
+            if( line > static_cast<int>( current_tab.size() ) - 1 ) {
                 line--;
             }
             if( line < 0 ) {
@@ -359,7 +358,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "MOVE_RULE_UP" && !current_tab.empty() ) {
             changes_made = true;
-            if( line < ( int )current_tab.size() - 1 ) {
+            if( line < static_cast<int>( current_tab.size() ) - 1 ) {
                 std::swap( current_tab[line], current_tab[line + 1] );
                 line++;
                 column = 0;
@@ -462,7 +461,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         calcStartPos( start_pos, line, content_height, creature_list.size() );
 
         // display safe mode
-        for( int i = start_pos; i < ( int )creature_list.size(); i++ ) {
+        for( int i = start_pos; i < static_cast<int>( creature_list.size() ); i++ ) {
             if( i >= start_pos &&
                 i < start_pos + std::min( content_height, static_cast<int>( creature_list.size() ) ) ) {
                 nc_color line_color = c_white;
@@ -482,7 +481,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             line++;
-            if( line >= ( int )creature_list.size() ) {
+            if( line >= static_cast<int>( creature_list.size() ) ) {
                 line = 0;
             }
         } else if( action == "UP" ) {
@@ -591,7 +590,7 @@ rule_state safemode::check_monster( const std::string &creature_name_in,
 {
     const auto iter = safemode_rules.find( creature_name_in );
     if( iter != safemode_rules.end() ) {
-        const auto &tmp = ( iter->second )[( int )attitude_in];
+        const auto &tmp = ( iter->second )[static_cast<int>( attitude_in )];
         if( tmp.state == RULE_BLACKLISTED ) {
             if( tmp.proximity == 0 || proximity <= tmp.proximity ) {
                 return RULE_BLACKLISTED;
@@ -709,7 +708,7 @@ void safemode::deserialize( JsonIn &jsin )
         const std::string rule = jo.get_string( "rule" );
         const bool active = jo.get_bool( "active" );
         const bool whitelist = jo.get_bool( "whitelist" );
-        const Creature::Attitude attitude = ( Creature::Attitude ) jo.get_int( "attitude" );
+        const Creature::Attitude attitude = static_cast<Creature::Attitude>( jo.get_int( "attitude" ) );
         const int proximity = jo.get_int( "proximity" );
 
         temp_rules.push_back(

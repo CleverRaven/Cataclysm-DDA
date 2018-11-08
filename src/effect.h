@@ -2,10 +2,12 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include "pldata.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "enums.h"
+#include "pldata.h"
 #include "string_id.h"
+
 #include <unordered_map>
 #include <tuple>
 #include <vector>

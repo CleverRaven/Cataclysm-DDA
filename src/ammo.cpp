@@ -1,7 +1,8 @@
 #include "ammo.h"
+
 #include "debug.h"
-#include "json.h"
 #include "item.h"
+#include "json.h"
 #include "translations.h"
 
 #include <unordered_map>

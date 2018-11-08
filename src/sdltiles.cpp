@@ -1,38 +1,36 @@
 #if (defined TILES)
-#include "game.h"
+#include "cata_tiles.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
 #include "color_loader.h"
+#include "cursesdef.h"
 #include "cursesport.h"
+#include "debug.h"
+#include "filesystem.h"
 #include "font_loader.h"
+#include "game.h"
 #include "game_ui.h"
+#include "get_version.h"
+#include "init.h"
+#include "input.h"
 #include "loading_ui.h"
 #include "options.h"
 #include "output.h"
-#include "input.h"
-#include "color.h"
-#include "catacharset.h"
-#include "cursesdef.h"
-#include "debug.h"
-#include "player.h"
-#include "translations.h"
-#include "cata_tiles.h"
-#include "get_version.h"
-#include "init.h"
 #include "path_info.h"
-#include "string_formatter.h"
-#include "filesystem.h"
-#include "lightmap.h"
+#include "player.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
+
 #include <algorithm>
-#include <cstring>
 #include <cassert>
-#include <vector>
+#include <cstring>
 #include <fstream>
-#include <sstream>
-#include <sys/stat.h>
+#include <limits>
 #include <memory>
 #include <stdexcept>
-#include <limits>
+#include <vector>
 
 #ifdef __linux__
 #   include <cstdlib> // getenv()/setenv()
@@ -137,7 +135,7 @@ public:
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window( const catacurses::window &win );
     bool draw_window( const catacurses::window &win, int offsetx, int offsety );
@@ -161,7 +159,7 @@ public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) override;
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -197,7 +195,7 @@ public:
     BitmapFont( int w, int h, const std::string &path );
     ~BitmapFont() override = default;
 
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) override;
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
 protected:
@@ -611,7 +609,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     return CreateTextureFromSurface( renderer, sglyph );
 }
 
-void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
+void CachedTTFFont::OutputChar(const std::string &ch, int const x, int const y, unsigned char const color)
 {
     key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
 
@@ -641,7 +639,7 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
 #endif
 }
 
-void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
 {
     int len = ch.length();
     const char *s = ch.c_str();
@@ -1317,7 +1315,7 @@ int HandleDPad()
  * -1 when a ALT+number sequence has been started,
  * or something that a call to ncurses getch would return.
  */
-long sdl_keysym_to_curses( SDL_Keysym keysym )
+long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
     if( get_option<bool>( "DIAG_MOVE_WITH_MODIFIERS" ) ) {
@@ -3083,7 +3081,7 @@ input_event input_manager::get_input_event() {
     else if (inputdelay > 0)
     {
         unsigned long starttime=SDL_GetTicks();
-        unsigned long endtime;
+        unsigned long endtime = 0;
         bool timedout = false;
         do
         {
@@ -3169,8 +3167,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     int x, y;
     if ( tile_iso && use_tiles ) {
-        const int screen_column = round( (float) ( coordinate_x - win_left - (( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
-        const int screen_row = round( (float) ( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
+        const int screen_column = round( static_cast<float>( coordinate_x - win_left - ( ( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
+        const int screen_row = round( static_cast<float>( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
         const int selected_x = ( screen_column - screen_row ) / 2;
         const int selected_y = ( screen_row + screen_column ) / 2;
         x = g->ter_view_x + selected_x;
@@ -3218,7 +3216,7 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
     for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {
         SDL_LockSurface( ascii_surf[a].get() );
         int size = ascii_surf[a]->h * ascii_surf[a]->w;
-        Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
+        Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
         Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
         for(int i = 0; i < size; i++) {
             if(pixels[i] == 0xFFFFFF) {
@@ -3474,7 +3472,7 @@ static std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
 static Mix_Chunk* copy_chunk(const Mix_Chunk* ref){
     // SDL_malloc to match up with Mix_FreeChunk's SDL_free call
     // to free the Mix_Chunk object memory
-    Mix_Chunk *nchunk = (Mix_Chunk*)SDL_malloc(sizeof(Mix_Chunk));
+    Mix_Chunk *nchunk = static_cast<Mix_Chunk*>( SDL_malloc( sizeof( Mix_Chunk ) ) );
 
     // Assign as copy of ref
     (*nchunk) = *ref;
@@ -3578,7 +3576,7 @@ const sound_effect* find_random_effect( const std::string &id, const std::string
 // Deletes the dynamically created chunk (if such a chunk had been played).
 void cleanup_when_channel_finished( int /* channel */, void *udata )
 {
-    Mix_Chunk *chunk = ( Mix_Chunk * )udata;
+    Mix_Chunk *chunk = static_cast<Mix_Chunk *>( udata );
     free( chunk->abuf );
     free( chunk );
 }
@@ -3593,23 +3591,23 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 {
     Mix_Chunk *result;
     Uint32 s_in = s->alen / 4;
-    Uint32 s_out = ( Uint32 )( ( float )s_in * pitch );
-    float pitch_real = ( float )s_out / ( float )s_in;
+    Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );
+    float pitch_real = static_cast<float>( s_out ) / static_cast<float>( s_in );
     Uint32 i, j;
-    result = ( Mix_Chunk * )malloc( sizeof( Mix_Chunk ) );
+    result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
     result->allocated = 1;
     result->alen = s_out * 4;
-    result->abuf = ( Uint8 * )malloc( result->alen * sizeof( Uint8 ) );
+    result->abuf = static_cast<Uint8 *>( malloc( result->alen * sizeof( Uint8 ) ) );
     result->volume = s->volume;
     for( i = 0; i < s_out; i++ ) {
-        Sint16 lt;
-        Sint16 rt;
-        Sint16 lt_out;
-        Sint16 rt_out;
+        Sint16 lt = 0;
+        Sint16 rt = 0;
+        Sint16 lt_out = 0;
+        Sint16 rt_out = 0;
         Sint64 lt_avg = 0;
         Sint64 rt_avg = 0;
-        Uint32 begin = ( Uint32 )( ( float )i / pitch_real );
-        Uint32 end = ( Uint32 )( ( float )( i + 1 ) / pitch_real );
+        Uint32 begin = static_cast<Uint32>( static_cast<float>( i ) / pitch_real );
+        Uint32 end = static_cast<Uint32>( static_cast<float>( i + 1 ) / pitch_real );
 
         // check for boundary case
         if( end > 0 && ( end >= ( s->alen / 4 ) ) ) {
@@ -3622,12 +3620,12 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
             lt_avg += lt;
             rt_avg += rt;
         }
-        lt_out = ( Sint16 )( ( float )lt_avg / ( float )( end - begin + 1 ) );
-        rt_out = ( Sint16 )( ( float )rt_avg / ( float )( end - begin + 1 ) );
-        result->abuf[( 4 * i ) + 1] = ( Uint8 )( ( lt_out >> 8 ) & 0xFF );
-        result->abuf[( 4 * i ) + 0] = ( Uint8 )( lt_out & 0xFF );
-        result->abuf[( 4 * i ) + 3] = ( Uint8 )( ( rt_out >> 8 ) & 0xFF );
-        result->abuf[( 4 * i ) + 2] = ( Uint8 )( rt_out & 0xFF );
+        lt_out = static_cast<Sint16>( static_cast<float>( lt_avg ) / static_cast<float>( end - begin + 1 ) );
+        rt_out = static_cast<Sint16>( static_cast<float>( rt_avg ) / static_cast<float>( end - begin + 1 ) );
+        result->abuf[( 4 * i ) + 1] = static_cast<Uint8>( ( lt_out >> 8 ) & 0xFF );
+        result->abuf[( 4 * i ) + 0] = static_cast<Uint8>( lt_out & 0xFF );
+        result->abuf[( 4 * i ) + 3] = static_cast<Uint8>( ( rt_out >> 8 ) & 0xFF );
+        result->abuf[( 4 * i ) + 2] = static_cast<Uint8>( rt_out & 0xFF );
     }
     return result;
 }
