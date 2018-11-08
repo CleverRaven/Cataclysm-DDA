@@ -44,11 +44,12 @@ void recover_camp( npc & );
 void remove_overseer( npc & );
 
 /**
- * Counts or destroys and drops the bash items of all furniture that matches @ref furn_id f in the map tile
- * @param omt_tgt, the targeted OM tile
- * @param furn_id, furniture you are looking for
- * @param chance of destruction, 0 to 1.00
- * @param force_bash, whether you want to destroy the furniture and drop the items vs counting the furniture
+ * Counts or destroys and drops the bash items of all furniture that matches @ref f in the map tile
+ * @param comp NPC companion
+ * @param omt_tgt the targeted OM tile
+ * @param f furniture you are looking for
+ * @param chance chance of destruction, 0 to 1.00
+ * @param force_bash whether you want to destroy the furniture and drop the items vs counting the furniture
  */
 int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, float chance = 1.0,
                      bool force_bash = true );
@@ -67,13 +68,14 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<ite
                        const std::vector<item *> &itms_rem = {} );
 /**
  * Opens the overmap so that you can select points for missions or constructions.
- * @param omt_pos, where your camp is, used for calculating travel distances
+ * @param omt_pos where your camp is, used for calculating travel distances
  * @param min_range
- * @param range, max number of OM tiles the user can select
- * @param possible_om_types, requires the user to reselect if the OM picked isn't in the list
- * @param must_see, whether the user can select points in the unknown/fog of war
- * @param popup_notice, toggles if the user should be shown ranges before being allowed to pick
- * @param source, if you are selecting multiple points this is where the OM is centered to start
+ * @param range max number of OM tiles the user can select
+ * @param possible_om_types requires the user to reselect if the OM picked isn't in the list
+ * @param must_see whether the user can select points in the unknown/fog of war
+ * @param popup_notice toggles if the user should be shown ranges before being allowed to pick
+ * @param source if you are selecting multiple points this is where the OM is centered to start
+ * @param bounce 
  */
 tripoint om_target_tile( const tripoint &omt_pos, int min_range = 1, int range = 1,
                          const std::vector<std::string> &possible_om_types = {},
@@ -89,10 +91,10 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range = 90,
 /**
  * Can be used to calculate total trip time for an NPC mission or just the traveling portion.  Doesn't use the pathing
  * algorithms yet.
- * @param omt_pos, start point
- * @param omt_tgt, target point
- * @param work, how much time the NPC will stay at the target
- * @param trips, how many trips back and forth the NPC will make
+ * @param omt_pos start point
+ * @param omt_tgt target point
+ * @param work how much time the NPC will stay at the target
+ * @param trips how many trips back and forth the NPC will make
  */
 time_duration companion_travel_time_calc( const tripoint &omt_pos, const tripoint &omt_tgt,
         time_duration work,
@@ -157,22 +159,30 @@ bool camp_garage_chop_start( npc &p, const std::string &task );
 
 /**
  * spawn items or corpses based on search attempts
- * @param skill, skill level of the search
- * @param groupd_id, name of the item_group that provides the items
- * @param task, string to identify what types of corpses to provide ( _faction_camp_hunting or _faction_camp_trapping )
- * @param attempts, number of skill checks to make
- * @param difficulty, a random number from 0 to difficulty is created for each attempt, and if skill is higher, an item or corpse is spawned
+ * @param skill skill level of the search
+ * @param group_id name of the item_group that provides the items
+ * @param attempts number of skill checks to make
+ * @param difficulty a random number from 0 to difficulty is created for each attempt, and if skill is higher, an item or corpse is spawned
  */
 void camp_search_results( int skill, const Group_tag &group_id, int attempts, int difficulty );
+/**
+ * spawn items or corpses based on search attempts
+ * @param skill skill level of the search
+ * @param task string to identify what types of corpses to provide ( _faction_camp_hunting or _faction_camp_trapping )
+ * @param attempts number of skill checks to make
+ * @param difficulty a random number from 0 to difficulty is created for each attempt, and if skill is higher, an item or corpse is spawned
+ */
 void camp_hunting_results( int skill, const std::string &task, int attempts, int difficulty );
 
 /// Called when a companion completes any mission and calls companion_return
 void camp_companion_return( npc &comp );
 /**
  * Perform any mix of the three farm tasks.
- * @param harvest, should the NPC harvest every harvestable plant
- * @param plant, NPC will keep planting until they are out of dirt mounds or seeds in mission inventory
- * @param plow, references the farm json and plows any dirt or grass tiles that are where dirt mounds should be
+ * @param p NPC companion
+ * @param task string to identify what types of corpses to provide ( _faction_camp_hunting or _faction_camp_trapping )
+ * @param harvest should the NPC harvest every harvestable plant
+ * @param plant NPC will keep planting until they are out of dirt mounds or seeds in mission inventory
+ * @param plow references the farm json and plows any dirt or grass tiles that are where dirt mounds should be
  */
 bool camp_farm_return( npc &p, const std::string &task, bool harvest, bool plant, bool plow );
 /// Sorts all items within most of the confines of the camp into piles designated by the player or defaulted to
@@ -181,8 +191,9 @@ void camp_fortifications_return( npc &p );
 void combat_mission_return( std::string &miss, npc &p );
 /**
  * Sets the location of the sorting piles used above.
- * @param reset_pts, reverts all previous points to defaults.  Called/checked so we can add new point with compatability
- * @param choose_pts, let the player flip through all of the points and set the ones they want
+ * @param p NPC companion
+ * @param reset_pts reverts all previous points to defaults.  Called/checked so we can add new point with compatability
+ * @param choose_pts let the player flip through all of the points and set the ones they want
  */
 bool camp_menial_sort_pts( npc &p, bool reset_pts = true, bool choose_pts = false );
 /// Choose which expansion you should start, called when a survey mission is completed

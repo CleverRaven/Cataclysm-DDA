@@ -73,7 +73,7 @@ void companion_mission( npc & );
  * @param id is the value stored with the NPC when it is offloaded
  * @param group is whether the NPC is waiting for additional members before departing together
  * @param equipment is placed in the NPC's special inventory and dropped when they return
- * @param skill_tests is the main skill for the quest
+ * @param skill_tested is the main skill for the quest
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later

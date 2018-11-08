@@ -93,7 +93,7 @@ bool lcmatch( const std::string &str, const std::string &qry );
  * Examle: bank,-house,tank,-car
  * Will match text containing tank or bank while not containing house or car
  *
- * @param test String to be matched
+ * @param text String to be matched
  * @param filter String with include/exclude rules
  *
  * @return true if include/exclude rules pass. See Example.

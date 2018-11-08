@@ -366,7 +366,8 @@ class tileset_loader
         }
         /**
          * @throw std::exception On any error.
-         * @param tileset_name Ident of the tileset, as it appears in the options.
+         * @param tileset_id Ident of the tileset, as it appears in the options.
+         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
          */
         void load( const std::string &tileset_id, bool precheck );
 };
@@ -508,7 +509,8 @@ class cata_tiles
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
-         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param tileset_id Ident of the tileset, as it appears in the options.
+         * @param precheck If true, only loads the meta data of the tileset (tile dimensions).
          * @param force If true, forces loading the tileset even if it is already loaded.
          * @throw std::exception On any error.
          */
