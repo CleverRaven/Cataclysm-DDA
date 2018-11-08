@@ -8,10 +8,7 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
-#include "map_extras.h"
 #include "map_iterator.h"
-#include "mapbuffer.h"
-#include "mapdata.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "messages.h"
@@ -30,17 +27,14 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "translations.h"
-#include "weather_gen.h"
 
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include <ctime>
 #include <numeric>
 #include <ostream>
-#include <sstream>
 #include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "

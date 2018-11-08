@@ -5,10 +5,8 @@
 #include "debug.h"
 #include "enums.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapdata.h"
 #include "optional.h"
-#include "player.h"
 #include "submap.h"
 #include "trap.h"
 #include "veh_type.h"
@@ -19,8 +17,6 @@
 #include <algorithm>
 #include <queue>
 #include <set>
-
-#include "messages.h"
 
 enum astar_state {
     ASL_NONE,

@@ -2,7 +2,6 @@
 
 #include "basecamp.h"
 #include "bionics.h"
-#include "catacharset.h"
 #include "debug.h"
 #include "game.h"
 #include "itype.h"
@@ -10,7 +9,6 @@
 #include "map.h"
 #include "messages.h"
 #include "mission.h"
-#include "mission_companion.h"
 #include "morale_types.h"
 #include "npctalk.h"
 #include "npctrade.h"
@@ -19,14 +17,12 @@
 #include "overmapbuffer.h"
 #include "requirements.h"
 #include "rng.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
 
 #include <algorithm>
-#include <sstream>
 #include <string>
 #include <vector>
 

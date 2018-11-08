@@ -13,7 +13,6 @@
 #include "monster.h"
 #include "output.h"
 #include "sounds.h"
-#include "vitamin.h"
 #include "weather.h"
 
 #ifdef TILES
