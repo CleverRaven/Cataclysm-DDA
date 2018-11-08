@@ -94,7 +94,7 @@ units::volume vehicle_stack::max_volume() const
 {
     if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( myorigin->parts[part_num].info().size, units::from_milliliter( 10000000 ) );
+        return std::min( myorigin->parts[part_num].info().size, 10000000_ml );
     }
     return 0;
 }

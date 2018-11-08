@@ -199,9 +199,9 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Set max volume for containers to prevent integer overflow
-    if( obj.container && obj.container->contains > units::from_milliliter( 10000000 ) ) {
+    if( obj.container && obj.container->contains > 10000000_ml ) {
         debugmsg( obj.id + " storage volume is too large, reducing to 10000000" );
-        obj.container->contains = units::from_milliliter( 10000000 );
+        obj.container->contains = 10000000_ml;
     }
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
