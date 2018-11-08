@@ -1323,7 +1323,7 @@ bool game::cleanup_at_end()
                     case 2:
                         queryDelete = true;
                         break;
-                };
+                }s
             }
 
             if( queryDelete || get_option<std::string>( "WORLD_END" ) == "delete" ) {
@@ -5603,7 +5603,7 @@ void game::use_item( int pos )
         make_active( loc.clone() );
     } else {
         u.use( pos );
-    };
+    }
 
     u.invalidate_crafting_inventory();
 }
@@ -12243,7 +12243,7 @@ void game::update_stair_monsters()
                         msg = _( "The %1$s pushed the %2$s hard." );
                     } else {
                         msg = _( "The %1$s pushed the %2$s." );
-                    };
+                    }
                     add_msg( msg.c_str(), critter.name().c_str(), other.name().c_str() );
                     return;
                 }
@@ -12449,7 +12449,7 @@ void game::display_scent()
     if( !got_value || div < 1 ) {
         add_msg( _( "Never mind." ) );
         return;
-    };
+    }
     draw_ter();
     scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
     wrefresh( w_terrain );

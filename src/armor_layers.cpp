@@ -75,7 +75,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
             if( it->get_layer() > layer && it->covers( bp ) ) {
                 bad_items_within.insert( it->type_name() );
             }
-        };
+        }
         if( !bad_items_within.empty() ) {
             body_parts_with_out_of_order_penalty.push_back( bp );
             lists_of_bad_items_within.push_back( bad_items_within );

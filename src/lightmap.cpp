@@ -358,7 +358,7 @@ void map::generate_lightmap( const int zlev )
             } else {
                 add_light_source( src, vp.bonus );
             }
-        };
+        }
 
         for( const vpart_reference &vp : v->get_parts() ) {
             const size_t p = vp.part_index();

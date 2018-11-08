@@ -5202,7 +5202,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
                 res.emplace( gun_mode_id( prefix + m.first.str() ), gun_mode( m.second.name(),
                              const_cast<item *>( e ),
                              qty, m.second.flags() ) );
-            };
+            }
 
             // non-auxiliary gunmods may provide additional modes for the base item
         } else if( e->is_gunmod() ) {

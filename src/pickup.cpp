@@ -1123,7 +1123,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
                 std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
                 wprintz( w_pickup, c_white, "/%s", fmted_volume_capacity.c_str() );
-            };
+            }
 
             wrefresh( w_pickup );
 

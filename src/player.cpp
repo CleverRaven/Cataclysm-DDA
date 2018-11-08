@@ -7385,7 +7385,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     auto pad = []( std::vector<std::string>& vec, int n, int t ) -> int {
         for( const auto& e : vec ) {
             n = std::max( n, utf8_width( e, true ) + t );
-        };
+        }
         for( auto& e : vec ) {
             e += std::string( n - utf8_width( e, true ), ' ' );
         }
@@ -8026,7 +8026,7 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
     int w = utf8_width( menu.text, true ) + 4;
     for( const auto& e : opts ) {
         w = std::max( w, utf8_width( e.prompt, true ) + 4 );
-    };
+    }
     for( auto& e : opts ) {
         e.prompt += std::string( w - utf8_width( e.prompt, true ), ' ' );
     }
