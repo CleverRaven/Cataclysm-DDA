@@ -1,6 +1,5 @@
 #include "vehicle.h"
 
-#include "catacharset.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
@@ -34,20 +33,14 @@
 #include <sstream>
 
 static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_gasoline( "gasoline" );
-static const itype_id fuel_type_diesel( "diesel" );
 static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_water( "water_clean" );
 static const itype_id fuel_type_muscle( "muscle" );
 
-static const fault_id fault_belt( "fault_engine_belt_drive" );
 static const fault_id fault_diesel( "fault_engine_pump_diesel" );
 static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
-static const fault_id fault_filter_air( "fault_engine_filter_air" );
-static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -153,11 +146,11 @@ void vehicle::control_doors()
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
-        if( pmenu.ret < ( int )doors_with_motors.size() ) {
+        if( pmenu.ret < static_cast<int>( doors_with_motors.size() ) ) {
             int part = doors_with_motors[pmenu.ret];
             open_or_close( part, !( parts[part].open ) );
-        } else if( pmenu.ret < ( ( int )doors_with_motors.size() + CANCEL ) ) {
-            int option = pmenu.ret - ( int )doors_with_motors.size();
+        } else if( pmenu.ret < ( static_cast<int>( doors_with_motors.size() ) + CANCEL ) ) {
+            int option = pmenu.ret - static_cast<int>( doors_with_motors.size() );
             bool open = option == OPENBOTH || option == OPENCURTAINS;
             for( const vpart_reference &vp : door_motors ) {
                 const size_t motor = vp.part_index();
@@ -284,9 +277,9 @@ void vehicle::control_engines()
     }
 
     //show menu until user finishes
-    while( e_toggle >= 0 && e_toggle < ( int )engines.size() ) {
+    while( e_toggle >= 0 && e_toggle < static_cast<int>( engines.size() ) ) {
         e_toggle = select_engine();
-        if( e_toggle >= 0 && e_toggle < ( int )engines.size() &&
+        if( e_toggle >= 0 && e_toggle < static_cast<int>( engines.size() ) &&
             ( active_count > 1 || !is_part_on( engines[e_toggle] ) ) ) {
             active_count += ( !is_part_on( engines[e_toggle] ) ) ? 1 : -1;
             toggle_specific_engine( e_toggle, !is_part_on( engines[e_toggle] ) );
@@ -1054,7 +1047,7 @@ void vehicle::alarm()
                     _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                 }
             };
-            sounds::sound( global_pos3(), ( int ) rng( 45, 80 ), random_entry_ref( sound_msgs ) );
+            sounds::sound( global_pos3(), static_cast<int>( rng( 45, 80 ) ), random_entry_ref( sound_msgs ) );
             if( one_in( 1000 ) ) {
                 is_alarm_on = false;
             }

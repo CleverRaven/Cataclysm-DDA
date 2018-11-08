@@ -163,7 +163,6 @@ static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
-static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -178,7 +177,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -4175,7 +4173,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( activity_id( "ACT_OXYTORCH" ), moves, ( int )ter, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_OXYTORCH" ), moves, static_cast<int>( ter ),
+                        p->get_item_position( it ) );
     p->activity.placement = dirp;
     p->activity.values.push_back( charges );
 
@@ -4217,7 +4216,8 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_HACKSAW" ), moves, ( int )ter, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_HACKSAW" ), moves, static_cast<int>( ter ),
+                        p->get_item_position( it ) );
     p->activity.placement = dirp;
 
     return it->type->charges_to_use();
@@ -6783,7 +6783,7 @@ vehicle *pickveh( const tripoint &center, bool advanced )
         }
     }
     std::vector<tripoint> locations;
-    for( int i = 0; i < ( int )vehs.size(); i++ ) {
+    for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         auto veh = vehs[i];
         locations.push_back( veh->global_pos3() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
@@ -6799,7 +6799,7 @@ vehicle *pickveh( const tripoint &center, bool advanced )
     pmenu.w_y = 0;
     pmenu.query();
 
-    if( pmenu.ret < 0 || pmenu.ret >= ( int )vehs.size() ) {
+    if( pmenu.ret < 0 || pmenu.ret >= static_cast<int>( vehs.size() ) ) {
         return nullptr;
     } else {
         return vehs[pmenu.ret];
@@ -7441,10 +7441,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == "barometer" ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
-                print_pressure( ( int )weatherPoint.pressure ).c_str() );
+                print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         } else {
             p->add_msg_if_player( m_neutral, _( "Pressure: %s." ),
-                                  print_pressure( ( int )weatherPoint.pressure ).c_str() );
+                                  print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         }
     }
 
@@ -7502,7 +7502,7 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
                               it->tname().c_str() );
         return 0;
     }
-    capture_monster_act( p, it, 0, pos );
+    capture_monster_act( p, it, false, pos );
     return 0;
 }
 

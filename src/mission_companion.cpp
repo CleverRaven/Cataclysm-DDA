@@ -1,47 +1,30 @@
 #include "mission_companion.h"
 
-#include "ammo.h"
 #include "bionics.h"
-#include "catacharset.h"
 #include "compatibility.h"
-#include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
-#include "debug.h"
 #include "dialogue.h"
 #include "editmap.h"
 #include "faction_camp.h"
-#include "iexamine.h"
 #include "input.h"
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
-#include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "martialarts.h"
 #include "messages.h"
-#include "mission.h"
-#include "mongroup.h"
 #include "mtype.h"
-#include "npctalk.h"
 #include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "recipe.h"
-#include "recipe_groups.h"
-#include "requirements.h"
 #include "rng.h"
-#include "skill.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_range.h"
 
 #include <algorithm>
 #include <cassert>
-#include <string>
 #include <vector>
 
 const skill_id skill_dodge( "dodge" );
@@ -413,7 +396,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
 
             calcStartPos( offset, sel, FULL_SCREEN_HEIGHT - 3, cur_key_list.size() );
 
-            for( size_t i = 0; ( int )i < FULL_SCREEN_HEIGHT - 3 &&
+            for( size_t i = 0; static_cast<int>( i ) < FULL_SCREEN_HEIGHT - 3 &&
                  ( i + offset ) < cur_key_list.size(); i++ ) {
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );

@@ -1014,10 +1014,6 @@ class item : public visitable<item>
          * Helper to bring a cable back to its initial state.
          */
         void reset_cable( player *carrier );
-        /**
-         * Helper to attach a cable to cable charger in a vehicle
-         */
-        void set_cable_charger();
 
         /**
          * Whether the item should be processed (by calling @ref process).

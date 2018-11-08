@@ -67,7 +67,6 @@ const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_PROF_FED( "PROF_FED" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 

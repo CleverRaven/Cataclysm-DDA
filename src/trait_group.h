@@ -6,7 +6,6 @@
 #include "string_id.h"
 
 #include <memory>
-#include <string>
 #include <vector>
 
 class JsonObject;

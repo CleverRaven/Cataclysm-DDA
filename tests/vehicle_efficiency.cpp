@@ -135,7 +135,7 @@ float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_
         // Weird - we started without this fuel
         float fuel_amt_at_start = iter != started_with.end() ? iter->second : 0.0f;
         REQUIRE( fuel_amt_at_start != 0.0f );
-        left = std::min( left, ( float )fuel_amount[ type ] / fuel_amt_at_start );
+        left = std::min( left, static_cast<float>( fuel_amount[type] ) / fuel_amt_at_start );
     }
 
     return left;
@@ -195,7 +195,6 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     }
     int reset_counter = 0;
     long tiles_travelled = 0;
-    int turn_count = 0;
     int cycles_left = cycle_limit;
     bool accelerating = true;
     CHECK( veh.safe_velocity() > 0 );

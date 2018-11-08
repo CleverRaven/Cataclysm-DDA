@@ -1,48 +1,27 @@
 #include "vehicle.h"
 
-#include "ammo.h"
-#include "cata_utility.h"
-#include "catacharset.h"
 #include "coordinate_conversions.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
-#include "iexamine.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
 #include "messages.h"
-#include "monster.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
-#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
-#include "veh_interact.h"
 #include "veh_type.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "weather.h"
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cmath>
-#include <cstdlib>
-#include <numeric>
-#include <queue>
 #include <set>
-#include <sstream>
 
 static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_gasoline( "gasoline" );
-static const itype_id fuel_type_diesel( "diesel" );
 static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_water( "water_clean" );
-static const itype_id fuel_type_muscle( "muscle" );
-
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -142,12 +121,12 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return ( 1.0 - ( double )base.damage() / base.max_damage() );
+    return ( 1.0 - static_cast<double>( base.damage() ) / base.max_damage() );
 }
 
 double vehicle_part::damage_percent() const
 {
-    return ( double )base.damage() / base.max_damage();
+    return static_cast<double>( base.damage() ) / base.max_damage();
 }
 
 /** parts are considered broken at zero health */

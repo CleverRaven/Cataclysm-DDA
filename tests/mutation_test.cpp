@@ -50,7 +50,7 @@ std::string get_mutations_as_string( const player &p )
 {
     std::ostringstream s;
     for( auto &m : p.get_mutations() ) {
-        s << ( std::string ) m << " ";
+        s << static_cast<std::string>( m ) << " ";
     }
     return s.str();
 }
@@ -105,7 +105,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
 
             int category_strength = dummy.mutation_category_level[cat_id];
             int total_strength = get_total_category_strength( dummy );
-            float breach_chance = category_strength / ( float ) total_strength;
+            float breach_chance = category_strength / static_cast<float>( total_strength );
 
             THEN( "Threshold breach chance is at least 0.2" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );

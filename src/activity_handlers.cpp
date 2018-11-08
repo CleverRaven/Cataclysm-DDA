@@ -1480,7 +1480,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
-    hp_part healed = ( hp_part )act->values[0];
+    hp_part healed = static_cast<hp_part>( act->values[0] );
     long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 
@@ -1855,7 +1855,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            float stamina_ratio = ( float )p->stamina / p->get_stamina_max();
+            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             p->mod_stat( "stamina", stamina_ratio * -40 );
 
             moves += 100 / std::max( 0.25f, stamina_ratio );
@@ -2236,7 +2236,7 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 
     rmenu.query();
     if( rmenu.ret >= REPEAT_ONCE && rmenu.ret <= REPEAT_EVENT ) {
-        return ( repeat_type )rmenu.ret;
+        return static_cast<repeat_type>( rmenu.ret );
     }
 
     return REPEAT_CANCEL;
@@ -2296,7 +2296,7 @@ struct weldrig_hack {
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
-    repeat_type repeat = ( repeat_type )act->get_value( 0, REPEAT_INIT );
+    repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
     weldrig_hack w_hack;
     item_location *ploc = nullptr;
 

@@ -4,7 +4,6 @@
 #include "bionics.h"
 #include "game.h"
 #include "item.h"
-#include "itype.h"
 #include "player.h"
 
 void clear_bionics( player &p )

@@ -10,7 +10,6 @@
 #include <array>
 #include <bitset>
 #include <set>
-#include <string>
 #include <vector>
 
 class JsonObject;

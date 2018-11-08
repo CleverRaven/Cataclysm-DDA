@@ -67,7 +67,6 @@ class editmap
 
         void update_fmenu_entry( uilist &fmenu, field &field, field_id idx );
         void setup_fmenu( uilist &fmenu );
-        bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
         catacurses::window w_info;
         catacurses::window w_help;
         int width;

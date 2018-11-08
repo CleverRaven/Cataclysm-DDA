@@ -573,7 +573,8 @@ bool pay_npc( npc &np, int cost )
         return true;
     }
 
-    if( g->u.cash + ( unsigned long )np.op_of_u.owed >= ( unsigned long )cost ) {
+    if( g->u.cash + static_cast<unsigned long>( np.op_of_u.owed ) >= static_cast<unsigned long>
+        ( cost ) ) {
         g->u.cash -= cost - np.op_of_u.owed;
         np.op_of_u.owed = 0;
         return true;

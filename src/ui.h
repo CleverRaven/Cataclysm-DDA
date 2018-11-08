@@ -7,7 +7,6 @@
 #include "enums.h"
 #include "string_formatter.h"
 
-#include <cstdlib>
 #include <map>
 #include <string>
 #include <utility>

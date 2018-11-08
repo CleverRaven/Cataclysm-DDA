@@ -201,7 +201,7 @@ void computer::use()
         do {
             // TODO: use input context
             ch = inp_mngr.get_input_event().get_first_input();
-        } while( ch != 'q' && ch != 'Q' && ( ch < '1' || ch - '1' >= ( char )options_size ) );
+        } while( ch != 'q' && ch != 'Q' && ( ch < '1' || ch - '1' >= static_cast<char>( options_size ) ) );
         if( ch == 'q' || ch == 'Q' ) {
             break; // Exit from main computer loop
         } else { // We selected an option other than quit.

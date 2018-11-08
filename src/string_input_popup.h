@@ -1,3 +1,4 @@
+#pragma once
 #ifndef STRING_INPUT_POPUP_H
 #define STRING_INPUT_POPUP_H
 

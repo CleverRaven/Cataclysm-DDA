@@ -34,7 +34,7 @@ bool one_in_improved( double chance )
 
 bool x_in_y( double x, double y )
 {
-    return ( ( double )rand() / RAND_MAX ) <= ( ( double )x / y );
+    return ( static_cast<double>( rand() ) / RAND_MAX ) <= ( static_cast<double>( x ) / y );
 }
 
 int dice( int number, int sides )

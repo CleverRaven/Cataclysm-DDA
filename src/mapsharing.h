@@ -3,19 +3,19 @@
 #define MAPSHARING_H
 
 #ifdef __linux__
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/file.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <cstdio>
 #include <fcntl.h>
 #include <unistd.h>
-#include <cstdio>
 #endif // __linux__
-#include <cstdlib>
 
-#include <string>
-#include <set>
-#include <map>
+#include <cstdlib>
 #include <fstream>
+#include <map>
+#include <set>
+#include <string>
 
 namespace MAP_SHARING
 {

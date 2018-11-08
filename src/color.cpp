@@ -499,49 +499,49 @@ void init_colors()
 nc_color invert_color( nc_color c )
 {
     const nc_color color = all_colors.get_invert( c );
-    return ( ( int )color > 0 ) ? color : c_pink;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_pink;
 }
 
 nc_color hilite( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_BLUE );
-    return ( ( int )color > 0 ) ? color : h_white;
+    return ( static_cast<int>( color ) > 0 ) ? color : h_white;
 }
 
 nc_color red_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_RED );
-    return ( ( int )color > 0 ) ? color : c_white_red;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_white_red;
 }
 
 nc_color white_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_WHITE );
-    return ( ( int )color > 0 ) ? color : c_black_white;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_white;
 }
 
 nc_color green_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_GREEN );
-    return ( ( int )color > 0 ) ? color : c_black_green;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_green;
 }
 
 nc_color yellow_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_YELLOW );
-    return ( ( int )color > 0 ) ? color : c_black_yellow;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_yellow;
 }
 
 nc_color magenta_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_MAGENTA );
-    return ( ( int )color > 0 ) ? color : c_black_magenta;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_magenta;
 }
 
 nc_color cyan_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_CYAN );
-    return ( ( int )color > 0 ) ? color : c_black_cyan;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_cyan;
 }
 
 /**
@@ -823,7 +823,7 @@ void color_manager::show_gui()
             }
         } else if( action == "DOWN" ) {
             iCurrentLine++;
-            if( iCurrentLine >= ( int )iMaxColors ) {
+            if( iCurrentLine >= static_cast<int>( iMaxColors ) ) {
                 iCurrentLine = 0;
             }
         } else if( action == "LEFT" ) {

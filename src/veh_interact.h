@@ -12,7 +12,6 @@
 
 #include <map>
 #include <sstream>
-#include <string>
 #include <vector>
 
 class vpart_info;

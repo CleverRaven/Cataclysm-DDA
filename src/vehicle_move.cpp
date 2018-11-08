@@ -1,55 +1,29 @@
 #include "vehicle.h"
 
-#include "ammo.h"
-#include "cata_utility.h"
-#include "catacharset.h"
 #include "coordinate_conversions.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "mapbuffer.h"
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
-#include "monster.h"
-#include "mtype.h"
-#include "npc.h"
-#include "options.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "sounds.h"
-#include "string_formatter.h"
-#include "submap.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui.h"
-#include "veh_interact.h"
 #include "veh_type.h"
-#include "vehicle_selector.h"
-#include "vpart_position.h"
 #include "vpart_reference.h"
-#include "weather.h"
 
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
-#include <numeric>
-#include <queue>
 #include <set>
-#include <sstream>
 
 static const std::string part_location_structure( "structure" );
-static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_gasoline( "gasoline" );
-static const itype_id fuel_type_diesel( "diesel" );
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_water( "water_clean" );
 static const itype_id fuel_type_muscle( "muscle" );
 
 const efftype_id effect_stunned( "stunned" );
@@ -158,7 +132,7 @@ void vehicle::thrust( int thd )
     //find power ratio used of engines max
     double load;
     if( cruise_on ) {
-        load = ( ( float )abs( vel_inc ) ) / std::max( ( thrusting ? accel : brk ), 1 );
+        load = static_cast<float>( abs( vel_inc ) ) / std::max( ( thrusting ? accel : brk ), 1 );
     } else {
         load = ( thrusting ? 1.0 : 0.0 );
     }
@@ -706,7 +680,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     }
 
     if( smashed && !vert_coll ) {
-        int turn_amount = rng( 1, 3 ) * sqrt( ( double )part_dmg );
+        int turn_amount = rng( 1, 3 ) * sqrt( static_cast<double>( part_dmg ) );
         turn_amount /= 15;
         if( turn_amount < 1 ) {
             turn_amount = 1;
@@ -1303,7 +1277,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "You lose control of the %s." ),
                                             _( "<npcname> loses control of the %s." ),
                                             veh.name.c_str() );
-                int turn_amount = ( rng( 1, 3 ) * sqrt( ( double )abs( veh.velocity ) ) / 2 ) / 15;
+                int turn_amount = ( rng( 1, 3 ) * sqrt( static_cast<double>( abs( veh.velocity ) ) ) / 2 ) / 15;
                 if( turn_amount < 1 ) {
                     turn_amount = 1;
                 }

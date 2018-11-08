@@ -32,7 +32,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <numeric>
 #include <sstream>
 
 // Limit the number of iterations for next upgrade_time calculations.
@@ -129,9 +128,6 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
-static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
-static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::map<m_size, std::string> size_names {
     {m_size::MS_TINY, translate_marker( "tiny" )},
@@ -1223,7 +1219,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), 0 );
+                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name().c_str(),
                          body_part_name_accusative( bp_hit ).c_str() );
             } else if( target.is_npc() ) {
@@ -2344,7 +2340,7 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    if( rng( 0, 100 ) <= ( long )type->def_chance ) {
+    if( rng( 0, 100 ) <= static_cast<long>( type->def_chance ) ) {
         type->sp_defense( *this, source, proj );
     }
 

@@ -61,7 +61,6 @@ static auto can_refill = []( const vehicle_part &pt )
 
 namespace
 {
-const std::string repair_hotkeys( "r1234567890" );
 const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
 const quality_id SELF_JACK( "SELF_JACK" );
@@ -2556,7 +2555,7 @@ void veh_interact::complete_vehicle()
     const vpart_info &vpinfo = part_id.obj();
 
     // cmd = Install Repair reFill remOve Siphon Unload Changetire reName relAbel
-    switch( (char) g->u.activity.index ) {
+    switch( static_cast<char>( g->u.activity.index ) ) {
     case 'i': {
         auto inv = g->u.crafting_inventory();
 

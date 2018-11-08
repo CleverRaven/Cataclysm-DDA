@@ -2707,7 +2707,7 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
                     continue;
                 }
 
-                open.push( { ( float )rl_dist( center, pt ), pt } );
+                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
             }
         }
     }

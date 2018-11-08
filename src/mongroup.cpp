@@ -4,7 +4,6 @@
 #include "calendar.h"
 #include "debug.h"
 #include "json.h"
-#include "monstergenerator.h"
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"

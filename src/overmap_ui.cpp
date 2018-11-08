@@ -148,7 +148,7 @@ bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
             i++;
             scent_age /= 10;
         }
-        ter_color = color_list.get( ( color_id )i );
+        ter_color = color_list.get( static_cast<color_id>( i ) );
         int scent_strength = possible_scent.initial_strength;
         char c = '0';
         while( c <= '9' && scent_strength > 0 ) {

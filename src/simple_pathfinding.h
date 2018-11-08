@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PATHFINDIND_H
-#define PATHFINDIND_H
+#ifndef SIMPLE_PATHFINDINDING_H
+#define SIMPLE_PATHFINDINDING_H
 
 #include "enums.h"
 

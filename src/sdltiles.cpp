@@ -3264,8 +3264,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     int x, y;
     if ( tile_iso && use_tiles ) {
-        const int screen_column = round( (float) ( coordinate_x - win_left - (( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
-        const int screen_row = round( (float) ( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
+        const int screen_column = round( static_cast<float>( coordinate_x - win_left - ( ( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
+        const int screen_row = round( static_cast<float>( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
         const int selected_x = ( screen_column - screen_row ) / 2;
         const int selected_y = ( screen_row + screen_column ) / 2;
         x = g->ter_view_x + selected_x;
@@ -3315,7 +3315,7 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
     for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {
         SDL_LockSurface( ascii_surf[a].get() );
         int size = ascii_surf[a]->h * ascii_surf[a]->w;
-        Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
+        Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
         Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
         for(int i = 0; i < size; i++) {
             if(pixels[i] == 0xFFFFFF) {
@@ -3572,7 +3572,7 @@ static std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
 static Mix_Chunk* copy_chunk(const Mix_Chunk* ref){
     // SDL_malloc to match up with Mix_FreeChunk's SDL_free call
     // to free the Mix_Chunk object memory
-    Mix_Chunk *nchunk = (Mix_Chunk*)SDL_malloc(sizeof(Mix_Chunk));
+    Mix_Chunk *nchunk = static_cast<Mix_Chunk*>( SDL_malloc( sizeof( Mix_Chunk ) ) );
 
     // Assign as copy of ref
     (*nchunk) = *ref;
@@ -3676,7 +3676,7 @@ const sound_effect* find_random_effect( const std::string &id, const std::string
 // Deletes the dynamically created chunk (if such a chunk had been played).
 void cleanup_when_channel_finished( int /* channel */, void *udata )
 {
-    Mix_Chunk *chunk = ( Mix_Chunk * )udata;
+    Mix_Chunk *chunk = static_cast<Mix_Chunk *>( udata );
     free( chunk->abuf );
     free( chunk );
 }
@@ -3691,13 +3691,13 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 {
     Mix_Chunk *result;
     Uint32 s_in = s->alen / 4;
-    Uint32 s_out = ( Uint32 )( ( float )s_in * pitch );
-    float pitch_real = ( float )s_out / ( float )s_in;
+    Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );
+    float pitch_real = static_cast<float>( s_out ) / static_cast<float>( s_in );
     Uint32 i, j;
-    result = ( Mix_Chunk * )malloc( sizeof( Mix_Chunk ) );
+    result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
     result->allocated = 1;
     result->alen = s_out * 4;
-    result->abuf = ( Uint8 * )malloc( result->alen * sizeof( Uint8 ) );
+    result->abuf = static_cast<Uint8 *>( malloc( result->alen * sizeof( Uint8 ) ) );
     result->volume = s->volume;
     for( i = 0; i < s_out; i++ ) {
         Sint16 lt = 0;
@@ -3706,8 +3706,8 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
         Sint16 rt_out = 0;
         Sint64 lt_avg = 0;
         Sint64 rt_avg = 0;
-        Uint32 begin = ( Uint32 )( ( float )i / pitch_real );
-        Uint32 end = ( Uint32 )( ( float )( i + 1 ) / pitch_real );
+        Uint32 begin = static_cast<Uint32>( static_cast<float>( i ) / pitch_real );
+        Uint32 end = static_cast<Uint32>( static_cast<float>( i + 1 ) / pitch_real );
 
         // check for boundary case
         if( end > 0 && ( end >= ( s->alen / 4 ) ) ) {
@@ -3720,12 +3720,12 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
             lt_avg += lt;
             rt_avg += rt;
         }
-        lt_out = ( Sint16 )( ( float )lt_avg / ( float )( end - begin + 1 ) );
-        rt_out = ( Sint16 )( ( float )rt_avg / ( float )( end - begin + 1 ) );
-        result->abuf[( 4 * i ) + 1] = ( Uint8 )( ( lt_out >> 8 ) & 0xFF );
-        result->abuf[( 4 * i ) + 0] = ( Uint8 )( lt_out & 0xFF );
-        result->abuf[( 4 * i ) + 3] = ( Uint8 )( ( rt_out >> 8 ) & 0xFF );
-        result->abuf[( 4 * i ) + 2] = ( Uint8 )( rt_out & 0xFF );
+        lt_out = static_cast<Sint16>( static_cast<float>( lt_avg ) / static_cast<float>( end - begin + 1 ) );
+        rt_out = static_cast<Sint16>( static_cast<float>( rt_avg ) / static_cast<float>( end - begin + 1 ) );
+        result->abuf[( 4 * i ) + 1] = static_cast<Uint8>( ( lt_out >> 8 ) & 0xFF );
+        result->abuf[( 4 * i ) + 0] = static_cast<Uint8>( lt_out & 0xFF );
+        result->abuf[( 4 * i ) + 3] = static_cast<Uint8>( ( rt_out >> 8 ) & 0xFF );
+        result->abuf[( 4 * i ) + 2] = static_cast<Uint8>( rt_out & 0xFF );
     }
     return result;
 }

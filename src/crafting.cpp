@@ -4,13 +4,10 @@
 #include "ammo.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "catacharset.h"
 #include "craft_command.h"
-#include "crafting_gui.h"
 #include "debug.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
@@ -555,16 +552,16 @@ void player::complete_craft()
     if( making->skill_used ) {
         // normalize experience gain to crafting time, giving a bonus for longer crafting
         const double batch_mult = batch_size + base_time_to_craft( *making, batch_size ) / 30000.0;
-        practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * batch_mult ),
-                  ( int )making->difficulty * 1.25 );
+        practice( making->skill_used, static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult ),
+                  static_cast<int>( making->difficulty ) * 1.25 );
 
         //NPCs assisting or watching should gain experience...
         for( auto &elem : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
             if( elem->get_skill_level( making->skill_used ) >= making->difficulty ) {
                 elem->practice( making->skill_used,
-                                ( int )( ( making->difficulty * 15 + 10 ) * batch_mult *
-                                         .50 ), ( int )making->difficulty * 1.25 );
+                                static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult *
+                                                  .50 ), static_cast<int>( making->difficulty ) * 1.25 );
                 if( batch_size > 1 ) {
                     add_msg( m_info, _( "%s assists with crafting..." ), elem->name.c_str() );
                 }
@@ -574,8 +571,8 @@ void player::complete_craft()
                 //NPCs around you understand the skill used better
             } else {
                 elem->practice( making->skill_used,
-                                ( int )( ( making->difficulty * 15 + 10 ) * batch_mult * .15 ),
-                                ( int )making->difficulty * 1.25 );
+                                static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult * .15 ),
+                                static_cast<int>( making->difficulty ) * 1.25 );
                 add_msg( m_info, _( "%s watches you craft..." ), elem->name.c_str() );
             }
         }

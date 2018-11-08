@@ -258,7 +258,7 @@ void shadowcasting_3d_2d( int iterations )
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{false}};
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {
@@ -311,7 +311,7 @@ void shadowcasting_3d_2d( int iterations )
                 iterations, diff1 );
         printf( "cast_zlight() executed %d times in %ld microseconds.\n",
                 iterations, diff2 );
-        printf( "new/old execution time ratio: %.02f.\n", ( double )diff2 / diff1 );
+        printf( "new/old execution time ratio: %.02f.\n", static_cast<double>( diff2 ) / diff1 );
     }
 
     bool passed = true;

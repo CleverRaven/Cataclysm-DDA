@@ -1930,7 +1930,7 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         description += string_format( _( "> Food:     %10d days\n \n" ), food_desire );
         description += string_format( _( "Faction Food:%9d days\n \n" ), camp_food_supply( 0, true ) );
         description += string_format( _( "Recruit Chance: %10d%%\n \n" ),
-                                      std::min( ( int )( ( 10.0 + appeal ) / 20.0 * 100 ), 100 ) );
+                                      std::min( static_cast<int>( ( 10.0 + appeal ) / 20.0 * 100 ), 100 ) );
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;

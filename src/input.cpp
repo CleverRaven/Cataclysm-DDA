@@ -78,7 +78,7 @@ std::string get_input_string_from_file( std::string fname )
     read_from_file_optional( fname, [&ret]( std::istream & fin ) {
         getline( fin, ret );
         //remove utf8 bmm
-        if( !ret.empty() && ( unsigned char )ret[0] == 0xef ) {
+        if( !ret.empty() && static_cast<unsigned char>( ret[0] ) == 0xef ) {
             ret.erase( 0, 3 );
         }
         while( !ret.empty() && ( ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n' ) ) {
@@ -660,7 +660,7 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
         // TODO: fix for Unicode.
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
             events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
-            result.push_back( ( char )events_event.sequence.front() );
+            result.push_back( static_cast<char>( events_event.sequence.front() ) );
         }
     }
     return result;
@@ -789,7 +789,7 @@ const std::string &input_context::handle_input( const int timeout )
     inp_mngr.set_timeout( timeout );
     next_action.type = CATA_INPUT_ERROR;
     const std::string *result = &CATA_ERROR;
-    while( 1 ) {
+    while( true ) {
         next_action = inp_mngr.get_input_event();
         if( next_action.type == CATA_INPUT_TIMEOUT ) {
             result = &TIMEOUT;

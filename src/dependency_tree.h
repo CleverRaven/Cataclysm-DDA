@@ -6,7 +6,6 @@
 
 #include <map>
 #include <stack>
-#include <string>
 #include <vector>
 
 struct MOD_INFORMATION;

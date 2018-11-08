@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MATERIALS_H
-#define MATERIALS_H
+#ifndef MATERIAL_H
+#define MATERIAL_H
 
 #include "fire.h"
 #include "game_constants.h"

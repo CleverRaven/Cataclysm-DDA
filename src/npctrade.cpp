@@ -233,8 +233,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             std::string cost_string = ex ? _( "Exchange" ) : ( cash >= 0 ? _( "Profit %s" ) :
                                       _( "Cost %s" ) );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
-                       ( cash < 0 && ( int )g->u.cash >= cash * -1 ) || ( cash >= 0 &&
-                               ( int )p.cash  >= cash ) ? c_green : c_red,
+                       ( cash < 0 && static_cast<int>( g->u.cash ) >= cash * -1 ) || ( cash >= 0 &&
+                               static_cast<int>( p.cash )  >= cash ) ? c_green : c_red,
                        cost_string.c_str(), format_money( std::abs( cash ) ) );
 
             if( !deal.empty() ) {
@@ -244,9 +244,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
-            mvwprintz( w_them, 0, 2, ( cash < 0 || ( int )p.cash >= cash ? c_green : c_red ),
+            mvwprintz( w_them, 0, 2, ( cash < 0 || static_cast<int>( p.cash ) >= cash ? c_green : c_red ),
                        _( "%s: %s" ), p.name.c_str(), format_money( p.cash ) );
-            mvwprintz( w_you,  0, 2, ( cash > 0 || ( int )g->u.cash >= cash * -1 ? c_green : c_red ),
+            mvwprintz( w_you,  0, 2, ( cash > 0 ||
+                                       static_cast<int>( g->u.cash ) >= cash * -1 ? c_green : c_red ),
                        _( "You: %s" ), format_money( g->u.cash ) );
             // Draw lists of items, starting from offset
             for( size_t whose = 0; whose <= 1; whose++ ) {
@@ -279,7 +280,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         keychar = keychar - 'z' - 1 + 'A';
                     }
                     trim_and_print( w_whose, i - offset + 1, 1, win_w, color, "%c %c %s",
-                                    ( char )keychar, ip.selected ? '+' : '-', itname.c_str() );
+                                    static_cast<char>( keychar ), ip.selected ? '+' : '-', itname.c_str() );
 #ifdef __ANDROID__
                     ctxt.register_manual_key( keychar, itname.c_str() );
 #endif
@@ -337,7 +338,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 break;
             case '\n': // Check if we have enough cash...
                 // The player must pay cash, and it should not put the player negative.
-                if( cash < 0 && ( int )g->u.cash < cash * -1 ) {
+                if( cash < 0 && static_cast<int>( g->u.cash ) < cash * -1 ) {
                     popup( _( "Not enough cash!  You have %s, price is %s." ), format_money( g->u.cash ),
                            format_money( -cash ) );
                     update = true;
@@ -429,7 +430,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             loc_ptr->remove_item();
         }
 
-        if( !ex && cash > ( int )p.cash ) {
+        if( !ex && cash > static_cast<int>( p.cash ) ) {
             // Trade was forced, give the NPC's cash to the player.
             p.op_of_u.owed = ( cash - p.cash );
             g->u.cash += p.cash;

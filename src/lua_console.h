@@ -26,7 +26,6 @@ class lua_console
 
         std::vector<std::pair<std::string, nc_color>> text_stack;
         std::string get_input();
-        void print( std::string text );
         void draw();
 
         bool done = false;

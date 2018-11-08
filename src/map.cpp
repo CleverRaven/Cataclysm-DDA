@@ -72,9 +72,6 @@ static field            nulfield;          // Returned when &field_at() is asked
 static int              null_temperature;  // Because radiation does it too
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
 
-// Less for performance and more so that it's visible for when ter_t gets its string_id
-static std::string null_ter_t = "t_null";
-
 // Map stack methods.
 std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
 {
@@ -700,7 +697,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
     int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
     for( const auto &veh_veh_coll : collisions ) {
-        if( &veh2 == ( vehicle * )veh_veh_coll.target ) {
+        if( &veh2 == static_cast<vehicle *>( veh_veh_coll.target ) ) {
             coll_parts_cnt++;
         }
     }
@@ -710,7 +707,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
     //damage colliding parts (only veh1 and veh2 parts)
     for( const auto &veh_veh_coll : collisions ) {
-        if( &veh2 != ( vehicle * )veh_veh_coll.target ) {
+        if( &veh2 != static_cast<vehicle *>( veh_veh_coll.target ) ) {
             continue;
         }
 
@@ -3163,7 +3160,7 @@ bash_params map::bash( const tripoint &p, const int str,
                        const vehicle *bashing_vehicle )
 {
     bash_params bsh{
-        str, silent, destroy, bash_floor, ( float )rng_float( 0, 1.0f ), false, false, false
+        str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false
     };
     if( !inbounds( p ) ) {
         return bsh;
@@ -3937,7 +3934,7 @@ int map::i_rem( const tripoint &p, const int index )
         return index;
     }
 
-    if( index >= ( int )i_at( p ).size() ) {
+    if( index >= static_cast<int>( i_at( p ).size() ) ) {
         return index;
     }
 
@@ -5375,7 +5372,7 @@ void map::add_camp( const tripoint &p, const std::string &name )
 void map::update_visibility_cache( const int zlev )
 {
     visibility_variables_cache.variables_set = true; // Not used yet
-    visibility_variables_cache.g_light_level = ( int )g->light_level( zlev );
+    visibility_variables_cache.g_light_level = static_cast<int>( g->light_level( zlev ) );
     visibility_variables_cache.vision_threshold = g->u.get_vision_threshold(
                 get_cache_ref( g->u.posz() ).lm[g->u.posx()][g->u.posy()] );
 

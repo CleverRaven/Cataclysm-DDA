@@ -224,9 +224,6 @@ class overmap
             return settings;
         }
 
-        // Returns a batch of the default enabled specials.
-        overmap_special_batch get_enabled_specials() const;
-
         void clear_mon_groups();
     private:
         std::multimap<tripoint, mongroup> zg;
@@ -327,7 +324,6 @@ class overmap
         bool build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points,
                         const std::string &prefix, int train_odds );
         void build_anthill( int x, int y, int z, int s );
-        void build_acid_anthill( int x, int y, int z, int s );
         void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
         bool build_slimepit( int x, int y, int z, int s );
         void build_mine( int x, int y, int z, int s );

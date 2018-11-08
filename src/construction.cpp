@@ -189,7 +189,7 @@ void construction_menu()
     }
 
     int w_height = TERMY;
-    if( ( int )available.size() + 2 < w_height ) {
+    if( static_cast<int>( available.size() ) + 2 < w_height ) {
         w_height = available.size() + 2;
     }
     if( w_height < FULL_SCREEN_HEIGHT ) {
@@ -324,7 +324,8 @@ void construction_menu()
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        for( size_t i = 0; ( int )i < w_list_height && ( i + offset ) < constructs.size(); i++ ) {
+        for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
+             ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             std::string con_name = constructs[current];
             bool highlight = ( current == select );
@@ -353,17 +354,18 @@ void construction_menu()
                                             ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
 
             //leave room for top and bottom UI text
-            const int available_buffer_height = w_height - 3 - 3 - ( int )notes.size();
+            const int available_buffer_height = w_height - 3 - 3 - static_cast<int>( notes.size() );
 
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
-                trim_and_print( w_con, w_height - 1 - ( int )notes.size() + ( int )i, pos_x,
+                trim_and_print( w_con, w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ),
+                                pos_x,
                                 available_window_width, c_white, notes[i] );
             }
 
             if( !constructs.empty() ) {
                 nc_color color_stage = c_white;
-                if( select >= ( int ) constructs.size() ) {
+                if( select >= static_cast<int>( constructs.size() ) ) {
                     select = 0;
                 }
                 std::string current_desc = constructs[select];
@@ -560,7 +562,8 @@ void construction_menu()
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    trim_and_print( w_con, w_height - 2 - ( int )notes.size(), pos_x, available_window_width,
+                    trim_and_print( w_con, w_height - 2 - static_cast<int>( notes.size() ), pos_x,
+                                    available_window_width,
                                     c_white, _( "Press %s to show next stage(s)." ),
                                     ctxt.get_desc( "PAGE_DOWN" ).c_str() );
                 }
@@ -605,7 +608,7 @@ void construction_menu()
             uistate.construction_filter = filter;
         } else if( action == "DOWN" ) {
             update_info = true;
-            if( select < ( int )constructs.size() - 1 ) {
+            if( select < static_cast<int>( constructs.size() ) - 1 ) {
                 select++;
             } else {
                 select = 0;
@@ -658,7 +661,7 @@ void construction_menu()
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if( action == "CONFIRM" ) {
-            if( constructs.empty() || select >= ( int ) constructs.size() ) {
+            if( constructs.empty() || select >= static_cast<int>( constructs.size() ) ) {
                 continue;// Nothing to be done here
             }
             if( player_can_build( g->u, total_inv, constructs[select] ) ) {
@@ -808,8 +811,8 @@ void complete_construction()
 
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
-            c.practice( pr.first, ( int )( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
-                        ( int )( pr.second * 1.25 ) );
+            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
+                        static_cast<int>( pr.second * 1.25 ) );
         }
     };
 

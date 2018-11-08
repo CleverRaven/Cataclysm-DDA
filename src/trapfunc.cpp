@@ -8,9 +8,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
-#include "npc.h"
 #include "output.h"
 #include "rng.h"
 #include "sounds.h"
@@ -33,7 +31,6 @@ const efftype_id effect_tetanus( "tetanus" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 

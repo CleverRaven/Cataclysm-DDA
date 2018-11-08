@@ -5,7 +5,6 @@
 #include "string_id.h"
 
 #include <map>
-#include <string>
 
 class JsonObject;
 

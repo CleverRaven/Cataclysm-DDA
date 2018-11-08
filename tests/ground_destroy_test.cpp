@@ -6,11 +6,8 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mapdata.h"
-#include "mtype.h"
 #include "options.h"
-#include "player.h"
 
-#include <fstream>
 #include <string>
 #include <vector>
 

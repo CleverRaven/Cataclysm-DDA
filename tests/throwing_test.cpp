@@ -5,7 +5,6 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
-#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
@@ -250,7 +249,6 @@ void test_player_kills_monster( player &p, const std::string &mon_id, const std:
         mon.set_moves( 0 );
 
         while( !mon_is_dead ) {
-            const int monster_speed = mon.get_speed();
 
             ++turns;
             mon.process_turn();

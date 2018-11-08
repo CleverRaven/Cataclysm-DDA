@@ -1,5 +1,5 @@
 #pragma once
-#if !defined(SUBMAP_H)
+#ifndef SUBMAP_H
 #define SUBMAP_H
 
 #include "active_item_cache.h"
@@ -14,7 +14,6 @@
 
 #include <list>
 #include <memory>
-#include <string>
 #include <vector>
 
 class map;

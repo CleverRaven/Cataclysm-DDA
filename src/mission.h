@@ -363,8 +363,6 @@ class mission
         static void on_creature_death( Creature &poor_dead_dude );
         /*@}*/
 
-        // Don't use this, it's only for loading legacy saves.
-        static void unserialize_legacy( std::istream &fin );
         // Serializes and unserializes all missions
         static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );

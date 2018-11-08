@@ -1405,8 +1405,8 @@ jmapgen_objects::jmapgen_objects( int off_x, int off_y, size_t mapsize_x, size_t
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || place.x.val > ( int )mapgensize_x - 1 ||
-        place.y.val < 0 || place.y.val > ( int )mapgensize_y - 1 ) {
+    if( place.x.val < 0 || place.x.val > static_cast<int>( mapgensize_x ) - 1 ||
+        place.y.val < 0 || place.y.val > static_cast<int>( mapgensize_y ) - 1 ) {
         return false;
     }
 
@@ -1873,7 +1873,7 @@ void mapgen_function_json_base::setup_common()
                 } else if( ! qualifies ) {  // fill_ter should make this kosher
                     parray.throw_error(
                         string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, ( char )tmpkey ) );
+                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
                 }
                 auto iter_furn = format_furniture.find( tmpkey );
                 if( iter_furn != format_furniture.end() ) {
@@ -2000,7 +2000,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
             case JMAPGEN_SETMAP_LINE_RADIATION: {
                 const std::vector<point> line = line_to( x_get(), y_get(), x2_get(), y2_get(), 0 );
                 for( auto &i : line ) {
-                    m.set_radiation( i.x, i.y, ( int )val.get() );
+                    m.set_radiation( i.x, i.y, static_cast<int>( val.get() ) );
                 }
             }
             break;
@@ -2034,7 +2034,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
                 const int cy2 = y2_get();
                 for( int tx = cx; tx <= cx2; tx++ ) {
                     for( int ty = cy; ty <= cy2; ty++ ) {
-                        m.set_radiation( tx, ty, ( int )val.get() );
+                        m.set_radiation( tx, ty, static_cast<int>( val.get() ) );
                     }
                 }
             }

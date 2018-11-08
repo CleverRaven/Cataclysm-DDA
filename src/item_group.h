@@ -129,10 +129,6 @@ class Item_spawn_data
 
         /** probability, used by the parent object. */
         int probability;
-    private:
-        // not implemented
-        Item_spawn_data( const Item_spawn_data & );
-        Item_spawn_data &operator=( const Item_spawn_data & );
 };
 /**
  * Creates a single item, but can change various aspects

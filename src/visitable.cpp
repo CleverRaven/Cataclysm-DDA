@@ -6,7 +6,6 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "map.h"
 #include "map_selector.h"
 #include "player.h"
@@ -823,7 +822,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
 
     if( what == "toolset" ) {
         if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
-            return std::min( ( long )p->power_level, limit );
+            return std::min( static_cast<long>( p->power_level ), limit );
         } else {
             return 0;
         }

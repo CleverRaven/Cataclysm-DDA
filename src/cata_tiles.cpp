@@ -565,8 +565,8 @@ void cata_tiles::set_draw_scale( int scale )
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
     tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
 
-    tile_ratiox = ( ( float )tile_width / ( float )fontwidth );
-    tile_ratioy = ( ( float )tile_height / ( float )fontheight );
+    tile_ratiox = ( static_cast<float>( tile_width ) / static_cast<float>( fontwidth ) );
+    tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
 }
 
 void tileset_loader::load( const std::string &tileset_id, const bool precheck )
@@ -1636,10 +1636,10 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
         int &rows ) const
 {
-    columns = tile_iso ? ceil( ( double ) width / tile_width ) * 2 + 4 : ceil( (
-                  double ) width / tile_width );
-    rows = tile_iso ? ceil( ( double ) height / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil( (
-                double ) height / tile_height );
+    columns = tile_iso ? ceil( static_cast<double>( width ) / tile_width ) * 2 + 4 : ceil(
+                  static_cast<double>( width ) / tile_width );
+    rows = tile_iso ? ceil( static_cast<double>( height ) / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil(
+               static_cast<double>( height ) / tile_height );
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEMINFOQUERY_H
-#define ITEMINFOQUERY_H
+#ifndef ITEMINFO_QUERY_H
+#define ITEMINFO_QUERY_H
 
 #include <bitset>
 #include <string>
