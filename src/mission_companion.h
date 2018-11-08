@@ -136,5 +136,5 @@ npc *companion_choose_return( const npc &p, const std::string &id, const time_po
 void companion_return( npc &comp );               //Return NPC to your party
 std::vector<item *> loot_building( const tripoint
                                    site ); //Smash stuff, steal valuables, and change map maker
-};
+}
 #endif

@@ -14,7 +14,7 @@ template <typename W, typename T> struct weighted_object {
 };
 
 template <typename W, typename T> struct weighted_list {
-        weighted_list() : total_weight( 0 ) { };
+        weighted_list() : total_weight( 0 ) { }
 
         virtual ~weighted_list() = default;
 
@@ -159,7 +159,7 @@ template <typename W, typename T> struct weighted_list {
             typename std::vector<weighted_object<W, T> >::iterator last ) {
             invalidate_precalc();
             return objects.erase( first, last );
-        };
+        }
         size_t size() const noexcept {
             return objects.size();
         }

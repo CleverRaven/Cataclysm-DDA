@@ -91,7 +91,7 @@ struct sound_effect {
         // Operator overloaded to leverage deletion API.
         void operator()( Mix_Chunk* const c ) const {
             Mix_FreeChunk( c );
-        };
+        }
     };
     std::unique_ptr<Mix_Chunk, deleter> chunk;
 };

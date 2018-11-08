@@ -73,7 +73,7 @@ void done_mark_firewood( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
-};
+}
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
@@ -1177,7 +1177,7 @@ void assign_or_debugmsg( T &dest, const std::string &fun_id,
         } );
         debugmsg( "Unknown function: %s, available values are %s", fun_id.c_str(), list_available.c_str() );
     }
-};
+}
 
 void load_construction( JsonObject &jo )
 {

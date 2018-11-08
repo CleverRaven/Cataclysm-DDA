@@ -563,7 +563,7 @@ mission_type::mission_type( mission_type_id ID, const std::string &NAME, mission
     id( ID ), name( NAME ), goal( GOAL ), difficulty( DIF ), value( VAL ),
     urgent( URGENT ), place( PLACE ), start( START ), end( END ), fail( FAIL )
 {
-};
+}
 
 namespace io
 {

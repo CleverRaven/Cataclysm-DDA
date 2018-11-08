@@ -2819,7 +2819,7 @@ npc_follower_rules::npc_follower_rules()
     allow_pulp = true;
 
     close_doors = false;
-};
+}
 
 npc *pick_follower()
 {

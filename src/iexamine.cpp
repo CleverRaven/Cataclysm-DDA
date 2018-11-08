@@ -281,7 +281,7 @@ private:
                             .query_long();
 
         return (amount > max) ? max : (amount <= 0) ? 0 : amount;
-    };
+    }
 
     //!Get a new cash card. $1.00 fine.
     bool do_purchase_card() {

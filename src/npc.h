@@ -128,7 +128,7 @@ struct npc_personality {
         bravery    = 0;
         collector  = 0;
         altruism   = 0;
-    };
+    }
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );

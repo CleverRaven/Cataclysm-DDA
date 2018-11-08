@@ -120,7 +120,7 @@ class map_stack : public item_stack
         map *myorigin;
     public:
         map_stack( std::list<item> *newstack, tripoint newloc, map *neworigin ) :
-            item_stack( newstack ), location( newloc ), myorigin( neworigin ) {};
+            item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         std::list<item>::iterator erase( std::list<item>::iterator it ) override;
         void push_back( const item &newitem ) override;
         void insert_at( std::list<item>::iterator index, const item &newitem ) override;
@@ -1244,7 +1244,7 @@ class map
 
         int getmapsize() const {
             return my_MAPSIZE;
-        };
+        }
         bool has_zlevels() const {
             return zlevels;
         }

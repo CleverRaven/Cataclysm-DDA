@@ -343,15 +343,12 @@ item &item::ammo_set( const itype_id &ammo, long qty )
 item &item::ammo_unset()
 {
     if( !is_tool() && !is_gun() && !is_magazine() ) {
-        ; // do nothing
-
+        // do nothing
     } else if( is_magazine() ) {
         contents.clear();
-
     } else if( magazine_integral() ) {
         curammo = nullptr;
         charges = 0;
-
     } else if( magazine_current() ) {
         magazine_current()->ammo_unset();
     }
@@ -3102,8 +3099,9 @@ units::volume item::volume( bool integral ) const
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume",
                                   ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
-            if( tmpvol <=  3 ) ;      // intentional NOP
-            else if( tmpvol <=  5 ) {
+            if( tmpvol <=  3 ) {
+                // intentional NOP
+            } else if( tmpvol <=  5 ) {
                 ret -=  250_ml;
             } else if( tmpvol <=  6 ) {
                 ret -=  500_ml;

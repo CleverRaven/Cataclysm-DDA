@@ -22,7 +22,7 @@ class building_bin
         weighted_int_list<overmap_special_id> buildings;
         std::map<overmap_special_id, int> unfinalized_buildings;
     public:
-        building_bin() {};
+        building_bin() {}
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
         std::vector<std::string> all;

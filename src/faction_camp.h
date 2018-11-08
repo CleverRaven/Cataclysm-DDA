@@ -243,5 +243,5 @@ int camp_recipe_batch_max( const recipe &making, const inventory &total_inv );
  */
 bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat );
 
-};
+}
 #endif

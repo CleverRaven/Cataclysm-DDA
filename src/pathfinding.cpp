@@ -28,7 +28,7 @@ enum astar_state {
 constexpr int flat_index( const int x, const int y )
 {
     return ( x * MAPSIZE * SEEY ) + y;
-};
+}
 
 // Flattened 2D array representing a single z-level worth of pathfinding data
 struct path_data_layer {
@@ -45,7 +45,7 @@ struct path_data_layer {
                 state[ind] = ASL_NONE; // Mark as unvisited
             }
         }
-    };
+    }
 };
 
 struct pathfinder {

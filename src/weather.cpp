@@ -388,10 +388,10 @@ void generic_very_wet( bool acid )
     wet_player( 60 );
 }
 
-void weather_effect::none()      {};
-void weather_effect::flurry()    {};
-void weather_effect::snow()      {};
-void weather_effect::snowstorm() {};
+void weather_effect::none()      {}
+void weather_effect::flurry()    {}
+void weather_effect::snow()      {}
+void weather_effect::snowstorm() {}
 
 /**
  * Wet.

@@ -12,7 +12,7 @@ struct tripoint;
 class vehicle_cursor : public visitable<vehicle_cursor>
 {
     public:
-        vehicle_cursor( vehicle &veh, std::ptrdiff_t part ) : veh( veh ), part( part ) {};
+        vehicle_cursor( vehicle &veh, std::ptrdiff_t part ) : veh( veh ), part( part ) {}
         vehicle &veh;
         std::ptrdiff_t part;
 };

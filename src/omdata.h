@@ -82,7 +82,7 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
-};
+}
 
 struct overmap_spawns {
         overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
@@ -298,7 +298,7 @@ struct overmap_special_spawns : public overmap_spawns {
 };
 
 struct overmap_special_terrain {
-    overmap_special_terrain() { };
+    overmap_special_terrain() { }
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;

@@ -841,4 +841,4 @@ map_special_pointer get_function( const std::string &name )
     return iter->second;
 }
 
-};
+}

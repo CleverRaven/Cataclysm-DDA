@@ -159,7 +159,7 @@ struct mission_start {
 };
 
 struct mission_end { // These functions are run when a mission ends
-    static void standard( mission * ) {};       // Nothing special happens
+    static void standard( mission * ) {}     // Nothing special happens
     static void leave( mission * );          // NPC leaves after the mission is complete
     static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
@@ -167,7 +167,7 @@ struct mission_end { // These functions are run when a mission ends
 };
 
 struct mission_fail {
-    static void standard( mission * ) {};   // Nothing special happens
+    static void standard( mission * ) {} // Nothing special happens
     static void kill_npc( mission * );   // Kill the NPC who assigned it!
 };
 

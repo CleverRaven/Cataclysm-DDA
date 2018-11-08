@@ -127,7 +127,7 @@ std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
     }
 
     return std::make_shared<zone_options>();
-};
+}
 
 bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
 {
@@ -187,12 +187,12 @@ plot_options::query_seed_result plot_options::query_seed()
 bool plot_options::query_at_creation()
 {
     return query_seed() != canceled;
-};
+}
 
 bool plot_options::query()
 {
     return query_seed() == changed;
-};
+}
 
 std::string plot_options::get_zone_name_suggestion() const
 {
@@ -207,7 +207,7 @@ std::string plot_options::get_zone_name_suggestion() const
     }
 
     return _( "No seed" );
-};
+}
 
 std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
 {
@@ -222,13 +222,13 @@ void plot_options::serialize( JsonOut &json ) const
 {
     json.member( "mark", mark );
     json.member( "seed", seed );
-};
+}
 
 void plot_options::deserialize( JsonObject &jo_zone )
 {
     mark = jo_zone.get_string( "mark", "" );
     seed = jo_zone.get_string( "seed", "" );
-};
+}
 
 cata::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
