@@ -639,7 +639,8 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
                                       int const radius, bool must_be_seen, bool allow_subtype_matches )
 {
     static const std::unordered_set<tripoint> &empty_visited_point = std::unordered_set<tripoint>();
-    return find_closest( origin, type, radius, must_be_seen, allow_subtype_matches, empty_visited_point );
+    return find_closest( origin, type, radius, must_be_seen, allow_subtype_matches,
+                         empty_visited_point );
 }
 
 tripoint overmapbuffer::find_closest( const tripoint &origin,
