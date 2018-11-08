@@ -1152,14 +1152,15 @@
       "menu_text": "Zip up",
       "type": "transform",
       "target": "bondage_mask_zipped",
-      "msg": "You zip up the eyes and mouth of the bondage mask."
+      "msg": "You zip the eyes and mouth of the bondage mask closed."
     }
   },
   {
     "id": "bondage_mask_zipped",
     "type": "ARMOR",
     "name": "bondage mask (zipped)",
-    "description": "A tight mask made of black leather. The eyes and mouth have been closed using zippers.",
+    "name_plural": "bondage masks (zipped)",
+    "description": "A tight mask made of black leather.  The eyes and mouth have been closed using zippers.",
     "weight": 210,
     "volume": 4,
     "price": 21000,
