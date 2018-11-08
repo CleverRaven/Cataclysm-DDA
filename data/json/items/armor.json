@@ -1174,12 +1174,12 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "BLIND" ],
-	"use_action": {
-	  "menu_text": "Unzip",
-	  "type": "transform",
-	  "target": "bondage_mask",
-	  "msg": "You unzip the eyes and mouth of the bondage mask."
-	}
+    "use_action": {
+      "menu_text": "Unzip",
+      "type": "transform",
+      "target": "bondage_mask",
+      "msg": "You unzip the eyes and mouth of the bondage mask."
+    }
   },
   {
     "id": "bondage_suit",
