@@ -75,7 +75,7 @@ bool inventory_entry::operator==( const inventory_entry &other ) const
 class selection_column_preset: public inventory_selector_preset
 {
     public:
-        selection_column_preset() {}
+        selection_column_preset() = default;
 
         virtual std::string get_caption( const inventory_entry &entry ) const override {
             std::ostringstream res;

@@ -75,7 +75,7 @@ class zone_options
 class mark_option
 {
     public:
-        virtual ~mark_option() {}
+        virtual ~mark_option() = default;
 
         virtual std::string get_mark() const = 0;
 };

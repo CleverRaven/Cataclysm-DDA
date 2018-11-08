@@ -414,7 +414,7 @@ class color_manager
         bool save_custom();
 
     public:
-        color_manager() {}
+        color_manager() = default;
 
         nc_color get( const color_id id ) const;
 

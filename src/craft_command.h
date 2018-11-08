@@ -53,7 +53,7 @@ class craft_command
 {
     public:
         /** Instantiates an empty craft_command, which can't be executed. */
-        craft_command() {}
+        craft_command() = default;
         craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter ) :
             rec( to_make ), batch_size( batch_size ), is_long( is_long ), crafter( crafter ) {}
 

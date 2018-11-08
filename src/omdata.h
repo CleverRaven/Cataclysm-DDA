@@ -298,7 +298,7 @@ struct overmap_special_spawns : public overmap_spawns {
 };
 
 struct overmap_special_terrain {
-    overmap_special_terrain() { }
+    overmap_special_terrain() = default;
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
