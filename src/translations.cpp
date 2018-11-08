@@ -1,10 +1,10 @@
-#include "translations.h"
-
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
 #include <cstdlib>
 #define __STRICT_ANSI__
 #endif
+
+#include "translations.h"
 
 #include "name.h"
 #include "path_info.h"
