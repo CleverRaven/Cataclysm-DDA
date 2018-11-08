@@ -9,11 +9,8 @@
 #include <memory>
 #include <set>
 #include <unordered_map>
-<<<<<<< HEAD
 #include <unordered_set>
-=======
 #include <vector>
->>>>>>> upstream/master
 
 struct mongroup;
 class monster;

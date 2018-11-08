@@ -10,13 +10,10 @@
 
 #include <map>
 #include <memory>
-<<<<<<< HEAD
 #include <unordered_set>
-=======
 #include <set>
 #include <string>
 #include <vector>
->>>>>>> upstream/master
 
 class JsonObject;
 class JsonIn;
