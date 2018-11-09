@@ -30,19 +30,19 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Food" ),
                               translate_marker( "Destination for comestibles. If more specific food zone is not defined, all food is moved here." ) ) );
     types.emplace( zone_type_id( "LOOT_PFOOD" ),
-                   zone_type( translate_marker_context( "perishable food", "Loot: P.Food" ),
+                   zone_type( translate_marker_context( "perishable_food", "Loot: P.Food" ),
                               translate_marker( "Destination for perishable comestibles. Does include perishable drinks if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_DRINK" ),
                    zone_type( translate_marker( "Loot: Drink" ),
                               translate_marker( "Destination for drinks. Does include perishable drinks if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_PDRINK" ),
-                   zone_type( translate_marker_context( "perishable drink", "Loot: P.Drink" ),
+                   zone_type( translate_marker_context( "perishable_drink", "Loot: P.Drink" ),
                               translate_marker( "Destination for perishable drinks." ) ) );
     types.emplace( zone_type_id( "LOOT_GUNS" ),
                    zone_type( translate_marker( "Loot: Guns" ),
                               translate_marker( "Destination for guns, bows and similar weapons." ) ) );
     types.emplace( zone_type_id( "LOOT_MAGAZINES" ),
-                   zone_type( translate_marker_context( "gun magazines", "Loot: Magazines" ),
+                   zone_type( translate_marker_context( "gun_magazines", "Loot: Magazines" ),
                               translate_marker( "Destination for gun magazines." ) ) );
     types.emplace( zone_type_id( "LOOT_AMMO" ),
                    zone_type( translate_marker( "Loot: Ammo" ),
@@ -57,7 +57,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Clothing" ),
                               translate_marker( "Destination for clothing. Does include filthy clothing if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_FCLOTHING" ),
-                   zone_type( translate_marker_context( "filthy clothing", "Loot: F.Clothing" ),
+                   zone_type( translate_marker_context( "filthy_clothing", "Loot: F.Clothing" ),
                               translate_marker( "Destination for filthy clothing." ) ) );
     types.emplace( zone_type_id( "LOOT_DRUGS" ),
                    zone_type( translate_marker( "Loot: Drugs" ),
@@ -75,7 +75,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Bionics" ),
                               translate_marker( "Destination for Compact Bionics Modules aka CBMs." ) ) );
     types.emplace( zone_type_id( "LOOT_VEHICLE_PARTS" ),
-                   zone_type( translate_marker_context( "vehicle parts", "Loot: V.Parts" ),
+                   zone_type( translate_marker_context( "vehicle_parts", "Loot: V.Parts" ),
                               translate_marker( "Destination for vehicle parts." ) ) );
     types.emplace( zone_type_id( "LOOT_OTHER" ),
                    zone_type( translate_marker( "Loot: Other" ),
@@ -90,7 +90,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Chemical" ),
                               translate_marker( "Destination for chemicals." ) ) );
     types.emplace( zone_type_id( "LOOT_SPARE_PARTS" ),
-                   zone_type( translate_marker_context( "spare parts", "Loot: S.Parts" ),
+                   zone_type( translate_marker_context( "spare_parts", "Loot: S.Parts" ),
                               translate_marker( "Destination for spare parts." ) ) );
     types.emplace( zone_type_id( "LOOT_ARTIFACTS" ),
                    zone_type( translate_marker( "Loot: Artifacts" ),
@@ -99,7 +99,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Armor" ),
                               translate_marker( "Destination for armor. Does include filthy armor if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_FARMOR" ),
-                   zone_type( translate_marker_context( "filthy armor", "Loot: F.Armor" ),
+                   zone_type( translate_marker_context( "filthy_armor", "Loot: F.Armor" ),
                               translate_marker( "Destination for filthy armor." ) ) );
     types.emplace( zone_type_id( "LOOT_WOOD" ),
                    zone_type( translate_marker( "Loot: Wood" ),
@@ -108,7 +108,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Ignore" ),
                               translate_marker( "Items inside of this zone are ignored by \"sort out loot\" zone-action." ) ) );
     types.emplace( zone_type_id( "FARM_PLOT" ),
-                   zone_type( translate_marker_context( "plot of land", "Farm: Plot" ),
+                   zone_type( translate_marker_context( "plot_of_land", "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
 }
 
