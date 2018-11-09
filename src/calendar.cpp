@@ -293,17 +293,6 @@ float calendar::sunlight() const
     }
 }
 
-enum class clipped_unit {
-    forever,
-    second,
-    minute,
-    hour,
-    day,
-    week,
-    season,
-    year,
-};
-
 static std::string to_string_clipped( const int num, const clipped_unit type,
                                       const clipped_align align )
 {
@@ -360,44 +349,50 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
     }
 }
 
-std::string to_string_clipped( const time_duration &d,
-                               const clipped_align align )
+std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 {
     //@todo: change INDEFINITELY_LONG to time_duration
     if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
-        return to_string_clipped( 0, clipped_unit::forever, align );
+        return { 0, clipped_unit::forever };
     }
 
     if( d < 1_minutes ) {
         //@todo: add to_seconds,from_seconds, operator ""_seconds, but currently
         // this could be misleading as we only store turns, which are 6 whole seconds
         const int sec = to_turns<int>( d ) * 6;
-        return to_string_clipped( sec, clipped_unit::second, align );
+        return { sec, clipped_unit::second };
     } else if( d < 1_hours ) {
         const int min = to_minutes<int>( d );
-        return to_string_clipped( min, clipped_unit::minute, align );
+        return { min, clipped_unit::minute };
     } else if( d < 1_days ) {
         const int hour = to_hours<int>( d );
-        return to_string_clipped( hour, clipped_unit::hour, align );
+        return { hour, clipped_unit::hour };
     } else if( d < 7_days ) {
         const int day = to_days<int>( d );
-        return to_string_clipped( day, clipped_unit::day, align );
+        return { day, clipped_unit::day };
     } else if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
         // therefore no way to count them
         const int week = to_weeks<int>( d );
-        return to_string_clipped( week, clipped_unit::week, align );
+        return { week, clipped_unit::week };
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
         //@todo: consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
-        return to_string_clipped( season, clipped_unit::season, align );
+        return { season, clipped_unit::season };
     } else {
         //@todo: consider a to_year function, but year length is variable, so
         // this might be misleading
         const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
-        return to_string_clipped( year, clipped_unit::year, align );
+        return { year, clipped_unit::year };
     }
+}
+
+std::string to_string_clipped( const time_duration &d,
+                               const clipped_align align )
+{
+    std::pair<int, clipped_unit> time = clipped_time( d );
+    return to_string_clipped( time.first, time.second, align );
 }
 
 std::string to_string( const time_duration &d )

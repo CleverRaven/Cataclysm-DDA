@@ -568,16 +568,17 @@ bool item::stacks_with( const item &rhs ) const
     }
     if( goes_bad() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
-        if( bday != rhs.bday ) {
+        // Stack items that fall into the same "bucket" of freshness.
+        // Distant buckets are larger than near ones.
+        std::pair<int, clipped_unit> my_clipped_time_to_rot =
+            clipped_time( type->comestible->spoils - rot );
+        std::pair<int, clipped_unit> other_clipped_time_to_rot =
+            clipped_time( rhs.type->comestible->spoils - rhs.rot );
+        if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
         }
-        // Because spoiling items are only processed every processing_speed()-th turn
-        // the rotting value becomes slightly different for items that have
-        // been created at the same time and place and with the same initial rot.
-        if( std::abs( to_turns<int>( rot - rhs.rot ) ) > processing_speed() ) {
-            return false;
-        } else if( rotten() != rhs.rotten() ) {
-            // just to be save that rotten and unrotten food is *never* stacked.
+        if( rotten() != rhs.rotten() ) {
+            // just to be safe that rotten and unrotten food is *never* stacked.
             return false;
         }
     }
