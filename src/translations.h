@@ -2,6 +2,10 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
+#include "optional.h"
+
+#include <string>
+
 #ifndef translate_marker
 /**
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
@@ -19,11 +23,6 @@
 #define translate_marker_context(c, x) x
 #endif
 
-#include <string>
-#include "optional.h"
-
-class JsonIn;
-
 #ifdef LOCALIZE
 
 // MingW flips out if you don't define this before you try to statically link libintl.
@@ -34,9 +33,7 @@ class JsonIn;
 #endif
 #endif
 
-#include <cstdio>
 #include <libintl.h>
-#include <string>
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
@@ -73,6 +70,8 @@ bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();
 void set_language();
+
+class JsonIn;
 
 /**
  * Class for storing translation context and raw string for deferred translation

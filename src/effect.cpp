@@ -7,7 +7,6 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
 
 #include <map>
 #include <sstream>
