@@ -368,6 +368,6 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
         }
     }
     if( desc ) {
-        wprintz( win, c_light_gray, " - %s", item::nname( fuel_type ).c_str() );
+        wprintz( win, c_light_gray, " - %s", item::nname( fuel_type ) );
     }
 }
