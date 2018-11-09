@@ -1,28 +1,24 @@
 #include "item_action.h"
+
 #include "action.h"
-#include "output.h"
-#include "json.h"
-#include "options.h"
-#include "path_info.h"
 #include "debug.h"
 #include "game.h"
-#include "options.h"
-#include "messages.h"
-#include "inventory.h"
-#include "item_factory.h"
-#include "iuse_actor.h"
-#include "translations.h"
-#include "item.h"
 #include "input.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_factory.h"
 #include "itype.h"
-#include "ui.h"
+#include "iuse_actor.h"
+#include "json.h"
+#include "output.h"
 #include "player.h"
 #include "ret_val.h"
+#include "translations.h"
+#include "ui.h"
 
 #include <algorithm>
-#include <istream>
-#include <sstream>
 #include <iterator>
+#include <sstream>
 
 static item_action nullaction;
 static const std::string errstring( "ERROR" );
@@ -295,7 +291,7 @@ void game::item_action_menu()
     }
 
     kmenu.query();
-    if( kmenu.ret < 0 || kmenu.ret >= ( int )iactions.size() ) {
+    if( kmenu.ret < 0 || kmenu.ret >= static_cast<int>( iactions.size() ) ) {
         return;
     }
 

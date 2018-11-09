@@ -1,23 +1,22 @@
 #include "inventory.h"
-#include <sstream>
-#include "game.h"
-#include "map.h"
-#include "iexamine.h"
+
 #include "debug.h"
-#include "iuse.h"
-#include "vpart_reference.h"
-#include "iuse_actor.h"
-#include "options.h"
-#include "vpart_position.h"
-#include "npc.h"
+#include "game.h"
+#include "iexamine.h"
 #include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
+#include "iuse_actor.h"
+#include "map.h"
 #include "map_iterator.h"
-#include <algorithm>
+#include "mapdata.h"
 #include "messages.h" //for rust message
+#include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
+#include <algorithm>
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );
@@ -819,7 +818,7 @@ void inventory::rust_iron_items()
                 one_in( 500 ) &&
                 //Scale with volume, bigger = slower (see #24204)
                 one_in( static_cast<int>( 14 * std::cbrt( 0.5 * std::max( 0.05,
-                                          ( double )( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
+                                          static_cast<double>( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/3.14 (from volume of sphere)
                 g->m.water_from( g->u.pos() ).typeId() ==
                 "salt_water" ) { //Freshwater without oxygen rusts slower than air

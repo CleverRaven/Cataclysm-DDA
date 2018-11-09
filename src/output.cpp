@@ -1,33 +1,30 @@
 #include "output.h"
-#include <string>
-#include <vector>
-#include <cstdarg>
-#include <cstring>
-#include <stdlib.h>
-#include <sstream>
-#include <stdexcept>
-#include <algorithm>
-#include <map>
-#include <memory>
-#include <errno.h>
 
-#include "color.h"
-#include "input.h"
-#include "rng.h"
-#include "options.h"
-#include "cursesdef.h"
-#include "string_formatter.h"
+#include "cata_utility.h"
 #include "catacharset.h"
-#include "units.h"
-#include "debug.h"
-#include "path_info.h"
-#include "ui.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "input.h"
 #include "item.h"
 #include "line.h"
 #include "name.h"
-#include "cata_utility.h"
+#include "options.h"
 #include "popup.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "ui.h"
+#include "units.h"
+
+#include <algorithm>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <map>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
@@ -324,12 +321,13 @@ void multipage( const catacurses::window &w, const std::vector<std::string> &tex
         issue:     # of lines in the paragraph > height -> inf. loop;
         solution:  split this paragraph in two pieces;
     */
-    for( int i = 0; i < ( int )text.size(); i++ ) {
+    for( int i = 0; i < static_cast<int>( text.size() ); i++ ) {
         if( begin_y == 0 && !caption.empty() ) {
             begin_y = fold_and_print( w, 0, 1, width - 2, c_white, caption ) + 1;
         }
         std::vector<std::string> next_paragraph = foldstring( text[i], width - 2 );
-        if( begin_y + ( int )next_paragraph.size() > height - ( ( i + 1 ) < ( int )text.size() ? 1 : 0 ) ) {
+        if( begin_y + static_cast<int>( next_paragraph.size() ) > height - ( ( i + 1 ) < static_cast<int>
+                ( text.size() ) ? 1 : 0 ) ) {
             // Next page
             i--;
             center_print( w, height - 1, c_light_gray, _( "Press any key for more..." ) );
@@ -552,7 +550,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
         mvwputch( w, 1, xpos, c_white, LINE_XOXO );
         mvwputch( w, 0, xpos + length + 1, c_white, LINE_OOXX );
         mvwputch( w, 1, xpos + length + 1, c_white, LINE_XOXO );
-        if( ( int )i == active_tab ) {
+        if( static_cast<int>( i ) == active_tab ) {
             mvwputch( w, 1, xpos - 2, h_white, '<' );
             mvwputch( w, 1, xpos + length + 3, h_white, '>' );
             mvwputch( w, 2, xpos, c_white, LINE_XOOX );
@@ -797,7 +795,6 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 }
             }
 
-            std::string sPlus = vItemDisplay[i].sPlus;
             std::string sFmt = vItemDisplay[i].sFmt;
             std::string sPost = "";
 
@@ -835,13 +832,9 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                         }
                     }
                 }
-                buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
-                if( vItemDisplay[i].is_int ) {
-                    buffer << string_format( "%.0f", vItemDisplay[i].dValue );
-                } else {
-                    buffer << string_format( "%.2f", vItemDisplay[i].dValue );
-                }
-                buffer << "</color>";
+                buffer << "<color_" << string_from_color( thisColor ) << ">"
+                       << vItemDisplay[i].sValue
+                       << "</color>";
             }
             buffer << sPost;
 
@@ -912,7 +905,7 @@ input_event draw_item_info( const catacurses::window &win, const std::string &sI
 
         // TODO: use input context
         result = inp_mngr.get_input_event();
-        const int ch = ( int )result.get_first_input();
+        const int ch = static_cast<int>( result.get_first_input() );
         if( handle_scrolling && ch == KEY_PPAGE ) {
             selected--;
             werase( win );
@@ -1052,7 +1045,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
     bool skipping_tag = false;
     bool just_wrapped = false;
 
-    for( int j = 0, x = 0; j < ( int )in.size(); ) {
+    for( int j = 0, x = 0; j < static_cast<int>( in.size() ); ) {
         const char *ins = instr + j;
         int len = ANY_LENGTH;
         uint32_t uc = UTF8_getch( &ins, &len );
@@ -1060,7 +1053,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
         if( uc == '<' ) { // maybe skip non-printing tag
             std::vector<size_t>::iterator it;
             for( it = tag_positions.begin(); it != tag_positions.end(); ++it ) {
-                if( ( int )*it == j ) {
+                if( static_cast<int>( *it ) == j ) {
                     skipping_tag = true;
                     break;
                 }
@@ -1111,7 +1104,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
             just_wrapped = false;
         }
     }
-    for( int k = lastout; k < ( int )in.size(); k++ ) {
+    for( int k = lastout; k < static_cast<int>( in.size() ); k++ ) {
         o << in[k];
     }
 
@@ -1708,7 +1701,7 @@ void display_table( const catacurses::window &w, const std::string &title, int c
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_white );
         for( int i = 0; i < rows * columns; i++ ) {
-            if( i + offset * columns >= ( int )data.size() ) {
+            if( i + offset * columns >= static_cast<int>( data.size() ) ) {
                 break;
             }
             const int x = 2 + ( i % columns ) * col_width;
@@ -1719,7 +1712,7 @@ void display_table( const catacurses::window &w, const std::string &title, int c
         wrefresh( w );
         // TODO: use input context
         int ch = inp_mngr.get_input_event().get_first_input();
-        if( ch == KEY_DOWN && ( ( offset + 1 ) * columns ) < ( int )data.size() ) {
+        if( ch == KEY_DOWN && ( ( offset + 1 ) * columns ) < static_cast<int>( data.size() ) ) {
             offset++;
         } else if( ch == KEY_UP && offset > 0 ) {
             offset--;
@@ -2035,7 +2028,8 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
                     return false;
                 }
 
-                text = text.substr( pos + ( int )it->length(), ( int )text.length() - pos );
+                text = text.substr( pos + static_cast<int>( it->length() ),
+                                    static_cast<int>( text.length() ) - pos );
             }
         }
     }

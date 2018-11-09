@@ -1,17 +1,18 @@
 #include "messages.h"
-#include "input.h"
-#include "game.h"
-#include "debug.h"
-#include "compatibility.h" //to_string
-#include "json.h"
-#include "options.h"
-#include "output.h"
+
 #include "calendar.h"
-#include "translations.h"
+#include "compatibility.h" //to_string
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "json.h"
+#include "output.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 
 #ifdef __ANDROID__
+#include "options.h"
 #include "SDL_keyboard.h"
 #endif
 

@@ -52,7 +52,6 @@ class map_memory
         void memorize_symbol( int limit, const tripoint &pos, const long symbol );
         long get_symbol( const tripoint &p ) const;
     private:
-        void trim( int limit );
         lru_cache<memorized_terrain_tile> tile_cache;
         lru_cache<long> symbol_cache;
 };

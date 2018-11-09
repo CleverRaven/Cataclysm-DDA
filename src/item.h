@@ -2,20 +2,19 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include "calendar.h"
+#include "cata_utility.h"
+#include "debug.h"
+#include "item_location.h"
+#include "string_id.h"
+#include "visitable.h"
+
 #include <climits>
+#include <list>
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
-#include <list>
-#include <unordered_set>
-#include <set>
-#include <map>
-
-#include "visitable.h"
-#include "string_id.h"
-#include "item_location.h"
-#include "debug.h"
-#include "cata_utility.h"
-#include "calendar.h"
 
 namespace cata
 {
@@ -126,9 +125,6 @@ struct iteminfo {
         /** Flag indicating type of sValue.  True if integer, false if single decimal */
         bool is_int;
 
-        /** Used to add a leading character to the printed value, usually '+' or '$'. */
-        std::string sPlus;
-
         /** Flag indicating whether a newline should be printed after printing this item */
         bool bNewLine;
 
@@ -138,22 +134,40 @@ struct iteminfo {
         /** Whether to print sName.  If false, use for comparisons but don't print for user. */
         bool bDrawName;
 
+        /** Whether to print a sign on positive values */
+        bool bShowPlus;
+
+        enum flags {
+            no_flags = 0,
+            is_decimal = 1 << 0, ///< Print as decimal rather than integer
+            no_newline = 1 << 1, ///< Do not follow with a newline
+            lower_is_better = 1 << 2, ///< Lower values are better for this stat
+            no_name = 1 << 3, ///< Do not print the name
+            show_plus = 1 << 4, ///< Use a + sign for positive values
+        };
+
         /**
          *  @param Type The item type of the item this iteminfo belongs to.
          *  @param Name The name of the property this iteminfo describes.
          *  @param Fmt Formatting text desired between item name and value
+         *  @param flags Additional flags to customize this entry
          *  @param Value Numerical value of this property, -999 for none.
-         *  @param _is_int If true then Value is interpreted as an integer
-         *  @param Plus Character to place before value, generally '+' or '$'
-         *  @param NewLine Whether to insert newline at end of output.
-         *  @param LowerIsBetter True if lower values better for red/green coloring
-         *  @param DrawName True if item name should be displayed.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  double Value = -999,
-                  bool _is_int = true, const std::string &Plus = "", bool NewLine = true,
-                  bool LowerIsBetter = false, bool DrawName = true );
+                  flags = no_flags, double Value = -999 );
+        iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
+
+inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
+{
+    using I = std::underlying_type<iteminfo::flags>::type;
+    return static_cast<iteminfo::flags>( static_cast<I>( l ) | r );
+}
+
+inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
+{
+    return l = l | r;
+}
 
 /**
  *  Possible layers that a piece of clothing/armor can occupy
@@ -624,7 +638,7 @@ class item : public visitable<item>
         /**
          * Puts the given item into this one, no checks are performed.
          */
-        void put_in( item payload );
+        void put_in( const item &payload );
 
         /** Stores a newly constructed item at the end of this item's contents */
         template<typename ... Args>
@@ -1015,10 +1029,6 @@ class item : public visitable<item>
          * Helper to bring a cable back to its initial state.
          */
         void reset_cable( player *carrier );
-        /**
-         * Helper to attach a cable to cable charger in a vehicle
-         */
-        void set_cable_charger();
 
         /**
          * Whether the item should be processed (by calling @ref process).

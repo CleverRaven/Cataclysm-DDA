@@ -2,10 +2,10 @@
 #ifndef ACTION_H
 #define ACTION_H
 
-#include <vector>
 #include <map>
-#include <string>
 #include <set>
+#include <string>
+#include <vector>
 
 struct tripoint;
 

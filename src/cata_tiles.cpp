@@ -1,49 +1,46 @@
 #if (defined TILES)
 #include "cata_tiles.h"
 
-#include "coordinate_conversions.h"
-#include "debug.h"
-#include "json.h"
-#include "path_info.h"
-#include "monstergenerator.h"
-#include "item_factory.h"
-#include "item.h"
-#include "veh_type.h"
-#include "filesystem.h"
-#include "sounds.h"
-#include "map.h"
-#include "trap.h"
-#include "monster.h"
-#include "vpart_position.h"
-#include "options.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "npc.h"
+#include "cata_utility.h"
 #include "catacharset.h"
-#include "itype.h"
-#include "vpart_reference.h"
-#include "vehicle.h"
-#include "game.h"
-#include "mapdata.h"
-#include "mtype.h"
+#include "clzones.h"
+#include "coordinate_conversions.h"
+#include "cursesport.h"
+#include "debug.h"
 #include "field.h"
-#include "weather.h"
-#include "weighted_list.h"
-#include "submap.h"
+#include "game.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "map.h"
+#include "mapdata.h"
+#include "mod_tileset.h"
+#include "monster.h"
+#include "monstergenerator.h"
+#include "mtype.h"
+#include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
-#include "cata_utility.h"
-#include "cursesport.h"
+#include "path_info.h"
+#include "player.h"
 #include "rect_range.h"
-#include "clzones.h"
-#include "mod_tileset.h"
+#include "sounds.h"
+#include "submap.h"
+#include "trap.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
+#include "weather.h"
+#include "weighted_list.h"
 
-#include <cassert>
 #include <algorithm>
-#include <fstream>
-#include <stdlib.h>     /* srand, rand */
-#include <sstream>
 #include <array>
+#include <cassert>
+#include <cstdlib>
+#include <fstream>
 
 #include <SDL_image.h>
 
@@ -568,8 +565,8 @@ void cata_tiles::set_draw_scale( int scale )
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
     tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
 
-    tile_ratiox = ( ( float )tile_width / ( float )fontwidth );
-    tile_ratioy = ( ( float )tile_height / ( float )fontheight );
+    tile_ratiox = ( static_cast<float>( tile_width ) / static_cast<float>( fontwidth ) );
+    tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
 }
 
 void tileset_loader::load( const std::string &tileset_id, const bool precheck )
@@ -1639,10 +1636,10 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
         int &rows ) const
 {
-    columns = tile_iso ? ceil( ( double ) width / tile_width ) * 2 + 4 : ceil( (
-                  double ) width / tile_width );
-    rows = tile_iso ? ceil( ( double ) height / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil( (
-                double ) height / tile_height );
+    columns = tile_iso ? ceil( static_cast<double>( width ) / tile_width ) * 2 + 4 : ceil(
+                  static_cast<double>( width ) / tile_width );
+    rows = tile_iso ? ceil( static_cast<double>( height ) / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil(
+               static_cast<double>( height ) / tile_height );
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,

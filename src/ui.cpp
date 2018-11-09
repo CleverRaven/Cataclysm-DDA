@@ -1,21 +1,22 @@
 #include "ui.h"
-#include "catacharset.h"
-#include "output.h"
-#include "debug.h"
-#include <sstream>
-#include <stdlib.h>
-#include <algorithm>
-#include <iterator>
-#include "input.h"
-#include "cursesdef.h"
-#include "uistate.h"
-#include "options.h"
-#include "game.h"
-#include "player.h"
+
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "output.h"
+#include "player.h"
 #include "string_input_popup.h"
+#include "uistate.h"
+
+#include <algorithm>
+#include <cstdarg>
+#include <iterator>
 
 #ifdef __ANDROID__
+#include "options.h"
 #include "SDL_keyboard.h"
 #endif
 
@@ -194,7 +195,7 @@ void uilist::filterlist()
     fselected = -1;
     int f = 0;
     for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( !nocase && (int)entries[ i ].txt.find(filter) != -1 ) ||
+        if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
             lcmatch(entries[i].txt, fstr ) ) {
             fentries.push_back( i );
             if ( i == selected ) {
@@ -215,13 +216,13 @@ void uilist::filterlist()
         } else {
             selected = fentries [ 0 ];
         }
-    } else if (fselected < (int)fentries.size()) {
+    } else if (fselected < static_cast<int>( fentries.size() )) {
         selected = fentries[fselected];
     } else {
         fselected = selected = -1;
     }
     // scroll to top of screen if all remaining entries fit the screen.
-    if ((int)fentries.size() <= vmax) {
+    if (static_cast<int>( fentries.size() ) <= vmax) {
         vshift = 0;
     }
 }
@@ -515,7 +516,7 @@ void uilist::setup()
     if ( scrollbar_side == -1 ) {
         scrollbar_side = ( pad_left > 0 ? 1 : 0 );
     }
-    if ( (int)entries.size() <= vmax ) {
+    if ( static_cast<int>( entries.size() ) <= vmax ) {
         scrollbar_auto = false;
     }
     window = catacurses::newwin( w_height, w_width, w_y, w_x );
@@ -601,7 +602,7 @@ void uilist::show()
     calcStartPos( vshift, fselected, vmax, fentries.size() );
 
     for ( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
-        if ( fei < (int)fentries.size() ) {
+        if ( fei < static_cast<int>( fentries.size() ) ) {
             int ei = fentries [ fei ];
             nc_color co = ( ei == selected ?
                             hilight_color :
@@ -765,7 +766,7 @@ bool uilist::scrollby( const int scrollby )
     if ( ! looparound ) {
         if ( backwards && fselected < 0 ) {
             fselected = 0;
-        } else if ( fselected >= (int)fentries.size() ) {
+        } else if ( fselected >= static_cast<int>( fentries.size() ) ) {
             fselected = fentries.size() - 1;
         }
     }
@@ -784,7 +785,7 @@ bool uilist::scrollby( const int scrollby )
             }
         }
     } else {
-        if( fselected >= ( int )fentries.size() ) {
+        if( fselected >= static_cast<int>( fentries.size() ) ) {
             fselected = 0;
         }
         for( size_t i = 0; i < fentries.size(); ++i ) {
@@ -792,7 +793,7 @@ bool uilist::scrollby( const int scrollby )
                 break;
             }
             ++fselected;
-            if( fselected >= ( int )fentries.size() ) {
+            if( fselected >= static_cast<int>( fentries.size() ) ) {
                 fselected = 0;
             }
         }
@@ -937,7 +938,7 @@ void pointmenu_cb::refresh( uilist *menu ) {
     if( last == menu->selected ) {
         return;
     }
-    if( menu->selected < 0 || menu->selected >= (int)points.size() ) {
+    if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
         last = menu->selected;
         g->u.view_offset = {0, 0, 0};
         g->draw_ter();

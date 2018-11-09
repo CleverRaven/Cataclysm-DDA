@@ -2699,7 +2699,7 @@
       "type": "holster",
       "holster_prompt": "Attach what to belt loop?",
       "holster_msg": "You clip your %s to your %s",
-      "max_volume": 5,
+      "max_volume": 8,
       "max_weight": 3600,
       "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]

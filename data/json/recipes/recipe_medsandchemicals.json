@@ -444,7 +444,9 @@
       [ "saline", 5 ]
     ],
     [
-      [ "oxycodone", 40 ]
+      [ "codeine", 25 ],
+      [ "morphine", 3 ],
+      [ "oxycodone", 2 ]
     ]
   ]
 },{

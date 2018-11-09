@@ -1,7 +1,7 @@
 #include "iteminfo_query.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 iteminfo_query::iteminfo_query() = default;
 

@@ -2,16 +2,16 @@
 
 #include "action.h"
 #include "catacharset.h"
-#include "input.h"
-#include "output.h"
 #include "cursesdef.h"
-#include "translations.h"
-#include "text_snippets.h"
+#include "input.h"
 #include "json.h"
+#include "output.h"
 #include "path_info.h"
-#include <cmath>  // max in help_main
-#include <vector>
+#include "text_snippets.h"
+#include "translations.h"
+
 #include <algorithm>
+#include <vector>
 
 help &get_help()
 {
@@ -141,8 +141,8 @@ void help::display_help()
                                        ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                                        ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
     catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+                                1 + static_cast<int>( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + static_cast<int>( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
 
     bool needs_refresh = true;
 

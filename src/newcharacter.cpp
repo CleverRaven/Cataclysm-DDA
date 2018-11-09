@@ -1,43 +1,40 @@
+#include "addiction.h"
+#include "bionics.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "crafting.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "martialarts.h"
+#include "mutation.h"
+#include "name.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
 #include "player.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
-#include "scenario.h"
-#include "start_location.h"
-#include "input.h"
-#include "output.h"
-#include "bionics.h"
-#include "units.h"
 #include "rng.h"
-#include "game.h"
-#include "name.h"
-#include "string_formatter.h"
-#include "options.h"
+#include "scenario.h"
 #include "skill.h"
-#include "catacharset.h"
-#include "debug.h"
-#include "char_validity_check.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "addiction.h"
-#include "ui.h"
-#include "mutation.h"
-#include "crafting.h"
+#include "start_location.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui.h"
 #include "worldfactory.h"
-#include "json.h"
-#include "martialarts.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
-#include <cstring>
-#include <sstream>
-#include <vector>
+
 #include <algorithm>
 #include <cassert>
+#include <sstream>
+#include <vector>
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -668,7 +665,7 @@ void draw_tabs( const catacurses::window &w, const std::string &sTab )
     // Initial value of next_pos is free space too.
     // '1' is used for SDL/curses screen column reference.
     int free_space = ( TERMX - tabs_length - 1 - next_pos );
-    int spaces = free_space / ( ( int )tab_captions.size() - 1 );
+    int spaces = free_space / ( static_cast<int>( tab_captions.size() ) - 1 );
     if( spaces < 0 ) {
         spaces = 0;
     }
@@ -702,7 +699,7 @@ void draw_points( const catacurses::window &w, points_left &points, int netPoint
 }
 
 template <class Compare>
-void draw_sorting_indicator( const catacurses::window &w_sorting, input_context ctxt,
+void draw_sorting_indicator( const catacurses::window &w_sorting, const input_context &ctxt,
                              Compare sorter )
 {
     auto const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
@@ -760,7 +757,7 @@ Scenarios and professions affect skill point pool" ) );
     do {
         if( highlighted < 0 ) {
             highlighted = opts.size() - 1;
-        } else if( highlighted >= ( int )opts.size() ) {
+        } else if( highlighted >= static_cast<int>( opts.size() ) ) {
             highlighted = 0;
         }
 
@@ -771,7 +768,7 @@ Scenarios and professions affect skill point pool" ) );
         // Clear the bottom of the screen.
         werase( w_description );
 
-        for( int i = 0; i < ( int )opts.size(); i++ ) {
+        for( int i = 0; i < static_cast<int>( opts.size() ); i++ ) {
             nc_color color = ( points.limit == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_light_gray );
             if( highlighted == i ) {
                 color = hilite( color );
@@ -1133,9 +1130,9 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                           traits_size[iCurrentPage] );
 
             //Draw Traits
-            for( int i = start_y; i < ( int )traits_size[iCurrentPage]; i++ ) {
+            for( int i = start_y; i < static_cast<int>( traits_size[iCurrentPage] ); i++ ) {
                 if( i < start_y ||
-                    i >= start_y + ( int )std::min( traits_size[iCurrentPage], iContentHeight ) ) {
+                    i >= start_y + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) ) ) {
                     continue;
                 }
                 auto &cur_trait = vStartingTraits[iCurrentPage][i];
@@ -1545,7 +1542,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             cur_id++;
-            if( cur_id > ( int )profs_length - 1 ) {
+            if( cur_id > static_cast<int>( profs_length ) - 1 ) {
                 cur_id = 0;
             }
             desc_offset = 0;
@@ -2257,7 +2254,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
                 if( level > 0 ) {
                     mvwprintz( w_skills, line, 0, c_light_gray,
                                elem->name() + ":" );
-                    mvwprintz( w_skills, line, 23, c_light_gray, "%-2d", ( int )level );
+                    mvwprintz( w_skills, line, 23, c_light_gray, "%-2d", static_cast<int>( level ) );
                     line++;
                     has_skills = true;
                 }

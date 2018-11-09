@@ -2,15 +2,15 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
-#include "string_id.h"
 #include "bonuses.h"
 #include "calendar.h"
+#include "string_id.h"
 #include "ui.h"
 
-#include <string>
-#include <vector>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
 
 enum damage_type : int;
 class JsonObject;

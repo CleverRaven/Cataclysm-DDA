@@ -1,33 +1,34 @@
 #include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "rng.h"
-#include "line.h"
-#include "debug.h"
+
+#include "basecamp.h"
+#include "bionics.h"
 #include "catacharset.h"
+#include "debug.h"
+#include "game.h"
+#include "itype.h"
+#include "line.h"
+#include "map.h"
 #include "messages.h"
 #include "mission.h"
-#include "morale_types.h"
-#include "units.h"
-#include "overmapbuffer.h"
-#include "translations.h"
-#include "basecamp.h"
-#include "itype.h"
-#include "skill.h"
-#include "overmap.h"
-#include "npctalk.h"
 #include "mission_companion.h"
+#include "morale_types.h"
+#include "npctalk.h"
 #include "npctrade.h"
-#include "bionics.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "requirements.h"
-#include "ui.h"
-
+#include "rng.h"
+#include "skill.h"
 #include "string_formatter.h"
-#include <vector>
-#include <string>
-#include <sstream>
+#include "translations.h"
+#include "ui.h"
+#include "units.h"
+
 #include <algorithm>
+#include <sstream>
+#include <string>
+#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -572,7 +573,8 @@ bool pay_npc( npc &np, int cost )
         return true;
     }
 
-    if( g->u.cash + ( unsigned long )np.op_of_u.owed >= ( unsigned long )cost ) {
+    if( g->u.cash + static_cast<unsigned long>( np.op_of_u.owed ) >= static_cast<unsigned long>
+        ( cost ) ) {
         g->u.cash -= cost - np.op_of_u.owed;
         np.op_of_u.owed = 0;
         return true;

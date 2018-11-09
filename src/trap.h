@@ -3,10 +3,10 @@
 #define TRAP_H
 
 #include "color.h"
-#include "string_id.h"
 #include "int_id.h"
+#include "string_id.h"
 #include "units.h"
-#include <string>
+
 #include <functional>
 #include <vector>
 

@@ -1,20 +1,18 @@
+#include "cata_utility.h"
+#include "catacharset.h" // used for utf8_width()
 #include "game.h"
 #include "game_inventory.h"
-#include "player.h"
-#include "catacharset.h" // used for utf8_width()
 #include "input.h"
-#include "output.h"
 #include "item.h"
-#include "string_formatter.h"
-#include "units.h"
-#include "translations.h"
-#include "npc.h"
-#include "cata_utility.h"
 #include "line.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
 
-#include <vector>
-#include <string>
 #include <algorithm>
+#include <string>
+#include <vector>
 
 namespace
 {
@@ -521,7 +519,8 @@ void player::sort_armor()
                 }
             }
         }
-        leftListSize = ( ( int )tmp_worn.size() < cont_h - 2 ) ? ( int )tmp_worn.size() : cont_h - 2;
+        leftListSize = ( static_cast<int>( tmp_worn.size() ) < cont_h - 2 ) ? static_cast<int>
+                       ( tmp_worn.size() ) : cont_h - 2;
 
         // Ensure leftListIndex is in bounds
         int new_index_upper_bound = std::max( 0, int( tmp_worn.size() ) - 1 );
@@ -552,7 +551,7 @@ void player::sort_armor()
 
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
-        if( leftListSize > ( int )tmp_worn.size() ) {
+        if( leftListSize > static_cast<int>( tmp_worn.size() ) ) {
             // @todo: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
                        c_light_blue, _( "<more>" ) );
@@ -696,7 +695,7 @@ void player::sort_armor()
                 selected = leftListIndex;
             }
         } else if( action == "CHANGE_SIDE" ) {
-            if( leftListIndex < ( int ) tmp_worn.size() && tmp_worn[leftListIndex]->is_sided() ) {
+            if( leftListIndex < static_cast<int>( tmp_worn.size() ) && tmp_worn[leftListIndex]->is_sided() ) {
                 if( g->u.query_yn( _( "Swap side for %s?" ), tmp_worn[leftListIndex]->tname().c_str() ) ) {
                     change_side( *tmp_worn[leftListIndex] );
                     wrefresh( w_sort_armor );
@@ -762,7 +761,7 @@ void player::sort_armor()
             draw_grid( w_sort_armor, left_w, middle_w );
         } else if( action == "REMOVE_ARMOR" ) {
             // query (for now)
-            if( leftListIndex < ( int ) tmp_worn.size() ) {
+            if( leftListIndex < static_cast<int>( tmp_worn.size() ) ) {
                 if( g->u.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
                     // remove the item, asking to drop it if necessary

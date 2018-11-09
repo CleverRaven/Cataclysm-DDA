@@ -2,10 +2,9 @@
 #ifndef VITAMIN_H
 #define VITAMIN_H
 
-#include "string_id.h"
 #include "calendar.h"
+#include "string_id.h"
 
-#include <string>
 #include <map>
 #include <utility>
 #include <vector>

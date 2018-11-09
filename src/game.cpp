@@ -1,129 +1,117 @@
 #include "game.h"
 
-#include "coordinate_conversions.h"
-#include "rng.h"
-#include "dependency_tree.h"
-#include "input.h"
-#include "output.h"
-#include "skill.h"
-#include "vpart_range.h"
-#include "line.h"
-#include "computer.h"
-#include "veh_interact.h"
-#include "item_category.h"
-#include "veh_type.h"
-#include "options.h"
-#include "auto_pickup.h"
-#include "effect.h"
-#include "bionics.h"
-#include "gamemode.h"
-#include "vpart_reference.h"
-#include "mapbuffer.h"
-#include "map_item_stack.h"
-#include "debug.h"
-#include "debug_menu.h"
-#include "gun_mode.h"
-#include "editmap.h"
-#include "bodypart.h"
-#include "map.h"
-#include "uistate.h"
-#include "ranged.h"
-#include "item_group.h"
-#include "trait_group.h"
-#include "json.h"
-#include "vpart_position.h"
-#include "artifact.h"
-#include "overmapbuffer.h"
-#include "trap.h"
-#include "mapdata.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "init.h"
-#include "help.h"
 #include "action.h"
-#include "monstergenerator.h"
-#include "monattack.h"
-#include "string_formatter.h"
-#include "mondefense.h"
-#include "monfaction.h"
-#include "worldfactory.h"
-#include "filesystem.h"
-#include "mod_manager.h"
-#include "path_info.h"
-#include "iexamine.h"
-#include "mapbuffer.h"
-#include "mapsharing.h"
-#include "messages.h"
-#include "pickup.h"
-#include "weather_gen.h"
-#include "start_location.h"
-#include "debug.h"
+#include "activity_handlers.h"
+#include "artifact.h"
+#include "auto_pickup.h"
+#include "bionics.h"
+#include "bodypart.h"
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "catalua.h"
-#include "lua_console.h"
-#include "sounds.h"
-#include "iuse_actor.h"
-#include "mutation.h"
-#include "mtype.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "overmap.h"
-#include "overmap_ui.h"
-#include "omdata.h"
-#include "crafting.h"
-#include "construction.h"
-#include "lightmap.h"
-#include "npc.h"
-#include "npc_class.h"
-#include "scenario.h"
-#include "mission.h"
+#include "clzones.h"
 #include "compatibility.h"
-#include "mongroup.h"
-#include "morale_types.h"
-#include "worldfactory.h"
-#include "material.h"
-#include "martialarts.h"
-#include "event.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
-#include "vehicle.h"
-#include "submap.h"
-#include "mapgen_functions.h"
-#include "clzones.h"
-#include "item_location.h"
-#include "weather.h"
-#include "faction.h"
+#include "debug.h"
+#include "debug_menu.h"
+#include "dependency_tree.h"
+#include "editmap.h"
+#include "effect.h"
 #include "enums.h"
-#include "live_view.h"
-#include "recipe_dictionary.h"
-#include "cata_utility.h"
-#include "pathfinding.h"
-#include "projectile.h"
-#include "game_inventory.h"
-#include "gates.h"
-#include "scent_map.h"
-#include "safemode_ui.h"
+#include "event.h"
+#include "faction.h"
+#include "filesystem.h"
 #include "game_constants.h"
-#include "string_input_popup.h"
-#include "monexamine.h"
+#include "game_inventory.h"
+#include "gamemode.h"
+#include "gates.h"
+#include "gun_mode.h"
+#include "help.h"
+#include "iexamine.h"
+#include "init.h"
+#include "input.h"
+#include "item_category.h"
+#include "item_group.h"
+#include "item_location.h"
+#include "iuse_actor.h"
+#include "json.h"
+#include "lightmap.h"
+#include "line.h"
+#include "live_view.h"
 #include "loading_ui.h"
+#include "lua_console.h"
+#include "map.h"
+#include "map_item_stack.h"
+#include "map_iterator.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
+#include "mapsharing.h"
+#include "martialarts.h"
+#include "messages.h"
+#include "mission.h"
+#include "mod_manager.h"
+#include "monattack.h"
+#include "monexamine.h"
+#include "monfaction.h"
+#include "mongroup.h"
+#include "monstergenerator.h"
+#include "morale_types.h"
+#include "mtype.h"
+#include "mutation.h"
+#include "npc.h"
+#include "npc_class.h"
+#include "omdata.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmap_ui.h"
+#include "overmapbuffer.h"
+#include "path_info.h"
+#include "pickup.h"
 #include "popup.h"
+#include "projectile.h"
+#include "ranged.h"
+#include "recipe_dictionary.h"
+#include "rng.h"
+#include "safemode_ui.h"
+#include "scenario.h"
+#include "scent_map.h"
 #include "sidebar.h"
-#include "activity_handlers.h"
+#include "sounds.h"
+#include "start_location.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "submap.h"
+#include "trait_group.h"
+#include "translations.h"
+#include "trap.h"
+#include "uistate.h"
+#include "veh_interact.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
+#include "weather.h"
+#include "weather_gen.h"
+#include "worldfactory.h"
 
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <csignal>
+#include <ctime>
+#include <iterator>
+#include <locale>
 #include <map>
 #include <set>
-#include <algorithm>
-#include <string>
 #include <sstream>
-#include <cmath>
+#include <string>
 #include <vector>
-#include <locale>
-#include <cassert>
-#include <iterator>
-#include <ctime>
-#include <cstring>
-#include <csignal>
-#include <chrono>
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -134,6 +122,7 @@
 #endif
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
+#include <cstring>
 #include <langinfo.h>
 #endif
 
@@ -196,7 +185,6 @@ const efftype_id effect_winded( "winded" );
 static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_GRAZER( "GRAZER" );
-static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -1204,7 +1192,7 @@ bool game::cleanup_at_end()
                                    iOffsetX );
         draw_border( w_rip );
 
-        sfx::do_player_death_hurt( g->u, 1 );
+        sfx::do_player_death_hurt( g->u, true );
         sfx::fade_audio_group( 1, 2000 );
         sfx::fade_audio_group( 2, 2000 );
         sfx::fade_audio_group( 3, 2000 );
@@ -3165,7 +3153,7 @@ void game::debug()
             weather_menu.query();
 
             if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = ( weather_type )weather_menu.ret;
+                weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
                 weather_override = selected_weather;
                 nextweather = calendar::turn;
                 update_weather();
@@ -3330,7 +3318,7 @@ void game::debug()
                 draw_counter++;
             }
             add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-                     difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
+                     difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
         }
         break;
 
@@ -4101,7 +4089,6 @@ void game::draw_minimap()
             }
             const int omx = cursx + i;
             const int omy = cursy + j;
-            tripoint const cur_pos {omx, omy, get_levz()};
             if( overmap_buffer.get_horde_size( omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE ) {
                 tripoint const cur_pos {omx, omy, get_levz()};
                 if( overmap_buffer.seen( omx, omy, get_levz() )
@@ -4447,11 +4434,10 @@ int game::mon_info( const catacurses::window &w )
 
     // Print the symbols of all monsters in all directions.
     for( int i = 0; i < 8; i++ ) {
-        int symroom;
         point pr( xcoords[i] + widths[i] + 1, ycoords[i] + startrow );
 
         // The list of symbols needs a space on each end.
-        symroom = ( width / 3 ) - widths[i] - 2;
+        int symroom = ( width / 3 ) - widths[i] - 2;
         const int typeshere_npc = unique_types[i].size();
         const int typeshere_mon = unique_mons[i].size();
         const int typeshere = typeshere_mon + typeshere_npc;
@@ -5154,7 +5140,6 @@ void game::emp_blast( const tripoint &p )
     // TODO: Implement z part
     int x = p.x;
     int y = p.y;
-    int rn;
     const bool sight = g->u.sees( p );
     if( m.has_flag( "CONSOLE", x, y ) ) {
         if( sight ) {
@@ -5165,7 +5150,7 @@ void game::emp_blast( const tripoint &p )
     }
     // TODO: More terrain effects.
     if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ) {
-        rn = rng( 1, 100 );
+        int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
@@ -5632,7 +5617,7 @@ void game::exam_vehicle( vehicle &veh, int cx, int cy )
     }
 }
 
-bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
+bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg )
 {
     // TODO: Z
     const int &x = p.x;
@@ -5780,9 +5765,9 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     // Hit the ground according to vehicle speed
     if( !m.has_flag( "SWIMMABLE", u.pos() ) ) {
         if( veh->velocity > 0 ) {
-            fling_creature( &u, veh->face.dir(), veh->velocity / ( float )100 );
+            fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ) );
         } else {
-            fling_creature( &u, veh->face.dir() + 180, -( veh->velocity ) / ( float )100 );
+            fling_creature( &u, veh->face.dir() + 180, -( veh->velocity ) / static_cast<float>( 100 ) );
         }
     }
 }
@@ -6545,9 +6530,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
         if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
                                       m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
-            int lines;
-            lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
-                                    get_fire_fuel_string( lp ) ) - 1;
+            int lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
+                                        get_fire_fuel_string( lp ) ) - 1;
             line += lines;
         } else {
             mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
@@ -7480,8 +7464,6 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
     }
 
     std::vector<tripoint> points = closest_tripoints_first( iRadius, u.pos() );
-
-    tripoint last_pos;
 
     for( auto &points_p_it : points ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
@@ -8817,8 +8799,8 @@ void game::plthrow( int pos )
     m.draw( w_terrain, u.pos() );
 
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory;
-    trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown,
+                                       range );
     if( trajectory.empty() ) {
         return;
     }
@@ -10464,7 +10446,6 @@ bool game::ramp_move( const tripoint &dest_loc )
     }
 
     const tripoint above_u( u.posx(), u.posy(), u.posz() + 1 );
-    const tripoint above_dest( dest_loc.x, dest_loc.y, dest_loc.z + 1 );
     if( m.has_floor_or_support( above_u ) ) {
         add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
         return false;
@@ -10894,9 +10875,8 @@ void game::place_player( const tripoint &dest_loc )
                 }
                 int and_the_rest = 0;
                 for( size_t i = 0; i < names.size(); ++i ) {
-                    std::string fmt;
                     //~ number of items: "<number> <item>"
-                    fmt = ngettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
+                    std::string fmt = ngettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
                     names[i] = string_format( fmt, counts[i], names[i].c_str() );
                     // Skip the first two.
                     if( i > 1 ) {
@@ -12589,8 +12569,7 @@ void game::process_artifact( item &it, player &p )
 {
     const bool worn = p.is_worn( it );
     const bool wielded = ( &it == &p.weapon );
-    std::vector<art_effect_passive> effects;
-    effects = it.type->artifact->effects_carried;
+    std::vector<art_effect_passive> effects = it.type->artifact->effects_carried;
     if( worn ) {
         auto &ew = it.type->artifact->effects_worn;
         effects.insert( effects.end(), ew.begin(), ew.end() );

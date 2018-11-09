@@ -2756,7 +2756,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "fire_drill",
@@ -4115,7 +4115,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     },
     "techniques": "RAPID",
@@ -4180,7 +4180,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     },
     "techniques": [ "RAPID", "WBLOCK_1" ],
@@ -5509,13 +5509,13 @@
     "type": "GENERIC",
     "category": "weapons",
     "name": "awl pike",
-    "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike.  Though large and heavy compared to other spears, its accuracy and damage are unparalleled.",
-    "weight": 6000,
+    "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike.",
+    "weight": 2500,
     "volume": 14,
     "price": 40000,
-    "to_hit": 2,
-    "bashing": 15,
-    "cutting": 45,
+    "to_hit": -2,
+    "bashing": 8,
+    "cutting": 25,
     "material": [ "iron", "wood" ],
     "symbol": "/",
     "color": "brown",
@@ -7048,7 +7048,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
       "dispersion_modifier": 20,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
     },
     "techniques": [ "WBLOCK_1", "RAPID" ],

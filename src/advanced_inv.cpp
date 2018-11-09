@@ -1,48 +1,44 @@
 #include "advanced_inv.h"
-#include "game.h"
-#include "player.h"
-#include "output.h"
-#include "item_category.h"
-#include "map.h"
-#include "debug.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "uistate.h"
+
 #include "auto_pickup.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "debug.h"
+#include "field.h"
+#include "game.h"
+#include "input.h"
+#include "item_category.h"
+#include "item_search.h"
+#include "map.h"
+#include "mapdata.h"
 #include "messages.h"
+#include "options.h"
+#include "output.h"
+#include "pickup.h"
+#include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
-#include "compatibility.h"
-#include "enums.h"
-#include "input.h"
-#include "options.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "trap.h"
 #include "ui.h"
+#include "uistate.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-#include "trap.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
-#include "field.h"
-#include "cata_utility.h"
-#include "item_search.h"
-#include "string_input_popup.h"
-#include "pickup.h"
 
 #ifdef __ANDROID__
 #include "SDL_keyboard.h"
 #endif
 
+#include <algorithm>
+#include <cassert>
+#include <cstring>
 #include <map>
 #include <set>
-#include <algorithm>
-#include <string>
 #include <sstream>
-#include <cmath>
+#include <string>
 #include <vector>
-#include <cassert>
-#include <cstdlib>
-#include <cstring>
 
 enum aim_exit {
     exit_none = 0,
@@ -300,7 +296,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_light_gray, _( "amt weight vol" ) );
     }
 
-    for( int i = page * itemsPerPage, x = 0 ; i < ( int )items.size() &&
+    for( int i = page * itemsPerPage, x = 0 ; i < static_cast<int>( items.size() ) &&
          x < itemsPerPage ; i++, x++ ) {
         const auto &sitem = items[i];
         if( sitem.is_category_header() ) {
@@ -741,7 +737,7 @@ void advanced_inventory::init()
 
     w_height = ( TERMY < min_w_height + head_height ) ? min_w_height : TERMY - head_height;
     w_width = ( TERMX < min_w_width ) ? min_w_width : ( TERMX > max_w_width ) ? max_w_width :
-              ( int )TERMX;
+              static_cast<int>( TERMX );
 
     headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     colstart = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
@@ -1514,7 +1510,7 @@ void advanced_inventory::display()
         } else if (action == "ITEMS_DEFAULT") {
             for( side cside : { left, right } ) {
                 auto &pane = panes[cside];
-                aim_location location = ( aim_location )uistate.adv_inv_default_areas[cside];
+                aim_location location = static_cast<aim_location>( uistate.adv_inv_default_areas[cside] );
                 if( pane.get_area() != location || location == AIM_ALL ) {
                     pane.recalc = true;
                 }

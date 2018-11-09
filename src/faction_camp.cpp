@@ -1,56 +1,50 @@
-#include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "mapbuffer.h"
+
+#include "ammo.h"
+#include "bionics.h"
+#include "catacharset.h"
+#include "compatibility.h"
+#include "construction.h"
+#include "coordinate_conversions.h"
+#include "craft_command.h"
+#include "debug.h"
 #include "dialogue.h"
-#include "rng.h"
+#include "editmap.h"
+#include "game.h"
+#include "iexamine.h"
+#include "item_group.h"
 #include "itype.h"
 #include "line.h"
-#include "bionics.h"
-#include "debug.h"
-#include "catacharset.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "mission.h"
-#include "ammo.h"
+#include "mission_companion.h"
+#include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "skill.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "input.h"
-#include "item_group.h"
-#include "compatibility.h"
-#include "mapdata.h"
 #include "recipe.h"
-#include "requirements.h"
-#include "map_iterator.h"
-#include "mongroup.h"
-#include "mtype.h"
-#include "editmap.h"
-#include "construction.h"
-#include "coordinate_conversions.h"
-#include "craft_command.h"
-#include "iexamine.h"
-#include "vehicle.h"
-#include "veh_type.h"
-#include "vpart_reference.h"
-#include "vpart_range.h"
-#include "requirements.h"
-#include "string_input_popup.h"
-#include "line.h"
 #include "recipe_groups.h"
-#include "faction_camp.h"
-#include "mission_companion.h"
-#include "npctalk.h"
+#include "requirements.h"
+#include "rng.h"
+#include "skill.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 
-#include <vector>
-#include <string>
-#include <sstream>
+#include "faction_camp.h"
+
 #include <algorithm>
 #include <cassert>
+#include <string>
+#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -1936,7 +1930,7 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         description += string_format( _( "> Food:     %10d days\n \n" ), food_desire );
         description += string_format( _( "Faction Food:%9d days\n \n" ), camp_food_supply( 0, true ) );
         description += string_format( _( "Recruit Chance: %10d%%\n \n" ),
-                                      std::min( ( int )( ( 10.0 + appeal ) / 20.0 * 100 ), 100 ) );
+                                      std::min( static_cast<int>( ( 10.0 + appeal ) / 20.0 * 100 ), 100 ) );
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
@@ -2302,7 +2296,7 @@ std::map<std::string, std::string> talk_function::camp_recipe_deck( const std::s
     return cooking_recipes;
 }
 
-int talk_function::camp_recipe_batch_max( const recipe making, const inventory &total_inv )
+int talk_function::camp_recipe_batch_max( const recipe &making, const inventory &total_inv )
 {
     int max_batch = 0;
     int max_checks = 9;

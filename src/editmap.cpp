@@ -1,51 +1,44 @@
 #include "editmap.h"
-#include "game.h"
 
-#include "coordinate_conversions.h"
-#include "input.h"
-#include "output.h"
-#include "line.h"
-#include "computer.h"
-#include "veh_interact.h"
-#include "options.h"
-#include "auto_pickup.h"
-#include "debug.h"
-#include "map.h"
-#include "output.h"
-#include "uistate.h"
 #include "artifact.h"
-#include "trap.h"
-#include "mapdata.h"
-#include "overmapbuffer.h"
+#include "auto_pickup.h"
+#include "calendar.h"
 #include "compatibility.h"
-#include "translations.h"
-#include "string_formatter.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
-#include "vpart_position.h"
-#include "npc.h"
-#include "vehicle.h"
-#include "submap.h"
+#include "debug.h"
+#include "debug_menu.h"
+#include "field.h"
+#include "game.h"
+#include "input.h"
+#include "line.h"
+#include "map.h"
+#include "mapdata.h"
 #include "monster.h"
+#include "npc.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
-#include "calendar.h"
-#include "field.h"
-#include "ui.h"
+#include "overmapbuffer.h"
 #include "scent_map.h"
-#include "debug_menu.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "submap.h"
+#include "translations.h"
+#include "trap.h"
+#include "ui.h"
+#include "uistate.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
-#include <fstream>
-#include <sstream>
-#include <map>
-#include <set>
 #include <algorithm>
-#include <string>
-#include <math.h>
-#include <vector>
 #include <cstdlib>
 #include <cstring>
-#include "debug.h"
+#include <fstream>
+#include <map>
+#include <string>
+#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 #define maplim 132
@@ -73,7 +66,7 @@ std::vector<std::string> fld_string( const std::string &str, int width )
     int linepos = width;
     int linestart = 0;
     int crpos = -2;
-    while( linepos < ( int )str.length() || crpos != -1 ) {
+    while( linepos < static_cast<int>( str.length() ) || crpos != -1 ) {
         crpos = str.find( '\n', linestart );
         if( crpos != -1 && crpos <= linepos ) {
             lines.push_back( str.substr( linestart, crpos - linestart ) );
@@ -86,7 +79,7 @@ std::vector<std::string> fld_string( const std::string &str, int width )
             }
             if( spacepos < linestart ) {
                 spacepos = linestart + width;
-                if( spacepos < ( int )str.length() ) {
+                if( spacepos < static_cast<int>( str.length() ) ) {
                     lines.push_back( str.substr( linestart, width ) );
                     linepos = spacepos + width;
                     linestart = spacepos;
@@ -238,7 +231,7 @@ editmap::~editmap() = default;
 void editmap_hilight::draw( editmap &hm, bool update )
 {
     cur_blink++;
-    if( cur_blink >= ( int )blink_interval.size() ) {
+    if( cur_blink >= static_cast<int>( blink_interval.size() ) ) {
         cur_blink = 0;
     }
     if( blink_interval[ cur_blink ] || update ) {
@@ -800,8 +793,8 @@ int editmap::edit_ter()
         int cur_t = 0;
         int tstart = 2;
         // draw icon grid
-        for( int y = tstart; y < pickh && cur_t < ( int ) ter_t::count(); y += 2 ) {
-            for( int x = xmin; x < pickw && cur_t < ( int ) ter_t::count(); x++, cur_t++ ) {
+        for( int y = tstart; y < pickh && cur_t < static_cast<int>( ter_t::count() ); y += 2 ) {
+            for( int x = xmin; x < pickw && cur_t < static_cast<int>( ter_t::count() ); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
                 mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dark_gray ), ttype.symbol() );
@@ -856,8 +849,8 @@ int editmap::edit_ter()
         off += 2;
         int cur_f = 0;
         int fstart = off; // calculate vertical offset, draw furniture icons
-        for( int y = fstart; y < pickh && cur_f < ( int ) furn_t::count(); y += 2 ) {
-            for( int x = xmin; x < pickw && cur_f < ( int ) furn_t::count(); x++, cur_f++ ) {
+        for( int y = fstart; y < pickh && cur_f < static_cast<int>( furn_t::count() ); y += 2 ) {
+            for( int x = xmin; x < pickw && cur_f < static_cast<int>( furn_t::count() ); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
                 const furn_t &ftype = fid.obj();
                 mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color() : c_dark_gray ), ftype.symbol() );
@@ -1302,7 +1295,7 @@ int editmap::edit_itm()
 
     do {
         ilmenu.query();
-        if( ilmenu.ret >= 0 && ilmenu.ret < ( int )items.size() ) {
+        if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
             item &it = items[ilmenu.ret];
             uilist imenu;
             imenu.w_x = ilmenu.w_x;
@@ -1314,7 +1307,7 @@ int editmap::edit_itm()
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
                             "damage: %d" ), it.damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
-                            "burnt: %d" ), ( int )it.burnt );
+                            "burnt: %d" ), static_cast<int>( it.burnt ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1332,7 +1325,7 @@ int editmap::edit_itm()
                             intval = it.damage();
                             break;
                         case imenu_burnt:
-                            intval = ( int )it.burnt;
+                            intval = static_cast<int>( it.burnt );
                             break;
                     }
                     string_input_popup popup;
@@ -1552,12 +1545,12 @@ int editmap::select_shape( shapetype shape, int mode )
                 smenu.addentry( editmap_line, true, 'l', pgettext( "shape", "Line" ) );
                 smenu.addentry( editmap_circle, true, 'c', pgettext( "shape", "Filled Circle" ) );
                 smenu.addentry( -2, true, 'p', pgettext( "shape", "Point" ) );
-                smenu.selected = ( int )shape;
+                smenu.selected = static_cast<int>( shape );
                 smenu.query();
                 if( smenu.ret == UILIST_CANCEL ) {
                     // canceled
                 } else if( smenu.ret != -2 ) {
-                    shape = ( shapetype )smenu.ret;
+                    shape = static_cast<shapetype>( smenu.ret );
                     update = true;
                 } else {
                     target_list.clear();
@@ -2096,7 +2089,7 @@ int editmap::edit_mapgen()
     for( size_t i = 0; i < overmap_terrains::get_all().size(); i++ ) {
         const oter_id id( i );
 
-        gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", ( int )id, id.id().c_str() );
+        gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", static_cast<int>( id ), id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = id->get_color();
         gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_sym() );

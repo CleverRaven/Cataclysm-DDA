@@ -1,10 +1,11 @@
 #include "text_snippets.h"
+
 #include "json.h"
 #include "rng.h"
 #include "translations.h"
 
-#include <string>
 #include <random>
+#include <string>
 
 static const std::string null_string( "" );
 

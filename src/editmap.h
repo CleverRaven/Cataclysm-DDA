@@ -3,16 +3,13 @@
 #define EDITMAP_H
 
 #include "map.h"
-#include "line.h"
 #include "omdata.h"
-#include "ui.h"
-#include "trap.h"
 #include "optional.h"
+#include "trap.h"
+#include "ui.h"
 
-#include <vector>
 #include <map>
-#include <list>
-#include <stdarg.h>
+#include <vector>
 
 struct real_coords;
 enum field_id : int;
@@ -70,7 +67,6 @@ class editmap
 
         void update_fmenu_entry( uilist &fmenu, field &field, field_id idx );
         void setup_fmenu( uilist &fmenu );
-        bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
         catacurses::window w_info;
         catacurses::window w_help;
         int width;

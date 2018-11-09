@@ -2,11 +2,10 @@
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
-#include "string_id.h"
 #include "requirements.h"
+#include "string_id.h"
 
 #include <list>
-#include <string>
 #include <vector>
 
 class inventory;
@@ -87,9 +86,6 @@ class craft_command
         /** Checks if items we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<tool_comp>> check_tool_components_missing(
                                                 const inventory &map_inv ) const;
-
-        /** Selects components to use */
-        void select_components( inventory &map_inv );
 
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,

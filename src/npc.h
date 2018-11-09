@@ -2,17 +2,17 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "player.h"
-#include "faction.h"
-#include "pimpl.h"
 #include "calendar.h"
+#include "faction.h"
 #include "optional.h"
+#include "pimpl.h"
+#include "player.h"
 
-#include <vector>
-#include <set>
-#include <string>
 #include <map>
 #include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 class JsonObject;
 class JsonIn;
@@ -501,7 +501,6 @@ class npc : public player
         std::string opinion_text() const;
 
         // Goal / mission functions
-        void pick_long_term_goal();
         bool fac_has_value( faction_value value ) const;
         bool fac_has_job( faction_job job ) const;
 
