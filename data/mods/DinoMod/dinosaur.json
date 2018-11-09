@@ -75,38 +75,6 @@
          "categories":["DINOSAUR"]
     },{
         "type" : "MONSTER",
-        "id" : "mon_titanis",
-        "name": "Titanis",
-        "species":"DINOSAUR",
-        "default_faction":"titanis",
-        "symbol":"D",
-        "color":"blue_green",
-        "volume": "92500 ml",
-        "weight": 120000,
-        "material":"flesh",
-        "diff":10,
-        "aggression":-20,
-        "morale":60,
-        "speed":150,
-        "melee_skill":8,
-        "melee_dice":1,
-        "melee_dice_sides":8,
-        "melee_cut":2,
-        "dodge":1,
-        "armor_bash":1,
-        "armor_cut":1,
-        "hp":60,
-        "special_freq":[0],
-        "death_function":"NORMAL",
-        "special_attack":["NONE"],
-        "description":"It looks like a dodo, only much bigger, with longer, muscular legs and a predatory gleam in its eyes.",
-        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "GRABS", "KEENNOSE", "BLEED", "BONES", "FEATHER", "LEATHER", "FAT", "WARM"],
-        "anger_triggers":["STALK", "PLAYER_WEAK", "HURT"],
-        "fear_triggers":["SOUND", "FIRE"],
-        "placate_triggers":["MEAT"],
-         "categories":["DINOSAUR"]
-    },{
-        "type" : "MONSTER",
         "id" : "mon_spinosaurus",
         "name": "Spinosaurus",
         "species":"DINOSAUR",
@@ -486,38 +454,6 @@
          "categories":["DINOSAUR"]
     },{
         "type" : "MONSTER",
-        "id" : "mon_dimorphodon",
-        "name": "Dimorphodon",
-        "species":"DINOSAUR",
-        "default_faction":"dimorphodon",
-        "symbol":"D",
-        "color":"light_gray_yellow",
-        "volume": "2000 ml",
-        "weight": 2000,
-        "material":"flesh",
-        "diff":10,
-        "aggression":-80,
-        "morale":-8,
-        "speed":110,
-        "melee_skill":5,
-        "melee_dice":2,
-        "melee_dice_sides":6,
-        "melee_cut":0,
-        "dodge":3,
-        "armor_bash":3,
-        "armor_cut":1,
-    	  "vision_day": 50,
-        "hp":30,
-        "special_freq":[0],
-        "death_function":"NORMAL",
-        "special_attack":["NONE"],
-        "description":"A small flying reptile, circling overhead looking for prey.",
-        "flags":["SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED", "BONES"],
-        "fear_triggers":["PLAYER_CLOSE", "FIRE", "FRIEND_DIED"],
-        "placate_triggers":["MEAT"],
-        "categories":["DINOSAUR"]
-    },{
-        "type" : "MONSTER",
         "id" : "mon_dilophosaurus",
         "name": "Dilophosaurus",
         "species":"DINOSAUR",
@@ -663,7 +599,6 @@
         "monsters" : [
           { "monster" : "mon_compsognathus", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [4,12] },
           { "monster" : "mon_gallimimus", "freq" : 50, "cost_multiplier" : 0, "pack_size" : [4,8] },
-          { "monster" : "mon_titanis", "freq" : 10, "cost_multiplier" : 10 },
           { "monster" : "mon_spinosaurus", "freq" : 1, "cost_multiplier" : 50 },
           { "monster" : "mon_tyrannosaurus", "freq" : 1, "cost_multiplier" : 40 },
           { "monster" : "mon_triceratops", "freq" : 3, "cost_multiplier" : 30, "pack_size" : [1,2] },
@@ -675,7 +610,6 @@
           { "monster" : "mon_deinonychus", "freq" : 10, "cost_multiplier" : 15, "pack_size" : [1,2]  },
           { "monster" : "mon_utahraptor", "freq" : 5, "cost_multiplier" : 30 },
           { "monster" : "mon_parasaurolophus", "freq" : 3, "cost_multiplier" : 10, "pack_size" : [2,4] },
-          { "monster" : "mon_dimorphodon", "freq" : 50, "cost_multiplier" : 0, "pack_size" : [2,4] },
           { "monster" : "mon_dilophosaurus", "freq" : 15, "cost_multiplier" : 10, "pack_size" : [1,2] }
         ]
      },{
@@ -692,19 +626,11 @@
         "name" : "GROUP_DINOSAUR_DANGEROUS",
         "default" : "mon_null",
         "monsters" : [
-          { "monster" : "mon_titanis", "freq" : 10, "cost_multiplier" : 10 },
           { "monster" : "mon_allosaurus", "freq" : 2, "cost_multiplier" : 30 },
           { "monster" : "mon_velociraptor", "freq" : 15, "cost_multiplier" : 10, "pack_size" : [2,4]  },
           { "monster" : "mon_deinonychus", "freq" : 10, "cost_multiplier" : 15, "pack_size" : [1,2]  },
           { "monster" : "mon_utahraptor", "freq" : 5, "cost_multiplier" : 30 },
           { "monster" : "mon_dilophosaurus", "freq" : 15, "cost_multiplier" : 10, "pack_size" : [1,2] }
-        ]
-     },{
-        "type":"monstergroup",
-        "name" : "GROUP_DINOSAUR_FLY",
-        "default" : "mon_null",
-        "monsters" : [
-          { "monster" : "mon_dimorphodon", "freq" : 50, "cost_multiplier" : 0, "pack_size" : [2,4] }
         ]
      },{
         "type":"monstergroup",
@@ -737,7 +663,6 @@
       { "monster" : "mon_dilophosaurus", "freq" : 5, "cost_multiplier" : 10, "pack_size" : [1,2], "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_utahraptor", "freq" : 3, "cost_multiplier" : 30 },
       { "monster" : "mon_eoraptor", "freq" : 3, "cost_multiplier" : 0, "pack_size" : [4,12], "conditions" : ["SPRING", "SUMMER", "AUTUMN"] }
-
     ]
   },{
     "type":"monstergroup",
