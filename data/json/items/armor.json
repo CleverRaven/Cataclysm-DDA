@@ -1160,7 +1160,7 @@
     "copy-from": "bondage_mask",
     "type": "ARMOR",
     "name": "bondage mask (zipped)",
-    "extend": { "name_plural": "bondage masks (zipped)" },
+    "name_plural": "bondage masks (zipped)",
     "description": "A tight mask made of black leather.  The eyes and mouth have been zipped closed.",
     "flags": [ "VARSIZE", "BLIND" ],
     "use_action": {
