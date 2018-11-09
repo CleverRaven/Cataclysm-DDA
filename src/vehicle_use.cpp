@@ -734,7 +734,8 @@ bool vehicle::start_engine( const int e )
             add_msg( _( "The %s makes a single clicking sound." ), eng.name() );
             return false;
         }
-        const int start_draw_bat = engine_power * ( 1.0 + dmg / 2 + cold_factor / 5 ) / 3;
+        const int start_draw_bat = power_to_energy_bat( engine_power * ( 1.0 + dmg / 2 + cold_factor / 5 ) /
+                                   3, 1_turns );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
             add_msg( _( "The %s makes a rapid clicking sound." ), eng.name() );
             return false;
