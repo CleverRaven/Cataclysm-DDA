@@ -235,7 +235,7 @@ void talk_function::bionic_install( npc &p )
                 bio->typeId() ==  "bio_power_storage_mkII" ) {
 
                 bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() + " - $" + to_string( bio->price( true ) * 2 / 100 ) );
+                bionic_names.push_back( bio->tname() + " - " + format_money( bio->price( true ) * 2 ) );
             }
         }
     }
@@ -286,9 +286,9 @@ void talk_function::bionic_remove( npc &p )
                 bionic_types.push_back( bio.id.str() );
                 if( item::type_is_defined( bio.id.str() ) ) {
                     tmp = item( bio.id.str(), 0 );
-                    bionic_names.push_back( tmp.tname() + " - $" + to_string( 500 + ( tmp.price( true ) / 400 ) ) );
+                    bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
-                    bionic_names.push_back( bio.id.str() + " - $" + to_string( 500 ) );
+                    bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
                 }
             }
         }
