@@ -822,7 +822,6 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 }
             }
 
-            std::string sPlus = vItemDisplay[i].sPlus;
             std::string sFmt = vItemDisplay[i].sFmt;
             std::string sPost = "";
 
@@ -860,13 +859,9 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                         }
                     }
                 }
-                buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
-                if( vItemDisplay[i].is_int ) {
-                    buffer << string_format( "%.0f", vItemDisplay[i].dValue );
-                } else {
-                    buffer << string_format( "%.2f", vItemDisplay[i].dValue );
-                }
-                buffer << "</color>";
+                buffer << "<color_" << string_from_color( thisColor ) << ">"
+                       << vItemDisplay[i].sValue
+                       << "</color>";
             }
             buffer << sPost;
 
