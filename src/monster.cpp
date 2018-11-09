@@ -1,38 +1,38 @@
 #include "monster.h"
 
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "item.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mondeath.h"
-#include "output.h"
-#include "game.h"
-#include "projectile.h"
-#include "debug.h"
-#include "rng.h"
-#include "item.h"
-#include "translations.h"
-#include "overmapbuffer.h"
-#include <sstream>
-#include <stdlib.h>
-#include <algorithm>
-#include <numeric>
-#include "cursesdef.h"
-#include "effect.h"
+#include "mapdata.h"
 #include "melee.h"
 #include "messages.h"
-#include "mondefense.h"
 #include "mission.h"
-#include "mongroup.h"
+#include "mondeath.h"
+#include "mondefense.h"
 #include "monfaction.h"
-#include "string_formatter.h"
-#include "options.h"
-#include "trap.h"
-#include "line.h"
-#include "mapdata.h"
+#include "mongroup.h"
 #include "mtype.h"
-#include "field.h"
-#include "sounds.h"
 #include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "overmapbuffer.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "trap.h"
+
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
@@ -128,9 +128,6 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
-static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
-static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::map<m_size, std::string> size_names {
     {m_size::MS_TINY, translate_marker( "tiny" )},
@@ -1222,7 +1219,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), 0 );
+                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name().c_str(),
                          body_part_name_accusative( bp_hit ).c_str() );
             } else if( target.is_npc() ) {
@@ -2197,7 +2194,7 @@ void monster::make_ally( const monster &z )
     faction = z.faction;
 }
 
-void monster::add_item( item it )
+void monster::add_item( const item &it )
 {
     inv.push_back( it );
 }
@@ -2225,6 +2222,16 @@ field_id monster::gibType() const
 m_size monster::get_size() const
 {
     return type->size;
+}
+
+units::mass monster::get_weight() const
+{
+    return type->weight;
+}
+
+units::volume monster::get_volume() const
+{
+    return type->volume;
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2333,7 +2340,7 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    if( rng( 0, 100 ) <= ( long )type->def_chance ) {
+    if( rng( 0, 100 ) <= static_cast<long>( type->def_chance ) ) {
         type->sp_defense( *this, source, proj );
     }
 

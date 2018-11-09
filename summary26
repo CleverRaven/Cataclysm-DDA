@@ -19,7 +19,7 @@ Bugfixes Fix unlimited overmap error message
 Balance Give zapback zombies weak electric melee
 Infrastructure Jsonize mutation healing rate and hp modifiers
 Bugfixes Make random NPCs only spawn on surface
-Replace food_recipe.json heating inlined lists with requirements
+Infrastructure Replace food_recipe.json heating inlined lists with requirements
 Bugfixes Stop turrets from trying to place fake NPCs on map
 Interface Move magazines to CSC_WEAPON_MAGAZINES
 Bugfixes Add check for containers in invoke_item
@@ -91,10 +91,10 @@ Bugfixes Fix gunmod crash
 Bugfixes make jumper cables stack correctly
 Bugfixes Prevent adding items to active item list more than once.
 Bugfixes Fix deserialize of npc follower rules
-Use file_exist function instead of own special logic
+Infrastructure Use file_exist function instead of own special logic
 I18N Fix refugee center NPCs' unlocalized names and occupations (fix #20592)
 I18N I18N-ize action menu entries (fix #20523)
-Restore (implement?) bite/infection/frostbite intensity
+Bugfixes Restore (implement?) bite/infection/frostbite intensity
 Bugfixes Fix some inventory letter assignment quirkiness
 Build Fix link to supported compilers
 I18N Ensure consistent string order in translation template

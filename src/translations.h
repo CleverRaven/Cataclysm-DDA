@@ -36,7 +36,7 @@ class JsonIn;
 
 #include <cstdio>
 #include <libintl.h>
-#include <clocale>
+#include <string>
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))

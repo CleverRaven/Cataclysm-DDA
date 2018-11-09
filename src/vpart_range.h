@@ -2,12 +2,12 @@
 #ifndef VPART_RANGE_H
 #define VPART_RANGE_H
 
-#include "vpart_reference.h"
 #include "optional.h"
+#include "vpart_reference.h"
 
-#include <functional>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <functional>
 
 // Some functions have templates with default values that may seem pointless,
 // but they allow to use the type in question without including the header

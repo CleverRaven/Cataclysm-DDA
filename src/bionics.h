@@ -5,10 +5,9 @@
 #include "bodypart.h"
 #include "string_id.h"
 
-#include <set>
-#include <string>
-#include <vector>
 #include <map>
+#include <set>
+#include <vector>
 
 class player;
 class JsonObject;

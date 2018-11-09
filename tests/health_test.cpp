@@ -1,8 +1,8 @@
 #include "catch/catch.hpp"
 
-#include "player.h"
-#include "npc.h"
 #include "item.h"
+#include "npc.h"
+#include "player.h"
 
 #include <sstream>
 

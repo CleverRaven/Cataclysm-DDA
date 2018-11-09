@@ -1,7 +1,6 @@
 #include "string_formatter.h"
 
 #include <stdexcept>
-#include <cstdarg>
 
 char cata::string_formatter::consume_next_input()
 {

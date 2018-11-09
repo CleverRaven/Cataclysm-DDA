@@ -2,20 +2,17 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
-#include "iuse.h"
-#include "game_constants.h"
+#include "calendar.h"
 #include "color.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
-#include "int_id.h"
-#include "explosion.h"
 #include "units.h"
-#include "calendar.h"
 
-#include <limits.h>
-#include <set>
 #include <map>
-#include <string>
+#include <set>
 #include <vector>
 
 class vitamin;
@@ -458,6 +455,7 @@ class salvage_actor : public iuse_actor
 
         bool try_to_cut_up( player &p, item &it ) const;
         int cut_up( player &p, item &it, item &cut ) const;
+        int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const item &it ) const;
 
         salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}

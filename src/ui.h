@@ -2,16 +2,15 @@
 #ifndef UI_H
 #define UI_H
 
-#include "enums.h"
-#include <stdlib.h>
 #include "color.h"
 #include "cursesdef.h"
+#include "enums.h"
 #include "string_formatter.h"
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
 #include <utility>
+#include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -53,6 +52,7 @@ struct uimenu_entry {
     int hotkey;                 // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
     std::string txt;            // what it says on the tin
     std::string desc;           // optional, possibly longer, description
+    std::string ctxt;           // second column text
     nc_color hotkey_color;
     nc_color text_color;
     mvwzstr extratxt;
@@ -74,6 +74,11 @@ struct uimenu_entry {
     };
     uimenu_entry( int R, bool E, int K, std::string T, std::string D ) : retval( R ), enabled( E ),
         hotkey( K ), txt( T ), desc( D ) {
+        text_color = c_red_red;
+    };
+    uimenu_entry( int R, bool E, int K, std::string T, std::string D, std::string C ) : retval( R ),
+        enabled( E ),
+        hotkey( K ), txt( T ), desc( D ), ctxt( C ) {
         text_color = c_red_red;
     };
     uimenu_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
@@ -165,7 +170,7 @@ class uimenu: public ui_container
         int textwidth;
         int textalign;
         int max_entry_len;
-        int max_desc_len;
+        int max_column_len;
         std::string title;
         std::vector<uimenu_entry> entries;
         std::map<int, int> keymap;
@@ -237,6 +242,8 @@ class uimenu: public ui_container
         }
         void addentry_desc( const std::string &str, const std::string &desc );
         void addentry_desc( int r, bool e, int k, const std::string &str, const std::string &desc );
+        void addentry_col( int r, bool e, int k, const std::string &str, const std::string &column,
+                           const std::string &desc = "" );
         void settext( const std::string &str );
 
         void reset();

@@ -3,15 +3,21 @@
 #define INPUT_H
 
 #include <functional>
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
+
 #ifdef __ANDROID__
 #include <list>
 #include <algorithm>
 #endif
-#include <utility>
 
+struct tripoint;
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 namespace catacurses
 {
 class window;
@@ -257,8 +263,6 @@ class input_manager
          * only input events from the keyboard are considered.
          */
         void wait_for_any_key();
-
-        bool translate_to_window_position();
 
         /**
          * Sets global input polling timeout as appropriate for the current interface system.
@@ -587,15 +591,13 @@ class input_context
         bool get_direction( int &dx, int &dy, const std::string &action );
 
         /**
-         * Get the coordinates associated with the last mouse click.
+         * Get the coordinates associated with the last mouse click (if any).
          *
          * TODO: This right now is more or less specific to the map window,
          *       and returns the absolute map coordinate.
          *       Eventually this should be made more flexible.
-         *
-         * @return true if we could process a click inside the window, false otherwise.
          */
-        bool get_coordinates( const catacurses::window &window, int &x, int &y );
+        cata::optional<tripoint> get_coordinates( const catacurses::window &window );
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -642,7 +644,7 @@ class input_context
         /**
         * Get/Set edittext to display IME unspecified string.
         */
-        void set_edittext( std::string s );
+        void set_edittext( const std::string &s );
         std::string get_edittext();
 
         void set_iso( bool mode = true );

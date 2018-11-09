@@ -1,14 +1,9 @@
 #include "player_activity.h"
 
+#include "activity_handlers.h"
 #include "activity_type.h"
-#include "construction.h"
 #include "craft_command.h"
 #include "player.h"
-#include "requirements.h"
-#include "translations.h"
-#include "activity_handlers.h"
-#include "messages.h"
-#include "mapdata.h"
 
 #include <algorithm>
 

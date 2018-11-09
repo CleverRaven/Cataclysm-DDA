@@ -6,12 +6,12 @@
 #include "enums.h"
 #include "units.h"
 
-#include <string>
 #include <array>
-#include <list>
-#include <vector>
-#include <map>
 #include <functional>
+#include <list>
+#include <map>
+#include <string>
+#include <vector>
 
 class uimenu;
 class vehicle;

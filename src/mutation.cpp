@@ -1,31 +1,24 @@
 #include "mutation.h"
-#include "player.h"
+
 #include "action.h"
+#include "field.h"
 #include "game.h"
-#include "map.h"
 #include "item.h"
 #include "itype.h"
-#include "translations.h"
-#include "messages.h"
-#include "monster.h"
-#include "overmapbuffer.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "sounds.h"
-#include "options.h"
 #include "mapdata.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "field.h"
-#include "vitamin.h"
+#include "monster.h"
 #include "output.h"
+#include "player.h"
+#include "translations.h"
+#include "ui.h"
 
 #include <algorithm>
 
 const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_ROBUST( "ROBUST" );
-static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
@@ -43,7 +36,6 @@ static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -340,17 +332,23 @@ void player::activate_mutation( const trait_id &mut )
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == "BURROW" ) {
-        int choice = menu( true, _( "Perform which function:" ), _( "Turn on digging mode" ),
-                           _( "Dig pit" ), _( "Fill pit/tamp ground" ), _( "Clear rubble" ),
-                           _( "Churn up ground" ), NULL );
+        int choice = uilist( _( "Perform which function:" ), {
+            _( "Turn on digging mode" ),
+            _( "Dig pit" ),
+            _( "Fill pit/tamp ground" ),
+            _( "Clear rubble" ),
+            _( "Churn up ground" )
+        } );
         tripoint dirp;
-        if( choice != 1 ) {
+        if( choice == UIMENU_CANCEL ) {
+            tdata.powered = false;
+        } else if( choice != 0 ) {
             tdata.powered = false;
             if( is_underwater() ) {
                 add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
                 return;
             } else {
-                if( choice == 2 ) {
+                if( choice == 1 ) {
                     if( !choose_adjacent( _( "Dig pit where?" ), dirp ) ) {
                         return;
                     }
@@ -369,7 +367,7 @@ void player::activate_mutation( const trait_id &mut )
                     }
                     assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
                     activity.placement = dirp;
-                } else if( choice == 3 ) {
+                } else if( choice == 2 ) {
                     if( !choose_adjacent( _( "Fill pit where?" ), dirp ) ) {
                         return;
                     }
@@ -391,7 +389,7 @@ void player::activate_mutation( const trait_id &mut )
                     }
                     assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
                     activity.placement = dirp;
-                } else if( choice == 4 ) {
+                } else if( choice == 3 ) {
                     if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
                         return;
                     }
@@ -403,7 +401,7 @@ void player::activate_mutation( const trait_id &mut )
                         add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
                         return;
                     }
-                } else if( choice == 5 ) {
+                } else if( choice == 4 ) {
                     if( !choose_adjacent( _( "Churn up ground where?" ), dirp ) ) {
                         return;
                     }

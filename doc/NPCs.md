@@ -332,22 +332,22 @@ Ends the conversation and makes the NPC hostile, adds a message that character s
 Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 
 ### give_aid
-Removes $200 from your character's cash and removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
+Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
 
 ### give_aid_all
-Removes $300 from your character's cash and performs give_aid on each of your character's NPC allies in range.
+Performs give_aid on each of your character's NPC allies in range.
 
 ### buy_haircut
-Removes $10 from your character's cash and gives your character a haircut morale boost for 12 hours.
+Gives your character a haircut morale boost for 12 hours.
 
 ### buy_shave
-Removes $5 from your character's cash and gives your character a shave morale boost for 6 hours.
+Gives your character a shave morale boost for 6 hours.
 
 ### buy_10_logs
-Removes $2000 from your character's cash, places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
+Places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
 
 ### buy_100_logs
-Removes $12000 from your character's cash, places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
+Places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
 
 ### bionic_install
 The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.  

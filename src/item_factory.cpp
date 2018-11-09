@@ -1,37 +1,32 @@
 #include "item_factory.h"
 
 #include "addiction.h"
+#include "ammo.h"
 #include "artifact.h"
+#include "assign.h"
 #include "catacharset.h"
-#include "construction.h"
-#include "crafting.h"
 #include "debug.h"
 #include "enums.h"
-#include "assign.h"
-#include "string_formatter.h"
-#include "item_category.h"
+#include "field.h"
 #include "init.h"
 #include "item.h"
-#include "ammo.h"
+#include "item_category.h"
 #include "item_group.h"
-#include "vitamin.h"
 #include "iuse_actor.h"
 #include "json.h"
-#include "mapdata.h"
 #include "material.h"
 #include "options.h"
 #include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "skill.h"
-#include "translations.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "ui.h"
 #include "veh_type.h"
-#include "field.h"
+#include "vitamin.h"
 
 #include <algorithm>
-#include <assert.h>
 #include <cassert>
 #include <cmath>
 #include <sstream>
@@ -539,6 +534,7 @@ void Item_factory::init()
     add_iuse( "CAFF", &iuse::caff );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
+    add_iuse( "COIN_FLIP", &iuse::coin_flip );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
@@ -609,6 +605,7 @@ void Item_factory::init()
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
     add_iuse( "LADDER", &iuse::ladder );
     add_iuse( "LUMBER", &iuse::lumber );
+    add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "MARLOSS", &iuse::marloss );
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
@@ -1652,6 +1649,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "mode_modifier", slot.mode_modifier );
+    assign( jo, "reload_modifier", slot.reload_modifier );
+    assign( jo, "min_str_required_mod", slot.min_str_required_mod );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )

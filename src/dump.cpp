@@ -1,24 +1,21 @@
+#include "ammo.h"
+#include "compatibility.h"
 #include "game.h"
+#include "init.h"
+#include "item_factory.h"
+#include "iuse_actor.h"
+#include "loading_ui.h"
+#include "npc.h"
+#include "player.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vitamin.h"
 
 #include <algorithm>
 #include <iostream>
 #include <iterator>
-
-#include "compatibility.h"
-#include "init.h"
-#include "item_factory.h"
-#include "iuse_actor.h"
-#include "recipe_dictionary.h"
-#include "player.h"
-#include "vehicle.h"
-#include "string_formatter.h"
-#include "veh_type.h"
-#include "skill.h"
-#include "vitamin.h"
-#include "npc.h"
-#include "ammo.h"
-#include "crafting.h"
-#include "loading_ui.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -276,11 +273,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_mass() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_aerodynamics() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_friction() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
-                                                 false ) / 2.0f ) ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_mass() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_aerodynamics() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_friction() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
+                                        false ) / 2.0f ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {

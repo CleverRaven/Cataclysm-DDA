@@ -2,17 +2,17 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include "calendar.h"
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include "calendar.h"
 
-#include <vector>
+#include <bitset>
 #include <map>
 #include <set>
-#include <utility>
-#include <bitset>
 #include <string>
+#include <utility>
+#include <vector>
 
 class JsonObject;
 class JsonIn;
@@ -96,6 +96,8 @@ class monster : public Creature
         void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
+        units::mass get_weight() const;
+        units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part ) const override;
@@ -367,7 +369,8 @@ class monster : public Creature
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
-        void add_item( item it );   // Add an item to inventory
+        // Add an item to inventory
+        void add_item( const item &it );
 
         /**
          * Makes monster react to heard sound

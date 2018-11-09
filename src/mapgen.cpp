@@ -1,52 +1,47 @@
 #include "mapgen.h"
 
-#include "coordinate_conversions.h"
-#include "drawing_primitives.h"
-#include "omdata.h"
-#include "output.h"
-#include "game.h"
-#include "fungal_effects.h"
-#include "rng.h"
-#include "line.h"
-#include "debug.h"
-#include "options.h"
-#include "vpart_range.h"
 #include "ammo.h"
-#include "item_group.h"
-#include "mapgen_functions.h"
-#include "string_formatter.h"
-#include "mapgenformat.h"
-#include "mapbuffer.h"
-#include "overmapbuffer.h"
+#include "catalua.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "drawing_primitives.h"
 #include "enums.h"
-#include "monstergenerator.h"
-#include "vpart_position.h"
-#include "mongroup.h"
+#include "game.h"
+#include "item_group.h"
+#include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "mapgen_functions.h"
+#include "mapgenformat.h"
+#include "mongroup.h"
+#include "mtype.h"
+#include "npc.h"
+#include "omdata.h"
+#include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "submap.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "overmap.h"
-#include "mapgen_functions.h"
-#include "mtype.h"
-#include "itype.h"
-#include "computer.h"
-#include "optional.h"
-#include "map_iterator.h"
+#include "vehicle.h"
+#include "vehicle_group.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <sstream>
-#include "json.h"
-#include "coordinates.h"
-#include "npc.h"
-#include "vehicle.h"
-#include "vehicle_group.h"
-#include "catalua.h"
-#include "text_snippets.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -106,7 +101,7 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( oter_id there, int dir_from_here );
+bool connects_to( const oter_id &there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
@@ -1410,17 +1405,17 @@ jmapgen_objects::jmapgen_objects( int off_x, int off_y, size_t mapsize_x, size_t
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || place.x.val > ( int )mapgensize_x - 1 ||
-        place.y.val < 0 || place.y.val > ( int )mapgensize_y - 1 ) {
+    if( place.x.val < 0 || place.x.val > static_cast<int>( mapgensize_x ) - 1 ||
+        place.y.val < 0 || place.y.val > static_cast<int>( mapgensize_y ) - 1 ) {
         return false;
     }
 
-    if( ( size_t )place.x.valmax > mapgensize_x - 1 ) {
+    if( static_cast<size_t>( place.x.valmax ) > mapgensize_x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
         return false;
     }
 
-    if( ( size_t )place.y.valmax > mapgensize_y - 1 ) {
+    if( static_cast<size_t>( place.y.valmax ) > mapgensize_y - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
         return false;
     }
@@ -1878,7 +1873,7 @@ void mapgen_function_json_base::setup_common()
                 } else if( ! qualifies ) {  // fill_ter should make this kosher
                     parray.throw_error(
                         string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, ( char )tmpkey ) );
+                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
                 }
                 auto iter_furn = format_furniture.find( tmpkey );
                 if( iter_furn != format_furniture.end() ) {
@@ -2005,7 +2000,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
             case JMAPGEN_SETMAP_LINE_RADIATION: {
                 const std::vector<point> line = line_to( x_get(), y_get(), x2_get(), y2_get(), 0 );
                 for( auto &i : line ) {
-                    m.set_radiation( i.x, i.y, ( int )val.get() );
+                    m.set_radiation( i.x, i.y, static_cast<int>( val.get() ) );
                 }
             }
             break;
@@ -2039,7 +2034,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
                 const int cy2 = y2_get();
                 for( int tx = cx; tx <= cx2; tx++ ) {
                     for( int ty = cy; ty <= cy2; ty++ ) {
-                        m.set_radiation( tx, ty, ( int )val.get() );
+                        m.set_radiation( tx, ty, static_cast<int>( val.get() ) );
                     }
                 }
             }
@@ -2212,16 +2207,14 @@ void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const m
 // track down what is and isn't supposed to be carried around between bits of code.
 // I suggest that we break the function down into smaller parts
 
-void map::draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                    const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                    const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
-                    const int zlevel, const regional_settings *rsettings )
+void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
+                    const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
+                    const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
+                    const oter_id &t_above, const oter_id &t_below, const time_point &when,
+                    const float density, const int zlevel, const regional_settings *rsettings )
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_LAB( "GROUP_LAB" );
-    static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
-    static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -7336,7 +7329,7 @@ void map::rotate( int turns )
 }
 
 // Hideous function, I admit...
-bool connects_to( oter_id there, int dir )
+bool connects_to( const oter_id &there, int dir )
 {
     switch( dir ) {
         case 2:

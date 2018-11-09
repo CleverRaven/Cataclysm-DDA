@@ -2,15 +2,15 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include <vector>
-#include <string>
+#include "calendar.h"
+#include "enums.h"
+#include "npc_favor.h"
+
 #include <functional>
 #include <iosfwd>
 #include <map>
-
-#include "enums.h"
-#include "calendar.h"
-#include "npc_favor.h"
+#include <string>
+#include <vector>
 
 class player;
 class mission;
@@ -363,8 +363,6 @@ class mission
         static void on_creature_death( Creature &poor_dead_dude );
         /*@}*/
 
-        // Don't use this, it's only for loading legacy saves.
-        static void unserialize_legacy( std::istream &fin );
         // Serializes and unserializes all missions
         static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );

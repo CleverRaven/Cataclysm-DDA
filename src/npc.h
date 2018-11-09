@@ -2,16 +2,17 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "player.h"
-#include "faction.h"
-#include "pimpl.h"
 #include "calendar.h"
+#include "faction.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
 
-#include <vector>
-#include <set>
-#include <string>
 #include <map>
 #include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 class JsonObject;
 class JsonIn;
@@ -500,7 +501,6 @@ class npc : public player
         std::string opinion_text() const;
 
         // Goal / mission functions
-        void pick_long_term_goal();
         bool fac_has_value( faction_value value ) const;
         bool fac_has_job( faction_job job ) const;
 
@@ -803,7 +803,7 @@ class npc : public player
          * This does not change the global position of the NPC.
          */
         tripoint global_square_location() const override;
-        tripoint last_player_seen_pos; // Where we last saw the player
+        cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
@@ -819,7 +819,7 @@ class npc : public player
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */
-        tripoint pulp_location;
+        cata::optional<tripoint> pulp_location;
 
         time_point restock;
         bool fetching_item;

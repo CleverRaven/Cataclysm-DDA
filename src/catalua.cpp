@@ -1,47 +1,51 @@
 #include "catalua.h"
 
-#include <memory>
-
-#include "game.h"
-#include "player.h"
 #include "action.h"
-#include "item_factory.h"
+#include "debug.h"
+#include "game.h"
 #include "item.h"
-#include "pldata.h"
+#include "item_factory.h"
+#include "line.h"
+#include "map.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
-#include "map.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "path_info.h"
-#include "monstergenerator.h"
 #include "messages.h"
-#include "debug.h"
-#include "translations.h"
-#include "line.h"
-#include "requirements.h"
-#include "weather_gen.h"
+#include "monstergenerator.h"
 #include "omdata.h"
+#include "output.h"
 #include "overmap.h"
+#include "path_info.h"
+#include "player.h"
+#include "pldata.h"
+#include "requirements.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "weather_gen.h"
+
+#include <memory>
 
 #ifdef LUA
-#include "ui.h"
-#include "mongroup.h"
-#include "itype.h"
-#include "morale_types.h"
-#include "trap.h"
-#include "overmap.h"
-#include "gun_mode.h"
-#include "mapdata.h"
-#include "mtype.h"
+
+#include "activity_type.h"
+#include "bionics.h"
 #include "field.h"
 #include "filesystem.h"
-#include "string_input_popup.h"
+#include "gun_mode.h"
+#include "itype.h"
+#include "mapdata.h"
+#include "mongroup.h"
+#include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "bionics.h"
-#include "activity_type.h"
+#include "optional.h"
+#include "overmap.h"
 #include "overmap_ui.h"
+#include "string_input_popup.h"
+#include "trap.h"
+#include "ui.h"
+
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -386,8 +390,17 @@ class LuaValue
                 lua_setglobal( L, global_name );
             }
         }
-        template<typename ...Args>
-        static void push( lua_State *const L, Args &&... args ) {
+        template<typename U>
+        static void push( lua_State *const L, const cata::optional<U> &value ) {
+            if( value ) {
+                push( L, *value );
+            } else {
+                lua_pushnil( L );
+            }
+        }
+        template<typename ...Args,
+                 typename std::enable_if<std::is_constructible<T, Args...>::value, int>::type = 0 >
+        static void push( lua_State *const L, Args && ... args ) {
             // Push user data,
             T *value_in_lua = static_cast<T *>( lua_newuserdata( L, sizeof( T ) ) );
             // Push metatable,
@@ -494,6 +507,14 @@ class LuaReference : private LuaValue<T *>
             }
             LuaValue<T *>::push( L, value );
         }
+        template<typename U>
+        static void push( lua_State *const L, const cata::optional<U> &value ) {
+            if( value ) {
+                push( L, *value );
+            } else {
+                lua_pushnil( L );
+            }
+        }
         // HACK: because Lua does not known what const is.
         static void push( lua_State *const L, const T *const value ) {
             if( value == nullptr ) {
@@ -585,6 +606,11 @@ struct LuaType<bool> {
     }
     static void push( lua_State *const L, bool const value ) {
         lua_pushboolean( L, value );
+    }
+    // It is helpful to be able to treat optionals as bools when passing to lua
+    template<typename T>
+    static void push( lua_State *const L, cata::optional<T> const &value ) {
+        push( L, !!value );
     }
 };
 template<>

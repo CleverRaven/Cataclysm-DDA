@@ -1,9 +1,9 @@
 #include "catch/catch.hpp"
 
 #include "game.h"
+#include "itype.h"
 #include "player.h"
 #include "visitable.h"
-#include "itype.h"
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {

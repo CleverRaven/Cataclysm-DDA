@@ -108,7 +108,7 @@
         "p": "f_indoor_plant"
       },
       "toilets": { "t": {} },
-      "items": { 
+      "items": {
         "w": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }

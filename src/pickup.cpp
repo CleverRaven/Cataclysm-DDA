@@ -1,33 +1,31 @@
 #include "pickup.h"
 
 #include "auto_pickup.h"
-#include "game.h"
-#include "player.h"
-#include "map.h"
-#include "messages.h"
-#include "translations.h"
-#include "input.h"
-#include "output.h"
-#include "options.h"
-#include "ui.h"
-#include "itype.h"
-#include "vpart_position.h"
-#include "vehicle.h"
-#include "vpart_reference.h"
-#include "mapdata.h"
 #include "cata_utility.h"
-#include "string_formatter.h"
 #include "debug.h"
-#include "vehicle_selector.h"
-#include "veh_interact.h"
-#include "item_search.h"
+#include "game.h"
+#include "input.h"
 #include "item_location.h"
+#include "item_search.h"
+#include "itype.h"
+#include "map.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "options.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui.h"
+#include "veh_interact.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 #include <map>
-#include <vector>
 #include <string>
-#include <cstring>
+#include <vector>
 
 typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;
@@ -102,12 +100,12 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_bike_rack = ( bike_rack_part >= 0 );
 
 
-    typedef enum {
+    enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
         USE_BIKE_RACK
-    } options;
-    uimenu selectmenu;
+    };
+    uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
     selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), veh->tracking_toggle_string() );
@@ -182,9 +180,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     if( selectmenu.entries.size() == 1 ) {
         choice = selectmenu.entries.front().retval;
     } else {
-        selectmenu.return_invalid = true;
         selectmenu.text = _( "Select an action" );
-        selectmenu.selected = 0;
         selectmenu.query();
         choice = selectmenu.ret;
     }
@@ -201,7 +197,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         return true;
     };
 
-    switch( static_cast<options>( choice ) ) {
+    switch( choice ) {
         case USE_BIKE_RACK: {
             veh->use_bike_rack( bike_rack_part );
             return DONE;
@@ -342,7 +338,7 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
         for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
             std::list<item_idx>::iterator begin_iterator = here[i].begin();
-            if( begin_iterator->_item.volume() / units::legacy_volume_factor == ( int )iVol ) {
+            if( begin_iterator->_item.volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
                 iNumChecked++;
                 const std::string sItemName = begin_iterator->_item.tname( 1, false );
 
@@ -401,10 +397,8 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
 
     player &u = g->u;
 
-    uimenu amenu;
-    amenu.return_invalid = true;
+    uilist amenu;
 
-    amenu.selected = 0;
     amenu.text = explain;
 
     offered_swap = true;
@@ -509,7 +503,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             picked_up = false;
             break;
         case WEAR:
-            picked_up = u.wear_item( newit );
+            picked_up = !!u.wear_item( newit );
             break;
         case WIELD:
             if( wield_check.success() ) {
@@ -708,7 +702,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
 
     // Not many items, just grab them
-    if( ( int )here.size() <= min && min != -1 ) {
+    if( static_cast<int>( here.size() ) <= min && min != -1 ) {
         g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         g->u.activity.placement = pos - g->u.pos();
         g->u.activity.values.push_back( from_vehicle );
@@ -832,7 +826,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
             if( action == "ANY_INPUT" &&
                 raw_input_char >= '0' && raw_input_char <= '9' ) {
-                int raw_input_char_value = ( char )raw_input_char - '0';
+                int raw_input_char_value = static_cast<char>( raw_input_char ) - '0';
                 itemcount *= 10;
                 itemcount += raw_input_char_value;
                 if( itemcount < 0 ) {
@@ -846,12 +840,12 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 if( start > 0 ) {
                     start -= maxitems;
                 } else {
-                    start = ( int )( ( matches.size() - 1 ) / maxitems ) * maxitems;
+                    start = static_cast<int>( ( matches.size() - 1 ) / maxitems ) * maxitems;
                 }
                 selected = start;
                 mvwprintw( w_pickup, maxitems + 2, 0, "         " );
             } else if( action == "NEXT_TAB" ) {
-                if( start + maxitems < ( int )matches.size() ) {
+                if( start + maxitems < static_cast<int>( matches.size() ) ) {
                     start += maxitems;
                 } else {
                     start = 0;
@@ -864,8 +858,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 iScrollPos = 0;
                 if( selected < 0 ) {
                     selected = matches.size() - 1;
-                    start = ( int )( matches.size() / maxitems ) * maxitems;
-                    if( start >= ( int )matches.size() ) {
+                    start = static_cast<int>( matches.size() / maxitems ) * maxitems;
+                    if( start >= static_cast<int>( matches.size() ) ) {
                         start -= maxitems;
                     }
                 } else if( selected < start ) {
@@ -874,7 +868,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             } else if( action == "DOWN" ) {
                 selected++;
                 iScrollPos = 0;
-                if( selected >= ( int )matches.size() ) {
+                if( selected >= static_cast<int>( matches.size() ) ) {
                     selected = 0;
                     start = 0;
                 } else if( selected >= start + maxitems ) {
@@ -914,7 +908,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 iScrollPos = 0;
             }
 
-            if( idx >= 0 && idx < ( int )matches.size() ) {
+            if( idx >= 0 && idx < static_cast<int>( matches.size() ) ) {
                 size_t true_idx = matches[idx];
                 if( itemcount != 0 || getitem[true_idx].count == 0 ) {
                     item &temp = stacked_here[true_idx].begin()->_item;
@@ -932,7 +926,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                                              !getitem[true_idx].pick ) );
                 if( action != "RIGHT" && action != "LEFT" ) {
                     selected = idx;
-                    start = ( int )( idx / maxitems ) * maxitems;
+                    start = static_cast<int>( idx / maxitems ) * maxitems;
                 }
 
                 if( !getitem[true_idx].pick ) {
@@ -978,7 +972,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             item &selected_item = stacked_here[matches[selected]].begin()->_item;
 
             werase( w_item_info );
-            if( selected >= 0 && selected <= ( int )stacked_here.size() - 1 ) {
+            if( selected >= 0 && selected <= static_cast<int>( stacked_here.size() ) - 1 ) {
                 std::vector<iteminfo> vThisItem;
                 std::vector<iteminfo> vDummy;
                 selected_item.info( true, vThisItem );
@@ -999,7 +993,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
                     getitem[i].pick = true;
                 }
-                if( count == ( int )stacked_here.size() ) {
+                if( count == static_cast<int>( stacked_here.size() ) ) {
                     for( size_t i = 0; i < stacked_here.size(); i++ ) {
                         getitem[i].pick = false;
                     }
@@ -1009,7 +1003,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             for( cur_it = start; cur_it < start + maxitems; cur_it++ ) {
                 mvwprintw( w_pickup, 1 + ( cur_it % maxitems ), 0,
                            "                                        " );
-                if( cur_it < ( int )matches.size() ) {
+                if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
                     item &this_item = stacked_here[ true_it ].begin()->_item;
                     nc_color icolor = this_item.color_in_inventory();
@@ -1017,11 +1011,12 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         icolor = hilite( icolor );
                     }
 
-                    if( cur_it < ( int )pickup_chars.size() ) {
+                    if( cur_it < static_cast<int>( pickup_chars.size() ) ) {
                         mvwputch( w_pickup, 1 + ( cur_it % maxitems ), 0, icolor,
                                   char( pickup_chars[cur_it] ) );
-                    } else if( cur_it < ( int )pickup_chars.size() + ( int )pickup_chars.size() *
-                               ( int )pickup_chars.size() ) {
+                    } else if( cur_it < static_cast<int>( pickup_chars.size() ) + static_cast<int>
+                               ( pickup_chars.size() ) *
+                               static_cast<int>( pickup_chars.size() ) ) {
                         int p = cur_it - pickup_chars.size();
                         int p1 = p / pickup_chars.size();
                         int p2 = p % pickup_chars.size();
@@ -1044,7 +1039,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         //Count charges
                         //TODO: transition to the item_location system used for the inventory
                         unsigned long charges_total = 0;
-                        for( const auto item : stacked_here[true_it] ) {
+                        for( const auto &item : stacked_here[true_it] ) {
                             charges_total += item._item.charges;
                         }
                         //Picking up none or all the cards in a stack
@@ -1181,7 +1176,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
 
             if( it._item.count_by_charges() ) {
-                size_t num_picked = std::min( ( size_t )it._item.charges, count );
+                size_t num_picked = std::min( static_cast<size_t>( it._item.charges ), count );
                 pick_values.push_back( { static_cast<int>( it.idx ), static_cast<int>( num_picked ) } );
                 count -= num_picked;
             } else {

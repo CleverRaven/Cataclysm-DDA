@@ -1,16 +1,16 @@
 #include "string_input_popup.h"
 
-#include "uistate.h"
-#include "input.h"
 #include "catacharset.h"
+#include "compatibility.h"
+#include "input.h"
 #include "output.h"
 #include "ui.h"
-#include "compatibility.h"
-#ifdef __ANDROID__
-#include "SDL_keyboard.h"
-#include "options.h"
-#endif
+#include "uistate.h"
 
+#ifdef __ANDROID__
+#include "options.h"
+#include "SDL_keyboard.h"
+#endif
 
 #include <cstdlib>
 
@@ -97,38 +97,49 @@ void string_input_popup::show_history( utf8_wrapper &ret )
         return;
     }
     std::vector<std::string> &hist = uistate.gethistory( _identifier );
-    uimenu hmenu;
+    uilist hmenu;
     hmenu.title = _( "d: delete history" );
-    hmenu.return_invalid = true;
+    hmenu.allow_anykey = true;
     for( size_t h = 0; h < hist.size(); h++ ) {
         hmenu.addentry( h, true, -2, hist[h] );
     }
     if( !ret.empty() && ( hmenu.entries.empty() ||
                           hmenu.entries[hist.size() - 1].txt != ret.str() ) ) {
         hmenu.addentry( hist.size(), true, -2, ret.str() );
-        hmenu.selected = hist.size();
-    } else {
-        hmenu.selected = hist.size() - 1;
     }
-    // number of lines that make up the menu window: title,2*border+entries
-    hmenu.w_height = 3 + hmenu.entries.size();
-    hmenu.w_y = getbegy( w ) - hmenu.w_height;
-    if( hmenu.w_y < 0 ) {
-        hmenu.w_y = 0;
-        hmenu.w_height = std::max( getbegy( w ), 4 );
-    }
-    hmenu.w_x = getbegx( w );
 
-    hmenu.query();
-    if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
-        ret = hmenu.entries[hmenu.ret].txt;
-        if( hmenu.ret < ( int )hist.size() ) {
-            hist.erase( hist.begin() + hmenu.ret );
-            hist.push_back( ret.str() );
+    if( !hmenu.entries.empty() ) {
+        hmenu.selected = hmenu.entries.size() - 1;
+
+        // number of lines that make up the menu window: 2*border+entries
+        hmenu.w_height = 2 + hmenu.entries.size();
+        hmenu.w_y = getbegy( w ) - hmenu.w_height;
+        if( hmenu.w_y < 0 ) {
+            hmenu.w_y = 0;
+            hmenu.w_height = std::max( getbegy( w ), 4 );
         }
-        _position = ret.size();
-    } else if( hmenu.keypress == 'd' ) {
-        hist.clear();
+        hmenu.w_x = getbegx( w );
+
+        bool finished = false;
+        do {
+            hmenu.query();
+            if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
+                ret = hmenu.entries[hmenu.ret].txt;
+                if( static_cast<size_t>( hmenu.ret ) < hist.size() ) {
+                    hist.erase( hist.begin() + hmenu.ret );
+                    hist.push_back( ret.str() );
+                }
+                _position = ret.size();
+                finished = true;
+            } else if( hmenu.ret == UIMENU_UNBOUND && hmenu.keypress == 'd' ) {
+                hist.clear();
+                finished = true;
+            } else if( hmenu.ret != UIMENU_UNBOUND ) {
+                finished = true;
+            }
+        } while( !finished );
+        werase( hmenu.window );
+        wrefresh( hmenu.window );
     }
 }
 
@@ -155,7 +166,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     mvwprintz( w, _starty, _startx, _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
     // Print the cursor in its own color
-    if( _position < ( int )ret.length() ) {
+    if( _position < static_cast<int>( ret.length() ) ) {
         utf8_wrapper cursor = ret.substr( _position, 1 );
         size_t a = _position;
         while( a > 0 && cursor.display_width() == 0 ) {
@@ -176,13 +187,13 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         start_x_edit = _startx + sx;
         sx++; // don't override trailing '_'
     }
-    if( ( int )sx < scrmax ) {
+    if( static_cast<int>( sx ) < scrmax ) {
         // could be scrolled out of view when the cursor is at the start of the input
         size_t l = scrmax - sx;
         if( _max_length > 0 ) {
-            if( ( int )ret.length() >= _max_length ) {
+            if( static_cast<int>( ret.length() ) >= _max_length ) {
                 l = 0; // no more input possible!
-            } else if( _position == ( int )ret.length() ) {
+            } else if( _position == static_cast<int>( ret.length() ) ) {
                 // one '_' is already printed, formatted as cursor
                 l = std::min<size_t>( l, _max_length - ret.length() - 1 );
             } else {
@@ -247,14 +258,16 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         const size_t left_shift = ret.substr( 0, _position ).display_width();
-        if( ( int )left_shift < shift ) {
+        if( static_cast<int>( left_shift ) < shift ) {
             shift = 0;
-        } else if( _position < ( int )ret.length() && ( int )left_shift + 1 >= shift + scrmax ) {
+        } else if( _position < static_cast<int>( ret.length() ) &&
+                   static_cast<int>( left_shift ) + 1 >= shift + scrmax ) {
             // if the cursor is inside the input string, keep one cell right of
             // the cursor visible, because the cursor might be on a multi-cell
             // character.
             shift = left_shift - scrmax + 2;
-        } else if( _position == ( int )ret.length() && ( int )left_shift >= shift + scrmax ) {
+        } else if( _position == static_cast<int>( ret.length() ) &&
+                   static_cast<int>( left_shift ) >= shift + scrmax ) {
             // cursor is behind the end of the input string, keep the
             // trailing '_' visible (always a single cell character)
             shift = left_shift - scrmax + 1;
@@ -262,7 +275,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             shift = 0;
         }
         const size_t xleft_shift = ret.substr_display( 0, shift ).display_width();
-        if( ( int )xleft_shift != shift ) {
+        if( static_cast<int>( xleft_shift ) != shift ) {
             // This prevents a multi-cell character from been split, which is not possible
             // instead scroll a cell further to make that character disappear completely
             shift++;
@@ -318,7 +331,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
             /* absolutely nothing */
         } else if( ch == KEY_RIGHT ) {
-            if( _position + 1 <= ( int )ret.size() ) {
+            if( _position + 1 <= static_cast<int>( ret.size() ) ) {
                 _position++;
             }
             redraw = true;
@@ -334,7 +347,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             // Move the cursor back and re-draw it
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
-            if( _position > 0 && _position <= ( int )ret.size() ) {
+            if( _position > 0 && _position <= static_cast<int>( ret.size() ) ) {
                 //TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
@@ -347,7 +360,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             _position = ret.size();
             redraw = true;
         } else if( ch == KEY_DC ) {
-            if( _position < ( int )ret.size() ) {
+            if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
                 redraw = true;
             }
@@ -359,7 +372,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
         } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
             // ignore non-digit (and '-' is a digit as well)
-        } else if( _max_length > 0 && ( int )ret.length() >= _max_length ) {
+        } else if( _max_length > 0 && static_cast<int>( ret.length() ) >= _max_length ) {
             // no further input possible, ignore key
         } else if( !ev.text.empty() ) {
             const utf8_wrapper t( ev.text );
@@ -431,7 +444,7 @@ void string_input_popup::edit( int &value )
     }
 }
 
-string_input_popup &string_input_popup::text( std::string value )
+string_input_popup &string_input_popup::text( const std::string &value )
 {
     _text = value;
     auto u8size = utf8_wrapper( _text ).size();

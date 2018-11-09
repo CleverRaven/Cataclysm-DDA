@@ -1,24 +1,21 @@
-#include "game.h"
-#include "map.h"
 #include "debug.h"
-#include "string_formatter.h"
-#include "item_factory.h"
-#include "uistate.h"
-#include "output.h"
-#include "monstergenerator.h"
-#include "compatibility.h"
-#include "translations.h"
-#include "input.h"
-#include "monster.h"
-#include "ui.h"
-#include "skill.h"
-#include "mutation.h"
-#include "mtype.h"
-#include "player.h"
 #include "debug_menu.h"
+#include "game.h"
+#include "input.h"
+#include "item_factory.h"
+#include "map.h"
+#include "monster.h"
+#include "monstergenerator.h"
+#include "mtype.h"
+#include "mutation.h"
+#include "output.h"
+#include "player.h"
+#include "skill.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
-
-#include <sstream>
+#include "translations.h"
+#include "ui.h"
+#include "uistate.h"
 
 class wish_mutate_callback: public uimenu_callback
 {
@@ -359,7 +356,7 @@ class wish_monster_callback: public uimenu_callback
         }
 };
 
-void debug_menu::wishmonster( const tripoint &p )
+void debug_menu::wishmonster( const cata::optional<tripoint> p )
 {
     std::vector<const mtype *> mtypes;
 
@@ -392,9 +389,8 @@ void debug_menu::wishmonster( const tripoint &p )
             if( cb.hallucination ) {
                 mon.hallucination = true;
             }
-            tripoint spawn = ( p == tripoint_min ? g->look_around() : p );
-            if( spawn != tripoint_min ) {
-                const std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, spawn );
+            if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
+                const std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, *spawn );
                 int num_spawned = 0;
                 for( const tripoint &spawn_point : spawn_points ) {
                     if( g->critter_at( spawn_point ) == nullptr ) {

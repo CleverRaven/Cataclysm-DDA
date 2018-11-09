@@ -2,17 +2,16 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "pimpl.h"
 #include "bodypart.h"
-#include "string_id.h"
+#include "pimpl.h"
 #include "string_formatter.h"
+#include "string_id.h"
 
-#include <string>
-#include <unordered_map>
-#include <map>
-#include <vector>
-#include <set>
 #include <climits>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <vector>
 
 enum game_message_type : int;
 class nc_color;
@@ -55,6 +54,8 @@ template<typename V, typename U>
 class quantity;
 class mass_in_gram_tag;
 using mass = quantity<int, mass_in_gram_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
 }
 
 enum m_size : int {
@@ -466,7 +467,6 @@ class Creature
         virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
-        virtual units::mass get_weight() const;
 
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;

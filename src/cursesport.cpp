@@ -1,13 +1,12 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "animation.h"
+#include "cursesport.h"
+
 #include "catacharset.h"
 #include "color.h"
-#include "cursesport.h"
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
 
-#include <cstring> // strlen
 #include <stdexcept>
 
 /**
@@ -602,7 +601,7 @@ void catacurses::waddch( const window &win, const chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = ( char )ch;
+            charcode = static_cast<char>( ch );
             break;
     }
     char buffer[2] = { charcode, '\0' };

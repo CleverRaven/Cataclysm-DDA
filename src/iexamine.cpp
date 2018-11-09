@@ -1,49 +1,49 @@
 #include "iexamine.h"
+
+#include "ammo.h"
+#include "basecamp.h"
+#include "bionics.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "compatibility.h"
+#include "coordinate_conversions.h"
+#include "craft_command.h"
+#include "debug.h"
+#include "event.h"
+#include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
-#include "map.h"
-#include "fungal_effects.h"
-#include "map_iterator.h"
-#include "debug.h"
-#include "mapdata.h"
-#include "output.h"
-#include "coordinate_conversions.h"
-#include "rng.h"
-#include "requirements.h"
-#include "ammo.h"
-#include "line.h"
-#include "player.h"
-#include "npc.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "uistate.h"
-#include "messages.h"
-#include "compatibility.h"
-#include "sounds.h"
 #include "input.h"
-#include "monster.h"
-#include "vpart_position.h"
-#include "event.h"
-#include "catacharset.h"
-#include "ui.h"
-#include "units.h"
-#include "trap.h"
-#include "basecamp.h"
-#include "mtype.h"
-#include "calendar.h"
-#include "weather.h"
-#include "sounds.h"
-#include "cata_utility.h"
-#include "string_input_popup.h"
-#include "bionics.h"
 #include "inventory.h"
-#include "craft_command.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 #include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
 #include "options.h"
+#include "output.h"
+#include "player.h"
+#include "requirements.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "trap.h"
+#include "ui.h"
+#include "uistate.h"
+#include "units.h"
+#include "vpart_position.h"
+#include "weather.h"
 
-#include <sstream>
 #include <algorithm>
 #include <cstdlib>
+#include <sstream>
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -68,7 +68,6 @@ const efftype_id effect_sleep( "sleep" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
-static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
@@ -77,7 +76,6 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_BURROW( "BURROW" );
@@ -1751,7 +1749,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     int seed_index = query_seed( seed_entries );
 
     // Did we cancel?
-    if( seed_index < 0 || seed_index >= (int)seed_entries.size() ) {
+    if( seed_index < 0 || seed_index >= static_cast<int>( seed_entries.size() ) ) {
         add_msg(_("You saved your seeds for later."));
         return;
     }
@@ -2275,7 +2273,7 @@ void iexamine::keg(player &p, const tripoint &examp)
     const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
-    for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
+    for (int i = 0; i < static_cast<int>( g->m.i_at(examp).size() ); i++) {
         if (!g->m.i_at(examp)[i].made_of_from_type( LIQUID ) || liquid_present) {
             g->m.add_item_or_charges(examp, g->m.i_at(examp)[i]);
             g->m.i_rem( examp, i );
@@ -3013,9 +3011,9 @@ static int getNearPumpCount(const tripoint &p)
     return result;
 }
 
-static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
+static cata::optional<tripoint> getNearFilledGasTank(const tripoint &center, long &gas_units)
 {
-    tripoint tank_loc = tripoint_min;
+    cata::optional<tripoint> tank_loc;
     int distance = INT_MAX;
     gas_units = 0;
 
@@ -3029,14 +3027,14 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
         if( new_distance >= distance ) {
             continue;
         }
-        if( tank_loc == tripoint_min ) {
+        if( !tank_loc ) {
             // Return a potentially empty tank, but only if we don't find a closer full one.
-            tank_loc = tmp;
+            tank_loc.emplace( tmp );
         }
         for( auto &k : g->m.i_at(tmp)) {
             if(k.made_of(LIQUID)) {
                 distance = new_distance;
-                tank_loc = tmp;
+                tank_loc.emplace( tmp );
                 gas_units = k.charges;
                 break;
             }
@@ -3121,7 +3119,7 @@ static long getGasPricePerLiter( int discount )
     }
 }
 
-static tripoint getGasPumpByNumber( const tripoint &p, int number )
+static cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number )
 {
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
@@ -3130,15 +3128,11 @@ static tripoint getGasPumpByNumber( const tripoint &p, int number )
             return tmp;
         }
     }
-    return tripoint_min;
+    return cata::nullopt;
 }
 
 static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
 {
-    if( src == tripoint_min ) {
-        return false;
-    }
-
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( LIQUID ) ) {
@@ -3168,10 +3162,6 @@ static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
 
 static long fromPumpFuel( const tripoint &dst, const tripoint &src )
 {
-    if( src == tripoint_min ) {
-        return -1;
-    }
-
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( LIQUID ) ) {
@@ -3228,11 +3218,12 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     long tankGasUnits;
-    tripoint pTank = getNearFilledGasTank( examp, tankGasUnits );
-    if( pTank == tripoint_min ) {
+    const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
+    if( !pTank_ ) {
         popup( str_to_illiterate_str( _( "Failure! No gas tank found!" ) ).c_str() );
         return;
     }
+    const tripoint pTank = *pTank_;
 
     if( tankGasUnits == 0 ) {
         popup( str_to_illiterate_str(
@@ -3326,8 +3317,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             liters = maximum_liters;
         }
 
-        tripoint pGasPump = getGasPumpByNumber( examp,  uistate.ags_pay_gas_selected_pump );
-        if( !toPumpFuel( pTank, pGasPump, liters * 1000 ) ) {
+        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,  uistate.ags_pay_gas_selected_pump );
+        if( !pGasPump || !toPumpFuel( pTank, *pGasPump, liters * 1000 ) ) {
             return;
         }
 
@@ -3358,8 +3349,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                 add_msg( _( "Nothing happens." ) );
                 break;
             case HACK_SUCCESS:
-                tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
-                if( toPumpFuel( pTank, pGasPump, tankGasUnits ) ) {
+                const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
+                if( pGasPump && toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
                     add_msg( _( "You hack the terminal and route all available fuel to your pump!" ) );
                     sounds::sound( p.pos(), 6, _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ) );
                 } else {
@@ -3381,8 +3372,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         cashcard = &( p.i_at( pos ) );
         // Okay, we have a cash card. Now we need to know what's left in the pump.
-        tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
-        long amount = fromPumpFuel( pTank, pGasPump );
+        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
+        long amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
@@ -4134,10 +4125,8 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         case 1: //activate
             if ( active ) {
                 add_msg( _("It is already lit and smoking.") );
-                break;
             } else {
                 smoker_activate( p, examp );
-                break;
             }
             break;
         case 2: // load food
@@ -4148,7 +4137,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             break;
         case 4: // remove food
             rem_f_opt = true;
-	    /* fallthrough */
+        /* fallthrough */
         case 5: //remove charcoal
             {
                 for( size_t i = 0; i < items_here.size(); i++ ) {

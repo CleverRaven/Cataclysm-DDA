@@ -2,25 +2,23 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include "active_item_cache.h"
 #include "calendar.h"
-#include "tileray.h"
 #include "damage.h"
 #include "item.h"
 #include "item_group.h"
-#include "line.h"
 #include "item_stack.h"
-#include "active_item_cache.h"
+#include "line.h"
 #include "string_id.h"
+#include "tileray.h"
 #include "ui.h"
 #include "units.h"
 
-#include <vector>
 #include <array>
-#include <map>
 #include <list>
-#include <string>
-#include <iosfwd>
+#include <map>
 #include <stack>
+#include <vector>
 
 class nc_color;
 class map;
@@ -775,7 +773,7 @@ class vehicle
         /**@}*/
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
-        std::vector<int> parts_at_relative( int dx, int dy, bool use_cache ) const;
+        std::vector<int> parts_at_relative( const point &dp, bool use_cache ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
         int part_with_feature( int p, const std::string &f, bool unbroken ) const;
@@ -883,10 +881,6 @@ class vehicle
 
         // get color for map
         nc_color part_color( int p, bool exact = false ) const;
-
-        // Vehicle parts description
-        int print_part_desc( const catacurses::window &win, int y1, int max_y, int width, int p,
-                             int hl = -1 ) const;
 
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types() const;
@@ -1371,7 +1365,7 @@ class vehicle
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
         int removed_part_count;            // Subtract from parts.size() to get the real part count.
         std::map<point, std::vector<int> >
-        relative_parts;    // parts_at_relative(x,y) is used a lot (to put it mildly)
+        relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices

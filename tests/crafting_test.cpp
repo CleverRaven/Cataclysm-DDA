@@ -3,12 +3,11 @@
 #include "crafting.h"
 #include "game.h"
 #include "itype.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "player.h"
-#include "recipe_dictionary.h"
-
-#include "map_helpers.h"
 #include "player_helpers.h"
+#include "recipe_dictionary.h"
 
 TEST_CASE( "recipe_subset" )
 {

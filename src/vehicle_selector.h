@@ -2,9 +2,9 @@
 #ifndef VEHICLE_SELECTOR_H
 #define VEHICLE_SELECTOR_H
 
-#include <vector>
-
 #include "visitable.h"
+
+#include <vector>
 
 class vehicle;
 struct tripoint;

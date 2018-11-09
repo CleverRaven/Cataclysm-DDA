@@ -1,21 +1,19 @@
 #include "filesystem.h"
+
 #include "debug.h"
 
-#include <string.h> // for strnlen
-#include <cstring>
+#include <algorithm>
 #include <cerrno>
 #include <cstddef>
 #include <cstdio>
-#include <cstdlib>
-#include <string>
-#include <vector>
+#include <cstring>
 #include <deque>
-#include <algorithm>
-#include <memory>
 #include <fstream>
-
+#include <string>
 // FILE I/O
 #include <sys/stat.h>
+#include <vector>
+
 
 #ifdef _MSC_VER
 #   include "wdirent.h"

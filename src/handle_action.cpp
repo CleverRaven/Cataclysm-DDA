@@ -1,44 +1,44 @@
+#include "action.h"
+#include "auto_pickup.h"
+#include "bionics.h"
+#include "calendar.h"
+#include "clzones.h"
+#include "construction.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "faction.h"
+#include "field.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "gamemode.h"
 #include "gates.h"
-#include "action.h"
-#include "input.h"
-#include "vpart_range.h"
-#include "output.h"
-#include "player.h"
-#include "messages.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "map.h"
-#include "options.h"
-#include "mapsharing.h"
-#include "safemode_ui.h"
-#include "pickup.h"
-#include "game_inventory.h"
-#include "ranged.h"
-#include "debug.h"
-#include "worldfactory.h"
-#include "faction.h"
-#include "itype.h"
-#include "auto_pickup.h"
 #include "gun_mode.h"
-#include "construction.h"
-#include "bionics.h"
-#include "mutation.h"
-#include "monster.h"
 #include "help.h"
-#include "calendar.h"
-#include "weather.h"
+#include "input.h"
+#include "itype.h"
+#include "map.h"
+#include "mapdata.h"
+#include "mapsharing.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "mutation.h"
+#include "options.h"
+#include "output.h"
+#include "overmap_ui.h"
+#include "pickup.h"
+#include "player.h"
+#include "popup.h"
+#include "ranged.h"
+#include "safemode_ui.h"
 #include "sounds.h"
 #include "veh_type.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "field.h"
-#include "clzones.h"
-#include "cursesdef.h"
-#include "overmap_ui.h"
-#include "popup.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
+#include "weather.h"
+#include "worldfactory.h"
 
 #include <chrono>
 
@@ -431,7 +431,7 @@ static void open()
             // If there are any OPENABLE parts here, they must be already open
             if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
                     true ) ) {
-                const std::string name = veh->part_info( already_open->part_index() ).name();
+                const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name.c_str() );
             }
             u.moves += 100;
@@ -934,6 +934,23 @@ static void read()
     }
 }
 
+// Perform a reach attach
+// range - the range of the current weapon.
+// u - player
+static void reach_attach( int range, player &u )
+{
+    g->temp_exit_fullscreen();
+    g->m.draw( g->w_terrain, u.pos() );
+    std::vector<tripoint> trajectory;
+    trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon, range );
+    if( !trajectory.empty() ) {
+        u.reach_attack( trajectory.back() );
+    }
+    g->draw_ter();
+    wrefresh( g->w_terrain );
+    g->reenter_fullscreen();
+}
+
 static void fire()
 {
     player &u = g->u;
@@ -1042,16 +1059,10 @@ static void fire()
         g->plfire( u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        g->temp_exit_fullscreen();
-        g->m.draw( g->w_terrain, u.pos() );
-        std::vector<tripoint> trajectory;
-        trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon, range );
-        if( !trajectory.empty() ) {
-            u.reach_attack( trajectory.back() );
-        }
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->reenter_fullscreen();
+        reach_attach( range, u );
+    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+        int range = u.weapon.gun_current_mode().qty;
+        reach_attach( range, u );
     }
 }
 
@@ -1083,7 +1094,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    tripoint mouse_target = tripoint_min;
+    cata::optional<tripoint> mouse_target;
 
     // quit prompt check (ACTION_QUIT only grabs 'Q')
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
@@ -1135,23 +1146,24 @@ bool game::handle_action()
                 return false;
             }
 
-            int mx = 0;
-            int my = 0;
-            if( !ctxt.get_coordinates( w_terrain, mx, my ) || !u.sees( tripoint( mx, my, u.posz() ) ) ) {
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            if( !mouse_pos ) {
+                return false;
+            } else if( !u.sees( *mouse_pos ) ) {
                 // Not clicked in visible terrain
                 return false;
             }
-            mouse_target = tripoint( mx, my, u.posz() );
+            mouse_target = mouse_pos;
 
             if( act == ACTION_SELECT ) {
                 // Note: The following has the potential side effect of
                 // setting auto-move destination state in addition to setting
                 // act.
-                if( !try_get_left_click_action( act, mouse_target ) ) {
+                if( !try_get_left_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             } else if( act == ACTION_SEC_SELECT ) {
-                if( !try_get_right_click_action( act, mouse_target ) ) {
+                if( !try_get_right_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             }
@@ -1385,8 +1397,8 @@ bool game::handle_action()
             case ACTION_CLOSE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't close things while you're in your shell." ) );
-                } else if( mouse_target != tripoint_min ) {
-                    doors::close_door( m, u, mouse_target );
+                } else if( mouse_target ) {
+                    doors::close_door( m, u, *mouse_target );
                 } else {
                     close();
                 }
@@ -1405,8 +1417,8 @@ bool game::handle_action()
             case ACTION_EXAMINE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't examine your surroundings while you're in your shell." ) );
-                } else if( mouse_target != tripoint_min ) {
-                    examine( mouse_target );
+                } else if( mouse_target ) {
+                    examine( *mouse_target );
                 } else {
                     examine();
                 }
@@ -1477,7 +1489,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_COMPARE:
-                game_menus::inv::compare( u );
+                game_menus::inv::compare( u, cata::nullopt );
                 break;
 
             case ACTION_ORGANIZE:

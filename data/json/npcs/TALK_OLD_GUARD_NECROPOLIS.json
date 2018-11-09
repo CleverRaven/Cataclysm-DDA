@@ -72,7 +72,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_CPT_GOAL",
-    "dynamic_line": "I'm leading what remains of my company on a mission to re-secure this facility.  We entered the complex with two dozen men and immediately went about securing this control room.  From here I dispatched my men to secure vital systems located on this floor and the floors below this one.  If  we are successful, this facility can be cleared and used as a permanent base of operations in the region.  Most importantly it will allow us to redirect refugee traffic away from overcrowded outposts and free up more of our forces to conduct recovery operations.",
+    "dynamic_line": "I'm leading what remains of my company on a mission to re-secure this facility.  We entered the complex with two dozen men and immediately went about securing this control room.  From here I dispatched my men to secure vital systems located on this floor and the floors below this one.  If we are successful, this facility can be cleared and used as a permanent base of operations in the region.  Most importantly it will allow us to redirect refugee traffic away from overcrowded outposts and free up more of our forces to conduct recovery operations.",
     "responses": [ { "text": "Seems like a decent plan...", "topic": "TALK_NONE" } ]
   },
   {

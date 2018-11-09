@@ -6,6 +6,7 @@
 #include "json.h"
 #include "translations.h"
 
+#include <map>
 #include <unordered_map>
 
 // activity_type functions

@@ -4,8 +4,9 @@
 
 #include "calendar.h"
 #include "cursesdef.h"
-#include <vector>
+
 #include <string>
+#include <vector>
 
 class game;
 class player;
