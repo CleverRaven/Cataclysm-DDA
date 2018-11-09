@@ -165,7 +165,7 @@ class uistatedata
             json.end_object(); // input_history
 
             json.end_object();
-        };
+        }
 
         template<typename JsonStream>
         void deserialize( JsonStream &jsin ) {
@@ -261,7 +261,7 @@ class uistatedata
             if( !gethistory( "list_item_priority" ).empty() ) {
                 list_item_priority = gethistory( "list_item_priority" ).back();
             }
-        };
+        }
 };
 extern uistatedata uistate;
 

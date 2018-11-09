@@ -116,7 +116,6 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
     return lines;
 }
 
-
 std::string tag_colored_string( const std::string &s, nc_color color )
 {
     // @todo: Make this tag generation a function, put it in good place

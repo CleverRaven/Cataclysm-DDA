@@ -204,7 +204,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
  * @param win The window to draw in.
  * @param max_y Draw no further than this y-coordinate.
  * @param width The width of the window.
- * @param &p The index of the part being examined.
+ * @param p The index of the part being examined.
  * @param start_at Which vehicle part to start printing at.
  * @param start_limit the part index beyond which the display is full
  */
@@ -340,7 +340,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 
 /**
  * Prints a fuel gauge for a vehicle
- * @param w Pointer to the window to draw in.
+ * @param win Pointer to the window to draw in.
  * @param y Y location to draw at.
  * @param x X location to draw at.
  * @param fuel_type ID of the fuel type to draw

@@ -117,14 +117,6 @@ bool calendar::operator ==( const calendar &rhs ) const
     return turn_number == rhs.turn_number;
 }
 
-/*
-calendar& calendar::operator ++()
-{
- *this += 1;
- return *this;
-}
-*/
-
 calendar calendar::operator -( const calendar &rhs ) const
 {
     return calendar( *this ) -= rhs;

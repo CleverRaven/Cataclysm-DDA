@@ -271,7 +271,7 @@ class Creature
          */
         virtual bool is_immune_field( const field_id ) const {
             return false;
-        };
+        }
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         virtual float fall_damage_mod() const = 0;
@@ -400,10 +400,10 @@ class Creature
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const {
             return false;
-        };
+        }
         virtual bool uncanny_dodge() {
             return false;
-        };
+        }
 
         virtual body_part get_random_body_part( bool main = false ) const = 0;
         /**
@@ -614,8 +614,8 @@ class Creature
         Creature &operator=( Creature && ) = default;
 
     protected:
-        virtual void on_stat_change( const std::string &, int ) {};
-        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {};
+        virtual void on_stat_change( const std::string &, int ) {}
+        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;

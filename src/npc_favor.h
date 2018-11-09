@@ -30,7 +30,7 @@ struct npc_favor {
         value = 0;
         item_id = "null";
         skill = skill_id::NULL_ID();
-    };
+    }
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );

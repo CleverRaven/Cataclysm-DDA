@@ -6,14 +6,11 @@
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
-#include "debug.h"
 #include "faction.h"
 #include "io.h"
 #include "line.h"
 #include "map.h"
-#include "mapbuffer.h"
 #include "mapdata.h"
-#include "mapsharing.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -24,11 +21,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "scent_map.h"
-#include "skill.h"
 #include "translations.h"
-#include "trap.h"
-#include "weather.h"
-#include "weather_gen.h"
 
 #include <algorithm>
 #include <cmath>

@@ -2769,14 +2769,13 @@ void veh_interact::complete_vehicle()
     case 'c':
         std::vector<int> parts = veh->parts_at_relative( point( dx, dy ), true );
         if( parts.size() ) {
-            item removed_wheel;
             int replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );
             if( replaced_wheel == -1 ) {
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
             bool broken = veh->parts[ replaced_wheel ].is_broken();
-            removed_wheel = veh->parts[replaced_wheel].properties_to_item();
+            item removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
             int partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );

@@ -233,7 +233,7 @@ std::string bonus_container::get_description() const
             }
 
             dump << "  ";
-        };
+        }
     }
 
     for( const auto &boni : bonuses_flat ) {

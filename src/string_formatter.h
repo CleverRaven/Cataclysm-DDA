@@ -2,7 +2,7 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
-#include "compatibility.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 //@todo: replace with std::optional
 #include "optional.h"
 

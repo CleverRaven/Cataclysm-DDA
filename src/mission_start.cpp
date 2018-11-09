@@ -1674,7 +1674,7 @@ void mission_start::ranch_bartender_2( mission *miss )
     bay.draw_square_ter( t_wall_half, 14, 10, 19, 15 );
     bay.draw_square_ter( t_dirt, 15, 11, 18, 14 );
     bay.draw_square_ter( t_wall_half, 14, 15, 17, 18 );
-    bay.draw_square_ter( t_dirt, 15, 15, 16, 18 );;
+    bay.draw_square_ter( t_dirt, 15, 15, 16, 18 );
     bay.translate( t_door_frame, t_door_c );
     bay.translate( t_wall_half, t_wall_wood );
     bay.draw_square_ter( t_window_frame, 0, 13, 0, 13 );

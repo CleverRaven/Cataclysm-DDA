@@ -1,7 +1,7 @@
 #include "messages.h"
 
 #include "calendar.h"
-#include "compatibility.h" //to_string
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "debug.h"
 #include "game.h"
 #include "input.h"

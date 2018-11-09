@@ -1,7 +1,7 @@
 #include "mission_companion.h"
 
 #include "bionics.h"
-#include "compatibility.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "dialogue.h"
@@ -82,7 +82,7 @@ bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::stri
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
 bool handle_camp_mission( mission_entry &cur_key, npc &p );
-};
+}
 
 void talk_function::companion_mission( npc &p )
 {

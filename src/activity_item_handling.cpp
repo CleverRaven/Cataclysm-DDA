@@ -49,7 +49,7 @@ struct act_item {
     act_item( const item *it, int count, int consumed_moves )
         : it( it ),
           count( count ),
-          consumed_moves( consumed_moves ) {};
+          consumed_moves( consumed_moves ) {}
 };
 
 // @todo: Deliberately unified with multidrop. Unify further.

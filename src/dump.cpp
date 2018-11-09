@@ -1,5 +1,5 @@
 #include "ammo.h"
-#include "compatibility.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "game.h"
 #include "init.h"
 #include "item_factory.h"

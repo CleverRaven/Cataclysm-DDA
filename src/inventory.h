@@ -32,8 +32,6 @@ class salvage_actor;
  */
 class invlet_wrapper : private std::string
 {
-    private:
-
     public:
         invlet_wrapper( const char *chars ) : std::string( chars ) { }
 

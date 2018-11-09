@@ -362,7 +362,7 @@ bool overmapbuffer::has_vehicle( int x, int y, int z )
         }
     }
 
-    return false;;
+    return false;
 }
 
 std::vector<om_vehicle> overmapbuffer::get_vehicle( int x, int y, int z )
@@ -420,8 +420,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( int x, int y, int z )
     // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
     // but monster groups are defined with submap coordinates.
     std::vector<mongroup *> result;
-    std::vector<mongroup *> tmp;
-    tmp = groups_at( x * 2, y * 2, z );
+    std::vector<mongroup *> tmp = groups_at( x * 2, y * 2, z );
     result.insert( result.end(), tmp.begin(), tmp.end() );
     tmp = groups_at( x * 2, y * 2 + 1, z );
     result.insert( result.end(), tmp.begin(), tmp.end() );

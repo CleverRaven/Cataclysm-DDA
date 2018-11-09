@@ -95,7 +95,7 @@ hp_part most_damaged_hp_part( const Character &c );
 struct ratio_index {
     double ratio;
     int index;
-    ratio_index( double R, int I ) : ratio( R ), index( I ) {};
+    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
 bool clear_shot_reach( const tripoint &from, const tripoint &to )

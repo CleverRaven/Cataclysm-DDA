@@ -5,10 +5,8 @@
 #include "debug.h"
 #include "enums.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapdata.h"
 #include "optional.h"
-#include "player.h"
 #include "submap.h"
 #include "trap.h"
 #include "veh_type.h"
@@ -20,8 +18,6 @@
 #include <queue>
 #include <set>
 
-#include "messages.h"
-
 enum astar_state {
     ASL_NONE,
     ASL_OPEN,
@@ -32,7 +28,7 @@ enum astar_state {
 constexpr int flat_index( const int x, const int y )
 {
     return ( x * MAPSIZE * SEEY ) + y;
-};
+}
 
 // Flattened 2D array representing a single z-level worth of pathfinding data
 struct path_data_layer {
@@ -49,7 +45,7 @@ struct path_data_layer {
                 state[ind] = ASL_NONE; // Mark as unvisited
             }
         }
-    };
+    }
 };
 
 struct pathfinder {

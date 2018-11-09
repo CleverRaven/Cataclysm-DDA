@@ -181,7 +181,7 @@ struct mon_effect_data {
     mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
                      int nchance ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
-        chance( nchance ) {};
+        chance( nchance ) {}
 };
 
 struct mtype {

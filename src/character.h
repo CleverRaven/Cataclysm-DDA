@@ -64,7 +64,6 @@ enum fatigue_levels {
     MASSIVE_FATIGUE = 1000
 };
 
-
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.
 enum sleep_deprivation_levels {
@@ -731,13 +730,13 @@ class Character : public Creature, public visitable<Character>
         pimpl<bionic_collection> my_bionics;
 
     protected:
-        void on_stat_change( const std::string &, int ) override {};
-        virtual void on_mutation_gain( const trait_id & ) {};
-        virtual void on_mutation_loss( const trait_id & ) {};
+        void on_stat_change( const std::string &, int ) override {}
+        virtual void on_mutation_gain( const trait_id & ) {}
+        virtual void on_mutation_loss( const trait_id & ) {}
     public:
-        virtual void on_item_wear( const item & ) {};
-        virtual void on_item_takeoff( const item & ) {};
-        virtual void on_worn_item_washed( const item & ) {};
+        virtual void on_item_wear( const item & ) {}
+        virtual void on_item_takeoff( const item & ) {}
+        virtual void on_worn_item_washed( const item & ) {}
 
     protected:
         Character();

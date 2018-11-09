@@ -207,7 +207,7 @@ void *tracePtrs[TRACE_SIZE];
 // ---------------------------------------------------------------------
 
 struct NullBuf : public std::streambuf {
-    NullBuf() {}
+    NullBuf() = default;
     int overflow( int c ) override {
         return c;
     }

@@ -119,13 +119,6 @@ int Character::get_mod( const trait_id &mut, std::string arg ) const
     if( found != mod_data.end() ) {
         ret += found->second;
     }
-    /* Deactivated due to inability to store active mutation state
-    if (has_active_mutation(mut)) {
-        found = mod_data.find(std::make_pair(true, arg));
-        if (found != mod_data.end()) {
-            ret += found->second;
-        }
-    } */
     return ret;
 }
 
@@ -696,8 +689,7 @@ void player::mutate_category( const std::string &cat )
     }
 
     // Pull the category's list for valid mutations
-    std::vector<trait_id> valid;
-    valid = mutations_category[cat];
+    std::vector<trait_id> valid = mutations_category[cat];
 
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation

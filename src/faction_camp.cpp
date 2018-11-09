@@ -2,7 +2,7 @@
 #include "ammo.h"
 #include "bionics.h"
 #include "catacharset.h"
-#include "compatibility.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
@@ -296,7 +296,6 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
             mission_key.push( "Recover Log Cutter", _( "Recover Log Cutter" ), "", true, avail );
         }
     }
-
 
     if( cur_om_level >= 7 ) {
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
@@ -916,7 +915,6 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == "Recover Surveyor" ) {
         camp_expansion_select( p );
     }
-
 
     if( cur_key.id == cur_key.dir + " Expansion Upgrade" ) {
         for( const auto &e : om_expansions ) {
@@ -2776,12 +2774,11 @@ std::vector<tripoint> talk_function::om_companion_path( const tripoint &start, i
         bool bounce )
 {
     std::vector<tripoint> scout_points;
-    tripoint spt;
     tripoint last = start;
     int range = range_start;
     int def_range = range_start;
     while( range > 3 ) {
-        spt = om_target_tile( last, 0, range, {}, false, true, last, false );
+        tripoint spt = om_target_tile( last, 0, range, {}, false, true, last, false );
         if( spt == tripoint( -999, -999, -999 ) ) {
             scout_points.clear();
             return scout_points;
@@ -3301,7 +3298,6 @@ std::string talk_function::camp_direction( const std::string &line )
     return line.substr( line.find_last_of( '[' ),
                         line.find_last_of( ']' ) - line.find_last_of( '[' ) + 1 );
 }
-
 
 // food supply
 int talk_function::camp_food_supply( int change, bool return_days )

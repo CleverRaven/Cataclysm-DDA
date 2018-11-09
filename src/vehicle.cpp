@@ -1653,8 +1653,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
 
     std::vector<std::vector <int>> all_vehicles;
 
-    size_t cnt;
-    for( cnt = 0 ; cnt < 4 ; cnt++ ) {
+    for( size_t cnt = 0 ; cnt < 4 ; cnt++ ) {
         int test_part = -1;
         for( auto p : valid_parts ) {
             if( parts[ p ].removed ) {
@@ -1816,8 +1815,6 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                     passengers.push_back( passenger );
                 }
             }
-
-
             // transfer the vehicle_part to the new vehicle
             new_vehicle->parts.emplace_back( parts[ mov_part ] );
             if( !split_mounts.empty() ) {
@@ -1825,10 +1822,9 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 new_vehicle->parts.back().mount = new_mount;
             }
             // remove labels associated with the mov_part
-            std::string label_str;
             const auto iter = labels.find( label( cur_mount.x, cur_mount.y ) );
             if( iter != labels.end() ) {
-                label_str = iter->text;
+                std::string label_str = iter->text;
                 labels.erase( iter );
                 new_labels.insert( label( new_mount.x, new_mount.y, label_str ) );
             }
@@ -3473,7 +3469,6 @@ void vehicle::do_engine_damage( size_t e, int strain )
 void vehicle::idle( bool on_map )
 {
     int engines_power = 0;
-    float idle_rate;
 
     if( engine_on && total_power_w() > 0 ) {
         for( size_t e = 0; e < engines.size(); e++ ) {
@@ -3483,7 +3478,7 @@ void vehicle::idle( bool on_map )
             }
         }
 
-        idle_rate = static_cast<float>( alternator_load ) / static_cast<float>( engines_power );
+        float idle_rate = static_cast<float>( alternator_load ) / static_cast<float>( engines_power );
         if( idle_rate < 0.01 ) {
             idle_rate = 0.01;    // minimum idle is 1% of full throttle
         }
