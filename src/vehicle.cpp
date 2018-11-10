@@ -3292,7 +3292,7 @@ void vehicle::power_parts()
             }
         }
 
-        if( !reactor_working && reactors_online_num > 0) {
+        if( !reactor_working && reactors_online_num > 0 ) {
             // All reactors out of fuel or destroyed
             for( auto &elem : reactors ) {
                 parts[ elem ].enabled = false;
