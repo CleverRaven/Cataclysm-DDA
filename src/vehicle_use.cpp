@@ -1111,7 +1111,7 @@ void vehicle::open_all_at( int p )
 
 void vehicle::open_or_close( int const part_index, bool const opening )
 {
-    parts[part_index].open = opening ? 1 : 0;
+    parts[part_index].open = opening;
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
 
