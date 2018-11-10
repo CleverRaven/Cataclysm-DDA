@@ -83,14 +83,10 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
         } );
     }
 
-<<<<<<< HEAD
     auto msg = string_format( state ?
                               _( "Turn on %s" ) :
                               get_tag_from_color( c_pink ) + _( "Turn off %s" ) + "</color>",
                               name );
-=======
-    auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name );
->>>>>>> master
     options.emplace_back( -1, allow, key, msg );
 
     actions.push_back( [ = ] {
