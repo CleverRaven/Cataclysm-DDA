@@ -7896,10 +7896,13 @@ bool player::pick_style() // Style selection menu
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
         auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
-        if( selectable_styles[i] == style_selected ) {
+        const bool selected = selectable_styles[i] == style_selected;
+        std::string entry_text = _( style.name.c_str() );
+        if( selected ) {
             kmenu.selected = i + STYLE_OFFSET;
+            entry_text = get_tag_from_color( c_pink ) + entry_text + "</color>";
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, _( style.name.c_str() ), _( style.description.c_str() ) );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, _( style.description.c_str() ) );
     }
 
     kmenu.query();
