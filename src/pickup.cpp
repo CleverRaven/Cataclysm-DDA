@@ -99,7 +99,6 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const int bike_rack_part = veh->avail_part_with_feature( veh_root_part, "BIKE_RACK_VEH", true );
     const bool has_bike_rack = ( bike_rack_part >= 0 );
 
-
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
@@ -1124,7 +1123,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
                 std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
                 wprintz( w_pickup, c_white, "/%s", fmted_volume_capacity.c_str() );
-            };
+            }
 
             wrefresh( w_pickup );
 

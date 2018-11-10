@@ -100,10 +100,9 @@ void game::list_missions()
         }
 
         if( selection < umissions.size() ) {
-            int lines;
             const auto miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
-            lines = fold_and_print( w_missions, 3, 31, getmaxx( w_missions ) - 33, col, miss->name() );
+            int lines = fold_and_print( w_missions, 3, 31, getmaxx( w_missions ) - 33, col, miss->name() );
 
             int y = 3 + lines;
             if( !miss->get_description().empty() ) {

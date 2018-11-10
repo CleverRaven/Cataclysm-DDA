@@ -156,7 +156,6 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
 
-
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
@@ -2643,7 +2642,6 @@ int iuse::e_combatsaw_off( player *p, item *it, bool, const tripoint & )
                            30, _( "With a snarl, the electric combat chainsaw screams to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
-
 
 int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
 {

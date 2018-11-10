@@ -152,7 +152,7 @@ class player_morale
                 fancy( 0 ),
                 filthy( 0 ),
                 hot( 0 ),
-                cold( 0 ) {};
+                cold( 0 ) {}
         };
         std::array<body_part_data, num_bp> body_parts;
         body_part_data no_body_part;
@@ -164,11 +164,11 @@ class player_morale
                 mutation_data( mutation_handler on_gain_and_loss ) :
                     on_gain( on_gain_and_loss ),
                     on_loss( on_gain_and_loss ),
-                    active( false ) {};
+                    active( false ) {}
                 mutation_data( mutation_handler on_gain, mutation_handler on_loss ) :
                     on_gain( on_gain ),
                     on_loss( on_loss ),
-                    active( false ) {};
+                    active( false ) {}
                 void set_active( player_morale *sender, bool new_active );
                 bool get_active() const;
                 void clear();

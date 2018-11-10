@@ -288,7 +288,7 @@ int average_from_stat( const efficiency_stat &st )
 void print_test_strings( const std::string &type )
 {
     std::ostringstream ss;
-    ss << "test_vehicle( \"" << type << "\", ";
+    ss << "    test_vehicle( \"" << type << "\", ";
     ss << average_from_stat( find_inner( type, "t_pavement", -1, false ) ) << ", ";
     ss << average_from_stat( find_inner( type, "t_dirt", -1, false ) ) << ", ";
     ss << average_from_stat( find_inner( type, "t_pavement", 5, false ) ) << ", ";
@@ -374,19 +374,19 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
     test_vehicle( "beetle", 287700, 230500, 15990, 13310 );
-    test_vehicle( "car", 281700, 163300, 16070, 9336 );
-    test_vehicle( "car_sports", 323400, 185500, 16690, 9176 );
-    test_vehicle( "electric_car", 69460, 45070, 3620, 2300 );
-    test_vehicle( "suv", 589700, 288700, 31870, 15320 );
-    test_vehicle( "motorcycle", 80860, 44810, 3885, 2195 );
-    test_vehicle( "quad_bike", 52140, 35180, 3310, 2195 );
-    test_vehicle( "scooter", 71290, 66960, 3707, 3707 );
-    test_vehicle( "superbike", 94350, 10150, 4005, 1407 );
-    test_vehicle( "ambulance", 378800, 287200, 23740, 18680 );
-    test_vehicle( "fire_engine", 452700, 380000, 27350, 23150 );
-    test_vehicle( "fire_truck", 311100, 68740, 20680, 4312 );
+    test_vehicle( "car", 282100, 163600, 16070, 9336 );
+    test_vehicle( "car_sports", 324000, 185800, 16690, 9345 );
+    test_vehicle( "electric_car", 69590, 45180, 3620, 2300 );
+    test_vehicle( "suv", 593700, 291300, 33500, 16640 );
+    test_vehicle( "motorcycle", 82390, 46210, 3885, 2195 );
+    test_vehicle( "quad_bike", 53390, 36020, 3344, 2195 );
+    test_vehicle( "scooter", 72900, 68480, 3707, 3707 );
+    test_vehicle( "superbike", 94350, 10150, 4005, 1434 );
+    test_vehicle( "ambulance", 379400, 287600, 23810, 18680 );
+    test_vehicle( "fire_engine", 454000, 381100, 27350, 23150 );
+    test_vehicle( "fire_truck", 312200, 68740, 20680, 4312 );
     test_vehicle( "truck_swat", 340100, 75240, 24760, 5527 );
-    test_vehicle( "tractor_plow", 281900, 281900, 16630, 16630 );
-    test_vehicle( "apc", 1081000, 960200, 77710, 71540 );
-    test_vehicle( "humvee", 438400, 210500, 28000, 12950 );
+    test_vehicle( "tractor_plow", 283600, 283600, 16630, 16630 );
+    test_vehicle( "apc", 1084000, 962900, 77710, 71540 );
+    test_vehicle( "humvee", 441400, 211500, 28000, 12950 );
 }

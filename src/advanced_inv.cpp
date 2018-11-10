@@ -402,7 +402,7 @@ struct advanced_inv_sorter {
     advanced_inv_sortby sortby;
     advanced_inv_sorter( advanced_inv_sortby sort ) {
         sortby = sort;
-    };
+    }
     bool operator()( const advanced_inv_listitem &d1, const advanced_inv_listitem &d2 ) {
         // Note: the item pointer can only be null on sort by category, otherwise it is always valid.
         switch( sortby ) {
@@ -1412,7 +1412,7 @@ static tripoint aim_vector( aim_location id )
         default:
             return tripoint( 0, 0, 0 );
     }
-};
+}
 
 void advanced_inventory::display()
 {

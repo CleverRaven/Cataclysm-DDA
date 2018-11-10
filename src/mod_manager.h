@@ -123,7 +123,6 @@ class mod_manager
             return usable_mods;
         }
 
-    protected:
     private:
         // Make this accessible for now
         friend class mod_ui;

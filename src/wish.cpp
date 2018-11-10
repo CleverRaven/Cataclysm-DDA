@@ -181,7 +181,7 @@ class wish_mutate_callback: public uilist_callback
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
-        };
+        }
 
         ~wish_mutate_callback() override = default;
 };

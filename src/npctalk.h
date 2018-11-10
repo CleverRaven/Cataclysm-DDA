@@ -58,7 +58,7 @@ void start_training( npc & );
 
 void wake_up( npc & );
 
-};
+}
 
 bool trade( npc &p, int cost, const std::string &deal );
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );

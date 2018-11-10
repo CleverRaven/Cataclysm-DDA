@@ -151,7 +151,6 @@ struct talk_response {
                 void set_effect_consequence( const effect_fun_t &eff, dialogue_consequence con );
                 void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
 
-
                 void load_effect( JsonObject &jo );
                 void parse_sub_effect( JsonObject jo );
                 void parse_string_effect( const std::string &type, JsonObject &jo );

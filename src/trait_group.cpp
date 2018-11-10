@@ -248,7 +248,7 @@ Trait_group_collection::Trait_group_collection( int probability )
     if( probability <= 0 || probability > 100 ) {
         debugmsg( "Probability %d out of range", probability );
     }
-};
+}
 
 Trait_list Trait_group_collection::create( RecursionList &rec ) const
 {

@@ -375,7 +375,6 @@ void computer::activate_function( computer_action action )
             query_any( _( "Lock enabled.  Press any key..." ) );
             break;
 
-
         // UNLOCK_DISARM falls through to just UNLOCK
         case COMPACT_UNLOCK_DISARM:
             remove_submap_turrets();

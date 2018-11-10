@@ -262,10 +262,9 @@ int minesweeper_game::start_game()
                 iPlayerY + iDirY < iLevelY ) {
 
                 std::string sGlyph;
-                nc_color cColor;
 
                 for( int i = 0; i < 2; i++ ) {
-                    cColor = c_white;
+                    nc_color cColor = c_white;
                     if( mLevelReveal[iPlayerY][iPlayerX] == flag ) {
                         sGlyph = "!";
                         cColor = c_yellow;

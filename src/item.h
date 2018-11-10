@@ -569,7 +569,7 @@ class item : public visitable<item>
          * @param map A map object associated with that position.
          * @return true if the item was destroyed during placement.
          */
-        bool on_drop( const tripoint &pos, map &m );
+        bool on_drop( const tripoint &pos, map &map );
 
         /**
          * Consume a specific amount of items of a specific type.

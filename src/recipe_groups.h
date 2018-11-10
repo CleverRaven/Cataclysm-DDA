@@ -17,6 +17,6 @@ void reset();
 
 std::map<std::string, std::string> get_recipes( std::string id );
 
-};
+}
 
 #endif

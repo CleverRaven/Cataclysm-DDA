@@ -180,9 +180,8 @@ void MonsterGenerator::set_mtype_flags( mtype &mon )
 {
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
-    m_flag nflag;
     for( std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag ) {
-        nflag = m_flag( *flag );
+        m_flag nflag = m_flag( *flag );
         mon.bitflags[nflag] = true;
     }
     monster_trigger ntrig;

@@ -638,7 +638,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 popup( _( "You can't do that!" ) );
             } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
-                ; // popup is already inside check
+                // popup is already inside check
             } else {
                 chosen = current[line];
                 batch_size = ( batch ) ? line + 1 : 1;

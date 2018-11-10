@@ -563,8 +563,7 @@ void catacurses::wattroff( const window &win_, int )
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-    char charcode;
-    charcode = ch;
+    char charcode = ch;
 
     switch( ch ) {      //LINE_NESW  - X for on, O for off
         case LINE_XOXO:

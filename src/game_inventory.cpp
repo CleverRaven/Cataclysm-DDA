@@ -351,7 +351,7 @@ item_location game_menus::inv::disassemble( player &p )
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
                          _( "You don't have any items you could disassemble." ) );
-};
+}
 
 class comestible_inventory_preset : public inventory_selector_preset
 {

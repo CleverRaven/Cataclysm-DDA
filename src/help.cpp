@@ -161,7 +161,7 @@ void help::display_help()
             draw_menu( w_help );
             catacurses::refresh();
             needs_refresh = false;
-        };
+        }
 
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;

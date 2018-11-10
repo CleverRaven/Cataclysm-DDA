@@ -344,15 +344,12 @@ item &item::ammo_set( const itype_id &ammo, long qty )
 item &item::ammo_unset()
 {
     if( !is_tool() && !is_gun() && !is_magazine() ) {
-        ; // do nothing
-
+        // do nothing
     } else if( is_magazine() ) {
         contents.clear();
-
     } else if( magazine_integral() ) {
         curammo = nullptr;
         charges = 0;
-
     } else if( magazine_current() ) {
         magazine_current()->ammo_unset();
     }
@@ -568,16 +565,17 @@ bool item::stacks_with( const item &rhs ) const
     }
     if( goes_bad() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
-        if( bday != rhs.bday ) {
+        // Stack items that fall into the same "bucket" of freshness.
+        // Distant buckets are larger than near ones.
+        std::pair<int, clipped_unit> my_clipped_time_to_rot =
+            clipped_time( type->comestible->spoils - rot );
+        std::pair<int, clipped_unit> other_clipped_time_to_rot =
+            clipped_time( rhs.type->comestible->spoils - rhs.rot );
+        if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
         }
-        // Because spoiling items are only processed every processing_speed()-th turn
-        // the rotting value becomes slightly different for items that have
-        // been created at the same time and place and with the same initial rot.
-        if( std::abs( to_turns<int>( rot - rhs.rot ) ) > processing_speed() ) {
-            return false;
-        } else if( rotten() != rhs.rotten() ) {
-            // just to be save that rotten and unrotten food is *never* stacked.
+        if( rotten() != rhs.rotten() ) {
+            // just to be safe that rotten and unrotten food is *never* stacked.
             return false;
         }
     }
@@ -691,14 +689,13 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 {
     size_t pos = item_tag.find( '=' );
     if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string var_name;
         std::string val_decoded;
         int svarlen = 0;
         int svarsep = 0;
         svarsep = item_tag.find( '=' );
         svarlen = item_tag.size();
         val_decoded.clear();
-        var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
+        std::string var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
         for( int s = svarsep + 1; s < svarlen;
              s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
             if( item_tag[s] == ivaresc && s < svarlen - 2 ) {
@@ -2058,8 +2055,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This item can be <info>worn with a helmet</info>." ) ) );
             }
-
-
             const bool little = g->u.has_trait( trait_id( "SMALL2" ) ) ||
                                 g->u.has_trait( trait_id( "SMALL_OK" ) );
             if( has_flag( "FIT" ) && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_FITS ) ) {
@@ -3167,8 +3162,9 @@ units::volume item::volume( bool integral ) const
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume",
                                   ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
-            if( tmpvol <=  3 ) ;      // intentional NOP
-            else if( tmpvol <=  5 ) {
+            if( tmpvol <=  3 ) {
+                // intentional NOP
+            } else if( tmpvol <=  5 ) {
                 ret -=  250_ml;
             } else if( tmpvol <=  6 ) {
                 ret -=  500_ml;
@@ -5267,7 +5263,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
                 res.emplace( gun_mode_id( prefix + m.first.str() ), gun_mode( m.second.name(),
                              const_cast<item *>( e ),
                              qty, m.second.flags() ) );
-            };
+            }
 
             // non-auxiliary gunmods may provide additional modes for the base item
         } else if( e->is_gunmod() ) {
@@ -6522,7 +6518,7 @@ void item::heat_up()
         item_tags.insert( "HOT" );
     }
     // links the amount of heat an item can retain to its mass
-    item_counter = clamp( to_gram( weight() ), 100, 600 );;
+    item_counter = clamp( to_gram( weight() ), 100, 600 );
     reset_temp_check();
 }
 
@@ -7238,7 +7234,6 @@ bool item::on_drop( const tripoint &pos, map &m )
     }
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
-
 
 time_duration item::age() const
 {

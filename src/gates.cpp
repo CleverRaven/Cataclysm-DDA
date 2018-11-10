@@ -29,7 +29,7 @@ struct gate_data {
     gate_data() :
         moves( 0 ),
         bash_dmg( 0 ),
-        was_loaded( false ) {};
+        was_loaded( false ) {}
 
     gate_id id;
 

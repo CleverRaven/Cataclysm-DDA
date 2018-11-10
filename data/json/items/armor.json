@@ -1136,7 +1136,7 @@
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
     "weight": 210,
     "volume": 4,
-    "price": 21000,
+    "price": 4000,
     "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
@@ -1147,7 +1147,28 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "use_action": {
+      "menu_text": "Zip up",
+      "type": "transform",
+      "target": "bondage_mask_zipped",
+      "msg": "You zip the eyes and mouth of the bondage mask closed."
+    }
+  },
+  {
+    "id": "bondage_mask_zipped",
+    "copy-from": "bondage_mask",
+    "type": "ARMOR",
+    "name": "bondage mask (zipped)",
+    "name_plural": "bondage masks (zipped)",
+    "description": "A tight mask made of black leather.  The eyes and mouth have been zipped closed.",
+    "flags": [ "VARSIZE", "BLIND" ],
+    "use_action": {
+      "menu_text": "Unzip",
+      "type": "transform",
+      "target": "bondage_mask",
+      "msg": "You unzip the eyes and mouth of the bondage mask."
+    }
   },
   {
     "id": "bondage_suit",

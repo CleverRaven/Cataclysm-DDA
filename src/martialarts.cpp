@@ -543,18 +543,18 @@ std::string ma_buff::get_description( bool passive ) const
 
     if( dodges_bonus > 0 ) {
         dump << string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
     } else if( dodges_bonus < 0 ) {
         dump << string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
     }
 
     if( blocks_bonus > 0 ) {
         dump << string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
     } else if( blocks_bonus < 0 ) {
         dump << string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
     }
 
     if( quiet ) {

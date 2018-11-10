@@ -2131,7 +2131,6 @@ hp_part Character::body_window( const std::string &menu_header,
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
 
-
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
 

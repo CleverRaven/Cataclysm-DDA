@@ -21,7 +21,7 @@ static int count_items( const T &src, const itype_id &id )
         return VisitResponse::NEXT;
     } );
     return n;
-};
+}
 
 TEST_CASE( "visitable_remove", "[visitable]" )
 {
