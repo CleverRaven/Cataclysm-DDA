@@ -240,7 +240,6 @@ With ``--help`` it will print a number of invocation options you can use to adju
     The test took 41.772 seconds
 
 I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && tests/cata_test``.
-Alternately, if the RELEASE=1 flag is passed to make, it will invoke the test suite for you.
 
 ## In-game testing, test environment and the debug menu
 
