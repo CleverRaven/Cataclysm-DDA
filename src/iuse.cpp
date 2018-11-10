@@ -3604,12 +3604,7 @@ std::string get_music_description()
 
         }
     };
-    static const std::array<std::string, 3> genre_snippet_categories = {{
-        "musicgenre_a",
-        "musicgenre_b",
-        "musicgenre_c"
-    }};
-
+    
     if( one_in( 50 ) ) {
         return rare;
     }
@@ -3622,13 +3617,13 @@ std::string get_music_description()
     // of snippets {a, b, c}, but only a 50% chance
     // Actual chance = 24.5% of being selected
     if( one_in( 2 ) ) {
-        const std::string& from_a = SNIPPET.random_from_category( genre_snippet_categories[0] );
-        const std::string& from_b = SNIPPET.random_from_category( genre_snippet_categories[1] );
-        const std::string& from_c = SNIPPET.random_from_category( genre_snippet_categories[2] );
+        const std::string& from_a = SNIPPET.random_from_category( "musicgenre_a" );
+        const std::string& from_b = SNIPPET.random_from_category( "musicgenre_b" );
+        const std::string& from_c = SNIPPET.random_from_category( "musicgenre_c" );
 
         // Require all to be non-empty
-        if( !( from_a.empty() | from_b.empty() | from_c.empty() ) ) {
-            return string_format( "%s%s%s", from_a.c_str(), from_b.c_str(), from_c.c_str() );
+        if( !( from_a.empty() || from_b.empty() || from_c.empty() ) ) {
+            return from_a + from_b + from_c;
         }
     }
 
