@@ -406,11 +406,7 @@ bool profession::has_flag( const std::string &flag ) const
 
 bool profession::can_pick( const player &u, const int points ) const
 {
-    if( point_cost() - u.prof->point_cost() > points ) {
-        return false;
-    }
-
-    return true;
+    return point_cost() - u.prof->point_cost() <= points;
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const

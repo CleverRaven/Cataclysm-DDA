@@ -595,7 +595,7 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     for( const auto &v : vitamins ) {
         // players with mutations that remove the requirement for a vitamin cannot suffer accumulation of it
         p.vitamin_mod( v.first, rng( v.second.first, v.second.second ),
-                       p.vitamin_rate( v.first ) > 0_turns ? false : true );
+                       p.vitamin_rate( v.first ) <= 0_turns );
     }
 
     // Output message.

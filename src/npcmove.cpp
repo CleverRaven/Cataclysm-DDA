@@ -520,7 +520,7 @@ void npc::execute_action( npc_action action )
             for( size_t i = 0; i < slice.size(); i++ ) {
                 item &it = slice[i]->front();
                 bool am = ( it.is_gun() &&
-                            get_ammo( it.type->gun->ammo ).size() > 0 );
+                            !get_ammo( it.type->gun->ammo ).empty() );
                 if( it.is_gun() && ( !ammo_found || am ) ) {
                     index = i;
                     ammo_found = ( ammo_found || am );
@@ -1073,11 +1073,7 @@ bool wants_to_reload( const npc &who, const item &it )
 
 bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    if( ammo.is_magazine() && ( ammo.ammo_remaining() <= weap.ammo_remaining() ) ) {
-        return false;
-    }
-
-    return true;
+    return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
 item &npc::find_reloadable()

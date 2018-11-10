@@ -854,7 +854,7 @@ void color_manager::show_gui()
         } else if( action == "LOAD_TEMPLATE" ) {
             auto vFiles = get_files_from_path( ".json", FILENAMES["color_templates"], false, true );
 
-            if( vFiles.size() > 0 ) {
+            if( !vFiles.empty() ) {
                 uilist ui_templates;
                 ui_templates.w_y = iHeaderHeight + 1 + iOffsetY;
                 ui_templates.w_height = 18;

@@ -45,10 +45,7 @@ bool MAP_SHARING::isWorldmenu()
 
 bool MAP_SHARING::isAdmin()
 {
-    if( admins.find( getUsername() ) != admins.end() ) {
-        return true;
-    }
-    return false;
+    return admins.find( getUsername() ) != admins.end();
 }
 
 void MAP_SHARING::setAdmins( const std::set<std::string> &names )
@@ -64,10 +61,7 @@ void MAP_SHARING::addAdmin( const std::string &name )
 
 bool MAP_SHARING::isDebugger()
 {
-    if( debuggers.find( getUsername() ) != debuggers.end() ) {
-        return true;
-    }
-    return false;
+    return debuggers.find( getUsername() ) != debuggers.end();
 }
 
 void MAP_SHARING::setDebuggers( const std::set<std::string> &names )

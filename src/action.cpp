@@ -538,11 +538,7 @@ bool can_examine_at( const tripoint &p )
     }
 
     const trap &tr = g->m.tr_at( p );
-    if( tr.can_see( p, g->u ) ) {
-        return true;
-    }
-
-    return false;
+    return tr.can_see( p, g->u );
 }
 
 bool can_interact_at( action_id action, const tripoint &p )

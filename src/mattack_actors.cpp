@@ -38,11 +38,7 @@ bool dodge_check( float max_accuracy, Creature &target )
 {
     ///\EFFECT_DODGE increases chance of dodging special attacks of monsters
     float dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0.0f );
-    if( rng( 0, 10000 ) < 10000 / ( 1 + ( 99 * exp( -0.6f * dodge ) ) ) ) {
-        return true;
-    }
-
-    return false;
+    return rng( 0, 10000 ) < 10000 / ( 1 + 99 * exp( -0.6f * dodge ) );
 }
 
 void leap_actor::load_internal( JsonObject &obj, const std::string & )

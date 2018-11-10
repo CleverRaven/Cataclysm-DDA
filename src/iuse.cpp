@@ -5623,7 +5623,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
         }
 
-        if( candidates.size() > 0 ) {
+        if( !candidates.empty() ) {
 
             const recipe *r = random_entry( candidates );
             const recipe_id rident = r->ident();

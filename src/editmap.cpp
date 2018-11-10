@@ -444,7 +444,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_veh=true;
     */
     bool draw_itm = true;
-    bool game_map = ( ( m == &g->m || w == g->w_terrain ) ? true : false );
+    bool game_map = ( m == &g->m || w == g->w_terrain );
     const int msize = SEEX * MAPSIZE;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
@@ -1521,7 +1521,7 @@ int editmap::select_shape( shapetype shape, int mode )
     bool update = false;
     blink = true;
     if( mode >= 0 ) {
-        moveall = ( mode == 0 ? false : true );
+        moveall = ( mode != 0 );
     }
     altblink = moveall;
     update_view( false );

@@ -3611,7 +3611,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // The max sparseness is calculated across all the possible biomes, not just the adjacent ones.
     const auto get_max_sparseness_adjacency_factor = [&dat]() {
-        if( dat.region.forest_composition.biomes.size() == 0 ) {
+        if( dat.region.forest_composition.biomes.empty() ) {
             return 0;
         }
         std::vector<int> factors;
@@ -3763,7 +3763,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // If this biome does not define its own groundcover, then fill with the region's ground
     // cover. Otherwise, fill with the biome defs groundcover.
-    if( current_biome_def.groundcover.size() == 0 ) {
+    if( current_biome_def.groundcover.empty() ) {
         dat.fill_groundcover();
     } else {
         m->draw_fill_background( current_biome_def.groundcover );
@@ -3874,7 +3874,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     std::vector<tripoint> tripoints;
 
     // Find the basement's stairs first.
-    for( auto &&p : tr ) {
+    for( auto &&p : tr ) { // *NOPAD*
         if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
             const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
             stairs.emplace_back( rotated );
@@ -3902,7 +3902,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 
     // Find a tripoint where all the underground tripoints for stairs are on
     // suitable locations aboveground.
-    for( auto &&p : tripoints ) {
+    for( auto &&p : tripoints ) { // *NOPAD*
         int count = 1;
         all_can_be_placed = true;
         stairs_debug_log( m, "ok first:", p );
@@ -3946,7 +3946,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
                          << "and the rest may end up in odd locations.";
     }
 
-    for( auto &&p : stairs ) {
+    for( auto &&p : stairs ) { // *NOPAD*
         tripoint stair = p + shift;
 
         if( m->ter_set( stair, t_stairs_down ) ) {

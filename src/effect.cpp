@@ -617,16 +617,16 @@ std::string effect::disp_desc( bool reduced ) const
             }
         }
     }
-    if( constant.size() > 0 ) {
+    if( !constant.empty() ) {
         ret << _( "Const: " ) << enumerate_as_string( constant ) << " ";
     }
-    if( frequent.size() > 0 ) {
+    if( !frequent.empty() ) {
         ret << _( "Freq: " ) << enumerate_as_string( frequent ) << " ";
     }
-    if( uncommon.size() > 0 ) {
+    if( !uncommon.empty() ) {
         ret << _( "Unfreq: " ) << enumerate_as_string( uncommon ) << " ";
     }
-    if( rare.size() > 0 ) {
+    if( !rare.empty() ) {
         ret << _( "Rare: " ) << enumerate_as_string( rare ); // No space needed at the end
     }
 
@@ -1229,16 +1229,16 @@ void load_effect_type( JsonObject &jo )
     new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
     new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
 
-    for( auto &&f : jo.get_string_array( "resist_traits" ) ) {
+    for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "resist_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "resist_effects" ) ) { // *NOPAD*
         new_etype.resist_effects.push_back( efftype_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "removes_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
         new_etype.removes_effects.push_back( efftype_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "blocks_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
         new_etype.blocks_effects.push_back( efftype_id( f ) );
     }
 

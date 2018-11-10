@@ -8390,7 +8390,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 std::vector<vehicle *> nearby_vehicles_for( const itype_id &ft )
 {
     std::vector<vehicle *> result;
-    for( auto &&p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+    for( auto &&p : g->m.points_in_radius( g->u.pos(), 1 ) ) { // *NOPAD*
         vehicle *const veh = veh_pointer_or_null( g->m.veh_at( p ) );
         // TODO: constify fuel_left and fuel_capacity
         // TODO: add a fuel_capacity_left function
@@ -9092,7 +9092,7 @@ void add_salvagables( uilist &menu, map_stack &items,
                       const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
                       const salvage_actor &salvage_iuse )
 {
-    if( stacks.size() > 0 ) {
+    if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
@@ -9112,7 +9112,7 @@ void add_salvagables( uilist &menu, map_stack &items,
 void add_disassemblables( uilist &menu, map_stack &items,
                           const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
-    if( stacks.size() > 0 ) {
+    if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {

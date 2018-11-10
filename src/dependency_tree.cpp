@@ -112,7 +112,7 @@ void dependency_node::inherit_errors()
         nodes_to_check.pop();
 
         // add check errors
-        if( check->errors().size() > 0 ) {
+        if( !check->errors().empty() ) {
             std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
             for( auto &cerror : cerrors ) {
                 std::vector<std::string> node_errors = cerror.second;
