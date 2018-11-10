@@ -4,6 +4,7 @@
 
 #include <SDL.h>
 
+#include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
 #include "line.h"
@@ -67,13 +68,6 @@ enum TILE_CATEGORY {
     C_WEATHER,
 };
 
-/** Typedefs */
-struct SDL_Texture_deleter {
-    // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Texture *const ptr );
-};
-using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
-
 class texture
 {
     private:
@@ -92,17 +86,13 @@ class texture
         /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
         /// null as source rectangle (render the whole texture). Other parameters
         /// are simply passed through.
-        int render_copy_ex( SDL_Renderer *const renderer, const SDL_Rect *const dstrect, const double angle,
+        int render_copy_ex( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const dstrect,
+                            const double angle,
                             const SDL_Point *const center, const SDL_RendererFlip flip ) const {
-            return SDL_RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
+            return SDL_RenderCopyEx( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect, angle, center,
+                                     flip );
         }
 };
-
-struct SDL_Surface_deleter {
-    // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Surface *const ptr );
-};
-using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
 
 struct pixel {
     int r;
@@ -294,7 +284,7 @@ class tileset_loader
 {
     private:
         tileset &ts;
-        SDL_Renderer *const renderer;
+        const SDL_Renderer_Ptr &renderer;
 
         int sprite_offset_x;
         int sprite_offset_y;
@@ -362,7 +352,7 @@ class tileset_loader
         void load_internal( JsonObject &config, const std::string &tileset_root,
                             const std::string &img_path );
     public:
-        tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
+        tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
         }
         /**
          * @throw std::exception On any error.
@@ -393,7 +383,7 @@ struct formatted_text {
 class cata_tiles
 {
     public:
-        cata_tiles( SDL_Renderer *render );
+        cata_tiles( const SDL_Renderer_Ptr &render );
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -557,7 +547,7 @@ class cata_tiles
         void init_light();
 
         /** Variables */
-        SDL_Renderer *renderer;
+        const SDL_Renderer_Ptr &renderer;
         std::unique_ptr<tileset> tileset_ptr;
 
         int tile_height = 0;

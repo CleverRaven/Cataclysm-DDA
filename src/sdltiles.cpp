@@ -24,6 +24,7 @@
 #include "translations.h"
 
 #include <algorithm>
+#include <cassert>
 #include <cstring>
 #include <fstream>
 #include <limits>
@@ -117,30 +118,7 @@ std::map<std::string, music_playlist> playlists;
 std::string current_soundpack_path = "";
 #endif
 
-struct SDL_Renderer_deleter {
-    void operator()( SDL_Renderer * const renderer ) {
-        SDL_DestroyRenderer( renderer );
-    }
-};
-using SDL_Renderer_Ptr = std::unique_ptr<SDL_Renderer, SDL_Renderer_deleter>;
-struct SDL_Window_deleter {
-    void operator()( SDL_Window * const window ) {
-        SDL_DestroyWindow( window );
-    }
-};
-using SDL_Window_Ptr = std::unique_ptr<SDL_Window, SDL_Window_deleter>;
-struct SDL_PixelFormat_deleter {
-    void operator()( SDL_PixelFormat * const format ) {
-        SDL_FreeFormat( format );
-    }
-};
-using SDL_PixelFormat_Ptr = std::unique_ptr<SDL_PixelFormat, SDL_PixelFormat_deleter>;
-struct TTF_Font_deleter {
-    void operator()( TTF_Font * const font ) {
-        TTF_CloseFont( font );
-    }
-};
-using TTF_Font_Ptr = std::unique_ptr<TTF_Font, TTF_Font_deleter>;
+#include "sdl_wrappers.h"
 
 /**
  * A class that draws a single character on screen.
@@ -235,7 +213,7 @@ static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat_Ptr format;
 static SDL_Texture_Ptr display_buffer;
 #ifdef __ANDROID__
-static SDL_Texture *touch_joystick;
+static SDL_Texture_Ptr touch_joystick;
 #endif
 static int WindowWidth;        //Width of the actual window, not the curses window
 static int WindowHeight;       //Height of the actual window, not the curses window
@@ -321,11 +299,11 @@ static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurs
 
 void ClearScreen()
 {
-    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
-    SDL_RenderClear( renderer.get() );
+    SetRenderDrawColor( renderer, 0, 0, 0, 255);
+    RenderClear( renderer );
 }
 
-bool InitSDL()
+void InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
     int ret;
@@ -345,49 +323,33 @@ bool InitSDL()
 #endif
 
     ret = SDL_Init( init_flags );
-    if( ret != 0 ) {
-        dbg( D_ERROR ) << "SDL_Init failed with " << ret << ", error: " << SDL_GetError();
-        return false;
-    }
+    throwErrorIf( ret != 0, "SDL_Init failed" );
+
     ret = TTF_Init();
-    if( ret != 0 ) {
-        dbg( D_ERROR ) << "TTF_Init failed with " << ret << ", error: " << TTF_GetError();
-        return false;
-    }
+    throwErrorIf( ret != 0, "TTF_Init failed" );
+
+    // cata_tiles won't be able to load the tiles, but the normal SDL
+    // code will display fine.
     ret = IMG_Init( IMG_INIT_PNG );
-    if( (ret & IMG_INIT_PNG) != IMG_INIT_PNG ) {
-        dbg( D_ERROR ) << "IMG_Init failed to initialize PNG support, tiles won't work, error: " << IMG_GetError();
-        // cata_tiles won't be able to load the tiles, but the normal SDL
-        // code will display fine.
-    }
+    printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG, "IMG_Init failed to initialize PNG support, tiles won't work" );
 
     ret = SDL_InitSubSystem( SDL_INIT_JOYSTICK );
-    if( ret != 0 ) {
-        dbg( D_WARNING ) << "Initializing joystick subsystem failed with " << ret << ", error: " <<
-        SDL_GetError() << "\nIf you don't have a joystick plugged in, this is probably fine.";
-    }
+    printErrorIf( ret != 0, "Initializing joystick subsystem failed" );
 
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
 
     atexit(SDL_Quit);
-
-    return true;
 }
 
 bool SetupRenderTarget()
 {
-    if( SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_NONE ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
-        // Ignored for now, rendering could still work
-    }
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
     display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
-    if( !display_buffer ) {
-        dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
+    if( printErrorIf( !display_buffer, "Failed to create window buffer" ) ) {
         return false;
     }
-    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
-        dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
+    if( printErrorIf( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0, "SDL_SetRenderTarget failed" ) ) {
         return false;
     }
     ClearScreen();
@@ -396,7 +358,7 @@ bool SetupRenderTarget()
 }
 
 //Registers, creates, and shows the Window!!
-bool WinCreate()
+void WinCreate()
 {
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
@@ -443,11 +405,8 @@ bool WinCreate()
             WindowHeight,
             window_flags
         ) );
+    throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-    if( !::window ) {
-        dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
-        return false;
-    }
 #ifndef __ANDROID__
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
@@ -472,10 +431,7 @@ bool WinCreate()
 
     const Uint32 wformat = SDL_GetWindowPixelFormat( ::window.get() );
     format.reset( SDL_AllocFormat( wformat ) );
-    if( !format ) {
-        dbg(D_ERROR) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
-        return false;
-    }
+    throwErrorIf( !format, "SDL_AllocFormat failed" );
 
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     if( !software_renderer ) {
@@ -483,8 +439,7 @@ bool WinCreate()
 
         renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
-        if( !renderer ) {
-            dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
+        if( printErrorIf( !renderer, "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
         } else if( !SetupRenderTarget() ) {
             dbg( D_ERROR ) << "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
@@ -498,13 +453,8 @@ bool WinCreate()
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
         renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE ) );
-        if( !renderer ) {
-            dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
-            return false;
-        } else if( !SetupRenderTarget() ) {
-            dbg( D_ERROR ) << "Failed to initialize display buffer under software rendering, unable to continue.";
-            return false;
-        }
+        throwErrorIf( !renderer, "Failed to initialize software renderer" );
+        throwErrorIf( !SetupRenderTarget(), "Failed to initialize display buffer under software rendering, unable to continue." );
     }
 
     SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
@@ -516,15 +466,7 @@ bool WinCreate()
     }
 
     // Load virtual joystick texture
-    SDL_Surface* touch_joystick_surface = IMG_Load( "android/joystick.png" );
-    if ( !touch_joystick_surface ) {
-        throw std::runtime_error(IMG_GetError());
-    }
-    touch_joystick = SDL_CreateTextureFromSurface( renderer.get(), touch_joystick_surface );
-    if( !touch_joystick ) {
-        dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
-    }
-    SDL_FreeSurface( touch_joystick_surface );
+    touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
 #endif
 
     ClearScreen();
@@ -545,13 +487,9 @@ bool WinCreate()
             dbg( D_WARNING ) << "You have more than one gamepads/joysticks plugged in, only the first will be used.";
         }
         joystick = SDL_JoystickOpen(0);
-        if( joystick == nullptr ) {
-            dbg( D_ERROR ) << "Opening the first joystick failed: " << SDL_GetError();
-        } else {
-            const int ret = SDL_JoystickEventState(SDL_ENABLE);
-            if( ret < 0 ) {
-                dbg( D_ERROR ) << "SDL_JoystickEventState(SDL_ENABLE) failed: " << SDL_GetError();
-            }
+        printErrorIf( joystick == nullptr, "SDL_JoystickOpen failed" );
+        if( joystick ) {
+            printErrorIf( SDL_JoystickEventState(SDL_ENABLE) < 0, "SDL_JoystickEventState(SDL_ENABLE) failed" );
         }
     } else {
         joystick = NULL;
@@ -559,26 +497,21 @@ bool WinCreate()
 
     // Set up audio mixer.
     init_sound();
-
-    return true;
 }
 
 // forward declaration
 void load_soundset();
-void cleanup_sound();
 
 void WinDestroy()
 {
 #ifdef __ANDROID__
-    if ( touch_joystick ) {
-        SDL_DestroyTexture( touch_joystick );
-        touch_joystick = NULL;
-    }
+    touch_joystick.reset();
 #endif
 
 #ifdef SDL_SOUND
     // De-allocate all loaded sound.
-    cleanup_sound();
+    sound_effects_p.clear();
+    playlists.clear();
     Mix_CloseAudio();
 #endif
     tilecontext.reset();
@@ -594,13 +527,8 @@ void WinDestroy()
 }
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    if( SDL_SetRenderDrawColor( renderer.get(), windowsPalette[color].r, windowsPalette[color].g,
-                                windowsPalette[color].b, 255 ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderDrawColor failed: " << SDL_GetError();
-    }
-    if( SDL_RenderFillRect( renderer.get(), &rect ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderFillRect failed: " << SDL_GetError();
-    }
+    SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 );
+    RenderFillRect( renderer, &rect );
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -656,12 +584,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     const int wf = utf8_wrapper( ch ).display_width();
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface( SDL_CreateRGBSurface( 0, fontwidth * wf, fontheight, 32,
-                                                   rmask, gmask, bmask, amask ) );
-    if( !surface ) {
-        dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
-        return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
-    }
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, fontwidth * wf, fontheight, 32, rmask, gmask, bmask, amask );
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
     SDL_Rect dst_rect = { 0, 0, fontwidth * wf, fontheight };
     if (src_rect.w < dst_rect.w) {
@@ -679,13 +602,11 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
         src_rect.h = dst_rect.h;
     }
 
-    if ( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-    } else {
+    if( !printErrorIf( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0, "SDL_BlitSurface failed" ) ) {
         sglyph = std::move( surface );
     }
 
-    return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
+    return CreateTextureFromSurface( renderer, sglyph );
 }
 
 void CachedTTFFont::OutputChar(const std::string &ch, int const x, int const y, unsigned char const color)
@@ -711,9 +632,7 @@ void CachedTTFFont::OutputChar(const std::string &ch, int const x, int const y, 
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(value.texture.get(), opacity * 255.0f);
 #endif
-    if( SDL_RenderCopy( renderer.get(), value.texture.get(), nullptr, &rect ) ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
+    RenderCopy( renderer, value.texture, nullptr, &rect);
 #ifdef __ANDROID__
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(value.texture.get(), 255);
@@ -744,9 +663,7 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(ascii[color].get(), opacity * 255);
 #endif
-    if( SDL_RenderCopy( renderer.get(), ascii[color].get(), &src, &rect ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
+    RenderCopy( renderer, ascii[color], &src, &rect );
 #ifdef __ANDROID__
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(ascii[color].get(), 255);
@@ -832,28 +749,22 @@ void refresh_display()
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
-    if( SDL_SetRenderTarget( renderer.get(), NULL ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-    }
+    SetRenderTarget( renderer, NULL );
 #ifdef __ANDROID__
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
-    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
-    SDL_RenderClear( renderer.get() );
-    if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, &dstrect ) != 0 ) {
+    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+    RenderClear( renderer );
+    RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
-    if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0 ) {
+    RenderCopy( renderer, display_buffer, NULL, NULL );
 #endif
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
 #ifdef __ANDROID__
     draw_terminal_size_preview();
     draw_quick_shortcuts();
     draw_virtual_joystick();
 #endif
     SDL_RenderPresent( renderer.get() );
-    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-    }
+    SetRenderTarget( renderer, display_buffer );
 }
 
 // only update if the set interval has elapsed
@@ -870,9 +781,7 @@ static void try_sdl_update()
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
 {
-    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-    }
+    SetRenderTarget( renderer, display_buffer );
 }
 
 // Populate a map with the available video displays and their name
@@ -1536,8 +1445,7 @@ void toggle_fullscreen_window()
     static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight;
 
     if ( fullscreen ) {
-        if( SDL_SetWindowFullscreen( window.get(), 0 ) != 0 ) {
-            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+        if( printErrorIf( SDL_SetWindowFullscreen( window.get(), 0 ) != 0, "SDL_SetWindowFullscreen failed" ) ) {
             return;
         }
         SDL_RestoreWindow( window.get() );
@@ -1546,8 +1454,7 @@ void toggle_fullscreen_window()
     } else {
         restore_win_w = WindowWidth;
         restore_win_h = WindowHeight;
-        if( SDL_SetWindowFullscreen( window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0 ) {
-            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+        if( printErrorIf( SDL_SetWindowFullscreen( window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0, "SDL_SetWindowFullscreen failed" ) ) {
             return;
         }
     }
@@ -1854,10 +1761,10 @@ void draw_terminal_size_preview()
             preview_terminal_height = get_option<int>("TERMINAL_Y") * fontheight;
             preview_terminal_change_time = SDL_GetTicks();
         }
-        SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
+        SetRenderDrawColor( renderer, 255, 255, 255, 255 );
         SDL_Rect previewrect = get_android_render_rect(preview_terminal_width, preview_terminal_height);
         SDL_RenderDrawRect(renderer.get(), &previewrect);
-        SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
+        SetRenderDrawColor( renderer, 0, 0, 0, 255 );
     }
 }
 
@@ -1964,28 +1871,28 @@ void draw_quick_shortcuts() {
         else
             rect = { (int)(i * width + border), (int)(WindowHeight - height), (int)(width - border*2), (int)(height) };
         if (hovered)
-            SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, 255 );
+            SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         else
-            SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, get_option<int>("ANDROID_SHORTCUT_OPACITY_BG")*0.01f*255.0f );
-        SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_BLEND );
-        SDL_RenderFillRect( renderer.get(), &rect );
+            SetRenderDrawColor( renderer, 0, 0, 0, get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+        RenderFillRect( renderer, &rect );
         if (hovered) {
             // draw a second button hovering above the first one
             if (shortcut_right)
                 rect = { WindowWidth - (int)((i+1) * width + border), (int)(WindowHeight - height * 2.2f), (int)(width - border*2), (int)(height) };
             else
                 rect = { (int)(i * width + border), (int)(WindowHeight - height * 2.2f), (int)(width - border*2), (int)(height) };
-            SDL_SetRenderDrawColor( renderer.get(), 0, 0, 196, 255 );
-            SDL_RenderFillRect( renderer.get(), &rect );
+            SetRenderDrawColor( renderer, 0, 0, 196, 255 );
+            RenderFillRect( renderer, &rect );
 
             if (show_hint) {
                 // draw a backdrop for the hint text
                 rect = { 0, (int)((WindowHeight - height)*0.5f), (int)WindowWidth, (int)height };
-                SDL_SetRenderDrawColor( renderer.get(), 0, 0, 0, get_option<int>("ANDROID_SHORTCUT_OPACITY_BG")*0.01f*255.0f );
-                SDL_RenderFillRect( renderer.get(), &rect );                
+                SetRenderDrawColor( renderer, 0, 0, 0, get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
+                RenderFillRect( renderer, &rect );                
             }
         }
-        SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_NONE );
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
         SDL_RenderSetScale( renderer.get(), text_scale, text_scale);
         int text_x, text_y;
         if (shortcut_right)
@@ -2036,7 +1943,7 @@ void draw_virtual_joystick() {
         is_two_finger_touch)
         return;
 
-    SDL_SetTextureAlphaMod( touch_joystick, get_option<int>("ANDROID_VIRTUAL_JOYSTICK_OPACITY")*0.01f*255.0f );
+    SDL_SetTextureAlphaMod( touch_joystick.get(), get_option<int>("ANDROID_VIRTUAL_JOYSTICK_OPACITY")*0.01f*255.0f );
 
     float longest_window_edge = std::max(WindowWidth, WindowHeight);
 
@@ -2046,19 +1953,19 @@ void draw_virtual_joystick() {
     dstrect.w = dstrect.h = ( get_option<float>("ANDROID_DEADZONE_RANGE") ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w/2;
     dstrect.y = finger_down_y - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
 
     // Draw repeat delay range
     dstrect.w = dstrect.h = ( get_option<float>("ANDROID_DEADZONE_RANGE") + get_option<float>("ANDROID_REPEAT_DELAY_RANGE") ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w/2;
     dstrect.y = finger_down_y - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
 
     // Draw current touch position (50% size of repeat delay range)
     dstrect.w = dstrect.h = dstrect.w/2;
     dstrect.x = finger_down_x + (finger_curr_x - finger_down_x)/2 - dstrect.w/2;
     dstrect.y = finger_down_y + (finger_curr_y - finger_down_y)/2 - dstrect.h/2;
-    SDL_RenderCopy( renderer.get(), touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
 
 }
 
@@ -2963,7 +2870,7 @@ static void save_font_list()
 #endif
 }
 
-static std::string find_system_font( const std::string &name, int& faceIndex )
+static cata::optional<std::string> find_system_font( const std::string &name, int& faceIndex )
 {
     const std::string fontlist_path = FILENAMES["fontlist"];
     std::ifstream fin(fontlist_path.c_str());
@@ -2977,7 +2884,7 @@ static std::string find_system_font( const std::string &name, int& faceIndex )
             fin.open(fontlist_path.c_str());
             if( !fin ) {
                 dbg( D_ERROR ) << "Can't open or create fontlist file " << fontlist_path;
-                return "";
+                return cata::nullopt;
             }
         } else {
             // Write out fontlist to the new location.
@@ -2996,7 +2903,7 @@ static std::string find_system_font( const std::string &name, int& faceIndex )
         }
     }
 
-    return "";
+    return cata::nullopt;
 }
 
 // bitmap font size test
@@ -3048,21 +2955,17 @@ void catacurses::init_interface()
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
 
-    if(!InitSDL()) {
-        throw std::runtime_error( "InitSDL failed" );
-    }
+    InitSDL();
 
     find_videodisplays();
 
     TERMINAL_WIDTH = get_option<int>( "TERMINAL_X" );
     TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
-    if(!WinCreate()) {
-        throw std::runtime_error( "WinCreate failed" ); //@todo: throw from WinCreate
-    }
+    WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext.reset( new cata_tiles( renderer.get() ) );
+    tilecontext.reset( new cata_tiles( renderer ) );
     try {
         tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
     } catch( const std::exception &err ) {
@@ -3292,10 +3195,8 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
 : Font( w, h )
 {
     dbg( D_INFO ) << "Loading bitmap font [" + typeface + "]." ;
-    SDL_Surface_Ptr asciiload( IMG_Load( typeface.c_str() ) );
-    if( !asciiload ) {
-        throw std::runtime_error(IMG_GetError());
-    }
+    SDL_Surface_Ptr asciiload = load_image( typeface.c_str() );
+    assert( asciiload );
     if (asciiload->w * asciiload->h < (fontwidth * fontheight * 256)) {
         throw std::runtime_error("bitmap for font is to small");
     }
@@ -3327,7 +3228,7 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
 
     //convert ascii_surf to SDL_Texture
     for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a) {
-        ascii[a].reset( SDL_CreateTextureFromSurface( renderer.get(), ascii_surf[a].get() ) );
+        ascii[a] = CreateTextureFromSurface( renderer, ascii_surf[a] );
     }
 }
 
@@ -3378,9 +3279,8 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
 , fontblending( fontblending )
 {
     int faceIndex = 0;
-    const std::string sysfnt = find_system_font(typeface, faceIndex);
-    if (!sysfnt.empty()) {
-        typeface = sysfnt;
+    if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
+        typeface = *sysfnt;
         dbg( D_INFO ) << "Using font [" + typeface + "]." ;
     }
     //make fontdata compatible with wincurse
@@ -3834,13 +3734,6 @@ void load_soundset() {
     // to force deallocation of resources.
     std::unordered_map<std::string, Mix_Chunk*> t_swap;
     unique_chunks.swap(t_swap);
-#endif
-}
-
-void cleanup_sound() {
-#ifdef SDL_SOUND
-    sound_effects_p.clear();
-    playlists.clear();
 #endif
 }
 
