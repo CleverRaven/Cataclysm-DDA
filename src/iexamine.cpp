@@ -3549,7 +3549,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         for( const item *anesthesia_item : a_filter ) {
             acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
         }
-        if( !acomps.size() ) {
+        if( acomps.empty() ) {
             popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
             return;
         }
@@ -3904,7 +3904,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         count = 0;
     }
 
-    if( comps.size() == 0 ) {
+    if( comps.empty() ) {
         p.add_msg_if_player( _( "You don't have any food that can be smoked." ) );
         return;
     }

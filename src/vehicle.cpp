@@ -3376,7 +3376,7 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
     std::set<Vehicle *> visited_vehs;
     connected_vehs.push( std::make_pair( start_veh, 0 ) );
 
-    while( amount > 0 && connected_vehs.size() > 0 ) {
+    while( amount > 0 && !connected_vehs.empty() ) {
         auto current_node = connected_vehs.front();
         Vehicle *current_veh = current_node.first;
         int current_loss = current_node.second;
@@ -3812,7 +3812,7 @@ void vehicle::place_spawn_items()
 void vehicle::gain_moves()
 {
     if( velocity != 0 || falling ) {
-        if( loose_parts.size() > 0 ) {
+        if( !loose_parts.empty() ) {
             shed_loose_parts();
         }
         of_turn = 1 + of_turn_carry;

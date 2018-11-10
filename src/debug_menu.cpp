@@ -468,7 +468,7 @@ std::string mission_debug::describe( const mission &m )
 
 void add_header( uilist &mmenu, const std::string &str )
 {
-    if( mmenu.entries.size() != 0 ) {
+    if( !mmenu.entries.empty() ) {
         mmenu.addentry( -1, false, -1, "" );
     }
     uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );

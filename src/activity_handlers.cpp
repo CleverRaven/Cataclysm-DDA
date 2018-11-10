@@ -2304,7 +2304,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     weldrig_hack w_hack;
     item_location *ploc = nullptr;
 
-    if( act->targets.size() > 0 ) {
+    if( !act->targets.empty() ) {
         ploc = &act->targets[0];
     }
 
@@ -3075,7 +3075,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
                     return itm.typeId() == itype_id( seed );
                 } );
             } );
-            if( seed_inv.size() > 0 ) {
+            if( !seed_inv.empty() ) {
                 auto it = seed_inv.front();
                 iexamine::plant_seed( *p, tile_loc, it->typeId() );
             }

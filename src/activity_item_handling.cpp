@@ -883,7 +883,7 @@ static std::vector<tripoint> route_adjacent( const player &p, const tripoint &de
     for( const tripoint &tp : sorted ) {
         auto route = g->m.route( p.pos(), tp, p.get_pathfinding_settings(), avoid );
 
-        if( route.size() > 0 ) {
+        if( !route.empty() ) {
             return route;
         }
     }
@@ -956,7 +956,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             }
 
                             // check if we found path to source / adjacent tile
-                            if( route.size() == 0 ) {
+                            if( route.empty() ) {
                                 add_msg( m_info, _( "You can't reach the source tile. Try to sort out loot without a cart." ) );
                                 return;
                             }

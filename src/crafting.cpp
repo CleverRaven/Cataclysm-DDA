@@ -609,7 +609,7 @@ void player::complete_craft()
     const time_point now = calendar::turn;
     time_point start_turn = now;
     tripoint craft_pos = pos();
-    if( activity.values.size() > 1 && activity.coords.size() > 0 ) {
+    if( activity.values.size() > 1 && !activity.coords.empty() ) {
         start_turn = activity.values.at( 1 );
         craft_pos = activity.coords.at( 0 );
     } else {

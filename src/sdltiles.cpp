@@ -1873,7 +1873,7 @@ void draw_quick_shortcuts() {
     std::string& category = touch_input_context.get_category();
     bool is_default_mode = category == "DEFAULTMODE";
     quick_shortcuts_t& qsl = quick_shortcuts_map[get_quick_shortcut_name(category)];
-    if (qsl.size() == 0 || touch_input_context.get_registered_manual_keys().size() > 0) {
+    if (qsl.empty() || !touch_input_context.get_registered_manual_keys().empty() ) {
         if (category == "DEFAULTMODE") {
             const std::string default_gameplay_shortcuts = get_option<std::string>("ANDROID_SHORTCUT_DEFAULTS");
             for (const auto& c : default_gameplay_shortcuts)
@@ -1883,7 +1883,7 @@ void draw_quick_shortcuts() {
             // This is an empty quick-shortcuts list, let's pre-populate it as best we can from the input context
             
             // For manual key lists, force-clear them each time since there's no point allowing custom bindings anyway
-            if (touch_input_context.get_registered_manual_keys().size() > 0)
+            if (!touch_input_context.get_registered_manual_keys().empty())
                 qsl.clear();
 
             // First process registered actions
@@ -2252,7 +2252,7 @@ void CheckMessages()
     }
 
     // Copy the current input context
-    if (input_context::input_context_stack.size() > 0) {
+    if (!input_context::input_context_stack.empty() ) {
         input_context* new_input_context = *--input_context::input_context_stack.end();
         if (new_input_context && *new_input_context != touch_input_context) {
 

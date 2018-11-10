@@ -617,16 +617,16 @@ std::string effect::disp_desc( bool reduced ) const
             }
         }
     }
-    if( constant.size() > 0 ) {
+    if( !constant.empty() ) {
         ret << _( "Const: " ) << enumerate_as_string( constant ) << " ";
     }
-    if( frequent.size() > 0 ) {
+    if( !frequent.empty() ) {
         ret << _( "Freq: " ) << enumerate_as_string( frequent ) << " ";
     }
-    if( uncommon.size() > 0 ) {
+    if( !uncommon.empty() ) {
         ret << _( "Unfreq: " ) << enumerate_as_string( uncommon ) << " ";
     }
-    if( rare.size() > 0 ) {
+    if( !rare.empty() ) {
         ret << _( "Rare: " ) << enumerate_as_string( rare ); // No space needed at the end
     }
 

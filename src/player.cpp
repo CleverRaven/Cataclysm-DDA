@@ -749,7 +749,7 @@ void player::process_turn()
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
-    if ( !activity.targets.size() ) {
+    if ( activity.targets.empty() ) {
         drop_invalid_inventory();
     }
 
@@ -7798,7 +7798,7 @@ bool player::wield( item& target )
     }
 
     // Query whether to draw an item from a holster when attempting to wield the holster
-    if( target.get_use( "holster" ) && ( target.contents.size() > 0 ) ) {
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
         if( query_yn( string_format( _( "Draw %s from %s?" ),
                                      target.get_contained().tname().c_str(),
                                      target.tname().c_str() ) ) ) {

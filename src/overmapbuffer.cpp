@@ -330,7 +330,7 @@ int overmapbuffer::get_horde_size( int const x, int const y, int const z )
     int horde_size = 0;
     for( auto const &m : overmap_buffer.monsters_at( x, y, z ) ) {
         if( m->horde ) {
-            if( m->monsters.size() > 0 ) {
+            if( !m->monsters.empty() ) {
                 horde_size += m->monsters.size();
             } else {
                 // We don't know how large this will actually be, because

@@ -3611,7 +3611,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // The max sparseness is calculated across all the possible biomes, not just the adjacent ones.
     const auto get_max_sparseness_adjacency_factor = [&dat]() {
-        if( dat.region.forest_composition.biomes.size() == 0 ) {
+        if( dat.region.forest_composition.biomes.empty() ) {
             return 0;
         }
         std::vector<int> factors;
@@ -3763,7 +3763,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // If this biome does not define its own groundcover, then fill with the region's ground
     // cover. Otherwise, fill with the biome defs groundcover.
-    if( current_biome_def.groundcover.size() == 0 ) {
+    if( current_biome_def.groundcover.empty() ) {
         dat.fill_groundcover();
     } else {
         m->draw_fill_background( current_biome_def.groundcover );

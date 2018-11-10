@@ -1557,7 +1557,7 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
     std::vector<vehicle_part> p_all = car->parts;
     int prt = 0;
     int skillLevel = comp->get_skill_level( skill_mechanics );
-    while( p_all.size() > 0 ) {
+    while( !p_all.empty() ) {
         vehicle_stack contents = car->get_items( prt );
         for( auto iter = contents.begin(); iter != contents.end(); ) {
             comp->companion_mission_inv.add_item( *iter );

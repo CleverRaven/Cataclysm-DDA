@@ -560,7 +560,7 @@ void mdeath::focused_beam( monster &z )
         }
     }
 
-    if( z.inv.size() > 0 ) {
+    if( !z.inv.empty() ) {
 
         if( g->u.sees( z ) ) {
             add_msg( m_warning, _( "As the final light is destroyed, it erupts in a blinding flare!" ) );

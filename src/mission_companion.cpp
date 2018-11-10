@@ -136,7 +136,7 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
            "creatures." );
     mission_key.push( "Assign Scavenging Patrol", _( "Assign Scavenging Patrol" ) );
     npc_list = companion_list( p, "_scavenging_patrol" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -159,7 +159,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
            "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items." );
     mission_key.push( "Assign Scavenging Raid", _( "Assign Scavenging Raid" ) );
     npc_list = companion_list( p, "_scavenging_raid" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -181,7 +181,7 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
            "reputation with the outpost.  Don't expect much of a reward though." );
     mission_key.push( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
     npc_list = companion_list( p, "_labor" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -203,7 +203,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
            "unlikely that your companions will face combat but there are hazards working on makeshift buildings." );
     mission_key.push( "Assign Ally to Carpentry Work", _( "Assign Ally to Carpentry Work" ) );
     npc_list = companion_list( p, "_carpenter" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -266,7 +266,7 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
            "supplemented with the odd item as a reward for particularly large hauls." );
     mission_key.push( "Assign Ally to Forage for Food", _( "Assign Ally to Forage for Food" ) );
     npc_list = companion_list( p, "_forage" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -292,7 +292,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     mission_key.push( "Caravan Commune-Refugee Center", _( "Caravan Commune-Refugee Center" ) );
     npc_list = companion_list( p, "_commune_refugee_caravan" );
     std::vector<std::shared_ptr<npc>> npc_list_aux;
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                    " \nRoster:\n" );
         for( auto &elem : npc_list ) {
@@ -306,7 +306,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
                         ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours] \n" );
             }
         }
-        if( npc_list_aux.size() > 0 ) {
+        if( !npc_list_aux.empty() ) {
             std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                                        " \nRoster:\n" );
             for( auto &elem : npc_list_aux ) {

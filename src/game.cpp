@@ -9092,7 +9092,7 @@ void add_salvagables( uilist &menu, map_stack &items,
                       const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
                       const salvage_actor &salvage_iuse )
 {
-    if( stacks.size() > 0 ) {
+    if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
@@ -9112,7 +9112,7 @@ void add_salvagables( uilist &menu, map_stack &items,
 void add_disassemblables( uilist &menu, map_stack &items,
                           const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
-    if( stacks.size() > 0 ) {
+    if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
