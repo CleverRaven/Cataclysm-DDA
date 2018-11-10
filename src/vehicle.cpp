@@ -3253,7 +3253,7 @@ void vehicle::power_parts()
             epower += alternators_epower;
         }
     }
-    int reactors_online_num = 0;
+    bool reactor_online = false;
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
     int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
                                         fuel_left( fuel_type_battery ) - delta_energy_bat );
@@ -3262,13 +3262,14 @@ void vehicle::power_parts()
         // Produce additional epower from any reactors
         bool reactor_working = false;
         for( auto &elem : reactors ) {
-            // the amount of energy the reactor generates each turn
-            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
-            if( is_part_on( elem ) ) {
-                reactors_online_num += 1;
-            } else {
+            // Check whether the reactor is on. If not, move on.
+            if( !is_part_on( elem ) ) {
                 continue;
             }
+            // Keep track whether or not the vehicle has any reactors activated
+            reactor_online = true;
+            // the amount of energy the reactor generates each turn
+            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
             } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
@@ -3292,7 +3293,7 @@ void vehicle::power_parts()
             }
         }
 
-        if( !reactor_working && reactors_online_num > 0 ) {
+        if( !reactor_working && reactor_online ) {
             // All reactors out of fuel or destroyed
             for( auto &elem : reactors ) {
                 parts[ elem ].enabled = false;
