@@ -1001,11 +1001,19 @@ int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &, const t
 
 // Custom functions that are to be wrapped from lua.
 // -------------------------------------------------
-static std::unique_ptr<uimenu> uimenu_instance;
-uimenu *create_uimenu()
+static std::unique_ptr<uilist> uilist_instance;
+uilist *create_uilist()
 {
-    uimenu_instance = std::unique_ptr<uimenu>( new uimenu() );
-    return uimenu_instance.get();
+    uilist_instance.reset( new uilist() );
+    return uilist_instance.get();
+}
+
+// Simulate old create_uimenu() behavior
+uilist *create_uilist_no_cancel()
+{
+    uilist_instance.reset( new uilist() );
+    uilist_instance->allow_cancel = false;
+    return uilist_instance.get();
 }
 
 const ter_t &get_terrain_type( int id )

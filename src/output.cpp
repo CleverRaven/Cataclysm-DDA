@@ -625,33 +625,6 @@ std::vector<std::string> get_hotkeys( const std::string &s )
     return hotkeys;
 }
 
-// compatibility stub for uimenu(cancelable, mes, options)
-int menu_vec( bool cancelable, const char *mes,
-              const std::vector<std::string> options )
-{
-    return static_cast<int>( uimenu( cancelable, mes, options ) );
-}
-
-int menu_vec( bool cancelable, const char *mes,
-              const std::vector<std::string> &options,
-              const std::string &hotkeys_override )
-{
-    return static_cast<int>( uimenu( cancelable, mes, options, hotkeys_override ) );
-}
-
-// compatibility stub for uimenu(cancelable, mes, ...)
-int menu( bool const cancelable, const char *const mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    std::vector<std::string> options;
-    while( char const *const tmp = va_arg( ap, char * ) ) {
-        options.push_back( tmp );
-    }
-    va_end( ap );
-    return ( uimenu( cancelable, mes, options ) );
-}
-
 long popup( const std::string &text, PopupFlags flags )
 {
     query_popup pop;

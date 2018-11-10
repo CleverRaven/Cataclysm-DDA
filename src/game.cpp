@@ -2149,7 +2149,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
-            } else if( action_menu.ret == UIMENU_UNBOUND && action_menu.keypress == KEY_RIGHT ) {
+            } else if( action_menu.ret == UILIST_UNBOUND && action_menu.keypress == KEY_RIGHT ) {
                 // Simulate KEY_RIGHT == '\n' (confirm currently selected entry) for compatibility with old version.
                 // TODO: ideally this should be done in the uilist, maybe via a callback.
                 cMenu = action_menu.ret = action_menu.entries[action_menu.selected].retval;
@@ -2233,7 +2233,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                 default:
                     break;
             }
-        } while( action_menu.ret == UIMENU_WAIT_INPUT || action_menu.ret == UIMENU_UNBOUND );
+        } while( action_menu.ret == UILIST_WAIT_INPUT || action_menu.ret == UILIST_UNBOUND );
     }
     return cMenu;
 }
@@ -3275,7 +3275,7 @@ void game::debug()
                     default:
                         break;
                 }
-            } while( smenu.ret != UIMENU_CANCEL );
+            } while( smenu.ret != UILIST_CANCEL );
         }
         break;
         case 27: {
@@ -6971,11 +6971,11 @@ void game::zones_manager()
 
                 uilist as_m;
                 as_m.text = _( "What do you want to change:" );
-                as_m.entries.emplace_back( uimenu_entry( 1, true, '1', _( "Edit name" ) ) );
-                as_m.entries.emplace_back( uimenu_entry( 2, true, '2', _( "Edit type" ) ) );
-                as_m.entries.emplace_back( uimenu_entry( 3, zone.get_options().has_options(), '3',
-                                           _( "Edit options" ) ) );
-                as_m.entries.emplace_back( uimenu_entry( 4, true, '4', _( "Edit position" ) ) );
+                as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
+                as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
+                as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
+                                           _( "Edit options" ) );
+                as_m.entries.emplace_back( 4, true, '4', _( "Edit position" ) );
                 as_m.query();
 
                 switch( as_m.ret ) {
@@ -10050,7 +10050,7 @@ bool game::disable_robot( const tripoint &p )
     }
     // Manhacks are special, they have their own menu here.
     if( mid == mon_manhack ) {
-        int choice = UIMENU_CANCEL;
+        int choice = UILIST_CANCEL;
         if( critter.has_effect( effect_docile ) ) {
             choice = uilist( _( "Reprogram the manhack?" ), { _( "Engage targets." ) } );
         } else {

@@ -2167,7 +2167,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
-            select_location.entries.push_back( uimenu_entry( loc.name() ) );
+            select_location.entries.emplace_back( loc.name() );
             if( loc.ident() == u.start_location ) {
                 select_location.selected = offset;
             }

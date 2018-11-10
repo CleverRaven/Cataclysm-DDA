@@ -391,7 +391,7 @@ class input_context
             input_context_stack.remove( this );
         }
 
-        // hack to allow creating manual keybindings for getch() instances, uimenus etc. that don't use an input_context outside of the Android version
+        // hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
             manual_key( long _key, const std::string &_text ) : key( _key ), text( _text ) {}
             long key;

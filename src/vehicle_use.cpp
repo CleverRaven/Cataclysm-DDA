@@ -58,7 +58,7 @@ char keybind( const std::string &opt, const std::string &context )
     return keys.empty() ? ' ' : keys.front();
 }
 
-void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
+void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
                                   std::vector<std::function<void()>> &actions, const std::string &name, char key,
                                   const std::string &flag )
 {
@@ -192,7 +192,7 @@ void vehicle::control_doors()
     }
 }
 
-void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
+void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
         std::vector<std::function<void()>> &actions )
 {
     auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
@@ -253,7 +253,7 @@ void vehicle::control_electronics()
 
     bool valid_option = false;
     do {
-        std::vector<uimenu_entry> options;
+        std::vector<uilist_entry> options;
         std::vector<std::function<void()>> actions;
 
         set_electronics_menu_options( options, actions );
@@ -431,7 +431,7 @@ void vehicle::toggle_tracking()
 
 void vehicle::use_controls( const tripoint &pos )
 {
-    std::vector<uimenu_entry> options;
+    std::vector<uilist_entry> options;
     std::vector<std::function<void()>> actions;
 
     bool remote = g->remoteveh() == this;

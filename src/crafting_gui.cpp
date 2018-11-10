@@ -807,7 +807,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
 
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
-    if( rel_menu.ret != UIMENU_CANCEL ) {
+    if( rel_menu.ret != UILIST_CANCEL ) {
         std::wstring wstr_recipe_name = utf8_to_wstr( rel_menu.entries[ rel_menu.ret ].txt );
         return wstr_to_utf8( wstr_recipe_name.substr( 2 ) ); // 2 = prefix length
     }
@@ -819,7 +819,7 @@ int related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                        const recipe_subset &available )
 {
-    const std::vector<uimenu_entry> &entries = rmenu.entries;
+    const std::vector<uilist_entry> &entries = rmenu.entries;
     int np_last = entries.empty() ? -1 : entries.back().retval;
 
     if( related_recipes.empty() ) {

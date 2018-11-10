@@ -67,7 +67,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     }
 
     std::vector<std::string> menu_items;
-    std::vector<uimenu_entry> options_message;
+    std::vector<uilist_entry> options_message;
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 

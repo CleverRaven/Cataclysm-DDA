@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-class uimenu;
+class uilist;
 class vehicle;
 class item;
 
@@ -469,7 +469,7 @@ class advanced_inventory
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                             const std::string &action, long &amount );
 
-        void menu_square( uimenu &menu );
+        void menu_square( uilist &menu );
 
         static char get_location_key( aim_location area );
         static char get_direction_key( aim_location area );

@@ -471,7 +471,7 @@ void add_header( uilist &mmenu, const std::string &str )
     if( mmenu.entries.size() != 0 ) {
         mmenu.addentry( -1, false, -1, "" );
     }
-    uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );
+    uilist_entry header( -1, false, -1, str, c_yellow, c_yellow );
     header.force_color = true;
     mmenu.entries.push_back( header );
 }

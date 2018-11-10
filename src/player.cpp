@@ -7482,7 +7482,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
         menu.addentry( i, true, hotkey, draw_row( i ) );
     }
 
-    struct reload_callback : public uimenu_callback {
+    struct reload_callback : public uilist_callback {
         public:
             std::vector<item::reload_option> &opts;
             const std::function<std::string( int )> draw_row;
@@ -7498,7 +7498,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
                            can_partial_reload( _can_partial_reload )
             {}
 
-            bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
+            bool key( const input_context &, const input_event &event, int idx, uilist *menu ) override {
                 auto cur_key = event.get_first_input();
                 if( default_to != -1 && cur_key == last_key ) {
                     // Select the first entry on the list
@@ -8098,7 +8098,7 @@ void player::mend_item( item_location&& obj, bool interactive )
         uilist menu;
         menu.text = _( "Mend which fault?" );
         menu.desc_enabled = true;
-        menu.desc_lines = 0; // Let uimenu handle description height
+        menu.desc_lines = 0; // Let uilist handle description height
 
         int w = 80;
 
@@ -8813,7 +8813,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(), res.str() );
     }
 
-    umenu.desc_enabled = std::any_of( umenu.entries.begin(), umenu.entries.end(), []( const uimenu_entry &elem ) {
+    umenu.desc_enabled = std::any_of( umenu.entries.begin(), umenu.entries.end(), []( const uilist_entry &elem ) {
         return !elem.desc.empty();
     });
 
@@ -9327,7 +9327,7 @@ bool player::read( int inventory_position, const bool continuous )
 
             auto add_header = [&menu]( const std::string & str ) {
                 menu.addentry( -1, false, -1, "" );
-                uimenu_entry header( -1, false, -1, str , c_yellow, c_yellow );
+                uilist_entry header( -1, false, -1, str , c_yellow, c_yellow );
                 header.force_color = true;
                 menu.entries.push_back( header );
             };
@@ -9365,7 +9365,7 @@ bool player::read( int inventory_position, const bool continuous )
             }
 
             menu.query( true );
-            if( menu.ret == UIMENU_CANCEL ) {
+            if( menu.ret == UILIST_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
                 return false;
             }
