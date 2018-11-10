@@ -370,8 +370,6 @@ static void eff_fun_hot( player &u, effect &it )
             { { bp_foot_r, 2 }, { 0, 0, 0, 0, "", 0, "" } },
         }
     };
-    // Maximum chance of 1 in MIN_EFFECTIVE_TEMPERATURE to vomit
-    const int MIN_EFFECTIVE_TEMPERATURE = 25;
 
     const body_part bp = it.get_bp();
     const int intense = it.get_intensity();
@@ -381,7 +379,7 @@ static void eff_fun_hot( player &u, effect &it )
     }
     // Hothead effects are a special snowflake
     if( bp == bp_head && intense >= 2 ) {
-        if( one_in( std::max( MIN_EFFECTIVE_TEMPERATURE, std::min( 14500, 15000 - u.temp_cur[bp_head] ) ) ) ) {
+        if( one_in( std::max( 25, std::min( 14500, 15000 - u.temp_cur[bp_head] ) ) ) ) {
             u.vomit();
         }
         if( !u.has_effect( effect_sleep ) && one_in( 400 ) ) {
