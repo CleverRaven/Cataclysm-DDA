@@ -3591,7 +3591,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-const std::string get_music_description()
+std::string get_music_description()
 {
     static const std::string no_description;
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
