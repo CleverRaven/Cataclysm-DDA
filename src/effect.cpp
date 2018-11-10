@@ -1229,16 +1229,16 @@ void load_effect_type( JsonObject &jo )
     new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
     new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
 
-    for( auto &&f : jo.get_string_array( "resist_traits" ) ) {
+    for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "resist_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "resist_effects" ) ) { // *NOPAD*
         new_etype.resist_effects.push_back( efftype_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "removes_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
         new_etype.removes_effects.push_back( efftype_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "blocks_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
         new_etype.blocks_effects.push_back( efftype_id( f ) );
     }
 

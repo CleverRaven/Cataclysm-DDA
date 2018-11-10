@@ -197,7 +197,7 @@ void mdeath::boomer( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
     sounds::sound( z.pos(), 24, explode );
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
         if( monster *const z = g->critter_at<monster>( dest ) ) {
             z->stumble();
@@ -217,7 +217,7 @@ void mdeath::boomer_glow( monster &z )
     std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
     sounds::sound( z.pos(), 24, explode );
 
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
         if( monster *const z = g->critter_at<monster>( dest ) ) {
             z->stumble();
@@ -319,7 +319,7 @@ void mdeath::fungus( monster &z )
     sounds::sound( z.pos(), 10, _( "Pouf!" ) );
 
     fungal_effects fe( *g, g->m );
-    for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->m.impassable( sporep ) ) {
             continue;
         }
@@ -347,7 +347,7 @@ void mdeath::worm( monster &z )
     }
 
     std::vector <tripoint> wormspots;
-    for( auto &&wormp : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&wormp : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->m.has_flag( "DIGGABLE", wormp ) && g->is_empty( wormp ) ) {
             wormspots.push_back( wormp );
         }
@@ -456,7 +456,7 @@ void mdeath::blobsplit( monster &z )
     }
     std::vector <tripoint> valid;
 
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->is_empty( dest ) && z.can_move_to( dest ) ) {
             valid.push_back( dest );
         }
@@ -612,7 +612,7 @@ void mdeath::ratking( monster &z )
     }
 
     std::vector <tripoint> ratspots;
-    for( auto &&ratp : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&ratp : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->is_empty( ratp ) ) {
             ratspots.push_back( ratp );
         }

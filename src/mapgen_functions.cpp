@@ -3874,7 +3874,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     std::vector<tripoint> tripoints;
 
     // Find the basement's stairs first.
-    for( auto &&p : tr ) {
+    for( auto &&p : tr ) { // *NOPAD*
         if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
             const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
             stairs.emplace_back( rotated );
@@ -3902,7 +3902,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 
     // Find a tripoint where all the underground tripoints for stairs are on
     // suitable locations aboveground.
-    for( auto &&p : tripoints ) {
+    for( auto &&p : tripoints ) { // *NOPAD*
         int count = 1;
         all_can_be_placed = true;
         stairs_debug_log( m, "ok first:", p );
@@ -3946,7 +3946,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
                          << "and the rest may end up in odd locations.";
     }
 
-    for( auto &&p : stairs ) {
+    for( auto &&p : stairs ) { // *NOPAD*
         tripoint stair = p + shift;
 
         if( m->ter_set( stair, t_stairs_down ) ) {

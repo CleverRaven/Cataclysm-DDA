@@ -2168,7 +2168,7 @@ conditional_t::conditional_t( JsonObject jo )
         };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
         std::vector<trait_id> traits_to_check;
-        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) {
+        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) { // *NOPAD*
             traits_to_check.emplace_back( f );
         }
         condition = [traits_to_check]( const dialogue & d ) {
@@ -2438,7 +2438,7 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
         std::vector<trait_id> traits_to_check;
-        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) {
+        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) { // *NOPAD*
             traits_to_check.emplace_back( f );
         }
         const dynamic_line_t yes = from_member( jo, "yes" );

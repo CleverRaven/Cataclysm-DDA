@@ -451,7 +451,7 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
-        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && ( mon->has_flag( MF_GRABS ) ||
                          mon->type->has_special_attack( "GRAB" ) ) ) {
