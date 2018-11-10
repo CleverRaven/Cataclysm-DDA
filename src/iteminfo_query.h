@@ -1,9 +1,9 @@
 #pragma once
-#ifndef ITEMINFOQUERY_H
-#define ITEMINFOQUERY_H
+#ifndef ITEMINFO_QUERY_H
+#define ITEMINFO_QUERY_H
 
-#include <string>
 #include <bitset>
+#include <string>
 #include <vector>
 
 enum class iteminfo_parts : size_t {

@@ -1,40 +1,34 @@
 #include "crafting.h"
 
-#include "catacharset.h"
+#include "activity_handlers.h"
+#include "ammo.h"
+#include "bionics.h"
+#include "calendar.h"
 #include "craft_command.h"
 #include "debug.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "input.h"
-#include "bionics.h"
 #include "inventory.h"
+#include "item.h"
 #include "itype.h"
-#include "ammo.h"
 #include "map.h"
 #include "messages.h"
-#include "item.h"
 #include "npc.h"
-#include "calendar.h"
 #include "options.h"
 #include "output.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
-#include "vpart_reference.h"
 #include "translations.h"
 #include "ui.h"
-#include "vpart_position.h"
 #include "vehicle.h"
-#include "crafting_gui.h"
-#include "activity_handlers.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
-#include <algorithm> //std::min
-#include <iostream>
-#include <math.h>    //sqrt
-#include <queue>
-#include <string>
+#include <algorithm>
+#include <cmath>
 #include <sstream>
-#include <numeric>
+#include <string>
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -558,16 +552,16 @@ void player::complete_craft()
     if( making->skill_used ) {
         // normalize experience gain to crafting time, giving a bonus for longer crafting
         const double batch_mult = batch_size + base_time_to_craft( *making, batch_size ) / 30000.0;
-        practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * batch_mult ),
-                  ( int )making->difficulty * 1.25 );
+        practice( making->skill_used, static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult ),
+                  static_cast<int>( making->difficulty ) * 1.25 );
 
         //NPCs assisting or watching should gain experience...
         for( auto &elem : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
             if( elem->get_skill_level( making->skill_used ) >= making->difficulty ) {
                 elem->practice( making->skill_used,
-                                ( int )( ( making->difficulty * 15 + 10 ) * batch_mult *
-                                         .50 ), ( int )making->difficulty * 1.25 );
+                                static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult *
+                                                  .50 ), static_cast<int>( making->difficulty ) * 1.25 );
                 if( batch_size > 1 ) {
                     add_msg( m_info, _( "%s assists with crafting..." ), elem->name.c_str() );
                 }
@@ -577,8 +571,8 @@ void player::complete_craft()
                 //NPCs around you understand the skill used better
             } else {
                 elem->practice( making->skill_used,
-                                ( int )( ( making->difficulty * 15 + 10 ) * batch_mult * .15 ),
-                                ( int )making->difficulty * 1.25 );
+                                static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult * .15 ),
+                                static_cast<int>( making->difficulty ) * 1.25 );
                 add_msg( m_info, _( "%s watches you craft..." ), elem->name.c_str() );
             }
         }
@@ -719,7 +713,16 @@ void player::complete_craft()
 
         if( newit.goes_bad() ) {
             newit.set_relative_rot( max_relative_rot );
+        } else {
+            if( newit.is_container() ) {
+                for( item &in : newit.contents ) {
+                    if( in.goes_bad() ) {
+                        in.set_relative_rot( max_relative_rot );
+                    }
+                }
+            }
         }
+
         if( should_heat ) {
             newit.heat_up();
         } else {
@@ -1009,7 +1012,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
-                std::string tmpStr = string_format( "%s (%d/%d charges nearby)",
+                std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
                                                     item::nname( map_ha.type ),
                                                     ( map_ha.count * batch ),
                                                     map_inv.charges_of( map_ha.type ) );
@@ -1021,7 +1024,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         }
         for( auto &player_ha : player_has ) {
             if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
-                std::string tmpStr = string_format( "%s (%d/%d charges on person)",
+                std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
                                                     item::nname( player_ha.type ),
                                                     ( player_ha.count * batch ),
                                                     charges_of( player_ha.type ) );

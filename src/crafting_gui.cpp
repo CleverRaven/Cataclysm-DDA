@@ -1,29 +1,28 @@
 #include "crafting_gui.h"
 
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "crafting.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "player.h"
-#include "itype.h"
-#include "input.h"
-#include "game.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "skill.h"
-#include "catacharset.h"
-#include "output.h"
-#include "json.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 #include "ui.h"
 #include "uistate.h"
 
-#include "debug.h"
-
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 enum TAB_MODE {
     NORMAL,
@@ -57,7 +56,6 @@ std::string get_cat_name( const std::string &prefixed_name )
 
 void load_recipe_category( JsonObject &jsobj )
 {
-    JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
 
     if( category.find( "CC_" ) != 0 ) {
@@ -69,7 +67,7 @@ void load_recipe_category( JsonObject &jsobj )
     std::string cat_name = get_cat_name( category );
 
     craft_subcat_list[category] = std::vector<std::string>();
-    subcats = jsobj.get_array( "recipe_subcategories" );
+    JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
         std::string subcat_id = subcats.next_string();
         if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
@@ -640,7 +638,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 popup( _( "You can't do that!" ) );
             } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
-                ; // popup is already inside check
+                // popup is already inside check
             } else {
                 chosen = current[line];
                 batch_size = ( batch ) ? line + 1 : 1;

@@ -1,9 +1,11 @@
 #include "bodypart.h"
+
 #include "anatomy.h"
-#include "translations.h"
-#include "rng.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "rng.h"
+#include "translations.h"
+
 #include <map>
 #include <unordered_map>
 

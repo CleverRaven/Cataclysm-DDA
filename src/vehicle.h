@@ -2,25 +2,23 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include "active_item_cache.h"
 #include "calendar.h"
-#include "tileray.h"
 #include "damage.h"
 #include "item.h"
 #include "item_group.h"
-#include "line.h"
 #include "item_stack.h"
-#include "active_item_cache.h"
+#include "line.h"
 #include "string_id.h"
+#include "tileray.h"
 #include "ui.h"
 #include "units.h"
 
-#include <vector>
 #include <array>
-#include <map>
 #include <list>
-#include <string>
-#include <iosfwd>
+#include <map>
 #include <stack>
+#include <vector>
 
 class nc_color;
 class map;
@@ -80,7 +78,7 @@ class vehicle_stack : public item_stack
         int part_num;
     public:
         vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
-            item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {};
+            item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
         std::list<item>::iterator erase( std::list<item>::iterator it ) override;
         void push_back( const item &newitem ) override;
         void insert_at( std::list<item>::iterator index, const item &newitem ) override;
@@ -565,16 +563,16 @@ class vehicle
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-        int part_power( int index, bool at_full_hp = false ) const;
+        int part_vpower_w( int index, bool at_full_hp = false ) const;
 
         // get vpart epowerinfo for part number.
-        int part_epower( int index ) const;
+        int part_epower_w( int index ) const;
 
-        // convert epower (watts) to power.
-        static int epower_to_power( int epower );
+        // convert watts over time to battery energy
+        int power_to_energy_bat( const int power_w, const time_duration t ) const;
 
-        // convert power to epower (watts).
-        static int power_to_epower( int power );
+        // convert vhp to watts.
+        static int vhp_to_watts( int power );
 
         //Refresh all caches and re-locate all parts
         void refresh();
@@ -884,10 +882,6 @@ class vehicle
         // get color for map
         nc_color part_color( int p, bool exact = false ) const;
 
-        // Vehicle parts description
-        int print_part_desc( const catacurses::window &win, int y1, int max_y, int width, int p,
-                             int hl = -1 ) const;
-
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types() const;
 
@@ -993,8 +987,9 @@ class vehicle
         point pivot_displacement() const;
 
         // Get combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
-        int total_power( bool fueled = true ) const;
+        // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
+        // their safe power.
+        int total_power_w( bool fueled = true, bool safe = false ) const;
 
         // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted
@@ -1070,7 +1065,7 @@ class vehicle
         /*@}*/
 
         // Extra drag on the vehicle from components other than wheels.
-        float drag() const;
+        int drag() const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
@@ -1342,7 +1337,10 @@ class vehicle
         rl_vec2d move_vec() const;
         // As above, but calculated for the actually used variable `dir`
         rl_vec2d dir_vec() const;
+        // update vehicle parts as the vehicle moves
         void on_move();
+        // move the vehicle on the map
+        bool act_on_map();
 
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap

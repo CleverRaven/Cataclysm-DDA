@@ -1,13 +1,14 @@
+#include "trait_group.h"
+
 #include "debug.h"
 #include "json.h"
 #include "rng.h"
-#include "trait_group.h"
 #include "translations.h"
 #include "ui.h"
 
 #include <algorithm>
-#include <sstream>
 #include <cassert>
+#include <sstream>
 
 using namespace trait_group;
 
@@ -247,7 +248,7 @@ Trait_group_collection::Trait_group_collection( int probability )
     if( probability <= 0 || probability > 100 ) {
         debugmsg( "Probability %d out of range", probability );
     }
-};
+}
 
 Trait_list Trait_group_collection::create( RecursionList &rec ) const
 {

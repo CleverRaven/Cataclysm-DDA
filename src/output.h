@@ -2,19 +2,15 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include "color.h"
 #include "catacharset.h"
-#include "translations.h"
-#include "string_formatter.h"
+#include "color.h"
 #include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
 
-#include <cstdarg>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <set>
-#include <memory>
-#include <map>
 
 struct input_event;
 struct iteminfo;
@@ -549,7 +545,7 @@ enum class enumeration_conjunction {
 /**
  * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
  * @param values A vector of strings
- * @param enumeration_conjunction Choose how to separate the last elements.
+ * @param conj Choose how to separate the last elements.
  */
 template<typename _Container>
 std::string enumerate_as_string( const _Container &values,
@@ -588,7 +584,7 @@ std::string enumerate_as_string( const _Container &values,
  * @param last Iterator pointing to the last element.
  * @param pred Predicate that accepts an element and returns a representing string.
  * May return an empty string to omit the element.
- * @param enumeration_conjunction Choose how to separate the last elements.
+ * @param conj Choose how to separate the last elements.
  */
 template<typename _FIter, typename _Predicate>
 std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,

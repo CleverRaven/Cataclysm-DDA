@@ -1,5 +1,6 @@
-#ifndef SRC_OVERMAP_UI_H_
-#define SRC_OVERMAP_UI_H_
+#pragma once
+#ifndef OVERMAP_UI_H
+#define OVERMAP_UI_H
 
 #include "enums.h"
 
@@ -59,4 +60,4 @@ tripoint choose_point( const tripoint &origin );
 
 } // namespace ui
 
-#endif /* SRC_OVERMAP_UI_H_ */
+#endif /* OVERMAP_UI_H */

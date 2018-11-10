@@ -1,26 +1,26 @@
 #include "weather.h"
 
+#include "calendar.h"
+#include "cata_utility.h"
 #include "coordinate_conversions.h"
+#include "game.h"
+#include "game_constants.h"
+#include "map.h"
+#include "math.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
-#include "calendar.h"
-#include "game.h"
-#include "map.h"
-#include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "trap.h"
-#include "math.h"
+#include "player.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "weather_gen.h"
-#include "sounds.h"
-#include "cata_utility.h"
-#include "player.h"
-#include "game_constants.h"
 
-#include <vector>
 #include <sstream>
+#include <vector>
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
@@ -253,7 +253,8 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
 
     // Calculate once, because that part is expensive
     static const item water( "water", 0 );
-    static const double charge_ml = ( double ) to_gram( water.weight() ) / water.charges; // 250ml
+    static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
+                                    water.charges; // 250ml
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
     const double vol_mm3_per_turn = vol_mm3_per_hour / HOURS( 1 );
@@ -387,10 +388,10 @@ void generic_very_wet( bool acid )
     wet_player( 60 );
 }
 
-void weather_effect::none()      {};
-void weather_effect::flurry()    {};
-void weather_effect::snow()      {};
-void weather_effect::snowstorm() {};
+void weather_effect::none()      {}
+void weather_effect::flurry()    {}
+void weather_effect::snow()      {}
+void weather_effect::snowstorm() {}
 
 /**
  * Wet.

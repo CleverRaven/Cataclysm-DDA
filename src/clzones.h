@@ -3,16 +3,15 @@
 #define CLZONES_H
 
 #include "enums.h"
-#include "string_id.h"
 #include "item.h"
 #include "optional.h"
+#include "string_id.h"
 
-#include <vector>
-#include <string>
-#include <unordered_map>
 #include <map>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 class JsonIn;
 class JsonOut;
@@ -44,39 +43,39 @@ class zone_options
         /* derived classes must always return true */
         virtual bool has_options() const {
             return false;
-        };
+        }
 
         /* query only necessary options at zone creation, one by one
          * returns true if successful, returns false if fails or canceled */
         virtual bool query_at_creation() {
             return true;
-        };
+        }
 
         /* query options, first uimenu should allow to pick an option to edit (if more than one)
          * returns true if something is changed, otherwise returns false */
         virtual bool query() {
             return false;
-        };
+        }
 
         /* suggest a name for the zone, depending on options */
         virtual std::string get_zone_name_suggestion() const {
             return "";
-        };
+        }
 
         /* vector of pairs of each option's description and value */
         virtual std::vector<std::pair<std::string, std::string>> get_descriptions() const {
             return std::vector<std::pair<std::string, std::string>>();
-        };
+        }
 
-        virtual void serialize( JsonOut & ) const {};
-        virtual void deserialize( JsonObject & ) {};
+        virtual void serialize( JsonOut & ) const {}
+        virtual void deserialize( JsonObject & ) {}
 };
 
 // mark option interface
 class mark_option
 {
     public:
-        virtual ~mark_option() {}
+        virtual ~mark_option() = default;
 
         virtual std::string get_mark() const = 0;
 };
@@ -98,14 +97,14 @@ class plot_options : public zone_options, public mark_option
     public:
         std::string get_mark() const override {
             return mark;
-        };
+        }
         std::string get_seed() const {
             return seed;
-        };
+        }
 
         bool has_options() const override {
             return true;
-        };
+        }
 
         bool query_at_creation() override;
         bool query() override;
@@ -172,7 +171,7 @@ class zone_manager
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
         const zone_data *get_top_zone( const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where ) const;
-        cata::optional<std::string> query_name( std::string default_name = "" ) const;
+        cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
         cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
 
@@ -256,6 +255,5 @@ class zone_manager::zone_data
                    p.z >= start.z && p.z <= end.z;
         }
 };
-
 
 #endif

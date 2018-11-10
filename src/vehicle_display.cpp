@@ -1,32 +1,22 @@
 #include "vehicle.h"
 
-#include "coordinate_conversions.h"
-#include "output.h"
-#include "game.h"
-#include "veh_interact.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "messages.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "debug.h"
-#include "translations.h"
-#include "options.h"
-#include "veh_type.h"
-#include "itype.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "coordinate_conversions.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "game.h"
+#include "itype.h"
+#include "options.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vpart_position.h"
 
-#include <sstream>
-#include <stdlib.h>
-#include <set>
-#include <queue>
-#include <math.h>
-#include <array>
-#include <numeric>
 #include <algorithm>
-#include <cassert>
+#include <set>
+#include <sstream>
 
 static const std::string part_location_structure( "structure" );
 
@@ -37,7 +27,7 @@ const std::string vehicle::disp_name() const
 
 char vehicle::part_sym( const int p, const bool exact ) const
 {
-    if( p < 0 || p >= ( int )parts.size() || parts[p].removed ) {
+    if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return ' ';
     }
 
@@ -56,7 +46,7 @@ char vehicle::part_sym( const int p, const bool exact ) const
 vpart_id vehicle::part_id_string( int const p, char &part_mod ) const
 {
     part_mod = 0;
-    if( p < 0 || p >= ( int )parts.size() || parts[p].removed ) {
+    if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return vpart_id::NULL_ID();
     }
 
@@ -74,7 +64,7 @@ vpart_id vehicle::part_id_string( int const p, char &part_mod ) const
 
 nc_color vehicle::part_color( const int p, const bool exact ) const
 {
-    if( p < 0 || p >= ( int )parts.size() ) {
+    if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return c_black;
     }
 
@@ -92,7 +82,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     } else {
         const int displayed_part = exact ? p : part_displayed_at( parts[p].mount.x, parts[p].mount.y );
 
-        if( displayed_part < 0 || displayed_part >= ( int )parts.size() ) {
+        if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ) {
             return c_black;
         }
         if( parts[displayed_part].blood > 200 ) {
@@ -141,7 +131,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
                               int p, int hl /*= -1*/ ) const
 {
-    if( p < 0 || p >= ( int )parts.size() ) {
+    if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
     }
     std::vector<int> pl = this->parts_at_relative( parts[p].mount, true );
@@ -183,10 +173,10 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             left_sym = "-";
             right_sym = "-";
         }
-        nc_color sym_color = ( int )i == hl ? hilite( c_light_gray ) : c_light_gray;
+        nc_color sym_color = static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray;
         mvwprintz( win, y, 1, sym_color, left_sym );
         trim_and_print( win, y, 2, getmaxx( win ) - 4,
-                        ( int )i == hl ? hilite( col_cond ) : col_cond, partname );
+                        static_cast<int>( i ) == hl ? hilite( col_cond ) : col_cond, partname );
         wprintz( win, sym_color, right_sym );
 
         if( i == 0 && vpart_position( const_cast<vehicle &>( *this ), pl[i] ).is_inside() ) {
@@ -214,14 +204,14 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
  * @param win The window to draw in.
  * @param max_y Draw no further than this y-coordinate.
  * @param width The width of the window.
- * @param &p The index of the part being examined.
+ * @param p The index of the part being examined.
  * @param start_at Which vehicle part to start printing at.
  * @param start_limit the part index beyond which the display is full
  */
 void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
                                   int &start_at, int &start_limit ) const
 {
-    if( p < 0 || p >= ( int )parts.size() ) {
+    if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return;
     }
 
@@ -333,7 +323,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 
     int yofs = 0;
     int max_gauge = ( ( isHorizontal ) ? 12 : 5 ) + start_index;
-    int max_size = std::min( ( int )fuels.size(), max_gauge );
+    int max_size = std::min( static_cast<int>( fuels.size() ), max_gauge );
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
@@ -342,7 +332,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     }
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
-    if( ( start_index < ( int )fuels.size() - ( ( isHorizontal ) ? 12 : 5 ) ) ) {
+    if( ( start_index < static_cast<int>( fuels.size() ) - ( ( isHorizontal ) ? 12 : 5 ) ) ) {
         mvwprintz( win, y + yofs, x, c_light_green, ">" );
         wprintz( win, c_light_gray, " for more" );
     }
@@ -350,7 +340,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 
 /**
  * Prints a fuel gauge for a vehicle
- * @param w Pointer to the window to draw in.
+ * @param win Pointer to the window to draw in.
  * @param y Y location to draw at.
  * @param x X location to draw at.
  * @param fuel_type ID of the fuel type to draw
@@ -378,6 +368,6 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
         }
     }
     if( desc ) {
-        wprintz( win, c_light_gray, " - %s", item::nname( fuel_type ).c_str() );
+        wprintz( win, c_light_gray, " - %s", item::nname( fuel_type ) );
     }
 }

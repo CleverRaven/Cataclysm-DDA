@@ -1,55 +1,31 @@
-#include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "mapbuffer.h"
-#include "dialogue.h"
-#include "rng.h"
-#include "itype.h"
-#include "line.h"
+#include "mission_companion.h"
+
 #include "bionics.h"
-#include "debug.h"
-#include "catacharset.h"
-#include "messages.h"
-#include "mission.h"
-#include "ammo.h"
-#include "output.h"
-#include "vpart_range.h"
-#include "overmap.h"
-#include "overmap_ui.h"
-#include "overmapbuffer.h"
-#include "skill.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "input.h"
-#include "item_group.h"
-#include "compatibility.h"
-#include "mapdata.h"
-#include "recipe.h"
-#include "requirements.h"
-#include "map_iterator.h"
-#include "mongroup.h"
-#include "mtype.h"
-#include "editmap.h"
-#include "construction.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "craft_command.h"
-#include "iexamine.h"
-#include "vehicle.h"
-#include "veh_type.h"
-#include "requirements.h"
-#include "string_input_popup.h"
-#include "line.h"
-#include "recipe_groups.h"
+#include "dialogue.h"
+#include "editmap.h"
 #include "faction_camp.h"
-#include "mission_companion.h"
-#include "npctalk.h"
+#include "input.h"
+#include "item_group.h"
+#include "itype.h"
+#include "line.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mtype.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "rng.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_range.h"
 
-#include <vector>
-#include <string>
-#include <sstream>
 #include <algorithm>
 #include <cassert>
+#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -106,7 +82,7 @@ bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::stri
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
 bool handle_camp_mission( mission_entry &cur_key, npc &p );
-};
+}
 
 void talk_function::companion_mission( npc &p )
 {
@@ -420,7 +396,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
 
             calcStartPos( offset, sel, FULL_SCREEN_HEIGHT - 3, cur_key_list.size() );
 
-            for( size_t i = 0; ( int )i < FULL_SCREEN_HEIGHT - 3 &&
+            for( size_t i = 0; static_cast<int>( i ) < FULL_SCREEN_HEIGHT - 3 &&
                  ( i + offset ) < cur_key_list.size(); i++ ) {
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );
@@ -1749,7 +1725,7 @@ std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
     }
 
     struct companion_sort_skill {
-        companion_sort_skill( std::string skill_tested ) {
+        companion_sort_skill( const std::string &skill_tested ) {
             this->skill_tested = skill_tested;
         }
 

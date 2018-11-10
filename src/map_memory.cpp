@@ -1,7 +1,5 @@
 #include "map_memory.h"
 
-#include <algorithm>
-
 template<typename T>
 T lru_cache<T>::get( const tripoint &pos, const T &default_ ) const
 {

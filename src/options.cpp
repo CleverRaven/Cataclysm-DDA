@@ -1,21 +1,22 @@
 #include "options.h"
-#include "game.h"
-#include "output.h"
-#include "debug.h"
-#include "translations.h"
-#include "filesystem.h"
-#include "string_formatter.h"
-#include "cursesdef.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "json.h"
-#include "sounds.h"
+
 #include "cata_utility.h"
-#include "input.h"
-#include "worldfactory.h"
 #include "catacharset.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "filesystem.h"
+#include "game.h"
 #include "game_constants.h"
+#include "input.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "output.h"
+#include "path_info.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "worldfactory.h"
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -29,13 +30,12 @@
 #include <jni.h>
 #endif
 
-#include <stdlib.h>
-#include <string>
-#include <locale>
-#include <sstream>
 #include <algorithm>
-#include <cctype>
+#include <cstdlib>
+#include <locale>
 #include <memory>
+#include <sstream>
+#include <string>
 
 bool trigdist;
 bool use_tiles;
@@ -608,7 +608,7 @@ void options_manager::cOpt::setNext()
 {
     if( sType == "string_select" ) {
         int iNext = getItemPos( sSet ) + 1;
-        if( iNext >= ( int )vItems.size() ) {
+        if( iNext >= static_cast<int>( vItems.size() ) ) {
             iNext = 0;
         }
 
@@ -2124,17 +2124,16 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         //Draw options
         size_t iBlankOffset = 0; // Offset when blank line is printed.
         for( int i = iStartPos;
-             i < iStartPos + ( ( iContentHeight > ( int )mPageItems[iCurrentPage].size() ) ?
-                               ( int )mPageItems[iCurrentPage].size() : iContentHeight ); i++ ) {
+             i < iStartPos + ( ( iContentHeight > static_cast<int>( mPageItems[iCurrentPage].size() ) ) ?
+                               static_cast<int>( mPageItems[iCurrentPage].size() ) : iContentHeight ); i++ ) {
 
-            int line_pos; // Current line position in window.
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
             bool hasPrerequisite = current_opt.hasPrerequisite();
             bool prerequisiteEnabled = !hasPrerequisite ||
                                        cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
 
-            line_pos = i - iStartPos;
+            int line_pos = i - iStartPos; // Current line position in window.
 
             sTemp.str( "" );
             sTemp << i + 1 - iBlankOffset;
@@ -2169,7 +2168,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         //Draw Tabs
         if( !world_options_only ) {
             mvwprintz( w_options_header, 0, 7, c_white, "" );
-            for( int i = 0; i < ( int )vPages.size(); i++ ) {
+            for( int i = 0; i < static_cast<int>( vPages.size() ); i++ ) {
                 if( mPageItems[i].empty() ) {
                     continue;
                 }
@@ -2262,7 +2261,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         if( action == "DOWN" ) {
             do {
                 iCurrentLine++;
-                if( iCurrentLine >= ( int )mPageItems[iCurrentPage].size() ) {
+                if( iCurrentLine >= static_cast<int>( mPageItems[iCurrentPage].size() ) ) {
                     iCurrentLine = 0;
                 }
             } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
@@ -2281,7 +2280,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             iCurrentLine = 0;
             iStartPos = 0;
             iCurrentPage++;
-            if( iCurrentPage >= ( int )vPages.size() ) {
+            if( iCurrentPage >= static_cast<int>( vPages.size() ) ) {
                 iCurrentPage = 0;
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );

@@ -1,24 +1,21 @@
-#include "game.h"
-#include "map.h"
 #include "debug.h"
-#include "string_formatter.h"
-#include "item_factory.h"
-#include "uistate.h"
-#include "output.h"
-#include "monstergenerator.h"
-#include "compatibility.h"
-#include "translations.h"
-#include "input.h"
-#include "monster.h"
-#include "ui.h"
-#include "skill.h"
-#include "mutation.h"
-#include "mtype.h"
-#include "player.h"
 #include "debug_menu.h"
+#include "game.h"
+#include "input.h"
+#include "item_factory.h"
+#include "map.h"
+#include "monster.h"
+#include "monstergenerator.h"
+#include "mtype.h"
+#include "mutation.h"
+#include "output.h"
+#include "player.h"
+#include "skill.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
-
-#include <sstream>
+#include "translations.h"
+#include "ui.h"
+#include "uistate.h"
 
 class wish_mutate_callback: public uimenu_callback
 {
@@ -184,7 +181,7 @@ class wish_mutate_callback: public uimenu_callback
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
-        };
+        }
 
         ~wish_mutate_callback() override = default;
 };

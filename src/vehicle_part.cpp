@@ -1,48 +1,27 @@
 #include "vehicle.h"
 
 #include "coordinate_conversions.h"
-#include "map.h"
-#include "output.h"
+#include "debug.h"
 #include "game.h"
 #include "item.h"
-#include "veh_interact.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "messages.h"
-#include "iexamine.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "debug.h"
-#include "sounds.h"
-#include "translations.h"
-#include "ammo.h"
-#include "options.h"
-#include "monster.h"
-#include "npc.h"
-#include "veh_type.h"
 #include "itype.h"
+#include "map.h"
+#include "messages.h"
+#include "npc.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vpart_position.h"
 #include "weather.h"
-#include "cata_utility.h"
 
-#include <sstream>
-#include <stdlib.h>
-#include <set>
-#include <queue>
-#include <math.h>
-#include <array>
-#include <numeric>
 #include <algorithm>
 #include <cassert>
+#include <cmath>
+#include <set>
 
 static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_gasoline( "gasoline" );
-static const itype_id fuel_type_diesel( "diesel" );
 static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_water( "water_clean" );
-static const itype_id fuel_type_muscle( "muscle" );
-
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -142,12 +121,12 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return ( 1.0 - ( double )base.damage() / base.max_damage() );
+    return ( 1.0 - static_cast<double>( base.damage() ) / base.max_damage() );
 }
 
 double vehicle_part::damage_percent() const
 {
-    return ( double )base.damage() / base.max_damage();
+    return static_cast<double>( base.damage() ) / base.max_damage();
 }
 
 /** parts are considered broken at zero health */
@@ -516,7 +495,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     if( pt.info().epower < 0 && fuel_left( fuel_type_battery, true ) <= 0 ) {
         if( alert ) {
-            add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name().c_str() );
+            add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }
         return false;
     }

@@ -1,25 +1,26 @@
 #include "overmapbuffer.h"
+
+#include "cata_utility.h"
 #include "coordinate_conversions.h"
-#include "overmap_connection.h"
-#include "overmap_types.h"
-#include "overmap.h"
+#include "debug.h"
+#include "filesystem.h"
 #include "game.h"
 #include "line.h"
 #include "map.h"
-#include "debug.h"
-#include "monster.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "npc.h"
+#include "overmap.h"
+#include "overmap_connection.h"
+#include "overmap_types.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
-#include "npc.h"
 #include "vehicle.h"
-#include "filesystem.h"
-#include "cata_utility.h"
 
 #include <algorithm>
 #include <cassert>
+#include <cstdlib>
 #include <sstream>
-#include <stdlib.h>
 
 overmapbuffer overmap_buffer;
 
@@ -361,7 +362,7 @@ bool overmapbuffer::has_vehicle( int x, int y, int z )
         }
     }
 
-    return false;;
+    return false;
 }
 
 std::vector<om_vehicle> overmapbuffer::get_vehicle( int x, int y, int z )
@@ -419,8 +420,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( int x, int y, int z )
     // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
     // but monster groups are defined with submap coordinates.
     std::vector<mongroup *> result;
-    std::vector<mongroup *> tmp;
-    tmp = groups_at( x * 2, y * 2, z );
+    std::vector<mongroup *> tmp = groups_at( x * 2, y * 2, z );
     result.insert( result.end(), tmp.begin(), tmp.end() );
     tmp = groups_at( x * 2, y * 2 + 1, z );
     result.insert( result.end(), tmp.begin(), tmp.end() );

@@ -1,55 +1,43 @@
-#include "player.h"
+#include "ammo.h"
+#include "auto_pickup.h"
+#include "bionics.h"
+#include "calendar.h"
+#include "crafting.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "effect.h"
+#include "game.h"
+#include "inventory.h"
+#include "io.h"
+#include "item.h"
+#include "item_factory.h"
+#include "json.h"
+#include "mission.h"
+#include "monfaction.h"
+#include "monster.h"
+#include "morale.h"
+#include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "profession.h"
-#include "bionics.h"
-#include "mission.h"
-#include "game.h"
-#include "rng.h"
-#include "addiction.h"
-#include "auto_pickup.h"
-#include "inventory.h"
-#include "ammo.h"
-#include "artifact.h"
 #include "options.h"
-#include <sstream>
-#include <stdlib.h>
-#include <algorithm>
-#include "weather.h"
-#include "item.h"
-#include "material.h"
-#include "translations.h"
-#include "vitamin.h"
-#include "skill.h"
-#include "name.h"
-#include "vpart_reference.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "effect.h"
-#include "crafting.h"
-#include "get_version.h"
-#include "scenario.h"
-#include "calendar.h"
-#include "monster.h"
-#include "monfaction.h"
-#include "morale.h"
-#include "veh_type.h"
-#include "vpart_range.h"
-#include "vehicle.h"
-#include "mutation.h"
-#include "io.h"
-#include "mtype.h"
-#include "item_factory.h"
-#include "recipe_dictionary.h"
+#include "player.h"
 #include "player_activity.h"
+#include "profession.h"
+#include "recipe_dictionary.h"
+#include "rng.h"
+#include "scenario.h"
+#include "skill.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vitamin.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 
-#include <ctime>
-#include <bitset>
+#include <algorithm>
 #include <limits>
+#include <numeric>
+#include <sstream>
 
-#include "json.h"
-
-#include "debug.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -653,7 +641,7 @@ void player::serialize( JsonOut &json ) const
 
     // shopping carts, furniture etc
     json.member( "grab_point", grab_point );
-    json.member( "grab_type", obj_type_name[( int )grab_type ] );
+    json.member( "grab_type", obj_type_name[static_cast<int>( grab_type ) ] );
 
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
@@ -875,7 +863,7 @@ void player::deserialize( JsonIn &jsin )
     parray = data.get_array( "assigned_invlet" );
     while( parray.has_more() ) {
         JsonArray pair = parray.next_array();
-        inv.assigned_invlet[( char )pair.get_int( 0 )] = pair.get_string( 1 );
+        inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] = pair.get_string( 1 );
     }
 
     if( data.has_member( "invcache" ) ) {
@@ -890,8 +878,8 @@ void player::deserialize( JsonIn &jsin )
 void npc_follower_rules::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "engagement", ( int )engagement );
-    json.member( "aim", ( int )aim );
+    json.member( "engagement", static_cast<int>( engagement ) );
+    json.member( "aim", static_cast<int>( aim ) );
     json.member( "use_guns", use_guns );
     json.member( "use_grenades", use_grenades );
     json.member( "use_silent", use_silent );
@@ -914,10 +902,10 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     JsonObject data = jsin.get_object();
     int tmpeng = 0;
     data.read( "engagement", tmpeng );
-    engagement = ( combat_engagement )tmpeng;
+    engagement = static_cast<combat_engagement>( tmpeng );
     int tmpaim = 0;
     data.read( "aim", tmpaim );
-    aim = ( aim_rule )tmpaim;
+    aim = static_cast<aim_rule>( tmpaim );
     data.read( "use_guns", use_guns );
     data.read( "use_grenades", use_grenades );
     data.read( "use_silent", use_silent );
@@ -996,10 +984,10 @@ void npc_personality::deserialize( JsonIn &jsin )
         data.read( "bravery", tmpbrav ) &&
         data.read( "collector", tmpcol ) &&
         data.read( "altruism", tmpalt ) ) {
-        aggression = ( signed char )tmpagg;
-        bravery = ( signed char )tmpbrav;
-        collector = ( signed char )tmpcol;
-        altruism = ( signed char )tmpalt;
+        aggression = static_cast<signed char>( tmpagg );
+        bravery = static_cast<signed char>( tmpbrav );
+        collector = static_cast<signed char>( tmpcol );
+        altruism = static_cast<signed char>( tmpalt );
     } else {
         debugmsg( "npc_personality: bad data" );
     }
@@ -1008,10 +996,10 @@ void npc_personality::deserialize( JsonIn &jsin )
 void npc_personality::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "aggression", ( int )aggression );
-    json.member( "bravery", ( int )bravery );
-    json.member( "collector", ( int )collector );
-    json.member( "altruism", ( int )altruism );
+    json.member( "aggression", static_cast<int>( aggression ) );
+    json.member( "bravery", static_cast<int>( bravery ) );
+    json.member( "collector", static_cast<int>( collector ) );
+    json.member( "altruism", static_cast<int>( altruism ) );
     json.end_object();
 }
 
@@ -1054,9 +1042,9 @@ void npc_favor::deserialize( JsonIn &jsin )
 void npc_favor::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "type", ( int )type );
+    json.member( "type", static_cast<int>( type ) );
     json.member( "value", value );
-    json.member( "itype_id", ( std::string )item_id );
+    json.member( "itype_id", static_cast<std::string>( item_id ) );
     json.member( "skill_id", skill );
     json.end_object();
 }
@@ -1306,7 +1294,7 @@ void npc::store( JsonOut &json ) const
     if( !fac_id.str().empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
-    json.member( "attitude", ( int )attitude );
+    json.member( "attitude", static_cast<int>( attitude ) );
     json.member( "op_of_u", op_of_u );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
@@ -1435,7 +1423,7 @@ void monster::load( JsonObject &data )
         if( !parray.empty() ) {
             int index = 0;
             int ptimeout = 0;
-            while( parray.has_more() && index < ( int )( type->special_attacks_names.size() ) ) {
+            while( parray.has_more() && index < static_cast<int>( type->special_attacks_names.size() ) ) {
                 if( parray.read_next( ptimeout ) ) {
                     // assume timeouts saved in same order as current monsters.json listing
                     const std::string &aname = type->special_attacks_names[index++];

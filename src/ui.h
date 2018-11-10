@@ -2,16 +2,15 @@
 #ifndef UI_H
 #define UI_H
 
-#include "enums.h"
-#include <stdlib.h>
 #include "color.h"
 #include "cursesdef.h"
+#include "enums.h"
 #include "string_formatter.h"
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
 #include <utility>
+#include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -61,30 +60,30 @@ struct uimenu_entry {
     //std::string filtertxt; // possibly useful
     uimenu_entry( std::string T ) : retval( -1 ), enabled( true ), hotkey( -1 ), txt( T ) {
         text_color = c_red_red;
-    };
+    }
     uimenu_entry( std::string T, std::string D ) : retval( -1 ), enabled( true ), hotkey( -1 ),
         txt( T ), desc( D ) {
         text_color = c_red_red;
-    };
+    }
     uimenu_entry( std::string T, int K ) : retval( -1 ), enabled( true ), hotkey( K ), txt( T ) {
         text_color = c_red_red;
-    };
+    }
     uimenu_entry( int R, bool E, int K, std::string T ) : retval( R ), enabled( E ), hotkey( K ),
         txt( T ) {
         text_color = c_red_red;
-    };
+    }
     uimenu_entry( int R, bool E, int K, std::string T, std::string D ) : retval( R ), enabled( E ),
         hotkey( K ), txt( T ), desc( D ) {
         text_color = c_red_red;
-    };
+    }
     uimenu_entry( int R, bool E, int K, std::string T, std::string D, std::string C ) : retval( R ),
         enabled( E ),
         hotkey( K ), txt( T ), desc( D ), ctxt( C ) {
         text_color = c_red_red;
-    };
+    }
     uimenu_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
         enabled( E ), hotkey( K ), txt( T ),
-        hotkey_color( H ), text_color( C ) {};
+        hotkey_color( H ), text_color( C ) {}
 };
 
 /**
@@ -141,13 +140,13 @@ class uimenu;
 class uimenu_callback
 {
     public:
-        virtual void select( int /*entnum*/, uimenu * ) {};
+        virtual void select( int /*entnum*/, uimenu * ) {}
         virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
                           uimenu * ) {
             return false;
-        };
-        virtual void refresh( uimenu * ) {};
-        virtual void redraw( uimenu * ) {};
+        }
+        virtual void refresh( uimenu * ) {}
+        virtual void redraw( uimenu * ) {}
         virtual ~uimenu_callback() = default;
 };
 /*@}*/

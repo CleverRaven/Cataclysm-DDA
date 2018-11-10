@@ -6,8 +6,8 @@
 #include "input.h"
 #include "output.h"
 #include "player.h"
-#include "translations.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 #include <algorithm> //std::min
 #include <sstream>

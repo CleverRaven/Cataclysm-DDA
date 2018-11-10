@@ -1,34 +1,32 @@
 #include "field.h"
-#include "rng.h"
-#include "map.h"
+
+#include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "emit.h"
 #include "enums.h"
 #include "fire.h"
-#include "game.h"
 #include "fungal_effects.h"
-#include "messages.h"
-#include "vpart_position.h"
-#include "translations.h"
-#include "material.h"
-#include "monster.h"
-#include "npc.h"
-#include "trap.h"
+#include "game.h"
 #include "itype.h"
-#include "emit.h"
-#include "vehicle.h"
-#include "output.h"
-#include "calendar.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "emit.h"
-#include "scent_map.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "morale_types.h"
+#include "mapdata.h"
+#include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
+#include "output.h"
+#include "rng.h"
+#include "scent_map.h"
+#include "submap.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
-#include <queue>
 #include <algorithm>
+#include <queue>
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -513,9 +511,8 @@ bool map::process_fields()
     bool dirty_transparency_cache = false;
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    bool zlev_dirty;
     for( int z = minz; z <= maxz; z++ ) {
-        zlev_dirty = false;
+        bool zlev_dirty = false;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
                 submap *const current_submap = get_submap_at_grid( x, y, z );
@@ -737,7 +734,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
     //Holds m.field_at(x,y).findField(fd_some_field) type returns.
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
-    field_id curtype; //Holds cur.getFieldType() as that is what the old system used before rewrite.
 
     tripoint thep;
     thep.z = submap_z;
@@ -771,7 +767,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     continue;
                 }
 
-                curtype = cur.getFieldType();
+                //Holds cur.getFieldType() as that is what the old system used before rewrite.
+                field_id curtype = cur.getFieldType();
                 // Again, legacy support in the event someone Mods setFieldDensity to allow more values.
                 if( cur.getFieldDensity() > 3 || cur.getFieldDensity() < 1 ) {
                     debugmsg( "Whoooooa density of %d", cur.getFieldDensity() );
@@ -783,7 +780,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 int part;
-                vehicle *veh;
                 switch( curtype ) {
                     case fd_null:
                     case num_fields:
@@ -937,7 +933,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
 
                         //Get the part of the vehicle in the fire.
-                        veh = veh_at_internal( p, part ); // _internal skips the boundary check
+                        vehicle *veh = veh_at_internal( p, part ); // _internal skips the boundary check
                         if( veh != nullptr ) {
                             veh->damage( part, cur.getFieldDensity() * 10, DT_HEAT, true );
                             //Damage the vehicle in the fire.
@@ -2709,7 +2705,7 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
                     continue;
                 }
 
-                open.push( { ( float )rl_dist( center, pt ), pt } );
+                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
             }
         }
     }

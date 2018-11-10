@@ -1,20 +1,19 @@
 #include "visitable.h"
 
-#include "string_id.h"
-#include "debug.h"
-#include "item.h"
-#include "inventory.h"
-#include "character.h"
-#include "map_selector.h"
-#include "vehicle_selector.h"
 #include "bionics.h"
-#include "map.h"
-#include "submap.h"
-#include "vehicle.h"
-#include "veh_type.h"
+#include "character.h"
+#include "debug.h"
 #include "game.h"
-#include "itype.h"
+#include "inventory.h"
+#include "item.h"
+#include "map.h"
+#include "map_selector.h"
 #include "player.h"
+#include "string_id.h"
+#include "submap.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 
 /** @relates visitable */
 template <typename T>
@@ -823,7 +822,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
 
     if( what == "toolset" ) {
         if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
-            return std::min( ( long )p->power_level, limit );
+            return std::min( static_cast<long>( p->power_level ), limit );
         } else {
             return 0;
         }

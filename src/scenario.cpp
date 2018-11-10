@@ -1,20 +1,17 @@
 #include "scenario.h"
-#include <iostream>
-#include <sstream>
+
+#include "addiction.h"
+#include "debug.h"
+#include "generic_factory.h"
+#include "json.h"
+#include "map_extras.h"
+#include "mutation.h"
+#include "player.h"
+#include "profession.h"
+#include "translations.h"
+
 #include <algorithm>
 #include <cmath>
-
-#include "debug.h"
-#include "json.h"
-#include "player.h"
-#include "translations.h"
-#include "pldata.h"
-#include "addiction.h"
-#include "profession.h"
-#include "mutation.h"
-#include "mapgen.h"
-#include "map_extras.h"
-#include "generic_factory.h"
 
 namespace
 {

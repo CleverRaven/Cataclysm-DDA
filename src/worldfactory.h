@@ -7,11 +7,10 @@
 #include "string_id.h"
 
 #include <functional>
-#include <map>
-#include <vector>
-#include <string>
-#include <memory>
 #include <iosfwd>
+#include <map>
+#include <memory>
+#include <vector>
 
 class JsonIn;
 class JsonObject;
@@ -128,7 +127,6 @@ class worldfactory
         static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
-    protected:
     private:
         std::map<std::string, WORLDPTR> all_worlds;
 

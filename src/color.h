@@ -3,11 +3,11 @@
 #define COLOR_H
 
 #include <array>
-#include <string>
+#include <functional>
 #include <list>
+#include <string>
 #include <unordered_map>
 #include <utility>
-#include <functional>
 
 #define all_colors get_all_colors()
 
@@ -414,7 +414,7 @@ class color_manager
         bool save_custom();
 
     public:
-        color_manager() {};
+        color_manager() = default;
 
         nc_color get( const color_id id ) const;
 

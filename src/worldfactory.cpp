@@ -1,22 +1,22 @@
 #include "worldfactory.h"
-#include "filesystem.h"
-#include "char_validity_check.h"
-#include "mod_manager.h"
-#include "path_info.h"
-#include "debug.h"
-#include "mapsharing.h"
-#include "cursesdef.h"
-#include "gamemode.h"
-#include "translations.h"
-#include "input.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "enums.h"
-#include "catacharset.h"
+
 #include "cata_utility.h"
-#include "calendar.h"
-#include "name.h"
+#include "catacharset.h"
+#include "char_validity_check.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
+#include "filesystem.h"
+#include "gamemode.h"
+#include "input.h"
 #include "json.h"
+#include "mapsharing.h"
+#include "mod_manager.h"
+#include "name.h"
+#include "output.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 #include <algorithm>
 
@@ -154,7 +154,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
                                     iOffsetX );
 
         int curtab = 0;
-        int lasttab; // give placement memory to menus, sorta.
+        int lasttab = 0; // give placement memory to menus, sorta.
         const size_t numtabs = tabs.size();
         while( static_cast<size_t>( curtab ) < numtabs ) {
             lasttab = curtab;

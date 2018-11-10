@@ -4,22 +4,18 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "item_group.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
-#include "mongroup.h"
-#include "mtype.h"
-#include "vpart_range.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "trap.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
-#include "veh_type.h"
+#include "vpart_range.h"
 
 namespace MapExtras
 {
@@ -845,4 +841,4 @@ map_special_pointer get_function( const std::string &name )
     return iter->second;
 }
 
-};
+}

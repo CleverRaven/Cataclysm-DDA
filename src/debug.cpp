@@ -1,21 +1,23 @@
 #include "debug.h"
-#include "path_info.h"
-#include "output.h"
-#include "filesystem.h"
+
 #include "cursesdef.h"
+#include "filesystem.h"
 #include "input.h"
-#include <time.h>
-#include <cassert>
-#include <cstdlib>
-#include <cstdarg>
-#include <cstring>
+#include "output.h"
+#include "path_info.h"
+
 #include <algorithm>
-#include <iosfwd>
-#include <iomanip>
+#include <cassert>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <exception>
 #include <fstream>
+#include <iomanip>
+#include <iosfwd>
 #include <streambuf>
 #include <sys/stat.h>
-#include <exception>
 
 #ifndef _MSC_VER
 #include <sys/time.h>
@@ -26,8 +28,8 @@
 #include "platform_win.h"
 #include <dbghelp.h>
 #else
+#include <cstdlib>
 #include <execinfo.h>
-#include <stdlib.h>
 #endif
 #endif
 
@@ -205,7 +207,7 @@ void *tracePtrs[TRACE_SIZE];
 // ---------------------------------------------------------------------
 
 struct NullBuf : public std::streambuf {
-    NullBuf() {}
+    NullBuf() = default;
     int overflow( int c ) override {
         return c;
     }

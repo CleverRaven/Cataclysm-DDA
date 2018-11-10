@@ -522,6 +522,12 @@ For SDL:
 
 For `app` builds, launch Cataclysm.app from Finder.
 
+### Test suite
+
+The build will also generate a test executable at tests/cata_test.
+Invoke it as you would any other executable and it will run the full suite of tests.
+Pass the ``--help`` flag to list options.
+
 ### dmg distribution
 
 You can build a nice dmg distribution file with the `dmgdist` target. You will need a tool called [dmgbuild](https://pypi.python.org/pypi/dmgbuild). To install this tool, you will need Python first. If you are on Mac OS X >= 10.8, Python 2.7 is pre-installed with the OS. If you are on an older version of OS X, you can download Python [on their official website](https://www.python.org/downloads/) or install it with homebrew `brew install python`. Once you have Python, you should be able to install `dmgbuild` by running:

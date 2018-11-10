@@ -29,7 +29,7 @@ class scent_map
         const game &gm;
 
     public:
-        scent_map( const game &g ) : gm( g ) { };
+        scent_map( const game &g ) : gm( g ) { }
 
         void deserialize( const std::string &data );
         std::string serialize() const;
