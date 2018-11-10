@@ -1950,6 +1950,16 @@ cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
     return part;
 }
 
+cata::optional<vpart_reference> vpart_position::part_displayed() const
+{
+    const point mnt = mount();
+    int part_id = vehicle().part_displayed_at( mnt.x, mnt.y );
+    if( part_id == -1 ) {
+        return cata::nullopt;
+    }
+    return vpart_reference( vehicle(), part_id );
+}
+
 cata::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
         const bool unbroken ) const
 {
@@ -1985,6 +1995,11 @@ cata::optional<vpart_reference> optional_vpart_position::part_with_feature( cons
 cata::optional<vpart_reference> optional_vpart_position::obstacle_at_part() const
 {
     return has_value() ? value().obstacle_at_part() : cata::nullopt;
+}
+
+cata::optional<vpart_reference> optional_vpart_position::part_displayed() const
+{
+    return has_value() ? value().part_displayed() : cata::nullopt;
 }
 
 int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
