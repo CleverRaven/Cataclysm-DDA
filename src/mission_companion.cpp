@@ -1730,11 +1730,8 @@ std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
         }
 
         bool operator()( npc *first, npc *second ) {
-            if( first->get_skill_level( skill_id( skill_tested ) ) > second->get_skill_level( skill_id(
-                        skill_tested ) ) ) {
-                return true;
-            }
-            return false;
+            return first->get_skill_level( skill_id( skill_tested ) ) > second->get_skill_level(
+                       skill_id( skill_tested ) );
         }
 
         std::string skill_tested;

@@ -2143,8 +2143,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const int bonus = e.bonus;
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
-        const nc_color state_col = limb_color( bp, bleed > 0.0f ? true : false, bite > 0.0f ? true : false,
-                                               infect > 0.0f ? true : false );
+        const nc_color state_col = limb_color( bp, bleed > 0.0f, bite > 0.0f, infect > 0.0f );
         const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );

@@ -349,11 +349,7 @@ std::string options_manager::cOpt::getPrerequisite() const
 
 bool options_manager::cOpt::hasPrerequisite() const
 {
-    if( !sPrerequisite.empty() ) {
-        return true;
-    }
-
-    return false;
+    return !sPrerequisite.empty();
 }
 
 //helper functions

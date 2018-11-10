@@ -2600,7 +2600,7 @@ tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, 
 
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
-    if( must_see && overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) == false ) {
+    if( must_see && !overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) ) {
         errors = true;
         popup( _( "You must be able to see the target that you select." ) );
     }

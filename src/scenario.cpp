@@ -296,11 +296,7 @@ bool scenario::allowed_start( const start_location_id &loc ) const
 
 bool scenario::can_pick( const scenario &current_scenario, const int points ) const
 {
-    if( point_cost() - current_scenario.point_cost() > points ) {
-        return false;
-    }
-
-    return true;
+    return point_cost() - current_scenario.point_cost() <= points;
 }
 bool scenario::has_map_special() const
 {

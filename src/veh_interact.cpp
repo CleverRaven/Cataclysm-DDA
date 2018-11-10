@@ -2231,7 +2231,7 @@ void veh_interact::display_details( const vpart_info *part )
     int col_1 = 2;
     int col_2 = col_1 + column_width;
     int line = 0;
-    bool small_mode = column_width < 20 ? true : false;
+    bool small_mode = column_width < 20;
 
     // line 0: part name
     fold_and_print( w_details, line, col_1, details_w, c_light_green, part->name() );

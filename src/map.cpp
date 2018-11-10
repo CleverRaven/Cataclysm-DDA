@@ -2266,29 +2266,18 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
     }
 
     const auto &ter_bash = ter( p ).obj().bash;
-    if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
-        return true;
-    }
-
-    return false;
+    return ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor );
 }
 
 bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
 {
     const auto &ter_bash = ter( p ).obj().bash;
-    if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
-        return true;
-    }
-
-    return false;
+    return ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor );
 }
 
 bool map::is_bashable_furn( const tripoint &p ) const
 {
-    if( has_furn( p ) && furn( p ).obj().bash.str_max != -1 ) {
-        return true;
-    }
-    return false;
+    return has_furn( p ) && furn( p ).obj().bash.str_max != -1;
 }
 
 bool map::is_bashable_ter_furn( const tripoint &p, const bool allow_floor ) const
