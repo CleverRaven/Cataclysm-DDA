@@ -1073,7 +1073,7 @@ bool wants_to_reload( const npc &who, const item &it )
 
 bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    return !( ammo.is_magazine() && ( ammo.ammo_remaining() <= weap.ammo_remaining() ) );
+    return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
 item &npc::find_reloadable()
