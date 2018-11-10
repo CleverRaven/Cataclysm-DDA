@@ -7,6 +7,7 @@
 #include "enums.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "translations.h"
 
 #include <unordered_map>
 #include <tuple>
@@ -115,7 +116,7 @@ class effect_type
         // It needs to be set for monster::move_effects
         bool impairs_movement;
 
-        std::vector<std::string> name;
+        std::vector<translation> name;
         std::string speed_mod_name;
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;

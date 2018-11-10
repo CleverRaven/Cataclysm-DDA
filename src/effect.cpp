@@ -7,7 +7,6 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
 
 #include <map>
 #include <sstream>
@@ -473,17 +472,17 @@ std::string effect::disp_name() const
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::ostringstream ret;
     if( eff_type->use_name_ints() ) {
-        const std::string &d_name = eff_type->name[ std::min<size_t>( intensity,
+        const translation &d_name = eff_type->name[ std::min<size_t>( intensity,
                                                       eff_type->name.size() ) - 1 ];
         if( d_name.empty() ) {
-            return "";
+            return std::string();
         }
-        ret << _( d_name.c_str() );
+        ret << d_name.translated();
     } else {
         if( eff_type->name[0].empty() ) {
-            return "";
+            return std::string();
         }
-        ret << _( eff_type->name[0].c_str() );
+        ret << eff_type->name[0].translated();
         if( intensity > 1 ) {
             if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
                 ret << " [" << texitify_healing_power( intensity ) << "]";
@@ -1139,11 +1138,11 @@ std::string effect::get_speed_name() const
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
     if( !eff_type->speed_mod_name.empty() ) {
-        return eff_type->speed_mod_name;
+        return _( eff_type->speed_mod_name.c_str() );
     } else if( eff_type->use_name_ints() ) {
-        return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];
+        return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ].translated();
     } else if( !eff_type->name.empty() ) {
-        return eff_type->name[0];
+        return eff_type->name[0].translated();
     } else {
         return "";
     }
@@ -1182,10 +1181,14 @@ void load_effect_type( JsonObject &jo )
     if( jo.has_member( "name" ) ) {
         JsonArray jsarr = jo.get_array( "name" );
         while( jsarr.has_more() ) {
-            new_etype.name.push_back( jsarr.next_string() );
+            translation name;
+            if( !jsarr.read_next( name ) ) {
+                jsarr.throw_error( "Error reading effect names" );
+            }
+            new_etype.name.emplace_back( name );
         }
     } else {
-        new_etype.name.push_back( "" );
+        new_etype.name.emplace_back();
     }
     new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
 

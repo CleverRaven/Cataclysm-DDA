@@ -152,7 +152,7 @@ std::string item_action_generator::get_action_name( const item_action_id &id ) c
 {
     const auto &act = get_action( id );
     if( !act.name.empty() ) {
-        return _( act.name.c_str() );
+        return act.name.translated();
     }
 
     return id;
@@ -179,11 +179,8 @@ void item_action_generator::load_item_action( JsonObject &jo )
     item_action ia;
 
     ia.id = jo.get_string( "id" );
-    ia.name = jo.get_string( "name", "" );
-    if( !ia.name.empty() ) {
-        ia.name = _( ia.name.c_str() );
-    } else {
-        ia.name = ia.id;
+    if( !jo.read( "name", ia.name ) || ia.name.empty() ) {
+        ia.name = no_translation( ia.id );
     }
 
     item_actions[ia.id] = ia;
@@ -222,8 +219,8 @@ void game::item_action_menu()
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
     for( const auto &id : item_actions ) {
-        ctxt.register_action( id.first, id.second.name );
-        kmenu.additional_actions.emplace_back( id.first, id.second.name );
+        ctxt.register_action( id.first, id.second.name.translated() );
+        kmenu.additional_actions.emplace_back( id.first, id.second.name.translated() );
     }
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;
