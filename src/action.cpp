@@ -481,6 +481,7 @@ bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
     const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
+    const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
     auto items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
@@ -488,7 +489,7 @@ bool can_butcher_at( const tripoint &p )
     const inventory &crafting_inv = g->u.crafting_inventory();
     for( auto &items_it : items ) {
         if( items_it.is_corpse() ) {
-            if( factor != INT_MIN ) {
+            if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
         } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {

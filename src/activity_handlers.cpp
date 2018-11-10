@@ -253,9 +253,10 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
-    int factor = u.max_quality( quality_id( "BUTCHER" ) );
+    int factor = u.max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
+                                quality_id( "BUTCHER" ) );
     auto items = g->m.i_at( u.pos() );
-    if( static_cast<size_t>( act.index ) >= items.size() || factor == INT_MIN ) {
+    if( static_cast<size_t>( act.index ) >= items.size() ) {
         // Let it print a msg for lack of corpses
         act.index = INT_MAX;
         return;
@@ -264,13 +265,19 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     item corpse_item = items[act.index];
     const mtype &corpse = *( corpse_item.get_mtype() );
 
-    if( action != DISSECT && u.max_quality( quality_id( "BUTCHER" ) ) < 0 && one_in( 3 ) ) {
-        u.add_msg_if_player( m_bad,
-                             _( "You don't trust the quality of your tools, but carry on anyway." ) );
+    if( action != DISSECT ) {
+        if( factor == INT_MIN ) {
+            u.add_msg_if_player( m_info,
+                                 _( "None of your cutting tools are suitable for butchering." ) );
+            act.set_to_null();
+            return;
+        } else if( factor < 0 && one_in( 3 ) ) {
+            u.add_msg_if_player( m_bad,
+                                 _( "You don't trust the quality of your tools, but carry on anyway." ) );
+        }
     }
 
     if( action == DISSECT ) {
-        factor = u.max_quality( quality_id( "CUT_FINE" ) );
         switch( factor ) {
             case INT_MIN:
                 u.add_msg_if_player( m_info, _( "None of your tools are sharp and precise enough to do that." ) );
@@ -1066,14 +1073,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     int skill_level = p->get_skill_level( skill_survival );
-    int factor = p->max_quality( quality_id( "BUTCHER" ) );
+    int factor = p->max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
+                                 quality_id( "BUTCHER" ) );
 
     // DISSECT has special case factor calculation and results.
     if( action == DISSECT ) {
         skill_level = p->get_skill_level( skill_firstaid );
         skill_level += p->max_quality( quality_id( "CUT_FINE" ) );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
-        factor = 0;
     }
 
     auto roll_butchery = [&]() {
