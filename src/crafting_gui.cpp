@@ -878,7 +878,8 @@ static bool query_is_yes( const std::string &query )
     const std::string subquery = query.substr( 2 );
 
     return ( ( subquery == "yes" ) || ( subquery == "y" ) || ( subquery == "1" ) ||
-             ( subquery == "true" ) || ( subquery == "t" ) || ( subquery == "on" ) );
+             ( subquery == "true" ) || ( subquery == "t" ) || ( subquery == "on" ) ||
+             ( subquery == _( "yes" ) ) );
 }
 
 static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount )
