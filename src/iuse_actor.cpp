@@ -228,7 +228,7 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname().c_str() ) );
     if( countdown > 0 ) {
-        dump.emplace_back( "TOOL", _( "Countdown: " ), "", countdown );
+        dump.emplace_back( "TOOL", _( "Countdown: " ), countdown );
     }
 
     const auto *explosion_use = dummy.get_use( "explosion" );
@@ -288,7 +288,7 @@ std::string countdown_actor::get_name() const
 
 void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "Countdown: " ), "",
+    dump.emplace_back( "TOOL", _( "Countdown: " ),
                        interval > 0 ? interval : it.type->countdown_interval );
     const auto countdown_actor = it.type->countdown_action.get_actor_ptr();
     if( countdown_actor != nullptr ) {
@@ -385,11 +385,11 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         return;
     }
 
-    dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
+    dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), explosion.power );
     const auto &sd = explosion.shrapnel;
     if( sd.casing_mass > 0 ) {
-        dump.emplace_back( "TOOL", _( "Casing <bold>mass</bold>: " ), "", sd.casing_mass );
-        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), "", sd.fragment_mass );
+        dump.emplace_back( "TOOL", _( "Casing <bold>mass</bold>: " ), sd.casing_mass );
+        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), sd.fragment_mass );
     }
 }
 
@@ -2179,18 +2179,21 @@ void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
     std::string message = ngettext( "Can be activated to store a suitable item.",
                                     "Can be activated to store suitable items.", multi );
     dump.emplace_back( "DESCRIPTION", message );
-    dump.emplace_back( "TOOL", _( "Num items: " ), "<num>", multi );
+    dump.emplace_back( "TOOL", _( "Num items: " ), "<num>", iteminfo::no_flags, multi );
     dump.emplace_back( "TOOL", _( "Item volume: Min: " ),
                        string_format( "<num> %s", volume_units_abbr() ),
-                       convert_volume( min_volume.value() ), false, "", false, true );
+                       iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better,
+                       convert_volume( min_volume.value() ) );
     dump.emplace_back( "TOOL", _( "  Max: " ),
                        string_format( "<num> %s", volume_units_abbr() ),
-                       convert_volume( max_volume.value() ), false );
+                       iteminfo::is_decimal,
+                       convert_volume( max_volume.value() ) );
 
     if( max_weight > 0 ) {
         dump.emplace_back( "TOOL", "Max item weight: ",
                            string_format( _( "<num> %s" ), weight_units() ),
-                           convert_weight( max_weight ), false );
+                           iteminfo::is_decimal,
+                           convert_weight( max_weight ) );
     }
 }
 
@@ -3271,16 +3274,17 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
 void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base healing:</bold> " ), "", -999, true, "", true );
-        dump.emplace_back( "TOOL", _( "Head: " ), "", head_power, true, "", false );
-        dump.emplace_back( "TOOL", _( "  Torso: " ), "", torso_power, true, "", false );
-        dump.emplace_back( "TOOL", _( "  Limbs: " ), "", limb_power, true, "", true );
+        dump.emplace_back( "TOOL", _( "<bold>Base healing:</bold> " ) );
+        dump.emplace_back( "TOOL", _( "Head: " ), "", iteminfo::no_newline, head_power );
+        dump.emplace_back( "TOOL", _( "  Torso: " ), "", iteminfo::no_newline, torso_power );
+        dump.emplace_back( "TOOL", _( "  Limbs: " ), limb_power );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual healing:</bold> " ), "", -999, true, "", true );
-            dump.emplace_back( "TOOL", _( "Head: " ), "", get_heal_value( g->u, hp_head ), true, "", false );
-            dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "",
-                               false );
-            dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Actual healing:</bold> " ) );
+            dump.emplace_back( "TOOL", _( "Head: " ), "", iteminfo::no_newline,
+                               get_heal_value( g->u, hp_head ) );
+            dump.emplace_back( "TOOL", _( "  Torso: " ), "", iteminfo::no_newline,
+                               get_heal_value( g->u, hp_torso ) );
+            dump.emplace_back( "TOOL", _( "  Limbs: " ), get_heal_value( g->u, hp_arm_l ) );
         }
     }
 
@@ -3303,25 +3307,22 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
-        dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, true, "",
-                           true );
+        dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ) );
         if( bleed > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Bleeding</bold>:" ), "", static_cast<int>( bleed * 100 ),
-                               true, "",
-                               true );
+            dump.emplace_back( "TOOL", _( "<bold>* Bleeding</bold>:" ),
+                               static_cast<int>( bleed * 100 ) );
         }
         if( bite > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Bite</bold>:" ), "", static_cast<int>( bite * 100 ), true,
-                               "", true );
+            dump.emplace_back( "TOOL", _( "<bold>* Bite</bold>:" ),
+                               static_cast<int>( bite * 100 ) );
         }
         if( infect > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Infection</bold>:" ), "", static_cast<int>( infect * 100 ),
-                               true, "",
-                               true );
+            dump.emplace_back( "TOOL", _( "<bold>* Infection</bold>:" ),
+                               static_cast<int>( infect * 100 ) );
         }
     }
 
-    dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
+    dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), move_cost );
 }
 
 place_trap_actor::place_trap_actor( const std::string &type ) :

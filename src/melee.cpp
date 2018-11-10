@@ -1833,8 +1833,7 @@ void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit )
 {
     std::string msg;
-    game_message_type msgtype;
-    msgtype = m_good;
+    game_message_type msgtype = m_good;
     std::string sSCTmod = "";
     game_message_type gmtSCTcolor = m_good;
 

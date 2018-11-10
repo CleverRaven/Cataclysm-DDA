@@ -420,7 +420,7 @@ static int find_minimum_fold_width( const std::string &str, int max_lines,
         }
     }
     return min_width;
-};
+}
 
 /**
  * Calculate sizes, populate arrays, initialize window

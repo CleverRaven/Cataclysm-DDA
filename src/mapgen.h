@@ -49,7 +49,7 @@ class mapgen_function_builtin : public virtual mapgen_function
         building_gen_pointer fptr;
         mapgen_function_builtin( building_gen_pointer ptr, int w = 1000 ) : mapgen_function( w ),
             fptr( ptr ) {
-        };
+        }
         void generate( map *m, const oter_id &o, const mapgendata &mgd, const time_point &i,
                        float d ) override;
 };
@@ -275,7 +275,7 @@ class mapgen_function_json_base
         void setup_setmap( JsonArray &parray );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;
-        virtual void setup_setmap_internal() { };
+        virtual void setup_setmap_internal() { }
 
         void formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const;
 

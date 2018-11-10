@@ -12,7 +12,7 @@ class map;
 class map_cursor : public tripoint, public visitable<map_cursor>
 {
     public:
-        map_cursor( const tripoint &pos ) : tripoint( pos ) {};
+        map_cursor( const tripoint &pos ) : tripoint( pos ) {}
 };
 
 class map_selector : public visitable<map_selector>

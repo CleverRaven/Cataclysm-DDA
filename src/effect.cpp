@@ -507,7 +507,7 @@ struct desc_freq {
     std::string neg_string;
 
     desc_freq( double c, int v, const std::string &pos, const std::string &neg ) : chance( c ),
-        val( v ), pos_string( pos ), neg_string( neg ) {};
+        val( v ), pos_string( pos ), neg_string( neg ) {}
 };
 
 std::string effect::disp_desc( bool reduced ) const

@@ -140,16 +140,6 @@ void fopen_exclusive( std::ofstream &fout, const char *filename,
         fout.open( filename, mode );
     }
 }
-/*
-std::ofstream fopen_exclusive(const char* filename) {
-    std::string lockfile = std::string(filename)+".lock";
-    std::ofstream fout;
-    lockFiles[lockfile] = getLock(lockfile);
-    if(lockFiles[lockfile] != -1) {
-        fout.open(filename, std::fstream::ios_base::out);
-    }
-    return fout;
-} */
 
 void fclose_exclusive( std::ofstream &fout, const char *filename )
 {

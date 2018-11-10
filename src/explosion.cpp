@@ -28,9 +28,6 @@
 #include <queue>
 #include <random>
 
-
-
-
 static const itype_id null_itype( "null" );
 
 explosion_data load_explosion_data( JsonObject &jo )

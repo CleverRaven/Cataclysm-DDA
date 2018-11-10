@@ -2911,9 +2911,8 @@ void mattack::tankgun( monster *z, Creature *target )
         z->ammo[ammo_type] = 40;
     }
 
-    tripoint aim_point;
     int dist = rl_dist( z->pos(), target->pos() );
-    aim_point = target->pos();
+    tripoint aim_point = target->pos();
     if( dist > 50 ) {
         return;
     }

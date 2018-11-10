@@ -144,7 +144,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         requirement_data::load_requirement( src, req_id );
         reqs = { { req_id, 1 } };
     }
-};
+}
 
 /**
  * Reads engine info from a JsonObject.

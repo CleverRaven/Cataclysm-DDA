@@ -2297,7 +2297,7 @@ std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs>
 std::string npc::get_need_str_id( const npc_need &need )
 {
     return need_data[static_cast<size_t>( need )].first;
-};
+}
 
 overmap_location_str_id npc::get_location_for( const npc_need &need )
 {

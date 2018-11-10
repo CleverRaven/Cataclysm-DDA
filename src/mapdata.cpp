@@ -182,7 +182,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     explosive( 0 ), sound_vol( -1 ), sound_fail_vol( -1 ),
     collapse_radius( 1 ), destroy_only( false ), bash_below( false ),
     drop_group( "EMPTY_GROUP" ),
-    ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
+    ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_furniture )
 {
@@ -235,7 +235,7 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
 }
 
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
-    ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
+    ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, bool is_furniture )
 {
@@ -273,7 +273,7 @@ furn_t null_furniture_t()
 
 ter_t::ter_t() : open( ter_str_id::NULL_ID() ), close( ter_str_id::NULL_ID() ),
     transforms_into( ter_str_id::NULL_ID() ),
-    roof( ter_str_id::NULL_ID() ), trap( tr_null ) {};
+    roof( ter_str_id::NULL_ID() ), trap( tr_null ) {}
 
 ter_t null_terrain_t()
 {
@@ -1145,7 +1145,7 @@ void ter_t::check() const
     }
 }
 
-furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {};
+furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {}
 
 size_t furn_t::count()
 {

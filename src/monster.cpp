@@ -1182,8 +1182,6 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     const bool u_see_me = g->u.sees( *this );
 
-    body_part bp_hit;
-
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
         damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
@@ -1194,7 +1192,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( hitspread >= 0 ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
-    bp_hit = dealt_dam.bp_hit;
+    body_part bp_hit = dealt_dam.bp_hit;
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
