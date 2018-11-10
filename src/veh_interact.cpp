@@ -2263,7 +2263,7 @@ void veh_interact::display_details( const vpart_info *part )
     if( part->size > 0 && part->has_flag( VPFLAG_CARGO ) ) {
         fold_and_print( w_details, line+3, col_1, column_width, c_white,
                        "%s: <color_light_gray>%s %s</color>", small_mode ? _( "Cap" ) : _( "Capacity" ),
-                       format_volume( part->size ).c_str(), volume_units_abbr());
+                       format_volume( part->size ).c_str(), volume_units_abbr() );
     }
 
     if( part->bonus > 0 ) {
