@@ -959,7 +959,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     const islot_seed &seed_data = *seed.type->seed;
                     tmp = item( seed_data.fruit_id, calendar::turn );
                     check = false;
-                    for( auto elem : plant_names ) {
+                    for( const std::string &elem : plant_names ) {
                         if( elem == tmp.type_name( 3 ).c_str() ) {
                             check = true;
                         }

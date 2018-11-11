@@ -653,7 +653,7 @@ void draw_tabs( const catacurses::window &w, const std::string &sTab )
     size_t temp_len = 0;
     size_t tabs_length = 0;
     std::vector<int> tab_len;
-    for( auto tab_name : tab_captions ) {
+    for( const std::string &tab_name : tab_captions ) {
         // String length + borders
         temp_len = utf8_width( tab_name ) + 2;
         tabs_length += temp_len;

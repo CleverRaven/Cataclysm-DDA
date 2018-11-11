@@ -1346,7 +1346,7 @@ class jmapgen_nested : public jmapgen_piece
                         }
 
                         bool this_direction_matches = false;
-                        for( oter_str_id allowed_neighbor : allowed_neighbors ) {
+                        for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.neighbor_at( dir ).id() );
                         }
                         all_directions_match &= this_direction_matches;
@@ -1354,7 +1354,7 @@ class jmapgen_nested : public jmapgen_piece
 
                     if( !above.empty() ) {
                         bool above_matches = false;
-                        for( oter_str_id allowed_neighbor : above ) {
+                        for( const oter_str_id &allowed_neighbor : above ) {
                             above_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.above().id() );
                         }
                         all_directions_match &= above_matches;

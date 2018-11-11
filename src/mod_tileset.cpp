@@ -28,7 +28,7 @@ void load_mod_tileset_into_array( JsonObject &jsobj, const std::string &base_pat
 
     mod_tileset *new_mts = new mod_tileset( base_path, full_path, new_num_in_file );
     std::vector<std::string> compatibility = jsobj.get_string_array( "compatibility" );
-    for( auto compatible_tileset_id : compatibility ) {
+    for( const std::string &compatible_tileset_id : compatibility ) {
         new_mts->add_compatible_tileset( compatible_tileset_id );
     }
     mod_tileset_array.push_back( new_mts );

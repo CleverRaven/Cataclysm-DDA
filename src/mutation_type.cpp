@@ -35,7 +35,7 @@ std::vector<trait_id> get_mutations_in_type( const std::string &id )
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 {
     std::vector<trait_id> ret;
-    for( auto it : ids ) {
+    for( const std::string &it : ids ) {
         std::vector<trait_id> this_id = get_mutations_in_type( it );
         ret.insert( ret.end(), this_id.begin(), this_id.end() );
     }

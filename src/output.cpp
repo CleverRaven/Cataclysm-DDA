@@ -190,7 +190,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
         std::string sColor;
 
         const auto color_segments = split_by_color( text );
-        for( auto seg : color_segments ) {
+        for( const std::string &seg : color_segments ) {
             sColor.clear();
 
             if( !seg.empty() && ( seg.substr( 0, 7 ) == "<color_" || seg.substr( 0, 7 ) == "</color" ) ) {

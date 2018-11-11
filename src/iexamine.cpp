@@ -1935,7 +1935,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
-    for( auto i : items ) {
+    for( const item &i : items ) {
         if( i.typeId() == "charcoal" ) {
             add_msg( _("This kiln already contains charcoal.") );
             add_msg( _("Remove it before firing the kiln again.") );
@@ -1959,7 +1959,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0;
-    for( auto i : items ) {
+    for( const item &i : items ) {
         total_volume += i.volume();
     }
 
@@ -3047,7 +3047,7 @@ static int getGasDiscountCardQuality( const item &it )
 {
     std::set<std::string> tags = it.type->item_tags;
 
-    for( auto tag : tags ) {
+    for( const std::string &tag : tags ) {
 
         if( tag.size() > 15 && tag.substr(0, 15) == "DISCOUNT_VALUE_" ) {
             return atoi(tag.substr(15).c_str());
@@ -3962,14 +3962,14 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     // hack, because consume_items doesn't seem to care of what item is consumed despite filters
     // TODO: find a way to filter out rotten items from those actualy consumed
     bool rotted = false;
-    for( item m : moved ) {
+    for( const item &m : moved ) {
         if( m.rotten() ) {
             rotted = true;
         }
     }
     if( rotted ) {
         add_msg(m_info, _( "You have rotten food mixed with fresh.  Get rid of it first." ) );
-        for( item m : moved ) {
+        for( const item &m : moved ) {
            g->m.add_item( p.pos(), m );
            p.mod_moves( -p.item_handling_cost( m ) );
         }

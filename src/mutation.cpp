@@ -716,12 +716,12 @@ void player::mutate_category( const std::string &cat )
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
 {
     std::vector<trait_id> ret;
-    for( auto it : id->prereqs ) {
+    for( const trait_id &it : id->prereqs ) {
         ret.push_back( it );
         std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
         ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
     }
-    for( auto it : id->prereqs2 ) {
+    for( const trait_id &it : id->prereqs2 ) {
         ret.push_back( it );
         std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
         ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );

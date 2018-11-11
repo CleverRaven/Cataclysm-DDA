@@ -4095,7 +4095,7 @@ const std::map<quality_id, int> &item::quality_of() const
 std::vector<const material_type *> item::made_of_types() const
 {
     std::vector<const material_type *> material_types_composed_of;
-    for( auto mat_id : made_of() ) {
+    for( const material_id &mat_id : made_of() ) {
         material_types_composed_of.push_back( &mat_id.obj() );
     }
     return material_types_composed_of;

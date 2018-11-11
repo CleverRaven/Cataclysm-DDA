@@ -353,7 +353,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
 
 bool ma_requirements::is_valid_weapon( const item &i ) const
 {
-    for( auto flag : req_flags ) {
+    for( const std::string &flag : req_flags ) {
         if( !i.has_flag( flag ) ) {
             return false;
         }
