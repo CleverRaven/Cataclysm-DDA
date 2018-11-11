@@ -8179,12 +8179,12 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     ctxt.register_action( "DOWN", _( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
-    ctxt.register_action( "SAFEMODE_BLACKLIST_REMOVE" );
+    ctxt.register_action( _( "SAFEMODE_BLACKLIST_ADD" ) );
+    ctxt.register_action( _( "SAFEMODE_BLACKLIST_REMOVE" ) );
     ctxt.register_action( "QUIT" );
     if( bVMonsterLookFire ) {
-        ctxt.register_action( "look" );
-        ctxt.register_action( "fire" );
+        ctxt.register_action( _( "look" ) );
+        ctxt.register_action( _( "fire" ) );
     }
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
