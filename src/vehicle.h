@@ -749,24 +749,35 @@ class vehicle
         vehicle_part_range get_all_parts() const;
         /**
          * Yields a range of parts of this vehicle that each have the given feature
-         * and are not broken. Removed parts are also excluded. The enabled status
-         * of the part is ignored.
+         * and are available: not broken, removed, or part of a carried vehicle.
+         * The enabled status of the part is ignored.
          */
         /**@{*/
-        vehicle_part_with_feature_range<std::string> get_parts( std::string feature ) const;
-        vehicle_part_with_feature_range<vpart_bitflags> get_parts( vpart_bitflags f ) const;
+        vehicle_part_with_feature_range<std::string> get_avail_parts( std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_avail_parts( vpart_bitflags f ) const;
         /**@}*/
         /**
-         * Like @ref get_parts, but also yields broken parts.
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are not broken or removed.
+         * The enabled status of the part is ignored.
          */
         /**@{*/
-        vehicle_part_with_feature_range<std::string> get_parts_including_broken(
+        vehicle_part_with_feature_range<std::string> get_parts_including_carried(
             std::string feature ) const;
-        vehicle_part_with_feature_range<vpart_bitflags> get_parts_including_broken(
+        vehicle_part_with_feature_range<vpart_bitflags> get_parts_including_carried(
             vpart_bitflags f ) const;
         /**@}*/
         /**
-         * Like @ref get_parts, but only yield enabled parts. They must still be unbroken.
+         * Yields a range of parts of this vehicle that each have the given feature and not removed.
+         * The enabled status of the part is ignored.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> get_any_parts( std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_any_parts( vpart_bitflags f ) const;
+        /**@}*/
+        /**
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are enabled and available: not broken, removed, or part of a carried vehicle.
          */
         /**@{*/
         vehicle_part_with_feature_range<std::string> get_enabled_parts( std::string feature ) const;

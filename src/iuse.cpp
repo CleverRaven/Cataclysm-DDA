@@ -6726,7 +6726,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     if( !veh.is_locked || !veh.has_security_working() ) {
         return true;
     }
-    const bool advanced = !empty( veh.get_parts( "REMOTE_CONTROLS" ) );
+    const bool advanced = !empty( veh.get_avail_parts( "REMOTE_CONTROLS" ) );
     if( advanced && veh.is_alarm_on ) {
         p.add_msg_if_player( m_bad, _( "This vehicle's security system has locked you out!" ) );
         return false;
@@ -6789,8 +6789,8 @@ vehicle *pickveh( const tripoint &center, bool advanced )
         auto &v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( "battery", true ) > 0 &&
-            ( !empty( v->get_parts( advctrl ) ) ||
-              ( !advanced && !empty( v->get_parts( ctrl ) ) ) ) ) {
+            ( !empty( v->get_avail_parts( advctrl ) ) ||
+              ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
         }
     }

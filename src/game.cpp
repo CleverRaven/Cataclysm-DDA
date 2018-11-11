@@ -921,7 +921,7 @@ bool game::start_game()
             std::string name = v.v->type.str();
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
-                for( const vpart_reference &vp : v.v->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
+                for( const vpart_reference &vp : v.v->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint pos = vp.pos();
                     u.setpos( pos );
 
@@ -10320,8 +10320,8 @@ bool game::plmove( int dx, int dy, int dz )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( "SWIMMABLE", u.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, u.pos() );
-    bool fromBoat = veh0 != nullptr && !empty( veh0->get_parts( VPFLAG_FLOATS ) );
-    bool toBoat = veh1 != nullptr && !empty( veh1->get_parts( VPFLAG_FLOATS ) );
+    bool fromBoat = veh0 != nullptr && !veh0->floating.empty();
+    bool toBoat = veh1 != nullptr && !veh1->floating.empty();
 
     if( toSwimmable && toDeepWater && !toBoat ) { // Dive into water!
         // Requires confirmation if we were on dry land previously
