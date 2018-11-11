@@ -45,7 +45,6 @@
     "entries": [
       { "group": "forage_mushroom", "prob": 50 },
       { "item": "wild_herbs", "prob": 10 },
-      { "item": "acorns", "prob": 100, "count-min": 2, "count-max": 3 },
       { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "garlic", "prob": 1 },

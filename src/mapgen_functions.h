@@ -1,13 +1,12 @@
 #pragma once
-#ifndef BUILDING_GENERATION_H
-#define BUILDING_GENERATION_H
+#ifndef MAPGEN_FUNCTIONS_H
+#define MAPGEN_FUNCTIONS_H
 
+#include "enums.h"
 #include "int_id.h"
 #include "weighted_list.h"
-#include "game_constants.h"
 
 #include <string>
-#include <map>
 
 class time_point;
 struct ter_t;

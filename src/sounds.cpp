@@ -1,32 +1,27 @@
 #include "sounds.h"
 
 #include "coordinate_conversions.h"
-#include "game.h"
-#include "map.h"
 #include "debug.h"
-#include "enums.h"
-#include "output.h"
-#include "overmapbuffer.h"
 #include "effect.h"
-#include "translations.h"
+#include "enums.h"
+#include "game.h"
+#include "item.h"
+#include "itype.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "line.h"
-#include "string_formatter.h"
-#include "mtype.h"
-#include "weather.h"
 #include "npc.h"
-#include "item.h"
+#include "output.h"
+#include "overmapbuffer.h"
 #include "player.h"
-#include "path_info.h"
-#include "options.h"
-#include "time.h"
-#include "mapdata.h"
-#include "itype.h"
-#include "map_iterator.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "weather.h"
 
-#include <chrono>
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 
 #ifdef SDL_SOUND
@@ -124,8 +119,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     // so we cluster sounds and apply the centroids of the sounds to the monster AI
     // to fight the combinatorial explosion.
     std::vector<centroid> sound_clusters;
-    const int num_seed_clusters = std::max( std::min( recent_sounds.size(), ( size_t ) 10 ),
-                                            ( size_t ) log( recent_sounds.size() ) );
+    const int num_seed_clusters = std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
+                                            static_cast<size_t>( log( recent_sounds.size() ) ) );
     const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
     const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE * SEEX, MAPSIZE * SEEY );
     // Randomly choose cluster seeds.
@@ -135,9 +130,9 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         sound_clusters.push_back(
             // Assure the compiler that these int->float conversions are safe.
         {
-            ( float ) recent_sounds[index].first.x, ( float ) recent_sounds[index].first.y,
-            ( float ) recent_sounds[index].first.z,
-            ( float ) recent_sounds[index].second, ( float ) recent_sounds[index].second
+            static_cast<float>( recent_sounds[index].first.x ), static_cast<float>( recent_sounds[index].first.y ),
+            static_cast<float>( recent_sounds[index].first.z ),
+            static_cast<float>( recent_sounds[index].second ), static_cast<float>( recent_sounds[index].second )
         } );
         vector_quick_remove( recent_sounds, index );
     }
@@ -148,23 +143,24 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         for( auto centroid_iter = sound_clusters.begin(); centroid_iter != cluster_end;
              ++centroid_iter ) {
             // Scale the distance between the two by the max possible distance.
-            tripoint centroid_pos { ( int ) centroid_iter->x, ( int ) centroid_iter->y, ( int ) centroid_iter->z };
+            tripoint centroid_pos { static_cast<int>( centroid_iter->x ), static_cast<int>( centroid_iter->y ), static_cast<int>( centroid_iter->z ) };
             const int dist = rl_dist( sound_event_pair.first, centroid_pos );
             if( dist * dist < dist_factor ) {
                 found_centroid = centroid_iter;
                 dist_factor = dist * dist;
             }
         }
-        const float volume_sum = ( float ) sound_event_pair.second + found_centroid->weight;
+        const float volume_sum = static_cast<float>( sound_event_pair.second ) + found_centroid->weight;
         // Set the centroid location to the average of the two locations, weighted by volume.
-        found_centroid->x = ( float )( ( sound_event_pair.first.x * sound_event_pair.second ) +
-                                       ( found_centroid->x * found_centroid->weight ) ) / volume_sum;
-        found_centroid->y = ( float )( ( sound_event_pair.first.y * sound_event_pair.second ) +
-                                       ( found_centroid->y * found_centroid->weight ) ) / volume_sum;
-        found_centroid->z = ( float )( ( sound_event_pair.first.z * sound_event_pair.second ) +
-                                       ( found_centroid->z * found_centroid->weight ) ) / volume_sum;
+        found_centroid->x = static_cast<float>( ( sound_event_pair.first.x * sound_event_pair.second ) +
+                                                ( found_centroid->x * found_centroid->weight ) ) / volume_sum;
+        found_centroid->y = static_cast<float>( ( sound_event_pair.first.y * sound_event_pair.second ) +
+                                                ( found_centroid->y * found_centroid->weight ) ) / volume_sum;
+        found_centroid->z = static_cast<float>( ( sound_event_pair.first.z * sound_event_pair.second ) +
+                                                ( found_centroid->z * found_centroid->weight ) ) / volume_sum;
         // Set the centroid volume to the larger of the volumes.
-        found_centroid->volume = std::max( found_centroid->volume, ( float ) sound_event_pair.second );
+        found_centroid->volume = std::max( found_centroid->volume,
+                                           static_cast<float>( sound_event_pair.second ) );
         // Set the centroid weight to the sum of the weights.
         found_centroid->weight = volume_sum;
     }
@@ -185,7 +181,7 @@ int get_signal_for_hordes( const centroid &centr )
     int vol_hordes = ( ( centr.z < 0 ) ? vol / ( underground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
         //Calculating horde hearing signal
-        int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
+        int sig_power = std::ceil( static_cast<float>( vol_hordes ) / hordes_sig_div );
         //Capping minimum horde hearing signal
         sig_power = std::max( sig_power, min_sig_cap );
         //Capping extremely high signal to hordes
@@ -245,8 +241,8 @@ void sounds::process_sound_markers( player *p )
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
         // deafened players or players with sub-par hearing to begin with.
-        const int felt_volume = ( int )( raw_volume * std::min( 1.0f,
-                                         volume_multiplier ) ) - distance_to_sound;
+        const int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
+                                volume_multiplier ) ) - distance_to_sound;
 
         // Deafening is based on the felt volume, as a player may be too deaf to
         // hear the deafening sound but still suffer additional hearing loss.
@@ -278,7 +274,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
-        const int heard_volume = ( int )( ( raw_volume - weather_vol ) * volume_multiplier ) -
+        const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) * volume_multiplier ) -
                                  distance_to_sound;
 
         if( heard_volume <= 0 && pos != p->pos() ) {
@@ -425,7 +421,8 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     std::vector<tripoint> cluster_centroids;
     cluster_centroids.reserve( sound_clusters.size() );
     for( const auto &sound : sound_clusters ) {
-        cluster_centroids.emplace_back( ( int )sound.x, ( int )sound.y, ( int )sound.z );
+        cluster_centroids.emplace_back( static_cast<int>( sound.x ), static_cast<int>( sound.y ),
+                                        static_cast<int>( sound.z ) );
     }
     return { sound_locations, cluster_centroids };
 }
@@ -931,15 +928,75 @@ void sfx::do_footstep()
         static std::set<ter_str_id> const grass = {
             ter_str_id( "t_grass" ),
             ter_str_id( "t_shrub" ),
+            ter_str_id( "t_shrub_peanut" ),
+            ter_str_id( "t_shrub_peanut_harvested" ),
+            ter_str_id( "t_shrub_blueberry" ),
+            ter_str_id( "t_shrub_blueberry_harvested" ),
+            ter_str_id( "t_shrub_strawberry" ),
+            ter_str_id( "t_shrub_strawberry_harvested" ),
+            ter_str_id( "t_shrub_blackberry" ),
+            ter_str_id( "t_shrub_blackberry_harvested" ),
+            ter_str_id( "t_shrub_huckleberry" ),
+            ter_str_id( "t_shrub_huckleberry_harvested" ),
+            ter_str_id( "t_shrub_raspberry" ),
+            ter_str_id( "t_shrub_raspberry_harvested" ),
+            ter_str_id( "t_shrub_grape" ),
+            ter_str_id( "t_shrub_grape_harvested" ),
+            ter_str_id( "t_shrub_rose" ),
+            ter_str_id( "t_shrub_rose_harvested" ),
+            ter_str_id( "t_shrub_hydrangea" ),
+            ter_str_id( "t_shrub_hydrangea_harvested" ),
+            ter_str_id( "t_shrub_lilac" ),
+            ter_str_id( "t_shrub_lilac_harvested" ),
             ter_str_id( "t_underbrush" ),
+            ter_str_id( "t_underbrush_harvested_spring" ),
+            ter_str_id( "t_underbrush_harvested_summer" ),
+            ter_str_id( "t_underbrush_harvested_autumn" ),
+            ter_str_id( "t_underbrush_harvested_winter" ),
+            ter_str_id( "t_moss" ),
+            ter_str_id( "t_grass_white" ),
+            ter_str_id( "t_grass_long" ),
+            ter_str_id( "t_grass_tall" ),
+            ter_str_id( "t_grass_dead" ),
+            ter_str_id( "t_grass_golf" ),
+            ter_str_id( "t_golf_hole" ),
+            ter_str_id( "t_trunk" ),
+            ter_str_id( "t_stump" ),
         };
         static std::set<ter_str_id> const dirt = {
             ter_str_id( "t_dirt" ),
+            ter_str_id( "t_dirtmound" ),
+            ter_str_id( "t_dirtmoundfloor" ),
             ter_str_id( "t_sand" ),
             ter_str_id( "t_clay" ),
             ter_str_id( "t_dirtfloor" ),
             ter_str_id( "t_palisade_gate_o" ),
             ter_str_id( "t_sandbox" ),
+            ter_str_id( "t_claymound" ),
+            ter_str_id( "t_sandmound" ),
+            ter_str_id( "t_rootcellar" ),
+            ter_str_id( "t_railroad_rubble" ),
+            ter_str_id( "t_railroad_track" ),
+            ter_str_id( "t_railroad_track_h" ),
+            ter_str_id( "t_railroad_track_v" ),
+            ter_str_id( "t_railroad_track_d" ),
+            ter_str_id( "t_railroad_track_d1" ),
+            ter_str_id( "t_railroad_track_d2" ),
+            ter_str_id( "t_railroad_tie" ),
+            ter_str_id( "t_railroad_tie_d" ),
+            ter_str_id( "t_railroad_tie_d" ),
+            ter_str_id( "t_railroad_tie_h" ),
+            ter_str_id( "t_railroad_tie_v" ),
+            ter_str_id( "t_railroad_tie_d" ),
+            ter_str_id( "t_railroad_track_on_tie" ),
+            ter_str_id( "t_railroad_track_h_on_tie" ),
+            ter_str_id( "t_railroad_track_v_on_tie" ),
+            ter_str_id( "t_railroad_track_d_on_tie" ),
+            ter_str_id( "t_railroad_tie" ),
+            ter_str_id( "t_railroad_tie_h" ),
+            ter_str_id( "t_railroad_tie_v" ),
+            ter_str_id( "t_railroad_tie_d1" ),
+            ter_str_id( "t_railroad_tie_d2" ),
         };
         static std::set<ter_str_id> const metal = {
             ter_str_id( "t_ov_smreb_cage" ),
@@ -948,6 +1005,12 @@ void sfx::do_footstep()
             ter_str_id( "t_bridge" ),
             ter_str_id( "t_elevator" ),
             ter_str_id( "t_guardrail_bg_dp" ),
+            ter_str_id( "t_slide" ),
+            ter_str_id( "t_conveyor" ),
+            ter_str_id( "t_machinery_light" ),
+            ter_str_id( "t_machinery_heavy" ),
+            ter_str_id( "t_machinery_old" ),
+            ter_str_id( "t_machinery_electronic" ),
         };
         static std::set<ter_str_id> const water = {
             ter_str_id( "t_water_sh" ),

@@ -11,13 +11,14 @@
     "durability": 20,
     "epower": -75,
     "bonus": 30,
+    "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": 20000, "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER", "FOLDABLE" ]
   },
   {
     "id": "atomic_lamp",
@@ -31,13 +32,14 @@
     "durability": 20,
     "description": "A bright light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates several squares inside the vehicle.",
     "bonus": 30,
+    "folded_volume": 4,
     "breaks_into": [ { "item": "scrap", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": 20000, "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE" ]
   },
   {
     "id": "atomic_light",
@@ -46,7 +48,8 @@
     "name": "atomic nightlight",
     "item": "atomic_light",
     "description": "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
-    "bonus": 5
+    "bonus": 5,
+    "folded_volume": 2
   },
   {
     "id": "floodlight",

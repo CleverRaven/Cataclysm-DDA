@@ -2,16 +2,15 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include "color.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "units.h"
-#include "color.h"
 
-#include <bitset>
-#include <vector>
-#include <set>
-#include <string>
 #include <array>
+#include <bitset>
+#include <set>
+#include <vector>
 
 class JsonObject;
 struct itype;
@@ -494,7 +493,8 @@ extern furn_id f_null,
        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
        f_smoking_rack, f_smoking_rack_active,
        f_robotic_arm, f_vending_reinforced,
-       f_brazier;
+       f_brazier,
+       f_autodoc_couch;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

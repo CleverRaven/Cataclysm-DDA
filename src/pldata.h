@@ -2,12 +2,8 @@
 #ifndef PLDATA_H
 #define PLDATA_H
 
-#include "bodypart.h"
-#include "string_id.h"
 #include "calendar.h"
-
-#include <map>
-#include <string>
+#include "string_id.h"
 
 class JsonIn;
 class JsonOut;

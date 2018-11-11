@@ -3,8 +3,8 @@
 #include "line.h"
 #include "rng.h"
 
-#include "stdio.h"
 #include <chrono>
+#include <cstdio>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.

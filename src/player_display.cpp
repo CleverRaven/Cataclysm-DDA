@@ -1,18 +1,18 @@
 #include "player.h"
+
+#include "addiction.h"
+#include "bionics.h"
+#include "effect.h"
 #include "game.h"
+#include "input.h"
 #include "mutation.h"
-#include "output.h"
 #include "options.h"
-#include "weather.h"
+#include "output.h"
+#include "profession.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "units.h"
-#include "profession.h"
-#include "effect.h"
-#include "input.h"
-#include "addiction.h"
-#include "skill.h"
-#include "bionics.h"
-#include "messages.h"
+#include "weather.h"
 
 #include <algorithm>
 
@@ -49,9 +49,10 @@ void player::print_encumbrance( const catacurses::window &win, int line,
     do {
         if( !skip[off > 0] && line + off >= 0 && line + off < num_bp ) { // line+off is in bounds
             parts.insert( line + off );
-            if( line + off != ( int )bp_aiOther[line + off] &&
+            if( line + off != static_cast<int>( bp_aiOther[line + off] ) &&
                 should_combine_bps( *this, line + off, bp_aiOther[line + off] ) ) { // part of a pair
-                skip[( int )bp_aiOther[line + off] > line + off ] = 1; // skip the next candidate in this direction
+                skip[static_cast<int>( bp_aiOther[line + off] ) > line + off ] =
+                    1; // skip the next candidate in this direction
             }
         } else {
             skip[off > 0] = 0;
@@ -61,7 +62,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         } else {
             off = -off - 1;
         }
-    } while( off > -num_bp && ( int )parts.size() < height - 1 );
+    } while( off > -num_bp && static_cast<int>( parts.size() ) < height - 1 );
 
     std::string out;
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
@@ -157,7 +158,7 @@ int get_encumbrance( const player &p, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
-    bool combines_with_other = ( int )bp_aiOther[bp] != bp;
+    bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
@@ -273,12 +274,10 @@ void player::disp_info()
 
         if( starvation_base_penalty > 500 ) {
             starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";
-        }
-        if( starvation_base_penalty > 1000 ) {
-            starvation_text << _( "Dexterity" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
-        }
-        if( starvation_base_penalty > 1000 ) {
-            starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+            if( starvation_base_penalty > 1000 ) {
+                starvation_text << _( "Dexterity" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+                starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+            }
         }
 
         int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
@@ -496,7 +495,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         for( auto &mut : my_mutations ) {
             const auto &mdata = mut.first.obj();
             if( mdata.threshold ) {
-                race = mdata.name;
+                race = mdata.name();
                 break;
             }
         }
@@ -573,7 +572,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
         const auto &mdata = traitslist[i].obj();
         const auto color = mdata.get_display_color();
-        trim_and_print( w_traits, int( i ) + 1, 1, getmaxx( w_traits ) - 1, color, mdata.name );
+        trim_and_print( w_traits, int( i ) + 1, 1, getmaxx( w_traits ) - 1, color, mdata.name() );
     }
     wrefresh( w_traits );
 
@@ -718,14 +717,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
 
     std::map<std::string, int> speed_effects;
-    std::string dis_text = "";
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             bool reduced = resists_effect( it );
             int move_adjust = it.get_mod( "SPEED", reduced );
             if( move_adjust != 0 ) {
-                dis_text = it.get_speed_name();
+                const std::string dis_text = it.get_speed_name();
                 speed_effects[dis_text] += move_adjust;
             }
         }
@@ -733,7 +731,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     for( auto &speed_effect : speed_effects ) {
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
-        mvwprintz( w_speed, line, 1, col, "%s", _( speed_effect.first.c_str() ) );
+        mvwprintz( w_speed, line, 1, col, "%s", speed_effect.first );
         mvwprintz( w_speed, line, 21, col, ( speed_effect.second > 0 ? "+" : "-" ) );
         mvwprintz( w_speed, line, ( abs( speed_effect.second ) >= 10 ? 22 : 23 ), col, "%d%%",
                    abs( speed_effect.second ) );
@@ -943,13 +941,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     const auto &mdata = traitslist[i].obj();
                     const auto color = mdata.get_display_color();
                     trim_and_print( w_traits, int( 1 + i - min ), 1, getmaxx( w_traits ) - 1,
-                                    i == line ? hilite( color ) : color, mdata.name );
+                                    i == line ? hilite( color ) : color, mdata.name() );
                 }
                 if( line < traitslist.size() ) {
                     const auto &mdata = traitslist[line].obj();
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
                                         "<color_%s>%s</color>: %s", string_from_color( mdata.get_display_color() ),
-                                        mdata.name, traitslist[line]->description ) );
+                                        mdata.name(), traitslist[line]->desc() ) );
                 }
                 wrefresh( w_traits );
                 wrefresh( w_info );
@@ -972,7 +970,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         mvwprintz( w_traits, int( i + 1 ), 1, c_black, "                         " );
                         const auto color = mdata.get_display_color();
                         trim_and_print( w_traits, int( i + 1 ), 1, getmaxx( w_traits ) - 1,
-                                        color, mdata.name );
+                                        color, mdata.name() );
                     }
                     wrefresh( w_traits );
                     line = 0;
@@ -998,7 +996,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     max = bionicslist.size();
                 } else {
                     min = line - ( bionics_useful_size_y - 1 ) / 2;
-                    max = std::min( bionicslist.size(), ( size_t )( 1 + line + bionics_useful_size_y / 2 ) );
+                    max = std::min( bionicslist.size(), static_cast<size_t>( 1 + line + bionics_useful_size_y / 2 ) );
                 }
 
                 for( size_t i = min; i < max; i++ ) {

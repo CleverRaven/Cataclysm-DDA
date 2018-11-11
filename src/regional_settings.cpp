@@ -1,8 +1,10 @@
 #include "regional_settings.h"
+
+#include "debug.h"
 #include "json.h"
 #include "options.h"
+#include "rng.h"
 #include "string_formatter.h"
-#include "debug.h"
 
 #include <algorithm>
 #include <map>
@@ -56,6 +58,37 @@ void load_forest_biome_component( JsonObject &jo, forest_biome_component &forest
     }
 }
 
+void load_forest_biome_terrain_dependent_furniture( JsonObject &jo,
+        forest_biome_terrain_dependent_furniture &forest_biome_terrain_dependent_furniture,
+        const bool overlay )
+{
+    read_and_set_or_throw<int>( jo, "chance", forest_biome_terrain_dependent_furniture.chance,
+                                !overlay );
+    read_and_set_or_throw<bool>( jo, "clear_furniture",
+                                 forest_biome_terrain_dependent_furniture.clear_furniture, !overlay );
+
+    if( forest_biome_terrain_dependent_furniture.clear_furniture ) {
+        forest_biome_terrain_dependent_furniture.unfinalized_furniture.clear();
+    }
+
+    if( !jo.has_object( "furniture" ) ) {
+        if( !overlay ) {
+            jo.throw_error( "furniture required" );
+        }
+    } else {
+        JsonObject feature_types_jo = jo.get_object( "furniture" );
+        std::set<std::string> keys = feature_types_jo.get_member_names();
+        for( const auto &key : keys ) {
+            int weight = 0;
+            if( key != "//" ) {
+                if( feature_types_jo.read( key, weight ) ) {
+                    forest_biome_terrain_dependent_furniture.unfinalized_furniture[key] = weight;
+                }
+            }
+        }
+    }
+}
+
 void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool overlay )
 {
     read_and_set_or_throw<int>( jo, "sparseness_adjacency_factor",
@@ -66,6 +99,8 @@ void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool o
                                 !overlay );
     read_and_set_or_throw<bool>( jo, "clear_components", forest_biome.clear_components, !overlay );
     read_and_set_or_throw<bool>( jo, "clear_groundcover", forest_biome.clear_groundcover, !overlay );
+    read_and_set_or_throw<bool>( jo, "clear_terrain_furniture", forest_biome.clear_terrain_furniture,
+                                 !overlay );
 
     if( forest_biome.clear_components ) {
         forest_biome.unfinalized_biome_components.clear();
@@ -104,6 +139,23 @@ void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool o
                 if( groundcover_jo.read( key, weight ) ) {
                     forest_biome.unfinalized_groundcover[key] = weight;
                 }
+            }
+        }
+    }
+
+    if( !jo.has_object( "terrain_furniture" ) ) {
+        if( !overlay ) {
+            jo.throw_error( "terrain_furniture required" );
+        }
+    } else {
+        JsonObject terrain_furnitures_jo = jo.get_object( "terrain_furniture" );
+        std::set<std::string> terrain_furniture_names = terrain_furnitures_jo.get_member_names();
+        for( const auto &name : terrain_furniture_names ) {
+            if( name != "//" ) {
+                JsonObject terrain_furniture_jo = terrain_furnitures_jo.get_object( name );
+                load_forest_biome_terrain_dependent_furniture( terrain_furniture_jo,
+                        forest_biome.unfinalized_terrain_dependent_furniture[name],
+                        overlay );
             }
         }
     }
@@ -182,7 +234,7 @@ void load_region_settings( JsonObject &jo )
         if( ! pjo.read( "percent_coverage", tmpval ) ) {
             pjo.throw_error( "field_coverage: percent_coverage required" );
         }
-        new_region.field_coverage.mpercent_coverage = ( int )( tmpval * 10000.0 );
+        new_region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
         if( ! pjo.read( "default_ter", new_region.field_coverage.default_ter_str ) ) {
             pjo.throw_error( "field_coverage: default_ter required" );
         }
@@ -200,15 +252,15 @@ void load_region_settings( JsonObject &jo )
             }
         }
         if( pjo.read( "boost_chance", tmpval ) && tmpval != 0.0f ) {
-            new_region.field_coverage.boost_chance = ( int )( tmpval * 10000.0 );
+            new_region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
             if( ! pjo.read( "boosted_percent_coverage", tmpval ) ) {
                 pjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
             }
-            new_region.field_coverage.boosted_mpercent_coverage = ( int )( tmpval * 10000.0 );
+            new_region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
             if( ! pjo.read( "boosted_other_percent", tmpval ) ) {
                 pjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
             }
-            new_region.field_coverage.boosted_other_mpercent = ( int )( tmpval * 10000.0 );
+            new_region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
             if( pjo.has_object( "boosted_other" ) ) {
                 JsonObject opjo = pjo.get_object( "boosted_other" );
                 std::set<std::string> keys = opjo.get_member_names();
@@ -383,7 +435,7 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     JsonObject fieldjo = jo.get_object( "field_coverage" );
     double tmpval = 0.0f;
     if( fieldjo.read( "percent_coverage", tmpval ) ) {
-        region.field_coverage.mpercent_coverage = ( int )( tmpval * 10000.0 );
+        region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
     }
 
     fieldjo.read( "default_ter", region.field_coverage.default_ter_str );
@@ -399,14 +451,14 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     }
 
     if( fieldjo.read( "boost_chance", tmpval ) ) {
-        region.field_coverage.boost_chance = ( int )( tmpval * 10000.0 );
+        region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
     }
     if( fieldjo.read( "boosted_percent_coverage", tmpval ) ) {
         if( region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f ) {
             fieldjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
         }
 
-        region.field_coverage.boosted_mpercent_coverage = ( int )( tmpval * 10000.0 );
+        region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
     }
 
     if( fieldjo.read( "boosted_other_percent", tmpval ) ) {
@@ -414,7 +466,7 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
             fieldjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
         }
 
-        region.field_coverage.boosted_other_mpercent = ( int )( tmpval * 10000.0 );
+        region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
     }
 
     JsonObject boostedjo = fieldjo.get_object( "boosted_other" );
@@ -505,7 +557,7 @@ void groundcover_extra::finalize()   // @todo: fixme return bool for failure
             debugmsg( "No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
             continue;
         }
-        wtotal += ( int )( it->second * 10000.0 );
+        wtotal += static_cast<int>( it->second * 10000.0 );
         weightlist[ wtotal ] = tf_id;
     }
 
@@ -527,7 +579,7 @@ void groundcover_extra::finalize()   // @todo: fixme return bool for failure
             debugmsg( "No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
             continue;
         }
-        btotal += ( int )( it->second * 10000.0 );
+        btotal += static_cast<int>( it->second * 10000.0 );
         boosted_weightlist[ btotal ] = tf_id;
     }
 
@@ -574,6 +626,17 @@ void forest_biome_component::finalize()
     }
 }
 
+void forest_biome_terrain_dependent_furniture::finalize()
+{
+    for( const std::pair<std::string, int> &pr : unfinalized_furniture ) {
+        const furn_str_id fid( pr.first );
+        if( !fid.is_valid() ) {
+            continue;
+        }
+        furniture.add( fid.id(), pr.second );
+    }
+}
+
 ter_furn_id forest_biome::pick() const
 {
     // Iterate through the biome components (which have already been put into sequence), roll for the
@@ -614,6 +677,12 @@ void forest_biome::finalize()
         }
         groundcover.add( tid.id(), pr.second );
     }
+
+    for( auto &pr : unfinalized_terrain_dependent_furniture ) {
+        pr.second.finalize();
+        const ter_id t( pr.first );
+        terrain_dependent_furniture[t] = pr.second;
+    }
 }
 
 void forest_mapgen_settings::finalize()
@@ -636,7 +705,7 @@ void regional_settings::finalize()
         default_groundcover_str.reset();
         city_spec.finalize();
         forest_composition.finalize();
-        get_options().add_value( "DEFAULT_REGION", id );
+        get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
 }
 

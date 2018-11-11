@@ -8,7 +8,7 @@
     "locations": [ "water" ],
     "city_distance": [ 5, 15 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 1, 5 ]
+    "occurrences": [ 0, 5 ]
   },
   {
     "type": "overmap_special",
@@ -17,6 +17,6 @@
     "locations": [ "water" ],
     "city_distance": [ -1, 25 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 1, 12 ]
+    "occurrences": [ 0, 12 ]
   }
 ]

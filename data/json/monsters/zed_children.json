@@ -7,7 +7,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 3,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 35,
     "speed": 105,
     "material": [ "flesh" ],
@@ -37,7 +38,7 @@
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "BONES" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -50,7 +51,8 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE" ],
     "diff": 2,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 40,
     "speed": 65,
     "material": [ "flesh" ],
@@ -80,7 +82,7 @@
       "half_life": 14,
       "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE"
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "REVIVES", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_child_scorched",
@@ -91,7 +93,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 15,
-    "size": "MEDIUM",
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 35,
     "speed": 90,
     "material": [ "flesh" ],
@@ -114,7 +117,7 @@
       "half_life": 14,
       "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE"
     },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "GUILT", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "GUILT", "CLIMBS", "FILTHY" ]
   },
   {
     "id": "mon_zombie_creepy",
@@ -124,7 +127,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 3,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 25,
     "speed": 55,
     "material": [ "flesh" ],
@@ -149,7 +153,7 @@
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "FILTHY" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -160,7 +164,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 3,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 20,
     "speed": 95,
     "material": [ "flesh" ],
@@ -188,7 +193,7 @@
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   },
   {
@@ -199,7 +204,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 3,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 25,
     "speed": 65,
     "material": [ "flesh" ],
@@ -225,7 +231,7 @@
     },
     "death_function": [ "BOOMER" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   },
   {
@@ -236,7 +242,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 3,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 30,
     "speed": 85,
     "material": [ "flesh" ],
@@ -268,7 +275,7 @@
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "FILTHY" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -279,7 +286,8 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 3,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 15,
     "speed": 65,
     "material": [ "bone" ],
@@ -308,7 +316,7 @@
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES", "HARDTOSHOOT", "FILTHY" ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   },
   {
@@ -320,7 +328,8 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 4,
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": 40750,
     "hp": 35,
     "speed": 50,
     "material": [ "flesh" ],
@@ -349,6 +358,6 @@
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "BONES" ]
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "BONES", "FILTHY" ]
   }
 ]

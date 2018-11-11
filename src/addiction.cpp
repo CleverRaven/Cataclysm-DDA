@@ -1,10 +1,10 @@
 #include "addiction.h"
-#include "debug.h"
-#include "pldata.h"
-#include "player.h"
+
 #include "morale_types.h"
-#include "rng.h"
 #include "output.h"
+#include "player.h"
+#include "pldata.h"
+#include "rng.h"
 #include "translations.h"
 
 const efftype_id effect_hallu( "hallu" );

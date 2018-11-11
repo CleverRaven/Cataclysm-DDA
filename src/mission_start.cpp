@@ -1,28 +1,27 @@
 #include "mission.h"
 
+#include "computer.h"
 #include "coordinate_conversions.h"
+#include "debug.h"
+#include "field.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "output.h"
-#include "debug.h"
-#include "name.h"
-#include <sstream>
-#include "string_formatter.h"
-#include "omdata.h"
-#include "overmapbuffer.h"
 #include "mapdata.h"
-#include "messages.h"
-#include "translations.h"
-#include "overmap.h"
-#include "trap.h"
-#include "line.h"
-#include "computer.h"
 // TODO: Remove this include once 2D wrappers are no longer needed
 #include "mapgen_functions.h"
-#include "field.h"
+#include "messages.h"
+#include "name.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "omdata.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "trap.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -105,7 +104,7 @@ static tripoint target_closest_lab_entrance( const tripoint origin, int reveal_r
     return closest;
 }
 
-static bool reveal_road( tripoint source, tripoint dest, overmapbuffer &omb )
+static bool reveal_road( const tripoint &source, const tripoint &dest, overmapbuffer &omb )
 {
     const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
     const tripoint dest_road = overmap_buffer.find_closest( dest, "road", 3, false );
@@ -205,7 +204,7 @@ void mission_start::infect_npc( mission *miss )
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
-    p->add_effect( effect_infection, 1_turns, num_bp, 1, true );
+    p->add_effect( effect_infection, 1_turns, num_bp, true, true );
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";
@@ -1675,7 +1674,7 @@ void mission_start::ranch_bartender_2( mission *miss )
     bay.draw_square_ter( t_wall_half, 14, 10, 19, 15 );
     bay.draw_square_ter( t_dirt, 15, 11, 18, 14 );
     bay.draw_square_ter( t_wall_half, 14, 15, 17, 18 );
-    bay.draw_square_ter( t_dirt, 15, 15, 16, 18 );;
+    bay.draw_square_ter( t_dirt, 15, 15, 16, 18 );
     bay.translate( t_door_frame, t_door_c );
     bay.translate( t_wall_half, t_wall_wood );
     bay.draw_square_ter( t_window_frame, 0, 13, 0, 13 );
@@ -1841,8 +1840,9 @@ void mission_start::reveal_refugee_center( mission *miss )
 }
 
 // Creates multiple lab consoles near tripoint place, which must have its z-level set to where consoles should go.
-void static create_lab_consoles( mission *miss, tripoint place, std::string otype, int security,
-                                 std::string comp_name, std::string download_name )
+void static create_lab_consoles( mission *miss, const tripoint &place, const std::string &otype,
+                                 int security,
+                                 const std::string &comp_name, const std::string &download_name )
 {
     // Drop four computers in nearby lab spaces so the player can stumble upon one of them.
     for( int i = 0; i < 4; ++i ) {

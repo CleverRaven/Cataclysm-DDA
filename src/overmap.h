@@ -2,25 +2,22 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "omdata.h"
-#include "overmap_types.h"
-#include "mapdata.h"
-#include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
-#include "weather_gen.h"
+#include "omdata.h"
+#include "overmap_types.h"
 #include "regional_settings.h"
+#include "weighted_list.h"
 
-#include <array>
 #include <algorithm>
+#include <array>
+#include <functional>
 #include <iosfwd>
-#include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <functional>
-#include <memory>
 
 class input_context;
 class JsonObject;
@@ -147,8 +144,6 @@ class overmap
         overmap( const overmap & ) = default;
         overmap( overmap && ) = default;
         overmap( int x, int y );
-        // Argument-less constructor bypasses trying to load matching file, only used for unit testing.
-        overmap();
         ~overmap();
 
         overmap &operator=( overmap const & ) = default;
@@ -228,9 +223,6 @@ class overmap
         const regional_settings &get_settings() const {
             return settings;
         }
-
-        // Returns a batch of the default enabled specials.
-        overmap_special_batch get_enabled_specials() const;
 
         void clear_mon_groups();
     private:
@@ -332,7 +324,6 @@ class overmap
         bool build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points,
                         const std::string &prefix, int train_odds );
         void build_anthill( int x, int y, int z, int s );
-        void build_acid_anthill( int x, int y, int z, int s );
         void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
         bool build_slimepit( int x, int y, int z, int s );
         void build_mine( int x, int y, int z, int s );

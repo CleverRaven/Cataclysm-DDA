@@ -2,37 +2,34 @@
 
 #include "ballistics.h"
 #include "cata_utility.h"
-#include "gun_mode.h"
+#include "debug.h"
 #include "dispersion.h"
 #include "game.h"
-#include "map.h"
-#include "debug.h"
-#include "output.h"
-#include "line.h"
-#include "string_formatter.h"
-#include "rng.h"
-#include "item.h"
-#include "options.h"
-#include "action.h"
+#include "gun_mode.h"
 #include "input.h"
-#include "vpart_position.h"
-#include "messages.h"
-#include "projectile.h"
-#include "sounds.h"
-#include "translations.h"
-#include "monster.h"
-#include "npc.h"
-#include "trap.h"
+#include "item.h"
 #include "itype.h"
-#include "vehicle.h"
-#include "field.h"
-#include "mtype.h"
+#include "line.h"
+#include "map.h"
+#include "messages.h"
+#include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
+#include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #include <algorithm>
-#include <vector>
-#include <string>
 #include <cmath>
+#include <string>
+#include <vector>
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
@@ -43,7 +40,6 @@ const skill_id skill_launcher( "launcher" );
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 
-static const trait_id trait_TRIGGERHAPPY( "TRIGGERHAPPY" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -265,8 +261,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
             if( gun.ammo_type() == ammotype( "flammable" ) || gun.ammo_type() == ammotype( "66mm" ) ||
                 gun.ammo_type() == ammotype( "84x246mm" ) || gun.ammo_type() == ammotype( "m235" ) ) {
-                add_msg_if_player( m_good, string_format(
-                                       _( "You feel a surge of euphoria as flames roar out of the %s!" ), gun.tname().c_str() ) );
+                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
+                                   gun.tname() );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
@@ -327,7 +323,7 @@ int throw_cost( const player &c, const item &to_throw )
     const int dexbonus = c.get_dex();
     const int encumbrance_penalty = c.encumb( bp_torso ) +
                                     ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
-    const float stamina_ratio = ( float )c.stamina / c.get_stamina_max();
+    const float stamina_ratio = static_cast<float>( c.stamina ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
@@ -757,7 +753,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                 int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                 last_chance += chance;
                 return string_format( "%s: %3d%%", _( config.label.c_str() ), chance );
-            }, false );
+            }, enumeration_conjunction::none );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                                 c_white, confidence_s );
         } else {
@@ -1200,9 +1196,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         pc.cancel_activity();
 
         tripoint targ( 0, 0, 0 );
+        cata::optional<tripoint> mouse_pos;
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.
-        if( action == "SELECT" && ctxt.get_coordinates( g->w_terrain, targ.x, targ.y ) ) {
+        if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
+            targ = *mouse_pos;
             if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
                 // Snap to target doesn't currently work with tiles.
                 targ.x += dst.x - src.x;
@@ -1250,12 +1248,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 newtarget = t.size() - 1;
             }
             dst = t[newtarget]->pos();
+            pc.recoil = MAX_RECOIL;
         } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) + 1;
             if( newtarget == static_cast<int>( t.size() ) ) {
                 newtarget = 0;
             }
             dst = t[newtarget]->pos();
+            pc.recoil = MAX_RECOIL;
         } else if( ( action == "AIM" ) && target != -1 ) {
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
@@ -1463,7 +1463,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     const optional_vpart_position vp = g->m.veh_at( pos );
     std::vector<vehicle_part *> cargo;
     if( vp && weap.has_flag( "VEHICLE" ) ) {
-        cargo = vp->vehicle().get_parts( pos, "CARGO" );
+        cargo = vp->vehicle().get_parts( pos, "CARGO", false, false );
     }
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {

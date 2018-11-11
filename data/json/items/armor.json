@@ -338,6 +338,7 @@
   {
     "id": "armguard_paper",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pair of paper arm guards",
     "name_plural": "pairs of paper arm guards",
     "description": "Arm guards made of stacked paper sheets held together with duct tape.",
@@ -1135,7 +1136,7 @@
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
     "weight": 210,
     "volume": 4,
-    "price": 21000,
+    "price": 4000,
     "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
@@ -1146,7 +1147,28 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "use_action": {
+      "menu_text": "Zip up",
+      "type": "transform",
+      "target": "bondage_mask_zipped",
+      "msg": "You zip the eyes and mouth of the bondage mask closed."
+    }
+  },
+  {
+    "id": "bondage_mask_zipped",
+    "copy-from": "bondage_mask",
+    "type": "ARMOR",
+    "name": "bondage mask (zipped)",
+    "name_plural": "bondage masks (zipped)",
+    "description": "A tight mask made of black leather.  The eyes and mouth have been zipped closed.",
+    "flags": [ "VARSIZE", "BLIND" ],
+    "use_action": {
+      "menu_text": "Unzip",
+      "type": "transform",
+      "target": "bondage_mask",
+      "msg": "You unzip the eyes and mouth of the bondage mask."
+    }
   },
   {
     "id": "bondage_suit",
@@ -1535,6 +1557,7 @@
   {
     "id": "chainmail_arms",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pair of chainmail sleeves",
     "name_plural": "pairs of chainmail sleeves",
     "description": "Customized chainmail arms.  Each sleeve has leather straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
@@ -1554,6 +1577,7 @@
   {
     "id": "chainmail_hood",
     "type": "ARMOR",
+    "category": "armor",
     "name": "chainmail coif",
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
     "weight": 2006,
@@ -1572,6 +1596,7 @@
   {
     "id": "chainmail_legs",
     "type": "ARMOR",
+    "category": "armor",
     "name": "chainmail leggings",
     "name_plural": "pairs of chainmail leggings",
     "description": "Customized chainmail legs.  Their leather straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
@@ -1591,6 +1616,7 @@
   {
     "id": "chainmail_suit",
     "type": "ARMOR",
+    "category": "armor",
     "name": "chainmail armor",
     "description": "A fully customized chainmail suit.  The coif, shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
     "weight": 15983,
@@ -1609,6 +1635,7 @@
   {
     "id": "chainmail_vest",
     "type": "ARMOR",
+    "category": "armor",
     "name": "chainmail vest",
     "description": "A customized chainmail vest.  It's a sleeveless piece of chainmail with small leather straps designed to better distribute the weight.",
     "weight": 6953,
@@ -1854,6 +1881,18 @@
     "material_thickness": 4,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "coat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "coat_fur",
+    "name": "faux fur coat",
+    "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
+    "material": [ "faux_fur", "cotton" ],
+    "color": "pink",
+    "covers": [ "TORSO", "ARMS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
+    "warmth": 70
   },
   {
     "id": "coat_fur_sf",
@@ -2403,6 +2442,17 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
+    "id": "duster_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_fur",
+    "name": "faux fur duster",
+    "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
+  },
+  {
     "id": "duster_leather",
     "type": "ARMOR",
     "name": "leather duster",
@@ -2670,7 +2720,7 @@
       "type": "holster",
       "holster_prompt": "Attach what to belt loop?",
       "holster_msg": "You clip your %s to your %s",
-      "max_volume": 5,
+      "max_volume": 8,
       "max_weight": 3600,
       "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
@@ -2853,6 +2903,16 @@
     "flags": [ "FANCY" ]
   },
   {
+    "id": "faux_fur_cat_ears",
+    "type": "ARMOR",
+    "copy-from": "fur_cat_ears",
+    "name": "pair of faux fur cat ears",
+    "name_plural": "pairs of faux fur cat ears",
+    "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
+    "material": [ "faux_fur" ],
+    "color": "pink"
+  },
+  {
     "id": "fur_cat_tail",
     "type": "ARMOR",
     "name": "fuzzy cat tail",
@@ -2867,6 +2927,15 @@
     "flags": [ "FANCY" ]
   },
   {
+    "id": "faux_fur_cat_tail",
+    "type": "ARMOR",
+    "copy-from": "fur_cat_tail",
+    "name": "faux fur cat tail",
+    "description": "A fuzzy garishly colored tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
+    "material": [ "faux_fur", "plastic" ],
+    "color": "pink"
+  },
+  {
     "id": "fur_collar",
     "type": "ARMOR",
     "name": "fur kitty collar",
@@ -2878,6 +2947,15 @@
     "symbol": "-",
     "color": "brown",
     "flags": [ "FANCY" ]
+  },
+  {
+    "id": "faux_fur_collar",
+    "type": "ARMOR",
+    "copy-from": "fur_collar",
+    "name": "faux fur kitty collar",
+    "description": "A decorative 'collar' made out of faux fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
+    "material": [ "faux_fur" ],
+    "color": "pink"
   },
   {
     "id": "gambeson",
@@ -3003,6 +3081,7 @@
   {
     "id": "glasses_bal",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pair of ballistic glasses",
     "name_plural": "pairs of ballistic glasses",
     "description": "Modern tactical eyewear that protects from small projectiles and fragments.  Provides excellent protection from environmental dangers.",
@@ -4011,6 +4090,17 @@
     "material_thickness": 3
   },
   {
+    "id": "hat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "hat_fur",
+    "name": "faux fur hat",
+    "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "HEAD" ],
+    "flags": [ "FANCY" ],
+    "warmth": 60
+  },
+  {
     "id": "hat_hard",
     "type": "ARMOR",
     "name": "hard hat",
@@ -4033,6 +4123,7 @@
   {
     "id": "hat_hard_hooded",
     "type": "ARMOR",
+    "category": "armor",
     "name": "hooded hard hat",
     "description": "A hard plastic hat worn in construction sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
     "weight": 876,
@@ -4205,6 +4296,7 @@
   {
     "id": "helmet_ball",
     "type": "ARMOR",
+    "category": "armor",
     "name": "baseball helmet",
     "description": "A hard plastic helmet that covers the head and ears.  Designed to protect against a baseball to the head.",
     "weight": 453,
@@ -4510,29 +4602,6 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
-    "id": "helmet_riot",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "riot helmet",
-    "description": "A helmet with a plastic shield that covers your entire face.",
-    "weight": 2260,
-    "volume": 9,
-    "price": 22000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "plastic", "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 95,
-    "encumbrance": 20,
-    "warmth": 10,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
-  },
-  {
     "id": "helmet_scavenger",
     "type": "ARMOR",
     "name": "scavenger cowl",
@@ -4555,6 +4624,7 @@
   {
     "id": "helmet_skid",
     "type": "ARMOR",
+    "category": "armor",
     "name": "skid lid",
     "description": "A small metal helmet that covers the head and protects against cuts and percussion.",
     "weight": 1315,
@@ -6776,6 +6846,16 @@
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
+    "id": "pants_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "pants_fur",
+    "name": "faux fur pants",
+    "description": "A pair of long cotton pants lined with warm imitation fur.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "LEGS" ],
+    "warmth": 70
+  },
+  {
     "id": "pants_leather",
     "type": "ARMOR",
     "name": "leather pants",
@@ -6875,6 +6955,7 @@
   {
     "id": "pickelhaube",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pickelhaube",
     "name_plural": "pickelhauben",
     "description": "A spiked helmet once worn by German military officers.  The spike is very sharp.",
@@ -7045,6 +7126,7 @@
     "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -7719,7 +7801,32 @@
     "warmth": 80,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "use_action": {
+      "menu_text": "Roll up",
+      "type": "transform",
+      "target": "sleeping_bag_roll",
+      "msg": "You roll up the sleeping bag, preparing it for transport."
+    }
+  },
+  {
+    "id": "sleeping_bag_roll",
+    "type": "ARMOR",
+    "name": "rolled sleeping bag",
+    "description": "A large sleeping bag rolled up for transport.  It has a strap to carry it with.",
+    "weight": 981,
+    "volume": 4,
+    "price": 20500,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "(",
+    "color": "light_red",
+    "covers": [ "TORSO" ],
+    "coverage": 10,
+    "encumbrance": 20,
+    "material_thickness": 4,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." }
   },
   {
     "id": "sleeping_bag_fur",
@@ -7739,7 +7846,37 @@
     "warmth": 100,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "use_action": {
+      "menu_text": "Roll up",
+      "type": "transform",
+      "target": "sleeping_bag_fur_roll",
+      "msg": "You roll up the fur sleeping bag, preparing it for transport."
+    }
+  },
+  {
+    "id": "sleeping_bag_fur_roll",
+    "type": "ARMOR",
+    "name": "rolled fur sleeping bag",
+    "description": "A large sleeping bag lined with fur, rolled for transport.  It has a strap to carry it with.",
+    "weight": 1175,
+    "volume": 8,
+    "price": 32500,
+    "to_hit": -1,
+    "material": [ "cotton", "fur" ],
+    "symbol": "(",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 10,
+    "encumbrance": 20,
+    "material_thickness": 5,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "use_action": {
+      "menu_text": "Unroll",
+      "type": "transform",
+      "target": "sleeping_bag_fur",
+      "msg": "You unroll up the fur sleeping bag."
+    }
   },
   {
     "id": "sleeveless_duster",
@@ -7784,6 +7921,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+  },
+  {
+    "id": "sleeveless_duster_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "sleeveless_duster_fur",
+    "name": "sleeveless faux fur duster",
+    "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "LEGS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
   },
   {
     "id": "sleeveless_duster_leather",
@@ -7873,6 +8021,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "sleeveless_trenchcoat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "sleeveless_trenchcoat_fur",
+    "name": "sleeveless faux fur trenchcoat",
+    "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
   },
   {
     "id": "sleeveless_trenchcoat_leather",
@@ -8919,6 +9078,17 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "trenchcoat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "trenchcoat_fur",
+    "name": "faux fur trenchcoat",
+    "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "ARMS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
+  },
+  {
     "id": "trenchcoat_leather",
     "type": "ARMOR",
     "name": "leather trenchcoat",
@@ -9759,5 +9929,26 @@
       "flags": [ "JAVELIN" ]
     },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
+  },
+  {
+    "id": "pot_xlhelmet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "XL pot helmet",
+    "description": "A huge makeshift helmet made from a canning pot.  For the truly desperate man-bear-pig.",
+    "weight": 6425,
+    "volume": 100,
+    "price": 22000,
+    "bashing": 10,
+    "material": "steel",
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD" ],
+    "coverage": 55,
+    "encumbrance": 50,
+    "warmth": 5,
+    "material_thickness": 2,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "OVERSIZE" ]
   }
 ]

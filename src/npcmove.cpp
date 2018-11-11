@@ -1,35 +1,36 @@
 #include "npc.h"
 
-#include "dispersion.h"
-#include "rng.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "output.h"
-#include "projectile.h"
-#include "line.h"
-#include "debug.h"
-#include "overmapbuffer.h"
-#include "ranged.h"
-#include "messages.h"
 #include "ammo.h"
-#include "translations.h"
-#include "veh_type.h"
-#include "monster.h"
-#include "vpart_position.h"
+#include "cata_algo.h"
+#include "debug.h"
+#include "dispersion.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "gates.h"
+#include "gun_mode.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "effect.h"
-#include "vehicle.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
-#include "vpart_reference.h"
-#include "sounds.h"
-#include "gates.h"
+#include "output.h"
 #include "overmap_location.h"
-#include "gun_mode.h"
+#include "overmapbuffer.h"
+#include "projectile.h"
+#include "ranged.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "visitable.h"
-#include "cata_algo.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 
 #include <algorithm>
 #include <memory>
@@ -94,7 +95,7 @@ hp_part most_damaged_hp_part( const Character &c );
 struct ratio_index {
     double ratio;
     int index;
-    ratio_index( double R, int I ) : ratio( R ), index( I ) {};
+    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
 bool clear_shot_reach( const tripoint &from, const tripoint &to )
@@ -519,7 +520,7 @@ void npc::execute_action( npc_action action )
             for( size_t i = 0; i < slice.size(); i++ ) {
                 item &it = slice[i]->front();
                 bool am = ( it.is_gun() &&
-                            get_ammo( it.type->gun->ammo ).size() > 0 );
+                            !get_ammo( it.type->gun->ammo ).empty() );
                 if( it.is_gun() && ( !ammo_found || am ) ) {
                     index = i;
                     ammo_found = ( ammo_found || am );
@@ -591,8 +592,8 @@ void npc::execute_action( npc_action action )
         }
 
         case npc_look_for_player:
-            if( saw_player_recently() && sees( last_player_seen_pos ) ) {
-                update_path( last_player_seen_pos );
+            if( saw_player_recently() && last_player_seen_pos && sees( *last_player_seen_pos ) ) {
+                update_path( *last_player_seen_pos );
                 move_to_next();
             } else {
                 look_for_player( g->u );
@@ -639,19 +640,15 @@ void npc::execute_action( npc_action action )
             // This is mount point, not actual position
             point last_dest( INT_MIN, INT_MIN );
             if( !path.empty() && veh_pointer_or_null( g->m.veh_at( path[path.size() - 1] ) ) == veh ) {
-                last_dest = veh->parts[vp->part_index()].mount;
+                last_dest = vp->mount();
             }
 
             // Prioritize last found path, then seats
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
-            for( size_t p2 = 0; p2 < veh->parts.size(); p2++ ) {
-                if( !veh->part_flag( p2, VPFLAG_BOARDABLE ) ) {
-                    continue;
-                }
-
-                const player *passenger = veh->get_passenger( p2 );
+            for( const vpart_reference &vp : veh->get_parts( VPFLAG_BOARDABLE ) ) {
+                const player *passenger = veh->get_passenger( vp.part_index() );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
@@ -665,11 +662,11 @@ void npc::execute_action( npc_action action )
                     return !who || who->getID() == getID();
                 };
 
-                const auto &pt = veh->parts[p2];
+                const vehicle_part &pt = vp.part();
 
                 int priority = 0;
 
-                if( pt.mount == last_dest ) {
+                if( vp.mount() == last_dest ) {
                     // Shares mount point with last known path
                     // We probably wanted to go there in the last turn
                     priority = 4;
@@ -680,7 +677,7 @@ void npc::execute_action( npc_action action )
                     const npc *who = pt.crew();
                     priority = who && who->getID() == getID() ? 3 : 2;
 
-                } else if( vpart_position( *veh, p2 ).is_inside() ) {
+                } else if( vp.is_inside() ) {
                     priority = 1;
                 }
 
@@ -688,7 +685,7 @@ void npc::execute_action( npc_action action )
                     my_spot = priority;
                 }
 
-                seats.push_back( std::make_pair( priority, static_cast<int>( p2 ) ) );
+                seats.push_back( std::make_pair( priority, static_cast<int>( vp.part_index() ) ) );
             }
 
             if( my_spot >= 3 ) {
@@ -719,7 +716,7 @@ void npc::execute_action( npc_action action )
 
                 const int cur_part = seats[i].second;
 
-                tripoint pp = veh->global_pos3() + veh->parts[cur_part].precalc[0];
+                tripoint pp = veh->global_part_pos3( cur_part );
                 update_path( pp, true );
                 if( !path.empty() ) {
                     // All is fine
@@ -823,7 +820,7 @@ void npc::choose_target()
         int dist = rl_dist( pos(), mon.pos() );
         // @todo: This should include ranged attacks in calculation
         float scaled_distance = std::max( 1.0f, dist / mon.speed_rating() );
-        float hp_percent = ( float )( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
+        float hp_percent = static_cast<float>( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
         float critter_danger = mon.type->difficulty * ( hp_percent / 2.0f + 0.5f );
 
         auto att = mon.attitude( this );
@@ -1076,11 +1073,7 @@ bool wants_to_reload( const npc &who, const item &it )
 
 bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    if( ammo.is_magazine() && ( ammo.ammo_remaining() <= weap.ammo_remaining() ) ) {
-        return false;
-    }
-
-    return true;
+    return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
 item &npc::find_reloadable()
@@ -1308,16 +1301,12 @@ double npc::confidence_mult() const
     switch( rules.aim ) {
         case AIM_WHEN_CONVENIENT:
             return emergency() ? 1.5f : 1.0f;
-            break;
         case AIM_SPRAY:
             return 2.0f;
-            break;
         case AIM_PRECISE:
             return emergency() ? 1.0f : 0.75f;
-            break;
         case AIM_STRICTLY_PRECISE:
             return 0.5f;
-            break;
     }
 
     return 1.0f;
@@ -1407,7 +1396,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 {
     int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ),
                                    gun.ammo_capacity() );
-    const float turns_til_reloaded = ( float )rltime / get_speed();
+    const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
     const Creature *target = current_target();
     if( target == nullptr ) {
@@ -1445,11 +1434,6 @@ void npc::aim()
 
 bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 {
-    if( p == tripoint_min ) {
-        add_msg( m_debug, "Pathing to tripoint_min" );
-        return false;
-    }
-
     if( p == pos() ) {
         path.clear();
         return true;
@@ -1597,7 +1581,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const optional_vpart_position ovp = g->m.veh_at( p );
         if( abs( vp->vehicle().velocity ) > 0 &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
-              !ovp.part_with_feature( VPFLAG_BOARDABLE ) ) ) {
+              !ovp.part_with_feature( VPFLAG_BOARDABLE, true ) ) ) {
             move_pause();
             return;
         }
@@ -1661,7 +1645,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             doors::close_door( g->m, *this, old_pos );
         }
 
-        if( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+        if( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
             g->m.board_vehicle( p, this );
         }
 
@@ -1803,7 +1787,7 @@ void npc::move_pause()
     }
 }
 
-static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to )
+static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripoint &closest_to )
 {
     if( g->m.passable( p ) ) {
         return p;
@@ -1823,7 +1807,7 @@ static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to 
         return *iter;
     }
 
-    return tripoint_min;
+    return cata::nullopt;
 }
 
 void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
@@ -1908,7 +1892,7 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
     ( const item & it, const tripoint & p ) {
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of_from_type( LIQUID ) ) {
             // Don't even consider liquids.
             return;
         }
@@ -1972,7 +1956,7 @@ void npc::find_item()
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
-        if( !cargo || cargo->vehicle().part_flag( cargo->part_index(), locked_string ) ) {
+        if( !cargo || cargo->has_feature( locked_string ) ) {
             continue;
         }
 
@@ -1999,8 +1983,9 @@ void npc::find_item()
     // TODO: Move that check above, make it multi-target pathing and use it
     // to limit tiles available for choice of items
     const int dist_to_item = rl_dist( wanted_item_pos, pos() );
-    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
-    update_path( dest );
+    if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
+        update_path( *dest );
+    }
 
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
@@ -2023,7 +2008,7 @@ void npc::pick_up_item()
 
     const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
-    const bool has_cargo = vp && !vp->vehicle().part_flag( vp->part_index(), "LOCKED" );
+    const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
@@ -2038,8 +2023,9 @@ void npc::pick_up_item()
 
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
-    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
-    update_path( dest );
+    if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
+        update_path( *dest );
+    }
 
     const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
     if( dist_to_pickup > 1 && !path.empty() ) {
@@ -2115,7 +2101,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of_from_type( LIQUID ) ) {
             iter++;
             continue;
         }
@@ -2313,11 +2299,9 @@ bool npc::find_corpse_to_pulp()
 
     const int range = 6;
 
-    const bool had_pulp_target = pulp_location != tripoint_min;
-
     const item *corpse = nullptr;
-    if( had_pulp_target && square_dist( pos(), pulp_location ) <= range ) {
-        corpse = check_tile( pulp_location );
+    if( pulp_location && square_dist( pos(), *pulp_location ) <= range ) {
+        corpse = check_tile( *pulp_location );
     }
 
     // Find the old target to avoid spamming
@@ -2330,7 +2314,7 @@ bool npc::find_corpse_to_pulp()
             corpse = check_tile( p );
 
             if( corpse != nullptr ) {
-                pulp_location = p;
+                pulp_location.emplace( p );
                 break;
             }
 
@@ -2350,18 +2334,18 @@ bool npc::find_corpse_to_pulp()
 
 bool npc::do_pulp()
 {
-    if( pulp_location == tripoint_min ) {
+    if( !pulp_location ) {
         return false;
     }
 
-    if( rl_dist( pulp_location, pos() ) > 1 || pulp_location.z != posz() ) {
+    if( rl_dist( *pulp_location, pos() ) > 1 || pulp_location->z != posz() ) {
         return false;
     }
 
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = pulp_location;
+    activity.placement = *pulp_location;
     activity.do_turn( *this );
     return moves != old_moves;
 }
@@ -2954,9 +2938,7 @@ void npc::look_for_player( player &sought )
 
 bool npc::saw_player_recently() const
 {
-    return ( last_player_seen_pos.x >= 0 && last_player_seen_pos.x < SEEX * MAPSIZE &&
-             last_player_seen_pos.y >= 0 && last_player_seen_pos.y < SEEY * MAPSIZE &&
-             last_seen_player_turn > 0 );
+    return last_player_seen_pos && g->m.inbounds( *last_player_seen_pos ) && last_seen_player_turn > 0;
 }
 
 bool npc::has_destination() const

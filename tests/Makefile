@@ -5,7 +5,7 @@
 # We're using the fairly typical convention that any file ending in _test.cpp
 # is a test executable.
 SOURCES = $(wildcard *.cpp)
-OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
+OBJS = $(sort $(SOURCES:%.cpp=$(ODIR)/%.o))
 
 CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 
@@ -31,8 +31,10 @@ $(BUILD_PREFIX)cata_test: $(OBJS) $(CATA_LIB)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
+# (the shuf call is intended to be a POSIX-compliant means to generate a random
+# integer)
 check: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) -d yes
+	cd .. && tests/$(TEST_TARGET) -d yes -r cata --rng-seed `shuf -i 0-1000000000 -n 1`
 
 clean:
 	rm -rf *obj

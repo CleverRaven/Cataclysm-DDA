@@ -124,6 +124,8 @@ Each terrain then has an independent set of configuration values that control th
 | `groundcover`                 | Weighted list of terrains used for base groundcover.                         |
 | `clear_components`            | Clear all previously defined `components` for this overmap terrain.          |
 | `components`                  | Collection of components that make up the terrains and furniture placed.     |
+| `clear_terrain_furniture`     | Clear all previously defined `terrain_furniture` for this overmap terrain.   |
+| `terrain_furniture`           | Collection of furniture conditionally placed based on terrain.               |
 
 ### Example
 
@@ -140,7 +142,9 @@ Each terrain then has an independent set of configuration values that control th
 			"t_dirt": 1
 		},
 		"clear_components": false,
-		"components": {}
+		"components": {},
+		"clear_terrain_furniture": false,
+		"terrain_furniture": {}
 	}
 }
 ```
@@ -204,6 +208,37 @@ for the components are only relevant for the purposes of overriding them in regi
 			"f_dahlia": 1,
 			"f_bluebell": 1,
 			"f_mutpoppy": 1
+		}
+	}
+}
+```
+
+### Terrain Furniture
+
+The terrain furniture are a collection of terrain ids with a chance of having furniture
+picked from a weighted list for that given terrain and placed on it during mapgen after
+the normal mapgen has completed. This is used, for example, to place cattails on fresh
+water in swamps. Cattails could be simply placed in the `components` section and placed 
+during the normal forest mapgen, but that would not guarantee their placement on fresh 
+water only, while this does.
+
+### Fields
+
+|    Identifier     |                            Description                             |
+| ----------------- | ------------------------------------------------------------------ |
+| `chance`          | One in X chance that furniture from this component will be placed. |
+| `clear_furniture` | Clear all previously defined `furniture` for this terrain.         |
+| `furniture`       | Weighted list of furniture that will be placed on this terrain.    |
+
+### Example
+
+```json
+{
+	"t_water_sh" : {
+		"chance": 2,
+		"clear_furniture": false,
+		"furniture": {
+			"f_cattails": 1
 		}
 	}
 }

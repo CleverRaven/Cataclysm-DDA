@@ -447,6 +447,7 @@
     "color": "dark_gray",
     "move_cost_mod": 2,
     "required_str": 10,
+    "insulation": 6,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -459,7 +460,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "max_volume": 4000,
+    "max_volume": 1000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -485,7 +486,7 @@
     "description": "Wood stove for heating and cooking.  Much more effective than an open flame.",
     "move_cost_mod": 2,
     "required_str": 10,
-    "max_volume": 4000,
+    "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
     "bash": {
       "str_min": 8,
@@ -963,26 +964,33 @@
     "color": "light_cyan",
     "move_cost_mod": -1,
     "required_str": 10,
+    "insulation": 3,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 2, 5 ] }
       ]
     },
-    "max_volume": 7000,
+    "max_volume": 4000,
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "cu_pipe", "count": [ 2, 4 ] },
         { "item": "scrap_copper", "count": [ 1, 2 ] }
       ]
     }
@@ -996,25 +1004,32 @@
     "description": "Wow!  See INTO your fridge before you open it!",
     "move_cost_mod": -1,
     "required_str": 10,
+    "insulation": 2,
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "sheet_metal", "count": [ 2, 5 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "cu_pipe", "count": [ 3, 6 ] }
       ]
     },
-    "max_volume": 7000,
+    "max_volume": 5000,
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 9 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
@@ -1133,7 +1148,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": 12,
-    "max_volume": 4000,
+    "max_volume": 1200,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -1174,7 +1189,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": 12,
-    "max_volume": 4000,
+    "max_volume": 1500,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -1928,7 +1943,7 @@
   {
     "type": "furniture",
     "id": "f_fvat_empty",
-    "name": "empty fermenting vat",
+    "name": "fermenting vat",
     "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
     "symbol": "O",
     "color": "brown",
@@ -1963,7 +1978,7 @@
   {
     "type": "furniture",
     "id": "f_fvat_full",
-    "name": "full fermenting vat",
+    "name": "filled fermenting vat",
     "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
     "symbol": "O",
     "color": "brown_cyan",
@@ -2200,6 +2215,73 @@
         "entries": [ { "drop": "cattail_rhizome" }, { "drop": "cattail_stalk", "base_num": [ 1, 4 ] } ]
       }
     ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_black_eyed_susan",
+    "name": "black eyed susan",
+    "looks_like": "f_dandelion",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lily",
+    "name": "lily",
+    "looks_like": "f_tulip",
+    "symbol": "f",
+    "color": "magenta",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lotus",
+    "name": "lotus",
+    "looks_like": "f_lily",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sunflower",
+    "name": "sunflower",
+    "looks_like": "f_dandelion",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "sunflower" } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lilypad",
+    "name": "lilypad",
+    "symbol": "f",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {

@@ -2,11 +2,11 @@
 #ifndef CATA_UTILITY_H
 #define CATA_UTILITY_H
 
-#include <utility>
-#include <string>
-#include <vector>
 #include <fstream>
 #include <functional>
+#include <string>
+#include <utility>
+#include <vector>
 
 class item;
 class Creature;
@@ -93,7 +93,7 @@ bool lcmatch( const std::string &str, const std::string &qry );
  * Examle: bank,-house,tank,-car
  * Will match text containing tank or bank while not containing house or car
  *
- * @param test String to be matched
+ * @param text String to be matched
  * @param filter String with include/exclude rules
  *
  * @return true if include/exclude rules pass. See Example.
@@ -221,11 +221,16 @@ double convert_volume( int volume, int *out_scale );
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
  *
- * @param fahrenheit Temperature in degrees F.
- *
  * @return Temperature in degrees C.
  */
 double temp_to_celsius( double fahrenheit );
+
+/**
+ * Convert a temperature from degrees Fahrenheit to degrees Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double temp_to_kelvin( double fahrenheit );
 
 /**
  * Clamp (number and space wise) value to with,

@@ -69,6 +69,7 @@
     "type": "GENERIC",
     "id": "file",
     "name": "file",
+    "category": "books",
     "description": "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
     "weight": 15,
     "to_hit": -3,
@@ -104,6 +105,15 @@
     "weight": 114,
     "volume": 1,
     "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "faux_fur",
+    "copy-from": "fur",
+    "color": "pink",
+    "name": "faux fur pelt",
+    "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
+    "material": [ "faux_fur" ]
   },
   {
     "type": "GENERIC",
@@ -156,6 +166,7 @@
   {
     "type": "GENERIC",
     "id": "superglue",
+    "category": "spare_parts",
     "symbol": ",",
     "color": "white",
     "name": "superglue",
@@ -171,6 +182,7 @@
     "type": "GENERIC",
     "id": "bone_glue",
     "symbol": ",",
+    "category": "spare_parts",
     "color": "brown",
     "name": "bone glue",
     "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy duty usages, but it can be used as a varnish or holding together small items.",
@@ -315,7 +327,8 @@
     "weight": 907,
     "volume": 1,
     "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -323,6 +336,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": "spiral stone",
+    "category": "artifacts",
     "description": "A rock the size of your fist.  It is covered with intricate spirals; it is impossible to tell whether they are carved, naturally formed, or some kind of fossil.",
     "price": 20000,
     "price_postapoc": 1000,
@@ -330,7 +344,8 @@
     "weight": 493,
     "volume": 1,
     "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -511,7 +526,8 @@
     "weight": 908,
     "volume": 6,
     "bashing": 12,
-    "to_hit": 2
+    "to_hit": 2,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -545,6 +561,7 @@
     "volume": 40,
     "bashing": 10,
     "to_hit": -10,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -1280,7 +1297,8 @@
     "material": "ceramic",
     "weight": 362,
     "volume": 1,
-    "bashing": 1
+    "bashing": 1,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1308,7 +1326,8 @@
     "material": "glass",
     "weight": 452,
     "volume": 1,
-    "bashing": 1
+    "bashing": 1,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1321,7 +1340,8 @@
     "price_postapoc": 0,
     "material": "steel",
     "weight": 525,
-    "volume": 1
+    "volume": 1,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1469,7 +1489,7 @@
     "color": "light_gray",
     "name": "Mosin-Nagant EBR conversion kit",
     "name_plural": "Mosin-Nagant EBR conversion kits",
-    "category": "other",
+    "category": "spare_parts",
     "description": "A synthetic stock and hardware designed to accommodate common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could give the classic Russian design modern furniture and customization capacity.",
     "price": 12000,
     "weight": 2000,
@@ -1484,7 +1504,7 @@
     "color": "light_gray",
     "name": "L523-CAR conversion",
     "name_plural": "L523-CAR conversions",
-    "category": "other",
+    "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to the Carbine configuration, Leadworks LLC's choice for close-quarters work.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 170000,
     "weight": 400,
@@ -1499,7 +1519,7 @@
     "color": "light_gray",
     "name": "L523-MBR conversion",
     "name_plural": "L523-MBR conversions",
-    "category": "other",
+    "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to a Main Battle Rifle, a balanced weapon for all situations.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 170000,
     "weight": 700,
@@ -1514,7 +1534,7 @@
     "color": "light_gray",
     "name": "L523-DSR conversion",
     "name_plural": "L523-DSR conversions",
-    "category": "other",
+    "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to a Designated Shootist Rifle, suitable for long-ranged work.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 200000,
     "weight": 1900,
@@ -1529,7 +1549,7 @@
     "color": "light_gray",
     "name": "L523-LMG conversion",
     "name_plural": "L523-LMG conversions",
-    "category": "other",
+    "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to a light machine gun.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 270000,
     "weight": 2300,
@@ -1914,6 +1934,123 @@
   },
   {
     "type": "GENERIC",
+    "id": "black_eyed_susan_flower",
+    "name": "black eyed susan",
+    "description": "A black eyed susan stalk with some petals.",
+    "weight": 40,
+    "to_hit": -3,
+    "color": "yellow",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "black_eyed_susan_bud",
+    "name": "black eyed susan bud",
+    "description": "A black eyed susan bud.  Contains some substances commonly produced by a black eyed susan flower.",
+    "weight": 30,
+    "to_hit": -3,
+    "color": "yellow",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "lily_flower",
+    "name": "lily",
+    "description": "A lily stalk with some petals.",
+    "weight": 40,
+    "to_hit": -3,
+    "color": "magenta",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "lily_bud",
+    "name": "lily bud",
+    "description": "A lily bud.  Contains some substances commonly produced by a lily flower.",
+    "weight": 30,
+    "to_hit": -3,
+    "color": "magenta",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "lotus_flower",
+    "name": "lotus",
+    "description": "A lotus stalk with some petals.",
+    "weight": 40,
+    "to_hit": -3,
+    "color": "yellow",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "lotus_bud",
+    "name": "lotus bud",
+    "description": "A lotus bud.  Contains some substances commonly produced by a lotus flower.",
+    "weight": 30,
+    "to_hit": -3,
+    "color": "yellow",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "lilac_flower",
+    "name": "lilac",
+    "description": "A lilac stalk with some petals.",
+    "weight": 40,
+    "to_hit": -3,
+    "color": "magenta",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "lilac_bud",
+    "name": "lilac bud",
+    "description": "A lilac bud.  Contains some substances commonly produced by a lilac flower.",
+    "weight": 30,
+    "to_hit": -3,
+    "color": "magenta",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "sunflower",
+    "name": "sunflower",
+    "description": "The top of a sunflower, with yellow pedals and some seeds that have yet to be eaten by animals.",
+    "weight": 450,
+    "to_hit": -2,
+    "color": "yellow",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 6,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
@@ -1940,7 +2077,8 @@
     "weight": 969,
     "volume": 2,
     "bashing": 8,
-    "to_hit": -2
+    "to_hit": -2,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2290,6 +2428,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "bodypillow",
+    "symbol": "[",
+    "color": "white",
+    "name": "body pillow",
+    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily clad version on the back.",
+    "price": 1500,
+    "material": [ "cotton" ],
+    "weight": 774,
+    "volume": 7,
+    "flags": [ "SLEEP_AID" ],
+    "category": "other"
+  },
+  {
+    "type": "GENERIC",
     "id": "down_pillow",
     "symbol": ",",
     "color": "blue",
@@ -2604,7 +2756,7 @@
   {
     "id": "clay_pot_flower",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "other",
     "name": "clay flower pot",
     "description": "A nice looking clay pot used for planting.",
     "weight": 480,
@@ -2618,7 +2770,7 @@
   {
     "id": "plastic_pot_flower",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "other",
     "name": "plastic flower pot",
     "description": "A cheap plastic pot used for planting.",
     "weight": 190,

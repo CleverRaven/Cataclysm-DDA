@@ -1,12 +1,12 @@
 #include "effect.h"
+
 #include "debug.h"
-#include "rng.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "player.h"
-#include "translations.h"
-#include "messages.h"
 #include "json.h"
+#include "messages.h"
+#include "output.h"
+#include "player.h"
+#include "rng.h"
+#include "string_formatter.h"
 
 #include <map>
 #include <sstream>
@@ -356,9 +356,9 @@ bool effect_type::use_name_ints() const
 bool effect_type::use_desc_ints( bool reduced ) const
 {
     if( reduced ) {
-        return ( ( size_t )max_intensity <= reduced_desc.size() );
+        return ( static_cast<size_t>( max_intensity ) <= reduced_desc.size() );
     } else {
-        return ( ( size_t )max_intensity <= desc.size() );
+        return ( static_cast<size_t>( max_intensity ) <= desc.size() );
     }
 }
 
@@ -472,19 +472,23 @@ std::string effect::disp_name() const
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::ostringstream ret;
     if( eff_type->use_name_ints() ) {
-        const std::string &d_name = eff_type->name[ std::min<size_t>( intensity,
+        const translation &d_name = eff_type->name[ std::min<size_t>( intensity,
                                                       eff_type->name.size() ) - 1 ];
         if( d_name.empty() ) {
-            return "";
+            return std::string();
         }
-        ret << _( d_name.c_str() );
+        ret << d_name.translated();
     } else {
         if( eff_type->name[0].empty() ) {
-            return "";
+            return std::string();
         }
-        ret << _( eff_type->name[0].c_str() );
+        ret << eff_type->name[0].translated();
         if( intensity > 1 ) {
-            ret << " [" << intensity << "]";
+            if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
+                ret << " [" << texitify_healing_power( intensity ) << "]";
+            } else {
+                ret << " [" << intensity << "]";
+            }
         }
     }
     if( bp != num_bp ) {
@@ -502,7 +506,7 @@ struct desc_freq {
     std::string neg_string;
 
     desc_freq( double c, int v, const std::string &pos, const std::string &neg ) : chance( c ),
-        val( v ), pos_string( pos ), neg_string( neg ) {};
+        val( v ), pos_string( pos ), neg_string( neg ) {}
 };
 
 std::string effect::disp_desc( bool reduced ) const
@@ -612,16 +616,16 @@ std::string effect::disp_desc( bool reduced ) const
             }
         }
     }
-    if( constant.size() > 0 ) {
+    if( !constant.empty() ) {
         ret << _( "Const: " ) << enumerate_as_string( constant ) << " ";
     }
-    if( frequent.size() > 0 ) {
+    if( !frequent.empty() ) {
         ret << _( "Freq: " ) << enumerate_as_string( frequent ) << " ";
     }
-    if( uncommon.size() > 0 ) {
+    if( !uncommon.empty() ) {
         ret << _( "Unfreq: " ) << enumerate_as_string( uncommon ) << " ";
     }
-    if( rare.size() > 0 ) {
+    if( !rare.empty() ) {
         ret << _( "Rare: " ) << enumerate_as_string( rare ); // No space needed at the end
     }
 
@@ -654,6 +658,23 @@ std::string effect::disp_desc( bool reduced ) const
     }
 
     return ret.str();
+}
+
+std::string effect::disp_short_desc( bool reduced ) const
+{
+    if( eff_type->use_desc_ints( reduced ) ) {
+        if( reduced ) {
+            return eff_type->reduced_desc[intensity - 1];
+        } else {
+            return eff_type->desc[intensity - 1];
+        }
+    } else {
+        if( reduced ) {
+            return eff_type->reduced_desc[0];
+        } else {
+            return eff_type->desc[0];
+        }
+    }
 }
 
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
@@ -1082,7 +1103,7 @@ double effect::get_addict_mod( const std::string &arg, int addict_level ) const
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if( arg == "PKILL" ) {
         if( eff_type->pkill_addict_reduces ) {
-            return 1.0 / std::max( ( double )addict_level * 2.0, 1.0 );
+            return 1.0 / std::max( static_cast<double>( addict_level ) * 2.0, 1.0 );
         } else {
             return 1.0;
         }
@@ -1117,11 +1138,11 @@ std::string effect::get_speed_name() const
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
     if( !eff_type->speed_mod_name.empty() ) {
-        return eff_type->speed_mod_name;
+        return _( eff_type->speed_mod_name.c_str() );
     } else if( eff_type->use_name_ints() ) {
-        return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];
+        return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ].translated();
     } else if( !eff_type->name.empty() ) {
-        return eff_type->name[0];
+        return eff_type->name[0].translated();
     } else {
         return "";
     }
@@ -1160,10 +1181,14 @@ void load_effect_type( JsonObject &jo )
     if( jo.has_member( "name" ) ) {
         JsonArray jsarr = jo.get_array( "name" );
         while( jsarr.has_more() ) {
-            new_etype.name.push_back( jsarr.next_string() );
+            translation name;
+            if( !jsarr.read_next( name ) ) {
+                jsarr.throw_error( "Error reading effect names" );
+            }
+            new_etype.name.emplace_back( name );
         }
     } else {
-        new_etype.name.push_back( "" );
+        new_etype.name.emplace_back();
     }
     new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
 
@@ -1207,16 +1232,16 @@ void load_effect_type( JsonObject &jo )
     new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
     new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
 
-    for( auto &&f : jo.get_string_array( "resist_traits" ) ) {
+    for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "resist_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "resist_effects" ) ) { // *NOPAD*
         new_etype.resist_effects.push_back( efftype_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "removes_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
         new_etype.removes_effects.push_back( efftype_id( f ) );
     }
-    for( auto &&f : jo.get_string_array( "blocks_effects" ) ) {
+    for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
         new_etype.blocks_effects.push_back( efftype_id( f ) );
     }
 
@@ -1282,9 +1307,53 @@ void effect::deserialize( JsonIn &jsin )
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    bp = ( body_part )jo.get_int( "bp" );
+    bp = static_cast<body_part>( jo.get_int( "bp" ) );
     permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
     start_time = calendar::time_of_cataclysm;
     jo.read( "start_turn", start_time );
+}
+
+std::string texitify_base_healing_power( const int power )
+{
+    if( power == 1 ) {
+        return _( "very poor" );
+    } else if( power == 2 ) {
+        return _( "poor" );
+    } else if( power == 3 ) {
+        return _( "decent" );
+    } else if( power == 4 ) {
+        return _( "good" );
+    } else if( power >= 5 ) {
+        return _( "great" );
+    }
+    if( power < 1 ) {
+        debugmsg( "Tried to convert zero or negative value." );
+    }
+    return "";
+}
+
+std::string texitify_healing_power( const int power )
+{
+    if( power >= 1 && power <= 2 ) {
+        return _( "poor" );
+    } else if( power >= 3 && power <= 4 ) {
+        return _( "decent" );
+    } else if( power >= 5 && power <= 6 ) {
+        return _( "average" );
+    } else if( power >= 7 && power <= 8 ) {
+        return _( "good" );
+    } else if( power >= 9 && power <= 10 ) {
+        return _( "very good" );
+    } else if( power >= 11 && power <= 12 ) {
+        return _( "great" );
+    } else if( power >= 13 && power <= 14 ) {
+        return _( "outstanding" );
+    } else if( power >= 15 ) {
+        return _( "perfect" );
+    }
+    if( power < 1 ) {
+        debugmsg( "Converted value out of bounds." );
+    }
+    return "";
 }

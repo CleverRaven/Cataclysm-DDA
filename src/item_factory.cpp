@@ -1,37 +1,32 @@
 #include "item_factory.h"
 
 #include "addiction.h"
+#include "ammo.h"
 #include "artifact.h"
+#include "assign.h"
 #include "catacharset.h"
-#include "construction.h"
-#include "crafting.h"
 #include "debug.h"
 #include "enums.h"
-#include "assign.h"
-#include "string_formatter.h"
-#include "item_category.h"
+#include "field.h"
 #include "init.h"
 #include "item.h"
-#include "ammo.h"
+#include "item_category.h"
 #include "item_group.h"
-#include "vitamin.h"
 #include "iuse_actor.h"
 #include "json.h"
-#include "mapdata.h"
 #include "material.h"
 #include "options.h"
 #include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "skill.h"
-#include "translations.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "ui.h"
 #include "veh_type.h"
-#include "field.h"
+#include "vitamin.h"
 
 #include <algorithm>
-#include <assert.h>
 #include <cassert>
 #include <cmath>
 #include <sstream>
@@ -176,14 +171,16 @@ void Item_factory::finalize_pre( itype &obj )
         obj.integral_volume = obj.volume;
     }
     // for ammo and comestibles stack size defaults to count of initial charges
-    if( obj.stackable && obj.stack_size == 0 ) {
-        obj.stack_size = obj.charges_default();
+    // Set max stack size to 200 to prevent integer overflow
+    if( obj.stackable ) {
+        if( obj.stack_size == 0 ) {
+            obj.stack_size = obj.charges_default();
+        } else if( obj.stack_size > 200 ) {
+            debugmsg( obj.id + " stack size is too large, reducing to 200" );
+            obj.stack_size = 200;
+        }
     }
-    // JSON contains volume per complete stack, convert it to volume per single item
-    if( obj.count_by_charges() ) {
-        obj.volume = obj.volume / obj.stack_size;
-        obj.integral_volume = obj.integral_volume / obj.stack_size;
-    }
+
     // Items always should have some volume.
     // TODO: handle possible exception software?
     // TODO: make items with 0 volume an error during loading?
@@ -194,6 +191,12 @@ void Item_factory::finalize_pre( itype &obj )
         if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
             obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
         }
+    }
+
+    // Set max volume for containers to prevent integer overflow
+    if( obj.container && obj.container->contains > 10000000_ml ) {
+        debugmsg( obj.id + " storage volume is too large, reducing to 10000000" );
+        obj.container->contains = 10000000_ml;
     }
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
@@ -544,6 +547,7 @@ void Item_factory::init()
     add_iuse( "CAFF", &iuse::caff );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
+    add_iuse( "COIN_FLIP", &iuse::coin_flip );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
@@ -562,10 +566,14 @@ void Item_factory::init()
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
+    add_iuse( "E_COMBATSAW_OFF", &iuse::e_combatsaw_off );
+    add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CS_LAJATANG_OFF", &iuse::cs_lajatang_off );
     add_iuse( "CS_LAJATANG_ON", &iuse::cs_lajatang_on );
+    add_iuse( "ECS_LAJATANG_OFF", &iuse::ecs_lajatang_off );
+    add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
@@ -610,6 +618,7 @@ void Item_factory::init()
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
     add_iuse( "LADDER", &iuse::ladder );
     add_iuse( "LUMBER", &iuse::lumber );
+    add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "MARLOSS", &iuse::marloss );
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
@@ -693,6 +702,7 @@ void Item_factory::init()
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
+    add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
     add_actor( new ammobelt_actor() );
     add_actor( new bandolier_actor() );
@@ -805,8 +815,9 @@ void Item_factory::check_definitions() const
                 msg << string_format( "item %s has unknown quality %s", type->id.c_str(), q.first.c_str() ) << "\n";
             }
         }
-        if( type->default_container != "null" && !has_template( type->default_container ) ) {
-            msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
+        if( type->default_container && ( !has_template( *type->default_container ) ||
+                                         *type->default_container == "null" ) ) {
+            msg << string_format( "invalid container property %s", type->default_container->c_str() ) << "\n";
         }
 
         for( const auto &e : type->emits ) {
@@ -1651,6 +1662,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "mode_modifier", slot.mode_modifier );
+    assign( jo, "reload_modifier", slot.reload_modifier );
+    assign( jo, "min_str_required_mod", slot.min_str_required_mod );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
@@ -1696,6 +1709,7 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
+    assign( jo, "is_upgrade", slot.is_upgrade );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
@@ -2533,7 +2547,7 @@ void item_group::debug_spawn()
     uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.push_back( uimenu_entry( i, true, -2, groups[i] ) );
+        menu.entries.emplace_back( i, true, -2, groups[i] );
     }
     while( true ) {
         menu.query();
@@ -2559,7 +2573,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.push_back( uimenu_entry( menu2.entries.size(), true, -2, buffer.str() ) );
+            menu2.entries.emplace_back( menu2.entries.size(), true, -2, buffer.str() );
         }
         menu2.query();
     }

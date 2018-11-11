@@ -1,25 +1,26 @@
 #include "overmapbuffer.h"
+
+#include "cata_utility.h"
 #include "coordinate_conversions.h"
-#include "overmap_connection.h"
-#include "overmap_types.h"
-#include "overmap.h"
+#include "debug.h"
+#include "filesystem.h"
 #include "game.h"
 #include "line.h"
 #include "map.h"
-#include "debug.h"
-#include "monster.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "npc.h"
+#include "overmap.h"
+#include "overmap_connection.h"
+#include "overmap_types.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
-#include "npc.h"
 #include "vehicle.h"
-#include "filesystem.h"
-#include "cata_utility.h"
 
 #include <algorithm>
 #include <cassert>
+#include <cstdlib>
 #include <sstream>
-#include <stdlib.h>
 
 overmapbuffer overmap_buffer;
 
@@ -329,7 +330,7 @@ int overmapbuffer::get_horde_size( int const x, int const y, int const z )
     int horde_size = 0;
     for( auto const &m : overmap_buffer.monsters_at( x, y, z ) ) {
         if( m->horde ) {
-            if( m->monsters.size() > 0 ) {
+            if( !m->monsters.empty() ) {
                 horde_size += m->monsters.size();
             } else {
                 // We don't know how large this will actually be, because
@@ -361,7 +362,7 @@ bool overmapbuffer::has_vehicle( int x, int y, int z )
         }
     }
 
-    return false;;
+    return false;
 }
 
 std::vector<om_vehicle> overmapbuffer::get_vehicle( int x, int y, int z )
@@ -419,8 +420,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( int x, int y, int z )
     // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
     // but monster groups are defined with submap coordinates.
     std::vector<mongroup *> result;
-    std::vector<mongroup *> tmp;
-    tmp = groups_at( x * 2, y * 2, z );
+    std::vector<mongroup *> tmp = groups_at( x * 2, y * 2, z );
     result.insert( result.end(), tmp.begin(), tmp.end() );
     tmp = groups_at( x * 2, y * 2 + 1, z );
     result.insert( result.end(), tmp.begin(), tmp.end() );
@@ -484,7 +484,7 @@ void overmapbuffer::set_scent( const tripoint &loc, int strength )
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
 {
-    const point new_msp = veh->real_global_pos();
+    const point new_msp = g->m.getabs( veh->global_pos3().x, veh->global_pos3().y );
     point old_omt = ms_to_omt_copy( old_msp );
     point new_omt = ms_to_omt_copy( new_msp );
     overmap &old_om = get_om_global( old_omt.x, old_omt.y );
@@ -501,14 +501,14 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
 
 void overmapbuffer::remove_vehicle( const vehicle *veh )
 {
-    const point omt = ms_to_omt_copy( veh->real_global_pos() );
+    const point omt = ms_to_omt_copy( g->m.getabs( veh->global_pos3().x, veh->global_pos3().y ) );
     overmap &om = get_om_global( omt );
     om.vehicles.erase( veh->om_id );
 }
 
 void overmapbuffer::add_vehicle( vehicle *veh )
 {
-    point omt = ms_to_omt_copy( veh->real_global_pos() );
+    point omt = ms_to_omt_copy( g->m.getabs( veh->global_pos3().x, veh->global_pos3().y ) );
     overmap &om = get_om_global( omt.x, omt.y );
     int id = om.vehicles.size() + 1;
     // this *should* be unique but just in case

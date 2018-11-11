@@ -1,0 +1,100 @@
+Bugfixes Chocolate covered pretzels Fix
+Balance Telescopic Eyes CBM Updated
+Mods Arcana Mod: Adds shady zombies to drop list
+Balance WBLOCK_2 usage changes
+Interface Adds windows no curtains to all my sets, plus lots of stuff to the new iso set
+Content French toast
+Bugfixes Set player position to the updated submap shift before checking for seen overmap tiles.
+Bugfixes Eternal season should prevent showing duration in seasons.
+Bugfixes Fix reloading of spare magazine
+Bugfixes Forbid eating non-solid food except when contained
+Content Add pumpkin and sunflower as farmable plants
+Infrastructure reworking item groups
+Interface MShock Modded Tileset Series 25
+Bugfixes Implement a hack for welding rig long repair
+Balance Weed brownie recipe change
+Balance Correct nutrition_for thresholds
+Bugfixes Make gobag uncraftable
+Content Leather/bone/chitin recipe staggering, armguard split
+Interface ChestHole Hickory trees and shady zombies
+Infrastructure Get rid of creature::pos3()
+Content add tortillas
+Bugfixes Allow dodging during long actions.
+Bugfixes Fix failing legacy save loading unit test.
+Content Crossbow hunter
+Balance Change handling of recoil penalty
+Balance Remove completely unrealistic energy weapon recipes
+Content Zombie child evolution expansion.
+Interface combine limbs on info and layering screens
+Content New build_lab, other underground overmap code cleanup
+Infrastructure use wchar_t for all potentially-wide-character handling
+Bugfixes lard math fix
+Balance Update recipes for new comestible tortilla
+Bugfixes Alarm System CBM now ignores hallucinations.
+Content Adding eggnog
+Content Tin can sealer.
+Features Craft in the dark
+Interface Define duplicate sprites for multiple tile ids at the same time, also document tile_config.json
+Bugfixes Bionic "Telescopic Eyes" fix.
+Mods Gives Gungir reach attack, removes rapid technique
+Interface MShock Modded Tileset: zombie children evolutions
+Balance Standardise ammo disassembly
+Infrastructure New road mapgen to replace mapgen_road_*()
+Bugfixes Fix bullet pulling format in mod.
+Infrastructure Remove 'rarity' parameter entries
+Mods Allow mods to override specific properties of monster types.
+Infrastructure Jsonized monster attacks
+Balance Storage cells and car recharger changes
+Balance Eggnog rebalance
+Bugfixes Telescopic Eye CBM fix
+Balance remove eyes coverage from the rioter mask
+Infrastructure Factor out drawing primitive algorithms to a separate module.
+Balance Remove whip stun effect.
+Bugfixes Restore body part highlighting in armor layering menu.
+Build Set -mmacosx-version-min to 10.7 using clang
+Infrastructure Better naming for adjacent items
+Infrastructure Implement visitor pattern for items
+Bugfixes Fixes radiation protection/treatment pills.
+Interface random sprites for player and NPCs
+Mods More Locations mod.
+Build Add new source files to CodeBlocks project file
+Features Allow using Enhanced Hearing CBM to crack safes.
+Mods Arcana and Tank mods: Use of monster modify
+Interface Chesthole tileset: Adds rm13 overlay, fixes survivor mask overlay
+Bugfixes Disassembling checks for null recipe - fixes #14780, fixes #14735
+Bugfixes Prevent screen artifacts caused by transparent or undrawn terrain tiles
+Bugfixes Wishmenu->wish item: remove previous item ID before drawing current one.
+Bugfixes Fixes "make slings, dismantle for string" exploit
+Mods Removes redundant controls from inflatable boat
+Features Initial work on 3D vision
+Features Escapable menu for yelling at NPCs
+Balance New drops for zombie soldiers
+Bugfixes Holsters should consider hand encumbrance and other penalties
+Balance Item handling is slower with increasing hand encumbrance
+Balance Reduce number of charges for oxyacetylene torch
+Infrastructure Remove hardcoded moves cost when unloading from containers
+Infrastructure Rework player::weapname()
+Bugfixes Forbid mp3 player from playing without batteries
+Bugfixes Fixes to sidewalks and yellow dots on roads
+Infrastructure Item groups for guns and ammo
+Mods Arcana mod: Effect disambiguation/changes
+Bugfixes Plural name fix
+Balance Remove hardtack from sandwich recipes
+Infrastructure Weather Reader reworked
+Bugfixes Move book disassembly code into null recipe check so books can be torn into pages again.
+Infrastructure Filter out TAB and Shift+TAB from filter's input string
+Balance Add minimum move cost when handling items
+Balance Implements barrel_length variable in ranged.json.
+Mods Update for RL_Classes mod.
+Features Giving NPCs mutagens, meds, food etc.
+Bugfixes Uncountable nouns plural fix
+Content [Recipe] Use 4 hotdogs instead of one when making cooked hot dogs.
+Features Mass uncraft
+Infrastructure Add a default value for "to_hit"
+Bugfixes Fix incorrect colors
+Bugfixes Fix for Adreneline CBM/Injector, Mycus wrath
+Mods Allow mods to change martial art styles / techniques / buffs
+Content Add "calories" field to it_comest
+Balance Melee combat rebalance
+Content Unscrewable vehicle parts
+Interface Adds caching to the pixel minimap, enemy indicators flash red, apply low light filters.

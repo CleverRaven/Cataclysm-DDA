@@ -1,11 +1,12 @@
 #include "mission.h"
-#include "game.h"
+
 #include "debug.h"
-#include "rng.h"
-#include "translations.h"
-#include "output.h"
+#include "game.h"
 #include "messages.h"
 #include "npc.h"
+#include "output.h"
+#include "rng.h"
+#include "translations.h"
 
 const efftype_id effect_infection( "infection" );
 

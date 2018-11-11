@@ -1,39 +1,34 @@
 #include "crafting.h"
 
-#include "catacharset.h"
+#include "activity_handlers.h"
+#include "ammo.h"
+#include "bionics.h"
+#include "calendar.h"
 #include "craft_command.h"
 #include "debug.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "input.h"
-#include "bionics.h"
 #include "inventory.h"
+#include "item.h"
 #include "itype.h"
-#include "ammo.h"
 #include "map.h"
 #include "messages.h"
-#include "item.h"
 #include "npc.h"
-#include "calendar.h"
 #include "options.h"
 #include "output.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
-#include "vpart_reference.h"
 #include "translations.h"
 #include "ui.h"
-#include "vpart_position.h"
 #include "vehicle.h"
-#include "crafting_gui.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
-#include <algorithm> //std::min
-#include <iostream>
-#include <math.h>    //sqrt
-#include <queue>
-#include <string>
+#include <algorithm>
+#include <cmath>
 #include <sstream>
-#include <numeric>
+#include <string>
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -305,7 +300,8 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO" ) ) {
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+                true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 if( is_container_eligible_for_crafting( it, false ) ) {
                     conts.emplace_back( &it );
@@ -458,13 +454,9 @@ static void set_item_inventory( item &newit )
         g->u.inv.assign_empty_invlet( newit, g->u );
         // We might not have space for the item
         if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
-            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                     newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
+            put_into_vehicle_or_drop( g->u, item_drop_reason::too_large, { newit } );
         } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
-                     newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
+            put_into_vehicle_or_drop( g->u, item_drop_reason::too_heavy, { newit } );
         } else {
             newit = g->u.i_add( newit );
             add_msg( m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str() );
@@ -560,16 +552,16 @@ void player::complete_craft()
     if( making->skill_used ) {
         // normalize experience gain to crafting time, giving a bonus for longer crafting
         const double batch_mult = batch_size + base_time_to_craft( *making, batch_size ) / 30000.0;
-        practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * batch_mult ),
-                  ( int )making->difficulty * 1.25 );
+        practice( making->skill_used, static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult ),
+                  static_cast<int>( making->difficulty ) * 1.25 );
 
         //NPCs assisting or watching should gain experience...
         for( auto &elem : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
             if( elem->get_skill_level( making->skill_used ) >= making->difficulty ) {
                 elem->practice( making->skill_used,
-                                ( int )( ( making->difficulty * 15 + 10 ) * batch_mult *
-                                         .50 ), ( int )making->difficulty * 1.25 );
+                                static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult *
+                                                  .50 ), static_cast<int>( making->difficulty ) * 1.25 );
                 if( batch_size > 1 ) {
                     add_msg( m_info, _( "%s assists with crafting..." ), elem->name.c_str() );
                 }
@@ -579,8 +571,8 @@ void player::complete_craft()
                 //NPCs around you understand the skill used better
             } else {
                 elem->practice( making->skill_used,
-                                ( int )( ( making->difficulty * 15 + 10 ) * batch_mult * .15 ),
-                                ( int )making->difficulty * 1.25 );
+                                static_cast<int>( ( making->difficulty * 15 + 10 ) * batch_mult * .15 ),
+                                static_cast<int>( making->difficulty ) * 1.25 );
                 add_msg( m_info, _( "%s watches you craft..." ), elem->name.c_str() );
             }
         }
@@ -617,7 +609,7 @@ void player::complete_craft()
     const time_point now = calendar::turn;
     time_point start_turn = now;
     tripoint craft_pos = pos();
-    if( activity.values.size() > 1 && activity.coords.size() > 0 ) {
+    if( activity.values.size() > 1 && !activity.coords.empty() ) {
         start_turn = activity.values.at( 1 );
         craft_pos = activity.coords.at( 0 );
     } else {
@@ -721,7 +713,16 @@ void player::complete_craft()
 
         if( newit.goes_bad() ) {
             newit.set_relative_rot( max_relative_rot );
+        } else {
+            if( newit.is_container() ) {
+                for( item &in : newit.contents ) {
+                    if( in.goes_bad() ) {
+                        in.set_relative_rot( max_relative_rot );
+                    }
+                }
+            }
         }
+
         if( should_heat ) {
             newit.heat_up();
         } else {
@@ -1011,7 +1012,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
-                std::string tmpStr = string_format( "%s (%d/%d charges nearby)",
+                std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
                                                     item::nname( map_ha.type ),
                                                     ( map_ha.count * batch ),
                                                     map_inv.charges_of( map_ha.type ) );
@@ -1023,7 +1024,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         }
         for( auto &player_ha : player_has ) {
             if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
-                std::string tmpStr = string_format( "%s (%d/%d charges on person)",
+                std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
                                                     item::nname( player_ha.type ),
                                                     ( player_ha.count * batch ),
                                                     charges_of( player_ha.type ) );
@@ -1140,14 +1141,15 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         } );
 
         if( !found ) {
-            if( opts.front().count <= 0 ) {
+            const tool_comp &tool_required = opts.front();
+            if( tool_required.count <= 0 ) {
                 return ret_val<bool>::make_failure( _( "You need %s." ),
-                                                    item::nname( opts.front().type ).c_str() );
+                                                    item::nname( tool_required.type ).c_str() );
             } else {
                 return ret_val<bool>::make_failure( ngettext( "You need a %s with %d charge.",
-                                                    "You need a %s with %d charges.", opts.front().count ),
-                                                    item::nname( opts.front().type ).c_str(),
-                                                    opts.front().count );
+                                                    "You need a %s with %d charges.", tool_required.count ),
+                                                    item::nname( tool_required.type ).c_str(),
+                                                    tool_required.count );
             }
         }
     }
@@ -1435,6 +1437,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
     }
 
+    std::list<item> drop_items;
+
     for( const item &newit : components ) {
         const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
         if( dis.difficulty != 0 && !comp_success ) {
@@ -1471,18 +1475,14 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( "CARGO" );
-
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
-        } else if( vp && vp->vehicle().add_item( vp->part_index(), act_item ) ) {
-            // add_item did put the items in the vehicle, nothing further to be done
         } else {
-            // TODO: For items counted by charges, add as much as we can to the vehicle, and
-            // the rest on the ground (see dropping code and @vehicle::add_charges)
-            g->m.add_item_or_charges( pos(), act_item );
+            drop_items.push_back( act_item );
         }
     }
+
+    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items );
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
         if( can_decomp_learn( dis ) ) {

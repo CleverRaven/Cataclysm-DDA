@@ -1,18 +1,17 @@
 #include "morale.h"
-#include "morale_types.h"
 
+#include "bodypart.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "input.h"
 #include "item.h"
 #include "itype.h"
-#include "output.h"
-#include "cursesdef.h"
+#include "morale_types.h"
 #include "options.h"
-#include "bodypart.h"
+#include "output.h"
 #include "translations.h"
-#include "catacharset.h"
-#include "weather.h"
-#include "input.h"
 
 #include <algorithm>
 #include <set>
@@ -24,9 +23,8 @@ static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
 namespace
 {
-static const std::string item_name_placeholder = "%s"; // Used to address an item name
 
-bool is_permanent_morale( const morale_type id )
+bool is_permanent_morale( const morale_type &id )
 {
     static const std::set<morale_type> permanent_morale = {{
             MORALE_PERM_OPTIMIST,
@@ -565,6 +563,27 @@ void player_morale::on_item_wear( const item &it )
 void player_morale::on_item_takeoff( const item &it )
 {
     set_worn( it, false );
+}
+
+void player_morale::on_worn_item_washed( const item &it )
+{
+    const auto update_body_part = [&]( body_part_data & bp_data ) {
+        bp_data.filthy -= 1;
+    };
+
+    const auto covered( it.get_covered_body_parts() );
+
+    if( covered.any() ) {
+        for( const body_part bp : all_body_parts ) {
+            if( covered.test( bp ) ) {
+                update_body_part( body_parts[bp] );
+            }
+        }
+    } else {
+        update_body_part( no_body_part );
+    }
+
+    update_squeamish_penalty();
 }
 
 void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )

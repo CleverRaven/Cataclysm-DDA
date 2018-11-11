@@ -1,6 +1,7 @@
 #include "path_info.h"
-#include "options.h"
+
 #include "filesystem.h"
+#include "options.h"
 #include "translations.h"
 #include <cstdlib>
 #include <locale.h>
@@ -56,9 +57,7 @@ void PATH_INFO::init_user_dir( const char *ud )
 
 void PATH_INFO::update_pathname( const std::string &name, const std::string &path )
 {
-    std::map<std::string, std::string>::iterator iter;
-
-    iter = FILENAMES.find( name );
+    std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
     if( iter != FILENAMES.end() ) {
         FILENAMES[name] = path;
     } else {
@@ -81,11 +80,13 @@ void PATH_INFO::update_datadir()
     update_pathname( "motddir", FILENAMES["datadir"] + "motd/" );
     update_pathname( "creditsdir", FILENAMES["datadir"] + "credits/" );
     update_pathname( "data_sound", FILENAMES["datadir"] + "sound" );
+    update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
 
     // Shared files
     update_pathname( "autoexeclua", FILENAMES["luadir"] + "autoexec.lua" );
     update_pathname( "class_defslua", FILENAMES["luadir"] + "class_definitions.lua" );
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
+    update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
     update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
@@ -99,6 +100,7 @@ void PATH_INFO::update_datadir()
     update_pathname( "mods-dev-default", FILENAMES["moddir"] + "default.json" );
     update_pathname( "mods-replacements", FILENAMES["moddir"] + "replacements.json" );
     update_pathname( "defaultsounddir", FILENAMES["datadir"] + "sound" );
+    update_pathname( "help", FILENAMES["helpdir"] + "texts.json" );
 }
 
 void PATH_INFO::update_config_dir()
@@ -106,6 +108,7 @@ void PATH_INFO::update_config_dir()
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
+    update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
     update_pathname( "fontlist", FILENAMES["config_dir"] + "fontlist.txt" );
     update_pathname( "fontdata", FILENAMES["config_dir"] + "fonts.json" );
     update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
@@ -147,9 +150,11 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "creditsdir", FILENAMES["datadir"] + "credits/" );
     update_pathname( "color_templates", FILENAMES["rawdir"] + "color_templates/" );
     update_pathname( "data_sound", FILENAMES["datadir"] + "sound" );
+    update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
 
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
+    update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
     update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
@@ -162,6 +167,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "mods-dev-default", FILENAMES["moddir"] + "default.json" );
     update_pathname( "mods-replacements", FILENAMES["moddir"] + "replacements.json" );
     update_pathname( "defaultsounddir", FILENAMES["datadir"] + "sound" );
+    update_pathname( "help", FILENAMES["helpdir"] + "texts.json" );
 
     update_pathname( "savedir", FILENAMES["user_dir"] + "save/" );
     update_pathname( "memorialdir", FILENAMES["user_dir"] + "memorial/" );
@@ -186,6 +192,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "user_keybindings", FILENAMES["config_dir"] + "keybindings.json" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
+    update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
     update_pathname( "fontlist", FILENAMES["config_dir"] + "fontlist.txt" );
     update_pathname( "fontdata", FILENAMES["config_dir"] + "fonts.json" );
     update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );

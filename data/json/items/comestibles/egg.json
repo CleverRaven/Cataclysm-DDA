@@ -5,7 +5,7 @@
     "name": "bird egg",
     "weight": 75,
     "color": "brown",
-    "spoils_in": 168,
+    "spoils_in": "7 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
@@ -24,7 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_chicken",
-    "name": "bird egg",
+    "name": "chicken egg",
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_CHICKEN",
     "rot_spawn_chance": 70
@@ -32,49 +32,49 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_grouse",
-    "name": "bird egg",
+    "name": "grouse egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GROUSE"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_crow",
-    "name": "bird egg",
+    "name": "crow egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CROW"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_duck",
-    "name": "bird egg",
+    "name": "duck egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_DUCK"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_goose_canadian",
-    "name": "bird egg",
+    "name": "goose egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_turkey",
-    "name": "bird egg",
+    "name": "turkey egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pheasant",
-    "name": "bird egg",
+    "name": "pheasant egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_PHEASANT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_cockatrice",
-    "name": "bird egg",
+    "name": "cockatrice egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_COCKATRICE"
   },
@@ -84,7 +84,7 @@
     "name": "reptile egg",
     "weight": 60,
     "color": "white",
-    "spoils_in": 672,
+    "spoils_in": "28 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 3,
@@ -107,7 +107,7 @@
     "color": "white",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "spoils_in": 168,
+    "spoils_in": "7 days",
     "quench": 10,
     "calories": 1736,
     "description": "A large white ant egg, the size of a softball.  Extremely nutritious, but incredibly gross.",
@@ -142,7 +142,7 @@
     "color": "white",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "spoils_in": 112,
+    "spoils_in": "4 days 16 hours",
     "healthy": -1,
     "quench": 3,
     "calories": 69,
@@ -170,7 +170,7 @@
     "color": "green",
     "comestible_type": "FOOD",
     "symbol": "o",
-    "spoils_in": 112,
+    "spoils_in": "4 days 16 hours",
     "quench": 3,
     "calories": 69,
     "description": "A fist-sized egg from a locust.",
@@ -187,7 +187,7 @@
     "name": "razorclaw roe",
     "weight": 220,
     "color": "red",
-    "spoils_in": 24,
+    "spoils_in": "1 day",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 10,
@@ -204,7 +204,7 @@
     "name": "roe",
     "weight": 75,
     "color": "red",
-    "spoils_in": 24,
+    "spoils_in": "1 day",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,

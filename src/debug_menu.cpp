@@ -4,19 +4,19 @@
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "messages.h"
-#include "overmap.h"
-#include "overmap_ui.h"
-#include "player.h"
-#include "ui.h"
+#include "mission.h"
+#include "morale_types.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "vitamin.h"
-#include "mission.h"
+#include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "morale_types.h"
+#include "ui.h"
+#include "vitamin.h"
 
 #include <algorithm>
 #include <vector>
@@ -39,11 +39,11 @@ class mission_debug
 
 void teleport_short()
 {
-    const tripoint where( g->look_around() );
-    if( where == tripoint_min || where == g->u.pos() ) {
+    const cata::optional<tripoint> where = g->look_around();
+    if( !where || *where == g->u.pos() ) {
         return;
     }
-    g->place_player( where );
+    g->place_player( *where );
     const tripoint new_pos( g->u.pos() );
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
@@ -300,6 +300,7 @@ void character_edit_menu()
             smenu.addentry( 1, true, 's', "%s: %d", _( "Starvation" ), p.get_starvation() );
             smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
+            smenu.addentry( 4, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -330,6 +331,13 @@ void character_edit_menu()
                 case 3:
                     if( query_int( value, _( "Set fatigue to? Currently: %d" ), p.get_fatigue() ) ) {
                         p.set_fatigue( value );
+                    }
+                    break;
+
+                case 4:
+                    if( query_int( value, _( "Set sleep deprivation to? Currently: %d" ),
+                                   p.get_sleep_deprivation() ) ) {
+                        p.set_sleep_deprivation( value );
                     }
                     break;
 
@@ -390,7 +398,7 @@ void character_edit_menu()
             }
 
             types.query();
-            if( types.ret >= 0 && types.ret < ( int )mts.size() ) {
+            if( types.ret >= 0 && types.ret < static_cast<int>( mts.size() ) ) {
                 np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
             }
         }
@@ -399,9 +407,8 @@ void character_edit_menu()
             mission_debug::edit( p );
             break;
         case D_TELE: {
-            tripoint newpos = g->look_around();
-            if( newpos != tripoint_min ) {
-                p.setpos( newpos );
+            if( const cata::optional<tripoint> newpos = g->look_around() ) {
+                p.setpos( *newpos );
                 if( p.is_player() ) {
                     g->update_map( g->u );
                 }
@@ -420,7 +427,7 @@ void character_edit_menu()
             }
 
             classes.query();
-            if( classes.ret < ( int )ids.size() && classes.ret >= 0 ) {
+            if( classes.ret < static_cast<int>( ids.size() ) && classes.ret >= 0 ) {
                 np->randomize( ids[ classes.ret ] );
             }
         }
@@ -461,10 +468,10 @@ std::string mission_debug::describe( const mission &m )
 
 void add_header( uilist &mmenu, const std::string &str )
 {
-    if( mmenu.entries.size() != 0 ) {
+    if( !mmenu.entries.empty() ) {
         mmenu.addentry( -1, false, -1, "" );
     }
-    uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );
+    uilist_entry header( -1, false, -1, str, c_yellow, c_yellow );
     header.force_color = true;
     mmenu.entries.push_back( header );
 }
@@ -499,7 +506,7 @@ void mission_debug::edit_npc( npc &who )
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= static_cast<int>( all_missions.size() ) ) {
         return;
     }
 
@@ -532,7 +539,7 @@ void mission_debug::edit_player()
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= static_cast<int>( all_missions.size() ) ) {
         return;
     }
 

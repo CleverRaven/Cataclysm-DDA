@@ -2,7 +2,7 @@
   {
     "id": "2lcanteen",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "2.5L canteen",
     "description": "A large plastic water canteen, with a 2.5 liter capacity and carrying strap.",
     "weight": 155,
@@ -40,7 +40,8 @@
     "color": "light_blue",
     "contains": 450,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "30gal_drum",
@@ -60,7 +61,7 @@
     "contains": 400,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "55gal_drum",
@@ -80,7 +81,7 @@
     "contains": 800,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bag_canvas",
@@ -187,6 +188,23 @@
     "watertight": true
   },
   {
+    "id": "bottle_twoliter",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "large plastic bottle",
+    "description": "It's a two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
+    "weight": 13,
+    "volume": 8,
+    "price": 25,
+    "price_postapoc": 500,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "cyan",
+    "contains": 8,
+    "seals": true,
+    "watertight": true
+  },
+  {
     "id": "bowl_clay",
     "type": "CONTAINER",
     "category": "other",
@@ -219,7 +237,7 @@
     "color": "light_cyan",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bowl_plastic",
@@ -236,7 +254,8 @@
     "color": "light_cyan",
     "contains": 1,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "box_cigarette",
@@ -283,7 +302,7 @@
     "color": "light_gray",
     "contains": 20,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "camelbak",
@@ -327,8 +346,7 @@
     "contains": 1,
     "watertight": true,
     "preserves": true,
-    "unseals_into": "can_drink_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "unseals_into": "can_drink_unsealed"
   },
   {
     "id": "can_drink_unsealed",
@@ -339,7 +357,8 @@
     "symbol": ")",
     "color": "light_blue",
     "preserves": false,
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "can_food",
@@ -356,8 +375,7 @@
     "contains": 1,
     "watertight": true,
     "preserves": true,
-    "unseals_into": "can_food_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "unseals_into": "can_food_unsealed"
   },
   {
     "id": "can_food_unsealed",
@@ -368,12 +386,13 @@
     "symbol": ")",
     "color": "blue",
     "preserves": false,
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "canteen",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "plastic canteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
     "weight": 155,
@@ -427,7 +446,7 @@
     "color": "yellow",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "ceramic_cup",
@@ -444,7 +463,7 @@
     "color": "yellow",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_canister",
@@ -462,7 +481,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_hydria",
@@ -480,7 +499,8 @@
     "color": "brown",
     "contains": 60,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_watercont",
@@ -497,7 +517,8 @@
     "color": "brown",
     "contains": 150,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "cup_plastic",
@@ -524,7 +545,8 @@
     "description": "A small, vacuum formed cup, essentially trash.",
     "symbol": ")",
     "color": "light_cyan",
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "flask_glass",
@@ -548,7 +570,7 @@
   {
     "id": "flask_hip",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "hip flask",
     "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
     "weight": 120,
@@ -586,7 +608,7 @@
     "color": "cyan",
     "contains": 2,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "glass_bowl",
@@ -603,7 +625,7 @@
     "color": "cyan",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "jar_3l_glass",
@@ -718,7 +740,8 @@
     "color": "brown",
     "contains": 4,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "jug_plastic",
@@ -754,7 +777,7 @@
     "contains": 200,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "keg_steel",
@@ -773,7 +796,7 @@
     "contains": 200,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "large_stomach_sealed",
@@ -812,12 +835,12 @@
     "contains": "60L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "metal_tank_little",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "spare_parts",
     "name": "metal tank (2L)",
     "name_plural": "metal tanks (2L)",
     "description": "A small metal tank for gas or liquids.  Useful for crafting.",
@@ -832,7 +855,7 @@
     "contains": "2L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "stomach_sealed",
@@ -856,7 +879,7 @@
   {
     "id": "waterskin",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
     "weight": 453,
@@ -881,7 +904,7 @@
   {
     "id": "waterskin2",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "waterskin",
     "description": "A watertight leather bag with a carrying strap, can hold 3 liters of water.",
     "weight": 783,
@@ -906,7 +929,7 @@
   {
     "id": "waterskin3",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "clothing",
     "name": "large waterskin",
     "description": "A large watertight leather bag with a carrying strap, can hold 5 liters of water.",
     "weight": 990,
@@ -944,7 +967,8 @@
     "color": "brown",
     "contains": 400,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "wrapper",
@@ -968,7 +992,7 @@
     "type": "CONTAINER",
     "category": "other",
     "name": "styrofoam cup",
-    "description": "A cheap disposable cup with a plastic lid and straw.",
+    "description": "A cheap, disposable cup with a plastic lid and straw.",
     "weight": 50,
     "volume": 2,
     "price": 0,
@@ -987,11 +1011,12 @@
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "weight": 1360,
     "volume": 16,
-    "price": 0,
+    "price": 10,
+    "price_postapoc": 100,
     "material": "plastic",
     "symbol": ")",
     "color": "white",
-    "contains": 16,
+    "contains": 17,
     "seals": true,
     "watertight": true
   }

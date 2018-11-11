@@ -45,8 +45,8 @@ class mod_tileset
             return num_in_file_;
         }
 
-        bool is_compatible( std::string tileset_id ) const;
-        void add_compatible_tileset( std::string tileset_id );
+        bool is_compatible( const std::string &tileset_id ) const;
+        void add_compatible_tileset( const std::string &tileset_id );
 
     private:
         std::string base_path_;

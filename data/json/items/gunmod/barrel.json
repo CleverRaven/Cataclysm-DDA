@@ -36,16 +36,20 @@
   },
   {
     "id": "lead_barrel_big",
-    "copy-from": "barrel_big",
     "type": "GUNMOD",
     "name": "LW barrel extension",
-    "description": "A Leadworks built in longer barrel increases the muzzle velocity of a firearm, contributing to both accuracy and damage, but slows aiming.",
-    "weight": 0,
-    "volume": 0,
-    "price": 0,
+    "description": "A Leadworks built in longer barrel increases the muzzle velocity of a firearm, contributing to both accuracy and damage.",
+    "to_hit": 2,
+    "bashing": 5,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "barrel",
+    "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
     "damage_modifier": 3,
     "dispersion_modifier": -45,
     "range_modifier": 3,
+    "min_skills": [ [ "weapon", 4 ] ],
     "flags": [ "IRREMOVABLE" ]
   },
   {
@@ -62,16 +66,11 @@
   },
   {
     "id": "lead_barrel_heavy_duty",
-    "copy-from": "barrel_big",
+    "copy-from": "lead_barrel_big",
     "type": "GUNMOD",
     "name": "LW heavy duty barrel",
-    "description": "A Leadworks built in heavy duty barrel especially designed for prolonged shooting.  Reduced accuracy but increase damage output and weapon range.",
-    "weight": 0,
-    "volume": 0,
-    "price": 0,
-    "damage_modifier": 3,
+    "description": "A Leadworks built in heavy duty barrel especially designed for prolonged shooting.  Increases damage output and weapon range.",
     "dispersion_modifier": 0,
-    "range_modifier": 3,
     "flags": [ "IRREMOVABLE" ]
   }
 ]

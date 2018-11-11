@@ -7,7 +7,7 @@
     "difficulty": 4,
     "durability": 200,
     "epower": 0,
-    "power": 650,
+    "power": 242450,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -23,7 +23,7 @@
     "difficulty": 4,
     "durability": 200,
     "epower": 0,
-    "power": 1200,
+    "power": 447600,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -49,7 +49,7 @@
     "difficulty": 5,
     "durability": 200,
     "epower": 0,
-    "power": 250,
+    "power": 93250,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -65,7 +65,7 @@
     "difficulty": 5,
     "durability": 200,
     "epower": 0,
-    "power": 400,
+    "power": 149200,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -81,7 +81,7 @@
     "difficulty": 5,
     "durability": 200,
     "epower": 0,
-    "power": 650,
+    "power": 242450,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -97,7 +97,7 @@
     "difficulty": 5,
     "durability": 200,
     "epower": 0,
-    "power": 1200,
+    "power": 447600,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -275,7 +275,7 @@
       { "item": "steel_chunk", "count": [ 4, 10 ] },
       { "item": "spring", "count": [ 2, 8 ] }
     ],
-    "flags": [ "BATTERY_MOUNT", "FOLDABLE" ]
+    "flags": [ "TURRET_MOUNT" ]
   },
   {
     "id": "wiring",
