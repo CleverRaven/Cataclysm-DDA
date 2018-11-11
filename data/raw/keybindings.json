@@ -1986,6 +1986,34 @@
   },
   {
     "type": "keybinding",
+    "id": "SAFEMODE_BLACKLIST_ADD",
+    "category": "LIST_MONSTERS",
+    "name": "Add to safemode blacklist",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SAFEMODE_BLACKLIST_REMOVE",
+    "category": "LIST_MONSTERS",
+    "name": "Remove from safemode blacklist",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "look",
+    "category": "LIST_MONSTERS",
+    "name": "look around",
+    "bindings": [ { "input_method": "keyboard", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "fire",
+    "category": "LIST_MONSTERS",
+    "name": "fire",
+    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "LIST_ITEMS",
     "category": "LOOK",
     "name": "List items and monsters",
