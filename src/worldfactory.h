@@ -129,7 +129,7 @@ class worldfactory
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
     private:
-        std::map<std::string, WORLDPTR> all_worlds;
+        std::map<std::string, std::unique_ptr<WORLD>> all_worlds;
 
         std::string pick_random_name();
         int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );
@@ -141,7 +141,7 @@ class worldfactory
                             const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
 
-        bool load_world_options( WORLDPTR &world );
+        bool load_world_options( WORLDPTR world );
 
         WORLDPTR add_world( WORLDPTR world );
 

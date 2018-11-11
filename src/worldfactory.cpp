@@ -105,25 +105,15 @@ worldfactory::worldfactory()
     tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_confirm, this, _1, _2 ) );
 }
 
-worldfactory::~worldfactory()
-{
-    for( auto &wp : all_worlds ) {
-        delete wp.second;
-    }
-}
+worldfactory::~worldfactory() = default;
 
 WORLDPTR worldfactory::add_world( WORLDPTR retworld )
 {
     // add world to world list
-    all_worlds[ retworld->world_name ] = retworld;
+    all_worlds[ retworld->world_name ].reset( retworld );
 
     if( !retworld->save() ) {
-        std::string worldname = retworld->world_name;
-        if( all_worlds[ worldname ] != retworld ) {
-            delete retworld;
-        }
-        delete all_worlds[ worldname ];
-        all_worlds.erase( worldname );
+        all_worlds.erase( retworld->world_name );
         return nullptr;
     }
     return retworld;
@@ -207,7 +197,7 @@ WORLDPTR worldfactory::make_new_world( special_game_id special_type )
     // Look through all worlds and see if a world named worldname already exists. If so, then just return it instead of
     // making a new world.
     if( has_world( worldname ) ) {
-        return all_worlds[worldname];
+        return all_worlds[worldname].get();
     }
 
     WORLDPTR special_world = new WORLD();
@@ -216,11 +206,9 @@ WORLDPTR worldfactory::make_new_world( special_game_id special_type )
     special_world->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
 
     // add world to world list!
-    all_worlds[worldname] = special_world;
+    all_worlds[worldname].reset( special_world );
 
     if( !special_world->save() ) {
-        delete all_worlds[worldname];
-        delete special_world;
         all_worlds.erase( worldname );
         return nullptr;
     }
@@ -309,9 +297,6 @@ void worldfactory::init()
     qualifiers.push_back( FILENAMES["legacy_worldoptions"] );
     qualifiers.push_back( SAVE_MASTER );
 
-    for( auto &elem : all_worlds ) {
-        delete elem.second;
-    }
     all_worlds.clear();
 
     // get the master files. These determine the validity of a world
@@ -332,17 +317,17 @@ void worldfactory::init()
         worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
 
         // create and store the world
-        all_worlds[worldname] = new WORLD();
+        all_worlds[worldname].reset( new WORLD() );
         // give the world a name
         all_worlds[worldname]->world_name = worldname;
         // add sav files
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
         }
-        mman->load_mods_list( all_worlds[worldname] );
+        mman->load_mods_list( all_worlds[worldname].get() );
 
         // load options into the world
-        if( !load_world_options( all_worlds[worldname] ) ) {
+        if( !load_world_options( all_worlds[worldname].get() ) ) {
             all_worlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
             all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
             all_worlds[worldname]->save();
@@ -357,10 +342,9 @@ void worldfactory::init()
             converted_world->world_saves = all_worlds["save"]->world_saves;
             converted_world->WORLD_OPTIONS = all_worlds["save"]->WORLD_OPTIONS;
 
-            delete all_worlds["save"];
             all_worlds.erase( "save" );
 
-            all_worlds[converted_world->world_name] = converted_world;
+            all_worlds[converted_world->world_name].reset( converted_world );
         }
     }
 }
@@ -582,11 +566,10 @@ void worldfactory::remove_world( const std::string &worldname )
 {
     auto it = all_worlds.find( worldname );
     if( it != all_worlds.end() ) {
-        WORLDPTR wptr = it->second;
+        WORLDPTR wptr = it->second.get();
         if( active_world == wptr ) {
             active_world = nullptr;
         }
-        delete wptr;
         all_worlds.erase( it );
     }
 }
@@ -1447,7 +1430,7 @@ void WORLD::load_legacy_options( std::istream &fin )
     }
 }
 
-bool worldfactory::load_world_options( WORLDPTR &world )
+bool worldfactory::load_world_options( WORLDPTR world )
 {
     world->WORLD_OPTIONS = get_options().get_world_defaults();
 
@@ -1520,7 +1503,7 @@ WORLDPTR worldfactory::get_world( const std::string &name )
         debugmsg( "Requested non-existing world %s, prepare for crash", name.c_str() );
         return nullptr;
     }
-    return iter->second;
+    return iter->second.get();
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
