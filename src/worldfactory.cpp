@@ -327,7 +327,7 @@ void worldfactory::init()
         mman->load_mods_list( all_worlds[worldname].get() );
 
         // load options into the world
-        if( !load_world_options( all_worlds[worldname].get() ) ) {
+        if( !all_worlds[worldname]->load_options() ) {
             all_worlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
             all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
             all_worlds[worldname]->save();
@@ -1430,19 +1430,21 @@ void WORLD::load_legacy_options( std::istream &fin )
     }
 }
 
-bool worldfactory::load_world_options( WORLDPTR world )
+bool WORLD::load_options()
 {
-    world->WORLD_OPTIONS = get_options().get_world_defaults();
+    WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = world->folder_path() + "/" + FILENAMES["worldoptions"];
-    if( read_from_file_optional_json( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
+    const auto path = folder_path() + "/" + FILENAMES["worldoptions"];
+    if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
+    load_options( jsin );
+    } ) ) {
         return true;
     }
 
-    const auto legacy_path = world->folder_path() + "/" + FILENAMES["legacy_worldoptions"];
-    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
-        if( world->save() ) {
+    const auto legacy_path = folder_path() + "/" + FILENAMES["legacy_worldoptions"];
+    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, this, _1 ) ) ) {
+        if( save() ) {
             // Remove old file as the options have been saved to the new file.
             remove_file( legacy_path );
         }
