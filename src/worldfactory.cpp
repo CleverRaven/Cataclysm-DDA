@@ -216,35 +216,6 @@ WORLDPTR worldfactory::make_new_world( special_game_id special_type )
     return special_world;
 }
 
-WORLDPTR worldfactory::convert_to_world( const std::string &origin_path )
-{
-    // prompt for worldname? Nah, just make a worldname... the user can fix it later if they really don't want this as a name...
-    std::string worldname = get_next_valid_worldname();
-
-    // check and loop on validity
-
-    // create world informations
-    WORLDPTR newworld = new WORLD();
-    newworld->world_name = worldname;
-
-    // save world as conversion world
-    if( newworld->save( true ) ) {
-        // move files from origin_path into new world path
-        for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-            std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
-
-            rename( origin_file.c_str(), std::string( newworld->folder_path() + filename ).c_str() );
-        }
-
-        DebugLog( D_INFO, DC_ALL ) << "worldfactory::convert_to_world -- World Converted Successfully!";
-        return newworld;
-    } else {
-        // something horribly wrong happened
-        DebugLog( D_ERROR, DC_ALL ) << "worldfactory::convert_to_world -- World Conversion Failed!";
-        return nullptr;
-    }
-}
-
 void worldfactory::set_active_world( WORLDPTR world )
 {
     world_generator->active_world = world;
@@ -337,14 +308,28 @@ void worldfactory::init()
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
     // directory and not in a sub-world directory
     if( has_world( "save" ) ) {
-        WORLDPTR converted_world = convert_to_world( all_worlds["save"]->folder_path() );
-        if( converted_world ) {
-            converted_world->world_saves = all_worlds["save"]->world_saves;
-            converted_world->WORLD_OPTIONS = all_worlds["save"]->WORLD_OPTIONS;
+        const WORLD &old_world = *all_worlds["save"];
+
+        std::unique_ptr<WORLD> newworld( new WORLD() );
+        newworld->world_name = get_next_valid_worldname();
+
+        // save world as conversion world
+        if( newworld->save( true ) ) {
+            const std::string origin_path = old_world.folder_path();
+            // move files from origin_path into new world path
+            for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
+                std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
+
+                rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
+            }
+            newworld->world_saves = old_world.world_saves;
+            newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
 
             all_worlds.erase( "save" );
 
-            all_worlds[converted_world->world_name].reset( converted_world );
+            all_worlds[newworld->world_name] = std::move( newworld );
+        } else {
+            debugmsg( "worldfactory::convert_to_world -- World Conversion Failed!" );
         }
     }
 }
