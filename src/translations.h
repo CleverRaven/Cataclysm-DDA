@@ -120,7 +120,7 @@ class translation
 
         cata::optional<std::string> ctxt;
         std::string raw;
-        bool needs_translation;
+        bool needs_translation = false;
 };
 
 /**

@@ -67,7 +67,7 @@ bool string_id<profession>::is_valid() const
 }
 
 profession::profession()
-    : id(), _name_male( "null" ), _name_female( "null" ),
+    : _name_male( "null" ), _name_female( "null" ),
       _description_male( "null" ), _description_female( "null" ), _point_cost( 0 )
 {
 }

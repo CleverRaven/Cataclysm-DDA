@@ -461,8 +461,6 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
     , mapgensize_y( 24 )
     , x_offset( 0 )
     , y_offset( 0 )
-    , format()
-    , setmap_points()
     , objects( 0, 0, mapgensize_x, mapgensize_y )
 {
 }
@@ -835,7 +833,7 @@ class jmapgen_gaspump : public jmapgen_piece
         jmapgen_int amount;
         std::string fuel;
         jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 ), fuel() {
+            , amount( jsi, "amount", 0, 0 ) {
             if( jsi.has_string( "fuel" ) ) {
                 fuel = jsi.get_string( "fuel" );
 
