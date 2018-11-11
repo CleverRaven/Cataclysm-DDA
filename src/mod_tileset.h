@@ -12,9 +12,6 @@ extern std::vector<mod_tileset> all_mod_tilesets;
 
 void load_mod_tileset( JsonObject &jsobj, const std::string &, const std::string &base_path,
                        const std::string &full_path );
-void load_mod_tileset_into_array( JsonObject &jsobj, const std::string &base_path,
-                                  const std::string &full_path,
-                                  std::vector<mod_tileset> &mod_tileset_array );
 void reset_mod_tileset();
 
 class mod_tileset
