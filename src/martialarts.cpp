@@ -383,7 +383,7 @@ std::string ma_requirements::get_description( bool buff ) const
         }, enumeration_conjunction::none ) << std::endl;
     }
 
-    if( req_buffs.size() ) {
+    if( !req_buffs.empty() ) {
         dump << string_format( _( "<bold>Requires:</bold> " ) );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {

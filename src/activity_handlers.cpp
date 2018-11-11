@@ -3037,7 +3037,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
             const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
             const auto seed = options.get_seed();
 
-            if( seed != "" && !( std::find( seeds.begin(), seeds.end(), seed ) != seeds.end() ) ) {
+            if( !seed.empty() && !( std::find( seeds.begin(), seeds.end(), seed ) != seeds.end() ) ) {
                 seeds.emplace_back( seed );
             }
         }

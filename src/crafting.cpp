@@ -646,7 +646,7 @@ void player::complete_craft()
     // tools, and it's usually the first item in a list of tools so if this
     // does get heated we'll find it right away.
     bool should_heat = false;
-    if( newits.size() && newits.front().is_food() ) {
+    if( !newits.empty() && newits.front().is_food() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = making->requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
