@@ -1015,12 +1015,12 @@ void Creature::process_effects()
 
 bool Creature::resists_effect( const effect &e ) const
 {
-    for(const auto &i : e.get_resist_effects() ) {
+    for( const auto &i : e.get_resist_effects() ) {
         if( has_effect( i ) ) {
             return true;
         }
     }
-    for(const auto &i : e.get_resist_traits() ) {
+    for( const auto &i : e.get_resist_traits() ) {
         if( has_trait( i ) ) {
             return true;
         }
