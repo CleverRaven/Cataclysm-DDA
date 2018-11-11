@@ -1,26 +1,24 @@
 #include "inventory_ui.h"
 
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "game.h"
-#include "player.h"
-#include "action.h"
+#include "item.h"
+#include "item_category.h"
+#include "item_search.h"
+#include "itype.h"
 #include "map.h"
 #include "map_selector.h"
-#include "output.h"
-#include "translations.h"
-#include "item_category.h"
-#include "string_formatter.h"
 #include "options.h"
-#include "messages.h"
-#include "catacharset.h"
-#include "vpart_reference.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "cata_utility.h"
 #include "vpart_position.h"
-#include "item.h"
-#include "itype.h"
-#include "item_search.h"
-#include "string_input_popup.h"
+#include "vpart_reference.h"
 
 #ifdef __ANDROID__
 #include "SDL_keyboard.h"
@@ -1263,7 +1261,7 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 
 inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     units::mass weight_carried, units::mass weight_capacity,
-    units::volume volume_carried, units::volume volume_capacity )
+    const units::volume &volume_carried, const units::volume &volume_capacity )
 {
     return {
         {

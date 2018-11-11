@@ -1,19 +1,17 @@
 #include "mapdata.h"
 
+#include "calendar.h"
 #include "color.h"
-#include "init.h"
+#include "debug.h"
 #include "game_constants.h"
-#include "string_formatter.h"
 #include "generic_factory.h"
 #include "harvest.h"
-#include "debug.h"
-#include "translations.h"
-#include "output.h"
-#include "item.h"
-#include "item_group.h"
-#include "calendar.h"
-#include "trap.h"
 #include "iexamine.h"
+#include "item_group.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "trap.h"
 
 #include <unordered_map>
 
@@ -184,7 +182,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     explosive( 0 ), sound_vol( -1 ), sound_fail_vol( -1 ),
     collapse_radius( 1 ), destroy_only( false ), bash_below( false ),
     drop_group( "EMPTY_GROUP" ),
-    ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
+    ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_furniture )
 {
@@ -237,7 +235,7 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
 }
 
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
-    ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
+    ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, bool is_furniture )
 {
@@ -275,7 +273,7 @@ furn_t null_furniture_t()
 
 ter_t::ter_t() : open( ter_str_id::NULL_ID() ), close( ter_str_id::NULL_ID() ),
     transforms_into( ter_str_id::NULL_ID() ),
-    roof( ter_str_id::NULL_ID() ), trap( tr_null ) {};
+    roof( ter_str_id::NULL_ID() ), trap( tr_null ) {}
 
 ter_t null_terrain_t()
 {
@@ -341,7 +339,7 @@ void map_data_common_t::load_symbol( JsonObject &jo )
         } else if( str.length() != 1 ) {
             jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
         }
-        return ( int ) str[0];
+        return static_cast<int>( str[0] );
     } );
 
     const bool has_color = jo.has_member( "color" );
@@ -1037,7 +1035,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
                 // @todo: A better inline name - can't use id or name here because it's not set yet
                 size_t num = harvest_list::all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
-                                         string_format( "harvest_inline_%d", ( int )num ) );
+                                         string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
             } else if( harvest_jo.has_string( "id" ) ) {
                 hl = harvest_id( harvest_jo.get_string( "id" ) );
             } else {
@@ -1147,7 +1145,7 @@ void ter_t::check() const
     }
 }
 
-furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {};
+furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {}
 
 size_t furn_t::count()
 {

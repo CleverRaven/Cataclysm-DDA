@@ -1,35 +1,35 @@
 #include "character.h"
-#include "game.h"
-#include "map.h"
+
+#include "activity_handlers.h"
 #include "bionics.h"
-#include "map_selector.h"
-#include "effect.h"
-#include "vehicle_selector.h"
+#include "cata_utility.h"
 #include "debug.h"
-#include "mission.h"
-#include "translations.h"
-#include "itype.h"
-#include "options.h"
-#include "map_iterator.h"
+#include "effect.h"
 #include "field.h"
+#include "game.h"
+#include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "map_selector.h"
 #include "messages.h"
-#include "input.h"
+#include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "player.h"
 #include "mutation.h"
-#include "skill.h"
-#include "vehicle.h"
+#include "options.h"
 #include "output.h"
-#include "veh_interact.h"
-#include "cata_utility.h"
 #include "pathfinding.h"
+#include "player.h"
+#include "skill.h"
 #include "string_formatter.h"
-#include "activity_handlers.h"
+#include "translations.h"
+#include "veh_interact.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 
 #include <algorithm>
-#include <sstream>
 #include <numeric>
+#include <sstream>
 
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -59,9 +59,6 @@ static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
 static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
-static const trait_id trait_BADBACK( "BADBACK" );
-static const trait_id trait_BENDY2( "BENDY2" );
-static const trait_id trait_BENDY3( "BENDY3" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
@@ -73,18 +70,9 @@ static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
-static const trait_id trait_FLIMSY2( "FLIMSY2" );
-static const trait_id trait_FLIMSY3( "FLIMSY3" );
-static const trait_id trait_FLIMSY( "FLIMSY" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
-static const trait_id trait_MUT_TOUGH2( "MUT_TOUGH2" );
-static const trait_id trait_MUT_TOUGH3( "MUT_TOUGH3" );
-static const trait_id trait_MUT_TOUGH( "MUT_TOUGH" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
 static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
@@ -98,7 +86,6 @@ static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SMALL( "SMALL" );
 static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
-static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
 static const trait_id trait_TAIL_LONG( "TAIL_LONG" );
@@ -110,9 +97,6 @@ static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_TOUGH2( "TOUGH2" );
-static const trait_id trait_TOUGH3( "TOUGH3" );
-static const trait_id trait_TOUGH( "TOUGH" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
@@ -467,7 +451,7 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
-        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && ( mon->has_flag( MF_GRABS ) ||
                          mon->type->has_special_attack( "GRAB" ) ) ) {
@@ -522,7 +506,7 @@ void Character::recalc_hp()
         new_max_hp[hp_head] *= 0.8;
     }
     for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] *= ( float )new_max_hp[i] / ( float )hp_max[i];
+        hp_cur[i] *= static_cast<float>( new_max_hp[i] ) / static_cast<float>( hp_max[i] );
         hp_max[i] = new_max_hp[i];
     }
 }
@@ -637,7 +621,7 @@ float Character::get_vision_threshold( float light_level ) const
 
     // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0 + ( ( ( float )light_level - LIGHT_AMBIENT_MINIMAL ) /
+    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) - LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f - encumb( bp_eyes ) / 10.0f;
@@ -655,7 +639,7 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
-    return std::min( ( float )LIGHT_AMBIENT_LOW, threshold_for_range( range ) * dimming_from_light );
+    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ), threshold_for_range( range ) * dimming_from_light );
 }
 
 bool Character::has_bionic( const bionic_id &b ) const
@@ -2147,7 +2131,6 @@ hp_part Character::body_window( const std::string &menu_header,
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
 
-
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
 
@@ -2160,8 +2143,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const int bonus = e.bonus;
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
-        const nc_color state_col = limb_color( bp, bleed > 0.0f ? true : false, bite > 0.0f ? true : false,
-                                               infect > 0.0f ? true : false );
+        const nc_color state_col = limb_color( bp, bleed > 0.0f, bite > 0.0f, infect > 0.0f );
         const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
@@ -2911,22 +2893,22 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     const effect &e_disinfected = get_effect( effect_disinfected, bp );
 
     if( !e_bandaged.is_null() ) {
-        bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
+        bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE" ) ) / HOURS( 24 );
         if( bp == bp_head ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD" ) / 100.0f;
         }
         if( bp == bp_torso ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO" ) / 100.0f;
         }
     }
 
     if( !e_disinfected.is_null() ) {
-        disinfected_rate += static_cast<float>( e_disinfected.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
+        disinfected_rate += static_cast<float>( e_disinfected.get_amount( "HEAL_RATE" ) ) / HOURS( 24 );
         if( bp == bp_head ) {
-            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD" ) / 100.0f;
         }
         if( bp == bp_torso ) {
-            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO" ) / 100.0f;
         }
     }
 

@@ -2,21 +2,22 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "string_id.h"
-#include "enums.h"
+#include "calendar.h"
 #include "color.h"
 #include "damage.h"
-#include "calendar.h"
-#include "units.h"
+#include "enums.h"
 #include "optional.h"
+#include "string_id.h"
+#include "units.h"
 
-#include <vector>
-#include <bitset>
-#include <string>
-#include <memory>
-#include <map>
-#include <utility>
 #include <array>
+#include <bitset>
+#include <map>
+#include <memory>
+#include <string>
+#include <set>
+#include <utility>
+#include <vector>
 
 using itype_id = std::string;
 

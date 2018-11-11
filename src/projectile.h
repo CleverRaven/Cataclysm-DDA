@@ -6,10 +6,9 @@
 #include "enums.h"
 #include "explosion.h"
 
-#include <string>
-#include <vector>
-#include <set>
 #include <memory>
+#include <set>
+#include <string>
 
 class Creature;
 class dispersion_sources;

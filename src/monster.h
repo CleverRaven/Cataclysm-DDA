@@ -2,17 +2,17 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include "calendar.h"
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include "calendar.h"
 
-#include <vector>
+#include <bitset>
 #include <map>
 #include <set>
-#include <utility>
-#include <bitset>
 #include <string>
+#include <utility>
+#include <vector>
 
 class JsonObject;
 class JsonIn;
@@ -369,7 +369,8 @@ class monster : public Creature
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
-        void add_item( item it );   // Add an item to inventory
+        // Add an item to inventory
+        void add_item( const item &it );
 
         /**
          * Makes monster react to heard sound

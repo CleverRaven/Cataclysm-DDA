@@ -1,29 +1,28 @@
 #include "crafting_gui.h"
 
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "crafting.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "player.h"
-#include "itype.h"
-#include "input.h"
-#include "game.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "skill.h"
-#include "catacharset.h"
-#include "output.h"
-#include "json.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 #include "ui.h"
 #include "uistate.h"
 
-#include "debug.h"
-
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 enum TAB_MODE {
     NORMAL,
@@ -57,7 +56,6 @@ std::string get_cat_name( const std::string &prefixed_name )
 
 void load_recipe_category( JsonObject &jsobj )
 {
-    JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
 
     if( category.find( "CC_" ) != 0 ) {
@@ -69,7 +67,7 @@ void load_recipe_category( JsonObject &jsobj )
     std::string cat_name = get_cat_name( category );
 
     craft_subcat_list[category] = std::vector<std::string>();
-    subcats = jsobj.get_array( "recipe_subcategories" );
+    JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
         std::string subcat_id = subcats.next_string();
         if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
@@ -640,7 +638,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 popup( _( "You can't do that!" ) );
             } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
-                ; // popup is already inside check
+                // popup is already inside check
             } else {
                 chosen = current[line];
                 batch_size = ( batch ) ? line + 1 : 1;
@@ -809,7 +807,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
 
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
-    if( rel_menu.ret != UIMENU_CANCEL ) {
+    if( rel_menu.ret != UILIST_CANCEL ) {
         std::wstring wstr_recipe_name = utf8_to_wstr( rel_menu.entries[ rel_menu.ret ].txt );
         return wstr_to_utf8( wstr_recipe_name.substr( 2 ) ); // 2 = prefix length
     }
@@ -821,7 +819,7 @@ int related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                        const recipe_subset &available )
 {
-    const std::vector<uimenu_entry> &entries = rmenu.entries;
+    const std::vector<uilist_entry> &entries = rmenu.entries;
     int np_last = entries.empty() ? -1 : entries.back().retval;
 
     if( related_recipes.empty() ) {
@@ -879,8 +877,9 @@ static bool query_is_yes( const std::string &query )
 {
     const std::string subquery = query.substr( 2 );
 
-    return ( ( subquery == "yes" ) || ( subquery == "y" ) || ( subquery == "1" ) ||
-             ( subquery == "true" ) || ( subquery == "t" ) || ( subquery == "on" ) );
+    return subquery == "yes" || subquery == "y" || subquery == "1" ||
+           subquery == "true" || subquery == "t" || subquery == "on" ||
+           subquery == _( "yes" );
 }
 
 static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount )

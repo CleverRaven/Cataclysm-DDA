@@ -11,6 +11,7 @@ class vehicle;
 enum vpart_bitflags : int;
 class vpart_reference;
 struct tripoint;
+struct point;
 
 /**
  * Reference to a position (a point) of the @ref vehicle.
@@ -65,6 +66,10 @@ class vpart_position
          */
         cata::optional<vpart_reference> obstacle_at_part() const;
         /**
+         * Returns the part displayed at this point of the vehicle.
+         */
+        cata::optional<vpart_reference> part_displayed() const;
+        /**
          * Returns the position of this part in the coordinates system that @ref game::m uses.
          * Postcondition (if the vehicle cache of the map is correct and if there are un-removed
          * parts at this positions):
@@ -98,6 +103,7 @@ class optional_vpart_position : public cata::optional<vpart_position>
         cata::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
         cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
         cata::optional<vpart_reference> obstacle_at_part() const;
+        cata::optional<vpart_reference> part_displayed() const;
 };
 
 // For legacy code, phase out, don't use in new code.

@@ -1,22 +1,21 @@
 #include "cata_utility.h"
 
-#include "options.h"
-#include "material.h"
-#include "enums.h"
-#include "creature.h"
-#include "translations.h"
 #include "debug.h"
-#include "mapsharing.h"
-#include "output.h"
-#include "json.h"
+#include "enums.h"
 #include "filesystem.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "material.h"
+#include "options.h"
+#include "output.h"
 #include "rng.h"
+#include "translations.h"
 #include "units.h"
 
 #include <algorithm>
 #include <cmath>
-#include <string>
 #include <locale>
+#include <string>
 
 static double pow10( unsigned int n )
 {
@@ -415,7 +414,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
                 }
                 return ins;
             default:
-                str += ( char )c;
+                str += static_cast<char>( c );
         }
     }
 }

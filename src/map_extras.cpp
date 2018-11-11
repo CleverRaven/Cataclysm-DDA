@@ -4,22 +4,18 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "item_group.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
-#include "mongroup.h"
-#include "mtype.h"
-#include "vpart_range.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "trap.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
-#include "veh_type.h"
+#include "vpart_range.h"
 
 namespace MapExtras
 {
@@ -139,8 +135,8 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_SEATBELT ) ) {
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
-                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0 ||
-                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                    if( !wreckage->get_parts( pos, "CONTROLS", false, true ).empty() ||
+                        !wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).empty() ) {
                         m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( one_in( 5 ) ) {
@@ -167,8 +163,8 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_SEATBELT ) ) {
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.
-                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
-                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                    if( !wreckage->get_parts( pos, "CONTROLS", false, true ).empty()  ||
+                        !wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).empty() ) {
                         m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( !one_in( 3 ) ) {
@@ -845,4 +841,4 @@ map_special_pointer get_function( const std::string &name )
     return iter->second;
 }
 
-};
+}

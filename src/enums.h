@@ -2,9 +2,9 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#include <utility>
 #include <climits>
 #include <ostream>
+#include <utility>
 
 class JsonOut;
 class JsonIn;

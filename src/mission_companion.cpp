@@ -1,55 +1,31 @@
-#include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "mapbuffer.h"
-#include "dialogue.h"
-#include "rng.h"
-#include "itype.h"
-#include "line.h"
+#include "mission_companion.h"
+
 #include "bionics.h"
-#include "debug.h"
-#include "catacharset.h"
-#include "messages.h"
-#include "mission.h"
-#include "ammo.h"
-#include "output.h"
-#include "vpart_range.h"
-#include "overmap.h"
-#include "overmap_ui.h"
-#include "overmapbuffer.h"
-#include "skill.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "input.h"
-#include "item_group.h"
-#include "compatibility.h"
-#include "mapdata.h"
-#include "recipe.h"
-#include "requirements.h"
-#include "map_iterator.h"
-#include "mongroup.h"
-#include "mtype.h"
-#include "editmap.h"
-#include "construction.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "craft_command.h"
-#include "iexamine.h"
-#include "vehicle.h"
-#include "veh_type.h"
-#include "requirements.h"
-#include "string_input_popup.h"
-#include "line.h"
-#include "recipe_groups.h"
+#include "dialogue.h"
+#include "editmap.h"
 #include "faction_camp.h"
-#include "mission_companion.h"
-#include "npctalk.h"
+#include "input.h"
+#include "item_group.h"
+#include "itype.h"
+#include "line.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mtype.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "rng.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_range.h"
 
-#include <vector>
-#include <string>
-#include <sstream>
 #include <algorithm>
 #include <cassert>
+#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -106,7 +82,7 @@ bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::stri
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
 bool handle_camp_mission( mission_entry &cur_key, npc &p );
-};
+}
 
 void talk_function::companion_mission( npc &p )
 {
@@ -160,7 +136,7 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
            "creatures." );
     mission_key.push( "Assign Scavenging Patrol", _( "Assign Scavenging Patrol" ) );
     npc_list = companion_list( p, "_scavenging_patrol" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -183,7 +159,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
            "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items." );
     mission_key.push( "Assign Scavenging Raid", _( "Assign Scavenging Raid" ) );
     npc_list = companion_list( p, "_scavenging_raid" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -205,7 +181,7 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
            "reputation with the outpost.  Don't expect much of a reward though." );
     mission_key.push( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
     npc_list = companion_list( p, "_labor" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -227,7 +203,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
            "unlikely that your companions will face combat but there are hazards working on makeshift buildings." );
     mission_key.push( "Assign Ally to Carpentry Work", _( "Assign Ally to Carpentry Work" ) );
     npc_list = companion_list( p, "_carpenter" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -290,7 +266,7 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
            "supplemented with the odd item as a reward for particularly large hauls." );
     mission_key.push( "Assign Ally to Forage for Food", _( "Assign Ally to Forage for Food" ) );
     npc_list = companion_list( p, "_forage" );
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -316,7 +292,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     mission_key.push( "Caravan Commune-Refugee Center", _( "Caravan Commune-Refugee Center" ) );
     npc_list = companion_list( p, "_commune_refugee_caravan" );
     std::vector<std::shared_ptr<npc>> npc_list_aux;
-    if( npc_list.size() > 0 ) {
+    if( !npc_list.empty() ) {
         entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                    " \nRoster:\n" );
         for( auto &elem : npc_list ) {
@@ -330,7 +306,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
                         ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours] \n" );
             }
         }
-        if( npc_list_aux.size() > 0 ) {
+        if( !npc_list_aux.empty() ) {
             std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                                        " \nRoster:\n" );
             for( auto &elem : npc_list_aux ) {
@@ -420,7 +396,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
 
             calcStartPos( offset, sel, FULL_SCREEN_HEIGHT - 3, cur_key_list.size() );
 
-            for( size_t i = 0; ( int )i < FULL_SCREEN_HEIGHT - 3 &&
+            for( size_t i = 0; static_cast<int>( i ) < FULL_SCREEN_HEIGHT - 3 &&
                  ( i + offset ) < cur_key_list.size(); i++ ) {
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );
@@ -1749,16 +1725,13 @@ std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
     }
 
     struct companion_sort_skill {
-        companion_sort_skill( std::string skill_tested ) {
+        companion_sort_skill( const std::string &skill_tested ) {
             this->skill_tested = skill_tested;
         }
 
         bool operator()( npc *first, npc *second ) {
-            if( first->get_skill_level( skill_id( skill_tested ) ) > second->get_skill_level( skill_id(
-                        skill_tested ) ) ) {
-                return true;
-            }
-            return false;
+            return first->get_skill_level( skill_id( skill_tested ) ) > second->get_skill_level(
+                       skill_id( skill_tested ) );
         }
 
         std::string skill_tested;

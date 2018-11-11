@@ -1,23 +1,17 @@
 #include "mutation.h"
-#include "player.h"
+
 #include "action.h"
+#include "field.h"
 #include "game.h"
-#include "map.h"
 #include "item.h"
 #include "itype.h"
-#include "translations.h"
-#include "messages.h"
-#include "monster.h"
-#include "overmapbuffer.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "sounds.h"
-#include "options.h"
 #include "mapdata.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "field.h"
-#include "vitamin.h"
+#include "monster.h"
 #include "output.h"
+#include "player.h"
+#include "translations.h"
 #include "ui.h"
 
 #include <algorithm>
@@ -25,8 +19,6 @@
 const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_ROBUST( "ROBUST" );
-static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
@@ -44,7 +36,6 @@ static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -128,13 +119,6 @@ int Character::get_mod( const trait_id &mut, std::string arg ) const
     if( found != mod_data.end() ) {
         ret += found->second;
     }
-    /* Deactivated due to inability to store active mutation state
-    if (has_active_mutation(mut)) {
-        found = mod_data.find(std::make_pair(true, arg));
-        if (found != mod_data.end()) {
-            ret += found->second;
-        }
-    } */
     return ret;
 }
 
@@ -349,7 +333,7 @@ void player::activate_mutation( const trait_id &mut )
             _( "Churn up ground" )
         } );
         tripoint dirp;
-        if( choice == UIMENU_CANCEL ) {
+        if( choice == UILIST_CANCEL ) {
             tdata.powered = false;
         } else if( choice != 0 ) {
             tdata.powered = false;
@@ -705,8 +689,7 @@ void player::mutate_category( const std::string &cat )
     }
 
     // Pull the category's list for valid mutations
-    std::vector<trait_id> valid;
-    valid = mutations_category[cat];
+    std::vector<trait_id> valid = mutations_category[cat];
 
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation

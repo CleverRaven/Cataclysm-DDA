@@ -2,9 +2,9 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
-#include <vector>
 #include <array>
 #include <string>
+#include <vector>
 
 class nc_color;
 

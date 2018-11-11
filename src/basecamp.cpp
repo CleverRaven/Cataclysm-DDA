@@ -1,10 +1,11 @@
 #include "basecamp.h"
-#include <algorithm>
-#include <sstream>
 
 #include "output.h"
-#include "translations.h"
 #include "string_formatter.h"
+#include "translations.h"
+
+#include <algorithm>
+#include <sstream>
 
 basecamp::basecamp()
     : name(), posx( 0 ), posy( 0 )

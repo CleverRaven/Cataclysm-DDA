@@ -14,7 +14,7 @@
 // We merge all of the absorption values by taking their cumulative average.
 inline float sight_calc( const float &numerator, const float &transparency, const int &distance )
 {
-    return numerator / ( float )exp( transparency * distance );
+    return numerator / static_cast<float>( exp( transparency * distance ) );
 }
 inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 {

@@ -1,56 +1,50 @@
-#include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "mapbuffer.h"
+
+#include "ammo.h"
+#include "bionics.h"
+#include "catacharset.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "construction.h"
+#include "coordinate_conversions.h"
+#include "craft_command.h"
+#include "debug.h"
 #include "dialogue.h"
-#include "rng.h"
+#include "editmap.h"
+#include "game.h"
+#include "iexamine.h"
+#include "item_group.h"
 #include "itype.h"
 #include "line.h"
-#include "bionics.h"
-#include "debug.h"
-#include "catacharset.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "mission.h"
-#include "ammo.h"
+#include "mission_companion.h"
+#include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "skill.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "input.h"
-#include "item_group.h"
-#include "compatibility.h"
-#include "mapdata.h"
 #include "recipe.h"
-#include "requirements.h"
-#include "map_iterator.h"
-#include "mongroup.h"
-#include "mtype.h"
-#include "editmap.h"
-#include "construction.h"
-#include "coordinate_conversions.h"
-#include "craft_command.h"
-#include "iexamine.h"
-#include "vehicle.h"
-#include "veh_type.h"
-#include "vpart_reference.h"
-#include "vpart_range.h"
-#include "requirements.h"
-#include "string_input_popup.h"
-#include "line.h"
 #include "recipe_groups.h"
-#include "faction_camp.h"
-#include "mission_companion.h"
-#include "npctalk.h"
+#include "requirements.h"
+#include "rng.h"
+#include "skill.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 
-#include <vector>
-#include <string>
-#include <sstream>
+#include "faction_camp.h"
+
 #include <algorithm>
 #include <cassert>
+#include <string>
+#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -302,7 +296,6 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
             mission_key.push( "Recover Log Cutter", _( "Recover Log Cutter" ), "", true, avail );
         }
     }
-
 
     if( cur_om_level >= 7 ) {
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
@@ -922,7 +915,6 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == "Recover Surveyor" ) {
         camp_expansion_select( p );
     }
-
 
     if( cur_key.id == cur_key.dir + " Expansion Upgrade" ) {
         for( const auto &e : om_expansions ) {
@@ -1565,7 +1557,7 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
     std::vector<vehicle_part> p_all = car->parts;
     int prt = 0;
     int skillLevel = comp->get_skill_level( skill_mechanics );
-    while( p_all.size() > 0 ) {
+    while( !p_all.empty() ) {
         vehicle_stack contents = car->get_items( prt );
         for( auto iter = contents.begin(); iter != contents.end(); ) {
             comp->companion_mission_inv.add_item( *iter );
@@ -1599,7 +1591,9 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
             }
             comp->companion_mission_inv.add_item( p_all[prt].properties_to_item() );
         } else if( !skill_destroy ) {
-            car->break_part_into_pieces( prt, comp->posx(), comp->posy() );
+            for( const item &itm : p_all[prt].pieces_for_broken_part() ) {
+                comp->companion_mission_inv.add_item( itm );
+            }
         }
         p_all.erase( p_all.begin() + 0 );
     }
@@ -1936,7 +1930,7 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         description += string_format( _( "> Food:     %10d days\n \n" ), food_desire );
         description += string_format( _( "Faction Food:%9d days\n \n" ), camp_food_supply( 0, true ) );
         description += string_format( _( "Recruit Chance: %10d%%\n \n" ),
-                                      std::min( ( int )( ( 10.0 + appeal ) / 20.0 * 100 ), 100 ) );
+                                      std::min( static_cast<int>( ( 10.0 + appeal ) / 20.0 * 100 ), 100 ) );
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
@@ -2302,7 +2296,7 @@ std::map<std::string, std::string> talk_function::camp_recipe_deck( const std::s
     return cooking_recipes;
 }
 
-int talk_function::camp_recipe_batch_max( const recipe making, const inventory &total_inv )
+int talk_function::camp_recipe_batch_max( const recipe &making, const inventory &total_inv )
 {
     int max_batch = 0;
     int max_checks = 9;
@@ -2608,7 +2602,7 @@ tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, 
 
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
-    if( must_see && overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) == false ) {
+    if( must_see && !overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) ) {
         errors = true;
         popup( _( "You must be able to see the target that you select." ) );
     }
@@ -2782,12 +2776,11 @@ std::vector<tripoint> talk_function::om_companion_path( const tripoint &start, i
         bool bounce )
 {
     std::vector<tripoint> scout_points;
-    tripoint spt;
     tripoint last = start;
     int range = range_start;
     int def_range = range_start;
     while( range > 3 ) {
-        spt = om_target_tile( last, 0, range, {}, false, true, last, false );
+        tripoint spt = om_target_tile( last, 0, range, {}, false, true, last, false );
         if( spt == tripoint( -999, -999, -999 ) ) {
             scout_points.clear();
             return scout_points;
@@ -3307,7 +3300,6 @@ std::string talk_function::camp_direction( const std::string &line )
     return line.substr( line.find_last_of( '[' ),
                         line.find_last_of( ']' ) - line.find_last_of( '[' ) + 1 );
 }
-
 
 // food supply
 int talk_function::camp_food_supply( int change, bool return_days )
