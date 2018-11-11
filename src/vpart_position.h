@@ -11,6 +11,7 @@ class vehicle;
 enum vpart_bitflags : int;
 class vpart_reference;
 struct tripoint;
+struct point;
 
 /**
  * Reference to a position (a point) of the @ref vehicle.

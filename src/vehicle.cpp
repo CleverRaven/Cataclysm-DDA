@@ -158,30 +158,25 @@ bool vehicle::remote_controlled( player const &p ) const
 void vehicle::add_missing_frames()
 {
     static const vpart_id frame_id( "frame_vertical" );
-    const vpart_info &frame_part = frame_id.obj(); // NOT static, could be different each time
-    //No need to check the same (x, y) spot more than once
-    std::set< std::pair<int, int> > locations_checked;
+    //No need to check the same spot more than once
+    std::set<point> locations_checked;
     for( auto &i : parts ) {
-        int next_x = i.mount.x;
-        int next_y = i.mount.y;
-        std::pair<int, int> mount_location = std::make_pair( next_x, next_y );
+        if( locations_checked.count( i.mount ) != 0 ) {
+            continue;
+        }
+        locations_checked.insert( i.mount );
 
-        if( locations_checked.count( mount_location ) == 0 ) {
-            std::vector<int> parts_here = parts_at_relative( point( next_x, next_y ), false );
-            bool found = false;
-            for( auto &elem : parts_here ) {
-                if( part_info( elem ).location == part_location_structure ) {
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                // Install missing frame
-                parts.emplace_back( frame_part.get_id(), next_x, next_y, item( frame_part.item ) );
+        bool found = false;
+        for( auto &elem : parts_at_relative( i.mount, false ) ) {
+            if( part_info( elem ).location == part_location_structure ) {
+                found = true;
+                break;
             }
         }
-
-        locations_checked.insert( mount_location );
+        if( !found ) {
+            // Install missing frame
+            parts.emplace_back( frame_id, i.mount, item( frame_id->item ) );
+        }
     }
 }
 
@@ -350,9 +345,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
     }
 
-    bool blood_inside_set = false;
-    int blood_inside_x = 0;
-    int blood_inside_y = 0;
+    cata::optional<point> blood_inside_pos;
     for( const vpart_reference &vp : get_parts() ) {
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
@@ -456,19 +449,17 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             }
 
             if( blood_inside ) {
-                // blood is splattered around (blood_inside_x, blood_inside_y),
+                // blood is splattered around (blood_inside_pos),
                 // coordinates relative to mount point; the center is always a seat
-                if( blood_inside_set ) {
-                    int distSq = std::pow( ( blood_inside_x - vp.mount().x ), 2 ) +
-                                 std::pow( ( blood_inside_y - vp.mount().y ), 2 );
+                if( blood_inside_pos ) {
+                    const int distSq = std::pow( blood_inside_pos->x - vp.mount().x, 2 ) +
+                                       std::pow( blood_inside_pos->y - vp.mount().y, 2 );
                     if( distSq <= 1 ) {
                         pt.blood = rng( 200, 400 ) - distSq * 100;
                     }
                 } else if( vp.has_feature( "SEAT" ) ) {
                     // Set the center of the bloody mess inside
-                    blood_inside_x = vp.mount().x;
-                    blood_inside_y = vp.mount().y;
-                    blood_inside_set = true;
+                    blood_inside_pos.emplace( vp.mount() );
                 }
             }
         }
@@ -530,8 +521,8 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            point line = ( damage_origin - part.precalc[0] );
-            float dist = 1.0f - ( std::sqrt( line.x * line.x + line.y * line.y ) / damage_size );
+            float dist = 1.0f - trig_dist( damage_origin.x, damage_origin.y, part.precalc[0].x,
+                                           part.precalc[0].y ) / damage_size;
             dist = clamp( dist, 0.0f, 1.0f );
             if( damage_size == 0 ) {
                 dist = 1.0f;
@@ -755,11 +746,9 @@ int vehicle::vhp_to_watts( int const power_vhp )
     return power_vhp * conversion_factor;
 }
 
-bool vehicle::has_structural_part( int const dx, int const dy ) const
+bool vehicle::has_structural_part( const point dp ) const
 {
-    std::vector<int> parts_here = parts_at_relative( point( dx, dy ), false );
-
-    for( auto &elem : parts_here ) {
+    for( const int elem : parts_at_relative( dp, false ) ) {
         if( part_info( elem ).location == part_location_structure &&
             !part_info( elem ).has_flag( "PROTRUSION" ) ) {
             return true;
@@ -785,12 +774,11 @@ bool vehicle::is_structural_part_removed() const
 /**
  * Returns whether or not the vehicle part with the given id can be mounted in
  * the specified square.
- * @param dx The local x-coordinate to mount in.
- * @param dy The local y-coordinate to mount in.
+ * @param dp The local coordinate to mount in.
  * @param id The id of the part to install.
  * @return true if the part can be mounted, false if not.
  */
-bool vehicle::can_mount( int const dx, int const dy, const vpart_id &id ) const
+bool vehicle::can_mount( const point dp, const vpart_id &id ) const
 {
     //The part has to actually exist.
     if( !id.is_valid() ) {
@@ -803,7 +791,7 @@ bool vehicle::can_mount( int const dx, int const dy, const vpart_id &id ) const
         return false;
     }
 
-    const std::vector<int> parts_in_square = parts_at_relative( point( dx, dy ), false );
+    const std::vector<int> parts_in_square = parts_at_relative( dp, false );
 
     //First part in an empty square MUST be a structural part
     if( parts_in_square.empty() && part.location != part_location_structure ) {
@@ -836,11 +824,11 @@ bool vehicle::can_mount( int const dx, int const dy, const vpart_id &id ) const
     // the exception is when a single tile only structural object is being repaired
     if( !parts.empty() ) {
         if( !is_structural_part_removed() &&
-            !has_structural_part( dx, dy ) &&
-            !has_structural_part( dx + 1, dy ) &&
-            !has_structural_part( dx, dy + 1 ) &&
-            !has_structural_part( dx - 1, dy ) &&
-            !has_structural_part( dx, dy - 1 ) ) {
+            !has_structural_part( dp ) &&
+            !has_structural_part( dp + point( +1,  0 ) ) &&
+            !has_structural_part( dp + point( 0, +1 ) ) &&
+            !has_structural_part( dp + point( -1,  0 ) ) &&
+            !has_structural_part( dp + point( 0, -1 ) ) ) {
             return false;
         }
     }
@@ -1016,9 +1004,6 @@ bool vehicle::can_unmount( int const p, std::string &reason ) const
         return false;
     }
 
-    int dx = parts[p].mount.x;
-    int dy = parts[p].mount.y;
-
     // Can't remove an engine if there's still an alternator there
     if( part_flag( p, VPFLAG_ENGINE ) && part_with_feature( p, VPFLAG_ALTERNATOR, true ) >= 0 ) {
         reason = _( "Remove attached alternator first." );
@@ -1064,7 +1049,7 @@ bool vehicle::can_unmount( int const p, std::string &reason ) const
     //Structural parts have extra requirements
     if( part_info( p ).location == part_location_structure ) {
 
-        std::vector<int> parts_in_square = parts_at_relative( point( dx, dy ), false );
+        std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, false );
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
         for( auto &elem : parts_in_square ) {
@@ -1087,9 +1072,9 @@ bool vehicle::can_unmount( int const p, std::string &reason ) const
             std::vector<vehicle_part> connected_parts;
 
             for( int i = 0; i < 4; i++ ) {
-                int next_x = i < 2 ? ( i == 0 ? -1 : 1 ) : 0;
-                int next_y = i < 2 ? 0 : ( i == 2 ? -1 : 1 );
-                std::vector<int> parts_over_there = parts_at_relative( point( dx + next_x, dy + next_y ), false );
+                const point next = parts[p].mount + point( i < 2 ? ( i == 0 ? -1 : 1 ) : 0,
+                                   i < 2 ? 0 : ( i == 2 ? -1 : 1 ) );
+                std::vector<int> parts_over_there = parts_at_relative( next, false );
                 //Ignore empty squares
                 if( !parts_over_there.empty() ) {
                     //Just need one part from the square to track the x/y
@@ -1198,29 +1183,28 @@ bool vehicle::is_connected( vehicle_part const &to, vehicle_part const &from,
 
 /**
  * Installs a part into this vehicle.
- * @param dx The x coordinate of where to install the part.
- * @param dy The y coordinate of where to install the part.
+ * @param dp The coordinate of where to install the part.
  * @param id The string ID of the part to install. (see vehicle_parts.json)
  * @param force Skip check of whether we can mount the part here.
  * @return false if the part could not be installed, true otherwise.
  */
-int vehicle::install_part( int dx, int dy, const vpart_id &id, bool force )
+int vehicle::install_part( const point dp, const vpart_id &id, bool force )
 {
-    if( !( force || can_mount( dx, dy, id ) ) ) {
+    if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dx, dy, vehicle_part( id, dx, dy, item( id.obj().item ) ) );
+    return install_part( dp, vehicle_part( id, dp, item( id.obj().item ) ) );
 }
 
-int vehicle::install_part( int dx, int dy, const vpart_id &id, item &&obj, bool force )
+int vehicle::install_part( const point dp, const vpart_id &id, item &&obj, bool force )
 {
-    if( !( force || can_mount( dx, dy, id ) ) ) {
+    if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dx, dy, vehicle_part( id, dx, dy, std::move( obj ) ) );
+    return install_part( dp, vehicle_part( id, dp, std::move( obj ) ) );
 }
 
-int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
+int vehicle::install_part( const point dp, const vehicle_part &new_part )
 {
     // Should be checked before installing the part
     bool enable = false;
@@ -1261,8 +1245,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 
     pt.enabled = enable;
 
-    pt.mount.x = dx;
-    pt.mount.y = dy;
+    pt.mount = dp;
 
     refresh();
     return parts.size() - 1;
@@ -1510,7 +1493,7 @@ bool vehicle::remove_part( int p )
     }
 
     const point &vp_mount = parts[p].mount;
-    const auto iter = labels.find( label( vp_mount.x, vp_mount.y ) );
+    const auto iter = labels.find( label( vp_mount ) );
     const bool no_label = iter != labels.end();
     const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
     // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
@@ -1694,9 +1677,8 @@ bool vehicle::find_and_split_vehicles( int exclude )
             }
             checked_parts.insert( test_part );
             for( size_t i = 0; i < 4; i++ ) {
-                int dx = parts[ test_part ].mount.x + vehicles::cardinal_d[ i ].x;
-                int dy = parts[ test_part ].mount.y + vehicles::cardinal_d[ i ].y;
-                std::vector<int> all_neighbor_parts = parts_at_relative( point( dx, dy ), true );
+                const point dp = parts[test_part].mount + vehicles::cardinal_d[ i ];
+                std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
                     if( parts[ p ].removed ) {
@@ -1823,11 +1805,11 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 new_vehicle->parts.back().mount = new_mount;
             }
             // remove labels associated with the mov_part
-            const auto iter = labels.find( label( cur_mount.x, cur_mount.y ) );
+            const auto iter = labels.find( label( cur_mount ) );
             if( iter != labels.end() ) {
                 std::string label_str = iter->text;
                 labels.erase( iter );
-                new_labels.insert( label( new_mount.x, new_mount.y, label_str ) );
+                new_labels.insert( label( new_mount, label_str ) );
             }
             // remove the passenger from the old new vehicle
             if( passenger ) {
@@ -1885,34 +1867,15 @@ int vehicle::find_part( const item &it ) const
     return idx != parts.end() ? std::distance( parts.begin(), idx ) : INT_MIN;
 }
 
-item_group::ItemList vehicle::pieces_for_broken_part( int p )
+item_group::ItemList vehicle_part::pieces_for_broken_part() const
 {
-    const std::string &group = part_info( p ).breaks_into_group;
+    const std::string &group = info().breaks_into_group;
+    // @todo make it optional? Or use id of empty item group?
     if( group.empty() ) {
         return {};
     }
 
     return item_group::items_from( group, calendar::turn );
-}
-
-/**
- * Breaks the specified part into the pieces defined by its breaks_into entry.
- * @param p The index of the part to break.
- * @param x The map x-coordinate to place pieces at (give or take).
- * @param y The map y-coordinate to place pieces at (give or take).
- * @param scatter If true, pieces are scattered near the target square.
- */
-void vehicle::break_part_into_pieces( int p, int x, int y, bool scatter )
-{
-    for( item &piece : pieces_for_broken_part( p ) ) {
-        // TODO: balance audit, ensure that less pieces are generated than one would need
-        // to build the component (smash a vehicle box that took 10 lumps of steel,
-        // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
-        const int actual_x = scatter ? x + rng( -SCATTER_DISTANCE, SCATTER_DISTANCE ) : x;
-        const int actual_y = scatter ? y + rng( -SCATTER_DISTANCE, SCATTER_DISTANCE ) : y;
-        tripoint dest( actual_x, actual_y, smz );
-        g->m.add_item_or_charges( dest, piece );
-    }
 }
 
 std::vector<int> vehicle::parts_at_relative( const point &dp,
@@ -1953,8 +1916,7 @@ cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
 
 cata::optional<vpart_reference> vpart_position::part_displayed() const
 {
-    const point mnt = mount();
-    int part_id = vehicle().part_displayed_at( mnt.x, mnt.y );
+    int part_id = vehicle().part_displayed_at( mount() );
     if( part_id == -1 ) {
         return cata::nullopt;
     }
@@ -2118,7 +2080,7 @@ std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const
 
 cata::optional<std::string> vpart_position::get_label() const
 {
-    const auto it = vehicle().labels.find( label( mount().x, mount().y ) );
+    const auto it = vehicle().labels.find( label( mount() ) );
     if( it == vehicle().labels.end() ) {
         return cata::nullopt;
     }
@@ -2132,13 +2094,13 @@ cata::optional<std::string> vpart_position::get_label() const
 void vpart_position::set_label( const std::string &text ) const
 {
     auto &labels = vehicle().labels;
-    const auto it = labels.find( label( mount().x, mount().y ) );
+    const auto it = labels.find( label( mount() ) );
     //@todo empty text should remove the label instead of just storing an empty string, see get_label
     if( it == labels.end() ) {
-        labels.insert( label( mount().x, mount().y, text ) );
+        labels.insert( label( mount(), text ) );
     } else {
         // labels should really be a map
-        labels.insert( labels.erase( it ), label( mount().x, mount().y, text ) );
+        labels.insert( labels.erase( it ), label( mount(), text ) );
     }
 }
 
@@ -2344,19 +2306,14 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
     }
 }
 
-int vehicle::part_at( int const dx, int const dy ) const
+int vehicle::part_at( const point dp ) const
 {
     for( const vpart_reference &vp : get_parts() ) {
-        if( vp.part().precalc[0].x == dx && vp.part().precalc[0].y == dy && !vp.part().removed ) {
+        if( vp.part().precalc[0] == dp && !vp.part().removed ) {
             return static_cast<int>( vp.part_index() );
         }
     }
     return -1;
-}
-
-int vehicle::global_part_at( int const x, int const y ) const
-{
-    return part_at( x - global_pos3().x, y - global_pos3().y );
 }
 
 /**
@@ -2387,11 +2344,10 @@ int vehicle::index_of_part( const vehicle_part *const part, bool const check_rem
  * Returns which part (as an index into the parts list) is the one that will be
  * displayed for the given square. Returns -1 if there are no parts in that
  * square.
- * @param local_x The local x-coordinate.
- * @param local_y The local y-coordinate.
+ * @param dp The local coordinate.
  * @return The index of the part that will be displayed.
  */
-int vehicle::part_displayed_at( int const local_x, int const local_y ) const
+int vehicle::part_displayed_at( const point dp ) const
 {
     // Z-order is implicitly defined in game::load_vehiclepart, but as
     // numbers directly set on parts rather than constants that can be
@@ -2399,7 +2355,7 @@ int vehicle::part_displayed_at( int const local_x, int const local_y ) const
     // it's clear where the magic number comes from.
     const int ON_ROOF_Z = 9;
 
-    std::vector<int> parts_in_square = parts_at_relative( point( local_x, local_y ), true );
+    std::vector<int> parts_in_square = parts_at_relative( dp, true );
 
     if( parts_in_square.empty() ) {
         return -1;
@@ -4275,7 +4231,7 @@ void vehicle::shift_parts( const point delta )
 
     decltype( labels ) new_labels;
     for( auto &l : labels ) {
-        new_labels.insert( label( l.x - delta.x, l.y - delta.y, l.text ) );
+        new_labels.insert( label( l - delta, l.text ) );
     }
     labels = new_labels;
 
@@ -4329,6 +4285,17 @@ int vehicle::break_off( int p, int dmg )
     }
 
     const tripoint pos = global_part_pos3( p );
+    const auto scatter_parts = [&]( const vehicle_part & pt ) {
+        for( const item &piece : pt.pieces_for_broken_part() ) {
+            // inside the loop, so each piece goes to a different place
+            // @todo this may spawn items behind a wall
+            const tripoint where = random_entry( g->m.points_in_radius( pos, SCATTER_DISTANCE ) );
+            // TODO: balance audit, ensure that less pieces are generated than one would need
+            // to build the component (smash a vehicle box that took 10 lumps of steel,
+            // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
+            g->m.add_item_or_charges( where, piece );
+        }
+    };
     if( part_info( p ).location == part_location_structure ) {
         // For structural parts, remove other parts first
         std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, true );
@@ -4344,7 +4311,7 @@ int vehicle::break_off( int p, int dmg )
                     add_msg( m_bad, _( "The %s's %s breaks into pieces!" ), name,
                              parts[ parts_in_square[ index ] ].name() );
                 }
-                break_part_into_pieces( parts_in_square[index], pos.x, pos.y, true );
+                scatter_parts( parts[parts_in_square[index]] );
             } else {
                 // Intact (but possibly damaged) part - remove it in one piece
                 if( g->u.sees( pos ) ) {
@@ -4360,7 +4327,7 @@ int vehicle::break_off( int p, int dmg )
         if( g->u.sees( pos ) ) {
             add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         }
-        break_part_into_pieces( p, pos.x, pos.y, true );
+        scatter_parts( parts[p] );
         remove_part( p );
         find_and_split_vehicles( p );
     } else {
@@ -4369,7 +4336,7 @@ int vehicle::break_off( int p, int dmg )
             add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         }
 
-        break_part_into_pieces( p, pos.x, pos.y, true );
+        scatter_parts( parts[p] );
         remove_part( p );
     }
 
@@ -4764,9 +4731,8 @@ bounding_box vehicle::get_bounding_box()
     precalc_mounts( 0, turn_dir, point() );
 
     int i_use = 0;
-    for( const auto &p : get_points( true ) ) {
-        point pv = parts[part_at( p.x, p.y )].precalc[i_use];
-        point pt = pv;// (p.x + pv.x, p.y + pv.y);
+    for( const tripoint &p : get_points( true ) ) {
+        const point pt = parts[part_at( point( p.x, p.y ) )].precalc[i_use];
         if( pt.x < min_x ) {
             min_x = pt.x;
         }

@@ -963,7 +963,7 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( 0, 0, vpart_from_item( g->u.lastconsumed ) );
+    veh->install_part( point( 0, 0 ), vpart_from_item( g->u.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.

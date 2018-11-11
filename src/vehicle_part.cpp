@@ -28,8 +28,8 @@ static const itype_id fuel_type_battery( "battery" );
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, int const dx, int const dy, item &&obj )
-    : mount( dx, dy ), id( vp ), base( std::move( obj ) )
+vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj )
+    : mount( dp ), id( vp ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
     base.item_tags.insert( "VEHICLE" );
@@ -525,4 +525,3 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
 
     return true;
 }
-

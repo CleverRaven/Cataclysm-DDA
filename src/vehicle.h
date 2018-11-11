@@ -113,7 +113,7 @@ struct vehicle_part {
 
         vehicle_part(); /** DefaultConstructible */
 
-        vehicle_part( const vpart_id &vp, int dx, int dy, item &&it );
+        vehicle_part( const vpart_id &vp, point dp, item &&it );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -355,6 +355,11 @@ struct vehicle_part {
          * the hp (item damage), fuel charges (battery or liquids), aspect, ...
          */
         item properties_to_item() const;
+        /**
+         * Returns an ItemList of the pieces that should arise from breaking
+         * this part.
+         */
+        item_group::ItemList pieces_for_broken_part() const;
 };
 
 class turret_data
@@ -452,22 +457,12 @@ class turret_data
  * Struct used for storing labels
  * (easier to json opposed to a std::map<point, std::string>)
  */
-struct label {
+struct label : public point {
     label() = default;
-    label( int const x, int const y ) : x( x ), y( y ) {}
-    label( const int x, const int y, std::string text ) : x( x ), y( y ), text( std::move( text ) ) {}
+    label( const point &p ) : point( p ) {}
+    label( const point &p, std::string text ) : point( p ), text( std::move( text ) ) {}
 
-    int         x = 0;
-    int         y = 0;
     std::string text;
-
-    // these are stored in a set
-    bool operator<( const label &rhs ) const noexcept {
-        return ( x != rhs.x ) ? ( x < rhs.x ) : ( y < rhs.y );
-    }
-
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
 };
 
 /**
@@ -545,7 +540,7 @@ struct label {
 class vehicle
 {
     private:
-        bool has_structural_part( int dx, int dy ) const;
+        bool has_structural_part( point dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
         bool is_connected( vehicle_part const &to, vehicle_part const &from,
@@ -679,20 +674,20 @@ class vehicle
         const vpart_info &part_info( int index, bool include_removed = false ) const;
 
         // check if certain part can be mounted at certain position (not accounting frame direction)
-        bool can_mount( int dx, int dy, const vpart_id &id ) const;
+        bool can_mount( point dp, const vpart_id &id ) const;
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
         bool can_unmount( int p, std::string &reason ) const;
 
         // install a new part to vehicle
-        int install_part( int dx, int dy, const vpart_id &id, bool force = false );
+        int install_part( point dp, const vpart_id &id, bool force = false );
 
         // Install a copy of the given part, skips possibility check
-        int install_part( int dx, int dy, const vehicle_part &part );
+        int install_part( point dp, const vehicle_part &part );
 
         /** install item specified item to vehicle as a vehicle part */
-        int install_part( int dx, int dy, const vpart_id &id, item &&obj, bool force = false );
+        int install_part( point dp, const vpart_id &id, item &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
         bool find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks );
@@ -730,15 +725,6 @@ class vehicle
          * a vehicle part on both sides.
          */
         void remove_remote_part( int part_num );
-
-        /**
-         * Returns an ItemList of the pieces that should arise from breaking
-         * this part.
-         * @param p The index of the part to break.
-         */
-        item_group::ItemList pieces_for_broken_part( int p );
-
-        void break_part_into_pieces( int p, int x, int y, bool scatter = false );
         /**
          * Yields a range containing all parts (including broken ones) that can be
          * iterated over.
@@ -867,9 +853,8 @@ class vehicle
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
-        int part_at( int dx, int dy ) const;
-        int global_part_at( int x, int y ) const;
-        int part_displayed_at( int local_x, int local_y ) const;
+        int part_at( point dp ) const;
+        int part_displayed_at( point dp ) const;
         int roof_at_part( int p ) const;
 
         // Given a part, finds its index in the vehicle

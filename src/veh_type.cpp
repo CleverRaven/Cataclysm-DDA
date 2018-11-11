@@ -878,7 +878,7 @@ void vehicle_prototype::finalize()
                 continue;
             }
 
-            if( blueprint.install_part( pt.pos.x, pt.pos.y, pt.part ) < 0 ) {
+            if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name.c_str(), pt.part.c_str(),
                           blueprint.parts.size(), pt.pos.x, pt.pos.y );

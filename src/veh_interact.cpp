@@ -1724,7 +1724,7 @@ int veh_interact::part_at( int dx, int dy )
 {
     int vdx = -ddx - dy;
     int vdy = dx - ddy;
-    return veh->part_displayed_at( vdx, vdy );
+    return veh->part_displayed_at( point( vdx, vdy ) );
 }
 
 /**
@@ -1790,7 +1790,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }
-            if( veh->can_mount( vdx, vdy, vp.get_id() ) ) {
+            if( veh->can_mount( point( vdx, vdy ), vp.get_id() ) ) {
                 if( vp.get_id() != vpart_shapes[ vp.name() + vp.item ][ 0 ]->get_id() ) {
                     continue;    // only add first shape to install list
                 }
@@ -2588,7 +2588,7 @@ void veh_interact::complete_vehicle()
 
         g->u.invalidate_crafting_inventory();
 
-        int partnum = !base.is_null() ? veh->install_part( dx, dy, part_id, std::move( base ) ) : -1;
+        int partnum = !base.is_null() ? veh->install_part( point( dx, dy ), part_id, std::move( base ) ) : -1;
         if(partnum < 0) {
             debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             break;
@@ -2745,7 +2745,7 @@ void veh_interact::complete_vehicle()
             }
 
         } else {
-            auto pieces = veh->pieces_for_broken_part( vehicle_part );
+            auto pieces = veh->parts[vehicle_part].pieces_for_broken_part();
             resulting_items.insert(resulting_items.end(), pieces.begin(), pieces.end());
         }
 
@@ -2777,7 +2777,7 @@ void veh_interact::complete_vehicle()
             item removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
-            int partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
+            int partnum = veh->install_part( point( dx, dy ), part_id, consume_vpart_item( part_id ) );
             if( partnum < 0 ) {
                 debugmsg( "complete_vehicle tire change fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             }
