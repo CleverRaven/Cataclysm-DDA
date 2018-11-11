@@ -107,29 +107,25 @@ worldfactory::worldfactory()
 
 worldfactory::~worldfactory() = default;
 
-WORLDPTR worldfactory::add_world( WORLDPTR retworld )
+WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
 {
-    // add world to world list
-    all_worlds[ retworld->world_name ].reset( retworld );
-
     if( !retworld->save() ) {
-        all_worlds.erase( retworld->world_name );
         return nullptr;
     }
-    return retworld;
+    return ( all_worlds[ retworld->world_name ] = std::move( retworld ) ).get();
 }
 
 WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
-    WORLDPTR retworld = new WORLD();
+    std::unique_ptr<WORLD> retworld( new WORLD() );
     retworld->active_mod_order = mods;
-    return add_world( retworld );
+    return add_world( std::move( retworld ) );
 }
 
 WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
 {
     // World to return after generating
-    WORLDPTR retworld = new WORLD();
+    std::unique_ptr<WORLD> retworld( new WORLD() );
 
     if( !world_to_copy.empty() ) {
         retworld->COPY_WORLD( world_generator->get_world( world_to_copy ) );
@@ -149,7 +145,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
         while( static_cast<size_t>( curtab ) < numtabs ) {
             lasttab = curtab;
             draw_worldgen_tabs( wf_win, static_cast<size_t>( curtab ) );
-            curtab += tabs[curtab]( wf_win, retworld );
+            curtab += tabs[curtab]( wf_win, retworld.get() );
 
             // If it is -1, or for unsigned size_t, it would be max.
             if( curtab < 0 ) {
@@ -159,7 +155,6 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
             }
         }
         if( curtab < 0 ) {
-            delete retworld;
             return nullptr;
         }
     } else { // 'Play NOW'
@@ -177,7 +172,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
 #endif
     }
 
-    return add_world( retworld );
+    return add_world( std::move( retworld ) );
 }
 
 WORLDPTR worldfactory::make_new_world( special_game_id special_type )
@@ -200,20 +195,16 @@ WORLDPTR worldfactory::make_new_world( special_game_id special_type )
         return all_worlds[worldname].get();
     }
 
-    WORLDPTR special_world = new WORLD();
+    std::unique_ptr<WORLD> special_world( new WORLD() );
     special_world->world_name = worldname;
 
     special_world->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
 
-    // add world to world list!
-    all_worlds[worldname].reset( special_world );
-
     if( !special_world->save() ) {
-        all_worlds.erase( worldname );
         return nullptr;
     }
 
-    return special_world;
+    return ( all_worlds[worldname] = std::move( special_world ) ).get();
 }
 
 void worldfactory::set_active_world( WORLDPTR world )
