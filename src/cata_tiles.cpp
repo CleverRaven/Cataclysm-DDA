@@ -2551,7 +2551,11 @@ bool cata_tiles::draw_item_highlight( const tripoint &pos )
 
 SDL_Surface_Ptr create_tile_surface( const int w, const int h )
 {
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
     return CreateRGBSurface( 0, w, h, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF );
+#else
+    return CreateRGBSurface( 0, w, h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 );
+#endif
 }
 
 SDL_Surface_Ptr cata_tiles::create_tile_surface()
