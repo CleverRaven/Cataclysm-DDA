@@ -457,10 +457,11 @@ void vehicle::use_controls( const tripoint &pos )
                 refresh();
             } );
         }
-        has_electronic_controls = !get_parts( pos, "CTRL_ELECTRONIC", false, false ).empty();
+        has_electronic_controls = !get_parts_at( pos, "CTRL_ELECTRONIC",
+                                  part_status_flag::any ).empty();
     }
 
-    if( get_parts( pos, "CONTROLS", false, false ).empty() && !has_electronic_controls ) {
+    if( get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() && !has_electronic_controls ) {
         add_msg( m_info, _( "No controls there" ) );
         return;
     }
@@ -1128,7 +1129,8 @@ void vehicle::open_or_close( int const part_index, bool const opening )
     /* Find all other closed parts with the same ID in adjacent squares.
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
-    for( const vpart_reference &vp : get_parts() ) {
+    // FIXME let's not recursively call get_all_parts
+    for( const vpart_reference &vp : get_all_parts() ) {
         const size_t next_index = vp.part_index();
         if( vp.part().removed ) {
             continue;

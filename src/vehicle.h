@@ -49,6 +49,21 @@ constexpr int SCATTER_DISTANCE = 3;
 //adjust this to balance collision damage
 constexpr int k_mvel = 200;
 
+enum class part_status_flag : int {
+    any = 0,
+    working = 1 << 0,
+    available = 1 << 1,
+    enabled = 1 << 2
+};
+part_status_flag inline operator|( const part_status_flag &rhs, const part_status_flag &lhs )
+{
+    return static_cast<part_status_flag>( static_cast<int>( lhs ) | static_cast<int>( rhs ) );
+}
+int inline operator&( const part_status_flag &rhs, const part_status_flag &lhs )
+{
+    return static_cast<int>( lhs ) & static_cast<int>( rhs );
+}
+
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
     veh_coll_body,     // 1 - monster/player/npc
@@ -731,7 +746,7 @@ class vehicle
          */
         // @todo maybe not include broken ones? Have a separate function for that?
         // @todo rename to just `parts()` and rename the data member to `parts_`.
-        vehicle_part_range get_parts() const;
+        vehicle_part_range get_all_parts() const;
         /**
          * Yields a range of parts of this vehicle that each have the given feature
          * and are not broken. Removed parts are also excluded. The enabled status
@@ -788,16 +803,15 @@ class vehicle
         bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
 
         /**
-         *  Get all unbroken vehicle parts at specified position
+         *  Get all enabled, available, unbroken vehicle parts at specified position
          *  @param pos position to check
          *  @param flag if set only flags with this part will be considered
-         *  @param enabled if set part must also be enabled to be considered
-         *  @param enabled if you want to get broken parts too
+         *  @param conditions enum to include unabled, unavailable, and broken parts
          */
-        std::vector<vehicle_part *> get_parts( const tripoint &pos, const std::string &flag, bool enabled,
-                                               bool include_broken_parts );
-        std::vector<const vehicle_part *> get_parts( const tripoint &pos, const std::string &flag,
-                bool enabled, bool include_broken_parts ) const;
+        std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
+                const part_status_flag e );
+        std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
+                const std::string &flag, const part_status_flag e ) const;
 
         /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
         bool can_enable( const vehicle_part &pt, bool alert = false ) const;

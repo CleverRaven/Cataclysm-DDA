@@ -7379,7 +7379,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     VehicleList vehs = get_vehicles( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
-        for( const vpart_reference &vp : v.v->get_parts() ) {
+        for( const vpart_reference &vp : v.v->get_all_parts() ) {
             int px = v.x + vp.part().precalc[0].x;
             int py = v.y + vp.part().precalc[0].y;
             if( v.z != sz ) {
@@ -7470,7 +7470,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         auto &outside_cache = ch.outside_cache;
         auto &transparency_cache = ch.transparency_cache;
         auto &floor_cache = ch.floor_cache;
-        for( const vpart_reference &vp : v.v->get_parts() ) {
+        for( const vpart_reference &vp : v.v->get_all_parts() ) {
             const size_t part = vp.part_index();
             int px = v.x + vp.part().precalc[0].x;
             int py = v.y + vp.part().precalc[0].y;

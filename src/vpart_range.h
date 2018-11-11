@@ -16,6 +16,7 @@
 // "vpart_reference.h", but `*some_range.begin()` requires it.
 
 class vpart_reference;
+enum class part_status_flag : int;
 
 /**
  * Exposes (multiple) parts of one vehicle as @ref vpart_reference.
@@ -35,7 +36,8 @@ class vehicle_part_iterator
             return range_.get();
         }
         void skip_to_next_valid( size_t i ) {
-            while( i < range().part_count() && !range().contained( i ) ) {
+            while( i < range().part_count() &&
+                   !range().matches( i ) ) {
                 ++i;
             }
             if( i < range().part_count() ) {
@@ -147,7 +149,7 @@ class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
     public:
         vehicle_part_range( ::vehicle &v ) : generic_vehicle_part_range( v ) { }
 
-        bool contained( const size_t /*part*/ ) const {
+        bool matches( const size_t /*part*/ ) const {
             return true;
         }
 };
@@ -161,15 +163,14 @@ class vehicle_part_with_feature_range : public
 {
     private:
         feature_type feature_;
-        bool unbroken_;
-        bool enabled_;
+        part_status_flag required_;
 
     public:
-        vehicle_part_with_feature_range( ::vehicle &v, feature_type f, const bool u,
-                                         const bool e ) : generic_vehicle_part_range<vehicle_part_with_feature_range<feature_type>>( v ),
-                                                     feature_( std::move( f ) ), unbroken_( u ), enabled_( e ) { }
+        vehicle_part_with_feature_range( ::vehicle &v, feature_type f, part_status_flag r ) :
+            generic_vehicle_part_range<vehicle_part_with_feature_range<feature_type>>( v ),
+                    feature_( std::move( f ) ), required_( r ) { }
 
-        bool contained( const size_t part ) const;
+        bool matches( const size_t part ) const;
 };
 
 #endif

@@ -594,8 +594,8 @@ bool veh_interact::can_install_part() {
     int engines = 0;
     int dif_eng = 0;
     if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
-        for( const vpart_reference &vp : veh->get_parts() ) {
-            if( vp.has_feature( "ENGINE" ) && vp.has_feature( "E_HIGHER_SKILL" ) ) {
+        for( const vpart_reference &vp : veh->get_parts( "ENGINE" ) ) {
+            if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
                 engines++;
                 dif_eng = dif_eng / 2 + 8;
             }

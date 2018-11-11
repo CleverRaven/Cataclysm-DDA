@@ -360,7 +360,7 @@ void map::generate_lightmap( const int zlev )
             }
         }
 
-        for( const vpart_reference &vp : v->get_parts() ) {
+        for( const vpart_reference &vp : v->get_all_parts() ) {
             const size_t p = vp.part_index();
             const tripoint pp = vp.pos();
             if( !inbounds( pp ) ) {
