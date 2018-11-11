@@ -34,8 +34,8 @@
   {
     "id": "cannister_rack",
     "type": "MAGAZINE",
-    "name": "cannister rack",
-    "description": "An improvised magazine for a vehicle mounted weapon.  A simple metal box with some plastic guide rails, it acts as a gravity fed hopper to drop a heavy cannister into the weapon below.  It is awkward to reload and not especially reliable.",
+    "name": "canister rack",
+    "description": "An improvised magazine for a vehicle mounted weapon.  A simple metal box with some plastic guide rails, it acts as a gravity fed hopper to drop a heavy canister into the weapon below.  It is awkward to reload and not especially reliable.",
     "weight": 1840,
     "volume": 12,
     "price": 16600,

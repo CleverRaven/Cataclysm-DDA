@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "ident": "boats",
     "name": "Boats",
-    "authors": [ "HuXTUS" ],
+    "authors": [ "HuXTUS", "Whaley" ],
     "description": "Adds boats.",
     "category": "vehicles",
     "dependencies": [ "dda" ]

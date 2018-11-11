@@ -111,7 +111,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle" ],
     "dispersion_modifier": 10,
-    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
   },
   {
@@ -229,9 +230,10 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
-    }
+    },
+    "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "id": "masterkey",
@@ -285,6 +287,7 @@
     "mod_targets": [ "pistol" ],
     "dispersion_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -363,7 +366,7 @@
     "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": "LW underslung shotgun",
-    "description": "Leadworks built in minimalist pump action shotgun module. It allows 4 shotgun shells to be loaded and fired.",
+    "description": "Leadworks built in minimalist pump action shotgun module.  It allows 4 shotgun shells to be loaded and fired.",
     "weight": 0,
     "volume": 0,
     "price": 0,

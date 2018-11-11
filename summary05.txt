@@ -1,0 +1,100 @@
+Infrastructure Suspend inventory checks (2)
+Infrastructure Suspend inventory overflow checks during player activity
+Balance Simplify acid bomb
+Balance Adds BLIND_EASY flags to makeshift sling/swag bag & improves grammar
+Build Added src/consumption.cpp to CMakeLists.txt
+Bugfixes Rewrite implementation of string_replace()
+Bugfixes Nans and a feasible bug inisde the logarithmic_range()
+Bugfixes Hack in roofs above buildings
+Balance Nerf "magical" battery storage options
+Content New vehicle: Automatic Tractor
+Bugfixes Fix a problem with remote vehicle controller
+Build Add some simple tests for iuse behavior.
+Balance Adjust magazine spawns (part 2)
+Infrastructure Provide visitable interface
+Features Add ability to cut metal bars on windows with hacksaw
+Bugfixes Now you can't wear headgear with your worn power armor helmet
+Content Cannabis enhancement.
+Content Implements integral_volume for gun mods.
+Content More magazine pouches.
+Mods Allow mods to modify scenarios
+Build Add missing files to project files (C::B & CMakeFile)
+Content Add proper magazine to starting gear of police detective
+Content Add more magazines (5.7mm and 4.6mm)
+Infrastructure Drop dead code paths for sparemag
+Balance Only consume_charges() for tools and comestibles
+Bugfixes Added WATCH flag to E-ink Tablet PC
+Build Include a missing header
+Bugfixes Fix a crash, or how to shoot yourself in the wheel
+Content NPC guard/follow update
+Content Add ammo itemgroups
+Bugfixes Don't truncate volume for stacks
+Bugfixes Tablet will not be destroyed if batteries are dead
+Content Veterinarian Clinic
+Infrastructure Don't store morale name
+Balance Make Wyrmskin Armor Repairable Again.
+Interface Change display of stack sizes
+Bugfixes Correct calculation of count_by_charge items where volume > 1
+Bugfixes Don't consume charges if not food or tool
+Bugfixes Guns and tools need to spawn with magazine_converted set
+Content Implement disintegrating ammo linkages
+Content Normalize 762 ammo and add AKM magazines
+Content Normalize shot ammo
+Bugfixes Prevent furniture from spawning on stairs
+Content Add alternative black gunpowder recipe
+Content Move naginata from Medieval Stuff mod
+Bugfixes Prevent some undefined behavior.
+Infrastructure Add rigid property to all items and usages
+Balance Gives level one prying quality to dive knife.
+Interface ChestHole32Tileset: Mutations, mags, monsters, and NO ASCII.
+Balance Acid update - rebalance fields, acid zeds, add backgrounds for acid tiles
+Bugfixes Add actual attack time info to item description
+Infrastructure Move turret monattacks to a json actor
+Infrastructure Vehicle weight cached, more realistic
+Infrastructure JSON reorganization
+Infrastructure Move items from melee.json to generic.json
+Content Stillsuit
+Infrastructure Extend visitable interface
+Content More magazines and ammo
+Content New mapgen and gunstores
+Content Move jian sword from Medieval Stuff mod
+Content Adds deconstruct recipe for copper pot.
+Content Crafted holy symbol.
+Bugfixes Fix incorrect damage messages from vault zombie attacks
+Infrastructure Add quantity parameter to item constructor
+Bugfixes Further improve reloading
+Infrastructure Implement visitable *::has_item()
+Content Move qiang spear from Medieval Stuff mod
+Content Adds new profession to sheltered start.
+Performance Cache morale level and speed up its computation (re-morale, part 2)
+Balance change legpouch_large coverage from 150 to 15
+Balance Drop excessive pierce from 9mmP2
+Content Normalize and balance .38
+Bugfixes Reloading bugfixes
+Mods Allow mods to modify starting location data
+Bugfixes Update consistency checks for vehicle parts for valid item id.
+Balance Allow monsters to hit-and-run and poison other monsters
+Balance Metabolism: hunger rate and body temperature
+Bugfixes Fix player::fire_gun when using multiple ammo units per shot
+Balance Normalize gunmods and add to itemgroups
+Content Update 762R ammo and items
+Content Add more food recipes
+Features Allow wielding bows with one hand
+Balance Gives accessories slot to STEN.
+Balance Item repair rebalance and modifications
+Balance Only apply flag to items with detachable magazines
+Content Move baldric from Medieval Stuff mod
+Content Simplify coal and forging recipes
+Balance Ally zombies and robots with arthropods
+Bugfixes Fix bite granting extra moves
+Bugfixes Fix NPCs trying to fire 0 shots
+Balance Moderate mutation rebalance (just JSONs)
+Content NPC trade update
+Balance Survivor Zombies Nerf
+Mods Remove unnecessary overmap parameters from Arcana mod
+Build Rename visitable interface methods to prevent compilation errors on GCC4.7
+Content Union Suit Alterations
+Bugfixes Flint and Steel fix
+Mods Fix non-functioning mininuke launcher with blazemod
+Content Move gambeson from Medieval Stuff mod
+Content Simplify coal and forging recipes, part 2.

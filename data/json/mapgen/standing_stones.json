@@ -66,18 +66,12 @@
         "o": "t_dirt",
         "s": "t_dirt"
       },
-      "furniture": {
-        "#": "f_brazier",
-        "O": "f_boulder_large",
-        "o": "f_boulder_small"
-      },
+      "furniture": { "#": "f_brazier", "O": "f_boulder_large", "o": "f_boulder_small" },
       "place_items": [
         { "item": "standing_stones_accident", "x": [ 9, 14 ], "y": [ 13, 15 ], "chance": 50, "repeat": [ 3, 6 ] },
         { "item": "standing_stones_libation", "x": 11, "y": 11, "chance": 100 }
       ],
-      "loot": {
-        "#": { "item": "stick", "repeat": [ 1, 2 ] }
-      }
+      "loot": { "#": { "item": "stick", "repeat": [ 1, 2 ] } }
     }
   }
 ]

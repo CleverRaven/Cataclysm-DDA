@@ -2,19 +2,17 @@
 
 #include "game.h"
 #include "inventory_ui.h"
-#include "options.h"
-#include "player.h"
-#include "crafting.h"
-#include "output.h"
-#include "recipe_dictionary.h"
-#include "string_formatter.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "skill.h"
 #include "map.h"
+#include "options.h"
+#include "output.h"
+#include "player.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "string_formatter.h"
 
-#include <algorithm>
 #include <functional>
 
 typedef std::function<bool( const item & )> item_filter;
@@ -31,6 +29,16 @@ std::string good_bad_none( int value )
         return string_format( "<bad>%d</bad>", value );
     }
     return std::string();
+}
+
+std::string highlight_good_bad_none( int value )
+{
+    if( value > 0 ) {
+        return string_format( "<color_yellow_green>+%d</color>", value );
+    } else if( value < 0 ) {
+        return string_format( "<color_yellow_red>%d</color>", value );
+    }
+    return string_format( "<color_yellow>%d</color>", value );
 }
 
 }
@@ -80,7 +88,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
 void game_menus::inv::common( player &p )
 {
-    static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
+    static const std::set<int> allowed_selections = { { '\0', '=' } };
 
     p.inv.restack( p );
 
@@ -277,7 +285,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
-                if( loc->made_of( LIQUID ) ) {
+                if( loc->made_of_from_type( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) ) {
                     return _( "Too big to pick up" );
@@ -343,29 +351,60 @@ item_location game_menus::inv::disassemble( player &p )
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
                          _( "You don't have any items you could disassemble." ) );
-};
+}
 
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
-            append_cell( [ p, this ]( const item_location & loc ) {
-                return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) );
-            }, _( "NUTRITION" ) );
+            append_cell( [ &p, this ]( const item_location & loc ) {
+                return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) *
+                                      islot_comestible::kcal_per_nutr );
+            }, _( "CALORIES" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
-            append_cell( [ p, this ]( const item_location & loc ) {
-                return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+            append_cell( [ &p, this ]( const item_location & loc ) {
+                const item &it = get_comestible_item( loc );
+                if( it.has_flag( "MUSHY" ) ) {
+                    return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                } else {
+                    return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                }
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
                     return to_string_clipped( spoils );
+                }
+                //~ Used for permafood shelf life in the Eat menu
+                return std::string( _( "indefinite" ) );
+            }, _( "SHELF LIFE" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                if( g->u.can_estimate_rot() ) {
+                    const islot_comestible item = get_edible_comestible( loc );
+                    if( item.spoils > 0 ) {
+                        return get_freshness( loc );
+                    }
+                    return std::string( "---" );
+                }
+                return std::string();
+            }, _( "FRESHNESS" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( g->u.can_estimate_rot() ) {
+                    const islot_comestible item = get_edible_comestible( loc );
+                    if( item.spoils > 0 ) {
+                        if( !get_comestible_item( loc ).rotten() ) {
+                            return get_time_left_rounded( loc );
+                        }
+                    }
+                    return std::string( "---" );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -400,14 +439,11 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            if( loc->typeId() == "1st_aid" ) {
-                return false; // temporary fix for #12991
-            }
             return p.can_consume( *loc );
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            if( loc->made_of( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
+            if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
@@ -424,11 +460,11 @@ class comestible_inventory_preset : public inventory_selector_preset
             return inventory_selector_preset::get_denial( loc );
         }
 
-        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            const auto &a = get_comestible_item( lhs );
-            const auto &b = get_comestible_item( rhs );
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const auto &a = get_comestible_item( lhs.location );
+            const auto &b = get_comestible_item( rhs.location );
 
-            const int freshness = rate_freshness( a, *lhs ) - rate_freshness( b, *rhs );
+            const int freshness = rate_freshness( a, *lhs.location ) - rate_freshness( b, *rhs.location );
             if( freshness != 0 ) {
                 return freshness > 0;
             }
@@ -467,6 +503,45 @@ class comestible_inventory_preset : public inventory_selector_preset
             }
             static const islot_comestible dummy {};
             return dummy;
+        }
+
+        std::string get_time_left_rounded( const item_location &loc ) {
+            const item &it = get_comestible_item( loc );
+            const double relative_rot = it.get_relative_rot();
+            const time_duration shelf_life = get_edible_comestible( loc ).spoils;
+            time_duration time_left = shelf_life - shelf_life * relative_rot;
+
+            // Correct for an estimate that exceeds shelf life -- this happens especially with
+            // fresh items.
+            if( time_left > shelf_life ) {
+                time_left = shelf_life;
+            }
+
+            if( it.is_going_bad() ) {
+                return _( "soon!" );
+            }
+
+            return to_string_approx( time_left );
+        }
+
+        std::string get_freshness( const item_location &loc ) {
+            const item &it = get_comestible_item( loc );
+            const double rot_progress = it.get_relative_rot();
+            if( it.is_fresh() ) {
+                return _( "fresh" );
+            } else if( rot_progress < 0.3 ) {
+                return _( "quite fresh" );
+            } else if( rot_progress < 0.5 ) {
+                return _( "near midlife" );
+            } else if( rot_progress < 0.7 ) {
+                return _( "past midlife" );
+            } else if( rot_progress < 0.9 ) {
+                return _( "getting older" );
+            } else if( !it.rotten() ) {
+                return _( "old" );
+            } else {
+                return _( "rotten" );
+            }
         }
 
     private:
@@ -512,7 +587,12 @@ class activatable_inventory_preset : public pickup_inventory_preset
                            loc->ammo_required() );
             }
 
-            return pickup_inventory_preset::get_denial( loc );
+            const item &it = *loc;
+            if( !it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
+                return pickup_inventory_preset::get_denial( loc );
+            }
+
+            return std::string();
         }
 
     protected:
@@ -581,9 +661,9 @@ class gunmod_inventory_preset : public inventory_selector_preset
             return std::string();
         }
 
-        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            const auto a = get_odds( lhs );
-            const auto b = get_odds( rhs );
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const auto a = get_odds( lhs.location );
+            const auto b = get_odds( rhs.location );
 
             if( a.first > b.first || ( a.first == b.first && a.second < b.second ) ) {
                 return true;
@@ -641,11 +721,11 @@ class read_inventory_preset: public pickup_inventory_preset
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
 
-            append_cell( [ this ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                return good_bad_none( get_book( loc ).fun );
+                return good_bad_none( p.book_fun_for( *loc ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
@@ -681,6 +761,28 @@ class read_inventory_preset: public pickup_inventory_preset
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
+        }
+
+        std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
+        override {
+            auto base_filter = pickup_inventory_preset::get_filter( filter );
+
+            return [this, base_filter, filter]( const inventory_entry & e ) {
+                if( base_filter( e ) ) {
+                    return true;
+                }
+
+                if( !is_known( e.location ) ) {
+                    return false;
+                }
+
+                const auto &book = get_book( e.location );
+                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
+                    return lcmatch( book.skill->name(), filter );
+                }
+
+                return false;
+            };
         }
 
     private:
@@ -881,6 +983,33 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const saw_barrel_actor &actor;
 };
 
+class salvage_inventory_preset: public inventory_selector_preset
+{
+    public:
+        salvage_inventory_preset( const salvage_actor *actor ) :
+            inventory_selector_preset(), actor( actor ) {
+
+            append_cell( [ actor ]( const item_location & loc ) {
+                return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
+                                              *loc.get_item() ) / 100 ) );
+            }, _( "TIME" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return actor->valid_to_cut_up( *loc.get_item() );
+        }
+
+    private:
+        const salvage_actor *actor;
+};
+
+item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
+{
+    return inv_internal( p, salvage_inventory_preset( actor ),
+                         _( "Cut up what?" ), 1,
+                         _( "You have nothing to cut up." ) );
+}
+
 item_location game_menus::inv::saw_barrel( player &p, item &tool )
 {
     const auto actor = dynamic_cast<const saw_barrel_actor *>
@@ -922,7 +1051,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
     return inv_s.execute();
 }
 
-void game_menus::inv::compare( player &p, const tripoint &offset )
+void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset )
 {
     p.inv.restack( p );
 
@@ -932,9 +1061,9 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
     inv_s.set_title( _( "Compare" ) );
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
-    if( offset != tripoint_min ) {
-        inv_s.add_map_items( p.pos() + offset );
-        inv_s.add_vehicle_items( p.pos() + offset );
+    if( offset ) {
+        inv_s.add_map_items( p.pos() + *offset );
+        inv_s.add_vehicle_items( p.pos() + *offset );
     } else {
         inv_s.add_nearby_items();
     }

@@ -1,32 +1,28 @@
 #include "gamemode.h"
+
 #include "action.h"
 #include "color.h"
-#include "enums.h"
-#include "game.h"
-#include "map.h"
-#include "debug.h"
-#include "itype.h"
-#include "mtype.h"
-#include "overmapbuffer.h"
-#include "crafting.h"
-#include "recipe_dictionary.h"
-#include "monstergenerator.h"
 #include "construction.h"
-#include "messages.h"
-#include "map_iterator.h"
-#include "rng.h"
-#include "mongroup.h"
-#include "translations.h"
+#include "debug.h"
+#include "game.h"
 #include "input.h"
-#include "overmap.h"
-#include "output.h"
-#include "player.h"
-#include "string_input_popup.h"
-#include "string_formatter.h"
 #include "item_group.h"
+#include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "mongroup.h"
+#include "monstergenerator.h"
+#include "mtype.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
 
-#include <string>
-#include <vector>
 #include <ostream>
 #include <sstream>
 
@@ -971,7 +967,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                                     item_selected );
                 draw_caravan_borders( w, current_window );
             } else if( !items[category_selected].empty() ) { // Items
-                if( item_selected < ( int )items[category_selected].size() - 1 ) {
+                if( item_selected < static_cast<int>( items[category_selected].size() ) - 1 ) {
                     item_selected++;
                 } else {
                     item_selected = 0;
@@ -1306,7 +1302,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         mvwprintz( w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
     // THEN print it--if item_selected is valid
-    if( item_selected < ( int )items->size() ) {
+    if( item_selected < static_cast<int>( items->size() ) ) {
         item tmp( ( *items )[item_selected], 0 ); // Dummy item to get info
         fold_and_print( w, 12, 1, 38, c_white, tmp.info() );
     }
@@ -1315,7 +1311,8 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         mvwprintz( w, i, 40, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
     // Finally, print the item list on the right
-    for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < ( int )items->size(); i++ ) {
+    for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 &&
+         i < static_cast<int>( items->size() ); i++ ) {
         mvwprintz( w, i - offset + 1, 40, ( item_selected == i ? h_white : c_white ),
                    item::nname( ( *items )[i], ( *counts )[i] ).c_str() );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );

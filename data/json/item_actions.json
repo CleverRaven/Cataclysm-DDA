@@ -54,7 +54,7 @@
     },{
         "type" : "item_action",
         "id" : "HOTPLATE",
-        "name" : "Heat up food"
+        "name" : "Heat up food (with it)"
     },{
         "type" : "item_action",
         "id" : "MISC_REPAIR",
@@ -230,7 +230,7 @@
     },{
         "type" : "item_action",
         "id" : "CAMERA",
-        "name" : "Use"
+        "name" : "Use camera"
     },{
         "type" : "item_action",
         "id" : "CAN_GOO",
@@ -265,6 +265,10 @@
         "name" : "Clear rubble"
     },{
         "type" : "item_action",
+        "id" : "COIN_FLIP",
+        "name" : "Flip"
+    },{
+        "type" : "item_action",
         "id" : "COKE",
         "name" : "Snort coke"
     },{
@@ -277,6 +281,14 @@
         "name" : "Turn off"
     },{
         "type" : "item_action",
+        "id" : "E_COMBATSAW_OFF",
+        "name" : "Turn on"
+    },{
+        "type" : "item_action",
+        "id" : "E_COMBATSAW_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
         "id" : "CONTACTS",
         "name" : "Apply"
     },{
@@ -286,6 +298,14 @@
     },{
         "type" : "item_action",
         "id" : "CS_LAJATANG_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "ECS_LAJATANG_OFF",
+        "name" : "Turn on"
+    },{
+        "type" : "item_action",
+        "id" : "ECS_LAJATANG_ON",
         "name" : "Turn off"
     },{
         "type" : "item_action",
@@ -314,7 +334,7 @@
     },{
         "type" : "item_action",
         "id" : "ECIG",
-        "name" : "Smoke"
+        "name" : { "ctxt": "ECIG", "str": "Smoke" }
     },{
         "type" : "item_action",
         "id" : "EHANDCUFFS",
@@ -381,10 +401,6 @@
         "name" : "Take"
     },{
         "type" : "item_action",
-        "id" : "FUN_HALLU",
-        "name" : "Eat"
-    },{
-        "type" : "item_action",
         "id" : "GRANADE",
         "name" : "Activate"
     },{
@@ -410,7 +426,7 @@
     },{
         "type" : "item_action",
         "id" : "HEAT_FOOD",
-        "name" : "Heat up food"
+        "name" : "Heat up food (in it)"
     },{
         "type" : "item_action",
         "id" : "HONEYCOMB",
@@ -431,6 +447,10 @@
         "type" : "item_action",
         "id" : "LADDER",
         "name" : "Place"
+    },{
+        "type" : "item_action",
+        "id" : "MAGIC_8_BALL",
+        "name" : "Ask"
     },{
         "type" : "item_action",
         "id" : "MARLOSS",
@@ -489,11 +509,11 @@
         "name" : "Cook"
     },{
         "type" : "item_action",
-        "id" : "MUTAGEN",
+        "id" : "mutagen",
         "name" : "Consume"
     },{
         "type" : "item_action",
-        "id" : "MUT_IV",
+        "id" : "mutagen_iv",
         "name" : "Inject"
     },{
         "type" : "item_action",
@@ -538,7 +558,7 @@
     },{
         "type" : "item_action",
         "id" : "PORTABLE_GAME",
-        "name" : "Play"
+        "name" : { "ctxt": "PORTABLE_GAME", "str": "Play" }
     },{
         "type" : "item_action",
         "id" : "PORTABLE_STRUCTURE",
@@ -558,6 +578,10 @@
     },{
         "type" : "item_action",
         "id" : "PURIFY_IV",
+        "name" : "Inject"
+    },{
+        "type" : "item_action",
+        "id" : "PURIFY_SMART",
         "name" : "Inject"
     },{
         "type" : "item_action",
@@ -634,7 +658,7 @@
     },{
         "type" : "item_action",
         "id" : "SMOKING",
-        "name" : "Smoke"
+        "name" : { "ctxt": "SMOKING", "str": "Smoke" }
     },{
         "type" : "item_action",
         "id" : "SPRAY_CAN",
@@ -742,7 +766,7 @@
     },{
         "type" : "item_action",
         "id" : "musical_instrument",
-        "name" : "Play"
+        "name" : { "ctxt": "musical_instrument", "str": "Play" }
     },{
         "type" : "item_action",
         "id" : "place_monster",
@@ -796,7 +820,22 @@
     },
     {
         "type" : "item_action",
+        "id" : "WEAK_ANTIBIOTIC",
+        "name" : "Take"
+    },
+    {
+        "type" : "item_action",
         "id" : "DISASSEMBLE",
         "name" : "Get content"
+    },
+    {
+        "type" : "item_action",
+        "id" : "STRONG_ANTIBIOTIC",
+        "name" : "Take"
+    },
+    {
+        "type" : "item_action",
+        "id" : "PANACEA",
+        "name" : "Take"
     }
 ]

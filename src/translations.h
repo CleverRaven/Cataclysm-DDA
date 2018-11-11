@@ -2,6 +2,10 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
+#include "optional.h"
+
+#include <string>
+
 #ifndef translate_marker
 /**
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
@@ -29,10 +33,7 @@
 #endif
 #endif
 
-#include <string>
-#include <cstdio>
 #include <libintl.h>
-#include <clocale>
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
@@ -69,5 +70,62 @@ bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();
 void set_language();
+
+class JsonIn;
+
+/**
+ * Class for storing translation context and raw string for deferred translation
+ **/
+class translation
+{
+    public:
+        translation();
+        /**
+         * Create a deferred translation with context
+         **/
+        translation( const std::string &ctxt, const std::string &raw );
+
+        /**
+         * Create a deferred translation without context
+         **/
+        translation( const std::string &raw );
+
+        /**
+         * Store a string that needs no translation.
+         **/
+        static translation no_translation( const std::string &str );
+
+        /**
+         * Deserialize from json. Json format is:
+         *     "text"
+         * or
+         *     { "ctxt": "foo", "str": "bar" }
+         **/
+        void deserialize( JsonIn &jsin );
+
+        /**
+         * Returns raw string if no translation is needed, otherwise returns
+         * the translated string.
+         **/
+        std::string translated() const;
+
+        /**
+         * Whether the underlying string is empty, not matter what the context
+         * is or whether translation is needed.
+         **/
+        bool empty() const;
+    private:
+        struct no_translation_tag {};
+        translation( const std::string &str, const no_translation_tag );
+
+        cata::optional<std::string> ctxt;
+        std::string raw;
+        bool needs_translation;
+};
+
+/**
+ * Shorthand for translation::no_translation
+ **/
+translation no_translation( const std::string &str );
 
 #endif // _TRANSLATIONS_H_

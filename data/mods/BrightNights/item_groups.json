@@ -120,5 +120,10 @@
     "id": "guns_pistol_improvised",
     "type": "item_group",
     "items": [ [ "v29_cheap", 10 ] ]
+  },
+  {
+    "id": "chem_lab",
+    "type": "item_group",
+    "items": [ [ "panacea", 1 ] ]
   }
 ]

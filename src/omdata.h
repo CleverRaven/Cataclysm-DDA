@@ -9,12 +9,10 @@
 #include "string_id.h"
 #include "translations.h"
 
-#include <string>
-#include <vector>
-#include <limits>
-#include <list>
 #include <bitset>
+#include <list>
 #include <set>
+#include <vector>
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
@@ -84,7 +82,7 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
-};
+}
 
 struct overmap_spawns {
         overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
@@ -271,7 +269,6 @@ struct oter_t {
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 
-
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
 // (thus, LINE_OXXX looks like 'T'). LINE_ is defined in output.h.  The ACS_
@@ -301,7 +298,7 @@ struct overmap_special_spawns : public overmap_spawns {
 };
 
 struct overmap_special_terrain {
-    overmap_special_terrain() { };
+    overmap_special_terrain() {}
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
@@ -373,7 +370,7 @@ void check_consistency();
 void finalize();
 void reset();
 
-size_t count();
+const std::vector<oter_t> &get_all();
 
 }
 
@@ -384,6 +381,9 @@ void load( JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
+
+const std::vector<overmap_special> &get_all();
+
 overmap_special_batch get_default_batch( const point &origin );
 /**
  * Generates a simple special from a building id.

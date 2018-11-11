@@ -1,15 +1,9 @@
 [
   {
-    "type": "monstergroup",
-    "name": "GROUP_BROKEN_CYBORG",
-    "default": "mon_broken_cyborg",
-    "monsters": [ { "monster": "mon_broken_cyborg", "freq": 75, "cost_multiplier": 1 } ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "basement_bionic" ],
-    "weight": 250,
+    "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
       "rows": [
@@ -74,14 +68,14 @@
         { "item": "towel", "x": 2, "y": 7, "chance": 60 },
         { "item": "stereo", "x": 1, "y": 7, "chance": 50 }
       ],
-      "place_monsters": [ { "monster": "GROUP_BROKEN_CYBORG", "x": 11, "y": 10, "chance": 1 } ]
+      "place_monster": [ { "monster": "mon_broken_cyborg", "x": 14, "y": 3, "chance": 100 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement_bionic" ],
-    "weight": 250,
+    "om_terrain": [ "basement" ],
+    "weight": 500,
     "object": {
       "rotation": [ 0, 3 ],
       "rows": [

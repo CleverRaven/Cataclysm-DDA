@@ -244,7 +244,7 @@
             "You throw a heavy cross at %s",
             "<npcname> throws a cross at %s"
         ],
-        "bash_mult" : 1.2
+        "mult_bonuses" : [["damage", "bash", 1.2]]
     },{
         "type" : "technique",
         "id" : "tec_boxing_rapid",
@@ -272,7 +272,7 @@
             "You uppercut %s",
             "<npcname> uppercuts %s"
         ],
-        "bash_mult" : 1.4,
+        "mult_bonuses" : [["damage", "bash", 1.4]],
         "stun_dur" : 2
     },{
         "type" : "technique",
@@ -441,7 +441,7 @@
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "movecost_mult" : 0.5
+        "mult_bonuses" : [["movecost", 0.5]]
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_kick",
@@ -550,8 +550,10 @@
             "<npcname> surprise attacks %s"
         ],
         "stun_dur" : 2,
-        "bash_mult" : 1.4,
-        "cut_mult" : 2
+        "mult_bonuses" : [
+            ["damage", "bash", 1.4],
+            ["damage", "cut", 2]
+        ]
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_precise",
@@ -636,8 +638,10 @@
         "name" : "biojutsu impale",
         "min_melee" : 3,
         "crit_tec" : true,
-        "cut_mult" : 1.5,
-        "bash_mult" : 1.5,
+        "mult_bonuses" : [
+            ["damage", "bash", 1.5],
+            ["damage", "cut", 1.5]
+        ],
         "messages" : [
             "You brutally impale %s",
             "<npcname> brutally impales %s"
@@ -943,9 +947,7 @@
         "crit_tec" : true,
         "stun_dur" : 3,
         "knockback_dist" : 3,
-        "mult_bonuses" : [
-            ["damage", "bash", 2]
-        ],
+        "mult_bonuses" : [["damage", "bash", 2]],
         "messages" : [
             "Your Stinger Kick sends %s flying",
             "<npcname>'s Stinger Kick sends %s flying"
@@ -956,9 +958,7 @@
         "name" : "Pincer Strike",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
-        "mult_bonuses" : [
-            ["damage", "bash", 1.25]
-        ],
+        "mult_bonuses" : [["damage", "bash", 1.25]],
         "messages" : [
             "You punch %s with your Pincer Fist",
             "<npcname> jabs %s with a Pincer Fist"
@@ -1105,7 +1105,7 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "stun_dur" : 2,
-        "bash_mult" : 1.2,
+        "mult_bonuses" : [["damage", "bash", 1.2]],
         "messages" : [
             "You grab and knee %s",
             "<npcname> grabs and knees %s"

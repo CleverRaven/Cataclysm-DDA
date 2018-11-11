@@ -101,11 +101,11 @@
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] }
             ],
-            "add": [
-                { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
-                { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
-                { "item": "touristmap", "x": 8, "y": 8, "chance": 2 },
-                { "item": "survivormap", "x": 8, "y": 7, "chance": 8 }
+            "place_item": [
+                { "item": "roadmap", "x": 8, "y": 8, "chance": 25 },
+                { "item": "roadmap", "x": 8, "y": 8, "chance": 25 },
+                { "item": "touristmap", "x": 8, "y": 8, "chance": 50 },
+                { "item": "survivormap", "x": 8, "y": 7, "chance": 12 }
              ],
             "place_items": [
                 { "item": "traveler", "chance": 90, "x": [ 6,6 ], "y": [ 6,6 ] }

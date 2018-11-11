@@ -1,13 +1,13 @@
 #include "weather.h"
-#include "translations.h"
-#include "color.h"
-#include "catacharset.h"
 
-#include <map>
-#include <vector>
-#include <string>
+#include "color.h"
+#include "game_constants.h"
+#include "translations.h"
+
 #include <array>
 #include <cmath>
+#include <map>
+#include <vector>
 
 /**
  * @ingroup Weather
@@ -129,17 +129,17 @@ int calc_hourly_rotpoints_at_temp( const int temp )
     const int cutoff = 105;     // stop torturing the player at this temperature, which is
     const int cutoffrot = 3540; // ..almost 6 times the base rate. bacteria hate the heat too
 
-    const int dsteps = dropoff - 32;
-    const int dstep = ( 35.91 * std::pow( 2.0, ( float )dropoff / 16.0 ) / dsteps );
+    const int dsteps = dropoff - temperatures::freezing;
+    const int dstep = ( 35.91 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
 
-    if( temp < 32 ) {
+    if( temp < temperatures::freezing ) {
         return 0;
     } else if( temp > cutoff ) {
         return cutoffrot;
     } else if( temp < dropoff ) {
-        return ( ( temp - 32 ) * dstep );
+        return ( ( temp - temperatures::freezing ) * dstep );
     } else {
-        return int( ( 35.91 * std::pow( 2.0, ( float )temp / 16.0 ) ) + 0.5 );
+        return int( ( 35.91 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) ) + 0.5 );
     }
 }
 

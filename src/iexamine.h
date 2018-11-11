@@ -9,19 +9,21 @@
 #ifndef IEXAMINE_H
 #define IEXAMINE_H
 
-#include <string>
-#include <list>
-
+#include "itype.h"
 #include "string_id.h"
+
+#include <list>
 
 class game;
 class item;
 class player;
+class npc;
 class map;
 struct tripoint;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+using seed_tuple = std::tuple<itype_id, std::string, int>;
 
 enum hack_result {
     HACK_UNABLE,
@@ -69,6 +71,8 @@ void pedestal_wyrm( player &p, const tripoint &examp );
 void pedestal_temple( player &p, const tripoint &examp );
 void door_peephole( player &p, const tripoint &examp );
 void fswitch( player &p, const tripoint &examp );
+void flower_tulip( player &p, const tripoint &examp );
+void flower_spurge( player &p, const tripoint &examp );
 void flower_poppy( player &p, const tripoint &examp );
 void flower_bluebell( player &p, const tripoint &examp );
 void flower_dahlia( player &p, const tripoint &examp );
@@ -85,7 +89,7 @@ void tree_maple_tapped( player &p, const tripoint &examp );
 void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );
 void shrub_wildveggies( player &p, const tripoint &examp );
-void recycler( player &p, const tripoint &examp );
+void recycle_compactor( player &p, const tripoint &examp );
 void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
@@ -99,15 +103,22 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
+void on_smoke_out( const tripoint &examp ); //activates end of smoking effects
+void smoker_options( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
 
 bool has_keg( const tripoint &pos );
 
-
 std::list<item> get_harvest_items( const itype &type, int plant_count,
                                    int seed_count, bool byproducts );
+
+// Planting functions
+std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
+int query_seed( const std::vector<seed_tuple> &seed_entries );
+void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
+
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player &, const tripoint & );

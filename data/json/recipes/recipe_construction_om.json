@@ -9,7 +9,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 180000,
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ] ]
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -72,7 +72,7 @@
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
@@ -108,7 +108,7 @@
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
@@ -151,7 +151,7 @@
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
@@ -247,7 +247,7 @@
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
@@ -298,13 +298,24 @@
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_farm_0",
+    "description": "Survey land for a farm shop.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": 180000
   },
   {
     "type": "recipe",
@@ -359,6 +370,17 @@
     "time": 10080000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 130 ] ], [ [ "stick", 126 ] ], [ [ "2x4", 287 ] ], [ [ "nail", 144 ] ], [ [ "glass_sheet", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_garage_0",
+    "description": "Survey land for a garage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": 180000
   },
   {
     "type": "recipe",
@@ -467,6 +489,17 @@
       [ [ "sheet_metal", 2 ] ],
       [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_kitchen_0",
+    "description": "Survey land for a kitchen.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": 180000
   },
   {
     "type": "recipe",
@@ -654,6 +687,17 @@
     "time": 1530000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 68 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_blacksmith_0",
+    "description": "Survey land for a blacksmith shop.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": 180000
   },
   {
     "type": "recipe",

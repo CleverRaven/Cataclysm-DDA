@@ -82,7 +82,8 @@
     "items":[
       { "group": "novels", "prob": 50 },
       { "group": "manuals", "prob": 40 },
-      { "group": "textbooks", "prob": 30 }
+      { "group": "textbooks", "prob": 30 },
+      [ "dnd_handbook", 3 ]
     ]
   }
 ]

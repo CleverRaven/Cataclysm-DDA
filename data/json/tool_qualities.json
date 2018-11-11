@@ -143,6 +143,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "SELF_JACK",
+    "name": "self jacking"
+  },
+  {
+    "type": "tool_quality",
     "id": "CHISEL",
     "name": "chiseling"
   },

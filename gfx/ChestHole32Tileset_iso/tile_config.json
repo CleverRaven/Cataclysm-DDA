@@ -18221,6 +18221,12 @@
           "rotates": false
         },
         {
+          "id": "t_thconc_floor_olight",
+          "fg": 658,
+          "bg": 659,
+          "rotates": false
+        },
+        {
           "bg": 659,
           "id": "t_thconc_floor",
           "rotates": false
@@ -19022,7 +19028,7 @@
         {
           "bg": [ 5997, 5998 ],
           "fg": [ 2004, 4563 ],
-          "id": ["t_door_glass_o", "t_reinforced_glass_shutter_open", "t_reinforced_door_glass_o"],
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o", "t_reinforced_glass_shutter_open", "t_reinforced_door_glass_o"],
           "rotates": true
         },
         {
@@ -19143,7 +19149,7 @@
         {
           "bg": [ 5997, 5998 ],
           "fg": [ 2003, 4590 ],
-          "id": ["t_door_glass_c", "t_reinforced_glass_shutter", "t_reinforced_door_glass_c"],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_reinforced_glass_shutter", "t_reinforced_door_glass_c"],
           "rotates": true
         },
 		{

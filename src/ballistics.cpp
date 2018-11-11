@@ -9,13 +9,14 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
+#include "output.h"
 #include "player.h"
 #include "projectile.h"
+#include "rng.h"
 #include "sounds.h"
-#include "output.h"
-#include "vpart_position.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 #include <algorithm>
 
@@ -284,10 +285,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( do_animation && !do_draw_line ) {
             // TODO: Make this draw thrown item/launched grenade/arrow
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
-                g->draw_bullet( tp, ( int )i, trajectory, bullet );
+                g->draw_bullet( tp, static_cast<int>( i ), trajectory, bullet );
                 projectile_skip_current_frame = 0;
                 // If we missed recalculate the skip factor so they spread out.
-                projectile_skip_calculation = std::max( ( size_t )range, i ) * projectile_skip_multiplier;
+                projectile_skip_calculation =
+                    std::max( static_cast<size_t>( range ), i ) * projectile_skip_multiplier;
             } else {
                 projectile_skip_current_frame++;
             }
@@ -328,8 +330,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // at the start, misses should stay as misses
         if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
-            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) / critter->ranged_target_size(),
-                                      0.4 );
+            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) /
+                                      critter->ranged_target_size(), 0.4 );
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {

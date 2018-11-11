@@ -1,10 +1,10 @@
 #include "emit.h"
 
-#include <map>
-
-#include "json.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
+
+#include <map>
 
 static std::map<emit_id, emit> emits_all;
 
@@ -38,7 +38,6 @@ bool emit::is_null() const
 {
     return id_ == emit_id::NULL_ID();
 }
-
 
 void emit::load_emit( JsonObject &jo )
 {

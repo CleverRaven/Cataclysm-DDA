@@ -12,14 +12,14 @@ Activities are long term actions, that can be interrupted and (optionally) conti
 
 ## JSON Properties
 
-stop_phrase: What to say when asking whether to cancel the activity or not. For example, in "You see the zombie approaching! Stop reading? (Y/N)", the stop_phrase is "Stop reading?".
-suspendable (true): If true, the activity can be continued without starting from scratch again. This is only possible if `can_resume_with()` returns true.
-rooted (false): If true, then during the activity, recoil is reduced, plant mutants sink their roots into the ground, etc.
-based_on: Can be 'time', 'speed', or 'neither'.
-	time: The amount that `player_activity::moves_left` is decremented by is independent from the character's speed.
-	speed: `player_activity::moves_left` may be decremented faster or slower, depending on the character's speed.
-	neither: `moves_left` will not be decremented. Thus you must define a do_turn function; otherwise the activity will never end!
-no_resume (false): Rather than resuming, you must always restart the activity from scratch.
+* stop_phrase: What to say when asking whether to cancel the activity or not. For example, in "You see the zombie approaching! Stop reading? (Y/N)", the stop_phrase is "Stop reading?".
+* suspendable (true): If true, the activity can be continued without starting from scratch again. This is only possible if `can_resume_with()` returns true.
+* rooted (false): If true, then during the activity, recoil is reduced, plant mutants sink their roots into the ground, etc.
+* based_on: Can be 'time', 'speed', or 'neither'.
+	* time: The amount that `player_activity::moves_left` is decremented by is independent from the character's speed.
+	* speed: `player_activity::moves_left` may be decremented faster or slower, depending on the character's speed.
+	* neither: `moves_left` will not be decremented. Thus you must define a do_turn function; otherwise the activity will never end!
+* no_resume (false): Rather than resuming, you must always restart the activity from scratch.
 
 ## Termination
 

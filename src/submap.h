@@ -1,21 +1,20 @@
 #pragma once
-#if !defined(SUBMAP_H)
+#ifndef SUBMAP_H
 #define SUBMAP_H
 
-#include "game_constants.h"
-#include "basecamp.h"
-#include "item.h"
-#include "field.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "active_item_cache.h"
+#include "basecamp.h"
 #include "calendar.h"
+#include "computer.h"
+#include "field.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "string_id.h"
 
-#include <vector>
 #include <list>
-#include <map>
-#include <string>
 #include <memory>
+#include <vector>
 
 class map;
 class vehicle;
@@ -114,6 +113,27 @@ struct submap {
         }
     }
 
+    struct cosmetic_t {
+        point p;
+        std::string type;
+        std::string str;
+    };
+
+    void insert_cosmetic( const point p, const std::string &type, const std::string &str ) {
+        cosmetic_t ins;
+
+        ins.p = p;
+        ins.type = type;
+        ins.str = str;
+
+        cosmetics.push_back( ins );
+    }
+
+    void insert_cosmetic( const int x, const int y, const std::string &type, const std::string &str ) {
+        point p( x, y );
+        insert_cosmetic( p, type, str );
+    }
+
     bool has_graffiti( int x, int y ) const;
     const std::string &get_graffiti( int x, int y ) const;
     void set_graffiti( int x, int y, const std::string &new_graffiti );
@@ -122,34 +142,13 @@ struct submap {
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
-    bool has_signage( const int x, const int y ) const {
-        if( frn[x][y] == furn_id( "f_sign" ) ) {
-            return cosmetics[x][y].find( "SIGNAGE" ) != cosmetics[x][y].end();
-        }
-
-        return false;
-    }
+    bool has_signage( const int x, const int y ) const;
     // Dependent on furniture + cosmetics.
-    const std::string get_signage( const int x, const int y ) const {
-        if( frn[x][y] == furn_id( "f_sign" ) ) {
-            auto iter = cosmetics[x][y].find( "SIGNAGE" );
-            if( iter != cosmetics[x][y].end() ) {
-                return iter->second;
-            }
-        }
-
-        return "";
-    }
+    const std::string get_signage( const int x, const int y ) const;
     // Can be used anytime (prevents code from needing to place sign first.)
-    void set_signage( const int x, const int y, const std::string &s ) {
-        is_uniform = false;
-        cosmetics[x][y]["SIGNAGE"] = s;
-    }
+    void set_signage( const int x, const int y, const std::string &s );
     // Can be used anytime (prevents code from needing to place sign first.)
-    void delete_signage( const int x, const int y ) {
-        is_uniform = false;
-        cosmetics[x][y].erase( "SIGNAGE" );
-    }
+    void delete_signage( const int x, const int y );
 
     // TODO: make trp private once the horrible hack known as editmap is resolved
     ter_id          ter[SEEX][SEEY];  // Terrain on each square
@@ -164,12 +163,12 @@ struct submap {
     // Uniform submaps aren't saved/loaded, because regenerating them is faster
     bool is_uniform;
 
-    std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
+    std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 
     active_item_cache active_items;
 
     int field_count = 0;
-    time_point last_touched = 0;
+    time_point last_touched = calendar::time_of_cataclysm;
     int temperature = 0;
     std::vector<spawn_point> spawns;
     /**

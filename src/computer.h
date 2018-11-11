@@ -4,8 +4,9 @@
 
 #include "calendar.h"
 #include "cursesdef.h"
-#include <vector>
+
 #include <string>
+#include <vector>
 
 class game;
 class player;
@@ -55,6 +56,9 @@ enum computer_action {
     COMPACT_SRCF_SEAL_ORDER,
     COMPACT_SRCF_SEAL,
     COMPACT_SRCF_ELEVATOR,
+    COMPACT_OPEN_DISARM,
+    COMPACT_UNLOCK_DISARM,
+    COMPACT_RELEASE_DISARM,
     NUM_COMPUTER_ACTIONS
 };
 

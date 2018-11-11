@@ -1,31 +1,26 @@
 // Monster movement code; essentially, the AI
 
-#include "monster.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "field.h"
+#include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "debug.h"
-#include "game.h"
-#include "output.h"
-#include "line.h"
-#include "rng.h"
-#include "pldata.h"
-#include "messages.h"
-#include "cursesdef.h"
-#include "trap.h"
-#include "sounds.h"
-#include "monattack.h"
-#include "monfaction.h"
-#include "translations.h"
-#include "npc.h"
 #include "mapdata.h"
+#include "messages.h"
+#include "monfaction.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
+#include "npc.h"
+#include "output.h"
+#include "rng.h"
 #include "scent_map.h"
+#include "sounds.h"
+#include "translations.h"
+#include "trap.h"
 
-#include <stdlib.h>
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
+#include <cmath>
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -689,17 +684,18 @@ void monster::footsteps( const tripoint &p )
     if( made_footstep ) {
         return;
     }
-    if( has_flag( MF_FLIES ) ) {
-        return;    // Flying monsters don't have footsteps!
-    }
     made_footstep = true;
     int volume = 6; // same as player's footsteps
+    if( has_flag( MF_FLIES ) ) {
+        volume = 0;    // Flying monsters don't have footsteps!
+    }
     if( digging() ) {
         volume = 10;
     }
     switch( type->size ) {
         case MS_TINY:
-            return; // No sound for the tinies
+            volume = 0; // No sound for the tinies
+            break;
         case MS_SMALL:
             volume /= 3;
             break;
@@ -713,6 +709,12 @@ void monster::footsteps( const tripoint &p )
             break;
         default:
             break;
+    }
+    if( has_flag( MF_LOUDMOVES ) ) {
+        volume += 6;
+    }
+    if( volume == 0 ) {
+        return;
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this );
@@ -748,6 +750,9 @@ tripoint monster::scent_move()
     const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1, 1 ) ) {
         int smell = g->scent.get( dest );
+        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+            continue;
+        }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
             ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
@@ -1036,10 +1041,9 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         // and the same regardless of the distance measurement mode.
         // Note: Keep this as float here or else it will cancel valid moves
         const float cost = stagger_adjustment *
-                           ( float )( climbs ? calc_climb_cost( pos(), p ) :
-                                      calc_movecost( pos(), p ) );
+                           static_cast<float>( climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ) );
         if( cost > 0.0f ) {
-            moves -= ( int )ceil( cost );
+            moves -= static_cast<int>( ceil( cost ) );
         } else {
             return false;
         }
@@ -1130,7 +1134,6 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
         }
     }
-
     return true;
 }
 
@@ -1331,7 +1334,7 @@ void monster::knock_back_from( const tripoint &p )
         die( nullptr );
         return;
     }
-    tripoint to = pos();;
+    tripoint to = pos();
     if( p.x < posx() ) {
         to.x++;
     }
@@ -1411,7 +1414,6 @@ void monster::knock_back_from( const tripoint &p )
     }
     check_dead_state();
 }
-
 
 /* will_reach() is used for determining whether we'll get to stairs (and
  * potentially other locations of interest).  It is generally permissive.

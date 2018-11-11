@@ -1,16 +1,15 @@
 #include "recipe_dictionary.h"
 
-#include "itype.h"
-#include "generic_factory.h"
-#include "item_factory.h"
-#include "item.h"
-#include "init.h"
 #include "cata_utility.h"
 #include "crafting.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
 #include "skill.h"
 
 #include <algorithm>
-#include <numeric>
 
 recipe_dictionary recipe_dict;
 
@@ -90,12 +89,16 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r ) {
+            return false;
+        }
         switch( key ) {
             case search_type::name:
                 return lcmatch( r->result_name(), txt );
 
             case search_type::skill:
-                return lcmatch( r->required_skills_string(), txt ) || lcmatch( r->skill_used->name(), txt );
+                return lcmatch( r->required_skills_string( nullptr ), txt ) ||
+                       lcmatch( r->skill_used->name(), txt );
 
             case search_type::component:
                 return search_reqs( r->requirements().get_components(), txt );
@@ -116,6 +119,18 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
             default:
                 return false;
         }
+    } );
+
+    return res;
+}
+
+std::vector<const recipe *> recipe_subset::search_result( const itype_id &item ) const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        return item == r->result() ||
+               ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
     } );
 
     return res;

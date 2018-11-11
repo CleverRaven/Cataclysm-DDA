@@ -1,8 +1,7 @@
 #include "iteminfo_query.h"
 
-#include <vector>
 #include <string>
-
+#include <vector>
 
 iteminfo_query::iteminfo_query() = default;
 
@@ -29,8 +28,6 @@ bool iteminfo_query::test( const iteminfo_parts &value ) const
 
 const iteminfo_query iteminfo_query::all = iteminfo_query(
             std::string( static_cast<size_t>( iteminfo_parts::NUM_VALUES ), '1' ) );
-
-
 
 const iteminfo_query iteminfo_query::notext = iteminfo_query(
             iteminfo_query::all & ~iteminfo_query(
@@ -73,7 +70,8 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
     iteminfo_parts::DESCRIPTION_NOTES,
     iteminfo_parts::DESCRIPTION_CONTENTS,
-    iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES
+    iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES,
+    iteminfo_parts::DESCRIPTION_MED_ADDICTING
 } ) );
 
 const iteminfo_query iteminfo_query::anyflags = iteminfo_query(

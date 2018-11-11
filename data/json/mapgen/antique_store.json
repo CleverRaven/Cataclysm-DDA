@@ -32,7 +32,7 @@
             "|l                    l|",
             "|l                    l|",
             "|      ##TTTTTT##      |",
-            "|               #      |",
+            "|              L#      |",
             "|----------------------|",
             "........................",
             "........................",
@@ -51,7 +51,7 @@
             "_": "t_pavement",
             "|": "t_wall"
           },
-          "furniture": { "#": "f_counter", "T": "f_displaycase", "l": "f_bookcase" },
+          "furniture": { "#": "f_counter", "T": "f_displaycase", "l": "f_bookcase", "L": "f_stool" },
           "place_items": [
             { "item": "antique", "x": [ 4, 9 ], "y": [ 10, 10 ], "chance": 70 },
             { "item": "antique", "x": [ 14, 19 ], "y": [ 10, 10 ], "chance": 70 },

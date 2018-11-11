@@ -282,13 +282,8 @@
         "r": "f_rubble_rock",
         "x": "f_grave_stone_old"
       },
-      "signs": {
-        "P": { "signage": "Closed at sunset." },
-        "p": { "signage": "Maintained by the <city> church." }
-      },
-      "place_items": [
-        { "item": "trash", "x": [ 2, 21 ], "y": [ 7, 14 ], "chance": 20, "repeat": [ 1, 2 ] }
-      ],
+      "signs": { "P": { "signage": "Closed at sunset." }, "p": { "signage": "Maintained by the <city> church." } },
+      "place_items": [ { "item": "trash", "x": [ 2, 21 ], "y": [ 7, 14 ], "chance": 20, "repeat": [ 1, 2 ] } ],
       "place_loot": [
         { "item": "chain", "x": [ 4, 11 ], "y": [ 22, 23 ], "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "chain", "x": [ 12, 19 ], "y": [ 22, 23 ], "chance": 50, "repeat": [ 1, 2 ] }

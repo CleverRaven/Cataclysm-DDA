@@ -4,7 +4,6 @@
     "type": "vehicle_part",
     "symbol": "t",
     "durability": 400,
-    "description": "A weapon mounted in a turret.",
     "damage_modifier": 80,
     "location": "on_roof",
     "flags": [ "TURRET", "TOOL_NONE" ]

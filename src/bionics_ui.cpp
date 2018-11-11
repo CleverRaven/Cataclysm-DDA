@@ -1,13 +1,12 @@
-#include "player.h"
-#include "action.h"
+#include "bionics.h"
+
+#include "catacharset.h"
 #include "game.h"
 #include "input.h"
-#include "bionics.h"
-#include "bodypart.h"
-#include "translations.h"
-#include "catacharset.h"
 #include "output.h"
+#include "player.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -48,7 +47,6 @@ char get_free_invlet( player &p )
     for( auto &inv_char : bionic_chars ) {
         if( p.bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
-            break;
         }
     }
     return ' ';
@@ -79,25 +77,23 @@ std::string build_bionic_poweronly_string( bionic const &bio )
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
 
-    if( bio_data.charge_time > 0 ) {
-        if( bio_data.power_over_time > 0 ) {
-            properties.push_back( bio_data.charge_time == 1
-                                  ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
-                                  : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
-                                                   bio_data.charge_time ) );
-        }
-        if( bio_data.power_activate > 0 ) {
-            properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
-        }
-        if( bio_data.power_deactivate > 0 ) {
-            properties.push_back( string_format( _( "%d PU deact" ), bio_data.power_deactivate ) );
-        }
+    if( bio_data.power_activate > 0 ) {
+        properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
+    }
+    if( bio_data.power_deactivate > 0 ) {
+        properties.push_back( string_format( _( "%d PU deact" ), bio_data.power_deactivate ) );
+    }
+    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0 ) {
+        properties.push_back( bio_data.charge_time == 1
+                              ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
+                              : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
+                                               bio_data.charge_time ) );
     }
     if( bio_data.toggled ) {
         properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
 
-    return enumerate_as_string( properties, false );
+    return enumerate_as_string( properties, enumeration_conjunction::none );
 }
 
 //generates the string that show how much power a bionic uses
@@ -145,7 +141,7 @@ void draw_description( const catacurses::window &win, bionic const &bio )
 
     // @todo: Unhide when enforcing limits
     if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
-        const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
+        const bool each_bp_on_new_line = ypos + static_cast<int>( num_bp ) + 1 < getmaxy( win );
         ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
                                         each_bp_on_new_line ) );
@@ -311,7 +307,7 @@ void player::power_bionics()
     const int HEIGHT = std::min( TERMY,
                                  std::max( FULL_SCREEN_HEIGHT,
                                            TITLE_HEIGHT + TITLE_TAB_HEIGHT +
-                                           ( int )my_bionics->size() + 2 ) );
+                                           static_cast<int>( my_bionics->size() ) + 2 ) );
     const int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
     const int START_X = ( TERMX - WIDTH ) / 2;
     const int START_Y = ( TERMY - HEIGHT ) / 2;
@@ -347,7 +343,7 @@ void player::power_bionics()
     // drawing the bionics starts with bionic[scroll_position]
     const int list_start_y = HEADER_LINE_Y;// - scroll_position;
     int half_list_view_location = LIST_HEIGHT / 2;
-    int max_scroll_position = std::max( 0, ( int )active.size() );
+    int max_scroll_position = std::max( 0, static_cast<int>( active.size() ) );
 
     input_context ctxt( "BIONICS" );
     ctxt.register_updown();
@@ -386,7 +382,7 @@ void player::power_bionics()
 
         //track which list we are looking at
         std::vector<bionic *> *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
-        max_scroll_position = std::max( 0, ( int )current_bionic_list->size() - LIST_HEIGHT );
+        max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list->size() ) - LIST_HEIGHT );
 
         if( redraw ) {
             redraw = false;
@@ -454,6 +450,15 @@ void player::power_bionics()
             }
 
             draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
+
+#ifdef __ANDROID__
+            ctxt.get_registered_manual_keys().clear();
+            for( size_t i = 0; i < current_bionic_list->size(); i++ ) {
+                ctxt.register_manual_key( ( *current_bionic_list )[i]->invlet,
+                                          build_bionic_powerdesc_string( *( *current_bionic_list )[i] ).c_str() );
+            }
+#endif
+
         }
         wrefresh( wBio );
         draw_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
@@ -574,13 +579,13 @@ void player::power_bionics()
                 if( tmp && tmp != bio_last ) {
                     // new bionic selected, update cursor and scroll position
                     int temp_cursor = 0;
-                    for( temp_cursor = 0; temp_cursor < ( int )bio_list.size(); temp_cursor++ ) {
+                    for( temp_cursor = 0; temp_cursor < static_cast<int>( bio_list.size() ); temp_cursor++ ) {
                         if( bio_list[temp_cursor] == tmp ) {
                             break;
                         }
                     }
                     // if bionic is not found in current list, ignore the attempt to view/activate
-                    if( temp_cursor >= ( int )bio_list.size() ) {
+                    if( temp_cursor >= static_cast<int>( bio_list.size() ) ) {
                         continue;
                     }
                     //relocate cursor to the bionic that was found
@@ -632,7 +637,7 @@ void player::power_bionics()
                         if( active[i] == tmp ) {
                             tab_mode = TAB_ACTIVE;
                             cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, ( int )active.size() - LIST_HEIGHT );
+                            int max_scroll_check = std::max( 0, static_cast<int>( active.size() ) - LIST_HEIGHT );
                             if( static_cast<int>( i ) > max_scroll_check ) {
                                 scroll_position = max_scroll_check;
                             } else {
@@ -645,7 +650,7 @@ void player::power_bionics()
                         if( passive[i] == tmp ) {
                             tab_mode = TAB_PASSIVE;
                             cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, ( int )passive.size() - LIST_HEIGHT );
+                            int max_scroll_check = std::max( 0, static_cast<int>( passive.size() ) - LIST_HEIGHT );
                             if( static_cast<int>( i ) > max_scroll_check ) {
                                 scroll_position = max_scroll_check;
                             } else {

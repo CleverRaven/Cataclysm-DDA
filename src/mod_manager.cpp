@@ -1,21 +1,18 @@
 #include "mod_manager.h"
-#include "filesystem.h"
-#include "debug.h"
-#include "output.h"
-#include "json.h"
-#include "generic_factory.h"
-#include "string_formatter.h"
-#include "worldfactory.h"
-#include "cata_utility.h"
-#include "path_info.h"
-#include "translations.h"
-#include "dependency_tree.h"
 
-#include <math.h>
+#include "cata_utility.h"
+#include "debug.h"
+#include "dependency_tree.h"
+#include "filesystem.h"
+#include "generic_factory.h"
+#include "json.h"
+#include "output.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "worldfactory.h"
+
 #include <queue>
-#include <iostream>
-#include <fstream>
-#include <unordered_set>
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -91,7 +88,7 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
     return mod_list_cat_tab;
 }
 
-void mod_manager::load_replacement_mods( const std::string path )
+void mod_manager::load_replacement_mods( const std::string &path )
 {
     read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
         jsin.start_array();
@@ -263,7 +260,8 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
 
-    if( modfile.dependencies.count( modfile.ident ) ) {
+    if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
+                   modfile.ident ) != modfile.dependencies.end() ) {
         jo.throw_error( "mod specifies self as a dependency", "dependencies" );
     }
 

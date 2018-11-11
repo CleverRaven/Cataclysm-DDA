@@ -1,0 +1,9 @@
+[
+  {
+    "id": "emit_tear_gas_pulse",
+    "type": "emit",
+    "field": "fd_tear_gas",
+    "qty": 50,
+    "chance": 15
+  }
+]

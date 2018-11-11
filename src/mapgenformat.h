@@ -4,8 +4,8 @@
 
 #include "int_id.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 struct ter_t;
 using ter_id = int_id<ter_t>;
@@ -30,7 +30,7 @@ class format_effect;
  * @param startx,starty Coordinates in the map where to start drawing \p cstr.
  */
 void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
-                           format_effect<ter_id> ter_b, format_effect<furn_id> furn_b );
+                           const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b );
 
 template<typename ID>
 class format_effect

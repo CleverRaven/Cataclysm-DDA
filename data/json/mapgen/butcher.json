@@ -21,7 +21,7 @@
         "   a.....e......iiiia   ",
         "   aaaaaaa..........a   ",
         "   a...............ha   ",
-        "   a...............ha   ",
+        "   a...p...........ha   ",
         "   a.........lhhhhhha   ",
         "   aaaaaaaaaeaaaaaaaa   ",
         "             mgggg      ",
@@ -45,7 +45,8 @@
         "k": "t_floor",
         "l": "t_floor",
         "m": "t_dirt",
-        "o": "t_shrub"
+        "o": "t_shrub",
+        "p": "t_floor"
       },
       "furniture": {
         "f": "f_table",
@@ -54,7 +55,8 @@
         "i": "f_fridge",
         "k": "f_rack",
         "l": "f_trashcan",
-        "m": "f_trashcan"
+        "m": "f_trashcan",
+        "p": "f_metal_butcher_rack"
       },
       "place_loot": [
         { "group": "butcher_meat", "chance": 80, "x": [ 4, 4 ], "y": [ 3, 3 ] },

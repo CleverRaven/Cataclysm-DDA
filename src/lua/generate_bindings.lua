@@ -64,7 +64,7 @@ function load_instance(class_name)
         error("'"..class_name.."' is not defined in class_definitions.lua")
     end
 
-	return class_name .. "& instance = " .. retrieve_lua_value(class_name, 1) .. ";"
+    return class_name .. "& instance = " .. retrieve_lua_value(class_name, 1) .. ";"
 end
 
 -- Returns a full statement that checks whether the given stack item has the given value.
@@ -445,7 +445,6 @@ function generate_accessors(class, class_name)
         end
     end
 end
-
 
 function generate_class_function_wrappers(functions, class_name, cur_class_name)
     for index, func in pairs(functions) do

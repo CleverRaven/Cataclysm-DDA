@@ -2,20 +2,17 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
-#include "iuse.h"
-#include "game_constants.h"
+#include "calendar.h"
 #include "color.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
-#include "int_id.h"
-#include "explosion.h"
 #include "units.h"
-#include "calendar.h"
 
-#include <limits.h>
-#include <set>
 #include <map>
-#include <string>
+#include <set>
 #include <vector>
 
 class vitamin;
@@ -42,6 +39,7 @@ using emit_id = string_id<emit>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 struct furn_t;
+struct itype;
 
 /**
  * Transform an item into a specific type.
@@ -203,7 +201,7 @@ struct effect_data {
     bool permanent;
 
     effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
-        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
+        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
 /**
@@ -417,7 +415,8 @@ class firestarter_actor : public iuse_actor
         bool need_sunlight = false;
 
         static bool prep_firestarter_use( const player &p, tripoint &pos );
-        static void resolve_firestarter_use( const player &p, const tripoint &pos );
+        /** Player here isn't const because pyromaniacs gain a mood boost from it */
+        static void resolve_firestarter_use( player &p, const tripoint &pos );
         /** Modifier on speed - higher is better, 0 means it won't work. */
         float light_mod( const tripoint &pos ) const;
         /** Checks quality of fuel on the tile and interpolates move cost based on that. */
@@ -456,9 +455,10 @@ class salvage_actor : public iuse_actor
 
         bool try_to_cut_up( player &p, item &it ) const;
         int cut_up( player &p, item &it, item &cut ) const;
+        int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const item &it ) const;
 
-        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type, 0 ) {}
+        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
 
         ~salvage_actor() override = default;
         void load( JsonObject &jo ) override;
@@ -497,7 +497,7 @@ class inscribe_actor : public iuse_actor
 
         bool item_inscription( item &cut ) const;
 
-        inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type, 0 ) {}
+        inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type ) {}
 
         ~inscribe_actor() override = default;
         void load( JsonObject &jo ) override;
@@ -531,7 +531,7 @@ class cauterize_actor : public iuse_actor
 class enzlave_actor : public iuse_actor
 {
     public:
-        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type, 0 ) {}
+        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type ) {}
 
         ~enzlave_actor() override = default;
         void load( JsonObject &jo ) override;
@@ -553,7 +553,8 @@ class fireweapon_off_actor : public iuse_actor
         std::string failure_message; // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;
-        int success_chance = INT_MIN; // Lower is better: rng(0, 10) - item.damage > this variable
+        // Lower is better: rng(0, 10) - item.damage_level( 4 ) > this variable
+        int success_chance = INT_MIN;
 
         fireweapon_off_actor() : iuse_actor( "fireweapon_off" ) {}
 
@@ -690,6 +691,8 @@ class holster_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        units::volume max_stored_volume() const;
 };
 
 /**
@@ -707,6 +710,9 @@ class bandolier_actor : public iuse_actor
         /** Base cost of accessing/storing an item. Scales down to half of that with skills. */
         int draw_cost = INVENTORY_HANDLING_PENALTY;
 
+        /** Can this type of ammo ever be stored */
+        bool is_valid_ammo_type( const itype & ) const;
+
         /** Check if obj could be stored in the bandolier */
         bool can_store( const item &bandolier, const item &obj ) const;
 
@@ -720,6 +726,8 @@ class bandolier_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        units::volume max_stored_volume() const;
 };
 
 class ammobelt_actor : public iuse_actor
@@ -954,7 +962,7 @@ class install_bionic_actor : public iuse_actor
     public:
         install_bionic_actor( const std::string &type = "install_bionic" ) : iuse_actor( type ) {}
 
-        void load( JsonObject & ) override {};
+        void load( JsonObject & ) override {}
         long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -966,10 +974,38 @@ class detach_gunmods_actor : public iuse_actor
     public:
         detach_gunmods_actor( const std::string &type = "detach_gunmods" ) : iuse_actor( type ) {}
 
-        void load( JsonObject & ) override {};
+        void load( JsonObject & ) override {}
         long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void finalize( const itype_id &my_item_type ) override;
+};
+
+class mutagen_actor : public iuse_actor
+{
+    public:
+        std::string mutation_category;
+        bool is_weak;
+        bool is_strong;
+
+        mutagen_actor() : iuse_actor( "mutagen" ) {}
+
+        ~mutagen_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+};
+
+class mutagen_iv_actor : public iuse_actor
+{
+    public:
+        std::string mutation_category;
+
+        mutagen_iv_actor() : iuse_actor( "mutagen_iv" ) {}
+
+        ~mutagen_iv_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
 };
 #endif

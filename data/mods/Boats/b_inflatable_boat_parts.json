@@ -43,11 +43,15 @@
     "durability" : 50,
     "power" : 50,
     "fuel_type" : "muscle",
+    "muscle_power_factor": 2,
+    "noise_factor": 8,
+    "m2c": 45,
+    "exclusions": [ "manual" ],
     "item" : "hand_paddles",
     "difficulty" : 1,
     "location" : "engine_block",
     "folded_volume": 2,
-    "flags" : ["ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "TOOL_NONE"],
+    "flags" : [  "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "TOOL_NONE", "E_STARTS_INSTANTLY" ],
     "breaks_into" : [ {"item": "splinter", "count": [2, 4]} ]
   }
 ]

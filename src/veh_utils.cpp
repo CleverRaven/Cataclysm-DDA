@@ -1,15 +1,17 @@
 #include "veh_utils.h"
-#include <algorithm>
-#include <map>
 
 #include "calendar.h"
 #include "craft_command.h"
-#include "vehicle.h"
-#include "output.h"
-#include "veh_type.h"
-#include "player.h"
-#include "messages.h"
 #include "game.h"
+#include "messages.h"
+#include "map.h"
+#include "output.h"
+#include "player.h"
+#include "veh_type.h"
+#include "vehicle.h"
+
+#include <algorithm>
+#include <map>
 
 namespace veh_utils
 {
@@ -55,7 +57,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool o
     for( const vehicle_part &part : veh.parts ) {
         const auto &info = part.info();
         repairable_cache[ &part ] = not_repairable;
-        if( part.removed || part.damage() <= 0.0f ) {
+        if( part.removed || part.damage() <= 0 ) {
             continue;
         }
 
@@ -68,7 +70,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool o
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * part.damage() ).can_make_with_inventory( inv ) ) {
+            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv ) ) {
             repairable_cache[ &part ] = repairable;
         }
     }
@@ -103,7 +105,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // @todo: Expose base part damage somewhere, don't recalculate it here
     const auto reqs = pt.is_broken() ?
                       vp.install_requirements() :
-                      vp.repair_requirements() * pt.damage();
+                      vp.repair_requirements() * pt.damage_level( 4 );
 
     inventory map_inv;
     map_inv.form_from_map( who.pos(), PICKUP_RANGE );
@@ -139,9 +141,9 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         const int dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
-        veh.break_part_into_pieces( part_index, who.posx(), who.posy() );
+        g->m.spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
-        const int partnum = veh.install_part( loc.x, loc.y, replacement_id, std::move( base ) );
+        const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
         veh.parts[partnum].direction = dir;
         veh.part_removal_cleanup();
     } else {

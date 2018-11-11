@@ -9,16 +9,16 @@
     "broken_symbol": "*",
     "color": "white",
     "durability": 20,
-    "description": "A bright light that draws power from the vehicle's battery when turned on and illuminates several squares inside the vehicle.",
     "epower": -75,
     "bonus": 30,
+    "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": 20000, "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER", "FOLDABLE" ]
   },
   {
     "id": "atomic_lamp",
@@ -32,13 +32,14 @@
     "durability": 20,
     "description": "A bright light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates several squares inside the vehicle.",
     "bonus": 30,
+    "folded_volume": 4,
     "breaks_into": [ { "item": "scrap", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": 20000, "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE" ]
   },
   {
     "id": "atomic_light",
@@ -47,7 +48,8 @@
     "name": "atomic nightlight",
     "item": "atomic_light",
     "description": "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
-    "bonus": 5
+    "bonus": 5,
+    "folded_volume": 2
   },
   {
     "id": "floodlight",
@@ -60,7 +62,7 @@
     "color": "white",
     "broken_color": "blue",
     "durability": 20,
-    "description": "A very bright, wide-angle light that illuminates the area outside the vehicle when turned on.  Draws a lot of power from the vehicle batteries.",
+    "description": "A very bright, wide-angle light that illuminates the area outside the vehicle when turned on.",
     "epower": -1500,
     "bonus": 8000,
     "damage_modifier": 10,
@@ -87,7 +89,7 @@
     "color": "white",
     "broken_color": "white",
     "durability": 20,
-    "description": "A bright light that illuminates a narrow cone outside the vehicle when turned on.  Draws power from the vehicle batteries.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
+    "description": "A bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
     "epower": -187,
     "bonus": 8000,
     "damage_modifier": 10,
@@ -116,7 +118,7 @@
     "symbol": "*",
     "broken_symbol": "-",
     "durability": 20,
-    "description": "Emergency lights, like a police car's or ambulance's, mounted on the vehicle's roof.  Flashes between red and blue when turned on, drawing power from the vehicle's battery and attracting attention without illuminating the area.",
+    "description": "Emergency lights, like a police car's or ambulance's, mounted on the vehicle's roof.  Flashes between red and blue when turned on, attracting attention without illuminating the area.",
     "epower": -125,
     "bonus": 500,
     "damage_modifier": 10,
@@ -166,7 +168,6 @@
     "color": "white",
     "difficulty": 1,
     "durability": 400,
-    "description": "A bright light that draws power from the vehicle's battery when turned on and illuminates several squares inside the vehicle.",
     "epower": -75,
     "bonus": 30,
     "breaks_into": [

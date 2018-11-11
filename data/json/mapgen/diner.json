@@ -64,9 +64,9 @@
         "____,____,____,____,____",
         "========================",
         "=|OOOOOOOOOOOOOOO--+--|=",
-        "=|HtHHtHHtHHtHHtHlblbl|=",
+        "=|HtHHtHHtHHtHHtHlblbY|=",
         "=|HtHHtHHtHHtHHtHblblb|=",
-        "=|blblblblblblblblblbl|=",
+        "=|blblblblblblblblblbY|=",
         "=|cbcbcbcbcbcbcbcbcblb|=",
         "=|#################lbl|=",
         "=|lblblblblblblblb#blb|=",
@@ -94,6 +94,7 @@
         "O": "t_window",
         "S": "t_linoleum_white",
         "T": "t_linoleum_white",
+        "Y": "t_linoleum_white",
         "_": "t_pavement",
         "b": "t_linoleum_gray",
         "c": "t_linoleum_white",
@@ -107,12 +108,12 @@
         "G": "f_oven",
         "H": "f_sofa",
         "S": "f_sink",
+        "Y": "f_rack_coat",
         "f": "f_fridge",
         "t": "f_table"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [
         { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75 },
         { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95 }

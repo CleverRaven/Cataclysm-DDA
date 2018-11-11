@@ -195,10 +195,7 @@
         { "item": "home_hw", "x": [ 3, 3 ], "y": [ 17, 19 ], "chance": 75 },
         { "item": "electronics", "x": [ 1, 2 ], "y": [ 19, 19 ], "chance": 75 }
       ],
-      "place_npcs": [
-        { "class": "bandit", "x": 11, "y": 13 },
-        { "class": "bandit", "x": 15, "y": 22 }
-      ]
+      "place_npcs": [ { "class": "bandit", "x": 11, "y": 13 }, { "class": "bandit", "x": 15, "y": 22 } ]
     }
   },
   {
@@ -289,9 +286,7 @@
         "w": "f_large_groundsheet",
         "z": "f_crate_c"
       },
-      "place_items": [
-        { "item": "cannedfood", "x": [ 20, 21 ], "y": [ 13, 14 ], "chance": 75 }
-      ],
+      "place_items": [ { "item": "cannedfood", "x": [ 20, 21 ], "y": [ 13, 14 ], "chance": 75 } ],
       "place_npcs": [
         { "class": "bandit", "x": 11, "y": 6 },
         { "class": "bandit", "x": 16, "y": 9 },

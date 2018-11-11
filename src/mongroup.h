@@ -2,14 +2,14 @@
 #ifndef MONGROUP_H
 #define MONGROUP_H
 
-#include <vector>
+#include "calendar.h"
+#include "enums.h"
+#include "monster.h"
+#include "string_id.h"
+
 #include <map>
 #include <set>
-#include <string>
-#include "enums.h"
-#include "string_id.h"
-#include "calendar.h"
-#include "monster.h"
+#include <vector>
 
 // from overmap.h
 class overmap;
@@ -153,6 +153,7 @@ struct mongroup {
         }
         interest = set;
     }
+    float avg_speed() const;
 
     template<typename Archive>
     void io( Archive & );

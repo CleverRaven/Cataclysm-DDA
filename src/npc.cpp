@@ -1,30 +1,33 @@
 #include "npc.h"
 
+#include "ammo.h"
 #include "auto_pickup.h"
 #include "coordinate_conversions.h"
-#include "map.h"
 #include "game.h"
 #include "item_group.h"
-#include "string_formatter.h"
 #include "itype.h"
+#include "iuse_actor.h"
+#include "json.h"
+#include "map.h"
 #include "mapdata.h"
-#include "overmapbuffer.h"
 #include "messages.h"
-#include "skill.h"
 #include "mission.h"
-#include "output.h"
 #include "monfaction.h"
+#include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
-#include "ammo.h"
-#include "sounds.h"
-#include "morale_types.h"
+#include "output.h"
 #include "overmap.h"
-#include "vehicle.h"
-#include "mtype.h"
-#include "iuse_actor.h"
+#include "overmapbuffer.h"
+#include "skill.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "trait_group.h"
-#include "json.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -56,6 +59,7 @@ const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
+const efftype_id effect_bouldering( "bouldering" );
 
 static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
 static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
@@ -84,7 +88,7 @@ npc::npc()
     position.x = -1;
     position.y = -1;
     position.z = 500;
-    last_player_seen_pos = no_goal_point;
+    last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = no_goal_point;
     guard_pos = no_goal_point;
@@ -108,7 +112,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -145,9 +149,7 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     }
 }
 
-npc::npc( const npc & ) = default;
 npc::npc( npc && ) = default;
-npc &npc::operator=( const npc & ) = default;
 npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
@@ -158,11 +160,10 @@ void npc_template::load( JsonObject &jsobj )
     guy.idz = jsobj.get_string( "id" );
     guy.name.clear();
     if( jsobj.has_string( "name_unique" ) ) {
-        guy.name = ( std::string )_( jsobj.get_string( "name_unique" ).c_str() );
+        guy.name = static_cast<std::string>( _( jsobj.get_string( "name_unique" ).c_str() ) );
     }
     if( jsobj.has_string( "name_suffix" ) ) {
-        guy.name += ", " + ( std::string )
-                    _( jsobj.get_string( "name_suffix" ).c_str() );
+        guy.name += ", " + static_cast<std::string>( _( jsobj.get_string( "name_suffix" ).c_str() ) );
     }
     if( jsobj.has_string( "gender" ) ) {
         if( jsobj.get_string( "gender" ) == "male" ) {
@@ -299,7 +300,6 @@ void npc::randomize( const npc_class_id &type )
         debugmsg( "Invalid NPC class %s", type.c_str() );
         myclass = npc_class_id::NULL_ID();
     } else if( type.is_null() && !one_in( 5 ) ) {
-        npc_class_id typetmp;
         myclass = npc_class::random_common();
     } else {
         myclass = type;
@@ -377,7 +377,6 @@ void npc::randomize( const npc_class_id &type )
     } else if( type == NC_SCAVENGER ) {
         personality.aggression += rng( 1, 3 );
         personality.bravery += rng( 1, 4 );
-
 
     }
     //A universal barter boost to keep NPCs competitive with players
@@ -936,11 +935,12 @@ bool npc::wear_if_wanted( const item &it )
     }
 
     if( splint ) {
-        return wear_item( it, false );
+        return !!wear_item( it, false );
     }
 
     const int it_encumber = it.get_encumber();
     while( !worn.empty() ) {
+        auto size_before = worn.size();
         bool encumb_ok = true;
         const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
@@ -963,7 +963,7 @@ bool npc::wear_if_wanted( const item &it )
 
         if( encumb_ok && can_wear( it ).success() ) {
             // @todo: Hazmat/power armor makes this not work due to 1 boots/headgear limit
-            return wear_item( it, false );
+            return !!wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
@@ -981,9 +981,9 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( !took_off ) {
+        if( !took_off || worn.size() >= size_before ) {
             // Shouldn't happen, but does
-            return wear_item( it, false );
+            return false;
         }
     }
 
@@ -1186,12 +1186,13 @@ float npc::vehicle_danger( int radius ) const
     int danger = 0;
 
     // TODO: check for most dangerous vehicle?
-    for( unsigned int i = 0; i < vehicles.size(); ++i )
-        if( vehicles[i].v->velocity > 0 ) {
-            float facing = vehicles[i].v->face.dir();
+    for( unsigned int i = 0; i < vehicles.size(); ++i ) {
+        const wrapped_vehicle &wrapped_veh = vehicles[i];
+        if( wrapped_veh.v->velocity > 0 ) {
+            float facing = wrapped_veh.v->face.dir();
 
-            int ax = vehicles[i].v->global_x();
-            int ay = vehicles[i].v->global_y();
+            int ax = wrapped_veh.v->global_pos3().x;
+            int ay = wrapped_veh.v->global_pos3().y;
             int bx = int( ax + cos( facing * M_PI / 180.0 ) * radius );
             int by = int( ay + sin( facing * M_PI / 180.0 ) * radius );
 
@@ -1199,17 +1200,17 @@ float npc::vehicle_danger( int radius ) const
             /* This will almost certainly give the wrong size/location on customized
              * vehicles. This should just count frames instead. Or actually find the
              * size. */
-            vehicle_part last_part = vehicles[i].v->parts.back();
+            vehicle_part last_part = wrapped_veh.v->parts.back();
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
-            double normal = sqrt( ( float )( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
+            double normal = sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
             int closest = int( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) * ( bx - ax ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
             }
         }
-
+    }
     return danger;
 }
 
@@ -1299,7 +1300,6 @@ bool npc::fac_has_job( faction_job job ) const
     return my_fac->has_job( job );
 }
 
-
 void npc::decide_needs()
 {
     double needrank[num_needs];
@@ -1315,12 +1315,13 @@ void npc::decide_needs()
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for( auto &i : slice ) {
-        if( i->front().is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( i->front() ) / 4;
-            needrank[ need_drink ] += i->front().type->comestible->quench / 4;
-        } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents.front() ) / 4;
-            needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
+        item inventory_item = i->front();
+        if( inventory_item.is_food( ) ) {
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
+            needrank[ need_drink ] += inventory_item.type->comestible->quench / 4;
+        } else if( inventory_item.is_food_container() ) {
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
+            needrank[ need_drink ] += inventory_item.contents.front().type->comestible->quench / 4;
         }
     }
     needs.clear();
@@ -1441,7 +1442,6 @@ void npc::shop_restock()
     inv.clear();
     inv.push_back( ret );
 }
-
 
 int npc::minimum_item_value() const
 {
@@ -1792,7 +1792,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         // @todo: Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
-            return mut_branch.name;
+            return mut_branch.name();
         }
 
         return std::string();
@@ -1920,6 +1920,14 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
+void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+{
+    if( pos ) {
+        pos->x += dx;
+        pos->y += dy;
+    }
+}
+
 void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {
@@ -1953,11 +1961,14 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    dead = true;
-    Character::die( nkiller );
+    // Need to unboard from vehicle before dying, otherwise
+    // the vehicle code cannot find us
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos() );
     }
+
+    dead = true;
+    Character::die( nkiller );
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%s dies!" ), name.c_str() );
@@ -2113,6 +2124,16 @@ void npc::on_load()
 
     // Not necessarily true, but it's not a bad idea to set this
     has_new_items = true;
+
+    // for spawned npcs
+    if( g->m.has_flag( "UNSTABLE", pos() ) ) {
+        add_effect( effect_bouldering, 1_turns, num_bp, true );
+    } else if( has_effect( effect_bouldering ) ) {
+        remove_effect( effect_bouldering );
+    }
+    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
+        g->m.board_vehicle( pos(), this );
+    }
 }
 
 void npc_chatbin::add_new_mission( mission *miss )
@@ -2276,7 +2297,7 @@ std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs>
 std::string npc::get_need_str_id( const npc_need &need )
 {
     return need_data[static_cast<size_t>( need )].first;
-};
+}
 
 overmap_location_str_id npc::get_location_for( const npc_need &need )
 {

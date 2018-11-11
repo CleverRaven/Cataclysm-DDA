@@ -6,14 +6,14 @@
 #include "enums.h"
 #include "units.h"
 
-#include <string>
 #include <array>
-#include <list>
-#include <vector>
-#include <map>
 #include <functional>
+#include <list>
+#include <map>
+#include <string>
+#include <vector>
 
-class uimenu;
+class uilist;
 class vehicle;
 class item;
 
@@ -128,7 +128,6 @@ struct advanced_inv_area {
 
 // see item_factory.h
 class item_category;
-
 
 /**
  * Entry that is displayed in a adv. inv. pane. It can either contain a
@@ -419,7 +418,7 @@ class advanced_inventory
          * @return true if the action did refer to an location (which has been
          * stored in ret), false otherwise.
          */
-        static bool get_square( const std::string action, aim_location &ret );
+        static bool get_square( const std::string &action, aim_location &ret );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.
@@ -470,7 +469,7 @@ class advanced_inventory
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                             const std::string &action, long &amount );
 
-        void menu_square( uimenu &menu );
+        void menu_square( uilist &menu );
 
         static char get_location_key( aim_location area );
         static char get_direction_key( aim_location area );

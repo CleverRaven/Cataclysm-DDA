@@ -138,5 +138,32 @@
         "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
-  }
+  },
+  {
+    "id": "grenadebandolier",
+    "type": "ARMOR",
+    "name": "large grenade pouch",
+    "name_plural": "large grenade pouches",
+    "description": "A pouch for holding up to four full-sized grenades of various types.",
+    "weight": 600,
+    "volume": 5,
+    "price": 3000,
+    "rigid": false,
+    "material": "cotton",
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 15,
+    "material_thickness": 2,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stash grenades",
+      "holster_msg": "You stash your %s.",
+      "multi": 4,
+      "max_volume": 3,
+      "draw_cost": 30,
+      "flags": [ "GRENADE" ]
+    },
+      "flags": [ "WATER_FRIENDLY", "BELTED" ]
+	}
 ]

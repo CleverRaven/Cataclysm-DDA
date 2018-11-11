@@ -493,6 +493,14 @@
             "rotates":false
         },
         {
+            "id":"t_door_glass_frosted_c",
+            "rotates":false
+        },
+        {
+            "id":"t_door_glass_frosted_o",
+            "rotates":false
+        },
+        {
             "id":"t_portcullis",
             "rotates":false
         },

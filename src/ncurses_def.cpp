@@ -13,10 +13,6 @@
 #include <curses.h>
 #endif
 
-#ifndef A_ITALIC
-#define A_ITALIC 0x00800000 /* Added characters are italic. */
-#endif
-
 #include "cursesdef.h"
 
 #include "catacharset.h"
@@ -363,26 +359,6 @@ nc_color nc_color::blink() const
 bool nc_color::is_blink() const
 {
     return attribute_value & A_BLINK;
-}
-
-nc_color nc_color::italic() const
-{
-    return nc_color( attribute_value | A_ITALIC );
-}
-
-bool nc_color::is_italic() const
-{
-    return attribute_value & A_ITALIC;
-}
-
-nc_color nc_color::underline() const
-{
-    return nc_color( attribute_value | A_UNDERLINE );
-}
-
-bool nc_color::is_underline() const
-{
-    return attribute_value & A_UNDERLINE;
 }
 
 #endif

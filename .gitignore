@@ -29,7 +29,9 @@ build/
 dep/
 *.o
 *.d
+*.a
 cmake-build-debug/
+*.tmp
 
 data/font/
 config/
@@ -50,6 +52,7 @@ Debug*/
 *.user
 *.vcxproj.filters
 .vscode/
+*.code-workspace
 
 # Temporary and backup files
 *~
@@ -155,3 +158,6 @@ stage
 
 # Apple Xcode IDE
 Xcode/
+
+# gdb
+.gdb_history

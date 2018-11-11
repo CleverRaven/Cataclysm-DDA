@@ -2,10 +2,10 @@
 #ifndef OPTIONAL_H
 #define OPTIONAL_H
 
-#include <type_traits>
-#include <stdexcept>
 #include <cassert>
 #include <initializer_list>
+#include <stdexcept>
+#include <type_traits>
 
 namespace cata
 {
@@ -156,7 +156,6 @@ class optional
                 destruct();
             }
         }
-
 
         optional &operator=( nullopt_t ) noexcept {
             reset();

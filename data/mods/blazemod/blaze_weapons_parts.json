@@ -8,7 +8,7 @@
     "damage_modifier": 80,
     "location": "on_roof",
     "description": "This heavy weapon is mounted on a turret, and can be fired from your vehicle controls.",
-    "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {
     "id": "bolter",
@@ -19,7 +19,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ]
   },
   {
@@ -31,7 +30,6 @@
     "color": "brown",
     "broken_color": "brown",
     "difficulty": 4,
-    "folded_volume": 22,
     "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ]
   },
   {
@@ -43,8 +41,6 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "difficulty": 5,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ]
   },
   {
@@ -56,7 +52,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 6,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -68,7 +63,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 6,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -80,7 +74,6 @@
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 6,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ]
   },
   {
@@ -95,11 +88,9 @@
     "difficulty": 5,
     "durability": 400,
     "power": -5,
-    "range": 12,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "MANUAL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
   },
   {
     "id": "mflamethrower3",
@@ -110,8 +101,6 @@
     "color": "red",
     "broken_color": "red",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 19,
     "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
     "extend": { "flags": [ "USE_TANKS" ] }
   },
@@ -124,7 +113,6 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "difficulty": 5,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ]
   },
   {
@@ -136,7 +124,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 5,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ]
   },
   {
@@ -148,8 +135,6 @@
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 5,
-    "range": 14,
-    "folded_volume": 16,
     "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ]
   },
   {
@@ -164,11 +149,9 @@
     "difficulty": 5,
     "durability": 400,
     "power": -25,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "MANUAL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
   },
   {
     "id": "rslauncher",
@@ -179,7 +162,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 5,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ]
   },
   {
@@ -191,7 +173,6 @@
     "color": "brown",
     "broken_color": "brown",
     "difficulty": 4,
-    "folded_volume": 20,
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ]
   },
   {
@@ -203,7 +184,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 6,
-    "folded_volume": 14,
     "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -215,7 +195,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 3,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ]
   },
   {
@@ -227,7 +206,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 3,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ]
   },
   {
@@ -239,7 +217,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ]
   }
 ]

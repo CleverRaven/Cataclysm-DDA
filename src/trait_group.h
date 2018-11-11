@@ -6,7 +6,6 @@
 #include "string_id.h"
 
 #include <memory>
-#include <string>
 #include <vector>
 
 class JsonObject;
@@ -33,7 +32,6 @@ bool group_contains_trait( const Trait_group_tag &gid, const trait_id &tid );
  * See @ref mutation_branch::load_trait_group
  */
 void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype );
-
 
 /**
  * Get a trait group ID and optionally load an inlined trait group.
@@ -195,7 +193,7 @@ class Trait_group_distribution : public Trait_group
 {
     public:
         Trait_group_distribution( int probability ) :
-            Trait_group( probability ) {};
+            Trait_group( probability ) {}
         ~Trait_group_distribution() override = default;
 
         virtual trait_group::Trait_list create( RecursionList &rec ) const override;

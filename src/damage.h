@@ -4,11 +4,9 @@
 
 #include "enums.h"
 #include "string_id.h"
+
 #include <array>
-#include <string>
 #include <vector>
-#include <set>
-#include <memory>
 
 class item;
 class monster;
@@ -46,7 +44,6 @@ struct damage_unit {
 
     bool operator==( const damage_unit &other ) const;
 };
-
 
 // a single atomic unit of damage from an attack. Can include multiple types
 // of damage at different armor mitigation/penetration values

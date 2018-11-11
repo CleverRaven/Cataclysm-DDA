@@ -267,10 +267,9 @@
   ],
   "components": [
     [
-      [ "stick", 1 ],
+      [ "stick_long", 1 ],
       [ "broom", 1 ],
       [ "mop", 1 ],
-      [ "2x4", 1 ],
       [ "pool_cue", 1 ],
       [ "pointy_stick", 1 ]
     ],
@@ -382,8 +381,7 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
-  "using": [ [ "filament", 40 ] ],
-  "qualities": [ { "id": "SEW", "level": 1 } ],
+  "using": [ [ "sewing_standard", 40 ] ],
   "components": [
      [
       [ "rag", 1 ],
@@ -409,11 +407,7 @@
   "difficulty": 2,
   "time": 5000,
   "autolearn": true,
-  "using": [ [ "filament", 10 ] ],
-  "qualities" : [
-    { "id" : "SEW" , "level" : 1 },
-    { "id" : "CUT" , "level" : 1 }
-  ],
+  "using": [ [ "sewing_standard", 10 ] ],
   "components": [
     [
       [ "fur", 4 ],

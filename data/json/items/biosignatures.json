@@ -3,14 +3,15 @@
     "type": "COMESTIBLE",
     "id": "feces_bird",
     "name": "bird litter",
+    "category": "chems",
     "weight": 40,
     "color": "brown",
-    "spoils_in": 112,
+    "spoils_in": "4 days 16 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,
     "healthy": -10,
-    "nutrition": 3,
+    "calories": 26,
     "description": "Bird dropping, feathers, and soiled bits of rubbish.",
     "price": 0,
     "material": "feces",
@@ -31,6 +32,13 @@
     "description": "A fresh cow pie, could probably be used to make some great fertilizer.",
     "rot_spawn": "GROUP_BIOSIG_LARGE_HERBIVORE",
     "rot_spawn_chance": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_dog",
+    "name": "dog dung",
+    "copy-from": "feces_manure",
+    "description": "Droppings from a canine."
   },
   {
     "type": "COMESTIBLE",

@@ -8,30 +8,20 @@
   "skills_required": ["electronics",  7],
   "difficulty": 8,
   "time": 95000,
-  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5]],
+  "book_learn": [ [ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5 ] ],
   "qualities":[
-    {"id":"SAW_M","level":1},
-    {"id":"SCREW","level":1},
-    {"id":"WRENCH","level":1}
-  ], "tools": [
-    [
-      [ "boltcutters", -1 ],
-      [ "toolset", -1 ]
-    ]
+    { "id": "SAW_M", "level": 1 },
+    { "id": "SCREW", "level": 1 },
+    { "id": "WRENCH", "level": 1 }
   ],
+  "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
   "components": [
-    [
-      ["mininuke", 1]
-    ],
-    [
-      [ "cable", 2 ]
-    ],
-    [
-      [ "circuit", 1 ]
-    ],
-    [
-      [ "transponder", 1 ]
-    ]
+    [ [ "mininuke", 1 ] ],
+    [ [ "cable", 2 ] ],
+    [ [ "circuit", 1 ] ],
+    [ [ "transponder", 1 ] ],
+    [ [ "pipe", 8 ] ],
+    [ [ "chem_rocket_fuel", 1750 ] ]
   ]
 },{
   "type" : "recipe",

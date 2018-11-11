@@ -1,0 +1,100 @@
+Balance Necropolis mapgen -> general mapgen. Part 3.
+Features Allow reloading variable qty of ammo
+Infrastructure Comestibles support inheritance
+Features Allow wearing clothing with OVERSIZE flag with footwear
+I18N Make one more string translatable
+Balance Add more encumbrance for Footwear
+Content Zombie Brutes and water biter
+Infrastructure Correctly apply temperature modifiers
+Interface Redraw Factions menu after closing of Keybinding menu
+Infrastructure Visual check for ABSORBS message.
+Build Makefile: add USE_LIBCXX flag
+Bugfixes Keybindings should not conflict with themselves
+Bugfixes Add additional procedures for clearing the framebuffer for SDL drawing.
+Balance Move nomex patch and fertilizer from melee.json to generic.json
+Infrastructure Add contexts to scenarios in json string extractor
+Interface Add local directional keybindings for pickup menu
+Bugfixes Fix message ttl issues & unbound keys triggering auto-save
+Interface Redraw messages obscured by liveview window
+Infrastructure Add is_blind function and replace checks
+Bugfixes fix 'make LUA=1' parallel builds
+Balance Finish migrating meds
+Bugfixes Add another refresh after examining to clear framebuffer after examining vehicles.
+Balance migration: melee.json to generic.json
+Balance Expunge vermin
+Interface MShock tileset update
+Balance Reworked 5 houses for better style consistency
+Bugfixes Make backtrace() handling saner; fixes BSD, probably others
+Build Purge #!/bin/bash
+Build 'make check' segfault fixes
+Balance tutorial: add uzimag to go along with uzi and ammo
+Balance JSONize NPC talk tags
+Balance Normalize spice stack sizes
+Balance Finish deleting "ammo": "NULL" from jsons
+Interface Fix some plural names
+Balance Rename Kel-Tec SUB-200 to Kel-Tec SUB-2000
+Balance Ensure acetylene torch spawns with ammo
+Bugfixes Fix check for apparatus
+Infrastructure Only set ammo on mapgen for tool, gun or magazine
+Bugfixes Unload liquids correctly when poured to adjacent tiles
+Balance defense: add gun magazine support
+Bugfixes item::reload: fix use-after-free bug with ammo pointer
+Build unbreak reload_gun tests
+Bugfixes Fix no magazines mod
+Bugfixes Fix reloading
+Bugfixes Fix the category of the veggie sandwich
+Bugfixes Fix reloading from adjacent tiles
+Infrastructure Rework selection of NPC weapons
+I18N Make two strings translatable
+Interface Allow light levels of visible tiles to be known from a distance
+Interface Change some things to North American spelling
+Balance Finish deleting "to_hit": 0 from jsons
+Balance Remove default max and initial charges values from rest of jsons
+Bugfixes Make exploding ammo explode on hit
+Mods Add HFS Pack & L1820 Long Ranger to blacklist in 'No Rivtech Guns' mod
+Infrastructure Core functionality of bionic slots system (again)
+Bugfixes Correctly describe an obstacle
+Balance Mapgen houses re-stylization pt. 1.1
+Balance Mapgen houses re-stylization pt. 1.2
+Balance Mapgen houses re-stylization pt. 1.3
+Balance Drop spurious NEVER_MISFIRES from battery
+Infrastructure Ensure vehicle parts category is used
+Interface Improve feedback messages when reloading
+Infrastructure Overhaul vehicle part installation
+Content Vitamins part 1
+Content Adds camper profession.
+Bugfixes Fix counting items with specific quality: consider items counted by charges
+Balance Brewing rework
+Interface Refresh AIM screen properly after escaping of SORT menu
+Content Extended maple products, crafting, farming, items and related concepts
+Balance Finish removing "charges_per_use": 0 and "turns_per_charge": 0 from jsons
+Infrastructure Vehicle installation (part 2)
+Bugfixes Integrated scope fix for scout rifle.
+Bugfixes Fix reinforced glass msg
+Bugfixes Make fungal gas prevent fungal death function
+Bugfixes Add percent signs to sewing menu
+Infrastructure expand is_blind() function
+Interface Fix text trimming
+Bugfixes Restrict usage of computers for blind character
+Interface Use center_print function
+Infrastructure Make hard-hat based helmets adhere to a singular logic
+Infrastructure Replacing place_items with place_loot
+Infrastructure Engine repairs (attempt 2)
+Bugfixes Vitamins fixes and parasites
+Balance Turn toolbox into a truly versatile tool
+Interface Don't initially change the view offset when firing.
+I18N Make vitamin and fault and mod targets translatable
+Bugfixes Fix disabled bicycles still consuming "fuel"
+Bugfixes Fix NPCs talking to deaf player
+Balance Change some little things in comestibles folder
+Infrastructure Drop misleading comments/msgs about vitamins
+Bugfixes Fix inhalers
+Bugfixes Fix reading of book data from JSON
+Bugfixes Check for QUIT_WATCH before ACTION_NULL
+Bugfixes Mapgen fixes
+Bugfixes Fix crash from accessing empty vector:
+Infrastructure Extend 'generic_factory' + aliases + use the factory to manage terrain objects
+Content Move campfire hot dogs from more survival tools mod to main game
+Infrastructure Extract mutation UI functions to separate file
+Interface Trim names of installable vehicle parts
+Interface Trim names of installed parts

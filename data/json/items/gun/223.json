@@ -139,7 +139,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": "-1",
+    "ranged_damage": -1,
     "dispersion": 140,
     "durability": 3,
     "modes": [
@@ -155,7 +155,7 @@
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-CAR carbine",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes a read-dot sight and an integral laser sight.  Additionally it comes with underslung shotgun for close range encounters.  Like the rest of the family, doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes a red-dot sight and an integral laser sight.  Additionally it comes with underslung shotgun for close range encounters.  Like the rest of the family, doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
     "modes": [
@@ -215,7 +215,7 @@
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-MBR rifle",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with Leadworks gyro-stabilization system system and foregrip available for greater control.  Additionally it comes with grenade launcher module for dealing with hard targets.  Like the rest of the family, though, it doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with Leadworks gyro-stabilization system and foregrip available for greater control.  Additionally it comes with grenade launcher module for dealing with hard targets.  Like the rest of the family, though, it doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
     "relative": {
@@ -402,9 +402,9 @@
     "id": "surv_carbine_223",
     "copy-from": "rifle_semi",
     "type": "GUN",
-    "name": "survivor carbine",
+    "name": "handmade carbine",
     "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
-    "description": "A well designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines this is one of the better homemade weapons.",
+    "description": "A well-designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines, this is one of the better homemade weapons.",
     "weight": 1950,
     "volume": 6,
     "price": 10000,

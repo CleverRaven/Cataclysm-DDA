@@ -1,13 +1,12 @@
 #include "iuse_software_kitten.h"
 
-#include "output.h"
-#include "translations.h"
-#include "posix_time.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "output.h"
+#include "posix_time.h"
+#include "translations.h"
 
 #include <cstdlib>  // Needed for rand()
-#include <iostream>
 
 #define EMPTY -1
 #define ROBOT 0
@@ -226,6 +225,10 @@ std::string robot_finds_kitten::getmessage( int idx )
 
 robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 {
+#ifdef __ANDROID__
+    input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
+#endif
+
     ret = false;
     char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";

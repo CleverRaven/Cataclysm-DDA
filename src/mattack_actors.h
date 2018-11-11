@@ -2,15 +2,14 @@
 #ifndef MATTACK_ACTORS_H
 #define MATTACK_ACTORS_H
 
-#include "mtype.h"
 #include "damage.h"
-#include "weighted_list.h"
 #include "mattack_common.h"
+#include "mtype.h"
 #include "string_id.h"
+#include "weighted_list.h"
 
-#include <tuple>
-#include <vector>
 #include <map>
+#include <vector>
 
 class JsonObject;
 class monster;

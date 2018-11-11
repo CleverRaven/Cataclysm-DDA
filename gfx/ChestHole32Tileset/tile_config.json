@@ -42842,6 +42842,12 @@
           "rotates": false
         },
         {
+          "id": "t_thconc_floor_olight",
+          "fg": 658,
+          "bg": 659,
+          "rotates": false
+        },
+        {
           "id": "t_thconc_floor",
           "bg": 659,
           "rotates": false
@@ -43820,7 +43826,7 @@
           "rotates": true
         },
         {
-          "id": "t_door_glass_o",
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 2004,
           "bg": 661,
           "rotates": true
@@ -43920,7 +43926,7 @@
           "rotates": true
         },
         {
-          "id": "t_door_glass_c",
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "fg": 2003,
           "bg": 661,
           "rotates": true

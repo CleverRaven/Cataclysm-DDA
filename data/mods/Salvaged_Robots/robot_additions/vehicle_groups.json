@@ -1,0 +1,27 @@
+[
+  {
+    "type": "vehicle_group",
+    "id": "city_vehicles",
+    "vehicles": [ [ "robotic_taxi", 300 ], [ "armored_robot_carrier", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "city_pileup",
+    "vehicles": [ [ "robotic_taxi", 500 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "highway",
+    "vehicles": [ [ "armored_robot_carrier", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "military_vehicles",
+    "vehicles": [ [ "armored_robot_carrier", 200 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parkinglot",
+    "vehicles": [ [ "robotic_taxi", 100 ] ]
+  }
+]

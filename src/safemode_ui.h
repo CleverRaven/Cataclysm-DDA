@@ -1,14 +1,13 @@
 #pragma once
-#ifndef SEFEMODE_UI_H
-#define SEFEMODE_UI_H
+#ifndef SAFEMODE_UI_H
+#define SAFEMODE_UI_H
 
-#include <unordered_map>
-#include <string>
-#include <vector>
-#include <locale>
-#include <algorithm>
-#include "enums.h"
 #include "creature.h"
+#include "enums.h"
+
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 class JsonIn;
 class JsonOut;
@@ -73,7 +72,7 @@ class safemode
 
         void create_rules();
         void add_rules( std::vector<rules_class> &rules_in );
-        void set_rule( const rules_class rule_in, const std::string name_in, rule_state rs_in );
+        void set_rule( const rules_class rule_in, const std::string &name_in, rule_state rs_in );
 
     public:
         std::string lastmon_whitelist;
