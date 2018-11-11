@@ -40,6 +40,7 @@
 #include "speech.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -3590,7 +3591,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-const std::string &get_music_description()
+std::string get_music_description()
 {
     static const std::string no_description;
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
@@ -3612,6 +3613,19 @@ const std::string &get_music_description()
     if( i < descriptions.size() ) {
         return descriptions[i];
     }
+    // Not one of the hard-coded versions, let's apply a random string made up
+    // of snippets {a, b, c}, but only a 50% chance
+    // Actual chance = 24.5% of being selected
+    if( one_in( 2 ) ) {
+        const std::string &from_a = SNIPPET.random_from_category( "musicgenre_a" );
+        const std::string &from_b = SNIPPET.random_from_category( "musicgenre_b" );
+        const std::string &from_c = SNIPPET.random_from_category( "musicgenre_c" );
+
+        // Require all to be non-empty
+        if( !( from_a.empty() || from_b.empty() || from_c.empty() ) ) {
+            return from_a + from_b + from_c;
+        }
+    }
 
     return no_description;
 }
@@ -3624,7 +3638,7 @@ void iuse::play_music( player &p, const tripoint &source, int const volume, int 
     std::string sound;
     if( calendar::once_every( 5_minutes ) ) {
         // Every 5 minutes, describe the music
-        const std::string &music = get_music_description();
+        const std::string music = get_music_description();
         if( !music.empty() ) {
             sound = music;
             if( p.pos() == source && volume == 0 && p.can_hear( source, volume ) ) {

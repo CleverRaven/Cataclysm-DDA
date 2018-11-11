@@ -1,0 +1,712 @@
+[
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "popular " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "top-forty " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "coorporate " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "commercial " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "alternative " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "college " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "arthouse " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "underground " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "experimental " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "forgotten " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "traditional " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "historical " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "classic " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "modern " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "adult " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "contemporary " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "Christian " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "Pagan " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "British " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "Continental " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "tropical " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "island " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "New York " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "Hollywood " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "Trans-Pacific " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "Latin " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "instrumental " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "fusion " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "visual " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "liquid " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "digital " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "procedurally generated " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "melodic " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "harmonious " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "discordant " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "contextual " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "conceptual " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "collaborative " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_a",
+    "text": [ "rhythmic " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "neo" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "retro" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "post" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "anti" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "hard " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "soft " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "speed " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "slow " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "hi-fi " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "lo-fi " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "mid-fi " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "ambient " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "dance " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "chill " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "psycho" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "turbo" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "prog " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "glam " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "outsider " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "indie " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "dark " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "death " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "electro" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "acid " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "space " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "ghetto " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "street " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "urban " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "world " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "Euro" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "Afro" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "grunge " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "brass " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "splatter " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "swamp " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "ghost " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "shadow " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "neuro " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "hyper" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "carnival" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "meta" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "techno" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "synth" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "robo" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "skate " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "freak " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "surf " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "mutant " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "Jurassic " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "free " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "garage " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "garbage " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "break " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "laser " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "porno " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "hypno" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "lunar " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "thunder " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "clown " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "murder " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "narco " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_b",
+    "text": [ "gangster " ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-tune" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-core" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-wave" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-beat" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-step" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-pop" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-hop" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-drums" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-style" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "-chant" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "folk" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "country" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "jazz" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "blues" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "soul" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "R&B" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "hip-hop" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "swing" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "rock" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "funk" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "disco" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "polka" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "tango" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "salsa" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "mambo" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "electronic" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "house" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "metal" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "reaggae" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "ska" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "punk" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "thrash" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "goth" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "industrial" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "psychedelic" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "noise" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "sound" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "revival" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "gospel" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "opera" ]
+  },
+  {
+    "type": "snippet",
+    "category": "musicgenre_c",
+    "text": [ "shanties" ]
+  }
+]
