@@ -1,5 +1,6 @@
 cataclysm
 cataclysm-tiles
+cataclysm-vcpkg
 chkjson*
 !src/chkjson
 data/*.template
