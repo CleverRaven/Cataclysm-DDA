@@ -43,7 +43,7 @@
 #include <cstdlib>
 #include <fstream>
 
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

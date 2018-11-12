@@ -34,7 +34,7 @@
 #endif
 
 #ifdef TILES
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #endif // TILES
 
 // Static defines                                                   {{{1
