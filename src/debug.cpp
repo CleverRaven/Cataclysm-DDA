@@ -498,7 +498,7 @@ void debug_write_backtrace( std::ostream &out )
     std::string last_binary_name;
 
     auto call_addr2line = [&out]( const std::string & binary, const std::string & addresses ) {
-        std::string cmd = "addr2line -e " + binary + " -f -C " + addresses;
+        std::string cmd = "addr2line -e " + binary + " -f -C " + addresses + " 2>&1";
         FILE *addr2line = popen( cmd.c_str(), "re" );
         if( addr2line == nullptr ) {
             out << "\tbacktrace: popen(addr2line) failed\n";
