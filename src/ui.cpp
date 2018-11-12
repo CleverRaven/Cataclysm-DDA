@@ -2,17 +2,14 @@
 
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
 #include "string_input_popup.h"
-#include "uistate.h"
 
 #include <algorithm>
-#include <cstdarg>
 #include <iterator>
 
 #ifdef __ANDROID__

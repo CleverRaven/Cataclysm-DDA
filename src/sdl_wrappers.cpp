@@ -4,10 +4,6 @@
 
 #include "debug.h"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
-
 #include <cassert>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "

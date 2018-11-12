@@ -20,6 +20,7 @@
 #include "path_info.h"
 #include "player.h"
 #include "rng.h"
+#include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
 
@@ -43,10 +44,6 @@
 #       define strcasecmp StrCmpI
 #   endif
 #endif
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
 
 #ifdef SDL_SOUND
 #   include <SDL2/SDL_mixer.h>
@@ -117,8 +114,6 @@ std::map<std::string, music_playlist> playlists;
 
 std::string current_soundpack_path = "";
 #endif
-
-#include "sdl_wrappers.h"
 
 /**
  * A class that draws a single character on screen.

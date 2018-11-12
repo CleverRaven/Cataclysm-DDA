@@ -13,7 +13,6 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "ui.h"
 #include "units.h"
 
 #include <algorithm>

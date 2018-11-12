@@ -7,12 +7,12 @@
 #include "game_constants.h"
 #include "input.h"
 #include "json.h"
-#include "math.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <string>
