@@ -593,7 +593,7 @@ void debug_write_backtrace( std::ostream &out )
 
         std::ostringstream cmd;
         cmd.imbue( std::locale::classic() );
-        cmd << "addr2line -e " << binary << " -f -C" << std::hex;
+        cmd << "addr2line -i -e " << binary << " -f -C" << std::hex;
         for( uintptr_t address : addresses ) {
             cmd << " 0x" << ( address - load_offset );
         }
