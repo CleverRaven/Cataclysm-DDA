@@ -3475,10 +3475,12 @@ void vehicle::idle( bool on_map )
 
     if( !warm_enough_to_plant() ) {
         for( const vpart_reference &vp : get_parts( "PLANTER" ) ) {
-            if( g->u.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's planter turns off due to low temperature." ), name );
+            if( vp.part().enabled ) {
+                if( g->u.sees( global_pos3() ) ) {
+                    add_msg( _( "The %s's planter turns off due to low temperature." ), name );
+                }
+                vp.part().enabled = false;
             }
-            vp.part().enabled = false;
         }
     }
 
