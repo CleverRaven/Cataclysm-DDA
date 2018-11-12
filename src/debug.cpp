@@ -501,7 +501,7 @@ void debug_write_backtrace( std::ostream &out )
         std::string cmd = "addr2line -e " + binary + " -f -C " + addresses;
         FILE *addr2line = popen( cmd.c_str(), "re" );
         if( addr2line == nullptr ) {
-            out << "backtrace: popen(addr2line) failed\n";
+            out << "\tbacktrace: popen(addr2line) failed\n";
             return false;
         }
         char buf[1024];
@@ -522,7 +522,7 @@ void debug_write_backtrace( std::ostream &out )
         if( 0 != pclose( addr2line ) ) {
             // Most likely reason is that addr2line is not installed, so
             // in this case we give up and don't try any more frames.
-            out << "backtrace: addr2line failed\n";
+            out << "\tbacktrace: addr2line failed\n";
             return false;
         }
         return true;
@@ -537,18 +537,18 @@ void debug_write_backtrace( std::ostream &out )
         auto addressStart = std::find( funcName, funcNameEnd, '[' );
         auto addressEnd = std::find( addressStart, funcNameEnd, ']' );
         if( binaryEnd == funcNameEnd || addressEnd == funcNameEnd ) {
-            out << "backtrace: Could not extract binary name and address from line\n";
+            out << "\tbacktrace: Could not extract binary name and address from line\n";
             continue;
         }
         ++addressStart;
 
         if( !debug_is_safe_string( addressStart, addressEnd ) ) {
-            out << "backtrace: Address not safe\n";
+            out << "\tbacktrace: Address not safe\n";
             continue;
         }
 
         if( !debug_is_safe_string( funcName, binaryEnd ) ) {
-            out << "backtrace: Binary name not safe\n";
+            out << "\tbacktrace: Binary name not safe\n";
             continue;
         }
 
