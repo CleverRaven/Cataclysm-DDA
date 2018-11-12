@@ -1098,8 +1098,6 @@ class game
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed;
 
-        weather_type weather_override;
-
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
 
@@ -1107,6 +1105,8 @@ class game
 
         void move_save_to_graveyard();
         bool save_player_data();
+    public:
+        weather_type weather_override;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
