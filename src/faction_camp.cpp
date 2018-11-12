@@ -937,7 +937,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                     if( npc_list.empty() ) {
                         npc *comp = individual_mission( p, _( "begins to upgrade the expansion..." ),
                                                         "_faction_upgrade_exp_" + cur_key.dir, false, {},
-                                                        making->skill_used.obj().name(), making->difficulty );
+                                                        making->skill_used.str(), making->difficulty );
                         if( comp != nullptr ) {
                             g->u.consume_components_for_craft( making, 1, true );
                             g->u.invalidate_crafting_inventory();
@@ -1159,7 +1159,7 @@ void talk_function::start_camp_upgrade( npc &p, const std::string &bldg )
         }
         npc *comp = individual_mission( p, _( "begins to upgrade the camp..." ), "_faction_upgrade_camp",
                                         false, {},
-                                        making->skill_used.obj().name(), making->difficulty );
+                                        making->skill_used.str(), making->difficulty );
         if( comp != nullptr ) {
             comp->companion_mission_time_ret = calendar::turn + making_time;
             g->u.consume_components_for_craft( making, 1, true );
@@ -1421,7 +1421,7 @@ void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
         } else {
             npc *comp = individual_mission( p, _( "begins constructing fortifications..." ),
                                             "_faction_camp_om_fortifications", false, {},
-                                            making.skill_used.obj().name(), making.difficulty );
+                                            making.skill_used.str(), making.difficulty );
             if( comp != nullptr ) {
                 g->u.consume_components_for_craft( &making, ( fortify_om.size() * 2 ) - 2, true );
                 g->u.invalidate_crafting_inventory();
@@ -1506,7 +1506,7 @@ void talk_function::camp_craft_construction( npc &p, const mission_entry &cur_ke
                         continue;
                     }
                     npc *comp = individual_mission( p, _( "begins to work..." ), miss_id + cur_key.dir, false, {},
-                                                    making->skill_used.obj().name(), making->difficulty );
+                                                    making->skill_used.str(), making->difficulty );
                     if( comp != nullptr ) {
                         time_duration making_time = time_duration::from_turns( making->time / 100 ) * batch_size;
                         g->u.consume_components_for_craft( making, batch_size, true );
