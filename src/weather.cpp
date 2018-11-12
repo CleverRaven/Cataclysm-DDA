@@ -6,7 +6,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "map.h"
-#include "math.h"
 #include "messages.h"
 #include "options.h"
 #include "output.h"
@@ -19,6 +18,7 @@
 #include "trap.h"
 #include "weather_gen.h"
 
+#include <cmath>
 #include <sstream>
 #include <vector>
 
