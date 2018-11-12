@@ -589,13 +589,13 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     load_internal( config, tileset_root, img_path );
 
     // Load mod tilesets if available
-    for( auto mts : all_mod_tilesets ) {
+    for( const mod_tileset &mts : all_mod_tilesets ) {
         // Set sprite_id offset to separate from other tilesets.
         sprite_id_offset = offset;
-        tileset_root = mts->get_base_path();
-        json_path = mts->get_full_path();
+        tileset_root = mts.get_base_path();
+        json_path = mts.get_full_path();
 
-        if( !mts->is_compatible( tileset_id ) ) {
+        if( !mts.is_compatible( tileset_id ) ) {
             dbg( D_ERROR ) << "Mod tileset in \"" << json_path << "\" is not compatible.";
             continue;
         }
@@ -614,7 +614,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
             while( mod_config_array.has_more() ) {
                 JsonObject mod_config = mod_config_array.next_object();
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
-                    if( num_in_file == mts->num_in_file() ) {
+                    if( num_in_file == mts.num_in_file() ) {
                         load_internal( mod_config, tileset_root, img_path );
                         break;
                     }
