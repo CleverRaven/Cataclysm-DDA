@@ -2,9 +2,9 @@
 #ifndef SDL_WRAPPERS_H
 #define SDL_WRAPPERS_H
 
-#include <SDL.h>
-#include <SDL_ttf.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 #include <memory>
 
