@@ -30,6 +30,7 @@
 #else
 #include <cstdlib>
 #include <execinfo.h>
+#include <unistd.h>
 #endif
 #endif
 
@@ -497,7 +498,31 @@ void debug_write_backtrace( std::ostream &out )
     std::string addresses;
     std::string last_binary_name;
 
-    auto call_addr2line = [&out]( const std::string & binary, const std::string & addresses ) {
+    auto call_addr2line = [&out]( std::string binary, const std::string & addresses ) {
+        // If the binary name has no slashes then it was found via PATH
+        // lookup, and we need to do the same to pass the correct name
+        // to addr2line
+        if( binary.find( '/' ) == std::string::npos ) {
+            const char *path = std::getenv( "PATH" );
+            if( !path ) {
+                // Should be impossible, but I want to avoid segfaults
+                // in the crash handler.
+                out << "\tbacktrace: PATH not set\n";
+                return false;
+            }
+
+            for( const std::string &path_elem : string_split( path, ':' ) ) {
+                if( path_elem.empty() ) {
+                    continue;
+                }
+                std::string candidate = path_elem + "/" + binary;
+                if( 0 == access( candidate.c_str(), X_OK ) ) {
+                    binary = candidate;
+                    break;
+                }
+            }
+        }
+
         std::string cmd = "addr2line -e " + binary + " -f -C " + addresses + " 2>&1";
         FILE *addr2line = popen( cmd.c_str(), "re" );
         if( addr2line == nullptr ) {
