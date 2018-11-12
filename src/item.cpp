@@ -1539,7 +1539,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             return string_format( "<info>%s</info>", used_on.name().c_str() );
         } );
 
-        temp1.clear();
+        temp2.clear();
         temp2 << _( "Location: " );
         temp2 << mod.location.name();
 
