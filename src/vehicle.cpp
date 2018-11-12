@@ -45,6 +45,7 @@
  */
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const std::string part_location_structure( "structure" );
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
@@ -3531,16 +3532,25 @@ void vehicle::slow_leak()
 
         auto fuel = p.ammo_current();
         int qty = std::max( ( 0.5 - health ) * ( 0.5 - health ) * p.ammo_remaining() / 10, 1.0 );
+        point q = coord_translate( p.mount );
+        const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
 
-        // damaged batteries self-discharge without leaking
-        if( fuel != fuel_type_battery ) {
+        // damaged batteries self-discharge without leaking, plutonium leaks slurry
+        if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
             item leak( fuel, calendar::turn, qty );
-            point q = coord_translate( p.mount );
-            const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
             g->m.add_item_or_charges( dest, leak );
+            p.ammo_consume( qty, global_part_pos3( p ) );
+        } else if( fuel == fuel_type_plutonium_cell ) {
+            item leak( "plut_slurry_dense", calendar::turn, qty );
+            if( p.ammo_remaining() >= PLUTONIUM_CHARGES / 10 ) {
+                g->m.add_item_or_charges( dest, leak );
+                p.ammo_consume( qty * PLUTONIUM_CHARGES / 10, global_part_pos3( p ) );
+            } else {
+                p.ammo_consume( p.ammo_remaining(), global_part_pos3( p ) );
+            }
+        } else {
+            p.ammo_consume( qty, global_part_pos3( p ) );
         }
-
-        p.ammo_consume( qty, global_part_pos3( p ) );
     }
 }
 
