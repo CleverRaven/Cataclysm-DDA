@@ -6,6 +6,7 @@
 
 #include "translations.h"
 
+#include "cata_utility.h"
 #include "json.h"
 #include "name.h"
 #include "path_info.h"
@@ -211,11 +212,6 @@ void set_language()
 }
 
 #if (defined MACOSX)
-bool string_starts_with( std::string s, std::string prefix )
-{
-    return s.compare( 0, prefix.length(), prefix ) == 0;
-}
-
 std::string getOSXSystemLang()
 {
     // Get the user's language list (in order of preference)

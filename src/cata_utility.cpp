@@ -530,3 +530,14 @@ void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const
     JsonIn jsin( buffer );
     callback( jsin );
 }
+
+bool string_starts_with( const std::string &s1, const std::string &s2 )
+{
+    return s1.compare( 0, s2.size(), s2 ) == 0;
+}
+
+bool string_ends_with( const std::string &s1, const std::string &s2 )
+{
+    return s1.size() >= s2.size() &&
+           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
+}
