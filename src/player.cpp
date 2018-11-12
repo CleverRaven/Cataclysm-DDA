@@ -10727,7 +10727,7 @@ bool player::is_wearing_shoes( const side &which_side ) const
 
 bool player::is_wearing_helmet() const
 {
-    for( auto i : worn ) {
+    for( const item &i : worn ) {
         if( i.covers( bp_head ) &&
             !i.has_flag( "HELMET_COMPAT" ) &&
             !i.has_flag( "SKINTIGHT" ) &&

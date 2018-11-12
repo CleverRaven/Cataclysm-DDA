@@ -280,7 +280,7 @@ void set_language()
 #endif // LOCALIZE
 
 translation::translation()
-    : ctxt( cata::nullopt ), raw(), needs_translation( false )
+    : ctxt( cata::nullopt )
 {
 }
 
@@ -295,7 +295,7 @@ translation::translation( const std::string &raw )
 }
 
 translation::translation( const std::string &str, const no_translation_tag )
-    : ctxt( cata::nullopt ), raw( str ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw( str )
 {
 }
 

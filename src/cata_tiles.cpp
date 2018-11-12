@@ -879,7 +879,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
         } else if( entry.has_array( "id" ) ) {
             ids = entry.get_string_array( "id" );
         }
-        for( auto t_id : ids ) {
+        for( const std::string &t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id );
             curr_tile.offset.x = sprite_offset_x;
             curr_tile.offset.y = sprite_offset_y;

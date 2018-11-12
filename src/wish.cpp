@@ -20,9 +20,9 @@
 class wish_mutate_callback: public uilist_callback
 {
     public:
-        int lastlen;           // last menu entry
+        int lastlen = 0;       // last menu entry
         std::string msg;       // feedback message
-        bool started;
+        bool started = false;
         std::vector<trait_id> vTraits;
         std::map<trait_id, bool> pTraits;
         player *p;
@@ -35,12 +35,7 @@ class wish_mutate_callback: public uilist_callback
             return c_light_gray;
         }
 
-        wish_mutate_callback() : msg() {
-            lastlen = 0;
-            started = false;
-            vTraits.clear();
-            pTraits.clear();
-        }
+        wish_mutate_callback() = default;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
             if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if( p->has_base_trait( vTraits[ entnum ] ) ) {
@@ -280,7 +275,7 @@ class wish_monster_callback: public uilist_callback
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
-            : msg(), padding(), mtypes( mtypes ) {
+            : mtypes( mtypes ) {
             started = false;
             friendly = false;
             hallucination = false;
@@ -418,7 +413,7 @@ class wish_item_callback: public uilist_callback
         std::string flag;
         const std::vector<const itype *> &standard_itype_ids;
         wish_item_callback( const std::vector<const itype *> &ids ) :
-            incontainer( false ), has_flag( false ), msg(), standard_itype_ids( ids ) {
+            incontainer( false ), has_flag( false ), standard_itype_ids( ids ) {
         }
         bool key( const input_context &, const input_event &event, int /*entnum*/,
                   uilist * /*menu*/ ) override {

@@ -705,7 +705,7 @@ void mdeath::detonate( monster &z )
 
     // Update any hardcoded explosion equivalencies
     std::vector<std::pair<std::string, long>> dets;
-    for( auto bomb_id : pre_dets ) {
+    for( const std::string &bomb_id : pre_dets ) {
         if( bomb_id == "bot_grenade_hack" ) {
             dets.push_back( std::make_pair( "grenade_act", 5 ) );
         } else if( bomb_id == "bot_flashbang_hack" ) {

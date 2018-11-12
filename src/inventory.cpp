@@ -29,11 +29,7 @@ bool invlet_wrapper::valid( const long invlet ) const
     return find( static_cast<char>( invlet ) ) != std::string::npos;
 }
 
-inventory::inventory()
-    : invlet_cache()
-    , items()
-{
-}
+inventory::inventory() = default;
 
 invslice inventory::slice()
 {

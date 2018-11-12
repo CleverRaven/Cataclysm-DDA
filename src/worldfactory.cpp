@@ -229,7 +229,7 @@ bool WORLD::save( const bool is_conversion ) const
 
             for( auto &elem : WORLD_OPTIONS ) {
                 // Skip hidden option because it is set by mod and should not be saved
-                if( elem.second.getDefaultText() != "" ) {
+                if( !elem.second.getDefaultText().empty() ) {
                     jout.start_object();
 
                     jout.member( "info", elem.second.getTooltip() );

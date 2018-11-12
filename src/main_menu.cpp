@@ -292,7 +292,7 @@ void main_menu::init_strings()
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
 
     vSettingsHotkeys.clear();
-    for( auto item : vSettingsSubItems ) {
+    for( const std::string &item : vSettingsSubItems ) {
         vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
 
@@ -418,7 +418,7 @@ bool main_menu::opening_screen()
             std::string sInput = ctxt.get_raw_input().text;
             // check automatic menu shortcuts
             for( size_t i = 0; i < vMenuHotkeys.size(); ++i ) {
-                for( auto hotkey : vMenuHotkeys[i] ) {
+                for( const std::string &hotkey : vMenuHotkeys[i] ) {
                     if( sInput == hotkey ) {
                         sel1 = i;
                         action = "CONFIRM";
@@ -568,7 +568,7 @@ bool main_menu::opening_screen()
                 std::string action = handle_input_timeout( ctxt );
                 std::string sInput = ctxt.get_raw_input().text;
                 for( int i = 0; i < settings_subs_to_display; ++i ) {
-                    for( auto hotkey : vSettingsHotkeys[i] ) {
+                    for( const std::string &hotkey : vSettingsHotkeys[i] ) {
                         if( sInput == hotkey ) {
                             sel2 = i;
                             action = "CONFIRM";
@@ -632,7 +632,7 @@ bool main_menu::new_character_tab()
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::vector<std::string>> vNewGameHotkeys;
-    for( auto item : vSubItems ) {
+    for( const std::string &item : vSubItems ) {
         vNewGameHotkeys.push_back( get_hotkeys( item ) );
     }
 
@@ -655,7 +655,7 @@ bool main_menu::new_character_tab()
             std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vNewGameHotkeys.size(); ++i ) {
-                for( auto hotkey : vNewGameHotkeys[i] ) {
+                for( const std::string &hotkey : vNewGameHotkeys[i] ) {
                     if( sInput == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
@@ -994,7 +994,7 @@ void main_menu::world_tab()
             std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
-                for( auto hotkey : vWorldHotkeys[i] ) {
+                for( const std::string &hotkey : vWorldHotkeys[i] ) {
                     if( sInput == hotkey ) {
                         sel3 = i;
                         action = "CONFIRM";

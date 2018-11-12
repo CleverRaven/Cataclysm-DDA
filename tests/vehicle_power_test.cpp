@@ -8,7 +8,7 @@
 #include "player.h"
 #include "itype.h"
 #include "calendar.h"
-#include "weather_gen.h"
+#include "weather.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
@@ -58,19 +58,21 @@ TEST_CASE( "vehicle_power" )
         veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->refresh_all();
-        const weather_generator &cur_wgen = g->get_cur_weather_gen();
-        // set the weather seed to a really high value to reduce noise
-        // average light intensity should be 0.85, so the battery shouldn't quite fully charge
-        // in an hour, even though it has 700W of power generation and it is nominally a 700 W-hr
-        // battery.
-        cur_wgen.get_weather( vehicle_origin, calendar::turn, 32767 );
-        time_duration start_time = 7_hours;
-        veh_ptr->update_time( calendar::turn + start_time );
+        calendar::turn = to_turns<int>( calendar::turn.season_length() ) + DAYS( 1 );
+        time_point start_time = calendar::turn.sunrise() + 3_hours;
+        veh_ptr->update_time( start_time );
         veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
-        veh_ptr->update_time( calendar::turn + start_time + 30_minutes );
-        CHECK( veh_ptr->fuel_left( fuel_type_battery ) == 1071 );
-        veh_ptr->update_time( calendar::turn + start_time + 2 * 30_minutes );
-        CHECK( veh_ptr->fuel_left( fuel_type_battery ) == 2142 );
+        g->weather_override = WEATHER_SUNNY;
+        veh_ptr->update_time( start_time + 30_minutes );
+        int approx_battery1 = veh_ptr->fuel_left( fuel_type_battery ) / 100;
+        const int exp_min = 8;
+        const int exp_max = 10;
+        CHECK( approx_battery1 >= exp_min );
+        CHECK( approx_battery1 <= exp_max );
+        veh_ptr->update_time( start_time + 2 * 30_minutes );
+        int approx_battery2 = veh_ptr->fuel_left( fuel_type_battery ) / 100;
+        CHECK( approx_battery2 >= approx_battery1 + exp_min );
+        CHECK( approx_battery2 <= approx_battery1 + exp_max );
     }
 }

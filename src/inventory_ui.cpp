@@ -1478,7 +1478,6 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     : u( u )
     , preset( preset )
     , ctxt( "INVENTORY" )
-    , columns()
     , active_column_index( 0 )
     , mode( navigation_mode::ITEM )
     , own_inv_column( preset )

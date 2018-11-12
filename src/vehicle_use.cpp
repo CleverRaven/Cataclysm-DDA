@@ -1015,7 +1015,7 @@ void vehicle::operate_scoop()
                 continue;//ignore it. Street sweepers are not known for their ability to harvest crops.
             }
             size_t itemdex = 0;
-            for( auto it : q ) {
+            for( const item &it : q ) {
                 if( it.volume() < max_pickup_volume ) {
                     that_item_there = g->m.item_from( position, itemdex );
                     break;

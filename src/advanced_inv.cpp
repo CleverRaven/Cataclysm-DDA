@@ -77,9 +77,6 @@ advanced_inventory::advanced_inventory()
         { AIM_WORN,      25, 3, {0,   0,  0}, _( "Worn Items" ),         _( "WR" ) }
     }
 } )
-, head()
-, left_window()
-, right_window()
 {
     // initialize screen coordinates for small overview 3x3 grid, depending on control scheme
     if( tile_iso && use_tiles ) {
@@ -797,12 +794,8 @@ advanced_inv_listitem::advanced_inv_listitem()
     : idx()
     , area()
     , id( "null" )
-    , name()
-    , name_without_prefix()
     , autopickup()
     , stacks()
-    , volume()
-    , weight()
     , cat( nullptr )
 {
 }
@@ -812,11 +805,8 @@ advanced_inv_listitem::advanced_inv_listitem( const item_category *category )
     , area()
     , id( "null" )
     , name( category->name() )
-    , name_without_prefix()
     , autopickup()
     , stacks()
-    , volume()
-    , weight()
     , cat( category )
 {
 }
