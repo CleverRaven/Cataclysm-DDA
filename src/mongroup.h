@@ -105,7 +105,7 @@ struct mongroup {
      *  And "roam", who roam around the map randomly, not taking care to return
      *  anywhere.
      */
-    std::string horde_behaviour = "";
+    std::string horde_behaviour;
     bool diffuse = false;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
               unsigned int prad, unsigned int ppop )

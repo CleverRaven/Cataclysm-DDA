@@ -35,7 +35,7 @@ void submap::delete_vehicles()
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 // Handle GCC warning: 'warning: returning reference to temporary'
-static const std::string STRING_EMPTY( "" );
+static const std::string STRING_EMPTY;
 
 struct cosmetic_find_result {
     bool result;

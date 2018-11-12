@@ -181,7 +181,7 @@ void uilist::filterlist()
     bool notfiltering = ( ! filtering || filter.empty() );
     int num_entries = entries.size();
     bool nocase = filtering_nocase; // @todo: && is_all_lc( filter )
-    std::string fstr = "";
+    std::string fstr;
     fstr.reserve(filter.size());
     if ( nocase ) {
         transform( filter.begin(), filter.end(), std::back_inserter(fstr), tolower );
@@ -229,7 +229,7 @@ void uilist::filterlist()
  */
 std::string uilist::inputfilter()
 {
-    std::string identifier = ""; // @todo: uilist.filter_identifier ?
+    std::string identifier; // @todo: uilist.filter_identifier ?
     mvwprintz(window, w_height - 1, 2, border_color, "< ");
     mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
     /*

@@ -2132,7 +2132,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             int line_pos = i - iStartPos; // Current line position in window.
 
-            sTemp.str( "" );
+            sTemp.clear();
             sTemp << i + 1 - iBlankOffset;
             mvwprintz( w_options, line_pos, 1, c_white, sTemp.str().c_str() );
 

@@ -1447,7 +1447,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( !gun.valid_mod_locations.empty() && parts->test( iteminfo_parts::DESCRIPTION_GUN_MODS ) ) {
             insert_separation_line();
 
-            temp1.str( "" );
+            temp1.clear();
             temp1 << _( "<bold>Mods:</bold> " );
             int iternum = 0;
             for( auto &elem : gun.valid_mod_locations ) {
@@ -1533,13 +1533,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       mod.min_str_required_mod ) );
         }
 
-        temp1.str( "" );
+        temp1.clear();
         temp1 << _( "Used on: " ) << enumerate_as_string( mod.usable.begin(),
         mod.usable.end(), []( const gun_type_type & used_on ) {
             return string_format( "<info>%s</info>", used_on.name().c_str() );
         } );
 
-        temp2.str( "" );
+        temp1.clear();
         temp2 << _( "Location: " );
         temp2 << mod.location.name();
 
@@ -1554,7 +1554,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( is_armor() ) {
 
         if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
-            temp1.str( "" );
+            temp1.clear();
             temp1 << _( "Covers: " );
             if( covers( bp_head ) ) {
                 temp1 << _( "The <info>head</info>. " );
@@ -1613,7 +1613,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( parts->test( iteminfo_parts::ARMOR_LAYER ) ) {
-            temp1.str( "" );
+            temp1.clear();
             temp1 << _( "Layer: " );
             if( has_flag( "SKINTIGHT" ) ) {
                 temp1 << _( "<stat>Close to skin</stat>. " );
@@ -1792,7 +1792,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( is_container() && parts->test( iteminfo_parts::CONTAINER_DETAILS ) ) {
         const auto &c = *type->container;
 
-        temp1.str( "" );
+        temp1.clear();
         temp1 << _( "This container " );
 
         if( c.seals ) {
@@ -2251,7 +2251,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
             insert_separation_line();
-            std::string ntext = "";
+            std::string ntext;
             if( item_note_type != item_vars.end() ) {
                 ntext += string_format( _( "%1$s on the %2$s is: " ),
                                         item_note_type->second.c_str(), tname().c_str() );
@@ -2265,7 +2265,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( !contents.empty() && parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
             for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
                 if( mod->type->gunmod ) {
-                    temp1.str( "" );
+                    temp1.clear();
                     if( mod->is_irremovable() ) {
                         temp1 << _( "Integrated mod: " );
                     } else {
@@ -2322,7 +2322,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         const auto &known_recipes = g->u.get_learned_recipes().of_component( tid );
         if( !known_recipes.empty() && parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
-            temp1.str( "" );
+            temp1.clear();
             const inventory &inv = g->u.crafting_inventory();
 
             if( known_recipes.size() > 24 ) {
@@ -2354,7 +2354,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.pop_back();
     }
 
-    temp1.str( "" );
+    temp1.clear();
     for( auto &elem : info ) {
         if( elem.sType == "DESCRIPTION" ) {
             temp1 << "\n";
@@ -2364,7 +2364,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             temp1 << elem.sName;
         }
         size_t pos = elem.sFmt.find( "<num>" );
-        std::string sPost = "";
+        std::string sPost;
         if( pos != std::string::npos ) {
             temp1 << elem.sFmt.substr( 0, pos );
             sPost = elem.sFmt.substr( pos + 5 );
@@ -2704,7 +2704,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         damtext.insert( 0, _( "faulty " ) );
     }
 
-    std::string vehtext = "";
+    std::string vehtext;
     if( is_engine() && engine_displacement() > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ),
                                  engine_displacement() / 100.0f );
@@ -2727,7 +2727,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
         int amt = 0;
-        ret.str( "" );
+        ret.clear();
         ret << label( quantity );
         for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
             if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
@@ -2740,7 +2740,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
                item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
-        ret.str( "" );
+        ret.clear();
         ret << label( quantity );
         ret << "+1";
         maintext = ret.str();
@@ -2763,7 +2763,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = label( quantity );
     }
 
-    ret.str( "" );
+    ret.clear();
     if( is_food() ) {
         if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
             ret << _( " (poisonous)" );
@@ -2856,7 +2856,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += std::string( _( "diamond" ) ) + " ";
     }
 
-    ret.str( "" );
+    ret.clear();
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (fits)").
     ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext.c_str(), burntext.c_str(),
                           modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str() );

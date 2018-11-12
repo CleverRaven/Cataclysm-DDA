@@ -442,7 +442,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
-            sTemp.str( "" );
+            sTemp.clear();
             sTemp << i + 1;
             mvwprintz( w_worlds, static_cast<int>( i ), 0, c_white, sTemp.str() );
             wmove( w_worlds, static_cast<int>( i ), 4 );
@@ -589,7 +589,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         center_print( w, 0, c_red, text_if_empty );
     } else {
         int iCatSortNum = 0;
-        std::string sLastCategoryName = "";
+        std::string sLastCategoryName;
         std::map<int, std::string> mSortCategory;
         mSortCategory[0] = sLastCategoryName;
 
@@ -658,7 +658,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
                     if( w_shift ) {
                         // get shift information for the active item
-                        std::string shift_display = "";
+                        std::string shift_display;
                         const long iPos = std::distance( mods.begin(), iter );
 
                         if( mman_ui->can_shift_up( iPos, mods ) ) {

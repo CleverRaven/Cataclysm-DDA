@@ -780,7 +780,7 @@ void color_manager::show_gui()
         auto iter = name_color_map.begin();
         std::advance( iter, iStartPos );
 
-        std::string sActive = "";
+        std::string sActive;
 
         // display color manager
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
@@ -862,7 +862,7 @@ void color_manager::show_gui()
                 ui_templates.text = _( "Color templates:" );
 
                 for( const auto &filename : vFiles ) {
-                    ui_templates.addentry( filename.substr( filename.find_last_of( "/" ) + 1 ) );
+                    ui_templates.addentry( filename.substr( filename.find_last_of( '/' ) + 1 ) );
                 }
 
                 ui_templates.query();
@@ -905,7 +905,7 @@ void color_manager::show_gui()
                 std::string sColor = iter.first;
                 std::string sType = _( "default" );
 
-                std::string name_custom = "";
+                std::string name_custom;
 
                 if( sSelected == sColor ) {
                     ui_colors.selected = i;

@@ -52,7 +52,7 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
                                   const std::vector<std::string> &vItems,
                                   size_t iSel, int iOffsetY, int iOffsetX, int spacing )
 {
-    std::string text = "";
+    std::string text;
     for( size_t i = 0; i < vItems.size(); ++i ) {
         if( i > 0 ) {
             text += std::string( spacing, ' ' );
@@ -235,7 +235,7 @@ void main_menu::init_strings()
     }
     mmenu_motd = "<color_light_red>" + buffer.str() + "</color>";
 
-    buffer.str( "" );
+    buffer.clear();
 
     // Credits
     mmenu_credits.clear();

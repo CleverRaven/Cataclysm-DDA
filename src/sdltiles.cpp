@@ -75,7 +75,7 @@ extern bool tile_iso;
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
 Mix_Music *current_music = NULL;
-std::string current_playlist = "";
+std::string current_playlist;
 size_t current_playlist_at = 0;
 size_t absolute_playlist_at = 0;
 std::vector<std::size_t> playlist_indexes;
@@ -112,7 +112,7 @@ struct music_playlist {
 
 std::map<std::string, music_playlist> playlists;
 
-std::string current_soundpack_path = "";
+std::string current_soundpack_path;
 #endif
 
 /**
@@ -2809,7 +2809,7 @@ static void font_folder_list(std::ofstream& fout, const std::string &path, std::
                         bitmap_fonts.insert(fami);
                     } else { // Font in set. Add filename to family string
                         size_t start = f.find_last_of("/\\");
-                        size_t end = f.find_last_of(".");
+                        size_t end = f.find_last_of('.');
                         if (start != std::string::npos && end != std::string::npos) {
                             fout << " [" << f.substr(start + 1, end - start - 1) + "]";
                         } else {

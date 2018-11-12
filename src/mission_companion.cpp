@@ -1465,7 +1465,7 @@ bool talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &def
                                     const std::string &def_desc, const std::vector< monster * > &monsters_fighting,
                                     const std::string &att_desc, int advantage )
 {
-    std::string adv = "";
+    std::string adv;
     if( advantage < 0 ) {
         adv = ", attacker advantage";
     } else if( advantage > 0 ) {
@@ -1532,7 +1532,7 @@ void talk_function::force_on_force( const std::vector<std::shared_ptr<npc>> &def
                                     const std::string &def_desc, const std::vector<std::shared_ptr<npc>> &attacker,
                                     const std::string &att_desc, int advantage )
 {
-    std::string adv = "";
+    std::string adv;
     if( advantage < 0 ) {
         adv = ", attacker advantage";
     } else if( advantage > 0 ) {
