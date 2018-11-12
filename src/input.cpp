@@ -676,7 +676,7 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
                 category );
         for( const auto &events_event : events ) {
             // Only consider keyboard events without modifiers
-            if( events_event.type == CATA_INPUT_KEYBOARD && 0 == events_event.modifiers.size() ) {
+            if( events_event.type == CATA_INPUT_KEYBOARD && events_event.modifiers.empty() ) {
                 requested_keys.erase( std::remove_if( requested_keys.begin(), requested_keys.end(),
                                                       ContainsPredicate<std::vector<long>, char>(
                                                               events_event.sequence ) ),

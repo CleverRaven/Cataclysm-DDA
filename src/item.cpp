@@ -3356,7 +3356,7 @@ long item::get_property_long( const std::string &prop, long def ) const
     if( it != type->properties.end() ) {
         char *e = nullptr;
         long  r = std::strtol( it->second.c_str(), &e, 10 );
-        if( it->second.size() && *e == '\0' ) {
+        if( !it->second.empty() && *e == '\0' ) {
             return r;
         }
         debugmsg( "invalid property '%s' for item '%s'", prop.c_str(), tname().c_str() );
@@ -4095,7 +4095,7 @@ const std::map<quality_id, int> &item::quality_of() const
 std::vector<const material_type *> item::made_of_types() const
 {
     std::vector<const material_type *> material_types_composed_of;
-    for( auto mat_id : made_of() ) {
+    for( const material_id &mat_id : made_of() ) {
         material_types_composed_of.push_back( &mat_id.obj() );
     }
     return material_types_composed_of;
@@ -4990,7 +4990,7 @@ long item::ammo_consume( long qty, const tripoint &pos )
 
     if( is_magazine() ) {
         auto need = qty;
-        while( contents.size() ) {
+        while( !contents.empty() ) {
             auto &e = *contents.rbegin();
             if( need >= e.charges ) {
                 need -= e.charges;

@@ -1391,7 +1391,7 @@ void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
         for( auto fort_om : fortify_om ) {
             bool valid = false;
             oter_id &omt_ref = overmap_buffer.ter( fort_om );
-            for( auto pos_om : allowed_locations ) {
+            for( const std::string &pos_om : allowed_locations ) {
                 if( omt_ref.id().c_str() == pos_om ) {
                     valid = true;
                     break;
@@ -1511,7 +1511,7 @@ void talk_function::camp_craft_construction( npc &p, const mission_entry &cur_ke
                         time_duration making_time = time_duration::from_turns( making->time / 100 ) * batch_size;
                         g->u.consume_components_for_craft( making, batch_size, true );
                         g->u.invalidate_crafting_inventory();
-                        for( auto results : making->create_results( batch_size ) ) {
+                        for( const item &results : making->create_results( batch_size ) ) {
                             comp->companion_mission_inv.add_item( results );
                         }
                         comp->companion_mission_time_ret = calendar::turn + making_time;
@@ -2289,7 +2289,7 @@ std::map<std::string, std::string> talk_function::camp_recipe_deck( const std::s
         return recipe_group::get_recipes( om_cur );
     }
     std::map<std::string, std::string> cooking_recipes;
-    for( auto building_levels : om_all_upgrade_levels( om_cur ) ) {
+    for( const std::string &building_levels : om_all_upgrade_levels( om_cur ) ) {
         std::map<std::string, std::string> test_s = recipe_group::get_recipes( building_levels );
         cooking_recipes.insert( test_s.begin(), test_s.end() );
     }
@@ -2431,7 +2431,7 @@ int talk_function::om_harvest_furn( npc &comp, const tripoint &omt_tgt, const fu
         for( int y = 0; y < 23; y++ ) {
             if( target_bay.furn( x, y ) == f && x_in_y( chance, 1.0 ) ) {
                 if( force_bash || comp.str_cur > furn_tgt.bash.str_min + rng( -2, 2 ) ) {
-                    for( auto itm : item_group::items_from( furn_tgt.bash.drop_group, calendar::turn ) ) {
+                    for( const item &itm : item_group::items_from( furn_tgt.bash.drop_group, calendar::turn ) ) {
                         comp.companion_mission_inv.push_back( itm );
                     }
                     harvested++;
@@ -2462,7 +2462,7 @@ int talk_function::om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter
         for( int y = 0; y < 23; y++ ) {
             if( target_bay.ter( x, y ) == t && x_in_y( chance, 1.0 ) ) {
                 if( force_bash ) {
-                    for( auto itm : item_group::items_from( ter_tgt.bash.drop_group, calendar::turn ) ) {
+                    for( const item &itm : item_group::items_from( ter_tgt.bash.drop_group, calendar::turn ) ) {
                         comp.companion_mission_inv.push_back( itm );
                     }
                     harvested++;
@@ -2608,7 +2608,7 @@ tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, 
     }
 
     if( !errors ) {
-        for( auto pos_om : bounce_locations ) {
+        for( const std::string &pos_om : bounce_locations ) {
             if( bounce && omt_ref.id().c_str() == pos_om && range > 5 ) {
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
                     om_line_mark( omt_pos, omt_tgt );
@@ -2624,7 +2624,7 @@ tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, 
             return omt_tgt;
         }
 
-        for( auto pos_om : possible_om_types ) {
+        for( const std::string &pos_om : possible_om_types ) {
             if( omt_ref.id().c_str() == pos_om ) {
                 return omt_tgt;
             }
@@ -3242,7 +3242,7 @@ std::string talk_function::camp_farm_description( const tripoint &omt_pos, bool 
 
     std::string crops;
     int total_c = 0;
-    for( auto i : plant_names ) {
+    for( const std::string &i : plant_names ) {
         if( total_c < 5 ) {
             crops += "\t" + i + " \n";
             total_c++;

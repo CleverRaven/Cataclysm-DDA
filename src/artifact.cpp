@@ -1317,7 +1317,7 @@ void it_artifact_tool::serialize( JsonOut &json ) const
     json.member( "price", price );
     json.member( "materials" );
     json.start_array();
-    for( auto mat : materials ) {
+    for( const material_id &mat : materials ) {
         json.write( mat );
     }
     json.end_array();
@@ -1371,7 +1371,7 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     json.member( "price", price );
     json.member( "materials" );
     json.start_array();
-    for( auto mat : materials ) {
+    for( const material_id &mat : materials ) {
         json.write( mat );
     }
     json.end_array();

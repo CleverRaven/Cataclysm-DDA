@@ -2491,8 +2491,7 @@ time_duration field_entry::setFieldAge( const time_duration new_age )
 }
 
 field::field()
-    : field_list()
-    , draw_symbol( fd_null )
+    : draw_symbol( fd_null )
 {
 }
 

@@ -8,7 +8,7 @@
 #include <sstream>
 
 basecamp::basecamp()
-    : name(), posx( 0 ), posy( 0 )
+    : posx( 0 ), posy( 0 )
 {
 }
 

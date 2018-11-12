@@ -461,8 +461,6 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
     , mapgensize_y( 24 )
     , x_offset( 0 )
     , y_offset( 0 )
-    , format()
-    , setmap_points()
     , objects( 0, 0, mapgensize_x, mapgensize_y )
 {
 }
@@ -835,7 +833,7 @@ class jmapgen_gaspump : public jmapgen_piece
         jmapgen_int amount;
         std::string fuel;
         jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 ), fuel() {
+            , amount( jsi, "amount", 0, 0 ) {
             if( jsi.has_string( "fuel" ) ) {
                 fuel = jsi.get_string( "fuel" );
 
@@ -1346,7 +1344,7 @@ class jmapgen_nested : public jmapgen_piece
                         }
 
                         bool this_direction_matches = false;
-                        for( oter_str_id allowed_neighbor : allowed_neighbors ) {
+                        for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.neighbor_at( dir ).id() );
                         }
                         all_directions_match &= this_direction_matches;
@@ -1354,7 +1352,7 @@ class jmapgen_nested : public jmapgen_piece
 
                     if( !above.empty() ) {
                         bool above_matches = false;
-                        for( oter_str_id allowed_neighbor : above ) {
+                        for( const oter_str_id &allowed_neighbor : above ) {
                             above_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.above().id() );
                         }
                         all_directions_match &= above_matches;

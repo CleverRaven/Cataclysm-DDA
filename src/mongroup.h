@@ -113,17 +113,13 @@ struct mongroup {
         , pos( pposx, pposy, pposz )
         , radius( prad )
         , population( ppop )
-        , target()
-        , interest( 0 )
-        , dying( false )
-        , horde( false )
-        , diffuse( false ) {
+        , target() {
     }
     mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }
-    mongroup() { }
+    mongroup() = default;
     bool is_safe() const;
     bool empty() const;
     void clear();

@@ -2202,7 +2202,7 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
     // grows outwards from previously placed lab maps
     std::set<point> candidates;
     candidates.insert( {point( x - 1, y ), point( x + 1, y ), point( x, y - 1 ), point( x, y + 1 )} );
-    while( candidates.size() ) {
+    while( !candidates.empty() ) {
         auto cand = candidates.begin();
         const int &cx = cand->x;
         const int &cy = cand->y;

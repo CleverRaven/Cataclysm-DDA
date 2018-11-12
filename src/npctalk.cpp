@@ -1903,7 +1903,7 @@ void talk_response::effect_t::set_effect( talkfunction_ptr ptr )
 
 talk_topic talk_response::effect_t::apply( dialogue &d ) const
 {
-    for( auto effect: effects ) {
+    for( const effect_fun_t &effect: effects ) {
         effect( d );
     }
     d.beta->op_of_u += opinion;
@@ -2267,7 +2267,7 @@ conditional_t::conditional_t( JsonObject jo )
             }
         };
         bool found_sub_member = false;
-        for( auto sub_member: sub_condition_strs ) {
+        for( const std::string &sub_member: sub_condition_strs ) {
             if( jo.has_string( sub_member ) ) {
                 const conditional_t sub_condition( jo.get_string( sub_member ) );
                 condition = [sub_condition]( const dialogue & d ) {

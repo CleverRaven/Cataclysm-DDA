@@ -2822,7 +2822,7 @@ void map::smash_items( const tripoint &p, const int power )
         }
     }
 
-    for( auto it : contents ) {
+    for( const item &it : contents ) {
         add_item_or_charges( p, it );
     }
 }
@@ -3185,7 +3185,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
         if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
             params.did_bash = true;
             smashed_glass = true;
-            for( auto bashed_content : bashed_item->contents ) {
+            for( const item &bashed_content : bashed_item->contents ) {
                 smashed_contents.push_back( bashed_content );
             }
             bashed_item = bashed_items.erase( bashed_item );
@@ -3989,7 +3989,7 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
         return ret;
     }
     const bool swimmable = has_flag( "SWIMMABLE", p );
-    for( auto new_item : new_items ) {
+    for( const item &new_item : new_items ) {
 
         if( new_item.made_of( LIQUID ) && swimmable ) {
             continue;

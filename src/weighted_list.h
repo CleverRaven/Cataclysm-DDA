@@ -197,7 +197,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
             }
             size_t i;
             int picked = ( randi % ( this->total_weight ) ) + 1;
-            if( precalc_array.size() ) {
+            if( !precalc_array.empty() ) {
                 // if the precalc_array is populated, use it for O(1) lookup
                 i = precalc_array[picked - 1];
             } else {

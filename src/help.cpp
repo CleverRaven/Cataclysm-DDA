@@ -166,7 +166,7 @@ void help::display_help()
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;
         for( size_t i = 0; i < hotkeys.size(); ++i ) {
-            for( auto hotkey : hotkeys[i] ) {
+            for( const std::string &hotkey : hotkeys[i] ) {
                 if( sInput == hotkey ) {
                     multipage( w_help, help_texts[i].second );
                     action = "CONFIRM";

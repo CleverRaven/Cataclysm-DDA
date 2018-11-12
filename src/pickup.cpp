@@ -653,7 +653,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         // but water.
         if( ( !isEmpty ) && g->m.furn( pos ) == f_toilet ) {
             isEmpty = true;
-            for( auto maybe_water : g->m.i_at( pos ) ) {
+            for( const item &maybe_water : g->m.i_at( pos ) ) {
                 if( maybe_water.typeId() != "water" ) {
                     isEmpty = false;
                     break;

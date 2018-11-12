@@ -85,7 +85,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     get_options().load();
 
     // Apply command-line option overrides for test suite execution.
-    if( option_overrides.size() > 0 ) {
+    if( !option_overrides.empty() ) {
         for( auto iter = option_overrides.begin(); iter != option_overrides.end(); ++iter ) {
             name_value_pair_t option = *iter;
             if( get_options().has_option( option.first ) ) {

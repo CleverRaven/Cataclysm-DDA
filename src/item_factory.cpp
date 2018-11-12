@@ -787,7 +787,7 @@ void Item_factory::check_definitions() const
             msg << "empty description" << "\n";
         }
 
-        for( auto mat_id : type->materials ) {
+        for( const material_id &mat_id : type->materials ) {
             if( mat_id.str() == "null" || !mat_id.is_valid() ) {
                 msg << string_format( "invalid material %s", mat_id.c_str() ) << "\n";
             }
