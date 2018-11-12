@@ -85,7 +85,7 @@
     "color": "dark_gray",
     "ammo": "8x40mm",
     "skill": "smg",
-    "dispersion": 120,
+    "dispersion": 105,
     "durability": 9,
     "burst": 5,
     "valid_mod_locations": [
