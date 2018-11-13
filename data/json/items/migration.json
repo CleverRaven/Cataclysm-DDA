@@ -495,5 +495,30 @@
     "id": "veggy_vac",
     "type": "MIGRATION",
     "replace": "veggy_salted"
+  },
+  {
+    "id": "bag_fish_vac",
+    "type": "MIGRATION",
+    "replace": "salted_fish"
+  },
+  {
+    "id": "bag_apple_vac",
+    "type": "MIGRATION",
+    "replace": "apple_sugar"
+  },
+  {
+    "id": "bag_hflesh_vac",
+    "type": "MIGRATION",
+    "replace": "hflesh_salted"
+  },
+  {
+    "id": "bag_meat_vac",
+    "type": "MIGRATION",
+    "replace": "meat_salted"
+  },
+  {
+    "id": "bag_veggy_vac",
+    "type": "MIGRATION",
+    "replace": "veggy_salted"
   }
 ]
