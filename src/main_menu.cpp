@@ -235,7 +235,7 @@ void main_menu::init_strings()
     }
     mmenu_motd = "<color_light_red>" + buffer.str() + "</color>";
 
-    buffer.clear();
+    buffer.str( "" );
 
     // Credits
     mmenu_credits.clear();

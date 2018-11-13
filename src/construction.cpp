@@ -424,7 +424,7 @@ void construction_menu()
                                                    folded_result_string.end() );
 
                             // display description of the result for multi-stages
-                            current_line.clear();
+                            current_line.str( "" );
                             current_line << _( "Result: " );
                             if( current_con->post_is_furniture ) {
                                 current_line << colorize(
@@ -443,7 +443,7 @@ void construction_menu()
 
                             // display description of the result for single stages
                         } else if( !current_con->post_terrain.empty() ) {
-                            current_line.clear();
+                            current_line.str( "" );
                             current_line << _( "Result: " );
                             if( current_con->post_is_furniture ) {
                                 current_line << colorize(
@@ -462,7 +462,7 @@ void construction_menu()
                                                    folded_result_string.end() );
                         }
 
-                        current_line.clear();
+                        current_line.str( "" );
                         // display required skill and difficulty
                         if( current_con->required_skills.empty() ) {
                             current_line << _( "N/A" );
@@ -491,7 +491,7 @@ void construction_menu()
                         // TODO: Textify pre_flags to provide a bit more information.
                         // Example: First step of dig pit could say something about
                         // requiring diggable ground.
-                        current_line.clear();
+                        current_line.str( "" );
                         if( !current_con->pre_terrain.empty() ) {
                             std::string require_string;
                             if( current_con->pre_is_furniture ) {
@@ -507,7 +507,7 @@ void construction_menu()
                                                    folded_result_string.end() );
                         }
                         if( !current_con->pre_note.empty() ) {
-                            current_line.clear();
+                            current_line.str( "" );
                             current_line << _( "Annotation: " )
                                          << colorize( current_con->pre_note, color_data );
                             std::vector<std::string> folded_result_string =

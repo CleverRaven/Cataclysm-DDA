@@ -442,7 +442,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
-            sTemp.clear();
+            sTemp.str( "" );
             sTemp << i + 1;
             mvwprintz( w_worlds, static_cast<int>( i ), 0, c_white, sTemp.str() );
             wmove( w_worlds, static_cast<int>( i ), 4 );
