@@ -183,7 +183,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 nc_color cLineColor = ( vRules[iTab][i].bActive ) ?
                                       c_white : c_light_gray;
 
-                sTemp.clear();
+                sTemp.str( "" );
                 sTemp << i + 1;
                 mvwprintz( w, i - iStartPos, 1, cLineColor, sTemp.str() );
                 mvwprintz( w, i - iStartPos, 5, cLineColor, "" );
@@ -441,7 +441,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
                                   iContentHeight ) ) {
                 nc_color cLineColor = c_white;
 
-                sTemp.clear();
+                sTemp.str( "" );
                 sTemp << i + 1;
                 mvwprintz( w_test_rule_content, i - iStartPos, 0, cLineColor, sTemp.str() );
                 mvwprintz( w_test_rule_content, i - iStartPos, 4, cLineColor, "" );
