@@ -669,7 +669,7 @@ void debug_write_backtrace( std::ostream &out )
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
                                                tracePtrs[i], out );
                 if( offset ) {
-                    load_offsets.emplace( binary_name, *offset ).first;
+                    load_offsets.emplace( binary_name, *offset );
                 }
             }
         }
