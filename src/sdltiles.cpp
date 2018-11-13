@@ -24,6 +24,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 
+#include <SDL2/SDL_image.h>
+
 #include <algorithm>
 #include <cassert>
 #include <cstring>
