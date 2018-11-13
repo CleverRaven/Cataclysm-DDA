@@ -488,7 +488,7 @@
     "type": "uncraft",
     "time": 500,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-	"components": [ [ [ "silver_small", 20 ] ] ]
+    "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
     "result": "badge_detective",
