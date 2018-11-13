@@ -63,6 +63,7 @@ void check_lethality( std::string explosive_id, int range, float lethality,
     } while( lethality_ratios.n() < 5 ||
              ( lethality_ratios.avg() + error > lethality &&
                lethality_ratios.avg() - error < lethality ) );
+    INFO( "epsilon " << epsilon );
     INFO( "samples " << lethality_ratios.n() );
     INFO( explosive_id );
     INFO( "range " << range );

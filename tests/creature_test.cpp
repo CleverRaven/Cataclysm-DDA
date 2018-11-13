@@ -17,6 +17,7 @@ float expected_weights_max[][12] = { { 2000, 0,   0,   0, 1191.49, 1191.49, 0, 0
 void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
                                       int hit_roll, float ( &expected )[12] )
 {
+    INFO( "hit roll = " << hit_roll );
     std::map<body_part, int> selected_part_histogram = {
         { bp_torso, 0 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 0 }, { bp_arm_r, 0 },
         { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 0 }, { bp_leg_r, 0 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
