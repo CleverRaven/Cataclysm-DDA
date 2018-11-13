@@ -1,43 +1,35 @@
 #include "game.h"
 
+#include "artifact.h"
+#include "auto_pickup.h"
+#include "computer.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
-#include "output.h"
-#include "skill.h"
-#include "line.h"
-#include "computer.h"
-#include "options.h"
-#include "auto_pickup.h"
-#include "mapbuffer.h"
 #include "debug.h"
-#include "map.h"
-#include "output.h"
-#include "artifact.h"
-#include "mission.h"
 #include "faction.h"
-#include "overmapbuffer.h"
-#include "trap.h"
-#include "messages.h"
-#include "mapdata.h"
-#include "translations.h"
-#include "mongroup.h"
-#include "scent_map.h"
 #include "io.h"
+#include "line.h"
+#include "map.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mission.h"
+#include "mongroup.h"
+#include "monster.h"
+#include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "scent_map.h"
+#include "translations.h"
 
+#include <algorithm>
+#include <cmath>
 #include <map>
 #include <set>
-#include <algorithm>
-#include <string>
 #include <sstream>
-#include <math.h>
+#include <string>
 #include <vector>
-#include "debug.h"
-#include "weather.h"
-#include "mapsharing.h"
-#include "monster.h"
-#include "overmap.h"
-#include "weather_gen.h"
-#include "npc.h"
 
 #ifdef __ANDROID__
 #include "input.h"
@@ -198,8 +190,8 @@ void game::unserialize( std::istream &fin )
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = ( season_type )data.get_int( "initial_season",
-                                   static_cast<int>( SPRING ) );
+        calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
+                                   static_cast<int>( SPRING ) ) );
         data.read( "last_target", tmptar );
         data.read( "last_target_type", tmptartyp );
         data.read( "run_mode", tmprun );
@@ -1097,7 +1089,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
                 }
                 lastval = value;
                 json.start_array();
-                json.write( ( bool )value );
+                json.write( static_cast<bool>( value ) );
                 count = 1;
             } else {
                 count++;

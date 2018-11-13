@@ -150,6 +150,14 @@ Examples:
 "//" : "comment", // Preferred method of leaving comments inside json files.
 ```
 
+Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context, by writing it like:
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar" }
+```
+
+Currently, only effect names and item action names support this syntax. If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
+
 ### Bionics
 
 | Identifier         | Description
@@ -653,7 +661,7 @@ Vehicle components when installed on a vehicle.
                                * SPECIAL: A part may have at most ONE of the following fields:
                                *    wheel_width = base wheel width in inches
                                *    size        = trunk/box storage volume capacity
-                               *    power       = base engine power (in half-horsepower)
+                               *    power       = base engine power in watts
                                *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
                                *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
@@ -760,7 +768,7 @@ See also VEHICLE_JSON.md
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
 "weight" : 350,                   // Weight of the item in grams. For stackable items (ammo, comestibles) this is the weight per charge.
-"volume" : 1,                     // Volume, measured in 1/4 liters. For stackable items (ammo, comestibles) this is the volume of stack_size charges.
+"volume" : 1,                     // Volume, measured in 1/4 liters. For stackable items (ammo, comestibles) this is the volume of stack_size charges. Volume in ml and L can be used - "50ml" or "2L"
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
@@ -1125,6 +1133,8 @@ For this to work, the item needs to be a tool that consumes charges upon invocat
 - `ARTC_SOLAR` Recharges in sunlight
 - `ARTC_PAIN` Creates pain to recharge
 - `ARTC_HP` Drains HP to recharge
+- `ARTC_FATIGUE` Creates fatigue to recharge
+- `ARTC_PORTAL` Consumes portals to recharge
 
 #### `Effects_carried`
 
@@ -1210,6 +1220,8 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_LIGHT` Temporary light source
 - `AEA_GROWTH` Grow plants, a la triffid queen
 - `AEA_HURTALL` Hurts all monsters!
+- `AEA_FUN` Temporary morale bonus
+- `AEA_SPLIT` Split between good and bad
 - `AEA_RADIATION` Spew radioactive gas
 - `AEA_PAIN` Increases player pain
 - `AEA_MUTATE` Chance of mutation
@@ -1223,6 +1235,7 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_FLASH` Flashbang
 - `AEA_VOMIT` User vomits
 - `AEA_SHADOWS` Summon shadow creatures
+- `AEA_STAMINA_EMPTY` Empties most of the player's stamina gauge
 
 ### Software Data
 
@@ -2085,7 +2098,7 @@ The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 bei
 
 # MOD tileset
 
-MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`. 
+MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`.
 
 Example:
 ```JSON

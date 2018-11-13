@@ -214,7 +214,6 @@ data/json/overmap/multitile_city_buildings.json
 data/json/overmap/specials.json
 data/json/overmap_connections.json
 data/json/overmap_locations.json
-data/json/overmap_terrain.json
 data/json/recipes/ammo/pistol.json
 data/json/recipes/ammo/rifle.json
 data/json/recipes/armor/arms.json

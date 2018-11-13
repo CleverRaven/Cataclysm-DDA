@@ -1,44 +1,44 @@
+#include "action.h"
+#include "auto_pickup.h"
+#include "bionics.h"
+#include "calendar.h"
+#include "clzones.h"
+#include "construction.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "faction.h"
+#include "field.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "gamemode.h"
 #include "gates.h"
-#include "action.h"
-#include "input.h"
-#include "vpart_range.h"
-#include "output.h"
-#include "player.h"
-#include "messages.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
-#include "map.h"
-#include "options.h"
-#include "mapsharing.h"
-#include "safemode_ui.h"
-#include "pickup.h"
-#include "game_inventory.h"
-#include "ranged.h"
-#include "debug.h"
-#include "worldfactory.h"
-#include "faction.h"
-#include "itype.h"
-#include "auto_pickup.h"
 #include "gun_mode.h"
-#include "construction.h"
-#include "bionics.h"
-#include "mutation.h"
-#include "monster.h"
 #include "help.h"
-#include "calendar.h"
-#include "weather.h"
+#include "input.h"
+#include "itype.h"
+#include "map.h"
+#include "mapdata.h"
+#include "mapsharing.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "mutation.h"
+#include "options.h"
+#include "output.h"
+#include "overmap_ui.h"
+#include "pickup.h"
+#include "player.h"
+#include "popup.h"
+#include "ranged.h"
+#include "safemode_ui.h"
 #include "sounds.h"
 #include "veh_type.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "field.h"
-#include "clzones.h"
-#include "cursesdef.h"
-#include "overmap_ui.h"
-#include "popup.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
+#include "weather.h"
+#include "worldfactory.h"
 
 #include <chrono>
 
@@ -384,7 +384,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( empty( veh->get_parts( "REMOTE_CONTROLS" ) ) ) {
+        if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
             return;
         }
@@ -560,7 +560,6 @@ static void haul()
     }
 }
 
-
 static void smash()
 {
     player &u = g->u;
@@ -713,15 +712,15 @@ static void sleep()
     uilist as_m;
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
-    as_m.entries.emplace_back( uimenu_entry( 0, true,
-                               ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y' ),
-                               _( "Yes." ) ) );
-    as_m.entries.emplace_back( uimenu_entry( 1, ( g->get_moves_since_last_save() ),
-                               ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's' ),
-                               _( "Yes, and save game before sleeping." ) ) );
-    as_m.entries.emplace_back( uimenu_entry( 2, true,
-                               ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
-                               _( "No." ) ) );
+    as_m.entries.emplace_back( 0, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
+                               _( "Yes." ) );
+    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
+                               _( "Yes, and save game before sleeping." ) );
+    as_m.entries.emplace_back( 2, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
+                               _( "No." ) );
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
@@ -784,13 +783,13 @@ static void sleep()
                     _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
                     _( "You have an alarm clock. Set an alarm?" );
 
-        as_m.entries.emplace_back( uimenu_entry( 0, true,
-                                   ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
-                                   _( "No, don't set an alarm." ) ) );
+        as_m.entries.emplace_back( 0, true,
+                                   get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
+                                   _( "No, don't set an alarm." ) );
 
         for( int i = 3; i <= 9; ++i ) {
-            as_m.entries.emplace_back( uimenu_entry( i, true, '0' + i,
-                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) ) );
+            as_m.entries.emplace_back( i, true, '0' + i,
+                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) );
         }
 
         as_m.query();
@@ -934,6 +933,23 @@ static void read()
     }
 }
 
+// Perform a reach attach
+// range - the range of the current weapon.
+// u - player
+static void reach_attach( int range, player &u )
+{
+    g->temp_exit_fullscreen();
+    g->m.draw( g->w_terrain, u.pos() );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
+                                       range );
+    if( !trajectory.empty() ) {
+        u.reach_attack( trajectory.back() );
+    }
+    g->draw_ter();
+    wrefresh( g->w_terrain );
+    g->reenter_fullscreen();
+}
+
 static void fire()
 {
     player &u = g->u;
@@ -1042,16 +1058,10 @@ static void fire()
         g->plfire( u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        g->temp_exit_fullscreen();
-        g->m.draw( g->w_terrain, u.pos() );
-        std::vector<tripoint> trajectory;
-        trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon, range );
-        if( !trajectory.empty() ) {
-            u.reach_attack( trajectory.back() );
-        }
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->reenter_fullscreen();
+        reach_attach( range, u );
+    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+        int range = u.weapon.gun_current_mode().qty;
+        reach_attach( range, u );
     }
 }
 

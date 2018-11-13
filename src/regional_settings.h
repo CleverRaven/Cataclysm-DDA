@@ -2,16 +2,16 @@
 #ifndef REGIONAL_SETTINGS_H
 #define REGIONAL_SETTINGS_H
 
-#include "weighted_list.h"
-#include "omdata.h"
 #include "mapdata.h"
+#include "omdata.h"
 #include "weather_gen.h"
+#include "weighted_list.h"
 
 #include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <memory>
 
 class JsonObject;
 
@@ -22,7 +22,7 @@ class building_bin
         weighted_int_list<overmap_special_id> buildings;
         std::map<overmap_special_id, int> unfinalized_buildings;
     public:
-        building_bin() {};
+        building_bin() = default;
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
         std::vector<std::string> all;
@@ -143,8 +143,8 @@ struct map_extras {
     unsigned int chance;
     weighted_int_list<std::string> values;
 
-    map_extras() : chance( 0 ), values() {}
-    map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
+    map_extras() : chance( 0 ) {}
+    map_extras( const unsigned int embellished ) : chance( embellished ) {}
 };
 
 struct sid_or_sid;

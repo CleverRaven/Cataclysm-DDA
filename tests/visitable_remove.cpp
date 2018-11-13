@@ -1,16 +1,16 @@
 #include "catch/catch.hpp"
 
 #include "game.h"
-#include "player.h"
-#include "visitable.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
+#include "player.h"
 #include "rng.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )
@@ -21,7 +21,7 @@ static int count_items( const T &src, const itype_id &id )
         return VisitResponse::NEXT;
     } );
     return n;
-};
+}
 
 TEST_CASE( "visitable_remove", "[visitable]" )
 {

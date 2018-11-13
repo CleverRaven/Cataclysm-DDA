@@ -1,21 +1,21 @@
 #include "lightmap.h"
 
 #include "fragment_cloud.h"
-#include "mapdata.h"
+#include "game.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "game.h"
-#include "npc.h"
+#include "mapdata.h"
 #include "monster.h"
+#include "mtype.h"
+#include "npc.h"
+#include "shadowcasting.h"
+#include "submap.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "submap.h"
-#include "mtype.h"
-#include "weather.h"
+#include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-#include "vpart_position.h"
-#include "shadowcasting.h"
+#include "weather.h"
 
 #include <cmath>
 #include <cstring>
@@ -358,9 +358,9 @@ void map::generate_lightmap( const int zlev )
             } else {
                 add_light_source( src, vp.bonus );
             }
-        };
+        }
 
-        for( const vpart_reference &vp : v->get_parts() ) {
+        for( const vpart_reference &vp : v->get_all_parts() ) {
             const size_t p = vp.part_index();
             const tripoint pp = vp.pos();
             if( !inbounds( pp ) ) {
@@ -955,7 +955,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     // from happening due to mirrors becoming visible due to processing order.
     // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
-    for( const vpart_reference &vp : veh->get_parts( VPFLAG_EXTENDS_VISION ) ) {
+    for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_EXTENDS_VISION ) ) {
         const tripoint mirror_pos = vp.pos();
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
@@ -1004,7 +1004,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 static float light_calc( const float &numerator, const float &transparency, const int &distance )
 {
     // Light needs inverse square falloff in addition to attenuation.
-    return numerator / ( float )( exp( transparency * distance ) * distance );
+    return numerator / static_cast<float>( exp( transparency * distance ) * distance );
 }
 static bool light_check( const float &transparency, const float &intensity )
 {
@@ -1134,7 +1134,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     int nangle = angle % 360;
 
     tripoint end;
-    double rad = PI * ( double )nangle / 180;
+    double rad = PI * static_cast<double>( nangle ) / 180;
     int range = LIGHT_RANGE( luminance );
     calc_ray_end( nangle, range, p, end );
     apply_light_ray( lit, p, end, luminance );
@@ -1154,12 +1154,12 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
         if( trigdist ) {
             double fdist = ( ao * HALFPI ) / wangle;
             double orad = ( PI * ao / 180.0 );
-            end.x = int( p.x + ( ( double )range - fdist * 2.0 ) * cos( rad + orad ) );
-            end.y = int( p.y + ( ( double )range - fdist * 2.0 ) * sin( rad + orad ) );
+            end.x = int( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( rad + orad ) );
+            end.y = int( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( rad + orad ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = int( p.x + ( ( double )range - fdist * 2.0 ) * cos( rad - orad ) );
-            end.y = int( p.y + ( ( double )range - fdist * 2.0 ) * sin( rad - orad ) );
+            end.x = int( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( rad - orad ) );
+            end.y = int( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( rad - orad ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
             calc_ray_end( nangle + ao, range, p, end );
@@ -1190,8 +1190,8 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
     float distance = 1.0;
     float transparency = LIGHT_TRANSPARENCY_OPEN_AIR;
-    const float scaling_factor = ( float )rl_dist( s, e ) /
-                                 ( float )square_dist( s, e );
+    const float scaling_factor = static_cast<float>( rl_dist( s, e ) ) /
+                                 static_cast<float>( square_dist( s, e ) );
     // TODO: [lightmap] Pull out the common code here rather than duplication
     if( ax > ay ) {
         int t = ay - ( ax / 2 );
@@ -1210,7 +1210,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
                     lm[x][y] = std::max( lm[x][y],
-                                         luminance / ( ( float )exp( transparency * distance ) * distance ) );
+                                         luminance / ( static_cast<float>( exp( transparency * distance ) ) * distance ) );
                 }
                 float current_transparency = transparency_cache[x][y];
                 if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
@@ -1240,7 +1240,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
                     lm[x][y] = std::max( lm[x][y],
-                                         luminance / ( ( float )exp( transparency * distance ) * distance ) );
+                                         luminance / ( static_cast<float>( exp( transparency * distance ) ) * distance ) );
                 }
                 float current_transparency = transparency_cache[x][y];
                 if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {

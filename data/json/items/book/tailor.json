@@ -79,6 +79,25 @@
     "fun": -1
   },
   {
+    "id": "recipe_fauxfur",
+    "type": "BOOK",
+    "name": "Friendly, Humane Fashion",
+    "description": "An educational book detailing the uses of fake fur, as well as its benefits and disadvantages.  The prose is rather passionate, and a disclaimer on the cover proudly states that the book is printed and distributed by the Gryphon Animal Rights Organization.",
+    "weight": 2267,
+    "volume": 4,
+    "price": 5000,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "tailor",
+    "required_level": 2,
+    "max_level": 5,
+    "intelligence": 7,
+    "time": 20,
+    "fun": 1
+  },
+  {
     "id": "textbook_tailor",
     "type": "BOOK",
     "name": "Sewing Techniques for Designers",

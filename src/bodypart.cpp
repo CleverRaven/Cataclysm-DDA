@@ -1,9 +1,11 @@
 #include "bodypart.h"
+
 #include "anatomy.h"
-#include "translations.h"
-#include "rng.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "rng.h"
+#include "translations.h"
+
 #include <map>
 #include <unordered_map>
 
@@ -135,7 +137,7 @@ const bodypart_ids &convert_bp( body_part token )
         return body_parts[ num_bp ];
     }
 
-    return body_parts[( size_t )token];
+    return body_parts[static_cast<size_t>( token )];
 }
 
 const body_part_struct &get_bp( body_part bp )

@@ -2,8 +2,9 @@
 #ifndef MAP_ITERATOR_H
 #define MAP_ITERATOR_H
 
-#include <cstddef>
 #include "enums.h"
+
+#include <cstddef>
 
 class tripoint_range
 {

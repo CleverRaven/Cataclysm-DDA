@@ -1,11 +1,12 @@
 #include "vehicle_group.h"
+
 #include "debug.h"
-#include "translations.h"
-#include "vpart_position.h"
-#include "vehicle.h"
-#include "map.h"
 #include "enums.h"
 #include "json.h"
+#include "map.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 using vplacement_id = string_id<VehiclePlacement>;
 

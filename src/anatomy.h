@@ -4,8 +4,7 @@
 
 #include "bodypart.h"
 #include "string_id.h"
-#include <array>
-#include <map>
+
 #include <vector>
 
 class anatomy;

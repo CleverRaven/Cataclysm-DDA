@@ -1,21 +1,22 @@
 #include "item_location.h"
 
-#include "game_constants.h"
-#include "enums.h"
-#include "debug.h"
-#include "game.h"
-#include "map.h"
-#include "map_selector.h"
-#include "json.h"
 #include "character.h"
-#include "player.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "veh_type.h"
+#include "debug.h"
+#include "enums.h"
+#include "game.h"
+#include "game_constants.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "vpart_position.h"
+#include "json.h"
+#include "map.h"
+#include "map_selector.h"
+#include "output.h"
+#include "player.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 #include <climits>
 #include <list>
@@ -402,9 +403,18 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = cur.veh.parts[ cur.part ].name();
+            vpart_position part_pos( cur.veh, cur.part );
+            std::string res;
+            if( auto label = part_pos.get_label() ) {
+                res = tag_colored_string( *label, c_light_blue ) + " ";
+            }
+            if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
+                res += cargo_part->part().name();
+            } else {
+                debugmsg( "item in vehicle part without cargo storage" );
+            }
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
+                res += " " + direction_suffix( ch->pos(), part_pos.pos() );
             }
             return res;
         }

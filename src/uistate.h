@@ -2,16 +2,13 @@
 #ifndef UISTATE_H
 #define UISTATE_H
 
-#include <typeinfo>
-#include <list>
-
 #include "enums.h"
 #include "omdata.h"
-#include "recipe.h"
 
+#include <list>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
@@ -46,7 +43,7 @@ class uistatedata
         int adv_inv_last_popup_dest = 0;
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        bool adv_inv_container_in_vehicle = 0;
+        bool adv_inv_container_in_vehicle = false;
         int adv_inv_exit_code = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
@@ -168,7 +165,7 @@ class uistatedata
             json.end_object(); // input_history
 
             json.end_object();
-        };
+        }
 
         template<typename JsonStream>
         void deserialize( JsonStream &jsin ) {
@@ -264,7 +261,7 @@ class uistatedata
             if( !gethistory( "list_item_priority" ).empty() ) {
                 list_item_priority = gethistory( "list_item_priority" ).back();
             }
-        };
+        }
 };
 extern uistatedata uistate;
 

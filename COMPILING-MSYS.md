@@ -6,8 +6,8 @@ Steps from current guide were tested on Windows 10 (64 bit) and MSYS2 (64 bit), 
 
 ## Preqrequisites:
 
-* Computer with 64 bit version of modern Windows operating system installed;
-* NTFS partition with ~10 Gb free space (~2 Gb from MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache);
+* Computer with 64 bit version of modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
+* NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache);
 * 64 bit version of MSYS2 (installer can be downloaded from [MSYS2 homepage](http://www.msys2.org/));
 
 **Note:** Windows XP is unsupported!
@@ -76,7 +76,7 @@ and
 
 ## Cloning and compilation:
 
-1. Clone with following command-line:
+1. Clone Cataclysm-DDA repository with following command line:
 
 **Note:** This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
 

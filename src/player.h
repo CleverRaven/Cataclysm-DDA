@@ -2,22 +2,22 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "character.h"
-#include "map_memory.h"
-#include "pimpl.h"
-#include "item.h"
-#include "player_activity.h"
-#include "weighted_list.h"
-#include "game_constants.h"
-#include "ret_val.h"
-#include "damage.h"
 #include "calendar.h"
+#include "character.h"
+#include "damage.h"
+#include "game_constants.h"
+#include "item.h"
+#include "map_memory.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "weighted_list.h"
 
-#include <unordered_set>
-#include <memory>
 #include <array>
+#include <memory>
+#include <unordered_set>
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
@@ -444,7 +444,7 @@ class player : public Character
         void ma_ongethit_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff( mabuff_id buff_id ) const;
+        bool has_mabuff( const mabuff_id &buff_id ) const;
         /** Returns true if the player has access to the entered martial art */
         bool has_martialart( const matype_id &ma_id ) const;
         /** Adds the entered martial art to the player's list */
@@ -1249,7 +1249,7 @@ class player : public Character
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity );
-        bool use_charges_if_avail( itype_id it, long quantity );// Uses up charges
+        bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
         std::list<item> use_charges( const itype_id &what, long qty ); // Uses up charges
 
@@ -1374,7 +1374,7 @@ class player : public Character
         void start_destination_activity();
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
-        bool defer_move( tripoint next );
+        bool defer_move( const tripoint &next );
         void shift_destination( int shiftx, int shifty );
 
         // Grab furniture / vehicle

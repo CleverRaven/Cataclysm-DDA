@@ -1,11 +1,10 @@
 #include "catch/catch.hpp"
 
-#include "map_helpers.h"
-#include "player_helpers.h"
-
-#include "player.h"
 #include "game.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "player.h"
+#include "player_helpers.h"
 
 #include <string>
 

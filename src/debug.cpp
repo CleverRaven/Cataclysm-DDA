@@ -1,21 +1,23 @@
 #include "debug.h"
-#include "path_info.h"
-#include "output.h"
-#include "filesystem.h"
+
 #include "cursesdef.h"
+#include "filesystem.h"
 #include "input.h"
-#include <time.h>
-#include <cassert>
-#include <cstdlib>
-#include <cstdarg>
-#include <cstring>
+#include "output.h"
+#include "path_info.h"
+
 #include <algorithm>
-#include <iosfwd>
-#include <iomanip>
+#include <cassert>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <exception>
 #include <fstream>
+#include <iomanip>
+#include <iosfwd>
 #include <streambuf>
 #include <sys/stat.h>
-#include <exception>
 
 #ifndef _MSC_VER
 #include <sys/time.h>
@@ -26,13 +28,13 @@
 #include "platform_win.h"
 #include <dbghelp.h>
 #else
+#include <cstdlib>
 #include <execinfo.h>
-#include <stdlib.h>
 #endif
 #endif
 
 #ifdef TILES
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #endif // TILES
 
 // Static defines                                                   {{{1
@@ -97,11 +99,13 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             text.c_str(), funcname, filename, line
         );
 
+#ifdef BACKTRACE
     std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
             FILENAMES["debug"]
         );
+#endif
 
     fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
@@ -203,7 +207,7 @@ void *tracePtrs[TRACE_SIZE];
 // ---------------------------------------------------------------------
 
 struct NullBuf : public std::streambuf {
-    NullBuf() {}
+    NullBuf() = default;
     int overflow( int c ) override {
         return c;
     }

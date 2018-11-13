@@ -1,13 +1,13 @@
 #include "damage.h"
-#include "item.h"
-#include "monster.h"
-#include "debug.h"
-#include "map_iterator.h"
-#include "mtype.h"
-#include "json.h"
 
-#include <map>
+#include "debug.h"
+#include "item.h"
+#include "json.h"
+#include "monster.h"
+#include "mtype.h"
+
 #include <algorithm>
+#include <map>
 #include <numeric>
 
 bool damage_unit::operator==( const damage_unit &other ) const
@@ -158,7 +158,7 @@ void dealt_damage_instance::set_damage( damage_type dt, int amount )
 }
 int dealt_damage_instance::type_damage( damage_type dt ) const
 {
-    if( ( size_t )dt < dealt_dams.size() ) {
+    if( static_cast<size_t>( dt ) < dealt_dams.size() ) {
         return dealt_dams[dt];
     }
 
