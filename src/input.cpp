@@ -741,7 +741,7 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
 
 const std::string input_context::get_desc( const std::string &action_descriptor,
         const std::string &text,
-        const std::function<bool( const input_event & )> evt_filter )
+        const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
