@@ -143,7 +143,7 @@ bool vehicle::remote_controlled( player const &p ) const
         return false;
     }
 
-    for( const vpart_reference &vp : get_parts( "REMOTE_CONTROLS" ) ) {
+    for( const vpart_reference &vp : get_avail_parts( "REMOTE_CONTROLS" ) ) {
         if( rl_dist( p.pos(), vp.pos() ) <= 40 ) {
             return true;
         }
@@ -190,7 +190,7 @@ void vehicle::add_steerable_wheels()
 
     // Find wheels that have steerable versions.
     // Convert the wheel(s) with the largest x value.
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         if( vp.has_feature( "STEERABLE" ) || vp.has_feature( "TRACKED" ) ) {
             // Has a wheel that is inherently steerable
             // (e.g. unicycle, casters), this vehicle doesn't
@@ -301,7 +301,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
-        if( veh_fuel_mult > 0 && !empty( get_parts( "ENGINE" ) ) &&
+        if( veh_fuel_mult > 0 && !empty( get_avail_parts( "ENGINE" ) ) &&
             one_in( 8 ) && !destroyEngine && !has_no_key && has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
         }
@@ -333,21 +333,21 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             blood_inside = true;
         }
 
-        for( const vpart_reference &vp : get_parts( "FRIDGE" ) ) {
+        for( const vpart_reference &vp : get_parts_including_carried( "FRIDGE" ) ) {
             vp.part().enabled = true;
         }
 
-        for( const vpart_reference &vp : get_parts( "FREEZER" ) ) {
+        for( const vpart_reference &vp : get_parts_including_carried( "FREEZER" ) ) {
             vp.part().enabled = true;
         }
 
-        for( const vpart_reference &vp : get_parts( "WATER_PURIFIER" ) ) {
+        for( const vpart_reference &vp : get_parts_including_carried( "WATER_PURIFIER" ) ) {
             vp.part().enabled = true;
         }
     }
 
     cata::optional<point> blood_inside_pos;
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
 
@@ -764,7 +764,7 @@ bool vehicle::has_structural_part( const point dp ) const
  * */
 bool vehicle::is_structural_part_removed() const
 {
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         if( vp.part().removed && vp.info().location == part_location_structure ) {
             return true;
         }
@@ -1714,7 +1714,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
 
 void vehicle::relocate_passengers( const std::vector<player *> &passengers )
 {
-    const auto boardables = get_parts( "BOARDABLE" );
+    const auto boardables = get_avail_parts( "BOARDABLE" );
     for( player *passenger : passengers ) {
         for( const vpart_reference &vp : boardables ) {
             if( vp.part().passenger_id == passenger->getID() ) {
@@ -1884,7 +1884,7 @@ std::vector<int> vehicle::parts_at_relative( const point &dp,
 {
     if( !use_cache ) {
         std::vector<int> res;
-        for( const vpart_reference &vp : get_parts() ) {
+        for( const vpart_reference &vp : get_all_parts() ) {
             if( vp.mount() == dp && !vp.part().removed ) {
                 res.push_back( static_cast<int>( vp.part_index() ) );
             }
@@ -2045,8 +2045,8 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
     return false;
 }
 
-std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag,
-        bool enabled, bool include_broken_parts )
+std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint &pos, const std::string &flag,
+        const part_status_flag condition )
 {
     const tripoint relative_pos = pos - global_pos3();
     std::vector<vehicle_part *> res;
@@ -2054,16 +2054,19 @@ std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::
         if( e.precalc[ 0 ].x != relative_pos.x || e.precalc[ 0 ].y != relative_pos.y ) {
             continue;
         }
-        if( !e.removed && ( !enabled || e.enabled ) && ( !e.is_broken() || include_broken_parts ) &&
-            ( flag.empty() || e.info().has_flag( flag ) ) ) {
+        if( !e.removed &&
+            ( flag.empty() || e.info().has_flag( flag ) ) &&
+            ( !( condition & part_status_flag::enabled ) || e.enabled ) &&
+            ( !( condition & part_status_flag::working ) || !e.is_broken() ) ) {
             res.push_back( &e );
         }
     }
     return res;
 }
 
-std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag,
-        bool enabled, bool include_broken_parts ) const
+std::vector<const vehicle_part *> vehicle::get_parts_at( const tripoint &pos,
+        const std::string &flag,
+        const part_status_flag condition ) const
 {
     const tripoint relative_pos = pos - global_pos3();
     std::vector<const vehicle_part *> res;
@@ -2071,8 +2074,10 @@ std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const
         if( e.precalc[ 0 ].x != relative_pos.x || e.precalc[ 0 ].y != relative_pos.y ) {
             continue;
         }
-        if( !e.removed && ( !enabled || e.enabled ) && ( !e.is_broken() || include_broken_parts ) &&
-            ( flag.empty() || e.info().has_flag( flag ) ) ) {
+        if( !e.removed &&
+            ( flag.empty() || e.info().has_flag( flag ) ) &&
+            ( !( condition & part_status_flag::enabled ) || e.enabled ) &&
+            ( !( condition & part_status_flag::working ) || !e.is_broken() ) ) {
             res.push_back( &e );
         }
     }
@@ -2138,44 +2143,65 @@ int vehicle::next_part_to_open( int p, bool outside ) const
     return -1;
 }
 
-vehicle_part_with_feature_range<std::string> vehicle::get_parts( std::string feature ) const
+vehicle_part_with_feature_range<std::string> vehicle::get_avail_parts( std::string feature ) const
 {
     return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
-            std::move( feature ), true, false );
+            std::move( feature ),
+            static_cast<part_status_flag>( part_status_flag::working |
+                                           part_status_flag::available ) );
 }
 
-vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_parts( const vpart_bitflags feature )
-const
-{
-    return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
-            true, false );
-}
-
-vehicle_part_with_feature_range<std::string> vehicle::get_parts_including_broken(
-    std::string feature ) const
-{
-    return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
-            std::move( feature ), false, false );
-}
-
-vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_parts_including_broken(
+vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_avail_parts(
     const vpart_bitflags feature ) const
 {
     return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
-            false, false );
+            static_cast<part_status_flag>( part_status_flag::working |
+                                           part_status_flag::available ) );
+}
+
+vehicle_part_with_feature_range<std::string> vehicle::get_parts_including_carried(
+    std::string feature ) const
+{
+    return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
+            std::move( feature ), part_status_flag::working );
+}
+
+vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_parts_including_carried(
+    const vpart_bitflags feature ) const
+{
+    return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
+            part_status_flag::working );
+}
+
+vehicle_part_with_feature_range<std::string> vehicle::get_any_parts( std::string feature ) const
+{
+    return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
+            std::move( feature ), part_status_flag::any );
+}
+
+vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_any_parts(
+    const vpart_bitflags feature ) const
+{
+    return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
+            part_status_flag::any );
 }
 
 vehicle_part_with_feature_range<std::string> vehicle::get_enabled_parts( std::string feature ) const
 {
     return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
-            std::move( feature ), false, true );
+            std::move( feature ),
+            static_cast<part_status_flag>( part_status_flag::enabled |
+                                           part_status_flag::working |
+                                           part_status_flag::available ) );
 }
 
 vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
     const vpart_bitflags feature ) const
 {
     return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
-            false, true );
+            static_cast<part_status_flag>( part_status_flag::enabled |
+                                           part_status_flag::working |
+                                           part_status_flag::available ) );
 }
 
 /**
@@ -2205,7 +2231,7 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
  */
 std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std::string flag )
 {
-    const auto possible_parts = get_parts( flag );
+    const auto possible_parts = get_avail_parts( flag );
     std::vector<std::vector<int>> ret_parts;
     if( empty( possible_parts ) ) {
         return ret_parts;
@@ -2309,7 +2335,7 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
 
 int vehicle::part_at( const point dp ) const
 {
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         if( vp.part().precalc[0] == dp && !vp.part().removed ) {
             return static_cast<int>( vp.part_index() );
         }
@@ -2328,7 +2354,7 @@ int vehicle::part_at( const point dp ) const
 int vehicle::index_of_part( const vehicle_part *const part, bool const check_removed ) const
 {
     if( part != NULL ) {
-        for( const vpart_reference &vp : get_parts() ) {
+        for( const vpart_reference &vp : get_all_parts() ) {
             const vehicle_part &next_part = vp.part();
             if( !check_removed && next_part.removed ) {
                 continue;
@@ -2471,9 +2497,8 @@ void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
 std::vector<int> vehicle::boarded_parts() const
 {
     std::vector<int> res;
-    for( const vpart_reference &vp : get_parts() ) {
-        if( vp.has_feature( VPFLAG_BOARDABLE ) &&
-            vp.part().has_flag( vehicle_part::passenger_flag ) ) {
+    for( const vpart_reference &vp : get_avail_parts( VPFLAG_BOARDABLE ) ) {
+        if( vp.part().has_flag( vehicle_part::passenger_flag ) ) {
             res.push_back( static_cast<int>( vp.part_index() ) );
         }
     }
@@ -2527,7 +2552,7 @@ units::mass vehicle::total_mass() const
 units::volume vehicle::total_folded_volume() const
 {
     units::volume m = 0;
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         if( vp.part().removed ) {
             continue;
         }
@@ -2759,7 +2784,7 @@ bool vehicle::do_environmental_effects()
 {
     bool needed = false;
     // check for smoking parts
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
@@ -2807,13 +2832,11 @@ void vehicle::noise_and_smoke( double load, double time )
     double muffle = 1.0;
     double m = 0.0;
     int exhaust_part = -1;
-    for( const vpart_reference &vp : get_parts() ) {
-        if( vp.has_feature( "MUFFLER" ) ) {
-            m = 1.0 - ( 1.0 - vp.info().bonus / 100.0 ) * vp.part().health_percent();
-            if( m < muffle ) {
-                muffle = m;
-                exhaust_part = int( vp.part_index() );
-            }
+    for( const vpart_reference &vp : get_avail_parts( "MUFFLER" ) ) {
+        m = 1.0 - ( 1.0 - vp.info().bonus / 100.0 ) * vp.part().health_percent();
+        if( m < muffle ) {
+            muffle = m;
+            exhaust_part = int( vp.part_index() );
         }
     }
 
@@ -2978,18 +3001,16 @@ float vehicle::strain() const
 
 bool vehicle::sufficient_wheel_config( bool boat ) const
 {
-    const auto floats = get_parts( VPFLAG_FLOATS );
     // @todo: Remove the limitations that boats can't move on land
-    if( boat || !empty( floats ) ) {
-        return boat && size( floats ) > 2;
+    if( boat || !floating.empty() ) {
+        return boat && floating.size() > 2;
     }
-    const auto wheels = get_parts( VPFLAG_WHEEL );
-    if( empty( wheels ) ) {
+    if( wheelcache.empty() ) {
         // No wheels!
         return false;
-    } else if( size( wheels ) == 1 ) {
+    } else if( wheelcache.size() == 1 ) {
         //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
-        if( !wheels.begin()->has_feature( "STABLE" ) ||
+        if( !part_info( wheelcache.front() ).has_flag( "STABLE" ) ||
             all_parts_at_location( part_location_structure ).size() > 3 ) {
             return false;
         }
@@ -3273,15 +3294,15 @@ void vehicle::power_parts()
 
     if( battery_deficit != 0 ) {
         // Scoops need a special case since they consume power during actual use
-        for( const vpart_reference &vp : get_parts( "SCOOP" ) ) {
+        for( const vpart_reference &vp : get_enabled_parts( "SCOOP" ) ) {
             vp.part().enabled = false;
         }
         // Rechargers need special case since they consume power on demand
-        for( const vpart_reference &vp : get_parts( "RECHARGE" ) ) {
+        for( const vpart_reference &vp : get_enabled_parts( "RECHARGE" ) ) {
             vp.part().enabled = false;
         }
 
-        for( const vpart_reference &vp : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
+        for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
             vehicle_part &pt = vp.part();
             if( pt.info().epower < 0 ) {
                 pt.enabled = false;
@@ -3475,13 +3496,11 @@ void vehicle::idle( bool on_map )
     }
 
     if( !warm_enough_to_plant() ) {
-        for( const vpart_reference &vp : get_parts( "PLANTER" ) ) {
-            if( vp.part().enabled ) {
-                if( g->u.sees( global_pos3() ) ) {
-                    add_msg( _( "The %s's planter turns off due to low temperature." ), name );
-                }
-                vp.part().enabled = false;
+        for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
+            if( g->u.sees( global_pos3() ) ) {
+                add_msg( _( "The %s's planter turns off due to low temperature." ), name );
             }
+            vp.part().enabled = false;
         }
     }
 
@@ -3578,7 +3597,7 @@ void vehicle::make_active( item_location &loc )
     if( !target->needs_processing() ) {
         return;
     }
-    auto cargo_parts = get_parts( loc.position(), "CARGO", false, false );
+    auto cargo_parts = get_parts_at( loc.position(), "CARGO", part_status_flag::any );
     if( cargo_parts.empty() ) {
         return;
     }
@@ -3857,10 +3876,21 @@ void vehicle::refresh()
     std::vector<int>::iterator vii;
 
     // Main loop over all vehicle parts.
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
         const vpart_info &vpi = vp.info();
         if( vp.part().removed ) {
+            continue;
+        }
+
+        // Build map of point -> all parts in that point
+        const point pt = vp.mount();
+        // This will keep the parts at point pt sorted
+        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(),
+                                static_cast<int>( p ), svpv );
+        relative_parts[pt].insert( vii, p );
+
+        if( vp.part().is_unavailable() ) {
             continue;
         }
         if( vpi.has_flag( VPFLAG_ALTERNATOR ) ) {
@@ -3902,12 +3932,6 @@ void vehicle::refresh()
         if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
             extra_drag += vpi.power;
         }
-        // Build map of point -> all parts in that point
-        const point pt = vp.mount();
-        // This will keep the parts at point pt sorted
-        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), static_cast<int>( p ),
-                                svpv );
-        relative_parts[pt].insert( vii, p );
     }
 
     // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
@@ -4070,7 +4094,7 @@ void vehicle::refresh_insides()
         return;
     }
     insides_dirty = false;
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
         if( vp.part().removed ) {
             continue;
@@ -4216,7 +4240,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
         return;
     }
 
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
         int distance = 1 + square_dist( vp.mount().x, vp.mount().y, impact.x, impact.y );
         if( distance > 1 && part_info( p ).location == part_location_structure &&
@@ -4267,7 +4291,7 @@ bool vehicle::shift_if_needed()
         return false;
     }
     //Find a frame, any frame, to shift to
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         if( vp.info().location == "structure"
             && !vp.has_feature( "PROTRUSION" )
             && !vp.part().removed ) {
@@ -4277,7 +4301,7 @@ bool vehicle::shift_if_needed()
         }
     }
     // There are only parts with PROTRUSION left, choose one of them.
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         if( !vp.part().removed ) {
             shift_parts( vp.mount() );
             refresh();
@@ -4470,7 +4494,7 @@ std::map<itype_id, long> vehicle::fuels_left() const
 
 bool vehicle::is_foldable() const
 {
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         if( !vp.has_feature( "FOLDABLE" ) ) {
             return false;
         }
@@ -4679,7 +4703,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     units::quantity<float, units::mass::unit_type> xf = 0;
     units::quantity<float, units::mass::unit_type> yf = 0;
     units::mass m_total = 0;
-    for( const vpart_reference &vp : get_parts() ) {
+    for( const vpart_reference &vp : get_all_parts() ) {
         const size_t i = vp.part_index();
         if( vp.part().removed ) {
             continue;
@@ -4764,27 +4788,29 @@ bounding_box vehicle::get_bounding_box()
     return b;
 }
 
-vehicle_part_range vehicle::get_parts() const
+vehicle_part_range vehicle::get_all_parts() const
 {
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
 template<>
-bool vehicle_part_with_feature_range<std::string>::contained( const size_t part ) const
+bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) const
 {
     const vehicle_part &vp = this->vehicle().parts[part];
     return vp.info().has_flag( feature_ ) &&
            !vp.removed &&
-           ( !unbroken_ || !vp.is_broken() ) &&
-           ( !enabled_ || vp.enabled );
+           ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
+           ( !( part_status_flag::available & required_ ) || vp.is_available() ) &&
+           ( !( part_status_flag::enabled & required_ ) || vp.enabled );
 }
 
 template<>
-bool vehicle_part_with_feature_range<vpart_bitflags>::contained( const size_t part ) const
+bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part ) const
 {
     const vehicle_part &vp = this->vehicle().parts[part];
     return vp.info().has_flag( feature_ ) &&
            !vp.removed &&
-           ( !unbroken_ || !vp.is_broken() ) &&
-           ( !enabled_ || vp.enabled );
+           ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
+           ( !( part_status_flag::available & required_ ) || vp.is_available() ) &&
+           ( !( part_status_flag::enabled & required_ ) || vp.enabled );
 }

@@ -27,7 +27,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
     vehicle_part *origin_frame = nullptr;
-    for( vehicle_part *part : veh_ptr->get_parts( vehicle_origin, "", false, false ) ) {
+    for( vehicle_part *part : veh_ptr->get_parts_at( vehicle_origin, "", part_status_flag::any ) ) {
         if( part->info().location == "structure" ) {
             origin_frame = part;
             break;

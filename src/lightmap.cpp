@@ -360,7 +360,7 @@ void map::generate_lightmap( const int zlev )
             }
         }
 
-        for( const vpart_reference &vp : v->get_parts() ) {
+        for( const vpart_reference &vp : v->get_all_parts() ) {
             const size_t p = vp.part_index();
             const tripoint pp = vp.pos();
             if( !inbounds( pp ) ) {
@@ -955,7 +955,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     // from happening due to mirrors becoming visible due to processing order.
     // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
-    for( const vpart_reference &vp : veh->get_parts( VPFLAG_EXTENDS_VISION ) ) {
+    for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_EXTENDS_VISION ) ) {
         const tripoint mirror_pos = vp.pos();
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.

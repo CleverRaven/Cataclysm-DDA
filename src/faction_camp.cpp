@@ -3268,7 +3268,7 @@ std::string talk_function::camp_car_description( vehicle *car )
 {
     std::string entry = string_format( _( "Name:     %25s\n" ), car->name );
     entry += _( "----          Engines          ----\n" );
-    for( const vpart_reference &vpr : car->get_parts( "ENGINE" ) ) {
+    for( const vpart_reference &vpr : car->get_any_parts( "ENGINE" ) ) {
         const vehicle_part &pt = vpr.part();
         const vpart_info &vp = pt.info();
         entry += string_format( _( "Engine:  %25s\n" ), vp.name() );
