@@ -1,44 +1,24 @@
-# Contributor Covenant Code of Conduct
-
 ## Our Pledge
 
-In the interest of fostering an open and welcoming environment, we as maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
+In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+Our Standards
 
-## Our Standards
-
-Examples of behavior that contributes to creating a positive environment include:
-
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
-
-Examples of unacceptable behavior by participants include:
-
-* The use of sexualized language or imagery and unwelcome sexual attention or advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic address, without explicit permission
-
-## Our Responsibilities
-
-Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response to any instances of unacceptable behavior.
-
-Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
-
-## Scope
-
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
-
-## Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at kevin.granade@gmail.com. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
-
-Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
+1. Assume other participants are posting in good faith, even if you disagree with what they say.
+2. Make an effort to treat other participants with respect.
+    1. Do not take a harsh tone towards other participants, and especially don't make personal attacks against them.
+    2. Recognize that criticism of your statements is not a personal attack on you.
+    3. Avoid statements about the presumed typical desires, capabilities or actions of some demographic group.
+3. Be especially kind to other contributors when saying they made a mistake.
+4. Don't argue unceasingly for your preferred course of action when a decision for some other course has already been made.
+5. If other participants complain about the way you express your ideas, please make an effort to cater to them.
+6. Don't raise unrelated political issues.
+7. If you feel these standards are being violated, please alert the project lead Kevin Granade at kevin.granade@gmail.com
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]
+This Code of Conduct is adapted from the [Contributor Covenant][CoC homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][CoC version] and the [GNU Kind Communications Guidelines][GKCG homepage].
 
-[homepage]: http://contributor-covenant.org
-[version]: http://contributor-covenant.org/version/1/4/
+
+[CoC homepage]: http://contributor-covenant.org
+[CoC version]: http://contributor-covenant.org/version/1/4/
+[GKCG homepage]: https://www.gnu.org/philosophy/kind-communication.html
