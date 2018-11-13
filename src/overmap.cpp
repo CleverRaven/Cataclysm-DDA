@@ -30,11 +30,14 @@
 
 #include <algorithm>
 #include <cassert>
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <numeric>
 #include <ostream>
+#include <queue>
+#include <random>
 #include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
@@ -165,7 +168,7 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "SIDEWALK",       has_sidewalk   },
     { "NO_ROTATE",      no_rotate      },
     { "LINEAR",         line_drawing   },
-    { "SUBWAY",         subway_connection   }
+    { "SUBWAY",         subway_connection }
 };
 
 template<>
@@ -1269,6 +1272,8 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_cities();
     place_forest();
 
+    place_forest_trails();
+
     // Ideally we should have at least two exit points for roads, on different sides
     if( roads_out.size() < 2 ) {
         std::vector<city> viable_roads;
@@ -1324,6 +1329,11 @@ void overmap::generate( const overmap *north, const overmap *east,
     connect_closest_points( road_points, 0, *local_road );
 
     place_specials( enabled_specials );
+
+    // After we've placed all the specials and connected everything else via roads,
+    // try and place some trailheads.
+    place_forest_trailheads();
+
     polish_river();
 
     // @todo: there is no reason we can't generate the sublevels in one pass
@@ -1946,6 +1956,227 @@ void overmap::place_forest()
             }
         }
     }
+}
+
+void overmap::place_forest_trails()
+{
+    std::unordered_set<point> visited;
+
+    const auto get_forest = [&]( point starting_point, std::vector<point> &forest_points ) {
+        std::queue<point> to_check;
+        to_check.push( starting_point );
+        while( !to_check.empty() ) {
+            const point current_point = to_check.front();
+            to_check.pop();
+
+            // We've been here before, so bail.
+            if( visited.find( current_point ) != visited.end() ) {
+                continue;
+            }
+
+            // This point is out of bounds, so bail.
+            bool in_bounds = current_point.x >= 0 && current_point.x < OMAPX && current_point.y >= 0 &&
+                             current_point.y < OMAPY;
+            if( !in_bounds ) {
+                continue;
+            }
+
+            // Mark this point as visited.
+            visited.emplace( current_point );
+
+            // If this point is a valid forest type, then add it to our collection
+            // of forest points.
+            const auto current_terrain = ter( current_point.x, current_point.y, 0 );
+            if( current_terrain == "forest" || current_terrain == "forest_thick" ||
+                current_terrain == "forest_water" ) {
+                forest_points.emplace_back( current_point );
+                to_check.push( point( current_point.x, current_point.y + 1 ) );
+                to_check.push( point( current_point.x, current_point.y - 1 ) );
+                to_check.push( point( current_point.x + 1, current_point.y ) );
+                to_check.push( point( current_point.x - 1, current_point.y ) );
+            }
+        }
+
+        return;
+    };
+
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            oter_id oter = ter( i, j, 0 );
+            if( !is_ot_type( "forest", oter ) ) {
+                continue;
+            }
+
+            point seed_point( i, j );
+
+            // If we've already visited this point, we don't need to
+            // process it since it's already part of another forest.
+            if( visited.find( seed_point ) != visited.end() ) {
+                continue;
+            }
+
+            // Get the contiguous forest from this point.
+            std::vector<point> forest_points;
+            get_forest( seed_point, forest_points );
+
+            // If we don't have enough points to build a trail, move on.
+            if( forest_points.empty() ||
+                forest_points.size() < static_cast<std::vector<point>::size_type>
+                ( settings.forest_trail.minimum_forest_size ) ) {
+                continue;
+            }
+
+            // If we don't rng a forest based on our settings, move on.
+            if( !one_in( settings.forest_trail.chance ) ) {
+                continue;
+            }
+
+            // Get the north and south most points in the forest.
+            auto north_south_most = std::minmax_element( forest_points.begin(),
+            forest_points.end(), []( const point & lhs, const point & rhs ) {
+                return lhs.y < rhs.y;
+            } );
+
+            // Get the west and east most points in the forest.
+            auto west_east_most = std::minmax_element( forest_points.begin(),
+            forest_points.end(), []( const point & lhs, const point & rhs ) {
+                return lhs.x < rhs.x;
+            } );
+
+            // We'll use these points later as points that are guaranteed to be
+            // at a boundary and will form a good foundation for the trail system.
+            point northmost = *north_south_most.first;
+            point southmost = *north_south_most.second;
+            point westmost = *west_east_most.first;
+            point eastmost = *west_east_most.second;
+
+            // Do a simplistic calculation of the center of the forest (rather than
+            // calculating the actual centroid--it's not that important) to have another
+            // good point to form the foundation of the trail system.
+            int center_x = westmost.x + ( eastmost.x - westmost.x ) / 2;
+            int center_y = northmost.y + ( southmost.y - northmost.y ) / 2;
+
+            point center_point = point( center_x, center_y );
+
+            // Because we didn't do the centroid of a concave polygon, there's no
+            // guarantee that our center point is actually within the bounds of the
+            // forest. Just find the point within our set that is closest to our
+            // center point and use that.
+            point actual_center_point = *std::min_element( forest_points.begin(),
+            forest_points.end(), [&center_point]( const point & lhs, const point & rhs ) {
+                return square_dist( lhs.x, lhs.y, center_point.x, center_point.y ) < square_dist( rhs.x, rhs.y,
+                        center_point.x, center_point.y );
+            } );
+
+            // Figure out how many random points we'll add to our trail system, based on the forest
+            // size and our configuration.
+            int max_random_points = settings.forest_trail.random_point_min + forest_points.size() /
+                                    settings.forest_trail.random_point_size_scalar;
+            max_random_points = std::min( max_random_points, settings.forest_trail.random_point_max );
+
+            // Start with the center...
+            std::vector<point> chosen_points = { actual_center_point };
+
+            // ...and then add our random points.
+            int random_point_count = 0;
+            static std::default_random_engine eng(
+                std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( forest_points.begin(), forest_points.end(), eng );
+            for( auto &random_point : forest_points ) {
+                if( random_point_count >= max_random_points ) {
+                    break;
+                }
+                random_point_count++;
+                chosen_points.emplace_back( random_point );
+            }
+
+            // Add our north/south/west/east-most points based on our configuration.
+            if( one_in( settings.forest_trail.border_point_chance ) ) {
+                chosen_points.emplace_back( northmost );
+            }
+            if( one_in( settings.forest_trail.border_point_chance ) ) {
+                chosen_points.emplace_back( southmost );
+            }
+            if( one_in( settings.forest_trail.border_point_chance ) ) {
+                chosen_points.emplace_back( westmost );
+            }
+            if( one_in( settings.forest_trail.border_point_chance ) ) {
+                chosen_points.emplace_back( eastmost );
+            }
+
+            // Finally, connect all the points and make a forest trail out of them.
+            const string_id<overmap_connection> forest_trail( "forest_trail" );
+            connect_closest_points( chosen_points, 0, *forest_trail );
+        }
+    }
+}
+
+void overmap::place_forest_trailheads()
+{
+    // No trailheads if there are no cities.
+    const int city_size = get_option<int>( "CITY_SIZE" );
+    if( city_size <= 0 ) {
+        return;
+    }
+
+    // Add the roads out of the overmap to our collection, which
+    // we'll then use to connect our trailheads to the rest of the
+    // road network.
+    std::vector<point> road_points;
+    for( const auto &elem : roads_out ) {
+        road_points.emplace_back( elem.x, elem.y );
+    }
+
+    // Trailheads may be placed if all of the following are true:
+    // 1. we're at a forest_trail_end_north/south/west/east,
+    // 2. the next two overmap terrains continuing in the direction
+    //     of the trail are fields
+    // 3. rng rolls a success for our trailhead_chance from the configuration
+
+    for( int i = 2; i < OMAPX - 2; i++ ) {
+        for( int j = 2; j < OMAPY - 2; j++ ) {
+            oter_id oter = ter( i, j, 0 );
+            if( oter == "forest_trail_end_north" ) {
+                oter_id &oter_potential_trailhead = ter( i, j - 1, 0 );
+                oter_id &oter_potential_road = ter( i, j - 2, 0 );
+                if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
+                    one_in( settings.forest_trail.trailhead_chance ) ) {
+                    oter_potential_trailhead = oter_id( "trailhead_north" );
+                    road_points.emplace_back( i, j - 2 );
+                }
+            } else if( oter == "forest_trail_end_south" ) {
+                oter_id &oter_potential_trailhead = ter( i, j + 1, 0 );
+                oter_id &oter_potential_road = ter( i, j + 2, 0 );
+                if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
+                    one_in( settings.forest_trail.trailhead_chance ) ) {
+                    oter_potential_trailhead = oter_id( "trailhead_south" );
+                    road_points.emplace_back( i, j + 2 );
+                }
+            } else if( oter == "forest_trail_end_west" ) {
+                oter_id &oter_potential_trailhead = ter( i - 1, j, 0 );
+                oter_id &oter_potential_road = ter( i - 2, j, 0 );
+                if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
+                    one_in( settings.forest_trail.trailhead_chance ) ) {
+                    oter_potential_trailhead = oter_id( "trailhead_west" );
+                    road_points.emplace_back( i, j - 2 );
+                }
+            } else if( oter == "forest_trail_end_east" ) {
+                oter_id &oter_potential_trailhead = ter( i + 1, j, 0 );
+                oter_id &oter_potential_road = ter( i + 2, j, 0 );
+                if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
+                    one_in( settings.forest_trail.trailhead_chance ) ) {
+                    oter_potential_trailhead = oter_id( "trailhead_east" );
+                    road_points.emplace_back( i, j + 2 );
+                }
+            } else {
+                continue;
+            }
+        }
+    }
+
+    // Connect our road points with local_road connections.
+    const string_id<overmap_connection> local_road( "local_road" );
+    connect_closest_points( road_points, 0, *local_road );
 }
 
 void overmap::place_river( point pa, point pb )
