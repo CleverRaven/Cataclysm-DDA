@@ -2,7 +2,9 @@
 #ifndef TEST_STATISTICS_H
 #define TEST_STATISTICS_H
 
+#include <cmath>
 #include <limits>
+#include <math.h>
 #include <vector>
 
 // Z-value for confidence interval

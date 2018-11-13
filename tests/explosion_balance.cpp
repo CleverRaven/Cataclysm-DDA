@@ -12,6 +12,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+#include <sstream>
+
 void check_lethality( std::string explosive_id, int range, float lethality,
                       float epsilon )
 {
