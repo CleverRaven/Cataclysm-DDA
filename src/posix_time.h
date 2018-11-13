@@ -4,8 +4,8 @@
 /* Windows lacks the nanosleep() function. The following code was stuffed
    together from GNUlib (http://www.gnu.org/software/gnulib/), which is
    licensed under the GPLv3. */
+#include <cerrno>
 #include <ctime>
-#include <errno.h>
 
 enum { BILLION = 1000 * 1000 * 1000 };
 

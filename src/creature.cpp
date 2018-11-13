@@ -493,7 +493,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
-    std::string message = "";
+    std::string message;
     game_message_type gmtSCTcolor = m_neutral;
 
     if( goodhit < accuracy_headshot ) {

@@ -3800,7 +3800,7 @@ void smoker_finalize(player &, const tripoint &examp)
         return;
     }
 
-    std::string product = "";
+    std::string product;
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
         //dry products before smoked products to avoid override

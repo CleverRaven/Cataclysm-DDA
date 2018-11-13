@@ -182,8 +182,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     //preserves component color printout between mode rotations
     nc_color rotated_color = c_white;
     int previous_item_line = -1;
-    std::string previous_tab = "";
-    std::string previous_subtab = "";
+    std::string previous_tab;
+    std::string previous_subtab;
     item tmp;
     int line = 0;
     int ypos = 0;
@@ -218,7 +218,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const inventory &crafting_inv = g->u.crafting_inventory();
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    std::string filterstring = "";
+    std::string filterstring;
 
     const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, bool> availability_cache;

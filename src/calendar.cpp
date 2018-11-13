@@ -1,7 +1,6 @@
 #include "calendar.h"
 
 #include "options.h"
-#include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"

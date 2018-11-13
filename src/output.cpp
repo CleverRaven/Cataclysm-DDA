@@ -13,7 +13,6 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "ui.h"
 #include "units.h"
 
 #include <algorithm>
@@ -197,7 +196,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
                 sTempText = rm_prefix( seg );
 
                 if( seg.substr( 0, 7 ) == "<color_" ) {
-                    sColor = seg.substr( 0, seg.find( ">" ) + 1 );
+                    sColor = seg.substr( 0, seg.find( '>' ) + 1 );
                 }
             } else {
                 sTempText = seg;
@@ -795,7 +794,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             std::string sFmt = vItemDisplay[i].sFmt;
-            std::string sPost = "";
+            std::string sPost;
 
             //A bit tricky, find %d and split the string
             size_t pos = sFmt.find( "<num>" );

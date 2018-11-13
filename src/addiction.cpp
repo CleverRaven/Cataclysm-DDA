@@ -343,7 +343,7 @@ const std::string &addiction_text( addiction const &cur )
         return iter->second;
     }
 
-    static const std::string error_string( "" );
+    static const std::string error_string;
     return error_string;
 }
 

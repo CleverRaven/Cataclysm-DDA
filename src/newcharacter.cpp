@@ -1685,7 +1685,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
             }
         }
 
-        std::string rec_disp = "";
+        std::string rec_disp;
 
         for( auto &elem : recipes ) {
             std::sort( elem.second.begin(), elem.second.end(),

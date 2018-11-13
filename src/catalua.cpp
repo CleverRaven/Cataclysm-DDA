@@ -68,7 +68,7 @@ lua_State *lua_state = nullptr;
 
 // Keep track of the current mod from which we are executing, so that
 // we know where to load files from.
-std::string lua_file_path = "";
+std::string lua_file_path;
 
 std::stringstream lua_output_stream;
 std::stringstream lua_error_stream;

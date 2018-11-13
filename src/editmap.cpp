@@ -606,7 +606,7 @@ void editmap::update_view( bool update_info )
                    map_cache.seen_cache[target.x][target.y] * map_cache.lm[target.x][target.y],
                    map_cache.lm[target.x][target.y] );
         mvwprintw( w_info, off++, 1, _( "outside: %d" ), static_cast<int>( g->m.is_outside( target ) ) );
-        std::string extras = "";
+        std::string extras;
         if( veh_in >= 0 ) {
             extras += _( " [vehicle]" );
         }
@@ -834,7 +834,7 @@ int editmap::edit_ter()
             mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.id.id().to_i(),
                        pttype.name().c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pttype.movecost );
-            std::string extras = "";
+            std::string extras;
             if( pttype.has_flag( TFLAG_INDOORS ) ) {
                 extras += _( "[indoors] " );
             }
@@ -889,7 +889,7 @@ int editmap::edit_ter()
             mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.id.id().to_i(),
                        pftype.name().c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pftype.movecost );
-            std::string fextras = "";
+            std::string fextras;
             if( pftype.has_flag( TFLAG_INDOORS ) ) {
                 fextras += _( "[indoors] " );
             }
@@ -1702,7 +1702,7 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
                 point target_sub( target.x / 12, target.y / 12 );
                 g->m.clear_vehicle_cache( target.z );
 
-                std::string s = "";
+                std::string s;
                 for( int x = 0; x < 2; x++ ) {
                     for( int y = 0; y < 2; y++ ) {
                         // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering

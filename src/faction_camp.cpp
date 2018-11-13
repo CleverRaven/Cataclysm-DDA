@@ -2888,7 +2888,7 @@ bool talk_function::camp_menial_sort_pts( npc &p, bool reset_pts, bool choose_pt
     for( size_t x = 0; x < sort_pts.size(); x++ ) {
         std::string trip_string =  string_format( "( %d, %d, %d)", sort_pts[x].x, sort_pts[x].y,
                                    sort_pts[x].z );
-        std::string old_string = "";
+        std::string old_string;
         if( p.companion_mission_points.size() == sort_pts.size() ) {
             old_string =  string_format( "( %d, %d, %d)", p.companion_mission_points[x].x,
                                          p.companion_mission_points[x].y,
@@ -3051,7 +3051,7 @@ std::string talk_function::om_upgrade_description( const std::string &bldg )
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
-    std::string comp = "";
+    std::string comp;
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
@@ -3075,7 +3075,7 @@ std::string talk_function::om_craft_description( const std::string &itm )
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
-    std::string comp = "";
+    std::string comp;
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }

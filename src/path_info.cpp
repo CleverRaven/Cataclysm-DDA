@@ -3,8 +3,9 @@
 #include "filesystem.h"
 #include "options.h"
 #include "translations.h"
+
+#include <clocale>
 #include <cstdlib>
-#include <locale.h>
 
 #if (defined _WIN32 || defined WINDOW)
 #include "windows.h"

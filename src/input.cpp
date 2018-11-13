@@ -19,7 +19,7 @@
 #include "translations.h"
 
 #include <algorithm>
-#include <ctype.h>
+#include <cctype>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>

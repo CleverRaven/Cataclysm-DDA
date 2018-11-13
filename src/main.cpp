@@ -614,7 +614,7 @@ int main( int argc, char *argv[] )
 #endif
 
 #ifdef LOCALIZE
-    std::string lang = "";
+    std::string lang;
 #if (defined _WIN32 || defined WINDOWS)
     lang = getLangFromLCID( GetUserDefaultLCID() );
 #else

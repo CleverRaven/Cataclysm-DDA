@@ -9,7 +9,7 @@
 #include <typeinfo>
 
 #ifdef TILES
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #endif
 
 #include "crash.h"
