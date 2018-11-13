@@ -4,6 +4,7 @@
 #include "options.h"
 #include "wcwidth.h"
 
+#include <cstdlib>
 #include <cstring>
 #include <array>
 
