@@ -35,7 +35,7 @@
   {
     "result": "gold_bracelet",
     "type": "recipe",
-	"category": "CC_ARMOR",
+    "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
     "difficulty": 6,
