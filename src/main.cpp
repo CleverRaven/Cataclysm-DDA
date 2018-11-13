@@ -31,6 +31,9 @@
 #include <libintl.h>
 #endif
 #include "translations.h"
+#ifdef TILES
+#include <SDL2/SDL_version.h>
+#endif
 
 #ifdef __ANDROID__
 #include "SDL_system.h"
@@ -560,6 +563,22 @@ int main( int argc, char *argv[] )
     get_options().init();
     get_options().load();
     set_language();
+
+#ifdef TILES
+    SDL_version compiled;
+    SDL_VERSION( &compiled );
+    DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
+                               << static_cast<int>( compiled.major ) << "."
+                               << static_cast<int>( compiled.minor ) << "."
+                               << static_cast<int>( compiled.patch );
+
+    SDL_version linked;
+    SDL_GetVersion( &linked );
+    DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
+                               << static_cast<int>( linked.major ) << "."
+                               << static_cast<int>( linked.minor ) << "."
+                               << static_cast<int>( linked.patch );
+#endif
 
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
