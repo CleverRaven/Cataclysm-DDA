@@ -672,8 +672,6 @@ endif
 
 ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
-  # -rdynamic needed for symbols in backtraces
-  LDFLAGS += -rdynamic
 endif
 
 ifeq ($(LOCALIZE),1)
@@ -682,6 +680,10 @@ endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
   BINDIST_EXTRAS += cataclysm-launcher
+  ifeq ($(BACKTRACE),1)
+    # -rdynamic needed for symbols in backtraces
+    LDFLAGS += -rdynamic
+  endif
 endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
