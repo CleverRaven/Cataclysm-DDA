@@ -5389,11 +5389,6 @@ bool game::spawn_hallucination( const tripoint &p )
     }
 }
 
-void game::rebuild_mon_at_cache()
-{
-    critter_tracker->rebuild_cache();
-}
-
 bool game::swap_critters( Creature &a, Creature &b )
 {
     if( &a == &b ) {
@@ -12267,7 +12262,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.
-    rebuild_mon_at_cache();
+    critter_tracker->rebuild_cache();
 }
 
 void game::perhaps_add_random_npc()
@@ -13148,14 +13143,20 @@ bool game::non_dead_range<Creature>::iterator::valid()
 
 game::monster_range::monster_range( game &g )
 {
-    const auto &monsters = g.critter_tracker->get_monsters_list();
-    items.insert( items.end(), monsters.begin(), monsters.end() );
+    items.reserve( g.critter_tracker->size() );
+    for( const std::pair<tripoint, std::shared_ptr<monster>> &creature_entry :
+         g.critter_tracker->get_monsters() ) {
+        items.push_back( creature_entry.second );
+    }
 }
 
 game::Creature_range::Creature_range( game &g ) : u( &g.u, []( player * ) { } )
 {
-    const auto &monsters = g.critter_tracker->get_monsters_list();
-    items.insert( items.end(), monsters.begin(), monsters.end() );
+    items.reserve( g.critter_tracker->size() );
+    for( const std::pair<tripoint, std::shared_ptr<monster>> &creature_entry :
+         g.critter_tracker->get_monsters() ) {
+        items.push_back( creature_entry.second );
+    }
     items.insert( items.end(), g.active_npc.begin(), g.active_npc.end() );
     items.push_back( u );
 }

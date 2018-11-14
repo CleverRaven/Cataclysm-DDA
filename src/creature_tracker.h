@@ -4,6 +4,7 @@
 
 #include "enums.h"
 
+#include <list>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -23,15 +24,6 @@ class Creature_tracker
          * Dead monsters are ignored and not returned.
          */
         std::shared_ptr<monster> find( const tripoint &pos ) const;
-        /**
-         * Returns a temporary id of the given monster (which must exist in the tracker).
-         * The id is valid until monsters are added or removed from the tracker.
-         * The id remains valid through serializing and deserializing.
-         * Use @ref from_temporary_id to get the monster pointer back. (The later may
-         * return a nullptr if the given id is not valid.)
-         */
-        int temporary_id( const monster &critter ) const;
-        std::shared_ptr<monster> from_temporary_id( int id );
         /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
         bool add( monster &critter );
         size_t size() const;
@@ -49,18 +41,17 @@ class Creature_tracker
         /** Removes dead monsters from. Their pointers are invalidated. */
         void remove_dead();
 
-        const std::vector<std::shared_ptr<monster>> &get_monsters_list() const {
-            return monsters_list;
+        const std::unordered_map<tripoint, std::shared_ptr<monster>> &get_monsters() const {
+            return monsters_by_location;
         }
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
     private:
-        std::vector<std::shared_ptr<monster>> monsters_list;
+        bool check_location( const tripoint &pos );
         std::unordered_map<tripoint, std::shared_ptr<monster>> monsters_by_location;
-        /** Remove the monsters entry in @ref monsters_by_location */
-        void remove_from_location_map( const monster &critter );
+        std::list<std::shared_ptr<monster>> dead_monsters;
 };
 
 #endif
