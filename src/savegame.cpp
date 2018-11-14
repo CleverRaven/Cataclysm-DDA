@@ -73,9 +73,9 @@ void game::serialize( std::ostream &fout )
             json.member( "last_target", guy->getID() );
             json.member( "last_target_type", +1 );
         } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
-            // Store the position, it won't shift before we load
-            json.member( "last_target", mon->pos() );
-            json.member( "last_target_type", -2 );
+            // monsters don't have IDs, so get its index in the Creature_tracker instead
+            json.member( "last_target", critter_tracker->temporary_id( *mon ) );
+            json.member( "last_target_type", -1 );
         }
     }
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -178,7 +178,6 @@ void game::unserialize( std::istream &fin )
     int tmpcalstart = 0;
     int tmprun = 0;
     int tmptar = 0;
-    tripoint target_position;
     int tmptartyp = 0;
     int levx = 0;
     int levy = 0;
@@ -193,12 +192,8 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
+        data.read( "last_target", tmptar );
         data.read( "last_target_type", tmptartyp );
-        if( tmptartyp == -2 ) {
-            data.read( "last_taget", target_position );
-        } else {
-            data.read( "last_target", tmptar );
-        }
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
         data.read( "levx", levx );
@@ -230,13 +225,8 @@ void game::unserialize( std::istream &fin )
             // Use overmap_buffer because game::active_npc is not filled yet.
             last_target = overmap_buffer.find_npc( tmptar );
         } else if( tmptartyp == -1 ) {
-            // Only need to do this once for legacy saves to index into the list.
-            std::vector<monster> tmp_creatures;
-            data.read( "active_monsters", tmp_creatures );
-            last_target = critter_tracker->find( tmp_creatures[tmptar].pos() );
-        } else if( tmptartyp == -2 ) {
-            // critter_tracker must be initialized before this.
-            last_target = critter_tracker->find( target_position );
+            // Need to do this *after* the monsters have been loaded!
+            last_target = critter_tracker->from_temporary_id( tmptar );
         }
 
         JsonArray vdata = data.get_array( "stair_monsters" );
@@ -1508,6 +1498,7 @@ void faction_manager::deserialize( JsonIn &jsin )
 
 void Creature_tracker::deserialize( JsonIn &jsin )
 {
+    monsters_list.clear();
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
@@ -1520,8 +1511,8 @@ void Creature_tracker::deserialize( JsonIn &jsin )
 void Creature_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
-    for( const auto &monster_ptr : monsters_by_location ) {
-        jsout.write( *monster_ptr.second );
+    for( const auto &monster_ptr : monsters_list ) {
+        jsout.write( *monster_ptr );
     }
     jsout.end_array();
 }

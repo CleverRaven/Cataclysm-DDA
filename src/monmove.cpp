@@ -1283,8 +1283,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
  */
 void monster::stumble()
 {
-    // Only stumble once a minute.
-    if( !one_in( 10 ) ) {
+    // Only move every 3rd turn.
+    if( !one_in( 3 ) ) {
         return;
     }
 
