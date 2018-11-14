@@ -67,8 +67,7 @@ void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
-void done_extract_sand( const tripoint & );
-void done_extract_clay( const tripoint & );
+void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
 
 void failure_standard( const tripoint & );
@@ -847,6 +846,11 @@ void complete_construction()
         }
     }
 
+    // Spawn byproducts
+    if( built.byproduct_item_group ) {
+        g->m.spawn_items( u.pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
+    }
+
     add_msg( m_info, _( "You finish your construction: %s." ), _( built.description.c_str() ) );
 
     // clear the activity
@@ -1130,21 +1134,20 @@ void construct::done_window_curtains( const tripoint & )
         _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
 
-void construct::done_extract_sand( const tripoint &p )
+void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
 {
-    g->m.spawn_item( g->u.pos(), "material_sand", 1, rng( 300, 600 ) );
     if( one_in( 10 ) ) {
         g->m.ter_set( p, t_dirt );
     }
-    g->u.add_msg_if_player( _( "You gather some sand." ) );
-}
-void construct::done_extract_clay( const tripoint &p )
-{
-    g->m.spawn_item( g->u.pos(), "clay_lump", rng( 6, 12 ) );
-    if( one_in( 10 ) ) {
-        g->m.ter_set( p, t_dirt );
+
+    if( g->m.ter( p ) == t_clay ) {
+        add_msg( _( "You gather some clay." ) );
+    } else if( g->m.ter( p ) == t_sand ) {
+        add_msg( _( "You gather some sand." ) );
+    } else {
+        // Fall through to an undefined material.
+        add_msg( _( "You gather some materials." ) );
     }
-    g->u.add_msg_if_player( _( "You gather some clay." ) );
 }
 
 void construct::done_mark_firewood( const tripoint &p )
@@ -1231,6 +1234,11 @@ void load_construction( JsonObject &jo )
 
     con.pre_flags = jo.get_tags( "pre_flags" );
 
+    if( jo.has_member( "byproducts" ) ) {
+        JsonIn &stream = *jo.get_raw( "byproducts" );
+        con.byproduct_item_group = item_group::load_item_group( stream, "collection" );
+    }
+
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
@@ -1250,8 +1258,7 @@ void load_construction( JsonObject &jo )
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_window_curtains", construct::done_window_curtains },
-            { "done_extract_sand", construct::done_extract_sand },
-            { "done_extract_clay", construct::done_extract_clay },
+            { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood }
         }
     };
