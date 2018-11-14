@@ -2,9 +2,9 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#include <utility>
 #include <climits>
 #include <ostream>
+#include <utility>
 
 class JsonOut;
 class JsonIn;
@@ -192,9 +192,9 @@ enum object_type {
 };
 
 struct point {
-    int x;
-    int y;
-    point() : x( 0 ), y( 0 ) {}
+    int x = 0;
+    int y = 0;
+    point() = default;
     point( int X, int Y ) : x( X ), y( Y ) {}
 
     point operator+( const point &rhs ) const {
@@ -245,10 +245,10 @@ inline bool operator!=( const point &a, const point &b )
 }
 
 struct tripoint {
-    int x;
-    int y;
-    int z;
-    tripoint() : x( 0 ), y( 0 ), z( 0 ) {}
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    tripoint() = default;
     tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
     explicit tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
 
@@ -341,10 +341,10 @@ static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static const tripoint tripoint_zero { 0, 0, 0 };
 
 struct sphere {
-    int radius;
-    tripoint center;
+    int radius = 0;
+    tripoint center = tripoint( 0, 0, 0 );
 
-    sphere() : radius( 0 ), center() {}
+    sphere() = default;
     explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
     explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
 };

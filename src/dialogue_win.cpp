@@ -1,20 +1,15 @@
-#include "game.h"
-#include "map.h"
 #include "dialogue_win.h"
-#include "cata_utility.h"
-#include "catacharset.h"
+
 #include "debug.h"
-#include "compatibility.h"
+#include "game.h"
 #include "input.h"
+#include "map.h"
 #include "output.h"
-#include "ui.h"
 #include "translations.h"
 
-#include "string_formatter.h"
-#include <vector>
-#include <string>
-#include <sstream>
 #include <algorithm>
+#include <string>
+#include <vector>
 
 void dialogue_window::open_dialogue( bool text_only )
 {
@@ -93,7 +88,7 @@ static int RESPONSE_AREA_HEIGHT( int win_height )
     return win_height - 2 - 2 - 1;
 }
 
-bool dialogue_window::print_responses( int const yoffset, std::vector<talk_data> responses )
+bool dialogue_window::print_responses( int const yoffset, const std::vector<talk_data> &responses )
 {
     if( text_only ) {
         return false;
@@ -108,9 +103,8 @@ bool dialogue_window::print_responses( int const yoffset, std::vector<talk_data>
     // Remaining width of the responses area, -2 for the border, -2 for indentation, -2 for spacing
     size_t const fold_width = xoffset - 2 - 2 - 2;
 
-    int curline = min_line - ( int ) yoffset;
-    size_t i;
-    for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
+    int curline = min_line - static_cast<int>( yoffset );
+    for( size_t i = 0; i < responses.size() && curline <= max_line; i++ ) {
         const std::vector<std::string> folded = foldstring( responses[i].second, fold_width );
         const nc_color &color = responses[i].first;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
@@ -138,7 +132,8 @@ void dialogue_window::refresh_response_display()
     can_scroll_up = false;
 }
 
-void dialogue_window::display_responses( int const hilight_lines, std::vector<talk_data> responses,
+void dialogue_window::display_responses( int const hilight_lines,
+        const std::vector<talk_data> &responses,
         const long &ch )
 {
     if( text_only ) {

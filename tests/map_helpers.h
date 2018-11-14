@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAP_HELPERS_H
 #define MAP_HELPERS_H
 

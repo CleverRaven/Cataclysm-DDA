@@ -4,27 +4,29 @@
  * Who knows
  */
 
-#include "cursesdef.h"
-#include "game.h"
-#include "rng.h"
 #include "color.h"
-#include "options.h"
+#include "crash.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "output.h"
-#include "main_menu.h"
+#include "game.h"
 #include "loading_ui.h"
-#include "crash.h"
+#include "main_menu.h"
+#include "mapsharing.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
+#include "rng.h"
 
 #include <cstring>
 #include <ctime>
+#include <iostream>
 #include <locale>
 #include <map>
-#include <iostream>
-#include <stdexcept>
+#if (!(defined _WIN32 || defined WINDOWS))
 #include <signal.h>
+#endif
+#include <stdexcept>
 #ifdef LOCALIZE
 #include <libintl.h>
 #endif
@@ -612,7 +614,7 @@ int main( int argc, char *argv[] )
 #endif
 
 #ifdef LOCALIZE
-    std::string lang = "";
+    std::string lang;
 #if (defined _WIN32 || defined WINDOWS)
     lang = getLangFromLCID( GetUserDefaultLCID() );
 #else
@@ -647,7 +649,7 @@ int main( int argc, char *argv[] )
         }
 
         while( !g->do_turn() );
-    };
+    }
 
     exit_handler( -999 );
     return 0;

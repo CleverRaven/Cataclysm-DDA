@@ -37,6 +37,6 @@ int cost_to_move_item( const Character &who, const item &it );
  * @param m map they are on
  */
 bool handle_spillable_contents( Character &c, item &it, map &m );
-};
+}
 
 #endif

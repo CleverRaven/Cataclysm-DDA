@@ -1,56 +1,50 @@
-#include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "mapbuffer.h"
+
+#include "ammo.h"
+#include "bionics.h"
+#include "catacharset.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "construction.h"
+#include "coordinate_conversions.h"
+#include "craft_command.h"
+#include "debug.h"
 #include "dialogue.h"
-#include "rng.h"
+#include "editmap.h"
+#include "game.h"
+#include "iexamine.h"
+#include "item_group.h"
 #include "itype.h"
 #include "line.h"
-#include "bionics.h"
-#include "debug.h"
-#include "catacharset.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "mission.h"
-#include "ammo.h"
+#include "mission_companion.h"
+#include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "skill.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "input.h"
-#include "item_group.h"
-#include "compatibility.h"
-#include "mapdata.h"
 #include "recipe.h"
-#include "requirements.h"
-#include "map_iterator.h"
-#include "mongroup.h"
-#include "mtype.h"
-#include "editmap.h"
-#include "construction.h"
-#include "coordinate_conversions.h"
-#include "craft_command.h"
-#include "iexamine.h"
-#include "vehicle.h"
-#include "veh_type.h"
-#include "vpart_reference.h"
-#include "vpart_range.h"
-#include "requirements.h"
-#include "string_input_popup.h"
-#include "line.h"
 #include "recipe_groups.h"
-#include "faction_camp.h"
-#include "mission_companion.h"
-#include "npctalk.h"
+#include "requirements.h"
+#include "rng.h"
+#include "skill.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 
-#include <vector>
-#include <string>
-#include <sstream>
+#include "faction_camp.h"
+
 #include <algorithm>
 #include <cassert>
+#include <string>
+#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -99,7 +93,6 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
 {
     std::string entry;
 
-    std::string mission_role = p.companion_mission_role_id;
     //Used to determine what kind of OM the NPC is sitting in to determine the missions and upgrades
     const tripoint omt_pos = p.global_omt_location();
     oter_id &omt_ref = overmap_buffer.ter( omt_pos );
@@ -303,7 +296,6 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
             mission_key.push( "Recover Log Cutter", _( "Recover Log Cutter" ), "", true, avail );
         }
     }
-
 
     if( cur_om_level >= 7 ) {
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
@@ -924,7 +916,6 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         camp_expansion_select( p );
     }
 
-
     if( cur_key.id == cur_key.dir + " Expansion Upgrade" ) {
         for( const auto &e : om_expansions ) {
             if( om_simple_dir( omt_pos, e.second ) == cur_key.dir ) {
@@ -946,7 +937,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                     if( npc_list.empty() ) {
                         npc *comp = individual_mission( p, _( "begins to upgrade the expansion..." ),
                                                         "_faction_upgrade_exp_" + cur_key.dir, false, {},
-                                                        making->skill_used.obj().name(), making->difficulty );
+                                                        making->skill_used.str(), making->difficulty );
                         if( comp != nullptr ) {
                             g->u.consume_components_for_craft( making, 1, true );
                             g->u.invalidate_crafting_inventory();
@@ -1168,7 +1159,7 @@ void talk_function::start_camp_upgrade( npc &p, const std::string &bldg )
         }
         npc *comp = individual_mission( p, _( "begins to upgrade the camp..." ), "_faction_upgrade_camp",
                                         false, {},
-                                        making->skill_used.obj().name(), making->difficulty );
+                                        making->skill_used.str(), making->difficulty );
         if( comp != nullptr ) {
             comp->companion_mission_time_ret = calendar::turn + making_time;
             g->u.consume_components_for_craft( making, 1, true );
@@ -1400,7 +1391,7 @@ void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
         for( auto fort_om : fortify_om ) {
             bool valid = false;
             oter_id &omt_ref = overmap_buffer.ter( fort_om );
-            for( auto pos_om : allowed_locations ) {
+            for( const std::string &pos_om : allowed_locations ) {
                 if( omt_ref.id().c_str() == pos_om ) {
                     valid = true;
                     break;
@@ -1430,7 +1421,7 @@ void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
         } else {
             npc *comp = individual_mission( p, _( "begins constructing fortifications..." ),
                                             "_faction_camp_om_fortifications", false, {},
-                                            making.skill_used.obj().name(), making.difficulty );
+                                            making.skill_used.str(), making.difficulty );
             if( comp != nullptr ) {
                 g->u.consume_components_for_craft( &making, ( fortify_om.size() * 2 ) - 2, true );
                 g->u.invalidate_crafting_inventory();
@@ -1515,12 +1506,12 @@ void talk_function::camp_craft_construction( npc &p, const mission_entry &cur_ke
                         continue;
                     }
                     npc *comp = individual_mission( p, _( "begins to work..." ), miss_id + cur_key.dir, false, {},
-                                                    making->skill_used.obj().name(), making->difficulty );
+                                                    making->skill_used.str(), making->difficulty );
                     if( comp != nullptr ) {
                         time_duration making_time = time_duration::from_turns( making->time / 100 ) * batch_size;
                         g->u.consume_components_for_craft( making, batch_size, true );
                         g->u.invalidate_crafting_inventory();
-                        for( auto results : making->create_results( batch_size ) ) {
+                        for( const item &results : making->create_results( batch_size ) ) {
                             comp->companion_mission_inv.add_item( results );
                         }
                         comp->companion_mission_time_ret = calendar::turn + making_time;
@@ -1566,7 +1557,7 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
     std::vector<vehicle_part> p_all = car->parts;
     int prt = 0;
     int skillLevel = comp->get_skill_level( skill_mechanics );
-    while( p_all.size() > 0 ) {
+    while( !p_all.empty() ) {
         vehicle_stack contents = car->get_items( prt );
         for( auto iter = contents.begin(); iter != contents.end(); ) {
             comp->companion_mission_inv.add_item( *iter );
@@ -1600,7 +1591,9 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
             }
             comp->companion_mission_inv.add_item( p_all[prt].properties_to_item() );
         } else if( !skill_destroy ) {
-            car->break_part_into_pieces( prt, comp->posx(), comp->posy() );
+            for( const item &itm : p_all[prt].pieces_for_broken_part() ) {
+                comp->companion_mission_inv.add_item( itm );
+            }
         }
         p_all.erase( p_all.begin() + 0 );
     }
@@ -1937,7 +1930,7 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         description += string_format( _( "> Food:     %10d days\n \n" ), food_desire );
         description += string_format( _( "Faction Food:%9d days\n \n" ), camp_food_supply( 0, true ) );
         description += string_format( _( "Recruit Chance: %10d%%\n \n" ),
-                                      std::min( ( int )( ( 10.0 + appeal ) / 20.0 * 100 ), 100 ) );
+                                      std::min( static_cast<int>( ( 10.0 + appeal ) / 20.0 * 100 ), 100 ) );
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
@@ -2296,14 +2289,14 @@ std::map<std::string, std::string> talk_function::camp_recipe_deck( const std::s
         return recipe_group::get_recipes( om_cur );
     }
     std::map<std::string, std::string> cooking_recipes;
-    for( auto building_levels : om_all_upgrade_levels( om_cur ) ) {
+    for( const std::string &building_levels : om_all_upgrade_levels( om_cur ) ) {
         std::map<std::string, std::string> test_s = recipe_group::get_recipes( building_levels );
         cooking_recipes.insert( test_s.begin(), test_s.end() );
     }
     return cooking_recipes;
 }
 
-int talk_function::camp_recipe_batch_max( const recipe making, const inventory &total_inv )
+int talk_function::camp_recipe_batch_max( const recipe &making, const inventory &total_inv )
 {
     int max_batch = 0;
     int max_checks = 9;
@@ -2313,7 +2306,8 @@ int talk_function::camp_recipe_batch_max( const recipe making, const inventory &
     while( batch_size > 0 ) {
         while( iter < max_checks ) {
             if( making.requirements().can_make_with_inventory( total_inv, max_batch + batch_size ) &&
-                ( size_t )camp_food_supply() > ( max_batch + batch_size ) * time_to_food( making_time ) ) {
+                static_cast<size_t>( camp_food_supply() ) > ( max_batch + batch_size ) * time_to_food(
+                    making_time ) ) {
                 max_batch += batch_size;
             }
             iter++;
@@ -2437,7 +2431,7 @@ int talk_function::om_harvest_furn( npc &comp, const tripoint &omt_tgt, const fu
         for( int y = 0; y < 23; y++ ) {
             if( target_bay.furn( x, y ) == f && x_in_y( chance, 1.0 ) ) {
                 if( force_bash || comp.str_cur > furn_tgt.bash.str_min + rng( -2, 2 ) ) {
-                    for( auto itm : item_group::items_from( furn_tgt.bash.drop_group, calendar::turn ) ) {
+                    for( const item &itm : item_group::items_from( furn_tgt.bash.drop_group, calendar::turn ) ) {
                         comp.companion_mission_inv.push_back( itm );
                     }
                     harvested++;
@@ -2468,7 +2462,7 @@ int talk_function::om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter
         for( int y = 0; y < 23; y++ ) {
             if( target_bay.ter( x, y ) == t && x_in_y( chance, 1.0 ) ) {
                 if( force_bash ) {
-                    for( auto itm : item_group::items_from( ter_tgt.bash.drop_group, calendar::turn ) ) {
+                    for( const item &itm : item_group::items_from( ter_tgt.bash.drop_group, calendar::turn ) ) {
                         comp.companion_mission_inv.push_back( itm );
                     }
                     harvested++;
@@ -2608,13 +2602,13 @@ tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, 
 
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
-    if( must_see && overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) == false ) {
+    if( must_see && !overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) ) {
         errors = true;
         popup( _( "You must be able to see the target that you select." ) );
     }
 
     if( !errors ) {
-        for( auto pos_om : bounce_locations ) {
+        for( const std::string &pos_om : bounce_locations ) {
             if( bounce && omt_ref.id().c_str() == pos_om && range > 5 ) {
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
                     om_line_mark( omt_pos, omt_tgt );
@@ -2630,7 +2624,7 @@ tripoint talk_function::om_target_tile( const tripoint &omt_pos, int min_range, 
             return omt_tgt;
         }
 
-        for( auto pos_om : possible_om_types ) {
+        for( const std::string &pos_om : possible_om_types ) {
             if( omt_ref.id().c_str() == pos_om ) {
                 return omt_tgt;
             }
@@ -2782,12 +2776,11 @@ std::vector<tripoint> talk_function::om_companion_path( const tripoint &start, i
         bool bounce )
 {
     std::vector<tripoint> scout_points;
-    tripoint spt;
     tripoint last = start;
     int range = range_start;
     int def_range = range_start;
     while( range > 3 ) {
-        spt = om_target_tile( last, 0, range, {}, false, true, last, false );
+        tripoint spt = om_target_tile( last, 0, range, {}, false, true, last, false );
         if( spt == tripoint( -999, -999, -999 ) ) {
             scout_points.clear();
             return scout_points;
@@ -2895,7 +2888,7 @@ bool talk_function::camp_menial_sort_pts( npc &p, bool reset_pts, bool choose_pt
     for( size_t x = 0; x < sort_pts.size(); x++ ) {
         std::string trip_string =  string_format( "( %d, %d, %d)", sort_pts[x].x, sort_pts[x].y,
                                    sort_pts[x].z );
-        std::string old_string = "";
+        std::string old_string;
         if( p.companion_mission_points.size() == sort_pts.size() ) {
             old_string =  string_format( "( %d, %d, %d)", p.companion_mission_points[x].x,
                                          p.companion_mission_points[x].y,
@@ -3058,7 +3051,7 @@ std::string talk_function::om_upgrade_description( const std::string &bldg )
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
-    std::string comp = "";
+    std::string comp;
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
@@ -3082,7 +3075,7 @@ std::string talk_function::om_craft_description( const std::string &itm )
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
-    std::string comp = "";
+    std::string comp;
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
@@ -3249,7 +3242,7 @@ std::string talk_function::camp_farm_description( const tripoint &omt_pos, bool 
 
     std::string crops;
     int total_c = 0;
-    for( auto i : plant_names ) {
+    for( const std::string &i : plant_names ) {
         if( total_c < 5 ) {
             crops += "\t" + i + " \n";
             total_c++;
@@ -3275,8 +3268,8 @@ std::string talk_function::camp_car_description( vehicle *car )
 {
     std::string entry = string_format( _( "Name:     %25s\n" ), car->name );
     entry += _( "----          Engines          ----\n" );
-    for( const vpart_reference &vpr : car->get_parts( "ENGINE" ) ) {
-        const vehicle_part &pt = vpr.vehicle().parts[vpr.part_index()];
+    for( const vpart_reference &vpr : car->get_any_parts( "ENGINE" ) ) {
+        const vehicle_part &pt = vpr.part();
         const vpart_info &vp = pt.info();
         entry += string_format( _( "Engine:  %25s\n" ), vp.name() );
         entry += string_format( _( ">Status:  %24d%%\n" ), static_cast<int>( 100 * pt.health_percent() ) );
@@ -3307,7 +3300,6 @@ std::string talk_function::camp_direction( const std::string &line )
     return line.substr( line.find_last_of( '[' ),
                         line.find_last_of( ']' ) - line.find_last_of( '[' ) + 1 );
 }
-
 
 // food supply
 int talk_function::camp_food_supply( int change, bool return_days )

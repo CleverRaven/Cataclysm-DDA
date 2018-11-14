@@ -5,22 +5,21 @@
 #include "creature.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
+#include "json.h"
 #include "mattack_actors.h"
 #include "monattack.h"
 #include "mondeath.h"
-#include "json.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "mtype.h"
+#include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "material.h"
-#include "options.h"
-#include "harvest.h"
 
 #include <algorithm>
 
@@ -181,9 +180,8 @@ void MonsterGenerator::set_mtype_flags( mtype &mon )
 {
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
-    m_flag nflag;
     for( std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag ) {
-        nflag = m_flag( *flag );
+        m_flag nflag = m_flag( *flag );
         mon.bitflags[nflag] = true;
     }
     monster_trigger ntrig;

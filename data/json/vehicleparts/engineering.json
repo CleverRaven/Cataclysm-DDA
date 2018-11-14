@@ -122,7 +122,7 @@
     "id": "air_jack",
     "name": "air jack system",
     "item": "v_airjack_item",
-    "location": "structure",
+    "location": "under",
     "symbol": "[",
     "broken_symbol": "/",
     "color": "light_gray",

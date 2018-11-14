@@ -3,14 +3,13 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"
-#include "mapdata.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "map.h"
-#include "mapgen.h"
 #include "map_extras.h"
+#include "mapdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -180,7 +179,7 @@ void board_up( map &m, const tripoint &start, const tripoint &end )
         m.furn_set( bp, m.furn( fp ) );
         m.furn_set( fp, f_null );
         auto destination_items = m.i_at( bp );
-        for( auto moved_item : m.i_at( fp ) ) {
+        for( const item &moved_item : m.i_at( fp ) ) {
             destination_items.push_back( moved_item );
         }
         m.i_clear( fp );

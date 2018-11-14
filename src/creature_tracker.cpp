@@ -1,11 +1,11 @@
 #include "creature_tracker.h"
-#include "pathfinding.h"
-#include "monster.h"
-#include "mongroup.h"
-#include "string_formatter.h"
+
 #include "debug.h"
-#include "mtype.h"
 #include "item.h"
+#include "mongroup.h"
+#include "monster.h"
+#include "mtype.h"
+#include "string_formatter.h"
 
 #include <algorithm>
 
@@ -109,8 +109,6 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
                   old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
         return false;
     }
-
-    return false;
 }
 
 void Creature_tracker::remove( const monster &critter )

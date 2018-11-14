@@ -1,22 +1,22 @@
 #include "player.h"
+
 #include "effect.h"
+#include "field.h"
+#include "fungal_effects.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "fungal_effects.h"
-#include "sounds.h"
-#include "martialarts.h"
-#include "weather.h"
-#include "messages.h"
-#include "output.h"
 #include "mapdata.h"
-#include "monster.h"
-#include "vitamin.h"
+#include "martialarts.h"
+#include "messages.h"
 #include "mongroup.h"
-#include "field.h"
+#include "monster.h"
+#include "output.h"
+#include "sounds.h"
+#include "weather.h"
 
 #ifdef TILES
-#include "SDL.h"
+#include "SDL2/SDL.h"
 #endif // TILES
 
 #include <functional>
@@ -370,6 +370,7 @@ static void eff_fun_hot( player &u, effect &it )
             { { bp_foot_r, 2 }, { 0, 0, 0, 0, "", 0, "" } },
         }
     };
+
     const body_part bp = it.get_bp();
     const int intense = it.get_intensity();
     const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
@@ -378,7 +379,7 @@ static void eff_fun_hot( player &u, effect &it )
     }
     // Hothead effects are a special snowflake
     if( bp == bp_head && intense >= 2 ) {
-        if( one_in( std::min( 14500, 15000 - u.temp_cur[bp_head] ) ) ) {
+        if( one_in( std::max( 25, std::min( 14500, 15000 - u.temp_cur[bp_head] ) ) ) ) {
             u.vomit();
         }
         if( !u.has_effect( effect_sleep ) && one_in( 400 ) ) {

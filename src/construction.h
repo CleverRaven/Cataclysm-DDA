@@ -4,11 +4,10 @@
 
 #include "string_id.h"
 
-#include <string>
-#include <set>
-#include <map>
-#include <vector>
 #include <functional>
+#include <map>
+#include <set>
+#include <vector>
 
 namespace catacurses
 {

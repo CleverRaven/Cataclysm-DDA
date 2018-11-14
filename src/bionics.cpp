@@ -1,38 +1,35 @@
 #include "bionics.h"
-#include "player.h"
 
 #include "action.h"
 #include "ballistics.h"
-#include "dispersion.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
+#include "cata_utility.h"
 #include "debug.h"
-#include "rng.h"
+#include "dispersion.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
 #include "input.h"
 #include "item.h"
-#include "bodypart.h"
-#include "messages.h"
-#include "overmapbuffer.h"
-#include "projectile.h"
-#include "string_formatter.h"
-#include "sounds.h"
-#include "translations.h"
-#include "monster.h"
-#include "overmap.h"
-#include "options.h"
-#include "effect.h"
-#include "json.h"
 #include "itype.h"
-#include "vehicle.h"
-#include "field.h"
-#include "weather.h"
-#include "cata_utility.h"
-#include "output.h"
+#include "json.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
 #include "mutation.h"
-#include "requirements.h"
-#include "vpart_position.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "ui.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "weather.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -78,12 +75,6 @@ const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PAINRESIST( "PAINRESIST" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 
 namespace
 {
@@ -505,7 +496,7 @@ bool player::activate_bionic( int b, bool eff_only )
                                get_local_humidity( weatherPoint.humidity, g->weather,
                                        g->is_sheltered( g->u.pos() ) ) ).c_str() );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
-                           print_pressure( ( int )weatherPoint.pressure ).c_str() );
+                           print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
                            convert_velocity( int( windpower ), VU_WIND ),
                            velocity_units( VU_WIND ) );
@@ -730,7 +721,7 @@ void player::process_bionic( int b )
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
-                heal( ( hp_part )i, 1 );
+                heal( static_cast<hp_part>( i ), 1 );
                 charge_power( -5 );
             }
         }
@@ -1523,7 +1514,7 @@ void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "id", id );
-    json.member( "invlet", ( int )invlet );
+    json.member( "invlet", static_cast<int>( invlet ) );
     json.member( "powered", powered );
     json.member( "charge", charge );
     json.end_object();
@@ -1555,7 +1546,7 @@ void player::introduce_into_anesthesia( time_duration const &duration, player &i
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
         add_msg_if_player( m_mixed,
-                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. Mercifully, you pass out when the blades reach your line of sight." ) )
+                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) )
         ;
     }
     add_effect( effect_narcosis, duration );

@@ -1,17 +1,17 @@
 #include "mutation.h"
+
+#include "bodypart.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h" // tripoint
 #include "json.h"
 #include "pldata.h" // traits
-#include "enums.h" // tripoint
-#include "bodypart.h"
-#include "debug.h"
-#include "translations.h"
 #include "trait_group.h"
-
-#include "color.h"
+#include "translations.h"
 
 #include <map>
-#include <sstream>
 #include <set>
+#include <sstream>
 #include <vector>
 
 typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
@@ -445,7 +445,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
             }
         }
-        for( const std::string type : mdata.types ) {
+        for( const std::string &type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }

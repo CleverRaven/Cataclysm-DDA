@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TEST_STATISTICS_H
 #define TEST_STATISTICS_H
 

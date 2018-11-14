@@ -1,52 +1,42 @@
 #include "monattack.h"
-#include "monster.h"
 
 #include "ballistics.h"
-#include "dispersion.h"
-#include "game.h"
-#include "debug.h"
-#include "map.h"
-#include "output.h"
-#include "fungal_effects.h"
-#include "rng.h"
-#include "line.h"
 #include "bodypart.h"
-#include "material.h"
-#include "speech.h"
-#include "messages.h"
-#include "sounds.h"
+#include "debug.h"
+#include "dispersion.h"
 #include "effect.h"
-#include "mondefense.h"
-#include "projectile.h"
-#include "iuse_actor.h"
-#include "gun_mode.h"
-#include "weighted_list.h"
-#include "vpart_position.h"
-#include "mongroup.h"
-#include "translations.h"
-#include "morale_types.h"
-#include "npc.h"
 #include "event.h"
-#include "ui.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
-#include "mtype.h"
 #include "field.h"
+#include "fungal_effects.h"
+#include "game.h"
+#include "gun_mode.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "line.h"
+#include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mondefense.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mtype.h"
+#include "npc.h"
+#include "output.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "speech.h"
 #include "text_snippets.h"
-#include <map>
+#include "translations.h"
+#include "ui.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "weighted_list.h"
 
 #include <algorithm>
-
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
-
-// for loading monster dialogue:
-#include <iostream>
-
-#include <limits>  // std::numeric_limits
+#include <cmath>
+#include <map>
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
@@ -127,9 +117,7 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 // shared utility functions
 int within_visual_range( monster *z, int max_range )
 {
-    int dist;
-
-    dist = rl_dist( z->pos(), g->u.pos() );
+    int dist = rl_dist( z->pos(), g->u.pos() );
     if( dist > max_range || !z->sees( g->u ) ) {
         return -1;    // Out of range
     }
@@ -403,7 +391,7 @@ bool mattack::howl( monster *z )
 
     if( z->friendly != 0 ) { // TODO: Make this use mon's faction when those are in
         for( monster &other : g->all_monsters() ) {
-            if( other.type != z->type || z->friendly != 0 ) {
+            if( other.type != z->type ) {
                 continue;
             }
             // Quote KA101: Chance of friendlying other howlers in the area, I'd imagine:
@@ -570,7 +558,7 @@ bool mattack::acid_accurate( monster *z )
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
-    projectile_attack( proj, z->pos(), target->pos(), { 8000.0 * ( double )range }, z );
+    projectile_attack( proj, z->pos(), target->pos(), { 8000.0 * static_cast<double>( range ) }, z );
 
     return true;
 }
@@ -2923,9 +2911,8 @@ void mattack::tankgun( monster *z, Creature *target )
         z->ammo[ammo_type] = 40;
     }
 
-    tripoint aim_point;
     int dist = rl_dist( z->pos(), target->pos() );
-    aim_point = target->pos();
+    tripoint aim_point = target->pos();
     if( dist > 50 ) {
         return;
     }
@@ -4508,7 +4495,7 @@ bool mattack::kamikaze( monster *z )
 }
 
 struct grenade_helper_struct {
-    std::string message = "";
+    std::string message;
     int chance = 1;
     float ammo_percentage = 1;
 };
@@ -4761,8 +4748,5 @@ bool mattack::dodge_check( monster *z, Creature *target )
 {
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
     float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
-    if( rng( 0, 10000 ) < 10000 / ( 1 + ( 99 * exp( -.6 * dodge ) ) ) ) {
-        return true;
-    }
-    return false;
+    return rng( 0, 10000 ) < 10000 / ( 1 + 99 * exp( -.6 * dodge ) );
 }

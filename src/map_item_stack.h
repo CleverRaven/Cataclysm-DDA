@@ -4,8 +4,8 @@
 
 #include "enums.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class item;
 

@@ -1,9 +1,9 @@
 #include "catch/catch.hpp"
 
 #include "game.h"
+#include "itype.h"
 #include "player.h"
 #include "visitable.h"
-#include "itype.h"
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
@@ -109,7 +109,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                         // ignore ammo contained within guns or magazines
                         return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
                     } );
-                    REQUIRE( found.size() == 0 );
+                    REQUIRE( found.empty() );
                 }
             }
 

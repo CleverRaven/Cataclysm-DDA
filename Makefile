@@ -233,10 +233,16 @@ LDFLAGS += $(PROFILE)
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
-    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-      OPTLEVEL = -Os
+    ifdef OSXCROSS
+      OPTLEVEL = -O0
+    else ifeq ($(shell expr $(OSX_MIN) \<= 10.11), 1)
+      OPTLEVEL = -O0
     else
-      OPTLEVEL = -O3
+      ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+        OPTLEVEL = -Os
+      else
+        OPTLEVEL = -O3
+      endif
     endif
   else
     # MXE ICE Workaround

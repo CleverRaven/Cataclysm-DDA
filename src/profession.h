@@ -4,10 +4,9 @@
 
 #include "string_id.h"
 
-#include <string>
-#include <vector>
-#include <set>
 #include <list>
+#include <set>
+#include <vector>
 
 template<typename T>
 class generic_factory;
@@ -38,7 +37,7 @@ class profession
             /** Snippet id, @see snippet_library. */
             std::string snippet_id;
             // compatible with when this was just a std::string
-            itypedec( const char *t ) : type_id( t ), snippet_id() {
+            itypedec( const char *t ) : type_id( t ) {
             }
             itypedec( const std::string &t, const std::string &d ) : type_id( t ), snippet_id( d ) {
             }

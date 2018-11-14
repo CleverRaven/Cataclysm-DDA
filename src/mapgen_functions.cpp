@@ -1,29 +1,28 @@
 #include "mapgen_functions.h"
 
-#include "mapgen.h"
-#include "map_iterator.h"
-#include "output.h"
-#include "line.h"
-#include "mapgenformat.h"
-#include "overmap.h"
-#include "options.h"
-#include "debug.h"
-#include "scenario.h"
-#include "item.h"
-#include "translations.h"
-#include "vpart_position.h"
-#include "trap.h"
-#include <array>
-#include "vehicle_group.h"
 #include "computer.h"
-#include "mapdata.h"
-#include "map.h"
-#include "omdata.h"
+#include "debug.h"
 #include "field.h"
+#include "item.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "mapgen.h"
+#include "mapgenformat.h"
+#include "omdata.h"
+#include "options.h"
+#include "overmap.h"
+#include "translations.h"
+#include "trap.h"
+#include "vehicle_group.h"
+#include "vpart_position.h"
+
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <iterator>
 #include <random>
-#include <chrono>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -216,33 +215,24 @@ int &mapgendata::dir( int dir_in )
     switch( dir_in ) {
         case 0:
             return n_fac;
-            break;
         case 1:
             return e_fac;
-            break;
         case 2:
             return s_fac;
-            break;
         case 3:
             return w_fac;
-            break;
         case 4:
             return ne_fac;
-            break;
         case 5:
             return se_fac;
-            break;
         case 6:
             return sw_fac;
-            break;
         case 7:
             return nw_fac;
-            break;
         default:
             debugmsg( "Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in );
             //return something just so the compiler doesn't freak out. Not really correct, though.
             return n_fac;
-            break;
     }
 }
 
@@ -3621,7 +3611,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // The max sparseness is calculated across all the possible biomes, not just the adjacent ones.
     const auto get_max_sparseness_adjacency_factor = [&dat]() {
-        if( dat.region.forest_composition.biomes.size() == 0 ) {
+        if( dat.region.forest_composition.biomes.empty() ) {
             return 0;
         }
         std::vector<int> factors;
@@ -3773,7 +3763,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // If this biome does not define its own groundcover, then fill with the region's ground
     // cover. Otherwise, fill with the biome defs groundcover.
-    if( current_biome_def.groundcover.size() == 0 ) {
+    if( current_biome_def.groundcover.empty() ) {
         dat.fill_groundcover();
     } else {
         m->draw_fill_background( current_biome_def.groundcover );
@@ -3884,7 +3874,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     std::vector<tripoint> tripoints;
 
     // Find the basement's stairs first.
-    for( auto &&p : tr ) {
+    for( auto &&p : tr ) { // *NOPAD*
         if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
             const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
             stairs.emplace_back( rotated );
@@ -3912,7 +3902,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 
     // Find a tripoint where all the underground tripoints for stairs are on
     // suitable locations aboveground.
-    for( auto &&p : tripoints ) {
+    for( auto &&p : tripoints ) { // *NOPAD*
         int count = 1;
         all_can_be_placed = true;
         stairs_debug_log( m, "ok first:", p );
@@ -3956,7 +3946,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
                          << "and the rest may end up in odd locations.";
     }
 
-    for( auto &&p : stairs ) {
+    for( auto &&p : stairs ) { // *NOPAD*
         tripoint stair = p + shift;
 
         if( m->ter_set( stair, t_stairs_down ) ) {

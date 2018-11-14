@@ -2,16 +2,15 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "visitable.h"
-#include "item.h"
 #include "enums.h"
+#include "item.h"
+#include "visitable.h"
 
 #include <list>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
-#include <functional>
-#include <unordered_map>
 
 class map;
 class npc;
@@ -33,8 +32,6 @@ class salvage_actor;
  */
 class invlet_wrapper : private std::string
 {
-    private:
-
     public:
         invlet_wrapper( const char *chars ) : std::string( chars ) { }
 

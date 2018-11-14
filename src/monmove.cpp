@@ -1,31 +1,26 @@
 // Monster movement code; essentially, the AI
 
-#include "monster.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "field.h"
+#include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "debug.h"
-#include "game.h"
-#include "output.h"
-#include "line.h"
-#include "rng.h"
-#include "pldata.h"
-#include "messages.h"
-#include "cursesdef.h"
-#include "trap.h"
-#include "sounds.h"
-#include "monattack.h"
-#include "monfaction.h"
-#include "translations.h"
-#include "npc.h"
 #include "mapdata.h"
+#include "messages.h"
+#include "monfaction.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
+#include "npc.h"
+#include "output.h"
+#include "rng.h"
 #include "scent_map.h"
+#include "sounds.h"
+#include "translations.h"
+#include "trap.h"
 
-#include <stdlib.h>
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
+#include <cmath>
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -1046,8 +1041,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         // and the same regardless of the distance measurement mode.
         // Note: Keep this as float here or else it will cancel valid moves
         const float cost = stagger_adjustment *
-                           ( float )( climbs ? calc_climb_cost( pos(), p ) :
-                                      calc_movecost( pos(), p ) );
+                           static_cast<float>( climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ) );
         if( cost > 0.0f ) {
             moves -= static_cast<int>( ceil( cost ) );
         } else {
@@ -1340,7 +1334,7 @@ void monster::knock_back_from( const tripoint &p )
         die( nullptr );
         return;
     }
-    tripoint to = pos();;
+    tripoint to = pos();
     if( p.x < posx() ) {
         to.x++;
     }

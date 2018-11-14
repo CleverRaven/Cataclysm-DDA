@@ -3,14 +3,14 @@
 #define INPUT_H
 
 #include <functional>
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
+
 #ifdef __ANDROID__
 #include <list>
 #include <algorithm>
 #endif
-#include <utility>
 
 struct tripoint;
 namespace cata
@@ -264,8 +264,6 @@ class input_manager
          */
         void wait_for_any_key();
 
-        bool translate_to_window_position();
-
         /**
          * Sets global input polling timeout as appropriate for the current interface system.
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
@@ -377,7 +375,7 @@ class input_context
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
-        };
+        }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
         input_context( std::string category ) : registered_any_input( false ),
@@ -386,14 +384,14 @@ class input_context
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
-        };
+        }
 
 #ifdef __ANDROID__
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
 
-        // hack to allow creating manual keybindings for getch() instances, uimenus etc. that don't use an input_context outside of the Android version
+        // hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
             manual_key( long _key, const std::string &_text ) : key( _key ), text( _text ) {}
             long key;
@@ -561,7 +559,7 @@ class input_context
                                     const std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
-        } );
+        } ) const;
 
         /**
          * Handles input and returns the next action in the queue.
@@ -646,7 +644,7 @@ class input_context
         /**
         * Get/Set edittext to display IME unspecified string.
         */
-        void set_edittext( std::string s );
+        void set_edittext( const std::string &s );
         std::string get_edittext();
 
         void set_iso( bool mode = true );

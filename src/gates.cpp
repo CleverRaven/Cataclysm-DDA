@@ -1,18 +1,19 @@
 #include "gates.h"
+
 #include "game.h" // TODO: This is a circular dependency
+#include "generic_factory.h"
+#include "iexamine.h"
+#include "json.h"
 #include "map.h"
 #include "mapdata.h"
-#include "iexamine.h"
-#include "vpart_position.h"
-#include "generic_factory.h"
-#include "player.h"
-#include "output.h"
 #include "messages.h"
-#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
-#include <string>
 #include <algorithm>
+#include <string>
 #include <vector>
 
 // Gates namespace
@@ -28,7 +29,7 @@ struct gate_data {
     gate_data() :
         moves( 0 ),
         bash_dmg( 0 ),
-        was_loaded( false ) {};
+        was_loaded( false ) {}
 
     gate_id id;
 

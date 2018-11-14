@@ -1,12 +1,12 @@
 #include "catch/catch.hpp"
 
-#include "npc.h"
-#include "monster.h"
-#include "monattack.h"
 #include "game.h"
+#include "monattack.h"
+#include "monster.h"
+#include "npc.h"
 
-#include <string>
 #include <sstream>
+#include <string>
 
 static float brute_probability( Creature &attacker, Creature &target, size_t iters )
 {
@@ -19,7 +19,7 @@ static float brute_probability( Creature &attacker, Creature &target, size_t ite
         }
     }
 
-    return ( float )hits / iters;
+    return static_cast<float>( hits ) / iters;
 }
 
 static float brute_special_probability( monster &attacker, Creature &target, size_t iters )
@@ -31,7 +31,7 @@ static float brute_special_probability( monster &attacker, Creature &target, siz
         }
     }
 
-    return ( float )hits / iters;
+    return static_cast<float>( hits ) / iters;
 }
 
 static std::string full_attack_details( const player &dude )
