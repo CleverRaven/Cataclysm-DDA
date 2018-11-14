@@ -1681,8 +1681,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::no_newline, acid_resist() ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ),
                                       fire_resist() ) );
-            info.push_back( iteminfo( "ARMOR", _( "Environmental protection: " ),
-                                      get_env_resist() ) );
+            info.push_back( iteminfo( "ARMOR", _( "Environmental protection: " ), "",
+                                      iteminfo::no_newline, get_env_resist() ) );
+            if( type->can_use( "GASMASK" ) ) {
+                info.push_back( iteminfo( "ARMOR", space + _( "When active: " ),
+                                          get_env_resist_w_filter() ) );
+            }
+            info.back().bNewLine = true;
         }
 
     }
