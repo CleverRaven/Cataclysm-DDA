@@ -496,6 +496,7 @@ cata::optional<uintptr_t> debug_compute_load_offset(
     // perhaps be more portable and adds no link-time dependencies.
 
     uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, 0, 0 );
+    std::string string_sought = " " + symbol;
 
     // We need to try calling nm in two different ways, because one
     // works for executables and the other for libraries.
@@ -515,7 +516,7 @@ cata::optional<uintptr_t> debug_compute_load_offset(
             while( !line.empty() && std::isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
-            if( string_ends_with( line, symbol ) ) {
+            if( string_ends_with( line, string_sought ) ) {
                 std::istringstream line_is( line );
                 uintptr_t symbol_address;
                 line_is >> std::hex >> symbol_address;
