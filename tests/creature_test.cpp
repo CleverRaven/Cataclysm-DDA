@@ -4,6 +4,8 @@
 #include "monster.h"
 #include "mtype.h"
 
+#include "test_statistics.h"
+
 float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },
     { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
     { 36.57, 5.71,   .57,  0, 22.86, 22.86, 0, 0, 5.71, 5.71, 0, 0 }
@@ -32,7 +34,9 @@ void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
     monster defender;
     defender.type = &dtype;
 
-    for( int i = 0; i < 15000; ++i ) {
+    int num_tests = 15000;
+
+    for( int i = 0; i < num_tests; ++i ) {
         selected_part_histogram[defender.select_body_part( &attacker, hit_roll )]++;
     }
 
@@ -43,8 +47,8 @@ void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
 
     for( auto weight : selected_part_histogram ) {
         INFO( body_part_name( weight.first ) );
-        CHECK( Approx( expected[weight.first] / total_weight ).epsilon( 0.015 ) ==
-               ( weight.second / 15000.0 ) );
+        double expected_proportion = expected[weight.first] / total_weight;
+        CHECK_THAT( weight.second, IsBinomialObservation( num_tests, expected_proportion ) );
     }
 }
 

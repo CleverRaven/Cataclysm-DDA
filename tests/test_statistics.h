@@ -2,6 +2,8 @@
 #ifndef TEST_STATISTICS_H
 #define TEST_STATISTICS_H
 
+#include "catch/catch.hpp"
+
 #include <cmath>
 #include <limits>
 #include <math.h>
@@ -178,5 +180,28 @@ class statistics
             return samples;
         }
 };
+
+class BinomialMatcher : public Catch::MatcherBase<int>
+{
+    public:
+        BinomialMatcher( int num_samples, double p, double max_deviation );
+        bool match( const int &obs ) const override;
+        std::string describe() const override;
+    private:
+        int num_samples_;
+        double p_;
+        double max_deviation_;
+        double expected_;
+        double margin_;
+};
+
+// Can be used to test that a value is a plausible observation from a binomial
+// distribution.  Uses a normal approximation to the binomial, and permits a
+// deviation up to max_deviation (measured in standard deviations).
+inline BinomialMatcher IsBinomialObservation(
+    int num_samples, double p, double max_deviation = Z99_9 )
+{
+    return BinomialMatcher( num_samples, p, max_deviation );
+}
 
 #endif
