@@ -338,6 +338,21 @@ bool translation::empty() const
     return raw.empty();
 }
 
+bool translation::operator<( const translation &that ) const
+{
+    return translated() < that.translated();
+}
+
+bool translation::operator==( const translation &that ) const
+{
+    return translated() == that.translated();
+}
+
+bool translation::operator!=( const translation &that ) const
+{
+    return !operator==( that );
+}
+
 translation no_translation( const std::string &str )
 {
     return translation::no_translation( str );
