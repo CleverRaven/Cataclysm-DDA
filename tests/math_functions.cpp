@@ -5,8 +5,11 @@
 #include <cmath>
 #include <random>
 
+#include <signal.h>
+
 TEST_CASE( "fast_floor", "[math]" )
 {
+    raise( SIGFPE );
     REQUIRE( fast_floor( -2.0 ) == -2 );
     REQUIRE( fast_floor( -1.9 ) == -2 );
     REQUIRE( fast_floor( -1.1 ) == -2 );
