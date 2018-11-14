@@ -40,6 +40,9 @@ const recipe &string_id<recipe>::obj() const
 {
     const auto iter = recipe_dict.recipes.find( *this );
     if( iter != recipe_dict.recipes.end() ) {
+        if( iter->second.obsolete ) {
+            return null_recipe;
+        }
         return iter->second;
     }
     if( *this != NULL_ID() ) {
@@ -232,7 +235,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
-        if( elem.is_blacklisted() ) {
+        if( elem.is_blacklisted() || elem.obsolete ) {
             return true;
         }
 

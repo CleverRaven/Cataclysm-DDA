@@ -80,6 +80,10 @@ void recipe::load( JsonObject &jo, const std::string &src )
         ident_ = recipe_id( result_ );
     }
 
+    if( jo.has_bool( "obsolete" ) ) {
+        assign( jo, "obsolete", obsolete );
+    }
+
     assign( jo, "time", time, strict, 0 );
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
     assign( jo, "flags", flags );

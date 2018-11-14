@@ -4582,9 +4582,47 @@
   },
   {
     "type": "recipe",
+    "result": "bag_meat_vac",
+    "obsolete": true,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "bag_plastic", 1 ] ],
+      [ [ "meat", 2 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 5 ], [ "salt", 10 ], [ "chem_saltpetre", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "salted_fish",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "bag_plastic", 1 ] ],
+      [ [ "fish", 2 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 5 ], [ "salt", 5 ], [ "chem_saltpetre", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bag_fish_vac",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -4622,6 +4660,25 @@
   },
   {
     "type": "recipe",
+    "result": "bag_hflesh_vac",
+    "obsolete": true,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 20000,
+    "book_learn": [ [ "cookbook_human", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "bag_plastic", 1 ] ],
+      [ [ "human_flesh", 2 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 5 ], [ "salt", 10 ], [ "chem_saltpetre", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "veggy_salted",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4642,9 +4699,47 @@
   },
   {
     "type": "recipe",
+    "result": "bag_veggy_vac",
+    "obsolete": true,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "bag_plastic", 1 ] ],
+      [ [ "mushroom", 2 ], [ "veggy", 2 ], [ "veggy_wild", 2 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 5 ], [ "salt", 10 ], [ "chem_saltpetre", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "apple_sugar",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "bag_plastic", 1 ] ],
+      [ [ "sweet_fruit", 1, "LIST" ] ],
+      [ [ "sugar", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bag_apple_vac",
+    "obsolete": true,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
