@@ -113,7 +113,7 @@
     "bashing": 8,
     "material": [ "superalloy", "ceramic" ],
     "ammo": "40mm",
-    "dispersion": 150,
+    "dispersion": 140,
     "durability": 9,
     "clip_size": 4,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
