@@ -113,13 +113,15 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
 
 void Creature_tracker::remove( const monster &critter )
 {
-    const tripoint &loc = critter.pos();
-    const auto pos_iter = monsters_by_location.find( loc );
-    if( pos_iter != monsters_by_location.end() ) {
-        if( pos_iter->second.get() == &critter ) {
-            monsters_by_location.erase( pos_iter );
-        }
+    const auto iter = std::find_if( monsters_by_location.begin(), monsters_by_location.end(),
+    [&]( const std::pair<tripoint, const std::shared_ptr<monster> &>ptr ) {
+        return ptr.second.get() == &critter;
+    } );
+    if( iter == monsters_by_location.end() ) {
+        debugmsg( "Tried to remove invalid monster %s", critter.name().c_str() );
+        return;
     }
+    monsters_by_location.erase( iter );
 }
 
 void Creature_tracker::clear()
