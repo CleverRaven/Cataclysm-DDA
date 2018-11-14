@@ -478,7 +478,7 @@ std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
     }
 
     return binary;
-};
+}
 
 cata::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
