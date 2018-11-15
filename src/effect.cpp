@@ -544,7 +544,7 @@ std::string effect::disp_desc( bool reduced ) const
         ret << string_format( _( "Speed %d;  " ), tmp );
     }
     // Newline if necessary
-    if( !ret.str().empty() ) {
+    if( !ret.str().empty() && ret.str().back() != '\n' ) {
         ret << "\n";
     }
 
@@ -630,7 +630,7 @@ std::string effect::disp_desc( bool reduced ) const
     }
 
     // Newline if necessary
-    if( !ret.str().empty() ) {
+    if( !ret.str().empty() && ret.str().back() != '\n' ) {
         ret << "\n";
     }
 
