@@ -2805,8 +2805,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << _( " (oversize)" );
         } else if( !small && undersize ) {
             ret << _( " (undersize)" );
-        } else if( fits ) {
-            ret << _( " (fits)" );
+        } else if( !fits && has_flag( "VARSIZE" ) ) {
+            ret << _( " (poor fit)" );
         }
     }
 
