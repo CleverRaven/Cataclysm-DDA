@@ -340,7 +340,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ], [ [ "superglue", 1 ] ] ]
   },
-  {
+   {
     "type": "recipe",
     "result": "minifridge",
     "category": "CC_OTHER",
@@ -352,7 +352,14 @@
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 4 ] ], [ [ "wire", 6 ] ], [ [ "hose", 1 ] ], [ [ "e_scrap", 4 ] ], [ [ "circuit", 1 ] ], [ [ "scrap", 8 ] ] ]
+    "components": [
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "wire", 6 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "scrap", 8 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -366,7 +373,15 @@
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 6 ] ],
     "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 4 ] ], [ [ "wire", 6 ] ], [ [ "hose", 1 ] ], [ [ "e_scrap", 4 ] ], [ [ "circuit", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 8 ] ] ]
+    "components": [
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "wire", 6 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "scrap", 8 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -380,7 +395,17 @@
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "wire", 6 ] ], [ [ "hose", 1 ] ], [ [ "e_scrap", 3 ] ], [ [ "circuit", 1 ] ], [ [ "scrap", 4 ] ], [ [ "steel_chunk", 2 ] ], [ [ "metal_tank", 1 ] ], [ [ "motor_small", 1 ] ] ],
+    "components": [
+      [ [ "sheet_metal", 3 ] ],
+      [ [ "wire", 6 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "motor_small", 1 ] ]
+    ],
     "byproducts": [ [ "scrap", 6 ] ]
   },
   {
