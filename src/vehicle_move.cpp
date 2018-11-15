@@ -248,6 +248,8 @@ void vehicle::turn( int deg )
     if( turn_dir >= 360 ) {
         turn_dir -= 360;
     }
+    // quick rounding the turn dir to a multiple of 15
+    turn_dir = 15 * ( ( turn_dir * 2 + 15 ) / 30 );
 }
 
 void vehicle::stop()

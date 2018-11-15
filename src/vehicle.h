@@ -1448,6 +1448,7 @@ class vehicle
         // id of the om_vehicle struct corresponding to this vehicle
         int om_id;
         // direction, to which vehicle is turning (player control). will rotate frame on next move
+        // must be a multiple of 15 degrees
         int turn_dir = 0;
 
         // points used for rotation of mount precalc values
