@@ -145,7 +145,7 @@ void select_language()
 
 void set_language()
 {
-    std::string win_or_mac_lang = "";
+    std::string win_or_mac_lang;
 #if (defined _WIN32 || defined WINDOWS)
     win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
 #endif

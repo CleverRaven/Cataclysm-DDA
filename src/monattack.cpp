@@ -4495,7 +4495,7 @@ bool mattack::kamikaze( monster *z )
 }
 
 struct grenade_helper_struct {
-    std::string message = "";
+    std::string message;
     int chance = 1;
     float ammo_percentage = 1;
 };

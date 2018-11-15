@@ -125,6 +125,11 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
                                        1 );
 
+    const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
+        return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
+               !wreckage->get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
+    };
+
     if( wreckage != nullptr ) {
         const int clowncar_factor = dice( 1, 8 );
 
@@ -132,11 +137,10 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 1:
             case 2:
             case 3: // Full clown car
-                for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_SEATBELT ) ) {
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
-                    if( !wreckage->get_parts( pos, "CONTROLS", false, true ).empty() ||
-                        !wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).empty() ) {
+                    if( controls_at( wreckage, pos ) ) {
                         m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( one_in( 5 ) ) {
@@ -160,11 +164,10 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 break;
             case 4:
             case 5: // 2/3rds clown car
-                for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_SEATBELT ) ) {
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.
-                    if( !wreckage->get_parts( pos, "CONTROLS", false, true ).empty()  ||
-                        !wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).empty() ) {
+                    if( controls_at( wreckage, pos ) ) {
                         m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( !one_in( 3 ) ) {
@@ -183,7 +186,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 }
                 break;
             case 6: // Just pilots
-                for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint pos = vp.pos();
                     m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
 

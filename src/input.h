@@ -559,7 +559,7 @@ class input_context
                                     const std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
-        } );
+        } ) const;
 
         /**
          * Handles input and returns the next action in the queue.

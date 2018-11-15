@@ -1834,7 +1834,7 @@ void player_hit_message( player *attacker, const std::string &message,
 {
     std::string msg;
     game_message_type msgtype = m_good;
-    std::string sSCTmod = "";
+    std::string sSCTmod;
     game_message_type gmtSCTcolor = m_good;
 
     if( dam <= 0 ) {

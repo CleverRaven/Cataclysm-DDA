@@ -152,7 +152,7 @@ void help::display_help()
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
 
-    std::string action = "";
+    std::string action;
 
     do {
         if( needs_refresh ) {

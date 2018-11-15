@@ -69,7 +69,7 @@
 #include <map>
 
 #ifdef TILES
-#include "SDL.h"
+#include "SDL2/SDL.h"
 #endif // TILES
 
 #include <algorithm>
@@ -2819,23 +2819,17 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 bool player::has_alarm_clock() const
 {
     return ( has_item_with_flag( "ALARMCLOCK" ) ||
-             (
-                 g->m.veh_at( pos() ) &&
-                 !empty( g->m.veh_at( pos() )->vehicle().get_parts( "ALARMCLOCK" ) )
-             ) ||
-             has_bionic( bio_watch )
-           );
+             ( g->m.veh_at( pos() ) &&
+               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+             has_bionic( bio_watch ) );
 }
 
 bool player::has_watch() const
 {
     return ( has_item_with_flag( "WATCH" ) ||
-             (
-                 g->m.veh_at( pos() ) &&
-                 !empty( g->m.veh_at( pos() )->vehicle().get_parts( "WATCH" ) )
-             ) ||
-             has_bionic( bio_watch )
-           );
+             ( g->m.veh_at( pos() ) &&
+               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+             has_bionic( bio_watch ) );
 }
 
 void player::pause()
@@ -11291,12 +11285,10 @@ int player::visibility( bool, int ) const
     if ( is_invisible() ) {
         return 0;
     }
-    if( has_trait( trait_CRAFTY ) ) {
-        return 60;
-    }
     // @todo:
     // if ( dark_clothing() && light check ...
-    return 100;
+    int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
+    return clamp( 100 - stealth_modifier, 40, 160 );
 }
 
 void player::set_destination(const std::vector<tripoint> &route, const player_activity &destination_activity)

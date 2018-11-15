@@ -225,7 +225,7 @@ void player::disp_info()
     unsigned line;
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
-    std::string tmp = "";
+    std::string tmp;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             tmp = _effect_it.second.disp_name();

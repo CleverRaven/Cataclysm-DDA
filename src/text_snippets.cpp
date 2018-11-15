@@ -7,7 +7,7 @@
 #include <random>
 #include <string>
 
-static const std::string null_string( "" );
+static const std::string null_string;
 
 snippet_library SNIPPET;
 

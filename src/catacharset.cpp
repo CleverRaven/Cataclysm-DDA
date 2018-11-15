@@ -1,10 +1,10 @@
 #include "catacharset.h"
 
 #include "cursesdef.h"
-#include "debug.h"
 #include "options.h"
 #include "wcwidth.h"
 
+#include <cstdlib>
 #include <cstring>
 #include <array>
 

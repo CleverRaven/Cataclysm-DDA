@@ -1286,7 +1286,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
-            info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", iteminfo::lower_is_better,
+            info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", iteminfo::no_flags,
                                g->u.aim_per_move( *mod, MAX_RECOIL ) );
             for( const aim_type &type : g->u.get_aim_types( *mod ) ) {
                 // Nameless aim levels don't get an entry.
@@ -2251,7 +2251,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
             insert_separation_line();
-            std::string ntext = "";
+            std::string ntext;
             if( item_note_type != item_vars.end() ) {
                 ntext += string_format( _( "%1$s on the %2$s is: " ),
                                         item_note_type->second.c_str(), tname().c_str() );
@@ -2680,7 +2680,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         damtext.insert( 0, _( "faulty " ) );
     }
 
-    std::string vehtext = "";
+    std::string vehtext;
     if( is_engine() && engine_displacement() > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ),
                                  engine_displacement() / 100.0f );

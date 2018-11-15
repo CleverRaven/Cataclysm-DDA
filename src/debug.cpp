@@ -2,6 +2,7 @@
 
 #include "cursesdef.h"
 #include "filesystem.h"
+#include "get_version.h"
 #include "input.h"
 #include "output.h"
 #include "path_info.h"
@@ -34,7 +35,7 @@
 #endif
 
 #ifdef TILES
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #endif // TILES
 
 // Static defines                                                   {{{1
@@ -269,6 +270,7 @@ void DebugFile::init( const std::string &filename )
     file.open( filename.c_str(), std::ios::out | std::ios::app );
     file << "\n\n-----------------------------------------\n";
     currentTime() << " : Starting log.";
+    DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
     if( rename_failed ) {
         DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to " << oldfile << " failed.\n" <<
                                     "Check the file permissions. This program will continue to use the previous log file.";

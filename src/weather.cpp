@@ -6,7 +6,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "map.h"
-#include "math.h"
 #include "messages.h"
 #include "options.h"
 #include "output.h"
@@ -19,6 +18,7 @@
 #include "trap.h"
 #include "weather_gen.h"
 
+#include <cmath>
 #include <sstream>
 #include <vector>
 
@@ -146,7 +146,12 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             tick_size = 1_minutes;
         }
 
-        const auto wtype = wgen.get_weather_conditions( location, to_turn<int>( t ), g->get_seed() );
+        weather_type wtype;
+        if( g->weather_override == WEATHER_NULL ) {
+            wtype = wgen.get_weather_conditions( location, t, g->get_seed() );
+        } else {
+            wtype = g->weather_override;
+        }
         proc_weather_sum( wtype, data, t, tick_size );
     }
 

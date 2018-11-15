@@ -2,6 +2,7 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
+#include "optional.h"
 #include "string_id.h"
 
 #include <functional>
@@ -28,6 +29,9 @@ struct construction {
         std::string pre_note; // Additional note displayed along with construction requirements.
         std::string pre_terrain; // beginning terrain for construction
         std::string post_terrain;// final terrain after construction
+
+        // Item group of byproducts created by the construction on success.
+        cata::optional<std::string> byproduct_item_group;
 
         std::set<std::string> pre_flags; // flags beginning terrain must have
 

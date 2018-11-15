@@ -16,7 +16,7 @@
 #include "weather.h"
 
 #ifdef TILES
-#include "SDL.h"
+#include "SDL2/SDL.h"
 #endif // TILES
 
 #include <functional>

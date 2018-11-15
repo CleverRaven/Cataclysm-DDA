@@ -1463,7 +1463,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     const optional_vpart_position vp = g->m.veh_at( pos );
     std::vector<vehicle_part *> cargo;
     if( vp && weap.has_flag( "VEHICLE" ) ) {
-        cargo = vp->vehicle().get_parts( pos, "CARGO", false, false );
+        cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
     }
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {

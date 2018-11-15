@@ -315,7 +315,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
                 ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
                 oter_mapgen[id_base].push_back( ret );
             } else if( jio.has_array( "script" ) ) { // or 1 line per entry array
-                std::string mgscript = "";
+                std::string mgscript;
                 JsonArray jascr = jio.get_array( "script" );
                 while( jascr.has_more() ) {
                     mgscript += jascr.next_string();
@@ -535,7 +535,7 @@ int jmapgen_int::get() const
  */
 void mapgen_function_json_base::setup_setmap( JsonArray &parray )
 {
-    std::string tmpval = "";
+    std::string tmpval;
     std::map<std::string, jmapgen_setmap_op> setmap_opmap;
     setmap_opmap[ "terrain" ] = JMAPGEN_SETMAP_TER;
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
@@ -6948,7 +6948,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    const bool can_float = size( veh->get_parts( "FLOATS" ) ) > 2;
+    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;

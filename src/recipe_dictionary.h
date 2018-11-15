@@ -116,10 +116,12 @@ class recipe_subset
         enum class search_type {
             name,
             skill,
+            primary_skill,
             component,
             tool,
             quality,
-            quality_result
+            quality_result,
+            description_result
         };
 
         /** Find recipes matching query (left anchored partial matches are supported) */
