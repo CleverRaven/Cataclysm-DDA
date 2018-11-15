@@ -2354,31 +2354,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.pop_back();
     }
 
-    temp1.str( "" );
-    for( auto &elem : info ) {
-        if( elem.sType == "DESCRIPTION" ) {
-            temp1 << "\n";
-        }
-
-        if( elem.bDrawName ) {
-            temp1 << elem.sName;
-        }
-        size_t pos = elem.sFmt.find( "<num>" );
-        std::string sPost = "";
-        if( pos != std::string::npos ) {
-            temp1 << elem.sFmt.substr( 0, pos );
-            sPost = elem.sFmt.substr( pos + 5 );
-        } else {
-            temp1 << elem.sFmt.c_str();
-        }
-        if( elem.sValue != "-999" ) {
-            temp1 << "<neutral>" << elem.sValue << "</neutral>";
-        }
-        temp1 << sPost;
-        temp1 << ( ( elem.bNewLine ) ? "\n" : "" );
-    }
-
-    return replace_colors( temp1.str() );
+    return format_item_info( info, {} );
 }
 
 int item::get_free_mod_locations( const gunmod_location &location ) const
