@@ -868,7 +868,7 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( id, name, 0 ) {}
+    selected_cat( id, no_translation( name ), 0 ) {}
 
 selection_column::~selection_column() = default;
 
@@ -963,7 +963,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 
         const std::string name = string_format( "%s %s", category.name().c_str(), suffix.c_str() );
         const int sort_rank = category.sort_rank() + dist;
-        const item_category new_category( id, name, sort_rank );
+        const item_category new_category( id, no_translation( name ), sort_rank );
 
         categories.push_back( new_category );
     } else {
@@ -1018,8 +1018,9 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    static const item_category items_worn_category( "ITEMS_WORN", _( "ITEMS WORN" ), -100 );
-    static const item_category weapon_held_category( "WEAPON_HELD", _( "WEAPON HELD" ), -200 );
+    static const item_category items_worn_category( "ITEMS_WORN", translation( "ITEMS WORN" ), -100 );
+    static const item_category weapon_held_category( "WEAPON_HELD", translation( "WEAPON HELD" ),
+            -200 );
     character.visit_items( [ this, &character ]( item * it ) {
         if( it == &character.weapon ) {
             add_item( own_gear_column, item_location( character, it ), 1, &weapon_held_category );
@@ -1043,7 +1044,7 @@ void inventory_selector::add_map_items( const tripoint &target )
     if( g->m.accessible_items( target ) ) {
         const auto items = g->m.i_at( target );
         const std::string name = to_upper_case( g->m.name( target ) );
-        const item_category map_cat( name, name, 100 );
+        const item_category map_cat( name, no_translation( name ), 100 );
 
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
@@ -1061,7 +1062,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     const int part = vp->part_index();
     const auto items = veh->get_items( part );
     const std::string name = to_upper_case( veh->parts[part].name() );
-    const item_category vehicle_cat( name, name, 200 );
+    const item_category vehicle_cat( name, no_translation( name ), 200 );
 
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
