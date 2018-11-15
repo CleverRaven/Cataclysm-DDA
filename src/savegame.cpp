@@ -195,7 +195,7 @@ void game::unserialize( std::istream &fin )
                                    static_cast<int>( SPRING ) ) );
         data.read( "last_target_type", tmptartyp );
         if( tmptartyp == -2 ) {
-            data.read( "last_taget", target_position );
+            data.read( "last_target", target_position );
         } else {
             data.read( "last_target", tmptar );
         }
