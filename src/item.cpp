@@ -1641,16 +1641,16 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         insert_separation_line();
 
         if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
+            int encumbrance = get_encumber();
+            std::string format;
             if( has_flag( "FIT" ) ) {
-                info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ),
-                                          _( "<num> <info>(fits)</info>" ),
-                                          iteminfo::no_newline | iteminfo::lower_is_better,
-                                          get_encumber() ) );
-            } else {
-                info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), "",
-                                          iteminfo::no_newline | iteminfo::lower_is_better,
-                                          get_encumber() ) );
+                format = _( "<num> <info>(fits)</info>" );
+            } else if( has_flag( "VARSIZE" ) && encumbrance ) {
+                format = _( "<num> <bad>(poor fit)</bad>" );
             }
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
+                                      iteminfo::no_newline | iteminfo::lower_is_better,
+                                      encumbrance ) );
             if( !type->rigid ) {
                 const auto encumbrance_when_full = get_encumber_when_containing( get_total_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
