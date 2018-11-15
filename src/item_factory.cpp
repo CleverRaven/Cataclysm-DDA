@@ -623,7 +623,11 @@ void Item_factory::init()
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
-    add_iuse( "GASMASK", &iuse::gasmask );
+    add_iuse( "GASMASK", &iuse::gasmask,
+              translate_marker( "Can be activated to <good>increase environmental "
+                                "protection</good>.  Will consume gas mask cartriges, but "
+                                "<info>only when environmental hazards are present</info>."
+                              ) );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
