@@ -3542,4 +3542,4 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
     return specials.insert( new_special ).id;
 }
 
-const tripoint overmap::invalid_tripoint = tripoint( INT_MIN, INT_MIN, INT_MIN );
+const tripoint overmap::invalid_tripoint;

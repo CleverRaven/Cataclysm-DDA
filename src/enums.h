@@ -337,8 +337,8 @@ inline bool operator<( const tripoint &a, const tripoint &b )
     return false;
 }
 
-static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-static const tripoint tripoint_zero { 0, 0, 0 };
+static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+static constexpr tripoint tripoint_zero { 0, 0, 0 };
 
 struct sphere {
     int radius = 0;

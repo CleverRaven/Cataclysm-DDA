@@ -2192,7 +2192,7 @@ void epilogue::random_by_group( std::string group )
     text = epi.text;
 }
 
-const tripoint npc::no_goal_point( INT_MIN, INT_MIN, INT_MIN );
+const tripoint npc::no_goal_point;
 
 bool npc::query_yn( const std::string &/*msg*/ ) const
 {

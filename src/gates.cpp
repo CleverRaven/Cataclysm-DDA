@@ -160,7 +160,9 @@ void gates::open_gate( const tripoint &pos )
     bool fail = false;
 
     for( int i = 0; i < 4; ++i ) {
-        static const tripoint dir[4] = { { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 } };
+        static constexpr tripoint dir[4] = {
+            { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 }
+        };
         const tripoint wall_pos = pos + dir[i];
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
