@@ -1168,10 +1168,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             const auto &ammo = *ammo_data()->ammo;
-            if( !ammo.damage.empty() ) {
-                if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
-                    info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "",
-                                       iteminfo::no_newline, ammo.damage.total_damage() );
+            if( !ammo.damage.empty() || ammo.prop_damage ) {
+                if( !ammo.damage.empty() ) {
+                    if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
+                        info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "",
+                                           iteminfo::no_newline, ammo.damage.total_damage() );
+                    }
+                } else if( ammo.prop_damage ) {
+                    if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
+                        info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "",
+                                           iteminfo::no_newline, *ammo.prop_damage );
+                    }
                 }
                 if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
                     info.emplace_back( "AMMO", space + _( "Armor-pierce: " ),
@@ -1311,12 +1318,19 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( has_ammo ) {
-            // ammo_damage and sum_of_damage not shown so don't need to translate.
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) )
-                info.push_back( iteminfo( "GUN", "ammo_damage", "",
-                                          iteminfo::no_newline | iteminfo::no_name |
-                                          iteminfo::show_plus,
-                                          ammo_dam.total_damage() ) );
+            // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
+            if( mod->ammo_data()->ammo->prop_damage ) {
+                if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) )
+                    info.push_back( iteminfo( "GUN", "ammo_mult", "*",
+                                              iteminfo::no_newline | iteminfo::no_name,
+                                              *mod->ammo_data()->ammo->prop_damage ) );
+            } else {
+                if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) )
+                    info.push_back( iteminfo( "GUN", "ammo_damage", "",
+                                              iteminfo::no_newline | iteminfo::no_name |
+                                              iteminfo::show_plus,
+                                              ammo_dam.total_damage() ) );
+            }
             if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) )
                 info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
                                           iteminfo::no_newline | iteminfo::no_name,
@@ -4792,12 +4806,23 @@ damage_instance item::gun_damage( bool with_ammo ) const
         return damage_instance();
     }
     damage_instance ret = type->gun->damage;
-    if( with_ammo && ammo_data() ) {
-        ret.add( ammo_data()->ammo->damage );
-    }
+
     for( const auto mod : gunmods() ) {
         ret.add( mod->type->gunmod->damage );
     }
+
+    if( with_ammo && ammo_data() ) {
+        if( ammo_data()->ammo->prop_damage ) {
+            for( auto &elem : ret.damage_units ) {
+                if( elem.type == DT_STAB ) {
+                    elem.amount *= *ammo_data()->ammo->prop_damage;
+                }
+            }
+        } else {
+            ret.add( ammo_data()->ammo->damage );
+        }
+    }
+
     int item_damage = damage_level( 4 );
     if( item_damage != 0 ) {
         // @todo This isn't a good solution for multi-damage guns/ammos
@@ -4805,6 +4830,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
             du.amount -= item_damage * 2;
         }
     }
+
     return ret;
 }
 

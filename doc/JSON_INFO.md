@@ -807,6 +807,7 @@ See also VEHICLE_JSON.md
                       // additional some ammo specific entries:
 "ammo_type" : "shot", // Determines what it can be loaded in
 "damage" : 18,        // Ranged damage when fired
+"prop_damage": 2,     // Multiplies the damage of weapon by amount (overrides damage field)
 "pierce" : 0,         // Armor piercing ability when fired
 "range" : 5,          // Range when fired
 "dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
