@@ -1998,9 +1998,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
 
-        for( const auto &method : type->use_methods ) {
-            insert_separation_line();
-            method.second.dump_info( *this, info );
+        if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
+            for( const auto &method : type->use_methods ) {
+                insert_separation_line();
+                method.second.dump_info( *this, info );
+            }
         }
 
         if( parts->test( iteminfo_parts::DESCRIPTION_REPAIREDWITH ) ) {
