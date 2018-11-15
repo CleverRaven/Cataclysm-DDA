@@ -16,14 +16,5 @@
     "description": "A powerful ion energy generator is implanted on the user's chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact. Close range use is highly discouraged.",
     "price": 220000,
     "difficulty": 8
-  },
-  {
-    "id": "bio_surgical_razor",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": "Autonomous Surgical Razors CBM",
-    "description": "Implanted on the user's fingers is a system of surgical grade razors.  While activated, they will continously drain power to make automated precise cuts but you will be unable to wield anything.",
-    "price": 220000,
-    "difficulty": 4
   }
 ]

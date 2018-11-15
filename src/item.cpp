@@ -1286,7 +1286,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
-            info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", iteminfo::lower_is_better,
+            info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", iteminfo::no_flags,
                                g->u.aim_per_move( *mod, MAX_RECOIL ) );
             for( const aim_type &type : g->u.get_aim_types( *mod ) ) {
                 // Nameless aim levels don't get an entry.

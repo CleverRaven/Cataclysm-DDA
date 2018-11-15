@@ -48,6 +48,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "veh_type.h"
 #include "weather.h"
 
 #include <algorithm>
@@ -4996,7 +4997,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
     }
     vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->posx(), p->posy(), 0, 0, 0, false );
     if( veh == NULL ) {
-        p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname().c_str() );
+        p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;
     }
     veh->name = it->get_var( "vehicle_name" );
@@ -5004,6 +5005,24 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         g->m.destroy_vehicle( veh );
         return 0;
     }
+    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
+
+    const auto invalid_pos = []( const tripoint & pp, bool can_float ) {
+        return ( g->m.has_flag_ter( TFLAG_DEEP_WATER, pp ) && !can_float ) ||
+               g->m.veh_at( pp ) || g->m.impassable( pp );
+    };
+    for( const vpart_reference &vp : veh->get_all_parts() ) {
+        if( vp.info().location != "STRUCTURE" ) {
+            continue;
+        }
+        const tripoint pp = vp.pos();
+        if( invalid_pos( pp, can_float ) ) {
+            p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
+            g->m.destroy_vehicle( veh );
+            return 0;
+        }
+    }
+
     g->m.add_vehicle_to_cache( veh );
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
@@ -5012,7 +5031,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
     } else {
         unfold_msg = _( unfold_msg.c_str() );
     }
-    p->add_msg_if_player( unfold_msg.c_str(), veh->name.c_str() );
+    p->add_msg_if_player( unfold_msg.c_str(), veh->name );
 
     p->moves -= it->get_var( "moves", 500 );
     return 1;

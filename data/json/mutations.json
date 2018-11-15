@@ -3713,7 +3713,8 @@
         "purifiable" : false,
         "prereqs" : ["SMALL_OK"],
         "threshreq" : ["THRESH_MOUSE"],
-        "category" : ["MOUSE"]
+        "category" : ["MOUSE"],
+        "stealth_modifier" : 40
     },{
         "type" : "mutation",
         "id" : "MUT_JUNKIE",

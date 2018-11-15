@@ -114,6 +114,16 @@ class translation
          * is or whether translation is needed.
          **/
         bool empty() const;
+
+        /**
+         * Compare translations by their translated strings.
+         *
+         * Be especially careful when using these to sort translations, as the
+         * translated result will change when switching the language.
+         **/
+        bool operator<( const translation &that ) const;
+        bool operator==( const translation &that ) const;
+        bool operator!=( const translation &that ) const;
     private:
         struct no_translation_tag {};
         translation( const std::string &str, const no_translation_tag );

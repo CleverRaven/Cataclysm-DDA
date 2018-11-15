@@ -7,6 +7,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "output.h"
 #include "skill.h"
 
 #include <algorithm>
@@ -100,6 +101,9 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( r->required_skills_string( nullptr ), txt ) ||
                        lcmatch( r->skill_used->name(), txt );
 
+            case search_type::primary_skill:
+                return lcmatch( r->skill_used->name(), txt );
+
             case search_type::component:
                 return search_reqs( r->requirements().get_components(), txt );
 
@@ -114,6 +118,11 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
                     return lcmatch( e.first->name, txt );
                 } );
+            }
+
+            case search_type::description_result: {
+                const item result = r->create_result();
+                return lcmatch( remove_color_tags( result.info( true ) ), txt );
             }
 
             default:
