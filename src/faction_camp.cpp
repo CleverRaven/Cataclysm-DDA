@@ -620,7 +620,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 std::string title_e = dr + " Plow Fields";
                 mission_key.text[title_e] = _( "Notes:\n"
                                                "Plow any spaces that have reverted to dirt or grass.\n \n" ) +
-                                            camp_farm_description( e.second, false, false, true ) + _( "\n \n"
+                                            camp_farm_description( farm_pos, farm_ops::plow ) + _( "\n \n"
                                                     "Skill used: fabrication\n"
                                                     "Difficulty: N/A \n"
                                                     "Effects:\n"
@@ -647,7 +647,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 std::string title_e = dr + " Plant Fields";
                 mission_key.text[title_e] = _( "Notes:\n"
                                                "Plant designated seeds in the spaces that have already been tilled.\n \n" ) +
-                                            camp_farm_description( e.second, false, true, false ) + _( "\n \n"
+                                            camp_farm_description( farm_pos, farm_ops::plant ) + _( "\n \n"
                                                     "Skill used: survival\n"
                                                     "Difficulty: N/A \n"
                                                     "Effects:\n"
@@ -675,7 +675,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 std::string title_e = dr + " Harvest Fields";
                 mission_key.text[title_e] = _( "Notes:\n"
                                                "Harvest any plants that are ripe and bring the produce back.\n \n" ) +
-                                            camp_farm_description( e.second, true, false, false ) + _( "\n \n"
+                                            camp_farm_description( farm_pos, farm_ops::harvest ) + _( "\n \n"
                                                     "Skill used: survival\n"
                                                     "Difficulty: N/A \n"
                                                     "Effects:\n"
@@ -1043,7 +1043,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == cur_key.dir + " (Finish) Plow Fields" ) {
         for( const auto &e : om_expansions ) {
             if( cur_key.dir == om_simple_dir( omt_pos, e.second ) ) {
-                camp_farm_return( p, "_faction_exp_plow_" + cur_key.dir, false, false, true );
+                camp_farm_return( p, "_faction_exp_plow_" + cur_key.dir, farm_ops::plow );
                 break;
             }
         }
@@ -1076,7 +1076,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == cur_key.dir + " (Finish) Plant Fields" ) {
         for( const auto &e : om_expansions ) {
             if( cur_key.dir == om_simple_dir( omt_pos, e.second ) ) {
-                camp_farm_return( p, "_faction_exp_plant_" + cur_key.dir, false, true, false );
+                camp_farm_return( p, "_faction_exp_plant_" + cur_key.dir, farm_ops::plant );
                 break;
             }
         }
@@ -1098,7 +1098,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     } else if( cur_key.id == cur_key.dir + " (Finish) Harvest Fields" ) {
         for( const auto &e : om_expansions ) {
             if( cur_key.dir == om_simple_dir( omt_pos, e.second ) ) {
-                camp_farm_return( p, "_faction_exp_harvest_" + cur_key.dir, true, false, false );
+                camp_farm_return( p, "_faction_exp_harvest_" + cur_key.dir, farm_ops::harvest );
                 break;
             }
         }
@@ -2052,8 +2052,7 @@ bool talk_function::camp_expansion_select( npc &p )
     return true;
 }
 
-bool talk_function::camp_farm_return( npc &p, const std::string &task, bool harvest, bool plant,
-                                      bool plow )
+bool talk_function::camp_farm_return( npc &p, const std::string &task, farm_ops op )
 {
     std::string dir = camp_direction( task );
     const tripoint omt_pos = p.global_omt_location();
@@ -2062,14 +2061,16 @@ bool talk_function::camp_farm_return( npc &p, const std::string &task, bool harv
     for( const auto &e : om_expansions ) {
         if( dir == om_simple_dir( omt_pos, e.second ) ) {
             omt_trg = e.second;
+            break;
         }
     }
     int harvestable = 0;
     int plots_empty = 0;
     int plots_plow = 0;
+    bool plow = op & farm_ops::plow;
+    bool plant = op & farm_ops::plant;
+    bool harvest = op & farm_ops::harvest;
 
-    oter_id &omt_ref = overmap_buffer.ter( omt_trg );
-    omt_ref = oter_id( omt_ref.id().c_str() );
     //bay_json is what the are should look like according to jsons
     tinymap bay_json;
     bay_json.generate( omt_trg.x * 2, omt_trg.y * 2, omt_trg.z, calendar::turn );
@@ -2420,8 +2421,6 @@ bool talk_function::om_camp_upgrade( npc &comp, const tripoint &omt_pos )
 int talk_function::om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f,
                                     float chance, bool force_bash )
 {
-    oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
-    omt_ref = oter_id( omt_ref.id().c_str() );
     const furn_t &furn_tgt = f.obj();
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, comp.posz(), false );
@@ -2451,8 +2450,6 @@ int talk_function::om_harvest_furn( npc &comp, const tripoint &omt_tgt, const fu
 int talk_function::om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &t,
                                    float chance, bool force_bash )
 {
-    oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
-    omt_ref = oter_id( omt_ref.id().c_str() );
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, comp.posz(), false );
@@ -2532,8 +2529,6 @@ std::pair<units::mass, units::volume> talk_function::om_harvest_itm( npc *comp,
         const tripoint &omt_tgt, float chance,
         bool take )
 {
-    oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
-    omt_ref = oter_id( omt_ref.id().c_str() );
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
     units::mass harvested_m = 0;
@@ -3198,16 +3193,13 @@ std::string talk_function::om_gathering_description( npc &p, const std::string &
     return output;
 }
 
-std::string talk_function::camp_farm_description( const tripoint &omt_pos, bool harvest, bool plots,
-        bool plow )
+std::string talk_function::camp_farm_description( const tripoint &omt_pos, farm_ops op )
 {
     std::vector<std::string> plant_names;
     int harvestable = 0;
     int plots_empty = 0;
     int plots_plow = 0;
 
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-    omt_ref = oter_id( omt_ref.id().c_str() );
     //bay_json is what the are should look like according to jsons
     tinymap bay_json;
     bay_json.generate( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, calendar::turn );
@@ -3252,13 +3244,13 @@ std::string talk_function::camp_farm_description( const tripoint &omt_pos, bool 
         }
     }
     std::string entry;
-    if( harvest ) {
+    if( op & farm_ops::harvest ) {
         entry += _( "Harvestable: " ) + to_string( harvestable ) + " \n" + crops;
     }
-    if( plots ) {
+    if( op & farm_ops::plant ) {
         entry += _( "Ready for Planting: " ) + to_string( plots_empty ) + " \n";
     }
-    if( plow ) {
+    if( op & farm_ops::plow ) {
         entry += _( "Needs Plowing: " ) + to_string( plots_plow ) + " \n";
     }
     return entry;

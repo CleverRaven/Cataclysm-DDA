@@ -31,6 +31,16 @@ enum camp_tab_mode {
     TAB_NW
 };
 
+enum class farm_ops {
+    plow = 1,
+    plant = 2,
+    harvest = 4
+};
+inline bool operator&( const farm_ops &rhs, const farm_ops &lhs )
+{
+    return static_cast<int>( rhs ) & static_cast<int>( lhs );
+}
+
 namespace talk_function
 {
 
@@ -184,7 +194,7 @@ void camp_companion_return( npc &comp );
  * @param plant NPC will keep planting until they are out of dirt mounds or seeds in mission inventory
  * @param plow references the farm json and plows any dirt or grass tiles that are where dirt mounds should be
  */
-bool camp_farm_return( npc &p, const std::string &task, bool harvest, bool plant, bool plow );
+bool camp_farm_return( npc &p, const std::string &task, farm_ops op );
 /// Sorts all items within most of the confines of the camp into piles designated by the player or defaulted to
 bool camp_menial_return( npc &p );
 void camp_fortifications_return( npc &p );
@@ -205,9 +215,10 @@ std::vector<std::pair<std::string, tripoint>> om_building_region( npc &p, int ra
         bool purge = false );
 /// Converts the camp and expansion points into direction strings, "[NW]"
 std::string om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
+/// Converts a direction into a point offset
+point om_dir_to_offset( const std::string &dir );
 /// Returns a string for the number of plants that are harvestable, plots ready to plany, and ground that needs tilling
-std::string camp_farm_description( const tripoint &omt_pos, bool harvest = true, bool plots = true,
-                                   bool plow = true );
+std::string camp_farm_description( const tripoint &omt_pos, farm_ops operation );
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
 /// Takes a mission line and gets the camp's direction from it "[NW]"
