@@ -383,7 +383,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) ||
                        u.has_trait_flag( "SAPIOVORE" ) ) ) {
 
-        if( query_yn( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) {
+        if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
             g->u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             switch( rng( 1, 3 ) ) {
                 case 1:
