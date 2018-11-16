@@ -631,7 +631,7 @@
       "durability" : 8,
       "reload" : 100,
       "loudness": 16,
-      "ranged_damage" : 35,
+      "ranged_damage" : 20,
       "range" : 12
    },
    {
@@ -655,7 +655,7 @@
       "loudness": 20,
       "durability" : 8,
       "reload" : 150,
-      "ranged_damage" : 60,
+      "ranged_damage" : 40,
       "range" : 22,
       "dispersion" : 100,
       "clip_size" : 1,
