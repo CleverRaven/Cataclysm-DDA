@@ -69,47 +69,53 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
     std::string strline;
     std::vector<std::string> tags;
     while( std::getline( sstr, strline, '\n' ) ) {
-        std::string wrapped = word_rewrap( strline, width, split );
-        std::stringstream swrapped( wrapped );
-        std::string wline;
-        while( std::getline( swrapped, wline, '\n' ) ) {
-            // Ensure that each line is independently color-tagged
-            // Re-add tags closed in the previous line
-            const std::string rawwline = wline;
-            if( !tags.empty() ) {
-                std::stringstream swline;
-                for( const std::string &tag : tags ) {
-                    swline << tag;
-                }
-                swline << wline;
-                wline = swline.str();
-            }
-            // Process the additional tags in the current line
-            const std::vector<size_t> tags_pos = get_tag_positions( rawwline );
-            for( const size_t tag_pos : tags_pos ) {
-                if( tag_pos + 1 < rawwline.size() && rawwline[tag_pos + 1] == '/' ) {
-                    if( !tags.empty() ) {
-                        tags.pop_back();
+        if( strline.empty() ) {
+            // Special case empty lines as std::getline() sets failbit immediately
+            // if the line is empty.
+            lines.emplace_back();
+        } else {
+            std::string wrapped = word_rewrap( strline, width, split );
+            std::stringstream swrapped( wrapped );
+            std::string wline;
+            while( std::getline( swrapped, wline, '\n' ) ) {
+                // Ensure that each line is independently color-tagged
+                // Re-add tags closed in the previous line
+                const std::string rawwline = wline;
+                if( !tags.empty() ) {
+                    std::stringstream swline;
+                    for( const std::string &tag : tags ) {
+                        swline << tag;
                     }
-                } else {
-                    auto tag_end = rawwline.find( '>', tag_pos );
-                    if( tag_end != std::string::npos ) {
-                        tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
+                    swline << wline;
+                    wline = swline.str();
+                }
+                // Process the additional tags in the current line
+                const std::vector<size_t> tags_pos = get_tag_positions( rawwline );
+                for( const size_t tag_pos : tags_pos ) {
+                    if( tag_pos + 1 < rawwline.size() && rawwline[tag_pos + 1] == '/' ) {
+                        if( !tags.empty() ) {
+                            tags.pop_back();
+                        }
+                    } else {
+                        auto tag_end = rawwline.find( '>', tag_pos );
+                        if( tag_end != std::string::npos ) {
+                            tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
+                        }
                     }
                 }
-            }
-            // Close any unclosed tags
-            if( !tags.empty() ) {
-                std::stringstream swline;
-                swline << wline;
-                for( auto it = tags.rbegin(); it != tags.rend(); ++it ) {
-                    // currently the only closing tag is </color>
-                    swline << "</color>";
+                // Close any unclosed tags
+                if( !tags.empty() ) {
+                    std::stringstream swline;
+                    swline << wline;
+                    for( auto it = tags.rbegin(); it != tags.rend(); ++it ) {
+                        // currently the only closing tag is </color>
+                        swline << "</color>";
+                    }
+                    wline = swline.str();
                 }
-                wline = swline.str();
+                // The resulting line can be printed independently and have the correct color
+                lines.emplace_back( wline );
             }
-            // The resulting line can be printed independently and have the correct color
-            lines.emplace_back( wline );
         }
     }
     return lines;
@@ -773,24 +779,23 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {
     std::ostringstream buffer;
-    bool bStartNewLine = true;
+    bool bIsNewLine = true;
 
     for( size_t i = 0; i < vItemDisplay.size(); i++ ) {
         if( vItemDisplay[i].sType == "DESCRIPTION" ) {
-            buffer << "\n";
+            // Always start a new line for sType == "DESCRIPTION"
+            if( !bIsNewLine ) {
+                buffer << "\n";
+            }
             if( vItemDisplay[i].bDrawName ) {
                 buffer << vItemDisplay[i].sName;
             }
+            // Always end with a linebreak for sType == "DESCRIPTION"
+            buffer << "\n";
+            bIsNewLine = true;
         } else {
-            if( bStartNewLine ) {
-                if( vItemDisplay[i].bDrawName ) {
-                    buffer << "\n" << vItemDisplay[i].sName;
-                }
-                bStartNewLine = false;
-            } else {
-                if( vItemDisplay[i].bDrawName ) {
-                    buffer << vItemDisplay[i].sName;
-                }
+            if( vItemDisplay[i].bDrawName ) {
+                buffer << vItemDisplay[i].sName;
             }
 
             std::string sFmt = vItemDisplay[i].sFmt;
@@ -836,9 +841,9 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
             buffer << sPost;
 
-            if( vItemDisplay[i].bNewLine ) {
+            // Set bIsNewLine in case the next line should always start in a new line
+            if( ( bIsNewLine = vItemDisplay[i].bNewLine ) ) {
                 buffer << "\n";
-                bStartNewLine = true;
             }
         }
     }
@@ -862,7 +867,7 @@ input_event draw_item_info( const catacurses::window &win, const std::string &sI
         buffer << sTypeName << "\n";
     }
     for( unsigned int i = 0; i < padding; i++ ) {
-        buffer << " \n";    //This space is required, otherwise it won't make an empty line.
+        buffer << "\n";
     }
 
     buffer << format_item_info( vItemDisplay, vItemCompare );

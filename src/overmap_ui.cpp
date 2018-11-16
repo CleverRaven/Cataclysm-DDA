@@ -836,7 +836,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                                               _( color_pair.second.c_str() ), string_replace( color_pair.second, " ", "_" ).c_str() );
             }
 
-            std::string helper_text = string_format( ".\r\n \n%s\r\n%s\r\n%s\r\n ",
+            std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
                                       _( "Type GLYPH:TEXT to set a custom glyph." ),
                                       _( "Type COLOR;TEXT to set a custom color." ),
                                       _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
@@ -883,7 +883,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 .text( new_note )
                 .description( string_format( "%s%s%s\n",
                                              color_notes,
-                                             std::string( title.length() - 2, ' ' ),
+                                             std::string( title.length() - 1, ' ' ),
                                              tmp_note ) )
                 .title_color( c_white )
                 .desc_color( c_light_gray )

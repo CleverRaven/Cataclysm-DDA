@@ -415,6 +415,8 @@ inline void popup_player_or_npc( player &p, const char *player_mes, const char *
 }
 
 /*@}*/
+std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
+                              const std::vector<iteminfo> &vItemCompare );
 
 input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
                             const std::string &sTypeName,

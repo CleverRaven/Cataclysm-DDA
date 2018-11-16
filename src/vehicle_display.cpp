@@ -248,7 +248,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         possible_msg << name_color << vp.name() << "</color>\n";
         std::string desc_color = string_format( "<color_%1$s>",
                                                 string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
-        int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 2 );
+        // -4 = -2 for left & right padding + -2 for "> "
+        int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
         if( vp.has_flag( vehicle_part::carrying_flag ) ) {
             possible_msg << "  Carrying a vehicle on a rack.\n";
             new_lines += 1;
@@ -272,7 +273,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         }
     }
     werase( win );
-    fold_and_print( win, 0, 1, width, c_light_gray, msg.str() );
+    // -2 for left & right padding
+    fold_and_print( win, 0, 1, width - 2, c_light_gray, msg.str() );
     wrefresh( win );
 }
 
