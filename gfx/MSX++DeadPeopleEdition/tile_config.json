@@ -16711,13 +16711,33 @@
           "multitile": true,
           "additional_tiles": [
             {
+              "id": "unconnected",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "center",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
               "id": "corner",
-              "fg": 2854,
+              "fg": 23113,
               "bg": 972
             },
             {
               "id": "edge",
-              "fg": 2855,
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "t_connection",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "end_piece",
+              "fg": 23113,
               "bg": 972
             }
           ]
@@ -16729,31 +16749,71 @@
           "multitile": true,
           "additional_tiles": [
             {
+              "id": "unconnected",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "center",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
               "id": "corner",
-              "fg": 2854,
+              "fg": 23113,
               "bg": 972
             },
             {
               "id": "edge",
-              "fg": 2855,
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "t_connection",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "end_piece",
+              "fg": 23113,
               "bg": 972
             }
           ]
         },
         {
           "id": "explosion_weak",
-          "bg": 972,
-          "rotates": true,
+          "bg": 23113,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
+              "id": "unconnected",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "center",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
               "id": "corner",
-              "fg": 2854,
+              "fg": 23113,
               "bg": 972
             },
             {
               "id": "edge",
-              "fg": 2855,
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "t_connection",
+              "fg": 23113,
+              "bg": 972
+            },
+            {
+              "id": "end_piece",
+              "fg": 23113,
               "bg": 972
             }
           ]
@@ -18498,11 +18558,6 @@
           "id": "t_window_bars",
           "fg": 3421,
           "bg": 987,
-          "rotates": false
-        },
-        {
-          "id": "t_flat_roof",
-          "bg": 988,
           "rotates": false
         },
         {
@@ -31048,9 +31103,16 @@
 			{ "weight":1, "sprite":4865},
 			{ "weight":1, "sprite":4866},
 			{ "weight":1, "sprite":4867}
-			],
-			          "rotates": true
+			],"rotates": true
         },		
+			 {
+          "id": "t_flat_roof",
+          "bg": 		    [
+            { "weight":1111, "sprite":985}
+			],
+          "rotates": false
+        },
+			          
 		        {
           "id": "t_pavement_y",
           "fg": 3147,
@@ -31068,6 +31130,7 @@
 			],
           "rotates": false
         },        
+		       
 		{
           "id": "t_column",
           "fg":	4868,
@@ -48123,7 +48186,15 @@
 			{ "weight":1, "sprite":11700},
 			{ "weight":1, "sprite":11701},
 			{ "weight":1, "sprite":11702},
-			{ "weight":1, "sprite":11703}
+			{ "weight":1, "sprite":11703},
+			{ "weight":1, "sprite":11704},
+			{ "weight":1, "sprite":11705},
+			{ "weight":1, "sprite":11706},
+			{ "weight":1, "sprite":11707},
+			{ "weight":1, "sprite":11708},
+			{ "weight":1, "sprite":11709},
+			{ "weight":1, "sprite":11710},
+			{ "weight":1, "sprite":11711}
             ],
 			"bg": 967,
           "rotates": false
@@ -48154,7 +48225,9 @@
           "fg": [
 		    { "weight":1, "sprite":4611},
 			{ "weight":1, "sprite":11748},
-			{ "weight":1, "sprite":11749}
+			{ "weight":1, "sprite":11749},
+			{ "weight":1, "sprite":11750},
+			{ "weight":1, "sprite":11751}
             ],
 			"bg": 967,
           "rotates": false
@@ -51760,6 +51833,86 @@
             },
             {
               "fg": 17523,
+			  
+              "id": "unconnected"
+            }
+          ],
+		  
+          "rotates": false		  
+        },
+		{
+		  "id": ["t_sconc_wall"],
+          "fg": 17524,
+          
+          "multitile": true,
+          "additional_tiles": [            
+		    {
+              "fg": 17524,
+		      
+              "id": "center"
+            },
+			{
+              "fg": [ 17525, 17526, 17527, 17528 ],
+			  
+              "id": "corner"
+            },            
+			{
+              "fg": [ 17529, 17530, 17531, 17532],
+		      
+              "id": "t_connection"
+            },
+            {
+              "fg": [ 17533, 17534],
+                
+              "id": "edge"
+            },
+            {
+              "fg": [ 17535, 17536, 17537, 17538],
+              
+              "id": "end_piece"
+            },
+            {
+              "fg": 17539,
+			  
+              "id": "unconnected"
+            }
+          ],
+		  
+          "rotates": false		  
+        },
+		{
+		  "id": ["t_sand"],
+          "fg": 17540,
+          
+          "multitile": true,
+          "additional_tiles": [            
+		    {
+              "fg": 17540,
+		      
+              "id": "center"
+            },
+			{
+              "fg": [ 17541, 17542, 17543, 17544 ],
+			  
+              "id": "corner"
+            },            
+			{
+              "fg": [ 17545, 17546, 17547, 17548],
+		      
+              "id": "t_connection"
+            },
+            {
+              "fg": [ 17549, 17550],
+                
+              "id": "edge"
+            },
+            {
+              "fg": [ 17551, 17552, 17553, 17554],
+              
+              "id": "end_piece"
+            },
+            {
+              "fg": 17555,
 			  
               "id": "unconnected"
             }
@@ -55787,7 +55940,7 @@
           "rotates": false
         },
 		        {
-          "id": ["overlay_wielded_hat_faux_fur"],
+          "id": ["overlay_worn_hat_faux_fur"],
           "fg": 23070,
           "rotates": false
         },		
@@ -55797,7 +55950,7 @@
           "rotates": false
         },
 		        {
-          "id": ["overlay_wielded_pants_faux_fur"],
+          "id": ["overlay_worn_pants_faux_fur"],
           "fg": 23072,
           "rotates": false
         },
@@ -55807,7 +55960,7 @@
           "rotates": false
         },
 		        {
-          "id": ["overlay_wielded_trenchcoat_faux_fur"],
+          "id": ["overlay_worn_trenchcoat_faux_fur"],
           "fg": 23074,
           "rotates": false
         },		
@@ -55817,7 +55970,7 @@
           "rotates": false
         },
 		        {
-          "id": ["overlay_wielded_sleeveless_duster_faux_fur"],
+          "id": ["overlay_worn_sleeveless_duster_faux_fur"],
           "fg": 23076,
           "rotates": false
         },      
@@ -55827,7 +55980,7 @@
           "rotates": false
         },
 		        {
-          "id": ["overlay_wielded_sleeveless_trenchcoat_faux_fur"],
+          "id": ["overlay_worn_sleeveless_trenchcoat_faux_fur"],
           "fg": 23078,
           "rotates": false
         },
@@ -55996,6 +56149,24 @@
           "id": "mon_zombie_succumbvampire",
           "fg": 23110,
 		   "bg": 967,
+          "rotates": false
+        },
+						{
+          "id": "nec_teddy",
+          "fg": 23111,
+		   "bg": 0,
+          "rotates": false
+        },
+								{
+          "id": ["overlay_wielded_nec_teddy", "overlay_worn_nec_teddy"],
+          "fg": 23112,
+		   "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "apple_sugar",
+          "fg": 23113,
+		   "bg": 0,
           "rotates": false
         },
 		{
