@@ -1,12 +1,12 @@
-# Compilation guide for 64 bit Windows (using Visual Studio and vcpkg)
+# Compilation guide for Windows (using Visual Studio and vcpkg)
 
 This guide contains steps required to allow compilation of Cataclysm-DDA on Windows using Visual Studio and vcpkg.
 
-Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2017 (64 bit) and vcpkg, but should work for other versions of Windows and Visual Studio.
+Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2017 (64 bit) and vcpkg, but should as well work with slight modifications for other versions of Windows and Visual Studio.
 
 ## Preqrequisites:
 
-* Computer with 64 bit version of modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
+* Computer with modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
 * NTFS partition with ~15 Gb free space (~10 Gb for Visual Studio, ~1 Gb for vcpkg installation, ~3 Gb for repository and ~1 Gb for build cache);
 * Git for Windows (installer can be downloaded from [Git homepage](https://git-scm.com/));
 * Visual Studio 2017 (or 2015 Visual Studio Update 3 and above);
@@ -29,10 +29,24 @@ cd vcpkg
 vcpkg integrate install
 ```
 
-4. Install neccessary packages with following command line:
+4. Install (or upgrade) neccessary packages with following command line:
+
+#### install 64 bit dependencies:
 
 ```cmd
 vcpkg --triplet x64-windows install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
+```
+
+#### install32 bit dependencies:
+
+```cmd
+vcpkg --triplet x86-windows install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
+```
+
+#### upgrade all dependencies:
+
+```cmd
+vcpkg upgrade
 ```
 
 ## Cloning and compilation:
@@ -46,6 +60,6 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
 ``` 
 
-2. Open provided solution (`msvc-full-features\Cataclysm-vcpkg.sln`) in `Visual Studio` and compile it.
+2. Open provided solution (`msvc-full-features\Cataclysm-vcpkg.sln`) in `Visual Studio`, select configuration (`Release` or `Debug`) an platform (`x64` or `x86`) and build it.
 
 **Note**: This will compile release version with Lua, Sound, Tiles and Localization support (language files won't be automatically compiled).
