@@ -127,7 +127,7 @@ void iexamine::cvdmachine( player &p, const tripoint & ) {
 
     // Apply flag to item
     loc->item_tags.insert( "DIAMOND" );
-    add_msg( m_good, "You apply a diamond coating to your %s", loc->type_name().c_str() );
+    add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name().c_str() );
     p.mod_moves( -1000 );
 }
 
