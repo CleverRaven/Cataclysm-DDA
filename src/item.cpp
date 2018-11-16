@@ -1641,16 +1641,16 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         insert_separation_line();
 
         if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
+            int encumbrance = get_encumber();
+            std::string format;
             if( has_flag( "FIT" ) ) {
-                info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ),
-                                          _( "<num> <info>(fits)</info>" ),
-                                          iteminfo::no_newline | iteminfo::lower_is_better,
-                                          get_encumber() ) );
-            } else {
-                info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), "",
-                                          iteminfo::no_newline | iteminfo::lower_is_better,
-                                          get_encumber() ) );
+                format = _( "<num> <info>(fits)</info>" );
+            } else if( has_flag( "VARSIZE" ) && encumbrance ) {
+                format = _( "<num> <bad>(poor fit)</bad>" );
             }
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
+                                      iteminfo::no_newline | iteminfo::lower_is_better,
+                                      encumbrance ) );
             if( !type->rigid ) {
                 const auto encumbrance_when_full = get_encumber_when_containing( get_total_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
@@ -2781,8 +2781,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << _( " (oversize)" );
         } else if( !small && undersize ) {
             ret << _( " (undersize)" );
-        } else if( fits ) {
-            ret << _( " (fits)" );
+        } else if( !fits && has_flag( "VARSIZE" ) ) {
+            ret << _( " (poor fit)" );
         }
     }
 
@@ -2833,7 +2833,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     ret.str( "" );
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (fits)").
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
     ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext.c_str(), burntext.c_str(),
                           modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str() );
 
