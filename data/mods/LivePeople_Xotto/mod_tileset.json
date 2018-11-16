@@ -1,0 +1,18 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "MSX++LIVE_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "Xotto_Items.png",
+        "tiles": [
+          { "id": "highlight_item", "fg": 0 },
+		  { "id": "footstep", "fg": 1 },
+		  { "id": "cursor", "fg": 2 },
+		  { "id": "animation_hit", "fg": 3 }
+		  
+        ]
+      }
+    ]
+  }
+]

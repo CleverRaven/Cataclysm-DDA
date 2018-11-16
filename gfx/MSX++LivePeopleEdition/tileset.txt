@@ -1,0 +1,4 @@
+NAME: MSX++LIVE_PEOPLE
+VIEW: MSX++LIVE_PEOPLE
+JSON: tile_config.json
+TILESET: tiles.png
