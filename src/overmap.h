@@ -207,7 +207,7 @@ class overmap
         /**
          * Dummy value, used to indicate that a point returned by a function is invalid.
          */
-        static const tripoint invalid_tripoint;
+        static constexpr tripoint invalid_tripoint = tripoint_min;
         /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.

@@ -849,7 +849,7 @@ class npc : public player
         bool hit_by_player;
         std::vector<npc_need> needs;
         // Dummy point that indicates that the goal is invalid.
-        static const tripoint no_goal_point;
+        static constexpr tripoint no_goal_point = tripoint_min;
 
         time_point last_updated;
         /**

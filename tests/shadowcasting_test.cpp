@@ -29,7 +29,7 @@ void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
         return;
     }
     bool blocked = false;
-    static const tripoint origin( 0, 0, 0 );
+    static constexpr tripoint origin( 0, 0, 0 );
     tripoint delta( 0, 0, 0 );
     for( int distance = row; distance <= radius && !blocked; distance++ ) {
         delta.y = -distance;
