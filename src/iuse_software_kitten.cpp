@@ -443,12 +443,14 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                         draw_kitten( w );
                     }
                     wrefresh( w );
+                    refresh_display();
                     nanosleep( &ts, NULL );
                 }
 
                 /* They're in love! */
                 mvwprintz( w, 0, ( ( rfkCOLS - 6 ) / 2 ) - 1, c_light_red, "<3<3<3" );
                 wrefresh( w );
+                refresh_display();
                 nanosleep( &ts, NULL );
                 for( int c = 0; c < rfkCOLS; c++ ) {
                     mvwputch( w, 0, c, c_white, ' ' );
@@ -456,12 +458,9 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                 }
                 mvwprintz( w, 0, 0, c_white, _( "You found kitten! Way to go, robot!" ) );
                 wrefresh( w );
+                refresh_display();
                 ret = true;
-                int ech = input;
-                do {
-                    // TODO: use input context
-                    ech = inp_mngr.get_input_event().get_first_input();
-                } while( ech == input );
+                inp_mngr.wait_for_any_key();
             }
             break;
 
