@@ -378,15 +378,6 @@ struct vehicle_part {
 
 };
 
-struct sentinel_part : public vehicle_part
-{
-    private:
-    vehicle_part& original;
-    public:
-    sentinel_part()=delete;
-    sentinel_part(vehicle_part& org);
-    ~sentinel_part();
-}
 
 class turret_data
 {
@@ -1536,4 +1527,19 @@ class vehicle
         mutable point mass_center_no_precalc;
 };
 
+/**
+ * Sentinel Parts that is used to block diagnal openings created when vehicles are at an angle.
+ * The sentinel_part serves as a special type of vehicle_part with a specific purpose of being used only to block passage 'through' the walls of the vehicle.
+ * It is designed to be dynamically created on a vehicle_part*, with the constructor copying over the value from the original, and removed when nolonger needed with the constructor who also takes care of the transfer of datasets.
+ */
+struct sentinel_part : public vehicle_part
+{
+    private:
+    vehicle_part* original;
+    public:
+    sentinel_part()=delete;
+    sentinel_part(vehicle_part* org);
+    ~sentinel_part();
+    bool point_adjust(vehicle_part* org);
+};
 #endif

@@ -4814,3 +4814,16 @@ bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part
            ( !( part_status_flag::available & required_ ) || vp.is_available() ) &&
            ( !( part_status_flag::enabled & required_ ) || vp.enabled );
 }
+
+sentinel_part::sentinel_part(vehicle_part* org) : vehicle_part(*org)
+{
+    original=org;
+    this->point_adjust(original);
+}
+sentinel_part::~sentinel_part(){
+    *original = (vehicle_part)*this;
+}
+bool sentinel_part::point_adjust(vehicle_part* org){
+    bool rtn = false;
+    return rtn;
+}
