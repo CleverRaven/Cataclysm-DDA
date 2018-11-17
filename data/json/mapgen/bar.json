@@ -212,7 +212,7 @@
         { "item": "bar_trash", "x": 22, "y": [ 17, 18 ], "chance": 70, "repeat": [ 4, 5 ] },
         { "item": "bar_bathroom", "x": [ 2, 4 ], "y": [ 21, 22 ], "chance": 30, "repeat": [ 1, 2 ] }
       ]
-    }    
+    }
     },
     {
     "type": "mapgen",
