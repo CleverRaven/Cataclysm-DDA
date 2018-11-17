@@ -295,7 +295,7 @@ static void monster_check()
 // Write out a map of slope at which monster is moving to time required to reach their destination.
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -304,7 +304,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -315,7 +315,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
     trigdist = false;
     monster_check();
@@ -323,7 +323,7 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
     trigdist = true;
     monster_check();
