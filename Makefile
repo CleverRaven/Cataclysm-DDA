@@ -772,7 +772,7 @@ $(TARGET): $(OBJS)
 ifdef RELEASE
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
-      $(STRIP) $(TARGET)
+	$(STRIP) $(TARGET)
     endif
   endif
 endif
