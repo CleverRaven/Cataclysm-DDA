@@ -626,6 +626,7 @@ class vehicle
          */
         template <typename Func, typename Vehicle>
         static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func visitor );
+        bool sentinel_on = false;
     public:
         vehicle( const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1 );
         vehicle();
