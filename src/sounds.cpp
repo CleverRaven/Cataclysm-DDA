@@ -25,7 +25,11 @@
 #include <cmath>
 
 #ifdef SDL_SOUND
-#   include <SDL2/SDL_mixer.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#      include <SDL2/SDL_mixer.h>
+#   else
+#      include <SDL_mixer.h>
+#   endif
 #   include <thread>
 #   if ((defined _WIN32 || defined WINDOWS) && !defined _MSC_VER)
 #       include "mingw.thread.h"

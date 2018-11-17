@@ -4,9 +4,15 @@
 
 #include "debug.h"
 
-#include <SDL2/SDL_image.h>
-
 #include <cassert>
+
+#ifdef TILES
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#       include <SDL2/SDL_image.h>
+#   else
+#       include <SDL_image.h>
+#   endif
+#endif // TILES
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
