@@ -31,9 +31,6 @@ jobs:
     - stage: test
       # GCC 5 is the pre-installed compiler on Xenial
       env: COMPILER=g++ MODS=--mods=RL_Classes
-      addons:
-        apt:
-          packages: ["astyle"]
 
     # Then build different configurations and targets in parallell.
     - stage: variants
