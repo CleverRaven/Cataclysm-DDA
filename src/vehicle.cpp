@@ -4793,15 +4793,32 @@ vehicle_part_range vehicle::get_all_parts() const
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
+
+bool vehicle::sentinel_present() const
+{
+    return sentinel_on;
+}
+bool vehicle::need_sentinel() const
+{
+    int orientation = face.dir() % 90;
+    return orientation > 29 && orientation < 61 && !sentinel_on ;
+}
+void vehicle::add_sentinel()
+{
+}
+void vehicle::remove_sentienl()
+{
+}
+
 template<>
 bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) const
 {
     const vehicle_part &vp = this->vehicle().parts[part];
     return vp.info().has_flag( feature_ ) &&
-           !vp.removed &&
-           ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
-           ( !( part_status_flag::available & required_ ) || vp.is_available() ) &&
-           ( !( part_status_flag::enabled & required_ ) || vp.enabled );
+        !vp.removed &&
+        ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
+        ( !( part_status_flag::available & required_ ) || vp.is_available() ) &&
+        ( !( part_status_flag::enabled & required_ ) || vp.enabled );
 }
 
 template<>
@@ -4809,10 +4826,10 @@ bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part
 {
     const vehicle_part &vp = this->vehicle().parts[part];
     return vp.info().has_flag( feature_ ) &&
-           !vp.removed &&
-           ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
-           ( !( part_status_flag::available & required_ ) || vp.is_available() ) &&
-           ( !( part_status_flag::enabled & required_ ) || vp.enabled );
+        !vp.removed &&
+        ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
+        ( !( part_status_flag::available & required_ ) || vp.is_available() ) &&
+        ( !( part_status_flag::enabled & required_ ) || vp.enabled );
 }
 
 sentinel_part::sentinel_part(vehicle_part* org,point p) : vehicle_part(*org)
