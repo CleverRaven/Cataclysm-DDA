@@ -5,7 +5,7 @@
   "name": "Fuji's More Buildings",
   "description": "Adds more buildings and more variations to existing buildings. (Requires More Locations)",
   "category": "buildings",
-  "author": "Fuji",
+  "authors": "Fuji",
   "dependencies": [
     "dda",
     "more_locations"
