@@ -375,7 +375,18 @@ struct vehicle_part {
          * this part.
          */
         item_group::ItemList pieces_for_broken_part() const;
+
 };
+
+struct sentinel_part : public vehicle_part
+{
+    private:
+    vehicle_part& original;
+    public:
+    sentinel_part()=delete;
+    sentinel_part(vehicle_part& org);
+    ~sentinel_part();
+}
 
 class turret_data
 {
