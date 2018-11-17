@@ -2179,6 +2179,34 @@ conditional_t::conditional_t( JsonObject jo )
             }
             return false;
         };
+    } else if( jo.has_member( "npc_has_any_trait" ) ) {
+        std::vector<trait_id> traits_to_check;
+        for( auto &&f : jo.get_string_array( "npc_has_any_trait" ) ) { // *NOPAD*
+            traits_to_check.emplace_back( f );
+        }
+        condition = [traits_to_check]( const dialogue & d ) {
+            for( const auto &trait : traits_to_check ) {
+                if( d.beta->has_trait( trait ) ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+    } else if( jo.has_member( "u_has_trait" ) ) {
+        std::string trait_to_check = jo.get_string( "u_has_trait" );
+        condition = [trait_to_check]( const dialogue & d ) {
+            return d.alpha->has_trait( trait_id( trait_to_check ) );
+        };
+    } else if( jo.has_member( "npc_has_trait" ) ) {
+        std::string trait_to_check = jo.get_string( "npc_has_trait" );
+        condition = [trait_to_check]( const dialogue & d ) {
+            return d.beta->has_trait( trait_id( trait_to_check ) );
+        };
+    } else if( jo.has_member( "npc_has_class" ) ) {
+        std::string class_to_check = jo.get_string( "npc_has_class" );
+        condition = [class_to_check]( const dialogue & d ) {
+            return d.beta->myclass == npc_class_id( class_to_check );
+        };
     } else if( jo.has_string( "u_has_mission" ) ) {
         const std::string &mission = jo.get_string( "u_has_mission" );
         condition = [mission]( const dialogue & ) {
@@ -2436,6 +2464,14 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             const bool in_effect = d.beta->has_effect( efftype_id( effect_id ) );
             return ( in_effect ? yes : no )( d );
         };
+    } else if( jo.has_member( "u_has_effect" ) ) {
+        const std::string effect_id = jo.get_string( "u_has_effect" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [effect_id, yes, no]( const dialogue & d ) {
+            const bool in_effect = d.alpha->has_effect( efftype_id( effect_id ) );
+            return ( in_effect ? yes : no )( d );
+        };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
         std::vector<trait_id> traits_to_check;
         for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) { // *NOPAD*
@@ -2448,6 +2484,51 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
                 if( d.alpha->has_trait( trait ) ) {
                     return yes( d );
                 }
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "npc_has_any_trait" ) ) {
+        std::vector<trait_id> traits_to_check;
+        for( auto &&f : jo.get_string_array( "npc_has_any_trait" ) ) { // *NOPAD*
+            traits_to_check.emplace_back( f );
+        }
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [traits_to_check, yes, no]( const dialogue & d ) {
+            for( const auto &trait : traits_to_check ) {
+                if( d.beta->has_trait( trait ) ) {
+                    return yes( d );
+                }
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "u_has_trait" ) ) {
+        std::string trait_to_check = jo.get_string( "u_has_trait" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [trait_to_check, yes, no]( const dialogue & d ) {
+            if( d.alpha->has_trait( trait_id( trait_to_check ) ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "npc_has_trait" ) ) {
+        std::string trait_to_check = jo.get_string( "npc_has_trait" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [trait_to_check, yes, no]( const dialogue & d ) {
+            if( d.beta->has_trait( trait_id( trait_to_check ) ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "npc_has_class" ) ) {
+        std::string class_to_check = jo.get_string( "npc_has_class" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [class_to_check, yes, no]( const dialogue & d ) {
+            if( d.beta->myclass == npc_class_id( class_to_check ) ) {
+                return yes( d );
             }
             return no( d );
         };
