@@ -6897,7 +6897,13 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
             veh->start_engines();
         }
     } else if( choice == 1 ) {
-        veh->use_controls( pos );
+        const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
+        // Revert to original behaviour if we can't find remote controls.
+        if( empty(rctrl_parts) ) {
+            veh->use_controls( pos );
+        } else {
+            veh->use_controls( rctrl_parts.begin()->pos() );
+        }
     }
 
     g->u.view_offset.x = px;
