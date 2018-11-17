@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ -n "${CODE_COVERAGE}" ]; then
   travis_retry pip install --user pyyaml cpp-coveralls;
   export CXXFLAGS=--coverage;
