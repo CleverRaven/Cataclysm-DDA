@@ -214,7 +214,7 @@
       ]
     }
     },
-    {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bar" ],
