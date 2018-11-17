@@ -183,7 +183,7 @@
             "T": "f_toilet",
             "t": "f_sink"
           },
-            "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ] } ],
+          "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ] } ],
             "toilets": { "T": {} },
             "items": {
        		"O": { "item": "gym", "chance": 80 },
