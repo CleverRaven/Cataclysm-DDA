@@ -23,6 +23,8 @@ option(LUA_BINARY   "Lua binary name or path. You can try to use luajit for extr
 option(GIT_BINARY   "Git binary name or path."							"")
 OPTION(PREFIX       "Location of Data,GFX, & Lua directories"                                   "")
 
+include(CTest)
+
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
@@ -385,6 +387,7 @@ add_subdirectory(data)
 if (NOT MSVC)
 	add_subdirectory(src/chkjson)
 endif()
+add_subdirectory(tests)
 
 CONFIGURE_FILE(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
