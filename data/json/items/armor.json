@@ -105,26 +105,6 @@
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
-    "id": "anbc_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "ANBC suit",
-    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.",
-    "weight": 8700,
-    "volume": 80,
-    "price": 400000,
-    "material": [ "kevlar", "plastic" ],
-    "symbol": "[",
-    "color": "light_red",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "coverage": 100,
-    "encumbrance": 45,
-    "warmth": 50,
-    "material_thickness": 3,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER" ]
-  },
-  {
     "id": "apron_leather",
     "type": "ARMOR",
     "name": "leather apron",
