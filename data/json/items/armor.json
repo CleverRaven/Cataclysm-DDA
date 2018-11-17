@@ -4233,25 +4233,6 @@
     "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
   },
   {
-    "id": "hazmat_suit",
-    "type": "ARMOR",
-    "name": "hazmat suit",
-    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.",
-    "weight": 5000,
-    "volume": 68,
-    "price": 117500,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "yellow",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "coverage": 100,
-    "encumbrance": 37,
-    "warmth": 40,
-    "material_thickness": 2,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER" ]
-  },
-  {
     "id": "headgear",
     "type": "ARMOR",
     "name": "headgear",
