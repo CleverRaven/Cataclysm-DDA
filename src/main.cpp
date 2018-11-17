@@ -32,7 +32,11 @@
 #endif
 #include "translations.h"
 #ifdef TILES
-#include <SDL2/SDL_version.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#      include <SDL2/SDL_version.h>
+#   else
+#      include <SDL_version.h>
+#   endif
 #endif
 
 #ifdef __ANDROID__

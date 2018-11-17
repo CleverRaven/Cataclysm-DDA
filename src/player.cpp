@@ -69,7 +69,11 @@
 #include <map>
 
 #ifdef TILES
-#include "SDL2/SDL.h"
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#       include <SDL2/SDL.h>
+#   else
+#       include <SDL.h>
+#   endif
 #endif // TILES
 
 #include <algorithm>

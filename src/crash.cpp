@@ -9,7 +9,11 @@
 #include <typeinfo>
 
 #ifdef TILES
-#include <SDL2/SDL.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#       include <SDL2/SDL.h>
+#   else
+#       include <SDL.h>
+#   endif
 #endif
 
 #include "crash.h"

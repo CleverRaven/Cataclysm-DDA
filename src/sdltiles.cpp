@@ -24,7 +24,11 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-#include <SDL2/SDL_image.h>
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#   include <SDL2/SDL_image.h>
+#else
+#   include <SDL_image.h>
+#endif
 
 #include <algorithm>
 #include <cassert>
@@ -48,7 +52,11 @@
 #endif
 
 #ifdef SDL_SOUND
-#   include <SDL2/SDL_mixer.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#      include <SDL2/SDL_mixer.h>
+#   else
+#      include <SDL_mixer.h>
+#   endif
 #   include "sounds.h"
 #endif
 
