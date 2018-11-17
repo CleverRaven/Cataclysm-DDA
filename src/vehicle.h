@@ -1538,8 +1538,7 @@ struct sentinel_part : public vehicle_part
     vehicle_part* original;
     public:
     sentinel_part()=delete;
-    sentinel_part(vehicle_part* org);
+    sentinel_part(vehicle_part* org,point p);
     ~sentinel_part();
-    bool point_adjust(vehicle_part* org);
 };
 #endif
