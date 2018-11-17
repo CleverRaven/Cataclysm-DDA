@@ -213,7 +213,7 @@
         { "item": "bar_bathroom", "x": [ 2, 4 ], "y": [ 21, 22 ], "chance": 30, "repeat": [ 1, 2 ] }
       ]
     }
-    },
+},
 {
     "type": "mapgen",
     "method": "json",
