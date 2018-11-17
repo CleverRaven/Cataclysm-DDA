@@ -1328,11 +1328,9 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     // Clean up before removing the item.
     remove_ammo( cut, p );
     // Original item has been consumed.
-    if( pos != INT_MIN ) {
-        p.i_rem( pos );
-    } else {
-        g->m.i_rem( p.posx(), p.posy(), &cut );
-    }
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( cut.typeId(), 1 ) );
+    p.consume_items( comps, 1 );
 
     for( auto salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
