@@ -250,7 +250,7 @@
       "terrain": {
         "_": "t_pavement",
         "~": "t_sidewalk",
-        " ": ["t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_dirt" ],
+        " ": [ "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_dirt" ],
         "&": "t_linoleum_gray",
         "'": "t_window_domestic",
         "+": "t_door_c",
