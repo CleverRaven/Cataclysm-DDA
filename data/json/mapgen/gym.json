@@ -156,7 +156,7 @@
             "*": "t_linoleum_white",
             "+": "t_door_c",
             ",": "t_sidewalk",
-            ".":  [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt" ],
+            ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt" ],
             "5": "t_wall_glass",
             "=": "t_door_glass_c",
             "@": "t_floor",
