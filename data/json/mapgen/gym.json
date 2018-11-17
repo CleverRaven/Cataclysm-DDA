@@ -79,7 +79,7 @@
             "+": "t_door_c",
             ",": "t_sidewalk",
             "-": "t_wall",
-            ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt"],
+            ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt" ],
             "5": "t_wall_glass",
             "8": "t_wall_glass",
             "=": "t_door_glass_c",
