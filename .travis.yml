@@ -83,6 +83,7 @@ jobs:
     # GCC 7
     - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough' CODE_COVERAGE=true
       compiler: gcc
+      dist: trusty
       addons: &gcc7
         apt:
           packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
@@ -123,6 +124,7 @@ jobs:
     # Clang 5.0
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       compiler: clang
+      dist: trusty
       addons: &clang50
         apt:
           packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
@@ -131,6 +133,7 @@ jobs:
     # Clang 6.0
     - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       compiler: clang
+      dist: trusty
       addons: &clang60
         apt:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
