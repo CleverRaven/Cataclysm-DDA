@@ -1,7 +1,6 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-sudo: false
-dist: trusty
+dist: xenial
 language: c++
 
 cache: ccache
@@ -32,15 +31,14 @@ jobs:
     - stage: test
       # GCC 5 is the pre-installed compiler on Xenial
       env: COMPILER=g++ MODS=--mods=RL_Classes
-      dist: xenial
-      sudo: true
+      addons:
+        apt:
+          packages: ["astyle"]
 
     # Then build different configurations and targets in parallell.
     - stage: variants
       # GCC MinGW
       env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
-      compiler: gcc
-      sudo: required
       addons: &gcc
         apt:
           packages: ["wine"]
@@ -48,7 +46,6 @@ jobs:
     # Windows Tiles
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
       compiler: gcc
-      sudo: required
       addons: &gcc
         apt:
           packages: ["wine"]
@@ -120,7 +117,6 @@ jobs:
 
     # Clang 4.0
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
-      dist: trusty
       compiler: clang
       addons: &clang40
         apt:
@@ -129,7 +125,6 @@ jobs:
 
     # Clang 5.0
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
-      dist: trusty
       compiler: clang
       addons: &clang50
         apt:
@@ -138,7 +133,6 @@ jobs:
           
     # Clang 6.0
     - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument
-      dist: trusty
       compiler: clang
       addons: &clang60
         apt:
