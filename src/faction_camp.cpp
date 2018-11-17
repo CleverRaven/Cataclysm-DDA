@@ -3348,7 +3348,10 @@ bool talk_function::camp_distribute_food( npc &p )
     }
 
     int total = 0;
-    for( auto &i : g->m.i_at( p_food_stock ) ) {
+    std::vector<item> keep_me;
+    auto initial_items = g->m.i_at( p_food_stock );
+    for( auto &i : initial_items ) {
+        bool track = p_trash == p_food_stock;
         if( i.is_container() && i.get_contained().is_food() ) {
             auto comest = i.get_contained();
             i.contents.clear();
@@ -3359,9 +3362,14 @@ bool talk_function::camp_distribute_food( npc &p )
             i.on_contents_changed();
             g->m.add_item_or_charges( litter_spread, i, false );
             i = comest;
+            track = false;
         }
         if( i.is_comestible() && ( i.rotten() || i.type->comestible->fun < -6 ) ) {
-            g->m.add_item_or_charges( p_trash, i, false );
+            if( track ) {
+                keep_me.push_back( i );
+            } else {
+                g->m.add_item_or_charges( p_trash, i, false );
+            }
         } else if( i.is_food() ) {
             float rot_multip;
             int rots_in = to_days<int>( time_duration::from_turns( i.spoilage_sort_order() ) );
@@ -3378,12 +3386,24 @@ bool talk_function::camp_distribute_food( npc &p )
                 total += i.type->comestible->nutr * rot_multip;
             }
         } else if( i.is_corpse() ) {
-            g->m.add_item_or_charges( p_trash, i, false );
+            if( track ) {
+                keep_me.push_back( i );
+            } else {
+                g->m.add_item_or_charges( p_trash, i, false );
+            }
         } else {
-            g->m.add_item_or_charges( p_tool, i, false );
+            if( p_tool == p_food_stock ) {
+                keep_me.push_back( i );
+            } else {
+                g->m.add_item_or_charges( p_tool, i, false );
+            }
         }
     }
     g->m.i_clear( p_food_stock );
+    for( auto &i : keep_me ) {
+        g->m.add_item_or_charges( p_food_stock, i, false );
+    }
+
     popup( _( "You distribute %d kcal worth of food to your companions." ), total * 10 );
     camp_food_supply( total );
     return true;
