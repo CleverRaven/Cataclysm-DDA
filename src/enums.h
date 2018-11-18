@@ -225,8 +225,11 @@ namespace std
 template <>
 struct hash<point> {
     std::size_t operator()( const point &k ) const {
-        // Circular shift y by half its width so hash(5,6) != hash(6,5).
-        return std::hash<int>()( k.x ) ^ std::hash<int>()( ( k.y << 16 ) | ( k.y >> 16 ) );
+        constexpr uint64_t a = 2862933555777941757;
+        size_t result = k.y;
+        result *= a;
+        result += k.x;
+        return result;
     }
 };
 }
@@ -307,10 +310,13 @@ namespace std
 template <>
 struct hash<tripoint> {
     std::size_t operator()( const tripoint &k ) const {
-        // Circular shift y and z so hash(5,6,7) != hash(7,6,5).
-        return std::hash<int>()( k.x ) ^
-               std::hash<int>()( ( k.y << 10 ) | ( k.y >> 10 ) ) ^
-               std::hash<int>()( ( k.z << 20 ) | ( k.z >> 20 ) );
+        constexpr uint64_t a = 2862933555777941757;
+        size_t result = k.z;
+        result *= a;
+        result += k.y;
+        result *= a;
+        result += k.x;
+        return result;
     }
 };
 }
