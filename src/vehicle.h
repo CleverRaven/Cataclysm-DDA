@@ -392,7 +392,6 @@ struct sentinel_part : public vehicle_part
     ~sentinel_part();
 };
 
-
 class turret_data
 {
         friend vehicle;
