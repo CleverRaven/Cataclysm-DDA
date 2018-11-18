@@ -250,6 +250,13 @@ void vehicle::turn( int deg )
     }
     // quick rounding the turn dir to a multiple of 15
     turn_dir = 15 * ( ( turn_dir * 2 + 15 ) / 30 );
+
+    if(sentinel_present()){
+        if (!need_sentinel()) remove_sentinel();
+    }
+    else{ 
+        if (need_sentinel()) add_sentinel();
+    }
 }
 
 void vehicle::stop()
