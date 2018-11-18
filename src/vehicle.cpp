@@ -4807,7 +4807,7 @@ void vehicle::add_sentinel()
 {
     sentinel_on = true;
 }
-void vehicle::remove_sentienl()
+void vehicle::remove_sentinel()
 {
     sentinel_on = false;
 }
