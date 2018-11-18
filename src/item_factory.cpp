@@ -495,12 +495,36 @@ class iuse_function_wrapper : public iuse_actor
         void load( JsonObject & ) override {}
 };
 
+class iuse_function_wrapper_with_info : public iuse_function_wrapper
+{
+    private:
+        std::string info_string; // Untranslated
+    public:
+        iuse_function_wrapper_with_info(
+            const std::string &type, const use_function_pointer f, const std::string &info )
+            : iuse_function_wrapper( type, f ), info_string( info ) { }
+
+        void info( const item &, std::vector<iteminfo> &info ) const override {
+            info.emplace_back( "DESCRIPTION", _( info_string.c_str() ) );
+        }
+        iuse_actor *clone() const override {
+            return new iuse_function_wrapper_with_info( *this );
+        }
+};
+
 use_function::use_function( const std::string &type, const use_function_pointer f )
     : use_function( new iuse_function_wrapper( type, f ) ) {}
 
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
     iuse_function_list[ type ] = use_function( type, f );
+}
+
+void Item_factory::add_iuse( const std::string &type, const use_function_pointer f,
+                             const std::string &info )
+{
+    iuse_function_list[ type ] =
+        use_function( new iuse_function_wrapper_with_info( type, f, info ) );
 }
 
 void Item_factory::add_actor( iuse_actor *ptr )
@@ -599,6 +623,12 @@ void Item_factory::init()
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
+    add_iuse( "GASMASK", &iuse::gasmask,
+              translate_marker( "Can be activated to <good>increase environmental "
+                                "protection</good>.  Will consume charges when active, "
+                                "but <info>only when environmental hazards are "
+                                "present</info>."
+                              ) );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
@@ -632,7 +662,6 @@ void Item_factory::init()
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
-    add_iuse( "GASMASK", &iuse::gasmask );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );

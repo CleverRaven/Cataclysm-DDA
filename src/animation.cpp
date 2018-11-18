@@ -220,7 +220,7 @@ void draw_custom_explosion_curses( game &g,
 void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
 {
     if( test_mode ) {
-        return; // avoid segfault
+        return; // avoid segfault from null tilecontext in tests
     }
 
     if( !use_tiles ) {
@@ -256,7 +256,7 @@ void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
 void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_color> &all_area )
 {
     if( test_mode ) {
-        return; // avoid segfault
+        return; // avoid segfault from null tilecontext in tests
     }
 
     constexpr explosion_neighbors all_neighbors = N_NORTH | N_SOUTH | N_WEST | N_EAST;
@@ -470,6 +470,10 @@ void draw_hit_mon_curses( const tripoint &center, const monster &m, player const
 #if defined(TILES)
 void game::draw_hit_mon( const tripoint &p, const monster &m, bool const dead )
 {
+    if( test_mode ) {
+        return; // avoid segfault from null tilecontext in tests
+    }
+
     if( !use_tiles ) {
         draw_hit_mon_curses( p, m, u, dead );
         return;
@@ -502,6 +506,10 @@ void draw_hit_player_curses( game const &g, player const &p, const int dam )
 #if defined(TILES)
 void game::draw_hit_player( player const &p, const int dam )
 {
+    if( test_mode ) {
+        return; // avoid segfault from null tilecontext in tests
+    }
+
     if( !use_tiles ) {
         draw_hit_player_curses( *this, p, dam );
         return;

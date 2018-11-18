@@ -31,6 +31,7 @@
 #else
 #include <cstdlib>
 #include <execinfo.h>
+#include <unistd.h>
 #endif
 #endif
 
@@ -448,6 +449,93 @@ bool debug_is_safe_string( const char *start, const char *finish )
     return std::all_of( start, finish, is_safe_char );
 }
 
+std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
+{
+    if( binary.find( '/' ) != std::string::npos ) {
+        // The easy case, where we have a path to the binary
+        return binary;
+    }
+    // If the binary name has no slashes then it was found via PATH
+    // lookup, and we need to do the same to pass the correct name
+    // to addr2line.  An alternative would be to use /proc/self/exe,
+    // but that's Linux-specific.
+    // Obviously this will not work in all situations, but it will
+    // usually do the right thing.
+    const char *path = std::getenv( "PATH" );
+    if( !path ) {
+        // Should be impossible, but I want to avoid segfaults
+        // in the crash handler.
+        out << "\tbacktrace: PATH not set\n";
+        return binary;
+    }
+
+    for( const std::string &path_elem : string_split( path, ':' ) ) {
+        if( path_elem.empty() ) {
+            continue;
+        }
+        std::string candidate = path_elem + "/" + binary;
+        if( 0 == access( candidate.c_str(), X_OK ) ) {
+            return candidate;
+        }
+    }
+
+    return binary;
+}
+
+cata::optional<uintptr_t> debug_compute_load_offset(
+    const std::string &binary, const std::string &symbol,
+    const std::string &offset_within_symbol_s, void *address, std::ostream &out )
+{
+    // I don't know a good way to compute this offset.  This
+    // seems to work, but I'm not sure how portable it is.
+    //
+    // backtrace_symbols has provided the address of a symbol as loaded
+    // in memory.  We use nm to compute the address of the same symbol
+    // in the binary file, and take the difference of the two.
+    //
+    // There are platform-specific functions which can do similar
+    // things (e.g. dladdr1 in GNU libdl) but this approach might
+    // perhaps be more portable and adds no link-time dependencies.
+
+    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, 0, 0 );
+    std::string string_sought = " " + symbol;
+
+    // We need to try calling nm in two different ways, because one
+    // works for executables and the other for libraries.
+    const char *nm_variants[] = { "nm", "nm -D" };
+    for( const char *nm_variant : nm_variants ) {
+        std::ostringstream cmd;
+        cmd << nm_variant << ' ' << binary << " 2>&1";
+        FILE *nm = popen( cmd.str().c_str(), "re" );
+        if( !nm ) {
+            out << "\tbacktrace: popen(nm) failed\n";
+            return cata::nullopt;
+        }
+
+        char buf[1024];
+        while( fgets( buf, sizeof( buf ), nm ) ) {
+            std::string line( buf );
+            while( !line.empty() && std::isspace( line.end()[-1] ) ) {
+                line.erase( line.end() - 1 );
+            }
+            if( string_ends_with( line, string_sought ) ) {
+                std::istringstream line_is( line );
+                uintptr_t symbol_address;
+                line_is >> std::hex >> symbol_address;
+                if( line_is ) {
+                    pclose( nm );
+                    return reinterpret_cast<uintptr_t>( address ) -
+                           ( symbol_address + offset_within_symbol );
+                }
+            }
+        }
+
+        pclose( nm );
+    }
+
+    return cata::nullopt;
+}
+
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined _WIN32 || defined _WIN64
@@ -484,7 +572,7 @@ void debug_write_backtrace( std::ostream &out )
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
     for( int i = 0; i < count; ++i ) {
-        out << "\n\t(" << funcNames[i] << "), ";
+        out << "\n\t" << funcNames[i];
     }
     out << "\n\n\tAttempting to repeat stack trace using debug symbols...\n";
     // Try to print the backtrace again, but this time using addr2line
@@ -496,14 +584,26 @@ void debug_write_backtrace( std::ostream &out )
     // addresses as possible in each commandline.  To that end, we track
     // the binary of the frame and issue a command whenever that
     // changes.
-    std::string addresses;
+    std::vector<uintptr_t> addresses;
+    std::map<std::string, uintptr_t> load_offsets;
     std::string last_binary_name;
 
-    auto call_addr2line = [&out]( const std::string & binary, const std::string & addresses ) {
-        std::string cmd = "addr2line -e " + binary + " -f -C " + addresses;
-        FILE *addr2line = popen( cmd.c_str(), "re" );
+    auto call_addr2line = [&out, &load_offsets]( const std::string & binary,
+    const std::vector<uintptr_t> &addresses ) {
+        const auto load_offset_it = load_offsets.find( binary );
+        const uintptr_t load_offset = ( load_offset_it == load_offsets.end() ) ? 0 :
+                                      load_offset_it->second;
+
+        std::ostringstream cmd;
+        cmd.imbue( std::locale::classic() );
+        cmd << "addr2line -i -e " << binary << " -f -C" << std::hex;
+        for( uintptr_t address : addresses ) {
+            cmd << " 0x" << ( address - load_offset );
+        }
+        cmd << " 2>&1";
+        FILE *addr2line = popen( cmd.str().c_str(), "re" );
         if( addr2line == nullptr ) {
-            out << "backtrace: popen(addr2line) failed\n";
+            out << "\tbacktrace: popen(addr2line) failed\n";
             return false;
         }
         char buf[1024];
@@ -524,39 +624,63 @@ void debug_write_backtrace( std::ostream &out )
         if( 0 != pclose( addr2line ) ) {
             // Most likely reason is that addr2line is not installed, so
             // in this case we give up and don't try any more frames.
-            out << "backtrace: addr2line failed\n";
+            out << "\tbacktrace: addr2line failed\n";
             return false;
         }
         return true;
     };
 
     for( int i = 0; i < count; ++i ) {
-        // We want to call addr2Line to convert the address to a
-        // useful format
+        // An example string from backtrace_symbols is
+        //   ./cataclysm-tiles(_Z21debug_write_backtraceRSo+0x3d) [0x55ddebfa313d]
+        // From that we need to extract the binary name, the symbol
+        // name, and the offset within the symbol.  We don't need to
+        // extract the address (the last thing) because that's already
+        // available in tracePtrs.
+
         auto funcName = funcNames[i];
         const auto funcNameEnd = funcName + std::strlen( funcName );
         const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
-        auto addressStart = std::find( funcName, funcNameEnd, '[' );
-        auto addressEnd = std::find( addressStart, funcNameEnd, ']' );
-        if( binaryEnd == funcNameEnd || addressEnd == funcNameEnd ) {
-            out << "backtrace: Could not extract binary name and address from line\n";
-            continue;
-        }
-        ++addressStart;
-
-        if( !debug_is_safe_string( addressStart, addressEnd ) ) {
-            out << "backtrace: Address not safe\n";
+        if( binaryEnd == funcNameEnd ) {
+            out << "\tbacktrace: Could not extract binary name from line\n";
             continue;
         }
 
         if( !debug_is_safe_string( funcName, binaryEnd ) ) {
-            out << "backtrace: Binary name not safe\n";
+            out << "\tbacktrace: Binary name not safe\n";
             continue;
         }
 
         std::string binary_name( funcName, binaryEnd );
+        binary_name = debug_resolve_binary( binary_name, out );
+
+        // For each binary we need to determine its offset relative to
+        // its natural load address in order to undo ASLR and pass the
+        // correct addresses to addr2line
+        auto load_offset = load_offsets.find( binary_name );
+        if( load_offset == load_offsets.end() ) {
+            const auto symbolNameStart = binaryEnd + 1;
+            const auto symbolNameEnd = std::find( symbolNameStart, funcNameEnd, '+' );
+            const auto offsetEnd = std::find( symbolNameStart, funcNameEnd, ')' );
+
+            if( symbolNameEnd < offsetEnd && offsetEnd < funcNameEnd ) {
+                const auto offsetStart = symbolNameEnd + 1;
+                std::string symbol_name( symbolNameStart, symbolNameEnd );
+                std::string offset_within_symbol( offsetStart, offsetEnd );
+
+                cata::optional<uintptr_t> offset =
+                    debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
+                                               tracePtrs[i], out );
+                if( offset ) {
+                    load_offsets.emplace( binary_name, *offset );
+                }
+            }
+        }
 
         if( !last_binary_name.empty() && binary_name != last_binary_name ) {
+            // We have reached the end of the sequence of addresses
+            // within this binary, so call addr2line before proceeding
+            // to the next binary.
             if( !call_addr2line( last_binary_name, addresses ) ) {
                 addresses.clear();
                 break;
@@ -566,8 +690,7 @@ void debug_write_backtrace( std::ostream &out )
         }
 
         last_binary_name = binary_name;
-        addresses += " ";
-        addresses.insert( addresses.end(), addressStart, addressEnd );
+        addresses.push_back( reinterpret_cast<uintptr_t>( tracePtrs[i] ) );
     }
 
     if( !addresses.empty() ) {
