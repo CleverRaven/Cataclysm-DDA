@@ -414,7 +414,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
                                      nmatch ), nmatch, vRules[iTab][iRow].sRule.c_str() );
     draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
     center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
-                  _( "Won't display bottled and suffixes=(fits)" ) );
+                  _( "Won't display content or suffix matches" ) );
     wrefresh( w_test_rule_border );
 
     int iLine = 0;

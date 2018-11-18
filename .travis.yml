@@ -1,7 +1,6 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-sudo: false
-dist: trusty
+dist: xenial
 language: c++
 
 cache: ccache
@@ -30,20 +29,13 @@ jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
     - stage: test
-      # GCC 8
-      env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' MODS=--mods=RL_Classes
-      compiler: gcc
-      addons: &gcc8
-        apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
+      # GCC 5 is the pre-installed compiler on Xenial
+      env: COMPILER=g++ MODS=--mods=RL_Classes
 
     # Then build different configurations and targets in parallell.
     - stage: variants
       # GCC MinGW
       env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
-      compiler: gcc
-      sudo: required
       addons: &gcc
         apt:
           packages: ["wine"]
@@ -51,7 +43,6 @@ jobs:
     # Windows Tiles
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
       compiler: gcc
-      sudo: required
       addons: &gcc
         apt:
           packages: ["wine"]
@@ -81,14 +72,6 @@ jobs:
           packages: ["g++-4.9", "g++-4.9-multilib", "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
-    # GCC 5
-    - env: COMPILER=g++-5
-      compiler: gcc
-      addons: &gcc5
-        apt:
-          packages: ["g++-5",   "g++-5-multilib",   "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
-
     # GCC 6
     - env: COMPILER=g++-6
       compiler: gcc
@@ -100,9 +83,18 @@ jobs:
     # GCC 7
     - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough' CODE_COVERAGE=true
       compiler: gcc
+      dist: trusty
       addons: &gcc7
         apt:
           packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
+          sources: *apt_sources
+
+    # GCC 8
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough'
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
     # Clang 3.8
@@ -123,7 +115,6 @@ jobs:
 
     # Clang 4.0
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
-      dist: trusty
       compiler: clang
       addons: &clang40
         apt:

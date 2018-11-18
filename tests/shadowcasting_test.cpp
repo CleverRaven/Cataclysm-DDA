@@ -97,30 +97,121 @@ bool bresenham_visibility_check( int offsetX, int offsetY, int x, int y,
     return visible;
 }
 
-void shadowcasting_runoff( int iterations, bool test_bresenham = false )
+void randomly_fill_transparency(
+    float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    unsigned int numerator = NUMERATOR, unsigned int denominator = DENOMINATOR )
 {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
     const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator( seed );
-    std::uniform_int_distribution<unsigned int> distribution( 0, DENOMINATOR );
+    std::uniform_int_distribution<unsigned int> distribution( 0, denominator );
     auto rng = std::bind( distribution, generator );
-
-    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {
         for( float &square : inner ) {
-            if( rng() < NUMERATOR ) {
+            if( rng() < numerator ) {
                 square = LIGHT_TRANSPARENCY_SOLID;
             } else {
                 square = LIGHT_TRANSPARENCY_CLEAR;
             }
         }
     }
+}
+
+bool grids_are_equivalent( float control[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                           float experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+{
+    for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
+        for( int y = 0; y < MAPSIZE * SEEY; ++y ) {
+            // Check that both agree on the outcome, but not necessarily the same values.
+            if( ( control[x][y] > LIGHT_TRANSPARENCY_SOLID ) !=
+                ( experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) ) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void print_grid_comparison( int offsetX, int offsetY,
+                            float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                            float control[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                            float experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+{
+    for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
+        for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
+            char output = ' ';
+            bool shadowcasting_disagrees =
+                ( control[x][y] > LIGHT_TRANSPARENCY_SOLID ) !=
+                ( experiment[x][y] > LIGHT_TRANSPARENCY_SOLID );
+            bool bresenham_disagrees =
+                bresenham_visibility_check( offsetX, offsetY, x, y, transparency_cache ) !=
+                ( experiment[x][y] > LIGHT_TRANSPARENCY_SOLID );
+
+            if( shadowcasting_disagrees && bresenham_disagrees ) {
+                if( experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
+                    output = 'R'; // Old shadowcasting and bresenham can't see.
+                } else {
+                    output = 'N'; // New shadowcasting can't see.
+                }
+            } else if( shadowcasting_disagrees ) {
+                if( control[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
+                    output = 'C'; // New shadowcasting & bresenham can't see.
+                } else {
+                    output = 'O'; // Old shadowcasting can't see.
+                }
+            } else if( bresenham_disagrees ) {
+                if( experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
+                    output = 'B'; // Bresenham can't see it.
+                } else {
+                    output = 'S'; // Shadowcasting can't see it.
+                }
+            }
+            if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
+                output = '#';
+            }
+            if( x == offsetX && y == offsetY ) {
+                output = '@';
+            }
+            printf( "%c", output );
+        }
+        printf( "\n" );
+    }
+    for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
+        for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
+            char output = ' ';
+            if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
+                output = '#';
+            } else if( control[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
+                output = 'X';
+            }
+            printf( "%c", output );
+        }
+        printf( "    " );
+        for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
+            char output = ' ';
+            if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
+                output = '#';
+            } else if( experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
+                output = 'X';
+            }
+            printf( "%c", output );
+        }
+        printf( "\n" );
+    }
+}
+
+void shadowcasting_runoff( int iterations, bool test_bresenham = false )
+{
+    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+
+    randomly_fill_transparency( transparency_cache );
 
     map dummy;
 
@@ -161,18 +252,11 @@ void shadowcasting_runoff( int iterations, bool test_bresenham = false )
                 iterations, diff2 );
     }
 
-    bool passed = true;
-    map m;
-    for( int x = 0; passed && x < MAPSIZE * SEEX; ++x ) {
+    bool passed = grids_are_equivalent( seen_squares_control, seen_squares_experiment );
+    for( int x = 0; test_bresenham && passed && x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
             // Check that both agree on the outcome, but not necessarily the same values.
-            if( ( seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID ) !=
-                ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) ) {
-                passed = false;
-                break;
-            }
-            if( test_bresenham &&
-                bresenham_visibility_check( offsetX, offsetY, x, y, transparency_cache ) !=
+            if( bresenham_visibility_check( offsetX, offsetY, x, y, transparency_cache ) !=
                 ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) ) {
                 passed = false;
                 break;
@@ -181,67 +265,8 @@ void shadowcasting_runoff( int iterations, bool test_bresenham = false )
     }
 
     if( !passed ) {
-        for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
-            for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
-                char output = ' ';
-                bool shadowcasting_disagrees =
-                    ( seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID ) !=
-                    ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID );
-                bool bresenham_disagrees =
-                    bresenham_visibility_check( offsetX, offsetY, x, y, transparency_cache ) !=
-                    ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID );
-
-                if( shadowcasting_disagrees && bresenham_disagrees ) {
-                    if( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                        output = 'R'; // Old shadowcasting and bresenham can't see.
-                    } else {
-                        output = 'N'; // New shadowcasting can't see.
-                    }
-                } else if( shadowcasting_disagrees ) {
-                    if( seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                        output = 'C'; // New shadowcasting & bresenham can't see.
-                    } else {
-                        output = 'O'; // Old shadowcasting can't see.
-                    }
-                } else if( bresenham_disagrees ) {
-                    if( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                        output = 'B'; // Bresenham can't see it.
-                    } else {
-                        output = 'S'; // Shadowcasting can't see it.
-                    }
-                }
-                if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
-                    output = '#';
-                }
-                if( x == offsetX && y == offsetY ) {
-                    output = '@';
-                }
-                printf( "%c", output );
-            }
-            printf( "\n" );
-        }
-        for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
-            for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
-                char output = ' ';
-                if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
-                    output = '#';
-                } else if( seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                    output = 'X';
-                }
-                printf( "%c", output );
-            }
-            printf( "    " );
-            for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
-                char output = ' ';
-                if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
-                    output = '#';
-                } else if( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                    output = 'X';
-                }
-                printf( "%c", output );
-            }
-            printf( "\n" );
-        }
+        print_grid_comparison( offsetX, offsetY, transparency_cache, seen_squares_control,
+                               seen_squares_experiment );
     }
 
     REQUIRE( passed );
@@ -249,27 +274,12 @@ void shadowcasting_runoff( int iterations, bool test_bresenham = false )
 
 void shadowcasting_3d_2d( int iterations )
 {
-    // Copy-paste of the above, but for newest FoV vs. the "new" one
-    const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator( seed );
-    std::uniform_int_distribution<unsigned int> distribution( 0, DENOMINATOR );
-    auto rng = std::bind( distribution, generator );
-
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{false}};
 
-    // Initialize the transparency value of each square to a random value.
-    for( auto &inner : transparency_cache ) {
-        for( float &square : inner ) {
-            if( rng() < NUMERATOR ) {
-                square = LIGHT_TRANSPARENCY_SOLID;
-            } else {
-                square = LIGHT_TRANSPARENCY_CLEAR;
-            }
-        }
-    }
+    randomly_fill_transparency( transparency_cache );
 
     map dummy;
 
@@ -314,81 +324,11 @@ void shadowcasting_3d_2d( int iterations )
         printf( "new/old execution time ratio: %.02f.\n", static_cast<double>( diff2 ) / diff1 );
     }
 
-    bool passed = true;
-    map m;
-    for( int x = 0; passed && x < MAPSIZE * SEEX; ++x ) {
-        for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
-            // Check that both agree on the outcome, but not necessarily the same values.
-            if( ( seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID ) !=
-                ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) ) {
-                passed = false;
-                break;
-            }
-        }
-    }
+    bool passed = grids_are_equivalent( seen_squares_control, seen_squares_experiment );
 
     if( !passed ) {
-        for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
-            for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
-                char output = ' ';
-                bool shadowcasting_disagrees =
-                    ( seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID ) !=
-                    ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID );
-                bool bresenham_disagrees =
-                    bresenham_visibility_check( offsetX, offsetY, x, y, transparency_cache ) !=
-                    ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID );
-
-                if( shadowcasting_disagrees && bresenham_disagrees ) {
-                    if( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                        output = 'R'; // Old shadowcasting and bresenham can't see.
-                    } else {
-                        output = 'N'; // New shadowcasting can't see.
-                    }
-                } else if( shadowcasting_disagrees ) {
-                    if( seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                        output = 'C'; // New shadowcasting & bresenham can't see.
-                    } else {
-                        output = 'O'; // Old shadowcasting can't see.
-                    }
-                } else if( bresenham_disagrees ) {
-                    if( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                        output = 'B'; // Bresenham can't see it.
-                    } else {
-                        output = 'S'; // Shadowcasting can't see it.
-                    }
-                }
-                if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
-                    output = '#';
-                }
-                if( x == offsetX && y == offsetY ) {
-                    output = '@';
-                }
-                printf( "%c", output );
-            }
-            printf( "\n" );
-        }
-        for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
-            for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
-                char output = ' ';
-                if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
-                    output = '#';
-                } else if( seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                    output = 'X';
-                }
-                printf( "%c", output );
-            }
-            printf( "    " );
-            for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
-                char output = ' ';
-                if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
-                    output = '#';
-                } else if( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
-                    output = 'X';
-                }
-                printf( "%c", output );
-            }
-            printf( "\n" );
-        }
+        print_grid_comparison( offsetX, offsetY, transparency_cache, seen_squares_control,
+                               seen_squares_experiment );
     }
 
     REQUIRE( passed );

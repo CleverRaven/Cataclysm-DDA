@@ -469,4 +469,14 @@ inline void deserialize( T &obj, const std::string &data )
 }
 /**@}*/
 
+/**
+ * \brief Returns true iff s1 starts with s2
+ */
+bool string_starts_with( const std::string &s1, const std::string &s2 );
+
+/**
+ * \brief Returns true iff s1 ends with s2
+ */
+bool string_ends_with( const std::string &s1, const std::string &s2 );
+
 #endif // CAT_UTILITY_H

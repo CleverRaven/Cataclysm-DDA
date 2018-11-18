@@ -37,6 +37,8 @@ class recipe
             return result_;
         }
 
+        bool obsolete = false;
+
         std::string category;
         std::string subcategory;
 
