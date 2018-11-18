@@ -550,7 +550,7 @@
     "description": "Long shaggy grass about shin high.",
     "looks_like": "t_grass",
     "symbol": ",",
-    "color": "green",
+    "color": "light_green",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
@@ -560,11 +560,11 @@
     "id": "t_grass_tall",
     "name": "tall grass",
     "description": "Tall grass about head high.",
-    "looks_like": "t_grass",
+    "looks_like": "t_shrub",
     "symbol": ",",
-    "color": "green",
+    "color": "brown_green",
     "move_cost": 5,
-    "flags": [ "DIGGABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
