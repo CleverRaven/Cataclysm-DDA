@@ -105,26 +105,6 @@
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
-    "id": "anbc_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "ANBC suit",
-    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.",
-    "weight": 8700,
-    "volume": 80,
-    "price": 400000,
-    "material": [ "kevlar", "plastic" ],
-    "symbol": "[",
-    "color": "light_red",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "coverage": 100,
-    "encumbrance": 45,
-    "warmth": 50,
-    "material_thickness": 3,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER" ]
-  },
-  {
     "id": "apron_leather",
     "type": "ARMOR",
     "name": "leather apron",
@@ -4231,25 +4211,6 @@
     "material_thickness": 2,
     "environmental_protection": 4,
     "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
-  },
-  {
-    "id": "hazmat_suit",
-    "type": "ARMOR",
-    "name": "hazmat suit",
-    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.",
-    "weight": 5000,
-    "volume": 68,
-    "price": 117500,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "yellow",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "coverage": 100,
-    "encumbrance": 37,
-    "warmth": 40,
-    "material_thickness": 2,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER" ]
   },
   {
     "id": "headgear",
