@@ -4800,7 +4800,7 @@ bool vehicle::sentinel_present() const
 }
 bool vehicle::need_sentinel() const
 {
-    int orientation = face.dir() % 90;
+    int orientation = abs(face.dir()) % 90;
     return orientation > 29 && orientation < 61 && !sentinel_on ;
 }
 void vehicle::add_sentinel()
