@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "dried_fruits",
+    "name": "Dried Fruits",
+    "authors": [ "Wayticus" ],
+    "maintainers": [ "Wayticus" ],
+    "description": "Dried fruits, not to be confused with them tatseless dehydrated fruit flakes.",
+    "category": "items",
+    "dependencies": [ "dda" ]
+  }
+]
+

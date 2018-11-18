@@ -1,0 +1,175 @@
+[
+{
+    "type" : "item_group",
+    "id" : "child_items",
+    "items":[
+	["b_dried_apple", 15]
+	]
+  },
+  {
+    "type" : "item_group",
+    "id" : "fridge",
+    "items":[
+	["b_raisins", 15],
+	["b_dried_apricots", 10],
+	["b_dried_plums", 10],
+	["b_dried_apple", 15],
+	["b_dried_blueberries", 20],
+	["b_dried_cranberries", 20],
+	["b_dried_peaches", 10],
+	["dried_figs", 8],
+	["dried_dates", 8],
+	["b_dried_bananas", 20],
+	["b_dried_pineapple", 10]
+	]
+  },
+  {
+    "type" : "item_group",
+    "id" : "snacks",
+    "items":[
+	["b_raisins", 60],
+	["b_dried_apricots", 25],
+	["b_dried_plums", 20],
+	["b_dried_apple", 30],
+	["b_dried_blueberries", 65],
+	["b_dried_cranberries", 45],
+	["b_dried_peaches", 25],
+	["dried_figs", 20],
+	["dried_dates", 20],
+	["b_dried_bananas", 20],
+	["b_dried_mango", 10],
+	["b_dried_kiwi", 15],
+	["b_dried_pineapple", 10],
+	["b_dried_papaya", 10 ]
+	]
+  },
+  {
+	"type" : "item_group",
+    "id" : "snacks_fancy",
+    "items":[
+	["b_raisins", 15],
+	["b_dried_apricots", 15],
+	["b_dried_plums", 8],
+	["b_dried_apple", 20],
+	["b_dried_blueberries", 30],
+	["b_dried_cranberries", 30],
+	["b_dried_peaches", 15],
+	["dried_figs", 20],
+	["dried_dates", 20],
+	["b_dried_bananas", 20],
+	["b_dried_mango", 10],
+	["b_dried_kiwi", 15],
+	["b_dried_pineapple", 10],
+	["b_dried_papaya", 10 ]
+	]
+  },
+  {
+    "type" : "item_group",
+    "id" : "coffee_shop",
+    "items":[
+	["b_raisins", 30],
+	["b_dried_apricots", 10],
+	["b_dried_apple", 20],
+	["b_dried_blueberries", 30],
+	["b_dried_cranberries", 30],
+	["b_dried_peaches", 10],
+	["b_dried_bananas", 20]
+	]
+  },
+  {
+    "type" : "item_group",
+    "id" : "office_breakroom",
+    "items":[
+	["b_raisins", 50],
+	["b_dried_apricots", 25],
+	["b_dried_plums", 15],
+	["b_dried_apple", 50],
+	["b_dried_blueberries", 50],
+	["b_dried_cranberries", 40],
+	["b_dried_peaches", 25],
+	["dried_figs", 10],
+	["dried_dates", 10],
+	["b_dried_bananas", 20],
+	["b_dried_kiwi", 15],
+	["b_dried_pineapple", 10],
+	["b_dried_mango", 10],
+	["b_dried_papaya", 10 ]
+	]
+  },
+  {
+    "type" : "item_group",
+    "id" : "lab_dorm",
+    "items":[
+	["b_raisins", 10],
+	["b_dried_blueberries", 10],
+	["b_dried_cranberries", 10]
+	]
+  },
+  {
+    "type" : "item_group",
+    "id" : "college_camping",
+    "items":[
+	["b_raisins", 30],
+	["b_dried_apricots", 10],
+	["b_dried_apple", 20],
+	["b_dried_blueberries", 30],
+	["b_dried_cranberries", 30],
+	["b_dried_peaches", 10],
+	["b_dried_bananas", 20]
+	]
+  },
+  {
+    "type" : "item_group",
+    "id" : "stash_food",
+    "items":[
+	["b_raisins", 30],
+	["b_dried_apricots", 10],
+	["b_dried_plums", 8],
+	["b_dried_apple", 20],
+	["b_dried_blueberries", 30],
+	["b_dried_cranberries", 30],
+	["b_dried_peaches", 25],
+	["dried_figs", 10],
+	["dried_dates", 10],
+	["b_dried_bananas", 20]
+	]
+  },
+  {
+    "id": "dollar_food",
+    "type": "item_group",
+    "items": [
+	["b_raisins", 20],
+	["b_dried_apple", 20]
+	]
+  },
+  {
+    "type"  : "item_group",
+    "id"    : "coffee_display",
+    "items" : [
+	["b_dried_apple", 20],
+	["b_dried_blueberries", 20],
+	["b_dried_cranberries", 20]
+	]
+	},{
+    "type" : "item_group",
+    "id" : "fridgesnacks",
+    "items":[	
+	["b_raisins", 30],
+	["b_dried_apricots", 10],
+	["b_dried_plums", 8],
+	["b_dried_apple", 20],
+	["b_dried_blueberries", 30],
+	["b_dried_cranberries", 30],
+	["b_dried_peaches", 25],
+	["dried_figs", 10],
+	["dried_dates", 10],
+	["b_dried_bananas", 20],
+		["b_dried_kiwi", 15],
+	["b_dried_pineapple", 10],
+	["b_dried_mango", 10],
+	["b_dried_papaya", 10 ]
+	]
+	
+  }
+]
+	
