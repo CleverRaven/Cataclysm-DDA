@@ -375,7 +375,6 @@ struct vehicle_part {
          * this part.
          */
         item_group::ItemList pieces_for_broken_part() const;
-
 };
 
 /**
