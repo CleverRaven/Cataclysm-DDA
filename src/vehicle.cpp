@@ -4805,9 +4805,11 @@ bool vehicle::need_sentinel() const
 }
 void vehicle::add_sentinel()
 {
+    sentinel_on = true;
 }
 void vehicle::remove_sentienl()
 {
+    sentinel_on = false;
 }
 
 template<>
