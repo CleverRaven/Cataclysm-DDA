@@ -362,13 +362,13 @@ bool main_menu::opening_screen()
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
     if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
-        if( query_yn( _( "Unable to make config directory.\nTry to create it?" ) ) ) {
+        if( query_yn( _( "Unable to make config directory.\nTry to create parents?" ) ) ) {
             size_t slash_idx = 0;
             do {
                 slash_idx = FILENAMES["config_dir"].find_first_of( "\\/", slash_idx + 1 );
                 assure_dir_exist( FILENAMES["config_dir"].substr( 0, slash_idx + 1 ) ); 
             } while ( slash_idx != std::string::npos );
-            if ( !assure_dir_exist( FILENAMES["config_dir"]  ) ) {
+            if ( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
                 popup( _( "Unable to make config directory. Check permissions." ) );
                 return false;
             }
