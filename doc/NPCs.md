@@ -135,8 +135,63 @@ The dynamic line is chosen based on whether the player character has any of an a
 }
 ```
 
+### Based on mutation (trait) possessed by the NPC
+The dynamic line is chosen based on whether the NPC has any of an array of traits. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. The `npc_has_any_trait` string should be one or more valid mutation IDs. The line from `yes` will be shown if the character has one of the traits, otherwise the line from `no`.
+
+```JSON
+{
+    "npc_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
+    "yes": "I was subjected to strange experiments in a lab.",
+    "no": "I was a college student."
+}
+```
+
+### Based on mutation (trait) possessed by the player character
+The dynamic line is chosen based on whether the player character has a specific trait. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. `u` is the player character. The `u_has_trait` string should be a valid mutation ID. The line from `yes` will be shown if the character has the trait, otherwise the line from `no`.
+
+```JSON
+{
+    "u_has_trait": "ELFA_EARS",
+    "yes": "A forest protector! You must help us.",
+    "no": "Hello."
+}
+```
+
+### Based on mutation (trait) possessed by the NPC
+The dynamic line is chosen based on whether the NPC has a specific trait. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. The `npc_has_trait` string should be a valid mutation ID. The line from `yes` will be shown if the character has the trait, otherwise the line from `no`.
+
+```JSON 
+{
+    "npc_has_trait": "ELFA_EARS",
+    "yes": "I am a forest protector, and do not speak to outsiders.",
+    "no": "Hello."
+}
+```
+
+### Based on the NPC's class
+The dynamic line is chosen based on whether the NPC is part of a specific clss. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. The `npc_has_class` string should be a valid NPC class ID. The line from `yes` will be shown if the NPC is part of the clss, otherwise the line from `no`.
+
+```JSON
+{
+    "npc_has_class": "NC_ARSONIST",
+    "yes": "I like setting fires.",
+    "no": "Hello."
+}
+```
+
+### Based on effect possessed by the player character
+The dynamic line is chosen based on whether the player character is currently is under the efffect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown if the player character has the effect, otherwise the line from `no`.
+
+```JSON
+{
+    "u_has_effect": "infected",
+    "yes": "You look sick.  You should get some antibiotics.",
+    "no": "What's going on?"
+}
+```
+
 ### Based on effect possessed by the NPC
-The dynamic line is chosen based on whether the NPC is currently is under the efffect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown in the NPC has the effect, otherwise the line from `no`.
+The dynamic line is chosen based on whether the NPC is currently is under the efffect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown if the NPC has the effect, otherwise the line from `no`.
 
 ```JSON
 {
@@ -454,6 +509,18 @@ The following keys and simple strings are available:
 
 ### "u_has_any_trait" (array)
 `true` if the player character has any trait or mutation in the array. Used to check multiple traits.
+
+### "npc_has_any_trait" (array)
+`true` if the NPC has any trait or mutation in the array. Used to check multiple traits.
+
+### "u_any_trait" (array)
+`true` if the player character has a specific trait.  A simpler version of u_has_any_trait.
+
+### "npc_has_trait" (array)
+`true` if the NPC has a specific trait. A simpler version of npc_has_any_trait.
+
+### "npc_has_class" (array)
+`true` if the NPC is a member of an NPC class.
 
 ### "u_has_strength" (int)
 `true` if the player character's strength is at least the value of u_has_strength.
