@@ -161,7 +161,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
         }
     }
 
-    if( possess && !msg_transform.empty() ) {
+    if( p.sees( pos ) && !msg_transform.empty() ) {
         p.add_msg_if_player( m_neutral, _( msg_transform.c_str() ), it.tname().c_str() );
     }
 
@@ -339,14 +339,11 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
         return 0;
     }
     if( it.charges > 0 ) {
-        if (p.has_item(it)) {
-            if (no_deactivate_msg.empty()) {
-                p.add_msg_if_player(m_warning,
-                    _("You've already set the %s's timer you might want to get away from it."), it.tname().c_str());
-            }
-            else {
-                p.add_msg_if_player(m_info, _(no_deactivate_msg.c_str()), it.tname().c_str());
-            }
+        if( no_deactivate_msg.empty() ) {
+            p.add_msg_if_player( m_warning,
+                                 _( "You've already set the %s's timer you might want to get away from it." ), it.tname().c_str() );
+        } else {
+            p.add_msg_if_player( m_info, _( no_deactivate_msg.c_str() ), it.tname().c_str() );
         }
         return 0;
     }
