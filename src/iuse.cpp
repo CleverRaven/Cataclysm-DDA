@@ -3280,7 +3280,7 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
-    } else if( it->charges > 0 ) {
+    } else if (p->has_item(*it) && it->charges > 0) {
         add_msg( m_info, _( "You've already lit the %s, try throwing it instead." ), it->tname().c_str() );
         return 0;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
