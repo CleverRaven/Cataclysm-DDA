@@ -4480,6 +4480,7 @@
     "color": "dark_gray",
     "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
     "use_action": "CROWBAR",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
