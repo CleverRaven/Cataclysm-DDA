@@ -782,7 +782,14 @@ void overmap_special::finalize()
         if( !elem.terrain && oter.terrain ) {
             elem.terrain = oter.terrain->get_type_id();    // Defaulted.
         }
-        elem.connection = overmap_connections::guess_for( elem.terrain );
+
+        // If the connection type hasn't been specified, we'll guess for them.
+        // The guess isn't always right (hence guessing) in the case where
+        // multiple connections types can be made on a single location type,
+        // e.g. both roads and forest trails can be placed on "forest" locations.
+        if( elem.connection.is_null() ) {
+            elem.connection = overmap_connections::guess_for( elem.terrain );
+        }
     }
 }
 
