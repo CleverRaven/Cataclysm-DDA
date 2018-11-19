@@ -180,7 +180,7 @@ The dynamic line is chosen based on whether the NPC is part of a specific clss. 
 ```
 
 ### Based on effect possessed by the player character
-The dynamic line is chosen based on whether the player character is currently is under the efffect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown if the player character has the effect, otherwise the line from `no`.
+The dynamic line is chosen based on whether the player character is currently is under the effect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown if the player character has the effect, otherwise the line from `no`.
 
 ```JSON
 {
@@ -191,7 +191,7 @@ The dynamic line is chosen based on whether the player character is currently is
 ```
 
 ### Based on effect possessed by the NPC
-The dynamic line is chosen based on whether the NPC is currently is under the efffect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown if the NPC has the effect, otherwise the line from `no`.
+The dynamic line is chosen based on whether the NPC is currently is under the effect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown if the NPC has the effect, otherwise the line from `no`.
 
 ```JSON
 {
@@ -472,7 +472,7 @@ Remove cost_num from your character's cash.
 Change the NPC's faction membership to faction_string.
 
 ### u_faction_rep: rep_num
-Increase's your repuation with the NPC's current faction, or decreases it if rep_num is negative.
+Increase's your reputation with the NPC's current faction, or decreases it if rep_num is negative.
 
 ### Sample effects
 { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "u_faction_rep": -15 }, { "npc_change_faction": "hells_raiders" } ] }
@@ -584,7 +584,7 @@ npc_service cash available.  Useful to check if the player character can hire an
 `true` if the NPC is following the player character.
 
 ### "at_safe_space" (simple string)
-`true` if the NPC's currrent overmap location passes the is_safe() test.
+`true` if the NPC's current overmap location passes the is_safe() test.
 
 ### "u_can_stow_weapon" (simple string)
 `true` if the player character is wielding a weapon and has enough space to put it away.

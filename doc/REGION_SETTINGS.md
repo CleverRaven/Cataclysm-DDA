@@ -97,7 +97,7 @@ furniture.
 
 At the top level, the `forest_mapgen_settings` is a collection of named configurations where each
 entry has the name of the overmap terrain that it applies to, e.g. `forest`, `forest_thick`,
-`forest_water`. It is possible to define settings for overmap terrrains that are not rendered by
+`forest_water`. It is possible to define settings for overmap terrains that are not rendered by
 the forest mapgen, but will be used when blending forest terrains with other terrain types.
 
 ```json

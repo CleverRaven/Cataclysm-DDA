@@ -4,7 +4,7 @@ This guide contains steps required to allow compilation of Cataclysm-DDA on Wind
 
 Steps from current guide were tested on Windows 10 (64 bit) and MSYS2 (64 bit), but should work for other versions of Windows and also MSYS2 (32 bit) if you download 32 bit version of all files.
 
-## Preqrequisites:
+## Prerequisites:
 
 * Computer with 64 bit version of modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
 * NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache);
@@ -16,7 +16,7 @@ Steps from current guide were tested on Windows 10 (64 bit) and MSYS2 (64 bit), 
 
 1. Go to [MSYS2 homepage](http://www.msys2.org/) and download 64 bit installer (e.g. [msys2-x86_64-20180531.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20180531.exe)).
 
-2. Run downloaded file and install MSYS2 (click `Next` button, specifiy directory where MSYS2 64 bit will be installed (e.g. `C:\msys64`), click `Next` button again, specify Start Menu folder name and click `Install` button).
+2. Run downloaded file and install MSYS2 (click `Next` button, specify directory where MSYS2 64 bit will be installed (e.g. `C:\msys64`), click `Next` button again, specify Start Menu folder name and click `Install` button).
 
 3. After MSYS2 installation is complete press `Next` button, tick `Run MSYS2 64 bit now` checkbox and press `Finish` button.
 

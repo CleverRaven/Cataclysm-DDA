@@ -4,7 +4,7 @@ This guide contains steps required to allow compilation of Cataclysm-DDA on Wind
 
 Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2017 (64 bit) and vcpkg, but should as well work with slight modifications for other versions of Windows and Visual Studio.
 
-## Preqrequisites:
+## Prerequisites:
 
 * Computer with modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
 * NTFS partition with ~15 Gb free space (~10 Gb for Visual Studio, ~1 Gb for vcpkg installation, ~3 Gb for repository and ~1 Gb for build cache);
