@@ -168,8 +168,7 @@ class messages_impl
             []( game_message const & msg ) {
                 return std::make_pair( to_string_time_of_day( msg.timestamp_in_turns ),
                                        msg.get_with_count() );
-            }
-                          );
+            } );
 
             return result;
         }
