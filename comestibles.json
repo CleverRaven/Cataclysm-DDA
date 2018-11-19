@@ -24,7 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "b_raisins",
-    "name": "bag of raisins",
+    "name": "raisins",
     "name_plural": "raisins",
     "weight": 100,
     "color": "light_green",
