@@ -382,14 +382,13 @@ struct vehicle_part {
  * The sentinel_part serves as a special type of vehicle_part with a specific purpose of being used only to block passage 'through' the walls of the vehicle.
  * It is designed to be dynamically created on a vehicle_part*, with the constructor copying over the value from the original, and removed when nolonger needed with the constructor who also takes care of the transfer of datasets.
  */
-struct sentinel_part : public vehicle_part
-{
+struct sentinel_part : public vehicle_part {
     private:
-    vehicle_part* original;
+        vehicle_part *original;
     public:
-    sentinel_part()=delete;
-    sentinel_part(vehicle_part* org,point p);
-    ~sentinel_part();
+        sentinel_part() = delete;
+        sentinel_part( vehicle_part *org, point p );
+        ~sentinel_part();
 };
 
 class turret_data

@@ -4800,7 +4800,7 @@ bool vehicle::sentinel_present() const
 }
 bool vehicle::need_sentinel() const
 {
-    int orientation = abs(face.dir()) % 90;
+    int orientation = abs( face.dir() ) % 90;
     return orientation > 29 && orientation < 61 && !sentinel_on ;
 }
 void vehicle::add_sentinel()
@@ -4834,12 +4834,13 @@ bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part
            ( !( part_status_flag::enabled & required_ ) || vp.enabled );
 }
 
-sentinel_part::sentinel_part(vehicle_part* org,point p) : vehicle_part(*org)
+sentinel_part::sentinel_part( vehicle_part *org, point p ) : vehicle_part( *org )
 {
-    this->original=org;
-    mount=p;
+    this->original = org;
+    mount = p;
 }
-sentinel_part::~sentinel_part(){
-    mount=original->mount;
-    *original = (vehicle_part)*this;
+sentinel_part::~sentinel_part()
+{
+    mount = original->mount;
+    *original = ( vehicle_part ) * this;
 }
