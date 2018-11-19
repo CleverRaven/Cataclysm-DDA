@@ -339,7 +339,7 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
         return 0;
     }
     if( it.charges > 0 ) {
-        if (p.has_item(it)) {
+        if( p.has_item( it ) ) {
             if (no_deactivate_msg.empty()) {
                 p.add_msg_if_player(m_warning,
                     _("You've already set the %s's timer you might want to get away from it."), it.tname().c_str());
