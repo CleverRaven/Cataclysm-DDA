@@ -397,7 +397,7 @@
     "name_plural": "condensed milk",
     "weight": 258,
     "color": "white",
-    "spoils_in": "7 days",
+    "spoils_in": "1 day",
     "container": "can_food",
     "comestible_type": "DRINK",
     "symbol": "~",
