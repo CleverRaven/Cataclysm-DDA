@@ -97,7 +97,7 @@ furniture.
 
 At the top level, the `forest_mapgen_settings` is a collection of named configurations where each
 entry has the name of the overmap terrain that it applies to, e.g. `forest`, `forest_thick`,
-`forest_water`. It is possible to define settings for overmap terrrains that are not rendered by
+`forest_water`. It is possible to define settings for overmap terrains that are not rendered by
 the forest mapgen, but will be used when blending forest terrains with other terrain types.
 
 ```json
@@ -218,8 +218,8 @@ for the components are only relevant for the purposes of overriding them in regi
 The terrain furniture are a collection of terrain ids with a chance of having furniture
 picked from a weighted list for that given terrain and placed on it during mapgen after
 the normal mapgen has completed. This is used, for example, to place cattails on fresh
-water in swamps. Cattails could be simply placed in the `components` section and placed 
-during the normal forest mapgen, but that would not guarantee their placement on fresh 
+water in swamps. Cattails could be simply placed in the `components` section and placed
+during the normal forest mapgen, but that would not guarantee their placement on fresh
 water only, while this does.
 
 ### Fields
