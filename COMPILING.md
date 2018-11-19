@@ -298,7 +298,7 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * SDL2_image (tested with 2.0.3)
   * libintl-lite (tested with a custom fork of libintl-lite 0.5)
   * lua (tested with lua 5.1.5)
-  
+
 The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
 
 ### Setup

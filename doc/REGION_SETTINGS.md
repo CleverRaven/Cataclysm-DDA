@@ -218,8 +218,8 @@ for the components are only relevant for the purposes of overriding them in regi
 The terrain furniture are a collection of terrain ids with a chance of having furniture
 picked from a weighted list for that given terrain and placed on it during mapgen after
 the normal mapgen has completed. This is used, for example, to place cattails on fresh
-water in swamps. Cattails could be simply placed in the `components` section and placed 
-during the normal forest mapgen, but that would not guarantee their placement on fresh 
+water in swamps. Cattails could be simply placed in the `components` section and placed
+during the normal forest mapgen, but that would not guarantee their placement on fresh
 water only, while this does.
 
 ### Fields

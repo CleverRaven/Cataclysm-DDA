@@ -58,7 +58,7 @@ vcpkg upgrade
 ```cmd
 git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
-``` 
+```
 
 2. Open provided solution (`msvc-full-features\Cataclysm-vcpkg.sln`) in `Visual Studio`, select configuration (`Release` or `Debug`) an platform (`x64` or `x86`) and build it.
 

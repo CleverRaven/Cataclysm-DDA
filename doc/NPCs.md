@@ -160,7 +160,7 @@ The dynamic line is chosen based on whether the player character has a specific 
 ### Based on mutation (trait) possessed by the NPC
 The dynamic line is chosen based on whether the NPC has a specific trait. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. The `npc_has_trait` string should be a valid mutation ID. The line from `yes` will be shown if the character has the trait, otherwise the line from `no`.
 
-```JSON 
+```JSON
 {
     "npc_has_trait": "ELFA_EARS",
     "yes": "I am a forest protector, and do not speak to outsiders.",
@@ -405,7 +405,7 @@ Places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
 Places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
 
 ### bionic_install
-The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.  
+The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
 
 ### bionic_remove
 The NPC removes a bionic from your character, using very high skill , and charging you according to the operation's difficulty.
@@ -612,7 +612,7 @@ npc_service cash available.  Useful to check if the player character can hire an
   "topic": "TALK_EVAC_MERCHANT_NO",
   "condition": { "and": [ { "not": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 } ] }
 },
-{ "text": "[$2000, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition": 
+{ "text": "[$2000, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition":
 { "npc_service": 2000 } },
 { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
 {

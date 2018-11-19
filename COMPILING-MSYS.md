@@ -83,12 +83,12 @@ and
 ```bash
 git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
-``` 
+```
 
 2. Compile with following command line:
 
 ```bash
-make CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 LUA=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0 
+make CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 LUA=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0
 ```
 
 **Note**: This will compile release version with Lua, Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
