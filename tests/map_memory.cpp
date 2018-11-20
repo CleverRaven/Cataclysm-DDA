@@ -28,11 +28,11 @@ TEST_CASE( "map_memory_remembers", "[map_memory]" )
 
 TEST_CASE( "map_memory_limited", "[map_memory]" )
 {
-    map_memory memory;
-    memory.memorize_symbol( 2, p1, 1 );
-    memory.memorize_symbol( 2, p2, 2 );
-    memory.memorize_symbol( 2, p3, 3 );
-    CHECK( memory.get_symbol( p1 ) == 0 );
+    lru_cache<long> symbol_cache;
+    symbol_cache.insert( 2, p1, 1 );
+    symbol_cache.insert( 2, p2, 1 );
+    symbol_cache.insert( 2, p3, 1 );
+    CHECK( symbol_cache.get( p1, 0 ) == 0 );
 }
 
 TEST_CASE( "map_memory_overwrites", "[map_memory]" )
@@ -47,14 +47,14 @@ TEST_CASE( "map_memory_overwrites", "[map_memory]" )
 
 TEST_CASE( "map_memory_erases_lru", "[map_memory]" )
 {
-    map_memory memory;
-    memory.memorize_symbol( 2, p1, 1 );
-    memory.memorize_symbol( 2, p2, 2 );
-    memory.memorize_symbol( 2, p1, 1 );
-    memory.memorize_symbol( 2, p3, 3 );
-    CHECK( memory.get_symbol( p1 ) == 1 );
-    CHECK( memory.get_symbol( p2 ) == 0 );
-    CHECK( memory.get_symbol( p3 ) == 3 );
+    lru_cache<long> symbol_cache;
+    symbol_cache.insert( 2, p1, 1 );
+    symbol_cache.insert( 2, p2, 2 );
+    symbol_cache.insert( 2, p1, 1 );
+    symbol_cache.insert( 2, p3, 3 );
+    CHECK( symbol_cache.get( p1, 0 ) == 1 );
+    CHECK( symbol_cache.get( p2, 0 ) == 0 );
+    CHECK( symbol_cache.get( p3, 0 ) == 3 );
 }
 
 TEST_CASE( "map_memory_survives_save_lod", "[map_memory]" )
