@@ -83,3 +83,33 @@ TEST_CASE( "map_memory_survives_save_lod", "[map_memory]" )
     CHECK( memory.get_symbol( p2 ) == memory2.get_symbol( p2 ) );
     CHECK( memory.get_symbol( p3 ) == memory2.get_symbol( p3 ) );
 }
+
+#include <chrono>
+
+TEST_CASE( "lru_cache_perf", "[.]" )
+{
+    constexpr int max_size = 1000000;
+    lru_cache<long> symbol_cache;
+    auto start1 = std::chrono::high_resolution_clock::now();
+    for( int i = 0; i < 1000000; ++i ) {
+        for( int j = -60; j <= 60; ++j ) {
+            symbol_cache.insert( max_size, { i, j, 0 }, 1 );
+        }
+    }
+    auto end1 = std::chrono::high_resolution_clock::now();
+    long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
+    printf( "completed %d insertions in %ld microseconds.\n", max_size, diff1 );
+    /*
+     * Original tripoint hash    completed 1000000 insertions in 96136925 microseconds.
+     * Table based interleave v1 completed 1000000 insertions in 41435604 microseconds.
+     * Table based interleave v2 completed 1000000 insertions in 40856530 microseconds.
+     * Jbtw hash                 completed 1000000 insertions in 19049163 microseconds.
+     *                                                     rerun 21152804
+     * With 1024 batch           completed 1000000 insertions in 39902325 microseconds.
+     * backed out batching       completed 1000000 insertions in 20332498 microseconds.
+     * rerun                     completed 1000000 insertions in 21659107 microseconds.
+     * simple batching, disabled completed 1000000 insertions in 18541486 microseconds.
+     * simple batching, 1024     completed 1000000 insertions in 23102395 microseconds.
+     * rerun                     completed 1000000 insertions in 31337290 microseconds.
+     */
+}
