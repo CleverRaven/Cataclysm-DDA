@@ -47,7 +47,9 @@ void clear_fields( int zlevel )
 
 void clear_map()
 {
-    for( int z = OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
+    // Clearing all z-levels is rather slow, so just clear the ones I know the
+    // tests use for now.
+    for( int z = -2; z <= 0; ++z ) {
         clear_fields( z );
     }
     wipe_map_terrain();
