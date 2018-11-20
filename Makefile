@@ -158,6 +158,11 @@ ifndef RUNTESTS
   RUNTESTS = 1
 endif
 
+# Enable backtrace by default
+ifndef BACKTRACE
+  BACKTRACE = 1
+endif
+
 ifeq ($(RUNTESTS), 1)
   TESTS = tests
 endif
