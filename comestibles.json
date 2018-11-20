@@ -15,12 +15,12 @@
     "description": "Raisins, tasty little wrinkly things, eat them by the handful.",
     "price": 300,
     "material": "fruit",
-    "vitamins": [["iron",  3], ["vitC", 3] ],
+    "vitamins": [ [ "iron", 3 ], [ "vitC", 3 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 1,
     "fun": 4
-  }, 
+  },
   {
     "type": "COMESTIBLE",
     "id": "b_raisins",
@@ -38,12 +38,12 @@
     "description": "Raisins, tasty little wrinkly things, eat them by the handful.",
     "price": 300,
     "material": "fruit",
-    "vitamins": [["iron",  3], ["vitC", 3] ],
+    "vitamins": [ [ "iron", 3 ], [ "vitC", 3 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 4
-  },  
+  },
   {
     "type": "COMESTIBLE",
     "id": "dried_apricots",
@@ -60,13 +60,13 @@
     "description": "Dried apricots, good souce vitamin A",
     "price": 140,
     "material": "fruit",
-    "vitamins": [["vitA", 18], ["iron",  4], ["vitC", 7] ], 
+    "vitamins": [ [ "vitA", 18 ], [ "iron", 4 ], [ "vitC", 7 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 1,
     "fun": 3
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_apricots",
     "name": "dried apricots",
@@ -75,7 +75,7 @@
     "color": "yellow",
     "spoils_in": "360 days",
     "stim": 1,
-	"container": "bag_plastic",
+    "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
@@ -83,7 +83,7 @@
     "description": "Dried apricots, good souce vitamin A",
     "price": 140,
     "material": "fruit",
-    "vitamins": [["vitA", 18], ["iron",  4], ["vitC", 7] ], 
+    "vitamins": [ [ "vitA", 18 ], [ "iron", 4 ], [ "vitC", 7 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
@@ -104,14 +104,14 @@
     "calories": 347,
     "description": "Dried plums AKA prunes.  High in fiber, good for keeping you regular.",
     "price": 200,
-    "material":  "fruit",
-    "vitamins": [ [ "vitA", 3 ], ["iron", 1 ], ["vitB", 2]  ],
+    "material": "fruit",
+    "vitamins": [ [ "vitA", 3 ], [ "iron", 1 ], [ "vitB", 2 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 1,   
+    "charges": 1,
     "fun": 3
   },
-{
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_plums",
     "name": "dried plums",
@@ -120,20 +120,20 @@
     "color": "magenta",
     "spoils_in": "360 days",
     "stim": 1,
-	"container": "bag_plastic",
+    "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 2,
     "calories": 347,
     "description": "Dried plums AKA prunes.  High in fiber, good for keeping you regular.",
     "price": 200,
-    "material":  "fruit",
-    "vitamins": [ [ "vitA", 3 ], ["iron", 1 ], ["vitB", 2]  ],
+    "material": "fruit",
+    "vitamins": [ [ "vitA", 3 ], [ "iron", 1 ], [ "vitB", 2 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,   
+    "charges": 3,
     "fun": 3
-  },   
+  },
   {
     "type": "COMESTIBLE",
     "id": "dried_apple",
@@ -150,12 +150,11 @@
     "description": "Dried apple slices, none of that sugar syrup added.",
     "price": 200,
     "material": "fruit",
-    "vitamins": [  ["vitC", 6 ], ["iron",  3]  ],
+    "vitamins": [ [ "vitC", 6 ], [ "iron", 3 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 1, 
+    "charges": 1,
     "fun": 3
-
   },
   {
     "type": "COMESTIBLE",
@@ -174,12 +173,11 @@
     "description": "Dried apple slices, none of that sugar syrup added.",
     "price": 200,
     "material": "fruit",
-    "vitamins": [  ["vitC", 6 ], ["iron",  3]  ],
+    "vitamins": [ [ "vitC", 6 ], [ "iron", 3 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3, 
+    "charges": 3,
     "fun": 3
-
   },
   {
     "type": "COMESTIBLE",
@@ -197,14 +195,13 @@
     "description": "Dried blueberries, less antioxidants then fresh ones, but still good for you",
     "price": 200,
     "material": "fruit",
-    "vitamins": [  ["vitC", 11 ], ["vitA", 10 ], ["calcium", 12]  ],
+    "vitamins": [ [ "vitC", 11 ], [ "vitA", 10 ], [ "calcium", 12 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 1, 
+    "charges": 1,
     "fun": 3
-
-  }, 
-   {
+  },
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_blueberries",
     "name": "dried blueberries",
@@ -221,13 +218,12 @@
     "description": "Dried blueberries, less antioxidants then fresh ones, but still good for you",
     "price": 200,
     "material": "fruit",
-    "vitamins": [  ["vitC", 11 ], ["vitA", 10 ], ["calcium", 10]  ],
+    "vitamins": [ [ "vitC", 11 ], [ "vitA", 10 ], [ "calcium", 10 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3, 
+    "charges": 3,
     "fun": 3
-
-  }, 
+  },
   {
     "type": "COMESTIBLE",
     "id": "dried_cranberries",
@@ -245,13 +241,13 @@
     "description": "Dried cranberries, sugar added for taste so remember to brush.",
     "price": 150,
     "material": "fruit",
-    "vitamins": [ ["vitC", 27 ]  ],
+    "vitamins": [ [ "vitC", 27 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 1,
     "fun": 2
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_cranberries",
     "name": "dried cranberries",
@@ -269,7 +265,7 @@
     "description": "Dried cranberries, sugar added for taste so remember to brush.",
     "price": 150,
     "material": "fruit",
-    "vitamins": [ ["vitC", 27 ]  ],
+    "vitamins": [ [ "vitC", 27 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
@@ -290,13 +286,13 @@
     "description": "Dried peaches, no fuzz.",
     "price": 140,
     "material": "fruit",
-    "vitamins": [["vitA", 12], ["iron",  5], ["vitC", 7] ], 
+    "vitamins": [ [ "vitA", 12 ], [ "iron", 5 ], [ "vitC", 7 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 1,
     "fun": 4
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_peaches",
     "name": "dried peaches",
@@ -312,7 +308,7 @@
     "description": "Dried peaches, no fuzz.",
     "price": 140,
     "material": "fruit",
-    "vitamins": [["vitA", 12], ["iron",  5], ["vitC", 7] ], 
+    "vitamins": [ [ "vitA", 12 ], [ "iron", 5 ], [ "vitC", 7 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
@@ -335,13 +331,13 @@
     "description": "Dried figs, odd looking but sweet ",
     "price": 180,
     "material": "fruit",
-    "vitamins": [ ["iron",  6 ], ["calcium", 8 ]  ], 
+    "vitamins": [ [ "iron", 6 ], [ "calcium", 8 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
-{
+  {
     "type": "COMESTIBLE",
     "id": "dried_dates",
     "name": "dried dates",
@@ -358,13 +354,13 @@
     "description": "Dried dates, don't worry these aren't poisoned.",
     "price": 180,
     "material": "fruit",
-    "vitamins": [ ["iron",  3 ], ["calcium", 4 ]  ], 
+    "vitamins": [ [ "iron", 3 ], [ "calcium", 4 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
-  },   
-   {
+  },
+  {
     "type": "COMESTIBLE",
     "id": "dried_bananas",
     "name": "dried banana slices",
@@ -379,13 +375,13 @@
     "description": "Chewy dried banana slices, not to be confused with them artery clogging banana chips",
     "price": 205,
     "material": "fruit",
-    "vitamins": [ ["vitC",  27], ["vitA", 1 ], ["iron",  1]  ],
+    "vitamins": [ [ "vitC", 27 ], [ "vitA", 1 ], [ "iron", 1 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 1 ,
+    "charges": 1,
     "fun": 5
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_bananas",
     "name": "dried banana slices",
@@ -401,13 +397,13 @@
     "description": "Chewy dried banana slices, not to be confused with them artery clogging banana chips",
     "price": 205,
     "material": "fruit",
-    "vitamins": [ ["vitC",  27], ["vitA", 1 ], ["iron",  1] ],
+    "vitamins": [ [ "vitC", 27 ], [ "vitA", 1 ], [ "iron", 1 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 5
-  },   
-   {
+  },
+  {
     "type": "COMESTIBLE",
     "id": "dried_pineapple",
     "name": "dried pineapple chunks",
@@ -423,13 +419,13 @@
     "description": "Dried pineapple chunks",
     "price": 205,
     "material": "fruit",
-    "vitamins": [ ["vitC",  27], ["vitA", 1 ], ["iron",  1]  ],
+    "vitamins": [ [ "vitC", 27 ], [ "vitA", 1 ], [ "iron", 1 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 1 ,
+    "charges": 1,
     "fun": 5
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_pineapple",
     "name": "dried pineapple chunks",
@@ -446,13 +442,13 @@
     "description": "Dried pineapple chunks, dusted in sugar, basicaly candy",
     "price": 205,
     "material": "fruit",
-    "vitamins": [ ["vitC",  27], ["vitA", 1 ], ["iron",  1] ],
+    "vitamins": [ [ "vitC", 27 ], [ "vitA", 1 ], [ "iron", 1 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 5
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "dried_mango",
     "name": "dried mango slices",
@@ -468,12 +464,12 @@
     "description": "Dried mango slices.",
     "price": 180,
     "material": "fruit",
-    "vitamins": [ ["vitC",  3], ["vitA", 7 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "vitA", 7 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 5
   },
-      {
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_mango",
     "name": "dried mango slices",
@@ -490,13 +486,13 @@
     "description": "Dried suagred mango slices, bright orange colour.",
     "price": 180,
     "material": "fruit",
-    "vitamins": [ ["vitC",  3], ["vitA", 7 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "vitA", 7 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 5
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "dried_kiwi",
     "name": "dried kiwi slices",
@@ -513,12 +509,12 @@
     "description": "Dried kiwi slices.",
     "price": 250,
     "material": "fruit",
-    "vitamins": [ ["vitC",  3], ["calcium", 4 ], ["iron", 1 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 4 ], [ "iron", 1 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 3
   },
-      {
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_kiwi",
     "name": "dried kiwi slices",
@@ -534,13 +530,13 @@
     "description": "Dried kiwi sugared slices, almost fluorescent in colour.",
     "price": 250,
     "material": "fruit",
-    "vitamins": [ ["vitC",  3], ["calcium", 4 ], ["iron", 1 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 4 ], [ "iron", 1 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "dried_papaya",
     "name": "dried papaya slices",
@@ -555,12 +551,12 @@
     "description": "Dried papaya slices.",
     "price": 250,
     "material": "fruit",
-    "vitamins": [ ["vitC",  3], ["calcium", 3 ], ["iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 3 ], [ "iron", 3 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 5
-   },
-    {
+  },
+  {
     "type": "COMESTIBLE",
     "id": "b_dried_papaya",
     "name": "dried papaya slices",
@@ -577,10 +573,10 @@
     "description": "Dried papaya slices, vibrant orange in colour.",
     "price": 250,
     "material": "fruit",
-	"vitamins": [ ["vitC",  3], ["calcium", 3 ], ["iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 3 ], [ "iron", 3 ] ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 5
-   }
+  }
 ]
