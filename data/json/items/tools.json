@@ -2325,56 +2325,6 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "dynamite_radio",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "radio dynamite",
-    "description": "Dynamite with a radio detonator.  Activate it to arm, then plant or attach to a RC car, and use the remote detonator.",
-    "weight": 180,
-    "volume": 4,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "paper", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "max_charges": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 200 },
-    "use_action": {
-      "target": "dynamite_radio_act",
-      "msg": "You arm your radio-detonated dynamite.",
-      "target_charges": 1,
-      "active": true,
-      "menu_text": "Arm detonator",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "dynamite_radio_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "activated radio dynamite",
-    "description": "Dynamite with a radio detonator, armed.  Place it, get away and use the remote detonator.",
-    "weight": 1570,
-    "volume": 4,
-    "price": 0,
-    "to_hit": -4,
-    "material": [ "paper", "plastic" ],
-    "symbol": "*",
-    "color": "yellow",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 200 },
-    "use_action": {
-      "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away and use the remote control to detonate.",
-      "explosion": { "power": 250 }
-    },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
-  },
-  {
     "id": "e_handcuffs",
     "type": "TOOL",
     "name": "electronic handcuffs",
@@ -5458,7 +5408,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "pipe bomb",
-    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.  It is somewhat unreliable, and may fail to detonate.",
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
     "weight": 1298,
     "volume": 2,
     "price": 1500,
@@ -5476,7 +5426,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
   },
   {
     "id": "pipebomb_act",
@@ -5495,54 +5445,18 @@
     "initial_charges": 3,
     "max_charges": 3,
     "turns_per_charge": 1,
-    "use_action": "PIPEBOMB_ACT",
-    "flags": [ "DANGEROUS" ]
-  },
-  {
-    "id": "pipebomb_radio",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "radio pipe bomb",
-    "description": "A radio-detonated pipe bomb.  Activate it to arm the detonator, then place somewhere and press a button on the radio control.",
-    "weight": 180,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "max_charges": 1,
-    "use_action": {
-      "target": "pipebomb_radio_act",
-      "msg": "You arm your radio-detonated pipe bomb.",
-      "target_charges": 1,
-      "active": true,
-      "menu_text": "Arm detonator",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "pipebomb_radio_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "activated radio pipe bomb",
-    "description": "A radio-detonated pipe bomb, armed.  Place it or attach to a RC car, then get away and use the radio-control to detonate.",
-    "weight": 1570,
-    "volume": 4,
-    "price": 0,
-    "to_hit": -4,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "yellow",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "use_action": {
+     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away, and use the remote control to detonate.",
-      "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1.0 } }
-    },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { 
+	  "power": 20, 
+	  "distance_factor" : 0.5,
+	  "shrapnel": { "casing_mass": 10, 
+					"fragment_mass": 0.05 } }
+	},
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "plastic_chunk",
