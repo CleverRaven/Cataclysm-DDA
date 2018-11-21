@@ -5493,8 +5493,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     item *container = nullptr;
-    if( ammo->is_ammo_container() || ammo->is_watertight_container() ||
-        ammo->is_non_resealable_container() ) {
+    if( ammo->is_ammo_container() || ammo->is_container() ) {
         container = ammo;
         ammo = &ammo->contents.front();
     }
