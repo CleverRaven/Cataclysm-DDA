@@ -7563,7 +7563,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
             }
-            auto id = ( ammo->is_ammo_container() || ammo->is_watertight_container() )
+            auto id = ( ammo->is_ammo_container() || ammo->is_container() )
                 ? ammo->contents.front().typeId()
                 : ammo->typeId();
             if( e->can_reload_with( id ) ) {
@@ -8189,7 +8189,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1L );
-    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() || ammo.is_non_resealable_container() ) {
+    } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1L );
     } else if( ammo.is_magazine() ) {
         qty = 1;
