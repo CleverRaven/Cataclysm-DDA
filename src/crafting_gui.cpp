@@ -102,7 +102,10 @@ void translate_all()
 void reset_recipe_categories()
 {
     craft_cat_list.clear();
+    craft_cat_list.push_back( "CC_*" );
+
     craft_subcat_list.clear();
+    craft_subcat_list["CC_*"].push_back( "CSC_*_FAVORITE" );
 }
 
 int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
@@ -210,6 +213,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
@@ -252,7 +256,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else {
                 std::vector<const recipe *> picking;
-                if( filterstring.empty() ) {
+                if( tab.cur() == "CC_*" ) {
+                    picking = available_recipes.favorite();
+                } else if( filterstring.empty() ) {
                     picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 } else {
                     auto qry = trim( filterstring );
@@ -369,20 +375,20 @@ const recipe *select_crafting_recipe( int &batch_size )
             wprintz( w_data, c_white, "  " );
             if( !filterstring.empty() ) {
                 wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
+                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
                 wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
+                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
             if( !filterstring.empty() ) {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
             } else {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
             }
             mvwprintz( w_data, dataLines + 2, 5, c_white,
                        _( "Press <ENTER> to attempt to craft object." ) );
@@ -738,6 +744,18 @@ const recipe *select_crafting_recipe( int &batch_size )
                 keepline = true;
             }
             redraw = true;
+        } else if( action == "TOGGLE_FAVORITE" ) {
+            keepline = true;
+            redraw = true;
+            if( current.empty() ) {
+                popup( _( "Nothing selected!" ) );
+                continue;
+            }
+            if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
+                uistate.favorite_recipes.erase( current[line]->ident() );
+            } else {
+                uistate.favorite_recipes.insert( current[line]->ident() );
+            }
         } else if( action == "HIDE_SHOW_RECIPE" ) {
             if( current.empty() ) {
                 popup( _( "Nothing selected!" ) );
@@ -980,7 +998,8 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
             for( const auto &stt : craft_subcat_list[tab] ) {
-                bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
+                bool empty = subtab == "CSC_*_FAVORITE" ? uistate.favorite_recipes.empty() :
+                             available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );
                 pos_x += utf8_width( normalized_names[stt] ) + tab_step;
             }

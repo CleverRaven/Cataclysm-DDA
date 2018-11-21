@@ -124,6 +124,8 @@ class recipe_subset
             description_result
         };
 
+        /** Find marked favorite recipes */
+        std::vector<const recipe *> favorite() const;
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt,
                                             const search_type key = search_type::name ) const;
