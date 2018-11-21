@@ -58,7 +58,9 @@ struct four_quadrants {
     friend four_quadrants elementwise_max( const four_quadrants &l, const float r ) {
         four_quadrants result( l );
         for( float &v : result.values ) {
-            v = std::max( v, r );
+            if( v < r ) {
+                v = r;
+            }
         }
         return result;
     }
