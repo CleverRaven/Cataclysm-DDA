@@ -671,7 +671,7 @@ void vehicle::backfire( const int e ) const
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     //~ backfire sound
-    sounds::ambient_sound( pos, 40 + power / 12, _( "BANG!" ) );
+    sounds::ambient_sound( pos, 40 + power / 10000, _( "BANG!" ) );
 }
 
 const vpart_info &vehicle::part_info( int index, bool include_removed ) const
