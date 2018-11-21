@@ -2325,6 +2325,10 @@ conditional_t::conditional_t( JsonObject jo )
             oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
             if( location == "FACTION_CAMP_ANY" ) {
+                if( g->m.camp_at( omt_pos ) ) {
+                    return true;
+                }
+                // legacy check
                 const std::string &omt_str = omt_ref.id().c_str();
                 return omt_str.find( "faction_base_camp" ) != std::string::npos;
             } else {

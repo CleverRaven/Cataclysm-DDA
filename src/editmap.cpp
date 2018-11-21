@@ -1924,7 +1924,9 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
             destsm->temperature = srcsm->temperature;
             destsm->last_touched = calendar::turn;
             destsm->comp = std::move( srcsm->comp );
-            destsm->camp = srcsm->camp;
+            if( srcsm->camp.is_valid() ) {
+                destsm->camp = srcsm->camp;
+            }
 
             if( spawns_todo > 0 ) {
                 g->m.spawn_monsters( true );

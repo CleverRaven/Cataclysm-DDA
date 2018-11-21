@@ -5353,7 +5353,7 @@ void map::add_camp( const tripoint &p, const std::string &name )
         return;
     }
 
-    get_submap_at( p )->camp = basecamp( name, p.x, p.y );
+    get_submap_at( p )->camp = basecamp( name, p );
 }
 
 void map::update_visibility_cache( const int zlev )
