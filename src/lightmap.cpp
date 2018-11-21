@@ -482,7 +482,10 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
         // This is the complicated case.  We want to check which quadrants the
         // player can see the tile from, and only count light values from those
         // quadrants.
-        using offset_and_quadrants = std::pair<point, std::array<quadrant, 2>>;
+        struct offset_and_quadrants {
+            point offset;
+            std::array<quadrant, 2> quadrants;
+        };
         static constexpr std::array<offset_and_quadrants, 8> adjacent_offsets = {{
                 { { 0, 1 }, {{ quadrant::SE, quadrant::SW }} },
                 { { 0, -1 }, {{ quadrant::NE, quadrant::NW }} },
@@ -497,10 +500,8 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
 
         four_quadrants seen_from( 0 );
         for( const offset_and_quadrants &oq : adjacent_offsets ) {
-            const point &offset = oq.first;
-            const std::array<quadrant, 2> &quadrants = oq.second;
-            const int neighbour_x = p.x + offset.x;
-            const int neighbour_y = p.y + offset.y;
+            const int neighbour_x = p.x + oq.offset.x;
+            const int neighbour_y = p.y + oq.offset.y;
 
             if( !INBOUNDS( neighbour_x, neighbour_y ) ) {
                 continue;
@@ -514,8 +515,8 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
             // quadrants
-            seen_from[quadrants[0]] = vis;
-            seen_from[quadrants[1]] = vis;
+            seen_from[oq.quadrants[0]] = vis;
+            seen_from[oq.quadrants[1]] = vis;
         }
         apparent_light = ( seen_from * map_cache.lm[p.x][p.y] ).max();
     } else {
