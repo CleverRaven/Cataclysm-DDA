@@ -5329,22 +5329,20 @@ basecamp *map::camp_at( const tripoint &p, const int radius )
     if( !inbounds( p ) ) {
         return nullptr;
     }
+    const int sx = std::max( 0, p.x - radius );
+    const int sy = std::max( 0, p.y - radius );
+    const int ex = std::min( p.x + radius, SEEX * MAPSIZE - 1 );
+    const int ey = std::min( p.y + radius, SEEY * MAPSIZE - 1 );
 
-    const int sx = std::max( 0, p.x / SEEX - radius );
-    const int sy = std::max( 0, p.y / SEEY - radius );
-    const int ex = std::min( MAPSIZE - 1, p.x / SEEX + radius );
-    const int ey = std::min( MAPSIZE - 1, p.y / SEEY + radius );
-
-    for( int ly = sy; ly < ey; ++ly ) {
-        for( int lx = sx; lx < ex; ++lx ) {
-            submap *const current_submap = get_submap_at( p );
+    for( int ly = sy; ly < ey; ly += SEEY ) {
+        for( int lx = sx; lx < ex; lx += SEEX ) {
+            submap *const current_submap = get_submap_at( tripoint( lx, ly, p.z ) );
             if( current_submap->camp.is_valid() ) {
                 // we only allow on camp per size radius, kinda
                 return &( current_submap->camp );
             }
         }
     }
-
     return nullptr;
 }
 

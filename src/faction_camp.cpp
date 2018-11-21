@@ -89,6 +89,19 @@ static bool update_time_fixed( std::string &entry, const std::shared_ptr<npc> co
     return elapsed >= duration;
 }
 
+void talk_function::become_overseer( npc &p )
+{
+    add_msg( _( "%s has become a camp manager." ), p.name );
+    if( p.name.find( _( ", Camp Manager" ) ) == std::string::npos ) {
+        p.name = p.name + _( ", Camp Manager" );
+    }
+    p.companion_mission_role_id = "FACTION_CAMP";
+    p.set_attitude( NPCATT_NULL );
+    p.mission = NPC_MISSION_GUARD_ALLY;
+    p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
+    p.set_destination();
+}
+
 void talk_function::camp_missions( mission_data &mission_key, npc &p )
 {
     std::string entry;
@@ -1236,7 +1249,7 @@ void talk_function::start_cut_logs( npc &p )
 void talk_function::start_setup_hide_site( npc &p )
 {
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
-    if( npc_list.empty() ) {
+    if( !npc_list.empty() ) {
         popup( _( "There are too many companions working on this mission!" ) );
         return;
     }
@@ -1283,7 +1296,7 @@ void talk_function::start_setup_hide_site( npc &p )
 void talk_function::start_relay_hide_site( npc &p )
 {
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_trans" );
-    if( npc_list.empty() ) {
+    if( !npc_list.empty() ) {
         popup( _( "There are too many companions working on this mission!" ) );
         return;
     }
@@ -1534,8 +1547,6 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
         }
     }
 
-    oter_id &omt_ref = overmap_buffer.ter( omt_trg );
-    omt_ref = oter_id( omt_ref.id().c_str() );
     editmap edit;
     vehicle *car = edit.mapgen_veh_query( omt_trg );
     if( car == nullptr ) {
