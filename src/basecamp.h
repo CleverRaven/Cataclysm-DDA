@@ -36,10 +36,12 @@ class basecamp
         inline int board_y() const {
             return bb_pos.y;
         }
+        tripoint camp_pos() const {
+            return pos;
+        }
         inline std::string const &camp_name() const {
             return name;
         }
-
         std::string board_name() const;
         std::vector<tripoint> sort_points;
         std::vector<std::string> directions;
@@ -55,16 +57,43 @@ class basecamp
         bool can_expand() const;
         /// Returns the name of the building the current building @ref dir upgrades into, "null" if there isn't one
         const std::string next_upgrade( const std::string &dir ) const;
+        /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
+        bool om_upgrade( npc &comp, const std::string &next_upgrade, const tripoint &upos );
+
+        // camp utility functions
+        int recruit_evaluation() const;
+        int recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, int &sbonus ) const;
+        void validate_sort_points();
+        /**
+         * Sets the location of the sorting piles used above.
+         * @param reset_pts reverts all previous points to defaults.
+         * @param choose_pts let the player review and choose new sort points
+         */
+        bool set_sort_points( bool reset_pts, bool choose_pts );
+
+        // food utility
+        /// Takes all the food from the point set in set_sort_pts() and increases the faction food_supply
+        bool distribute_food();
 
         // recipes and craft support functions
         std::map<std::string, std::string> recipe_deck( const std::string &dir ) const;
+        void craft_construction( npc &p, const std::string &cur_id, const std::string &cur_dir,
+                                 const std::string &type, const std::string &miss_id ) const;
         const std::string get_gatherlist() const;
+
+        // mission return functions
+        std::string recruit_start( int npc_count );
+        // mission return functions
+        /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref dir is the direction of the location to be upgraded
+        bool upgrade_return( npc &p, const std::string &dir, const std::string &miss );
+        /// Choose which expansion you should start, called when a survey mission is completed
+        bool survey_return( npc &p );
+        bool menial_return( npc &p );
 
         // Save/load
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
         void load_data( std::string const &data );
-
     private:
         std::string name;
         // location of the camp in the overmap

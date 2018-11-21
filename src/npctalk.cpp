@@ -1500,8 +1500,9 @@ void talk_function::start_camp( npc &p )
     }
 
     editmap edit;
-    if (!edit.mapgen_set( "faction_base_camp_0", omt_pos) ){
-        popup( _("You weren't able to survey the camp site.") );
+    tripoint new_pos = omt_pos;
+    if ( !edit.mapgen_set( "faction_base_camp_0", new_pos ) ) {
+        popup( _( "You weren't able to survey the camp site." ) );
         return;
     }
     become_overseer( p );

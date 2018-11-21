@@ -121,40 +121,15 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp = nullp
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
                               units::volume carry_volume );
 
-/// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
-bool om_camp_upgrade( npc &p, const tripoint &omt_pos );
 /// Returns the description for the recipe of the next building @ref bldg
 std::string om_upgrade_description( const std::string &bldg );
 /// Currently does the same as om_upgrade_description but should convert fire charges to raw charcoal needed and allow dark craft
 std::string om_craft_description( const std::string &bldg );
 /// Provides a "guess" for some of the things your gatherers will return with to upgrade the camp
 std::string om_gathering_description( npc &p, const std::string &bldg );
-/// Returns the name of the building the current @ref bldg upgrades into, "null" if there isn't one
-std::string om_next_upgrade( const std::string &bldg );
-/// Returns a vector of all upgrades the current build would have if it reached bldg level, "null" if there isn't one
-std::vector<std::string> om_all_upgrade_levels( const std::string &bldg );
-/// Is the @ref bldg of the same type as the @ref target and does the level of bldg meet or exceed the target level
-bool om_min_level( const std::string &target, const std::string &bldg );
-/// Is the @ref bldg of the same type as the @ref target and how many levels greater is it, -1 for no match, 0 for same
-int om_over_level( const std::string &target, const std::string &bldg );
-/// Returns the numerical suffix of the @ref bldg
-int om_upgrade_level( const std::string &bldg );
-/// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
-bool upgrade_return( npc &p, const tripoint &omt_pos, const std::string &miss );
 /// Called when a companion completes a gathering @ref task mission
 bool camp_gathering_return( npc &p, const std::string &task, time_duration min_time );
-/// Called on completion of recruiting, returns the new NPC.
 void camp_recruit_return( npc &p, const std::string &task, int score );
-void camp_craft_construction( npc &p, const mission_entry &cur_key,
-                              const std::map<std::string, std::string> &recipes, const std::string &miss_id,
-                              const tripoint &omt_pos, const std::vector<std::pair<std::string, tripoint>> &om_expansions );
-int camp_recruit_evaluation( const std::string &base,
-                             const std::vector<std::pair<std::string, tripoint>> &om_expansions, int &sbase, int &sexpansions,
-                             int &sfaction, int &sbonus );
-int camp_recruit_evaluation( const std::string &base,
-                             const std::vector<std::pair<std::string, tripoint>> &om_expansions );
-std::string camp_recruit_start( npc &p, const std::string &base,
-                                const std::vector<std::pair<std::string, tripoint>> &om_expansions );
 /// Called when a companion is sent to cut logs
 void start_camp_upgrade( npc &p, const std::string &bldg );
 void start_cut_logs( npc &p );
@@ -195,21 +170,8 @@ void camp_companion_return( npc &comp );
  * @param plow references the farm json and plows any dirt or grass tiles that are where dirt mounds should be
  */
 bool camp_farm_return( npc &p, const std::string &task, farm_ops op );
-/// Sorts all items within most of the confines of the camp into piles designated by the player or defaulted to
-bool camp_menial_return( npc &p );
 void camp_fortifications_return( npc &p );
 void combat_mission_return( std::string &miss, npc &p );
-/**
- * Sets the location of the sorting piles used above.
- * @param p NPC companion
- * @param reset_pts reverts all previous points to defaults.  Called/checked so we can add new point with compatability
- * @param choose_pts let the player flip through all of the points and set the ones they want
- */
-bool camp_menial_sort_pts( npc &p, bool reset_pts = true, bool choose_pts = false );
-/// Choose which expansion you should start, called when a survey mission is completed
-bool camp_expansion_select( npc &p );
-/// Takes all the food from the point set in camp_menial_sort_pts() and increases the faction food_supply
-bool camp_distribute_food( npc &p );
 /// Returns the OM tiles surrounding the camp, @ref purge removes all tiles that aren't expansions
 std::vector<std::pair<std::string, tripoint>> om_building_region( npc &p, int range,
         bool purge = false );

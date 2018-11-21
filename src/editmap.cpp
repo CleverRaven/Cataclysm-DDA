@@ -1818,7 +1818,7 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
 /*
  * Write over an existing om tile with one from json
  */
-bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool change_sensitive )
+bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool change_sensitive )
 {
     if( r > 0 ) {
         popup( _( "Select a tile up to %d tiles away." ), r );
