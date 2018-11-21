@@ -193,6 +193,8 @@ struct mission_fail {
 };
 
 struct mission_util {
+    static tripoint reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
+                                   int target_z = 0 );
     static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
                                    bool must_see, int target_z = 0 );
     static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
