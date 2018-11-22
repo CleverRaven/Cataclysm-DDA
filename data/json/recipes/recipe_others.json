@@ -358,7 +358,8 @@
       [ [ "hose", 1 ] ],
       [ [ "e_scrap", 4 ] ],
       [ [ "circuit", 1 ] ],
-      [ [ "scrap", 8 ] ]
+      [ [ "scrap", 8 ] ],
+      [ [ "refrigerant_tank", 1 ] ]
     ]
   },
   {
@@ -380,7 +381,8 @@
       [ [ "e_scrap", 4 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "amplifier", 1 ] ],
-      [ [ "scrap", 8 ] ]
+      [ [ "scrap", 8 ] ],
+      [ [ "refrigerant_tank", 1 ] ]
     ]
   },
   {
