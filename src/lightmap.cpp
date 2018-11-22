@@ -1176,8 +1176,6 @@ void map::apply_light_source( const tripoint &p, float luminance )
         return;
     } else if( luminance <= LL_BRIGHT_ONLY ) {
         luminance = 1.49f;
-    } else if( luminance <= LIGHT_SOURCE_LOCAL ) {
-        return;
     }
 
     /* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
