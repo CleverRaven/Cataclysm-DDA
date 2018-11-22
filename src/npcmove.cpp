@@ -1371,7 +1371,11 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
     int safe_angle = 30;
 
     for( const auto &fr : ai_cache.friends ) {
-        const Creature &ally = *fr.get();
+        const std::shared_ptr<Creature> ally_p = fr.lock();
+        if( !ally_p ) {
+            continue;
+        }
+        const Creature &ally = *ally_p;
 
         // @todo: Extract common functions with turret target selection
         int safe_angle_ally = safe_angle;
@@ -1680,8 +1684,9 @@ void npc::avoid_friendly_fire()
     // Calculate center of weight of friends and move away from that
     tripoint center;
     for( const auto &fr : ai_cache.friends ) {
-        const Creature &ally = *fr.get();
-        center += ally.pos();
+        if( std::shared_ptr<Creature> fr_p = fr.lock() ) {
+            center += fr_p->pos();
+        }
     }
 
     float friend_count = ai_cache.friends.size();
@@ -3154,12 +3159,15 @@ void print_action( const char *prepend, npc_action action )
 
 const Creature *npc::current_target() const
 {
-    return ai_cache.target.get();
+    // TODO: Arguably we should return a shared_ptr to ensure that the returned
+    // object stays alive while the caller uses it.  Not doing that for now.
+    return ai_cache.target.lock().get();
 }
 
 Creature *npc::current_target()
 {
-    return const_cast<Creature *>( const_cast<const npc *>( this )->current_target() );
+    // TODO: As above.
+    return ai_cache.target.lock().get();
 }
 
 // Maybe TODO: Move to Character method and use map methods

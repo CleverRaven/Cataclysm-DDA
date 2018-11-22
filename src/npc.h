@@ -218,11 +218,13 @@ struct npc_short_term_cache {
     float danger;
     float total_danger;
     float danger_assessment;
-    std::shared_ptr<Creature> target;
+    // Use weak_ptr to avoid circular references between Creatures
+    std::weak_ptr<Creature> target;
 
     double my_weapon_value;
 
-    std::vector<std::shared_ptr<Creature>> friends;
+    // Use weak_ptr to avoid circular references between Creatures
+    std::vector<std::weak_ptr<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
 };
 
