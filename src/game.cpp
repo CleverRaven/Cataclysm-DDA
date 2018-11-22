@@ -9291,12 +9291,19 @@ void game::butcher()
 
         if( corpses.size() > 1 ) {
             int time_to_cut = 0;
-            for( auto index : corpses ) {
-                time_to_cut += butcher_time_to_cut( u, items[index], BUTCHER );
+            if( g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
+                for( auto index : corpses ) {
+                    time_to_cut += butcher_time_to_cut( u, items[index], BUTCHER_FULL );
+                }
+                kmenu.addentry_col( MULTIBUTCHER, true, 'b', _( "Full butcher everything" ),
+                                    to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) ) );
+            } else {
+                for( auto index : corpses ) {
+                    time_to_cut += butcher_time_to_cut( u, items[index], BUTCHER );
+                }
+                kmenu.addentry_col( MULTIBUTCHER, true, 'b', _( "Quick butcher everything" ),
+                                    to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) ) );
             }
-
-            kmenu.addentry_col( MULTIBUTCHER, true, 'b', _( "Quick butcher everything" ),
-                                to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) ) );
         }
         if( disassembles.size() > 1 ) {
             int time_to_disassemble = 0;
