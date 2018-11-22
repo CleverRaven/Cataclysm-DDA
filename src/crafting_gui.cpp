@@ -102,10 +102,7 @@ void translate_all()
 void reset_recipe_categories()
 {
     craft_cat_list.clear();
-    craft_cat_list.push_back( "CC_*" );
-
     craft_subcat_list.clear();
-    craft_subcat_list["CC_*"].push_back( "CSC_*_FAVORITE" );
 }
 
 int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
