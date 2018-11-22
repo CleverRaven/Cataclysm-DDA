@@ -341,7 +341,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         if( std::min( bionics_win_size_y, trait_win_size_y ) > max_shared_y ) {
             bionics_win_size_y = max_shared_y;
             // trait window is less than the shared size, so give space to bionics
-        } else if( trait_win_size_y < max_shared_y ) {
+        } else if( trait_win_size_y <= max_shared_y ) {
             bionics_win_size_y = maxy - infooffsetybottom - trait_win_size_y;
         }
         // fall through if bionics is smaller
