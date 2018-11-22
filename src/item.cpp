@@ -4816,6 +4816,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
             for( auto &elem : ret.damage_units ) {
                 if( elem.type == DT_STAB ) {
                     elem.amount *= *ammo_data()->ammo->prop_damage;
+                    elem.res_pen = ammo_data()->ammo->legacy_pierce;
                 }
             }
         } else {
