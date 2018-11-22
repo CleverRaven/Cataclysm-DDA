@@ -459,10 +459,7 @@ New monster ability 'ABSORBS_SPLITS'
 New pain increasing mutations.
 Remove hardcoded mansions
 Add dashboards to vehicles
-Added variations on three books
-add flamethrower tanks
 Added second variant of Evac Shelter basement
-remove brazier construction
 Pallet lifter for fast battery swapping.
 Add Speedloaders.
 Remove Solar Panels CBM
@@ -672,6 +669,7 @@ Add local directional keybindings for pickup menu.
 Allow light levels of visible tiles to be known from a distance.
 Refresh AIM screen properly after escaping of SORT menu.
 Don't initially change the view offset when firing.
+Display JACK/LIFT amounts in real-world units.
 Implementation of UI for Bionics Slots System.
 Show estimated disassembly time.
 Improvements of the blood test window.
@@ -717,13 +715,15 @@ Harvestable plant description.
 Sheath and holster contained volume description.
 Add basic note support to constructions.
 Add AUTO_PICKUP_SMALL_ITEMS option.
-Enable to customize 16 ANSI color slots.
+Enable customizing the 16 ANSI color slots.
+Record NPC kills in kill count.
 Add option to toggle framebuffer acceleration when using software rendering.
 Talk to NPCs from the menu for examining them.
 Added ability to save and restore default layout for advanced inventory.
 In the crafting GUI, show which books provide this recipe.
 Added point pool restriction option in world generation settings.
 Added monster info in extended description.
+Display actual nutrition acquired, rework rotten food penalties.
 Vehicle UI: Highlight parts for removal in overview.
 Color NPC/Player background cyan when grabbed.
 Update default font values to prevent tiny overmap font usage on new game installations.
@@ -733,15 +733,18 @@ Highlight searched components in crafting window.
 Visual aid for broken limbs.
 Added filter option to all inventory_ui menus.
 Display component supply when crafting.
+Convert braziers from traps to furniture.
 Added sorting and categories to list monsters.
 Disable scenarios that require a city start when city_size is 0.
 Prompt when creating a character with the same name in a world.
 Accessibility: Textual Vehicle Direction Indicator.
+Rope, wire and barbed wire fences are now built and removed through the construction menu.
 Horizontal emoticon style interface option.
 Option for zones with no auto pickup to suppress seen items spam.
 Add description to mountable locations.
 NPCs will complain every 5 minutes if they're bleeding.
 Allow diagonal movement via keybinding modifiers in SDL builds.
+Show time to complete as if there's bright lighting if it's too dark to craft.
 Show crafting bonus in 'New Character Creation' menu.
 Make items with a player-assigned inventory letter always come first in inventory.
 Support searching for memorized/unmemorized recipes.
@@ -750,7 +753,7 @@ Support for resizeable windows with adaptive UI.
 Provides more information about the relative age and spoil progress of foods.
 Adds extended descriptions, sorts and colors descriptions.
 Add sub-menu for controlling multiple vehicle electronics.
-Display vehicle descriptions.
+Display vehicle part descriptions.
 CBMs for NPCs: add BIONICs tab to player info window.
 Martial arts techniques description.
 Show activation and deactivation cost for all bionics that have them.
@@ -793,6 +796,7 @@ Craftable Gun Pack mod revamp.
 More snippet/flier entries for mods.
 Added more content to Expanded Realistic Guns.
 Support total conversion mods.
+Remove Arcana and PK_rebalancing mods since they are maintained in seperate repositories now.
 Add huge vehicles mod.
 Convert Tanks and Other Vehicles mapgen overrides.
 Expanded Realistic Guns: bandolier update.
@@ -809,6 +813,7 @@ Fixes some unlearnable recipes in More Survival Tools.
 Move user-default-mods.json to config folder.
 Makeshift mod and bayonet update.
 Battery compartment mod update.
+National Guard Camp, a large and very dangerous military complex.
 Brings DinoMod back online.
 Atomic vehicles for Bright nights mod.
 Added Urban Development Mod.
@@ -1635,7 +1640,6 @@ Make the packed and unpacked LAW more similar
 Update potato chips recipe
 Add a leather kilt as an alternative for Skalds with wool allergy.
 Update a few more recipes with requirements
-Rebalance s'mores nutritional value and crafting
 Fences deconstructable
 Add multi_cooker
 Changing skilled shooter with accurate rifle test
@@ -1775,6 +1779,7 @@ Add back cache update to fix pixel minimap render issue.
 Make backtrace() handling saner; fixes BSD, probably others.
 Make exploding ammo explode on hit.
 Integrated scope fix for scout rifle.
+Restrict usage of computers for blind character.
 Fix NPCs talking to deaf player.
 Fix line slopes and adjust projectile attacks.
 Remove morale penalty after washing if filthy item was worn whilst washing it.
