@@ -5426,7 +5426,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE"]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
   },
   {
     "id": "pipebomb_act",
@@ -5452,7 +5452,7 @@
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 20, "distance_factor": 0.5, "shrapnel": { "casing_mass": 10, "fragment_mass": 0.05 } }
     },
-    "flags": ["BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "plastic_chunk",
