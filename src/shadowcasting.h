@@ -58,7 +58,12 @@ struct four_quadrants {
     friend four_quadrants elementwise_max( const four_quadrants &l, const float r ) {
         four_quadrants result( l );
         for( float &v : result.values ) {
-            v = std::max( v, r );
+            // This looks like it should be v = std::max( v, r ) doesn't it?
+            // It turns out this is one simple trick that mingw-w64 HATES,
+            // triggering constant crashes when the above code was used.
+            if( v < r ) {
+                v = r;
+            }
         }
         return result;
     }

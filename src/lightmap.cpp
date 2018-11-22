@@ -1172,12 +1172,10 @@ void map::apply_light_source( const tripoint &p, float luminance )
         lm[x][y] = elementwise_max( lm[x][y], min_light );
         sm[x][y] = std::max( sm[x][y], luminance );
     }
-    if( luminance <= 1 ) {
+    if( luminance <= LL_LOW ) {
         return;
-    } else if( luminance <= 2 ) {
+    } else if( luminance <= LL_BRIGHT_ONLY ) {
         luminance = 1.49f;
-    } else if( luminance <= LIGHT_SOURCE_LOCAL ) {
-        return;
     }
 
     /* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
