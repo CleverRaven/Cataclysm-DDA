@@ -6842,7 +6842,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     vehicle *remote = g->remoteveh();
     if( t ) {
         bool stop = false;
-        if( it->charges == 0 ) {
+        if( !it->ammo_sufficient() ) {
             p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
             stop = true;
         } else if( remote == nullptr ) {
