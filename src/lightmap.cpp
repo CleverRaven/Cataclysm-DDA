@@ -93,6 +93,9 @@ void map::build_transparency_cache( const int zlev )
                     }
 
                     if( outside_cache[x][y] ) {
+                        // FIXME: Places inside vehicles haven't been marked as
+                        // inside yet so this is incorrectly penalising for
+                        // weather in vehicles.
                         value *= sight_penalty;
                     }
 
