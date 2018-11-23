@@ -6956,9 +6956,10 @@ bool multicooker_hallu( player &p )
 int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
+    static const int charges_to_start = 50;
 
     if( t ) {
-        if( it->charges == 0 ) {
+        if( !it->ammo_sufficient() ) {
             it->active = false;
             return 0;
         }
@@ -7027,11 +7028,16 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         uilist menu;
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
+        // Find actual contents rather than attached mod or battery.
+        auto dish_it = std::find_if_not(it->contents.begin(), it->contents.end(), [] ( const item &c ) {
+            return c.is_toolmod() || c.is_magazine();
+        } );
+
         if( it->active ) {
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
-            if( it->contents.empty() ) {
-                if( it->ammo_remaining() < 50 ) {
+            if( dish_it == it->contents.end() ) {
+                if( it->ammo_remaining() < charges_to_start ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -7074,7 +7080,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( mc_take == choice ) {
-            item &dish = it->contents.front();
+            item &dish = *dish_it;
 
             if( dish.has_flag( "HOT" ) ) {
                 p->add_msg_if_player( m_good,
@@ -7086,7 +7092,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             }
 
             p->i_add( dish );
-            it->contents.clear();
+            it->contents.erase( dish_it );
 
             return 0;
         }
@@ -7130,7 +7136,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     mealtime = meal->time * 2 ;
                 }
 
-                const int all_charges = 50 + mealtime / ( it->type->tool->turns_per_charge * 100 );
+                const int all_charges = charges_to_start + mealtime / ( it->type->tool->turns_per_charge * 100 );
 
                 if( it->ammo_remaining() < all_charges ) {
 
@@ -7153,7 +7159,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
                 it->active = true;
-                it->charges -= 50;
+                it->ammo_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 
