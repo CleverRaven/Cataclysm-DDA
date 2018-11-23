@@ -2828,7 +2828,8 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["under_armor_shorts", 20],
-      ["postman_shorts", 5]
+      ["postman_shorts", 5],
+      ["kilt", 5]
     ]
   },{
     "type" : "item_group",
