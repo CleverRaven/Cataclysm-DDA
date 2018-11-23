@@ -34,6 +34,7 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
@@ -156,6 +157,58 @@ int cash_to_favor( const npc &, int cash )
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
     double scaled_mission_val = sqrt( cash / 100.0 );
     return roll_remainder( scaled_mission_val );
+}
+
+void game::chat()
+{
+    const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
+        // @todo: Get rid of the z-level check when z-level vision gets "better"
+        return u.posz() == guy.posz() &&
+               u.sees( guy.pos() ) &&
+               rl_dist( u.pos(), guy.pos() ) <= 24;
+    } );
+
+    uilist nmenu;
+    nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
+
+    int i = 0;
+
+    for( auto &elem : available ) {
+        nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
+    }
+
+    int yell = 0;
+    int yell_sentence = 0;
+
+    nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
+    nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
+
+    nmenu.query();
+    if( nmenu.ret < 0 ) {
+        return;
+    } else if( nmenu.ret == yell ) {
+        u.shout();
+    } else if( nmenu.ret == yell_sentence ) {
+        std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
+        string_input_popup popup;
+        popup.title( string_format( _( "Yell a sentence" ) ) )
+        .width( 64 )
+        .description( popupdesc )
+        .identifier( "sentence" )
+        .max_length( 128 )
+        .query();
+
+        std::string sentence = popup.text();
+        add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
+        u.shout();
+    } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
+        available[nmenu.ret]->talk_to_u();
+    } else {
+        return;
+    }
+
+    u.moves -= 100;
+    refresh_all();
 }
 
 void npc_chatbin::check_missions()
