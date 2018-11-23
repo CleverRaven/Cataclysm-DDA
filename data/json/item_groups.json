@@ -2873,7 +2873,7 @@
       ["linuxtshirt", 10],
       ["sleeveless_tunic", 5]
     ]
-  }{
+  },{
     "type" : "item_group",
     "id" : "shirts_only_m",
     "items":[
