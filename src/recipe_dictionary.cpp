@@ -102,6 +102,24 @@ std::vector<const recipe *> recipe_subset::favorite() const
     return res;
 }
 
+std::vector<const recipe *> recipe_subset::recent() const
+{
+    std::vector<const recipe *> res;
+
+    for (auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend(); ++rec_id) {
+        std::find_if( recipes.begin(), recipes.end(), [&rec_id, &res]( const recipe * r ) {
+            if( !*r || *rec_id != r->ident()  ) {
+                return false;
+            }
+
+            res.push_back( r );
+            return true;
+        } );
+    }
+
+    return res;
+}
+
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
 {
@@ -163,9 +181,14 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     return res;
 }
 
-bool recipe_subset::empty_category( const std::string &cat,
-                                    const std::string &subcat ) const
+bool recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const
 {
+    if( subcat == "CSC_*_FAVORITE" ) {
+        return uistate.favorite_recipes.empty();
+    } else if( subcat == "CSC_*_RECENT" ) {
+        return uistate.recent_recipes.empty();
+    }
+
     auto iter = category.find( cat );
     if( iter != category.end() ) {
         if( subcat.empty() ) {
