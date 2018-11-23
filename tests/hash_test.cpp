@@ -3,41 +3,55 @@
 #include <chrono>
 #include <functional>
 #include <unordered_set>
+#include <vector>
 
 #include "map.h"
 
 #include "enums.h"
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.
-constexpr int MAX_COORDINATE = 100;
+// Previously tried inserting into an unordered_set,
+// but that was slower than appending to a vector and doing the sort+unique manually.
+// This should be dramatically faster (but approximate) if we insert into a HyperLogLog instead.
+constexpr int MAX_COORDINATE = 300;
+constexpr int NUM_ENTRIES_2D = ( ( MAX_COORDINATE * 2 ) + 1 ) * ( ( MAX_COORDINATE * 2 ) + 1 );
+constexpr int NUM_ENTRIES_3D = NUM_ENTRIES_2D * ( 21 );
+
+size_t count_unique_elements( std::vector<size_t> &found_elements )
+{
+    std::sort( found_elements.begin(), found_elements.end() );
+    auto range_end = std::unique( found_elements.begin(), found_elements.end() );
+    return std::distance( found_elements.begin(), range_end );
+}
 
 TEST_CASE( "point_hash_distribution", "[hash]" )
 {
-    std::vector<point> points = closest_points_first( MAX_COORDINATE, { 0, 0 } );
-    std::unordered_set<size_t> hashtogram;
+    std::vector<size_t> found_hashes;
+    found_hashes.reserve( NUM_ENTRIES_2D );
     size_t element_count = 0;
-    for( const point &p : points ) {
-        element_count++;
-        size_t sample_hash = std::hash<point> {}( p );
-        hashtogram.insert( sample_hash );
+    for( int x = -MAX_COORDINATE; x <= MAX_COORDINATE; ++x ) {
+        for( int y = -MAX_COORDINATE; y <= MAX_COORDINATE; ++y ) {
+            element_count++;
+            found_hashes.push_back( std::hash<point> {}( { x, y } ) );
+        }
     }
-    CHECK( hashtogram.size() > element_count * 0.9 );
+    CHECK( count_unique_elements( found_hashes ) > element_count * 0.9 );
 }
 
 TEST_CASE( "tripoint_hash_distribution", "[hash]" )
 {
-    std::vector<point> points = closest_points_first( MAX_COORDINATE, { 0, 0 } );
-    std::unordered_set<size_t> hashtogram;
+    std::vector<size_t> found_hashes;
+    found_hashes.reserve( NUM_ENTRIES_3D );
     size_t element_count = 0;
-    for( const point &p : points ) {
-        for( int k = -10; k <= 10; ++k ) {
-            element_count++;
-            tripoint sample_point = { p.x, p.y, k };
-            size_t sample_hash = std::hash<tripoint> {}( sample_point );
-            hashtogram.insert( sample_hash );
+    for( int x = -MAX_COORDINATE; x <= MAX_COORDINATE; ++x ) {
+        for( int y = -MAX_COORDINATE; y <= MAX_COORDINATE; ++y ) {
+            for( int z = -10; z <= 10; ++z ) {
+                element_count++;
+                found_hashes.push_back( std::hash<tripoint> {}( { x, y, z } ) );
+            }
         }
     }
-    CHECK( hashtogram.size() > element_count * 0.9 );
+    CHECK( count_unique_elements( found_hashes ) > element_count * 0.9 );
 }
 
 template<class Hash>
@@ -72,31 +86,32 @@ struct legacy_tripoint_hash {
 // These legacy checks are expected to fail.
 TEST_CASE( "legacy_point_hash_distribution", "[.]" )
 {
-    std::vector<point> points = closest_points_first( MAX_COORDINATE, { 0, 0 } );
-    std::unordered_set<size_t> hashtogram;
+    std::vector<size_t> found_hashes;
+    found_hashes.reserve( NUM_ENTRIES_2D );
     size_t element_count = 0;
-    for( const point &p : points ) {
-        element_count++;
-        size_t sample_hash = legacy_point_hash{}( p );
-        hashtogram.insert( sample_hash );
+    for( int x = -MAX_COORDINATE; x <= MAX_COORDINATE; ++x ) {
+        for( int y = -MAX_COORDINATE; y <= MAX_COORDINATE; ++y ) {
+            element_count++;
+            found_hashes.push_back( legacy_point_hash{}( { x, y } ) );
+        }
     }
-    CHECK( hashtogram.size() > element_count * 0.9 );
+    CHECK( count_unique_elements( found_hashes ) > element_count * 0.9 );
 }
 
 TEST_CASE( "legacy_tripoint_hash_distribution", "[.]" )
 {
-    std::vector<point> points = closest_points_first( MAX_COORDINATE, { 0, 0 } );
-    std::unordered_set<size_t> hashtogram;
+    std::vector<size_t> found_hashes;
+    found_hashes.reserve( NUM_ENTRIES_3D );
     size_t element_count = 0;
-    for( const point &p : points ) {
-        for( int k = -10; k <= 10; ++k ) {
-            element_count++;
-            tripoint sample_point = { p.x, p.y, k };
-            size_t sample_hash = legacy_tripoint_hash{}( sample_point );
-            hashtogram.insert( sample_hash );
+    for( int x = -MAX_COORDINATE; x <= MAX_COORDINATE; ++x ) {
+        for( int y = -MAX_COORDINATE; y <= MAX_COORDINATE; ++y ) {
+            for( int z = -10; z <= 10; ++z ) {
+                element_count++;
+                found_hashes.push_back( legacy_tripoint_hash{}( { x, y, z } ) );
+            }
         }
     }
-    CHECK( hashtogram.size() > element_count * 0.9 );
+    CHECK( count_unique_elements( found_hashes ) > element_count * 0.9 );
 }
 
 template<class CoordinateType, class Hash>
