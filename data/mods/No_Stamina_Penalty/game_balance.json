@@ -1,0 +1,30 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_STAMINA_PENALTY",
+    "info": "How much will decrease stamina pool by using 1 stamina point.  Default: 0.01.  Set to 0 to turn it off.",
+    "stype": "float",
+    "value": 0.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER",
+    "info": "How much hunger will be added for recovering 1 stamina point.  Default: 0.008.  Set to 0 to turn it off.",
+    "stype": "float",
+    "value": 0.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_RECOVER_STAMINA_INCREASE_THIRST",
+    "info": "How much thirst will be added for recovering 1 stamina point.  Default: 0.008.  Set to 0 to turn it off.",
+    "stype": "float",
+    "value": 0.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE",
+    "info": "How much fatigue will be added for recovering 1 stamina point.  Default: 0.004.  Set to 0 to turn it off.",
+    "stype": "float",
+    "value": 0.0
+  }
+]
