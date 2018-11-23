@@ -529,6 +529,30 @@
   },
   {
     "type": "recipe",
+    "result": "punch_gun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 1 ] ],
+    "difficulty": 1,
+    "time": 60000,
+    "autolearn": true,
+    "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_pistol", 2 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "GLARE", "level": 2 } ],
+    "tools": [
+      [
+        [ "oxy_torch", 6 ],
+        [ "welder", 30 ],
+        [ "welder_crude", 45 ],
+        [ "toolset", 45 ],
+        [ "small_repairkit", 150 ],
+        [ "large_repairkit", 30 ]
+      ]
+    ],
+    "components": [ [ [ "pipe_shotgun", 1 ] ], [ [ "knuckle_steel", 1 ] ], [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "surv_six_shooter",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

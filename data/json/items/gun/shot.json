@@ -122,6 +122,22 @@
     "barrel_length": 1
   },
   {
+    "id": "punch_gun",
+    "copy-from": "pipe_shotgun",
+    "type": "GUN",
+    "name": "punch gun",
+    "description": "A shortened pipe shotgun crudely welded to steel knuckles. A weapon for real junkyard raiders.",
+    "valid_mod_locations": [],
+    "dispersion": 1100,
+    "bashing": 14,
+    "ranged_damage": -5,
+    "flags": [ "UNARMED_WEAPON", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "material": [ "steel" ],
+    "relative": {
+      "price": 5000
+    }
+  },
+  {
     "id": "pipe_double_shotgun",
     "copy-from": "pipe_shotgun",
     "type": "GUN",
