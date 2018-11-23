@@ -106,9 +106,10 @@ std::vector<const recipe *> recipe_subset::recent() const
 {
     std::vector<const recipe *> res;
 
-    for (auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend(); ++rec_id) {
+    for( auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend();
+         ++rec_id ) {
         std::find_if( recipes.begin(), recipes.end(), [&rec_id, &res]( const recipe * r ) {
-            if( !*r || *rec_id != r->ident()  ) {
+            if( !*r || *rec_id != r->ident() ) {
                 return false;
             }
 
