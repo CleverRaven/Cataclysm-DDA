@@ -2855,7 +2855,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "shirts_m",
+    "id" : "shirts_only_f",
     "items":[
       ["tshirt", 80],
       ["longshirt", 80],
@@ -2867,9 +2867,26 @@
       ["hoodie", 65],
       ["under_armor", 20],
       ["jersey", 40],
-      ["skinny_tie", 10],
-      ["tieclip", 5],
-      ["collarpin", 5],
+      ["camisole", 60],
+      ["postman_shirt", 5],
+      ["halter_top", 50],
+      ["linuxtshirt", 10],
+      ["sleeveless_tunic", 5]
+    ]
+  }{
+    "type" : "item_group",
+    "id" : "shirts_only_m",
+    "items":[
+      ["tshirt", 80],
+      ["longshirt", 80],
+      ["polo_shirt", 65],
+      ["dress_shirt", 60],
+      ["tank_top", 50],
+      ["sweatshirt", 75],
+      ["sweater", 75],
+      ["hoodie", 65],
+      ["under_armor", 20],
+      ["jersey", 40],
       ["postman_shirt", 5],
       ["linuxtshirt", 10],
       ["sleeveless_tunic", 5]

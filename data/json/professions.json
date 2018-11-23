@@ -161,7 +161,7 @@
         "items": [ "boxer_shorts" ],
         "entries": [
           { "group": "jackets" },
-          { "group": "shirts_m" },
+          { "group": "shirts_only_m" },
           { "group": "pants_only_m" },
           { "group": "shoes_only_m" },
           { "group": "scarfs" },
@@ -174,7 +174,7 @@
         "items": ["bra", "panties" ],
         "entries": [
           { "group": "jackets" },
-          { "group": "shirts" },
+          { "group": "shirts_only_f" },
           { "group": "pants_only_f" },
           { "group": "shoes_only_f" },
           { "group": "scarfs" },
