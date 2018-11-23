@@ -146,7 +146,7 @@
     "type": "profession",
     "ident": "random",
     "name": "Survivor (Randomized)",
-    "description": "Some would say that there's nothing particularly notable about you.  But you've survived, and that's more than most could say right now.",
+    "description": "Some would say that there's nothing particularly notable about you.  Your starting gear is randomized.",
     "points": 0,
     "items": {
       "both": {
