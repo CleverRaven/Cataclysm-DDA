@@ -137,7 +137,7 @@
   },
   {
     "id": "animal_large",
-	"//": "Weight: 120000g"
+	"//": "Weight: 120000g",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "base_num": [ 73, 132 ], "scale_num": [ 0.8, 0.9 ], "max": 176 },
@@ -155,7 +155,7 @@
   },
   {
     "id": "animal_large_fur",
-	"//": "Weight: 120000g"
+	"//": "Weight: 120000g",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "base_num": [ 73, 132 ], "scale_num": [ 0.8, 0.9 ], "max": 176 },
