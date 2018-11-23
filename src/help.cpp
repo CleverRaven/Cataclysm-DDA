@@ -110,7 +110,7 @@ Press ESC to return to the game." ) ) + 1;
     size_t half_size = help_texts.size() / 2;
     int second_column = getmaxx( win ) / 2;
     for( size_t i = 0; i < help_texts.size(); i++ ) {
-        auto &cat_name = help_texts[i].first;
+        std::string cat_name = _( help_texts[i].first.c_str() );
         if( i < half_size ) {
             second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
         }
