@@ -316,7 +316,7 @@
 	"type": "COMESTIBLE",
 	"copy-from": "lung",
 	"name": "cooked lung",
-	"description": "It doesn't look any tastier, but the parasites are all cooked out."
+	"description": "It doesn't look any tastier, but the parasites are all cooked out.",
 	"parasites": 0
   },
   {
@@ -334,7 +334,7 @@
 	"type": "COMESTIBLE",
 	"copy-from": "liver",
 	"name": "cooked liver",
-	"description": "Chock full of B-Vitamins!"
+	"description": "Chock full of B-Vitamins!",
 	"parasites": 0,
 	"fun": -2,
 	"healthy": 0
@@ -383,7 +383,7 @@
 	"copy-from": "kidney",
 	"name": "cooked kidney",
 	"description": "No, this is not beans.",
-	"healthy": -2",
+	"healthy": -2,
 	"quench": -2,
 	"fun": -3
   },
@@ -404,7 +404,7 @@
 	"type": "COMESTIBLE",
 	"copy-from": "sweetbread",
 	"name": "cooked sweetbread",
-	"description": "Normally a delicacy, it needs a little... something."
-	"parasites": 0,
+	"description": "Normally a delicacy, it needs a little... something.",
+	"parasites": 0
   }
 ]
