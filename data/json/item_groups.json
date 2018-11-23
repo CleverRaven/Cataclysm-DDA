@@ -2722,6 +2722,51 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "socks",
+    "items":[
+      ["socks", 70],
+      ["tights", 20],
+      ["stockings", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shoes_only_f",
+    "items":[
+      ["sneakers", 80],
+      ["knee_high_boots", 20],
+      ["thigh_high_boots", 20],
+      ["boots", 70],
+      ["flip_flops", 35],
+      ["lowtops", 45],
+      ["dress_shoes", 50],
+      ["dance_shoes", 5],
+      ["heels", 50],
+      ["golf_shoes", 20],
+      ["boots_combat", 10],
+      ["boots_hiking", 20],
+      ["boots_western", 10],
+      ["clogs", 1],
+      ["leathersandals", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shoes_only_m",
+    "items":[
+      ["sneakers", 80],
+      ["boots", 70],
+      ["flip_flops", 35],
+      ["lowtops", 45],
+      ["dress_shoes", 50],
+      ["dance_shoes", 5],
+      ["golf_shoes", 20],
+      ["boots_combat", 10],
+      ["boots_hiking", 20],
+      ["boots_western", 10],
+      ["clogs", 1],
+      ["leathersandals", 10]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "pants",
     "items":[
       ["jeans", 90],
@@ -2747,6 +2792,46 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "pants_only_f",
+    "items":[
+      ["jeans", 90],
+      ["pants_checkered", 5],
+      ["shorts", 70],
+      ["shorts_denim", 35],
+      ["pants", 75],
+      ["pants_leather", 60],
+      ["pants_cargo", 70],
+      ["shorts_cargo", 50],
+      ["skirt", 75],
+      ["skirt_leather", 5],
+      ["leggings", 15],
+      ["under_armor_shorts", 20],
+      ["dress", 70],
+      ["sundress", 50],
+      ["dress_wedding", 1],
+      ["postman_shorts", 5],
+      ["b_shorts", 15],
+      ["kilt", 5],
+      ["nanoskirt", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "pants_only_m",
+    "items":[
+      ["jeans", 90],
+      ["pants_checkered", 5],
+      ["shorts", 70],
+      ["shorts_denim", 35],
+      ["pants", 75],
+      ["leather_belt", 30],
+      ["pants_leather", 60],
+      ["pants_cargo", 70],
+      ["shorts_cargo", 50],
+      ["under_armor_shorts", 20],
+      ["postman_shorts", 5]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "shirts",
     "items":[
       ["tshirt", 80],
@@ -2765,6 +2850,27 @@
       ["collarpin", 5],
       ["postman_shirt", 5],
       ["halter_top", 50],
+      ["linuxtshirt", 10],
+      ["sleeveless_tunic", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shirts_m",
+    "items":[
+      ["tshirt", 80],
+      ["longshirt", 80],
+      ["polo_shirt", 65],
+      ["dress_shirt", 60],
+      ["tank_top", 50],
+      ["sweatshirt", 75],
+      ["sweater", 75],
+      ["hoodie", 65],
+      ["under_armor", 20],
+      ["jersey", 40],
+      ["skinny_tie", 10],
+      ["tieclip", 5],
+      ["collarpin", 5],
+      ["postman_shirt", 5],
       ["linuxtshirt", 10],
       ["sleeveless_tunic", 5]
     ]
@@ -2899,6 +3005,16 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "scarfs",
+    "items":[
+      ["scarf", 50],
+      ["knit_scarf", 50],
+      ["long_knit_scarf", 30],
+      ["scarf_long", 30],
+      ["bandana", 100]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "shoestore_shoes",
     "items":[
       ["sneakers", 100],
@@ -2936,6 +3052,17 @@
     "items":[
       ["backpack", 38],
       ["purse", 40],
+      ["mbag", 20],
+      ["slingpack", 8],
+      ["rucksack", 20],
+      ["backpack_leather", 8],
+      ["briefcase", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bags_m",
+    "items":[
+      ["backpack", 38],
       ["mbag", 20],
       ["slingpack", 8],
       ["rucksack", 20],

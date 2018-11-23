@@ -19,6 +19,25 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_ammo",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "glock_17", "magazine": 100, "ammo-item": "9mm", "charges": 17 },
+      { "item": "glock_19", "magazine": 100, "ammo-item": "9mm", "charges": 15 },
+      { "item": "glock_22", "magazine": 100, "ammo-item": "40sw", "charges": 15},
+      { "item": "m1911", "magazine": 100, "ammo-item": "45_jhp", "charges": 7 },
+      { "item": "m9", "magazine": 100, "ammo-item": "9mm", "charges": 15 },
+      { "item": "ruger_lcr_38", "magazine": 100, "ammo-item": "38_fmj", "charges": 5 },
+      { "item": "sig_mosquito", "magazine": 100, "ammo-item": "22_lr", "charges": 10 },
+      { "item": "sw_22", "magazine": 100, "ammo-item": "22_lr", "charges": 10 },
+      { "item": "sw_610", "magazine": 100, "ammo-item": "40sw", "charges": 6 },
+      { "item": "sw_619", "magazine": 100, "ammo-item": "38_fmj", "charges": 7 },
+      { "item": "p226_357sig", "magazine": 100, "ammo-item": "357sig_jhp", "charges": 15 }
+      
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_rare",
     "//": "Less common pistols including those only used by police/paramilitary forces.",
     "items": [

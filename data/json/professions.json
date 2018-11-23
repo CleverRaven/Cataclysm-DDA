@@ -144,6 +144,49 @@
   },
   {
     "type": "profession",
+    "ident": "random",
+    "name": "Survivor (Randomized)",
+    "description": "Some would say that there's nothing particularly notable about you.  But you've survived, and that's more than most could say right now.",
+    "points": 0,
+    "items": {
+      "both": {
+        "entries": [
+          { "group": "gun_or_tool" },
+          { "group": "everyday_gear_nocash" },
+          { "group": "vending_food_items" },
+          { "group": "vending_drink_items" }
+        ]
+      },
+      "male": {
+        "items": [ "boxer_shorts" ],
+        "entries": [
+          { "group": "jackets" },
+          { "group": "shirts_m" },
+          { "group": "pants_only_m" },
+          { "group": "shoes_only_m" },
+          { "group": "scarfs" },
+          { "group": "hatstore_hats" },
+          { "group": "bags_m" },
+          { "group": "socks" }
+        ]
+      },
+      "female": { 
+        "items": ["bra", "panties" ],
+        "entries": [
+          { "group": "jackets" },
+          { "group": "shirts" },
+          { "group": "pants_only_f" },
+          { "group": "shoes_only_f" },
+          { "group": "scarfs" },
+          { "group": "hatstore_hats" },
+          { "group": "bags" },
+          { "group": "socks" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "ident": "sheltered_survivor",
     "name": "Sheltered Survivor",
     "description": "At the start of the cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",

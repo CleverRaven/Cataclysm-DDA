@@ -32,5 +32,15 @@
       [ "joint_roach", 20 ],
       [ "pipe_glass", 10 ]
     ]
+  },
+  {
+    "id": "gun_or_tool",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "tools_survival" },
+      { "group": "tools_common" },
+      { "group": "guns_pistol_common_ammo" }
+    ]
   }
 ]
