@@ -48,22 +48,6 @@ void help::deserialize( JsonIn &jsin )
                 line = string_replace( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
                 continue;
             }
-
-            size_t pos = line.find( "<press_", 0, 7 );
-            while( pos != std::string::npos ) {
-                size_t pos2 = line.find( ">", pos, 1 );
-
-                std::string action = line.substr( pos + 7, pos2 - pos - 7 );
-                auto replace = "<color_light_blue>" + press_x( look_up_action( action ), "", "" ) + "</color>";
-
-                if( replace.empty() ) {
-                    debugmsg( "Help json: Unknown action: %s", action );
-                } else {
-                    line = string_replace( line, "<press_" + action + ">", replace );
-                }
-
-                pos = line.find( "<press_", pos2, 7 );
-            }
         }
 
         help_texts[jo.get_int( "order" )] = std::make_pair( _( jo.get_string( "name" ).c_str() ),
@@ -168,7 +152,30 @@ void help::display_help()
         for( size_t i = 0; i < hotkeys.size(); ++i ) {
             for( const std::string &hotkey : hotkeys[i] ) {
                 if( sInput == hotkey ) {
-                    multipage( w_help, help_texts[i].second );
+                    std::vector<std::string> i18n_help_texts;
+                    i18n_help_texts.reserve( help_texts[i].second.size() );
+                    std::transform( help_texts[i].second.begin(), help_texts[i].second.end(),
+                    std::back_inserter( i18n_help_texts ), [&]( std::string & line ) {
+                        std::string line_proc = _( line.c_str() );
+                        size_t pos = line_proc.find( "<press_", 0, 7 );
+                        while( pos != std::string::npos ) {
+                            size_t pos2 = line_proc.find( ">", pos, 1 );
+
+                            std::string action = line_proc.substr( pos + 7, pos2 - pos - 7 );
+                            auto replace = "<color_light_blue>" + press_x( look_up_action( action ), "", "" ) + "</color>";
+
+                            if( replace.empty() ) {
+                                debugmsg( "Help json: Unknown action: %s", action );
+                            } else {
+                                line_proc = string_replace( line_proc, "<press_" + action + ">", replace );
+                            }
+
+                            pos = line_proc.find( "<press_", pos2, 7 );
+                        }
+                        return line_proc;
+                    } );
+
+                    multipage( w_help, i18n_help_texts );
                     action = "CONFIRM";
                     break;
                 }
