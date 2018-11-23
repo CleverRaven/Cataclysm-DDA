@@ -167,6 +167,15 @@ void game::chat()
                u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= 24;
     } );
+    const std::vector<npc *> followers = get_npcs_if( [&]( const npc &guy ) {
+        return guy.is_friend() && guy.is_following() && u.posz() == guy.posz() &&
+               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= 24;
+    } );
+    const std::vector<npc *> guards = get_npcs_if( [&]( const npc &guy ) {
+        return guy.mission == NPC_MISSION_GUARD_ALLY &&
+               guy.companion_mission_role_id != "FACTION_CAMP" && u.posz() == guy.posz() &&
+               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= 24;
+    } );
 
     uilist nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
@@ -179,9 +188,17 @@ void game::chat()
 
     int yell = 0;
     int yell_sentence = 0;
+    int yell_guard = -1;
+    int yell_follow = -1;
 
     nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
     nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
+    if( !followers.empty() ) {
+        nmenu.addentry( yell_guard = i++, true, 'c', _( "Tell all your allies to guard" ) );
+    }
+    if( !guards.empty() ) {
+        nmenu.addentry( yell_follow = i++, true, 'd', _( "Tell all your allies to follow" ) );
+    }
 
     nmenu.query();
     if( nmenu.ret < 0 ) {
@@ -201,6 +218,14 @@ void game::chat()
         std::string sentence = popup.text();
         add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
         u.shout();
+    } else if( nmenu.ret == yell_guard ) {
+        for( npc *p: followers ) {
+           talk_function::assign_guard( *p );
+        }
+    } else if( nmenu.ret == yell_follow ) {
+        for( npc *p: guards ) {
+           talk_function::stop_guard( *p );
+        }
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
         available[nmenu.ret]->talk_to_u();
     } else {
@@ -528,6 +553,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             case NPC_MISSION_BASE:
                 return _( "I'm guarding this location." );
             case NPC_MISSION_GUARD:
+            case NPC_MISSION_GUARD_ALLY:
                 return _( "I'm guarding this location." );
             case NPC_MISSION_NULL:
                 return p->myclass.obj().get_job_description();
@@ -1500,7 +1526,7 @@ void talk_function::become_overseer( npc &p )
     }
     p.companion_mission_role_id = "FACTION_CAMP";
     p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD;
+    p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
     p.set_destination();
 }
