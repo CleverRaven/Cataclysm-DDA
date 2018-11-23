@@ -4919,17 +4919,22 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
             n->item_counter = 0;
         }
         trigger_item = true;
-    } else if( n->has_flag( "RADIO_CONTAINER" ) && !n->contents.empty() &&
-               n->contents.front().has_flag( signal ) ) {
-        // A bomb is the only thing meaningfully placed in a container,
-        // If that changes, this needs logic to handle the alternative.
-        n->convert( n->contents.front().typeId() );
-        if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
-            n->process( nullptr, pos, true );
-        }
+    } else if( n->has_flag( "RADIO_CONTAINER" ) && !n->contents.empty() ) {
+        auto it = std::find_if( n->contents.begin(), n->contents.end(), [ &signal ]( const item &c ) {
+            return c.has_flag( signal );
+        } );
+        if ( it != n->contents.end() ) {
+            n->convert( it->typeId() );
+            if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
+                n->process( nullptr, pos, true );
+            }
 
-        n->charges = 0;
-        trigger_item = true;
+            // Clear possible mods to prevent unnecessary pop-ups.
+            n->contents.clear();
+
+            n->charges = 0;
+            trigger_item = true;
+        }
     }
     if( trigger_item ) {
         return process_item( items, n, pos, true, 0, 1 );

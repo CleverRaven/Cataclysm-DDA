@@ -6522,13 +6522,16 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
-    if( it->contents.empty() ) {
+    auto bomb_it = std::find_if( it->contents.begin(), it->contents.end(), []( const item &c ) {
+        return c.has_flag( "RADIOCARITEM" );
+    } );
+    if( bomb_it == it->contents.end() ) {
         choice = uilist( _( "Using RC car:" ), {
             _( "Turn on" ), _( "Put a bomb to car" )
         } );
-    } else if( it->contents.size() == 1 ) {
+    } else {
         choice = uilist( _( "Using RC car:" ), {
-            _( "Turn on" ), it->contents.front().tname().c_str()
+            _( "Turn on" ), bomb_it->tname().c_str()
         } );
     }
     if( choice < 0 ) {
@@ -6541,18 +6544,8 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
-        item bomb;
-
-        if( !it->contents.empty() ) {
-            bomb = it->contents.front();
-        }
-
         it->convert( "radio_car_on" ).active = true;
-
-        if( !( bomb.is_null() ) ) {
-            it->put_in( bomb );
-        }
-
+        
         p->add_msg_if_player(
             _( "You turned on your RC car, now place it on ground, and use radio control to play." ) );
 
@@ -6561,7 +6554,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 
     if( choice == 1 ) {
 
-        if( it->contents.empty() ) { //arming car with bomb
+        if( bomb_it == it->contents.end() ) { //arming car with bomb
             int inventory_index = g->inv_for_flag( "RADIOCARITEM", _( "Arm what?" ) );
             item &put = p->i_at( inventory_index );
             if( put.is_null() ) {
@@ -6584,11 +6577,10 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             }
         } else { // Disarm the car
             p->moves -= 150;
-            item &bomb = it->contents.front();
 
-            p->inv.assign_empty_invlet( bomb, *p, true ); // force getting an invlet.
-            p->i_add( bomb );
-            it->contents.erase( it->contents.begin() );
+            p->inv.assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
+            p->i_add( *bomb_it );
+            it->contents.erase( bomb_it );
 
             p->add_msg_if_player( _( "You disarmed your RC car" ) );
         }
@@ -6619,18 +6611,8 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     }
 
     if( choice == 0 ) {
-        item bomb;
-
-        if( !it->contents.empty() ) {
-            bomb = it->contents.front();
-        }
-
         it->convert( "radio_car" ).active = false;
-
-        if( !( bomb.is_null() ) ) {
-            it->put_in( bomb );
-        }
-
+        
         p->add_msg_if_player( _( "You turned off your RC car" ) );
         return it->type->charges_to_use();
     }
@@ -6663,7 +6645,7 @@ void sendRadioSignal( player &p, const std::string &signal )
 int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) {
-        if( it->charges == 0 ) {
+        if( !it->ammo_sufficient() ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
         } else if( p->get_value( "remote_controlling" ).empty() ) {
