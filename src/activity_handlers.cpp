@@ -938,7 +938,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
                 entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
+                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ||
+                entry.drop == "brain" ) {
                 continue;
             }
         }
@@ -947,7 +948,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
             if( entry.drop == "stomach" || entry.drop == "stomach_large" ||
                 entry.drop == "hstomach" || entry.drop == "hstomach_large" ||
-                entry.drop == "offal" || entry.drop == "plant_sac" ) {
+                entry.drop == "offal" || entry.drop == "plant_sac" ||
+                entry.drop == "liver" || entry.drop == "kidney" ||
+                entry.drop == "lung" || entry.drop == "sweetbread" ) {
                 continue;
             }
             if( entry.drop == "bone" ) {
