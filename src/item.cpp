@@ -1810,6 +1810,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     }
     if( is_container() && parts->test( iteminfo_parts::CONTAINER_DETAILS ) ) {
+        insert_separation_line();
         const auto &c = *type->container;
 
         temp1.str( "" );
@@ -1833,6 +1834,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 
     if( is_tool() ) {
+        insert_separation_line();
         if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
             info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) );
         }
