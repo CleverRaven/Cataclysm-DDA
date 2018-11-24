@@ -45,7 +45,7 @@
 
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
-#   include <shlwapi.h>
+#   include <Shlwapi.h>
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
 #   endif

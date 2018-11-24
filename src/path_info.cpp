@@ -8,7 +8,7 @@
 #include <cstdlib>
 
 #if (defined _WIN32 || defined WINDOW)
-#include "windows.h"
+#include <Windows.h>
 #endif
 
 /** Map where we store filenames */

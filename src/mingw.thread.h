@@ -14,7 +14,7 @@
 #define _GLIBCXX_THREAD 1
 #define _GLIBCXX_HAS_GTHREADS 1
 
-#include <windows.h>
+#include <Windows.h>
 #include <functional>
 #include <memory>
 #include <chrono>

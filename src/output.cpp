@@ -29,7 +29,7 @@
 #include "cursesport.h"
 #endif
 #ifdef __ANDROID__
-#include "SDL_keyboard.h"
+#include <SDL_keyboard.h>
 #endif
 
 // Display data
