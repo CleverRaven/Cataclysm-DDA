@@ -393,3 +393,33 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
 
     t.test_all();
 }
+
+TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
+{
+    const time_duration till_full_moon = calendar::season_length() / 3;
+    // Verify that I've picked the full_moon time correctly.
+    CHECK( get_moon_phase( calendar::time_of_cataclysm + till_full_moon ) == MOON_FULL );
+    // Want a night time
+    const int days_till_full_moon = to_days<int>( till_full_moon );
+
+    vision_test_case t {
+        {
+            "---",
+            "###",
+            "   ",
+            "   ",
+            " U ",
+        },
+        {
+            "666",
+            "111",
+            "111",
+            "111",
+            "141",
+        },
+        DAYS( days_till_full_moon ),
+        true
+    };
+
+    t.test_all();
+}
