@@ -1,14 +1,13 @@
 #pragma once
-#ifndef SEFEMODE_UI_H
-#define SEFEMODE_UI_H
+#ifndef SAFEMODE_UI_H
+#define SAFEMODE_UI_H
 
-#include <unordered_map>
-#include <string>
-#include <vector>
-#include <locale>
-#include <algorithm>
-#include "enums.h"
 #include "creature.h"
+#include "enums.h"
+
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 class JsonIn;
 class JsonOut;
@@ -31,7 +30,7 @@ class safemode
                 Creature::Attitude attitude;
                 int proximity;
 
-                rules_class() : rule(), active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
+                rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
                     proximity( 0 ) {}
                 rules_class( std::string rule_in, bool active_in, bool whitelist_in, Creature::Attitude attitude_in,
                              int proximity_in ) : rule( rule_in ), active( active_in ), whitelist( whitelist_in ),

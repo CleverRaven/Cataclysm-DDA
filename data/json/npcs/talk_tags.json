@@ -89,7 +89,8 @@
             "motherfucker",
             "<swear><punc> <swear!>",
             "<very> <swear!>",
-            "son of an ass"
+            "son of an ass",
+            "Oh sugar!"
         ]
     },{
         "type" : "snippet",
@@ -185,7 +186,8 @@
             "I'm <very> doomed",
             "I'm done for",
             "I won't last much longer",
-            "my days are <really> numbered"
+            "my days are <really> numbered",
+            "<name_g>, I'm sorry"
         ]
     },{
         "type" : "snippet",

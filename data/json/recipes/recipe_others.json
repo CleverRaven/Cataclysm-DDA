@@ -1112,7 +1112,7 @@
   },
   {
     "type": "recipe",
-    "result": "screwdriver",
+    "result": "screwdriver_set",
     "id_suffix": "forged",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

@@ -6,7 +6,6 @@
 #include "string_id.h"
 
 #include <memory>
-#include <string>
 #include <vector>
 
 class JsonObject;
@@ -194,7 +193,7 @@ class Trait_group_distribution : public Trait_group
 {
     public:
         Trait_group_distribution( int probability ) :
-            Trait_group( probability ) {};
+            Trait_group( probability ) {}
         ~Trait_group_distribution() override = default;
 
         virtual trait_group::Trait_list create( RecursionList &rec ) const override;

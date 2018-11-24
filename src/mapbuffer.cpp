@@ -1,20 +1,19 @@
 #include "mapbuffer.h"
 
-#include "coordinate_conversions.h"
-#include "output.h"
-#include "debug.h"
-#include "translations.h"
-#include "filesystem.h"
-#include "overmapbuffer.h"
 #include "cata_utility.h"
-#include "mapdata.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
+#include "debug.h"
+#include "filesystem.h"
 #include "game.h"
 #include "json.h"
 #include "map.h"
+#include "mapdata.h"
+#include "output.h"
+#include "submap.h"
+#include "translations.h"
 #include "trap.h"
 #include "vehicle.h"
-#include "submap.h"
-#include "computer.h"
 
 #include <sstream>
 

@@ -2,16 +2,16 @@
 
 #include "action.h"
 #include "catacharset.h"
-#include "input.h"
-#include "output.h"
 #include "cursesdef.h"
-#include "translations.h"
-#include "text_snippets.h"
+#include "input.h"
 #include "json.h"
+#include "output.h"
 #include "path_info.h"
-#include <cmath>  // max in help_main
-#include <vector>
+#include "text_snippets.h"
+#include "translations.h"
+
 #include <algorithm>
+#include <vector>
 
 help &get_help()
 {
@@ -91,10 +91,10 @@ std::string help::get_dir_grid()
 
     for( auto dir : movearray ) {
         std::vector<char> keys = keys_bound_to( dir );
-        movement = string_replace( movement, "<" + action_ident( dir ) + "_0>",
-                                   string_format( "<color_light_blue>%s</color>", keys[0] ) );
-        movement = string_replace( movement, "<" + action_ident( dir ) + "_1>",
-                                   string_format( "<color_light_blue>%s</color>", keys[1] ) );
+        for( size_t i = 0; i < keys.size(); i++ ) {
+            movement = string_replace( movement, "<" + action_ident( dir ) + string_format( "_%d>", i ),
+                                       string_format( "<color_light_blue>%s</color>", keys[i] ) );
+        }
     }
 
     return movement;
@@ -106,8 +106,6 @@ void help::draw_menu( const catacurses::window &win )
     int y = fold_and_print( win, 0, 1, getmaxx( win ) - 2, c_white, _( "\
 Please press one of the following for help on that topic:\n\
 Press ESC to return to the game." ) ) + 1;
-
-    std::vector<std::string> headers;
 
     size_t half_size = help_texts.size() / 2;
     int second_column = getmaxx( win ) / 2;
@@ -143,8 +141,8 @@ void help::display_help()
                                        ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                                        ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
     catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+                                1 + static_cast<int>( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + static_cast<int>( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
 
     bool needs_refresh = true;
 
@@ -154,7 +152,7 @@ void help::display_help()
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
 
-    std::string action = "";
+    std::string action;
 
     do {
         if( needs_refresh ) {
@@ -163,12 +161,12 @@ void help::display_help()
             draw_menu( w_help );
             catacurses::refresh();
             needs_refresh = false;
-        };
+        }
 
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;
         for( size_t i = 0; i < hotkeys.size(); ++i ) {
-            for( auto hotkey : hotkeys[i] ) {
+            for( const std::string &hotkey : hotkeys[i] ) {
                 if( sInput == hotkey ) {
                     multipage( w_help, help_texts[i].second );
                     action = "CONFIRM";

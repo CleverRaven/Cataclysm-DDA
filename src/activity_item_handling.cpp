@@ -1,39 +1,37 @@
 #include "activity_handlers.h"
 
-#include "game.h"
-#include "map.h"
-#include "mapdata.h"
-#include "item.h"
-#include "player_activity.h"
 #include "action.h"
+#include "clzones.h"
+#include "creature.h"
+#include "debug.h"
 #include "enums.h"
 #include "field.h"
 #include "fire.h"
-#include "creature.h"
-#include "pickup.h"
-#include "translations.h"
+#include "game.h"
+#include "item.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "optional.h"
 #include "output.h"
+#include "pickup.h"
+#include "player.h"
+#include "player_activity.h"
+#include "requirements.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "trap.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-#include "veh_type.h"
-#include "player.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "pickup.h"
-#include "requirements.h"
-#include "map_iterator.h"
-#include "clzones.h"
 
+#include <algorithm>
+#include <cassert>
 #include <list>
 #include <vector>
-#include <cassert>
-#include <algorithm>
-#include <numeric>
 
 void cancel_aim_processing();
 
@@ -51,7 +49,7 @@ struct act_item {
     act_item( const item *it, int count, int consumed_moves )
         : it( it ),
           count( count ),
-          consumed_moves( consumed_moves ) {};
+          consumed_moves( consumed_moves ) {}
 };
 
 // @todo: Deliberately unified with multidrop. Unify further.
@@ -757,7 +755,7 @@ static double get_capacity_fraction( int capacity, int volume )
     double fr = 1;
 
     if( capacity > volume ) {
-        fr = ( double )volume / capacity;
+        fr = static_cast<double>( volume ) / capacity;
     }
 
     return fr;
@@ -885,7 +883,7 @@ static std::vector<tripoint> route_adjacent( const player &p, const tripoint &de
     for( const tripoint &tp : sorted ) {
         auto route = g->m.route( p.pos(), tp, p.get_pathfinding_settings(), avoid );
 
-        if( route.size() > 0 ) {
+        if( !route.empty() ) {
             return route;
         }
     }
@@ -958,7 +956,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             }
 
                             // check if we found path to source / adjacent tile
-                            if( route.size() == 0 ) {
+                            if( route.empty() ) {
                                 add_msg( m_info, _( "You can't reach the source tile. Try to sort out loot without a cart." ) );
                                 return;
                             }

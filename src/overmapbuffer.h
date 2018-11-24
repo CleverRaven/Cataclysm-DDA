@@ -6,11 +6,10 @@
 #include "int_id.h"
 #include "overmap_types.h"
 
-#include <set>
-#include <list>
 #include <memory>
-#include <vector>
+#include <set>
 #include <unordered_map>
+#include <vector>
 
 struct mongroup;
 class monster;

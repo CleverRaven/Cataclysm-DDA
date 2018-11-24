@@ -1,25 +1,25 @@
 #include "creature.h"
+
 #include "item.h"
-#include "output.h"
+#include "anatomy.h"
+#include "debug.h"
+#include "effect.h"
+#include "field.h"
 #include "game.h"
+#include "itype.h"
 #include "map.h"
 #include "messages.h"
-#include "rng.h"
-#include "translations.h"
 #include "monster.h"
-#include "vpart_position.h"
-#include "effect.h"
 #include "mtype.h"
 #include "npc.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "debug.h"
-#include "field.h"
+#include "output.h"
 #include "projectile.h"
-#include "anatomy.h"
+#include "rng.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #include <algorithm>
-#include <numeric>
 #include <cmath>
 #include <map>
 
@@ -202,7 +202,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
-            return range >= wanted_range &&
+            const float player_visibility_factor = g->u.visibility() / 100.0f;
+            int adj_range = std::floor( range * player_visibility_factor );
+            return adj_range >= wanted_range &&
                    g->m.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
             return g->m.sees( pos(), t, range );
@@ -493,7 +495,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
-    std::string message = "";
+    std::string message;
     game_message_type gmtSCTcolor = m_neutral;
 
     if( goodhit < accuracy_headshot ) {
@@ -536,7 +538,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     impact.mult_damage( damage_mult );
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
-        float dmg_ratio = ( float )impact.total_damage() / get_hp_max( player::bp_to_hp( bp_hit ) );
+        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( player::bp_to_hp(
+                              bp_hit ) );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -1452,7 +1455,7 @@ std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude
         }
     };
 
-    if( ( int ) att < 0 || ( int ) att >= ( int ) strings.size() ) {
+    if( static_cast<int>( att ) < 0 || static_cast<int>( att ) >= static_cast<int>( strings.size() ) ) {
         return strings.back();
     }
 

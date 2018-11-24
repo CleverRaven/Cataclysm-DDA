@@ -1,36 +1,36 @@
 #include "npc.h"
 
-#include "dispersion.h"
-#include "rng.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "output.h"
-#include "projectile.h"
-#include "line.h"
-#include "debug.h"
-#include "vpart_range.h"
-#include "overmapbuffer.h"
-#include "ranged.h"
-#include "messages.h"
 #include "ammo.h"
-#include "translations.h"
-#include "veh_type.h"
-#include "monster.h"
-#include "vpart_position.h"
+#include "cata_algo.h"
+#include "debug.h"
+#include "dispersion.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "gates.h"
+#include "gun_mode.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "effect.h"
-#include "vehicle.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
-#include "vpart_reference.h"
-#include "sounds.h"
-#include "gates.h"
+#include "output.h"
 #include "overmap_location.h"
-#include "gun_mode.h"
+#include "overmapbuffer.h"
+#include "projectile.h"
+#include "ranged.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "visitable.h"
-#include "cata_algo.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 
 #include <algorithm>
 #include <memory>
@@ -95,7 +95,7 @@ hp_part most_damaged_hp_part( const Character &c );
 struct ratio_index {
     double ratio;
     int index;
-    ratio_index( double R, int I ) : ratio( R ), index( I ) {};
+    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
 bool clear_shot_reach( const tripoint &from, const tripoint &to )
@@ -520,7 +520,7 @@ void npc::execute_action( npc_action action )
             for( size_t i = 0; i < slice.size(); i++ ) {
                 item &it = slice[i]->front();
                 bool am = ( it.is_gun() &&
-                            get_ammo( it.type->gun->ammo ).size() > 0 );
+                            !get_ammo( it.type->gun->ammo ).empty() );
                 if( it.is_gun() && ( !ammo_found || am ) ) {
                     index = i;
                     ammo_found = ( ammo_found || am );
@@ -640,16 +640,15 @@ void npc::execute_action( npc_action action )
             // This is mount point, not actual position
             point last_dest( INT_MIN, INT_MIN );
             if( !path.empty() && veh_pointer_or_null( g->m.veh_at( path[path.size() - 1] ) ) == veh ) {
-                last_dest = veh->parts[vp->part_index()].mount;
+                last_dest = vp->mount();
             }
 
             // Prioritize last found path, then seats
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
-            for( const vpart_reference &vp : veh->get_parts( VPFLAG_BOARDABLE ) ) {
-                const size_t p2 = vp.part_index();
-                const player *passenger = veh->get_passenger( p2 );
+            for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                const player *passenger = veh->get_passenger( vp.part_index() );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
@@ -663,11 +662,11 @@ void npc::execute_action( npc_action action )
                     return !who || who->getID() == getID();
                 };
 
-                const auto &pt = veh->parts[p2];
+                const vehicle_part &pt = vp.part();
 
                 int priority = 0;
 
-                if( pt.mount == last_dest ) {
+                if( vp.mount() == last_dest ) {
                     // Shares mount point with last known path
                     // We probably wanted to go there in the last turn
                     priority = 4;
@@ -678,7 +677,7 @@ void npc::execute_action( npc_action action )
                     const npc *who = pt.crew();
                     priority = who && who->getID() == getID() ? 3 : 2;
 
-                } else if( vpart_position( *veh, p2 ).is_inside() ) {
+                } else if( vp.is_inside() ) {
                     priority = 1;
                 }
 
@@ -686,7 +685,7 @@ void npc::execute_action( npc_action action )
                     my_spot = priority;
                 }
 
-                seats.push_back( std::make_pair( priority, static_cast<int>( p2 ) ) );
+                seats.push_back( std::make_pair( priority, static_cast<int>( vp.part_index() ) ) );
             }
 
             if( my_spot >= 3 ) {
@@ -821,7 +820,7 @@ void npc::choose_target()
         int dist = rl_dist( pos(), mon.pos() );
         // @todo: This should include ranged attacks in calculation
         float scaled_distance = std::max( 1.0f, dist / mon.speed_rating() );
-        float hp_percent = ( float )( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
+        float hp_percent = static_cast<float>( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
         float critter_danger = mon.type->difficulty * ( hp_percent / 2.0f + 0.5f );
 
         auto att = mon.attitude( this );
@@ -1074,11 +1073,7 @@ bool wants_to_reload( const npc &who, const item &it )
 
 bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    if( ammo.is_magazine() && ( ammo.ammo_remaining() <= weap.ammo_remaining() ) ) {
-        return false;
-    }
-
-    return true;
+    return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
 item &npc::find_reloadable()
@@ -1306,16 +1301,12 @@ double npc::confidence_mult() const
     switch( rules.aim ) {
         case AIM_WHEN_CONVENIENT:
             return emergency() ? 1.5f : 1.0f;
-            break;
         case AIM_SPRAY:
             return 2.0f;
-            break;
         case AIM_PRECISE:
             return emergency() ? 1.0f : 0.75f;
-            break;
         case AIM_STRICTLY_PRECISE:
             return 0.5f;
-            break;
     }
 
     return 1.0f;
@@ -1405,7 +1396,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 {
     int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ),
                                    gun.ammo_capacity() );
-    const float turns_til_reloaded = ( float )rltime / get_speed();
+    const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
     const Creature *target = current_target();
     if( target == nullptr ) {
@@ -1965,7 +1956,7 @@ void npc::find_item()
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
-        if( !cargo || cargo->vehicle().part_flag( cargo->part_index(), locked_string ) ) {
+        if( !cargo || cargo->has_feature( locked_string ) ) {
             continue;
         }
 
@@ -2017,7 +2008,7 @@ void npc::pick_up_item()
 
     const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
-    const bool has_cargo = vp && !vp->vehicle().part_flag( vp->part_index(), "LOCKED" );
+    const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||

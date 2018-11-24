@@ -1,20 +1,18 @@
 #include "mattack_actors.h"
-#include <vector>
 
 #include "game.h"
+#include "generic_factory.h"
+#include "gun_mode.h"
+#include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "itype.h"
-#include "monster.h"
 #include "messages.h"
-#include "translations.h"
-#include "sounds.h"
-#include "gun_mode.h"
+#include "monster.h"
 #include "npc.h"
 #include "output.h"
-#include "debug.h"
-#include "generic_factory.h"
-#include "line.h"
+#include "sounds.h"
+#include "translations.h"
 
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );
@@ -40,11 +38,7 @@ bool dodge_check( float max_accuracy, Creature &target )
 {
     ///\EFFECT_DODGE increases chance of dodging special attacks of monsters
     float dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0.0f );
-    if( rng( 0, 10000 ) < 10000 / ( 1 + ( 99 * exp( -0.6f * dodge ) ) ) ) {
-        return true;
-    }
-
-    return false;
+    return rng( 0, 10000 ) < 10000 / ( 1 + 99 * exp( -0.6f * dodge ) );
 }
 
 void leap_actor::load_internal( JsonObject &obj, const std::string & )
@@ -264,7 +258,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     if( target.is_player() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        sfx::do_player_death_hurt( dynamic_cast<player &>( target ), 0 );
+        sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
     auto msg_type = target.attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
     const body_part bp = dealt.bp_hit;

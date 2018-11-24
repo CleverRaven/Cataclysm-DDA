@@ -1,31 +1,26 @@
 // Monster movement code; essentially, the AI
 
-#include "monster.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "field.h"
+#include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "debug.h"
-#include "game.h"
-#include "output.h"
-#include "line.h"
-#include "rng.h"
-#include "pldata.h"
-#include "messages.h"
-#include "cursesdef.h"
-#include "trap.h"
-#include "sounds.h"
-#include "monattack.h"
-#include "monfaction.h"
-#include "translations.h"
-#include "npc.h"
 #include "mapdata.h"
+#include "messages.h"
+#include "monfaction.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
+#include "npc.h"
+#include "output.h"
+#include "rng.h"
 #include "scent_map.h"
+#include "sounds.h"
+#include "translations.h"
+#include "trap.h"
 
-#include <stdlib.h>
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
+#include <cmath>
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -77,7 +72,7 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( !can_submerge() && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( ( !can_submerge() && !has_flag( MF_FLIES ) ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         return false;
     }
     if( has_flag( MF_DIGS ) && !g->m.has_flag( "DIGGABLE", p ) ) {
@@ -1046,8 +1041,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         // and the same regardless of the distance measurement mode.
         // Note: Keep this as float here or else it will cancel valid moves
         const float cost = stagger_adjustment *
-                           ( float )( climbs ? calc_climb_cost( pos(), p ) :
-                                      calc_movecost( pos(), p ) );
+                           static_cast<float>( climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ) );
         if( cost > 0.0f ) {
             moves -= static_cast<int>( ceil( cost ) );
         } else {
@@ -1059,7 +1053,13 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     bool was_water = g->m.is_divable( pos() );
     bool will_be_water = on_ground && can_submerge() && g->m.is_divable( p );
 
-    if( was_water && !will_be_water && g->u.sees( p ) ) {
+    //Birds and other flying creatures flying over the deep water terrain
+    if( was_water && flies && g->u.sees( p ) ) {
+        if( one_in( 4 ) ) {
+            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name().c_str(),
+                     g->m.tername( pos() ).c_str() );
+        }
+    } else if( was_water && !will_be_water && g->u.sees( p ) ) {
         //Use more dramatic messages for swimming monsters
         add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name().c_str(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
@@ -1340,7 +1340,7 @@ void monster::knock_back_from( const tripoint &p )
         die( nullptr );
         return;
     }
-    tripoint to = pos();;
+    tripoint to = pos();
     if( p.x < posx() ) {
         to.x++;
     }

@@ -6,7 +6,7 @@
     "is_safe": true,
     "monsters": [
       { "monster": "mon_cow", "freq": 100, "cost_multiplier": 10, "ends": 168 },
-      { "monster": "mon_cow", "freq": 50, "cost_multiplier": 5, "starts": 336 }
+      { "monster": "mon_cow", "freq": 50, "cost_multiplier": 5, "starts": 168 }
     ]
   },
   {

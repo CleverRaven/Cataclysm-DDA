@@ -452,7 +452,7 @@
     {
         "type": "effect_type",
         "id": "smoke",
-        "name": ["Smoke"],
+        "name": [ { "ctxt": "inhaled", "str": "Smoke" } ],
         "desc": ["You've inhaled a lungful of thick smoke."],
         "apply_message": "You inhale a lungful of thick smoke.",
         "rating": "bad",
@@ -1425,7 +1425,7 @@
         "type": "effect_type",
         "id": "relax_gas",
         "name": ["Relaxation gas"],
-        "desc": ["Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\nYou are thoroughly relaxed and don't feel like moving.  Fighting?  Too much effort."],
+        "desc": ["You are thoroughly relaxed and don't feel like moving.  Fighting?  Too much effort."],
         "apply_message": "You inhale sweetish gas.",
         "remove_message": "The slackness leaves your muscles.",
         "rating": "bad",
@@ -1723,7 +1723,7 @@
     {
         "type": "effect_type",
         "id": "disabled",
-        "name": [ "Disabled" ],
+        "name": [ { "ctxt": "physically", "str": "Disabled" } ],
         "desc": [ "This limb is damaged beyond use and may require a splint to recover." ],
         "//": "This sounds weird. We need <bp_affected> tag or something",
         "apply_message": "Your limb breaks!",

@@ -1,22 +1,21 @@
 #include "cata_utility.h"
 
-#include "options.h"
-#include "material.h"
-#include "enums.h"
-#include "creature.h"
-#include "translations.h"
 #include "debug.h"
-#include "mapsharing.h"
-#include "output.h"
-#include "json.h"
+#include "enums.h"
 #include "filesystem.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "material.h"
+#include "options.h"
+#include "output.h"
 #include "rng.h"
+#include "translations.h"
 #include "units.h"
 
 #include <algorithm>
 #include <cmath>
-#include <string>
 #include <locale>
+#include <string>
 
 static double pow10( unsigned int n )
 {
@@ -415,7 +414,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
                 }
                 return ins;
             default:
-                str += ( char )c;
+                str += static_cast<char>( c );
         }
     }
 }
@@ -530,4 +529,15 @@ void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const
     std::istringstream buffer( data );
     JsonIn jsin( buffer );
     callback( jsin );
+}
+
+bool string_starts_with( const std::string &s1, const std::string &s2 )
+{
+    return s1.compare( 0, s2.size(), s2 ) == 0;
+}
+
+bool string_ends_with( const std::string &s1, const std::string &s2 )
+{
+    return s1.size() >= s2.size() &&
+           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
 }

@@ -1,17 +1,17 @@
 #include "mutation.h"
+
+#include "bodypart.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h" // tripoint
 #include "json.h"
 #include "pldata.h" // traits
-#include "enums.h" // tripoint
-#include "bodypart.h"
-#include "debug.h"
-#include "translations.h"
 #include "trait_group.h"
-
-#include "color.h"
+#include "translations.h"
 
 #include <map>
-#include <sstream>
 #include <set>
+#include <sstream>
 #include <vector>
 
 typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
@@ -295,6 +295,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.hp_modifier = jsobj.get_float( "hp_modifier", 0.0f );
     new_mut.hp_modifier_secondary = jsobj.get_float( "hp_modifier_secondary", 0.0f );
     new_mut.hp_adjustment = jsobj.get_float( "hp_adjustment", 0.0f );
+    new_mut.stealth_modifier = jsobj.get_float( "stealth_modifier", 0.0f );
 
     new_mut.metabolism_modifier = jsobj.get_float( "metabolism_modifier", 0.0f );
     new_mut.thirst_modifier = jsobj.get_float( "thirst_modifier", 0.0f );
@@ -445,7 +446,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
             }
         }
-        for( const std::string type : mdata.types ) {
+        for( const std::string &type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }

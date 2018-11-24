@@ -1,16 +1,16 @@
 #include "item_group.h"
-#include "item_factory.h"
-#include "rng.h"
-#include "item.h"
-#include "debug.h"
-#include "ammo.h"
-#include "itype.h"
-#include "game_constants.h"
-#include "json.h"
 
-#include <map>
+#include "ammo.h"
+#include "debug.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "rng.h"
+
 #include <algorithm>
 #include <cassert>
+#include <map>
 
 static const std::string null_item_id( "null" );
 
@@ -30,7 +30,6 @@ Single_item_creator::Single_item_creator( const std::string &_id, Type _type, in
     : Item_spawn_data( _probability )
     , id( _id )
     , type( _type )
-    , modifier()
 {
 }
 
@@ -172,8 +171,6 @@ Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
     , charges( -1, -1 )
-    , ammo()
-    , container()
     , with_ammo( 0 )
     , with_magazine( 0 )
 {
@@ -311,7 +308,6 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
     , with_ammo( ammo_chance )
     , with_magazine( magazine_chance )
     , sum_prob( 0 )
-    , items()
 {
     if( probability <= 0 || ( t != Type::G_DISTRIBUTION && probability > 100 ) ) {
         debugmsg( "Probability %d out of range", probability );

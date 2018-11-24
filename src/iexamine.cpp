@@ -1,49 +1,49 @@
 #include "iexamine.h"
+
+#include "ammo.h"
+#include "basecamp.h"
+#include "bionics.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "coordinate_conversions.h"
+#include "craft_command.h"
+#include "debug.h"
+#include "event.h"
+#include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
-#include "map.h"
-#include "fungal_effects.h"
-#include "map_iterator.h"
-#include "debug.h"
-#include "mapdata.h"
-#include "output.h"
-#include "coordinate_conversions.h"
-#include "rng.h"
-#include "requirements.h"
-#include "ammo.h"
-#include "line.h"
-#include "player.h"
-#include "npc.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "uistate.h"
-#include "messages.h"
-#include "compatibility.h"
-#include "sounds.h"
 #include "input.h"
-#include "monster.h"
-#include "vpart_position.h"
-#include "event.h"
-#include "catacharset.h"
-#include "ui.h"
-#include "units.h"
-#include "trap.h"
-#include "basecamp.h"
-#include "mtype.h"
-#include "calendar.h"
-#include "weather.h"
-#include "sounds.h"
-#include "cata_utility.h"
-#include "string_input_popup.h"
-#include "bionics.h"
 #include "inventory.h"
-#include "craft_command.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 #include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
 #include "options.h"
+#include "output.h"
+#include "player.h"
+#include "requirements.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "trap.h"
+#include "ui.h"
+#include "uistate.h"
+#include "units.h"
+#include "vpart_position.h"
+#include "weather.h"
 
-#include <sstream>
 #include <algorithm>
 #include <cstdlib>
+#include <sstream>
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -68,7 +68,6 @@ const efftype_id effect_sleep( "sleep" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
-static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
@@ -77,7 +76,6 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_BURROW( "BURROW" );
@@ -129,7 +127,7 @@ void iexamine::cvdmachine( player &p, const tripoint & ) {
 
     // Apply flag to item
     loc->item_tags.insert( "DIAMOND" );
-    add_msg( m_good, "You apply a diamond coating to your %s", loc->type_name().c_str() );
+    add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name().c_str() );
     p.mod_moves( -1000 );
 }
 
@@ -283,7 +281,7 @@ private:
                             .query_long();
 
         return (amount > max) ? max : (amount <= 0) ? 0 : amount;
-    };
+    }
 
     //!Get a new cash card. $1.00 fine.
     bool do_purchase_card() {
@@ -1751,7 +1749,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     int seed_index = query_seed( seed_entries );
 
     // Did we cancel?
-    if( seed_index < 0 || seed_index >= (int)seed_entries.size() ) {
+    if( seed_index < 0 || seed_index >= static_cast<int>( seed_entries.size() ) ) {
         add_msg(_("You saved your seeds for later."));
         return;
     }
@@ -1937,7 +1935,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
-    for( auto i : items ) {
+    for( const item &i : items ) {
         if( i.typeId() == "charcoal" ) {
             add_msg( _("This kiln already contains charcoal.") );
             add_msg( _("Remove it before firing the kiln again.") );
@@ -1961,7 +1959,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0;
-    for( auto i : items ) {
+    for( const item &i : items ) {
         total_volume += i.volume();
     }
 
@@ -2275,7 +2273,7 @@ void iexamine::keg(player &p, const tripoint &examp)
     const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
-    for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
+    for (int i = 0; i < static_cast<int>( g->m.i_at(examp).size() ); i++) {
         if (!g->m.i_at(examp)[i].made_of_from_type( LIQUID ) || liquid_present) {
             g->m.add_item_or_charges(examp, g->m.i_at(examp)[i]);
             g->m.i_rem( examp, i );
@@ -3049,7 +3047,7 @@ static int getGasDiscountCardQuality( const item &it )
 {
     std::set<std::string> tags = it.type->item_tags;
 
-    for( auto tag : tags ) {
+    for( const std::string &tag : tags ) {
 
         if( tag.size() > 15 && tag.substr(0, 15) == "DISCOUNT_VALUE_" ) {
             return atoi(tag.substr(15).c_str());
@@ -3363,16 +3361,14 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        item *cashcard;
-
-        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );;
+        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
             return;
         }
 
-        cashcard = &( p.i_at( pos ) );
+        item *cashcard = &( p.i_at( pos ) );
         // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
@@ -3553,7 +3549,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         for( const item *anesthesia_item : a_filter ) {
             acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
         }
-        if( !acomps.size() ) {
+        if( acomps.empty() ) {
             popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
             return;
         }
@@ -3804,7 +3800,7 @@ void smoker_finalize(player &, const tripoint &examp)
         return;
     }
 
-    std::string product = "";
+    std::string product;
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
         //dry products before smoked products to avoid override
@@ -3869,7 +3865,6 @@ void smoker_finalize(player &, const tripoint &examp)
 void smoker_load_food( player &p, const tripoint &examp, const units::volume &remaining_capacity )
 {
     std::vector<item_comp> comps;
-    std::list<item> moved;
 
     if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
         p.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
@@ -3909,7 +3904,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         count = 0;
     }
 
-    if( comps.size() == 0 ) {
+    if( comps.empty() ) {
         p.add_msg_if_player( _( "You don't have any food that can be smoked." ) );
         return;
     }
@@ -3962,19 +3957,19 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         return it.rotten();
     } );
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
-    moved = p.consume_items( selected, 1 );
+    std::list<item> moved = p.consume_items( selected, 1 );
 
     // hack, because consume_items doesn't seem to care of what item is consumed despite filters
     // TODO: find a way to filter out rotten items from those actualy consumed
     bool rotted = false;
-    for( item m : moved ) {
+    for( const item &m : moved ) {
         if( m.rotten() ) {
             rotted = true;
         }
     }
     if( rotted ) {
         add_msg(m_info, _( "You have rotten food mixed with fresh.  Get rid of it first." ) );
-        for( item m : moved ) {
+        for( const item &m : moved ) {
            g->m.add_item( p.pos(), m );
            p.mod_moves( -p.item_handling_cost( m ) );
         }
@@ -4109,7 +4104,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
-                pop << "... that it is empty.";
+                pop << _( "... that it is empty." );
             } else {
                 for( size_t i = 0; i < items_here.size(); i++ ) {
                     auto &it = items_here[i];
@@ -4127,10 +4122,8 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         case 1: //activate
             if ( active ) {
                 add_msg( _("It is already lit and smoking.") );
-                break;
             } else {
                 smoker_activate( p, examp );
-                break;
             }
             break;
         case 2: // load food
@@ -4141,7 +4134,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             break;
         case 4: // remove food
             rem_f_opt = true;
-	    /* fallthrough */
+        /* fallthrough */
         case 5: //remove charcoal
             {
                 for( size_t i = 0; i < items_here.size(); i++ ) {
