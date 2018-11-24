@@ -3072,18 +3072,32 @@ void cata_tiles::get_rotation_and_subtile( const char val, const int num_connect
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
                                      int connect_group )
 {
-    const bool connects[4] = {
-        g->m.ter( tripoint( p.x, p.y + 1, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x + 1, p.y, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x - 1, p.y, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x, p.y - 1, p.z ) ).obj().connects_to( connect_group )
+    constexpr std::array<point, 4> offsets = {{
+            { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 }
+        }
     };
+    auto &ch = g->m.access_cache( p.z );
+    bool is_transparent =
+        ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     char val = 0;
     int num_connects = 0;
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
-        if( connects[i] ) {
+        tripoint neighbour = p + offsets[i];
+        if( !g->m.inbounds( neighbour ) ) {
+            continue;
+        }
+        const ter_t *neighbour_terrain = nullptr;
+        if( is_transparent || ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ) {
+            neighbour_terrain = &g->m.ter( neighbour ).obj();
+        } else {
+            ter_str_id t_id( g->u.get_memorized_tile( g->m.getabs( neighbour ) ).tile );
+            if( t_id.is_valid() ) {
+                neighbour_terrain = &t_id.obj();
+            }
+        }
+        if( neighbour_terrain && neighbour_terrain->connects_to( connect_group ) ) {
             ++num_connects;
             val += 1 << i;
         }
