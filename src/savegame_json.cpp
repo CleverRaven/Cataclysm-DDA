@@ -472,12 +472,7 @@ void player::load( JsonObject &data )
     }
 
     data.read( "stamina", stamina );
-    data.read( "stamina_max_penalty", stamina_max_penalty );
-
-    if( stamina < 0 ) {
-        stamina = 0;
-    }
-    if( stamina_max_penalty < 0 ) {
+    if( !data.read( "stamina_max_penalty", stamina_max_penalty ) ) {
         stamina_max_penalty = 0;
     }
 
