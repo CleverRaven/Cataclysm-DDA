@@ -1688,12 +1688,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           _( "<bold>Protection when active</bold>: " ) ) );
                 info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
                                           iteminfo::no_newline,
-                                          acid_resist( false, get_env_resist_w_filter() ) ) );
+                                          acid_resist( false, get_base_env_resist_w_filter() ) ) );
                 info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
                                           iteminfo::no_newline,
-                                          fire_resist( false, get_env_resist_w_filter() ) ) );
+                                          fire_resist( false, get_base_env_resist_w_filter() ) ) );
                 info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
-                                          get_env_resist( get_env_resist_w_filter() ) ) );
+                                          get_env_resist( get_base_env_resist_w_filter() ) ) );
             }
 
             if( damage() > 0 ) {
@@ -3562,7 +3562,7 @@ int item::get_env_resist( int override_base_resist ) const
     return lround( resist * get_relative_health() );
 }
 
-int item::get_env_resist_w_filter() const
+int item::get_base_env_resist_w_filter() const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {

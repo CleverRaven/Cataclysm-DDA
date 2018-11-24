@@ -1471,12 +1471,12 @@ class item : public visitable<item>
          */
         int get_env_resist( int override_base_resist = 0 ) const;
         /**
-         * Returns the resistance to environmental effects if an item (for example a gas mask)
+         * Returns the base resistance to environmental effects if an item (for example a gas mask)
          * requires a gas filter to operate and this filter is installed. Used in iuse::gasmask to
          * change protection of a gas mask if it has (or don't has) filters. For other applications
          * use get_env_resist() above.
          */
-        int get_env_resist_w_filter() const;
+        int get_base_env_resist_w_filter() const;
         /**
          * Whether this is a power armor item. Not necessarily the main armor, it could be a helmet
          * or similar.
