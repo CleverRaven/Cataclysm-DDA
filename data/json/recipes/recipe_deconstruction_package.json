@@ -21,13 +21,7 @@
     "result": "mre_dessert",
     "type": "uncraft",
     "time": 60,
-    "components": [
-      [ [ "dry_fruit", 1 ] ],
-      [ [ "chocolate", 1 ] ],
-      [ [ "candy2", 2 ] ],
-      [ [ "cookies", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
+    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "chocolate", 1 ] ], [ [ "candy2", 2 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -35,7 +29,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_chilibeans", 4 ] ],   
+      [ [ "mre_chilibeans", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -50,7 +44,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_bbqbeef", 4 ] ],   
+      [ [ "mre_bbqbeef", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -65,7 +59,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_chickennoodle", 4 ] ],   
+      [ [ "mre_chickennoodle", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -80,7 +74,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_spaghetti", 4 ] ],   
+      [ [ "mre_spaghetti", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -95,7 +89,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_chicken", 4 ] ],   
+      [ [ "mre_chicken", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -110,7 +104,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_beeftaco", 4 ] ],   
+      [ [ "mre_beeftaco", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -125,7 +119,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_beef", 4 ] ],   
+      [ [ "mre_beef", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -140,7 +134,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_meatball", 4 ] ],   
+      [ [ "mre_meatball", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -155,7 +149,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_beefstew", 4 ] ],   
+      [ [ "mre_beefstew", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -170,7 +164,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_chilimac", 4 ] ],   
+      [ [ "mre_chilimac", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -185,7 +179,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_veggy", 4 ] ],   
+      [ [ "mre_veggy", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -200,7 +194,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_macaronimarinara", 4 ] ],   
+      [ [ "mre_macaronimarinara", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -215,7 +209,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_cheesetort", 4 ] ],   
+      [ [ "mre_cheesetort", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -230,7 +224,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_mushroomfettuccine", 4 ] ],   
+      [ [ "mre_mushroomfettuccine", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -245,7 +239,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_mexicanchickenstew", 4 ] ],   
+      [ [ "mre_mexicanchickenstew", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -260,7 +254,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_chickenburritobowl", 4 ] ],   
+      [ [ "mre_chickenburritobowl", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -275,7 +269,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_maplesausage", 4 ] ],   
+      [ [ "mre_maplesausage", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -290,7 +284,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_ravioli", 4 ] ],   
+      [ [ "mre_ravioli", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -305,7 +299,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_pepperjackbeef", 4 ] ],   
+      [ [ "mre_pepperjackbeef", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -320,7 +314,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_hashbrownbacon", 4 ] ],   
+      [ [ "mre_hashbrownbacon", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -335,7 +329,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_lemontuna", 4 ] ],   
+      [ [ "mre_lemontuna", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -350,7 +344,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_asianbeef", 4 ] ],   
+      [ [ "mre_asianbeef", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -365,7 +359,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_chickenpesto", 4 ] ],   
+      [ [ "mre_chickenpesto", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -380,7 +374,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_southwestbeef", 4 ] ],   
+      [ [ "mre_southwestbeef", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
@@ -395,7 +389,7 @@
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "mre_hotdog", 4 ] ],   
+      [ [ "mre_hotdog", 4 ] ],
       [ [ "crackers", 2 ] ],
       [ [ "can_cheese", 1 ] ],
       [ [ "heatpack", 1 ] ],
