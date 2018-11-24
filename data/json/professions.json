@@ -170,8 +170,8 @@
           { "group": "socks" }
         ]
       },
-      "female": { 
-        "items": ["bra", "panties" ],
+      "female": {
+        "items": [ "bra", "panties" ],
         "entries": [
           { "group": "jackets" },
           { "group": "shirts_only_f" },
