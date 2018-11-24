@@ -147,7 +147,7 @@
     "ident": "random",
     "name": "Survivor (Randomized)",
     "description": "Some would say that there's nothing particularly notable about you.  Your starting gear is randomized.",
-    "points": 0,
+    "points": 1,
     "items": {
       "both": {
         "entries": [
