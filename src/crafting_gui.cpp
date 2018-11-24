@@ -253,8 +253,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else {
                 std::vector<const recipe *> picking;
-                if( tab.cur() == "CC_*" ) {
+                if( subtab.cur() == "CSC_*_FAVORITE" ) {
                     picking = available_recipes.favorite();
+                } else if( subtab.cur() == "CSC_*_RECENT" ) {
+                    picking = available_recipes.recent();
                 } else if( filterstring.empty() ) {
                     picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 } else {
@@ -337,13 +339,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                     }
                 }
 
-                std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
-                    return b->difficulty < a->difficulty;
-                } );
+                if( subtab.cur() != "CSC_*_RECENT" ) {
+                    std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
+                        return b->difficulty < a->difficulty;
+                    } );
 
-                std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
-                    return availability_cache[a] && !availability_cache[b];
-                } );
+                    std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
+                        return availability_cache[a] && !availability_cache[b];
+                    } );
+                }
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
@@ -995,8 +999,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
             for( const auto &stt : craft_subcat_list[tab] ) {
-                bool empty = subtab == "CSC_*_FAVORITE" ? uistate.favorite_recipes.empty() :
-                             available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
+                bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );
                 pos_x += utf8_width( normalized_names[stt] ) + tab_step;
             }
