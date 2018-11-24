@@ -152,7 +152,7 @@ void uilist::init()
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
     vshift = 0;              // scrolling menu offset
     vmax = 0;                // max entries area rows
-    callback = NULL;         // * uilist_callback
+    callback = nullptr;         // * uilist_callback
     filter.clear();          // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
     fselected = 0;           // fentries[selected]
@@ -640,7 +640,7 @@ void uilist::show()
                 mvwputch ( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
                            menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
-            if ( callback != NULL && ei == selected ) {
+            if ( callback != nullptr && ei == selected ) {
                 callback->select(ei, this);
             }
         } else {
@@ -684,7 +684,7 @@ void uilist::show()
 void uilist::refresh( bool refresh_callback )
 {
     wrefresh(window);
-    if ( refresh_callback && callback != NULL ) {
+    if ( refresh_callback && callback != nullptr ) {
         callback->refresh(this);
     }
 }

@@ -1821,7 +1821,7 @@ void talk_function::camp_fortifications_return( npc &p )
         bool build_dir_NS = ( comp->companion_mission_points[0].y != comp->companion_mission_points[1].y );
         //Ensure all tiles are generated before putting fences/trenches down...
         for( auto pt : comp->companion_mission_points ) {
-            if( MAPBUFFER.lookup_submap( om_to_sm_copy( pt ) ) == NULL ) {
+            if( MAPBUFFER.lookup_submap( om_to_sm_copy( pt ) ) == nullptr ) {
                 oter_id &omt_test = overmap_buffer.ter( pt );
                 std::string om_i = omt_test.id().c_str();
                 //The thick forests will gen harsh boundries since it won't recognize these tiles when they become fortifications

@@ -1385,7 +1385,7 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
     p.moves -= 15;
 
     // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD && g->critter_at<npc>( dirp ) != NULL ) {
+    if( animal_food_type == DOGFOOD && g->critter_at<npc>( dirp ) != nullptr ) {
         if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
             npc &person = *person_;
             if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
@@ -4996,7 +4996,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->posx(), p->posy(), 0, 0, 0, false );
-    if( veh == NULL ) {
+    if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;
     }
@@ -6673,7 +6673,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    const char *car_action = NULL;
+    const char *car_action = nullptr;
 
     if( !it->active ) {
         car_action = _( "Take control of RC car" );

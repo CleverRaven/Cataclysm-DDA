@@ -93,7 +93,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
         } catch( const std::exception &err ) {
             debugmsg( "Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what() );
         }
-        return NULL;
+        return nullptr;
     }
 
     return iter->second;
@@ -435,12 +435,12 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     if( !read_from_file_optional_json( quad_path.str(),
                                        std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
-        return NULL;
+        return nullptr;
     }
     if( submaps.count( p ) == 0 ) {
         debugmsg( "file %s did not contain the expected submap %d,%d,%d",
                   quad_path.str().c_str(), p.x, p.y, p.z );
-        return NULL;
+        return nullptr;
     }
     return submaps[ p ];
 }
@@ -609,7 +609,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         int type = jsin.get_int();
                         int density = jsin.get_int();
                         int age = jsin.get_int();
-                        if( sm->fld[i][j].findField( field_id( type ) ) == NULL ) {
+                        if( sm->fld[i][j].findField( field_id( type ) ) == nullptr ) {
                             sm->field_count++;
                         }
                         sm->fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );

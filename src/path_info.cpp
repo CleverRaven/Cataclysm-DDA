@@ -241,7 +241,7 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
 #endif
 
         const char *v = setlocale( LC_ALL, NULL );
-        if( v != NULL ) {
+        if( v != nullptr ) {
             loc_name = v;
         }
     } else {

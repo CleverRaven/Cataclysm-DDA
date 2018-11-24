@@ -1010,7 +1010,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
                 draw( g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored,
-                      fast_scroll, NULL,
+                      fast_scroll, nullptr,
                       draw_data_t() );
                 //Draw search box
                 mvwprintz( w_search, 1, 1, c_light_blue, _( "Search:" ) );
