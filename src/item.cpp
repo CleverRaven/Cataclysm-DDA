@@ -1695,6 +1695,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
                                           get_env_resist( get_env_resist_w_filter() ) ) );
             }
+
+            if( damage() > 0 ) {
+                info.push_back( iteminfo( "ARMOR",
+                                          _( "Protection values are <bad>reduced by "
+                                             "damage</bad> and you may be able to "
+                                             "<info>improve them by repairing this "
+                                             "item</info>." ) ) );
+            }
         }
 
     }
