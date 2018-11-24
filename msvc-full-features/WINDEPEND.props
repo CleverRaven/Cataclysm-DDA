@@ -3,10 +3,10 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <WINDEPEND>$(SolutionDir)..\WinDepend\</WINDEPEND>
-    <SDL2ROOT>$(WINDEPEND)SDL2-2.0.4\</SDL2ROOT>
+    <SDL2ROOT>$(WINDEPEND)SDL2-2.0.9\</SDL2ROOT>
     <SDL2TTF>$(WINDEPEND)SDL2_ttf-2.0.14\</SDL2TTF>
-    <SDL2MIXER>$(WINDEPEND)SDL2_mixer-2.0.1\</SDL2MIXER>
-    <SDL2IMAGE>$(WINDEPEND)SDL2_image-2.0.1\</SDL2IMAGE>
+    <SDL2MIXER>$(WINDEPEND)SDL2_mixer-2.0.4\</SDL2MIXER>
+    <SDL2IMAGE>$(WINDEPEND)SDL2_image-2.0.4\</SDL2IMAGE>
     <GETTEXT>$(WINDEPEND)gettext\</GETTEXT>
     <LUADIR>$(WINDEPEND)lua-5.3.3\</LUADIR>
   </PropertyGroup>

@@ -2,20 +2,16 @@
 
 #include "debug.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
-#include "inventory.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
-#include "crafting.h"
 
-#include <list>
 #include <sstream>
-#include <string>
-#include <vector>
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -119,14 +115,7 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
         component_list_string( ss, missing_tools );
     }
 
-    std::vector<std::string> options;
-    options.push_back( _( "Yes" ) );
-    options.push_back( _( "No" ) );
-
-    // We NEED a copy.
-    const std::string str = ss.str();
-    int selection = menu_vec( true, str.c_str(), options );
-    return selection == 1;
+    return query_yn( ss.str() );
 }
 
 std::list<item> craft_command::consume_components()

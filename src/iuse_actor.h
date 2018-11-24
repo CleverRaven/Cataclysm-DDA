@@ -2,20 +2,17 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
-#include "iuse.h"
-#include "game_constants.h"
+#include "calendar.h"
 #include "color.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
-#include "int_id.h"
-#include "explosion.h"
 #include "units.h"
-#include "calendar.h"
 
-#include <limits.h>
-#include <set>
 #include <map>
-#include <string>
+#include <set>
 #include <vector>
 
 class vitamin;
@@ -204,7 +201,7 @@ struct effect_data {
     bool permanent;
 
     effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
-        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
+        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
 /**
@@ -781,7 +778,7 @@ class repair_item_actor : public iuse_actor
         enum repair_type : int {
             RT_NOTHING = 0,
             RT_REPAIR,          // Just repairing damage
-            RT_REFIT,           // Adding (fits) tag
+            RT_REFIT,           // Refitting
             RT_REINFORCE,       // Getting damage below 0
             RT_PRACTICE,        // Wanted to reinforce, but can't
             NUM_REPAIR_TYPES
@@ -965,7 +962,7 @@ class install_bionic_actor : public iuse_actor
     public:
         install_bionic_actor( const std::string &type = "install_bionic" ) : iuse_actor( type ) {}
 
-        void load( JsonObject & ) override {};
+        void load( JsonObject & ) override {}
         long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -977,7 +974,7 @@ class detach_gunmods_actor : public iuse_actor
     public:
         detach_gunmods_actor( const std::string &type = "detach_gunmods" ) : iuse_actor( type ) {}
 
-        void load( JsonObject & ) override {};
+        void load( JsonObject & ) override {}
         long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;

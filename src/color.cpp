@@ -1,17 +1,17 @@
 #include "color.h"
-#include "output.h"
-#include "debug.h"
-#include "input.h"
-#include "path_info.h"
+
 #include "cata_utility.h"
+#include "debug.h"
 #include "filesystem.h"
-#include "string_formatter.h"
-#include "ui.h"
-#include "translations.h"
+#include "input.h"
 #include "json.h"
+#include "output.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "ui.h"
 
 #include <algorithm> // for std::count
-#include <iostream>
 
 void nc_color::serialize( JsonOut &jsout ) const
 {
@@ -486,62 +486,62 @@ void init_colors()
 
     // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
-        {"br", {c_brown, _( "brown" )}}, {"lg", {c_light_gray, _( "light gray" )}},
-        {"dg", {c_dark_gray, _( "dark gray" )}}, {"r", {c_light_red, _( "light red" )}},
-        {"R", {c_red, _( "red" )}}, {"g", {c_light_green, _( "light green" )}},
-        {"G", {c_green, _( "green" )}}, {"b", {c_light_blue, _( "light blue" )}},
-        {"B", {c_blue, _( "blue" )}}, {"W", {c_white, _( "white" )}},
-        {"C", {c_cyan, _( "cyan" )}}, {"c", {c_light_cyan, _( "light cyan" )}},
-        {"P", {c_pink, _( "pink" )}}, {"m", {c_magenta, _( "magenta" )}}
+        {"br", {c_brown, translate_marker( "brown" )}}, {"lg", {c_light_gray, translate_marker( "light gray" )}},
+        {"dg", {c_dark_gray, translate_marker( "dark gray" )}}, {"r", {c_light_red, translate_marker( "light red" )}},
+        {"R", {c_red, translate_marker( "red" )}}, {"g", {c_light_green, translate_marker( "light green" )}},
+        {"G", {c_green, translate_marker( "green" )}}, {"b", {c_light_blue, translate_marker( "light blue" )}},
+        {"B", {c_blue, translate_marker( "blue" )}}, {"W", {c_white, translate_marker( "white" )}},
+        {"C", {c_cyan, translate_marker( "cyan" )}}, {"c", {c_light_cyan, translate_marker( "light cyan" )}},
+        {"P", {c_pink, translate_marker( "pink" )}}, {"m", {c_magenta, translate_marker( "magenta" )}}
     };
 }
 
 nc_color invert_color( nc_color c )
 {
     const nc_color color = all_colors.get_invert( c );
-    return ( ( int )color > 0 ) ? color : c_pink;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_pink;
 }
 
 nc_color hilite( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_BLUE );
-    return ( ( int )color > 0 ) ? color : h_white;
+    return ( static_cast<int>( color ) > 0 ) ? color : h_white;
 }
 
 nc_color red_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_RED );
-    return ( ( int )color > 0 ) ? color : c_white_red;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_white_red;
 }
 
 nc_color white_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_WHITE );
-    return ( ( int )color > 0 ) ? color : c_black_white;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_white;
 }
 
 nc_color green_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_GREEN );
-    return ( ( int )color > 0 ) ? color : c_black_green;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_green;
 }
 
 nc_color yellow_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_YELLOW );
-    return ( ( int )color > 0 ) ? color : c_black_yellow;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_yellow;
 }
 
 nc_color magenta_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_MAGENTA );
-    return ( ( int )color > 0 ) ? color : c_black_magenta;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_magenta;
 }
 
 nc_color cyan_background( nc_color c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_CYAN );
-    return ( ( int )color > 0 ) ? color : c_black_cyan;
+    return ( static_cast<int>( color ) > 0 ) ? color : c_black_cyan;
 }
 
 /**
@@ -780,7 +780,7 @@ void color_manager::show_gui()
         auto iter = name_color_map.begin();
         std::advance( iter, iStartPos );
 
-        std::string sActive = "";
+        std::string sActive;
 
         // display color manager
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
@@ -823,7 +823,7 @@ void color_manager::show_gui()
             }
         } else if( action == "DOWN" ) {
             iCurrentLine++;
-            if( iCurrentLine >= ( int )iMaxColors ) {
+            if( iCurrentLine >= static_cast<int>( iMaxColors ) ) {
                 iCurrentLine = 0;
             }
         } else if( action == "LEFT" ) {
@@ -854,7 +854,7 @@ void color_manager::show_gui()
         } else if( action == "LOAD_TEMPLATE" ) {
             auto vFiles = get_files_from_path( ".json", FILENAMES["color_templates"], false, true );
 
-            if( vFiles.size() > 0 ) {
+            if( !vFiles.empty() ) {
                 uilist ui_templates;
                 ui_templates.w_y = iHeaderHeight + 1 + iOffsetY;
                 ui_templates.w_height = 18;
@@ -862,12 +862,12 @@ void color_manager::show_gui()
                 ui_templates.text = _( "Color templates:" );
 
                 for( const auto &filename : vFiles ) {
-                    ui_templates.addentry( filename.substr( filename.find_last_of( "/" ) + 1 ) );
+                    ui_templates.addentry( filename.substr( filename.find_last_of( '/' ) + 1 ) );
                 }
 
                 ui_templates.query();
 
-                if( ui_templates.ret >= 0 && ( size_t )ui_templates.ret < vFiles.size() ) {
+                if( ui_templates.ret >= 0 && static_cast<size_t>( ui_templates.ret ) < vFiles.size() ) {
                     bStuffChanged = true;
 
                     clear();
@@ -905,7 +905,7 @@ void color_manager::show_gui()
                 std::string sColor = iter.first;
                 std::string sType = _( "default" );
 
-                std::string name_custom = "";
+                std::string name_custom;
 
                 if( sSelected == sColor ) {
                     ui_colors.selected = i;
@@ -923,7 +923,7 @@ void color_manager::show_gui()
 
             ui_colors.query();
 
-            if( ui_colors.ret >= 0 && ( size_t )ui_colors.ret < name_color_map.size() ) {
+            if( ui_colors.ret >= 0 && static_cast<size_t>( ui_colors.ret ) < name_color_map.size() ) {
                 bStuffChanged = true;
 
                 iter = name_color_map.begin();

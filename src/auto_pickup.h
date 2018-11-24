@@ -2,16 +2,14 @@
 #ifndef AUTO_PICKUP_H
 #define AUTO_PICKUP_H
 
-#include <array>
-#include <unordered_map>
-#include <string>
-#include <vector>
-#include <locale>
-#include <algorithm>
-#include <iosfwd>
 #include "enums.h"
-#include "string_id.h"
 #include "material.h"
+
+#include <array>
+#include <iosfwd>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 class JsonOut;
 class JsonIn;

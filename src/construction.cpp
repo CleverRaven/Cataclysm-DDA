@@ -1,50 +1,44 @@
 #include "construction.h"
 
+#include "action.h"
+#include "cata_utility.h"
 #include "coordinate_conversions.h"
+#include "debug.h"
 #include "game.h"
+#include "input.h"
+#include "inventory.h"
+#include "item_group.h"
+#include "iuse.h"
+#include "json.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "debug.h"
-#include "input.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "player.h"
-#include "inventory.h"
-#include "mapdata.h"
+#include "requirements.h"
+#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "action.h"
+#include "string_input_popup.h"
 #include "translations.h"
-#include "messages.h"
-#include "json.h"
-#include "rng.h"
-#include "requirements.h"
 #include "trap.h"
-#include "overmapbuffer.h"
-#include "options.h"
-#include "npc.h"
-#include "iuse.h"
+#include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "item_group.h"
-#include "cata_utility.h"
-#include "uistate.h"
-#include "string_input_popup.h"
 #include "vpart_position.h"
 
 #include <algorithm>
-#include <map>
 #include <sstream>
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
-static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
@@ -73,13 +67,12 @@ void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
-void done_extract_sand( const tripoint & );
-void done_extract_clay( const tripoint & );
+void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
-};
+}
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
@@ -195,7 +188,7 @@ void construction_menu()
     }
 
     int w_height = TERMY;
-    if( ( int )available.size() + 2 < w_height ) {
+    if( static_cast<int>( available.size() ) + 2 < w_height ) {
         w_height = available.size() + 2;
     }
     if( w_height < FULL_SCREEN_HEIGHT ) {
@@ -231,7 +224,7 @@ void construction_menu()
     int select = 0;
     int offset = 0;
     bool exit = false;
-    std::string category_name = "";
+    std::string category_name;
     std::vector<std::string> constructs;
     //storage for the color text so it can be scrolled
     std::vector< std::vector < std::string > > construct_buffers;
@@ -330,7 +323,8 @@ void construction_menu()
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        for( size_t i = 0; ( int )i < w_list_height && ( i + offset ) < constructs.size(); i++ ) {
+        for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
+             ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             std::string con_name = constructs[current];
             bool highlight = ( current == select );
@@ -359,17 +353,18 @@ void construction_menu()
                                             ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
 
             //leave room for top and bottom UI text
-            const int available_buffer_height = w_height - 3 - 3 - ( int )notes.size();
+            const int available_buffer_height = w_height - 3 - 3 - static_cast<int>( notes.size() );
 
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
-                trim_and_print( w_con, w_height - 1 - ( int )notes.size() + ( int )i, pos_x,
+                trim_and_print( w_con, w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ),
+                                pos_x,
                                 available_window_width, c_white, notes[i] );
             }
 
             if( !constructs.empty() ) {
                 nc_color color_stage = c_white;
-                if( select >= ( int ) constructs.size() ) {
+                if( select >= static_cast<int>( constructs.size() ) ) {
                     select = 0;
                 }
                 std::string current_desc = constructs[select];
@@ -566,7 +561,8 @@ void construction_menu()
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    trim_and_print( w_con, w_height - 2 - ( int )notes.size(), pos_x, available_window_width,
+                    trim_and_print( w_con, w_height - 2 - static_cast<int>( notes.size() ), pos_x,
+                                    available_window_width,
                                     c_white, _( "Press %s to show next stage(s)." ),
                                     ctxt.get_desc( "PAGE_DOWN" ).c_str() );
                 }
@@ -611,7 +607,7 @@ void construction_menu()
             uistate.construction_filter = filter;
         } else if( action == "DOWN" ) {
             update_info = true;
-            if( select < ( int )constructs.size() - 1 ) {
+            if( select < static_cast<int>( constructs.size() ) - 1 ) {
                 select++;
             } else {
                 select = 0;
@@ -664,7 +660,7 @@ void construction_menu()
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if( action == "CONFIRM" ) {
-            if( constructs.empty() || select >= ( int ) constructs.size() ) {
+            if( constructs.empty() || select >= static_cast<int>( constructs.size() ) ) {
                 continue;// Nothing to be done here
             }
             if( player_can_build( g->u, total_inv, constructs[select] ) ) {
@@ -814,8 +810,8 @@ void complete_construction()
 
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
-            c.practice( pr.first, ( int )( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
-                        ( int )( pr.second * 1.25 ) );
+            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
+                        static_cast<int>( pr.second * 1.25 ) );
         }
     };
 
@@ -848,6 +844,11 @@ void complete_construction()
         } else {
             g->m.ter_set( terp, ter_str_id( built.post_terrain ) );
         }
+    }
+
+    // Spawn byproducts
+    if( built.byproduct_item_group ) {
+        g->m.spawn_items( u.pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
     add_msg( m_info, _( "You finish your construction: %s." ), _( built.description.c_str() ) );
@@ -966,7 +967,7 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( 0, 0, vpart_from_item( g->u.lastconsumed ) );
+    veh->install_part( point( 0, 0 ), vpart_from_item( g->u.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1133,21 +1134,20 @@ void construct::done_window_curtains( const tripoint & )
         _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
 
-void construct::done_extract_sand( const tripoint &p )
+void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
 {
-    g->m.spawn_item( g->u.pos(), "material_sand", 1, rng( 300, 600 ) );
     if( one_in( 10 ) ) {
         g->m.ter_set( p, t_dirt );
     }
-    g->u.add_msg_if_player( _( "You gather some sand." ) );
-}
-void construct::done_extract_clay( const tripoint &p )
-{
-    g->m.spawn_item( g->u.pos(), "clay_lump", rng( 6, 12 ) );
-    if( one_in( 10 ) ) {
-        g->m.ter_set( p, t_dirt );
+
+    if( g->m.ter( p ) == t_clay ) {
+        add_msg( _( "You gather some clay." ) );
+    } else if( g->m.ter( p ) == t_sand ) {
+        add_msg( _( "You gather some sand." ) );
+    } else {
+        // Fall through to an undefined material.
+        add_msg( _( "You gather some materials." ) );
     }
-    g->u.add_msg_if_player( _( "You gather some clay." ) );
 }
 
 void construct::done_mark_firewood( const tripoint &p )
@@ -1180,14 +1180,14 @@ void assign_or_debugmsg( T &dest, const std::string &fun_id,
         } );
         debugmsg( "Unknown function: %s, available values are %s", fun_id.c_str(), list_available.c_str() );
     }
-};
+}
 
 void load_construction( JsonObject &jo )
 {
     construction con;
     con.id = constructions.size();
 
-    con.description = jo.get_string( "description" ).c_str();
+    con.description = jo.get_string( "description" );
     if( jo.has_member( "required_skills" ) ) {
         auto sk = jo.get_array( "required_skills" );
         while( sk.has_more() ) {
@@ -1234,6 +1234,11 @@ void load_construction( JsonObject &jo )
 
     con.pre_flags = jo.get_tags( "pre_flags" );
 
+    if( jo.has_member( "byproducts" ) ) {
+        JsonIn &stream = *jo.get_raw( "byproducts" );
+        con.byproduct_item_group = item_group::load_item_group( stream, "collection" );
+    }
+
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
@@ -1253,8 +1258,7 @@ void load_construction( JsonObject &jo )
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_window_curtains", construct::done_window_curtains },
-            { "done_extract_sand", construct::done_extract_sand },
-            { "done_extract_clay", construct::done_extract_clay },
+            { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood }
         }
     };

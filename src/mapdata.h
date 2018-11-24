@@ -2,16 +2,15 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include "color.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "units.h"
-#include "color.h"
 
-#include <bitset>
-#include <vector>
-#include <set>
-#include <string>
 #include <array>
+#include <bitset>
+#include <set>
+#include <vector>
 
 class JsonObject;
 struct itype;

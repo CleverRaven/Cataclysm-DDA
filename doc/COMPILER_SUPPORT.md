@@ -1,7 +1,7 @@
 # Compilers Supported
 
 We are compiling with -std=c++11 as you can see from the Makefile.
-This regretably restricts which compilers will compile the project, while at the same time allowing the use of a plethora of features introduced by C++11.
+This regrettably restricts which compilers will compile the project, while at the same time allowing the use of a plethora of features introduced by C++11.
 
 ## GCC
 

@@ -2,6 +2,8 @@
 #ifndef ITEM_ACTION_H
 #define ITEM_ACTION_H
 
+#include "translations.h"
+
 #include <map>
 #include <string>
 #include <vector>
@@ -18,7 +20,7 @@ typedef std::map< item_action_id, item_action > action_map;
 class item_action
 {
     public:
-        std::string name;
+        translation name;
         item_action_id id;
 };
 

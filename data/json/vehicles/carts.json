@@ -149,7 +149,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "frame_handle" },
       { "x": 0, "y": 0, "part": "wheel_caster" },
-      { "x": 0, "y": 0, "part": "cargo_space" }
+      { "x": 0, "y": 0, "part": "crane_small" }
     ]
   },
   {

@@ -27,6 +27,19 @@
     ]
   },
   {
+    "type": "recipe",
+    "result": "fuel_bunker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 3 ] ] ]
+  },
+  {
     "result": "bike_rack",
     "type": "recipe",
     "category": "CC_OTHER",

@@ -43,6 +43,8 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 #  make localization LANGUAGES=all
 #  (for every .po file in lang/po)
+# Enable sanitizer (address, undefined, etc.)
+#  make SANITIZE=address
 # Change mapsize (reality bubble size)
 #  make MAPSIZE=<size>
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
@@ -124,9 +126,9 @@ TILES_TARGET_NAME = $(TARGET_NAME)-tiles
 TARGET = $(BUILD_PREFIX)$(TARGET_NAME)
 TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME)
 ifdef TILES
-APPTARGET = $(TILESTARGET)
+  APPTARGET = $(TILESTARGET)
 else
-APPTARGET = $(TARGET)
+  APPTARGET = $(TARGET)
 endif
 W32TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME).exe
 W32TARGET = $(BUILD_PREFIX)$(TARGET_NAME).exe
@@ -169,7 +171,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -230,13 +232,24 @@ AR  = $(CROSS)ar
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
+ifneq ($(SANITIZE),)
+  CXXFLAGS += -fsanitize=$(SANITIZE)
+  LDFLAGS += -fsanitize=$(SANITIZE)
+endif
+
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
-    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-      OPTLEVEL = -Os
+    ifdef OSXCROSS
+      OPTLEVEL = -O0
+    else ifeq ($(shell expr $(OSX_MIN) \<= 10.11), 1)
+      OPTLEVEL = -O0
     else
-      OPTLEVEL = -O3
+      ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+        OPTLEVEL = -Os
+      else
+        OPTLEVEL = -O3
+      endif
     endif
   else
     # MXE ICE Workaround
@@ -293,9 +306,9 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-    OTHERS += -std=gnu++11
-  else
-    OTHERS += -std=c++11
+  OTHERS += -std=gnu++11
+else
+  OTHERS += -std=c++11
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -650,7 +663,7 @@ ifeq ($(BSD), 1)
     CXXFLAGS += -fno-omit-frame-pointer
   endif
 
- # And similarly, their libcs don't have gettext built in
+  # And similarly, their libcs don't have gettext built in
   ifeq ($(LOCALIZE),1)
     LDFLAGS += -lintl -liconv
   endif
@@ -658,10 +671,10 @@ endif
 
 # Global settings for Windows targets (at end)
 ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
-    ifeq ($(BACKTRACE),1)
-      LDFLAGS += -ldbghelp
-    endif
+  LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
+  ifeq ($(BACKTRACE),1)
+    LDFLAGS += -ldbghelp
+  endif
 endif
 
 ifeq ($(BACKTRACE),1)
@@ -674,6 +687,10 @@ endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
   BINDIST_EXTRAS += cataclysm-launcher
+  ifeq ($(BACKTRACE),1)
+    # -rdynamic needed for symbols in backtraces
+    LDFLAGS += -rdynamic
+  endif
 endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
@@ -906,7 +923,7 @@ APPTARGETDIR=Cataclysm.app
 APPRESOURCESDIR=$(APPTARGETDIR)/Contents/Resources
 APPDATADIR=$(APPRESOURCESDIR)/data
 ifndef FRAMEWORK
-SDLLIBSDIR=$(shell sdl2-config --libs | sed -n 's/.*-L\([^ ]*\) .*/\1/p')
+  SDLLIBSDIR=$(shell sdl2-config --libs | sed -n 's/.*-L\([^ ]*\) .*/\1/p')
 endif  # ifndef FRAMEWORK
 
 appclean:
@@ -1032,7 +1049,7 @@ astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLED_WHITELIST))
+  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLED_WHITELIST))
 endif
 
 astyle-check:

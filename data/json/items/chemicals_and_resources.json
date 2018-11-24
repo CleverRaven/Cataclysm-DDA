@@ -257,9 +257,9 @@
     "price" : 1100,
     "price_postapoc": 5000,
     "material" : "powder",
-    "volume" : 1,
+    "volume" : "125ml",
     "charges" : 400, "//" : "Previously 10 doses to a gram, so about 400 to the pound.",
-    "stack_size" : 400,
+    "stack_size" : 200,
     "fun" : -15
    },
    {

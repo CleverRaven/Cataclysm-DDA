@@ -2,17 +2,17 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "player.h"
-#include "faction.h"
-#include "pimpl.h"
 #include "calendar.h"
+#include "faction.h"
 #include "optional.h"
+#include "pimpl.h"
+#include "player.h"
 
-#include <vector>
-#include <set>
-#include <string>
 #include <map>
 #include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 class JsonObject;
 class JsonIn;
@@ -128,7 +128,7 @@ struct npc_personality {
         bravery    = 0;
         collector  = 0;
         altruism   = 0;
-    };
+    }
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -501,7 +501,6 @@ class npc : public player
         std::string opinion_text() const;
 
         // Goal / mission functions
-        void pick_long_term_goal();
         bool fac_has_value( faction_value value ) const;
         bool fac_has_job( faction_job job ) const;
 
@@ -850,7 +849,7 @@ class npc : public player
         bool hit_by_player;
         std::vector<npc_need> needs;
         // Dummy point that indicates that the goal is invalid.
-        static const tripoint no_goal_point;
+        static constexpr tripoint no_goal_point = tripoint_min;
 
         time_point last_updated;
         /**

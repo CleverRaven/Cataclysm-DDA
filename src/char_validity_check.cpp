@@ -1,4 +1,5 @@
 #include "char_validity_check.h"
+
 #include <cctype>
 
 /**

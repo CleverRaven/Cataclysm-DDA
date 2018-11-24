@@ -105,26 +105,6 @@
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
-    "id": "anbc_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "ANBC suit",
-    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.",
-    "weight": 8700,
-    "volume": 80,
-    "price": 400000,
-    "material": [ "kevlar", "plastic" ],
-    "symbol": "[",
-    "color": "light_red",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "coverage": 100,
-    "encumbrance": 45,
-    "warmth": 50,
-    "material_thickness": 3,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER" ]
-  },
-  {
     "id": "apron_leather",
     "type": "ARMOR",
     "name": "leather apron",
@@ -1136,7 +1116,7 @@
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
     "weight": 210,
     "volume": 4,
-    "price": 21000,
+    "price": 4000,
     "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
@@ -1147,7 +1127,28 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "use_action": {
+      "menu_text": "Zip up",
+      "type": "transform",
+      "target": "bondage_mask_zipped",
+      "msg": "You zip the eyes and mouth of the bondage mask closed."
+    }
+  },
+  {
+    "id": "bondage_mask_zipped",
+    "copy-from": "bondage_mask",
+    "type": "ARMOR",
+    "name": "bondage mask (zipped)",
+    "name_plural": "bondage masks (zipped)",
+    "description": "A tight mask made of black leather.  The eyes and mouth have been zipped closed.",
+    "flags": [ "VARSIZE", "BLIND" ],
+    "use_action": {
+      "menu_text": "Unzip",
+      "type": "transform",
+      "target": "bondage_mask",
+      "msg": "You unzip the eyes and mouth of the bondage mask."
+    }
   },
   {
     "id": "bondage_suit",
@@ -1866,10 +1867,11 @@
     "type": "ARMOR",
     "copy-from": "coat_fur",
     "name": "faux fur coat",
-    "description": "A garishly colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
+    "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
     "covers": [ "TORSO", "ARMS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
     "warmth": 70
   },
   {
@@ -2420,6 +2422,17 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
+    "id": "duster_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_fur",
+    "name": "faux fur duster",
+    "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
+  },
+  {
     "id": "duster_leather",
     "type": "ARMOR",
     "name": "leather duster",
@@ -2687,7 +2700,7 @@
       "type": "holster",
       "holster_prompt": "Attach what to belt loop?",
       "holster_msg": "You clip your %s to your %s",
-      "max_volume": 5,
+      "max_volume": 8,
       "max_weight": 3600,
       "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
@@ -4057,6 +4070,17 @@
     "material_thickness": 3
   },
   {
+    "id": "hat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "hat_fur",
+    "name": "faux fur hat",
+    "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "HEAD" ],
+    "flags": [ "FANCY" ],
+    "warmth": 60
+  },
+  {
     "id": "hat_hard",
     "type": "ARMOR",
     "name": "hard hat",
@@ -4187,25 +4211,6 @@
     "material_thickness": 2,
     "environmental_protection": 4,
     "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
-  },
-  {
-    "id": "hazmat_suit",
-    "type": "ARMOR",
-    "name": "hazmat suit",
-    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.",
-    "weight": 5000,
-    "volume": 68,
-    "price": 117500,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "yellow",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "coverage": 100,
-    "encumbrance": 37,
-    "warmth": 40,
-    "material_thickness": 2,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER" ]
   },
   {
     "id": "headgear",
@@ -4556,29 +4561,6 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
-    "id": "helmet_riot",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "riot helmet",
-    "description": "A helmet with a plastic shield that covers your entire face.",
-    "weight": 2260,
-    "volume": 9,
-    "price": 22000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "plastic", "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 95,
-    "encumbrance": 20,
-    "warmth": 10,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
     "id": "helmet_scavenger",
@@ -6825,6 +6807,16 @@
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
+    "id": "pants_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "pants_fur",
+    "name": "faux fur pants",
+    "description": "A pair of long cotton pants lined with warm imitation fur.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "LEGS" ],
+    "warmth": 70
+  },
+  {
     "id": "pants_leather",
     "type": "ARMOR",
     "name": "leather pants",
@@ -7892,6 +7884,17 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
+    "id": "sleeveless_duster_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "sleeveless_duster_fur",
+    "name": "sleeveless faux fur duster",
+    "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "LEGS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
+  },
+  {
     "id": "sleeveless_duster_leather",
     "type": "ARMOR",
     "name": "sleeveless leather duster",
@@ -7979,6 +7982,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "sleeveless_trenchcoat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "sleeveless_trenchcoat_fur",
+    "name": "sleeveless faux fur trenchcoat",
+    "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
   },
   {
     "id": "sleeveless_trenchcoat_leather",
@@ -9023,6 +9037,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "trenchcoat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "trenchcoat_fur",
+    "name": "faux fur trenchcoat",
+    "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "TORSO", "ARMS" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "warmth": 40
   },
   {
     "id": "trenchcoat_leather",

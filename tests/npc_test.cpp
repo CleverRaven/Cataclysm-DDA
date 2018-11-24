@@ -1,16 +1,16 @@
 #include "catch/catch.hpp"
 
 #include "common_types.h"
-#include "player.h"
-#include "npc.h"
-#include "npc_class.h"
+#include "field.h"
 #include "game.h"
 #include "map.h"
-#include "text_snippets.h"
-#include "field.h"
+#include "npc.h"
+#include "npc_class.h"
 #include "overmapbuffer.h"
-#include "vehicle.h"
+#include "player.h"
+#include "text_snippets.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
@@ -339,8 +339,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( 0, 0, vpart_frame_vertical );
-                veh->install_part( 0, 0, vpart_seat );
+                veh->install_part( point( 0, 0 ), vpart_frame_vertical );
+                veh->install_part( point( 0, 0 ), vpart_seat );
                 g->m.add_vehicle_to_cache( veh );
             }
             // spawn npcs

@@ -2,6 +2,8 @@
 #ifndef ITEM_CATEGORY_H
 #define ITEM_CATEGORY_H
 
+#include "translations.h"
+
 #include <string>
 
 /**
@@ -16,8 +18,8 @@ class item_category
     private:
         /** Unique ID of this category, used when loading from JSON. */
         std::string id_;
-        /** Name of category for displaying to the user (localized) */
-        std::string name_;
+        /** Name of category for displaying to the user */
+        translation name_;
         /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank_ = 0;
 
@@ -28,7 +30,7 @@ class item_category
          * @param name @ref name_
          * @param sort_rank @ref sort_rank_
          */
-        item_category( const std::string &id, const std::string &name, int sort_rank ) : id_( id ),
+        item_category( const std::string &id, const translation &name, int sort_rank ) : id_( id ),
             name_( name ), sort_rank_( sort_rank ) { }
 
         std::string name() const;

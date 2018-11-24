@@ -3,11 +3,10 @@
 #define MESSAGES_H
 
 #include "string_formatter.h"
-#include "pimpl.h"
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 class JsonOut;
 class JsonObject;

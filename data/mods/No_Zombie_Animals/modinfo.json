@@ -11,7 +11,6 @@
   {
     "type": "MONSTER_BLACKLIST",
     "monsters": [
-      "mon_bear_smoky",
       "mon_dog_zombie_rot",
       "mon_dog_zombie_cop",
       "mon_dog_skeleton",

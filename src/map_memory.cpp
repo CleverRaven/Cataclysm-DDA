@@ -1,63 +1,79 @@
 #include "map_memory.h"
 
-#include <algorithm>
-
-void map_memory::trim( int limit )
+template<typename T>
+T lru_cache<T>::get( const tripoint &pos, const T &default_ ) const
 {
-    while( tiles.size() > static_cast<size_t>( limit ) ) {
-        tile_map.erase( tiles.back().first );
-        tiles.pop_back();
+    auto found = map.find( pos );
+    if( found != map.end() ) {
+        return found->second->second;
     }
-    while( symbols.size() > static_cast<size_t>( limit ) ) {
-        symbol_map.erase( symbols.back().first );
-        symbols.pop_back();
+    return default_;
+}
+
+template<typename T>
+void lru_cache<T>::insert( int limit, const tripoint &pos, const T &t )
+{
+    auto found = map.find( pos );
+
+    if( found == map.end() ) {
+        // Need new entry in map.  Make the new list entry and point to it.
+        ordered_list.emplace_back( pos, t );
+        map[pos] = std::prev( ordered_list.end() );
+        trim( limit );
+    } else {
+        // Splice existing entry to the back.  Does not invalidate the
+        // iterator, so no need to change the map.
+        auto list_iterator = found->second;
+        ordered_list.splice( ordered_list.end(), ordered_list, list_iterator );
+        // Update the moved item
+        list_iterator->second = t;
     }
 }
 
+template<typename T>
+void lru_cache<T>::trim( int limit )
+{
+    while( ordered_list.size() > static_cast<size_t>( limit ) ) {
+        map.erase( ordered_list.front().first );
+        ordered_list.pop_front();
+    }
+}
+
+template<typename T>
+void lru_cache<T>::clear()
+{
+    map.clear();
+    ordered_list.clear();
+}
+
+template<typename T>
+const std::list<typename lru_cache<T>::Pair> &lru_cache<T>::list() const
+{
+    return ordered_list;
+}
+
+template class lru_cache<memorized_terrain_tile>;
+template class lru_cache<long>;
+
+static const memorized_terrain_tile default_tile{ "", 0, 0 };
+
 memorized_terrain_tile map_memory::get_tile( const tripoint &pos ) const
 {
-    auto found_tile = tile_map.find( pos );
-    if( found_tile != tile_map.end() ) {
-        return found_tile->second->second;
-    }
-    return { "", 0, 0 };
+    return tile_cache.get( pos, default_tile );
 }
 
 void map_memory::memorize_tile( int limit, const tripoint &pos, const std::string &ter,
                                 const int subtile, const int rotation )
 {
-    memorized_terrain_tile new_tile{ ter, subtile, rotation };
-    tiles.push_front( std::make_pair( pos, new_tile ) );
-    auto found_tile = tile_map.find( pos );
-    if( found_tile != tile_map.end() ) {
-        // Remove redundant entry since we pushed one to the front.
-        tiles.erase( found_tile->second );
-        found_tile->second = tiles.begin();
-    } else {
-        tile_map[pos] = tiles.begin();
-        trim( limit );
-    }
+    tile_cache.insert( limit, pos, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
 long map_memory::get_symbol( const tripoint &pos ) const
 {
-    auto found_tile = symbol_map.find( pos );
-    if( found_tile != symbol_map.end() ) {
-        return found_tile->second->second;
-    }
-    return 0;
+    return symbol_cache.get( pos, 0 );
 }
 
 void map_memory::memorize_symbol( int limit, const tripoint &pos, const long symbol )
 {
-    symbols.emplace_front( pos, symbol );
-    auto found_tile = symbol_map.find( pos );
-    if( found_tile != symbol_map.end() ) {
-        // Remove redundant entry since we pushed on to the front.
-        symbols.erase( found_tile->second );
-        found_tile->second = symbols.begin();
-    } else {
-        symbol_map[pos] = symbols.begin();
-        trim( limit );
-    }
+    symbol_cache.insert( limit, pos, symbol );
 }

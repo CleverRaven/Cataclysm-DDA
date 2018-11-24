@@ -1,16 +1,16 @@
 #include "recipe_dictionary.h"
 
-#include "itype.h"
-#include "generic_factory.h"
-#include "item_factory.h"
-#include "item.h"
-#include "init.h"
 #include "cata_utility.h"
 #include "crafting.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "output.h"
 #include "skill.h"
 
 #include <algorithm>
-#include <numeric>
 
 recipe_dictionary recipe_dict;
 
@@ -41,6 +41,9 @@ const recipe &string_id<recipe>::obj() const
 {
     const auto iter = recipe_dict.recipes.find( *this );
     if( iter != recipe_dict.recipes.end() ) {
+        if( iter->second.obsolete ) {
+            return null_recipe;
+        }
         return iter->second;
     }
     if( *this != NULL_ID() ) {
@@ -101,6 +104,9 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( r->required_skills_string( nullptr ), txt ) ||
                        lcmatch( r->skill_used->name(), txt );
 
+            case search_type::primary_skill:
+                return lcmatch( r->skill_used->name(), txt );
+
             case search_type::component:
                 return search_reqs( r->requirements().get_components(), txt );
 
@@ -115,6 +121,11 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
                     return lcmatch( e.first->name, txt );
                 } );
+            }
+
+            case search_type::description_result: {
+                const item result = r->create_result();
+                return lcmatch( remove_color_tags( result.info( true ) ), txt );
             }
 
             default:
@@ -233,7 +244,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
-        if( elem.is_blacklisted() ) {
+        if( elem.is_blacklisted() || elem.obsolete ) {
             return true;
         }
 

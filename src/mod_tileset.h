@@ -8,30 +8,20 @@
 class mod_tileset;
 class JsonObject;
 
-extern std::vector<mod_tileset *> all_mod_tilesets;
+extern std::vector<mod_tileset> all_mod_tilesets;
 
 void load_mod_tileset( JsonObject &jsobj, const std::string &, const std::string &base_path,
                        const std::string &full_path );
-void load_mod_tileset_into_array( JsonObject &jsobj, const std::string &base_path,
-                                  const std::string &full_path,
-                                  std::vector<mod_tileset *> &mod_tileset_array );
 void reset_mod_tileset();
 
 class mod_tileset
 {
     public:
-        mod_tileset() { }
-
         mod_tileset( const std::string &new_base_path, const std::string &new_full_path,
                      int new_num_in_file ) :
             base_path_( new_base_path ),
             full_path_( new_full_path ),
             num_in_file_( new_num_in_file ) { }
-
-        mod_tileset( const mod_tileset &obj );
-        ~mod_tileset() {
-            compatibility.clear();
-        }
 
         const std::string &get_base_path() const {
             return base_path_;

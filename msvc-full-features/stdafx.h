@@ -83,10 +83,23 @@
 #include "../src/platform_win.h"
 
 #if defined(TILES)
-#   include <SDL.h>
-#   include <SDL_ttf.h>
-#   include <SDL_image.h>
-#   if defined(SDL_SOUND)
-#       include <SDL_mixer.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#      include <SDL2/SDL.h>
+#      include <SDL2/SDL_image.h>
+#      include <SDL2/SDL_mixer.h>
+#      include <SDL2/SDL_ttf.h>
+#      include <SDL2/SDL_version.h>
+#      ifdef SDL_SOUND
+#          include <SDL2/SDL_mixer.h>
+#      endif
+#   else
+#      include <SDL.h>
+#      include <SDL_image.h>
+#      include <SDL_mixer.h>
+#      include <SDL_ttf.h>
+#      include <SDL_version.h>
+#      ifdef SDL_SOUND
+#          include <SDL_mixer.h>
+#      endif
 #   endif
 #endif

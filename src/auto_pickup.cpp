@@ -1,26 +1,25 @@
 #include "auto_pickup.h"
-#include "game.h"
-#include "player.h"
-#include "output.h"
-#include "json.h"
-#include "debug.h"
-#include "item_factory.h"
-#include "translations.h"
-#include "cata_utility.h"
-#include "path_info.h"
-#include "string_formatter.h"
-#include "filesystem.h"
-#include "input.h"
-#include "options.h"
-#include "itype.h"
-#include "string_input_popup.h"
-#include "string_id.h"
-#include "material.h"
 
-#include <stdlib.h>
+#include "cata_utility.h"
+#include "debug.h"
+#include "filesystem.h"
+#include "game.h"
+#include "input.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "material.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "string_input_popup.h"
+#include "translations.h"
+
+#include <algorithm>
 #include <sstream>
-#include <string>
-#include <locale>
 
 auto_pickup &get_auto_pickup()
 {
@@ -378,7 +377,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 void auto_pickup::test_pattern( const int iTab, const int iRow )
 {
     std::vector<std::string> vMatchingItems;
-    std::string sItemName = "";
+    std::string sItemName;
 
     if( vRules[iTab][iRow].sRule.empty() ) {
         return;
@@ -415,7 +414,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
                                      nmatch ), nmatch, vRules[iTab][iRow].sRule.c_str() );
     draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
     center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
-                  _( "Won't display bottled and suffixes=(fits)" ) );
+                  _( "Won't display content or suffix matches" ) );
     wrefresh( w_test_rule_border );
 
     int iLine = 0;
@@ -787,7 +786,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
             if( iNum != 2 ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
             } else {
-                std::string sRule = "";
+                std::string sRule;
                 bool bActive = true;
                 bool bExclude = false;
 

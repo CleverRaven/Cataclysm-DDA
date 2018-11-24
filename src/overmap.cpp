@@ -1,47 +1,41 @@
 #include "overmap.h"
 
-#include "coordinate_conversions.h"
-#include "generic_factory.h"
-#include "overmap_types.h"
-#include "overmap_connection.h"
-#include "overmap_location.h"
-#include "rng.h"
-#include "line.h"
-#include "game.h"
-#include "npc.h"
-#include "map.h"
-#include "output.h"
-#include "debug.h"
-#include "options.h"
-#include "overmapbuffer.h"
-#include "json.h"
-#include "mapdata.h"
-#include "mapgen.h"
-#include "map_extras.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
+#include "debug.h"
+#include "game.h"
+#include "generic_factory.h"
+#include "json.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapgen.h"
+#include "mapgen_functions.h"
+#include "messages.h"
 #include "mongroup.h"
 #include "mtype.h"
 #include "name.h"
+#include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "overmap_connection.h"
+#include "overmap_location.h"
+#include "overmap_types.h"
+#include "overmapbuffer.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "translations.h"
-#include "mapgen_functions.h"
-#include "weather_gen.h"
-#include "mapbuffer.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "rotatable_symbols.h"
-#include "regional_settings.h"
 
-#include <cassert>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
-#include <vector>
-#include <sstream>
-#include <cstring>
-#include <ostream>
 #include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include <numeric>
+#include <ostream>
+#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -332,8 +326,9 @@ void overmap_specials::check_consistency()
     const size_t actual_count = std::accumulate( specials.get_all().begin(), specials.get_all().end(),
                                 static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special & elem ) {
-        return sum + ( elem.flags.count( "UNIQUE" ) == ( size_t )0 ? ( size_t )std::max(
-                           elem.occurrences.min, 0 ) : ( size_t )1 );
+        return sum + ( elem.flags.count( "UNIQUE" ) == static_cast<size_t>( 0 ) ? static_cast<size_t>
+                       ( std::max(
+                             elem.occurrences.min, 0 ) ) : static_cast<size_t>( 1 ) );
     } );
 
     if( actual_count > max_count ) {
@@ -718,8 +713,6 @@ const std::vector<oter_t> &overmap_terrains::get_all()
     return terrains.get_all();
 }
 
-
-
 const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &p ) const
 {
     const auto iter = std::find_if( terrains.begin(),
@@ -789,7 +782,14 @@ void overmap_special::finalize()
         if( !elem.terrain && oter.terrain ) {
             elem.terrain = oter.terrain->get_type_id();    // Defaulted.
         }
-        elem.connection = overmap_connections::guess_for( elem.terrain );
+
+        // If the connection type hasn't been specified, we'll guess for them.
+        // The guess isn't always right (hence guessing) in the case where
+        // multiple connections types can be made on a single location type,
+        // e.g. both roads and forest trails can be placed on "forest" locations.
+        if( elem.connection.is_null() ) {
+            elem.connection = overmap_connections::guess_for( elem.terrain );
+        }
     }
 }
 
@@ -2209,7 +2209,7 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
     // grows outwards from previously placed lab maps
     std::set<point> candidates;
     candidates.insert( {point( x - 1, y ), point( x + 1, y ), point( x, y - 1 ), point( x, y + 1 )} );
-    while( candidates.size() ) {
+    while( !candidates.empty() ) {
         auto cand = candidates.begin();
         const int &cx = cand->x;
         const int &cy = cand->y;
@@ -3549,4 +3549,4 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
     return specials.insert( new_special ).id;
 }
 
-const tripoint overmap::invalid_tripoint = tripoint( INT_MIN, INT_MIN, INT_MIN );
+constexpr tripoint overmap::invalid_tripoint;
