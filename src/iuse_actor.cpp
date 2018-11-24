@@ -682,7 +682,9 @@ long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/
         target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
-        if( !choose_adjacent( query, target ) ) {
+        if( const cata::optional<tripoint> pnt_ = choose_adjacent( query ) ) {
+            target = *pnt_;
+        } else {
             return 0;
         }
         if( !g->is_empty( target ) ) {
@@ -819,21 +821,23 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_npc() ) {
         return 0;
     }
-    tripoint dirp;
-    if( !choose_adjacent( _( "Use your lockpick where?" ), dirp ) ) {
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
+    if( !pnt_ ) {
         return 0;
     }
-    if( dirp == p.pos() ) {
+    const tripoint pnt = *pnt_;
+
+    if( pnt == p.pos() ) {
         p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
         return 0;
     }
-    const ter_id type = g->m.ter( dirp );
-    if( g->critter_at<npc>( dirp ) ) {
+    if( g->critter_at<npc>( pnt ) ) {
         p.add_msg_if_player( m_info,
                              _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
         return 0;
     }
 
+    const ter_id type = g->m.ter( pnt );
     ter_id new_type;
     std::string open_message;
     if( type == t_chaingate_l ) {
@@ -878,7 +882,7 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( pick_roll >= door_roll ) {
         p.practice( skill_mechanics, 1 );
         p.add_msg_if_player( m_good, open_message );
-        g->m.ter_set( dirp, new_type );
+        g->m.ter_set( pnt, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) ) {
         if( it.inc_damage() ) {
             p.add_msg_if_player( m_bad,
@@ -916,30 +920,32 @@ void deploy_furn_actor::load( JsonObject &obj )
 
 long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 {
-    tripoint dir = pos;
+    tripoint pnt = pos;
     if( pos == p.pos() ) {
-        if( !choose_adjacent( _( "Deploy where?" ), dir ) ) {
+        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
+            pnt = *pnt_;
+        } else {
             return 0;
         }
     }
 
-    if( dir.x == p.posx() && dir.y == p.posy() ) {
+    if( pnt == p.pos() ) {
         p.add_msg_if_player( m_info,
                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
         return 0;
     }
 
-    if( g->m.move_cost( dir ) != 2 ) {
+    if( g->m.move_cost( pnt ) != 2 ) {
         p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname().c_str() );
         return 0;
     }
 
-    if( g->m.has_furn( dir ) ) {
+    if( g->m.has_furn( pnt ) ) {
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return 0;
     }
 
-    g->m.furn_set( dir, furn_type );
+    g->m.furn_set( pnt, furn_type );
     p.mod_moves( -200 );
     return 1;
 }
@@ -1005,9 +1011,13 @@ iuse_actor *firestarter_actor::clone() const
 
 bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
-    if( pos == p.pos() && !choose_adjacent( _( "Light where?" ), pos ) ) {
-        g->refresh_all();
-        return false;
+    if( pos == p.pos() ) {
+        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
+            pos = *pnt_;
+        } else {
+            g->refresh_all();
+            return false;
+        }
     }
     if( pos == p.pos() ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
@@ -3431,10 +3441,13 @@ long place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-    tripoint pos = p.pos();
-    if( !choose_adjacent( string_format( _( "Place %s where?" ), it.tname().c_str() ), pos ) ) {
+    const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
+                                          it.tname() ) );
+    if( !pos_ ) {
         return 0;
     }
+    tripoint pos = *pos_;
+
     if( !is_allowed( p, pos, it.tname() ) ) {
         return 0;
     }

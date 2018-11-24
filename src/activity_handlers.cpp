@@ -2802,7 +2802,12 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     tripoint direction;
-    while( !choose_direction( _( "Select a direction for the tree to fall in." ), direction ) ) {
+    while( true ) {
+        if( const cata::optional<tripoint> dir = choose_direction(
+                    _( "Select a direction for the tree to fall in." ) ) ) {
+            direction = *dir;
+            break;
+        }
         // try again
     }
 

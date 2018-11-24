@@ -363,9 +363,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
-        tripoint dirp;
-        if( choose_adjacent( _( "Start a fire where?" ), dirp ) &&
-            g->m.add_field( dirp, fd_fire, 1 ) ) {
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
+        if( pnt && g->m.add_field( *pnt, fd_fire, 1 ) ) {
             mod_moves( -100 );
         } else {
             add_msg_if_player( m_info, _( "You can't light a fire there." ) );
@@ -390,9 +389,8 @@ bool player::activate_bionic( int b, bool eff_only )
 
     } else if( bio.id == "bio_emp" ) {
         g->refresh_all();
-        tripoint dirp;
-        if( choose_adjacent( _( "Create an EMP where?" ), dirp ) ) {
-            g->emp_blast( dirp );
+        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
+            g->emp_blast( *pnt );
             mod_moves( -100 );
         } else {
             charge_power( bionics[bionic_id( "bio_emp" )].power_activate );
