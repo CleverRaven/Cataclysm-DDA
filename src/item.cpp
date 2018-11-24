@@ -1673,21 +1673,28 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.back().bNewLine = true;
 
         if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
-            info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "",
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
                                       iteminfo::no_newline, bash_resist() ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "",
-                                      iteminfo::no_newline, cut_resist() ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ),
+                                      cut_resist() ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
                                       iteminfo::no_newline, acid_resist() ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ),
-                                      fire_resist() ) );
-            info.push_back( iteminfo( "ARMOR", _( "Environmental protection: " ), "",
-                                      iteminfo::no_newline, get_env_resist() ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
+                                      iteminfo::no_newline, fire_resist() ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
+                                      get_env_resist() ) );
             if( type->can_use( "GASMASK" ) ) {
-                info.push_back( iteminfo( "ARMOR", space + _( "When active: " ),
-                                          get_env_resist_w_filter() ) );
+                info.push_back( iteminfo( "ARMOR",
+                                          _( "<bold>Protection when active</bold>: " ) ) );
+                info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
+                                          iteminfo::no_newline,
+                                          acid_resist( false, get_env_resist_w_filter() ) ) );
+                info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
+                                          iteminfo::no_newline,
+                                          fire_resist( false, get_env_resist_w_filter() ) ) );
+                info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
+                                          get_env_resist( get_env_resist_w_filter() ) ) );
             }
-            info.back().bNewLine = true;
         }
 
     }
@@ -3531,7 +3538,7 @@ units::volume item::get_storage() const
     return t->storage;
 }
 
-int item::get_env_resist() const
+int item::get_env_resist( int override_base_resist ) const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
@@ -3540,7 +3547,7 @@ int item::get_env_resist() const
     // modify if item is a gas mask and has filter
     int resist_base = t->env_resist;
     int resist_filter = get_var( "overwrite_env_resist", 0 );
-    int resist = std::max( resist_base, resist_filter );
+    int resist = std::max( { resist_base, resist_filter, override_base_resist } );
 
     return lround( resist * get_relative_health() );
 }
@@ -3833,7 +3840,7 @@ int item::stab_resist( bool to_self ) const
     return static_cast<int>( 0.8f * cut_resist( to_self ) );
 }
 
-int item::acid_resist( bool to_self ) const
+int item::acid_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Currently no items are damaged by acid
@@ -3857,7 +3864,7 @@ int item::acid_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    const int env = get_env_resist();
+    const int env = get_env_resist( base_env_resist );
     if( env < 10 ) {
         // Low env protection means it doesn't prevent acid seeping in.
         resist *= env / 10.0f;
@@ -3866,7 +3873,7 @@ int item::acid_resist( bool to_self ) const
     return lround( resist );
 }
 
-int item::fire_resist( bool to_self ) const
+int item::fire_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Fire damages items in a different way
@@ -3887,7 +3894,7 @@ int item::fire_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    const int env = get_env_resist();
+    const int env = get_env_resist( base_env_resist );
     if( env < 10 ) {
         // Iron resists immersion in magma, iron-clad knight won't.
         resist *= env / 10.0f;
