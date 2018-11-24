@@ -7428,15 +7428,20 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 continue;
             }
 
-            if( vp.is_inside() ) {
-                outside_cache[px][py] = false;
-            }
+            bool vehicle_is_opaque =
+                vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken();
 
-            if( vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken() ) {
+            if( vehicle_is_opaque ) {
                 int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE, true );
                 if( dpart < 0 || !v.v->parts[dpart].open ) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+                } else {
+                    vehicle_is_opaque = false;
                 }
+            }
+
+            if( vehicle_is_opaque || vp.is_inside() ) {
+                outside_cache[px][py] = false;
             }
 
             if( vp.has_feature( VPFLAG_BOARDABLE ) && !vp.part().is_broken() ) {
