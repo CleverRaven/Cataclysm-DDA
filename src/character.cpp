@@ -1288,7 +1288,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     check_req( _( "perception" ),   get_per(), it.type->min_per );
 
     for( const auto &elem : it.type->min_skills ) {
-        check_req( context.contextualize_skill( elem.first )->name().c_str(),
+        check_req( context.contextualize_skill( elem.first )->name(),
                    get_skill_level( elem.first, context ),
                    elem.second );
     }

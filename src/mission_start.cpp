@@ -1785,7 +1785,7 @@ void reveal_target( mission *miss, const std::string &omter_id )
 
 void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
 {
-    reveal_target( miss, random_entry( omter_ids ).c_str() );
+    reveal_target( miss, random_entry( omter_ids ) );
 }
 
 void mission_start::reveal_weather_station( mission *miss )

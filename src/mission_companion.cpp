@@ -960,13 +960,13 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     tmp = item( seed_data.fruit_id, calendar::turn );
                     check = false;
                     for( const std::string &elem : plant_names ) {
-                        if( elem == tmp.type_name( 3 ).c_str() ) {
+                        if( elem == tmp.type_name( 3 ) ) {
                             check = true;
                         }
                     }
                     if( !check ) {
                         plant_types.push_back( tmp.typeId() );
-                        plant_names.push_back( tmp.type_name( 3 ).c_str() );
+                        plant_names.push_back( tmp.type_name( 3 ) );
                         seed_types.push_back( seed.typeId() );
                     }
                 }
