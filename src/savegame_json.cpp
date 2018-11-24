@@ -162,16 +162,19 @@ void player_activity::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    json.member( "moves_left", moves_left );
-    json.member( "index", index );
-    json.member( "position", position );
-    json.member( "coords", coords );
-    json.member( "name", name );
-    json.member( "targets", targets );
-    json.member( "placement", placement );
-    json.member( "values", values );
-    json.member( "str_values", str_values );
-    json.member( "auto_resume", auto_resume );
+
+    if( !type.is_null() ) {
+        json.member( "moves_left", moves_left );
+        json.member( "index", index );
+        json.member( "position", position );
+        json.member( "coords", coords );
+        json.member( "name", name );
+        json.member( "targets", targets );
+        json.member( "placement", placement );
+        json.member( "values", values );
+        json.member( "str_values", str_values );
+        json.member( "auto_resume", auto_resume );
+    }
     json.end_object();
 }
 
@@ -187,6 +190,10 @@ void player_activity::deserialize( JsonIn &jsin )
         deserialize_legacy_type( tmp_type_legacy, type );
     } else {
         type = activity_id( tmptype );
+    }
+
+    if( type.is_null() ) {
+        return;
     }
 
     if( !data.read( "position", tmppos ) ) {
