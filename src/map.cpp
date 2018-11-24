@@ -6346,8 +6346,8 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     static const oter_id rock( "empty_rock" );
     static const oter_id air( "open_air" );
 
-    dbg( D_INFO ) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y
-                  << "], gridx["
+    dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
+                  << "], worldy[" << abs_sub.y << "], gridx["
                   << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
 
     const int absx = abs_sub.x + gridx,

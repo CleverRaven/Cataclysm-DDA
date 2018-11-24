@@ -26,7 +26,7 @@ extern bool test_mode;
 
 // The reference to the one and only game instance.
 class game;
-extern game *g;
+extern std::unique_ptr<game> g;
 
 extern bool trigdist;
 extern bool use_tiles;

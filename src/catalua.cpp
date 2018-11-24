@@ -772,7 +772,7 @@ void update_globals( lua_State *L )
     luah_setglobal( L, "map", -1 );
     lua_pop( L, 1 );
 
-    LuaReference<game>::push( L, g );
+    LuaReference<game>::push( L, g.get() );
     luah_setglobal( L, "g", -1 );
     lua_pop( L, 1 );
 }
