@@ -3,25 +3,19 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_m4",
-    "entries": [ 
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 }
-    ]
+    "entries": [ { "item": "stanag30", "ammo-item": "556", "charges": 30 }, { "item": "stanag30", "ammo-item": "556", "charges": 30 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_mp5",
-    "entries": [ 
-      { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 },
-      { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }
-    ]
+    "entries": [ { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }, { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_rm51",
-    "entries": [ 
+    "entries": [
       { "item": "8x40_50_mag", "ammo-item": "8mm_fmj", "charges": 50 },
       { "item": "8x40_50_mag", "ammo-item": "8mm_fmj", "charges": 50 }
     ]
@@ -30,7 +24,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_rm11b",
-    "entries": [ 
+    "entries": [
       { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
       { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
     ]
@@ -39,7 +33,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_usp45",
-    "entries": [ 
+    "entries": [
       { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
       { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 }
     ]
@@ -48,7 +42,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_usp9",
-    "entries": [ 
+    "entries": [
       { "item": "usp9mag", "ammo-item": "9mmfmj", "charges": 15 },
       { "item": "usp9mag", "ammo-item": "9mmfmj", "charges": 15 }
     ]
@@ -57,7 +51,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_lw21",
-    "entries": [ 
+    "entries": [
       { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 },
       { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 }
     ]
@@ -765,7 +759,12 @@
           { "item": "chestrig", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "sholster" },
-          { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "shoulder_strap", "rail_laser_sight" ] }
+          {
+            "item": "hk_mp5",
+            "ammo-item": "9mm",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "rail_laser_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -830,12 +829,7 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "m14mag", "ammo-item": "762_51", "charges": 20, "container-item": "chestrig" },
-          {
-            "item": "M24",
-            "ammo-item": "762_51",
-            "charges": 20,
-            "container-item": "back_holster"
-          }
+          { "item": "M24", "ammo-item": "762_51", "charges": 20, "container-item": "back_holster" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1268,9 +1262,9 @@
       "both": {
         "ammo": 100,
         "items": [ "tac_fullhelmet", "pants_cargo", "under_armor", "socks", "boots", "badge_cybercop" ],
-        "entries": [ 
-          { "item": "l_mp_9mm", "ammo-item": "9mmP", "container-item": "holster" }, 
-          { "item": "chestrig", "container-group": "army_mags_lw21" } 
+        "entries": [
+          { "item": "l_mp_9mm", "ammo-item": "9mmP", "container-item": "holster" },
+          { "item": "chestrig", "container-group": "army_mags_lw21" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1344,7 +1338,11 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
-          { "item": "rm51_assault_rifle", "ammo-item": "8mm_fmj", "contents-item": [ "shoulder_strap", "acog_scope" ] },
+          {
+            "item": "rm51_assault_rifle",
+            "ammo-item": "8mm_fmj",
+            "contents-item": [ "shoulder_strap", "acog_scope" ]
+          },
           { "item": "modularvestceramic", "contents-group": "army_mags_rm51" }
         ]
       },
