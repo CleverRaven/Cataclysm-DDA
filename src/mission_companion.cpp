@@ -1425,7 +1425,7 @@ bool talk_function::companion_om_combat_check( const std::vector<std::shared_ptr
         }
     }
     float avg_survival = 0;
-    for( auto guy : group ) {
+    for( auto &guy : group ) {
         avg_survival += guy->get_skill_level( skill_survival );
     }
     avg_survival = avg_survival / group.size();
