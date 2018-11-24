@@ -13,7 +13,9 @@
           [ "boots_winter", "boots_fur" ],
           [ "cloak_wool", "cloak_leather" ],
           [ "gloves_wool", "gloves_leather" ],
-          [ "kilt", "kilt_leather" ]
+          [ "kilt", "kilt_leather" ],
+          [ "scarf_long", "long_knit_scarf" ],
+          [ "scarf", "knit_scarf" ]
         ]
       },
       {
