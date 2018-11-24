@@ -9,6 +9,7 @@
 #include "itype.h"
 #include "output.h"
 #include "skill.h"
+#include "uistate.h"
 
 #include <algorithm>
 
@@ -85,6 +86,20 @@ bool search_reqs( std::vector<std::vector<item_comp> >  gp,
             return lcmatch( item::nname( ic.type ), txt );
         } );
     } );
+}
+
+std::vector<const recipe *> recipe_subset::favorite() const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r ) {
+            return false;
+        }
+        return uistate.favorite_recipes.find( r->ident() ) != uistate.favorite_recipes.end();
+    } );
+
+    return res;
 }
 
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,

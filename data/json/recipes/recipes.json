@@ -1,6 +1,14 @@
 [
   {
     "type": "recipe_category",
+    "id": "CC_*",
+    "//": "This is just a dummy category. No recipes should be added in here.",
+    "recipe_subcategories": [
+      "CSC_*_FAVORITE"
+    ]
+  },
+  {
+    "type": "recipe_category",
     "id": "CC_WEAPON",
     "recipe_subcategories": [
       "CSC_ALL",
