@@ -314,30 +314,30 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
             u.add_msg_if_player( m_info,
                                  _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         } else if( big_corpse && !has_rope && !b_rack_present ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( big_corpse && !has_table_nearby ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( !u.has_quality( quality_id( "CUT" ) ) ) {
             u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
                              u.has_quality( quality_id( "SAW_M" ) ) ) ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a saw to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -346,14 +346,14 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info,
                              _( "It would be futile to search for implants inside this badly damaged corpse." ) );
-        act.set_to_null();
+        act.index = -1;
         return;
     }
 
     if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) ||
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
-        act.set_to_null();
+        act.index = -1;
         return;
     }
 
@@ -361,18 +361,18 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         if( corpse.size == MS_TINY ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( corpse_item.has_flag( "QUARTERED" ) ) {
             u.add_msg_if_player( m_bad, _( "This is already quartered." ), corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
                                  corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -399,7 +399,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             }
         } else {
             u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
