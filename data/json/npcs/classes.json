@@ -4,6 +4,7 @@
         "id" : "NC_NONE",
         "name" : "No class",
         "job_description" : "I'm just wandering.",
+		"traits": [ { "group": "BG_survival_story_UNIVERSAL" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -47,6 +48,7 @@
         "bonus_int" : { "one_in" : 4 },
         "bonus_per" : { "one_in" : 4 },
         "shopkeeper_item_group" : "NC_EVAC_SHOPKEEP_misc",
+		"traits": [ { "group": "BG_survival_story_EVACUEE" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -72,6 +74,7 @@
         "id" : "NC_SHOPKEEP",
         "name" : "Shopkeep",
         "job_description" : "I'm a local shopkeeper.",
+		"traits": [ { "group": "BG_survival_story_EVACUEE" } ],
         "common" : false
     },{
         "type" : "npc_class",
@@ -82,6 +85,7 @@
         "bonus_dex" : { "rng" : [ -2, 0 ] },
         "bonus_int" : { "rng" : [ 1, 5 ] },
         "bonus_per" : { "rng" : [ -2, 0 ] },
+		"traits": [ { "group": "BG_survival_story_TEENAGER" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -107,6 +111,7 @@
         "bonus_str" : { "rng" : [ -2, 0 ] },
         "bonus_int" : { "rng" : [ 0, 2 ] },
         "bonus_per" : { "one_in" : 4 },
+		"traits": [ { "group": "BG_survival_story_MEDICAL" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -129,7 +134,8 @@
         "name" : "Trader",
         "job_description" : "I'm collecting gear and selling it.",
         "bonus_int" : { "one_in" : 4 },
-        "bonus_per" : { "one_in" : 4 }
+        "bonus_per" : { "one_in" : 4 },
+		"traits": [ { "group": "BG_survival_story_EVACUEE" } ]
     },{
         "type" : "npc_class",
         "id" : "NC_NINJA",
@@ -138,6 +144,7 @@
         "bonus_str" : { "rng" : [ -1, 0 ] },
         "bonus_dex" : { "rng" : [ 0, 2 ] },
         "bonus_per" : { "rng" : [ 0, 2 ] },
+		"traits": [ { "group": "BG_survival_story_EVACUEE" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -165,6 +172,7 @@
         "bonus_str" : { "rng" : [ 0, 1 ] },
         "bonus_int" : { "rng" : [ -2, 0 ] },
         "bonus_per" : { "rng" : [ 0, 2 ] },
+		"traits": [ { "group": "BG_survival_story_RURAL" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -191,6 +199,7 @@
         "bonus_str" : { "rng" : [ -1, -3 ] },
         "bonus_dex" : { "rng" : [ -1, 0 ] },
         "bonus_int" : { "rng" : [ 2, 5 ] },
+		"traits": [ { "group": "BG_survival_story_LAB" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -214,6 +223,7 @@
         "id" : "NC_BOUNTY_HUNTER",
         "name" : "Bounty Hunter",
         "job_description" : "I'm a killer for hire.",
+		"traits": [ { "group": "BG_survival_story_POLICE" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -234,6 +244,7 @@
         "job_description" : "I'm just here for the paycheck.",
         "bonus_str" : { "rng" : [ 2, 4 ] },
         "bonus_dex" : { "rng" : [ 0, 2 ] },
+		"traits": [ { "group": "BG_survival_story_CRIMINAL" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -255,6 +266,7 @@
         "id" : "NC_SCAVENGER",
         "name" : "Scavenger",
         "job_description" : "I'm just trying to survive.",
+		"traits": [ { "group": "BG_survival_story_EVACUEE" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -278,6 +290,7 @@
         "bonus_int" : { "rng" : [ -2, 0 ] },
         "bonus_per" : { "rng" : [ 0, 2 ] },
         "shopkeeper_item_group" : "NC_ARSONIST_misc",
+		"traits": [ { "group": "BG_survival_story_CRIMINAL" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -301,6 +314,7 @@
         "bonus_dex" : { "rng" : [ -3, -1 ] },
         "bonus_per" : { "rng" : [ 2, 4 ] },
         "shopkeeper_item_group" : "NC_HUNTER_misc",
+		"traits": [ { "group": "BG_survival_story_RURAL" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -323,6 +337,7 @@
         "bonus_str" : { "rng" : [ 0, 2 ] },
         "bonus_dex" : { "one_in" : 2 },
         "bonus_int" : { "rng" : [ 0, -2 ] },
+		"traits": [ { "group": "BG_survival_story_SOLDIER" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -346,6 +361,7 @@
         "common" : false,
         "bonus_per" : { "one_in" : 4 },
         "shopkeeper_item_group" : "NC_BARTENDER_misc",
+		"traits": [ { "group": "BG_survival_story_EVACUEE" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {
@@ -372,6 +388,7 @@
         "common" : false,
         "bonus_per" : { "one_in" : 4 },
         "shopkeeper_item_group" : "NC_JUNK_SHOPKEEP_misc",
+		"traits": [ { "group": "BG_survival_story_EVACUEE" } ],
         "skills" : [
             {
                 "skill" : "ALL", "level" : {

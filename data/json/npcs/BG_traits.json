@@ -1,0 +1,113 @@
+[{
+        "type" : "mutation",
+        "id" : "BGSS_Confused_1",
+        "name" : "Survival Story:  Confused_1",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_No_Past_1",
+        "name" : "Survival Story:  No_Past_1",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_No_Past_2",
+        "name" : "Survival Story:  No_Past_2",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Religious_1",
+        "name" : "Survival Story:  Religious_1",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Religious_2",
+        "name" : "Survival Story:  Religious_2",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Evacuee_1",
+        "name" : "Survival Story:  Evacuee_1",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Evacuee_2",
+        "name" : "Survival Story:  Evacuee_2",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Evacuee_3",
+        "name" : "Survival Story:  Evacuee_3",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Evacuee_4",
+        "name" : "Survival Story:  Evacuee_4",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Evacuee_5",
+        "name" : "Survival Story:  Evacuee_5",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Evacuee_6",
+        "name" : "Survival Story:  Evacuee_6",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_FEMA_Evacuee_1",
+        "name" : "Survival Story:  FEMA_Evacuee_1",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Left_for_Dead_1",
+        "name" : "Survival Story:  Left_for_Dead_1",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+},{
+        "type" : "mutation",
+        "id" : "BGSS_Left_for_Dead_2",
+        "name" : "Survival Story:  Left_for_Dead_2",
+        "points" : 0,
+        "description" : "",
+        "valid": false,
+        "purifiable": false
+}]
