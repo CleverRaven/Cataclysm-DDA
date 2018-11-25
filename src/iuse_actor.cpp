@@ -425,7 +425,7 @@ long unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &
     }
 
     vehicle *veh = g->m.add_vehicle( vehicle_id, p.posx(), p.posy(), 0, 0, 0, false );
-    if( veh == NULL ) {
+    if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname().c_str() );
         return 0;
     }

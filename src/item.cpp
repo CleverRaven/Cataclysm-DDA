@@ -952,7 +952,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       charges * batch ) );
         }
         if( debug && parts->test( iteminfo_parts::BASE_DEBUG ) ) {
-            if( g != NULL ) {
+            if( g != nullptr ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "", iteminfo::lower_is_better,
                                           to_hours<int>( age() ) ) );
 
@@ -1054,9 +1054,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "FOOD", _( "Portions: " ),
                                       abs( int( food_item->charges ) * batch ) ) );
         }
-        if( food_item->corpse != NULL && ( debug || ( g != NULL &&
-                                           ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
-                                             g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) )
+        if( food_item->corpse != nullptr && ( debug || ( g != nullptr &&
+                                              ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
+                                                g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) )
             && parts->test( iteminfo_parts::FOOD_SMELL ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }

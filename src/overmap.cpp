@@ -1124,7 +1124,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     // Determine points where rivers & roads should connect w/ adjacent maps
     const oter_id river_center( "river_center" ); // optimized comparison.
 
-    if( north != NULL ) {
+    if( north != nullptr ) {
         for( int i = 2; i < OMAPX - 2; i++ ) {
             if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) ) {
                 ter( i, 0, 0 ) = river_center;
@@ -1145,7 +1145,7 @@ void overmap::generate( const overmap *north, const overmap *east,
         }
     }
     size_t rivers_from_north = river_start.size();
-    if( west != NULL ) {
+    if( west != nullptr ) {
         for( int i = 2; i < OMAPY - 2; i++ ) {
             if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) ) {
                 ter( 0, i, 0 ) = river_center;
@@ -1165,7 +1165,7 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
     }
-    if( south != NULL ) {
+    if( south != nullptr ) {
         for( int i = 2; i < OMAPX - 2; i++ ) {
             if( is_river( south->get_ter( i, 0, 0 ) ) ) {
                 ter( i, OMAPY - 1, 0 ) = river_center;
@@ -1186,7 +1186,7 @@ void overmap::generate( const overmap *north, const overmap *east,
         }
     }
     size_t rivers_to_south = river_end.size();
-    if( east != NULL ) {
+    if( east != nullptr ) {
         for( int i = 2; i < OMAPY - 2; i++ ) {
             if( is_river( east->get_ter( 0, i, 0 ) ) ) {
                 ter( OMAPX - 1, i, 0 ) = river_center;
@@ -1210,25 +1210,25 @@ void overmap::generate( const overmap *north, const overmap *east,
     // Even up the start and end points of rivers. (difference of 1 is acceptable)
     // Also ensure there's at least one of each.
     std::vector<point> new_rivers;
-    if( north == NULL || west == NULL ) {
+    if( north == nullptr || west == nullptr ) {
         while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
             new_rivers.clear();
-            if( north == NULL ) {
+            if( north == nullptr ) {
                 new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
             }
-            if( west == NULL ) {
+            if( west == nullptr ) {
                 new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
             }
             river_start.push_back( random_entry( new_rivers ) );
         }
     }
-    if( south == NULL || east == NULL ) {
+    if( south == nullptr || east == nullptr ) {
         while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
             new_rivers.clear();
-            if( south == NULL ) {
+            if( south == nullptr ) {
                 new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
             }
-            if( east == NULL ) {
+            if( east == nullptr ) {
                 new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
             }
             river_end.push_back( random_entry( new_rivers ) );
@@ -1281,28 +1281,28 @@ void overmap::generate( const overmap *north, const overmap *east,
         // Populate viable_roads with one point for each neighborless side.
         // Make sure these points don't conflict with rivers.
         // @todo: In theory this is a potential infinite loop...
-        if( north == NULL ) {
+        if( north == nullptr ) {
             do {
                 tmp = rng( 10, OMAPX - 11 );
             } while( is_river( ter( tmp, 0, 0 ) ) || is_river( ter( tmp - 1, 0, 0 ) ) ||
                      is_river( ter( tmp + 1, 0, 0 ) ) );
             viable_roads.push_back( city( tmp, 0, 0 ) );
         }
-        if( east == NULL ) {
+        if( east == nullptr ) {
             do {
                 tmp = rng( 10, OMAPY - 11 );
             } while( is_river( ter( OMAPX - 1, tmp, 0 ) ) || is_river( ter( OMAPX - 1, tmp - 1, 0 ) ) ||
                      is_river( ter( OMAPX - 1, tmp + 1, 0 ) ) );
             viable_roads.push_back( city( OMAPX - 1, tmp, 0 ) );
         }
-        if( south == NULL ) {
+        if( south == nullptr ) {
             do {
                 tmp = rng( 10, OMAPX - 11 );
             } while( is_river( ter( tmp, OMAPY - 1, 0 ) ) || is_river( ter( tmp - 1, OMAPY - 1, 0 ) ) ||
                      is_river( ter( tmp + 1, OMAPY - 1, 0 ) ) );
             viable_roads.push_back( city( tmp, OMAPY - 1, 0 ) );
         }
-        if( west == NULL ) {
+        if( west == nullptr ) {
             do {
                 tmp = rng( 10, OMAPY - 11 );
             } while( is_river( ter( 0, tmp, 0 ) ) || is_river( ter( 0, tmp - 1, 0 ) ) ||
@@ -1776,7 +1776,7 @@ void overmap::move_hordes()
             }
 
             // Scan for compatible hordes in this area, selecting the largest.
-            mongroup *add_to_group = NULL;
+            mongroup *add_to_group = nullptr;
             auto group_bucket = zg.equal_range( p );
             std::vector<monster>::size_type add_to_horde_size = 0;
             std::for_each( group_bucket.first, group_bucket.second,
@@ -1794,7 +1794,7 @@ void overmap::move_hordes()
             // Check again if the zombie will join the largest horde, now that we know the accurate size.
             if( this_monster.will_join_horde( add_to_horde_size ) ) {
                 // If there is no horde to add the monster to, create one.
-                if( add_to_group == NULL ) {
+                if( add_to_group == nullptr ) {
                     mongroup m( GROUP_ZOMBIE, p.x, p.y, p.z, 1, 0 );
                     m.horde = true;
                     m.monsters.push_back( this_monster );

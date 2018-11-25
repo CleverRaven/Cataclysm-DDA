@@ -361,7 +361,7 @@ dependency_node *dependency_tree::get_node( mod_id key )
     if( iter != master_node_map.end() ) {
         return &iter->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 // makes sure to set up Cycle errors properly!

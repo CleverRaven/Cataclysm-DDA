@@ -40,9 +40,9 @@
 #endif
 
 #ifdef __ANDROID__
-#include "SDL_system.h"
-#include "SDL_filesystem.h"
-#include "SDL_keyboard.h"
+#include <SDL_system.h>
+#include <SDL_filesystem.h>
+#include <SDL_keyboard.h>
 #include <android/log.h>
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/

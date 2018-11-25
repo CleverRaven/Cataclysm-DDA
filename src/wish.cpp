@@ -463,7 +463,7 @@ class wish_item_callback: public uilist_callback
 
 void debug_menu::wishitem( player *p, int x, int y, int z )
 {
-    if( p == NULL && x <= 0 ) {
+    if( p == nullptr && x <= 0 ) {
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
@@ -500,7 +500,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             }
             prev_amount = amount;
             bool canceled = false;
-            if( p != NULL ) {
+            if( p != nullptr ) {
                 string_input_popup popup;
                 popup
                 .title( _( "How many?" ) )
@@ -510,7 +510,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 canceled = popup.canceled();
             }
             if( !canceled ) {
-                if( p != NULL ) {
+                if( p != nullptr ) {
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
                             granted.charges = amount;

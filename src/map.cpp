@@ -5656,7 +5656,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         const field_id &fid = curr_field.fieldSymbol();
         const field_entry *fe = curr_field.findField( fid );
         const field_t &f = fieldlist[fid];
-        if( f.sym == '&' || fe == NULL ) {
+        if( f.sym == '&' || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
         } else if( f.sym == '*' ) {
             // A random symbol.

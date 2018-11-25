@@ -29,7 +29,7 @@
 #include "cursesport.h"
 #endif
 #ifdef __ANDROID__
-#include "SDL_keyboard.h"
+#include <SDL_keyboard.h>
 #endif
 
 // Display data
@@ -2115,7 +2115,7 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
     }
     // round up
     value = round_up( value, scale );
-    if( out_value != NULL ) {
+    if( out_value != nullptr ) {
         *out_value = value;
     }
     // format

@@ -2066,7 +2066,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
-    if( world_generator->active_world == NULL ) {
+    if( world_generator->active_world == nullptr ) {
         ingame = false;
     }
 

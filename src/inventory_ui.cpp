@@ -21,7 +21,7 @@
 #include "vpart_reference.h"
 
 #ifdef __ANDROID__
-#include "SDL_keyboard.h"
+#include <SDL_keyboard.h>
 #endif
 
 #include <set>
@@ -1717,7 +1717,7 @@ void inventory_multiselector::rearrange_columns( size_t client_width )
 void inventory_multiselector::on_entry_add( const inventory_entry &entry )
 {
     if( entry.is_item() ) {
-        static_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
+        dynamic_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
     }
 }
 

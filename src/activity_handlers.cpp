@@ -1704,7 +1704,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     act->set_to_null();
     auto items = g->m.i_at( p->pos() );
     std::string corpse_name = act->str_values[0];
-    item *body = NULL;
+    item *body = nullptr;
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( it->display_name() == corpse_name ) {
@@ -1712,7 +1712,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
         }
     }
 
-    if( body == NULL ) {
+    if( body == nullptr ) {
         add_msg( m_info, _( "There's no corpse to make into a zombie slave!" ) );
         return;
     }

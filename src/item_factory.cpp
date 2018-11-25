@@ -2563,7 +2563,7 @@ bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag i
     }
 
     Item_group *ig = dynamic_cast<Item_group *>( &group_to_access );
-    if( chance != 0 && ig != NULL ) {
+    if( chance != 0 && ig != nullptr ) {
         // Only re-add if chance != 0
         ig->add_item_entry( item_id, chance );
     }

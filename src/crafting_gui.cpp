@@ -195,7 +195,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     bool show_hidden = false;
     int batch_line = 0;
     int display_mode = 0;
-    const recipe *chosen = NULL;
+    const recipe *chosen = nullptr;
     std::vector<iteminfo> thisItem;
     std::vector<iteminfo> dummy;
 

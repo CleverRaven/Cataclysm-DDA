@@ -2353,7 +2353,7 @@ int vehicle::part_at( const point dp ) const
  */
 int vehicle::index_of_part( const vehicle_part *const part, bool const check_removed ) const
 {
-    if( part != NULL ) {
+    if( part != nullptr ) {
         for( const vpart_reference &vp : get_all_parts() ) {
             const vehicle_part &next_part = vp.part();
             if( !check_removed && next_part.removed ) {
