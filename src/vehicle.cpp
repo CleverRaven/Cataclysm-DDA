@@ -4519,6 +4519,7 @@ bool vehicle::restore( const std::string &data )
     turn( 0 );
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     precalc_mounts( 1, pivot_rotation[1], pivot_anchor[1] );
+    last_update = calendar::turn;
     return true;
 }
 
