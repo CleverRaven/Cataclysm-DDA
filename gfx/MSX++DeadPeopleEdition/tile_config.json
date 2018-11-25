@@ -2237,18 +2237,10 @@
           "fg": 294,
           "rotates": false
         },
-        {
+		        {
           "id": "boots_steel",
           "fg": 295,
           "rotates": false
-        },
-        {
-          "id": "boots_larmor",
-          "fg": 295
-        },
-        {
-          "id": "boots_plate",
-          "fg": 295
         },
         {
           "id": "boots_survivor",
@@ -2306,11 +2298,6 @@
         {
           "id": "boy_shorts",
           "fg": 303,
-          "rotates": false
-        },
-        {
-          "id": "bra",
-          "fg": 304,
           "rotates": false
         },
         {
@@ -2660,11 +2647,6 @@
           "fg": 351
         },
         {
-          "id": "overlay_worn_entry_suit",
-          "fg": 351,
-          "rotates": false
-        },
-        {
           "id": "fancy_sunglasses",
           "fg": 352,
           "bg": 957,
@@ -2906,14 +2888,6 @@
           "rotates": false
         },
         {
-          "id": "glove_jackson",
-          "fg": 381
-        },
-        {
-          "id": "long_glove_white",
-          "fg": 381
-        },
-        {
           "id": "gloves_medical",
           "fg": 382,
           "rotates": false
@@ -2931,14 +2905,6 @@
           "id": "gloves_rubber",
           "fg": 384,
           "rotates": false
-        },
-        {
-          "id": "gloves_fsurvivor",
-          "fg": 384
-        },
-        {
-          "id": "nomex_gloves",
-          "fg": 384
         },
         {
           "id": "gloves_tactical",
@@ -3960,15 +3926,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_anbc_suit",
-          "fg": 517,
-          "rotates": false
-        },
-        {
-          "id": "anbc_suit",
-          "fg": 517
-        },
-        {
           "id": "overlay_worn_hazmat_suit",
           "fg": 517,
           "rotates": false
@@ -4245,11 +4202,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_boots_plate",
-          "fg": 553,
-          "rotates": false
-        },
-        {
           "id": "overlay_worn_boots_survivor",
           "fg": 553,
           "rotates": false
@@ -4261,11 +4213,6 @@
         },
         {
           "id": "overlay_worn_boots_fur",
-          "fg": 553,
-          "rotates": false
-        },
-        {
-          "id": "overlay_worn_boots_larmor",
           "fg": 553,
           "rotates": false
         },
@@ -4347,11 +4294,6 @@
         {
           "id": "overlay_worn_boy_shorts",
           "fg": 561,
-          "rotates": false
-        },
-        {
-          "id": "overlay_worn_bra",
-          "fg": 562,
           "rotates": false
         },
         {
@@ -4743,11 +4685,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_gloves_fsurvivor",
-          "fg": 611,
-          "rotates": false
-        },
-        {
           "id": "overlay_worn_gloves_rubber",
           "fg": 611,
           "rotates": false
@@ -4759,11 +4696,6 @@
         },
         {
           "id": "overlay_worn_mittens",
-          "fg": 611,
-          "rotates": false
-        },
-        {
-          "id": "overlay_worn_nomex_gloves",
           "fg": 611,
           "rotates": false
         },
@@ -4853,11 +4785,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_gloves_medical",
-          "fg": 614,
-          "rotates": false
-        },
-        {
           "id": "overlay_worn_gloves_plate",
           "fg": 614,
           "rotates": false
@@ -4878,7 +4805,7 @@
           "rotates": false
         },
         {
-          "id": ["overlay_worn_glove_jackson", "overlay_worn_gloves_golf"],
+          "id": "overlay_worn_gloves_golf",
           "fg": 614,
           "rotates": false
         },
@@ -5724,14 +5651,9 @@
           "fg": 727,
           "rotates": false
         },
-        {
-          "id": "overlay_worn_cloak_wool",
-          "fg": 727,
-          "rotates": false
-        },
-        {
-          "id": "overlay_worn_panties",
-          "fg": 728,
+		        {
+          "id": "overlay_worn_optical_cloak_on",
+          "fg": 7276,
           "rotates": false
         },
         {
@@ -6624,11 +6546,6 @@
         {
           "id": "wsurvivor_suit",
           "fg": 835
-        },
-        {
-          "id": "panties",
-          "fg": 836,
-          "rotates": false
         },
         {
           "id": "bikini_bottom",
@@ -16707,7 +16624,7 @@
         {
           "id": "explosion",
           "bg": 972,
-          "rotates": true,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
@@ -16745,75 +16662,75 @@
         {
           "id": "explosion_medium",
           "bg": 972,
-          "rotates": true,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
               "id": "unconnected",
-              "fg": 23113,
+              "fg": 23156,
               "bg": 972
             },
             {
               "id": "center",
-              "fg": 23113,
+              "fg": 23156,
               "bg": 972
             },
             {
               "id": "corner",
-              "fg": 23113,
+              "fg": 23156,
               "bg": 972
             },
             {
               "id": "edge",
-              "fg": 23113,
+              "fg": 23156,
               "bg": 972
             },
             {
               "id": "t_connection",
-              "fg": 23113,
+              "fg": 23156,
               "bg": 972
             },
             {
               "id": "end_piece",
-              "fg": 23113,
+              "fg": 23156,
               "bg": 972
             }
           ]
         },
         {
           "id": "explosion_weak",
-          "bg": 23113,
-          "rotates": false,
+          "bg": 23157,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
               "id": "unconnected",
-              "fg": 23113,
+              "fg": 23157,
               "bg": 972
             },
             {
               "id": "center",
-              "fg": 23113,
+              "fg": 23157,
               "bg": 972
             },
             {
               "id": "corner",
-              "fg": 23113,
+              "fg": 23157,
               "bg": 972
             },
             {
               "id": "edge",
-              "fg": 23113,
+              "fg": 23157,
               "bg": 972
             },
             {
               "id": "t_connection",
-              "fg": 23113,
+              "fg": 23157,
               "bg": 972
             },
             {
               "id": "end_piece",
-              "fg": 23113,
+              "fg": 23157,
               "bg": 972
             }
           ]
@@ -27988,6 +27905,10 @@
         },
 						{
           "id": "spell_daylight_on",
+          "bg": 4306
+        },
+								{
+          "id": ["spell_dampening", "spell_dampening_on", "spell_frostarmor", "spell_frostarmor_on", "spell_shadowsnakes", "spell_shadowsnakes_on", "spell_summonfiend", "spell_summonfiend_on", "spell_summonjabberwock", "spell_summonjabberwock_on", "spell_summonwyrm", "spell_summonwyrm_on", "spell_summonyugg", "spell_summonyugg_on"],
           "bg": 4306
         },
 		{
@@ -56165,10 +56086,260 @@
         },
 		{
           "id": "apple_sugar",
-          "fg": 23113,
+          "fg": 23114,
 		   "bg": 0,
           "rotates": false
         },
+				{
+          "id": "veggy_salted",
+          "fg": 23115,
+		   "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "hflesh_salted",
+          "fg": 23116,
+		   "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "meat_salted",
+          "fg": 23117,
+		   "bg": 0,
+          "rotates": false
+        },
+						{
+          "id": "plastic_bag_vac",
+          "fg": 23118,
+		   "bg": 0,
+          "rotates": false
+        },
+		        {
+          "id": "overlay_worn_cloak_wool",
+          "fg": 23119,
+          "rotates": false
+        },       
+		{
+          "id": "boots_larmor",
+          "fg": 23120
+        },
+		        {
+          "id": "overlay_worn_boots_larmor",
+          "fg": 23121,
+          "rotates": false
+        },
+		        {
+          "id": "boots_plate",
+          "fg": 23122
+        },
+		        {
+          "id": "overlay_worn_boots_plate",
+          "fg": 23123,
+          "rotates": false
+        },
+		        {
+          "id": "panties",
+          "fg": 23124,
+          "rotates": false
+        },
+		        {
+          "id": "overlay_female_worn_panties",
+          "fg": 23125,
+          "rotates": false
+        },
+				        {
+          "id": "overlay_male_worn_panties",
+          "fg": 23126,
+          "rotates": false
+        },
+		        {
+          "id": "bra",
+          "fg": 23127,
+          "rotates": false
+        },
+		        {
+          "id": "overlay_female_worn_bra",
+          "fg": 23128,
+          "rotates": false
+        },
+		 {
+          "id": "overlay_male_worn_bra",
+          "fg": 23129,
+          "rotates": false
+        },
+		        {
+          "id": "nomex_gloves",
+          "fg": 23130
+        },
+		        {
+          "id": "overlay_worn_nomex_gloves",
+          "fg": 23131,
+          "rotates": false
+        },
+		        {
+          "id": "gloves_fsurvivor",
+          "fg": 23132
+        },
+		        {
+          "id": "overlay_worn_gloves_fsurvivor",
+          "fg": 23133,
+          "rotates": false
+        },
+		        {
+          "id": "overlay_worn_gloves_medical",
+          "fg": 23134,
+          "rotates": false
+        },
+		{
+          "id": "long_glove_white",
+          "fg": 23135
+        },
+		        {
+          "id": "glove_jackson",
+          "fg": 23136
+        },
+		 {
+          "id": "overlay_worn_glove_jackson",
+          "fg": 23137,
+          "rotates": false
+        },
+				        {
+          "id": "anbc_suit",
+          "fg": 23138
+        },
+        {
+          "id": "overlay_worn_anbc_suit",
+          "fg": 23139,
+          "rotates": false
+        },
+		{
+          "id": "overlay_worn_entry_suit",
+          "fg": 23140,
+          "rotates": false
+        },
+		        {
+          "id": "ai_core_blank",
+          "fg": 23141
+        },
+		        {
+          "id": "ai_core",
+          "fg": 23142
+        },
+				        {
+          "id": "nanite_core_1",
+          "fg": 23143
+        },
+		        {
+          "id": "nanite_core_2",
+          "fg": 23144
+        },
+				        {
+          "id": "nanite_core_3",
+          "fg": 23145
+        },
+		        {
+          "id": "nanite_core_4",
+          "fg": 23146
+        },
+		  {
+          "id": "nanite_guide",
+          "fg": 23147
+        },
+				  {
+          "id": "nano_storage",
+          "fg": 23148
+        },
+				{
+          "id": "overlay_worn_nano_storage",
+          "fg": 23149,
+          "rotates": false
+        },
+		{
+          "id": "nanosuit",
+          "fg": 23150
+        },
+						{
+          "id": "overlay_worn_nanosuit",
+          "fg": 23151,
+          "rotates": false
+        },
+				{
+          "id": "nano_container",
+          "fg": 23152
+        },
+						{
+          "id": "overlay_worn_nano_container",
+          "fg": 23153,
+          "rotates": false
+        },
+						{
+          "id": "nano_shredder",
+          "fg": 23154
+        },
+						{
+          "id": "overlay_wielded_nano_shredder",
+          "fg": 23155,
+          "rotates": false
+        },
+		{
+          "id": "draconic_heart",
+          "fg": 23158
+        },
+				{
+          "id": "draconic_heart_mutator",
+          "fg": 23159
+        },
+						{
+          "id": "essence_pure",
+          "fg": 23160
+        },
+				{
+          "id": "meteoric_talisman_on",
+          "fg": 23161,
+          "rotates": false
+        },		
+		{
+          "id": "overlay_worn_meteoric_talisman_on",
+          "fg": 23162,
+          "rotates": false
+        },	
+		{
+          "id": "atomic_flamethrower",
+          "fg": 23163,
+          "rotates": false
+        },		
+		{
+          "id": "overlay_wielded_atomic_flamethrower",
+          "fg": 23164,
+          "rotates": false
+        },
+				{
+          "id": "atomic_earthquake_generator",
+          "fg": 23165,
+          "rotates": false
+        },		
+		{
+          "id": "overlay_wielded_atomic_earthquake_generator",
+          "fg": 23166,
+          "rotates": false
+        },
+						{
+          "id": "atomic_entity_scanner",
+          "fg": 23167,
+          "rotates": false
+        },	
+								{
+          "id": "t_hidden_door_c",
+          "fg": 23168,
+		            "bg": 987,
+          "rotates": false
+        },	
+										{
+          "id": "t_hidden_door_o",
+          "fg": 23169,
+		            "bg": 987,
+          "rotates": false
+        },	
 		{
           "id": "atlatl",
           "fg": 1986,
