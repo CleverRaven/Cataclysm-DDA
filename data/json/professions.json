@@ -15,7 +15,8 @@
           [ "gloves_wool", "gloves_leather" ],
           [ "kilt", "kilt_leather" ],
           [ "scarf_long", "long_knit_scarf" ],
-          [ "scarf", "knit_scarf" ]
+          [ "scarf", "knit_scarf" ],
+          [ "10gal_hat", "cowboy_hat" ]
         ]
       },
       {
