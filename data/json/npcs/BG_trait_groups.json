@@ -1,6 +1,6 @@
 [
   {
-    "//": "This group picks out background traits that could apply to any survivor. Eventually these should be implemented as the catch-all for NPCs of an unknown class eg those introduceed by mods.",
+    "//": "This group picks out background traits that could apply to any survivor. Eventually these should be implemented as the catch-all for NPCs of an unknown class, eg those introduced by mods.",
     "type": "trait_group",
     "id": "BG_survival_story_UNIVERSAL",
     "subtype": "distribution",
@@ -52,17 +52,24 @@
 		{ "trait": "BGSS_Out_of_Town_1" }, 
 		{ "trait": "BGSS_Out_of_Town_2" },
 		{ "trait": "BGSS_Lost_Partner_1" }
+		{ "trait": "BGSS_Hunter_1" }, 
+		{ "trait": "BGSS_Hunter_2" },
+		{ "trait": "BGSS_Rural_1" },
+		{ "trait": "BGSS_Rural_2" }
+
 	]
   },
   {
-    "//": "This group is for NPCs that might need to explain why they didn't working at the hospital.",
+    "//": "This group is for NPCs that might need to explain why they didn't die working at the hospital.",
     "type": "trait_group",
     "id": "BG_survival_story_MEDICAL",
     "subtype": "distribution",
     "traits": [ 
 		{ "group": "BG_survival_story_UNIVERSAL" },
 		{ "trait": "BGSS_Hospital_1" }, 
-		{ "trait": "BGSS_Hospital_2" }
+		{ "trait": "BGSS_Hospital_2" }, 
+		{ "trait": "BGSS_Hospital_3" }
+
 	]
   },
 {
@@ -118,7 +125,11 @@
 		{ "trait": "BGSS_Evacuee_4" },
 		{ "trait": "BGSS_Evacuee_5" },
 		{ "trait": "BGSS_Evacuee_6" },
-		{ "trait": "BGSS_FEMA_Evacuee_1" }
+		{ "trait": "BGSS_High_School_1" },
+		{ "trait": "BGSS_Burger_Flipper_1" },
+		{ "trait": "BGSS_Nerd_1" }
+
+
 	]
   },
 {
@@ -132,7 +143,7 @@
 		{ "trait": "BGSS_Scientist_2" },
 		{ "trait": "BGSS_Professor_1" },
 		{ "trait": "BGSS_Grad_Student_1" },
-		{ "trait": "BGSS_Soldier_2" }
+		{ "trait": "BGSS_Lab_1" }
 	]
   }
 ]

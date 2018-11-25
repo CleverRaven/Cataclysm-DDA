@@ -1,0 +1,409 @@
+[{
+    "id": "TALK_LEADER",
+    "type": "talk_topic",
+    "responses": [
+	{ "text": "<BGSS_intro_question>", 
+		"topic": "BGSS_HOSPITAL_1_STORY1", 
+		"condition": { "npc_has_trait": "BGSS_Hospital_1" } 
+	}
+    ]
+},
+ {
+    "id": "BGSS_HOSPITAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I saw it all pretty early, before it all really started. I worked at the hospital. It started with a jump in the number of code whites - that's an aggressive patient. Wasn't my training so I didn't hear about it until later... but rumours started flying about hyperaggressive delirious patients that coded and seemed to die, then started attacking staff, and wouldn't respond to anything we hit them with. Then a friend of mine was killed by one of them, and I realized it wasn't just a few weird reports. I called in sick the next day.",
+    "responses": [
+      { "text": "What happened on your sick day?", "topic": "BGSS_HOSPITAL_1_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HOSPITAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "The world ended. I lived a fair distance out of town, and I already knew something was seriously wrong, but I hadn't admitted to myself what I was really seeing quite yet. When I saw the military convoys pouring into the city, I put the pieces together. At first I thought it was just my hospital. Still, I packed up my bags, locked the doors and windows, and waited for the evacuation call.",
+    "responses": [
+      { "text": "Did you get evacuated?", "topic": "BGSS_HOSPITAL_1_STORY3" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+   {
+    "id": "BGSS_HOSPITAL_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "No. The call came too late. I'd already seen the clouds on the horizon. Mushroom clouds, and also those insane hell-clouds. I've heard that horrible things came out of them. I decided it was safer in my locked up house.",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_HOSPITAL_1_STORY4" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+    {
+    "id": "BGSS_HOSPITAL_1_STORY4",
+    "type": "talk_topic",
+    "dynamic_line": "The military. They showed up and commandeered my land for some kind of forward base, demanding I evacuate to a FEMA camp. I didn't even try to argue... I had my dad's old hunting rifle, they had high tech weapons. I heard one of them joking about the FEMA camp being Auschwitz, though. I gave their evac driver the slip and decided to make for my sister's place up North. In theory I guess I'm still going that way, although honestly I'm just busy not dying.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HOSPITAL_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was at work at the hospital, when it all went down. It's a bit of a blur. For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual. Then, towards the end, stuff just skyrocketed. We thought it was a Chinese attack, and that's what we were being told. People coming in crazed, covered in wounds from bullets and bites. About halfway through my shift I... well, I broke. I'd seen such horrible injuries, and then I... god, I can't even talk about it.",
+    "responses": [
+       { "text": "It might help to get it off your chest.", 
+        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "TRUST", 2 ] ] },
+        "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
+        "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
+      },
+       { "text": "Suck it up. If we're going to work together I need to know you.", 
+        "trial": { "type": "INTIMIDATE", "difficulty": 40, "mod": [ [ "BRAVERY", 2 ] ] },
+        "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
+        "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+     {
+    "id": "BGSS_HOSPITAL_2_NOTYET",
+    "type": "talk_topic",
+    "dynamic_line": "No. I can't. Just, no.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_DONE" }
+    ]
+ },
+     {
+    "id": "BGSS_HOSPITAL_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "A young mother. I know she was a mother, because I delivered her baby. Sweet girl, she... she had a good sense of humour. She came in, spitting that black goo, fighting the orderlies, dead from a bullet wound through the chest. That's when I ... I don't know if I woke up, finally, or if I finally went crazy. Either way, I broke. I broke a lot earlier than my colleagues, and that's the only reason I lived. I skipped out, went to a dead corner of the hospital I used to hide in when I was a resident. An old stairwell leading to a closed-off unit the maintenance staff were using to store old equipment. I hid there for hours, while I listened to the world crumbling outside and inside.",
+    "responses": [
+      { "text": "How did you get out of there?", "topic": "BGSS_HOSPITAL_2_STORY3" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+      {
+    "id": "BGSS_HOSPITAL_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Somehow, I don't know how, I managed to fall asleep in there. I think it might have started with me hyperventilating and passing out. When I woke up it was night, I was starving and parched, and... and the screaming had died down. At first I tried to go out the way I came in, but I peaked out the window and saw one of the nurses stumbling around, spitting that black shit up. Her name was Becky. She wasn't Becky anymore. So, I went back up and somehow made it into the storage area. From there, the roof. I drank water from some nasty old puddle and I camped out there for a while, watching the city around me burn	",
+    "responses": [
+      { "text": "How did you get out of there?", "topic": "BGSS_HOSPITAL_2_STORY3" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+
+      {
+    "id": "BGSS_HOSPITAL_2_STORY4",
+    "type": "talk_topic",
+    "dynamic_line": "Well, I still didn't have any food. Eventually I had to climb down the side of the building... so I did, as quietly as I could. It was night, and I have pretty good nightvision. Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road. I'd kind of scouted out my route from above... I'm not from a big city, the hospital was the tallest building around. I avoided the major military blockades, and headed out of town towards a friend's old cabin. I had to fight off a couple of the zombies, but I managed to avoid any big fuss, by some miracle. I never made it to the cabin, but that's not important now.",
+    "responses": [
+      { "text": "What did you see, up there on the roof?", "topic": "BGSS_HOSPITAL_2_ROOF1" },
+    "//": "In the future this NPC should give you the map coordinates to the cabin if you persuade.",
+      { "text": "Thanks for telling me all that.", "topic": "TALK_FRIEND" }
+    ]
+ },
+      {
+    "id": "BGSS_HOSPITAL_2_ROOF",
+    "type": "talk_topic",
+    "dynamic_line": "My hospital was the tallest building in town, so I saw quite a bit. The military set up blockades on the roads coming in and out of the town, and there was quite a lightshow going on out there when I started up. I think it was mostly automated turrets and robots, I didn't hear much shouting. I saw a few cars and trucks try to run the barricade and get blown to high hell. There were swarms of zombies in the streets, travelling in packs towards sounds and noises. I watched them rip a few running cars to shreds, including the people inside who were trying to get away. You know. The usual stuff. I was pretty numb by that point.",
+    "responses": [
+      { "text": "How did you get down?", "topic": "BGSS_HOSPITAL_2_STORY4" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HOSPITAL_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was called in to work at the hospital. I don't usually work there, I'm a community doctor. I don't really love emergency medicine at the best of times, and when your patient keeps trying to rip your face off, well, it takes the last bit of fun out of it. You might think I'm a coward, but I slipped out early on, and I've got no regrets. There was nothing I could have done except die like everyone else. I couldn't get out of the building, the military had blockaded us in... so I went to the most secure, quiet damned place in the building.",
+    "responses": [
+      { "text": "Where was that?", "topic": "BGSS_HOSPITAL_3_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HOSPITAL_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "The morgue. Seems like a dumb place to go at the start of a zombie apocalypse, right? Thing is, nobody had made it to the morgue in quite a while, the bodies were reanimating too quickly and the staff were just too busy. I was shaking and puking and I could see the world was ending... I bundled myself up, grabbed a few snacks from the pathologist's desk, and crawled into one of those drawers to contemplate the end of the world. After breaking the handle to make sure it couldn't lock behind me, of course. It was pretty safe and quiet in there. Not just my cubby, the whole morgue. At first it was because nobody was dumb enough to come down there except me. Later, it was because nobody was left.",
+    "responses": [
+      { "text": "Clearly you escaped at some point.", "topic": "BGSS_HOSPITAL_3_STORY3" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HOSPITAL_3_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "The door was good heavy steel with no window, and there was a staff room with a fully stocked fridge, so when it became clear that nothing was going to get any better on its own, I set up shop. I stayed down there for a couple days. I could hear explosions and screaming for the first while, then just guns and explosions, and then it got real quiet. Eventually, I ran out of snacks, so I worked up the nerve to climb out a window and check out the city by night. I used that place as a base for a little while, but the area around the hospital was too hot to keep it up, so I made my way out to greener pastures. And here I am.",
+    "responses": [
+      { "text": "Thanks for telling me that..", "topic": "TALK_FRIEND" }
+    ]
+ },
+
+  {
+    "id": "BGSS_COP_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was a cop. Small town sheriff. We got orders without even really knowing what they meant. At some point one of the g-men on the phone told me it was a Chinese attack, something in the water supply... I don't know if I believe it now, but at the time it was the best explanation. At first it was weird, a few people - zombies - fighting like rabid animals. Then it got worse. I tried to control things, but it was just me and my deputies against a town in riot. Then things really got fucked up.",
+    "responses": [
+      { "text": "What happened?", "topic": "BGSS_COP_1_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },  {
+    "id": "BGSS_COP_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "A big-ass hole opened up right in the middle of town, and a creature made of nightmares crawled out, right in front of the church. We unloaded into it, but bullets just bounced off. Got some civilians in the crossfire. It started just devouring people like potato chips into a gullet that looked like a rotting pussy, and... Well, I lost my nerve. I ran. I think I might have been the only person to escape. I haven't been able to even look at my badge since then.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+
+  {
+    "id": "BGSS_COP_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was SWAT. By all rights I should be dead. We were called to control /"riots/", which we all know were the first zombie hordes. Fat lot of good we were. Pretty sure we killed more civilians. Even among my crew, morale was piss poor and we were shooting pretty wild. Then something hit us, something big. Might have been a bomb, I really don't remember. I woke up pinned underneath the SWAT van. I couldn't see anything...  But I could hear it. God. I could hear everything. I spent hours, maybe days under that van, not even trying to get out.",
+    "responses": [
+      { "text": "But you did get out."topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_COP_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Eventually yes. It had been quiet for hours. I was parched, injured, and terrified. My training was maybe the only thing that kept me from freaking out. I decided to try to pull myself out and see how bad my injuries were. It was surprisingly easy. The side of the van was torn open, and it turned out I was basically just lying under a little debris, with the ruins of the van tented around me. I wasn't even too badly hurt. I grabbed as much gear as I could, and I slipped out. It was night. I could hear fighting farther away in the city, so I went the other way. I made it a few blocks before I ran into any zombies... I ran from them. I ran, and I ran, and I ran some more. And here I am.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HUNTER_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I live way out of town. I hear the small towns lasted a bit longer than the big cities. Doesn't matter to me, I was out on my end-of-winter hunting trip, I'd been out of town for a week already. First clue I had things were going wrong was when I saw a mushroom cloud out near an old abandoned military base, way out in the middle of nowhere. I didn't think much about that. Then I was attacked by a demon.",
+    "responses": [
+      { "text": "A demon?", "topic": "BGSS_HUNTER_1_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HUNTER_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, it was like a ... like a soft shelled crab, with tentacle mouths, and it kept talking in different voices. I saw it before it saw me, and I capped it with my Remington. That just pissed it off, but I got another couple shots off while it charged me. Third or fourth shot took it down. I figured out shit had hit the fan, somehow. Headed to my cabin and camped out there for a while, but I had to skip out when a bunch of zombies showed up and trashed the place. I ran into you not much later.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+
+  {
+    "id": "BGSS_HUNTER_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "My brother and I were out on a hunting trip. We saw helicopters overhead... big, military ones, loaded up with crazy high-end military stuff like you only see on TV. Laser cannons even. They were heading in the direction of our parent's ranch. Something about it really shook us up, and we started heading back that way... we weren't that far off when we saw this huge, floating eyeball appear out of fucking nowhere. Ha. Hard to believe we're in a time where I don't feel like I need to convince you I'm telling the truth.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_HUNTER_2_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HUNTER_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "We watched the eyeball just blast one of the Apache choppers with some kind of ray. The chopper fired back, but it went down. It was coming right for us... I veered, got out of the way, but a chunk of the chopper smacked into the bed and our truck did a crazy backflip right off the road. The impact knocked me out cold. My brother ... he wasn't so lucky.",
+    "responses": [
+      { "text": "Oh, no.", "topic": "BGSS_HUNTER_2_STORY3" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HUNTER_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah... the... the accident got him, but when I came to he was already coming back. Thank god for seatbelts, right? He was screeching and flapping around, hanging upside down. I thought he was just hurt at first, but he just kept coming at me while I tried to talk to him. His arm was badly hurt already and instead of unbuckling himself he started... he was ripping it right off pulling against the seatbelt. That, and the crazy shit with the chopper, was when I realized just how fucked up things had got. I grabbed my hunting knife and ran, but my brother got out and started crawling after me.",
+    "responses": [
+      { "text": "Did you keep running?", "topic": "BGSS_HUNTER_2_STORY4" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_HUNTER_2_STORY4",
+    "type": "talk_topic",
+    "dynamic_line": "I ran for a little bit, but then I saw soldier zombies crawling out of that chopper. They had the same look about them as my brother did, and it was them on one side and him on the other. I'm no genius but I've seen a few movies: I figured out what was happening. I didn't want to take on kevlar armor with my knife, so I turned back and faced the other zombie. I couldn't let my brother stay... like that. So I did what I had to, and I guess I'll live with that forever.",
+    "responses": [
+      { "text": "Thanks for telling me your story.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_RURAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I lived alone, on the old family property way out of town. My partner passed away a bit over a month before this started... cancer. If anything good has come out of all this, it's that I finally see a positive to losing them so young. I'd been shut in for a while anyway. When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_RURAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, it built up a bit. There was that acid rain, it burnt up one of my tractors. Not that I'd been working the fields since... well, it'd been a shitty year and I hadn't done much worth doing. There were explosions and things, and choppers overhead. I was scared, kept the curtains drawn, kept changing the channels. Then, one day, there were no channels to change to. Just the emergency broadcast, over and over.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY3" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_RURAL_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "That was the first thing to really shake me out of it. I didn't really have any very close friends, but there were people back in town I cared about a bit. I had sent some texts, but I hadn't really twigged that they hadn't replied for days. I got in my truck and tried to get back to town. Didn't get far before I hit a zombie infested pileup blocking the highway, and that's when I started to put it all together. Never did get to town. Unfortunately I led the zombies back to my farm, and had to bug out of there. Might go back and clear it out, someday.",
+    "responses": [
+    "//": "In the future this NPC should give you the map coordinates to the farm if you persuade.",
+      { "text": "Thanks for telling me that.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_RURAL_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Well, I lived on the edge of a small town. Corner store and a gas station and not much else. We heard about the shit goin' down in the city, but we didn't see much of it until the military came blazing through and tried to set up a camp there. They wanted to bottle us all up in town, and I wasn't having with that, so my dog Buck and I, we headed out while they were all sniffin' their own farts.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_2_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_RURAL_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Buck and I slipped out and went East, headin' for my friend's ranch. Cute little dope thought we were just goin' for a real long walk. I couldn't take the truck without the army boys catchin' wind of it. We made it out to the forest, camped out in a lean to. Packed up and kept heading out. At first we walked along the highway a little, but saw too many army trucks and buses full of evacuees, and that's when we found out about the zombies.",
+    "responses": [
+      { "text": "Where's Buck now?", "topic": "BGSS_RURAL_2_STORY3" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_RURAL_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "We got to my buddy's ranch, but the fuckin' g-men had been there first. It was all boarded up and there was a police barricade out front. One of those fucking turrets... fuckin' shot Buck. Almost got me too. I managed to get my pup... get him outta there, that... it wasn't easy, had to use a police car door as a shield, had to kill a cop-zombie first. And then, well, while I was still cryin', Buck came back. I had to ... fuck. I... I can't say it. You know.",
+    "responses": [
+      { "text": "I'm sorry. Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_SOLDIER_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Listen, I don't want to get too into it. I was in the reserves, OK? I didn't sign on for some glory loaded shit about protecting my nation, I wanted to get some exercise, make some friends, and it looks good on my resume. I never thought I'd get called to active duty to fight motherfucking zombies. Maybe I'm a deserter, or a chickenshit, but I can tell you one other thing I am that the other grunts aren't: alive. You can figure the rest out.",
+    "responses": [
+      { "text": "Fair enough. Thanks.", "topic": "TALK_FRIEND" }
+    ]
+ },
+ {
+    "id": "BGSS_SOLDIER_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was in the army. Just a new recruit. I wasn't even done basic training, they actually called me out of boot camp to serve once the shit hit the fan. I barely knew which end of the gun the bullets came out of, and they jammed me into a truck and drove me to Newport to 'assist in the evacuation efforts'. Our orders barely made sense, our officers were as confused as we were.",
+    "responses": [
+      { "text": "What happened in Newport?", "topic": "BGSS_SOLDIER_2_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ }, {
+    "id": "BGSS_SOLDIER_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "We never even made it to Newport. The truck got stomped by something gigantic. I didn't even see it, just saw this huge black-and-green spiny leg jam through the ceiling, through the el-tee. Heard the tires grinding, felt the truck lift up. We were kicked off the leg like dog shit off a sneaker. I don't know how I survived. The thing rolled over, killed most of us right there. I musta blacked out for a bit. Came to, and while I was getting myself out, the others started getting back up. Long story short, I lived, they didn't, and I ran.",
+    "responses": [
+      { "text": "Thanks for telling me all that.", "topic": "TALK_FRIEND" }
+    ]
+ },
+
+ {
+    "id": "BGSS_CRIMINAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was just sittin' in lockup. They took me in the night before, for a bullshit parole violation. Assholes. I was stuck in my cell when the cops all started yelling about an emergency, geared up, and left me in there with just a dumb-ass robot for a guard. I was stuck in there for two god-damn days, with no food and only a little water. Then this big-ass zombie busted in, and started fighting the robot. I didn't know what the fuck to think, but in the fighting they smashed open my cell door, and I managed to slip out.",
+    "responses": [
+      { "text": "Lucky you. How did you get away?", "topic": "BGSS_CRIMINAL_1_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+ {
+    "id": "BGSS_CRIMINAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "It was just fuckin' chaos on the streets, man. But I'm used to chaos. You don't live as long as I've lived and not know how to keep away from a fight you can't win. Biggest worry wasn't the zombies and the monsters, honestly. It was the fuckin' police robots. They knew I was in violation, and they kept trying to arrest me.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+ {
+    "id": "BGSS_CRIMINAL_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+ {
+    "id": "BGSS_PRISONER_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ }, {
+    "id": "BGSS_HIGH_SCHOOL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+ {
+    "id": "BGSS_BURGER_FLIPPER_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+ {
+    "id": "BGSS_NERD_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+
+ {
+    "id": "BGSS_SCIENTIST_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+ {
+    "id": "BGSS_SCIENTIST_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_PROFESSOR_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_GRAD_STUDENT_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+  {
+    "id": "BGSS_LAB_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
+    ]
+ },
+]

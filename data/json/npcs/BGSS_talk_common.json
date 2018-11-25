@@ -2,107 +2,99 @@
     "id": "TALK_LEADER",
     "type": "talk_topic",
     "responses": [
-	{ "text": "Tell me about how you survived (CONFUSED).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_CONFUSED_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Confused_1" } 
 	},
-	{ "text": "Tell me about how you survived (NOPAST).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_NO_PAST_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_No_Past_1" } 
 	},
-	{ "text": "Tell me about how you survived (NOPAST2).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_NO_PAST_2_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_No_Past_2" } 
 	},
-	{ "text": "Tell me about how you survived (Religious1).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_RELIGIOUS_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Religious_1" } 
 	},
-	{ "text": "Tell me about how you survived (Religious2).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_RELIGIOUS_2_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Religious_2" } 
 	},
-	{ "text": "Tell me about how you survived (evac1).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_EVACUEE_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Evacuee_1" } 
 	},
-	{ "text": "Tell me about how you survived (evac2).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_EVACUEE_2_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Evacuee_2" } 
 	},
-	{ "text": "Tell me about how you survived (evac3).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_EVACUEE_3_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Evacuee_3" } 
 	},
-	{ "text": "Tell me about how you survived (evac4).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_EVACUEE_4_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Evacuee_4" } 
 	},
-	{ "text": "Tell me about how you survived (evac5).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_EVACUEE_5_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Evacuee_5" } 
 	},
-	{ "text": "Tell me about how you survived (evac6).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_EVACUEE_6_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Evacuee_6" } 
 	},
-	{ "text": "Tell me about how you survived (evac7).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_FEMA_EVACUEE_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_FEMA_Evacuee_1" } 
 	},
-	{ "text": "Tell me about how you survived (lfd1).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_LEFT_FOR_DEAD_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Left_for_Dead_1" } 
 	},
-	{ "text": "Tell me about how you survived (lfd2).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_LEFT_FOR_DEAD_2_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Left_for_Dead_2" } 
 	},
-	{ "text": "Tell me about how you survived (gungho1).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_GUNG_HO_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Gung_Ho_1" } 
 	},
-	{ "text": "Tell me about how you survived (gungho2).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_GUNG_HO_2_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Gung_Ho_2" } 
 	},
-	{ "text": "Tell me about how you survived (gungho3).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_GUNG_HO_3_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Gung_Ho_3" } 
 	},
-	{ "text": "Tell me about how you survived (Prep1).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_PREPPER_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Prepper_1" } 
 	},
-	{ "text": "Tell me about how you survived (prepper2).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_PREPPER_2_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Prepper_2" } 
 	},
-	{ "text": "Tell me about how you survived (OutTown1).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_OUT_OF_TOWN_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Out_of_Town_1" } 
 	},
-	{ "text": "Tell me about how you survived (OutTown2).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_OUT_OF_TOWN_2_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Out_of_Town_2" } 
 	},
-	{ "text": "Tell me about how you survived (LostPart1).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_LOST_PARTNER_1_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Lost_Partner_1" } 
 	},
-	{ "text": "Tell me about how you survived (LostPart2).", 
+	{ "text": "<BGSS_intro_question>", 
 		"topic": "BGSS_LOST_PARTNER_2_STORY1", 
 		"condition": { "npc_has_trait": "BGSS_Lost_Partner_2" } 
 	}
-
-
-
-
-
-
-
-
-     ]
+    ]
 },
 {
     "id": "BGSS_CONFUSED_1_STORY1",
@@ -204,7 +196,7 @@
 {
     "id": "BGSS_EVACUEE_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Things went south when our fearless leader decided we had to put down one of the other survivors that had been bitten. Her husband felt a bit strongly against that, and I wasn't too keen on it either; by this point, he'd already been wrong about a lot. Well, he took matters into his own hands and killed her. Then her husband decided one good turn deserves anotherb, and killed the idiot. And then she got back up and I killed her again, and pulped our former leader. Unfortunately she'd given her husband a hell of a nip during the struggle, when he couldn't get his shit together enough to fight back. Not that I fucking blame him. We made it out of there together, but it was too much for him, he clearly wasn't in it anymore... The bite got infected, but it was another zombie that finally killed him. And then I was alone.",
+    "dynamic_line": "Things went south when our fearless leader decided we had to put down one of the other survivors that had been bitten. Her husband felt a bit strongly against that, and I wasn't too keen on it either; by this point, he'd already been wrong about a lot. Well, he took matters into his own hands and killed her. Then her husband decided one good turn deserves another, and killed the idiot. And then she got back up and I killed her again, and pulped our former leader. Unfortunately she'd given her husband a hell of a nip during the struggle, when he couldn't get his shit together enough to fight back. Not that I fucking blame him. We made it out of there together, but it was too much for him, he clearly wasn't in it anymore... The bite got infected, but it was another zombie that finally killed him. And then I was alone.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
     ]
@@ -266,7 +258,7 @@
     "type": "talk_topic",
     "dynamic_line": "Well, I was at home when the cell phone alert went off and told me to get to an evac shelter. So I went to an evac shelter. And then the shelter got too crowded, and people were waiting to get taken to the refugee center, but the buses never came. You must already know about all that. It turned into panic, and then fighting. I didn't stick around to see what happened next; I headed into the woods with what tools I could snatch from the lockers. I went back a few days later, but the place was totally abandoned. No idea what happened to all those people.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "BGSS_EVACUEE_6" }
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" }
     ]
  },
   {
@@ -331,7 +323,7 @@
   {
     "id": "BGSS_LEFT_FOR_DEAD_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was late to evacuate when the shit hit the fan. Got stuck in town for a few days, survived by hiding in basements eating girl guide cookies and drinking warm root beer. Eventually I managed to weasel my way out without getting caught by the zombies. I spent a few days holed up in an abandoned mall, but I needed food so I headed out to fend for myself in the woods. I wasn't doing a great job of it, so I'm kinda glad you showed up.",
+    "dynamic_line": "I was late to evacuate when the shit hit the fan. Got stuck in town for a few days, survived by hiding in basements eating girl scout cookies and drinking warm root beer. Eventually I managed to weasel my way out without getting caught by the zombies. I spent a few days holed up in an abandoned mall, but I needed food so I headed out to fend for myself in the woods. I wasn't doing a great job of it, so I'm kinda glad you showed up.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
     ]
@@ -357,7 +349,7 @@
   {
     "id": "BGSS_LEFT_FOR_DEAD_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "You probably remember what the cities were like. I think it was about day four. Once I stepped outside I realized what was going on, or realized I didn't know what was going on at least. I saw a bunch of rioters smashing a car, and then I noticed one of them was bashing a woman's head in. I cancelled my grocery trip, ran back to my apartment before they saw me, and holed up there for as long as I could. Things got comparatively quiet as the dead started to outnumber the living, so I started looting what I could from my neighbours, re-killing them when I had to. Eventually the dead overran my building and I had to climb out and head for the hills on an old bike."
+    "dynamic_line": "You probably remember what the cities were like. I think it was about day four. Once I stepped outside I realized what was going on, or realized I didn't know what was going on at least. I saw a bunch of rioters smashing a car, and then I noticed one of them was bashing a woman's head in. I cancelled my grocery trip, ran back to my apartment before they saw me, and holed up there for as long as I could. Things got comparatively quiet as the dead started to outnumber the living, so I started looting what I could from my neighbours, re-killing them when I had to. Eventually the dead overran my building and I had to climb out and head for the hills on an old bike.",
     "responses": [
       { "text": "Thanks for telling me all that.", "topic": "TALK_FRIEND" }
     ]
@@ -500,7 +492,6 @@
     "type": "talk_topic",
     "dynamic_line": "Honestly? I was planning to die. After what I'd seen, I went a little crazy. I thought it was over for sure, I figured there was no point in fighting it. I thought I wouldn't last a minute out here, but I couldn't bring myself to end it down there. I headed out, planning to let the monsters finish me off, but what can I say? Survival instinct is a funny thing, and I killed the ones outside the bunker. I guess the adrenaline was what I needed. It's kept me going since then.",
     "responses": [
-      { "text": "Why did you leave your bunker?", "topic": "BGSS_PREPPER_2_STORY3" },
       { "text": "Thanks for telling me that.", "topic": "TALK_FRIEND" }
     ]
  },
@@ -573,8 +564,8 @@
     "id": "BGSS_OUT_OF_TOWN_2_STORY5",
     "type": "talk_topic",
     "dynamic_line": "I wish. That would have been a mercy. She was letting out an awful, choking scream, and her body was shredding itself apart. Mushrooms were busting out of every part of her. I... I ran. Now I wish that I'd put her out of her misery, but going back there now would be suicide.",
-    "responses": [
     "//": "In the future this NPC might give you the coordinates of his friend where you can go take down a fungal grove of some kind.",
+    "responses": [
       { "text": "That's awful. Let's talk about something else.", "topic": "TALK_FRIEND" }
     ]
  },
@@ -628,20 +619,18 @@
       { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
     ]
  },
-
-
   {
     "id": "BGSS_LOST_PARTNER_2_STORY1",
     "type": "talk_topic",
     "dynamic_line": "Just another shitty tale of love and loss. Not something I like to tell.",
     "responses": [
        { "text": "It might help to get it off your chest.", 
-        "trial": { "type": "PERSUADE", "difficulty": 70, "mod": [ [ "TRUST", 3 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 3 ] ] },
         "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
         "failure": { "topic": "BGSS_LOST_PARTNER_2_NOTYET" }
       },
        { "text": "Suck it up. If we're going to work together I need to know you.", 
-        "trial": { "type": "INTIMIDATE", "difficulty": 70, "mod": [ [ "BRAVERY", 1 ] ] },
+        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "BRAVERY", 1 ] ] },
         "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
         "failure": { "topic": "BGSS_LOST_PARTNER_2_FUCKOFF" }
       },
@@ -711,212 +700,5 @@
     "responses": [
     { "text": "Thanks for telling me that. Let's talk about something else.", "topic": "TALK_FRIEND" }
     ]
- },
- {
-    "id": "BGSS_HOSPITAL_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "I saw it all pretty early, before it all really started. I worked at the hospital. It started with a jump in the number of code whites - that's an aggressive patient. Wasn't my training so I didn't hear about it until later... but rumours started flying about hyperaggressive delirious patients that coded and seemed to die, then started attacking staff, and wouldn't respond to anything we hit them with. Then a friend of mine was killed by one of them, and I realized it wasn't just a few weird reports. I called in sick the next day.",
-    "responses": [
-      { "text": "What happened on your sick day?", "topic": "BGSS_HOSPITAL_1_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_HOSPITAL_1_STORY2",
-    "type": "talk_topic",
-    "dynamic_line": "The world ended. I lived a fair distance out of town, and I already knew something was seriously wrong, but I hadn't admitted to myself what I was really seeing quite yet. When I saw the military convoys pouring into the city, I put the pieces together. At first I thought it was just my hospital. Still, I packed up my bags, locked the doors and windows, and waited for the evacuation call.",
-    "responses": [
-      { "text": "Did you get evacuated?", "topic": "BGSS_HOSPITAL_1_STORY3" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-   {
-    "id": "BGSS_HOSPITAL_1_STORY3",
-    "type": "talk_topic",
-    "dynamic_line": "No. The call came too late. I'd already seen the clouds on the horizon. Mushroom clouds, and also those insane hell-clouds. I've heard that horrible things came out of them. I decided it was safer in my locked up house.",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_HOSPITAL_1_STORY4" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-    {
-    "id": "BGSS_HOSPITAL_1_STORY4",
-    "type": "talk_topic",
-    "dynamic_line": "The military. They showed up and commandeered my land for some kind of forward base, demanding I evacuate to a FEMA camp. I didn't even try to argue... I had my dad's old hunting rifle, they had high tech weapons. I heard one of them joking about the FEMA camp being Auschwitz, though. I gave their evac driver the slip and decided to make for my sister's place up North. In theory I guess I'm still going that way, although honestly I'm just busy not dying.",
-    "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_HOSPITAL_2_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "I was at work at the hospital, when it all went down. It's a bit of a blur. For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual. Then, towards the end, stuff just skyrocketed. We thought it was a Chinese attack, and that's what we were being told. People coming in crazed, covered in wounds from bullets and bites. About halfway through my shift I... well, I broke. I'd seen such horrible injuries, and then I... god, I can't even talk about it.",
-    "responses": [
-    "responses": [
-       { "text": "It might help to get it off your chest.", 
-        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 2 ] ] },
-        "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
-        "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
-      },
-       { "text": "Suck it up. If we're going to work together I need to know you.", 
-        "trial": { "type": "INTIMIDATE", "difficulty": 60, "mod": [ [ "BRAVERY", 2 ] ] },
-        "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
-        "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
-      },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-     {
-    "id": "BGSS_HOSPITAL_2_NOTYET",
-    "type": "talk_topic",
-    "dynamic_line": "No. I can't. Just, no.",
-    "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_DONE" }
-    ]
- },
-     {
-    "id": "BGSS_HOSPITAL_2_STORY2",
-    "type": "talk_topic",
-    "dynamic_line": "A young mother. I know she was a mother, because I delivered her baby. Sweet girl, she... she had a good sense of humour. She came in, spitting that black goo, fighting the orderlies, dead from a bullet wound through the chest. That's when I ... I don't know if I woke up, finally, or if I finally went crazy. Either way, I broke. I broke a lot earlier than my colleagues, and that's the only reason I lived. I skipped out, went to a dead corner of the hospital I used to hide in when I was a resident. An old stairwell leading to a closed-off unit the maintenance staff were using to store old equipment. I hid there for hours, while I listened to the world crumbling outside and inside.",
-    "responses": [
-      { "text": "How did you get out of there?", "topic": "BGSS_HOSPITAL_2_STORY3" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-      {
-    "id": "BGSS_HOSPITAL_2_STORY3",
-    "type": "talk_topic",
-    "dynamic_line": "Somehow, I don't know how, I managed to fall asleep in there. I think it might have started with me hyperventilating and passing out. When I woke up it was night, I was starving and parched, and... and the screaming had died down. At first I tried to go out the way I came in, but I peaked out the window and saw one of the nurses stumbling around, spitting that black shit up. Her name was Becky. She wasn't Becky anymore. So, I went back up and somehow made it into the storage area. From there, the roof. I drank water from some nasty old puddle and I camped out there for a while, watching the city around me burn	",
-    "responses": [
-      { "text": "How did you get out of there?", "topic": "BGSS_HOSPITAL_2_STORY3" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-
-  {
-    "id": "BGSS_COP_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_COP_2_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_HUNTER_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_HUNTER_2_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_SOLDIER_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
- {
-    "id": "BGSS_SOLDIER_2_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
- {
-    "id": "BGSS_CRIMINAL_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
- {
-    "id": "BGSS_CRIMINAL_2_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
- {
-    "id": "BGSS_PRISONER_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
- {
-    "id": "BGSS_SCIENTIST_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
- {
-    "id": "BGSS_SCIENTIST_2_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_PROFESSOR_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_GRAD_STUDENT_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-  {
-    "id": "BGSS_LAB_1_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "",
-    "responses": [
-      { "text": "I'm sorry to hear it.", "topic": "BGSS_a_STORY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
-    ]
- },
-]
+ }
+ ]
