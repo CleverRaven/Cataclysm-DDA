@@ -254,66 +254,64 @@ const recipe *select_crafting_recipe( int &batch_size )
             } else {
                 std::vector<const recipe *> picking;
                 if( !filterstring.empty() ) {
-                    auto qry = trim(filterstring);
-                    if (qry.size() > 2 && qry[1] == ':') {
-                        switch (qry[0]) {
-                        case 't':
-                            picking = available_recipes.search(qry.substr(2), recipe_subset::search_type::tool);
-                            break;
+                    auto qry = trim( filterstring );
+                    if( qry.size() > 2 && qry[1] == ':' ) {
+                        switch( qry[0] ) {
+                            case 't':
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::tool );
+                                break;
 
-                        case 'c':
-                            picking = available_recipes.search(qry.substr(2), recipe_subset::search_type::component);
-                            break;
+                            case 'c':
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::component );
+                                break;
 
-                        case 's':
-                            picking = available_recipes.search(qry.substr(2), recipe_subset::search_type::skill);
-                            break;
+                            case 's':
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
+                                break;
 
-                        case 'p':
-                            picking = available_recipes.search(qry.substr(2), recipe_subset::search_type::primary_skill);
-                            break;
+                            case 'p':
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::primary_skill );
+                                break;
 
-                        case 'Q':
-                            picking = available_recipes.search(qry.substr(2), recipe_subset::search_type::quality);
-                            break;
+                            case 'Q':
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
+                                break;
 
-                        case 'q':
-                            picking = available_recipes.search(qry.substr(2), recipe_subset::search_type::quality_result);
-                            break;
+                            case 'q':
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
+                                break;
 
-                        case 'd':
-                            picking = available_recipes.search(qry.substr(2),
-                                recipe_subset::search_type::description_result);
-                            break;
+                            case 'd':
+                                picking = available_recipes.search( qry.substr( 2 ),
+                                                                    recipe_subset::search_type::description_result );
+                                break;
 
-                        case 'm': {
-                            auto &learned = g->u.get_learned_recipes();
-                            if (query_is_yes(qry)) {
-                                std::set_intersection(available_recipes.begin(), available_recipes.end(), learned.begin(),
-                                    learned.end(), std::back_inserter(picking));
+                            case 'm': {
+                                auto &learned = g->u.get_learned_recipes();
+                                if( query_is_yes( qry ) ) {
+                                    std::set_intersection( available_recipes.begin(), available_recipes.end(), learned.begin(),
+                                                           learned.end(), std::back_inserter( picking ) );
+                                } else {
+                                    std::set_difference( available_recipes.begin(), available_recipes.end(), learned.begin(),
+                                                         learned.end(),
+                                                         std::back_inserter( picking ) );
+                                }
+                                break;
                             }
-                            else {
-                                std::set_difference(available_recipes.begin(), available_recipes.end(), learned.begin(),
-                                    learned.end(),
-                                    std::back_inserter(picking));
-                            }
-                            break;
-                        }
 
-                        case 'h': {
-                            std::copy(available_recipes.begin(), available_recipes.end(), std::back_inserter(picking));
-                            if (query_is_yes(qry)) {
-                                show_hidden = true;
+                            case 'h': {
+                                std::copy( available_recipes.begin(), available_recipes.end(), std::back_inserter( picking ) );
+                                if( query_is_yes( qry ) ) {
+                                    show_hidden = true;
+                                }
+                                break;
                             }
-                            break;
-                        }
 
-                        default:
-                            current.clear();
+                            default:
+                                current.clear();
                         }
-                    }
-                    else {
-                        picking = available_recipes.search(qry);
+                    } else {
+                        picking = available_recipes.search( qry );
                     }
                 } else if( subtab.cur() == "CSC_*_FAVORITE" ) {
                     picking = available_recipes.favorite();
