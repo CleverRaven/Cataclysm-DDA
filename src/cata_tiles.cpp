@@ -1196,10 +1196,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 continue;
             }
             //if drawing terrain isn't possible, don't try drawing the others.
-            if( draw_terrain( tripoint( p.x, p.y, center.z ), lighting, height_3d ) ) {
-                draw_furniture( tripoint( p.x, p.y, center.z ), lighting, height_3d );
-                draw_trap( tripoint( p.x, p.y, center.z ), lighting, height_3d );
-                draw_vpart( tripoint( p.x, p.y, center.z ), lighting, height_3d );
+            if( draw_terrain( p, lighting, height_3d ) ) {
+                draw_furniture( p, lighting, height_3d );
+                draw_trap( p, lighting, height_3d );
+                draw_vpart( p, lighting, height_3d );
             }
         }
     }
