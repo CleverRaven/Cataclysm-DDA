@@ -24,6 +24,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "iuse_actor.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -819,74 +820,63 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
     g->m.furn_set( pos, f_null );
 }
 
+static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id id )
+{
+    const itype_id &iid = id->deployed_item;
+    if( item::type_is_defined( iid ) ) {
+        const itype &type = *item::find_type( iid );
+        for( const auto &pair : type.use_methods ) {
+            const auto actor = dynamic_cast<const deploy_tent_actor*>(pair.second.get_actor_ptr());
+            if( !actor ) {
+                continue;
+            }
+            if( (actor->floor_center && *actor->floor_center == id) || (!actor->floor_center && actor->floor == id) ) {
+                return std::make_pair( iid, actor );
+            }
+        }
+    }
+    return std::make_pair( iid, nullptr );
+}
+
 /**
  * Determine structure's type and prompts its removal.
  */
 void iexamine::portable_structure(player &p, const tripoint &examp)
 {
-    const auto &fr = g->m.furn( examp ).obj();
-    std::string name;
-    std::string dropped;
-    if( fr.id == "f_groundsheet" ) {
-        name = "tent";
-        dropped = "tent_kit";
-    } else if( fr.id == "f_center_groundsheet" ) {
-        name = "tent";
-        dropped = "large_tent_kit";
-    } else if( fr.id == "f_skin_groundsheet" ) {
-        name = "shelter";
-        dropped = "shelter_kit";
-    } else if( fr.id == "f_ladder" ) {
-        name = "ladder";
-        dropped = "stepladder";
-    } else {
-        name = "bug";
-        dropped = "null";
+    const furn_str_id fid = g->m.furn( examp ).id();
+    const std::pair<itype_id, const deploy_tent_actor *> tent_item_type = find_tent_itype( fid );
+    if( tent_item_type.first == "null" ) {
+        debugmsg( "unknown furniture %s: don't know how to transform it into an item", fid.str() );
+        return;
     }
 
-    auto check_tent_intact = [&]() -> bool {
-        int radius = dropped == "large_tent_kit" ? 2 : 1;
-        furn_id floor =
-            dropped == "tent_kit" ? f_groundsheet : f_large_groundsheet;
-        furn_id wall =
-            dropped == "tent_kit" ? f_canvas_wall : f_large_canvas_wall;
-        furn_id door =
-            dropped == "tent_kit" ? f_canvas_door : f_large_canvas_door;
-        furn_id door_opened =
-            dropped == "tent_kit" ? f_canvas_door_o : f_large_canvas_door_o;
-        furn_id center_floor =
-            dropped == "large_tent_kit" ? f_center_groundsheet : floor;
-        // Traversing all the tiles this tent occupies
-        for( const tripoint &dest : g->m.points_in_radius( examp, radius ) ) {
-            const furn_id &furn_here = g->m.furn( dest );
-            if( square_dist( dest, examp ) < radius ) {
-                // So we are inside the tent
-                if( furn_here != floor && furn_here != center_floor ) {
-                    return false;
-                }
-            } else if( furn_here != wall && furn_here != door && furn_here != door_opened ) {
-                // We are on the border of the tent
-                return false;
+    itype_id dropped = tent_item_type.first;
+    std::string name = item::nname( dropped );
+    int radius;
+    
+    if( tent_item_type.second ) {
+        const deploy_tent_actor &actor = *tent_item_type.second;
+        if( !actor.check_intact( examp ) ) {
+            if( !actor.broken_type ) {
+                add_msg( _( "The %s is broken and can not be picked up." ), name );
+                none( p, examp );
+                return;
             }
+            dropped = *actor.broken_type;
+            name = string_format( _( "damaged %s" ), name );
         }
-        return true;
-    };
+        radius = actor.radius;
 
-    if( name == "tent" && !check_tent_intact() ) {
-        if( dropped == "tent_kit" ) {
-            dropped = "broketent";
-        } else {
-            dropped = "largebroketent";
-        }
+    } else {
+        radius = std::max( 1, fid->bash.collapse_radius );
     }
 
-    if( !query_yn( _( "Take down the %s?" ), _( name.c_str() ) ) ) {
+    if( !query_yn( _( "Take down the %s?" ), name ) ) {
         none( p, examp );
         return;
     }
 
     p.moves -= 200;
-    int radius = std::max( 1, fr.bash.collapse_radius );
     for( const tripoint &pt : g->m.points_in_radius( examp, radius ) ) {
         g->m.furn_set( pt, f_null );
     }

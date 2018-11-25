@@ -676,7 +676,6 @@ void Item_factory::init()
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
-    add_iuse( "PORTABLE_STRUCTURE", &iuse::portable_structure );
     add_iuse( "PORTAL", &iuse::portal );
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
@@ -764,6 +763,7 @@ void Item_factory::init()
     add_actor( new detach_gunmods_actor() );
     add_actor( new mutagen_actor() );
     add_actor( new mutagen_iv_actor() );
+    add_actor( new deploy_tent_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );

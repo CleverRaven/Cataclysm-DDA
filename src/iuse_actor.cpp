@@ -9,6 +9,7 @@
 #include "cata_utility.h"
 #include "crafting.h"
 #include "debug.h"
+#include "vpart_position.h"
 #include "effect.h"
 #include "event.h"
 #include "field.h"
@@ -3819,4 +3820,93 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     test_crossing_threshold( p, m_category );
 
     return it.type->charges_to_use();
+}
+
+iuse_actor *deploy_tent_actor::clone() const
+{
+    return new deploy_tent_actor( *this );
+}
+
+void deploy_tent_actor::load( JsonObject &obj )
+{
+    assign( obj, "radius", radius );
+    assign( obj, "wall", wall );
+    assign( obj, "floor", floor );
+    assign( obj, "floor_center", floor_center );
+    assign( obj, "door_opened", door_opened );
+    assign( obj, "door_closed", door_closed );
+    assign( obj, "broken_type", broken_type );
+}
+
+long deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    int diam = 2 * radius + 1;
+
+    int dirx = 0;
+    int diry = 0;
+    if( !choose_direction( string_format( _( "Put up the %s where (%dx%d clear area)?" ), it.tname(),
+                                          diam, diam ), dirx, diry ) ) {
+        return 0;
+    }
+
+    // We place the center of the structure (radius + 1)
+    // spaces away from the player.
+    // First check there's enough room.
+    const tripoint center = p.pos() + tripoint( ( radius + 1 ) * dirx, ( radius + 1 ) * diry, 0 );
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        if( const auto vp = g->m.veh_at( dest ) ) {
+            add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
+            return 0;
+        }
+        if( const Creature *const c = g->critter_at( dest ) ) {
+            add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
+            return 0;
+        }
+        if( g->m.impassable( dest ) || !g->m.has_flag( "FLAT", dest ) ) {
+            add_msg( m_info, _( "The %s in that direction is not passable." ), g->m.name( dest ) );
+            return 0;
+        }
+        if( g->m.has_furn( dest ) ) {
+            add_msg( m_info, _( "There is already furniture (%s) there." ), g->m.furnname( dest ) );
+            return 0;
+        }
+    }
+    // Make a square of floor surrounded by wall.
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        g->m.furn_set( dest, wall );
+    }
+    for( const tripoint &dest : g->m.points_in_radius( center, radius - 1 ) ) {
+        g->m.furn_set( dest, floor );
+    }
+    // Place the center floor and the door.
+    if( floor_center ) {
+        g->m.furn_set( center, *floor_center );
+    }
+    g->m.furn_set( p.pos() + tripoint( dirx, diry, 0 ), door_closed );
+    add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
+    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
+    return 1;
+}
+
+bool deploy_tent_actor::check_intact( const tripoint &center ) const
+{
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        const furn_id fid = g->m.furn( dest );
+        if( dest == center && floor_center ) {
+            if( fid != *floor_center ) {
+                return false;
+            }
+        } else if( square_dist( dest, center ) < radius ) {
+            // So we are inside the tent
+            if( fid != floor ) {
+                return false;
+            }
+        } else {
+            // We are on the border of the tent
+            if( fid != wall && fid != door_opened && fid != door_closed ) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

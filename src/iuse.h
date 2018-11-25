@@ -145,7 +145,6 @@ class iuse
         int chop_logs( player *, item *, bool, const tripoint & );
         int oxytorch( player *, item *, bool, const tripoint & );
         int hacksaw( player *, item *, bool, const tripoint & );
-        int portable_structure( player *, item *, bool, const tripoint & );
         int torch_lit( player *, item *, bool, const tripoint & );
         int battletorch_lit( player *, item *, bool, const tripoint & );
         int boltcutters( player *, item *, bool, const tripoint & );

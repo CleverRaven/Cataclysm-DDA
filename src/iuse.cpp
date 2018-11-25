@@ -4236,68 +4236,6 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::portable_structure( player *p, item *it, bool, const tripoint & )
-{
-    int radius = it->typeId() == "large_tent_kit" ? 2 : 1;
-    furn_id floor =
-        it->typeId() == "tent_kit"       ? f_groundsheet
-        : it->typeId() == "large_tent_kit" ? f_large_groundsheet
-        :                                    f_skin_groundsheet;
-    furn_id wall =
-        it->typeId() == "tent_kit"       ? f_canvas_wall
-        : it->typeId() == "large_tent_kit" ? f_large_canvas_wall
-        :                                    f_skin_wall;
-    furn_id door =
-        it->typeId() == "tent_kit"       ? f_canvas_door
-        : it->typeId() == "large_tent_kit" ? f_large_canvas_door
-        :                                    f_skin_door;
-    furn_id center_floor =
-        it->typeId() == "large_tent_kit" ? f_center_groundsheet
-        : floor;
-
-    int diam = 2 * radius + 1;
-
-    int dirx = 0;
-    int diry = 0;
-    if( !choose_adjacent(
-            string_format( _( "Put up the %s where (%dx%d clear area)?" ),
-                           it->tname().c_str(),
-                           diam, diam ),
-            dirx, diry ) ) {
-        return 0;
-    }
-
-    // We place the center of the structure (radius + 1)
-    // spaces away from the player.
-    // First check there's enough room.
-    const tripoint center( radius * ( dirx - p->posx() ) + dirx, radius * ( diry - p->posy() ) + diry,
-                           p->posz() );
-    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
-        if( !g->m.has_flag( "FLAT", dest ) ||
-            g->m.veh_at( dest ) ||
-            !g->is_empty( dest ) ||
-            g->critter_at( dest ) != nullptr ||
-            g->m.has_furn( dest ) ) {
-            add_msg( m_info, _( "There isn't enough space in that direction." ) );
-            return 0;
-        }
-    }
-    // Make a square of floor surrounded by wall.
-    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
-        g->m.furn_set( dest, wall );
-    }
-    for( const tripoint &dest : g->m.points_in_radius( center, radius - 1 ) ) {
-        g->m.furn_set( dest, floor );
-    }
-    // Place the center floor and the door.
-    g->m.furn_set( center, center_floor );
-    g->m.furn_set( center.x - radius * ( dirx - p->posx() ), center.y - radius * ( diry - p->posy() ),
-                   door );
-    add_msg( m_info, _( "You set up the %s on the ground." ), it->tname().c_str() );
-    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
-    return 1;
-}
-
 int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
 {
     if( p->is_underwater() ) {
