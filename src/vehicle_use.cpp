@@ -760,6 +760,16 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
+    // Muscle engines cannot start with broken limbs
+    if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.hp_cur[hp_arm_l] || g->u.hp_cur[hp_arm_r] ) ) {
+        add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
+        return false;
+    }
+    if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.hp_cur[hp_leg_l] || g->u.hp_cur[hp_leg_r] ) ) {
+        add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
+        return false;
+    }
+
     return true;
 }
 

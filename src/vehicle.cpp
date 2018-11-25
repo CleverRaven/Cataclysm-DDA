@@ -2725,6 +2725,9 @@ int vehicle::total_power_w( bool const fueled, bool const safe ) const
         int p = engines[e];
         if( is_engine_on( e ) &&
             ( !fueled || is_perpetual_type( e ) || fuel_left( part_info( p ).fuel_type ) ) ) {
+            if( part_info( p ).fuel_type == fuel_type_muscle && !player_in_control(g->u) ) {
+                continue;
+            }
             int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
             if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
                 m2c *= 0.6;
