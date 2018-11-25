@@ -156,7 +156,7 @@
     "type": "talk_topic",
     "dynamic_line": "I was SWAT. By all rights I should be dead. We were called to control \"riots\", which we all know were the first zombie hordes. Fat lot of good we were. Pretty sure we killed more civilians. Even among my crew, morale was piss poor and we were shooting pretty wild. Then something hit us, something big. Might have been a bomb, I really don't remember. I woke up pinned underneath the SWAT van. I couldn't see anything...  But I could hear it. God. I could hear everything. I spent hours, maybe days under that van, not even trying to get out.",
     "responses": [
-      { "text": "But you did get out."topic": "BGSS_a_STORY2" },
+      { "text": "But you did get out.", "topic": "BGSS_COP_2_STORY2" },
       { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
     ]
  },
