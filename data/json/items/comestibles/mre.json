@@ -55,7 +55,7 @@
     "copy-from": "mre_smallbox",
     "name": "MRE - Accessory Pack",
     "name_plural": "MREs - Accessory Packs",
-    "description": "An MRE accessory pack containing a varaiety of utensils and drinks. Activate or disassemble it to get to its contents."
+    "description": "An MRE accessory pack containing a variety of utensils and drinks.  Activate or disassemble it to get to its contents."
   },
   {
     "id": "mre_dessert",
@@ -63,7 +63,7 @@
     "copy-from": "mre_smallbox",
     "name": "MRE - Dessert Pack",
     "name_plural": "MREs - Dessert Packs",
-    "description": "A sealed plastic bag containing an array of desserts. Activate or disassemble it to get to its contents."
+    "description": "A sealed plastic bag containing an array of desserts.  Activate or disassemble it to get to its contents."
   },
   {
     "id": "mre_chilibeans_box",
@@ -71,7 +71,7 @@
     "copy-from": "mre_box",
     "name": "MRE - Chili & Beans",
     "name_plural": "MREs - Chili & Beans",
-    "description": "A 'Meal Ready to Eat' with a chilli & beans entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+    "description": "A 'Meal Ready to Eat' with a chili & beans entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
     "id": "mre_bbqbeef_box",
@@ -79,7 +79,7 @@
     "copy-from": "mre_box",
     "name": "MRE - BBQ Beef",
     "name_plural": "MREs - BBQ Beef",
-    "description": "A 'Meal Ready to Eat' with a bbq beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+    "description": "A 'Meal Ready to Eat' with a BBQ beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
     "id": "mre_chickennoodle_box",
@@ -188,7 +188,7 @@
     "copy-from": "mre_box",
     "name": "MRE - Mexican Chicken Stew",
     "name_plural": "MREs - Mexican Chicken Stew",
-    "description": "A 'Meal Ready to Eat' with a mexican chicken stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with a Mexican chicken stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_beef_box"
   },
   {
@@ -373,7 +373,7 @@
     "id": "mre_cheesetort",
     "copy-from": "mre_entree",
     "name": "cheese tortellini entree",
-    "description": "The chese tortellini entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "description": "The cheese tortellini entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy", "milk" ]
   },
   {
@@ -388,8 +388,8 @@
     "type": "COMESTIBLE",
     "id": "mre_mexicanchickenstew",
     "copy-from": "mre_entree",
-    "name": "mexican chicken stew entree",
-    "description": "The mexican chicken stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "name": "Mexican chicken stew entree",
+    "description": "The Mexican chicken stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy", "flesh", "bean" ]
   },
   {
