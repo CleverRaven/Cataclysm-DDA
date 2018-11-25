@@ -9848,5 +9848,25 @@
     "id": "railroad_station_under_1_3",
     "type": "overmap_terrain",
     "copy-from": "generic_railroad_station_under"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_trail",
+    "name": "forest trail",
+    "sym": 84,
+    "color": "green",
+    "mapgen_straight": [ { "method": "builtin", "name": "forest_trail_straight" } ],
+    "mapgen_curved": [ { "method": "builtin", "name": "forest_trail_curved" } ],
+    "mapgen_end": [ { "method": "builtin", "name": "forest_trail_straight" } ],
+    "mapgen_tee": [ { "method": "builtin", "name": "forest_trail_tee" } ],
+    "mapgen_four_way": [ { "method": "builtin", "name": "forest_trail_four_way" } ],
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailhead",
+    "name": "trailhead",
+    "sym": 84,
+    "color": "brown"
   }
 ]
