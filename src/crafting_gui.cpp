@@ -253,13 +253,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else {
                 std::vector<const recipe *> picking;
-                if( subtab.cur() == "CSC_*_FAVORITE" ) {
-                    picking = available_recipes.favorite();
-                } else if( subtab.cur() == "CSC_*_RECENT" ) {
-                    picking = available_recipes.recent();
-                } else if( filterstring.empty() ) {
-                    picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
-                } else {
+                if( !filterstring.empty() ) {
                     auto qry = trim( filterstring );
                     if( qry.size() > 2 && qry[1] == ':' ) {
                         switch( qry[0] ) {
@@ -319,6 +313,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                     } else {
                         picking = available_recipes.search( qry );
                     }
+                } else if( subtab.cur() == "CSC_*_FAVORITE" ) {
+                    picking = available_recipes.favorite();
+                } else if( subtab.cur() == "CSC_*_RECENT" ) {
+                    picking = available_recipes.recent();
+                } else {
+                    picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 }
 
                 current.clear();
