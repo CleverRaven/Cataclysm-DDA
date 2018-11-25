@@ -11,7 +11,7 @@
  {
     "id": "BGSS_HOSPITAL_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I saw it all pretty early, before it all really started. I worked at the hospital. It started with a jump in the number of code whites - that's an aggressive patient. Wasn't my training so I didn't hear about it until later... but rumours started flying about hyperaggressive delirious patients that coded and seemed to die, then started attacking staff, and wouldn't respond to anything we hit them with. Then a friend of mine was killed by one of them, and I realized it wasn't just a few weird reports. I called in sick the next day.",
+    "dynamic_line": "I saw it all pretty early, before it all really started. I worked at the hospital. It started with a jump in the number of code whites - that's an aggressive patient. Wasn't my training so I didn't hear about it until later... but rumors started flying about hyperaggressive delirious patients that coded and seemed to die, then started attacking staff, and wouldn't respond to anything we hit them with. Then a friend of mine was killed by one of them, and I realized it wasn't just a few weird reports. I called in sick the next day.",
     "responses": [
       { "text": "What happened on your sick day?", "topic": "BGSS_HOSPITAL_1_STORY2" },
       { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
@@ -81,7 +81,7 @@
       {
     "id": "BGSS_HOSPITAL_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Somehow, I don't know how, I managed to fall asleep in there. I think it might have started with me hyperventilating and passing out. When I woke up it was night, I was starving and parched, and... and the screaming had died down. At first I tried to go out the way I came in, but I peaked out the window and saw one of the nurses stumbling around, spitting that black shit up. Her name was Becky. She wasn't Becky anymore. So, I went back up and somehow made it into the storage area. From there, the roof. I drank water from some nasty old puddle and I camped out there for a while, watching the city around me burn	",
+    "dynamic_line": "Somehow, I don't know how, I managed to fall asleep in there. I think it might have started with me hyperventilating and passing out. When I woke up it was night, I was starving and parched, and... and the screaming had died down. At first I tried to go out the way I came in, but I peaked out the window and saw one of the nurses stumbling around, spitting that black shit up. Her name was Becky. She wasn't Becky anymore. So, I went back up and somehow made it into the storage area. From there, the roof. I drank water from some nasty old puddle and I camped out there for a while, watching the city around me burn.",
     "responses": [
       { "text": "How did you get out of there?", "topic": "BGSS_HOSPITAL_2_STORY3" },
       { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
@@ -92,9 +92,9 @@
     "id": "BGSS_HOSPITAL_2_STORY4",
     "type": "talk_topic",
     "dynamic_line": "Well, I still didn't have any food. Eventually I had to climb down the side of the building... so I did, as quietly as I could. It was night, and I have pretty good nightvision. Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road. I'd kind of scouted out my route from above... I'm not from a big city, the hospital was the tallest building around. I avoided the major military blockades, and headed out of town towards a friend's old cabin. I had to fight off a couple of the zombies, but I managed to avoid any big fuss, by some miracle. I never made it to the cabin, but that's not important now.",
+    "//": "In the future this NPC should give you the map coordinates to the cabin if you persuade.",
     "responses": [
       { "text": "What did you see, up there on the roof?", "topic": "BGSS_HOSPITAL_2_ROOF1" },
-    "//": "In the future this NPC should give you the map coordinates to the cabin if you persuade.",
       { "text": "Thanks for telling me all that.", "topic": "TALK_FRIEND" }
     ]
  },
@@ -130,7 +130,7 @@
     "type": "talk_topic",
     "dynamic_line": "The door was good heavy steel with no window, and there was a staff room with a fully stocked fridge, so when it became clear that nothing was going to get any better on its own, I set up shop. I stayed down there for a couple days. I could hear explosions and screaming for the first while, then just guns and explosions, and then it got real quiet. Eventually, I ran out of snacks, so I worked up the nerve to climb out a window and check out the city by night. I used that place as a base for a little while, but the area around the hospital was too hot to keep it up, so I made my way out to greener pastures. And here I am.",
     "responses": [
-      { "text": "Thanks for telling me that..", "topic": "TALK_FRIEND" }
+      { "text": "Thanks for telling me that.", "topic": "TALK_FRIEND" }
     ]
  },
 
@@ -154,7 +154,7 @@
   {
     "id": "BGSS_COP_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was SWAT. By all rights I should be dead. We were called to control /"riots/", which we all know were the first zombie hordes. Fat lot of good we were. Pretty sure we killed more civilians. Even among my crew, morale was piss poor and we were shooting pretty wild. Then something hit us, something big. Might have been a bomb, I really don't remember. I woke up pinned underneath the SWAT van. I couldn't see anything...  But I could hear it. God. I could hear everything. I spent hours, maybe days under that van, not even trying to get out.",
+    "dynamic_line": "I was SWAT. By all rights I should be dead. We were called to control \"riots\", which we all know were the first zombie hordes. Fat lot of good we were. Pretty sure we killed more civilians. Even among my crew, morale was piss poor and we were shooting pretty wild. Then something hit us, something big. Might have been a bomb, I really don't remember. I woke up pinned underneath the SWAT van. I couldn't see anything...  But I could hear it. God. I could hear everything. I spent hours, maybe days under that van, not even trying to get out.",
     "responses": [
       { "text": "But you did get out."topic": "BGSS_a_STORY2" },
       { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
@@ -243,8 +243,8 @@
     "id": "BGSS_RURAL_1_STORY3",
     "type": "talk_topic",
     "dynamic_line": "That was the first thing to really shake me out of it. I didn't really have any very close friends, but there were people back in town I cared about a bit. I had sent some texts, but I hadn't really twigged that they hadn't replied for days. I got in my truck and tried to get back to town. Didn't get far before I hit a zombie infested pileup blocking the highway, and that's when I started to put it all together. Never did get to town. Unfortunately I led the zombies back to my farm, and had to bug out of there. Might go back and clear it out, someday.",
-    "responses": [
     "//": "In the future this NPC should give you the map coordinates to the farm if you persuade.",
+    "responses": [
       { "text": "Thanks for telling me that.", "topic": "TALK_FRIEND" }
     ]
  },
@@ -312,6 +312,7 @@
     "id": "BGSS_CRIMINAL_1_STORY2",
     "type": "talk_topic",
     "dynamic_line": "It was just fuckin' chaos on the streets, man. But I'm used to chaos. You don't live as long as I've lived and not know how to keep away from a fight you can't win. Biggest worry wasn't the zombies and the monsters, honestly. It was the fuckin' police robots. They knew I was in violation, and they kept trying to arrest me.",
+	"//": "TK, this story not done."
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_FRIEND" }
     ]
