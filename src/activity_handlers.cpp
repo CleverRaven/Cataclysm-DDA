@@ -2104,33 +2104,45 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     }
 
     int attempted = 0;
+    int muscle_attempted = 0;
     int started = 0;
-    int not_muscle = 0;
+    int muscle_started = 0;
     const bool take_control = act->values[0];
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
             attempted++;
+            if( veh->is_engine_type( e, "muscle" ) ) {
+                muscle_attempted++;
+            }
             if( veh->start_engine( e ) ) {
                 started++;
-            }
-            if( !veh->is_engine_type( e, "muscle" ) ) {
-                not_muscle++;
+                if( veh->is_engine_type( e, "muscle" ) ) {
+                    muscle_started++;
+                }
             }
         }
     }
 
-    veh->engine_on = attempted > 0 && started == attempted;
+    //Did any engines start?
+    veh->engine_on = started;
 
     if( attempted == 0 ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name.c_str() );
-    } else if( not_muscle > 0 ) {
-        if( started == attempted ) {
+    } else if( attempted - muscle_attempted > 0 ) {
+        //Some non-muscle engines tried to start
+        if( attempted - muscle_attempted == started - muscle_started ) {
+            //All of the non-muscle engines started
             add_msg( ngettext( "The %s's engine starts up.",
-                               "The %s's engines start up.", not_muscle ), veh->name.c_str() );
+                               "The %s's engines start up.", started - muscle_started ), veh->name.c_str() );
+        } else if( started - muscle_started > 0 ) {
+            //Only some of the non-muscle engines started
+            add_msg( ngettext( "One of the %s's engines start up.",
+                               "Some of the %s's engines start up.", started - muscle_started ), veh->name.c_str() );
         } else {
+            //All of the non-muscle engines failed
             add_msg( m_bad, ngettext( "The %s's engine fails to start.",
-                                      "The %s's engines fail to start.", not_muscle ), veh->name.c_str() );
+                                      "The %s's engines fail to start.", attempted - muscle_attempted ), veh->name.c_str() );
         }
     }
 
