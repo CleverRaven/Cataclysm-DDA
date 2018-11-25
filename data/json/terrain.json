@@ -923,7 +923,7 @@
     "move_cost": 0,
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_TO_WALL", "WALL" ],
     "bash": {
-      "str_min": 10,
+      "str_min": 35,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whump!",
@@ -941,7 +941,7 @@
     "move_cost": 0,
     "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL" ],
     "bash": {
-      "str_min": 6,
+      "str_min": 24,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whump!",
