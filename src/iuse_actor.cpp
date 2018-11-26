@@ -1306,7 +1306,8 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
     if( count > 0 && cut.get_item()->damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level( 4 ) ), 1.0 );
+        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level( 4 ) ),
+                                         1.0 );
         for( int i = count; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
                 count--;
@@ -1322,7 +1323,8 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         }
     }
 
-    add_msg( m_info, _( "You try to salvage materials from the %s." ), cut.get_item()->tname().c_str() );
+    add_msg( m_info, _( "You try to salvage materials from the %s." ),
+             cut.get_item()->tname().c_str() );
 
     item_location::type cut_type = cut.where();
     tripoint pos = cut.position();
