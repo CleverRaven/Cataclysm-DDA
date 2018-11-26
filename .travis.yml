@@ -66,7 +66,7 @@ jobs:
 
     # GCC 4.9
     - env: COMPILER=g++-4.9
-      if: branch = master
+      if: type != pull_request
       compiler: gcc
       addons: &gcc49
         apt:
@@ -75,7 +75,7 @@ jobs:
 
     # GCC 6
     - env: COMPILER=g++-6
-      if: branch = master
+      if: type != pull_request
       compiler: gcc
       addons: &gcc6
         apt:
@@ -84,7 +84,7 @@ jobs:
 
     # GCC 7
     - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough' CODE_COVERAGE=true
-      if: branch = master
+      if: type != pull_request
       compiler: gcc
       dist: trusty
       addons: &gcc7
@@ -110,7 +110,7 @@ jobs:
 
     # Clang 3.9
     - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
-      if: branch = master
+      if: type != pull_request
       compiler: clang
       addons: &clang39
         apt:
@@ -119,7 +119,7 @@ jobs:
 
     # Clang 4.0
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
-      if: branch = master
+      if: type != pull_request
       compiler: clang
       addons: &clang40
         apt:
@@ -128,7 +128,7 @@ jobs:
 
     # Clang 5.0
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
-      if: branch = master
+      if: type != pull_request
       dist: trusty
       compiler: clang
       addons: &clang50
