@@ -122,39 +122,50 @@
 		"dynamic_line": "My story. Huh. It's nothing special. I had people, but they've risen to be with the Lord. I don't understand why He didn't take me too, but I suppose it'll all be clear in time.",
 		"responses": [
 			{ "text": "Do you mean in a religious sense, or...?", "topic": "BGSS_RELIGIOUS_1_STORY2" },   
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_RELIGIOUS_1_STORY2",
 		"type": "talk_topic",
 		"dynamic_line": "Of course. It's clear enough, isn't it? That... that end, was the Rapture. I'm still here, and I still don't understand why, but I will keep Jesus in my heart through the Tribulations to come. When they're past, I'm sure He will welcome me into the Kingdom of Heaven. Or... or something along those lines. It's not going exactly like I thought it would, but that's prophecy for you.",
 		"responses": [
-			{ "text": "What if you're wrong?", "topic": "BGSS_RELIGIOUS_1_FAITH1" },
+			{ "text": "What if you're wrong?", "topic": "BGSS_RELIGIOUS_1_FAITH1", "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } }, "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } },
 			{ "text": "What will you do, then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },      
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
+        "type": "effect_type",
+        "id": "player_rude_BGSS_RELIGIOUS_1_FAITH1",
+		"//": "Defined here in the conversation section because this should be the only time this very specific effect is referenced."
+		"name": ["Religious Offence"],
+        "desc": ["AI tag used when you offended an NPC with a specific conversation option. This is a bug if you have it."]
+    },{
 		"id": "BGSS_RELIGIOUS_1_FAITH1",
 		"type": "talk_topic",
-		"dynamic_line": "I can't believe you'd look at all this and think it could be anything but the end-times. The dead are walking, the gates of Hell itself have opened, the Beasts of the Devil walk the Earth, and the Righteous have all be drawn up into the Lord's Kingdom. What more proof could you possibly ask for?",
+		"dynamic_line": "What? How could you say something like that? I can't believe you'd look at all this and think it could be anything but the end-times. The dead are walking, the gates of Hell itself have opened, the Beasts of the Devil walk the Earth, and the Righteous have all be drawn up into the Lord's Kingdom. What more proof could you possibly ask for?",
 		"responses": [
 			{ "text": "What will you do, then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },      
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_RELIGIOUS_1_FAITH2",
 		"type": "talk_topic",
 		"dynamic_line": "I will keep the faith, and keep praying, and strike down the agents of Hell where I see them. That's all we few can do, isn't it? I suppose perhaps we're the meek that shall inherit the Earth. Although I don't love our odds.",
 		"responses": [
-			{ "text": "What if you're wrong?", "topic": "BGSS_RELIGIOUS_1_FAITH1" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "What if you're wrong?", "topic": "BGSS_RELIGIOUS_1_FAITH1", "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } }, "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } },
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_RELIGIOUS_2_STORY1",
 		"type": "talk_topic",
 		"dynamic_line": "Same as anyone. I turned away from God, and now I'm paying the price. The Rapture has come, and I was left behind. So now, I guess I wander through Hell on Earth. I wish I'd paid more attention in Sunday School.",
 		"responses": [
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_1_STORY1",
@@ -162,14 +173,16 @@
 		"dynamic_line": "I made it to one of those <swear> evac shelters, but it was almost worse than what I left behind. Escaped from there, been on the run since.",
 		"responses": [
 			{ "text": "How did you survive on the run?", "topic": "BGSS_EVACUEE_1_STORY2" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_1_STORY2",
 		"type": "talk_topic",
 		"dynamic_line": "I spent a lot of time rummaging for rhubarb and bits of vegetables in the forest before I found the courage to start picking off some of those dead monsters. I guess I was getting desperate.",
 		"responses": [
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_2_STORY1",
@@ -182,34 +195,40 @@
 			"failure": { "topic": "BGSS_EVACUEE_2_NOTYET" }
 		},{ 
 			"text": "<done_conversation_section>", "topic": "TALK_LEADER" 
+		},{ 
+			"text": "<end_talking>", "topic": "TALK_DONE" 
 		} ]
 	},{
 		"id": "BGSS_EVACUEE_2_STORY2",
 		"type": "talk_topic",
 		"dynamic_line": "Things went south when our fearless leader decided we had to put down one of the other survivors that had been bitten. Her husband felt a bit strongly against that, and I wasn't too keen on it either; by this point, he'd already been wrong about a lot. Well, he took matters into his own hands and killed her. Then her husband decided one good turn deserves another, and killed the idiot. And then she got back up and I killed her again, and pulped our former leader. Unfortunately she'd given her husband a hell of a nip during the struggle, when he couldn't get his shit together enough to fight back. Not that I fucking blame him. We made it out of there together, but it was too much for him, he clearly wasn't in it anymore... The bite got infected, but it was another <zombie> that finally killed him. And then I was alone.",
 		"responses": [
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_2_NOTYET",
 		"type": "talk_topic",
 		"dynamic_line": "What do you think happened? You see them around anywhere?",
 		"responses": [
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_3_STORY1",
 		"type": "talk_topic",
 		"dynamic_line": "There's nothing too special about me, I'm not sure why I survived. I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center. We got attacked by the dead... I was the only one to make it out. I never looked back.",
 		"responses": [
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_4_STORY1",
 		"type": "talk_topic",
 		"dynamic_line": "They were shipping me with a bunch of evacuees over to a refugee center, when the bus got smashed in by the biggest zombie you ever saw. It was busy with the other passengers, so I did what anyone would do and fucked right out of there.",
 		"responses": [
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_5_STORY1",
@@ -218,7 +237,8 @@
 		"responses": [
 			{ "text": "Giant bees? Tell me more.", "topic": "BGSS_EVACUEE_5_BEES" },
 			{ "text": "But bees aren't usually aggressive...", "topic": "BGSS_EVACUEE_5_WASPS" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_5_BEES",
@@ -226,7 +246,8 @@
 		"dynamic_line": "Yeah, I'm sure you've seen them, they're everywhere. Like something out of an old sci-fi movie. Some of the others in the evac shelter got stung, it was no joke. I didn't stick around to see what the lasting effect was though. I'm not ashamed to admit I ran like a <swear> chicken.",
 		"responses": [
 			{ "text": "But bees aren't usually aggressive... Do you mean wasps?", "topic": "BGSS_EVACUEE_5_WASPS" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_EVACUEE_5_WASPS",
@@ -241,7 +262,8 @@
 		"type": "talk_topic",
 		"dynamic_line": "Well, I was at home when the cell phone alert went off and told me to get to an evac shelter. So I went to an evac shelter. And then the shelter got too crowded, and people were waiting to get taken to the refugee center, but the buses never came. You must already know about all that. It turned into panic, and then fighting. I didn't stick around to see what happened next; I headed into the woods with what tools I could snatch from the lockers. I went back a few days later, but the place was totally abandoned. No idea what happened to all those people.",
 		"responses": [
-			{ "text": "<done_conversation_section>", "topic": "TALK_NONE" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_FEMA_EVACUEE_1_STORY1",
@@ -256,7 +278,10 @@
 			"failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
 		},{ 
 			"text": "<done_conversation_section>", "topic": "TALK_LEADER" 
-		} ]
+		},{
+			"text": "<end_talking>", "topic": "TALK_DONE" 
+		}
+		]
 	},{
 		"id": "BGSS_FEMA_EVACUEE_1_STORY2",
 		"type": "talk_topic",
@@ -270,6 +295,8 @@
 			"failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
 		},{ 
 			"text": "<done_conversation_section>", "topic": "TALK_LEADER" 
+		},{
+			"text": "<end_talking>", "topic": "TALK_DONE" 
 		} ]
 	},{
 		"id": "BGSS_FEMA_EVACUEE_1_STORY3",
@@ -282,6 +309,8 @@
 			"failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
 		},{ 
 			"text": "<done_conversation_section>", "topic": "TALK_LEADER" 
+		},{
+			"text": "<end_talking>", "topic": "TALK_DONE" 
 		} ]
 	},{
 		"id": "BGSS_FEMA_EVACUEE_1_ESCAPE1",
@@ -289,7 +318,8 @@
 		"dynamic_line": "That place was chaos. I only stayed a few hours. They had a big backhoe running, digging a huge pit in a cordoned section they wouldn't let us near. Well, I managed to sneak over that way, and saw them dumping load after load of the dead in the pit, pouring dirt back over them even as they revived and tried to climb out. Even with all the shit I've seen since, it haunts me. I knew then I had to get out. Luckily for me, we were attacked the next morning by some giant horror, a kind I haven't really seen since then. While the guards were busy with that, I grabbed some supplies I'd stocked up over the night and I fucked right out of there. A few others tried to fuck out with me, but as far as I know I was the only lucky one.",
 		"responses": [
 			{ "text": "Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },    
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_FEMA_EVACUEE_1_NOTYET",
@@ -297,14 +327,16 @@
 		"dynamic_line": "That's a story for another day. I don't really like thinking about it.",
 		"responses": [
 			{ "text": "Sorry. Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },  
-			{ "text": "Sorry for asking.", "topic": "TALK_LEADER" }
+			{ "text": "Sorry for asking. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "Sorry for asking. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LEFT_FOR_DEAD_1_STORY1",
 		"type": "talk_topic",
 		"dynamic_line": "I was late to evacuate when the shit hit the fan. Got stuck in town for a few days, survived by hiding in basements eating girl scout cookies and drinking warm root beer. Eventually I managed to weasel my way out without getting caught by the <zombies>. I spent a few days holed up in an abandoned mall, but I needed food so I headed out to fend for myself in the woods. I wasn't doing a great job of it, so I'm kinda glad you showed up.",
 		"responses": [
-				{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+				{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LEFT_FOR_DEAD_2_STORY1",
@@ -312,7 +344,8 @@
 		"dynamic_line": "I was home with the flu when the world went to shit, and when I recovered enough to make a run to the store for groceries... Well, I've been running ever since.",
 		"responses": [
 			{ "text": "Come on, don't leave me hanging.", "topic": "BGSS_LEFT_FOR_DEAD_2_STORY2" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LEFT_FOR_DEAD_2_STORY2",
@@ -320,14 +353,16 @@
 		"dynamic_line": "Okay, well, I was kinda out of it those first few days. I knew there were storms, but I was having crazy fever dreams and stuff. Honestly I probably should have gone to the hospital, except then I guess I'd be dead now. I don't know what was a dream and what was the world ending. I remember heading to the fridge for a drink and noticing the light was out and the water was warm, I think that was a bit before my fever broke. I was still pretty groggy when I ran out of chicken soup, so it took me a while to really process how dark and dead my building was when I headed out.",
 		"responses": [
 			{ "text": "What happened when you went out?", "topic": "BGSS_LEFT_FOR_DEAD_2_STORY3" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LEFT_FOR_DEAD_2_STORY3",
 		"type": "talk_topic",
 		"dynamic_line": "You probably remember what the cities were like. I think it was about day four. Once I stepped outside I realized what was going on, or realized I didn't know what was going on at least. I saw a bunch of rioters smashing a car, and then I noticed one of them was bashing a woman's head in. I cancelled my grocery trip, ran back to my apartment before they saw me, and holed up there for as long as I could. Things got comparatively quiet as the dead started to outnumber the living, so I started looting what I could from my neighbors, re-killing them when I had to. Eventually the <zombies> overran my building and I had to climb out and head for the hills on an old bike.",
 		"responses": [
-			{ "text": "Thanks for telling me all that.", "topic": "TALK_LEADER" }
+			{ "text": "Thanks for telling me all that. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "Thanks for telling me all that. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_GUNG_HO_1_STORY1",
@@ -335,7 +370,8 @@
 		"dynamic_line": "Nothin' special before <the_cataclysm>. When the dead started walking, I geared up and started puttin' them back down.",
 		"responses": [
 			{ "text": "How did that go?", "topic": "BGSS_GUNG_HO_1_STORY2" },
-			{ "text": "Cool.", "topic": "TALK_LEADER" }
+			{ "text": "Cool. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "Cool. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_GUNG_HO_1_STORY2",
@@ -343,21 +379,24 @@
 		"dynamic_line": "Almost got killed. One <zombie> is easy pickins, but ten is a lot, and a hundred is a death trap. I got myself in too deep, an' barely slipped out with my guts still inside me. Holed up in an old motel for a while lickin' my wounds and thinkin' about what I wanted to do next. That's when I figured it out.",
 		"responses": [
 			{ "text": "Figured what out?", "topic": "BGSS_GUNG_HO_1_STORY3" },
-			{ "text": "Never mind.", "topic": "TALK_LEADER" }
+			{ "text": "Never mind. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "Never mind. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_GUNG_HO_1_STORY3",
 		"type": "talk_topic",
 		"dynamic_line": "This is it. This is what I was made for. There in the street, smashin' monster heads and prayin' I'd make it out? I've never felt like that. Alive. Important. So after I got myself all stuck back together, I nutted up and went back to it. Probly killed a thousand Z since then, and I'm still not tired of it.",
 		"responses": [
-			{ "text": "It's good you found your calling.", "topic": "TALK_LEADER" }
+			{ "text": "It's good you found your calling. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "It's good you found your calling. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_GUNG_HO_2_STORY1",
 		"type": "talk_topic",
 		"dynamic_line": "Oh, you know. Blah blah blah, had a job and a life, everyone died. Boo hoo. I gotta be straight with you though: I honestly think I like this better. Fighting for survival every day? I've never felt so alive. I've killed hundreds of those bastards. Sooner or later one of them will take me out, but I'll go down knowing I did something actually important.",
 		"responses": [
-			{ "text": "It's good you found your calling.", "topic": "TALK_LEADER" }
+			{ "text": "It's good you found your calling. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "It's good you found your calling. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_GUNG_HO_3_STORY1",
@@ -366,7 +405,8 @@
 		"responses": [
 			{ "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
 			{ "text": "So, you went to one of the FEMA camps?", "topic": "BGSS_GUNG_HO_3_FEMA1" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_GUNG_HO_3_SON1",
@@ -375,7 +415,8 @@
 		"responses": [
 			{ "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
 			{ "text": "So, you went to one of the FEMA camps?", "topic": "BGSS_GUNG_HO_3_FEMA1" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_GUNG_HO_3_FEMA1",
@@ -385,7 +426,8 @@
 			{ "text": "Where did you go then?", "topic": "BGSS_GUNG_HO_3_STORY2" },
 			{ "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
 			{ "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_GUNG_HO_3_STORY2",
@@ -394,7 +436,8 @@
 		"responses": [
 			{ "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
 			{ "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
-			{ "text": "That's quite a story.", "topic": "TALK_LEADER" }
+			{ "text": "That's quite a story. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "That's quite a story. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_PREPPER_1_STORY1",
@@ -403,7 +446,8 @@
 		"responses": [
 			{ "text": "What happened to you?", "topic": "BGSS_PREPPER_1_STORY2" },
 			{ "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_PREPPER_1_STORY2",
@@ -412,7 +456,8 @@
 		"responses": [
 			{ "text": "Did you get there?", "topic": "BGSS_PREPPER_1_STORY3" },
 			{ "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_PREPPER_1_STORY3",
@@ -420,7 +465,8 @@
 		"dynamic_line": "No, I barely got two miles. I crashed into some kind of hell-spawn chink bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too. I think I killed it, but I know for sure I killed the truck. Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure. I hope I never see something like that again.",
 		"responses": [
 			{ "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_PREPPER_1_LMOE",
@@ -429,7 +475,8 @@
 		"//": "In the future this NPC should give you the map coordinates to the LMOE shelter if you persuade.",
 		"responses": [
 			{ "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_PREPPER_2_STORY1",
@@ -437,7 +484,8 @@
 		"dynamic_line": "Oh, man. I thought I was ready. I had it all planned out. Bug out bags. Loaded guns. Maps of escape routes. Bunker in the back yard.",
 		"responses": [
 			{ "text": "Sounds like it didn't work out.", "topic": "BGSS_PREPPER_2_STORY2" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_PREPPER_2_STORY2",
@@ -445,14 +493,16 @@
 		"dynamic_line": "Depends on your definition. I'm alive, aren't I? When Hell itself came down from the skies and monsters started attacking the cities, I grabbed my stuff and crammed into the bunker. My surface cameras stayed online for days; I could see everything happening up there. I watched those things stride past. I still have nightmares about the way their bodies moved, like they broke the world just to be here. I had nothing better to do. I watched them rip up the cops and the military, watched the dead rise back up and start fighting the living. I watched the nice old lady down the street rip the head off my neighbor's dog. I saw a soldier's body twitch and grow into some kind of electrified hulk beast. I watched it all happen.",
 		"responses": [
 			{ "text": "Why did you leave your bunker?", "topic": "BGSS_PREPPER_2_STORY3" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_PREPPER_2_STORY3",
 		"type": "talk_topic",
 		"dynamic_line": "Honestly? I was planning to die. After what I'd seen, I went a little crazy. I thought it was over for sure, I figured there was no point in fighting it. I thought I wouldn't last a minute out here, but I couldn't bring myself to end it down there. I headed out, planning to let the <zombies> finish me off, but what can I say? Survival instinct is a funny thing, and I killed the ones outside the bunker. I guess the adrenaline was what I needed. It's kept me going since then.",
 		"responses": [
-			{ "text": "Thanks for telling me that.", "topic": "TALK_LEADER" }
+			{ "text": "Thanks for telling me that. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "Thanks for telling me that. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_1_STORY1",
@@ -461,7 +511,8 @@
 		"responses": [
 			{ "text": "How did you survive outside?", "topic": "BGSS_OUT_OF_TOWN_1_STORY2" },
 			{ "text": "What did you see in those first few days?", "topic": "BGSS_OUT_OF_TOWN_1_STORY3" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_1_STORY2",
@@ -469,7 +520,8 @@
 		"dynamic_line": "Ha, I don't fully understand it myself. Those first few days were a tough time to be outside, that's for sure. I got caught in one of those hellish rainstorms, it started to burn my skin right off. I managed to take shelter under a car, lying on top of my tent. Wrecked the damn thing, but better it than me. From what I hear, though, I got lucky. That was pretty much the worst I saw. I didn't run into any of those demon-monsters that I hear attacked the cities, so I guess I got off lucky.",
 		"responses": [
 			{ "text": "What did you see in those first few days?", "topic": "BGSS_OUT_OF_TOWN_1_STORY3" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_1_STORY3",
@@ -477,7 +529,8 @@
 		"dynamic_line": "Besides the acid rain, I mostly saw people fleeing the cities. I tried to stay away from the roads, but I didn't want to get lost in the woods either, so I stuck to the deep margins. I saw cars, buses, trucks loaded down with evacuees. Plenty went right on, but a lot stalled out of gas and other stuff. Some were so full of gear and people there were folks hanging off them. Stalling out was a death sentence, because the dead were coming along the roads picking off the survivors.",
 		"responses": [
 			{ "text": "How did you survive outside?", "topic": "BGSS_OUT_OF_TOWN_1_STORY2" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_2_STORY1",
@@ -485,7 +538,8 @@
 		"dynamic_line": "I was out on a fishing trip with my friend when it happened. I don't know exactly how the days line up... our first clue that Armageddon had come was when we got blasted by some kind of poison wind, with a sort of acid mist in it that burnt our eyes and skin. We weren't sure what to make of it so we went inside to rest up, and while we were in there a weird dust settled over everything.",
 		"responses": [
 			{ "text": "What happened after the acid mist?", "topic": "BGSS_OUT_OF_TOWN_2_STORY2" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_2_STORY2",
@@ -493,7 +547,8 @@
 		"dynamic_line": "By morning, the area around the lake was covered in a pinkish mold, and there were walking mushrooms around shooting clouds of the dust in the air. We didn't know what was going on, but neither of us wanted to stay and find out. We packed up our shit, scraped off the boat, and took off upriver.",
 		"responses": [
 			{ "text": "What happened to your friend?", "topic": "BGSS_OUT_OF_TOWN_2_STORY3" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_2_STORY3",
@@ -501,7 +556,8 @@
 		"dynamic_line": "She took sick a few hours after we left the lake. Puking, complaining about her joints hurting. I took us to a little shop I knew about on the riverside, hoping they might have something to help or at least know what was going on.",
 		"responses": [
 			{ "text": "I guess they didn't know.", "topic": "BGSS_OUT_OF_TOWN_2_STORY4" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_2_STORY4",
@@ -509,7 +565,8 @@
 		"dynamic_line": "The shop was empty, actually. She was desperate though, so I broke in. I found out more about the chaos in towns from the store radio. Got my friend some painkillers and gravol, but when I came out to the boat, well... it was too late for her.",
 		"responses": [
 			{ "text": "She was dead?", "topic": "BGSS_OUT_OF_TOWN_2_STORY5" }, 
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_2_STORY5",
@@ -517,7 +574,8 @@
 		"dynamic_line": "I wish. That would have been a mercy. She was letting out an awful, choking scream, and her body was shredding itself apart. Mushrooms were busting out of every part of her. I... I ran. Now I wish that I'd put her out of her misery, but going back there now would be suicide.",
 		"//": "In the future this NPC might give you the coordinates of his friend where you can go take down a fungal grove of some kind.",
 		"responses": [
-			{ "text": "That's awful. <done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "That's awful. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "That's awful. <end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_1_STORY1",
@@ -526,7 +584,8 @@
 		"responses": [
 			{ "text": "I'm sorry to hear it.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
 			{ "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_1_STORY2",
@@ -536,7 +595,8 @@
 			{ "text": "No, that's messed up.", "topic": "BGSS_LOST_PARTNER_1_NOWAY" },
 			{ "text": "Yeah, I get that. Sometimes I feel like my existence began shortly after the cataclysm.", "topic": "BGSS_LOST_PARTNER_1_YEAH" },
 			{ "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_1_YEAH",
@@ -544,7 +604,8 @@
 		"dynamic_line": "I guess those of us who made it this far have to have made it for a reason, or something. I don't mean like a religious reason, just... we're survivors.",
 		"responses": [
 			{ "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_1_NOWAY",
@@ -552,7 +613,8 @@
 		"dynamic_line": "Haha, yeah, I can see why you'd think that. I don't mean it's a good apocalypse. I just mean that at least now I know what I'm doing every day. I'd still kill a hundred zombies for an internet connection and a night watching crappy movies with... sorry. Let's change the subject.",
 		"responses": [
 			{ "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_1_TRIFFIDS",
@@ -560,7 +622,8 @@
 		"dynamic_line": "Yeah, have you seen them yet? They're these <shitty> walking flowers with a big <swear> stinger in the middle. They travel in packs. They hate the zombies, and we were using them for cover to clear a horde of the dead. Unfortunately, turns out the plants are better trackers than the <zombies>. They almost seemed intelligent... I barely made it out, only because they were, uh, distracted.",
 		"responses": [
 			{ "text": "I'm sorry you lost someone.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_2_STORY1",
@@ -584,7 +647,8 @@
 		"type": "talk_topic",
 		"dynamic_line": "I appreciate the sentiment, but I don't think it would. Drop it.",
 		"responses": [
-			{ "text": "OK.", "topic": "TALK_LEADER" }
+			{ "text": "OK.", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_2_FUCKOFF",
@@ -599,7 +663,8 @@
 		"dynamic_line": "All right, fine. I had someone. I lost them.",
 		"responses": [
 			{ "text": "What happened?", "topic": "BGSS_LOST_PARTNER_2_STORY3" },
-			{ "text": "Never mind. Sorry I brought it up.", "topic": "TALK_LEADER" }
+			{ "text": "Never mind. Sorry I brought it up.", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_2_STORY3",
@@ -608,7 +673,8 @@
 		"responses": [
 			{ "text": "You must have seen some shit.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
 			{ "text": "I take it home was bad.", "topic": "BGSS_LOST_PARTNER_2_HOME" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_2_SOMESHIT",
@@ -616,7 +682,8 @@
 		"dynamic_line": "Yeah. I really did. It took me two days to make it across the city on foot, camping out in dumpsters and places like that. I started moving more by night, and I learned right away to avoid the military. They were a magnet for the <zombies>, and they were usually stationed where the monsters were coming. Some parts of the city were pretty tame at first. There were a few chunks where people had been evacuated or cleared out, and the <zombies> didn't really go there. Later on, others like me started moving into those neighborhoods, so I switched and started running through the blasted out downtown. I had to anyway, to get home. By the time I made the switch though, the fighting was starting to die off, and I was mostly just avoiding attention from zombies and other things.",
 		"responses": [
 			{ "text": "I take it home was bad.", "topic": "BGSS_LOST_PARTNER_2_HOME1" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_2_HOME1",
@@ -625,14 +692,16 @@
 		"responses": [
 			{ "text": "You must have seen some shit on the way there.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
 			{ "text": "Did you make it into the house?", "topic": "BGSS_LOST_PARTNER_2_HOME2" },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_LOST_PARTNER_2_HOME2",
 		"type": "talk_topic",
 		"dynamic_line": "I did. Took a few hours to get an opening. And you wanna know the fucked up part? Like, out of all this? My partner was still alive. They'd been in the basement the whole time, pinned under a collapsed piece of floor. And they'd lost a ton of blood, they were delirius by the time I found them. I couldn't get them out, so I gave them food and water and just stayed with them and held their hand until they passed. And then... well, then I did what you have to do to the dead now. And then I packed up the last few fragments of my life, and I try to never look back.",
 		"responses": [
-			{ "text": "Thanks for telling me that. <done_conversation_section>", "topic": "TALK_LEADER" }
+			{ "text": "Thanks for telling me that. <done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	}
 ]

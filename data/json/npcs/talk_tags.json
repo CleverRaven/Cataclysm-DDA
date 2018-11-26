@@ -331,5 +331,13 @@
 			"Let's change the subject.",
 			"I'd like to ask you about something else."
 		]
+	},{
+		"type" : "snippet",
+        "category" : "<end_talking>",
+        "text" : [
+            "We should probably get going.",
+			"We'd better get moving.",
+			"Let's head out."
+		]
 	}	
 ]
