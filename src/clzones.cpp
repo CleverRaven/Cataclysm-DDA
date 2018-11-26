@@ -12,6 +12,8 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "vehicle.h"
+#include "vpart_reference.h"
 
 zone_manager::zone_manager()
 {
@@ -548,10 +550,27 @@ zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_
         const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
         std::shared_ptr<zone_options> options )
 {
+    //the start is a vehicle tile with cargo space
+    //if( const cata::optional<vpart_reference> vp = g->m.veh_at( start ).part_with_feature( "CARGO",
+    //        false ) ) {
+    //    //TODO:Allow for loot zones on vehicles to be larger than 1x1
+    //    if( start.x == end.x && start.y == end.y && start.z == end.z ) {
+    //        //create a vehicle loot zone
+    //        vp->vehicle().loot_zones.try_emplace( vp->mount(), zone_data( name, type, invert, enabled, start,
+    //                                              end, options ) );
+    //    }
+    //} else {
+    //Create a regular zone
     zones.push_back( zone_data( name, type, invert, enabled, start, end, options ) );
     cache_data();
 
     return zones.back();
+    //}
+}
+
+void zone_manager::register_veh( vehicle *const veh )
+{
+    zone_vehs.push_back( veh );
 }
 
 bool zone_manager::remove( const size_t index )
@@ -572,8 +591,25 @@ bool zone_manager::remove( zone_data &zone )
             return true;
         }
     }
+    for( auto it = zone_vehs.begin(); it != zone_vehs.end(); ++it ) {
+        for( auto lz = (*it)->loot_zones.begin(); lz != (*it)->loot_zones.end(); ++lz ) {
+            if( &zone == &lz->second ) {
+                (*it)->loot_zones.erase( lz );
+            }
+        }
+    }
 
     return false;
+}
+
+void zone_manager::deregister_veh( const vehicle *const veh )
+{
+    for( auto it = zone_vehs.begin(); it != zone_vehs.end(); ++it ) {
+        if( &veh == &*it ) {
+            zone_vehs.erase( it );
+            break;
+        }
+    }
 }
 
 void zone_manager::swap( zone_data &a, zone_data &b )
@@ -605,65 +641,40 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones() const
 
 void zone_manager::serialize( JsonOut &json ) const
 {
-    json.start_array();
-    for( auto &elem : zones ) {
-        json.start_object();
-
-        json.member( "name", elem.get_name() );
-        json.member( "type", elem.get_type() );
-
-        json.member( "invert", elem.get_invert() );
-        json.member( "enabled", elem.get_enabled() );
-
-        tripoint start = elem.get_start_point();
-        tripoint end = elem.get_end_point();
-
-        json.member( "start_x", start.x );
-        json.member( "start_y", start.y );
-        json.member( "start_z", start.z );
-        json.member( "end_x", end.x );
-        json.member( "end_y", end.y );
-        json.member( "end_z", end.z );
-
-        elem.get_options().serialize( json );
-
-        json.end_object();
-    }
-
-    json.end_array();
+    json.start_object();
+    json.member("zones", zones);
 }
 
 void zone_manager::deserialize( JsonIn &jsin )
 {
-    zones.clear();
+    JsonObject data = jsin.get_object();
+    data.read( "zones", zones );
+}
 
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo_zone = jsin.get_object();
 
-        const std::string name = jo_zone.get_string( "name" );
-        const zone_type_id type( jo_zone.get_string( "type" ) );
+void zone_manager::zone_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "name", name );
+    json.member( "type", type );
+    json.member( "invert", invert );
+    json.member( "enabled", enabled );
+    json.member( "start", start );
+    json.member( "end", end );
+    //json.member( "options", options );
+    json.end_object();
+}
 
-        const bool invert = jo_zone.get_bool( "invert" );
-        const bool enabled = jo_zone.get_bool( "enabled" );
-
-        // Z-coordinates need to have a default value - old saves won't have those
-        const int start_x = jo_zone.get_int( "start_x" );
-        const int start_y = jo_zone.get_int( "start_y" );
-        const int start_z = jo_zone.get_int( "start_z", 0 );
-        const int end_x = jo_zone.get_int( "end_x" );
-        const int end_y = jo_zone.get_int( "end_y" );
-        const int end_z = jo_zone.get_int( "end_z", 0 );
-
-        if( has_type( type ) ) {
-            auto &zone = add( name, type, invert, enabled,
-                              tripoint( start_x, start_y, start_z ),
-                              tripoint( end_x, end_y, end_z ) );
-            zone.get_options().deserialize( jo_zone );
-        } else {
-            debugmsg( "Invalid zone type: %s", type.c_str() );
-        }
-    }
+void zone_manager::zone_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "name", name );
+    data.read( "type", type );
+    data.read( "invert", invert );
+    data.read( "enabled", enabled );
+    data.read( "start", start );
+    data.read( "end", end );
+    //data.read( "options", options );
 }
 
 bool zone_manager::save_zones()

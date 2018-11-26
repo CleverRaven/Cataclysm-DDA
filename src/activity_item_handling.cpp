@@ -896,6 +896,8 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p.pos() );
     const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );
+    vehicle *veh;
+    int vstor;
 
     // Nuke the current activity, leaving the backlog alone.
     p.activity = player_activity();
@@ -933,14 +935,24 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
                 for( auto &dest : dest_set ) {
                     const auto &dest_loc = g->m.getlocal( dest );
+                    if( const cata::optional<vpart_reference> vp = g->m.veh_at( dest_loc ).part_with_feature( "CARGO",
+                            false ) ) {
+                        veh = &vp->vehicle();
+                        vstor = vp->part_index();
+                    } else {
+                        veh = nullptr;
+                        vstor = -1;
+                    }
 
                     // skip tiles with inaccessible furniture, like filled charcoal kiln
                     if( !g->m.can_put_items_ter_furn( dest_loc ) ) {
                         continue;
                     }
 
-                    // check free space at destination tile
-                    if( g->m.free_volume( dest_loc ) > it->volume() ) {
+                    // check free space at destination
+                    // if there's a vehicle with space do not check the tile beneath
+                    if( ( veh && veh->get_items( vstor ).amount_can_fit( *it ) ) != ( !veh &&
+                            g->m.free_volume( dest_loc ) > it->volume() ) ) {
                         // before we move any item, check if player is at or adjacent to the loot source tile
                         if( !is_adjacent_or_closer ) {
                             std::vector<tripoint> route;
@@ -972,9 +984,15 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             p.set_destination( route, player_activity( activity_id( "ACT_MOVE_LOOT" ) ) );
                             return;
                         }
-
-                        move_item( *it, it->count(), src_loc, dest_loc );
-                        break;
+                        //Try putting it in vehicle cargo
+                        if( veh && veh->add_item( vstor, *it ) ) {
+                            g->m.i_rem( src_loc, it );
+                            break;
+                        } else {
+                            add_msg( m_info, _( "Failed to store in Vehicle" ) );
+                            move_item( *it, it->count(), src_loc, dest_loc );
+                            break;
+                        }
                     }
                 }
 

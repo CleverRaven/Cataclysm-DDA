@@ -15,6 +15,7 @@
 
 class JsonIn;
 class JsonOut;
+class vehicle;
 
 class zone_type
 {
@@ -130,6 +131,7 @@ class zone_manager
     private:
         const int MAX_DISTANCE = 10;
         std::vector<zone_data> zones;
+        std::vector<vehicle *> zone_vehs;
         std::map<zone_type_id, zone_type> types;
         std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
         std::unordered_set<tripoint> get_point_set( const zone_type_id &type ) const;
@@ -152,8 +154,12 @@ class zone_manager
                         const tripoint &start, const tripoint &end,
                         std::shared_ptr<zone_options> options = nullptr );
 
+        void register_veh( vehicle *const veh );
+
         bool remove( const size_t index );
         bool remove( zone_data &zone );
+
+        void deregister_veh( vehicle const *const veh );
 
         unsigned int size() const {
             return zones.size();
@@ -197,6 +203,16 @@ class zone_manager::zone_data
         std::shared_ptr<zone_options> options;
 
     public:
+        zone_data() {
+            name = "";
+            type = zone_type_id("");
+            invert = false;
+            enabled = false;
+            start = tripoint(0, 0, 0);
+            end = tripoint(0, 0, 0);
+            options = nullptr;
+        }
+
         zone_data( const std::string &_name, const zone_type_id &_type,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
@@ -254,6 +270,8 @@ class zone_manager::zone_data
                    p.y >= start.y && p.y <= end.y &&
                    p.z >= start.z && p.z <= end.z;
         }
+        void serialize(JsonOut &json) const;
+        void deserialize(JsonIn &jsin);
 };
 
 #endif
