@@ -509,7 +509,94 @@ npc vehicle::get_targeting_npc( vehicle_part &pt )
     return cpu;
 }
 
-int vehicle::automatic_fire_turret( vehicle_part &pt )
+int vehicle::automatic_fire_turret(vehicle_part &pt)
+{
+    turret_data gun = turret_query( pt );
+
+    int shots = 0;
+
+    if ( gun.query() != turret_data::status::ready ) {
+        return shots;
+    }
+
+    // The position of the vehicle part.
+    tripoint pos = global_part_pos3( pt );
+
+    // Create the targeting computer's npc
+    npc cpu = get_targeting_npc( pt );
+
+    shots = automatic_fire_turret( pt, cpu );
+    if ( shots > 0 ) return shots;
+
+    // If autoturret can't shoot then let's try to shoout
+    // from vehicle boundaries
+
+    int min_x = INT_MAX;
+    int max_x = INT_MIN;
+    int min_y = INT_MAX;
+    int max_y = INT_MIN;
+
+
+    for ( auto &p : parts ) {
+        tripoint pp = global_part_pos3(p);
+        if ( pp.x < min_x ) {
+            min_x = pp.x;
+        }
+        if (pp.x > max_x) {
+            max_x = pp.x;
+        }
+        if ( pp.y < min_y ) {
+            min_y = pp.y;
+        }
+        if (pp.y > max_y) {
+            max_y = pp.y;
+        }
+    }
+    
+    cpu.setx( pos.x );
+    cpu.sety( min_y ); 
+    shots = automatic_fire_turret( pt, cpu );
+    if ( shots > 0 ) return shots;
+
+    cpu.setx( max_x );
+    cpu.sety( pos.y );
+    shots = automatic_fire_turret( pt, cpu );
+    if ( shots > 0 ) return shots;
+
+    cpu.setx( pos.x );
+    cpu.sety( max_y );
+    shots = automatic_fire_turret( pt, cpu );
+    if ( shots > 0 ) return shots;
+
+    cpu.setx( min_x );
+    cpu.sety( pos.y );
+    shots = automatic_fire_turret( pt, cpu );
+    if (shots > 0) return shots;
+
+
+    cpu.setx( max_x );
+    cpu.sety( min_y );
+    shots = automatic_fire_turret( pt, cpu );
+    if ( shots > 0 ) return shots;
+
+    cpu.setx( max_x );
+    cpu.sety( max_y );
+    shots = automatic_fire_turret( pt, cpu );
+    if ( shots > 0 ) return shots;
+
+    cpu.setx( min_x );
+    cpu.sety( max_y );
+    shots = automatic_fire_turret( pt, cpu );
+    if ( shots > 0 ) return shots;
+
+    cpu.setx( min_x );
+    cpu.sety( max_y );
+    shots = automatic_fire_turret( pt, cpu );
+
+    return shots;
+}
+
+int vehicle::automatic_fire_turret( vehicle_part &pt, npc &cpu )
 {
     turret_data gun = turret_query( pt );
 
@@ -520,10 +607,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // The position of the vehicle part.
-    tripoint pos = global_part_pos3( pt );
-
-    // Create the targeting computer's npc
-    npc cpu = get_targeting_npc( pt );
+    tripoint pos = cpu.pos();
 
     int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
@@ -542,7 +626,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         int boo_hoo;
 
         // @todo: calculate chance to hit and cap range based upon this
-        int max_range = 12;
+        int max_range = 15;
         int range = std::min( gun.range(), max_range );
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
