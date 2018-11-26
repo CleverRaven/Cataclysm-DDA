@@ -64,6 +64,7 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "json.h"
 
 #include <iterator>
 #include <map>
@@ -11567,6 +11568,17 @@ void player::toggle_map_memory()
 bool player::should_show_map_memory()
 {
     return show_map_memory;
+}
+
+void player::serialize_map_memory( JsonOut &jsout ) const
+{
+    player_map_memory.store( jsout );
+}
+
+void player::deserialize_map_memory( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    player_map_memory.load( data );
 }
 
 memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const
