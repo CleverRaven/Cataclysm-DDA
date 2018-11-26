@@ -1,7 +1,13 @@
 #include "player.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
 #include <iterator>
 #include <map>
+#include <string>
+#include <sstream>
+#include <limits>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -69,21 +75,6 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weather_gen.h"
-
-#ifdef TILES
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif // TILES
-
-#include <algorithm>
-#include <cmath>
-#include <cstdlib>
-#include <string>
-#include <sstream>
-#include <limits>
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 
