@@ -66,9 +66,7 @@ TEST_CASE( "map_memory_survives_save_lod", "[map_memory]" )
     // Save and reload
     std::ostringstream jsout_s;
     JsonOut jsout( jsout_s );
-    jsout.start_object( "m" );
     memory.store( jsout );
-    jsout.end_object();
 
     INFO( "Json was: " << jsout_s.str() );
     std::istringstream jsin_s( jsout_s.str() );
