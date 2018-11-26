@@ -1025,6 +1025,9 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         veh->falling = vehicle_falling( *veh );
     }
 
+    //global positions of vehicle loot zones have changed.
+    veh->zones_dirty = true;
+
     on_vehicle_moved( veh->smz );
     return veh;
 }

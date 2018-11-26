@@ -1500,12 +1500,17 @@ bool vehicle::remove_part( int p )
     const point &vp_mount = parts[p].mount;
     const auto iter = labels.find( label( vp_mount ) );
     const bool no_label = iter != labels.end();
+    const auto lz_iter = loot_zones.find( vp_mount );
+    const bool no_zone = lz_iter != loot_zones.end();
     const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
     // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
-    if( no_label || grab_found ) {
+    if( no_label || no_zone || grab_found ) {
         if( parts_at_relative( vp_mount, false ).empty() ) {
             if( no_label ) {
                 labels.erase( iter );
+            }
+            if( no_zone ) {
+                zones_dirty = true;
             }
             if( grab_found ) {
                 add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
@@ -1768,6 +1773,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         point mnt_offset;
 
         decltype( labels ) new_labels;
+        decltype( loot_zones ) new_zones;
         if( new_vehicle == nullptr ) {
             // make sure the split_part0 is a legal 0,0 part
             if( split_parts.size() > 1 ) {
@@ -1822,6 +1828,12 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 labels.erase( iter );
                 new_labels.insert( label( new_mount, label_str ) );
             }
+            // remove loot zones associated with the mov_part
+            const auto lz_iter = loot_zones.find( cur_mount );
+            if( lz_iter != loot_zones.end() ) {
+                new_zones.try_emplace( new_mount, lz_iter->second );
+                loot_zones.erase( lz_iter );
+            }
             // remove the passenger from the old new vehicle
             if( passenger ) {
                 parts[ mov_part ].remove_flag( vehicle_part::passenger_flag );
@@ -1835,6 +1847,9 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         g->m.set_transparency_cache_dirty( smz );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
+        }
+        if( !new_zones.empty() ) {
+            new_vehicle->loot_zones = new_zones;
         }
 
         if( !split_mounts.empty() ) {
@@ -4238,6 +4253,7 @@ void vehicle::refresh()
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     check_environmental_effects = true;
     insides_dirty = true;
+    zones_dirty = true;
     invalidate_mass();
 }
 
@@ -4570,6 +4586,12 @@ void vehicle::shift_parts( const point delta )
         new_labels.insert( label( l - delta, l.text ) );
     }
     labels = new_labels;
+
+    decltype( loot_zones ) new_zones;
+    for( auto const &z : loot_zones ) {
+        new_zones.try_emplace( z.first - delta, z.second );
+    }
+    loot_zones = new_zones;
 
     pivot_anchor[0] -= delta;
     refresh();
@@ -5095,6 +5117,23 @@ bounding_box vehicle::get_bounding_box()
 vehicle_part_range vehicle::get_all_parts() const
 {
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
+}
+
+void vehicle::refresh_zones()
+{
+    if( zones_dirty ) {
+        decltype( loot_zones ) new_zones;
+        for( auto const &z : loot_zones ) {
+            zone_manager::zone_data zone = z.second;
+            //Get the global position of the first cargo part at the relative coordinate
+            tripoint zone_pos = this->global_part_pos3( this->part_with_feature( z.first, "CARGO", true ) );
+            //Set the position of the zone to that part
+            zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ) );
+            new_zones.try_emplace( z.first, zone );
+        }
+        loot_zones = new_zones;
+        zones_dirty = false;
+    }
 }
 
 template<>
