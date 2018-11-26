@@ -2637,6 +2637,12 @@ void map_memory::store( JsonOut &jsout ) const
     jsout.end_object();
 }
 
+void map_memory::load( JsonIn &jsin )
+{
+    JsonObject jsobj = jsin.get_object();
+    load( jsobj );
+}
+
 void map_memory::load( JsonObject &jsin )
 {
     JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
