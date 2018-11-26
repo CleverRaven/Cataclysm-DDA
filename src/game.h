@@ -2,22 +2,22 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "calendar.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "calendar.h"
-#include "posix_time.h"
 #include "int_id.h"
-#include "cursesdef.h"
-#include "pimpl.h"
 #include "item_location.h"
 #include "optional.h"
+#include "pimpl.h"
+#include "posix_time.h"
 
 #include <array>
-#include <vector>
-#include <map>
-#include <unordered_map>
 #include <list>
+#include <map>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 
 extern const int savegame_version;
 extern int save_loading_version;
@@ -26,7 +26,7 @@ extern bool test_mode;
 
 // The reference to the one and only game instance.
 class game;
-extern game *g;
+extern std::unique_ptr<game> g;
 
 extern bool trigdist;
 extern bool use_tiles;
@@ -206,9 +206,7 @@ class game
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
         void unserialize( std::istream &fin ); // for load
-        bool unserialize_legacy( std::istream &fin ); // for old load
         void unserialize_master( std::istream &fin ); // for load
-        bool unserialize_master_legacy( std::istream &fin ); // for old load
 
         /** write statistics to stdout and @return true if successful */
         bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
@@ -515,7 +513,7 @@ class game
         std::list<std::string> get_npc_kill();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
-        void teleport( player *p = NULL, bool add_teleglow = true );
+        void teleport( player *p = nullptr, bool add_teleglow = true );
         /** Handles swimming by the player. Called by plmove(). */
         void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
@@ -682,7 +680,7 @@ class game
         // and sets it (view set_driving_view_offset), if
         // the options for this feature is deactivated or if veh is NULL,
         // the function set the driving offset to (0,0)
-        void calc_driving_offset( vehicle *veh = NULL );
+        void calc_driving_offset( vehicle *veh = nullptr );
 
         /**
          * @name Liquid handling
@@ -764,7 +762,7 @@ class game
          * Basically `false` indicates the user does not *want* to handle the liquid, `true`
          * indicates they want to handle it.
          */
-        bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
+        bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
                             const tripoint *source_pos = nullptr,
                             const vehicle *source_veh = nullptr, const int part_num = -1,
                             const monster *source_mon = nullptr );
@@ -850,7 +848,7 @@ class game
         // will do so, if bash_dmg is greater than 0, items won't stop the door
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
-        bool forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
+        bool forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg );
 
         //pixel minimap management
         int pixel_minimap_option;
@@ -867,7 +865,6 @@ class game
         void load_shortcuts( std::istream &fin );
 #endif
         bool start_game(); // Starts a new game in the active world
-        void start_special_game( special_game_id gametype ); // See gamemode.cpp
 
         //private save functions.
         // returns false if saving failed for whatever reason
@@ -931,7 +928,6 @@ class game
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
-        void reassign_item( int pos = INT_MIN ); // Reassign the letter of an item  '='
         void butcher(); // Butcher a corpse  'B'
         void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
@@ -1031,7 +1027,6 @@ class game
 
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
-        void msg_buffer();       // Opens a window with old messages in it
         void draw_minimap();     // Draw the 5x5 minimap
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
@@ -1061,7 +1056,6 @@ class game
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.
         void display_scent();   // Displays the scent map
-        void groupdebug();      // Get into on monster groups
 
         // ########################## DATA ################################
 
@@ -1104,8 +1098,6 @@ class game
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed;
 
-        weather_type weather_override;
-
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
 
@@ -1113,6 +1105,8 @@ class game
 
         void move_save_to_graveyard();
         bool save_player_data();
+    public:
+        weather_type weather_override;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

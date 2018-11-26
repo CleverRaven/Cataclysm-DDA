@@ -1,20 +1,20 @@
 #include "vehicle.h"
 
 #include "game.h"
-#include "player.h"
-#include "item.h"
-#include "output.h"
-#include "itype.h"
-#include "string_formatter.h"
-#include "veh_type.h"
 #include "gun_mode.h"
-#include "vehicle_selector.h"
-#include "npc.h"
-#include "ranged.h"
-#include "projectile.h"
+#include "item.h"
+#include "itype.h"
 #include "messages.h"
+#include "npc.h"
+#include "output.h"
+#include "player.h"
+#include "projectile.h"
+#include "ranged.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
+#include "veh_type.h"
+#include "vehicle_selector.h"
 
 #include <algorithm>
 #include <numeric>
@@ -60,7 +60,7 @@ const turret_data vehicle::turret_query( const vehicle_part &pt ) const
 
 turret_data vehicle::turret_query( const tripoint &pos )
 {
-    auto res = get_parts( pos, "TURRET", false, false );
+    auto res = get_parts_at( pos, "TURRET", part_status_flag::any );
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 
@@ -404,8 +404,8 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
         return std::max( lhs, res );
     } );
 
-    std::vector<tripoint> trajectory;
-    trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr, range );
+    std::vector<tripoint> trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr,
+                                       range );
 
     bool got_target = !trajectory.empty();
     if( got_target ) {

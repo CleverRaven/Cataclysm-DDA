@@ -2,10 +2,14 @@
 #ifndef MISSION_COMPANION_H
 #define MISSION_COMPANION_H
 
+#include "game.h"
+#include "map.h"
+#include "npc.h"
+#include "output.h"
+
 #include <memory>
-#include <vector>
 #include <string>
-#include <functional>
+#include <vector>
 
 class martialart;
 class JsonObject;
@@ -19,7 +23,6 @@ class player;
 class npc_template;
 template<typename T>
 class string_id;
-
 
 struct mission_entry {
     std::string id;
@@ -70,7 +73,7 @@ void companion_mission( npc & );
  * @param id is the value stored with the NPC when it is offloaded
  * @param group is whether the NPC is waiting for additional members before departing together
  * @param equipment is placed in the NPC's special inventory and dropped when they return
- * @param skill_tests is the main skill for the quest
+ * @param skill_tested is the main skill for the quest
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
@@ -133,5 +136,5 @@ npc *companion_choose_return( const npc &p, const std::string &id, const time_po
 void companion_return( npc &comp );               //Return NPC to your party
 std::vector<item *> loot_building( const tripoint
                                    site ); //Smash stuff, steal valuables, and change map maker
-};
+}
 #endif

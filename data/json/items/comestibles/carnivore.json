@@ -209,7 +209,7 @@
     "name_plural": "salted fish",
     "//": "Two fillets of fish needed here.",
     "description": "Salty dried fish that lasts for a long time, but will make you thirsty.",
-    "weight": 44,
+    "weight": 84,
     "container": "bag_plastic",
     "color": "light_gray",
     "spoils_in": "24 days",

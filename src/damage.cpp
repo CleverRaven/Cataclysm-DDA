@@ -1,13 +1,13 @@
 #include "damage.h"
-#include "item.h"
-#include "monster.h"
-#include "debug.h"
-#include "map_iterator.h"
-#include "mtype.h"
-#include "json.h"
 
-#include <map>
+#include "debug.h"
+#include "item.h"
+#include "json.h"
+#include "monster.h"
+#include "mtype.h"
+
 #include <algorithm>
+#include <map>
 #include <numeric>
 
 bool damage_unit::operator==( const damage_unit &other ) const

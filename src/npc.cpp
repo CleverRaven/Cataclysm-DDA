@@ -1,33 +1,33 @@
 #include "npc.h"
 
+#include "ammo.h"
 #include "auto_pickup.h"
 #include "coordinate_conversions.h"
-#include "map.h"
 #include "game.h"
 #include "item_group.h"
-#include "string_formatter.h"
 #include "itype.h"
+#include "iuse_actor.h"
+#include "json.h"
+#include "map.h"
 #include "mapdata.h"
-#include "overmapbuffer.h"
 #include "messages.h"
-#include "skill.h"
 #include "mission.h"
-#include "output.h"
 #include "monfaction.h"
+#include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
-#include "ammo.h"
-#include "sounds.h"
-#include "morale_types.h"
+#include "output.h"
 #include "overmap.h"
-#include "vehicle.h"
+#include "overmapbuffer.h"
+#include "skill.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "trait_group.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-#include "mtype.h"
-#include "iuse_actor.h"
-#include "trait_group.h"
-#include "json.h"
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -100,7 +100,7 @@ npc::npc()
     dex_max = 0;
     int_max = 0;
     per_max = 0;
-    my_fac = NULL;
+    my_fac = nullptr;
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     death_drops = true;
@@ -160,11 +160,10 @@ void npc_template::load( JsonObject &jsobj )
     guy.idz = jsobj.get_string( "id" );
     guy.name.clear();
     if( jsobj.has_string( "name_unique" ) ) {
-        guy.name = ( std::string )_( jsobj.get_string( "name_unique" ).c_str() );
+        guy.name = static_cast<std::string>( _( jsobj.get_string( "name_unique" ).c_str() ) );
     }
     if( jsobj.has_string( "name_suffix" ) ) {
-        guy.name += ", " + ( std::string )
-                    _( jsobj.get_string( "name_suffix" ).c_str() );
+        guy.name += ", " + static_cast<std::string>( _( jsobj.get_string( "name_suffix" ).c_str() ) );
     }
     if( jsobj.has_string( "gender" ) ) {
         if( jsobj.get_string( "gender" ) == "male" ) {
@@ -301,7 +300,6 @@ void npc::randomize( const npc_class_id &type )
         debugmsg( "Invalid NPC class %s", type.c_str() );
         myclass = npc_class_id::NULL_ID();
     } else if( type.is_null() && !one_in( 5 ) ) {
-        npc_class_id typetmp;
         myclass = npc_class::random_common();
     } else {
         myclass = type;
@@ -1205,7 +1203,7 @@ float npc::vehicle_danger( int radius ) const
             vehicle_part last_part = wrapped_veh.v->parts.back();
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
-            double normal = sqrt( ( float )( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
+            double normal = sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
             int closest = int( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) * ( bx - ax ) ) / normal );
 
             if( size > closest ) {
@@ -1633,6 +1631,7 @@ bool npc::is_guarding() const
 {
     return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
            mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+           mission == NPC_MISSION_GUARD_ALLY ||
            has_effect( effect_infection );
 }
 
@@ -2194,7 +2193,7 @@ void epilogue::random_by_group( std::string group )
     text = epi.text;
 }
 
-const tripoint npc::no_goal_point( INT_MIN, INT_MIN, INT_MIN );
+constexpr tripoint npc::no_goal_point;
 
 bool npc::query_yn( const std::string &/*msg*/ ) const
 {
@@ -2299,7 +2298,7 @@ std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs>
 std::string npc::get_need_str_id( const npc_need &need )
 {
     return need_data[static_cast<size_t>( need )].first;
-};
+}
 
 overmap_location_str_id npc::get_location_for( const npc_need &need )
 {

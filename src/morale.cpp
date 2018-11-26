@@ -1,18 +1,17 @@
 #include "morale.h"
-#include "morale_types.h"
 
+#include "bodypart.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "input.h"
 #include "item.h"
 #include "itype.h"
-#include "output.h"
-#include "cursesdef.h"
+#include "morale_types.h"
 #include "options.h"
-#include "bodypart.h"
+#include "output.h"
 #include "translations.h"
-#include "catacharset.h"
-#include "weather.h"
-#include "input.h"
 
 #include <algorithm>
 #include <set>
@@ -24,9 +23,8 @@ static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
 namespace
 {
-static const std::string item_name_placeholder = "%s"; // Used to address an item name
 
-bool is_permanent_morale( const morale_type id )
+bool is_permanent_morale( const morale_type &id )
 {
     static const std::set<morale_type> permanent_morale = {{
             MORALE_PERM_OPTIMIST,

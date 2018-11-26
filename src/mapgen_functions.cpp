@@ -1,29 +1,28 @@
 #include "mapgen_functions.h"
 
-#include "mapgen.h"
-#include "map_iterator.h"
-#include "output.h"
-#include "line.h"
-#include "mapgenformat.h"
-#include "overmap.h"
-#include "options.h"
-#include "debug.h"
-#include "scenario.h"
-#include "item.h"
-#include "translations.h"
-#include "vpart_position.h"
-#include "trap.h"
-#include <array>
-#include "vehicle_group.h"
 #include "computer.h"
-#include "mapdata.h"
-#include "map.h"
-#include "omdata.h"
+#include "debug.h"
 #include "field.h"
+#include "item.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "mapgen.h"
+#include "mapgenformat.h"
+#include "omdata.h"
+#include "options.h"
+#include "overmap.h"
+#include "translations.h"
+#include "trap.h"
+#include "vehicle_group.h"
+#include "vpart_position.h"
+
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <iterator>
 #include <random>
-#include <chrono>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -99,6 +98,12 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "field",            &mapgen_field },
             { "dirtlot",          &mapgen_dirtlot },
             { "forest",           &mapgen_forest },
+            { "forest_trail_straight",    &mapgen_forest_trail_straight },
+            { "forest_trail_curved",      &mapgen_forest_trail_curved },
+            // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
+            { "forest_trail_end",         &mapgen_forest_trail_straight },
+            { "forest_trail_tee",         &mapgen_forest_trail_tee },
+            { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
             { "hive",             &mapgen_hive },
             { "spider_pit",       &mapgen_spider_pit },
             { "fungal_bloom",     &mapgen_fungal_bloom },
@@ -216,33 +221,24 @@ int &mapgendata::dir( int dir_in )
     switch( dir_in ) {
         case 0:
             return n_fac;
-            break;
         case 1:
             return e_fac;
-            break;
         case 2:
             return s_fac;
-            break;
         case 3:
             return w_fac;
-            break;
         case 4:
             return ne_fac;
-            break;
         case 5:
             return se_fac;
-            break;
         case 6:
             return sw_fac;
-            break;
         case 7:
             return nw_fac;
-            break;
         default:
             debugmsg( "Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in );
             //return something just so the compiler doesn't freak out. Not really correct, though.
             return n_fac;
-            break;
     }
 }
 
@@ -3621,7 +3617,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // The max sparseness is calculated across all the possible biomes, not just the adjacent ones.
     const auto get_max_sparseness_adjacency_factor = [&dat]() {
-        if( dat.region.forest_composition.biomes.size() == 0 ) {
+        if( dat.region.forest_composition.biomes.empty() ) {
             return 0;
         }
         std::vector<int> factors;
@@ -3773,7 +3769,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // If this biome does not define its own groundcover, then fill with the region's ground
     // cover. Otherwise, fill with the biome defs groundcover.
-    if( current_biome_def.groundcover.size() == 0 ) {
+    if( current_biome_def.groundcover.empty() ) {
         dat.fill_groundcover();
     } else {
         m->draw_fill_background( current_biome_def.groundcover );
@@ -3817,6 +3813,164 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
         m->place_items( current_biome_def.item_group, current_biome_def.item_group_chance, 0, 0,
                         SEEX * 2 - 1, SEEY * 2 - 1, true, turn );
     }
+}
+
+void mapgen_forest_trail_straight( map *m, oter_id terrain_type, mapgendata dat,
+                                   const time_point &turn,
+                                   float density )
+{
+    mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
+
+    const auto center_offset = [&dat]() {
+        return rng( -dat.region.forest_trail.trail_center_variance,
+                    dat.region.forest_trail.trail_center_variance );
+    };
+
+    const auto width_offset = [&dat]() {
+        return rng( dat.region.forest_trail.trail_width_offset_min,
+                    dat.region.forest_trail.trail_width_offset_max );
+    };
+
+    int center_x = SEEX + center_offset();
+    int center_y = SEEY + center_offset();
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( i > center_x - width_offset() && i < center_x + width_offset() ) {
+                m->furn_set( i, j, f_null );
+                m->ter_set( i, j, *dat.region.forest_trail.trail_terrain.pick() );
+            }
+        }
+    }
+
+    if( terrain_type == "forest_trail_ew" || terrain_type == "forest_trail_end_east" ||
+        terrain_type == "forest_trail_end_west" ) {
+        m->rotate( 1 );
+    }
+
+    m->place_items( "forest_trail", 75, center_x - 2, center_y - 2, center_x + 2, center_y + 2, true,
+                    turn );
+}
+
+void mapgen_forest_trail_curved( map *m, oter_id terrain_type, mapgendata dat,
+                                 const time_point &turn,
+                                 float density )
+{
+    mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
+
+    const auto center_offset = [&dat]() {
+        return rng( -dat.region.forest_trail.trail_center_variance,
+                    dat.region.forest_trail.trail_center_variance );
+    };
+
+    const auto width_offset = [&dat]() {
+        return rng( dat.region.forest_trail.trail_width_offset_min,
+                    dat.region.forest_trail.trail_width_offset_max );
+    };
+
+    int center_x = SEEX + center_offset();
+    int center_y = SEEY + center_offset();
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( ( i > center_x - width_offset() && i < center_x + width_offset() &&
+                  j < center_y + width_offset() ) ||
+                ( j > center_y - width_offset() && j < center_y + width_offset() &&
+                  i > center_x - width_offset() ) ) {
+                m->furn_set( i, j, f_null );
+                m->ter_set( i, j, *dat.region.forest_trail.trail_terrain.pick() );
+            }
+        }
+    }
+
+    if( terrain_type == "forest_trail_es" ) {
+        m->rotate( 1 );
+    }
+    if( terrain_type == "forest_trail_sw" ) {
+        m->rotate( 2 );
+    }
+    if( terrain_type == "forest_trail_wn" ) {
+        m->rotate( 3 );
+    }
+
+    m->place_items( "forest_trail", 75, center_x - 2, center_y - 2, center_x + 2, center_y + 2, true,
+                    turn );
+}
+
+void mapgen_forest_trail_tee( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+                              float density )
+{
+    mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
+
+    const auto center_offset = [&dat]() {
+        return rng( -dat.region.forest_trail.trail_center_variance,
+                    dat.region.forest_trail.trail_center_variance );
+    };
+
+    const auto width_offset = [&dat]() {
+        return rng( dat.region.forest_trail.trail_width_offset_min,
+                    dat.region.forest_trail.trail_width_offset_max );
+    };
+
+    int center_x = SEEX + center_offset();
+    int center_y = SEEY + center_offset();
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( ( i > center_x - width_offset() && i < center_x + width_offset() ) ||
+                ( j > center_y - width_offset() &&
+                  j < center_y + width_offset() && i > center_x - width_offset() ) ) {
+                m->furn_set( i, j, f_null );
+                m->ter_set( i, j, *dat.region.forest_trail.trail_terrain.pick() );
+            }
+        }
+    }
+
+    if( terrain_type == "forest_trail_esw" ) {
+        m->rotate( 1 );
+    }
+    if( terrain_type == "forest_trail_nsw" ) {
+        m->rotate( 2 );
+    }
+    if( terrain_type == "forest_trail_new" ) {
+        m->rotate( 3 );
+    }
+
+    m->place_items( "forest_trail", 75, center_x - 2, center_y - 2, center_x + 2, center_y + 2, true,
+                    turn );
+}
+
+void mapgen_forest_trail_four_way( map *m, oter_id, mapgendata dat, const time_point &turn,
+                                   float density )
+{
+    mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
+
+    const auto center_offset = [&dat]() {
+        return rng( -dat.region.forest_trail.trail_center_variance,
+                    dat.region.forest_trail.trail_center_variance );
+    };
+
+    const auto width_offset = [&dat]() {
+        return rng( dat.region.forest_trail.trail_width_offset_min,
+                    dat.region.forest_trail.trail_width_offset_max );
+    };
+
+    int center_x = SEEX + center_offset();
+    int center_y = SEEY + center_offset();
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( ( i > center_x - width_offset() && i < center_x + width_offset() ) ||
+                ( j > center_y - width_offset() &&
+                  j < center_y + width_offset() ) ) {
+                m->furn_set( i, j, f_null );
+                m->ter_set( i, j, *dat.region.forest_trail.trail_terrain.pick() );
+            }
+        }
+    }
+
+    m->place_items( "forest_trail", 75, center_x - 2, center_y - 2, center_x + 2, center_y + 2, true,
+                    turn );
 }
 
 void mremove_trap( map *m, int x, int y )
@@ -3884,7 +4038,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     std::vector<tripoint> tripoints;
 
     // Find the basement's stairs first.
-    for( auto &&p : tr ) {
+    for( auto &&p : tr ) { // *NOPAD*
         if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
             const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
             stairs.emplace_back( rotated );
@@ -3912,7 +4066,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 
     // Find a tripoint where all the underground tripoints for stairs are on
     // suitable locations aboveground.
-    for( auto &&p : tripoints ) {
+    for( auto &&p : tripoints ) { // *NOPAD*
         int count = 1;
         all_can_be_placed = true;
         stairs_debug_log( m, "ok first:", p );
@@ -3956,7 +4110,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
                          << "and the rest may end up in odd locations.";
     }
 
-    for( auto &&p : stairs ) {
+    for( auto &&p : stairs ) { // *NOPAD*
         tripoint stair = p + shift;
 
         if( m->ter_set( stair, t_stairs_down ) ) {

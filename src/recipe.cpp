@@ -1,17 +1,18 @@
 #include "recipe.h"
 
 #include "calendar.h"
+#include "game_constants.h"
 #include "generic_factory.h"
-#include "itype.h"
 #include "item.h"
-#include "string_formatter.h"
+#include "itype.h"
 #include "output.h"
 #include "skill.h"
-#include "game_constants.h"
+#include "uistate.h"
+#include "string_formatter.h"
 
 #include <algorithm>
+#include <cmath>
 #include <numeric>
-#include <math.h>
 
 struct oter_t;
 using oter_str_id = string_id<oter_t>;
@@ -78,6 +79,10 @@ void recipe::load( JsonObject &jo, const std::string &src )
     } else {
         result_ = jo.get_string( "result" );
         ident_ = recipe_id( result_ );
+    }
+
+    if( jo.has_bool( "obsolete" ) ) {
+        assign( jo, "obsolete", obsolete );
     }
 
     assign( jo, "time", time, strict, 0 );
@@ -385,5 +390,10 @@ std::string recipe::required_skills_string( const Character *c ) const
 
 std::string recipe::result_name() const
 {
-    return item::nname( result_ );
+    std::string name = item::nname( result_ );
+    if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
+        name = "* " + name;
+    }
+
+    return name;
 }

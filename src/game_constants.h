@@ -2,11 +2,11 @@
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
+#include "units.h"
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
-
-#include "units.h"
 
 // Fixed window sizes
 #define HP_HEIGHT 14
@@ -93,7 +93,6 @@ constexpr int freezer = 23; // -5 Celsius
 /** Temperature in which water freezes in Fahrenheit  */
 constexpr int freezing = 32; // 0 Celsius
 }
-
 
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level

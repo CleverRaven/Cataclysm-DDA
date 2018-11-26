@@ -5,8 +5,8 @@
 #include "enums.h"
 
 #include <memory>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 class monster;
 class JsonIn;

@@ -2,11 +2,10 @@
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
-#include "itype.h"
 #include "enums.h"
+#include "itype.h"
 
 #include <string>
-#include <vector>
 
 class JsonObject;
 class JsonOut;
@@ -84,7 +83,7 @@ class it_artifact_tool : public itype
 
         it_artifact_tool();
         it_artifact_tool( JsonObject &jo );
-        it_artifact_tool( const itype &base ) : itype( base ) {};
+        it_artifact_tool( const itype &base ) : itype( base ) {}
 
         void create_name( const std::string &type );
         void create_name( const std::string &property_name, const std::string &shape_name );
@@ -98,7 +97,7 @@ class it_artifact_armor : public itype
 
         it_artifact_armor();
         it_artifact_armor( JsonObject &jo );
-        it_artifact_armor( const itype &base ) : itype( base ) {};
+        it_artifact_armor( const itype &base ) : itype( base ) {}
 
         void create_name( const std::string &type );
 };

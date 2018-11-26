@@ -1,25 +1,26 @@
 #include "veh_type.h"
-#include "requirements.h"
-#include "vehicle.h"
-#include "debug.h"
-#include "item_group.h"
-#include "json.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "color.h"
-#include "itype.h"
-#include "ammo.h"
-#include "vehicle_group.h"
-#include "init.h"
-#include "output.h"
-#include "generic_factory.h"
-#include "character.h"
-#include "flag.h"
 
+#include "ammo.h"
+#include "character.h"
+#include "color.h"
+#include "debug.h"
+#include "flag.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item_group.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "requirements.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vehicle_group.h"
+
+#include <numeric>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
-#include <sstream>
-#include <numeric>
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -143,7 +144,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         requirement_data::load_requirement( src, req_id );
         reqs = { { req_id, 1 } };
     }
-};
+}
 
 /**
  * Reads engine info from a JsonObject.
@@ -877,7 +878,7 @@ void vehicle_prototype::finalize()
                 continue;
             }
 
-            if( blueprint.install_part( pt.pos.x, pt.pos.y, pt.part ) < 0 ) {
+            if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name.c_str(), pt.part.c_str(),
                           blueprint.parts.size(), pt.pos.x, pt.pos.y );

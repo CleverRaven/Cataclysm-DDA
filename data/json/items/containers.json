@@ -361,6 +361,24 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
+    "id": "plastic_bag_vac",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "vacuum-packed bag",
+    "description": "This is a bag of vacuum-packed food.",
+    "weight": 2,
+    "volume": 0,
+    "contains": 2,
+    "price": 0,
+    "material": "plastic",
+    "symbol": "%",
+    "color": "red",
+    "watertight": false,
+    "preserves": true,
+    "rigid": false,
+    "unseals_into": "bag_plastic"
+  },
+  {
     "id": "can_food",
     "type": "CONTAINER",
     "category": "other",

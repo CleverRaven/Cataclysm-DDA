@@ -1,29 +1,28 @@
 #include "crafting_gui.h"
 
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "crafting.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "player.h"
-#include "itype.h"
-#include "input.h"
-#include "game.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "skill.h"
-#include "catacharset.h"
-#include "output.h"
-#include "json.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 #include "ui.h"
 #include "uistate.h"
 
-#include "debug.h"
-
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 enum TAB_MODE {
     NORMAL,
@@ -57,7 +56,6 @@ std::string get_cat_name( const std::string &prefixed_name )
 
 void load_recipe_category( JsonObject &jsobj )
 {
-    JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
 
     if( category.find( "CC_" ) != 0 ) {
@@ -69,7 +67,7 @@ void load_recipe_category( JsonObject &jsobj )
     std::string cat_name = get_cat_name( category );
 
     craft_subcat_list[category] = std::vector<std::string>();
-    subcats = jsobj.get_array( "recipe_subcategories" );
+    JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
         std::string subcat_id = subcats.next_string();
         if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
@@ -184,8 +182,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     //preserves component color printout between mode rotations
     nc_color rotated_color = c_white;
     int previous_item_line = -1;
-    std::string previous_tab = "";
-    std::string previous_subtab = "";
+    std::string previous_tab;
+    std::string previous_subtab;
     item tmp;
     int line = 0;
     int ypos = 0;
@@ -197,7 +195,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     bool show_hidden = false;
     int batch_line = 0;
     int display_mode = 0;
-    const recipe *chosen = NULL;
+    const recipe *chosen = nullptr;
     std::vector<iteminfo> thisItem;
     std::vector<iteminfo> dummy;
 
@@ -212,6 +210,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
@@ -220,7 +219,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const inventory &crafting_inv = g->u.crafting_inventory();
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    std::string filterstring = "";
+    std::string filterstring;
 
     const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, bool> availability_cache;
@@ -254,9 +253,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else {
                 std::vector<const recipe *> picking;
-                if( filterstring.empty() ) {
-                    picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
-                } else {
+                if( !filterstring.empty() ) {
                     auto qry = trim( filterstring );
                     if( qry.size() > 2 && qry[1] == ':' ) {
                         switch( qry[0] ) {
@@ -272,12 +269,21 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
                                 break;
 
+                            case 'p':
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::primary_skill );
+                                break;
+
                             case 'Q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
                                 break;
 
                             case 'q':
                                 picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
+                                break;
+
+                            case 'd':
+                                picking = available_recipes.search( qry.substr( 2 ),
+                                                                    recipe_subset::search_type::description_result );
                                 break;
 
                             case 'm': {
@@ -307,6 +313,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                     } else {
                         picking = available_recipes.search( qry );
                     }
+                } else if( subtab.cur() == "CSC_*_FAVORITE" ) {
+                    picking = available_recipes.favorite();
+                } else if( subtab.cur() == "CSC_*_RECENT" ) {
+                    picking = available_recipes.recent();
+                } else {
+                    picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 }
 
                 current.clear();
@@ -327,13 +339,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                     }
                 }
 
-                std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
-                    return b->difficulty < a->difficulty;
-                } );
+                if( subtab.cur() != "CSC_*_RECENT" ) {
+                    std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
+                        return b->difficulty < a->difficulty;
+                    } );
 
-                std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
-                    return availability_cache[a] && !availability_cache[b];
-                } );
+                    std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
+                        return availability_cache[a] && !availability_cache[b];
+                    } );
+                }
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
@@ -362,20 +376,20 @@ const recipe *select_crafting_recipe( int &batch_size )
             wprintz( w_data, c_white, "  " );
             if( !filterstring.empty() ) {
                 wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
+                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
                 wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
+                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
             if( !filterstring.empty() ) {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
             } else {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
             }
             mvwprintz( w_data, dataLines + 2, 5, c_white,
                        _( "Press <ENTER> to attempt to craft object." ) );
@@ -640,7 +654,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 popup( _( "You can't do that!" ) );
             } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
-                ; // popup is already inside check
+                // popup is already inside check
             } else {
                 chosen = current[line];
                 batch_size = ( batch ) ? line + 1 : 1;
@@ -665,8 +679,11 @@ const recipe *select_crafting_recipe( int &batch_size )
             };
             std::vector<SearchPrefix> prefixes = {
                 { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
+                //~ Example result description search term
+                { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
                 { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
-                { 's', _( "cooking" ), _( "<color_cyan>skill</color> required to craft" ) },
+                { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
+                { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
                 { 'h', _( "yes" ), _( "recipes which are <color_cyan>hidden</color> or not" ) },
@@ -728,6 +745,18 @@ const recipe *select_crafting_recipe( int &batch_size )
                 keepline = true;
             }
             redraw = true;
+        } else if( action == "TOGGLE_FAVORITE" ) {
+            keepline = true;
+            redraw = true;
+            if( current.empty() ) {
+                popup( _( "Nothing selected!" ) );
+                continue;
+            }
+            if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
+                uistate.favorite_recipes.erase( current[line]->ident() );
+            } else {
+                uistate.favorite_recipes.insert( current[line]->ident() );
+            }
         } else if( action == "HIDE_SHOW_RECIPE" ) {
             if( current.empty() ) {
                 popup( _( "Nothing selected!" ) );
@@ -809,7 +838,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
 
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
-    if( rel_menu.ret != UIMENU_CANCEL ) {
+    if( rel_menu.ret != UILIST_CANCEL ) {
         std::wstring wstr_recipe_name = utf8_to_wstr( rel_menu.entries[ rel_menu.ret ].txt );
         return wstr_to_utf8( wstr_recipe_name.substr( 2 ) ); // 2 = prefix length
     }
@@ -821,7 +850,7 @@ int related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                        const recipe_subset &available )
 {
-    const std::vector<uimenu_entry> &entries = rmenu.entries;
+    const std::vector<uilist_entry> &entries = rmenu.entries;
     int np_last = entries.empty() ? -1 : entries.back().retval;
 
     if( related_recipes.empty() ) {
@@ -879,8 +908,9 @@ static bool query_is_yes( const std::string &query )
 {
     const std::string subquery = query.substr( 2 );
 
-    return ( ( subquery == "yes" ) || ( subquery == "y" ) || ( subquery == "1" ) ||
-             ( subquery == "true" ) || ( subquery == "t" ) || ( subquery == "on" ) );
+    return subquery == "yes" || subquery == "y" || subquery == "1" ||
+           subquery == "true" || subquery == "t" || subquery == "on" ||
+           subquery == _( "yes" );
 }
 
 static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount )

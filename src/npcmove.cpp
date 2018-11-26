@@ -1,36 +1,36 @@
 #include "npc.h"
 
-#include "dispersion.h"
-#include "rng.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "output.h"
-#include "projectile.h"
-#include "line.h"
-#include "debug.h"
-#include "vpart_range.h"
-#include "overmapbuffer.h"
-#include "ranged.h"
-#include "messages.h"
 #include "ammo.h"
-#include "translations.h"
-#include "veh_type.h"
-#include "monster.h"
-#include "vpart_position.h"
+#include "cata_algo.h"
+#include "debug.h"
+#include "dispersion.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "gates.h"
+#include "gun_mode.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "effect.h"
-#include "vehicle.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
-#include "vpart_reference.h"
-#include "sounds.h"
-#include "gates.h"
+#include "output.h"
 #include "overmap_location.h"
-#include "gun_mode.h"
+#include "overmapbuffer.h"
+#include "projectile.h"
+#include "ranged.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "visitable.h"
-#include "cata_algo.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 
 #include <algorithm>
 #include <memory>
@@ -95,7 +95,7 @@ hp_part most_damaged_hp_part( const Character &c );
 struct ratio_index {
     double ratio;
     int index;
-    ratio_index( double R, int I ) : ratio( R ), index( I ) {};
+    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
 bool clear_shot_reach( const tripoint &from, const tripoint &to )
@@ -520,7 +520,7 @@ void npc::execute_action( npc_action action )
             for( size_t i = 0; i < slice.size(); i++ ) {
                 item &it = slice[i]->front();
                 bool am = ( it.is_gun() &&
-                            get_ammo( it.type->gun->ammo ).size() > 0 );
+                            !get_ammo( it.type->gun->ammo ).empty() );
                 if( it.is_gun() && ( !ammo_found || am ) ) {
                     index = i;
                     ammo_found = ( ammo_found || am );
@@ -647,7 +647,7 @@ void npc::execute_action( npc_action action )
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
-            for( const vpart_reference &vp : veh->get_parts( VPFLAG_BOARDABLE ) ) {
+            for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
                 const player *passenger = veh->get_passenger( vp.part_index() );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
@@ -820,7 +820,7 @@ void npc::choose_target()
         int dist = rl_dist( pos(), mon.pos() );
         // @todo: This should include ranged attacks in calculation
         float scaled_distance = std::max( 1.0f, dist / mon.speed_rating() );
-        float hp_percent = ( float )( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
+        float hp_percent = static_cast<float>( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
         float critter_danger = mon.type->difficulty * ( hp_percent / 2.0f + 0.5f );
 
         auto att = mon.attitude( this );
@@ -1073,11 +1073,7 @@ bool wants_to_reload( const npc &who, const item &it )
 
 bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    if( ammo.is_magazine() && ( ammo.ammo_remaining() <= weap.ammo_remaining() ) ) {
-        return false;
-    }
-
-    return true;
+    return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
 item &npc::find_reloadable()
@@ -1305,16 +1301,12 @@ double npc::confidence_mult() const
     switch( rules.aim ) {
         case AIM_WHEN_CONVENIENT:
             return emergency() ? 1.5f : 1.0f;
-            break;
         case AIM_SPRAY:
             return 2.0f;
-            break;
         case AIM_PRECISE:
             return emergency() ? 1.0f : 0.75f;
-            break;
         case AIM_STRICTLY_PRECISE:
             return 0.5f;
-            break;
     }
 
     return 1.0f;
@@ -1379,7 +1371,11 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
     int safe_angle = 30;
 
     for( const auto &fr : ai_cache.friends ) {
-        const Creature &ally = *fr.get();
+        const std::shared_ptr<Creature> ally_p = fr.lock();
+        if( !ally_p ) {
+            continue;
+        }
+        const Creature &ally = *ally_p;
 
         // @todo: Extract common functions with turret target selection
         int safe_angle_ally = safe_angle;
@@ -1404,7 +1400,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 {
     int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ),
                                    gun.ammo_capacity() );
-    const float turns_til_reloaded = ( float )rltime / get_speed();
+    const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
     const Creature *target = current_target();
     if( target == nullptr ) {
@@ -1688,8 +1684,9 @@ void npc::avoid_friendly_fire()
     // Calculate center of weight of friends and move away from that
     tripoint center;
     for( const auto &fr : ai_cache.friends ) {
-        const Creature &ally = *fr.get();
-        center += ally.pos();
+        if( std::shared_ptr<Creature> fr_p = fr.lock() ) {
+            center += fr_p->pos();
+        }
     }
 
     float friend_count = ai_cache.friends.size();
@@ -3162,12 +3159,15 @@ void print_action( const char *prepend, npc_action action )
 
 const Creature *npc::current_target() const
 {
-    return ai_cache.target.get();
+    // TODO: Arguably we should return a shared_ptr to ensure that the returned
+    // object stays alive while the caller uses it.  Not doing that for now.
+    return ai_cache.target.lock().get();
 }
 
 Creature *npc::current_target()
 {
-    return const_cast<Creature *>( const_cast<const npc *>( this )->current_target() );
+    // TODO: As above.
+    return ai_cache.target.lock().get();
 }
 
 // Maybe TODO: Move to Character method and use map methods

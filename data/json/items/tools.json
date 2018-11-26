@@ -316,107 +316,6 @@
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
-    "id": "bag_apple_vac",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "vacuum-packed fruit slice",
-    "description": "This is a bag of vacuum packed fruit slices in plastic packaging.  Use to open and eat to enjoy.",
-    "weight": 152,
-    "volume": 1,
-    "price": 500,
-    "bashing": 8,
-    "material": [ "plastic", "veggy" ],
-    "symbol": "%",
-    "color": "red",
-    "use_action": {
-      "target": "apple_vac",
-      "msg": "You open the vacuum pack, exposing it to the atmosphere.",
-      "container": "bag_plastic",
-      "menu_text": "Open bag",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "bag_fish_vac",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "vacuum-packed fish slice",
-    "description": "This is a bag of vacuum packed fish slices in plastic packaging.  Use to open and eat to enjoy.",
-    "weight": 240,
-    "volume": 1,
-    "price": 750,
-    "bashing": 8,
-    "material": [ "plastic", "flesh" ],
-    "symbol": "%",
-    "color": "light_gray",
-    "use_action": {
-      "target": "fish_vac",
-      "msg": "You open the vacuum pack, exposing it to the atmosphere.",
-      "container": "bag_plastic",
-      "menu_text": "Open bag",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "bag_hflesh_vac",
-    "copy-from": "bag_meat_vac",
-    "type": "GENERIC",
-    "name": "vacuum-packed salted simpleton slice",
-    "description": "This is a bag of vacuum packed human flesh slices in plastic packaging.  Use to open and eat to enjoy.",
-    "material": [ "plastic", "hflesh" ],
-    "use_action": {
-      "target": "hflesh_vac",
-      "msg": "You open the vacuum pack, exposing it to the atmosphere.",
-      "container": "bag_plastic",
-      "menu_text": "Open bag",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "bag_meat_vac",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "vacuum-packed meat slice",
-    "name_plural": "vacuum-packed meat slices",
-    "description": "This is a bag of vacuum packed meat slices in plastic packaging.  Use to open and eat to enjoy.",
-    "weight": 240,
-    "volume": 1,
-    "price": 750,
-    "bashing": 8,
-    "material": [ "plastic", "flesh" ],
-    "symbol": "%",
-    "color": "red",
-    "use_action": {
-      "target": "meat_vac",
-      "msg": "You open the vacuum pack, exposing it to the atmosphere.",
-      "container": "bag_plastic",
-      "menu_text": "Open bag",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "bag_veggy_vac",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "vacuum-packed veggy chunk",
-    "description": "This is a bag of vacuum packed vegetable slices in plastic packaging.  Use to open and eat to enjoy.",
-    "weight": 242,
-    "volume": 1,
-    "price": 650,
-    "bashing": 8,
-    "cutting": 1,
-    "material": [ "plastic", "veggy" ],
-    "symbol": "%",
-    "color": "green",
-    "use_action": {
-      "target": "veggy_vac",
-      "msg": "You open the vacuum pack, exposing it to the atmosphere.",
-      "container": "bag_plastic",
-      "menu_text": "Open bag",
-      "type": "transform"
-    }
-  },
-  {
     "id": "banjo",
     "type": "TOOL",
     "category": "tools",
@@ -4115,7 +4014,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     },
     "techniques": "RAPID",
@@ -4180,7 +4079,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     },
     "techniques": [ "RAPID", "WBLOCK_1" ],
@@ -4581,6 +4480,7 @@
     "color": "dark_gray",
     "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
     "use_action": "CROWBAR",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -5509,13 +5409,13 @@
     "type": "GENERIC",
     "category": "weapons",
     "name": "awl pike",
-    "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike.  Though large and heavy compared to other spears, its accuracy and damage are unparalleled.",
-    "weight": 6000,
+    "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike.",
+    "weight": 2500,
     "volume": 14,
     "price": 40000,
-    "to_hit": 2,
-    "bashing": 15,
-    "cutting": 45,
+    "to_hit": -2,
+    "bashing": 8,
+    "cutting": 25,
     "material": [ "iron", "wood" ],
     "symbol": "/",
     "color": "brown",
@@ -7048,7 +6948,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
       "dispersion_modifier": 20,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
     },
     "techniques": [ "WBLOCK_1", "RAPID" ],

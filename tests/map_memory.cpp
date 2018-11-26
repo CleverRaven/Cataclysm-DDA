@@ -3,16 +3,16 @@
 #include "map_memory.h"
 #include "json.h"
 
-static const tripoint p1{ 0, 0, 1 };
-static const tripoint p2{ 0, 0, 2 };
-static const tripoint p3{ 0, 0, 3 };
+static constexpr tripoint p1{ 0, 0, 1 };
+static constexpr tripoint p2{ 0, 0, 2 };
+static constexpr tripoint p3{ 0, 0, 3 };
 
 TEST_CASE( "map_memory_defaults", "[map_memory]" )
 {
     map_memory memory;
     CHECK( memory.get_symbol( p1 ) == 0 );
     memorized_terrain_tile default_tile = memory.get_tile( p1 );
-    CHECK( default_tile.tile == "" );
+    CHECK( default_tile.tile.empty() );
     CHECK( default_tile.subtile == 0 );
     CHECK( default_tile.rotation == 0 );
 }

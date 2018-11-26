@@ -1,5 +1,8 @@
 cataclysm
 cataclysm-tiles
+cataclysm-vcpkg
+cata_test
+cata_test-tiles
 chkjson*
 !src/chkjson
 data/*.template
@@ -31,6 +34,7 @@ dep/
 *.d
 *.a
 cmake-build-debug/
+*.tmp
 
 data/font/
 config/
@@ -51,6 +55,7 @@ Debug*/
 *.user
 *.vcxproj.filters
 .vscode/
+.vs/
 *.code-workspace
 
 # Temporary and backup files

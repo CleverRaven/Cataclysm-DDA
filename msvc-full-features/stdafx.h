@@ -1,92 +1,98 @@
 #pragma once
 
-#include <cassert>
-#include <cinttypes>
-#include <csignal>
-#include <cstdio>
-#include <cwchar>
-#include <ccomplex>
-//#include <ciso646>
-//#include <cstdalign>
-#include <cstdlib>
-#include <cwctype>
-#include <cctype>
-#include <climits>
-#include <cstdarg>
-#include <cstring>
-#include <cerrno>
-#include <clocale>
-#include <cstdbool>
-#include <ctgmath>
-#include <cfenv>
-#include <cmath>
-#include <cstddef>
-#include <ctime>
-#include <cfloat>
-#include <csetjmp>
-#include <cstdint>
-#include <cuchar>
 #include <algorithm>
-#include <fstream>
-#include <list>
-#include <regex>
-#include <tuple>
 #include <array>
-#include <functional>
-#include <locale>
-#include <scoped_allocator>
-#include <type_traits>
-//#include <atomic>
-//#include <future>
-#include <map>
-#include <set>
-#include <typeindex>
 #include <bitset>
-#include <initializer_list>
-#include <memory>
-#include <sstream>
-#include <typeinfo>
+#include <cassert>
+#include <ccomplex>
+#include <cctype>
+#include <cerrno>
+#include <cfenv>
+#include <cfloat>
 #include <chrono>
-#include <iomanip>
-#include <mutex>
-#include <stack>
-#include <unordered_map>
+#include <cinttypes>
+#include <climits>
+#include <clocale>
+#include <cmath>
 #include <codecvt>
-#include <ios>
-#include <new>
-#include <stdexcept>
-#include <unordered_set>
 #include <complex>
-#include <iosfwd>
-#include <numeric>
-#include <streambuf>
-#include <utility>
-//#include <condition_variable>
-#include <iostream>
-#include <ostream>
-#include <string>
-//#include <valarray>
+#include <csetjmp>
+#include <csignal>
+#include <cstdarg>
+#include <cstdbool>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctgmath>
+#include <ctime>
+#include <cuchar>
+#include <cwchar>
+#include <cwctype>
 #include <deque>
-#include <istream>
-#include <queue>
-#include <strstream>
-#include <vector>
 #include <exception>
-#include <iterator>
-#include <random>
-#include <system_error>
 #include <forward_list>
+#include <fstream>
+#include <functional>
+#include <initializer_list>
+#include <iomanip>
+#include <ios>
+#include <iosfwd>
+#include <iostream>
+#include <istream>
+#include <iterator>
 #include <limits>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <mutex>
+#include <new>
+#include <numeric>
+#include <ostream>
+#include <queue>
+#include <random>
 #include <ratio>
-//#include <thread>
+#include <regex>
+#include <scoped_allocator>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <stdexcept>
+#include <streambuf>
+#include <string>
+#include <strstream>
+#include <system_error>
+#include <tuple>
+#include <type_traits>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "../src/platform_win.h"
 
 #if defined(TILES)
-#   include <SDL.h>
-#   include <SDL_ttf.h>
-#   include <SDL_image.h>
-#   if defined(SDL_SOUND)
-#       include <SDL_mixer.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#      include <SDL2/SDL.h>
+#      include <SDL2/SDL_image.h>
+#      include <SDL2/SDL_mixer.h>
+#      include <SDL2/SDL_ttf.h>
+#      include <SDL2/SDL_version.h>
+#      ifdef SDL_SOUND
+#          include <SDL2/SDL_mixer.h>
+#      endif
+#   else
+#      include <SDL.h>
+#      include <SDL_image.h>
+#      include <SDL_mixer.h>
+#      include <SDL_ttf.h>
+#      include <SDL_version.h>
+#      ifdef SDL_SOUND
+#          include <SDL_mixer.h>
+#      endif
 #   endif
 #endif

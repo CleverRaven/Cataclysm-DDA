@@ -1208,7 +1208,7 @@
         "healthy" : -2,
         "stack_size" : 42,
         "symbol" : "!",
-        "color" : "orange",
+        "color" : "yellow",
         "looks_like" : "calcium_tablet",
         "use_action" : {
             "type" : "consume_drug",

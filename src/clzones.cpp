@@ -1,19 +1,17 @@
 #include "clzones.h"
-#include "game.h"
-#include "json.h"
-#include "debug.h"
-#include "output.h"
+
 #include "cata_utility.h"
+#include "debug.h"
+#include "game.h"
+#include "iexamine.h"
+#include "item_category.h"
+#include "itype.h"
+#include "json.h"
+#include "line.h"
+#include "output.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
-#include "string_input_popup.h"
-#include "line.h"
-#include "item.h"
-#include "itype.h"
-#include "item_category.h"
-#include "iexamine.h"
-
-#include <iostream>
 
 zone_manager::zone_manager()
 {
@@ -30,19 +28,19 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Food" ),
                               translate_marker( "Destination for comestibles. If more specific food zone is not defined, all food is moved here." ) ) );
     types.emplace( zone_type_id( "LOOT_PFOOD" ),
-                   zone_type( translate_marker_context( "perishable food", "Loot: P.Food" ),
+                   zone_type( translate_marker( "Loot: P.Food" ),
                               translate_marker( "Destination for perishable comestibles. Does include perishable drinks if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_DRINK" ),
                    zone_type( translate_marker( "Loot: Drink" ),
                               translate_marker( "Destination for drinks. Does include perishable drinks if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_PDRINK" ),
-                   zone_type( translate_marker_context( "perishable drink", "Loot: P.Drink" ),
+                   zone_type( translate_marker( "Loot: P.Drink" ),
                               translate_marker( "Destination for perishable drinks." ) ) );
     types.emplace( zone_type_id( "LOOT_GUNS" ),
                    zone_type( translate_marker( "Loot: Guns" ),
                               translate_marker( "Destination for guns, bows and similar weapons." ) ) );
     types.emplace( zone_type_id( "LOOT_MAGAZINES" ),
-                   zone_type( translate_marker_context( "gun magazines", "Loot: Magazines" ),
+                   zone_type( translate_marker( "Loot: Magazines" ),
                               translate_marker( "Destination for gun magazines." ) ) );
     types.emplace( zone_type_id( "LOOT_AMMO" ),
                    zone_type( translate_marker( "Loot: Ammo" ),
@@ -57,7 +55,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Clothing" ),
                               translate_marker( "Destination for clothing. Does include filthy clothing if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_FCLOTHING" ),
-                   zone_type( translate_marker_context( "filthy clothing", "Loot: F.Clothing" ),
+                   zone_type( translate_marker( "Loot: F.Clothing" ),
                               translate_marker( "Destination for filthy clothing." ) ) );
     types.emplace( zone_type_id( "LOOT_DRUGS" ),
                    zone_type( translate_marker( "Loot: Drugs" ),
@@ -75,7 +73,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Bionics" ),
                               translate_marker( "Destination for Compact Bionics Modules aka CBMs." ) ) );
     types.emplace( zone_type_id( "LOOT_VEHICLE_PARTS" ),
-                   zone_type( translate_marker_context( "vehicle parts", "Loot: V.Parts" ),
+                   zone_type( translate_marker( "Loot: V.Parts" ),
                               translate_marker( "Destination for vehicle parts." ) ) );
     types.emplace( zone_type_id( "LOOT_OTHER" ),
                    zone_type( translate_marker( "Loot: Other" ),
@@ -90,7 +88,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Chemical" ),
                               translate_marker( "Destination for chemicals." ) ) );
     types.emplace( zone_type_id( "LOOT_SPARE_PARTS" ),
-                   zone_type( translate_marker_context( "spare parts", "Loot: S.Parts" ),
+                   zone_type( translate_marker( "Loot: S.Parts" ),
                               translate_marker( "Destination for spare parts." ) ) );
     types.emplace( zone_type_id( "LOOT_ARTIFACTS" ),
                    zone_type( translate_marker( "Loot: Artifacts" ),
@@ -99,7 +97,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Armor" ),
                               translate_marker( "Destination for armor. Does include filthy armor if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_FARMOR" ),
-                   zone_type( translate_marker_context( "filthy armor", "Loot: F.Armor" ),
+                   zone_type( translate_marker( "Loot: F.Armor" ),
                               translate_marker( "Destination for filthy armor." ) ) );
     types.emplace( zone_type_id( "LOOT_WOOD" ),
                    zone_type( translate_marker( "Loot: Wood" ),
@@ -108,7 +106,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Loot: Ignore" ),
                               translate_marker( "Items inside of this zone are ignored by \"sort out loot\" zone-action." ) ) );
     types.emplace( zone_type_id( "FARM_PLOT" ),
-                   zone_type( translate_marker_context( "plot of land", "Farm: Plot" ),
+                   zone_type( translate_marker( "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
 }
 
@@ -129,7 +127,7 @@ std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
     }
 
     return std::make_shared<zone_options>();
-};
+}
 
 bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
 {
@@ -189,12 +187,12 @@ plot_options::query_seed_result plot_options::query_seed()
 bool plot_options::query_at_creation()
 {
     return query_seed() != canceled;
-};
+}
 
 bool plot_options::query()
 {
     return query_seed() == changed;
-};
+}
 
 std::string plot_options::get_zone_name_suggestion() const
 {
@@ -209,7 +207,7 @@ std::string plot_options::get_zone_name_suggestion() const
     }
 
     return _( "No seed" );
-};
+}
 
 std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
 {
@@ -224,15 +222,15 @@ void plot_options::serialize( JsonOut &json ) const
 {
     json.member( "mark", mark );
     json.member( "seed", seed );
-};
+}
 
 void plot_options::deserialize( JsonObject &jo_zone )
 {
     mark = jo_zone.get_string( "mark", "" );
     seed = jo_zone.get_string( "seed", "" );
-};
+}
 
-cata::optional<std::string> zone_manager::query_name( std::string default_name ) const
+cata::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
     string_input_popup popup;
     popup
@@ -371,7 +369,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set( const zone_type_id &ty
         return std::unordered_set<tripoint>();
     }
 
-    return type_iter->second;;
+    return type_iter->second;
 }
 
 bool zone_manager::has( const zone_type_id &type, const tripoint &where ) const
@@ -420,7 +418,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     }
 
     if( cat.id() == "food" ) {
-        const bool preserves = it.is_food_container() && it.type->container->preserves ? 1 : 0;
+        const bool preserves = it.is_food_container() && it.type->container->preserves;
         const auto &it_food = it.is_food_container() ? it.contents.front() : it;
 
         if( it_food.is_food() ) { // skip food without comestible, like MREs

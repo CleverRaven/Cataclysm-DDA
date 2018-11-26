@@ -1,5 +1,6 @@
 #include "overmap_ui.h"
 
+#include "cata_utility.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
@@ -10,9 +11,9 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "output.h"
 #include "player.h"
 #include "sounds.h"
 #include "string_input_popup.h"
@@ -20,10 +21,9 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
-#include "cata_utility.h"
 
 #ifdef __ANDROID__
-#include "SDL_keyboard.h"
+#include <SDL_keyboard.h>
 #endif
 
 namespace
@@ -148,7 +148,7 @@ bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
             i++;
             scent_age /= 10;
         }
-        ter_color = color_list.get( ( color_id )i );
+        ter_color = color_list.get( static_cast<color_id>( i ) );
         int scent_strength = possible_scent.initial_strength;
         char c = '0';
         while( c <= '9' && scent_strength > 0 ) {
@@ -285,7 +285,7 @@ point draw_notes( int z )
 }
 
 void draw( const catacurses::window &w, const catacurses::window &wbar, const tripoint &center,
-           const tripoint &orig, bool blink, bool show_explored, input_context *inp_ctxt,
+           const tripoint &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
            const draw_data_t &data )
 {
     const int z     = center.z;
@@ -734,6 +734,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
+        print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
@@ -794,6 +795,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "TOGGLE_HORDES" );
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
+    ictxt.register_action( "TOGGLE_FAST_SCROLL" );
+
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
         ictxt.register_action( "PLACE_SPECIAL" );
@@ -801,16 +804,20 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "QUIT" );
     std::string action;
     bool show_explored = true;
+    bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
+    int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
+
     do {
-        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt,
-              data );
+        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
+              fast_scroll, &ictxt, data );
         action = ictxt.handle_input( BLINK_SPEED );
 
         int dirx = 0;
         int diry = 0;
         if( ictxt.get_direction( dirx, diry, action ) ) {
-            curs.x += dirx;
-            curs.y += diry;
+            int scroll_d = fast_scroll ? fast_scroll_offset : 1;
+            curs.x += dirx * scroll_d;
+            curs.y += diry * scroll_d;
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH ) {
@@ -829,7 +836,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                                               _( color_pair.second.c_str() ), string_replace( color_pair.second, " ", "_" ).c_str() );
             }
 
-            std::string helper_text = string_format( ".\r\n \n%s\r\n%s\r\n%s\r\n ",
+            std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
                                       _( "Type GLYPH:TEXT to set a custom glyph." ),
                                       _( "Type COLOR;TEXT to set a custom color." ),
                                       _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
@@ -876,7 +883,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 .text( new_note )
                 .description( string_format( "%s%s%s\n",
                                              color_notes,
-                                             std::string( title.length() - 2, ' ' ),
+                                             std::string( title.length() - 1, ' ' ),
                                              tmp_note ) )
                 .title_color( c_white )
                 .desc_color( c_light_gray )
@@ -933,6 +940,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs.x, curs.y, curs.z );
+        } else if( action == "TOGGLE_FAST_SCROLL" ) {
+            fast_scroll = !fast_scroll;
         } else if( action == "SEARCH" ) {
             std::string term = string_input_popup()
                                .title( _( "Search term:" ) )
@@ -1000,7 +1009,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
-                draw( g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL,
+                draw( g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored,
+                      fast_scroll, nullptr,
                       draw_data_t() );
                 //Draw search box
                 mvwprintz( w_search, 1, 1, c_light_blue, _( "Search:" ) );
@@ -1084,8 +1094,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
                 do {
                     // overmap::draw will handle actually showing the preview
-                    draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
-                          show_explored, NULL, draw_data_t() );
+                    draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
+                          fast_scroll, NULL, draw_data_t() );
 
                     draw_border( w_editor );
                     if( terrain ) {

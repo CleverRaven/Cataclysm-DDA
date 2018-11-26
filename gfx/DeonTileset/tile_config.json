@@ -6316,21 +6316,21 @@
          "multitile" : false
       },
       {
-         "id" : "meat_vac",
+         "id" : "meat_salted",
          "fg" : 1089,
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
       },
       {
-         "id" : "veggy_vac",
+         "id" : "veggy_salted",
          "fg" : 1090,
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
       },
       {
-         "id" : "apple_vac",
+         "id" : "apple_sugar",
          "fg" : 1091,
          "bg" : -1,
          "rotates" : false,
@@ -9911,21 +9911,7 @@
          "multitile" : false
       },
       {
-         "id" : "bag_meat_vac",
-         "fg" : 1651,
-         "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
-         "id" : "bag_veggy_vac",
-         "fg" : 1652,
-         "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
-         "id" : "bag_apple_vac",
+         "id" : "plastic_bag_vac",
          "fg" : 1653,
          "bg" : -1,
          "rotates" : false,

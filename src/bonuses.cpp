@@ -1,18 +1,14 @@
 #include "bonuses.h"
+
+#include "character.h"
 #include "damage.h"
 #include "json.h"
-#include "character.h"
-#include "debug.h"
-#include "translations.h"
 #include "output.h"
+#include "translations.h"
 
-#include <map>
+#include <sstream>
 #include <string>
 #include <utility>
-#include <sstream>
-#include <vector>
-
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
 
 bool needs_damage_type( affected_stat as )
 {
@@ -127,11 +123,10 @@ void bonus_container::load( JsonArray &jarr, bool mult )
     while( jarr.has_more() ) {
         JsonArray qualifiers = jarr.next_array();
 
-        affected_stat as;
         damage_type dt = DT_NULL;
 
         const std::string affected_stat_string = qualifiers.next_string();
-        as = affected_stat_from_string( affected_stat_string );
+        affected_stat as = affected_stat_from_string( affected_stat_string );
         if( as == AFFECTED_NULL ) {
             jarr.throw_error( "Invalid affected stat" );
         }
@@ -238,7 +233,7 @@ std::string bonus_container::get_description() const
             }
 
             dump << "  ";
-        };
+        }
     }
 
     for( const auto &boni : bonuses_flat ) {
