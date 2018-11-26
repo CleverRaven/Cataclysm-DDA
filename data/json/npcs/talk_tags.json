@@ -1,59 +1,6 @@
 [
     {
         "type" : "snippet",
-        "category" : "<name_b>",
-        "text" : [
-            "<swear> <name_b>",
-            "asshat",
-            "asswipe",
-            "bag of shit",
-            "bastard",
-            "blockhead",
-            "chump",
-            "clown",
-            "cretin",
-            "degenerate",
-            "dick",
-            "dipshit",
-            "douchebag",
-            "dumbass",
-            "dumb <name_b>",
-            "fool",
-            "freak",
-            "goon",
-            "half-eaten <name_b>",
-            "idiot",
-            "imbecile",
-            "jackass",
-            "moron",
-            "nitwit",
-            "piece of an ass",
-            "piece of shit",
-            "punk",
-            "scumbag",
-            "shit-brained <name_b>",
-            "shit-eater",
-            "shitass",
-            "shitbag",
-            "shitface",
-            "son of a <name_b>",
-            "stinky <name_b>",
-            "stupidass",
-            "stupid <name_b>",
-            "swine",
-            "zombie food",
-            "loser",
-            "dickhead",
-            "asshole",
-            "fucker",
-            "sucker",
-            "fuckwad",
-            "jerk",
-            "motherfucker",
-            "shithead"
-        ]
-    },{
-        "type" : "snippet",
         "category" : "<thirsty>",
         "text" : [
             "<ill_die> if I won't get some water soon.",
@@ -75,39 +22,6 @@
         ]
     },{
         "type" : "snippet",
-        "category" : "<swear!>",
-        "text" : [
-            "darn",
-            "fuck",
-            "goddamn",
-            "goddamnit",
-            "damn",
-            "damnit",
-            "shit",
-            "fuckit",
-            "crap",
-            "motherfucker",
-            "<swear><punc> <swear!>",
-            "<very> <swear!>",
-            "son of an ass",
-            "Oh sugar!"
-        ]
-    },{
-        "type" : "snippet",
-        "category" : "<sad>",
-        "text" : [
-            "sad",
-            "bummed",
-            "depressed",
-            "pissed",
-            "unhappy",
-            "<very> <sad>",
-            "dejected",
-            "down",
-            "glum"
-        ]
-    },{
-        "type" : "snippet",
         "category" : "<greet>",
         "text" : [
             "Hey <name_g>.",
@@ -120,27 +34,6 @@
             "You okay, <name_g>?",
             "Hello, <name_g>.",
             "Hi <name_g>"
-        ]
-    },{
-        "type" : "snippet",
-        "category" : "<no>",
-        "text" : [
-            "never",
-            "no",
-            "not gonna happen",
-            "not happening",
-            "over my dead body",
-            "when pigs fly",
-            "won't happen",
-            "fuck no",
-            "hell no",
-            "no way",
-            "not a chance",
-            "I don't think so",
-            "no way in hell",
-            "nuh uh",
-            "nope",
-            "fat chance"
         ]
     },{
         "type" : "snippet",
@@ -223,53 +116,6 @@
         ]
     },{
         "type" : "snippet",
-        "category" : "<name_g>",
-        "text" : [
-            "amigo",
-            "comrade",
-            "fellow",
-            "lad",
-            "mate",
-            "nomad",
-            "partner",
-            "stranger",
-            "survivor",
-            "friend",
-            "pilgrim",
-            "traveler",
-            "pal",
-            "fella",
-            "you",
-            "dude",
-            "buddy",
-            "man"
-        ]
-    },{
-        "type" : "snippet",
-        "category" : "<keep_up>",
-        "text" : [
-            "Catch up!",
-            "Get over here!",
-            "Get over here, <name_g>!",
-            "Keep close, <name_g>!",
-            "Keep it moving, <name_g>!",
-            "Keep up, <name_g>!",
-            "Let's keep going, <name_g>!",
-            "Over here!",
-            "Over here, <name_g>!",
-            "Stay close, <name_g>!",
-            "Stay with me, <name_g>!",
-            "Catch up, <name_g>!",
-            "Keep up!",
-            "Come on, <catch_up>!",
-            "Keep it moving!",
-            "Stay with me!",
-            "Keep close!",
-            "Stay close!",
-            "Let's keep going!"
-        ]
-    },{
-        "type" : "snippet",
         "category" : "<yawn>",
         "text" : [
             "I can barely keep my eyes open.",
@@ -295,27 +141,6 @@
             "Time for bed!  See you in the morning.",
             "There's a bed calling my name, and I'm going to it.",
             "Good night!  Wake me if you need me."
-        ]
-    },{
-        "type" : "snippet",
-        "category" : "<very>",
-        "text" : [
-            "extremely",
-            "greatly",
-            "highly",
-            "incredibly",
-            "quite",
-            "really",
-            "utterly",
-            "fucking",
-            "super",
-            "wicked",
-            "very",
-            "mega",
-            "uber",
-            "ultra",
-            "so <very>",
-            "<very> <very>"
         ]
     },{
         "type" : "snippet",
@@ -358,22 +183,6 @@
         ]
     },{
         "type" : "snippet",
-        "category" : "<really>",
-        "text" : [
-            "really",
-            "seriously",
-            "fucking",
-            "absolutely",
-            "definitely",
-            "for real",
-            "honestly",
-            "<really> <really>",
-            "most <really>",
-            "urgently",
-            "REALLY"
-        ]
-    },{
-        "type" : "snippet",
         "category" : "<let_me_pass>",
         "text" : [
             "Excuse me, let me pass.",
@@ -405,23 +214,6 @@
         ]
     },{
         "type" : "snippet",
-        "category" : "<happy>",
-        "text" : [
-            "content",
-            "glad",
-            "happy",
-            "overjoyed",
-            "pleased",
-            "ecstatic",
-            "thrilled",
-            "stoked",
-            "<very> <happy>",
-            "tickled pink",
-            "delighted",
-            "pumped"
-        ]
-    },{
-        "type" : "snippet",
         "category" : "<drop_it>",
         "text" : [
             "Drop your <swear> weapon!",
@@ -434,20 +226,6 @@
             "Drop your <swear> weapon, <name_b>!",
             "Put down your <yrwp>!",
             "Alright, drop the <yrwp>!"
-        ]
-    },{
-        "type" : "snippet",
-        "category" : "<swear>",
-        "text" : [
-            "fucking",
-            "goddamn",
-            "motherfucking",
-            "freaking",
-            "damn",
-            "<swear> <swear>",
-            "fuckin'",
-            "god damn",
-            "mafuckin'"
         ]
     },{
         "type" : "snippet",
@@ -537,5 +315,21 @@
             "I'm getting my ass out of here!  You'd better do the same, <name_g>!",
             "Fire in the hole, motherfuckers!"
         ]
-    }
+    },{
+		"type" : "snippet",
+        "category" : "<BGSS_intro_question>",
+        "text" : [
+            "Tell me about how you survived the cataclysm.",
+			"How did you survive the cataclysm?",
+			"What was the cataclysm like for you?"
+		]
+	},{
+		"type" : "snippet",
+        "category" : "<done_conversation_section>",
+        "text" : [
+            "Let's talk about something else.",
+			"Let's change the subject.",
+			"I'd like to ask you about something else."
+		]
+	}	
 ]

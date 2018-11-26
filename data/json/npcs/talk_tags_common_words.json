@@ -1,0 +1,268 @@
+[
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : [
+            "<swear> <name_b>",
+            "asshat",
+            "asswipe",
+            "bag of shit",
+            "bastard",
+            "blockhead",
+            "chump",
+            "clown",
+            "cretin",
+            "degenerate",
+            "dick",
+            "dipshit",
+            "douchebag",
+            "dumbass",
+            "dumb <name_b>",
+            "fool",
+            "freak",
+            "goon",
+            "half-eaten <name_b>",
+            "idiot",
+            "imbecile",
+            "jackass",
+            "moron",
+            "nitwit",
+            "piece of an ass",
+            "piece of shit",
+            "punk",
+            "scumbag",
+            "shit-brained <name_b>",
+            "shit-eater",
+            "shitass",
+            "shitbag",
+            "shitface",
+            "son of a <name_b>",
+            "stinky <name_b>",
+            "stupidass",
+            "stupid <name_b>",
+            "swine",
+            "zombie food",
+            "loser",
+            "dickhead",
+            "asshole",
+            "fucker",
+            "sucker",
+            "fuckwad",
+            "jerk",
+            "motherfucker",
+            "shithead"
+        ]
+	},{
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : [
+            "amigo",
+            "comrade",
+            "fellow",
+            "lad",
+            "mate",
+            "nomad",
+            "partner",
+            "stranger",
+            "survivor",
+            "friend",
+            "pilgrim",
+            "traveler",
+            "pal",
+            "fella",
+            "you",
+            "dude",
+            "buddy",
+            "man"
+        ]
+	},{
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : [
+            "fucking",
+            "goddamn",
+            "motherfucking",
+            "freaking",
+            "damn",
+            "<swear> <swear>",
+            "fuckin'",
+            "god damn",
+            "mafuckin'",
+			"friggin'",
+			"fuggin'",
+			"stupid",
+			"flippin'"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : [
+            "darn",
+            "fuck",
+            "goddamn",
+            "goddamnit",
+            "damn",
+            "damnit",
+            "shit",
+            "fuckit",
+            "crap",
+            "motherfucker",
+            "<swear><punc> <swear!>",
+            "<very> <swear!>",
+            "son of an ass",
+            "Oh sugar!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<shitty>",
+        "text" : [
+            "shitty",
+			"lame",
+			"crappy",
+			"unpleasant",
+			"ugly",
+			"dumb",
+			"<swear> <shitty>",
+			"<very> <shitty>",
+			"awful"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : [
+            "sad",
+            "bummed",
+            "depressed",
+            "pissed",
+            "unhappy",
+            "<very> <sad>",
+            "dejected",
+            "down",
+            "glum"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : [
+            "content",
+            "glad",
+            "happy",
+            "overjoyed",
+            "pleased",
+            "ecstatic",
+            "thrilled",
+            "stoked",
+            "<very> <happy>",
+            "tickled pink",
+            "delighted",
+            "pumped"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : [
+            "never",
+            "no",
+            "not gonna happen",
+            "not happening",
+            "over my dead body",
+            "when pigs fly",
+            "won't happen",
+            "fuck no",
+            "hell no",
+            "no way",
+            "not a chance",
+            "I don't think so",
+            "no way in hell",
+            "nuh uh",
+            "nope",
+            "fat chance"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : [
+            "extremely",
+            "greatly",
+            "highly",
+            "incredibly",
+            "quite",
+            "really",
+            "utterly",
+            "fucking",
+            "super",
+            "wicked",
+            "very",
+            "mega",
+            "uber",
+            "ultra",
+            "so <very>",
+            "<very> <very>"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : [
+            "really",
+            "seriously",
+            "fucking",
+            "absolutely",
+            "definitely",
+            "for real",
+            "honestly",
+            "<really> <really>",
+            "most <really>",
+            "urgently",
+            "REALLY"
+        ]
+	},{
+		"type" : "snippet",
+        "category" : "<dumb>",
+        "text" : [
+            "stupid",
+			"idiotic",
+			"dumb",
+			"dumb-ass"
+    },{
+		"type" : "snippet",
+        "category" : "<zombie>",
+        "text" : [
+            "zombie",
+			"Z",
+			"shambler",
+			"walking corpse",
+			"<swear> zombie",
+			"living dead"
+		]
+    },{
+		"type" : "snippet",
+        "category" : "<zombies>",
+        "text" : [
+            "zombies",
+			"Z",
+			"horde",
+			"dead",
+			"<swear> zombies",
+			"living dead"
+		]
+	},{
+		"type" : "snippet",
+        "category" : "<monster>",
+        "text" : [
+            "monster",
+			"demon",
+			"horror",
+			"indescribable beast",
+			"<swear> critter",
+			"unbelievable <swear> thing",
+			"walking nightmare"
+	},{
+		"type" : "snippet",
+        "category" : "<the_cataclysm>",
+        "text" : [
+            "the cataclysm",
+			"the apocalypse",
+			"the end of the world",
+			"Armageddon"
+	}
+]
