@@ -223,6 +223,7 @@
 			"idiotic",
 			"dumb",
 			"dumb-ass"
+		]
     },{
 		"type" : "snippet",
         "category" : "<zombie>",
@@ -240,7 +241,6 @@
         "text" : [
             "zombies",
 			"Z",
-			"horde",
 			"dead",
 			"<swear> zombies",
 			"living dead"
@@ -253,9 +253,12 @@
 			"demon",
 			"horror",
 			"indescribable beast",
-			"<swear> critter",
+			"creature made of nightmares",
+			"critter",
+			"<swear> <monster>",
 			"unbelievable <swear> thing",
 			"walking nightmare"
+		]
 	},{
 		"type" : "snippet",
         "category" : "<the_cataclysm>",
@@ -264,5 +267,6 @@
 			"the apocalypse",
 			"the end of the world",
 			"Armageddon"
+		]
 	}
 ]
