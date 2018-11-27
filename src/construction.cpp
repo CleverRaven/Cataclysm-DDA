@@ -299,7 +299,7 @@ void construction_menu()
                 std::copy_if( available.begin(), available.end(),
                               std::back_inserter( constructs ),
                 [&]( const std::string & a ) {
-                    return lcmatch( a, filter );
+                    return lcmatch( _( a.c_str() ), filter );
                 } );
             } else {
                 constructs = cat_available[category_name];
