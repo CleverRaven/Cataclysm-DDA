@@ -611,8 +611,9 @@ int vehicle::automatic_fire_turret( vehicle_part &pt, npc &cpu, int max_range )
 
     int shots = 0;
 
-    if( max_range<=0 )
+    if( max_range <= 0 ) {
         return shots;
+    }
 
     if( gun.query() != turret_data::status::ready ) {
         return shots;
