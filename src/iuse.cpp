@@ -3037,30 +3037,6 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
     return 0;
 }
 
-int iuse::pipebomb_act( player *, item *it, bool t, const tripoint &pos )
-{
-    if( pos.x == -999 || pos.y == -999 ) {
-        return 0;
-    }
-    if( t ) { // Simple timer effects
-        //~ the sound of a lit fuse
-        sounds::sound( pos, 0, _( "ssss..." ) ); // Vol 0 = only heard if you hold it
-    } else if( it->charges > 0 ) {
-        add_msg( m_info, _( "You've already lit the %s, try throwing it instead." ), it->tname().c_str() );
-        return 0;
-    } else { // The timer has run down
-        if( one_in( 10 ) ) {
-            // Fizzled, but we may not have seen it to know that
-            if( g->u.sees( pos ) ) {
-                add_msg( _( "The pipe bomb fizzles out." ) );
-            }
-        } else {
-            g->explosion( pos, rng( 10, 24 ), 0.6, false, rng( 0, 4 ) );
-        }
-    }
-    return 0;
-}
-
 int iuse::granade( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You pull the pin on the Granade." ) );

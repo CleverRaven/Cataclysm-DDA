@@ -112,7 +112,6 @@ class iuse
         int directional_hologram( player *, item *, bool, const tripoint & );
         int capture_monster_veh( player *, item *, bool, const tripoint & );
         int capture_monster_act( player *, item *, bool, const tripoint & );
-        int pipebomb_act( player *, item *, bool, const tripoint & );
         int granade( player *, item *, bool, const tripoint & );
         int granade_act( player *, item *, bool, const tripoint & );
         int c4( player *, item *, bool, const tripoint & );
