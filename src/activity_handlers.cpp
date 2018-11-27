@@ -34,6 +34,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "map_selector.h"
 
 #include <algorithm>
 #include <cmath>
@@ -1693,7 +1694,8 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( actor->valid_to_cut_up( *it ) ) {
-            actor->cut_up( *p, *salvage_tool, *it );
+            item_location item_loc( map_cursor( p->pos() ), &*it );
+            actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }
     }
@@ -1707,7 +1709,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     act->set_to_null();
     auto items = g->m.i_at( p->pos() );
     std::string corpse_name = act->str_values[0];
-    item *body = NULL;
+    item *body = nullptr;
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( it->display_name() == corpse_name ) {
@@ -1715,7 +1717,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
         }
     }
 
-    if( body == NULL ) {
+    if( body == nullptr ) {
         add_msg( m_info, _( "There's no corpse to make into a zombie slave!" ) );
         return;
     }
@@ -2107,33 +2109,45 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     }
 
     int attempted = 0;
+    int non_muscle_attempted = 0;
     int started = 0;
-    int not_muscle = 0;
+    int non_muscle_started = 0;
     const bool take_control = act->values[0];
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
             attempted++;
+            if( !veh->is_engine_type( e, "muscle" ) ) {
+                non_muscle_attempted++;
+            }
             if( veh->start_engine( e ) ) {
                 started++;
-            }
-            if( !veh->is_engine_type( e, "muscle" ) ) {
-                not_muscle++;
+                if( !veh->is_engine_type( e, "muscle" ) ) {
+                    non_muscle_started++;
+                }
             }
         }
     }
 
-    veh->engine_on = attempted > 0 && started == attempted;
+    //Did any engines start?
+    veh->engine_on = started;
 
     if( attempted == 0 ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name.c_str() );
-    } else if( not_muscle > 0 ) {
-        if( started == attempted ) {
+    } else if( non_muscle_attempted > 0 ) {
+        //Some non-muscle engines tried to start
+        if( non_muscle_attempted == non_muscle_started ) {
+            //All of the non-muscle engines started
             add_msg( ngettext( "The %s's engine starts up.",
-                               "The %s's engines start up.", not_muscle ), veh->name.c_str() );
+                               "The %s's engines start up.", non_muscle_started ), veh->name.c_str() );
+        } else if( non_muscle_started > 0 ) {
+            //Only some of the non-muscle engines started
+            add_msg( ngettext( "One of the %s's engines start up.",
+                               "Some of the %s's engines start up.", non_muscle_started ), veh->name.c_str() );
         } else {
+            //All of the non-muscle engines failed
             add_msg( m_bad, ngettext( "The %s's engine fails to start.",
-                                      "The %s's engines fail to start.", not_muscle ), veh->name.c_str() );
+                                      "The %s's engines fail to start.", non_muscle_attempted ), veh->name.c_str() );
         }
     }
 
@@ -2805,7 +2819,12 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     tripoint direction;
-    while( !choose_direction( _( "Select a direction for the tree to fall in." ), direction ) ) {
+    while( true ) {
+        if( const cata::optional<tripoint> dir = choose_direction(
+                    _( "Select a direction for the tree to fall in." ) ) ) {
+            direction = *dir;
+            break;
+        }
         // try again
     }
 

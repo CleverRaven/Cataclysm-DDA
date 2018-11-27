@@ -1141,6 +1141,26 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
 
+    //Memorize everything the character just saw even if it wasn't displayed.
+    for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
+        for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+            tripoint p( x, y, center.z );
+            int height_3d = 0;
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
+            if( ( y >= o_y && y < sy + o_y && x >= o_x && x < sx + o_x ) ||
+                apply_vision_effects( p, g->m.get_visibility( lighting, cache ) ) ) {
+                continue;
+            }
+            //if drawing terrain isn't possible, don't try drawing the others.
+            if( draw_terrain( p, lighting, height_3d ) ) {
+                draw_furniture( p, lighting, height_3d );
+                draw_trap( p, lighting, height_3d );
+                draw_vpart( p, lighting, height_3d );
+            }
+        }
+    }
+
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
                    do_draw_cursor || do_draw_weather || do_draw_sct ||

@@ -299,7 +299,7 @@ void construction_menu()
                 std::copy_if( available.begin(), available.end(),
                               std::back_inserter( constructs ),
                 [&]( const std::string & a ) {
-                    return lcmatch( a, filter );
+                    return lcmatch( _( a.c_str() ), filter );
                 } );
             } else {
                 constructs = cat_available[category_name];
@@ -788,19 +788,20 @@ void place_construction( const std::string &desc )
     }
     wrefresh( g->w_terrain );
 
-    tripoint dirp;
-    if( !choose_adjacent( _( "Construct where?" ), dirp ) ) {
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    if( !pnt_ ) {
+        return;
+    }
+    const tripoint pnt = *pnt_;
+
+    if( valid.find( pnt ) == valid.end() ) {
+        cons.front()->explain_failure( pnt );
         return;
     }
 
-    if( valid.find( dirp ) == valid.end() ) {
-        cons.front()->explain_failure( dirp );
-        return;
-    }
-
-    const construction &con = *valid.find( dirp )->second;
+    const construction &con = *valid.find( pnt )->second;
     g->u.assign_activity( activity_id( "ACT_BUILD" ), con.adjusted_time(), con.id );
-    g->u.activity.placement = dirp;
+    g->u.activity.placement = pnt;
 }
 
 void complete_construction()

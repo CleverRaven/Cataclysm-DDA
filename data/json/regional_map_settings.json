@@ -418,6 +418,22 @@
               }
           }
       },
+      "forest_trail_settings": {
+        "chance": 2,                       "//": "one_in(n) chance a contiguous forest will have a trail system",
+        "border_point_chance": 2,          "//": "one_in(n) chance that the northern/southern/eastern/western-most point of the forest will be part of the trail system",
+        "minimum_forest_size": 100,        "//": "minimum number of required forest tiles in the contiguous forest before a trail system can be spawned",
+        "random_point_min": 4,             "//": "minimum number of random points within the contiguous forest used to form the basis of the trail system",
+        "random_point_max": 50,            "//": "maximum number of random points within the contiguous forest used to form the basis of the trail system",
+        "random_point_size_scalar": 100,   "//": "forest size is divided by this and added to the minimum number of random points (capped by the max)",
+        "trailhead_chance": 1,             "//": "one_in(n) chance of a trailhead being spawned at an _end_north/south/east/west of a trail that borders a field",
+        "trail_center_variance": 3,        "//": "center of the trail in mapgen is offset in X and Y by a random amount between +/- variance",
+        "trail_width_offset_min": 1,       "//": "trail width is offset by rng(trail_width_offset_min, trail_width_offset_max)",
+        "trail_width_offset_max": 3,       "//": "trail width is offset by rng(trail_width_offset_min, trail_width_offset_max)",
+        "clear_trail_terrain": false,      "//": "if set to true, clear all previously defined 'clear_trail_terrain'. only relevant for 'region_overlay' that override these settings",
+        "trail_terrain": {                 "//": "weighted list of terrain types used when placing a trail",
+          "t_dirt": 1
+        }
+      },
       "map_extras": {                       "//": "mapping for weighted lists of extras",
           "forest": {
               "chance": 20,                 "//": "one in # chance of spawning an extra",

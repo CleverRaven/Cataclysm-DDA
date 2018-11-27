@@ -5444,7 +5444,7 @@ void player::suffer()
                                                            _( "That %1$s doesn't deserve to live!" ) };
                         std::string talk_w = random_entry_ref( mon_near );
                         std::vector<std::string> seen_mons;
-                        for( auto n : mons ) {
+                        for( auto &n : mons ) {
                             if( sees( *n.lock() ) ) {
                                 seen_mons.emplace_back( n.lock()->get_name() );
                             }
@@ -11567,6 +11567,16 @@ void player::toggle_map_memory()
 bool player::should_show_map_memory()
 {
     return show_map_memory;
+}
+
+void player::serialize_map_memory( JsonOut &jsout ) const
+{
+    player_map_memory.store( jsout );
+}
+
+void player::deserialize_map_memory( JsonIn &jsin )
+{
+    player_map_memory.load( jsin );
 }
 
 memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const

@@ -200,7 +200,7 @@ void mission_start::join( mission *miss )
 void mission_start::infect_npc( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if( p == NULL ) {
+    if( p == nullptr ) {
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
@@ -216,7 +216,7 @@ void mission_start::infect_npc( mission *miss )
 void mission_start::need_drugs_npc( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if( p == NULL ) {
+    if( p == nullptr ) {
         debugmsg( "mission_start::need_drugs_npc() couldn't find an NPC!" );
         return;
     }
@@ -232,7 +232,7 @@ void mission_start::place_dog( mission *miss )
 {
     const tripoint house = random_house_in_closest_city();
     npc *dev = g->find_npc( miss->npc_id );
-    if( dev == NULL ) {
+    if( dev == nullptr ) {
         debugmsg( "Couldn't find NPC! %d", miss->npc_id );
         return;
     }
@@ -494,7 +494,7 @@ static tripoint find_potential_computer_point( tinymap &compmap, int z )
 void mission_start::place_npc_software( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
-    if( dev == NULL ) {
+    if( dev == nullptr ) {
         debugmsg( "Couldn't find NPC! %d", miss->npc_id );
         return;
     }
@@ -608,7 +608,7 @@ void mission_start::place_deposit_box( mission *miss )
 void mission_start::reveal_lab_black_box( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
-    if( dev != NULL ) {
+    if( dev != nullptr ) {
         g->u.i_add( item( "black_box", 0 ) );
         add_msg( _( "%s gave you back the black box." ), dev->name.c_str() );
     }
@@ -618,7 +618,7 @@ void mission_start::reveal_lab_black_box( mission *miss )
 void mission_start::open_sarcophagus( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if( p != NULL ) {
+    if( p != nullptr ) {
         p->set_attitude( NPCATT_FOLLOW );
         g->u.i_add( item( "sarcophagus_access_code", 0 ) );
         add_msg( m_good, _( "%s gave you sarcophagus access code." ), p->name.c_str() );
@@ -631,7 +631,7 @@ void mission_start::open_sarcophagus( mission *miss )
 void mission_start::reveal_hospital( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
-    if( dev != NULL ) {
+    if( dev != nullptr ) {
         g->u.i_add( item( "vacutainer", 0 ) );
         add_msg( _( "%s gave you a blood draw kit." ), dev->name.c_str() );
         g->u.i_add( item( "usb_drive", 0 ) );
@@ -1785,7 +1785,7 @@ void reveal_target( mission *miss, const std::string &omter_id )
 
 void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
 {
-    reveal_target( miss, random_entry( omter_ids ).c_str() );
+    reveal_target( miss, random_entry( omter_ids ) );
 }
 
 void mission_start::reveal_weather_station( mission *miss )
