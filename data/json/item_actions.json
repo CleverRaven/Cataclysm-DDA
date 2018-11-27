@@ -545,10 +545,6 @@
         "name" : "Squeeze"
     },{
         "type" : "item_action",
-        "id" : "PIPEBOMB_ACT",
-        "name" : "Activate"
-    },{
-        "type" : "item_action",
         "id" : "PLANTBLECH",
         "name" : "Consume"
     },{
