@@ -638,7 +638,6 @@ int vehicle::automatic_fire_turret( vehicle_part &pt, npc &cpu, int max_range )
         int boo_hoo;
 
         // @todo: calculate chance to hit and cap range based upon this
-
         int range = std::min( gun.range(), max_range );
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
