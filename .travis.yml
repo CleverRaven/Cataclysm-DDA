@@ -48,7 +48,7 @@ jobs:
           packages: ["wine"]
 
     # Linux Tiles
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
       compiler: gcc
       addons: &gcc8
         apt:
@@ -137,7 +137,7 @@ jobs:
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
           
     # Clang 6.0
-    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address
       dist: trusty
       compiler: clang
       addons: &clang60
