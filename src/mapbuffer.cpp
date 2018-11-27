@@ -1,20 +1,19 @@
 #include "mapbuffer.h"
 
-#include "coordinate_conversions.h"
-#include "output.h"
-#include "debug.h"
-#include "translations.h"
-#include "filesystem.h"
-#include "overmapbuffer.h"
 #include "cata_utility.h"
-#include "mapdata.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
+#include "debug.h"
+#include "filesystem.h"
 #include "game.h"
 #include "json.h"
 #include "map.h"
+#include "mapdata.h"
+#include "output.h"
+#include "submap.h"
+#include "translations.h"
 #include "trap.h"
 #include "vehicle.h"
-#include "submap.h"
-#include "computer.h"
 
 #include <sstream>
 
@@ -94,7 +93,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
         } catch( const std::exception &err ) {
             debugmsg( "Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what() );
         }
-        return NULL;
+        return nullptr;
     }
 
     return iter->second;
@@ -226,13 +225,44 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.member( "turn_last_touched", sm->last_touched );
         jsout.member( "temperature", sm->temperature );
 
+        // Terrain is saved using a simple RLE scheme.  Legacy saves don't have
+        // this feature but the algorithm is backward compatible.
         jsout.member( "terrain" );
         jsout.start_array();
+        std::string last_id;
+        int num_same = 1;
         for( int j = 0; j < SEEY; j++ ) {
             for( int i = 0; i < SEEX; i++ ) {
-                // Save terrains
-                jsout.write( sm->ter[i][j].obj().id );
+                const std::string this_id = sm->ter[i][j].obj().id.str();
+                if( !last_id.empty() ) {
+                    if( this_id == last_id ) {
+                        num_same++;
+                    } else {
+                        if( num_same == 1 ) {
+                            // if there's only one element don't write as an array
+                            jsout.write( last_id );
+                        } else {
+                            jsout.start_array();
+                            jsout.write( last_id );
+                            jsout.write( num_same );
+                            jsout.end_array();
+                            num_same = 1;
+                        }
+                        last_id = this_id;
+                    }
+                } else {
+                    last_id = this_id;
+                }
             }
+        }
+        // Because of the RLE scheme we have to do one last pass
+        if( num_same == 1 ) {
+            jsout.write( last_id );
+        } else {
+            jsout.start_array();
+            jsout.write( last_id );
+            jsout.write( num_same );
+            jsout.end_array();
         }
         jsout.end_array();
 
@@ -405,12 +435,12 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     if( !read_from_file_optional_json( quad_path.str(),
                                        std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
-        return NULL;
+        return nullptr;
     }
     if( submaps.count( p ) == 0 ) {
         debugmsg( "file %s did not contain the expected submap %d,%d,%d",
                   quad_path.str().c_str(), p.x, p.y, p.z );
-        return NULL;
+        return nullptr;
     }
     return submaps[ p ];
 }
@@ -476,11 +506,30 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         }
                     }
                 } else {
+                    // terrain is encoded using simple RLE
+                    int remaining = 0;
+                    int_id<ter_t> iid;
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            const ter_str_id tid( jsin.get_string() );
-                            sm->ter[i][j] = tid.id();
+                            if( !remaining ) {
+                                if( jsin.test_string() ) {
+                                    iid = ter_str_id( jsin.get_string() ).id();
+                                } else if( jsin.test_array() ) {
+                                    jsin.start_array();
+                                    iid = ter_str_id( jsin.get_string() ).id();
+                                    remaining = jsin.get_int() - 1;
+                                    jsin.end_array();
+                                } else {
+                                    debugmsg( "Mapbuffer terrain data is corrupt, expected string or array." );
+                                }
+                            } else {
+                                --remaining;
+                            }
+                            sm->ter[i][j] = iid;
                         }
+                    }
+                    if( remaining ) {
+                        debugmsg( "Mapbuffer terrain data is corrupt, tile data remaining." );
                     }
                 }
                 jsin.end_array();
@@ -560,7 +609,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         int type = jsin.get_int();
                         int density = jsin.get_int();
                         int age = jsin.get_int();
-                        if( sm->fld[i][j].findField( field_id( type ) ) == NULL ) {
+                        if( sm->fld[i][j].findField( field_id( type ) ) == nullptr ) {
                             sm->field_count++;
                         }
                         sm->fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );
@@ -629,7 +678,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 std::string computer_data = jsin.get_string();
                 std::unique_ptr<computer> new_comp( new computer( "BUGGED_COMPUTER", -100 ) );
                 new_comp->load_data( computer_data );
-                sm->comp.reset( new_comp.release() );
+                sm->comp = std::move( new_comp );
             } else if( submap_member_name == "camp" ) {
                 std::string camp_data = jsin.get_string();
                 sm->camp.load_data( camp_data );

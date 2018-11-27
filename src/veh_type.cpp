@@ -1,25 +1,26 @@
 #include "veh_type.h"
-#include "requirements.h"
-#include "vehicle.h"
-#include "debug.h"
-#include "item_group.h"
-#include "json.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "color.h"
-#include "itype.h"
-#include "ammo.h"
-#include "vehicle_group.h"
-#include "init.h"
-#include "output.h"
-#include "generic_factory.h"
-#include "character.h"
-#include "flag.h"
 
+#include "ammo.h"
+#include "character.h"
+#include "color.h"
+#include "debug.h"
+#include "flag.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item_group.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "requirements.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vehicle_group.h"
+
+#include <numeric>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
-#include <sstream>
-#include <numeric>
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -139,11 +140,11 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         }
 
     } else {
-        auto req_id = string_format( "inline_%s_%s", key.c_str(), id.c_str() );
+        const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
         requirement_data::load_requirement( src, req_id );
-        reqs = { { requirement_id( req_id ), 1 } };
+        reqs = { { req_id, 1 } };
     }
-};
+}
 
 /**
  * Reads engine info from a JsonObject.
@@ -206,6 +207,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "location", def.location );
     assign( jo, "durability", def.durability );
     assign( jo, "damage_modifier", def.dmg_mod );
+    assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
@@ -407,9 +409,9 @@ void vpart_info::check()
         requirement_data ins;
         ins.components.push_back( { { { part.item, 1 } } } );
 
-        std::string ins_id = std::string( "inline_vehins_base_" ) += part.id.str();
+        const requirement_id ins_id( std::string( "inline_vehins_base_" ) + part.id.str() );
         requirement_data::save_requirement( ins, ins_id );
-        part.install_reqs.emplace_back( requirement_id( ins_id ), 1 );
+        part.install_reqs.emplace_back( ins_id, 1 );
 
         if( part.removal_moves < 0 ) {
             part.removal_moves = part.install_moves / 2;
@@ -554,7 +556,7 @@ std::string vpart_info::name() const
     return name_;
 }
 
-int vpart_info::format_description( std::ostringstream &msg, std::string format_color,
+int vpart_info::format_description( std::ostringstream &msg, const std::string &format_color,
                                     int width ) const
 {
     int lines = 1;
@@ -564,7 +566,7 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
     class::item base( item );
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
-        long_descrip << description;
+        long_descrip << _( description.c_str() );
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
@@ -575,16 +577,16 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
             if( ! long_descrip.str().empty() ) {
                 long_descrip << "  ";
             }
-            long_descrip << flag.info();
+            long_descrip << _( flag.info().c_str() );
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && ! has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip << "  " << nobelt.info();
+        long_descrip << "  " << _( nobelt.info().c_str() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip << "  " << nobelt.info();
+        long_descrip << "  " << _( nobelt.info().c_str() );
     }
     if( has_flag( "TURRET" ) ) {
         long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
@@ -876,7 +878,7 @@ void vehicle_prototype::finalize()
                 continue;
             }
 
-            if( blueprint.install_part( pt.pos.x, pt.pos.y, pt.part ) < 0 ) {
+            if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name.c_str(), pt.part.c_str(),
                           blueprint.parts.size(), pt.pos.x, pt.pos.y );

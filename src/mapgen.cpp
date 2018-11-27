@@ -1,51 +1,47 @@
 #include "mapgen.h"
 
-#include "coordinate_conversions.h"
-#include "drawing_primitives.h"
-#include "omdata.h"
-#include "output.h"
-#include "game.h"
-#include "fungal_effects.h"
-#include "rng.h"
-#include "line.h"
-#include "debug.h"
-#include "options.h"
 #include "ammo.h"
-#include "item_group.h"
-#include "mapgen_functions.h"
-#include "string_formatter.h"
-#include "mapgenformat.h"
-#include "mapbuffer.h"
-#include "overmapbuffer.h"
+#include "catalua.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "drawing_primitives.h"
 #include "enums.h"
-#include "monstergenerator.h"
-#include "vpart_position.h"
-#include "mongroup.h"
+#include "game.h"
+#include "item_group.h"
+#include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "mapgen_functions.h"
+#include "mapgenformat.h"
+#include "mongroup.h"
+#include "mtype.h"
+#include "npc.h"
+#include "omdata.h"
+#include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "submap.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "overmap.h"
-#include "mapgen_functions.h"
-#include "mtype.h"
-#include "itype.h"
-#include "computer.h"
-#include "optional.h"
-#include "map_iterator.h"
+#include "vehicle.h"
+#include "vehicle_group.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <sstream>
-#include "json.h"
-#include "coordinates.h"
-#include "npc.h"
-#include "vehicle.h"
-#include "vehicle_group.h"
-#include "catalua.h"
-#include "text_snippets.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -66,6 +62,7 @@ const mtype_id mon_dog_thing( "mon_dog_thing" );
 const mtype_id mon_eyebot( "mon_eyebot" );
 const mtype_id mon_flaming_eye( "mon_flaming_eye" );
 const mtype_id mon_flying_polyp( "mon_flying_polyp" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
 const mtype_id mon_fungal_fighter( "mon_fungal_fighter" );
 const mtype_id mon_gelatin( "mon_gelatin" );
 const mtype_id mon_gozu( "mon_gozu" );
@@ -104,7 +101,7 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( oter_id there, int dir_from_here );
+bool connects_to( const oter_id &there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
@@ -117,7 +114,7 @@ void mtrap_set( map *m, int x, int y, trap_id t );
 // x%2 and y%2 must be 0!
 void map::generate( const int x, const int y, const int z, const time_point &when )
 {
-    dbg( D_INFO ) << "map::generate( g[" << g << "], x[" << x << "], "
+    dbg( D_INFO ) << "map::generate( g[" << g.get() << "], x[" << x << "], "
                   << "y[" << y << "], z[" << z << "], when[" << to_string( when ) << "] )";
 
     set_abs_sub( x, y, z );
@@ -168,11 +165,11 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
     if( ex.chance > 0 && one_in( ex.chance ) ) {
         std::string *extra = ex.values.pick();
-        if( extra == NULL ) {
+        if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras().c_str() );
         } else {
             auto func = MapExtras::get_function( *( ex.values.pick() ) );
-            if( func != NULL ) {
+            if( func != nullptr ) {
                 func( *this, abs_sub );
             }
         }
@@ -296,7 +293,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
                 }
             }
         }
-        return NULL; // nothing
+        return nullptr; // nothing
     } else if( jio.has_string( "method" ) ) {
         const std::string mgtype = jio.get_string( "method" );
         if( mgtype == "builtin" ) { // c-function
@@ -318,7 +315,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
                 ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
                 oter_mapgen[id_base].push_back( ret );
             } else if( jio.has_array( "script" ) ) { // or 1 line per entry array
-                std::string mgscript = "";
+                std::string mgscript;
                 JsonArray jascr = jio.get_array( "script" );
                 while( jascr.has_more() ) {
                     mgscript += jascr.next_string();
@@ -464,8 +461,6 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
     , mapgensize_y( 24 )
     , x_offset( 0 )
     , y_offset( 0 )
-    , format()
-    , setmap_points()
     , objects( 0, 0, mapgensize_x, mapgensize_y )
 {
 }
@@ -540,7 +535,7 @@ int jmapgen_int::get() const
  */
 void mapgen_function_json_base::setup_setmap( JsonArray &parray )
 {
-    std::string tmpval = "";
+    std::string tmpval;
     std::map<std::string, jmapgen_setmap_op> setmap_opmap;
     setmap_opmap[ "terrain" ] = JMAPGEN_SETMAP_TER;
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
@@ -838,7 +833,7 @@ class jmapgen_gaspump : public jmapgen_piece
         jmapgen_int amount;
         std::string fuel;
         jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 ), fuel() {
+            , amount( jsi, "amount", 0, 0 ) {
             if( jsi.has_string( "fuel" ) ) {
                 fuel = jsi.get_string( "fuel" );
 
@@ -1293,7 +1288,7 @@ class jmapgen_computer : public jmapgen_piece
         }
 };
 
-static void load_weighted_entries( JsonObject &jsi, std::string json_key,
+static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
     JsonArray jarr = jsi.get_array( json_key );
@@ -1349,7 +1344,7 @@ class jmapgen_nested : public jmapgen_piece
                         }
 
                         bool this_direction_matches = false;
-                        for( oter_str_id allowed_neighbor : allowed_neighbors ) {
+                        for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.neighbor_at( dir ).id() );
                         }
                         all_directions_match &= this_direction_matches;
@@ -1357,7 +1352,7 @@ class jmapgen_nested : public jmapgen_piece
 
                     if( !above.empty() ) {
                         bool above_matches = false;
-                        for( oter_str_id allowed_neighbor : above ) {
+                        for( const oter_str_id &allowed_neighbor : above ) {
                             above_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.above().id() );
                         }
                         all_directions_match &= above_matches;
@@ -1408,17 +1403,17 @@ jmapgen_objects::jmapgen_objects( int off_x, int off_y, size_t mapsize_x, size_t
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || place.x.val > ( int )mapgensize_x - 1 ||
-        place.y.val < 0 || place.y.val > ( int )mapgensize_y - 1 ) {
+    if( place.x.val < 0 || place.x.val > static_cast<int>( mapgensize_x ) - 1 ||
+        place.y.val < 0 || place.y.val > static_cast<int>( mapgensize_y ) - 1 ) {
         return false;
     }
 
-    if( ( size_t )place.x.valmax > mapgensize_x - 1 ) {
+    if( static_cast<size_t>( place.x.valmax ) > mapgensize_x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
         return false;
     }
 
-    if( ( size_t )place.y.valmax > mapgensize_y - 1 ) {
+    if( static_cast<size_t>( place.y.valmax ) > mapgensize_y - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
         return false;
     }
@@ -1876,7 +1871,7 @@ void mapgen_function_json_base::setup_common()
                 } else if( ! qualifies ) {  // fill_ter should make this kosher
                     parray.throw_error(
                         string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, ( char )tmpkey ) );
+                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
                 }
                 auto iter_furn = format_furniture.find( tmpkey );
                 if( iter_furn != format_furniture.end() ) {
@@ -2003,7 +1998,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
             case JMAPGEN_SETMAP_LINE_RADIATION: {
                 const std::vector<point> line = line_to( x_get(), y_get(), x2_get(), y2_get(), 0 );
                 for( auto &i : line ) {
-                    m.set_radiation( i.x, i.y, ( int )val.get() );
+                    m.set_radiation( i.x, i.y, static_cast<int>( val.get() ) );
                 }
             }
             break;
@@ -2037,7 +2032,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
                 const int cy2 = y2_get();
                 for( int tx = cx; tx <= cx2; tx++ ) {
                     for( int ty = cy; ty <= cy2; ty++ ) {
-                        m.set_radiation( tx, ty, ( int )val.get() );
+                        m.set_radiation( tx, ty, static_cast<int>( val.get() ) );
                     }
                 }
             }
@@ -2210,16 +2205,14 @@ void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const m
 // track down what is and isn't supposed to be carried around between bits of code.
 // I suggest that we break the function down into smaller parts
 
-void map::draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                    const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                    const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
-                    const int zlevel, const regional_settings *rsettings )
+void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
+                    const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
+                    const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
+                    const oter_id &t_above, const oter_id &t_below, const time_point &when,
+                    const float density, const int zlevel, const regional_settings *rsettings )
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_LAB( "GROUP_LAB" );
-    static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
-    static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -2261,7 +2254,7 @@ void map::draw_map( const oter_id terrain_type, const oter_id t_north, const ote
     mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above,
                     t_below, zlevel, *rsettings, *this );
 
-    computer *tmpcomp = NULL;
+    computer *tmpcomp = nullptr;
     bool terrain_type_found = true;
     const std::string function_key = terrain_type->get_mapgen_id();
 
@@ -3423,7 +3416,7 @@ ___DEEE|.R.|...,,...|sss\n",
 
         // Lab special effects.
         if( one_in( 10 ) ) {
-            switch( rng( 1, 6 ) ) {
+            switch( rng( 1, 7 ) ) {
                 // full flooding/sewage
                 case 1: {
                     if( is_ot_subtype( "stairs", terrain_type ) || is_ot_subtype( "ice", terrain_type ) ) {
@@ -3435,7 +3428,8 @@ ___DEEE|.R.|...,,...|sss\n",
                     for( int i = 0; i < SEEX * 2 - 1; i++ ) {
                         for( int j = 0; j < SEEY * 2 - 1; j++ ) {
                             // We spare some terrain to make it look better visually.
-                            if( !one_in( 10 ) && ( t_thconc_floor == ter( i, j ) || t_strconc_floor == ter( i, j ) ) ) {
+                            if( !one_in( 10 ) && ( t_thconc_floor == ter( i, j ) || t_strconc_floor == ter( i, j ) ||
+                                                   t_thconc_floor_olight == ter( i, j ) ) ) {
                                 ter_set( i, j, fluid_type );
                             } else if( has_flag_ter( "DOOR", i, j ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3457,7 +3451,8 @@ ___DEEE|.R.|...,,...|sss\n",
                     auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( int x, int y ) {
-                            if( t_thconc_floor == ter( x, y ) || t_strconc_floor == ter( x, y ) ) {
+                            if( t_thconc_floor == ter( x, y ) || t_strconc_floor == ter( x, y ) ||
+                                t_thconc_floor_olight == ter( x, y ) ) {
                                 ter_set( x, y, fluid_type );
                             } else if( has_flag_ter( "DOOR", x, y ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3511,11 +3506,11 @@ ___DEEE|.R.|...,,...|sss\n",
                     create_anomaly( center, random_entry( valid_props ), false );
                     break;
                 }
-                // damaged mininuke accident.
+                // radioactive accident.
                 case 6: {
                     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
                     if( has_flag_ter( "WALL", center.x, center.y ) ) {
-                        return;  // just skip it, we don't want to risk embedding radiation out of sight.
+                        break;  // just skip it, we don't want to risk embedding radiation out of sight.
                     }
                     draw_rough_circle( [this]( int x, int y ) {
                         set_radiation( x, y, 10 );
@@ -3542,9 +3537,62 @@ ___DEEE|.R.|...,,...|sss\n",
                     if( one_in( 2 ) ) {
                         add_spawn( mon_hazmatbot, 1, center.x + 1, center.y );
                     }
-                    // damaged mininuke thrown past edge of rubble so the player can see it.
-                    spawn_item( center.x - 2 + 4 * rng( 0, 1 ), center.y + rng( -2, 2 ),
-                                "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                    // damaged mininuke/plut thrown past edge of rubble so the player can see it.
+                    int marker_x = center.x - 2 + 4 * rng( 0, 1 );
+                    int marker_y = center.y + rng( -2, 2 );
+                    if( one_in( 4 ) ) {
+                        spawn_item( marker_x, marker_y,
+                                    "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                    } else {
+                        item newliquid( "plut_slurry_dense", calendar::time_of_cataclysm );
+                        newliquid.charges = 1;
+                        add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ), newliquid );
+                    }
+                    break;
+                }
+                // portal with fungal invasion
+                case 7: {
+                    for( int i = 0; i < SEEX * 2 - 1; i++ ) {
+                        for( int j = 0; j < SEEY * 2 - 1; j++ ) {
+                            // Create a mostly spread fungal area throughout entire lab.
+                            if( !one_in( 5 ) && ( has_flag( "FLAT", i, j ) ) ) {
+                                ter_set( i, j, t_fungus_floor_in );
+                                if( has_flag_furn( "ORGANIC", i, j ) ) {
+                                    furn_set( i, j, f_fungal_clump );
+                                }
+                            } else if( has_flag_ter( "DOOR", i, j ) && !one_in( 5 ) ) {
+                                ter_set( i, j, t_fungus_floor_in );
+                            } else if( has_flag_ter( "WALL", i, j ) && one_in( 3 ) ) {
+                                ter_set( i, j, t_fungus_wall );
+                            }
+                        }
+                    }
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+
+                    // Make a portal surrounded by more dense fungal stuff and a fungaloid.
+                    draw_rough_circle( [this]( int x, int y ) {
+                        if( has_flag_ter( "GOES_DOWN", x, y ) ||
+                            has_flag_ter( "GOES_UP", x, y ) ||
+                            has_flag_ter( "CONSOLE", x, y ) ) {
+                            return; // spare stairs and consoles.
+                        }
+                        if( has_flag_ter( "WALL", x, y ) ) {
+                            ter_set( x, y, t_fungus_wall );
+                        } else {
+                            ter_set( x, y, t_fungus_floor_in );
+                            if( one_in( 3 ) ) {
+                                furn_set( x, y, f_flower_fungal );
+                            } else if( one_in( 10 ) ) {
+                                ter_set( x, y, t_marloss );
+                            }
+                        }
+                    }, center.x, center.y, 3 );
+                    ter_set( center.x, center.y, t_fungus_floor_in );
+                    furn_set( center.x, center.y, f_null );
+                    trap_set( center, tr_portal );
+
+                    add_spawn( mon_fungaloid, 1, center.x - 2 + 4 * rng( 0, 1 ), center.y + rng( -2, 2 ) );
+
                     break;
                 }
             }
@@ -6702,9 +6750,9 @@ void map::place_vending( int x, int y, const std::string &type, bool reinforced 
     }
 }
 
-int map::place_npc( int x, int y, const string_id<npc_template> &type )
+int map::place_npc( int x, int y, const string_id<npc_template> &type, bool force )
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ) {
+    if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     std::shared_ptr<npc> temp = std::make_shared<npc>();
@@ -6715,7 +6763,8 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     return temp->getID();
 }
 
-std::vector<item *> map::place_items( const items_location loc, const int chance, const tripoint &f,
+std::vector<item *> map::place_items( const items_location &loc, const int chance,
+                                      const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
@@ -6725,7 +6774,7 @@ std::vector<item *> map::place_items( const items_location loc, const int chance
 
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
-std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
+std::vector<item *> map::place_items( const items_location &loc, int chance, int x1, int y1,
                                       int x2, int y2, bool ongrass, const time_point &turn,
                                       int magazine, int ammo )
 {
@@ -6781,7 +6830,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
     return res;
 }
 
-std::vector<item *> map::put_items_from_loc( items_location loc, const tripoint &p,
+std::vector<item *> map::put_items_from_loc( const items_location &loc, const tripoint &p,
         const time_point &turn )
 {
     const auto items = item_group::items_from( loc, turn );
@@ -6899,17 +6948,14 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    bool can_float = false;
-    if( veh->all_parts_with_feature( "FLOATS" ).size() > 2 ) {
-        can_float = true;
-    }
+    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const auto p = veh->global_pos3() + veh->parts[*part].precalc[0];
+        const auto p = veh->global_part_pos3( *part );
 
         //Don't spawn anything in water
         if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
@@ -6956,12 +7002,13 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
 
             for( auto &part : veh->parts ) {
                 const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
-                wreckage->install_part( part_pos.x, part_pos.y, part );
+                // @todo change mount points to be tripoint
+                wreckage->install_part( point( part_pos.x, part_pos.y ), part );
             }
 
             for( auto &part : other_veh->parts ) {
                 const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
-                wreckage->install_part( part_pos.x, part_pos.y, part );
+                wreckage->install_part( point( part_pos.x, part_pos.y ), part );
 
             }
 
@@ -7281,7 +7328,7 @@ void map::rotate( int turns )
 }
 
 // Hideous function, I admit...
-bool connects_to( oter_id there, int dir )
+bool connects_to( const oter_id &there, int dir )
 {
     switch( dir ) {
         case 2:
@@ -7839,7 +7886,8 @@ void silo_rooms( map *m )
         }
     } while( okay );
 
-    m->ter_set( rooms[0].first.x, rooms[0].first.y, t_stairs_up );
+    const point &first_room_position = rooms[0].first;
+    m->ter_set( first_room_position.x, first_room_position.y, t_stairs_up );
     const auto &room = random_entry( rooms );
     m->ter_set( room.first.x + room.second.x, room.first.y + room.second.y, t_stairs_down );
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
@@ -7848,14 +7896,17 @@ void silo_rooms( map *m )
         int best_dist = 999;
         int closest = 0;
         for( size_t i = 1; i < rooms.size(); i++ ) {
-            int dist = trig_dist( rooms[0].first.x, rooms[0].first.y, rooms[i].first.x, rooms[i].first.y );
+            int dist = trig_dist( first_room_position.x, first_room_position.y, rooms[i].first.x,
+                                  rooms[i].first.y );
             if( dist < best_dist ) {
                 best_dist = dist;
                 closest = i;
             }
         }
         // We chose the closest room; now draw a corridor there
-        point origin = rooms[0].first, origsize = rooms[0].second, dest = rooms[closest].first;
+        point origin = first_room_position;
+        point origsize = rooms[0].second;
+        point dest = rooms[closest].first;
         int x = origin.x + origsize.x;
         int y = origin.y + origsize.y;
         bool x_first = ( abs( origin.x - dest.x ) > abs( origin.y - dest.y ) );

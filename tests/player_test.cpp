@@ -1,17 +1,8 @@
 #include "catch/catch.hpp"
 
-#include "morale.h"
-#include "player.h"
 #include "game.h"
-#include "overmapbuffer.h"
-#include "item_factory.h"
-#include "start_location.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "options.h"
-#include "map.h"
+#include "player.h"
 #include "weather.h"
-#include "itype.h"
 
 #include <string>
 
@@ -44,7 +35,7 @@ void temperature_check( player *p, int ambient_temp, int target_temp )
     CHECK( high > p->temp_cur[0] );
 }
 
-void equip_clothing( player *p, std::string clothing )
+void equip_clothing( player *p, const std::string &clothing )
 {
     item article( clothing, 0 );
     p->wear_item( article );
@@ -52,7 +43,7 @@ void equip_clothing( player *p, std::string clothing )
 
 // Run the tests for each of the temperature setpoints.
 // ambient_temps MUST have 7 values or we'll segfault.
-void test_temperature_spread( player *p, std::array<int, 7> ambient_temps )
+void test_temperature_spread( player *p, const std::array<int, 7> &ambient_temps )
 {
     temperature_check( p, ambient_temps[0], BODYTEMP_FREEZING );
     temperature_check( p, ambient_temps[1], BODYTEMP_VERY_COLD );

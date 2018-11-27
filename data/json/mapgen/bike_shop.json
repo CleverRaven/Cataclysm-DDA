@@ -152,6 +152,7 @@
           { "item": "foot_crank", "prob": 80 },
           { "item": "saddle", "prob": 80 },
           { "item": "chain", "prob": 40 },
+          { "item": "bike_rack", "prob": 20 },
           { "item": "small_storage_battery", "prob": 10 },
           { "item": "folding_bicycle", "prob": 10 },
           { "item": "roller_blades", "prob": 10 }

@@ -3,12 +3,11 @@
 #include "crafting.h"
 #include "game.h"
 #include "itype.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "player.h"
-#include "recipe_dictionary.h"
-
-#include "map_helpers.h"
 #include "player_helpers.h"
+#include "recipe_dictionary.h"
 
 TEST_CASE( "recipe_subset" )
 {
@@ -238,7 +237,7 @@ TEST_CASE( "charge_handling" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_small" );
+        tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
@@ -258,7 +257,7 @@ TEST_CASE( "charge_handling" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_small" );
+        tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
@@ -280,7 +279,7 @@ TEST_CASE( "charge_handling" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_small" );
+        tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
         tools.emplace_back( "UPS_off", -1, 500 );
@@ -304,7 +303,7 @@ TEST_CASE( "charge_handling" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_small" );
+        tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
         tools.emplace_back( "UPS_off", -1, 10 );

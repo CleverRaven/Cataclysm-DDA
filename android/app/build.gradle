@@ -18,6 +18,10 @@ if (localPropertiesFile.exists()) {
 }
 
 def njobs = getProperty("j")
+def luaBinary = 'lua'
+if( localProperties.getProperty('luaBinary') != null ) {
+	luaBinary = localProperties.getProperty('luaBinary') 
+}
 
 task unzipDeps(type: Copy) {
     def zipFile = new File('./deps.zip')
@@ -37,7 +41,7 @@ switch(OperatingSystem.current()) {
 
         task makeLuaBindings(type: Exec) {
             workingDir './jni/src/lua'
-            commandLine 'lua', 'generate_bindings.lua'
+            commandLine luaBinary, 'generate_bindings.lua'
         }
 
         preBuild.dependsOn makeLocalization
@@ -51,7 +55,7 @@ switch(OperatingSystem.current()) {
 
         task makeLuaBindings(type: Exec) {
             workingDir './../../src/lua'
-            commandLine 'lua', 'generate_bindings.lua'
+            commandLine luaBinary, 'generate_bindings.lua'
         }
         unzipDeps.dependsOn makeLocalization
         preBuild.dependsOn makeLuaBindings

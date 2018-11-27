@@ -3,8 +3,8 @@
 #include "debug.h"
 #include "json.h"
 
-#include <map>
 #include <algorithm>
+#include <map>
 
 std::map<std::string, json_flag> json_flags_all;
 

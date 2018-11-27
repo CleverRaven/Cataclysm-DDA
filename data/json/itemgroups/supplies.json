@@ -17,7 +17,9 @@
       [ "receiver", 30 ],
       [ "transponder", 30 ],
       [ "light_bulb", 60 ],
-      [ "lightstrip_dead", 60 ]
+      [ "lightstrip_dead", 60 ],
+      [ "motor_tiny", 30 ],
+      [ "motor_micro", 40 ]
     ]
   },
   {
@@ -27,7 +29,8 @@
     "items": [
       [ "fertilizer_commercial", 100 ],
       [ "fertilizer_liquid", 60 ],
-      [ "material_quicklime", 80 ]
+      [ "material_quicklime", 80 ],
+      { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 }
     ]
   },
   {

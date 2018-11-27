@@ -1,21 +1,20 @@
 #pragma once
-#if !defined(SUBMAP_H)
+#ifndef SUBMAP_H
 #define SUBMAP_H
 
-#include "game_constants.h"
-#include "basecamp.h"
-#include "item.h"
-#include "field.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "active_item_cache.h"
+#include "basecamp.h"
 #include "calendar.h"
+#include "computer.h"
+#include "field.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "string_id.h"
 
-#include <vector>
 #include <list>
-#include <map>
-#include <string>
 #include <memory>
+#include <vector>
 
 class map;
 class vehicle;
@@ -169,7 +168,7 @@ struct submap {
     active_item_cache active_items;
 
     int field_count = 0;
-    time_point last_touched = 0;
+    time_point last_touched = calendar::time_of_cataclysm;
     int temperature = 0;
     std::vector<spawn_point> spawns;
     /**

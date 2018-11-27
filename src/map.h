@@ -2,22 +2,22 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <vector>
-#include <string>
-#include <set>
-#include <map>
-#include <memory>
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item_stack.h"
+#include "lightmap.h"
+#include "shadowcasting.h"
+#include "string_id.h"
+
 #include <array>
 #include <list>
+#include <map>
+#include <memory>
+#include <set>
 #include <utility>
-
-#include "game_constants.h"
-#include "lightmap.h"
-#include "item_stack.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "enums.h"
-#include "calendar.h"
+#include <vector>
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -121,7 +121,7 @@ class map_stack : public item_stack
         map *myorigin;
     public:
         map_stack( std::list<item> *newstack, tripoint newloc, map *neworigin ) :
-            item_stack( newstack ), location( newloc ), myorigin( neworigin ) {};
+            item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         std::list<item>::iterator erase( std::list<item>::iterator it ) override;
         void push_back( const item &newitem ) override;
         void insert_at( std::list<item>::iterator index, const item &newitem ) override;
@@ -169,7 +169,7 @@ struct level_cache {
     bool outside_cache_dirty;
     bool floor_cache_dirty;
 
-    float lm[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    four_quadrants lm[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float sm[MAPSIZE * SEEX][MAPSIZE * SEEY];
     // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
     // This is only valid for the duration of generate_lightmap
@@ -255,6 +255,14 @@ class map
          */
         void on_vehicle_moved( const int zlev );
 
+        struct apparent_light_info {
+            bool obstructed;
+            float apparent_light;
+        };
+        /** Helper function for light claculation; exposed here for map editor
+         */
+        static apparent_light_info apparent_light_helper( const level_cache &map_cache,
+                const tripoint &p );
         /** Determine the visible light level for a tile, based on light_at
          * for the tile, vision distance, etc
          *
@@ -265,8 +273,7 @@ class map
         visibility_type get_visibility( const lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( const catacurses::window &w, lit_level ll,
-                                   const visibility_variables &cache ) const;
+        bool apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const;
 
         /** Draw a visible part of the map into `w`.
          *
@@ -534,7 +541,7 @@ class map
         void move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
 
         // Furniture: 2D overloads
-        void set( const int x, const int y, const ter_id new_terrain, const furn_id new_furniture );
+        void set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture );
 
         std::string name( const int x, const int y );
         bool has_furn( const int x, const int y ) const;
@@ -542,11 +549,11 @@ class map
         // Furniture at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         furn_id furn( const int x, const int y ) const;
 
-        void furn_set( const int x, const int y, const furn_id new_furniture );
+        void furn_set( const int x, const int y, const furn_id &new_furniture );
 
         std::string furnname( const int x, const int y );
         // Furniture: 3D
-        void set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture );
+        void set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture );
 
         std::string name( const tripoint &p );
         std::string disp_name( const tripoint &p );
@@ -559,7 +566,7 @@ class map
 
         furn_id furn( const tripoint &p ) const;
 
-        void furn_set( const tripoint &p, const furn_id new_furniture );
+        void furn_set( const tripoint &p, const furn_id &new_furniture );
 
         std::string furnname( const tripoint &p );
         bool can_move_furniture( const tripoint &pos, player *p = nullptr );
@@ -567,7 +574,7 @@ class map
         // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         ter_id ter( const int x, const int y ) const;
 
-        bool ter_set( const int x, const int y, const ter_id new_terrain );
+        bool ter_set( const int x, const int y, const ter_id &new_terrain );
 
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
@@ -582,7 +589,7 @@ class map
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
-        bool ter_set( const tripoint &p, const ter_id new_terrain );
+        bool ter_set( const tripoint &p, const ter_id &new_terrain );
 
         std::string tername( const tripoint &p ) const;
 
@@ -695,12 +702,10 @@ class map
 
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
          *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
-        void make_rubble( const tripoint &p, furn_id rubble_type, bool items,
-                          ter_id floor_type, bool overwrite = false );
+        void make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items,
+                          const ter_id &floor_type, bool overwrite = false );
         void make_rubble( const tripoint &p );
-        void make_rubble( const tripoint &p, furn_id rubble_type, bool items );
-        void make_rubble( int, int, furn_id rubble_type, bool items,
-                          ter_id floor_type, bool overwrite = false ) = delete;
+        void make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items );
 
         bool is_divable( const int x, const int y ) const;
         bool is_outside( const int x, const int y ) const;
@@ -746,9 +751,10 @@ class map
         void add_corpse( const tripoint &p );
 
         // Terrain changing functions
-        void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
+        // Change all instances of $from->$to
+        void translate( const ter_id &from, const ter_id &to );
         // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
-        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p,
+        void translate_radius( const ter_id &from, const ter_id &to, const float radi, const tripoint &p,
                                const bool same_submap = false );
         bool close_door( const tripoint &p, const bool inside, const bool check_only );
         bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
@@ -840,7 +846,8 @@ class map
         void add_item( const int x, const int y, item new_item );
         void spawn_an_item( const int x, const int y, item new_item,
                             const long charges, const int damlevel );
-        std::vector<item *> place_items( items_location loc, const int chance, const int x1, const int y1,
+        std::vector<item *> place_items( const items_location &loc, const int chance, const int x1,
+                                         const int y1,
                                          const int x2, const int y2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         void spawn_items( const int x, const int y, const std::vector<item> &new_items );
@@ -937,7 +944,7 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
-        std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
+        std::vector<item *> place_items( const items_location &loc, const int chance, const tripoint &f,
                                          const tripoint &t, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         /**
@@ -948,7 +955,7 @@ class map
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p,
+        std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
                                                 const time_point &turn = calendar::time_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
@@ -1152,7 +1159,8 @@ class map
         // 6 liters at 250 ml per charge
         void place_toilet( const int x, const int y, const int charges = 6 * 4 );
         void place_vending( int x, int y, const std::string &type, bool reinforced = false );
-        int place_npc( int x, int y, const string_id<npc_template> &type );
+        // places an NPC, if static NPCs are enabled or if force is true
+        int place_npc( int x, int y, const string_id<npc_template> &type, const bool force = false );
 
         void add_spawn( const mtype_id &type, const int count, const int x, const int y,
                         bool friendly = false,
@@ -1245,7 +1253,7 @@ class map
 
         int getmapsize() const {
             return my_MAPSIZE;
-        };
+        }
         bool has_zlevels() const {
             return zlevels;
         }
@@ -1343,11 +1351,11 @@ class map
         void shift_traps( const tripoint &shift );
 
         void copy_grid( const tripoint &to, const tripoint &from );
-        void draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                       const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                       const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                       const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
-                       const int zlevel, const regional_settings *rsettings );
+        void draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
+                       const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
+                       const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
+                       const oter_id &t_above, const oter_id &t_below, const time_point &when,
+                       const float density, const int zlevel, const regional_settings *rsettings );
 
         void build_transparency_cache( int zlev );
     public:
@@ -1444,6 +1452,8 @@ class map
                            bool invert, bool show_items,
                            const tripoint &view_center,
                            bool low_light, bool bright_light, bool inorder ) const;
+        void draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                       const tripoint &view_center ) const;
         /**
          * Draws the tile as seen from above.
          */
@@ -1453,7 +1463,6 @@ class map
                               bool low_light, bool bright_light, bool inorder ) const;
 
         long determine_wall_corner( const tripoint &p ) const;
-        void cache_seen( const int fx, const int fy, const int tx, const int ty, const int max_range );
         // apply a circular light pattern immediately, however it's best to use...
         void apply_light_source( const tripoint &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant

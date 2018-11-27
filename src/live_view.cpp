@@ -1,12 +1,12 @@
 #include "live_view.h"
 
-#include "output.h"
-#include "game.h"
-#include "string_formatter.h"
-#include "map.h"
-#include "translations.h"
 #include "catacharset.h" // center_text_pos
 #include "color.h"
+#include "game.h"
+#include "map.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"

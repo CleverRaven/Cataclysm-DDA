@@ -1,7 +1,8 @@
 #include "mission.h"
+
 #include "game.h"
-#include "overmapbuffer.h"
 #include "npc.h"
+#include "overmapbuffer.h"
 
 void mission_fail::kill_npc( mission *miss )
 {

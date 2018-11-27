@@ -5,22 +5,21 @@
 #include "creature.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
+#include "json.h"
 #include "mattack_actors.h"
 #include "monattack.h"
 #include "mondeath.h"
-#include "json.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "mtype.h"
+#include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "material.h"
-#include "options.h"
-#include "harvest.h"
 
 #include <algorithm>
 
@@ -102,6 +101,20 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
+m_size volume_to_size( const units::volume vol )
+{
+    if( vol <= 7500_ml ) {
+        return MS_TINY;
+    } else if( vol <= 46250_ml ) {
+        return MS_SMALL;
+    } else if( vol <= 77500_ml ) {
+        return MS_MEDIUM;
+    } else if( vol <= 483750_ml ) {
+        return MS_LARGE;
+    }
+    return MS_HUGE;
+}
+
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
@@ -110,6 +123,7 @@ void MonsterGenerator::finalize_mtypes()
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
+        mon.size = volume_to_size( mon.volume );
 
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
@@ -166,9 +180,8 @@ void MonsterGenerator::set_mtype_flags( mtype &mon )
 {
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
-    m_flag nflag;
     for( std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag ) {
-        nflag = m_flag( *flag );
+        m_flag nflag = m_flag( *flag );
         mon.bitflags[nflag] = true;
     }
     monster_trigger ntrig;
@@ -224,6 +237,7 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_death()
 {
     death_map["NORMAL"] = &mdeath::normal;// Drop a body
+    death_map["SPLATTER"] = &mdeath::splatter;//Explodes in gibs and chunks
     death_map["ACID"] = &mdeath::acid;// Acid instead of a body
     death_map["BOOMER"] = &mdeath::boomer;// Explodes in vomit :3
     death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;// Explodes in glowing vomit :3
@@ -366,6 +380,10 @@ void MonsterGenerator::init_trigger()
     trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
     trigger_map["FRIEND_ATTACKED"] = MTRIG_FRIEND_ATTACKED;// // A monster of the same type attacked
     trigger_map["SOUND"] = MTRIG_SOUND;//  // Heard a sound
+    trigger_map["PLAYER_NEAR_BABY"] =
+        MTRIG_PLAYER_NEAR_BABY; // // Player/npc is near a baby monster of this type
+    trigger_map["MATING_SEASON"] =
+        MTRIG_MATING_SEASON; // It's the monster's mating season (defined by baby_flags)
 }
 
 void MonsterGenerator::init_flags()
@@ -443,6 +461,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
+    flag_map["FILTHY"] = MF_FILTHY;
     flag_map["SWARMS"] = MF_SWARMS;
     flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
@@ -546,8 +565,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "color", color );
-    const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
-    optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
+    assign( jo, "volume", volume, strict, 0_ml );
+    assign( jo, "weight", weight, strict, 0_gram );
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
     optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 
@@ -662,14 +681,16 @@ void mtype::load( JsonObject &jo, const std::string &src )
                   mtype_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
                   "null" );
-        if( jo.has_member( "baby_flags" ) ) {
-            baby_flags.clear();
-            JsonArray baby_tags = jo.get_array( "baby_flags" );
-            while( baby_tags.has_more() ) {
-                baby_flags.push_back( baby_tags.next_string() );
-            }
-        }
         reproduces = true;
+    }
+
+    if( jo.has_member( "baby_flags" ) ) {
+        // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
+        baby_flags.clear();
+        JsonArray baby_tags = jo.get_array( "baby_flags" );
+        while( baby_tags.has_more() ) {
+            baby_flags.push_back( baby_tags.next_string() );
+        }
     }
 
     if( jo.has_member( "biosignature" ) ) {

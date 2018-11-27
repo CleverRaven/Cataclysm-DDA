@@ -235,6 +235,18 @@
     "components": [ [ [ "gloople", 1 ] ] ]
   },
   {
+    "result": "gloople_tank_large",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 30000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "gloople", 1 ] ] ]
+  },
+  {
     "result": "gloople_wheel",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -281,6 +293,18 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "gray", 1 ] ] ]
+  },
+  {
+    "result": "gray_tank_large",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 30000,
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "gray", 1 ] ] ]
@@ -405,6 +429,18 @@
     "components": [ [ [ "oozle", 1 ] ] ]
   },
   {
+    "result": "oozle_tank_large",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 30000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "oozle", 1 ] ] ]
+  },
+  {
     "result": "oozle_wheel",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -457,30 +493,6 @@
     ]
   },
   {
-    "result": "queen",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": 30000,
-    "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "spouterqueen", 1 ], [ "razorqueen", 1 ] ] ]
-  },
-  {
-    "result": "razorqueen",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "cooking",
-    "difficulty": 6,
-    "time": 30000,
-    "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "spouterqueen", 1 ], [ "queen", 1 ] ] ]
-  },
-  {
     "result": "spouterqueen",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -490,7 +502,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "queen", 1 ], [ "razorqueen", 1 ] ] ]
+    "components": [ [ [ "queen", 1 ] ] ]
   },
   {
     "result": "sharpgrow",

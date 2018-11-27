@@ -6,6 +6,7 @@
       "(": "f_trashcan",
       ")": "f_trashcan",
       "/": "f_bench",
+      "!": "f_mailbox",
       "1": "f_chair",
       "2": "f_chair",
       "3": "f_chair",
@@ -51,7 +52,6 @@
       "l": "f_bookcase",
       "m": "f_locker",
       "n": "f_cupboard",
-      "p": "f_mailbox",
       "q": "f_oven",
       "r": "f_rack",
       "s": "f_sofa",
@@ -66,6 +66,7 @@
     "terrain": {
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
+      "!": "t_grass",
       ")": "t_carpet_red",
       "+": "t_door_c",
       ",": "t_sidewalk",
@@ -109,7 +110,6 @@
       "d": "t_carpet_red",
       "j": "t_linoleum_gray",
       "o": "t_door_frame",
-      "p": "t_grass",
       "x": "t_wall_glass",
       "|": "t_railing_v"
     }

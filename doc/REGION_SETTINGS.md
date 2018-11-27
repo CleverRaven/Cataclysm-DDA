@@ -97,7 +97,7 @@ furniture.
 
 At the top level, the `forest_mapgen_settings` is a collection of named configurations where each
 entry has the name of the overmap terrain that it applies to, e.g. `forest`, `forest_thick`,
-`forest_water`. It is possible to define settings for overmap terrrains that are not rendered by
+`forest_water`. It is possible to define settings for overmap terrains that are not rendered by
 the forest mapgen, but will be used when blending forest terrains with other terrain types.
 
 ```json
@@ -124,6 +124,8 @@ Each terrain then has an independent set of configuration values that control th
 | `groundcover`                 | Weighted list of terrains used for base groundcover.                         |
 | `clear_components`            | Clear all previously defined `components` for this overmap terrain.          |
 | `components`                  | Collection of components that make up the terrains and furniture placed.     |
+| `clear_terrain_furniture`     | Clear all previously defined `terrain_furniture` for this overmap terrain.   |
+| `terrain_furniture`           | Collection of furniture conditionally placed based on terrain.               |
 
 ### Example
 
@@ -140,7 +142,9 @@ Each terrain then has an independent set of configuration values that control th
 			"t_dirt": 1
 		},
 		"clear_components": false,
-		"components": {}
+		"components": {},
+		"clear_terrain_furniture": false,
+		"terrain_furniture": {}
 	}
 }
 ```
@@ -204,6 +208,83 @@ for the components are only relevant for the purposes of overriding them in regi
 			"f_dahlia": 1,
 			"f_bluebell": 1,
 			"f_mutpoppy": 1
+		}
+	}
+}
+```
+
+### Terrain Furniture
+
+The terrain furniture are a collection of terrain ids with a chance of having furniture
+picked from a weighted list for that given terrain and placed on it during mapgen after
+the normal mapgen has completed. This is used, for example, to place cattails on fresh
+water in swamps. Cattails could be simply placed in the `components` section and placed
+during the normal forest mapgen, but that would not guarantee their placement on fresh
+water only, while this does.
+
+### Fields
+
+|    Identifier     |                            Description                             |
+| ----------------- | ------------------------------------------------------------------ |
+| `chance`          | One in X chance that furniture from this component will be placed. |
+| `clear_furniture` | Clear all previously defined `furniture` for this terrain.         |
+| `furniture`       | Weighted list of furniture that will be placed on this terrain.    |
+
+### Example
+
+```json
+{
+	"t_water_sh" : {
+		"chance": 2,
+		"clear_furniture": false,
+		"furniture": {
+			"f_cattails": 1
+		}
+	}
+}
+```
+
+## Forest Trail Settings
+
+The **forest_trail_settings** section defines the attributes used in generating trails in the
+forests, including their likelihood of spawning, their connectivity, their chance for spawning
+trailheads, and some general tuning of the actual trail width/position in mapgen.
+
+### Fields
+
+|         Identifier         |                                         Description                                         |
+| -------------------------- | ------------------------------------------------------------------------------------------- |
+| `chance`                   | One in X chance a contiguous forest will have a trail system.                               |
+| `border_point_chance`      | One in X chance that the N/S/E/W-most point of the forest will be part of the trail system. |
+| `minimum_forest_size`      | Minimum contiguous forest size before a trail system can be spawned.                        |
+| `random_point_min`         | Minimum # of random points from contiguous forest used to form trail system.                |
+| `random_point_max`         | Maximum # of random points from contiguous forest used to form trail system.                |
+| `random_point_size_scalar` | Forest size is divided by this and added to the minimum number of random points.            |
+| `trailhead_chance`         | One in X chance a trailhead will spawn at end of trail near field.                          |
+| `trail_center_variance`    | Center of the trail in mapgen is offset in X and Y by a random amount between +/- variance  |
+| `trail_width_offset_min`   | Trail width in mapgen is offset by `rng(trail_width_offset_min, trail_width_offset_max)`.   |
+| `trail_width_offset_max`   | Trail width is mapgen offset by `rng(trail_width_offset_min, trail_width_offset_max)`.      |
+| `clear_trail_terrain`      | Clear all previously defined `trail_terrain`.                                               |
+| `trail_terrain`            | Weighted list of terrain that will used for the trail.                                      |
+
+### Example
+
+```json
+{
+	"forest_trail_settings": {
+		"chance": 2,
+		"border_point_chance": 2,
+		"minimum_forest_size": 100,
+		"random_point_min": 4,
+		"random_point_max": 50,
+		"random_point_size_scalar": 100,
+		"trailhead_chance": 1,
+		"trail_center_variance": 3,
+		"trail_width_offset_min": 1,
+		"trail_width_offset_max": 3,
+		"clear_trail_terrain": false,
+		"trail_terrain": {
+			"t_dirt": 1
 		}
 	}
 }

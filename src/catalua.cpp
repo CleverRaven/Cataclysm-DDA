@@ -1,50 +1,55 @@
 #include "catalua.h"
 
-#include <memory>
-
-#include "game.h"
-#include "player.h"
 #include "action.h"
-#include "item_factory.h"
+#include "debug.h"
+#include "game.h"
 #include "item.h"
-#include "pldata.h"
+#include "item_factory.h"
+#include "line.h"
+#include "map.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
-#include "map.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "path_info.h"
-#include "monstergenerator.h"
 #include "messages.h"
-#include "debug.h"
-#include "translations.h"
-#include "line.h"
-#include "requirements.h"
-#include "weather_gen.h"
+#include "monstergenerator.h"
 #include "omdata.h"
+#include "output.h"
 #include "overmap.h"
+#include "path_info.h"
+#include "player.h"
+#include "pldata.h"
+#include "requirements.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "weather_gen.h"
+
+#include <memory>
 
 #ifdef LUA
-#include "ui.h"
-#include "mongroup.h"
-#include "itype.h"
-#include "morale_types.h"
-#include "trap.h"
-#include "overmap.h"
-#include "gun_mode.h"
-#include "mapdata.h"
-#include "mtype.h"
+
+#include "activity_type.h"
+#include "bionics.h"
 #include "field.h"
 #include "filesystem.h"
-#include "string_input_popup.h"
+#include "gun_mode.h"
+#include "itype.h"
+#include "mapdata.h"
+#include "mongroup.h"
+#include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "bionics.h"
-#include "activity_type.h"
+#include "optional.h"
+#include "overmap.h"
+#include "overmap_ui.h"
+#include "string_input_popup.h"
+#include "trap.h"
+#include "ui.h"
+
 extern "C" {
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
 }
 
 #include <type_traits>
@@ -63,7 +68,7 @@ lua_State *lua_state = nullptr;
 
 // Keep track of the current mod from which we are executing, so that
 // we know where to load files from.
-std::string lua_file_path = "";
+std::string lua_file_path;
 
 std::stringstream lua_output_stream;
 std::stringstream lua_error_stream;
@@ -385,8 +390,17 @@ class LuaValue
                 lua_setglobal( L, global_name );
             }
         }
-        template<typename ...Args>
-        static void push( lua_State *const L, Args &&... args ) {
+        template<typename U>
+        static void push( lua_State *const L, const cata::optional<U> &value ) {
+            if( value ) {
+                push( L, *value );
+            } else {
+                lua_pushnil( L );
+            }
+        }
+        template<typename ...Args,
+                 typename std::enable_if<std::is_constructible<T, Args...>::value, int>::type = 0 >
+        static void push( lua_State *const L, Args && ... args ) {
             // Push user data,
             T *value_in_lua = static_cast<T *>( lua_newuserdata( L, sizeof( T ) ) );
             // Push metatable,
@@ -493,6 +507,14 @@ class LuaReference : private LuaValue<T *>
             }
             LuaValue<T *>::push( L, value );
         }
+        template<typename U>
+        static void push( lua_State *const L, const cata::optional<U> &value ) {
+            if( value ) {
+                push( L, *value );
+            } else {
+                lua_pushnil( L );
+            }
+        }
         // HACK: because Lua does not known what const is.
         static void push( lua_State *const L, const T *const value ) {
             if( value == nullptr ) {
@@ -584,6 +606,11 @@ struct LuaType<bool> {
     }
     static void push( lua_State *const L, bool const value ) {
         lua_pushboolean( L, value );
+    }
+    // It is helpful to be able to treat optionals as bools when passing to lua
+    template<typename T>
+    static void push( lua_State *const L, cata::optional<T> const &value ) {
+        push( L, !!value );
     }
 };
 template<>
@@ -736,12 +763,18 @@ void update_globals( lua_State *L )
 {
     LuaReference<player>::push( L, g->u );
     luah_setglobal( L, "player", -1 );
+    // luah_setglobal pushes an extra copy of the global data before storing it,
+    // but here the original value isn't needed once the global data has been
+    // saved.
+    lua_pop( L, 1 );
 
     LuaReference<map>::push( L, g->m );
     luah_setglobal( L, "map", -1 );
+    lua_pop( L, 1 );
 
-    LuaReference<game>::push( L, g );
+    LuaReference<game>::push( L, g.get() );
     luah_setglobal( L, "g", -1 );
+    lua_pop( L, 1 );
 }
 
 class lua_iuse_wrapper : public iuse_actor
@@ -878,10 +911,10 @@ void CallbackArgument::Save()
             lua_pushstring( L, value_string.c_str() );
             break;
         case CallbackArgumentType::Tripoint:
-            LuaValue<tripoint>::push_reg( L, value_tripoint );
+            LuaValue<tripoint>::push( L, value_tripoint );
             break;
         case CallbackArgumentType::Item:
-            LuaValue<item>::push_reg( L, value_item );
+            LuaValue<item>::push( L, value_item );
             break;
         case CallbackArgumentType::Reference_Creature:
             LuaReference<Creature>::push( L, value_creature );
@@ -968,11 +1001,19 @@ int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &, const t
 
 // Custom functions that are to be wrapped from lua.
 // -------------------------------------------------
-static std::unique_ptr<uimenu> uimenu_instance;
-uimenu *create_uimenu()
+static std::unique_ptr<uilist> uilist_instance;
+uilist *create_uilist()
 {
-    uimenu_instance = std::unique_ptr<uimenu>( new uimenu() );
-    return uimenu_instance.get();
+    uilist_instance.reset( new uilist() );
+    return uilist_instance.get();
+}
+
+// Simulate old create_uimenu() behavior
+uilist *create_uilist_no_cancel()
+{
+    uilist_instance.reset( new uilist() );
+    uilist_instance->allow_cancel = false;
+    return uilist_instance.get();
 }
 
 const ter_t &get_terrain_type( int id )
@@ -1033,34 +1074,6 @@ monster *create_monster( const mtype_id &mon_type, const tripoint &p )
 //
 // Most lua functions are generated by src/lua/generate_bindings.lua,
 // these generated functions can be found in src/lua/catabindings.cpp
-
-/*
- This function is commented out until I find a way to get a list of all
- currently loaded monsters >_>
-
-// monster_list = game.get_monsters()
-static int game_get_monsters(lua_State *L) {
-    lua_createtable(L, g->_z.size(), 0); // Preallocate enough space for all our monsters.
-
-    // Iterate over the monster list and insert each monster into our returned table.
-    for( size_t i = 0; i < g->_z.size(); ++i ) {
-        // The stack will look like this:
-        // 1 - t, table containing monsters
-        // 2 - k, index at which the next monster will be inserted
-        // 3 - v, next monster to insert
-        //
-        // lua_rawset then does t[k] = v and pops v and k from the stack
-
-        lua_pushnumber(L, i + 1);
-        monster** monster_userdata = (monster**) lua_newuserdata(L, sizeof(monster*));
-        *monster_userdata = &(g->_z[i]);
-        luah_setmetatable(L, "monster_metatable");
-        lua_rawset(L, -3);
-    }
-
-    return 1; // 1 return values
-}
-*/
 
 static void popup_wrapper( const std::string &text )
 {
@@ -1159,14 +1172,12 @@ static int game_get_monster_types( lua_State *L )
 static int game_choose_adjacent( lua_State *L )
 {
     const std::string parameter1 = lua_tostring_wrapper( L, 1 );
-    int parameter2 = ( int ) lua_tonumber( L, 2 );
-    int parameter3 = ( int ) lua_tonumber( L, 3 );
-    bool success = ( bool ) choose_adjacent( parameter1, parameter2, parameter3 );
-    if( success ) {
-        // parameter2 and parameter3 were updated by the call
-        lua_pushnumber( L, parameter2 );
-        lua_pushnumber( L, parameter3 );
-        return 2; // 2 return values
+    const cata::optional<tripoint> pnt = choose_adjacent( parameter1 );
+    if( pnt ) {
+        lua_pushnumber( L, pnt->x );
+        lua_pushnumber( L, pnt->y );
+        lua_pushnumber( L, pnt->z );
+        return 3; // 3 return values
     } else {
         return 0; // 0 return values
     }

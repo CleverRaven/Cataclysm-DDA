@@ -467,7 +467,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
-      "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet... it seems the man has prophesied  events accurately before concerning the Church of Starry Wisdom.",
+      "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet... it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path...  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.  ",
       "rejected": "Ya, I guess the stress may just be getting to me...",
       "advice": "The worst case scenario will probably be that the prisoners have escaped their cells and turned the building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in their cells.  Either way, navigating the building will pose its own difficulties.",
@@ -674,7 +674,7 @@
     "followup": "MISSION_OLD_GUARD_NEC_COMMO_2",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "My chief responsibility is to monitor radio traffic and locate potential targets to secure or rescue.  The majority of radio repeaters are down and those that are working have only emergency power.  If you have a basic understanding of electronics you should be able to fabricate  the 'radio repeater mod' found in these plans.  When this mod is attached to a radio station's main terminal, all short range radio traffic on emergency channels is boosted so we can pick it up at much longer ranges.  I really need you make me one.",
+      "offer": "My chief responsibility is to monitor radio traffic and locate potential targets to secure or rescue.  The majority of radio repeaters are down and those that are working have only emergency power.  If you have a basic understanding of electronics you should be able to fabricate the 'radio repeater mod' found in these plans.  When this mod is attached to a radio station's main terminal, all short range radio traffic on emergency channels is boosted so we can pick it up at much longer ranges.  I really need you make me one.",
       "accepted": "Thanks, I know the labs on the other side of the complex have electronic parts sitting around.",
       "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks...",
       "advice": "I'm sure the motorpool has a truck battery you could salvage.",
@@ -1656,7 +1656,7 @@
     "followup": "MISSION_RANCH_SCAVENGER_3",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five head torches for them?  Keeping both hands free greatly helps during combat.",
+      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five headlamps for them?  Keeping both hands free greatly helps during combat.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "You should be able to make them with the most basic of skills.",

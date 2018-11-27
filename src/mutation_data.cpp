@@ -1,17 +1,17 @@
 #include "mutation.h"
+
+#include "bodypart.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h" // tripoint
 #include "json.h"
 #include "pldata.h" // traits
-#include "enums.h" // tripoint
-#include "bodypart.h"
-#include "debug.h"
-#include "translations.h"
 #include "trait_group.h"
-
-#include "color.h"
+#include "translations.h"
 
 #include <map>
-#include <sstream>
 #include <set>
+#include <sstream>
 #include <vector>
 
 typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
@@ -75,20 +75,20 @@ static void load_mutation_mods( JsonObject &jsobj, const std::string &member,
     }
 }
 
-void load_mutation_category( JsonObject &jsobj )
+void mutation_category_trait::load( JsonObject &jsobj )
 {
     mutation_category_trait new_category;
     new_category.id = jsobj.get_string( "id" );
-    new_category.name = _( jsobj.get_string( "name" ).c_str() );
+    new_category.raw_name = jsobj.get_string( "name" );
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
-    new_category.mutagen_message = _( jsobj.get_string( "mutagen_message" ).c_str() );
+    new_category.raw_mutagen_message = jsobj.get_string( "mutagen_message" );
     new_category.mutagen_hunger  = jsobj.get_int( "mutagen_hunger", 10 );
     new_category.mutagen_thirst  = jsobj.get_int( "mutagen_thirst", 10 );
     new_category.mutagen_pain    = jsobj.get_int( "mutagen_pain", 2 );
     new_category.mutagen_fatigue = jsobj.get_int( "mutagen_fatigue", 5 );
     new_category.mutagen_morale  = jsobj.get_int( "mutagen_morale", 0 );
-    new_category.iv_message = _( jsobj.get_string( "iv_message" ).c_str() );
+    new_category.raw_iv_message = jsobj.get_string( "iv_message" );
     new_category.iv_min_mutations    = jsobj.get_int( "iv_min_mutations", 1 );
     new_category.iv_additional_mutations = jsobj.get_int( "iv_additional_mutations", 2 );
     new_category.iv_additional_mutations_chance = jsobj.get_int( "iv_additional_mutations_chance", 3 );
@@ -99,19 +99,61 @@ void load_mutation_category( JsonObject &jsobj )
     new_category.iv_morale   = jsobj.get_int( "iv_morale", 0 );
     new_category.iv_morale_max   = jsobj.get_int( "iv_morale_max", 0 );
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
-    new_category.iv_sound_message = _( jsobj.get_string( "iv_sound_message",
-                                       "You inject yoursel-arRGH!" ).c_str() );
+    new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
+                                        translate_marker( "You inject yoursel-arRGH!" ) );
     new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
     new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
-    new_category.iv_sleep_message = _( jsobj.get_string( "iv_sleep_message",
-                                       "You fall asleep." ).c_str() );
+    new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
+                                        translate_marker( "You fall asleep." ) );
     new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
-    new_category.memorial_message = _( jsobj.get_string( "memorial_message",
-                                       "Crossed a threshold" ).c_str() );
-    new_category.junkie_message = _( jsobj.get_string( "junkie_message",
-                                     "Oh, yeah! That's the stuff!" ).c_str() );
+    static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
+    static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
+    new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
+                                        "Crossed a threshold" );
+    new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
+                                      translate_marker( "Oh, yeah! That's the stuff!" ) );
 
     mutation_category_traits[new_category.id] = new_category;
+}
+
+std::string mutation_category_trait::name() const
+{
+    return _( raw_name.c_str() );
+}
+
+std::string mutation_category_trait::mutagen_message() const
+{
+    return _( raw_mutagen_message.c_str() );
+}
+
+std::string mutation_category_trait::iv_message() const
+{
+    return _( raw_iv_message.c_str() );
+}
+
+std::string mutation_category_trait::iv_sound_message() const
+{
+    return _( raw_iv_sound_message.c_str() );
+}
+
+std::string mutation_category_trait::iv_sleep_message() const
+{
+    return _( raw_iv_sleep_message.c_str() );
+}
+
+std::string mutation_category_trait::junkie_message() const
+{
+    return _( raw_junkie_message.c_str() );
+}
+
+std::string mutation_category_trait::memorial_message_male() const
+{
+    return pgettext( "memorial_male", raw_memorial_message.c_str() );
+}
+
+std::string mutation_category_trait::memorial_message_female() const
+{
+    return pgettext( "memorial_female", raw_memorial_message.c_str() );
 }
 
 const std::map<std::string, mutation_category_trait> &mutation_category_trait::get_all()
@@ -119,7 +161,8 @@ const std::map<std::string, mutation_category_trait> &mutation_category_trait::g
     return mutation_category_traits;
 }
 
-const mutation_category_trait &mutation_category_trait::get_category( std::string category_id )
+const mutation_category_trait &mutation_category_trait::get_category( const std::string
+        &category_id )
 {
     return mutation_category_traits.find( category_id )->second;
 }
@@ -203,8 +246,8 @@ void mutation_branch::load( JsonObject &jsobj )
     mutation_branch &new_mut = mutation_data[id];
 
     JsonArray jsarr;
-    new_mut.name = _( jsobj.get_string( "name" ).c_str() );
-    new_mut.description = _( jsobj.get_string( "description" ).c_str() );
+    new_mut.raw_name = jsobj.get_string( "name" );
+    new_mut.raw_desc = jsobj.get_string( "description" );
     new_mut.points = jsobj.get_int( "points" );
     new_mut.visibility = jsobj.get_int( "visibility", 0 );
     new_mut.ugliness = jsobj.get_int( "ugliness", 0 );
@@ -224,7 +267,7 @@ void mutation_branch::load( JsonObject &jsobj )
     if( jsobj.has_object( "spawn_item" ) ) {
         JsonObject spawn_item = jsobj.get_object( "spawn_item" );
         new_mut.spawn_item = spawn_item.get_string( "type", "" );
-        new_mut.spawn_item_message = spawn_item.get_string( "message", "" );
+        new_mut.raw_spawn_item_message = spawn_item.get_string( "message", "" );
     }
     for( auto &s : jsobj.get_string_array( "initial_ma_styles" ) ) {
         new_mut.initial_ma_styles.push_back( matype_id( s ) );
@@ -238,6 +281,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.bodytemp_sleep = jsobj.get_int( "bodytemp_sleep", 0 );
     new_mut.threshold = jsobj.get_bool( "threshold", false );
     new_mut.profession = jsobj.get_bool( "profession", false );
+    new_mut.debug = jsobj.get_bool( "debug", false );
 
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
@@ -251,6 +295,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.hp_modifier = jsobj.get_float( "hp_modifier", 0.0f );
     new_mut.hp_modifier_secondary = jsobj.get_float( "hp_modifier_secondary", 0.0f );
     new_mut.hp_adjustment = jsobj.get_float( "hp_adjustment", 0.0f );
+    new_mut.stealth_modifier = jsobj.get_float( "stealth_modifier", 0.0f );
 
     new_mut.metabolism_modifier = jsobj.get_float( "metabolism_modifier", 0.0f );
     new_mut.thirst_modifier = jsobj.get_float( "thirst_modifier", 0.0f );
@@ -366,6 +411,21 @@ void mutation_branch::load( JsonObject &jsobj )
     }
 }
 
+std::string mutation_branch::spawn_item_message() const
+{
+    return _( raw_spawn_item_message.c_str() );
+}
+
+std::string mutation_branch::name() const
+{
+    return _( raw_name.c_str() );
+}
+
+std::string mutation_branch::desc() const
+{
+    return _( raw_desc.c_str() );
+}
+
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
                                const std::string &what )
 {
@@ -386,7 +446,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
             }
         }
-        for( const std::string type : mdata.types ) {
+        for( const std::string &type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }
@@ -404,6 +464,8 @@ nc_color mutation_branch::get_display_color() const
 {
     if( threshold || profession ) {
         return c_white;
+    } else if( debug ) {
+        return c_light_cyan;
     } else if( mixed_effect ) {
         return c_pink;
     } else if( points > 0 ) {
@@ -415,9 +477,9 @@ nc_color mutation_branch::get_display_color() const
     }
 }
 
-const std::string &mutation_branch::get_name( const trait_id &mutation_id )
+std::string mutation_branch::get_name( const trait_id &mutation_id )
 {
-    return mutation_id->name;
+    return mutation_id->name();
 }
 
 const mutation_branch::MutationMap &mutation_branch::get_all()
@@ -435,7 +497,16 @@ void mutation_branch::reset_all()
                           std::make_shared<Trait_group_collection>( 100 ) );
 }
 
-void load_dream( JsonObject &jsobj )
+std::vector<std::string> dream::messages() const
+{
+    std::vector<std::string> ret;
+    for( const auto &msg : raw_messages ) {
+        ret.push_back( _( msg.c_str() ) );
+    }
+    return ret;
+}
+
+void dream::load( JsonObject &jsobj )
 {
     dream newdream;
 
@@ -444,7 +515,7 @@ void load_dream( JsonObject &jsobj )
 
     JsonArray jsarr = jsobj.get_array( "messages" );
     while( jsarr.has_more() ) {
-        newdream.messages.push_back( _( jsarr.next_string().c_str() ) );
+        newdream.raw_messages.push_back( jsarr.next_string() );
     }
 
     dreams.push_back( newdream );
@@ -452,7 +523,7 @@ void load_dream( JsonObject &jsobj )
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    return a->name < b->name;
+    return a->name() < b->name();
 }
 
 void mutation_branch::load_trait_blacklist( JsonObject &jsobj )

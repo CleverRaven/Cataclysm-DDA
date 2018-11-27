@@ -1,0 +1,100 @@
+Balance Adjust loot generation rate
+Bugfixes Fix categorisation of water
+Content Magazine adaptors
+Content Vibrator Deconstruction Recipe
+Balance Make skill functions in player and character consistent
+Balance Less duplicated gates
+Features Allow attacking ground to prevent overshooting
+Infrastructure Remove white spaces from items folder
+Content Allow the use of duct tape in place of medical tape
+Infrastructure Moving mapgen functions in switch statement
+Performance Draw border enhancement
+Infrastructure Remove unnecessary code from mutations control UI
+Interface Sort armor UI: make menu wider and trim names properly
+Interface Don't abort npc dialog after trading/giving items
+Interface Redraw npc dialog before every prompt
+Interface Remove hardcoded m hotkey in overmap
+Mods Add Squeamish mod
+Infrastructure Remove white space/extra lines from recipes folder
+Infrastructure Remove white space from npc talk tags
+Interface Wider Construction Menu
+Infrastructure Delete white spaces in the rest of json folder part 1
+Bugfixes Fix vibrator recipe
+Infrastructure Move UI related bionic functions to a separate file
+Balance Ignore checks for zombies to pulp if the NPC is boarded
+Content Extended maple products part 2
+Features Allow bringing NPCs up/down z-levels in 2D mode
+Balance Minor changes to zombie children
+Bugfixes Hack around bugged minireactors
+Infrastructure Delete white spaces in the rest of json folder part 2
+Infrastructure Delete white spaces in the rest of json folder part 3
+Bugfixes hotdogs_campfire fix
+Bugfixes Fixed campsite generation
+Content Doom Items
+Infrastructure Wrap writing to files into function to report any errors
+Content Add magazine coloring, improve ammo/gun coloring
+Bugfixes Fix several food items not stacking
+Content Add missing whiskey recipe
+Mods Some maintenance for the arcana mod
+Mods Some minor maintenance for the medieval mod
+Content Prison Break Scenario
+Interface Use another function for drawing line in mutation UI
+Bugfixes Fix item removal via item_location
+Balance Improved survivor weapons
+Content Restores gummy vitamins
+Mods Fix for issue #13969 for blaze mod
+Mods Some minor maintenance for the Blaze mod
+Features Zombie corpses transforming due to burns
+Infrastructure Heal actor update
+Balance Mission value rescaling
+Infrastructure Add defaults for armor thickness and coverage
+Infrastructure Remove extra spaces and new lines from mods
+Mods Some more maintenance for the arcana mod
+Content Add ironshod quarter staff to Niten Ichi-Ryu
+Bugfixes Don't talk to the dead
+Infrastructure Remove unused sounds::draw_monster_sounds
+Balance Fungal Zombies can see
+Content Leather Belts hold slings, slingshots, and wrist-slingshots.
+Content Linolium floors in Vet Clinic
+Balance Rebalance fear_paralaze to prevent infinite moves drain
+Bugfixes Materials fix for granola.
+Infrastructure add compiler LTO support
+Bugfixes Fix snippet selection
+Content Removed blowgun darts
+Content Remove dart recipe
+Infrastructure Delete extra spaces and new lines from more locations mod part one
+Mods Small name fix for arcana
+Infrastructure Implement string id for tool qualities.
+Bugfixes Prevent undefined behavior.
+Balance Nerf some armors
+Content Deconstruct joints
+Content Add details to message displayed when loading world
+Balance Fix hallucination not kicking in if duration is too high
+Interface Redraw after exiting help window
+Bugfixes Remove glitches in "check mods" mode
+Content Display RDA for vitamins
+Balance Redesign bionics lab room to fix computer successful hack
+Infrastructure Delete extra spaces and new lines from more locations mod part four
+Infrastructure Delete extra spaces and new lines from more locations mod part three
+Infrastructure Delete extra spaces and new lines from more locations mod part two
+Content Have illegal drugs spawn in plastic bags
+Mods More Medieval mod maintenance
+Content Avoid moving objects that are examined later
+Content Revised 7.62x25 item description
+Balance Limit turret to its actual range
+Infrastructure Compress mutagens
+Infrastructure Delete extra spaces and new lines from more locations mod part eight
+Infrastructure Delete extra spaces and new lines from more locations mod part five
+Infrastructure Delete extra spaces and new lines from more locations mod part nine
+Infrastructure Delete extra spaces and new lines from more locations mod part seven
+Infrastructure Delete extra spaces and new lines from more locations mod part six
+Infrastructure Delete extra spaces and new lines from more locations mod part ten
+Infrastructure Finish deleting spaces and new lines from jsons in data folder
+Infrastructure Encapsulate turn tracker in a class.
+Features Adds automatic Zombie Advancement aka Real-time mode
+Balance Firearm Damage Modifier Rebalance
+Bugfixes Fix reason for UPS debug message
+Bugfixes ChestHole and ChestHole32 tilesets, everything wieldable pistols are rifles
+Balance Make missed ranged attacks miss more realistically
+Balance Add Hammer to toolbox recipe
+Interface Preparations for addition of new tab to bionics menu

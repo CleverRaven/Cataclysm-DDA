@@ -13,8 +13,8 @@
     "material": ["plastic"],
     "symbol": ";",
     "color": "green",
-    "max_charges": 400,
-    "initial_charges": 400,
+    "max_charges": 576,
+    "initial_charges": 576,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -33,7 +33,7 @@
     "type": "TOOL",
     "name": "electric lantern (on)",
     "name_plural": "electric lanterns (on)",
-    "turns_per_charge": 45,
+    "turns_per_charge": 42,
     "revert_to": "electric_lantern",
     "use_action": {
         "menu_text": "Turn off",
@@ -74,7 +74,7 @@
     "type": "TOOL",
     "name": "flashlight (on)",
     "name_plural": "flashlights (on)",
-    "turns_per_charge": 20,
+    "turns_per_charge": 24,
     "revert_to": "flashlight",
     "use_action": {
         "menu_text": "Turn off",
@@ -132,8 +132,8 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
-    "max_charges": 200,
-    "initial_charges": 200,
+    "max_charges": 205,
+    "initial_charges": 205,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -151,7 +151,7 @@
     "type": "TOOL",
     "name": "heavy duty flashlight (on)",
     "name_plural": "heavy duty flashlights (on)",
-    "turns_per_charge": 12,
+    "turns_per_charge": 9,
     "revert_to": "heavy_flashlight",
     "use_action": {
         "menu_text": "Turn off",

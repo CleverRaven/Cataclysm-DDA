@@ -14,7 +14,7 @@
     "type": "COMESTIBLE",
     "name": "soylent green powder",
     "name_plural": "servings of soylent green powder",
-    "description": "Raw, refined protein made out of people!  While quite nutritious, it is difficult to enjoy in its pure form.",
+    "description": "Raw, refined protein made out of people!  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
     "material": [ "powder", "hflesh" ]
   },
   {
@@ -59,7 +59,7 @@
     "comestible_type": "FOOD",
     "name": "protein powder",
     "name_plural": "servings of protein powder",
-    "description": "Raw, refined protein.  While quite nutritious, it is difficult to enjoy in its pure form.",
+    "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
     "weight": 38,
     "volume": 1,
     "price": 1100,

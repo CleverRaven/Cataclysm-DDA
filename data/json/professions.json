@@ -1,5 +1,62 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_m4",
+    "entries": [ { "item": "stanag30", "ammo-item": "556", "charges": 30 }, { "item": "stanag30", "ammo-item": "556", "charges": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_mp5",
+    "entries": [ { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }, { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_rm51",
+    "entries": [
+      { "item": "8x40_50_mag", "ammo-item": "8mm_fmj", "charges": 50 },
+      { "item": "8x40_50_mag", "ammo-item": "8mm_fmj", "charges": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_rm11b",
+    "entries": [
+      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
+      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_usp45",
+    "entries": [
+      { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+      { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_usp9",
+    "entries": [
+      { "item": "usp9mag", "ammo-item": "9mmfmj", "charges": 15 },
+      { "item": "usp9mag", "ammo-item": "9mmfmj", "charges": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_lw21",
+    "entries": [
+      { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 },
+      { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 }
+    ]
+  },
+  {
     "type": "profession_item_substitutions",
     "substitutions": [
       {
@@ -13,7 +70,8 @@
           [ "boots_winter", "boots_fur" ],
           [ "cloak_wool", "cloak_leather" ],
           [ "gloves_wool", "gloves_leather" ],
-          [ "kilt", "kilt_leather" ]
+          [ "kilt", "kilt_leather" ],
+          [ "mask_ski", "balclava" ]
         ]
       },
       {
@@ -391,21 +449,22 @@
     "items": {
       "both": {
         "items": [
-          "winter_pants_army",
-          "army_top",
-          "winter_jacket_army",
-          "helmet_liner",
+          "pants_army",
+          "undershirt",
+          "jacket_army",
           "helmet_army",
-          "balclava",
-          "winter_gloves_army",
+          "mask_ski",
+          "gloves_liner",
+          "gloves_tactical",
           "socks",
           "boots_combat",
-          "binoculars"
+          "molle_pack"
         ],
         "entries": [
+          { "item": "modularvest", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "223", "charges": 30, "contents-item": "shoulder_strap" }
+          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -431,28 +490,28 @@
     "items": {
       "both": {
         "items": [
-          "undershirt",
-          "arm_warmers",
-          "leg_warmers",
+          "wetsuit",
           "pants_army",
-          "jacket_army",
-          "balclava",
-          "beret",
-          "gloves_liner",
+          "wetsuit_hood",
+          "tac_helmet",
+          "glasses_bal",
+          "wetsuit_gloves",
           "gloves_tactical",
           "socks",
-          "boots_combat"
+          "boots_combat",
+          "dive_bag",
+          "diving_watch"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
+          { "item": "chestrig", "contents-group": "army_mags_mp5" },
           {
-            "item": "rm2000_smg",
-            "ammo-item": "8mm_fmj",
-            "charges": 25,
-            "contents-item": [ "shoulder_strap", "suppressor" ]
-          },
-          { "item": "8mm_fmj", "charges": 55 }
+            "item": "hk_mp5",
+            "ammo-item": "9mm",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "suppressor", "holo_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -640,7 +699,7 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "45_acp", "charges": 18 }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -673,8 +732,8 @@
           "ref_lighter"
         ],
         "entries": [
-          { "item": "l_sp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "sholster" },
-          { "item": "45_acp", "charges": 18 }
+          { "item": "l_enforcer_45", "ammo-item": "45_acp", "charges": 6, "container-item": "sholster" },
+          { "item": "45_acp", "charges": 24 }
         ]
       },
       "male": [ "briefs" ],
@@ -693,12 +752,18 @@
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "9mmfmj", "flashbang" ],
+        "items": [ "socks", "swat_armor", "tac_helmet", "boots_combat", "gloves_tactical", "badge_swat" ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "chestrig", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
+          { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "sholster" },
-          { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": "shoulder_strap" },
-          { "item": "9mm", "charges": 55 }
+          {
+            "item": "hk_mp5",
+            "ammo-item": "9mm",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "rail_laser_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -721,13 +786,14 @@
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "shot_beanbag", "baton" ],
+        "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "baton" ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
+          { "item": "shot_slug", "charges": 12, "container-item": "bandolier_shotgun" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
-          { "item": "9mmfmj", "charges": 35 },
-          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" },
-          { "item": "shot_00", "charges": 13 }
+          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -744,28 +810,25 @@
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
+        "ammo": 100,
         "items": [
           "socks",
           "pants_army",
-          "hoodie",
+          "sheriffshirt",
+          "sweatshirt",
           "sneakers",
           "gloves_tactical",
           "glasses_bal",
-          "hat_boonie",
+          "hat_ball",
           "badge_deputy",
-          "wristwatch"
+          "wristwatch",
+          "powered_earmuffs"
         ],
         "entries": [
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "45_acp", "charges": 18 },
-          {
-            "item": "remington_700",
-            "ammo-item": "3006",
-            "charges": 4,
-            "contents-item": [ "shoulder_strap", "rifle_scope" ]
-          },
-          { "item": "3006", "charges": 16 }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "m14mag", "ammo-item": "762_51", "charges": 20, "container-item": "chestrig" },
+          { "item": "M24", "ammo-item": "762_51", "charges": 20, "container-item": "back_holster" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -795,16 +858,16 @@
           "gloves_tactical",
           "modularvestkevlar",
           "mask_gas",
-          "tac_helmet",
+          "helmet_riot",
           "armguard_hard",
-          "knee_pads",
+          "legguard_hard",
           "badge_deputy",
           "tonfa",
           "gasbomb"
         ],
         "entries": [
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "45_acp", "charges": 18 },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "tazer", "charges": 100 }
         ]
       },
@@ -1197,8 +1260,11 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [ "tac_fullhelmet", "chestrig", "pants_cargo", "under_armor", "socks", "boots", "badge_cybercop" ],
-        "entries": [ { "item": "l_mp_9mm", "ammo-item": "9mmP", "container-item": "holster" }, { "item": "9mmP", "charges": 29 } ]
+        "items": [ "tac_fullhelmet", "pants_cargo", "under_armor", "socks", "boots", "badge_cybercop" ],
+        "entries": [
+          { "item": "l_mp_9mm", "ammo-item": "9mmP", "container-item": "holster" },
+          { "item": "chestrig", "container-group": "army_mags_lw21" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -1267,11 +1333,16 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [ "winter_pants_army", "winter_jacket_army", "winter_gloves_army", "balclava", "beret", "socks", "boots_combat" ],
+        "items": [ "winter_pants_army", "winter_jacket_army", "winter_gloves_army", "mask_ski", "tac_helmet", "socks", "boots_combat" ],
         "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
-          { "item": "rm51_assault_rifle", "ammo-item": "8mm_fmj", "contents-item": "shoulder_strap" },
-          { "item": "8mm_fmj", "charges": 30 }
+          {
+            "item": "rm51_assault_rifle",
+            "ammo-item": "8mm_fmj",
+            "contents-item": [ "shoulder_strap", "acog_scope" ]
+          },
+          { "item": "modularvestceramic", "contents-group": "army_mags_rm51" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1305,13 +1376,13 @@
       "both": {
         "ammo": 100,
         "items": [
-          "pants_army",
+          "winter_pants_army",
           "army_top",
-          "jacket_army",
+          "winter_jacket_army",
           "gloves_tactical",
           "rucksack",
-          "balclava",
-          "hat_boonie",
+          "cloak",
+          "mask_ski",
           "socks",
           "boots_combat",
           "canteen",
@@ -1322,14 +1393,11 @@
           "binoculars"
         ],
         "entries": [
-          { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
-          { "item": "9mm", "charges": 35 },
-          {
-            "item": "m2010",
-            "ammo-item": "300_winmag",
-            "contents-item": [ "shoulder_strap", "suppressor", "rifle_scope" ]
-          },
-          { "item": "300_winmag", "charges": 15 }
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "rm11b_sniper_rifle", "ammo-item": "8mm_fmj", "contents-item": [ "shoulder_strap" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "chestrig", "contents-group": [ "army_mags_rm51", "army_mags_usp45" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1742,7 +1810,7 @@
         "dress_shoes",
         "knit_scarf",
         "wristwatch",
-        "cell_phone",
+        "smart_phone",
         "briefcase",
         "money_bundle",
         "file"
@@ -2595,7 +2663,7 @@
         "wristwatch",
         "mbag",
         "water_mineral",
-        "cell_phone",
+        "smart_phone",
         "money_bundle"
       ],
       "male": [ "briefs" ],
@@ -2702,7 +2770,7 @@
         "e_tool",
         "tent_kit",
         "rollmat",
-        "sleeping_bag",
+        "sleeping_bag_roll",
         "knife_swissarmy",
         "mess_kit",
         "gasoline_lantern",
@@ -2891,6 +2959,35 @@
           { "item": "golf_ball" }
         ]
       },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "bio_medic",
+    "name": "Bionic Surgeon",
+    "description": "As one of the top surgeons in the country, you were chosen for an augmentation program to expand the medical field.  With your expertise and augmentations, you can perform precise surgery with little assitance.",
+    "points": 6,
+    "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
+    "skills": [ { "level": 8, "name": "firstaid" } ],
+    "traits": [ "PROF_MED" ],
+    "items": {
+      "both": [
+        "gloves_medical",
+        "socks",
+        "mask_dust",
+        "dress_shirt",
+        "pants",
+        "dress_shoes",
+        "coat_lab",
+        "stethoscope",
+        "bfipowder",
+        "antibiotics",
+        "oxycodone",
+        "1st_aid",
+        "battery"
+      ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }

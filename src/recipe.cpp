@@ -1,17 +1,18 @@
 #include "recipe.h"
 
 #include "calendar.h"
+#include "game_constants.h"
 #include "generic_factory.h"
-#include "itype.h"
 #include "item.h"
-#include "string_formatter.h"
+#include "itype.h"
 #include "output.h"
 #include "skill.h"
-#include "game_constants.h"
+#include "uistate.h"
+#include "string_formatter.h"
 
 #include <algorithm>
+#include <cmath>
 #include <numeric>
-#include <math.h>
 
 struct oter_t;
 using oter_str_id = string_id<oter_t>;
@@ -78,6 +79,10 @@ void recipe::load( JsonObject &jo, const std::string &src )
     } else {
         result_ = jo.get_string( "result" );
         ident_ = recipe_id( result_ );
+    }
+
+    if( jo.has_bool( "obsolete" ) ) {
+        assign( jo, "obsolete", obsolete );
     }
 
     assign( jo, "time", time, strict, 0 );
@@ -209,9 +214,9 @@ void recipe::load( JsonObject &jo, const std::string &src )
     }
 
     // inline requirements are always replaced (cannot be inherited)
-    const auto req_id = string_format( "inline_%s_%s", type.c_str(), ident_.c_str() );
+    const requirement_id req_id( string_format( "inline_%s_%s", type.c_str(), ident_.c_str() ) );
     requirement_data::load_requirement( jo, req_id );
-    reqs_internal = { { requirement_id( req_id ), 1 } };
+    reqs_internal = { { req_id, 1 } };
 }
 
 void recipe::finalize()
@@ -224,7 +229,7 @@ void recipe::finalize()
     reqs_internal.clear();
 
     if( contained && container == "null" ) {
-        container = item::find_type( result_ )->default_container;
+        container = item::find_type( result_ )->default_container.value_or( "null" );
     }
 
     if( autolearn && autolearn_requirements.empty() ) {
@@ -369,18 +374,26 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
-std::string recipe::required_skills_string() const
+std::string recipe::required_skills_string( const Character *c ) const
 {
     if( required_skills.empty() ) {
-        return _( "N/A" );
+        return _( "<color_cyan>none</color>" );
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
-    []( const std::pair<skill_id, int> &skill ) {
-        return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
+    [&]( const std::pair<skill_id, int> &skill ) {
+        auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        return string_format( "<color_cyan>%s</color> <color_%s>(%d)</color>",
+                              skill.first.obj().name(), difficulty_color, skill.second );
     } );
 }
 
 std::string recipe::result_name() const
 {
-    return item::nname( result_ );
+    std::string name = item::nname( result_ );
+    if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
+        name = "* " + name;
+    }
+
+    return name;
 }

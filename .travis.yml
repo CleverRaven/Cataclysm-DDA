@@ -1,7 +1,6 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-sudo: false
-dist: trusty
+dist: xenial
 language: c++
 
 cache: ccache
@@ -15,13 +14,6 @@ notifications:
 git:
   depth: 5
 
-env:
-  global:
-  # Workaround for https://github.com/travis-ci/travis-ci/issues/4681
-  # "Defining the build matrix only with matrix.include leads to an additional, unwanted job"
-  matrix:
-    - TRAVIS_EMPTY_JOB_WORKAROUND=true
-
 addons:
   # these apt sources will be referenced later (by using *name)
   apt:
@@ -33,45 +25,57 @@ addons:
 compiler: gcc
 os: linux
 
-matrix:
-  exclude:
-    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
-
+jobs:
   include:
-    # test mods
-    - env: COMPILER=g++-4.8 MODS=--mods=RL_Classes
-      compiler: gcc
-      addons: &gcc48
+    # Initial test stage, if this fails everything else is cancelled.
+    - stage: test
+      # GCC 5 is the pre-installed compiler on Xenial
+      env: COMPILER=g++ MODS=--mods=RL_Classes
+
+    # Then build different configurations and targets in parallell.
+    - stage: variants
+      # GCC MinGW
+      env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+      addons: &gcc
         apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
+          packages: ["wine"]
+
+    # Windows Tiles
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]
+
+    # Linux Tiles
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
-    # coverage
-    - env: COMPILER=g++-4.8 CODE_COVERAGE=true
+    # Finally check the compiler variants
+    - stage: compilers
+      env: COMPILER=g++-4.8
       compiler: gcc
       addons: &gcc48
         apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
     # GCC 4.9
     - env: COMPILER=g++-4.9
+      if: type != pull_request
       compiler: gcc
       addons: &gcc49
         apt:
           packages: ["g++-4.9", "g++-4.9-multilib", "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
-    # GCC 5
-    - env: COMPILER=g++-5
-      compiler: gcc
-      addons: &gcc5
-        apt:
-          packages: ["g++-5",   "g++-5-multilib",   "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
-
     # GCC 6
     - env: COMPILER=g++-6
+      if: type != pull_request
       compiler: gcc
       addons: &gcc6
         apt:
@@ -79,11 +83,13 @@ matrix:
           sources: *apt_sources
 
     # GCC 7
-    - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough'
+    - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough' CODE_COVERAGE=true
+      if: type != pull_request
       compiler: gcc
+      dist: trusty
       addons: &gcc7
         apt:
-          packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386"]
+          packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
           sources: *apt_sources
 
     # GCC 8
@@ -93,14 +99,6 @@ matrix:
         apt:
           packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
-
-    # GCC MinGW
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
-      compiler: gcc
-      sudo: required
-      addons: &gcc
-        apt:
-          packages: ["wine"]
 
     # Clang 3.8
     - env: CLANG=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
@@ -112,6 +110,7 @@ matrix:
 
     # Clang 3.9
     - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      if: type != pull_request
       compiler: clang
       addons: &clang39
         apt:
@@ -120,7 +119,7 @@ matrix:
 
     # Clang 4.0
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
-      dist: trusty
+      if: type != pull_request
       compiler: clang
       addons: &clang40
         apt:
@@ -129,6 +128,7 @@ matrix:
 
     # Clang 5.0
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      if: type != pull_request
       dist: trusty
       compiler: clang
       addons: &clang50
@@ -137,7 +137,7 @@ matrix:
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
           
     # Clang 6.0
-    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address
       dist: trusty
       compiler: clang
       addons: &clang60
@@ -145,29 +145,16 @@ matrix:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: [*apt_sources, llvm-toolchain-trusty-6.0]
 
-    # Windows Tiles
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
-      compiler: gcc
-      sudo: required
-      addons: &gcc
-        apt:
-          packages: ["wine"]
-
-    # Linux Tiles
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1
-      compiler: gcc
-      addons: &gcc8
-        apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
-          sources: *apt_sources
-
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version
   - CXX="$COMPILER"
   - source build-scripts/requirements.sh
 
-script: make -j3 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test $MODS
+script:
+  - make -j3 RELEASE=1 BACKTRACE=1 DEBUG_SYMBOLS=1 CROSS="$CROSS_COMPILATION"
+  - $WINE ./tests/cata_test -r cata --rng-seed `shuf -i 0-1000000000 -n 1`
+  - if [ -n "$MODS" ]; then $WINE ./tests/cata_test -r cata --rng-seed `shuf -i 0-1000000000 -n 1` $MODS; fi
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi

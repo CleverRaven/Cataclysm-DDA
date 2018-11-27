@@ -117,7 +117,7 @@
     "ammo": "22",
     "skill": "smg",
     "ranged_damage": 3,
-    "dispersion": 280,
+    "dispersion": 220,
     "durability": 9,
     "burst": 20,
     "reload": 500,

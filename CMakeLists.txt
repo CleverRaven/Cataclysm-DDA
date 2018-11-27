@@ -1,5 +1,5 @@
 # Main project build script
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0.0)
 
 PROJECT(CataclysmDDA)
 
@@ -14,6 +14,7 @@ option(TILES        "Build graphical tileset version."						"OFF")
 option(CURSES       "Build curses version."							"ON" )
 option(SOUND        "Support for in-game sounds & music."					"OFF")
 option(RELEASE      "Disable debug. Use it for user-ready buils."				"OFF")
+option(BACKTRACE    "Support for printing stack backtraces on crash"			"OFF" )
 option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
@@ -21,6 +22,8 @@ option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW depen
 option(LUA_BINARY   "Lua binary name or path. You can try to use luajit for extra speed."	"")
 option(GIT_BINARY   "Git binary name or path."							"")
 OPTION(PREFIX       "Location of Data,GFX, & Lua directories"                                   "")
+
+include(CTest)
 
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
@@ -45,7 +48,7 @@ if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
     MESSAGE(STATUS "${PROJECT_NAME} build version is : ${GIT_VERSION}\n")
-    ADD_DEFINITIONS(-DGIT_VERSION=${GIT_VERSION})
+    ADD_DEFINITIONS(-DGIT_VERSION)
 ELSE (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     MESSAGE("")
 ENDIF(NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
@@ -244,6 +247,7 @@ ENDIF (LUA)
 	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
 	MESSAGE(STATUS "RELEASE                       : ${RELEASE}")
+	MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
 	MESSAGE(STATUS "LOCALIZE                      : ${LOCALIZE}")
 	MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
 
@@ -345,6 +349,10 @@ IF(LUA)
 	ADD_DEFINITIONS(-DLUA)
 ENDIF(LUA)
 
+IF(BACKTRACE)
+	ADD_DEFINITIONS(-DBACKTRACE)
+ENDIF(BACKTRACE)
+
 # Ok. Now create build and install recipes
 IF(LOCALIZE)
 	IF(WIN32)
@@ -379,6 +387,7 @@ add_subdirectory(data)
 if (NOT MSVC)
 	add_subdirectory(src/chkjson)
 endif()
+add_subdirectory(tests)
 
 CONFIGURE_FILE(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
@@ -396,3 +405,5 @@ if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 endif(CCACHE_FOUND)
+
+# vim:noet

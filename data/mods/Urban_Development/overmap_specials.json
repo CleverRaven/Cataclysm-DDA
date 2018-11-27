@@ -730,7 +730,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -770,7 +770,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -825,7 +825,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -861,7 +861,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -902,7 +902,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -952,7 +952,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -1006,7 +1006,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -1034,7 +1034,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 2 ],
+    "occurrences": [ 0, 2 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -1062,7 +1062,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 1 ],
     "city_sizes": [ 8, 12 ],
-    "occurrences": [ 1, 2 ],
+    "occurrences": [ 0, 2 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   },
@@ -1084,7 +1084,7 @@
     "locations": [ "land" ],
     "city_distance": [ 2, 3 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
   }

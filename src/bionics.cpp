@@ -1,38 +1,35 @@
 #include "bionics.h"
-#include "player.h"
 
 #include "action.h"
 #include "ballistics.h"
-#include "dispersion.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
+#include "cata_utility.h"
 #include "debug.h"
-#include "rng.h"
+#include "dispersion.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
 #include "input.h"
 #include "item.h"
-#include "bodypart.h"
-#include "messages.h"
-#include "overmapbuffer.h"
-#include "projectile.h"
-#include "string_formatter.h"
-#include "sounds.h"
-#include "translations.h"
-#include "monster.h"
-#include "overmap.h"
-#include "options.h"
-#include "effect.h"
-#include "json.h"
 #include "itype.h"
-#include "vehicle.h"
-#include "field.h"
-#include "weather.h"
-#include "cata_utility.h"
-#include "output.h"
+#include "json.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
 #include "mutation.h"
-#include "requirements.h"
-#include "vpart_position.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "ui.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "weather.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -78,12 +75,6 @@ const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PAINRESIST( "PAINRESIST" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 
 namespace
 {
@@ -360,7 +351,7 @@ bool player::activate_bionic( int b, bool eff_only )
         item water = item( "water_clean", 0 );
         water.reset_temp_check();
         int humidity = weatherPoint.humidity;
-        int water_charges = ( humidity * 3.0 ) / 100.0 + 0.5;
+        int water_charges = lround( humidity * 3.0 / 100.0 );
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
         water.charges = water_charges;
@@ -372,9 +363,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
-        tripoint dirp;
-        if( choose_adjacent( _( "Start a fire where?" ), dirp ) &&
-            g->m.add_field( dirp, fd_fire, 1 ) ) {
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
+        if( pnt && g->m.add_field( *pnt, fd_fire, 1 ) ) {
             mod_moves( -100 );
         } else {
             add_msg_if_player( m_info, _( "You can't light a fire there." ) );
@@ -399,9 +389,8 @@ bool player::activate_bionic( int b, bool eff_only )
 
     } else if( bio.id == "bio_emp" ) {
         g->refresh_all();
-        tripoint dirp;
-        if( choose_adjacent( _( "Create an EMP where?" ), dirp ) ) {
-            g->emp_blast( dirp );
+        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
+            g->emp_blast( *pnt );
             mod_moves( -100 );
         } else {
             charge_power( bionics[bionic_id( "bio_emp" )].power_activate );
@@ -505,7 +494,7 @@ bool player::activate_bionic( int b, bool eff_only )
                                get_local_humidity( weatherPoint.humidity, g->weather,
                                        g->is_sheltered( g->u.pos() ) ) ).c_str() );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
-                           print_pressure( ( int )weatherPoint.pressure ).c_str() );
+                           print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
                            convert_velocity( int( windpower ), VU_WIND ),
                            velocity_units( VU_WIND ) );
@@ -542,15 +531,23 @@ bool player::activate_bionic( int b, bool eff_only )
         bool has_cable = has_item_with( []( const item & it ) {
             return it.active && it.has_flag( "CABLE_SPOOL" );
         } );
+        bool has_connected_cable = has_item_with( []( const item & it ) {
+            return it.active && it.has_flag( "CABLE_SPOOL" ) && it.get_var( "state" ) == "solar_pack_link";
+        } );
 
         if( !has_cable ) {
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a vehicle to drain power from it." ) );
         }
-        if( g->u.is_wearing( "solarpack_on" ) || g->u.is_wearing( "q_solarpack_on" ) ) {
-            add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
-                                          " your system." ) );
-        } else if( g->u.is_wearing( "solarpack" ) || g->u.is_wearing( "q_solarpack" ) ) {
+        if( is_wearing( "solarpack_on" ) || is_wearing( "q_solarpack_on" ) ) {
+            if( has_connected_cable ) {
+                add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
+                                              " your system." ) );
+            } else {
+                add_msg_if_player( m_info, _( "You need to connect the cable to yourself and the solar pack"
+                                              " before your solar pack can charge your system." ) );
+            }
+        } else if( is_wearing( "solarpack" ) || is_wearing( "q_solarpack" ) ) {
             add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
                                           " system, if you unfold it." ) );
         }
@@ -722,7 +719,7 @@ void player::process_bionic( int b )
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
-                heal( ( hp_part )i, 1 );
+                heal( static_cast<hp_part>( i ), 1 );
                 charge_power( -5 );
             }
         }
@@ -759,8 +756,11 @@ void player::process_bionic( int b )
         constexpr int battery_per_power = 10;
         int wants_power_amt = battery_per_power;
         for( const item *cable : cables ) {
-            const auto &target = cable->get_cable_target();
-            const optional_vpart_position vp = g->m.veh_at( target );
+            const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+            if( !target ) {
+                continue;
+            }
+            const optional_vpart_position vp = g->m.veh_at( *target );
             if( !vp ) {
                 continue;
             }
@@ -932,7 +932,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
                 ( 100 - int( chance_of_success ) ) ) ) {
             return false;
         }
@@ -954,8 +954,8 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
                               bionics[b_id].name.c_str() );
         }
         // until bionics can be flagged as non-removable
-        add_msg_player_or_npc( m_neutral, _( "You jiggle the parts back into their familiar places." ),
-                               _( "<npcname> jiggles the parts back into their familiar places." ) );
+        add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
+                               _( "<npcname>'s parts are jiggled back into their familiar places." ) );
         add_msg( m_good, _( "Successfully removed %s." ), bionics[b_id].name.c_str() );
         // remove power bank provided by bionic
         max_power_level -= bionics[b_id].capacity;
@@ -1022,7 +1022,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
                 ( 100 - int( chance_of_success ) ) ) ) {
             return false;
         }
@@ -1512,7 +1512,7 @@ void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "id", id );
-    json.member( "invlet", ( int )invlet );
+    json.member( "invlet", static_cast<int>( invlet ) );
     json.member( "powered", powered );
     json.member( "charge", charge );
     json.end_object();
@@ -1541,12 +1541,12 @@ void player::introduce_into_anesthesia( time_duration const &duration, player &i
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
 
-        add_effect( effect_narcosis, duration );
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
         add_msg_if_player( m_mixed,
-                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. Mercifully, you pass out when the blades reach your line of sight." ) )
+                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) )
         ;
     }
+    add_effect( effect_narcosis, duration );
     fall_asleep( duration );
 }

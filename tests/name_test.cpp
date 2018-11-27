@@ -1,13 +1,15 @@
 #include "catch/catch.hpp"
+
 #include "name.h"
-#include <string>
+
 #include <set>
+#include <string>
 
 class IsOneOf : public Catch::MatcherBase<std::string>
 {
         std::set< std::string > values;
     public:
-        IsOneOf( std::set< std::string > v ): values{v} {};
+        IsOneOf( std::set< std::string > v ): values{v} {}
         virtual bool match( std::string const &s ) const override {
             return values.count( s ) > 0;
         }

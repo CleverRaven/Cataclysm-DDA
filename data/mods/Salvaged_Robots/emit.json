@@ -1,0 +1,82 @@
+[
+  {
+    "id": "emit_tear_gas_pulse",
+    "type": "emit",
+    "field": "fd_tear_gas",
+    "qty": 50,
+    "chance": 15
+  },
+  {
+    "id": "emit_sparks",
+    "type": "emit",
+    "field": "fd_electricity",
+    "qty": 2,
+    "chance": 50
+  },
+  {
+    "id": "emit_electric_arcs",
+    "type": "emit",
+    "field": "fd_electricity",
+    "qty": 8,
+    "chance": 6
+  },
+  {
+    "id": "emit_hot_air2_stream",
+    "type": "emit",
+    "field": "fd_hot_air2",
+    "qty": 50
+  },
+  {
+    "id": "emit_hot_air4_stream",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "qty": 10
+  },
+  {
+    "id": "emit_fire_trail",
+    "type": "emit",
+    "field": "fd_fire",
+    "chance": 15
+  },
+  {
+    "id": "emit_acid_trail",
+    "type": "emit",
+    "field": "fd_acid",
+    "chance": 15
+  },
+  {
+    "id": "emit_dazzle_trail",
+    "type": "emit",
+    "field": "fd_dazzling",
+    "qty": 5,
+    "chance": 15
+  },
+  {
+    "id": "emit_fire_plume",
+    "type": "emit",
+    "field": "fd_fire",
+    "qty": 6,
+    "chance": 10
+  },
+  {
+    "id": "emit_smoke_trail",
+    "type": "emit",
+    "field": "fd_smoke",
+    "qty": 12,
+    "chance": 15
+  },
+  {
+    "id": "emit_weed_puff",
+    "type": "emit",
+    "field": "fd_weedsmoke",
+    "qty": 3,
+    "chance": 20
+  },
+  {
+    "id": "emit_nuclear_trail",
+    "type": "emit",
+    "field": "fd_nuke_gas",
+    "qty": 5,
+    "chance": 15
+  }
+]

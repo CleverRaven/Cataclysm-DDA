@@ -3,6 +3,9 @@
 package.path = package.path .. ";./lua/?.lua" --Windows/Linux
 package.path = package.path .. ";/usr/share/cataclysm-dda/lua/?.lua" --Linux(via make install)
 package.path = package.path .. ";/storage/emulated/0/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android
+package.path = package.path .. ";/storage/sdcard/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card)
+package.path = package.path .. ";/storage/sdcard0/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card 0)
+package.path = package.path .. ";/storage/sdcard1/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card 1)
 
 log = require("log")
 log.init("./config/lua-log.log")

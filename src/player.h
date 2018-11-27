@@ -2,19 +2,22 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "character.h"
-#include "pimpl.h"
-#include "item.h"
-#include "player_activity.h"
-#include "weighted_list.h"
-#include "game_constants.h"
-#include "ret_val.h"
-#include "damage.h"
 #include "calendar.h"
+#include "character.h"
+#include "damage.h"
+#include "game_constants.h"
+#include "item.h"
+#include "map_memory.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "weighted_list.h"
 
-#include <unordered_set>
-#include <memory>
 #include <array>
+#include <memory>
+#include <unordered_set>
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
@@ -99,6 +102,14 @@ enum class rechargeable_cbm {
     furnace
 };
 
+enum class comfort_level {
+    uncomfortable = -999,
+    neutral = 0,
+    slightly_comfortable = 3,
+    comfortable = 5,
+    very_comfortable = 10
+};
+
 struct special_attack {
     std::string text;
     damage_instance damage;
@@ -135,10 +146,10 @@ class player : public Character
 {
     public:
         player();
-        player( const player & );
+        player( const player & ) = delete;
         player( player && );
         ~player() override;
-        player &operator=( const player & );
+        player &operator=( const player & ) = delete;
         player &operator=( player && );
 
         // newcharacter.cpp
@@ -190,6 +201,9 @@ class player : public Character
 
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const;
+
+        void serialize_map_memory( JsonOut &jsout ) const;
+        void deserialize_map_memory( JsonIn &jsin );
 
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, const std::string &epitaph );
@@ -367,6 +381,20 @@ class player : public Character
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 
+        void toggle_map_memory();
+        bool should_show_map_memory();
+        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
+        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation );
+        /** Returns last stored map tile in given location in tiles mode */
+        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
+        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
+        void memorize_symbol( const tripoint &pos, const long symbol );
+        /** Returns last stored map tile in given location in curses mode */
+        long get_memorized_symbol( const tripoint &p ) const;
+        /** Returns the amount of tiles survivor can remember. */
+        size_t max_memorized_tiles() const;
+
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
         // see Creature::sees
@@ -419,7 +447,7 @@ class player : public Character
         void ma_ongethit_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff( mabuff_id buff_id ) const;
+        bool has_mabuff( const mabuff_id &buff_id ) const;
         /** Returns true if the player has access to the entered martial art */
         bool has_martialart( const matype_id &ma_id ) const;
         /** Adds the entered martial art to the player's list */
@@ -451,8 +479,6 @@ class player : public Character
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Returns true if the current martial art ignores the current weapon and uses unarmed attacks instead. */
-        bool unarmed_override() const;
         /** Always returns false, since players can't dig currently */
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
@@ -681,7 +707,8 @@ class player : public Character
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part bp, int amount ) override;
+        void apply_damage( Creature *source, body_part bp, int amount,
+                           const bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -893,6 +920,9 @@ class player : public Character
         /** Check player's capability of consumption overall */
         bool can_consume( const item &it ) const;
 
+        /** True if the player has enough skill (in cooking or survival) to estimate time to rot */
+        bool can_estimate_rot() const;
+
         bool is_wielding( const item &target ) const;
         /**
          * Removes currently wielded item (if any) and replaces it with the target item.
@@ -961,10 +991,15 @@ class player : public Character
         int item_wear_cost( const item &to_wear ) const;
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        bool wear( int pos, bool interactive = true );
-        bool wear( item &to_wear, bool interactive = true );
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        bool wear_item( const item &to_wear, bool interactive = true );
+        cata::optional<std::list<item>::iterator>
+        wear( int pos, bool interactive = true );
+        cata::optional<std::list<item>::iterator>
+        wear( item &to_wear, bool interactive = true );
+        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * If interactive is false, don't alert the player or drain moves on completion.
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
@@ -975,9 +1010,8 @@ class player : public Character
         bool takeoff( const item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where = tripoint_min );
-        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min,
-                   bool stash = false );
+        void drop( int pos, const tripoint &where );
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -1064,7 +1098,9 @@ class player : public Character
         bool has_identified( const std::string &item_id ) const;
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
-        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        comfort_level base_comfort_value( const tripoint &p ) const;
+        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
@@ -1208,7 +1244,7 @@ class player : public Character
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
-        void place_corpse( tripoint om_target ); // put corpse+inventory on defined om tile
+        void place_corpse( const tripoint &om_target ); // put corpse+inventory on defined om tile
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
@@ -1216,7 +1252,7 @@ class player : public Character
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity );
-        bool use_charges_if_avail( itype_id it, long quantity );// Uses up charges
+        bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
         std::list<item> use_charges( const itype_id &what, long qty ); // Uses up charges
 
@@ -1341,11 +1377,17 @@ class player : public Character
         void start_destination_activity();
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
+        bool defer_move( const tripoint &next );
         void shift_destination( int shiftx, int shifty );
 
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
+
+        // Hauling items on the ground
+        void start_hauling();
+        void stop_hauling();
+        bool is_hauling() const;
 
         /**
          * Global position, expressed in map square coordinate system
@@ -1388,6 +1430,7 @@ class player : public Character
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
+        bool hauling;
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
@@ -1574,6 +1617,10 @@ class player : public Character
          */
         void on_item_takeoff( const item &it ) override;
         /**
+         * Called when an item is washed
+         */
+        void on_worn_item_washed( const item &it ) override;
+        /**
          * Called when effect intensity has been changed
          */
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
@@ -1707,9 +1754,9 @@ class player : public Character
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        tripoint destination_point = tripoint_min;
+        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
-        tripoint next_expected_position;
+        cata::optional<tripoint> next_expected_position;
 
         inventory cached_crafting_inventory;
         int cached_moves;
@@ -1754,6 +1801,8 @@ class player : public Character
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
 
+        map_memory player_map_memory;
+        bool show_map_memory;
 };
 
 #endif

@@ -3,10 +3,10 @@
 #define TRAP_H
 
 #include "color.h"
-#include "string_id.h"
 #include "int_id.h"
+#include "string_id.h"
 #include "units.h"
-#include <string>
+
 #include <functional>
 #include <vector>
 
@@ -56,7 +56,7 @@ void hum( Creature *creature, const tripoint &p );
 void shadow( Creature *creature, const tripoint &p );
 void drain( Creature *creature, const tripoint &p );
 void snake( Creature *creature, const tripoint &p );
-};
+}
 
 using trap_function = std::function<void( Creature *, const tripoint & )>;
 

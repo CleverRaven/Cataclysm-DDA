@@ -452,7 +452,7 @@
     "color": "white",
     "looks_like": "diamond",
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "dshards",
     "use_action": {
       "target": "dshards",
       "msg": "The cluster comes apart in your hands.",
@@ -723,7 +723,7 @@
     "broken_color": "magenta",
     "difficulty": 8,
     "durability": 400,
-    "size": 1000000,
+    "size": 40000,
     "breaks_into": [],
     "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
   },
@@ -742,7 +742,7 @@
     "color": "white",
     "looks_like": "spiral_stone",
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "spiral_matrix",
     "use_action": {
       "target": "spiral_matrix",
       "msg": "Your senses dull as you gaze into the depths of this gemstone's center...",
@@ -807,8 +807,8 @@
     "broken_color": "magenta",
     "difficulty": 6,
     "durability": 400,
-    "power": 100,
-    "epower": 5,
+    "power": 37300,
+    "epower": 1865,
     "noise_factor": 25,
     "m2c": 90,
     "size": 100,

@@ -1,27 +1,27 @@
 #include "mondeath.h"
-#include "monster.h"
-#include "game.h"
-#include "map.h"
+
+#include "event.h"
+#include "field.h"
 #include "fungal_effects.h"
-#include "map_iterator.h"
-#include "rng.h"
+#include "game.h"
+#include "itype.h"
+#include "iuse_actor.h"
 #include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mtype.h"
 #include "output.h"
+#include "player.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "iuse_actor.h"
 #include "translations.h"
-#include "morale_types.h"
-#include "event.h"
-#include "itype.h"
-#include "mtype.h"
-#include "field.h"
-#include "player.h"
 
-#include <math.h>  // rounding
-#include <sstream>
 #include <algorithm>
+#include <cmath>
 #include <vector>
 
 const mtype_id mon_blob( "mon_blob" );
@@ -84,7 +84,20 @@ void mdeath::normal( monster &z )
     if( !pulverized ) {
         make_mon_corpse( z, int( std::floor( corpse_damage * itype::damage_scale ) ) );
     }
+    // if mdeath::splatter was set along normal makes sure it is not called twice
+    bool splatt = false;
+    for( auto const &deathfunction : z.type->dies ) {
+        if( deathfunction == mdeath::splatter ) {
+            splatt = true;
+        }
+    }
+    if( !splatt ) {
+        splatter( z );
+    }
+}
 
+void mdeath::splatter( monster &z )
+{
     // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
     const std::vector<material_id> gib_mats = {{
             material_id( "flesh" ), material_id( "hflesh" ),
@@ -96,6 +109,17 @@ void mdeath::normal( monster &z )
     std::any_of( gib_mats.begin(), gib_mats.end(), [&z]( const material_id & gm ) {
         return z.made_of( gm );
     } );
+
+    const int max_hp = std::max( z.get_hp_max(), 1 );
+    const float overflow_damage = std::max( -z.get_hp(), 0 );
+    const float corpse_damage = 2.5 * overflow_damage / max_hp;
+    bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
+    // make sure that full splatter happens when this is a set death function, not part of normal
+    for( auto const &deathfunction : z.type->dies ) {
+        if( deathfunction == mdeath::splatter ) {
+            pulverized = true;
+        }
+    }
 
     const field_id type_blood = z.bloodType();
     const field_id type_gib = z.gibType();
@@ -122,6 +146,7 @@ void mdeath::normal( monster &z )
         const itype_id meat = z.type->get_meat_itype();
         const item chunk( meat );
         for( int i = 0; i < num_chunks; i++ ) {
+            bool drop_chunks = true;
             tripoint tarp( z.pos() + point( rng( -3, 3 ), rng( -3, 3 ) ) );
             const auto traj = line_to( z.pos(), tarp );
 
@@ -137,18 +162,18 @@ void mdeath::normal( monster &z )
                     if( g->m.impassable( tarp ) ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
-                        // point (e.g. wall adjacent to monster) , make it invalid.
+                        // point (e.g. wall adjacent to monster), don't drop anything on it
                         if( j > 0 ) {
                             tarp = traj[j - 1];
                         } else {
-                            tarp = tripoint_min;
+                            drop_chunks = false;
                         }
                         break;
                     }
                 }
             }
 
-            if( tarp != tripoint_min ) {
+            if( drop_chunks ) {
                 g->m.add_item_or_charges( tarp, chunk );
             }
         }
@@ -172,7 +197,7 @@ void mdeath::boomer( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
     sounds::sound( z.pos(), 24, explode );
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
         if( monster *const z = g->critter_at<monster>( dest ) ) {
             z->stumble();
@@ -192,7 +217,7 @@ void mdeath::boomer_glow( monster &z )
     std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
     sounds::sound( z.pos(), 24, explode );
 
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
         if( monster *const z = g->critter_at<monster>( dest ) ) {
             z->stumble();
@@ -294,7 +319,7 @@ void mdeath::fungus( monster &z )
     sounds::sound( z.pos(), 10, _( "Pouf!" ) );
 
     fungal_effects fe( *g, g->m );
-    for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->m.impassable( sporep ) ) {
             continue;
         }
@@ -322,7 +347,7 @@ void mdeath::worm( monster &z )
     }
 
     std::vector <tripoint> wormspots;
-    for( auto &&wormp : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&wormp : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->m.has_flag( "DIGGABLE", wormp ) && g->is_empty( wormp ) ) {
             wormspots.push_back( wormp );
         }
@@ -393,10 +418,10 @@ void mdeath::guilt( monster &z )
 
     add_msg( msgtype, msg.c_str(), z.name().c_str() );
 
-    int moraleMalus = -50 * ( 1.0 - ( ( float ) kill_count / maxKills ) );
-    int maxMalus = -250 * ( 1.0 - ( ( float ) kill_count / maxKills ) );
-    time_duration duration = 30_minutes * ( 1.0 - ( ( float ) kill_count / maxKills ) );
-    time_duration decayDelay = 3_minutes * ( 1.0 - ( ( float ) kill_count / maxKills ) );
+    int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+    int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+    time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+    time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
@@ -431,7 +456,7 @@ void mdeath::blobsplit( monster &z )
     }
     std::vector <tripoint> valid;
 
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->is_empty( dest ) && z.can_move_to( dest ) ) {
             valid.push_back( dest );
         }
@@ -535,7 +560,7 @@ void mdeath::focused_beam( monster &z )
         }
     }
 
-    if( z.inv.size() > 0 ) {
+    if( !z.inv.empty() ) {
 
         if( g->u.sees( z ) ) {
             add_msg( m_warning, _( "As the final light is destroyed, it erupts in a blinding flare!" ) );
@@ -587,7 +612,7 @@ void mdeath::ratking( monster &z )
     }
 
     std::vector <tripoint> ratspots;
-    for( auto &&ratp : g->m.points_in_radius( z.pos(), 1 ) ) {
+    for( auto &&ratp : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->is_empty( ratp ) ) {
             ratspots.push_back( ratp );
         }
@@ -680,7 +705,7 @@ void mdeath::detonate( monster &z )
 
     // Update any hardcoded explosion equivalencies
     std::vector<std::pair<std::string, long>> dets;
-    for( auto bomb_id : pre_dets ) {
+    for( const std::string &bomb_id : pre_dets ) {
         if( bomb_id == "bot_grenade_hack" ) {
             dets.push_back( std::make_pair( "grenade_act", 5 ) );
         } else if( bomb_id == "bot_flashbang_hack" ) {

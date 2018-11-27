@@ -1,12 +1,12 @@
 #include "catch/catch.hpp"
 
-#include <iostream>
-#include <sstream>
-
-#include "player.h"
 #include "game.h"
 #include "map.h"
 #include "options.h"
+#include "player.h"
+#include "map_helpers.h"
+
+#include <sstream>
 
 const trait_id trait_debug_storage( "DEBUG_STORAGE" );
 
@@ -661,6 +661,7 @@ TEST_CASE( "Inventory letter test", "[invlet]" )
 {
     player &dummy = g->u;
     const tripoint spot( 60, 60, 0 );
+    clear_map();
     dummy.setpos( spot );
     g->m.ter_set( spot, ter_id( "t_dirt" ) );
     g->m.furn_set( spot, furn_id( "f_null" ) );

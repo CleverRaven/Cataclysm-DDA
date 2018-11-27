@@ -1,0 +1,100 @@
+Balance Remove null material entries from monster types.
+Balance Improve garage doors behavior
+Performance Cache some of the pathfinding data
+Infrastructure JSONize mutation equipment restrictions
+Content honey sandwich
+Infrastructure Move code to handle json entity inheritance into item_factory.
+Interface Add option to limit lifetime of sidebar messages
+Bugfixes Fix safemode initialization
+Balance Increase amount of 7.62x39 ammo
+Infrastructure Item variants with abritrary order
+Mods PKs Rebalancing Mod: Ants
+Balance JSONize gates
+Bugfixes Fix monsters phasing through floors
+Bugfixes Fix pathfinding start tile not being opened
+Balance Removed some unnecessarily entries from comestibles in chemicals_and_resources
+Bugfixes Fix looking for incorrect container label in JSON.
+Bugfixes Fix leaving behind arrow(0) when using quiver
+Bugfixes Fix for eating cig_butts
+Bugfixes Small tileset fix
+Infrastructure Deprecate it_tool
+Bugfixes Fix combustion of items
+Balance Reduce duplication of JSON guns
+Balance Support derived ammo types
+Bugfixes Fix health's effect on limb mending
+Bugfixes Joint roach fix
+Balance Moremoremore tool.json stuff
+Balance Moremore tool.json stuff
+Balance More tool.json stuff
+Balance Remove "ammo": "NULL" from tools.json
+Balance Moremoremoremore tools.json stuff
+Balance Remove all mentions of iaijutsu
+Interface Fix disappearing monster info
+Interface Fix look view highlight issue
+Interface In overmap, move cursor to the selected (center) square
+Interface redraw entire line of printed messages for screen readers
+Build Use ar from cross-compiler's toolchain
+Bugfixes Add lua callback when training with npcs
+Balance Remove entries from tool_armor
+Balance Update some comestibles
+Balance Update the screwdriver part difficulty and descriptions used in vehicle part removal.
+Balance Adjusted weight of AKs
+Infrastructure Move function print_menu_items from game class to anon namespace
+Infrastructure Deprecate it_comest
+Infrastructure Move more methods to visitable interface
+Bugfixes Fix copy elision issue
+Build Add gates.cpp to CMakeLists.txt
+Bugfixes Fix recipe learning on character start
+Balance NPC trade/reward fixes
+Content Comestibles stuff
+Bugfixes Fix double prompt to drink from hands when accessing a toilet.
+Bugfixes Fix for noncontinuous charge consumption for UPS-modded items like the electric jackhammer.
+Bugfixes Move the item-can-revert check before it can be possibly changed by invoke.
+Interface Tileset feature: Mutation overlay ordering that can be configured in JSON.
+Interface Colorize message logs
+Infrastructure Create single visibility_variables cache in map class
+Interface For readability and consistency, use L for liter, instead of l
+Interface Unify tile descriptions in lookview and liveview (mouse view) modes
+Interface Use input_context in pickup UI
+Interface Reduce notifications for dangerous fields
+Build OS X. Support building .dmg packages for curses version
+Mods PKs Mod: Triffids
+Balance Remove "phase" : "solid" from json files
+Bugfixes Add back cache update to fix pixel minimap render issue
+Balance Remove "bashing_protection" from armor.json
+Bugfixes Additional check for robotcontrol
+Bugfixes Make blinded characters don't suffer from glare
+Interface Highlight only occupied bodypart
+Balance Remove unused variable music_id
+Content Acetylene tanks
+Balance Overhaul distillation and use of alcohols
+Content opaque hatches
+Balance Move dehydrated foods to DRY and normalize
+Infrastructure Move more light sources to lighting.json
+Mods Mundane zombies mod update
+Mods PKs Rebalancing Mod: Doom critters
+Balance added name_plural to cotton balls
+Balance Rephrase activity description
+Build Remove foldlevel vim modeline
+Build Drop redundant flag
+Build Fix OSX launcher script
+Infrastructure Create Blank Building Template.txt
+Interface MShock's tileset update
+Balance Remove music cd from spawn list
+Mods PKs Rebalancing Mod: Doomcastle
+Bugfixes Fix crash when sawing down a barrell of a gun containing a magazine
+Interface Armor sort menu - restore erased internal borders
+Interface Change bullfrog's symbol
+Interface Construction UI: redraw internal borders after showing of 'Help' menu
+Interface Create nonexistent input contexts when adding keybindings
+I18N Dont' dynamically initialize using gettext
+Interface Fix live view title
+Mods Add shocker brute to Mundane Zombies mod
+Interface Add some plural names
+Bugfixes Fix empty item material list causing unexpected behaviour.
+Interface Improve Morale dialog
+Balance Slight concrete mixer description change
+Bugfixes Correctly handle case with no quiver
+Balance Capitalize some keybinding names (to match all other names)
+Interface Redraw borders of Options menu after showing of Keybinding help
+Mods Crazy cataclysm

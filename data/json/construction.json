@@ -2004,7 +2004,7 @@
         "category" : "DIG",
         "required_skills" : [ [ "fabrication", 5 ], [ "survival", 3 ] ],
         "time" : 420,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ],
+        "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
                        [ { "id": "DIG", "level": 2 } ]
                        ],
@@ -2023,7 +2023,7 @@
         "category" : "DIG",
         "required_skills" : [ [ "fabrication", 6 ], [ "survival", 4 ] ],
         "time" : 480,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ],
+        "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
                        [ { "id": "DIG", "level": 2 } ]
                        ],
@@ -2043,7 +2043,7 @@
         "category" : "DIG",
         "required_skills" : [ [ "fabrication", 6 ], [ "survival", 4 ] ],
         "time" : 480,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ],
+        "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
                        [ { "id": "DIG", "level": 2 } ]
                        ],
@@ -2131,6 +2131,17 @@
         ]
     },{
         "type" : "construction",
+        "description" : "Cut Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "pre_terrain" : "t_grass_tall",
+        "post_terrain" : "t_grass",
+        "tools": [
+        [ [ "scythe", -1 ], [ "sickle", -1 ] ]
+        ]
+    },{
+        "type" : "construction",
         "description" : "Remove Grass",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
@@ -2146,6 +2157,15 @@
         "time" : 6,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass_long",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_tall",
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
@@ -2181,8 +2201,9 @@
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
         "pre_terrain" : "t_sand",
-        "post_special" : "done_extract_sand"
+        "post_special" : "done_extract_maybe_revert_to_dirt"
     },{
         "type" : "construction",
         "description" : "Extract Clay",
@@ -2190,8 +2211,9 @@
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ]  } ],
         "pre_terrain" : "t_clay",
-        "post_special" : "done_extract_clay"
+        "post_special" : "done_extract_maybe_revert_to_dirt"
     },{
         "type" : "construction",
         "description" : "Build Charcoal Kiln",
@@ -2366,6 +2388,7 @@
         "category" : "OTHER",
         "required_skills" : [],
         "time" : 0,
+        "pre_note" : "Firewood or other flammable materials on a nearby tile marked in this way may be used to automatically refuel fires.  This will be done to maintain light during long-running tasks that require it such as crafting or reading, but not (for example) if you are simply waiting nearby.",
         "pre_special" : "check_no_trap",
         "post_special" : "done_mark_firewood"
     },{
@@ -2379,7 +2402,7 @@
             [ { "id": "SAW_W", "level": 1 } ]
         ],
         "components" : [
-            [ [ "stick_long", 6 ], [ "2x4", 6 ] ],
+            [ [ "stick_long", 6 ] ],
             [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
             [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
         ],

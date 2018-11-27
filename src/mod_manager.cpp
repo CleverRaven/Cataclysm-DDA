@@ -1,21 +1,18 @@
 #include "mod_manager.h"
-#include "filesystem.h"
-#include "debug.h"
-#include "output.h"
-#include "json.h"
-#include "generic_factory.h"
-#include "string_formatter.h"
-#include "worldfactory.h"
-#include "cata_utility.h"
-#include "path_info.h"
-#include "translations.h"
-#include "dependency_tree.h"
 
-#include <math.h>
+#include "cata_utility.h"
+#include "debug.h"
+#include "dependency_tree.h"
+#include "filesystem.h"
+#include "generic_factory.h"
+#include "json.h"
+#include "output.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "worldfactory.h"
+
 #include <queue>
-#include <iostream>
-#include <fstream>
-#include <unordered_set>
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -389,7 +386,7 @@ std::string mod_manager::get_mods_list_file( const WORLDPTR world )
 
 void mod_manager::save_mods_list( WORLDPTR world ) const
 {
-    if( world == NULL ) {
+    if( world == nullptr ) {
         return;
     }
     const std::string path = get_mods_list_file( world );
@@ -407,7 +404,7 @@ void mod_manager::save_mods_list( WORLDPTR world ) const
 
 void mod_manager::load_mods_list( WORLDPTR world ) const
 {
-    if( world == NULL ) {
+    if( world == nullptr ) {
         return;
     }
     std::vector<mod_id> &amo = world->active_mod_order;

@@ -2,13 +2,13 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include <vector>
-#include <string>
 #include "enums.h"
-#include <functional>
-#include <math.h>
-
 #include "game_constants.h"
+
+#include <cmath>
+#include <functional>
+#include <string>
+#include <vector>
 
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )
@@ -86,8 +86,8 @@ direction direction_from( int x1, int y1, int x2, int y2 ) noexcept;
 direction direction_from( tripoint const &p, tripoint const &q );
 
 point direction_XY( direction dir );
-std::string const &direction_name( direction dir );
-std::string const &direction_name_short( direction dir );
+std::string const direction_name( direction dir );
+std::string const direction_name_short( direction dir );
 
 /* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
 std::string direction_suffix( const tripoint &p, const tripoint &q );
