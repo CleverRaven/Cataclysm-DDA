@@ -2201,12 +2201,6 @@ void vehicle::deserialize( JsonIn &jsin )
         }
     }
 
-    //If loaded vehicle has any loot zones, notify the zone_manager
-    if( !loot_zones.empty() ) {
-        auto &mgr = zone_manager::get_manager();
-        mgr.register_veh(this);
-    }
-
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
     }
@@ -2226,7 +2220,15 @@ void vehicle::deserialize( JsonIn &jsin )
 
     data.read( "tags", tags );
     data.read( "labels", labels );
-    data.read( "loot_zones", loot_zones );
+
+    point p;
+    zone_manager::zone_data zd;
+    JsonObject zone_data = jsin.get_object();
+    while( !jsin.end_object() ) {
+        data.read( "point", p );
+        data.read( "zone_data", zd );
+        loot_zones.try_emplace( p, zd );
+    }
 
     // Note that it's possible for a vehicle to be loaded midway
     // through a turn if the player is driving REALLY fast and their
@@ -2285,12 +2287,12 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "parts", parts );
     json.member( "tags", tags );
     json.member( "labels", labels );
-    //If loaded vehicle has any loot zones, notify the zone_manager
-    //if (!loot_zones.empty()) {
-    //    auto &mgr = zone_manager::get_manager();
-    //    mgr.deregister_veh(this);
-    //}
-    json.member( "loot_zones", loot_zones );
+    json.start_object();
+    for( auto const &z : loot_zones ) {
+        json.member( "point", z.first );
+        json.member( "zone_data", z.second );
+    }
+    json.end_object();
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );

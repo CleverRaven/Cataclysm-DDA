@@ -256,6 +256,7 @@ void map::clear_vehicle_list( const int zlev )
 {
     auto &ch = get_cache( zlev );
     ch.vehicle_list.clear();
+    ch.zone_vehicles.clear();
 }
 
 void map::update_vehicle_list( submap *const to, const int zlev )
@@ -264,6 +265,9 @@ void map::update_vehicle_list( submap *const to, const int zlev )
     auto &ch = get_cache( zlev );
     for( auto &elem : to->vehicles ) {
         ch.vehicle_list.insert( elem );
+        if( !elem->loot_zones.empty() ) {
+            ch.zone_vehicles.insert( elem );
+        }
     }
 }
 
@@ -287,6 +291,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         if( current_submap->vehicles[i] == veh ) {
             const int zlev = veh->smz;
             ch.vehicle_list.erase( veh );
+            ch.zone_vehicles.erase( veh );
             reset_vehicle_cache( zlev );
             current_submap->vehicles.erase( current_submap->vehicles.begin() + i );
             if( veh->tracking_on ) {
@@ -6154,6 +6159,7 @@ void map::shift( const int sx, const int sy )
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
             veh->smx += sx;
             veh->smy += sy;
+            veh->zones_dirty = true;
         }
     }
 
@@ -6163,7 +6169,7 @@ void map::shift( const int sx, const int sy )
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         // Clear vehicle list and rebuild after shift
         clear_vehicle_cache( gridz );
-        get_cache( gridz ).vehicle_list.clear();
+        clear_vehicle_list( gridz );
         if( sx >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sy >= 0 ) {

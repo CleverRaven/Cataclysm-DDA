@@ -11933,6 +11933,7 @@ void game::vertical_shift( const int z_after )
     if( !m.has_zlevels() ) {
         m.clear_vehicle_cache( z_before );
         m.access_cache( z_before ).vehicle_list.clear();
+        m.access_cache( z_before ).zone_vehicles.clear();
         m.set_transparency_cache_dirty( z_before );
         m.set_outside_cache_dirty( z_before );
         m.load( get_levx(), get_levy(), z_after, true );
