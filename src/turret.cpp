@@ -533,6 +533,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     // If autoturret can't shoot then let's try to shoot from vehicle boundaries.
     // It is hack to avoid blocking turret visiblity by vehicle parts.
+    // And it is somewhat messing with target prioritization.
     // @todo: Do it properly, probably using 3D Fov checks as if turret actually on roof of vehicle.
 
     tripoint tur_x_min_y = tripoint( pos.x, INT_MAX, pos.z );
