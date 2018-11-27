@@ -1184,14 +1184,12 @@ long salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    item &cut = *item_loc.get_item();
-
-    if( !try_to_cut_up( p, cut ) ) {
+    if( !try_to_cut_up( p, *item_loc.get_item() ) ) {
         // Messages should have already been displayed.
         return 0;
     }
 
-    return cut_up( p, it, cut );
+    return cut_up( p, it, item_loc );
 }
 
 static const units::volume minimal_volume_to_cut = 250_ml;
@@ -1275,29 +1273,28 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 // function returns charges from it during the cutting process of the *cut.
 // it cuts
 // cut gets cut
-int salvage_actor::cut_up( player &p, item &it, item &cut ) const
+int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
 {
-    const bool filthy = cut.is_filthy();
-    int pos = p.get_item_position( &cut );
+    const bool filthy = cut.get_item()->is_filthy();
     // total number of raw components == total volume of item.
     // This can go awry if there is a volume / recipe mismatch.
-    int count = cut.volume() / minimal_volume_to_cut;
+    int count = cut.get_item()->volume() / minimal_volume_to_cut;
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
     // What material components can we get back?
-    std::vector<material_id> cut_material_components = cut.made_of();
+    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     // What materials do we salvage (ids and counts).
     std::map<std::string, int> materials_salvaged;
 
     // Final just in case check (that perhaps was not done elsewhere);
-    if( &cut == &it ) {
+    if( cut.get_item() == &it ) {
         add_msg( m_info, _( "You can not cut the %s with itself." ), it.tname().c_str() );
         return 0;
     }
-    if( !cut.contents.empty() ) {
+    if( !cut.get_item()->contents.empty() ) {
         // Should have been ensured by try_to_cut_up
-        debugmsg( "tried to cut a non-empty item %s", cut.tname().c_str() );
+        debugmsg( "tried to cut a non-empty item %s", cut.get_item()->tname().c_str() );
         return 0;
     }
 
@@ -1318,8 +1315,9 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     // If more than 1 material component can still be salvaged,
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
-    if( count > 0 && cut.damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.damage_level( 4 ) ), 1.0 );
+    if( count > 0 && cut.get_item()->damage() > 0 ) {
+        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level( 4 ) ),
+                                         1.0 );
         for( int i = count; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
                 count--;
@@ -1335,16 +1333,16 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
         }
     }
 
-    add_msg( m_info, _( "You try to salvage materials from the %s." ), cut.tname().c_str() );
+    add_msg( m_info, _( "You try to salvage materials from the %s." ),
+             cut.get_item()->tname().c_str() );
+
+    item_location::type cut_type = cut.where();
+    tripoint pos = cut.position();
 
     // Clean up before removing the item.
-    remove_ammo( cut, p );
+    remove_ammo( *cut.get_item(), p );
     // Original item has been consumed.
-    if( pos != INT_MIN ) {
-        p.i_rem( pos );
-    } else {
-        g->m.i_rem( p.posx(), p.posy(), &cut );
-    }
+    cut.remove_item();
 
     for( auto salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
@@ -1356,11 +1354,11 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
             if( filthy ) {
                 result.item_tags.insert( "FILTHY" );
             }
-            if( pos != INT_MIN ) {
+            if( cut_type == item_location::type::character ) {
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( p.posx(), p.posy(), result, amount, 0 );
+                    g->m.spawn_an_item( pos.x, pos.y, result, amount, 0 );
                 }
             }
         } else {

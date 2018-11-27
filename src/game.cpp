@@ -9421,7 +9421,8 @@ void game::butcher()
         case BUTCHER_SALVAGE: {
             // Pick index of first item in the salvage stack
             size_t index = salvage_stacks[indexer_index].first;
-            salvage_iuse->cut_up( u, *salvage_tool, items[index] );
+            item_location item_loc( u, &items[index] );
+            salvage_iuse->cut_up( u, *salvage_tool, item_loc );
         }
         break;
     }
