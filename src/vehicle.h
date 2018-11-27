@@ -1515,7 +1515,7 @@ class vehicle
          * @return number of shots actually fired (which may be zero)
          */
         int automatic_fire_turret( vehicle_part &pt );
-        int automatic_fire_turret(vehicle_part &pt, npc &cpu, int max_range = 15);
+        int automatic_fire_turret( vehicle_part &pt, npc &cpu, int max_range = 15 );
 
         mutable bool mass_dirty                     = true;
         mutable bool mass_center_precalc_dirty      = true;
