@@ -141,7 +141,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```shrub_marloss``` Pick a marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
-- ```tent``` Take down the tent.
+- ```portable_structure``` Take down a tent or similar portable structure.
 - ```toilet``` Either drink or get water out of the toilet.
 - ```trap``` Interact with a trap.
 - ```water_source``` Drink or get water from a water source.
@@ -1047,7 +1047,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
 - ```TAZER``` Shock someone or something.
 - ```TELEPORT``` Teleport.
-- ```TENT``` Pitch a tent.
 - ```TORCH``` Light a torch.
 - ```TORCH_LIT``` Extinguish the torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
