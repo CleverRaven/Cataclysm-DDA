@@ -2518,6 +2518,10 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
 
     int qty = veh->fuel_left( fuel );
     if( fuel == "plut_cell" ) {
+        if( qty / PLUTONIUM_CHARGES == 0 ) {
+            add_msg( m_info, _( "The vehicle has no charged plutonium cells." ) );
+            return;
+        }
         item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         g->u.i_add( plutonium );
         veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
