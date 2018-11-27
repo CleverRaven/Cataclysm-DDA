@@ -183,7 +183,7 @@ void VehicleSpawn::load( JsonObject &jo )
 void VehicleSpawn::apply( map &m, const std::string &terrain_name ) const
 {
     const std::shared_ptr<VehicleFunction> *func = types.pick();
-    if( func == NULL ) {
+    if( func == nullptr ) {
         debugmsg( "unable to find valid function for vehicle spawn" );
     } else {
         ( *func )->apply( m, terrain_name );

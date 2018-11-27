@@ -2875,7 +2875,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     const furn_t &f = g->m.furn(examp).obj();
     const itype *type = f.crafting_pseudo_item_type();
     const itype *ammo = f.crafting_ammo_item_type();
-    if (type == NULL || ammo == NULL) {
+    if (type == nullptr || ammo == nullptr) {
         add_msg(m_info, _("This %s can not be reloaded!"), f.name().c_str());
         return;
     }

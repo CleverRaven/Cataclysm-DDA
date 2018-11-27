@@ -839,7 +839,7 @@ map_special_pointer get_function( const std::string &name )
     const auto iter = builtin_functions.find( name );
     if( iter == builtin_functions.end() ) {
         debugmsg( "no map special with name %s", name.c_str() );
-        return NULL;
+        return nullptr;
     }
     return iter->second;
 }
