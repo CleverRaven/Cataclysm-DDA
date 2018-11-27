@@ -5743,10 +5743,12 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
 static std::string photo_quality_name( const int index )
 {
-    static std::array<std::string, 6> const names { {
+    static std::array<std::string, 6> const names {
+        {
             //~ photo quality adjective
             { translate_marker( "awful" ) }, { translate_marker( "bad" ) }, { translate_marker( "not bad" ) }, { translate_marker( "good" ) }, { translate_marker( "fine" ) }, { translate_marker( "exceptional" ) }
-        } };
+        }
+    };
     return _( names[index].c_str() );
 }
 
@@ -6522,7 +6524,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
-    auto bomb_it = std::find_if( it->contents.begin(), it->contents.end(), []( const item &c ) {
+    auto bomb_it = std::find_if( it->contents.begin(), it->contents.end(), []( const item & c ) {
         return c.has_flag( "RADIOCARITEM" );
     } );
     if( bomb_it == it->contents.end() ) {
@@ -6545,7 +6547,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
         }
 
         it->convert( "radio_car_on" ).active = true;
-        
+
         p->add_msg_if_player(
             _( "You turned on your RC car, now place it on ground, and use radio control to play." ) );
 
@@ -6612,7 +6614,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
 
     if( choice == 0 ) {
         it->convert( "radio_car" ).active = false;
-        
+
         p->add_msg_if_player( _( "You turned off your RC car" ) );
         return it->type->charges_to_use();
     }
@@ -7029,7 +7031,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
         // Find actual contents rather than attached mod or battery.
-        auto dish_it = std::find_if_not(it->contents.begin(), it->contents.end(), [] ( const item &c ) {
+        auto dish_it = std::find_if_not( it->contents.begin(), it->contents.end(), []( const item & c ) {
             return c.is_toolmod() || c.is_magazine();
         } );
 

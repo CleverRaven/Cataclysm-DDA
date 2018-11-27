@@ -2618,7 +2618,7 @@ point map::random_outdoor_tile()
 bool map::has_adjacent_furniture( const tripoint &p )
 {
     const signed char cx[4] = { 0, -1, 0, 1};
-    const signed char cy[4] = {-1,  0, 1, 0};
+    const signed char cy[4] = { -1,  0, 1, 0};
 
     for( int i = 0; i < 4; i++ ) {
         const int adj_x = p.x + cx[i];
@@ -4920,10 +4920,10 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         }
         trigger_item = true;
     } else if( n->has_flag( "RADIO_CONTAINER" ) && !n->contents.empty() ) {
-        auto it = std::find_if( n->contents.begin(), n->contents.end(), [ &signal ]( const item &c ) {
+        auto it = std::find_if( n->contents.begin(), n->contents.end(), [ &signal ]( const item & c ) {
             return c.has_flag( signal );
         } );
-        if ( it != n->contents.end() ) {
+        if( it != n->contents.end() ) {
             n->convert( it->typeId() );
             if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
                 n->process( nullptr, pos, true );
