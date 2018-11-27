@@ -3853,21 +3853,18 @@ long deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
 
-    tripoint direction;
-    if( const cata::optional<tripoint> dir = choose_direction(
-                string_format( _( "Put up the %s where (%dx%d clear area)?" ),
-                               it.tname(), diam, diam ) ) ) {
-        direction = *dir;
-    } else {
-
+    const cata::optional<tripoint> dir = choose_direction( string_format(
+            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    if( !dir ) {
         return 0;
     }
+    const tripoint direction = *dir;
 
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
     const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
-                           ( radius + 1 ) * direction.y, 0 );
+                            ( radius + 1 ) * direction.y, 0 );
     for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
         if( const auto vp = g->m.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
