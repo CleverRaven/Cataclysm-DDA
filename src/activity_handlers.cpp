@@ -34,6 +34,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "map_selector.h"
 
 #include <algorithm>
 #include <cmath>
@@ -1693,7 +1694,7 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( actor->valid_to_cut_up( *it ) ) {
-            item_location item_loc( *p, &*it );
+            item_location item_loc( map_cursor( p->pos() ), &*it );
             actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }

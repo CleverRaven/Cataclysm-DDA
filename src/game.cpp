@@ -98,6 +98,7 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "worldfactory.h"
+#include "map_selector.h"
 
 #include <algorithm>
 #include <cassert>
@@ -9429,7 +9430,7 @@ void game::butcher()
         case BUTCHER_SALVAGE: {
             // Pick index of first item in the salvage stack
             size_t index = salvage_stacks[indexer_index].first;
-            item_location item_loc( u, &items[index] );
+            item_location item_loc( map_cursor( u.pos() ), &items[index] );
             salvage_iuse->cut_up( u, *salvage_tool, item_loc );
         }
         break;
