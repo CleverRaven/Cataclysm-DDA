@@ -288,7 +288,7 @@ void player::power_bionics()
 {
     std::vector <bionic *> passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
     std::vector <bionic *> active = filtered_bionics( *my_bionics, TAB_ACTIVE );
-    bionic *bio_last = NULL;
+    bionic *bio_last = nullptr;
     bionic_tab_mode tab_mode = TAB_ACTIVE;
 
     //added title_tab_height for the tabbed bionic display
@@ -469,7 +469,7 @@ void player::power_bionics()
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
-        bionic *tmp = NULL;
+        bionic *tmp = nullptr;
         bool confirmCheck = false;
 
         if( action == "DOWN" ) {

@@ -211,7 +211,7 @@ class input_manager
          *                           keybinding is overridden by something else in the given context.
          */
         const std::vector<input_event> &get_input_for_action( const std::string &action_descriptor,
-                const std::string &context = "default", bool *overwrites_default = NULL );
+                const std::string &context = "default", bool *overwrites_default = nullptr );
 
         /**
          * Return first char associated with an action ID in a given context.
@@ -332,7 +332,7 @@ class input_manager
         const action_attributes &get_action_attributes(
             const std::string &action_id,
             const std::string &context = "default",
-            bool *overwrites_default = NULL );
+            bool *overwrites_default = nullptr );
 
         /**
          * Get a value to be used as the default name for a newly created action.

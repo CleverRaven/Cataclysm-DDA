@@ -281,7 +281,7 @@ int minesweeper_game::start_game()
                     }
 
                     mvwputch( w_minesweeper, iOffsetY + iPlayerY, iOffsetX + iPlayerX,
-                              ( i == 0 ) ? cColor : hilite( cColor ), sGlyph.c_str() );
+                              ( i == 0 ) ? cColor : hilite( cColor ), sGlyph );
 
                     if( i == 0 ) {
                         iPlayerX += iDirX;

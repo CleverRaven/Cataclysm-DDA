@@ -100,7 +100,7 @@ npc::npc()
     dex_max = 0;
     int_max = 0;
     per_max = 0;
-    my_fac = NULL;
+    my_fac = nullptr;
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     death_drops = true;

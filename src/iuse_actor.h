@@ -40,6 +40,7 @@ struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 struct furn_t;
 struct itype;
+class item_location;
 
 /**
  * Transform an item into a specific type.
@@ -454,7 +455,7 @@ class salvage_actor : public iuse_actor
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
-        int cut_up( player &p, item &it, item &cut ) const;
+        int cut_up( player &p, item &it, item_location &cut ) const;
         int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const item &it ) const;
 

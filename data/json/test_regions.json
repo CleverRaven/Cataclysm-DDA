@@ -145,6 +145,22 @@
             }
         }
       },
+      "forest_trail_settings": {
+        "chance": 0,
+        "border_point_chance": 2,
+        "minimum_forest_size": 100,
+        "random_point_min": 4,
+        "random_point_max": 50,
+        "random_point_size_scalar": 100,
+        "trailhead_chance": 1,
+        "trail_center_variance": 3,
+        "trail_width_offset_min": 1,
+        "trail_width_offset_max": 3,
+        "clear_trail_terrain": false,
+        "trail_terrain": {
+          "t_dirt": 1
+        }
+      },
       "num_forests": 2,                     "//": "# of forest chunks",
       "forest_size_min": 1,                 "//": "size range of forest chunk",
       "forest_size_max": 100,               "//": "note: 32400 tiles in omap, 250*minmax = 3750-10000 default_oters become forests",

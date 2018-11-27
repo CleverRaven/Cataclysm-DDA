@@ -5778,11 +5778,11 @@ void game::control_vehicle()
             veh->start_engines( true );
         }
     } else {
-        tripoint examp;
-        if( !choose_adjacent( _( "Control vehicle where?" ), examp ) ) {
+        const cata::optional<tripoint> examp_ = choose_adjacent( _( "Control vehicle where?" ) );
+        if( !examp_ ) {
             return;
         }
-        const optional_vpart_position vp = m.veh_at( examp );
+        const optional_vpart_position vp = m.veh_at( *examp_ );
         if( !vp ) {
             add_msg( _( "No vehicle there." ) );
             return;
@@ -5790,7 +5790,7 @@ void game::control_vehicle()
         vehicle *const veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
-            veh->use_controls( examp );
+            veh->use_controls( *examp_ );
         }
     }
 }
@@ -6163,15 +6163,16 @@ void game::examine()
         return;
     }
 
-    tripoint examp = u.pos();
-    if( !choose_adjacent_highlight( _( "Examine where?" ), examp, ACTION_EXAMINE ) ) {
+    const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Examine where?" ),
+                                            ACTION_EXAMINE );
+    if( !examp_ ) {
         return;
     }
     // redraw terrain to erase 'examine' window
     draw_ter();
     wrefresh( w_terrain );
 
-    examine( examp );
+    examine( *examp_ );
 }
 
 const std::string get_fire_fuel_string( const tripoint &examp )
@@ -6327,17 +6328,17 @@ void game::examine( const tripoint &examp )
 //represents carefully peeking around a corner, hence the large move cost.
 void game::peek()
 {
-    tripoint p = u.pos();
-    if( !choose_adjacent( _( "Peek where?" ), p.x, p.y ) ) {
+    const cata::optional<tripoint> p = choose_adjacent( _( "Peek where?" ) );
+    if( !p ) {
         refresh_all();
         return;
     }
 
-    if( m.impassable( p ) ) {
+    if( m.impassable( *p ) ) {
         return;
     }
 
-    peek( p );
+    peek( *p );
 }
 
 void game::peek( const tripoint &p )
@@ -8547,13 +8548,14 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
             return;
         }
 
-        target.pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
 
         refresh_all();
-        if( !choose_adjacent( liqstr, target.pos ) ) {
+        const cata::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
+        if( !target_pos_ ) {
             return;
         }
+        target.pos = *target_pos_;
 
         if( source_pos != nullptr && *source_pos == target.pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
@@ -8711,11 +8713,9 @@ void game::drop()
 
 void game::drop_in_direction()
 {
-    tripoint dirp;
-
-    if( choose_adjacent( _( "Drop where?" ), dirp ) ) {
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
         refresh_all();
-        u.drop( game_menus::inv::multidrop( u ), dirp );
+        u.drop( game_menus::inv::multidrop( u ), *pnt );
     }
 }
 
@@ -9421,7 +9421,8 @@ void game::butcher()
         case BUTCHER_SALVAGE: {
             // Pick index of first item in the salvage stack
             size_t index = salvage_stacks[indexer_index].first;
-            salvage_iuse->cut_up( u, *salvage_tool, items[index] );
+            item_location item_loc( u, &items[index] );
+            salvage_iuse->cut_up( u, *salvage_tool, item_loc );
         }
         break;
     }

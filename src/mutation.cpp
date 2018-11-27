@@ -332,7 +332,6 @@ void player::activate_mutation( const trait_id &mut )
             _( "Clear rubble" ),
             _( "Churn up ground" )
         } );
-        tripoint dirp;
         if( choice == UILIST_CANCEL ) {
             tdata.powered = false;
         } else if( choice != 0 ) {
@@ -342,67 +341,79 @@ void player::activate_mutation( const trait_id &mut )
                 return;
             } else {
                 if( choice == 1 ) {
-                    if( !choose_adjacent( _( "Dig pit where?" ), dirp ) ) {
+                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig pit where?" ) );
+                    if( !pnt_ ) {
                         return;
                     }
-                    if( dirp == pos() ) {
+                    const tripoint pnt = *pnt_;
+
+                    if( pnt == pos() ) {
                         add_msg_if_player( m_info, _( "You delve into yourself." ) );
                         return;
                     }
                     int moves;
-                    if( g->m.ter( dirp ) == t_pit_shallow ) {
+                    if( g->m.ter( pnt ) == t_pit_shallow ) {
                         moves = MINUTES( 30 ) * 100;
-                    } else if( g->m.has_flag( "DIGGABLE", dirp ) ) {
+                    } else if( g->m.has_flag( "DIGGABLE", pnt ) ) {
                         moves = MINUTES( 10 ) * 100;
                     } else {
                         add_msg_if_player( _( "You can't dig a pit on this ground." ) );
                         return;
                     }
                     assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
-                    activity.placement = dirp;
+                    activity.placement = pnt;
                 } else if( choice == 2 ) {
-                    if( !choose_adjacent( _( "Fill pit where?" ), dirp ) ) {
+                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Fill pit where?" ) );
+                    if( !pnt_ ) {
                         return;
                     }
-                    if( dirp == pos() ) {
+                    const tripoint pnt = *pnt_;
+
+                    if( pnt == pos() ) {
                         add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
                         return;
                     }
                     int moves;
-                    if( g->m.ter( dirp ) == t_pit || g->m.ter( dirp ) == t_pit_spiked ||
-                        g->m.ter( dirp ) == t_pit_glass || g->m.ter( dirp ) == t_pit_corpsed ) {
+                    if( g->m.ter( pnt ) == t_pit || g->m.ter( pnt ) == t_pit_spiked ||
+                        g->m.ter( pnt ) == t_pit_glass || g->m.ter( pnt ) == t_pit_corpsed ) {
                         moves = MINUTES( 15 ) * 100;
-                    } else if( g->m.ter( dirp ) == t_pit_shallow ) {
+                    } else if( g->m.ter( pnt ) == t_pit_shallow ) {
                         moves = MINUTES( 10 ) * 100;
-                    } else if( g->m.ter( dirp ) == t_dirtmound ) {
+                    } else if( g->m.ter( pnt ) == t_dirtmound ) {
                         moves = MINUTES( 5 ) * 100;
                     } else {
                         add_msg_if_player( _( "There is no pit to fill." ) );
                         return;
                     }
                     assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
-                    activity.placement = dirp;
+                    activity.placement = pnt;
                 } else if( choice == 3 ) {
-                    if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
+                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Clear rubble where?" ) );
+                    if( !pnt_ ) {
                         return;
                     }
-                    if( g->m.has_flag( "RUBBLE", dirp ) ) {
+                    const tripoint pnt = *pnt_;
+
+                    if( g->m.has_flag( "RUBBLE", pnt ) ) {
                         // 75 seconds
                         assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), 1250, -1, 0 );
-                        activity.placement = dirp;
+                        activity.placement = pnt;
                     } else {
                         add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
                         return;
                     }
                 } else if( choice == 4 ) {
-                    if( !choose_adjacent( _( "Churn up ground where?" ), dirp ) ) {
+                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Churn up ground where?" ) );
+                    if( !pnt_ ) {
                         return;
                     }
-                    if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) &&
-                        g->m.ter( dirp ) != t_dirtmound ) {
+                    const tripoint pnt = *pnt_;
+
+                    if( g->m.has_flag( "DIGGABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
+                        g->m.ter( pnt ) != t_dirtmound ) {
                         add_msg_if_player( _( "You churn up the earth here." ) );
                         moves = -300;
-                        g->m.ter_set( dirp, t_dirtmound );
+                        g->m.ter_set( pnt, t_dirtmound );
                     } else {
                         add_msg_if_player( _( "You can't churn up this ground." ) );
                     }

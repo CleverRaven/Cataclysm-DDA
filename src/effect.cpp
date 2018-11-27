@@ -1293,7 +1293,7 @@ void effect_type::register_ma_buff_effect( const effect_type &eff )
 void effect::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "eff_type", eff_type != NULL ? eff_type->id.str() : "" );
+    json.member( "eff_type", eff_type != nullptr ? eff_type->id.str() : "" );
     json.member( "duration", duration );
     json.member( "bp", static_cast<int>( bp ) );
     json.member( "permanent", permanent );

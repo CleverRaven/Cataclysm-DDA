@@ -418,7 +418,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     }
 
     if( cat.id() == "food" ) {
-        const bool preserves = it.is_food_container() && it.type->container->preserves ? 1 : 0;
+        const bool preserves = it.is_food_container() && it.type->container->preserves;
         const auto &it_food = it.is_food_container() ? it.contents.front() : it;
 
         if( it_food.is_food() ) { // skip food without comestible, like MREs

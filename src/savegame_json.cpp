@@ -637,10 +637,10 @@ void player::serialize( JsonOut &json ) const
     // contain start_object(), store(), end_object().
 
     // player-specific specifics
-    if( prof != NULL ) {
+    if( prof != nullptr ) {
         json.member( "profession", prof->ident() );
     }
-    if( g->scen != NULL ) {
+    if( g->scen != nullptr ) {
         json.member( "scenario", g->scen->ident() );
     }
     // someday, npcs may drive
@@ -2583,7 +2583,7 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    if( item_type != NULL ) {
+    if( item_type != nullptr ) {
         // @todo: refactor player_morale to not require this hack
         json.member( "item_type", item_type->get_id() );
     }

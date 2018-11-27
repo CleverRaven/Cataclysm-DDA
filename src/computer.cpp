@@ -862,7 +862,7 @@ of pureed bone & LSD." ) );
         case COMPACT_DOWNLOAD_SOFTWARE:
             if( item *const usb = pick_usb() ) {
                 mission *miss = mission::find( mission_id );
-                if( miss == NULL ) {
+                if( miss == nullptr ) {
                     debugmsg( _( "Computer couldn't find its mission!" ) );
                     return;
                 }
