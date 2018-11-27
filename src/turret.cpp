@@ -557,7 +557,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         }
 
         if( pp.x == tur_x_max_y.x  && pp.y > tur_x_max_y.y ) {
-            tur_x_max_y.x > pp.x;
+            tur_x_max_y.x = pp.x;
         }
 
         if( pp.x < min_x_tur_y.x && pp.y == min_x_tur_y.y ) {
