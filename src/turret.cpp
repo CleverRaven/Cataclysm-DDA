@@ -588,7 +588,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     }
 
-    std::vector<tripoint> alternate_firing_positions = { tur_x_min_y, max_x_tur_y, tur_x_max_y, min_x_tur_y, max_x_min_y, max_x_max_y, min_x_max_y, min_x_min_y };
+    std::vector<tripoint> alternate_firing_positions = { tur_x_min_y, max_x_tur_y, min_x_tur_y, tur_x_max_y, max_x_min_y, min_x_min_y, max_x_max_y, min_x_max_y };
 
     // Max range for for autoturret
     int max_range = 16;
