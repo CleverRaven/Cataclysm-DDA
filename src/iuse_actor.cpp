@@ -3842,17 +3842,21 @@ long deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
 
-    int dirx = 0;
-    int diry = 0;
-    if( !choose_direction( string_format( _( "Put up the %s where (%dx%d clear area)?" ), it.tname(),
-                                          diam, diam ), dirx, diry ) ) {
+    tripoint direction;
+    if( const cata::optional<tripoint> dir = choose_direction(
+                string_format( _( "Put up the %s where (%dx%d clear area)?" ),
+                               it.tname(), diam, diam ) ) ) {
+        direction = *dir;
+    } else {
+
         return 0;
     }
 
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    const tripoint center = p.pos() + tripoint( ( radius + 1 ) * dirx, ( radius + 1 ) * diry, 0 );
+    const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
+                           ( radius + 1 ) * direction.y, 0 );
     for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
         if( const auto vp = g->m.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
@@ -3882,7 +3886,7 @@ long deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( floor_center ) {
         g->m.furn_set( center, *floor_center );
     }
-    g->m.furn_set( p.pos() + tripoint( dirx, diry, 0 ), door_closed );
+    g->m.furn_set( p.pos() + direction, door_closed );
     add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
     add_msg( m_info, _( "Examine the center square to pack it up again." ) );
     return 1;
