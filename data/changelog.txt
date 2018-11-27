@@ -1137,8 +1137,12 @@ Vehicle weight cached, more realistic.
 Implement Lua wrapper to store and use either value or reference objects in Lua.
 Create Blank Building Template.txt
 Comestibles support inheritance.
+Add lifting and jacking requirements to vehicle modification.
 Extend 'generic_factory' + aliases + use the factory to manage terrain objects.
 Add compiler LTO support.
+Use center_print() function in appropriate places.
+Use trim_and_print() instead of locally introduced function trim_to().
+Display NPC needs in debug menu for AI development.
 Implement string id for tool qualities.
 Support inheritance for vehicle parts.
 Augment and use map::water_from() to handle crafting requirements.
@@ -1152,9 +1156,10 @@ Spot checker for FoV scenarios.
 JSONize NPC talk tags.
 Wrap file reading into utility functions.
 Units wrapper class for volume.
+Specify vehicle part repair requirements in JSON.
 Adding a call to add per-minute LUA callback.
-Add inheritance support to generic factory
-Use positional placeholders in some stealing messages
+Move mission dialogue to json.
+Add inheritance support to generic factory.
 Better handling of item templates.
 Move crafting rig definitions to JSON.
 Split engine load in to electrical and propulsion.
@@ -1193,6 +1198,7 @@ Max player stamina moved to JSON.
 Added FRAGILE_MELEE flag to represent fragile melee weapons.
 Unicode support for SCT.
 Update vehicleDef.py to produce better vehicle templates.
+Move fuel and engine parameters to JSON.
 
 ## Build:
 
