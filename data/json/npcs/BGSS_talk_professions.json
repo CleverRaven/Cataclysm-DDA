@@ -43,11 +43,13 @@
 		"responses": [
 			{
 				"text": "It might help to get it off your chest.", 
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
 				"trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "TRUST", 2 ] ] },
 				"success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
 				"failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
 			},{ 
 				"text": "Suck it up. If we're going to work together I need to know you.", 
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
 				"trial": { "type": "INTIMIDATE", "difficulty": 40, "mod": [ [ "BRAVERY", 2 ] ] },
 				"success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
 				"failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
@@ -59,6 +61,7 @@
 		"id": "BGSS_HOSPITAL_2_NOTYET",
 		"type": "talk_topic",
 		"dynamic_line": "No. I can't. Just, no.",
+		"effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000"},
 		"responses": [
 			{ "text": "<done_conversation_section>", "topic": "TALK_DONE" }
 		]

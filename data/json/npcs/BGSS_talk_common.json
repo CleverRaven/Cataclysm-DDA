@@ -96,6 +96,12 @@
 	}
     ]
 	},{
+        "type": "effect_type",
+        "id": "player_BGSS_SAIDNO",
+		"//": "Defined here in the conversation section because this should be the only time this effect is referenced: it's specifically for survival stories only."
+		"name": ["Story Denied"],
+        "desc": ["AI tag used when you already asked an NPC for a detail in their survival story and they don't want to tell you again right now. This is a bug if you have it."]
+	},{
 		"id": "BGSS_CONFUSED_1_STORY1",
 		"type": "talk_topic",
 		"dynamic_line": "I don't even <swear> know anymore. I have no <swear> idea what is going on. I'm just doing what I can to stay alive. The world ended and I bungled along not dying, until I met you.",
@@ -190,6 +196,7 @@
 		"dynamic_line": "Same as most people who didn't get killed straight up during the riots. I went to one of those <dumb> <swear> evacuation death traps. I actually lived there for a while with three others. One guy who I guess had watched a lot of movies kinda ran the show, because he seemed to really know what was going on. Spoiler alert: he <swear> didn't.",
 		"responses": [ { 
 			"text": "What happened to your original crew?", 
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
 			"trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 1 ], [ "TRUST", 1 ] ] },
 			"success": { "topic": "BGSS_EVACUEE_2_STORY2" },
 			"failure": { "topic": "BGSS_EVACUEE_2_NOTYET" }
@@ -210,6 +217,7 @@
 		"id": "BGSS_EVACUEE_2_NOTYET",
 		"type": "talk_topic",
 		"dynamic_line": "What do you think happened? You see them around anywhere?",
+		"effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000"},
 		"responses": [
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -236,7 +244,8 @@
 		"dynamic_line": "My Evac shelter got swarmed by some of those bees, the ones the size of dogs. I took out a few with a two-by-four, but pretty quick I realized it was either head for the hills or get stuck like a pig. The rest is history.",
 		"responses": [
 			{ "text": "Giant bees? Tell me more.", "topic": "BGSS_EVACUEE_5_BEES" },
-			{ "text": "But bees aren't usually aggressive...", "topic": "BGSS_EVACUEE_5_WASPS" },
+			{ "text": "But bees aren't usually aggressive...", "topic": "BGSS_EVACUEE_5_WASPS", 
+				"condition": { "u_has_perception": 8 } },
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
@@ -245,7 +254,8 @@
 		"type": "talk_topic",
 		"dynamic_line": "Yeah, I'm sure you've seen them, they're everywhere. Like something out of an old sci-fi movie. Some of the others in the evac shelter got stung, it was no joke. I didn't stick around to see what the lasting effect was though. I'm not ashamed to admit I ran like a <swear> chicken.",
 		"responses": [
-			{ "text": "But bees aren't usually aggressive... Do you mean wasps?", "topic": "BGSS_EVACUEE_5_WASPS" },
+			{ "text": "But bees aren't usually aggressive... Do you mean wasps?", "topic": "BGSS_EVACUEE_5_WASPS", 
+				"condition": { "u_has_perception": 8 } },
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
@@ -273,6 +283,7 @@
 			"text": "Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" 
 		},{ 
 			"text": "How did you get out?", 
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
 			"trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 1 ], [ "TRUST", 1 ] ] },
 			"success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
 			"failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
@@ -290,6 +301,7 @@
 			"text": "What happened after that?", "topic": "BGSS_FEMA_EVACUEE_1_STORY3" 
 		},{ 
 			"text": "How did you get out?", 
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
 			"trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 1 ], [ "TRUST", 1 ] ] },
 			"success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
 			"failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
@@ -304,6 +316,7 @@
 		"dynamic_line": "That guy started a frenzy. People were already panicked. There was an armed guy overseeing the transport, acting like a cop but really he was just some <dumb> kid they'd handed a rifle to. He tried to calm things down, and I guess it actually worked for a bit, although the 'kill the infected' bunch were pretty <swear> freaked out and were clearly ready to jump the moment the granny with the cut on her arm started frothing at the mouth. They started acting up again when we got to the camp. That didn't go well for them. A few heavily armed soldiers dragged them away, and I never saw them again.",
 		"responses": [ { 
 			"text": "How did you get out?", 
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
 			"trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 1 ], [ "TRUST", 1 ] ] },
 			"success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
 			"failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
@@ -325,6 +338,7 @@
 		"id": "BGSS_FEMA_EVACUEE_1_NOTYET",
 		"type": "talk_topic",
 		"dynamic_line": "That's a story for another day. I don't really like thinking about it.",
+		"effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000"},
 		"responses": [
 			{ "text": "Sorry. Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },  
 			{ "text": "Sorry for asking. <done_conversation_section>", "topic": "TALK_LEADER" },
@@ -335,7 +349,7 @@
 		"type": "talk_topic",
 		"dynamic_line": "I was late to evacuate when the shit hit the fan. Got stuck in town for a few days, survived by hiding in basements eating girl scout cookies and drinking warm root beer. Eventually I managed to weasel my way out without getting caught by the <zombies>. I spent a few days holed up in an abandoned mall, but I needed food so I headed out to fend for myself in the woods. I wasn't doing a great job of it, so I'm kinda glad you showed up.",
 		"responses": [
-				{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
@@ -484,6 +498,7 @@
 		"dynamic_line": "Oh, man. I thought I was ready. I had it all planned out. Bug out bags. Loaded guns. Maps of escape routes. Bunker in the back yard.",
 		"responses": [
 			{ "text": "Sounds like it didn't work out.", "topic": "BGSS_PREPPER_2_STORY2" },
+			{ "text": "Hey, I'd really be interested in seeing those maps.", "topic": "BGSS_PREPPER_2_MAPS", "condition": { "not": { "npc_has_effect": "player_BGSS_HASMAPS" } }, },
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
@@ -493,6 +508,7 @@
 		"dynamic_line": "Depends on your definition. I'm alive, aren't I? When Hell itself came down from the skies and monsters started attacking the cities, I grabbed my stuff and crammed into the bunker. My surface cameras stayed online for days; I could see everything happening up there. I watched those things stride past. I still have nightmares about the way their bodies moved, like they broke the world just to be here. I had nothing better to do. I watched them rip up the cops and the military, watched the dead rise back up and start fighting the living. I watched the nice old lady down the street rip the head off my neighbor's dog. I saw a soldier's body twitch and grow into some kind of electrified hulk beast. I watched it all happen.",
 		"responses": [
 			{ "text": "Why did you leave your bunker?", "topic": "BGSS_PREPPER_2_STORY3" },
+			{ "text": "Hey, I'd really be interested in seeing those maps.", "topic": "BGSS_PREPPER_2_MAPS", "condition": { "not": { "npc_has_effect": "player_BGSS_HASMAPS" } }, },
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
@@ -501,8 +517,57 @@
 		"type": "talk_topic",
 		"dynamic_line": "Honestly? I was planning to die. After what I'd seen, I went a little crazy. I thought it was over for sure, I figured there was no point in fighting it. I thought I wouldn't last a minute out here, but I couldn't bring myself to end it down there. I headed out, planning to let the <zombies> finish me off, but what can I say? Survival instinct is a funny thing, and I killed the ones outside the bunker. I guess the adrenaline was what I needed. It's kept me going since then.",
 		"responses": [
+			{ "text": "Hey, I'd really be interested in seeing those maps.", "topic": "BGSS_PREPPER_2_MAPS", "condition": { "not": { "npc_has_effect": "player_BGSS_HASMAPS" } }, },
 			{ "text": "Thanks for telling me that. <done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "Thanks for telling me that. <end_talking>", "topic": "TALK_DONE" }
+		]
+	},{
+		"id": "BGSS_PREPPER_2_MAPS",
+		"type": "talk_topic",
+		"dynamic_line": "Yeah, I do. I'd be willing to part with them for, say, $2000.",
+		"responses": [
+		    {
+				"text": "[$2000] You have a deal.",
+				"topic": "BGSS_PREPPER_2_SOLD",
+				"condition": { "u_has_cash": 200000 },
+				"effect": { "u_spend_cash": 200000 }
+			},{
+				"text": "Whatever's in that map benefits both of us.",
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
+				"trial": { "type": "PERSUADE", "difficulty": 40, [ "TRUST", 2 ] ] },
+				"success": { "topic": "BGSS_PREPPER_2_SOLD" },
+				"failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
+			},{
+				"text": "How 'bout you <swear> hand it over and I don't get <swear> pissed off?",
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
+				"trial": { "type": "INTIMIDATE", "difficulty": 30, [ "BRAVERY", -1 ] ] },
+				"success": { "topic": "BGSS_PREPPER_2_SOLD" },
+				"failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
+			},
+			{ "text": "Sorry for changing the subject. What was it you were saying?", "topic": "TALK_NONE" },
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
+		]
+	},{
+		"id": "BGSS_PREPPER_2_SOLD",
+		"type": "talk_topic",
+		"dynamic_line": "All right. Here they are.",
+		"effect": { "npc_add_effect": "player_BGSS_HASMAPS", "duration": "permanent"},
+        "effect": { "u_buy_item": "survivormap" },
+		"responses": [
+			{ "text": "Thanks! What was it you were saying before?", "topic": "TALK_NONE" },
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
+		]
+	},{
+		"id": "BGSS_PREPPER_2_NOSALE",
+		"type": "talk_topic",
+		"dynamic_line": "Nice try. You want the maps, you pay up.",
+		"effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "permanent"},
+		"responses": [
+			{ "text": "Fine. What was it you were saying before?", "topic": "TALK_NONE" },
+			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
 		"id": "BGSS_OUT_OF_TOWN_1_STORY1",
@@ -631,11 +696,13 @@
 		"dynamic_line": "Just another <shitty> tale of love and loss. Not something I like to tell.",
 		"responses": [ { 
 			"text": "It might help to get it off your chest.", 
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
 			"trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 3 ] ] },
 			"success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
 			"failure": { "topic": "BGSS_LOST_PARTNER_2_NOTYET" }
 		},{ 
 			"text": "Suck it up. If we're going to work together I need to know you.", 
+				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
 			"trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "BRAVERY", 1 ] ] },
 			"success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
 			"failure": { "topic": "BGSS_LOST_PARTNER_2_FUCKOFF" }
@@ -646,6 +713,7 @@
 		"id": "BGSS_LOST_PARTNER_2_NOTYET",
 		"type": "talk_topic",
 		"dynamic_line": "I appreciate the sentiment, but I don't think it would. Drop it.",
+		"effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "7000"},
 		"responses": [
 			{ "text": "OK.", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -654,6 +722,7 @@
 		"id": "BGSS_LOST_PARTNER_2_FUCKOFF",
 		"type": "talk_topic",
 		"dynamic_line": "Oh, <fuck_you>. This doesn't have anything to do with you, or with us.",
+		"effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000"},
 		"responses": [
 			{ "text": "...", "topic": "TALK_DONE" }
 		]
