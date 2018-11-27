@@ -8340,7 +8340,7 @@
   },
   {
     "type": "recipe",
-    "result": [ "sourdough_starter", 2 ]
+    "result": [ "sourdough_starter", 2 ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
