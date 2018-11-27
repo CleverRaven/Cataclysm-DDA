@@ -686,7 +686,6 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "player_stats", lifetime_stats );
 
-    player_map_memory.store( json );
     json.member( "show_map_memory", show_map_memory );
 
     json.member( "assigned_invlet" );
@@ -864,7 +863,10 @@ void player::deserialize( JsonIn &jsin )
 
     data.read( "player_stats", lifetime_stats );
 
-    player_map_memory.load( data );
+    //Load from legacy map_memory save location (now in its own file <playername>.mm)
+    if( data.has_member( "map_memory_tiles" ) || data.has_member( "map_memory_curses" ) ) {
+        player_map_memory.load( data );
+    }
     data.read( "show_map_memory", show_map_memory );
 
     parray = data.get_array( "assigned_invlet" );
@@ -2606,6 +2608,7 @@ void player_morale::load( JsonObject &jsin )
 
 void map_memory::store( JsonOut &jsout ) const
 {
+    jsout.start_object();
     jsout.member( "map_memory_tiles" );
     jsout.start_array();
     for( const auto &elem : tile_cache.list() ) {
@@ -2631,6 +2634,13 @@ void map_memory::store( JsonOut &jsout ) const
         jsout.end_object();
     }
     jsout.end_array();
+    jsout.end_object();
+}
+
+void map_memory::load( JsonIn &jsin )
+{
+    JsonObject jsobj = jsin.get_object();
+    load( jsobj );
 }
 
 void map_memory::load( JsonObject &jsin )

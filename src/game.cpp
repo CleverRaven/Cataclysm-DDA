@@ -2621,7 +2621,7 @@ void game::load( const save_t &name )
     using namespace std::placeholders;
 
     const std::string worldpath = get_world_base_save_path() + "/";
-    const std::string playerfile = worldpath + name.base_path() + ".sav";
+    const std::string playerpath = worldpath + name.base_path();
 
     // Now load up the master game data; factions (and more?)
     load_master();
@@ -2629,9 +2629,13 @@ void game::load( const save_t &name )
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
     u.weapon = item( "null", 0 );
-    if( !read_from_file( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
+    if( !read_from_file( playerpath + ".sav", std::bind( &game::unserialize, this, _1 ) ) ) {
         return;
     }
+
+    read_from_file_optional_json( playerpath + ".mm", [&]( JsonIn & jsin ) {
+        u.deserialize_map_memory( jsin );
+    } );
 
     read_from_file_optional( worldpath + name.base_path() + ".weather", std::bind( &game::load_weather,
                              this, _1 ) );
@@ -2803,6 +2807,10 @@ bool game::save_player_data()
     const bool saved_data = write_to_file( playerfile + ".sav", [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "player data" ) );
+    const bool saved_map_memory = write_to_file( playerfile + ".mm", [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
+        u.serialize_map_memory( jsout );
+    }, _( "player map memory" ) );
     const bool saved_weather = write_to_file( playerfile + ".weather", [&]( std::ostream & fout ) {
         save_weather( fout );
     }, _( "weather state" ) );
@@ -2815,7 +2823,7 @@ bool game::save_player_data()
     }, _( "quick shortcuts" ) );
 #endif
 
-    return saved_data && saved_weather && saved_log
+    return saved_data && saved_map_memory && saved_weather && saved_log
 #ifdef __ANDROID__
            && saved_shortcuts
 #endif

@@ -11569,6 +11569,16 @@ bool player::should_show_map_memory()
     return show_map_memory;
 }
 
+void player::serialize_map_memory( JsonOut &jsout ) const
+{
+    player_map_memory.store( jsout );
+}
+
+void player::deserialize_map_memory( JsonIn &jsin )
+{
+    player_map_memory.load( jsin );
+}
+
 memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const
 {
     return player_map_memory.get_tile( pos );
