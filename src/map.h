@@ -185,6 +185,7 @@ struct level_cache {
     bool veh_exists_at[SEEX * MAPSIZE][SEEY * MAPSIZE];
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
+    std::set<vehicle *> zone_vehicles;
 };
 
 /**

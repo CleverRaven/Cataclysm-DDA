@@ -8,6 +8,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "map.h"
 #include "output.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -551,21 +552,20 @@ zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_
         std::shared_ptr<zone_options> options )
 {
     //the start is a vehicle tile with cargo space
-    //if( const cata::optional<vpart_reference> vp = g->m.veh_at( start ).part_with_feature( "CARGO",
-    //        false ) ) {
-    //    //TODO:Allow for loot zones on vehicles to be larger than 1x1
-    //    if( start.x == end.x && start.y == end.y && start.z == end.z ) {
-    //        //create a vehicle loot zone
-    //        vp->vehicle().loot_zones.try_emplace( vp->mount(), zone_data( name, type, invert, enabled, start,
-    //                                              end, options ) );
-    //    }
-    //} else {
-    //Create a regular zone
-    zones.push_back( zone_data( name, type, invert, enabled, start, end, options ) );
-    cache_data();
-
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( start ).part_with_feature( "CARGO",
+            false ) ) {
+        //TODO:Allow for loot zones on vehicles to be larger than 1x1
+        if( start.x == end.x && start.y == end.y && start.z == end.z ) {
+            //create a vehicle loot zone
+            vp->vehicle().loot_zones.try_emplace( vp->mount(), zone_data( name, type, invert, enabled, start,
+                                                  end, options ) );
+        }
+    } else {
+        //Create a regular zone
+        zones.push_back( zone_data( name, type, invert, enabled, start, end, options ) );
+        cache_data();
+    }
     return zones.back();
-    //}
 }
 
 void zone_manager::register_veh( vehicle *const veh )
@@ -592,9 +592,9 @@ bool zone_manager::remove( zone_data &zone )
         }
     }
     for( auto it = zone_vehs.begin(); it != zone_vehs.end(); ++it ) {
-        for( auto lz = (*it)->loot_zones.begin(); lz != (*it)->loot_zones.end(); ++lz ) {
+        for( auto lz = ( *it )->loot_zones.begin(); lz != ( *it )->loot_zones.end(); ++lz ) {
             if( &zone == &lz->second ) {
-                (*it)->loot_zones.erase( lz );
+                ( *it )->loot_zones.erase( lz );
             }
         }
     }
@@ -602,7 +602,7 @@ bool zone_manager::remove( zone_data &zone )
     return false;
 }
 
-void zone_manager::deregister_veh( const vehicle *const veh )
+void zone_manager::deregister_veh( vehicle const *const veh )
 {
     for( auto it = zone_vehs.begin(); it != zone_vehs.end(); ++it ) {
         if( &veh == &*it ) {
@@ -641,14 +641,18 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones() const
 
 void zone_manager::serialize( JsonOut &json ) const
 {
-    json.start_object();
-    json.member("zones", zones);
+    json.write( zones );
 }
 
 void zone_manager::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
-    data.read( "zones", zones );
+    jsin.read( zones );
+    for( auto it = zones.begin(); it != zones.end(); ++it ) {
+        if( !has_type( it->get_type() ) ) {
+            zones.erase( it );
+            debugmsg( "Invalid zone type: %s", it->get_type().c_str() );
+        }
+    }
 }
 
 
@@ -661,7 +665,7 @@ void zone_manager::zone_data::serialize( JsonOut &json ) const
     json.member( "enabled", enabled );
     json.member( "start", start );
     json.member( "end", end );
-    //json.member( "options", options );
+    this->get_options().serialize( json );
     json.end_object();
 }
 
@@ -674,7 +678,7 @@ void zone_manager::zone_data::deserialize( JsonIn &jsin )
     data.read( "enabled", enabled );
     data.read( "start", start );
     data.read( "end", end );
-    //data.read( "options", options );
+    this->get_options().deserialize( data );
 }
 
 bool zone_manager::save_zones()

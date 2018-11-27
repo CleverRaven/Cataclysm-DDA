@@ -205,11 +205,11 @@ class zone_manager::zone_data
     public:
         zone_data() {
             name = "";
-            type = zone_type_id("");
+            type = zone_type_id( "" );
             invert = false;
             enabled = false;
-            start = tripoint(0, 0, 0);
-            end = tripoint(0, 0, 0);
+            start = tripoint( 0, 0, 0 );
+            end = tripoint( 0, 0, 0 );
             options = nullptr;
         }
 
@@ -270,8 +270,8 @@ class zone_manager::zone_data
                    p.y >= start.y && p.y <= end.y &&
                    p.z >= start.z && p.z <= end.z;
         }
-        void serialize(JsonOut &json) const;
-        void deserialize(JsonIn &jsin);
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 #endif
