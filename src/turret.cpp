@@ -531,8 +531,9 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         return shots;
     }
 
-    // If autoturret can't shoot then let's try to shoot
-    // from vehicle boundaries
+    // If autoturret can't shoot then let's try to shoot from vehicle boundaries.
+    // It is hack to avoid blocking turret visiblity by vehicle parts.
+    // @todo: Do it properly, probably using 3D Fov checks as if turret actually on roof of vehicle.
 
     tripoint tur_x_min_y = tripoint( pos.x, INT_MAX, pos.z );
     tripoint max_x_tur_y = tripoint( INT_MIN, pos.y, pos.z );
@@ -564,8 +565,6 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
             min_x_tur_y.x = pp.x;
         }
 
-
-
         if( pp.x > max_x_min_y.x && pp.y < max_x_min_y.y ) {
             max_x_min_y.x = pp.x;
             max_x_min_y.y = pp.y;
@@ -591,7 +590,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     std::vector<tripoint> alternate_firing_positions = { tur_x_min_y, max_x_tur_y, min_x_tur_y, tur_x_max_y, max_x_min_y, min_x_min_y, max_x_max_y, min_x_max_y };
 
     // Max range for for autoturret
-     // @todo: calculate chance to hit and cap range based upon this
+    // @todo: calculate chance to hit and cap range based upon this
     int max_range = 16;
 
     for( auto &alternate_firing_position : alternate_firing_positions ) {
