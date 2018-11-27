@@ -38,6 +38,7 @@ Allow using Enhanced Hearing CBM to crack safes.
 Giving NPCs mutagens, meds, food etc.
 Mass uncraft.
 Add coal mining.
+Implement minimum stat and skill requirements for items.
 Add ability to cut metal bars on windows with hacksaw.
 Allow wielding bows with one hand.
 Alternative starting point systems.
@@ -111,6 +112,7 @@ Implement deployable furniture items.
 Allow shelter NPC to provide tips.
 Morale craft speed penalty.
 Fully random Play Now!
+Extend vitamins implementation.
 Allow resuming light-cancelled jobs.
 Washboard Batch Washing.
 New characters: Start with loaded/holstered guns and sheathed blades.
@@ -169,29 +171,29 @@ Two new variants of the military bunker basement.
 Items can have a side (left v right).
 Adds screecher zombie upgrade to shrieker zombie.
 Light stick.
-Add a larger generator part and portable generator vehicle
+Add a larger generator part and portable generator vehicle.
 Makeshift knapsack.
 Human skin and stomachs.
-More railroad terrain variants, made diagonal tracks subway railroads 7 tiles wide
+More railroad terrain variants, made diagonal tracks subway railroads 7 tiles wide.
 Implement surrounded start.
-Expands variety of items in NPC NC itemgroups
+Expands variety of items in NPC NC itemgroups.
 Add bone fishing hook and bone skewer.
 Professions: Hunters, Bandit, Bionic Survivalist, Parkour Practitioner, Burglar, Camper, Road Warrior, Boxer, Photojournalist, Tourist, Zookeeper.
-The Red Dragon Teashop
-Hotel improvements (JSON, new lobbies, updated item, monster, and vehicle spawns)
+The Red Dragon Teashop.
+Hotel improvements (JSON, new lobbies, updated item, monster, and vehicle spawns).
 Lab and mutant start: Adds ears and tails to traits
 Mix condensed milk and water for 2 milk.
-Adds Cinnamon
-Add Optical Dampers CBM
-Add chai tea
-Convert bullwhip to use reach attack
-Football Field
-Implement minimum stat and skill requirements for items
+Adds Cinnamon.
+Add Optical Dampers CBM.
+Add chai tea.
+Convert bullwhip to use reach attack.
+Football Field.
 Scorpion451's XL Holster
 Add recipe for chocpretzels and choco_coffee_beans
 Wearable binoculars V2 Updated
 Make zombies drop tainted leather
 Soylent green
+Double the number of survivor's notes.
 French toast
 Add pumpkin and sunflower as farmable plants
 Leather/bone/chitin recipe staggering, armguard split
@@ -219,6 +221,7 @@ Add basic chemistry set
 Mainline glaive from Medieval Stuff mod
 Move longsword from Medieval Stuff mod
 Shield Foundation Part 2: BLOCK_WHILE_WORN
+Make inwoods runs less bland
 Add metal funnel
 Overmap scent traces
 Move halberd from Medieval Stuff mod
@@ -228,6 +231,7 @@ Mutant wildlife expansions: Spiders and snakes
 Shield foundation part 1: RESTRICT_HANDS
 Shield Foundation Part 3: Bringing it all together
 Add ammo pouches
+Update Evac Center.
 Neoprene expansion
 Add more metal constructions
 Rivtech magazine update.
@@ -675,6 +679,7 @@ Show estimated disassembly time.
 Improvements of the blood test window.
 Clearer message when butchering on sealed terrain.
 Rework inventory columns.
+Window with bars will be frame with bars after hitting.
 Add search function to all commands list.
 Accurate, consistent 'slow movement' messages.
 Mark some fields as dangerous; prompt for rough/sharp terrain.
@@ -762,29 +767,21 @@ Added filtering by skill to Read menu.
 
 ## Mods:
 
-Tanks Mod.
+Added Tanks Mod.
 ChestHole tileset covering all entities.
-Double monster HP mod.
+Added double monster HP mod.
 Mods dynamically enabled/disabled if they require lua and lua is present/absent.
-Re-implements snares as mod content.
 Basic lua console.
 Allow mods to override specific properties of monster types.
-More Locations mod.
+Added More Locations mod.
 Removes redundant controls from inflatable boat.
-Update for RL_Classes mod.
 Allow mods to change martial art styles / techniques / buffs.
 Updated StatsFromSkills to use set_value & get_value for base stats.
-Move arming sword from Medieval Stuff mod.
-Move estoc from Medieval Stuff mod.
 Allow mods to modify professions.
 Allow mods to modify scenarios.
 Allow mods to modify starting location data.
-Mundane zombies mod update.
-Crazy cataclysm.
-Move grenadier zeds to a new file, add blacklist mod.
+Added Crazy cataclysm mod for all your immersion-breaking needs.
 Add No_Zombie_Animals blacklist mod.
-Updating and Rewriting Generic_Guns.
-Fictional Weapons update.
 Add No_Diamond_Weapons blacklist.
 Move health messages (on wakeup) to json.
 Recreates DeoxyMod's Foldable Mod.
@@ -794,23 +791,16 @@ Add more makeshift items mod.
 Add More Classes and Scenarios mod.
 Craftable Gun Pack mod revamp.
 More snippet/flier entries for mods.
-Added more content to Expanded Realistic Guns.
 Support total conversion mods.
 Remove Arcana and PK_rebalancing mods since they are maintained in seperate repositories now.
 Add huge vehicles mod.
-Convert Tanks and Other Vehicles mapgen overrides.
 Expanded Realistic Guns: bandolier update.
-Updated foldable vehicle parts mod a bit.
 Magazines for Icecoon's Arsenal.
 Medieval Mod changes to viking and samurai.
-More Survival Tools: Restores old javelin volume.
-[Generic Guns] blacklist "homemade hand cannon".
 Medieval Mod: Starting with sheathed weapons.
-More Locations mod: Reduces minimum occurrences.
-"BrightNights" - the sci-fi mod.
+Added "BrightNights" - the sci-fi mod.
 Standardizes bronze recipes in Medieval mod.
 Fixes some unlearnable recipes in More Survival Tools.
-Move user-default-mods.json to config folder.
 Makeshift mod and bayonet update.
 Battery compartment mod update.
 National Guard Camp, a large and very dangerous military complex.
@@ -820,9 +810,8 @@ Added Urban Development Mod.
 Extended Buildings mod.
 Fix hp loss in StatsThroughSkills.
 Add Bionic Systems Mod.
-Alternate map key.
+Added alternate map key mod.
 Moved light and heavy snare kits to More Survival Tools mod.
-Craftable guns overhaul.
 Add "Mutant NPCs" mod.
 Mundane Zombies Mod Revival.
 Manual CBM installation moved to Bright Nights mod.
@@ -845,894 +834,144 @@ Adjusted frequency of sickness.
 Variable draw costs for dedicated inventory containers (holsters).
 Last amigara horror to die always drops an artifact.
 Adjust the way monster upgrade times are calculated.
-Made armored cars less common
-Adjust spawning for coffee shop and arcade.
-Replace no pickup feature with move penalty
-Bring repeating crossbow in line with the real Zhuge Nu
-Added encumberance to weapons worn with shoulder straps
-Made torso armor nullify arachnid arms bonus
-Added batch crafting times to various comestibles
-Made DEX prevent cuts from broken glass more often
-Make farming yield multiples of default charge of a plant item on gather
-Rebalance nodachi (and variants) volume to match zweihander
+Replace no pickup feature with move penalty.
+Added encumberance to weapons worn with shoulder straps.
+Added batch crafting times to various comestibles.
+Made DEX prevent cuts from broken glass more often.
+Make farming yield multiples of default charge of a plant item on gather.
 Reduce XM-P plasma blast size.
-Telescopic Eyes CBM Updated
 City spacing option.
-WBLOCK_2 usage changes
-Weed brownie recipe change
-Correct nutrition_for thresholds
-Change handling of recoil penalty
-Remove completely unrealistic energy weapon recipes
-Update recipes for new comestible tortilla
-Standardise ammo disassembly
-Storage cells and car recharger changes
-remove eyes coverage from the rioter mask
-Remove whip stun effect.
-New drops for zombie soldiers
+WBLOCK_2 usage changes.
+Correct nutrition_for thresholds.
+Change handling of recoil penalty.
+Remove completely unrealistic energy weapon recipes.
+Standardise ammo disassembly.
 Rationalize ranged skill training.
-Item handling is slower with increasing hand encumbrance
-Reduce number of charges for oxyacetylene torch
-Remove hardtack from sandwich recipes
-Add minimum move cost when handling items
+Item handling is slower with increasing hand encumbrance.
+Add minimum move cost when handling items.
 Implements barrel_length variable in ranged.json.
-Melee combat rebalance
-Now you can hit reliably with your contact lenses too
-Handcuffs markedly increase item handling costs
 Remove requirement for a vehicle tracking device.
-Adds deconstruction recipe for wood stove.
-Change fletched arrows' names
-Add revert_to for shooter's earmuffs
-make onion rings craftable
-Rebalance of to_hit value for all books
-No skill required to make chemistry kits.
-Overburden rebalance
+Overburden rebalance.
 Basic unit tests for reloading.
-Rebalance item handling costs
-Window with bars will be frame with bars after hitting
-Make bio_fingerhack a passive bionic
-Add token power drain to fingerhack use.
-Move obsolete sawn-down weapons to obsolete.json
-Reduce skill bonuses for holsters
-Adds "PLAYER_CLOSE" to giant cellar spider triggers
-Bring bite inline with melee attack logic
-Rationalise ammo.json
-Normalize gunmods
-Giant rattlesnake and giant cellar spider changes
-NPC AI update + cleanup
-Allow gunmods to consume less (or no) volume when installed
-Made it harder to get inside electronics shop
-Rework mushrooms
-Adds batch crafting variable to lye recipe.
-Some changes to recipes and qualities
-Remove duplicates
-Allow mounting leather and makeshift funnels on a vehicle
-Normalize factory 22 ammo
-Rebalance martial arts a bit
-Simplify acid bomb
-Adds BLIND_EASY flags to makeshift sling/swag bag & improves grammar
-Nerf "magical" battery storage options
-Adjust magazine spawns (part 2)
-Only consume_charges() for tools and comestibles
-Make Wyrmskin Armor Repairable Again.
-Gives level one prying quality to dive knife.
-Acid update - rebalance fields, acid zeds, add backgrounds for acid tiles
-change legpouch_large coverage from 150 to 15
-Drop excessive pierce from 9mmP2
-Allow monsters to hit-and-run and poison other monsters
-Metabolism: hunger rate and body temperature
-Normalize gunmods and add to itemgroups
-Gives accessories slot to STEN.
-Item repair rebalance and modifications
-Only apply flag to items with detachable magazines
-Ally zombies and robots with arthropods
-Moderate mutation rebalance (just JSONs)
-Survivor Zombies Nerf
-Makes BLECH properly nasty.
-Make the anti-materiel turret more sniperish
-Guns in gunstores spawn with magazines
-Increase magazine spawns
-Arrows recipe balance
-NPC ranged combat general update
-Add further magazine spawns
-Adjust zombie solider drops
-Buff corpse smashing, nerf butchery
-Music morale nerf
-Convert more guns to use magazines
-Normalize and balance 40 and 32 ammo
-Make fire truck's wheels balanced
-Remove car muffler from filter mask recipe.
-bio_meteorologist description change
-Overhaul cop drops
-Rebalance armor jsons
-Radiation balancing
-Uncraft car parts and misc tools
-Adds magazines to LMOE and mansion starts
-Rework more survivor items
-Fire station built from brick
-Drop more legacy item groups and add magazines
-Helmet netting becomes obsolete
-Rework more tool groups
-Update 44 reloaded ammo to match base
-Adjust torch description to not explicitly say gasoline.
-Set default for addiction_type in comestibles
-Remove UPS component from UPS battery mod
-Add alternative magazines
-Add more magazine drops for milspec weapons
-Drop stash_ammo item group
-Drop unused item groups (guns/ammo)
-Rebalance flintlock weapons
-Remove default entries from comestibles part 1
-Vehicle part weight/efficiency adjustments
-Remove default entries from comestibles part 2
-Add flags to SKS
-Add weight and volume of default magazine
-Drop remaining ues of tools and bigtools
-Reduce recoil penalty during burst fire
-Drop charge rifle
-Remove default entries from comestibles part 3
-Fuel balancing (part 1)
-Add plural names for ammunition
-Remove default entries from comestibles part 5
-Update some materials in comestibles
-Necropolis mapgen -> general mapgen. Part 2.
-Necropolis mapgen fixes
-Adrenaline rebalance
-Add inaccuracy penalty whilst driving
-Make rain drenching slower, harder to completely avoid
-Remove null material entries from monster types.
-Improve garage doors behavior
-Increase amount of 7.62x39 ammo
-JSONize gates
-Removed some unnecessarily entries from comestibles in chemicals_and_resources
-Reduce duplication of JSON guns
-Support derived ammo types
-Moremoremore tool.json stuff
-Moremore tool.json stuff
-More tool.json stuff
-Remove "ammo": "NULL" from tools.json
-Moremoremoremore tools.json stuff
-Remove all mentions of iaijutsu
-Remove entries from tool_armor
-Update some comestibles
-Update the screwdriver part difficulty and descriptions used in vehicle part removal.
-Adjusted weight of AKs
-NPC trade/reward fixes
-Remove "phase" : "solid" from json files
-Remove "bashing_protection" from armor.json
-Remove unused variable music_id
-Overhaul distillation and use of alcohols
-Move dehydrated foods to DRY and normalize
-added name_plural to cotton balls
-Rephrase activity description
-Remove music cd from spawn list
-Slight concrete mixer description change
-Capitalize some keybinding names (to match all other names)
-Necropolis mapgen -> general mapgen. Part 3.
-Add more encumbrance for Footwear
-Move nomex patch and fertilizer from melee.json to generic.json
-Finish migrating meds
-migration: melee.json to generic.json
-Expunge vermin
-Reworked 5 houses for better style consistency
-tutorial: add uzimag to go along with uzi and ammo
-JSONize NPC talk tags
-Normalize spice stack sizes
-Finish deleting "ammo": "NULL" from jsons
-Rename Kel-Tec SUB-200 to Kel-Tec SUB-2000
-Ensure acetylene torch spawns with ammo
-defense: add gun magazine support
-Finish deleting "to_hit": 0 from jsons
-Remove default max and initial charges values from rest of jsons
-Brewing rework
-Finish removing "charges_per_use": 0 and "turns_per_charge": 0 from jsons
-Turn toolbox into a truly versatile tool
-Change some little things in comestibles folder
-Adjust loot generation rate
-Make skill functions in player and character consistent
-Less duplicated gates
-Ignore checks for zombies to pulp if the NPC is boarded
-Minor changes to zombie children
-Improved survivor weapons
-Mission value rescaling
-Fungal Zombies can see
-Rebalance fear_paralaze to prevent infinite moves drain
-Nerf some armors
-Fix hallucination not kicking in if duration is too high
-Redesign bionics lab room to fix computer successful hack
-Limit turret to its actual range
-Firearm Damage Modifier Rebalance
-Make missed ranged attacks miss more realistically
-Add Hammer to toolbox recipe
-Fix oxyacetylene torch spawns
-Add speed_name for fungus effect.
-Add raw offal to haggis recipe
-Remove meat from haggis recipe
-Make rope wearable
-Remove bananas from juice recipe
-Add canned corn to corn including recipes
-Make tongs more generic
-Changes to cooking oil/lard/tallow.
-Add missing garage door control.
-Actualize the mission description (vitamins -> multivitamin pills)
-Increase stethoscope spawn in vet clinic
-Minor spelling fixes on tools descriptions
-Extend vitamins implementation
-Correct fusion blaster CBM description
-Scorched zombie child name/color change
-Adds lifting capacity to Cantilevers description
-Brings 4.6mm reloading recipe into alignment with actual result.
-set autolearn to false for 54 deconstruction-only recipes
-Update to keffiyeh recipe
-Add "makeshift_kevlar" to recipes that include the kevlar vests
-Cooked offal and recipe.
-Revised the description of traps.
-Update guns and ammo
-Fix hamburger helper recipe
-Sync some bullet recipes to their ammo count
-remove recoil modifier from bayonets
-Rework nailguns
-added sheathable to bokken
-Adjust meat, vegg, and fruit nutrition
-fix secubot description
-Bleeding also causes anaemia
-Separate harm from sunlight to eyes and skin to albino characters
-fix SCAR-H description
-Remove test whiskey and test glass bottle
-Change 'Adrenaline injector' to 'syringe of adrenaline'
-Reworded the .22 cartridge description
-Rm99 migration
-Fix methcola recipe
-fix triple barrel grenade launcher description
-Add recipe to dilute concentrated peroxide
-Restored the 44fmj item description
-Add toolset to tailors kit and some armor recipe tools
-Add trader avoid flag to broken robots, lit smoking things, and broken/trash items
-Sync handloaded 9x18mm +P+ recipe to ammo count
-fix reloaded 7.62x39mm M67 name
-Add craft blind hard flag to torch
-Driving and traction rebalance
-Add trader avoid flag to some lit items
-Strip nonsensically allowing staffs and tonfa for niten.
-Change chisel requirement to CHISEL quality requirement
-Small rework to repair nanobots CBM
-Cosmetic_changes_deconstruction_Tools
-Warmth fix for lowtop shoes.
-Fix recipes jar r3
-Removed the rail rifles again after rebase bug
-Added a burst mode
-Changes to item repair training
-Jsonize mutation armor
-Change more guns to use magazines
-Updated 7.62x25 guns and ammo
+Rebalance item handling costs.
+Bring bite inline with melee attack logic.
+Allow gunmods to consume less (or no) volume when installed.
+Nerf "magical" battery storage options.
+Only consume_charges() for tools and comestibles.
+Acid update - rebalance fields, acid zeds, add backgrounds for acid tiles.
+Allow monsters to hit-and-run and poison other monsters.
+Metabolism: hunger rate and body temperature.
+Ally zombies and robots with arthropods.
+Guns in gunstores spawn with magazines.
+Buff corpse smashing, nerf butchery.
+Overhaul Radiation balance, it's now much more chronic in nature.
+Set default for addiction_type in comestibles.
+Reduce recoil penalty during burst fire.
+Overhauled Adrenaline effect.  Replaced speed and stat boost with temporary pain immunity.
+Add inaccuracy penalty whilst driving.
+Make rain drenching slower, harder to completely avoid.
+Improve garage doors behavior.
+Overhaul distillation and use of alcohols by widening the gap between drinkable and refined alchohol.
+Expunge vermin.
+Make crafting of brewed/fermented items more realistic and involved.
+Turn toolbox into a truly versatile tool.
+Ignore checks for zombies to pulp if the NPC is boarded.
+Fungal Zombies can see.
+Rebalance fear_paralaze to prevent infinite moves drain.
+Fix hallucination not kicking in if duration is too high.
+Redesign bionics lab room to fix computer successful hack.
+Limit turret to its actual range.
+Make missed ranged attacks miss more realistically.
+Adds lifting capacity to Cantilevers description.
+Add "makeshift_kevlar" to recipes that include the kevlar vests.
+Bleeding also causes anaemia.
+Change chisel requirement to CHISEL quality requirement.
 Remove memorization of recipes from reading books.
-Revise improved iron sights
-Add light bulb and car headlight items - take two
-Prohibit butchering on certain terrain/furniture
-Rebalance wood burning and stoves
-Improvements for squeamish trait - take two
-Added range: 1 to the M1014 and removed some descriptive text.
-Can, jar and bucket fixes and updates
-Partial fix for plutonium reload
-Fix some recipe welder charges
-Add TRADER_AVOID flag to more things in generic
-Fix beltfeed recipe
-Fix error in vitamin rate calculation
-Change qiang to subcategory CSC_WEAPON_PIERCING
-M14 EBR has plastic stock
-Remove 10x multiplier on bio_ups power
-Add trader avoid flag to on or activated things in tools json
-Fix 40 mm belts & .50 caliber rifle
-Adjusted the aim_speed of the 3006 bolt-actions
-Nerf Sensory Dulling
-Remove VARSIZE from elbow pads.
-Updated Mosin
-Add a guaranteed science ID in lab finale
-Make tails prevent wearing non-fabric pants
-More realistic diesel recipe
-Sewage now contains actual sewage
-Scenario flag fix.
-don't allow craft diesel over nearby fire due to long crafting time
-Make leukocyte bionic toggled
-Fix incorrect recipes
-Addiction update
-Remove strawberry surprise and boozeberry from spawns
-Disallow tainted veggy as mutagen crafting component for lore reasons
-Prevent fusion rifle from accepting certain mods
-Codeine and heroin now can suppress cough
-Prevent cable bionic from draining power when full
-Make methacola junk food instead of glass
-Trivival fix for NPC quest
-Remove skewers from smoked meats
-Rework firestarter and extended firestarter
-Flares
-Leather Vests from Jackets return leather scraps
-Manhacks dont drop combat knives
+Nerf Sensory Dulling.
+More realistic diesel recipe.
+Evened out addiction witdrawal but made it longer.
+Prevent cable bionic from draining power when full.
+Rework firestarter and extended firestarter.
 Fix 145 items spawning in a house
-Added to spawn advanced reaper and planter
-Nerf Scoundrel and Gangster professions
-More smoke and field balancing
-Water to acid recipe revision.
-Change some default options
-Reduce no. of rags gained from deconstructing/smashing beds
-Standardise handloading recipes
-Add glare protection 1 to survivor masks
-Increase 2-by-shin guard encumbrance
-Derive vehicle part hp from base item
-Fixes inconsistent powdered egg usage.
-Removes fluid sacs as an ingredient from dehydrated veggies.
-Item electricity resistance changes #2
-Prevent laser pistol from accepting certain mods
-Lab end loot rebalance.
-Add no salvage flag to splinter
-Obsolete wooden skewer
-Improve ammo belts
-Changes to Bionic Sniper and Bionic Soldier
-Some ratio changes to welder and oxy_torch charges
-Adjust multi-pool defaults
-Update Evac Center
-Added '40sw' ammo to pistol bandolier
+Standardise handloading recipes.
+Derive vehicle part hp from base item.
+Adjust multi-pool defaults.
 Fungus and aberration monsters now also drop filthy clothes.
-Add EATEN_HOT to fast-food French fries
-Give bio_gills non-water use - stamina regen buff
-Remove unreasonable contain flag from glass
-Soda can stove kit capacity increase to match fuel charges
-Lower vehicle scoop power drain
-Make rehydration recipes blind craftable
-add OVERSIZE flag to canteens
-Ice Axe can be Clipped
-Brazier item/crafting rebalance
-Integrated Toolset Butcher value.
-Rework coal/hydrogen requirements for diamondstuff.
-Storage for Juvenile Delinquent and Dodgeball Player professions
-make the m320 launcher as gunmod have the same flags as the standalone weapon
-Added no necro flag to broken cyborg.
 Adds few missing cancels mutations.
-Change to-hit bonuses for knives
-Rebalance existing profession/scenarios.
-Brutes evolve sooner
-Update evac_center.json
-Sleeveless Survivor recipe fixes.
 Updated the plant mutations to give some encumberance that makes sense.
 Allow Steel Jerrycans to be used as vehicle tanks.
-Remove Coldblooded from Bird mutation category
 Forklift gets lifting and jack capabilities. Half of the boom crane.
 Medium storage battery 700 -> 7000
-More blindfold recipes
 Allow camera(_pro) for security camera crafting.
-Psychopath and Pacifist cancel each other
-Grant Medium-sized robots avoid_trap 1
-Delete Optical Dampers bionic from professions.
-Foot pedal power increase
-Tank drone and survivor zombie death drops
-Make clearing rubble an activity
-Telescopic Eyes prevents visual impairment from traits
-Make stethoscopes wearable.
-remove container from bed
-Adds Boxer profession to Infected and Burning Building scenarios
-Rebalance aiming and skill training
-Make meditating an activity
-Increase soap spawn
-Resized standard SCAR-H magazines to match reality
-Charcoal yield/demand changes
-Add lead to deconstruction recipe of Excercise Machines
-Electric engine and alternator adjustments
-Capitalize all mod titles
-Double the number of survivor's notes
-Reduce cell phone volume to 250 mL
-Grant Boomers PathAvoid1
-20x66mm pistol enhancement.
-Fixes for 8x40mm sniper rifle.
-Make the robe outerwear
-Make NPCs escape onto tiles with weaker fields
-Allows travois and light wooden frame to use rope to installing parts
-Misc. Fixes and Re-balance of professions.
-Pain nerf
-Made fur a "soft" material
-Removes magazine_well from RM228 PDW.
-Simplify fish baits
-7.62x25mm gun updates
-Flintlocks changes and additions
-Updated Colt 1860s
-Increase price of Kel-Tec SUB-2000
-Added "MOUNTABLE", to small and medium boulders
-Added missing items to itemgroup
-Weight fix for M134D-H.
-Honey, I shrunk the Makarov
-Adjust crafting quantities of dehydrated meat, canned meat
-Aluminum and copper utility expansions, attempt 2
-Changing welding googles recipe skill requirements
-Change 'forest trash' group to drop 'opened plastic cup'
-Reduce amount of glass required for crafting 3L glass jar
-Smoked/salted meat changes, offal preservation
-Adds watertight/container tags to a few items
-Adds aluminum frames to solar vehicles
-Batteries are easier to remove
-Fix tool qualities
-New hit/dodge formula
-Pressurized
-Changed welding goggles recepie skill requirement after discussion with players
-Add milk AND egg requirement for pancakes
-Rebalances pepperbox, cap-and-ball ammunition
-Update basement_guns.json
-Unified item mods
-Make windbreakers consistent with light jackets and real life
-Added cartridges to conversion kits
-Add pathfinding for selected monsters
-Adds paper to fletching options
-Adds waterproof and rainproof to fur/leather cloaks
-Minor rewrite: Tokarev magazine
-Add museum to tourist guide
-Make handrolled cigs able to be disassembled
-Standardized copper jacket material usage
-Updated RPG-7
-Remove rock from makeshift shaving kit recipe
-Removed loudness field from integral shotgun mods
-Rewrites: 300 Weatherby
-Added antique guns to safe
-Added grip to AUG
-Rebalance blackpowder loads, expand recipe options
-Makes curved needle recipe non-reversible
+Grant Medium-sized robots avoid_trap 1.
+Make clearing rubble an activity.
+Telescopic Eyes prevents visual impairment from traits.
+Make meditating an activity.
+Make NPCs escape onto tiles with weaker fields.
+Nerfed rate at which penalties from pain accumulate.
+Added "MOUNTABLE", to small and medium boulders.
+Smoked/salted meat changes, offal preservation.
+Add pathfinding for selected monsters.
+Rebalance blackpowder loads, expand recipe options.
 Correct the spread of missed ranged attacks.
-Add tonfa(s) to Krav Maga martial art.
-Added more cartridges to bandolier
-Added PARTIAL_DEAF to powered armor
-Minor unarmed update (xp gain fix and damage bonus)
-No bang for BB
-Rebalanced BB gun, BB and .22 CB
-Changing vehicle jack stats across the board
-Add integrated bayonets to sks.
-Changes to Bionic Survivalist.
-Add spam to some recipes
-Change flask material
-Change fetlock furs from legwear to footwear
-Rebalanced combination shotgun gunmods
-Added BB spawn
-Add night vision from perception, fix flashlight exploit
-Rebalances shotgun slugs, description change
-Update Necropolis part 2
-Updated 7.62x25 guns+ammo
+Added PARTIAL_DEAF to powered armor.
+Add night vision from perception, fix flashlight exploit.
 Cap JACK requirements increased to 8000kg in constants.h.
-Adds container tags to makeshift pots (MST) and stone pots
-Adds storage to lumberjack
-Remove mx_special chance from refugee centers
-Update map extras
-Added 5.45x39 and missing ammo types to the 223 coversion kit
-Converted sword bayonet into a melee weapon
-Updated COP 38
-Reduce explosive weight for 'grenades' itemgroup
-Change nomad gear recipe
-Updated Some .22 and 38s
-Don't allow survivor to snuggle 0 warmth items
-Increase amount of wild herbs needed for herbal tea
-Give G80 necessary range
-Updated the sword bayonet recipe
-Changed the flintlock recipe
-Move and rebalance RC car & RC control
-Change Lead Battery Recipie
-Get rid of tourist extras
-Remove CARGO items from destroyed vehicle parts
-Increase Vehiclular Noises
-Remove telescopic eyes cbm from starting professions
-Buff regen mutations, nerf regen due to health stat
-Buffed 30x113 ammo belt capacity
-Add recoil for being hit
-Added copper to coilgun
-Craft one shotgun shell at a time
-Craft one 40mm shell at a time
-Removed duplicate gyroscopic stabilizer
-Craft one signal flare at a time
-Swap weight of survival cargo pants with its light version
-Rebalance of stone pots and tanning
-Remove "ammo_bullet_762x25" material (2)
-Added "soft" flag to neoprene to make it tail-compatible as per #19698
-G3 magazine: Changed steel mags to aluminum
-Change black powder recipe category
-Added inferior weapons to medieval swordsmanship martial art
-json/battery: swappable storage battery installed/removed to/from vehicle with no skill, in little time
-json/recipe_others: require "metal tank" instead of "steel jerrycan" for certain tools.
-Wooden Barrel should be cold forged
-Add a built-in thermometer to RM13 armor
-Remove Varsize on some items.
-Added MAG_BULKY to AKM extended magazine
-Decrease the number of military bunkers
-Remove bionic armor interface activation costs
-Buff chem sprayer reload
-Rebalance of cooking qualities for leavening bread
-Fix .40 S&W handloads
-A few additions on the using of petfood
-overmap: don't add zlaves to monster groups.
-Added brass and lead to many cartridges, pt. 1
-Added weight to plastic mold
-Buffed pipe combination gun shotgun
-Reduces warmth of filter mask
-Added honey ball to ant_food
-Updated pipe combination gun description
-Removes door frame requirement from door curtain
-Change 700NX recipe amount
-Change survival-oriented professions' clothing
-Weasel now tiny
-Melee damage while wearing filthy clothing may result in infection
+Buff regen mutations, nerf regen due to health stat.
+Add recoil for being hit, makes melee more dangerous for ranged characters.
+Swappable storage battery installed/removed to/from vehicle with no skill, in little time.
+Decrease the number of military bunkers.
+Melee damage while wearing filthy clothing may result in infection.
 Make Vending Machines harder to break into.
 Add power armor helmets to match existing spawns of power armor.
-Craft one 9x18 cartridge at a time
-Changes to basic repair kit
-Heal broken limbs gradually, not all at once
-Cutting up filthy clothes will yield filthy materials
-Disassembling filthy items yields filthy materials
-Add veil to bride profession
-Increase to horde interest with sound source and other small changes
-Time needed to wash an item now depends on its volume
-Remove strawberry and blueberry jams
-Changes armored car turret placement
-Removing bionics now require a tool with fine cutting quality
-Make target size affect ranged accuracy - take 2
-Craft one 46mm and 57mm at a time
-Forbid evac center mission route from having non-road tiles
-Spawn ammo in vending machines for home defense store
-Craft one 44 at a time
-Add copper to fmj pistol ammo
-Remove construction skill
-Craft one at a time for rest of pistol ammo.
-Makes flintlock gunpowder usage consistent again
-Rework wield times
-Allow cemetery specials to spawn in fields.
-added knife_hunting to knife lists
-Craft one .223 at a time
-Speed up RELOAD_AND_SHOOT
-Craft one 7.62x39 at a time
-Adds fur blankets to construction
-changed clog recipe to require more than can be salvaged
-Give sensible install/remove time for some vehicle parts
-Craft one .50 cal at a time
-Increased bottle jack JACK weight to 8000 kg (+500 kg)
-Make metal and other clay containers have BOIL quality
-Allow tainted tallow to be made with a charcoal smoker
-Knit Hat Reversible
-Add/change containers for some foods
-Give zapback zombies weak electric melee
-Craft one 5.45 at a time
-Replace "heating_standard" with "surface_heat"
-Craft one 30-06 at a time
-Finish craft one for rifle ammo
-Reload one .308 at a time
-Remove requirement for large power reserve just to turn on a part
-[Extended Realistic Guns] .45 long colt ammo: Changed steel to brass
-Update recipes\other\medical.json
-Make firefighter helmet more heat- and environment-resistant
-Rewrite throwing
-Addition of makeshift rope for select uses
-Allow boiling plain raw lasagna
-Adds leather to material list of heavy survivor suit
-Drop stereo power consumption to something resembling sanity.
-Converts church braziers from item to trap
-Bash shouldn't give better items than deconstruct now
-Remove battery charges from the handpress
-Sheath knives and fill quivers for rest of professions
-Standardizes and alters mining construction
-Stops roadblocks from spawning live zeds
+Heal broken limbs gradually, not all at once.
+Increase to horde interest with sound source.
+Time needed to wash an item now depends on its volume.
+Make target size affect ranged accuracy.
+Forbid evac center mission route from having non-road tiles.
+Remove construction skill.
+Craft one round at a time for handloaded ammunition.
+Give zapback zombies weak electric melee.
+Remove requirement for large power reserve just to turn on a part.
+Bash shouldn't give better items than deconstruct now.
+Stops roadblocks from spawning live zeds.
 Remove gasoline and disel from explosive recipes.
 Restore sum of errors based dispersion.
-Buff RM451 Flamethrower item spawn chance
-Add canned meat and canned fish to meat aspic recipe
-Nerf bullet explosion scaling
-Rebalances return of smashing foliage
-Debuff cloutie
-Curry and curry with meat nutrition balance
-Alterations to steel spear and other polearms
-Update spacing to gas stations ( allows larger cars )
-Changed the rifle in NC_SOLDIER_rifle from M1A to M14 EBR
-Added .300 Win to ammo_swat
-Added folding stock to MP7
-Renamed LW-30 to LW-32
-Added ammolinks to basement_survival
-Added better approximation for the weight of 7.62x25
-Changed the CW-24M to 6.54x42 ammo
-Strengthened the reinforced vending machine
-Reduces maximum beehives and anthills
-Renamed .44 FMJ to .44 Magnum FMJ
-Changes gambeson recipe access and material cost
-Changes to double-barrel flintlock
-Swapped backpack with MOLLE pack in NC_SOLDIER
-Newly recruited NPC engage close enemies only
-Nerf to tree yield
-Added a removable pistol stock to RM228 using "default_mods":
-Update weapon range for active RELOAD_AND_SHOOT ammo
-Rebalanced .500 S&W and .454 Casull cartridges
-Normalize move times in AIM
-Buffed flintlock carbine spawns in museum_guns
-Player needs to have painkiller effect on him to install bionics
-Replace chemistry set requirement in recipes to CHEM quality
+Newly recruited NPC engage close enemies only.
+Nerf to tree yield.
 Disallow batteries with a weight over 20000 from tool battery mod.
-Changes pack of firecrackers behavior
-Reduce noise from other z-levels
-Changed AF2011A1 to two-round burst only.
-Added sheet metal, nails, and wire to toolbox recipe
-Nerfed .357 Magnum ammo spawns
-More ways that can negate the check for painkillers when installing CBMs
-Removed plastic from materials of jumpsuit and xl jumpsuit
-Changes to Mediaval Swordsmanship counterattack
-Makeshift flotation vest
-Small martial arts fixes
-Make metabolic mutations more interesting
-Added trench knife to Pentjak Silat and Eskrima techniques
-Small fix for json (martial arts)
-Small fix for json (newspaper)
-Buffed M240 durability to 9
-Changed Barrett M107 into a weapons system
-Nerfed .357 Magnum P ammo to 20 count
-Allow disassembly of glass sheets into shards
-Home Improvement superstore itemgroup overhaul, part 1
-Removed OBSTACLE on cranes and UNMOUNT ON DAMAGE
-Added floor under makeshift bed in alternate farmhouse
-Changed USP .45 into Tactical model and removed "ranged_damage"
-Changed Lawnmower Weight
-Add CUT_FINE 1 to Pocket Knife
-Brought military armor naming in line with the rest of the platings
-Reduced bottlejack weight (12>7) + increased scissors (1.2>3)
-Anti-glare Compensators now can help with sun irritating albino's eyes
-Moved crossbows and bolts crafting over to fabrication
-Restored the old CW-24 30-round ammo capacity and buffed CW-24 extended magazine
-Change the empty canister material to steel
+Reduce noise from other z-levels.
+Make metabolic mutations more interesting.
 "No one is immune to fire"
-Added metal smoother to tools_construction
-Change batch craft xp gain formula to be more similar to individual
-Rare martial art books spawn
-Changed recipies to use filament group.
-Nerfed .50 BMG ball cartridge weight
-Halves power usage on optical_cloak
-Allow deconstruction of t_door_frame
-Fix 9mm and 7.62x25 uncraft recipes
-Add earplugs to multiple professions
-Stop infinite hickory nuts
-Remove kinetic bullet puller from paper cartridge uncraft recipe
-Allow placement of reinforced machines through place_vending and fix the low amount of spawned items
-Raised 2x4 ingredient req from 1 to 2 for some arrows
-Added gunsmith kit to tools_gunsmith itemgroup
-Drop Floodlight power drain to be in line with headlights.
-Simplify armor formula
-Fixed martial arts belts json
-Updated .50 BMG recoil to match kinetic energy.
-Removed rarity node from zweihander_inferior
-Add withered plant as a random underbush loot
-Make vibrators usable without batteries
-Reduced the craft time of the crowbar
-Make inwoods runs less bland
 Fix some tools recipes to match output item volume.
-Brass catcher catches ammo links
-Change chunk of chitin category
-Added vending machines to music store
-Added beekeeping gear to beehives
-Greatly reduced item spawn chance in churches
-Small updates to indoor terrain in hazardaous waste sarcophagus
-Reduced minimum occurrences of several overmap specials
-Improve mutation category calculation
-Require glare protection when using welder while building well_pump
-Returned back regular 'pot' to 'still' recipe
-Replaced bathtub in a living room of one of the houses with an armchair
-Stop stethoscope use from training mechanics
-Added copper pot to all recipes where pot is required
-Removed wood material from pine cone
-Remove mechanics requirement from the quern recipe
-Prying will no longer practice mechanics
-Radio rebalance
-make milk last 24 hours
-Dragging brazier requires 8 str
-Changed crafted suppressor's description
-Add some variability to vehicle battery levels & tire destruction
-add batch craft time modifiers to food processor recipes
-reduce improvised lockpick weight
-Get rid of special aisle curtain item
-Added CARGO flag and size to vehicle aisles
-Forbid understanding the messages on the signs for illiterate characters
-Reduced monster spawn in school
-Switched safety glasses to OUTER layer
-Replaced 7.62x39mm M43 with 57-N-231, buffing it
-Buffed kevlar vest and SWAT armor
-Buffed .22 CB recoil to 39
-Nerfed .38 Super to "damage": 27
-Make all woods soup recipes the same
-Raised time required to craft radio activation mod from 1 minute to 15 minutes
-Buffd 700nx damage
-Drawing own blood increases hunger and thirst and causes pain
-Autofire rebalance
-Made shopping carts' baskets unpassable
-Misc. 7.62x39mm fixes
-Swapped uncommon smgs for more common and added missing magazine spawn
-Added reload time reduction when reloading from bandoliers
-Chopping trees rework
-Decreased movement cost for moving through empty window
-Changed a couple bark drop rates.
-Add yarn to arrow crafting recipes
-Change knit scarf recipe components to cotton only
-Make firearm repair kit recipe reversible
-Make the dragon skin armor irreparable
-Changed direct usage of materials with corresponding requirements
-Modified ACR
-RM298 and RM614 magazine adjustments
-Added spoils_in value for raw_dandelion ("handful of dandelions" will now spoil)
-Haggis rebalance.
-Improved and rebalanced 30mm autocannon rounds and recipes in Tank mod
-Updated music store item spawns
-Changed recipe and description of the shotgun trap
-Drilling long action
-added charges-min and charges-max for cash_card in item groups
-Replace chop logs construction with long action
-Glazing and waterproofing requirements
-Clockworks weight change, pocketwatch recipe change.
-Added rebar cage spawns to basic concrete wall and removed rebar drops
-Buffed golden violin spawns further and changed violin case to armor
-Flip tanktop/undershirt coverages
-Caffeine items materials and addiction additions.
-Rebalancing of scrap suit
-Changed formula for character strength required to install something in a vehicle
-Expand usage of adhesive+cordage requirements, related fixes
-Extend use of rope_natural_short to part installation
-Prozac negative effect.
-downsize boxed foods to fit 1L
-Explosives, Shotgun shell crafting, and other explosives inconsistencies.
+Add some variability to vehicle battery levels & tire destruction.
+Chopping trees rework.
+Drilling long action.
+Replace chop logs construction with long action.
+Glazing and waterproofing requirements.
+Added rebar cage spawns to basic concrete wall and removed rebar drops.
+Changed formula for character strength required to install something in a vehicle.
 Don't retarget after killing selected target in a burst.
-add NONCONDUCTIVE flag to cestus
-Update components of vehicle parts available via their breaking
-Removed prepper house from starting locations
-NPCs capable of getting away from live/armed explosives
-BLECH items and acidproof
-add HELMET_COMPAT flag, allow one headgear at once
-increase large animal butcher returns
-Updated item spawns to spawn pickles jars instead of pickles
-Nerfed pneumatic weapon loudness and removed obsolete flag from PAR
-Double-barrelled shotgun trap drops DBS
-Rebalanced hacks' weight, volume and crafting recipes
-Reduce chances for finding a katana in the katana House
-Changed the number of loot items in bunkers
-Add sheet metal to display rack furniture.
-Remove mutation side effect from unsuccessful bionics installation
-Condiments/sandwich topping fix
-Added more comestibles to grocery store spawns
-Allow giving ranged weapons non-piercing damage, modify corrosive zed
-Add prices to cakes
-Use concrete floors rather than pavement in cathedral basement
-Poppy flowers react less often during rain.
-Add material field to teas
-Add new "CLIMB_SIMPLE" flag
-Adds a speedloader to item groups and rename it
-Allow Survivor [Utility] Belt to sheathe small knifes
-Allow chestrig to store small magazines
-Buffed animals' morale gain if the player has Animal Empathy
-Changed Shaolin Tiger style scaling to no longer include 3x (up to 24x) perception.
-Improved helicopter special, rifle_milspec, and launcher spawns.
-Changing creatures critical damage multipliers on gun hit
-Add recipes for scoop, planter, reaper and plow to "Mechanical Mastery".
-Stop indoor plants from blocking vision
-Resolves #23508 - change ember carrier (lit) to steel
-Restored the old launcher spawn chances to the helicopter itemgroup
-Rural rework, making parks, ponds, and lakes more common
-Added DEFAULT low auto 50 firemode to m134 and renamed auto 100 firemode
-Kill 100 Zombies quest now require killing 100 monsters from a ZOMBIE species, and not only ordinary mon_zombie
-Implemented ANVIL tool quality and added items and recipes to use it
-Fixed post office safes being unlocked
-Rebalanced cotton weights
-Remove move cost from counters
-Don't use a muffler for gas mask recipes
-Can't dodge while sleeping
-Added THIN_OBSTACLE to more appropriate terrains
-Added some of mugling's suppressor buffs and buffed compact_suppressor
-Added folding stocks to several guns and updated their weights
-Rebalanced Holsters & Pouches
-Ranged weapon rebalance
-Reduce recharge station passive drain.
-Reduced Necropolis zombie spawns
-40mm automatics: Rebalanced around 1 second of automatic fire
-Dog Whistle Affects More Dogs
-Increased dispersion per weapon malfunction value to 30
-Fix & rebalance disinfectant soaked rags & balls
-Flipped the doc office facing
-Allowed wearing unfitted chainmail armor with unencumbered head
-Decapitalized lobster and crayfish
-Knit items no longer require knitting needles to disassemble
-Refitted clothing disassembles into refitted components
-Don't auto pulp acidic zombies in corpse piles.
-allow unpacked M72 LAW to take a shoulder strap
-Revised engines' weights and volume
-Marloss berry satiate and bliss effects no longer cause vomiting
-Add reload_noise_volume to ranged weapons
-Make tacos less salty
-Make the packed and unpacked LAW more similar
-Update potato chips recipe
-Add a leather kilt as an alternative for Skalds with wool allergy.
-Update a few more recipes with requirements
-Fences deconstructable
-Add multi_cooker
-Changing skilled shooter with accurate rifle test
-Forward grip for KSG and other shotguns with pump-rail
-Make more items remote activatable
-Remove "GOODHEARING" from Gigantic Naked Mole-rats
-wild_herbs + 1 herb in description
-Time to fix unbalanced weapons, like SPEAR_KNIFE
-Allowed use of CBMs in the pickup range
-Add bike basket recipe, and overhaul baskets in general - fix #23949
-Drop a few bricks from brick walls - see #21431
-Asthma attacks occur less frequently during sleep
-Zombies cannot bite without grabbing
-Reduces crafting time of rolling paper to match production
-Forked Spears have 'FRAGILE_MELEE' tag
-Makes shotguns shorter range and less accurate
-Components of a weapons now impact durability, fragile weapons last twice as long and may drop crafting components when broken
-Chloromorphosis mutation works in more types of weather, but only outside, and only at or above a certain light level
-Skeleton armor increased by 50%, skeletons slower and harder to shoot. Adds Skeletal Juggernaut
-Change long stick deconstruction recipe to not require cutting tool
-Remove junk from plain popcorn
-Acorn meal decay time fix and recipe change
-Replace instant healing with slow healing effects
-LeadWorks guns rework
-Corrected dispersion of few Rivtech shotguns
-Updated Atomic nightlight vehicle description
-Make shaving/haircut interruptible
-More Complete and Rebalanced Vitamins
-Rescaled skill dependent ranged dispersion
-Automatically balance lab finales against each other
-Arrow/Bolt changes
-Bow/crossbow re-balance
-Anesthesia spawns in stacks of 3
-Move stillsuit's effects to JSON flags
-Improve place_nested: Fuzzy neighbor matching and an else option
-Move worn climate control to a JSON flag
-LeadWorks underslung shotgun now has master key stats
-Skill based stability restoring for RELOAD_AND_SHOOT weapons
-Consistent techniques
-Different skill checks for different methods of installing bionics
-Zero sight range for narcosis effect
-Reduces the spawn rate of Antique Adornments
-Home mechanic profession rework
-Only despawn hostile turrets when using cardreaders
-Mycus Identity gives a speed boost to walking over fungal tiles, and prevents them from slowing you
-Removes the survival requirement from the knife spear recipe, and makes it take longer
-Edit healing items to better reflect new healing mechanics.
-Antibiotic overhaul - slow-acting antibiotics, and adds Atreyupan, a weak antibiotic
-Changes some Autodoc messages and makes it usable without anesthesia by Deadened mutants or Sensory Dulling cyborgs
-Give the survivor firemask glare protection
-Fixes unwinnable lab death trap
-Makeshift glaive has nonconductive wooden handle
-Balance rusting of iron items
-Uninstall returns the bionic module
-Fragmentation overhaul
-Requirements with tools and components
-Hunger and starvation improvements
-Added chair and bench as possible sleeping spots
+NPCs capable of getting away from live/armed explosives.
+Remove mutation side effect from unsuccessful bionics installation.
+Allow giving ranged weapons non-piercing damage, modify corrosive zed.
+Add new "CLIMB_SIMPLE" flag.
+Kill 100 Zombies quest now require killing 100 monsters from a ZOMBIE species, and not only ordinary mon_zombie.
+Ranged weapon rebalance.
+Applied new FRAGILE_MELEE flag to a number of improvised weapons.
+Zombies cannot bite without grabbing.
+Skeleton armor increased by 50%, skeletons slower and harder to shoot. Adds Skeletal Juggernaut.
+Replace instant healing with slow healing effects.
+More Complete and Rebalanced Vitamins.
+Antibiotic overhaul - slow-acting antibiotics, and adds Atreyupan, a weak antibiotic.
+Changes some Autodoc messages and makes it usable without anesthesia by Deadened mutants or Sensory Dulling cyborgs.
+Balance rusting of iron items (essentially eliminate it unless the item is left soaking in water for a long time).
+Overhaul fragmentation explosives to project a deadly field of fragments instead of a few random ones.
 Make ice labs ~10% of all labs, not 50%. Ensure 1+ lab per overmap.
-Added volume to bikini tops and hot pants
-Rebalances "High Tech, Low Life" start. (guarantees autodoc and more)
-Fix the drop rate of Pork and Beans
-Adds SHEATH_SPEAR flag to additional weapons
-Simplify work pants and work t-shirts
-Adjust FRAG effect explosion distance factor
-Tremendously armors the 60" roller drum
-Placing planks over the pit and removing planks from the pit will now consume time
-Buffs .50 BMG damage
-Fixed nail count in coat rack
-Makes the prime mutations give a bonus to gradual bonus to stats < 15.
-Replace utility lights with overhead lights, revise light probability.
-Replaced palisade with log wall in two vacant houses
-Make mining less tedious
-Reduced shelf life of Scrambled Eggs
-Make knit hat helmet compatible.
-Use long stick for polearms with wooden handles
-7.62x51mm ammo creates 7.62x51mm casings
-Cyberjunkie starting items and skills fix
-set armor category on ornamental plate armor
-Lab dead-end improvements, mostly getting rid of blue floors
 Make portals unavoidably teleport you.
-food recipes: add large_stomach to haggis ingredients
-Make nailboard traps craftable from nailboards
-Removed ability of losing existing CBMs due installation fails
-Less requirements for full butchery of small game
-Vary horde speed based on monsters in horde
-Rebalancing military vehicle weapons
-bundling rags takes less time
-obsolete impossible gunmods
-Reduced craft time of construction materials
-Trailer park monster spawn nerf
-Buff fake mace and morningstar
-Increased tankdrone ammo reserves
+Removed ability of losing existing CBMs due installation fails.
+Vary horde speed based on monsters in horde.
+Obsolete impossible gunmods.
 
 ## Bugfixes:
 
@@ -1799,6 +1038,7 @@ Hallucinations don't reset limb healing.
 Fix saving character templates.
 Fix for schizophrenic NPCs effecting players.
 Stop NPCs from leaving the vehicle due to smoke while in vehicle.
+Remove CARGO items from destroyed vehicle parts.
 Test and fix zapback.
 Prevents character from waking up from lack of fatigue or noise while under the effect of narcosis.
 Fix placement of overmap specials with city size 0.
@@ -1909,6 +1149,7 @@ Convert lab_notes and hints to use the snippet system.
 Item burning code rewrite, exploding magazines.
 Jsonize NPC class stat bonuses.
 Spot checker for FoV scenarios.
+JSONize NPC talk tags.
 Wrap file reading into utility functions.
 Units wrapper class for volume.
 Adding a call to add per-minute LUA callback.
@@ -1932,7 +1173,9 @@ Display float options in the correct decimal format.
 Ranged balance unit test.
 Use a wider type for symbols.
 Json formatter.
+Jsonize mutation armor.
 Mapgen palettes.
+Changed recipies to use filament group.
 Use variadic template functions instead of plain C-like variadic function arguments.
 Move class map_item_stack into separate header and source files.
 Load only base_colors file when it is available.
