@@ -765,15 +765,16 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = part_vpower_w( engines[e], true );
+    const int engine_power = abs( part_epower_w( engines[e] ) );
     const double cold_factor = engine_cold_factor( e );
+    const int start_moves = engine_start_time( e );
 
     if( einfo.engine_backfire_threshold() ) {
         if( ( 1 - dmg ) < einfo.engine_backfire_threshold() && one_in( einfo.engine_backfire_freq() ) ) {
             backfire( e );
         } else {
             const tripoint pos = global_part_pos3( engines[e] );
-            sounds::ambient_sound( pos, engine_start_time( e ) / 10, "" );
+            sounds::ambient_sound( pos, start_moves / 10, "" );
         }
     }
 
@@ -789,8 +790,9 @@ bool vehicle::start_engine( const int e )
             add_msg( _( "The %s makes a single clicking sound." ), eng.name() );
             return false;
         }
-        const int start_draw_bat = power_to_energy_bat( engine_power * ( 1.0 + dmg / 2 + cold_factor / 5 ) /
-                                   3, 6 * to_turns<int>( 1_turns ) );
+        const int start_draw_bat = power_to_energy_bat( engine_power *
+                                   ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
+                                   TICKS_TO_SECONDS( start_moves ) );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
             add_msg( _( "The %s makes a rapid clicking sound." ), eng.name() );
             return false;
