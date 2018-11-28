@@ -1,10 +1,19 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_rm2000",
+    "entries": [
+      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
+      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
+    ]
+  },
+  {
     "type": "profession",
     "ident": "bio_specops",
     "name": "Bionic Spec-Op",
     "description": "Once bionic augmentation proved safe, you were choosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancememts allow you to handle any combat scenario be it human or not.",
-    "points": 12,
+    "points": 10,
     "CBMs": [
       "bio_targeting",
       "bio_purifier",
@@ -20,9 +29,10 @@
     ],
     "skills": [
       { "level": 3, "name": "gun" },
-      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "smg" },
       { "level": 2, "name": "pistol" },
       { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
       { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "dodge" }
     ],
@@ -35,7 +45,7 @@
           "gloves_liner",
           "leg_warmers",
           "socks",
-          "beret",
+          "tac_helmet",
           "gloves_tactical",
           "pants_army",
           "boots_combat",
@@ -44,13 +54,21 @@
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "v29", "container-item": "sholster" },
-          { "item": "rm51_assault_rifle", "ammo-item": "8mm_fmj", "charges": 50, "contents-item": "shoulder_strap" },
-          { "item": "8mm_fmj", "charges": 50 }
+          {
+            "item": "rm2000_smg",
+            "ammo-item": "8mm_fmj",
+            "charges": 25,
+            "contents-item": [ "shoulder_strap", "suppressor", "holo_sight" ]
+          },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "legpouch_large", "contents-group": "army_mags_rm2000" },
+          { "item": "legpouch_large", "contents-group": "army_mags_rm2000" }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -318,12 +336,12 @@
     ],
     "skills": [
       { "level": 3, "name": "melee" },
-      { "level": 3, "name": "unarmed" },
       { "level": 3, "name": "gun" },
-      { "level": 3, "name": "smg" },
+      { "level": 2, "name": "smg" },
       { "level": 2, "name": "pistol" },
       { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "cutting" },
+      { "level": 2, "name": "unarmed" },
       { "level": 1, "name": "driving" }
     ],
     "items": {
@@ -339,7 +357,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
