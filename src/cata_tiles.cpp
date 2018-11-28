@@ -1153,7 +1153,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             int height_3d = 0;
             if( iso_mode ) {
                 //Iso_mode skips in a checkerboard
-                if( ( y + o_y ) % 2 != ( x + o_x ) % 2 ) {
+                if( ( y ) % 2 != ( x ) % 2 ) {
                     continue;
                 }
                 //iso_mode does weird things to x and y... replicate that
