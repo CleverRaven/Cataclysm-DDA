@@ -67,6 +67,21 @@
     "components": [ [ [ "hard_liquor_chem", 1, "LIST" ], [ "denat_alcohol", 125 ] ] ]
   },
   {
+    "id": "seasoning_mild",
+    "type": "requirement",
+    "//": "Non-salt seasonings you might add to a dish to flavor it. Should be about a teaspoon, or smallest serving",
+    "components": [
+      [
+        [ "pepper", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "seasoning_italian", 1 ],
+        [ "wild_herbs", 1 ],
+        [ "soy_sauce", 1 ],
+        [ "garlic_clove", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "sweet_fruit_fresh",
     "type": "requirement",
     "//": "Sweet, unprocessed fruit, roughly by mass.",
