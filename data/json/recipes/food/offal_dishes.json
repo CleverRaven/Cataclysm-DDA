@@ -33,17 +33,10 @@
     "components": [
       [ [ "liver", 3 ] ],
       [ [ "cooking_oil", 1 ] ],
-      [ [ "milk", 1 ] ],
+      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
-      [
-        [ "seasoning_italian", 1 ],
-        [ "wild_herbs", 1 ],
-        [ "pepper", 1 ],
-        [ "garlic_clove", 1 ],
-        [ "chilly-p", 1 ],
-        [ "curry_powder", 1 ]
-      ]
+      [ [ "seasoning_mild", 1, "LIST" ], [ "chilly-p", 1 ], [ "curry_powder", 1 ] ]
     ]
   },
   {
@@ -93,7 +86,24 @@
       [ [ "onion", 1 ] ],
       [ [ "flour", 2 ] ],
       [ [ "salt", 3 ] ],
-      [ [ "milk", 2 ] ]
+      [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "fried_brain",
+    "category": "CC_FOOD",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 25000,
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1} ],
+    "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
+    "components": [
+      [ [ "brain", 2 ] ],
+      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "batter", 3, "LIST" ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "seasoning_mild", 4, "LIST" ] ]
     ]
   }
 ]
