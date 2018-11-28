@@ -9115,17 +9115,15 @@ void add_disassemblables( uilist &menu, map_stack &items,
 void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int corpse = -1 )
 {
     auto cut_time = [&]( enum butcher_type bt ) {
+        int time_to_cut = 0;
         if( corpse != -1 ) {
-            return to_string_clipped( time_duration::from_turns( butcher_time_to_cut( g->u,
-                                      items[corpses[corpse]],
-                                      bt ) / 100 ) );
+            time_to_cut = butcher_time_to_cut( g->u, items[corpses[corpse]], bt );
         } else {
-            int time_to_cut = 0;
             for( int i : corpses ) {
                 time_to_cut += butcher_time_to_cut( g->u, items[corpses[i]], bt );
             }
-            return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
         }
+        return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
     };
     uilist smenu;
     smenu.desc_enabled = true;
