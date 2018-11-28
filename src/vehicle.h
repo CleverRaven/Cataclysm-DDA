@@ -40,6 +40,8 @@ class window;
 namespace vehicles
 {
 extern point cardinal_d[5];
+// ratio of constant rolling resistance to the part that varies with velocity
+constexpr double rolling_constant_to_variable = 33.33;
 }
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor( float delta_v );
@@ -110,6 +112,10 @@ struct bounding_box {
 
 char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
 
+int mps_to_vmiph( double mps );
+double vmiph_to_mps( int vmiph );
+int cmps_to_vmiph( int cmps );
+int vmiph_to_cmps( int vmiph );
 static constexpr float accel_g = 9.81f;
 
 /**
@@ -580,6 +586,7 @@ class vehicle
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
         int part_vpower_w( int index, bool at_full_hp = false ) const;
+        int part_vpower_vhp( int index, bool at_full_hp = false ) const;
 
         // get vpart epowerinfo for part number.
         int part_epower_w( int index ) const;
@@ -1014,7 +1021,8 @@ class vehicle
 
         // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted
-        int acceleration( bool fueled = true ) const;
+        int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        int current_acceleration( bool fueled = true ) const;
 
         // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted

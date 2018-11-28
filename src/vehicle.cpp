@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <complex>
 #include <cmath>
 #include <cstdlib>
 #include <numeric>
@@ -2774,36 +2775,105 @@ int vehicle::total_power_w( bool const fueled, bool const safe ) const
     return pwr;
 }
 
-int vehicle::acceleration( bool const fueled ) const
+int vehicle::acceleration( bool const fueled, int at_vel_in_vmi ) const
 {
-    if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
-        return safe_velocity( fueled ) * k_mass() / ( 1 + strain() ) / 10;
+    if( !( engine_on || skidding ) ) {
+        return 0;
+    }
+    int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000, max_velocity( fueled ) / 4 ) );
+    int cmps = vmiph_to_cmps( target_vmiph );
+    int engine_power_ratio = total_power_w( fueled ) / to_kilogram( total_mass() );
+    int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
+    add_msg( m_debug, "%s: accel at %d vimph is %d", name, target_vmiph,
+             cmps_to_vmiph( accel_at_vel ) );
+    return cmps_to_vmiph( accel_at_vel );
+}
 
-    } else if( ( has_engine_type( fuel_type_muscle, true ) ) ) {
-        //limit vehicle weight for muscle engines
-        const units::mass mass = total_mass() / 1000;
-        ///\EFFECT_STR caps vehicle weight for muscle engines
-        const units::mass move_mass = std::max( g->u.str_cur * 25_gram, 150_gram ) * 1000;
-        if( mass <= move_mass ) {
-            return static_cast<int>( safe_velocity( fueled ) * k_mass() / ( 1 + strain() ) / 10 );
+// cubic equation solution
+// don't use complex numbers unless necessary and it's usually not
+// see https://math.vanderbilt.edu/schectex/courses/cubic/ for the gory details
+double simple_cubic_solution( double a, double b, double c, double d )
+{
+    double p = -b / ( 3 * a );
+    double q = p * p * p + ( b * c - 3 * a * d ) / ( 6 * a * a );
+    double r = c / ( 3 * a );
+    double t = r - p * p;
+    double tricky_bit = q * q + t * t * t;
+    if( tricky_bit < 0 ) {
+        double cr = 1.0 / 3.0; // approximate the cube root of a complex number
+        std::complex<double> q_complex( q );
+        std::complex<double> tricky_complex( std::sqrt( std::complex<double>( tricky_bit ) ) );
+        std::complex<double> term1( std::pow( q_complex + tricky_complex, cr ) );
+        std::complex<double> term2( std::pow( q_complex - tricky_complex, cr ) );
+        std::complex<double> term_sum( term1 + term2 );
+
+        if( imag( term_sum ) < 2 ) {
+            return p + real( term_sum ) ;
         } else {
+            debugmsg( "cubic solution returned imaginary values" );
             return 0;
         }
     } else {
-        return 0;
+        double tricky_final = std::sqrt( tricky_bit );
+        double term1_part = q + tricky_final;
+        double term2_part = q - tricky_final;
+        double term1 = std::cbrt( term1_part );
+        double term2 = std::cbrt( term2_part );
+        return p + term1 + term2;
     }
 }
 
-// used to be engine power in 1/2HP * 80 is vmiph, so vmiph = watts / 373 * 80 == watts * 0.214
-static const double watts_to_vmiph = 0.2144772118;
-int vehicle::max_velocity( bool const fueled ) const
+int vehicle::current_acceleration( bool const fueled ) const
 {
-    return total_power_w( fueled ) * watts_to_vmiph;
+    return acceleration( fueled, std::abs( velocity ) );
 }
 
+// Ugly physics below:
+// maximum speed occurs when all available thrust is used to overcome air/rolling resistance
+// sigma F = 0 as we were taught in Engineering Mechanics 301
+// engine power is torque * rotation rate (in rads for simplicity)
+// torque / wheel radius = drive force at where the wheel meets the road
+// velocity is wheel radius * rotation rate (in rads for simplicity)
+// air resistance is -1/2 * air density * drag coeff * cross area * v^2
+//        and c_air_drag is -1/2 * air density * drag coeff * cross area
+// rolling resistance is mass * accel_g * rolling coeff * 0.000225 * ( 33.3 + v )
+//        and c_rolling_drag is mass * accel_g * rolling coeff * 0.000225
+//        and rolling_constant_to_variable is 33.3
+// or by formula:
+// max velocity occurs when F_drag = F_wheel
+// F_wheel = engine_power / rotation_rate / wheel_radius
+// velocity = rotation_rate * wheel_radius
+// F_wheel * velocity = engine_power * rotation_rate * wheel_radius / rotation_rate / wheel_radius
+// F_wheel * velocity = engine_power
+// F_wheel = engine_power / velocity
+// F_drag = F_air_drag + F_rolling_drag
+// F_air_drag = c_air_drag * velocity^2
+// F_rolling_drag = c_rolling_drag * velocity + rolling_constant_to_variable * c_rolling_drag
+// engine_power / v = c_air_drag * v^2 + c_rolling_drag * v + 33 * c_rolling_drag
+// c_air_drag * v^3 + c_rolling_drag * v^2 + c_rolling_drag * 33.3 * v - engine power = 0
+// solve for v with the simplified cubic equation solver
+// got it? quiz on Wednesday.
+int vehicle::max_velocity( bool const fueled ) const
+{
+    int total_engine_w = total_power_w( fueled );
+    double c_rolling_drag = coeff_rolling_drag();
+    double max_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
+                        c_rolling_drag * vehicles::rolling_constant_to_variable,
+                        -total_engine_w );
+    add_msg( m_debug, "%s: power %d, c_air %3.2f, c_rolling %3.2f, max_in_mps %3.2f",
+             name, total_engine_w, coeff_air_drag(), c_rolling_drag, max_in_mps );
+    return mps_to_vmiph( max_in_mps );
+}
+
+// the same physics as max_velocity, but with a smaller engine power
 int vehicle::safe_velocity( bool const fueled ) const
 {
-    return total_power_w( fueled, true ) * k_dynamics() * k_mass() * watts_to_vmiph;
+    int effective_engine_w = total_power_w( fueled, true );
+    double c_rolling_drag = coeff_rolling_drag();
+    double safe_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
+                         c_rolling_drag * vehicles::rolling_constant_to_variable,
+                         -effective_engine_w );
+    return mps_to_vmiph( safe_in_mps );
 }
 
 bool vehicle::do_environmental_effects()
@@ -3219,7 +3289,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
 
 int vehicle::drag() const
 {
-    return -extra_drag;
+    return extra_drag / 1000 + ( engine_on ? 0 : 300 );
 }
 
 float vehicle::strain() const
@@ -4047,6 +4117,14 @@ void vehicle::gain_moves()
             shed_loose_parts();
         }
         of_turn = 1 + of_turn_carry;
+        const int vslowdown = slowdown();
+        if( vslowdown > abs( velocity ) ) {
+            stop();
+        } else if( velocity < 0 ) {
+            velocity += vslowdown;
+        } else {
+            velocity -= vslowdown;
+        }
     } else {
         of_turn = 0;
     }

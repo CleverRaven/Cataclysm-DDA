@@ -1626,6 +1626,7 @@
     "difficulty": 1,
     "durability": 1000,
     "power": 223800,
+    "energy_consumption": 600000,
     "m2c": 65,
     "noise_factor": 5,
     "epower": -1,
