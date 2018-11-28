@@ -401,7 +401,8 @@
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
-          "mx_clearcut": 125
+          "mx_clearcut": 125,
+          "mx_pond": 125
         }
       },
       "forest_thick": {
@@ -424,7 +425,8 @@
           "mx_jabberwock": 1,
           "mx_grove": 500,
           "mx_shrubbery": 500,
-          "mx_clearcut": 125
+          "mx_clearcut": 125,
+          "mx_pond": 125
         }
       },
       "forest_water": {
@@ -445,7 +447,8 @@
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
-          "mx_clearcut": 125
+          "mx_clearcut": 125,
+          "mx_pond": 125
         }
       },
       "field": {
