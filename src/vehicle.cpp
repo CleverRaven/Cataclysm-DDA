@@ -726,11 +726,10 @@ int vehicle::part_epower_w( int const index ) const
     return e * parts[ index ].health_percent();
 }
 
-int vehicle::power_to_energy_bat( const int power_w, const time_duration t ) const
+int vehicle::power_to_energy_bat( const int power_w, const int t_seconds ) const
 {
     // Integrate constant epower (watts) over time to get units of battery energy
-    int seconds = static_cast<int>( to_minutes<double>( t ) * 60 );
-    int energy_j = power_w * seconds;
+    int energy_j = power_w * t_seconds;
     int energy_bat = energy_j / bat_energy_j;
     int sign = power_w >= 0 ? 1 : -1;
     // energy_bat remainder results in chance at additional charge/discharge
@@ -2836,7 +2835,7 @@ void vehicle::spew_smoke( double joules, int part, int density )
  * load = how hard the engines are working, from 0.0 until 1.0
  * time = how many seconds to generated smoke for
  */
-void vehicle::noise_and_smoke( double load, double time )
+void vehicle::noise_and_smoke( int load, time_duration time )
 {
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
     const std::array<std::string, 8> sound_msgs = {{
@@ -2866,7 +2865,7 @@ void vehicle::noise_and_smoke( double load, double time )
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = part_vpower_w( p, true );
             double max_stress = static_cast<double>( part_watts / 40000.0 );
-            double cur_stress = load * max_stress;
+            double cur_stress = load / 1000.0 * max_stress;
             double part_noise = cur_stress * part_info( p ).engine_noise_factor();
 
             if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
@@ -2877,7 +2876,7 @@ void vehicle::noise_and_smoke( double load, double time )
                 if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
                     backfire( e );
                 }
-                double j = cur_stress * time * muffle;
+                double j = cur_stress * 6 * to_turns<int>( time ) * muffle;
 
                 if( parts[ p ].base.faults.count( fault_filter_air ) ) {
                     bad_filter = true;
@@ -3139,46 +3138,43 @@ std::map<itype_id, int> vehicle::fuel_usage() const
     return ret;
 }
 
-float vehicle::drain_energy( const itype_id &ftype, float energy )
+double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 {
-    float drained = 0.0f;
+    double drained = 0.0f;
     for( auto &p : parts ) {
-        if( energy <= 0.0f ) {
+        if( energy_j <= 0.0f ) {
             break;
         }
 
-        float consumed = p.consume_energy( ftype, energy );
+        double consumed = p.consume_energy( ftype, energy_j );
         drained += consumed;
-        energy -= consumed;
+        energy_j -= consumed;
     }
 
     invalidate_mass();
     return drained;
 }
 
-void vehicle::consume_fuel( double load = 1.0 )
+void vehicle::consume_fuel( int load = 1000, const int t_seconds )
 {
-    float st = strain();
+    double st = strain();
     for( auto &fuel_pr : fuel_usage() ) {
         auto &ft = fuel_pr.first;
-        int amnt_fuel_use = fuel_pr.second;
 
-        // In kilojoules
-        double amnt_precise = double( amnt_fuel_use ) / 1000;
-        amnt_precise *= load * ( 1.0 + st * st * 100.0 );
+        double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
+        amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
         double remainder = fuel_remainder[ ft ];
-        amnt_precise -= remainder;
+        amnt_precise_j -= remainder;
 
-        if( amnt_precise > 0.0f ) {
-            fuel_remainder[ ft ] = drain_energy( ft, amnt_precise ) - amnt_precise;
+        if( amnt_precise_j > 0.0f ) {
+            fuel_remainder[ ft ] = drain_energy( ft, amnt_precise_j ) - amnt_precise_j;
         } else {
-            fuel_remainder[ ft ] = -amnt_precise;
+            fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!
-    if( load > 0 && one_in( static_cast<int>( 1 / load ) ) &&
-        fuel_left( fuel_type_muscle ) > 0 ) {
+    if( load > 0 && one_in( 1000 / load ) && fuel_left( fuel_type_muscle ) > 0 ) {
         //charge bionics when using muscle engine
         if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             g->u.charge_power( 1 );
@@ -3250,7 +3246,7 @@ void vehicle::power_parts()
         }
     }
     bool reactor_online = false;
-    int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
+    int delta_energy_bat = power_to_energy_bat( epower, 6 * to_turns<int>( 1_turns ) );
     int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
                                         fuel_left( fuel_type_battery ) - delta_energy_bat );
     if( !reactors.empty() && storage_deficit_bat > 0 ) {
@@ -3265,7 +3261,8 @@ void vehicle::power_parts()
             // Keep track whether or not the vehicle has any reactors activated
             reactor_online = true;
             // the amount of energy the reactor generates each turn
-            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
+            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ),
+                                       6 * to_turns<int>( 1_turns ) );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
             } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
@@ -3471,9 +3468,10 @@ int vehicle::discharge_battery( int amount, bool recurse )
 
 void vehicle::do_engine_damage( size_t e, int strain )
 {
+    strain = std::min( 25, strain );
     if( is_engine_on( e ) && !is_perpetual_type( e ) &&
         engine_fuel_left( e ) &&  rng( 1, 100 ) < strain ) {
-        int dmg = rng( strain * 2, strain * 4 );
+        int dmg = rng( 0, strain * 4 );
         damage_direct( engines[e], dmg );
         if( one_in( 2 ) ) {
             add_msg( _( "Your engine emits a high pitched whine." ) );
@@ -3495,14 +3493,14 @@ void vehicle::idle( bool on_map )
             }
         }
 
-        float idle_rate = static_cast<float>( alternator_load ) / static_cast<float>( engines_power );
-        if( idle_rate < 0.01 ) {
-            idle_rate = 0.01;    // minimum idle is 1% of full throttle
+        int idle_rate = 1000 * alternator_load / engines_power;
+        if( idle_rate < 10 ) {
+            idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        consume_fuel( idle_rate );
+        consume_fuel( idle_rate, 6 * to_turns<int>( 1_turns ) );
 
         if( on_map ) {
-            noise_and_smoke( idle_rate, 6.0 );
+            noise_and_smoke( idle_rate, 1_turns );
         }
     } else {
         if( engine_on && g->u.sees( global_pos3() ) &&
@@ -4694,7 +4692,7 @@ void vehicle::update_time( const time_point &update_to )
             epower_w += part_epower_w( part );
         }
         double intensity = accum_weather.sunlight / DAYLIGHT_LEVEL / to_turns<double>( elapsed );
-        int energy_bat = power_to_energy_bat( epower_w * intensity, elapsed );
+        int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from solar panels", name, energy_bat );
             charge_battery( energy_bat );

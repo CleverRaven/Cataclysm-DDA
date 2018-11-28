@@ -101,11 +101,10 @@ void vehicle::thrust( int thd )
         if( pl_ctrl ) {
             add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
         }
-
         return;
     }
-
     int max_vel = max_velocity() * traction;
+
     // Get braking power
     int brake = 30 * k_mass();
     int brk = abs( velocity ) * brake / 100;
@@ -122,6 +121,8 @@ void vehicle::thrust( int thd )
         vel_inc = .6 * vel_inc;
     }
 
+    //find power ratio used of engines max
+    int load;
     // Keep exact cruise control speed
     if( cruise_on ) {
         if( thd > 0 ) {
@@ -129,18 +130,14 @@ void vehicle::thrust( int thd )
         } else {
             vel_inc = std::max( vel_inc, cruise_velocity - velocity );
         }
-    }
-
-    //find power ratio used of engines max
-    double load;
-    if( cruise_on ) {
-        load = static_cast<float>( abs( vel_inc ) ) / std::max( ( thrusting ? accel : brk ), 1 );
+        //find power ratio used of engines max
+        load = 1000 * abs( vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
     } else {
-        load = ( thrusting ? 1.0 : 0.0 );
+        load = ( thrusting ? 1000 : 0 );
     }
 
     // only consume resources if engine accelerating
-    if( load >= 0.01 && thrusting ) {
+    if( load >= 1 && thrusting ) {
         //abort if engines not operational
         if( total_power_w() <= 0 || !engine_on || accel == 0 ) {
             if( pl_ctrl ) {
@@ -162,7 +159,7 @@ void vehicle::thrust( int thd )
 
         //make noise and consume fuel
         noise_and_smoke( load );
-        consume_fuel( load );
+        consume_fuel( load, 1 );
 
         //break the engines a bit, if going too fast.
         int strn = static_cast<int>( ( strain() * strain() * 100 ) );

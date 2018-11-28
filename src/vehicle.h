@@ -185,10 +185,10 @@ struct vehicle_part {
         /**
          * Consume fuel by energy content.
          * @param ftype Type of fuel to consume
-         * @param energy Energy to consume, in kJ
-         * @return Energy actually consumed, in kJ
+         * @param energy_j Energy to consume, in J
+         * @return Energy actually consumed, in J
          */
-        float consume_energy( const itype_id &ftype, float energy );
+        double consume_energy( const itype_id &ftype, double energy_j );
 
         /* @retun true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
@@ -583,7 +583,8 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        int power_to_energy_bat( const int power_w, const time_duration t ) const;
+        // time duration can't resolve less than 6 seconds so specify time in seconds
+        int power_to_energy_bat( const int power_w, const int t_seconds ) const;
 
         // convert vhp to watts.
         static int vhp_to_watts( int power );
@@ -947,15 +948,15 @@ class vehicle
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
-         * @param energy Desired amount of energy of fuel to consume
+         * @param energy_w Desired amount of energy of fuel to consume
          * @return Amount of energy actually consumed. May be more or less than energy.
          */
-        float drain_energy( const itype_id &ftype, float energy );
+        double drain_energy( const itype_id &ftype, double energy_w );
 
         // fuel consumption of vehicle engines of given type, in one-hundredth of fuel
         int basic_consumption( const itype_id &ftype ) const;
 
-        void consume_fuel( double load );
+        void consume_fuel( int load, const int t_seconds = 6 );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -1025,7 +1026,7 @@ class vehicle
         void spew_smoke( double joules, int part, int density = 1 );
 
         // Loop through engines and generate noise and smoke for each one
-        void noise_and_smoke( double load, double time = 6.0 );
+        void noise_and_smoke( int load, time_duration time = 1_turns );
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
