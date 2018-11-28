@@ -133,6 +133,7 @@
     "volume": 1,
     "flag": [ "EATEN_HOT" ],
     "calories": 285,
+    "charges": 3,
     "vitamins": [ [ "vitA", 1 ], [ "vitB", 144 ], [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ] ]
   }
 ]
