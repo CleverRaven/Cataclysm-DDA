@@ -116,14 +116,14 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1} ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
-      [ [ "liver", 2 ] ],
+      [ [ "kidney", 2 ] ],
       [ [ "flour", 2 ] ],
       [ [ "onion", 1 ] ],
       [ [ "soysauce", 1 ] ],
       [ [ "salt", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "mustard", 1 ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ]
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
     ]
   }
 ]

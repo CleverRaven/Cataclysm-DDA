@@ -136,4 +136,22 @@
     "charges": 3,
     "vitamins": [ [ "vitA", 1 ], [ "vitB", 144 ], [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ] ]
   }
+  {
+    "id": "deviled_kidney",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "deviled kidney",
+    "symbol": "%",
+    "looks_like": "offal_cooked",
+    "quench": 1,
+    "fun": 5,
+    "description": "A delicious way to prepare kidneys.",
+    "material": [ "flesh", "wheat", "veggy" ],
+    "color": "yellow",
+    "volume": 1,
+    "charges": 3,
+    "flag": [ "EATEN_HOT" ],
+    "calories": 301,
+    "vitamins": [ [ "vitA", 5 ], [ "vitB", 104 ], [ "vitC", 1 ], [ "iron", 6 ], [ "calcium", 1 ] ]
+  }
 ]
