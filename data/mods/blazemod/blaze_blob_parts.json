@@ -16,6 +16,7 @@
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A set of continuous, interlocking tracks made out of blob. They can be used in place of wheels, and provide good traction and off-road performance.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "rolling_resistance": 6,
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK", "FOLDABLE" ]
   },
   {
@@ -170,6 +171,7 @@
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It acts as a wheel.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "rolling_resistance": 1.5,
     "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
   },
   {
@@ -478,6 +480,7 @@
     "description": "A living blob.  It acts as a wheel.",
     "breaks_into": [ { "item": "glooplegrow" }, { "item": "water", "count": [ 50, 100 ] } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "rolling_resistance": 1.75,
     "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
   },
   {
@@ -882,6 +885,7 @@
     "description": "A living blob.  It acts as a wheel.",
     "breaks_into": [ { "item": "graygrow" }, { "item": "water", "count": [ 100, 200 ] } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "rolling_resistance": 1.25,
     "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
   },
   {
@@ -1012,6 +1016,7 @@
     "folded_volume": 1,
     "breaks_into": [ { "item": "gray" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "rolling_resistance": 6,
     "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED", "NO_JACK" ]
   },
   {
@@ -1492,6 +1497,7 @@
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" }, { "item": "water", "count": [ 100, 200 ] } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "rolling_resistance": 1.5,
     "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
   },
   {

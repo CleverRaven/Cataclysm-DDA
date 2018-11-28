@@ -209,6 +209,7 @@
       { "item": "plastic_chunk", "count": [ 50, 120 ] },
       { "item": "chain", "count": [ 1, 3 ] }
     ],
+    "rolling_resistance": 6,
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
   },
   {
@@ -231,6 +232,7 @@
       { "item": "scrap", "count": [ 50, 75 ] },
       { "item": "chain", "count": [ 3, 6 ] }
     ],
+    "rolling_resistance": 5,
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
   },
   {
@@ -253,6 +255,7 @@
       { "item": "scrap", "count": [ 60, 120 ] },
       { "item": "chain", "count": [ 3, 4 ] }
     ],
+    "rolling_resistance": 5,
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
   },
   {
