@@ -1144,12 +1144,25 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
         for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+            //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
+            if( x >= o_x && x < sx + o_x &&
+                y >= o_y && y < sy + o_y ) {
+                continue;
+            }
             tripoint p( x, y, center.z );
             int height_3d = 0;
+            if( iso_mode ) {
+                //Iso_mode skips in a checkerboard
+                if( ( y + o_y ) % 2 != ( x + o_x ) % 2 ) {
+                    continue;
+                }
+                //iso_mode does weird things to x and y... replicate that
+                //minus the offset
+                p.x = ( x - y - MAPSIZE * SEEX / 2 + MAPSIZE * SEEY / 2 ) / 2;
+                p.y = ( y + x - MAPSIZE * SEEY / 2 - MAPSIZE * SEEX / 2 ) / 2;
+            }
             lit_level lighting = ch.visibility_cache[p.x][p.y];
-            //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
-            if( ( y >= o_y && y < sy + o_y && x >= o_x && x < sx + o_x ) ||
-                apply_vision_effects( p, g->m.get_visibility( lighting, cache ) ) ) {
+            if( apply_vision_effects( p, g->m.get_visibility( lighting, cache ) ) ) {
                 continue;
             }
             //if drawing terrain isn't possible, don't try drawing the others.
