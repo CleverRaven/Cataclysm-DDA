@@ -1165,12 +1165,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             if( apply_vision_effects( p, g->m.get_visibility( lighting, cache ) ) ) {
                 continue;
             }
-            //if drawing terrain isn't possible, don't try drawing the others.
-            if( draw_terrain( p, lighting, height_3d ) ) {
-                draw_furniture( p, lighting, height_3d );
-                draw_trap( p, lighting, height_3d );
-                draw_vpart( p, lighting, height_3d );
-            }
+            //calling draw to memorize everything.
+            draw_terrain( p, lighting, height_3d );
+            draw_furniture( p, lighting, height_3d );
+            draw_trap( p, lighting, height_3d );
+            draw_vpart( p, lighting, height_3d );
         }
     }
 
