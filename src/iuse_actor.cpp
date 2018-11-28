@@ -3251,7 +3251,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             const std::string menu_header = _( "Select a body part for: " ) + it.tname();
             healed = pick_part_to_heal( healer, patient, menu_header,
                                         limb_power, head_bonus, torso_bonus,
-                                        bleed, bite, infect, force, get_bandaged_level( healer ), get_disinfected_level( healer ) );
+                                        bleed, bite, infect, force,
+                                        get_bandaged_level( healer ),
+                                        get_disinfected_level( healer ) );
             if( healed == num_hp_parts ) {
                 add_msg( m_info, _( "Never mind." ) );
                 return num_hp_parts; // canceled
@@ -3272,7 +3274,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
                                         patient.disp_name(), it.tname() );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
-                                    bleed, bite, infect, force, get_bandaged_level( healer ), get_disinfected_level( healer ) );
+                                    bleed, bite, infect, force,
+                                    get_bandaged_level( healer ),
+                                    get_disinfected_level( healer ) );
     }
 
     if( healed != num_hp_parts ) {
@@ -3285,55 +3289,55 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
 void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base healing:</bold> " ) );
-        dump.emplace_back( "TOOL", _( "Head: " ), "", iteminfo::no_newline, head_power );
-        dump.emplace_back( "TOOL", _( "  Torso: " ), "", iteminfo::no_newline, torso_power );
-        dump.emplace_back( "TOOL", _( "  Limbs: " ), limb_power );
+        dump.emplace_back( "HEAL", _( "<bold>Base healing:</bold> " ) );
+        dump.emplace_back( "HEAL_BASE", _( "Head: " ), "", iteminfo::no_newline, head_power );
+        dump.emplace_back( "HEAL_BASE", _( "  Torso: " ), "", iteminfo::no_newline, torso_power );
+        dump.emplace_back( "HEAL_BASE", _( "  Limbs: " ), limb_power );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual healing:</bold> " ) );
-            dump.emplace_back( "TOOL", _( "Head: " ), "", iteminfo::no_newline,
+            dump.emplace_back( "HEAL", _( "<bold>Actual healing:</bold> " ) );
+            dump.emplace_back( "HEAL_ACT", _( "Head: " ), "", iteminfo::no_newline,
                                get_heal_value( g->u, hp_head ) );
-            dump.emplace_back( "TOOL", _( "  Torso: " ), "", iteminfo::no_newline,
+            dump.emplace_back( "HEAL_ACT", _( "  Torso: " ), "", iteminfo::no_newline,
                                get_heal_value( g->u, hp_torso ) );
-            dump.emplace_back( "TOOL", _( "  Limbs: " ), get_heal_value( g->u, hp_arm_l ) );
+            dump.emplace_back( "HEAL_ACT", _( "  Limbs: " ), get_heal_value( g->u, hp_arm_l ) );
         }
     }
 
     if( bandages_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ),
+        dump.emplace_back( "HEAL", _( "<bold>Base bandaging quality:</bold> " ),
                            texitify_base_healing_power( static_cast<int>( bandages_power ) ) );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ),
+            dump.emplace_back( "HEAL", _( "<bold>Actual bandaging quality:</bold> " ),
                                texitify_healing_power( get_bandaged_level( g->u ) ) );
         }
     }
 
     if( disinfectant_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base disinfecting quality:</bold> " ),
+        dump.emplace_back( "HEAL", _( "<bold>Base disinfecting quality:</bold> " ),
                            texitify_base_healing_power( static_cast<int>( disinfectant_power ) ) );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual disinfecting quality:</bold> " ),
+            dump.emplace_back( "HEAL", _( "<bold>Actual disinfecting quality:</bold> " ),
                                texitify_healing_power( get_disinfected_level( g->u ) ) );
         }
     }
 
     if( bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
-        dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ) );
+        dump.emplace_back( "HEAL", _( "<bold>Chance to heal (percent):</bold> " ) );
         if( bleed > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Bleeding</bold>:" ),
+            dump.emplace_back( "HEAL", _( "* Bleeding: " ),
                                static_cast<int>( bleed * 100 ) );
         }
         if( bite > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Bite</bold>:" ),
+            dump.emplace_back( "HEAL", _( "* Bite: " ),
                                static_cast<int>( bite * 100 ) );
         }
         if( infect > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>* Infection</bold>:" ),
+            dump.emplace_back( "HEAL", _( "* Infection: " ),
                                static_cast<int>( infect * 100 ) );
         }
     }
 
-    dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), move_cost );
+    dump.emplace_back( "HEAL", _( "<bold>Moves to use</bold>: " ), move_cost );
 }
 
 place_trap_actor::place_trap_actor( const std::string &type ) :
