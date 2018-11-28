@@ -100,7 +100,7 @@
     "id": "UPS_Engineer_off",
     "type": "TOOL_ARMOR",
     "name": "engineer's UPS",
-    "name_plural": "engineers' UPS's",
+    "name_plural": "engineer's UPS",
     "description": "This is a unified power supply, or UPS. The Engineer's UPS is designed to power the hungriest of UPS devices.",
     "weight": 62000,
     "volume": 50,
