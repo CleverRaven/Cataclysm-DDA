@@ -110,6 +110,8 @@ struct bounding_box {
 
 char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
 
+static constexpr float accel_g = 9.81f;
+
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
@@ -1074,6 +1076,30 @@ class vehicle
         float k_mass() const;
 
         /**
+         * coefficient of air drag in kg/m
+         * multiplied by the square of speed to calculate air drag force in N
+         * proportional to cross sectional area of the vehicle, times the density of air,
+         * times a dimensional constant based on the vehicle's shape
+         */
+        double coeff_air_drag() const;
+
+        /**
+         * coefficient of rolling resistance
+         * multiplied by velocity to get the variable part of rolling resistance drag in N
+         * multiplied by a constant to get the constant part of rolling resistance drag in N
+         * depends on wheel design, wheel number, and vehicle weight
+         */
+        double coeff_rolling_drag() const;
+
+        /**
+         * coefficient of water drag in kg/m
+         * multiplied by the square of speed to calculate water drag force in N
+         * proportional to cross sectional area of the vehicle, times the density of water,
+         * times a dimensional constant based on the vehicle's shape
+         */
+        double coeff_water_drag() const;
+
+        /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
          * and the surface beneath wheels.
@@ -1532,6 +1558,21 @@ class vehicle
         mutable units::mass mass_cache;
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
+
+        // cached values for air, water, and  rolling resistance;
+        mutable bool coeff_rolling_dirty = true;
+        mutable bool coeff_air_dirty = true;
+        mutable bool coeff_water_dirty = true;
+        // air and water use a two stage dirty check: one dirty bit gets set on part install,
+        // removal, or breakage. The other dirty bit only gets set during part_removal_cleanup,
+        // and that's the bit that controls recalculation.  The intent is to only recalculate
+        // the coeffs once per turn, even if multiple parts are destroyed in a collision
+        mutable bool coeff_air_changed = true;
+        mutable bool coeff_water_changed = true;
+
+        mutable double coefficient_air_resistance;
+        mutable double coefficient_rolling_resistance;
+        mutable double coefficient_water_resistance;
 };
 
 #endif

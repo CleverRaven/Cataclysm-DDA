@@ -582,7 +582,7 @@
     "item": "glass_sheet",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "OVER", "OBSTACLE", "WINDOW" ],
+    "flags": [ "OVER", "WINDSHIELD", "OBSTACLE", "WINDOW" ],
     "breaks_into": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
   },
   {
@@ -1605,7 +1605,7 @@
     "item": "reinforced_glass_sheet",
     "difficulty": 4,
     "location": "center",
-    "flags": [ "OBSTACLE", "WINDOW" ],
+    "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
     "breaks_into": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "count": [ 4, 8 ] } ]
   },
   {
@@ -1708,7 +1708,7 @@
     "item": "frame",
     "difficulty": 2,
     "location": "center",
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "TOOL_WRENCH" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "TOOL_WRENCH", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED" ],
     "breaks_into": "ig_vp_frame"
   },
   {
@@ -1726,7 +1726,7 @@
     "item": "hdframe",
     "difficulty": 2,
     "location": "center",
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "TOOL_WRENCH" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "TOOL_WRENCH", "LOW_FINAL_AIR_DRAG" ],
     "breaks_into": "ig_vp_hdframe"
   },
   {

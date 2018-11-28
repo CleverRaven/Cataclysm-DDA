@@ -524,7 +524,7 @@
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE", "FULL_BOARD" ]
   },
   {
     "id": "gloopleboard_ne",
@@ -930,7 +930,7 @@
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, formed into a vehicle wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE", "FULL_BOARD" ]
   },
   {
     "id": "grayboard_ne",
@@ -1036,7 +1036,7 @@
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE", "HALF_BOARD" ]
   },
   {
     "id": "halfgloopleboard_horizontal_2",
@@ -1097,7 +1097,7 @@
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE", "HALF_BOARD" ]
   },
   {
     "id": "halfgrayboard_horizontal_2",
@@ -1158,7 +1158,7 @@
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE", "HALF_BOARD" ]
   },
   {
     "id": "halfoozleboard_horizontal_2",
@@ -1542,7 +1542,7 @@
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, formed into a vehicle wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE", "FULL_BOARD" ]
   },
   {
     "id": "oozleboard_ne",

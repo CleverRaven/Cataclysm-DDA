@@ -47,6 +47,8 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const std::string part_location_structure( "structure" );
+static const std::string part_location_center( "center" );
+static const std::string part_location_onroof( "on_roof" );
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
@@ -1248,6 +1250,8 @@ int vehicle::install_part( const point dp, const vehicle_part &new_part )
     pt.mount = dp;
 
     refresh();
+    coeff_air_changed = true;
+    coeff_water_changed = true;
     return parts.size() - 1;
 }
 
@@ -1516,6 +1520,8 @@ bool vehicle::remove_part( int p )
     }
     g->m.dirty_vehicle_list.insert( this );
     refresh();
+    coeff_air_changed = true;
+    coeff_water_changed = true;
     return shift_if_needed();
 }
 
@@ -1546,6 +1552,10 @@ void vehicle::part_removal_cleanup()
     }
     shift_if_needed();
     refresh(); // Rebuild cached indices
+    coeff_air_dirty = coeff_air_changed;
+    coeff_water_dirty = coeff_water_changed;
+    coeff_air_changed = false;
+    coeff_water_changed = false;
 }
 
 void vehicle::remove_carried_flag()
@@ -2980,6 +2990,218 @@ float vehicle::k_mass() const
     return km;
 }
 
+static double tile_to_width( int tiles )
+{
+    if( tiles < 1 ) {
+        return 0.1;
+    } else if( tiles < 6 ) {
+        return 0.5 + 0.4 * tiles;
+    } else {
+        return 2.5 + 0.15 * ( tiles - 5 );
+    }
+}
+
+static constexpr int minrow = -122;
+static constexpr int maxrow = 122;
+struct drag_column {
+    int pro = minrow;
+    int hboard = minrow;
+    int fboard = minrow;
+    int aisle = minrow;
+    int seat = minrow;
+    int exposed = minrow;
+    int roof = minrow;
+    int shield = minrow;
+    int turret = minrow;
+    int panel = minrow;
+    int last = maxrow;
+};
+
+double vehicle::coeff_air_drag() const
+{
+    if( !coeff_air_dirty ) {
+        return coefficient_air_resistance;
+    }
+    constexpr double c_air_base = 0.25;
+    constexpr double c_air_mod = 0.1;
+    constexpr double base_height = 1.4;
+    constexpr double aisle_height = 0.6;
+    constexpr double fullboard_height = 0.5;
+    constexpr double roof_height = 0.1;
+
+    std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
+    int min_x = 0;
+    int max_x = 0;
+    int min_y = 0;
+    int max_y = 0;
+    // find how many rows and columns the vehicle has
+    for( int p : structure_indices ) {
+        min_x = std::min( min_x, parts[p].mount.x );
+        max_x = std::max( max_x, parts[p].mount.x );
+        min_y = std::min( min_y, parts[p].mount.y );
+        max_y = std::max( max_y, parts[p].mount.y );
+    }
+    int width = max_y - min_y + 1;
+
+    // a mess of lambdas to make the next bit slightly easier to read
+    const auto d_exposed = [&]( const vehicle_part & p ) {
+        // if it's not inside, it's a center location, and it doesn't need a roof, it's exposed
+        if( p.info().location != part_location_center ) {
+            return false;
+        }
+        return !( p.inside || p.info().has_flag( "NO_ROOF_NEEDED" ) ||
+                  p.info().has_flag( "WINDSHIELD" ) ||
+                  p.info().has_flag( "OPENABLE" ) );
+    };
+
+    const auto d_protrusion = [&]( std::vector<int> parts_at ) {
+        if( parts_at.size() > 1 ) {
+            return false;
+        } else {
+            return parts[ parts_at.front() ].info().has_flag( "PROTRUSION" );
+        }
+    };
+    const auto d_check_min = [&]( int &value, const vehicle_part & p, bool test ) {
+        value = std::min( value, test ? p.mount.x - min_x : maxrow );
+    };
+    const auto d_check_max = [&]( int &value, const vehicle_part & p, bool test ) {
+        value = std::max( value, test ? p.mount.x - min_x : minrow );
+    };
+
+    // raycast down each column. the least drag vehicle has halfboard, windshield, seat with roof,
+    // windshield, halfboard and is twice as long as it is wide.
+    // find the first instance of each item and compare against the ideal configuration.
+    std::vector<drag_column> drag( width );
+    for( int p : structure_indices ) {
+        if( parts[ p ].removed ) {
+            continue;
+        }
+        int col = parts[ p ].mount.y - min_y;
+        std::vector<int> parts_at = parts_at_relative( parts[ p ].mount, true );
+        d_check_min( drag[ col ].pro, parts[ p ], d_protrusion( parts_at ) );
+        for( int pa_index : parts_at ) {
+            const vehicle_part &pa = parts[ pa_index ];
+            d_check_max( drag[ col ].hboard, pa, pa.info().has_flag( "HALF_BOARD" ) );
+            d_check_max( drag[ col ].fboard, pa, pa.info().has_flag( "FULL_BOARD" ) );
+            d_check_max( drag[ col ].aisle, pa, pa.info().has_flag( "AISLE" ) );
+            d_check_max( drag[ col ].shield, pa, pa.info().has_flag( "WINDSHIELD" ) &&
+                         pa.is_available() );
+            d_check_max( drag[ col ].seat, pa, pa.info().has_flag( "SEAT" ) ||
+                         pa.info().has_flag( "BED" ) );
+            d_check_max( drag[ col ].turret, pa, pa.info().location == part_location_onroof &&
+                         !pa.info().has_flag( "SOLAR_PANEL" ) );
+            d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
+            d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
+            d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
+            d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
+                         pa.info().has_flag( "HALF_BOARD" ) );
+        }
+    }
+    double height = 1;
+    double c_air_drag = c_air_base;
+    // tally the results of each row, and take the worst height and worst c_air_drag
+    for( drag_column &dc : drag ) {
+        // even as m_debug you rarely want to see this
+        // add_msg( m_debug, "veh %: pro %d, hboard %d, fboard %d, shield %d, seat %d, roof %d, aisle %d, turret %d, panel %d, exposed %d, last %d\n", name, dc.pro, dc.hboard, dc.fboard, dc.shield, dc.seat, dc.roof, dc.aisle, dc.turret, dc.panel, dc.exposed, dc.last );
+
+        double c_air_drag_c = c_air_base;
+        // rams in front of the vehicle mildly worsens air drag
+        c_air_drag_c += ( dc.pro > dc.hboard ) ? c_air_mod : 0;
+        // not having halfboards in front of any windshields or fullboards moderately worsens
+        // air drag
+        c_air_drag_c += ( std::max( std::max( dc.hboard, dc.fboard ),
+                                    dc.shield ) != dc.hboard ) ? 2 * c_air_mod : 0;
+        // not having windshields in front of seats severely worsens air drag
+        c_air_drag_c += ( dc.shield < dc.seat ) ? 3 * c_air_mod : 0;
+        // missing roofs and open doors severely worsen air drag
+        c_air_drag_c += ( dc.exposed > minrow ) ? 3 * c_air_mod : 0;
+        // being twice as long as wide mildly reduces air drag
+        c_air_drag_c -= ( 2 * ( max_x - min_x ) > width ) ? c_air_mod : 0;
+        // trunk doors and halfboards at the tail mildly reduce air drag
+        c_air_drag_c -= ( dc.last == min_x ) ? c_air_mod : 0;
+        // turrets severely worsen air drag
+        c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
+        c_air_drag = std::max( c_air_drag, c_air_drag_c );
+        // vehicles are 1.4m tall
+        double c_height = base_height;
+        // plus a bit for a roof
+        c_height += ( dc.roof > minrow ) ? roof_height : 0;
+        // plus a lot for an aisle
+        c_height += ( dc.aisle > minrow ) ?  aisle_height : 0;
+        // or fullboards
+        c_height += ( dc.fboard > minrow ) ? fullboard_height : 0;
+        // and a little for anything on the roof
+        c_height += ( dc.turret > minrow ) ? 2 * roof_height : 0;
+        // solar panels are better than turrets or floodlights, though
+        c_height += ( dc.panel > minrow ) ? roof_height : 0;
+        height = std::max( height, c_height );
+    }
+    constexpr double air_density = 1.29; // kg/m^3
+    double area = height * tile_to_width( width );
+    add_msg( m_debug, "%s: height %3.2fm, width %3.2fm (%d tiles), c_air %3.2f\n", name, height,
+             tile_to_width( width ), width, c_air_drag );
+    // F_air_drag = c_air_drag * cross_area * 1/2 * air_density * v^2
+    // coeff_air_resistance = c_air_drag * cross_area * 1/2 * air_density
+    coefficient_air_resistance = std::max( 0.1, c_air_drag * area * 0.5 * air_density );
+    coeff_air_dirty = false;
+    return coefficient_air_resistance;
+}
+
+double vehicle::coeff_rolling_drag() const
+{
+    if( !coeff_rolling_dirty ) {
+        return coefficient_rolling_resistance;
+    }
+    constexpr double wheel_ratio = 1.25;
+    constexpr double base_wheels = 4.0;
+    // SAE J2452 measurements are in F_rr = N * C_rr * 0.000225 * ( v + 33.33 )
+    // Don't ask me why, but it's the numbers we have. We want N * C_rr * 0.000225 here,
+    // and N is mass * accel from gravity (aka weight)
+    constexpr double sae_ratio = 0.000225;
+    constexpr double newton_ratio = accel_g * sae_ratio;
+    double wheel_factor = 0;
+    if( wheelcache.empty() ) {
+        wheel_factor = 50;
+    } else {
+        // should really sum the each wheel's c_rolling_resistance * it's share of vehicle mass
+        for( auto wheel : wheelcache ) {
+            wheel_factor += parts[ wheel ].info().wheel_rolling_resistance();
+        }
+        // mildly increasing rolling resistance for vehicles with more than 4 wheels and mildly
+        // decrease it for vehicles with less
+        wheel_factor *=  wheel_ratio /
+                         ( base_wheels * wheel_ratio - base_wheels + wheelcache.size() );
+    }
+    coefficient_rolling_resistance = newton_ratio * wheel_factor * to_kilogram( total_mass() );
+    coeff_rolling_dirty = false;
+    return coefficient_rolling_resistance;
+}
+
+double vehicle::coeff_water_drag() const
+{
+    if( !coeff_water_dirty ) {
+        return coefficient_water_resistance;
+    }
+    std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
+    int min_y = 0;
+    int max_y = 0;
+    for( int p : structure_indices ) {
+        min_y = std::min( min_y, parts[p].mount.y );
+        max_y = std::max( max_y, parts[p].mount.y );
+    }
+    int width = max_y - min_y;
+    // todo: calculate actual coefficent of water drag
+    // todo: calculate actual draft
+    double draft = 1;
+    constexpr double water_density = 1000; // kg/m^3
+    double c_water_drag = 0.45;
+    // F_water_drag = c_water_drag * cross_area * 1/2 * water_density * v^2
+    // coeff_water_resistance = c_water_drag * cross_area * 1/2 * water_density
+    coefficient_water_resistance = c_water_drag * tile_to_width( width ) * draft *
+                                   0.5 * water_density;
+    coeff_water_dirty = false;
+    return coefficient_water_resistance;
+}
 float vehicle::k_traction( float wheel_traction_area ) const
 {
     if( wheel_traction_area <= 0.01f ) {
@@ -4458,6 +4680,8 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         parts[p].items.clear();
 
         invalidate_mass();
+        coeff_air_changed = true;
+        coeff_water_changed = true;
     }
 
     if( parts[p].is_fuel_store() ) {
@@ -4707,6 +4931,7 @@ void vehicle::invalidate_mass()
     mass_center_no_precalc_dirty = true;
     // Anything that affects mass will also affect the pivot
     pivot_dirty = true;
+    coeff_rolling_dirty = true;
 }
 
 void vehicle::refresh_mass() const
