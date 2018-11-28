@@ -116,7 +116,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     int y_min = abs( bbox.p1.y ) + 0;
 
     int x_max = ( SEEX * 2 ) - ( bbox.p2.x + 1 );
-    int y_max = ( SEEX * 2 ) - ( bbox.p2.y + 1 );
+    int y_max = ( SEEY * 2 ) - ( bbox.p2.y + 1 );
 
     int x1 = clamp( cx + x_offset, x_min,
                     x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
@@ -693,7 +693,7 @@ void mx_spider( map &m, const tripoint &abs_sub )
     // that it used flags rather than specific terrain types in determining where to
     // place webs.
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
 
             bool should_web_flat = m.has_flag_ter( "FLAT", location ) && !one_in( 3 );
@@ -735,7 +735,7 @@ void mx_grove( map &m, const tripoint &abs_sub )
     ter_id tree;
     bool found_tree = false;
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "TREE", location ) ) {
                 tree = m.ter( location );
@@ -749,7 +749,7 @@ void mx_grove( map &m, const tripoint &abs_sub )
     }
 
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
                 m.has_flag_ter( "YOUNG", location ) ) {
@@ -767,7 +767,7 @@ void mx_shrubbery( map &m, const tripoint &abs_sub )
     ter_id shrubbery;
     bool found_shrubbery = false;
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "SHRUB", location ) ) {
                 shrubbery = m.ter( location );
@@ -781,7 +781,7 @@ void mx_shrubbery( map &m, const tripoint &abs_sub )
     }
 
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
                 m.has_flag_ter( "YOUNG", location ) ) {
@@ -801,7 +801,7 @@ void mx_clearcut( map &m, const tripoint &abs_sub )
     ter_id stump( "t_stump" );
 
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "TREE", location ) || m.has_flag_ter( "YOUNG", location ) ) {
                 m.ter_set( location, stump );
