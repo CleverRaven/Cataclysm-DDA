@@ -102,7 +102,7 @@
     "name": "engineer's UPS",
     "name_plural": "engineer's UPS",
     "description": "This is a unified power supply, or UPS.  The Engineer's UPS is designed to power the hungriest of UPS devices.",
-    "weight": 62000,
+    "weight": 9600,
     "volume": 50,
     "price": 560000,
     "to_hit": -2,
