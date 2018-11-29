@@ -5463,9 +5463,6 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
 void map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
                                     const tripoint &view_center ) const
 {
-    if( !g->u.should_show_map_memory() ) {
-        return;
-    }
     long sym = g->u.get_memorized_symbol( getabs( p ) );
     if( sym == 0 ) {
         return;
@@ -5496,6 +5493,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     p.z = center.z;
     int &x = p.x;
     int &y = p.y;
+    const bool do_map_memory = g->u.should_show_map_memory();
     for( y = center.y - getmaxy( w ) / 2; y <= center.y + getmaxy( w ) / 2; y++ ) {
         if( y - center.y + getmaxy( w ) / 2 >= getmaxy( w ) ) {
             continue;
