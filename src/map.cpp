@@ -5460,17 +5460,22 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
     return true;
 }
 
-void map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                    const tripoint &view_center ) const
+bool map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                    const tripoint &view_center, bool move_cursor ) const
 {
     long sym = g->u.get_memorized_symbol( getabs( p ) );
     if( sym == 0 ) {
-        return;
+        return false;
     }
-    const int k = p.x + getmaxx( w ) / 2 - view_center.x;
-    const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+    if( move_cursor ) {
+        const int k = p.x + getmaxx( w ) / 2 - view_center.x;
+        const int j = p.y + getmaxy( w ) / 2 - view_center.y;
 
-    mvwputch( w, j, k, c_brown, sym );
+        mvwputch( w, j, k, c_brown, sym );
+    } else {
+        wputch( w, c_brown, sym );
+    }
+    return true;
 }
 
 void map::draw( const catacurses::window &w, const tripoint &center )
@@ -5501,22 +5506,26 @@ void map::draw( const catacurses::window &w, const tripoint &center )
 
         wmove( w, y - center.y + getmaxy( w ) / 2, 0 );
 
+        const int maxxrender = center.x - getmaxx( w ) / 2 + getmaxx( w );
+        x = center.x - getmaxx( w ) / 2;
         if( y < 0 || y >= MAPSIZE * SEEY ) {
-            for( int x = 0; x < getmaxx( w ); x++ ) {
-                wputch( w, c_black, ' ' );
+            for( ; x < maxxrender; x++ ) {
+                if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
+                    wputch( w, c_black, ' ' );
+                }
             }
             continue;
         }
 
-        x = center.x - getmaxx( w ) / 2;
         while( x < 0 ) {
-            wputch( w, c_black, ' ' );
+            if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
+                wputch( w, c_black, ' ' );
+            }
             x++;
         }
 
         int lx = 0;
         int ly = 0;
-        const int maxxrender = center.x - getmaxx( w ) / 2 + getmaxx( w );
         const int maxx = std::min( MAPSIZE * SEEX, maxxrender );
         while( x < maxx ) {
             submap *cur_submap = get_submap_at( p, lx, ly );
@@ -5548,7 +5557,9 @@ void map::draw( const catacurses::window &w, const tripoint &center )
         }
 
         while( x < maxxrender ) {
-            wputch( w, c_black, ' ' );
+            if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
+                wputch( w, c_black, ' ' );
+            }
             x++;
         }
     }
