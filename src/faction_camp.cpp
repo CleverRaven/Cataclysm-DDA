@@ -255,7 +255,8 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                           "> Choose any one of the available expansions.  Starting with a farm is always a solid choice "
                                           "since food is used to support companion missions and little is needed to get it going.  "
                                           "With minimal investment, a mechanic can be useful as a chop-shop to rapidly dismantle large vehicles, "
-                                          "and a forge can be a great way to turn all those wood splinters into charcoal.  \n \n"
+                                          "and a forge provides the resources to make charcoal.  \n \n"
+                                          "NOTE: Actions available through expansions are located in separate tabs of the Camp Manager window.  \n \n"
                                           "Risk: None\n"
                                           "Time: 3 Hours \n"
                                           "Positions: %d/1\n" ), npc_list.size() );
