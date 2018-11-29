@@ -295,6 +295,9 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     // Cap
     recoil = std::min( MAX_RECOIL, recoil );
 
+    // Reset last target pos
+    last_target_pos = tripoint_min;
+
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
 
@@ -634,17 +637,8 @@ static int find_target( const std::vector<Creature *> &t, const tripoint &tpos )
     return -1;
 }
 
-static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
-                   const item &relevant, const tripoint &tpos )
+static void do_aim( player &p, const item &relevant )
 {
-    // If we've changed targets, reset aim, unless it's above the minimum.
-    if( size_t( cur_target ) >= t.size() || t[cur_target]->pos() != tpos ) {
-        cur_target = find_target( t, tpos );
-        // TODO: find radial offset between targets and
-        // spend move points swinging the gun around.
-        p.recoil = MAX_RECOIL;
-    }
-
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
     if( aim_amount > 0 ) {
         // Increase aim at the cost of moves
@@ -654,8 +648,6 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
         // If aim is already maxed, we're just waiting, so pass the turn.
         p.set_moves( 0 );
     }
-
-    return cur_target;
 }
 
 struct confidence_rating {
@@ -776,7 +768,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 }
 
 static int print_aim( const player &p, const catacurses::window &w, int line_number, item *weapon,
-                      Creature &target, double predicted_recoil )
+                      const double target_size, tripoint pos, double predicted_recoil )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -794,8 +786,6 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
     // Fairly arbitrary cap on steadiness...
     const double steadiness = 1.0 - ( steady_score / steadiness_range );
 
-    const double target_size = target.ranged_target_size();
-
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
             { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
@@ -804,7 +794,7 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
         }
     };
 
-    const double range = rl_dist( p.pos(), target.pos() );
+    const double range = rl_dist( p.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
     return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, *weapon, dispersion,
                                 confidence_config,
@@ -928,7 +918,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     tripoint dst = pc.pos();
 
     std::vector<Creature *> t;
-    int target;
+    int target = 0;
 
     auto update_targets = [&]( int range, std::vector<Creature *> &targets, int &idx, tripoint & dst ) {
         targets = pc.get_targetable_creatures( range );
@@ -939,6 +929,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
         if( targets.empty() ) {
             idx = -1;
+            if( pc.last_target_pos != tripoint_min ) {
+                dst = pc.last_target_pos;
+            }
             return;
         }
 
@@ -947,9 +940,17 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } );
 
         // @todo: last_target should be member of target_handler
-        const auto found = std::find( targets.begin(), targets.end(), g->last_target.lock().get() );
-        idx = found != targets.end() ? std::distance( targets.begin(), found ) : 0;
-        dst = targets[ target ]->pos();
+        const auto iter = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
+
+        if( iter != targets.end() ) {
+            idx = std::distance( targets.begin(), iter );
+            dst = targets[ idx ]->pos();
+            pc.last_target_pos = tripoint_min;
+        } else {
+            idx = 0;
+            dst = pc.last_target_pos != tripoint_min ? pc.last_target_pos : targets[ 0 ]->pos();
+            pc.last_target.reset();
+        }
     };
 
     update_targets( range, t, target, dst );
@@ -994,7 +995,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "SWITCH_MODE" );
+    ctxt.register_action( "SWITCH_MODE") ;
     ctxt.register_action( "SWITCH_AMMO" );
 
     if( mode == TARGET_MODE_FIRE ) {
@@ -1030,9 +1031,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                               t.size() ), t.size() );
     }
 
-    const auto set_last_target = []( const tripoint & dst ) {
+    const auto set_last_target = [&pc]( const tripoint & dst ) {
         if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
-            g->last_target = g->shared_from( *critter_ptr );
+            pc.last_target = g->shared_from( *critter_ptr );
+            pc.last_target_pos = tripoint_min;
+        } else {
+            pc.last_target.reset();
+            pc.last_target_pos = dst;
         }
     };
 
@@ -1151,7 +1156,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
         }
 
-        if( mode == TARGET_MODE_FIRE && critter != nullptr && pc.sees( *critter ) ) {
+        if( mode == TARGET_MODE_FIRE ) {
             double predicted_recoil = pc.recoil;
             int predicted_delay = 0;
             if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
@@ -1167,8 +1172,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 predicted_recoil = pc.recoil;
             }
 
-            line_number = print_aim( pc, w_target, line_number, &*relevant->gun_current_mode(), *critter,
-                                     predicted_recoil );
+            const double target_size = critter != nullptr ? critter->ranged_target_size() : MS_MEDIUM;
+
+            line_number = print_aim( pc, w_target, line_number, &*relevant->gun_current_mode(),
+                                     target_size, dst, predicted_recoil );
 
             if( aim_mode->has_threshold ) {
                 mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name.c_str(),
@@ -1242,6 +1249,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
             dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
 
+            // TODO: find radial offset between targets and
+            // spend move points swinging the gun around.
+            pc.recoil = MAX_RECOIL;
+
         } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) - 1;
             if( newtarget < 0 ) {
@@ -1256,18 +1267,18 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
             dst = t[newtarget]->pos();
             pc.recoil = MAX_RECOIL;
-        } else if( ( action == "AIM" ) && target != -1 ) {
+        } else if( ( action == "AIM" ) ) {
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
-            for( int i = 0; i != 10; ++i ) {
-                target = do_aim( pc, t, target, *relevant, dst );
+            set_last_target( dst );
+            for( int i = 0; i < 10; ++i ) {
+                do_aim( pc, *relevant );
             }
             if( pc.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 pc.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 pc.activity.str_values.push_back( "AIM" );
                 pc.view_offset = old_offset;
-                set_last_target( dst );
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
@@ -1283,8 +1294,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( aim_mode == aim_types.end() ) {
                 aim_mode = aim_types.begin();
             }
-        } else if( ( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) &&
-                   target != -1 ) {
+        } else if( ( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) ) {
             // This action basically means "FIRE" as well, the actual firing may be delayed
             // through aiming, but there is usually no means to stop it. Therefore we query here.
             if( !confirm_non_enemy_target( dst ) ) {
@@ -1302,20 +1312,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 aim_mode = aim_types.begin();
             }
             aim_threshold = it->threshold;
+            set_last_target( dst );
             do {
-                target = do_aim( pc, t, target, *relevant, dst );
-            } while( target != -1 && pc.moves > 0 && pc.recoil > aim_threshold &&
-                     pc.recoil - sight_dispersion > 0 );
-            if( target == -1 ) {
-                // Bail out if there's no target.
-                continue;
-            }
+                do_aim( pc, *relevant );
+            } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > 0 );
+
             if( pc.recoil <= aim_threshold ||
                 pc.recoil - sight_dispersion == 0 ) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
                 pc.view_offset = old_offset;
-                set_last_target( dst );
                 return ret;
 
             } else {
@@ -1341,11 +1347,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             break;
         } else if( action == "CENTER" ) {
             dst = src;
+            set_last_target( dst );
             ret.clear();
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             snap_to_target = !snap_to_target;
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
+            pc.last_target_pos = tripoint_min;
             target = -1;
             break;
         }
@@ -1359,7 +1367,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     set_last_target( ret.back() );
 
-    const auto lt_ptr = g->last_target.lock();
+    const auto lt_ptr = pc.last_target.lock();
     if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
         if( !guy->guaranteed_hostile() ) {
             // TODO: get rid of this. Or combine it with effect_hit_by_player

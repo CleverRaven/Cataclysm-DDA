@@ -69,7 +69,7 @@ void game::serialize( std::ostream &fout )
     json.member( "turn", static_cast<int>( calendar::turn ) );
     json.member( "calendar_start", static_cast<int>( calendar::start ) );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
-    if( const auto lt_ptr = last_target.lock() ) {
+    if( const auto lt_ptr = u.last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
             json.member( "last_target", guy->getID() );
             json.member( "last_target_type", +1 );
@@ -78,6 +78,8 @@ void game::serialize( std::ostream &fout )
             json.member( "last_target", critter_tracker->temporary_id( *mon ) );
             json.member( "last_target_type", -1 );
         }
+    } else {
+        json.member( "last_target_pos", u.last_target_pos );
     }
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
@@ -195,6 +197,7 @@ void game::unserialize( std::istream &fin )
                                    static_cast<int>( SPRING ) ) );
         data.read( "last_target", tmptar );
         data.read( "last_target_type", tmptartyp );
+        data.read( "last_target_pos", u.last_target_pos );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
         data.read( "levx", levx );
@@ -224,10 +227,10 @@ void game::unserialize( std::istream &fin )
 
         if( tmptartyp == +1 ) {
             // Use overmap_buffer because game::active_npc is not filled yet.
-            last_target = overmap_buffer.find_npc( tmptar );
+            u.last_target = overmap_buffer.find_npc( tmptar );
         } else if( tmptartyp == -1 ) {
             // Need to do this *after* the monsters have been loaded!
-            last_target = critter_tracker->from_temporary_id( tmptar );
+            u.last_target = critter_tracker->from_temporary_id( tmptar );
         }
 
         JsonArray vdata = data.get_array( "stair_monsters" );

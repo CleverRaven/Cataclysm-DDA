@@ -1452,6 +1452,8 @@ class player : public Character
         int oxygen;
         int stamina;
         double recoil = MAX_RECOIL;
+        std::weak_ptr<Creature> last_target;
+        tripoint last_target_pos;
         int scent;
         int dodges_left;
         int blocks_left;
