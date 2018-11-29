@@ -2393,6 +2393,15 @@
         "post_special" : "done_mark_firewood"
     },{
         "type" : "construction",
+        "description" : "Mark practive target",
+        "category" : "OTHER",
+        "required_skills" : [],
+        "time" : 0,
+        "pre_note" : "Mark a spot for target practice.  Firing will automatically target the first practice target location ,found in gunrange, if no enemies are around.",
+        "pre_special" : "check_no_trap",
+        "post_special" : "done_mark_practice_target"
+    },{
+        "type" : "construction",
         "description" : "Build Butchering Rack",
         "category" : "FURN",
         "required_skills" : [ [ "fabrication", 1 ], [ "survival", 3 ] ],

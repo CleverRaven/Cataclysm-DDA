@@ -25,6 +25,7 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "trap.h"
 
 #include <algorithm>
 #include <cmath>
@@ -43,6 +44,8 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
+
+const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
@@ -931,6 +934,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             idx = -1;
             if( pc.last_target_pos != tripoint_min ) {
                 dst = pc.last_target_pos;
+            } else {
+                auto adjacent = closest_tripoints_first( range, dst );
+                const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
+                [&pc]( const tripoint & pt ) {
+                    return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
+                } );
+
+                if( target_spot != adjacent.end() ) {
+                    dst = *target_spot;
+                }
             }
             return;
         }
@@ -1172,7 +1185,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 predicted_recoil = pc.recoil;
             }
 
-            const double target_size = critter != nullptr ? critter->ranged_target_size() : MS_MEDIUM;
+            const double target_size = critter != nullptr ? critter->ranged_target_size() :
+                                       occupied_tile_fraction( MS_MEDIUM );
 
             line_number = print_aim( pc, w_target, line_number, &*relevant->gun_current_mode(),
                                      target_size, dst, predicted_recoil );
