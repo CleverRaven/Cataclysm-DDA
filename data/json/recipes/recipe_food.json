@@ -8347,7 +8347,7 @@
     "difficulty": 6,
     "time": 5000,
     "autolearn": true,
-    "qualities": [  { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "jar_glass", 1 ] ],
