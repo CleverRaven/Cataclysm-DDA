@@ -414,6 +414,7 @@
     "copy-from": "sweetbread",
     "looks_like": "meat_cooked",
     "name": "cooked sweetbread",
+    "fun": -4,
     "description": "Normally a delicacy, it needs a little... something.",
     "parasites": 0
   }

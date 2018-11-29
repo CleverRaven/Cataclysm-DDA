@@ -154,5 +154,20 @@
     "flag": [ "EATEN_HOT" ],
     "calories": 301,
     "vitamins": [ [ "vitA", 5 ], [ "vitB", 104 ], [ "vitC", 1 ], [ "iron", 6 ], [ "calcium", 1 ] ]
+  },
+  {
+    "id": "grilled_sweetbread",
+    "type": "COMESTIBLE"
+    "copy-from": "sweetbread_cooked",
+    "name": "grilled sweetbread",
+    "fun": 6,
+    "description": "Not sweet, like the name would suggest, but delicious all the same!"
+  },
+  {
+    "id": "canned_liver",
+    "type": "COMESTIBLE",
+    "copy-from": "liver_cooked",
+    "description": "Livers preserved in a can. Chock full of B vitamins!",
+    "container": "can_food"
   }
 ]
