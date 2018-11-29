@@ -238,6 +238,11 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
+            if( critter.type->difficulty > 10 ) {
+                const std::string speech = string_format( _( "<monster_warning> %s." ),
+                                           critter.type->nname() );
+                complain_about( "warning_" + critter.type->nname(), 10_minutes, speech, true );
+            }
         }
     }
     assessment /= 10;
