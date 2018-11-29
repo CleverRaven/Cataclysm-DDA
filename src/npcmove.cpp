@@ -384,9 +384,13 @@ void npc::move()
 
     if( action == npc_undecided ) {
         if( is_guarding() ) {
-            action = goal == global_omt_location() ?
-                     npc_pause :
-                     npc_goto_destination;
+            // if we're in a vehicle, stay in the vehicle
+            if( in_vehicle ) {
+                action = npc_pause;
+                goal = global_omt_location();
+            } else {
+                action = goal == global_omt_location() ?  npc_pause : npc_goto_destination;
+            }
         } else if( has_new_items && scan_new_items() ) {
             return;
         } else if( !fetching_item ) {
