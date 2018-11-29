@@ -80,7 +80,7 @@
   },
   {
     "type": "recipe",
-    "result": "sweetbread",
+    "result": "sweetbread_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "difficulty": 4,
