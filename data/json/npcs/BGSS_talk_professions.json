@@ -352,6 +352,7 @@
 			{ "text": "What about your parents?", "topic": "BGSS_NERD_1_PARENTS" },
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
+        ]
 	},{
 		"id": "BGSS_SCIENTIST_1_STORY1",
 		"type": "talk_topic",
