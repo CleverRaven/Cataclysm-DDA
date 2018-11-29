@@ -51,12 +51,11 @@
 		{ "trait": "BGSS_Gung_Ho_3" },
 		{ "trait": "BGSS_Out_of_Town_1" }, 
 		{ "trait": "BGSS_Out_of_Town_2" },
-		{ "trait": "BGSS_Lost_Partner_1" }
+		{ "trait": "BGSS_Lost_Partner_1" },
 		{ "trait": "BGSS_Hunter_1" }, 
 		{ "trait": "BGSS_Hunter_2" },
 		{ "trait": "BGSS_Rural_1" },
 		{ "trait": "BGSS_Rural_2" }
-
 	]
   },
   {
@@ -69,7 +68,6 @@
 		{ "trait": "BGSS_Hospital_1" }, 
 		{ "trait": "BGSS_Hospital_2" }, 
 		{ "trait": "BGSS_Hospital_3" }
-
 	]
   },
 {
@@ -87,7 +85,6 @@
 		{ "trait": "BGSS_Criminal_1" },
 		{ "trait": "BGSS_Criminal_2" },		
 		{ "trait": "BGSS_Prisoner_1" }
-		
 	]
   },
 {
@@ -128,8 +125,6 @@
 		{ "trait": "BGSS_High_School_1" },
 		{ "trait": "BGSS_Burger_Flipper_1" },
 		{ "trait": "BGSS_Nerd_1" }
-
-
 	]
   },
 {
