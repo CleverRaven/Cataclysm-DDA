@@ -995,7 +995,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "SWITCH_MODE") ;
+    ctxt.register_action( "SWITCH_MODE" ) ;
     ctxt.register_action( "SWITCH_AMMO" );
 
     if( mode == TARGET_MODE_FIRE ) {
