@@ -76,7 +76,7 @@
     "copy-from": "rifle_base",
     "type": "GUN",
     "name": "Pindad SPR 2",
-    "name_plural": "Pindad SPR-2"
+    "name_plural": "Pindad SPR-2",
     "description": "Bolt-action, Anti Material-rifle designed by Pindad Armaments, its medium size and weight is offset by its range and damage.",
     "weight": 19000,
     "volume": 14,
