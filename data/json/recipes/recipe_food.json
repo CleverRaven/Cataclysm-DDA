@@ -8333,11 +8333,7 @@
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "jar_glass", 1 ] ],
-      [ [ "flour", 1 ] ]
-    ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8350,12 +8346,7 @@
     "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "jar_glass", 1 ] ],
-      [ [ "flour", 1 ] ],
-      [ [ "sourdough_starter", 1 ] ]
-    ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ], [ [ "sourdough_starter", 1 ] ] ]
   },
   {
     "type": "recipe",
