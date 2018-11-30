@@ -6350,6 +6350,7 @@
       ["nodachi", 1],
       ["katana", 2],
       ["survnote", 1]
+      ["keris_ancient", 1]
     ]
   },{
     "type" : "item_group",
@@ -7458,6 +7459,7 @@
       ["bot_grenade_hack", 1],
       ["l-stick", 1],
       ["solarpack", 2]
+      ["spr_2", 1]
     ]
   },{
     "type" : "item_group",
