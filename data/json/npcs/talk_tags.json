@@ -326,6 +326,22 @@
   },
   {
     "type": "snippet",
+     "category": "<monster_warning>",
+     "text": [
+       "Look out for that",
+       "Hey!  Over there!  I see a",
+       "Incoming",
+       "Watch out for that",
+       "Watch out!  I see a",
+       "Are we fighting?  There's a",
+       "Hey, <name_g>!  <monster_warning>",
+       "<swear!>, a",
+       "Look out!  A",
+       "<swear!>, here comes a <swear>"
+     ]
+  },
+  {
+    "type": "snippet",
     "category": "<BGSS_intro_question>",
     "text": [
       "Tell me about how you survived the cataclysm.",
