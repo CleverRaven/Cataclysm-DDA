@@ -672,11 +672,9 @@ void Item_factory::init()
     add_iuse( "PANACEA", &iuse::panacea );
     add_iuse( "PHEROMONE", &iuse::pheromone );
     add_iuse( "PICKAXE", &iuse::pickaxe );
-    add_iuse( "PIPEBOMB_ACT", &iuse::pipebomb_act );
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
-    add_iuse( "PORTABLE_STRUCTURE", &iuse::portable_structure );
     add_iuse( "PORTAL", &iuse::portal );
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
@@ -764,6 +762,7 @@ void Item_factory::init()
     add_actor( new detach_gunmods_actor() );
     add_actor( new mutagen_actor() );
     add_actor( new mutagen_iv_actor() );
+    add_actor( new deploy_tent_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -1277,6 +1276,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "count", slot.def_charges, strict, 1L );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
+    assign( jo, "prop_damage", slot.prop_damage, strict );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
@@ -2563,7 +2563,7 @@ bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag i
     }
 
     Item_group *ig = dynamic_cast<Item_group *>( &group_to_access );
-    if( chance != 0 && ig != NULL ) {
+    if( chance != 0 && ig != nullptr ) {
         // Only re-add if chance != 0
         ig->add_item_entry( item_id, chance );
     }

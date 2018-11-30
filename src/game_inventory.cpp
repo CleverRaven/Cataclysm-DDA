@@ -848,13 +848,23 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
-                    const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
+                    if( loc->ammo_data()->ammo->prop_damage ) {
+                        const int ammo_mult = *loc->ammo_data()->ammo->prop_damage;
 
-                    return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
-                                          get_damage_string( basic_damage, true ).c_str(),
-                                          get_damage_string( ammo_damage, true ).c_str(),
-                                          get_damage_string( total_damage, true ).c_str()
-                                        );
+                        return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
+                                              get_damage_string( basic_damage, true ).c_str(),
+                                              get_damage_string( ammo_mult, true ).c_str(),
+                                              get_damage_string( total_damage, true ).c_str()
+                                            );
+                    } else {
+                        const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
+
+                        return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
+                                              get_damage_string( basic_damage, true ).c_str(),
+                                              get_damage_string( ammo_damage, true ).c_str(),
+                                              get_damage_string( total_damage, true ).c_str()
+                                            );
+                    }
                 } else {
                     return get_damage_string( total_damage );
                 }

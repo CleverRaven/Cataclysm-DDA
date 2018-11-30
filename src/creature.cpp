@@ -56,7 +56,7 @@ Creature::Creature()
 {
     moves = 0;
     pain = 0;
-    killer = NULL;
+    killer = nullptr;
     speed_base = 100;
     underwater = false;
 
