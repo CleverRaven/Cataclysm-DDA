@@ -3367,7 +3367,14 @@
       [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "cinnamon", 20 ] ],
-      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "sourdough_bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "hardtack", 4 ] ]
+      [
+        [ "flatbread", 2 ],
+        [ "bread", 2 ],
+        [ "sourdough_bread", 2 ],
+        [ "cornbread", 2 ],
+        [ "wastebread", 2 ],
+        [ "hardtack", 4 ]
+      ]
     ]
   },
   {
@@ -6729,7 +6736,10 @@
     "time": 1500,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "flatbread", 2 ], [ "bread", 2 ], [ "sourdough_bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ] ], [ [ "jam_fruit", 1 ] ] ]
+    "components": [
+      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "sourdough_bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ] ],
+      [ [ "jam_fruit", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
