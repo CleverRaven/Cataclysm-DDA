@@ -70,5 +70,29 @@
       "barrel_length": -1
     },
     "flags": [ "RELOAD_EJECT" ]
+  },
+  {
+    "id": "spr_2",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "Pindad SPR 2",
+    "name_plural": "Pindad SPR-2"
+    "description": "Bolt-action, Anti Material-rifle designed by Pindad Armaments, its medium size and weight is offset by its range and damage.",
+    "weight": 19000,
+    "volume": 14,
+    "price": 1250000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "ammo": "50",
+    "range": 50,
+    "ranged_damage": -5,
+    "dispersion": 80,
+    "durability": 8,
+    "barrel_length": 5,
+    "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
+    "magazine_well": 1,
+    "magazine": [ [ "50", [ "spr2mag" ] ] ],
+    "flags": [ "NEVER_JAMS" ]
   }
 ]
