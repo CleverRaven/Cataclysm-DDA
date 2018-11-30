@@ -55,6 +55,7 @@ Allow attacking ground to prevent overshooting.
 Allow bringing NPCs up/down z-levels in 2D mode.
 Zombie corpses transforming due to burns.
 Really nasty barfing.
+Overmap scent traces.
 Allow mending of faults for already installed parts.
 Vehicle part armor (damage resistance)
 Firing modes including NPC support.
@@ -65,6 +66,8 @@ NPC command: close doors you walk through.
 Melee autoattack feature.
 Allow UPS charger to work with partial charge.
 NPC vs NPC combat.
+NPC guard/follow update.
+Add details to message displayed when loading world.
 Fancy hairpin can now be used as lockpick.
 NPC trading/exchange update.
 NPCs helping with crafting, providing recipes.
@@ -112,7 +115,7 @@ Implement deployable furniture items.
 Allow shelter NPC to provide tips.
 Morale craft speed penalty.
 Fully random Play Now!
-Extend vitamins implementation.
+Added vitamin tracking and vitamin-related disorders.
 Allow resuming light-cancelled jobs.
 Washboard Batch Washing.
 New characters: Start with loaded/holstered guns and sheathed blades.
@@ -147,438 +150,97 @@ Add reminder effects for some medicine.
 
 ## Content:
 
-Minefield signs
 Lots of improvised tools (stone hand tools, forge, cooking furniture, clay and pottery).
 Extensive wilderness foraging.
 Super secret underground facility.
 Gunmod crafting recipes.
-More zombies: Elite grenadiers, Runners, Ferals, Predators, Shady Zombies.
+More zombies: Elite grenadiers, Runners, Ferals, Predators, Shady Zombies, Screecher Zombies.
+Still more: many child zombie variants, Zombie Brutes, Water Biter, Scorched Children.
+Yet more: Fungal Zombie Child, Gigantic Naked Mole Rats, Acid Ants, Zombie Burner.
 Monster grab and pull attacks.
 Ranch and Ranch-related missions.
-Recipes based on offal and corpse waste.
-Cheesemaking.
-Biodiesel.
-Alcohol stoves.
+Faction Camp and related infrastructure.
+Large additions to Lab variety and consistency.
 Vehicle based tools, street sweepers, tractors, plows, planters.
+Farm vehicles and tool attachments.  Plow, reaper, seed drill.
 Seasonal variation in foliage.
 Expanded tree variety.
 Allow city-less mapgen.
 Many preserved food recipes.
-Farm vehicles and tool attachments.  Plow, reaper, seed drill.
-Wearable tools.
-Mutant roaches.
 Two new variants of the military bunker basement.
 Items can have a side (left v right).
-Adds screecher zombie upgrade to shrieker zombie.
-Light stick.
 Add a larger generator part and portable generator vehicle.
-Makeshift knapsack.
-Human skin and stomachs.
 More railroad terrain variants, made diagonal tracks subway railroads 7 tiles wide.
 Implement surrounded start.
-Expands variety of items in NPC NC itemgroups.
-Add bone fishing hook and bone skewer.
 Professions: Hunters, Bandit, Bionic Survivalist, Parkour Practitioner, Burglar, Camper, Road Warrior, Boxer, Photojournalist, Tourist, Zookeeper.
-The Red Dragon Teashop.
-Hotel improvements (JSON, new lobbies, updated item, monster, and vehicle spawns).
-Lab and mutant start: Adds ears and tails to traits
-Mix condensed milk and water for 2 milk.
-Adds Cinnamon.
-Add Optical Dampers CBM.
-Add chai tea.
-Convert bullwhip to use reach attack.
-Football Field.
-Scorpion451's XL Holster
-Add recipe for chocpretzels and choco_coffee_beans
-Wearable binoculars V2 Updated
-Make zombies drop tainted leather
-Soylent green
+New mapgen: The Red Dragon Teashop, Football Field.
 Double the number of survivor's notes.
-French toast
-Add pumpkin and sunflower as farmable plants
-Leather/bone/chitin recipe staggering, armguard split
-add tortillas
-Crossbow hunter
-Zombie child evolution expansion.
-New build_lab, other underground overmap code cleanup
-Adding eggnog
-Tin can sealer.
-Use 4 hotdogs instead of one when making cooked hot dogs.
-Add "calories" field to it_comest
-Unscrewable vehicle parts
-Inferior Weapons Patch
-Buildable Reinforced glass + Metal shutters.
-Quesadillas!
-Adding a pepperbox flintlock
-Adding pepperbox pistol to mansion loot list
-Terrain connections for groups other than WALL
-Hands free mechanics
-Add more makeshift firearms
-Add new vehicle parts
-More canning recipes.
-Adds electronic earmuffs that reduce sounds to a safe level.
-Add basic chemistry set
-Mainline glaive from Medieval Stuff mod
-Move longsword from Medieval Stuff mod
-Shield Foundation Part 2: BLOCK_WHILE_WORN
-Make inwoods runs less bland
-Add metal funnel
-Overmap scent traces
-Move halberd from Medieval Stuff mod
-Adds deconstruction recipe for rope and pulley.
-Put butcher knife in the weapons category
-Mutant wildlife expansions: Spiders and snakes
-Shield foundation part 1: RESTRICT_HANDS
-Shield Foundation Part 3: Bringing it all together
-Add ammo pouches
+Add "calories" field to it_comest.
+Terrain connections for groups other than WALL.
+Hands free mechanics.
 Update Evac Center.
-Neoprene expansion
-Add more metal constructions
-Rivtech magazine update.
-Added magazine to Military Recruit background
-Makes electrohack battery-powered
-Mark spare magazine as obsolete
-Make bio_ups an active bionic
-Implement MAG_DESTROY and MAG_EJECT
-Add recipes for some armor items
-Add missing cotton material to neoprene armsleeves.
-Add missing magazines to professions
-Add more magazine spawns
-Adds Kel-Tech SUB-2000
-Adds Saiga-12 magazines.
-Additional Sandwich Types
-New vehicle: Automatic Tractor
-Cannabis enhancement.
+Implement MAG_DESTROY and MAG_EJECT.
 Implements integral_volume for gun mods.
-More magazine pouches.
-Add proper magazine to starting gear of police detective
-Add more magazines (5.7mm and 4.6mm)
-NPC guard/follow update
-Add ammo itemgroups
-Veterinarian Clinic
-Implement disintegrating ammo linkages
-Normalize 762 ammo and add AKM magazines
-Normalize shot ammo
-Add alternative black gunpowder recipe
-Move naginata from Medieval Stuff mod
-Stillsuit
-More magazines and ammo
-New mapgen and gunstores
-Move jian sword from Medieval Stuff mod
-Adds deconstruct recipe for copper pot.
-Crafted holy symbol.
-Move qiang spear from Medieval Stuff mod
-Normalize and balance .38
-Update 762R ammo and items
-Add more food recipes
-Move baldric from Medieval Stuff mod
-Simplify coal and forging recipes
-NPC trade update
-Union Suit Alterations
-Move gambeson from Medieval Stuff mod
-Simplify coal and forging recipes, part 2.
-Ammo bandoliers
-New JSON gun basements
-Creation of 5 new overmap special campsites
-Anti-robot Emp gun
-Move tunic from Medieval Stuff mod
-3 new roadside rest stops
-Adds ammo bandoliers
-Real French Fries
-Add mechanical winch for brick walls
-Vet Clinic Update
-Buckets
-honey sandwich
-Comestibles stuff
-Acetylene tanks
-opaque hatches
-Zombie Brutes and water biter
-Vitamins part 1
-Extended maple products, crafting, farming, items and related concepts
-Move campfire hot dogs from more survival tools mod to main game
-Magazine adaptors
-Vibrator Deconstruction Recipe
-Allow the use of duct tape in place of medical tape
-Extended maple products part 2
-Doom Items
-Add magazine coloring, improve ammo/gun coloring
-Add missing whiskey recipe
-Prison Break Scenario
-Restores gummy vitamins
-Add ironshod quarter staff to Niten Ichi-Ryu
-Leather Belts hold slings, slingshots, and wrist-slingshots.
-Linolium floors in Vet Clinic
-Removed blowgun darts
-Remove dart recipe
-Deconstruct joints
-Add details to message displayed when loading world
-Display RDA for vitamins
-Have illegal drugs spawn in plastic bags
-Avoid moving objects that are examined later
-Revised 7.62x25 item description
-Scorched children
-Funeral home
-Razorclaws and Shipwreck
-Fungii
-Add alternative triffid groves
-Add 2x2 cemetery
-Reinvent the wheel
-Cable charger bionic
-Lead acid batteries
-Steel working
-Smoke grenades
-A second pool template
-Adds small Ponds
-Increase bloated zombie explosion
-Improvised first aid kit
-Adds Apple Orchard to the game
-Add offset iron sights
-Adds cuirasses, mod armor rebalancing
-Reversible explosive recipes
-Saltpeter production and use expansions
-Adds cartridge pouch for blackpowder weapons
-add sweetbread recipe
-Get the recipe for completing a disassembly using the same name that …
-Add hot chocolate
-Add Magnum caliber cowboy rifles
-Cargo pants cutoffs
-Mutant NPC update
-Change long string recipe
-Add fannypack to female senior citizen profession
-Added belt223 to L523-LMG
-Adjust ammo loudness calculation
-Fixed obscure ammo not spawning
-Rework hordes hearing signal calculation
-Allow cellphones to be used as flashlights similarly to PDAs
-Add 'swamps' as a viable spawn location
-Added alternative magazines to guns and buffed Mosin
-Updated core military vehicles and motorcycles
-Remove PDA
-Update cell phone
-Buff nudging items when closing doors
-Allow installing turrets using loaded guns
-Add new mission: get inhaler
-Apply holster bonus only when worn
-New characters: Start with loaded/holstered guns and sheathed blades (part 1)
-Display repair tools and allow forbidding repair
-Initial implementation of variable difficulty
-Provide casings when removing brass catcher
-Add ability to steal items from NPC
-Faulty bionics sounds
-Vitamin additons: pine needle tea and wastebread
-Disassembly recipes for RC car and RC control
-Add bone needle to "sewing_standard" requirement
-Sugar House mapgen
-Add 'Reach Refugee Center' mission
-Added missing text to ammunition
-Fixed capitalization of the M1911 DS
-Correct grammar
-Remove redundant expressions
-Amend water item description
-Allows shrubs to drop withered plants, saw and hatchet alterations
-Balance basement weights
-Add overlooked Start Locations and 2 scenarios.
-Add calcium tablets
-Add sewer crocs
-Winch and painted walls
-Provide example of special attacks causing effects
-Implements natural cordage in some recipes
-"Listify" more uses of hotplate
-Merged two booby trap recipes in one
-Add non-incendiary variants to milspec rifle ammo itemgroup
-Add PR-24 to Eskrima martial art
-Add Chili Pepper, Seed, and Chili Powder Recipe
-Disallow crafting with filthy clothing.
-Adds options to build and seal coffins
-Imports breeches and cavalry saber
-Expands vehicle water purification, ad-hoc with funnels
-Add Food Processor tool
-Add worthwile loot to the shipwreck
-Add detergent and allow it to be used in washboard
-Added missing 7.62x25mm casings to the casings itemgroup
-Extra lines for NPCs
-Changes some mi-go speech lines for flavor
-food processor
-Add a food processor to the FOODCO kitchen buddy
-Dairy farm
-Added alternative crafting options for welding goggles
-Bone flute
-Diesel V12 engine and Heavy Duty Cargo Truck
-Added metal and sandbag backstop to s_gun0.json gun range, and earplugs
-Crafting soap out of lye made from ash
-Micro Atomic Plant for Bright Nights mod
-Parks and recreation buildings
-Added pickles jar and recipe to make them from cucumbers
-More mixed alcohol recipes
-Add butcher shop
-Add ACOG scope
-Mansion Upgrade Project
-Add recipe for clean water using water purifier
-Added Hávamál and add changes to standing stones location
-Cash cards to plastic chunks recipe
-Initial work on multi-story houses
-Add magazine well for the uzi
-Welding goggles craft from tinted lenses
-Metalcraft: crown, ring, and bracelet
-Boil lye into powder
-Make football fields more likely to spawn.
-Make chainmail craftable from scratch
-Adds wasteland sausages
-Add bike shop
-Fix Anfo and RDX charge requirements.
-Add food material
-Update description of bone meal and chitin powder
-bullet pulling as quality
-Enable to forge a screwdriver
-Add reloaded 7.62x25mm to item group
-Create recipe for seed potatoes
-Add NPC mutation rounds.
-Update trucks.json
-Update vans_busses.json
-Potato companion
-Increase firehelmet weight.
-Update garage layout
-Disassembly of cardboard box
-Second variant of s_bikeshop
-Canned meat can be heated up
+Veterinarian Clinic.
+Implement disintegrating ammo linkages.
+NPC trade update.
+Creation of 5 new overmap special campsites.
+3 new roadside rest stops.
+Add magazine coloring, improve ammo/gun coloring.
+Prison Break Scenario.
+Funeral home.
+Razorclaws and Shipwreck.
+Add alternative triffid groves.
+Add 2x2 cemetery.
+Adds small Ponds.
+Adds Apple Orchard to the game.
+New characters: Start with loaded/holstered guns and sheathed blades.
+Add ability to steal items from NPC.
+Sugar House mapgen.
+Add 'Reach Refugee Center' mission.
+Add detergent and allow it to be used in washboard.
+Dairy farm.
+Micro Atomic Plant for Bright Nights mod.
+Parks and recreation buildings.
+Add butcher shop.
+Mansion Upgrade Project.
+Initial work on multi-story houses.
+Make chainmail craftable from scratch.
+Add bike shop.
 Add MShockXotto+ tileset
-Added restroom to s_arcade
-Added Tokarev pistol spawns
-Added rack of obscure ammo to gunsmith store
-adds descriptions to (not all) furniture objects
-Small town buildings
-Subway
-Glock-17 And Glock Drum Magazines
-Hallucination monsters are now described in extended description
-Added glazed tenderloin to house_patio
-Added PERMEABLE and "connects_to": "WALL", to rebar cage and set move_cost to 0
-Vehicle mounted washing machine
-Added vehicle-mounted washing machine deconstruction recipe
-Fungal zombie child
-Dissemble alternator with welder
-Added gigantic naked mole rat and acid ants
-Define custom butchery drop for broken cyborg
-Add .357 SIG ammunition and a P226
-New monster ability 'ABSORBS_SPLITS'
-New pain increasing mutations.
-Remove hardcoded mansions
-Add dashboards to vehicles
-Added second variant of Evac Shelter basement
+Add descriptions to furniture objects.
+Small town buildings.
+Subway.
+Hallucination monsters are now described in extended description.
+New monster ability 'ABSORBS_SPLITS'.
 Pallet lifter for fast battery swapping.
 Add Speedloaders.
-Remove Solar Panels CBM
-Add mutation to remove healing during sleep.
-Turret mounts
+Remove Solar Panels CBM.
 Software Lights on!
-Add dashboards to trucks and emergeny vehicles
-Move forklift from Tanks mod to mainline
-Added stripper clips to M1903 and Mosin
-Acidic Ant Expansion - Acidic Chitin Item & Equipment
-Add two new types of house
-Added scope recipes.
-Add can sealer recipe.
-Added stripper clip for SKS
-Holographic Decoy cloak
-Tortilla chips
-Zombie burner
-Add engine blocks and engine deconstruction recipes
-Butchering yields for fungal towers and other structures
-New basement variant, with and without hidden autodoc
-Stone adze can now splint trunks into planks
-Disposable filters for filter, gas, PBA, and survivor masks, as well as filters for hazmat and ANBC suits
-Adds new narcosis effect that Characters cannot be prematurely woken from
-Rolling papers made from one sheet of paper, not 5
-Add WATER_FRIENDLY flag to canteens, hip flasks, and waterskins
-Adds slowhealer2 and slowhealer3 traits
-Replaces heavy sticks with long sticks in many recipes
-50% chance of partial lighting in labs
-Kimonos are now fancy
-Lightstrips can be charged in the dark
-Adds solar backpack
-Recipes to extract seeds from some fruits and vegetables
-Extra requirements before an artifact will charged\
-Adds pickled eggs
-Additional doctor's office variant, a private bionics clinic
-CVD machine can now coat piercing weapons
-Bionic descriptions updated to match surgical installation
-Heavy duty variants of door, opaque door and trunk door
-Recipe for boy shorts
-Raw hides can be turned into simple bags to transport remains of creatures
-Adds variability in decay of food created before cataclysm
-Adds folding knife
-Rag bundles
-Add an electric clay kiln, portable and vehicle
-Jsonify military surplus
-Jsonify radio station
-Add Trencher (Construction vehicle)
-First draft of JSON-augmentation of labs
-Add chicken cages
-Add makeshift bandages to improvised first aid kit
-Jsonify pharmacy
-Blazemod: add magazines and increase clip capacities
-Lab JSON improvements
-Spawn dirt below the dumpsters of the fast food restaurant
-New Bow Attachments
-vehicle mounted pet carriers
-Updated railings in RetroDaysTileset
-Expanded Lab Sites
-Minor archery addition
+Acidic Ant Expansion - Acidic Chitin Item & Equipment.
+Add engine blocks and engine deconstruction recipes.
+Butchering yields for fungal towers and other structures.
+New basement variant, with and without hidden autodoc.
+Disposable filters for filter, gas, PBA, and survivor masks, as well as filters for hazmat and ANBC suits.
+Adds new narcosis effect that Characters cannot be prematurely woken from.
+Replaces heavy sticks with long sticks in many recipes.
+50% chance of partial lighting in labs.
+Recipes to extract seeds from some fruits and vegetables.
+Additional doctor's office variant, a private bionics clinic.
+Raw hides can be turned into simple bags to transport remains of creatures.
+Adds variability in decay of food created before cataclysm.
+Add Trencher (Construction vehicle).
+Vehicle mounted pet carriers.
 Discordant Mi-go Memes.
-Faction Camp
-Lab more floorplans
-Added sun glare protection for all kinds of survivor masks
-One more lab floorplan
-Add glare protection to all gear with glare quality
-To add Cosmic's Additional Locations to the game
+Add Cosmic's Additional Locations to the game.
 Root Cellar - food preserving option.
-Make leaf springs a thing
-Lab doors: Adds frosted glass, changes the mixture of doors in labs.
-Stacks of money
-Adds a debug trait that enables and gives 100% success chance on manual bionic installs
-Add special effects to 1 in 10 lab sections.
-Cosmic's Golf Course
-Mainline some of blaze and tank mods
-Little bit more location atmosphere.
-Add more phrases to NPCs
-Move narcolepsy from "schizophrenic" to new trait.
-Adds the Pyromania character trait
-More Dog Breeds - Now With Puppies Edition
-Adds LOVES_BOOKS and HATES_BOOKS traits
-Cannibal pemmican
-CBMs and NPCs
-More Duplexes
-Adds New Animal-related Vehicle and Part
-Adds New Animal-related Locations
-Javelin Bag
-Implement Coffee Tree based on Kent Coffee Tree
-Add growable tobacco plant
-Adds classic kids theater manual
-Pillows and other possible sleep aid items.
-Adding Coffee tree to locations
-Added more railroad terrains
-Add tree stumps (forest's table)
-Leather tarp for butchering (or picnic)
-Add ROAD flag to concrete floors (and variants).
-Add lab finale with a standing mutagen tank.  Allow place_liquid in kegs
-Alternative full butchery requirements: fiber mat.
-Unification into the Mycus is now more readable and thematic
-Car variant fitted with trunk divider for pets
-Police SUV and K9 vehicles
-Separate gas masks from hazmat suits.
-Adds a harvest for jabberwocks, and adds putrid hearts ❤
-Add Whaley's Locations
-Improve animals carried in vehicle parts
-Metal compactor, works for more than just steel, cannot transmute materials
-Adds the Kinetic Shock Absorbers CBM
+Cosmic's Golf Course.
+More Dog Breeds - Now With Puppies Edition.
+Add Whaley's Locations.
 New mutation category: Mouse 🐁
 Injectable mutagen finales, targetable purifier smart shots.
-Shrooms overhaul
-Throwing grenade bandolier
-Changing tankbot armament as per #25321
-Overhauling tank drone
-Add refugee center start (costs 1 point)
-Changed venom attack flavor text
-Add RL calorie values for some fruits
+Overhauling tank drone.
+Add refugee center start (costs 1 point).
 
 ## Interface:
 
