@@ -14,12 +14,12 @@
     "symbol": "%",
     "color": "white",
     "use_action": {
-    "target": "sourdough_starter",
-    "msg": "After feeding it and caring for it for weeks, your sourdough starter is finally ready for the big leagues.",
-    "moves": 50,
-    "type": "delayed_transform",
-    "transform_age": 200000,
-    "not_ready_msg": "You've been caring for your starter for a while, but it's going to need longer before you can do anything tasty with it."
+        "target": "sourdough_starter",
+        "msg": "After feeding it and caring for it for weeks, your sourdough starter is finally ready for the big leagues.",
+        "moves": 50,
+        "type": "delayed_transform",
+        "transform_age": 200000,
+        "not_ready_msg": "You've been caring for your starter for a while, but it's going to need longer before you can do anything tasty with it."
     }
     },
     {
@@ -58,5 +58,5 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
     "rot_spawn": "GROUP_ROTTING_PLANT"
-  },
+    }
 ]
