@@ -1,6 +1,6 @@
 [
 	{
-		"id": "TALK_LEADER",
+		"id": [ "TALK_LEADER", "TALK_FRIEND" ],
 		"type": "talk_topic",
 		"responses": [
 			{ "text": "<BGSS_intro_question>", "topic": "BGSS_CONFUSED_1_STORY1", "condition": { "npc_has_trait": "BGSS_Confused_1" } },
@@ -32,7 +32,7 @@
 	},{
         "type": "effect_type",
         "id": "player_BGSS_SAIDNO",
-		"//": "Defined here in the conversation section because this should be the only time this effect is referenced: it's specifically for survival stories only."
+		"//": "Defined here in the conversation section because this should be the only time this effect is referenced: it's specifically for survival stories only.",
 		"name": ["Story Denied"],
         "desc": ["AI tag used when you already asked an NPC for a detail in their survival story and they don't want to tell you again right now. This is a bug if you have it."]
 	},{
@@ -78,7 +78,7 @@
 	},{
         "type": "effect_type",
         "id": "player_rude_BGSS_RELIGIOUS_1_FAITH1",
-		"//": "Defined here in the conversation section because this should be the only time this very specific effect is referenced."
+		"//": "Defined here in the conversation section because this should be the only time this very specific effect is referenced.",
 		"name": ["Religious Offence"],
         "desc": ["AI tag used when you offended an NPC with a specific conversation option. This is a bug if you have it."]
     },{
@@ -236,7 +236,7 @@
 		},{ 
 			"text": "How did you get out?", 
 				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
-			"trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 1 ], [ "TRUST", 1 ] ] },
+			"trial": { "type": "PERSUADE", "difficulty": 30 },
 			"success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
 			"failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
 		},{ 
@@ -251,7 +251,7 @@
 		"responses": [ { 
 			"text": "How did you get out?", 
 				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
-			"trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 1 ], [ "TRUST", 1 ] ] },
+			"trial": { "type": "PERSUADE", "difficulty": 30 },
 			"success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
 			"failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
 		},{ 
@@ -468,13 +468,13 @@
 			},{
 				"text": "Whatever's in that map benefits both of us.",
 				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
-				"trial": { "type": "PERSUADE", "difficulty": 40, [ "TRUST", 2 ] ] },
+				"trial": { "type": "PERSUADE", "difficulty": 40 },
 				"success": { "topic": "BGSS_PREPPER_2_SOLD" },
 				"failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
 			},{
 				"text": "How 'bout you <swear> hand it over and I don't get <swear> pissed off?",
 				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
-				"trial": { "type": "INTIMIDATE", "difficulty": 30, [ "BRAVERY", -1 ] ] },
+				"trial": { "type": "INTIMIDATE", "difficulty": 30 },
 				"success": { "topic": "BGSS_PREPPER_2_SOLD" },
 				"failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
 			},
@@ -579,7 +579,9 @@
 	},{
 		"id": "BGSS_LOST_PARTNER_1_STORY1",
 		"type": "talk_topic",
-		"dynamic_line": "My partner made it out with me, but got eaten by one of those <swear> plant monsters a few days before I met you. This hasn't been a great year for me.",
+		"dynamic_line": [ { "npc_female": "My husband ", "npc_male": "My wife " },
+            "made it out with me, but got eaten by one of those <swear> plant monsters a few days before I met you. This hasn't been a great year for me."
+            ],
 		"responses": [
 			{ "text": "I'm sorry to hear it.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
 			{ "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
@@ -631,13 +633,13 @@
 		"responses": [ { 
 			"text": "It might help to get it off your chest.", 
 				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
-			"trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 3 ] ] },
+			"trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "VALUE", 1 ] ] },
 			"success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
 			"failure": { "topic": "BGSS_LOST_PARTNER_2_NOTYET" }
 		},{ 
 			"text": "Suck it up. If we're going to work together I need to know you.", 
 				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
-			"trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "BRAVERY", 1 ] ] },
+			"trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "FEAR", 1 ] ] },
 			"success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
 			"failure": { "topic": "BGSS_LOST_PARTNER_2_FUCKOFF" }
 		},{ 
@@ -663,7 +665,7 @@
 	},{
 		"id": "BGSS_LOST_PARTNER_2_STORY2",
 		"type": "talk_topic",
-		"dynamic_line": "All right, fine. I had someone. I lost them.",
+		"dynamic_line": [ "All right, fine. I had someone. I lost ", { "npc_female": "him.", "npc_male": "her." } ],
 		"responses": [
 			{ "text": "What happened?", "topic": "BGSS_LOST_PARTNER_2_STORY3" },
 			{ "text": "Never mind. Sorry I brought it up.", "topic": "TALK_LEADER" },
@@ -672,7 +674,7 @@
 	},{
 		"id": "BGSS_LOST_PARTNER_2_STORY3",
 		"type": "talk_topic",
-		"dynamic_line": "They were at home when the bombs started dropping and the world went to hell. I was at work. I tried to make it to our house, but the city was a war zone. Things I can't describe lurching through the streets, crushing people and cars. Soldiers trying to stop them, but hitting people in the crossfire as much as anything. And then the collateral damage would get right back up and join the enemy. If it hadn't been for my partner, I would have just left, but I did what I could and I slipped through. I actually fucking made it alive.",
+		"dynamic_line": [ { "npc_female": "He ", "npc_male": "She " }, "was at home when the bombs started dropping and the world went to hell. I was at work. I tried to make it to our house, but the city was a war zone. Things I can't describe lurching through the streets, crushing people and cars. Soldiers trying to stop them, but hitting people in the crossfire as much as anything. And then the collateral damage would get right back up and join the enemy. If it hadn't been for my", { "npc_female": "husband, ", "npc_male": "wife, " }, "I would have just left, but I did what I could and I slipped through. I actually <swear> made it alive." ],
 		"responses": [
 			{ "text": "You must have seen some shit.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
 			{ "text": "I take it home was bad.", "topic": "BGSS_LOST_PARTNER_2_HOME" },
@@ -701,7 +703,7 @@
 	},{
 		"id": "BGSS_LOST_PARTNER_2_HOME2",
 		"type": "talk_topic",
-		"dynamic_line": "I did. Took a few hours to get an opening. And you wanna know the fucked up part? Like, out of all this? My partner was still alive. They'd been in the basement the whole time, pinned under a collapsed piece of floor. And they'd lost a ton of blood, they were delirius by the time I found them. I couldn't get them out, so I gave them food and water and just stayed with them and held their hand until they passed. And then... well, then I did what you have to do to the dead now. And then I packed up the last few fragments of my life, and I try to never look back.",
+		"dynamic_line": [ "I did. Took a few hours to get an opening. And you wanna know the fucked up part? Like, out of all this? My ", { "npc_female": "husband ", "npc_male": "wife " }, "was still alive. ", { "npc_female": "He", "npc_male": "She" }, "'d been in the basement the whole time, pinned under a collapsed piece of floor. And ", { "npc_female": "he", "npc_male": "she" }, "'d lost a ton of blood, ", { "npc_female": "he", "npc_male": "she" }, " was delirius by the time I found ", { "npc_female": "him", "npc_male": "her" }, ". I couldn't get ", { "npc_female": "him", "npc_male": "her" }, " out, so I gave ", { "npc_female": "him", "npc_male": "her" }, " food and water and just stayed with ", { "npc_female": "him", "npc_male": "her" }, " and held ", { "npc_female": "his", "npc_male": "her" }, " hand until ", { "npc_female": "he", "npc_male": "she" }, " passed. And then... well, then I did what you have to do to the dead now. And then I packed up the last few fragments of my life, and I try to never look back." ],
 		"responses": [
 			{ "text": "Thanks for telling me that. <done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -709,7 +711,7 @@
 	},{
 		"id": "BGSS_RURAL_1_STORY1",
 		"type": "talk_topic",
-		"dynamic_line": "I lived alone, on the old family property way out of town. My partner passed away a bit over a month before this started... cancer. If anything good has come out of all this, it's that I finally see a positive to losing them so young. I'd been shut in for a while anyway. When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
+		"dynamic_line": [ "I lived alone, on the old family property way out of town. My ", { "npc_female": "husband", "npc_male": "wife" }, " passed away a bit over a month before this started... cancer. If anything good has come out of all this, it's that I finally see a positive to losing ", { "npc_female": "him", "npc_male": "her" }, " so young. I'd been shut in for a while anyway. When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel." ],
 		"responses": [
 			{ "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY2" },
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" }
