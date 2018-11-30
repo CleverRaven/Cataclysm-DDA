@@ -4323,7 +4323,7 @@ int game::mon_info( const catacurses::window &w )
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
                             critter.ignoring = 0;
-                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn.has_value() &&
+                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
                                                                 to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
                                    ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
                             passmon = true;
