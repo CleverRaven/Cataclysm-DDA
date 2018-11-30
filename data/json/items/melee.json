@@ -2240,5 +2240,25 @@
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "keris_ancient",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "keris",
+    "description": "Ancient dagger from indonesian origin, its winding shape, sharpness and durability makes it a deadly melee weapon.",
+    "weight": 4,
+    "volume": 3,
+    "price": 15000,
+    "to_hit": 3,
+    "bashing": 1,
+    "cutting": 15,
+    "durability": 10,
+    "material": "steel",
+    "symbol": "/",
+    "color": "gray",
+    "techniques": [ "RAPID", "SWEEP" ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 6 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   }
 ]
