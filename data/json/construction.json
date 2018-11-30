@@ -2393,11 +2393,11 @@
         "post_special" : "done_mark_firewood"
     },{
         "type" : "construction",
-        "description" : "Mark practive target",
+        "description" : "Mark practice target",
         "category" : "OTHER",
         "required_skills" : [],
         "time" : 0,
-        "pre_note" : "Mark a spot for target practice.  Firing will automatically target the first practice target location ,found in gunrange, if no enemies are around.",
+        "pre_note" : "Mark a spot for target practice.  Firing will automatically target the first practice target location found in gun range, if no enemies are around.",
         "pre_special" : "check_no_trap",
         "post_special" : "done_mark_practice_target"
     },{
