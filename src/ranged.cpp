@@ -299,7 +299,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     recoil = std::min( MAX_RECOIL, recoil );
 
     // Reset last target pos
-    last_target_pos = tripoint_min;
+    last_target_pos = cata::nullopt;
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
@@ -932,8 +932,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
         if( targets.empty() ) {
             idx = -1;
-            if( pc.last_target_pos != tripoint_min ) {
-                dst = pc.last_target_pos;
+            if( pc.last_target_pos ) {
+                dst = *pc.last_target_pos;
             } else {
                 auto adjacent = closest_tripoints_first( range, dst );
                 const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
@@ -958,10 +958,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( iter != targets.end() ) {
             idx = std::distance( targets.begin(), iter );
             dst = targets[ idx ]->pos();
-            pc.last_target_pos = tripoint_min;
+            pc.last_target_pos = cata::nullopt;
         } else {
             idx = 0;
-            dst = pc.last_target_pos != tripoint_min ? pc.last_target_pos : targets[ 0 ]->pos();
+            dst = pc.last_target_pos ? *pc.last_target_pos : targets[ 0 ]->pos();
             pc.last_target.reset();
         }
     };
@@ -1008,7 +1008,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "SWITCH_MODE" ) ;
+    ctxt.register_action( "SWITCH_MODE" );
     ctxt.register_action( "SWITCH_AMMO" );
 
     if( mode == TARGET_MODE_FIRE ) {
@@ -1308,7 +1308,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( aim_mode == aim_types.end() ) {
                 aim_mode = aim_types.begin();
             }
-        } else if( ( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) ) {
+        } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
             // This action basically means "FIRE" as well, the actual firing may be delayed
             // through aiming, but there is usually no means to stop it. Therefore we query here.
             if( !confirm_non_enemy_target( dst ) ) {
@@ -1367,7 +1367,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             snap_to_target = !snap_to_target;
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
-            pc.last_target_pos = tripoint_min;
+            pc.last_target_pos = cata::nullopt;
             target = -1;
             break;
         }
@@ -1555,6 +1555,10 @@ item::sound_data item::gun_noise( bool const burst ) const
                ammo_type() == ammotype( "84x246mm" ) || ammo_type() == ammotype( "m235" ) ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
+    } else if( ammo_type() == ammotype( "arrow" ) ) {
+        return { noise, _( "whizz!" ) };
+    } else if( ammo_type() == ammotype( "bolt" ) ) {
+        return { noise, _( "thonk!" ) };
     }
 
     auto fx = ammo_effects();

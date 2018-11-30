@@ -79,7 +79,8 @@ void game::serialize( std::ostream &fout )
             json.member( "last_target_type", -1 );
         }
     } else {
-        json.member( "last_target_pos", u.last_target_pos );
+        tripoint templtp = u.last_target_pos ? *u.last_target_pos : tripoint_min;
+        json.member( "last_target_pos", templtp );
     }
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
@@ -182,6 +183,7 @@ void game::unserialize( std::istream &fin )
     int tmprun = 0;
     int tmptar = 0;
     int tmptartyp = 0;
+    tripoint templtp;
     int levx = 0;
     int levy = 0;
     int levz = 0;
@@ -197,7 +199,7 @@ void game::unserialize( std::istream &fin )
                                    static_cast<int>( SPRING ) ) );
         data.read( "last_target", tmptar );
         data.read( "last_target_type", tmptartyp );
-        data.read( "last_target_pos", u.last_target_pos );
+        data.read( "last_target_pos", templtp );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
         data.read( "levx", levx );
@@ -231,6 +233,10 @@ void game::unserialize( std::istream &fin )
         } else if( tmptartyp == -1 ) {
             // Need to do this *after* the monsters have been loaded!
             u.last_target = critter_tracker->from_temporary_id( tmptar );
+        }
+
+        if( templtp != tripoint_min ) {
+            u.last_target_pos = templtp;
         }
 
         JsonArray vdata = data.get_array( "stair_monsters" );
