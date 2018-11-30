@@ -171,7 +171,7 @@ void talk_function::assign_guard( npc &p )
 {
     add_msg( _( "%s is posted as a guard." ), p.name );
     p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD;
+    p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_destination();
 }

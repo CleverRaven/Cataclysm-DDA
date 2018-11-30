@@ -313,6 +313,9 @@ class overmap
         void place_river( point pa, point pb );
         void place_forest();
 
+        void place_forest_trails();
+        void place_forest_trailheads();
+
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
 

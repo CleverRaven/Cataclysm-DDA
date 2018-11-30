@@ -41,6 +41,7 @@ class map_memory
 {
     public:
         void store( JsonOut &jsout ) const;
+        void load( JsonIn &jsin );
         void load( JsonObject &jsin );
 
         /** Memorizes a given tile; finalize_tile_memory needs to be called after it */

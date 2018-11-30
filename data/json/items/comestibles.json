@@ -7235,7 +7235,7 @@
     "description": "A meat pizza, for all the cannibals out there.  Chock full of minced human flesh and heavily seasoned.",
     "material": [ "wheat", "hflesh" ]
   },
-    {
+  {
     "id": "mre_beef_box",
     "type": "GENERIC",
     "symbol": ")",

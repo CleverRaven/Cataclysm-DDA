@@ -16,7 +16,7 @@ mod_ui::mod_ui( mod_manager &mman )
 
 std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 {
-    if( mod == NULL ) {
+    if( mod == nullptr ) {
         return "";
     }
 

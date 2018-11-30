@@ -5656,7 +5656,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         const field_id &fid = curr_field.fieldSymbol();
         const field_entry *fe = curr_field.findField( fid );
         const field_t &f = fieldlist[fid];
-        if( f.sym == '&' || fe == NULL ) {
+        if( f.sym == '&' || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
         } else if( f.sym == '*' ) {
             // A random symbol.
@@ -6346,8 +6346,8 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     static const oter_id rock( "empty_rock" );
     static const oter_id air( "open_air" );
 
-    dbg( D_INFO ) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y
-                  << "], gridx["
+    dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
+                  << "], worldy[" << abs_sub.y << "], gridx["
                   << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
 
     const int absx = abs_sub.x + gridx,
@@ -7428,15 +7428,20 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 continue;
             }
 
-            if( vp.is_inside() ) {
-                outside_cache[px][py] = false;
-            }
+            bool vehicle_is_opaque =
+                vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken();
 
-            if( vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken() ) {
+            if( vehicle_is_opaque ) {
                 int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE, true );
                 if( dpart < 0 || !v.v->parts[dpart].open ) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+                } else {
+                    vehicle_is_opaque = false;
                 }
+            }
+
+            if( vehicle_is_opaque || vp.is_inside() ) {
+                outside_cache[px][py] = false;
             }
 
             if( vp.has_feature( VPFLAG_BOARDABLE ) && !vp.part().is_broken() ) {

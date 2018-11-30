@@ -1583,6 +1583,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
     "examine_action": "portable_structure",
+    "deployed_item": "tent_kit",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -1622,6 +1623,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
     "examine_action": "portable_structure",
+    "deployed_item": "large_tent_kit",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -1718,6 +1720,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
     "examine_action": "portable_structure",
+    "deployed_item": "shelter_kit",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -2919,7 +2922,8 @@
     "move_cost_mod": 3,
     "required_str": 6,
     "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
-    "examine_action": "portable_structure",
+    "examine_action": "deployed_furniture",
+    "deployed_item": "stepladder",
     "bash": {
       "str_min": 6,
       "str_max": 40,

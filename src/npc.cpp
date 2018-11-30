@@ -100,7 +100,7 @@ npc::npc()
     dex_max = 0;
     int_max = 0;
     per_max = 0;
-    my_fac = NULL;
+    my_fac = nullptr;
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     death_drops = true;
@@ -1631,6 +1631,7 @@ bool npc::is_guarding() const
 {
     return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
            mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+           mission == NPC_MISSION_GUARD_ALLY ||
            has_effect( effect_infection );
 }
 
