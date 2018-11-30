@@ -1180,7 +1180,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             if( acidlength >=1 ) {
                 g->m.add_field( pos(), fd_acid, acidlength );
             } else { if( acidlength = -9 ) {
-                fstr = 3; // reset loop
+                acidlength = 3; // reset loop
             } }
         } 
     }
