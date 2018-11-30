@@ -429,7 +429,7 @@ class monster : public Creature
         }
 
         short ignoring;
-        int lastseen_turn = INT_MIN;
+        cata::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount;

@@ -4240,7 +4240,7 @@ int game::mon_info( const catacurses::window &w )
     new_seen_mon.clear();
 
     const int current_turn = calendar::turn;
-    const int sm_ignored_turns = get_option<int>("SAFEMODEIGNORETURNS");
+    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
     for( auto &c : u.get_visible_creatures( SEEX * MAPSIZE ) ) {
         const auto m = dynamic_cast<monster *>( c );
@@ -4323,7 +4323,9 @@ int game::mon_info( const catacurses::window &w )
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
                             critter.ignoring = 0;
-                        } else if( ( sm_ignored_turns == 0 || critter.lastseen_turn > current_turn - sm_ignored_turns ) && ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
+                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn.has_value() &&
+                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
+                                   ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
                             passmon = true;
                         }
                         critter.lastseen_turn = current_turn;
