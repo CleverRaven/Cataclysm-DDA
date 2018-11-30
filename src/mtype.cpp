@@ -222,6 +222,13 @@ int mtype::get_meat_chunks_count() const
     return static_cast<int>( ch / to_gram( chunk->weight ) );
 }
 
+int mtype::get_chunks_count(std::string chunk_name) const
+{
+    float ch = to_gram(weight) * (0.40f - 0.02f * log10f(to_gram(weight)));
+    const itype *chunk = item::find_type(chunk_name);
+    return static_cast<int>(ch / to_gram(chunk->weight));
+}
+
 std::string mtype::get_description() const
 {
     return _( description.c_str() );
