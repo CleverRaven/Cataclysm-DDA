@@ -336,6 +336,7 @@ struct mtype {
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
+        int get_chunks_count(std::string chunk_name) const;
         std::string get_description() const;
 
         // Historically located in monstergenerator.cpp
