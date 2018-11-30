@@ -70,7 +70,10 @@
 		"type": "talk_topic",
 		"dynamic_line": "Of course. It's clear enough, isn't it? That... that end, was the Rapture. I'm still here, and I still don't understand why, but I will keep Jesus in my heart through the Tribulations to come. When they're past, I'm sure He will welcome me into the Kingdom of Heaven. Or... or something along those lines. It's not going exactly like I thought it would, but that's prophecy for you.",
 		"responses": [
-			{ "text": "What if you're wrong?", "topic": "BGSS_RELIGIOUS_1_FAITH1", "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } }, "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } },
+			{ "text": "What if you're wrong?", "topic": "BGSS_RELIGIOUS_1_FAITH1", 
+             "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } }, 
+             "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } }
+            },
 			{ "text": "What will you do, then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },      
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -95,8 +98,11 @@
 		"type": "talk_topic",
 		"dynamic_line": "I will keep the faith, and keep praying, and strike down the agents of Hell where I see them. That's all we few can do, isn't it? I suppose perhaps we're the meek that shall inherit the Earth. Although I don't love our odds.",
 		"responses": [
-			{ "text": "What if you're wrong?", "topic": "BGSS_RELIGIOUS_1_FAITH1", "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } }, "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } },
-			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
+			{ "text": "What if you're wrong?", "topic": "BGSS_RELIGIOUS_1_FAITH1", 
+             "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } }, 
+             "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } }
+            },
+            { "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
 	},{
@@ -432,7 +438,8 @@
 		"dynamic_line": "Oh, man. I thought I was ready. I had it all planned out. Bug out bags. Loaded guns. Maps of escape routes. Bunker in the back yard.",
 		"responses": [
 			{ "text": "Sounds like it didn't work out.", "topic": "BGSS_PREPPER_2_STORY2" },
-			{ "text": "Hey, I'd really be interested in seeing those maps.", "topic": "BGSS_PREPPER_2_MAPS", "condition": { "not": { "npc_has_effect": "player_BGSS_HASMAPS" } }, },
+			{ "text": "Hey, I'd really be interested in seeing those maps.", "topic": "BGSS_PREPPER_2_MAPS", 
+             "condition": { "not": { "npc_has_effect": "player_BGSS_HASMAPS" } }, },
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
@@ -442,7 +449,8 @@
 		"dynamic_line": "Depends on your definition. I'm alive, aren't I? When Hell itself came down from the skies and monsters started attacking the cities, I grabbed my stuff and crammed into the bunker. My surface cameras stayed online for days; I could see everything happening up there. I watched those things stride past. I still have nightmares about the way their bodies moved, like they broke the world just to be here. I had nothing better to do. I watched them rip up the cops and the military, watched the dead rise back up and start fighting the living. I watched the nice old lady down the street rip the head off my neighbor's dog. I saw a soldier's body twitch and grow into some kind of electrified hulk beast. I watched it all happen.",
 		"responses": [
 			{ "text": "Why did you leave your bunker?", "topic": "BGSS_PREPPER_2_STORY3" },
-			{ "text": "Hey, I'd really be interested in seeing those maps.", "topic": "BGSS_PREPPER_2_MAPS", "condition": { "not": { "npc_has_effect": "player_BGSS_HASMAPS" } }, },
+			{ "text": "Hey, I'd really be interested in seeing those maps.", "topic": "BGSS_PREPPER_2_MAPS", 
+             "condition": { "not": { "npc_has_effect": "player_BGSS_HASMAPS" } }, },
 			{ "text": "<done_conversation_section>", "topic": "TALK_LEADER" },
 			{ "text": "<end_talking>", "topic": "TALK_DONE" }
 		]
@@ -458,13 +466,13 @@
 	},{
 		"id": "BGSS_PREPPER_2_MAPS",
 		"type": "talk_topic",
-		"dynamic_line": "Yeah, I do. I'd be willing to part with them for, say, $2000.",
+		"dynamic_line": "Yeah, I do. I'd be willing to part with them for, say, $1000. ATM transfer, not cash cards... you gotta have the money in the bank.",
 		"responses": [
 		    {
-				"text": "[$2000] You have a deal.",
+				"text": "[$1000] You have a deal.",
 				"topic": "BGSS_PREPPER_2_SOLD",
-				"condition": { "u_has_cash": 200000 },
-				"effect": { "u_spend_cash": 200000 }
+				"condition": { "u_has_cash": 100000 },
+				"effect": { "u_spend_cash": 100000 }
 			},{
 				"text": "Whatever's in that map benefits both of us.",
 				"condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, 
