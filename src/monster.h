@@ -429,7 +429,7 @@ class monster : public Creature
         }
 
         short ignoring;
-        int lastseen_turn = -100;
+        int lastseen_turn = INT_MIN;
 
         // Stair data.
         int staircount;
