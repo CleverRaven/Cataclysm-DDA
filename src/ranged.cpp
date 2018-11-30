@@ -968,6 +968,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     update_targets( range, t, target, dst );
 
+    double recoil_pc = pc.recoil;
+    tripoint recoil_pos = dst;
+
     bool compact = TERMY < 41;
     bool tiny = TERMY < 31;
 
@@ -1247,6 +1250,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             pc.view_offset.z--;
         }
 
+        auto recalc_recoil = [&recoil_pc, &recoil_pos, &pc]( tripoint &dst ) {
+            static const double recoil_per_deg = MAX_RECOIL / 180;
+
+            const int phi = std::abs( g->m.coord_to_angle( pc.pos().x, pc.pos().y, dst.x, dst.y ) -
+            g->m.coord_to_angle( pc.pos().x, pc.pos().y, recoil_pos.x, recoil_pos.y ) ) % 360;
+            const double angle = phi > 180 ? 360 - phi : phi;
+
+            return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
+        };
+
         /* More drawing to terrain */
         if( targ != tripoint_zero ) {
             const Creature *critter = g->critter_at( dst, true );
@@ -1263,9 +1276,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
             dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
 
-            // TODO: find radial offset between targets and
-            // spend move points swinging the gun around.
-            pc.recoil = MAX_RECOIL;
+            // TODO: spend move points swinging the gun around.
+            pc.recoil = recalc_recoil( dst );
 
         } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) - 1;
@@ -1273,17 +1285,20 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 newtarget = t.size() - 1;
             }
             dst = t[newtarget]->pos();
-            pc.recoil = MAX_RECOIL;
+            pc.recoil = recalc_recoil( dst );
         } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) + 1;
             if( newtarget == static_cast<int>( t.size() ) ) {
                 newtarget = 0;
             }
             dst = t[newtarget]->pos();
-            pc.recoil = MAX_RECOIL;
+            pc.recoil = recalc_recoil( dst );
         } else if( ( action == "AIM" ) ) {
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
+            recoil_pc = pc.recoil;
+            recoil_pos = dst;
+
             set_last_target( dst );
             for( int i = 0; i < 10; ++i ) {
                 do_aim( pc, *relevant );
@@ -1314,6 +1329,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( !confirm_non_enemy_target( dst ) ) {
                 continue;
             }
+            recoil_pc = pc.recoil;
+            recoil_pos = dst;
             int aim_threshold;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
