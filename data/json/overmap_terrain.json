@@ -9734,6 +9734,29 @@
     "color": "yellow"
   },
   {
+    "type": "overmap_terrain",
+    "id": "railroad",
+    "name": "railroad",
+    "color": "light_green",
+    "see_cost": 2,
+    "mapgen_straight": [ { "method": "builtin", "name": "railroad_straight" } ],
+    "mapgen_curved": [ { "method": "builtin", "name": "railroad_curved" } ],
+    "mapgen_end": [ { "method": "builtin", "name": "railroad_end" } ],
+    "mapgen_tee": [ { "method": "builtin", "name": "railroad_tee" } ],
+    "mapgen_four_way": [ { "method": "builtin", "name": "railroad_four_way" } ],
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "railroad_bridge",
+    "name": "railroad bridge",
+    "sym": 4194424,
+    "color": "light_cyan",
+    "see_cost": 2,
+    "mapgen": [ { "method": "builtin", "name": "railroad_bridge" } ],
+    "flags": [ "RIVER" ]
+  },
+  {
     "abstract": "generic_railroad_station",
     "type": "overmap_terrain",
     "name": "railroad station",
