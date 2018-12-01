@@ -921,76 +921,53 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 
         // QUICK BUTCHERY
         if( action == BUTCHER ) {
-            if( entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ||
-                entry.drop == "wool_staple" || entry.drop == "fat" || entry.drop == "fat_tainted" ) {
+            if( entry.type == "flesh" ) {
                 roll = roll / 4;
-            } else if( entry.drop != "bone" ) {
+            } else if( entry.type == "bone" ) {
                 roll = roll / 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.drop == "raw_fur" ||
-                       entry.drop == "raw_leather" ||
-                       entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                       entry.drop == "raw_hleather" || entry.drop == "chitin_piece" ||
-                       entry.drop == "acidchitin_piece" ) ) {
+            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
                 roll /= 2 ;
+            }
+            else if (entry.type == "offal") {
+                roll = roll / 5;
             } else {
                 continue;
             }
         }
         // field dressing ignores everything outside below list
         if( action == F_DRESS ) {
-            if( entry.drop != "bone" ) {
+            if( entry.type == "bone" ) {
                 roll = rng( 0, roll / 2 );
             }
-            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" ||
-                entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ||
-                entry.drop == "brain" ) {
+            if( entry.type == "flesh" ) {
                 continue;
             }
         }
 
         // field dressing removed innards and bones from meatless limbs
         if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-            if( entry.drop == "stomach" || entry.drop == "stomach_large" ||
-                entry.drop == "hstomach" || entry.drop == "hstomach_large" ||
-                entry.drop == "offal" || entry.drop == "plant_sac" ||
-                entry.drop == "liver" || entry.drop == "kidney" ||
-                entry.drop == "lung" || entry.drop == "sweetbread" ) {
+            if( entry.type == "offal" ) {
                 continue;
             }
-            if( entry.drop == "bone" ) {
+            if( entry.type == "bone" ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
         }
         // unskillfull field dressing may damage the skin, meat, and other parts
         if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
-            if( entry.drop == "stomach" || entry.drop == "stomach_large" ||
-                entry.drop == "hstomach" || entry.drop == "hstomach_large" ||
-                entry.drop == "offal" ) {
+            if( entry.type == "offal" ) {
                 continue;
             }
-            if( entry.drop == "bone" || entry.drop == "bone_human" ) {
+            if( entry.type == "bone" ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
-            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" ||
-                entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
+            if( entry.type == "flesh" || entry.type == "skin" ) {
                 roll = rng( 0, roll );
             }
         }
         // quartering ruins skin
         if( corpse_item->has_flag( "QUARTERED" ) ) {
-            if( entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" ||
-                entry.drop == "raw_tainted_leather" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" ) {
+            if( entry.type == "skin" ) {
                 roll = 0; //not continue to show fail effect
             } else {
                 roll /= 4;

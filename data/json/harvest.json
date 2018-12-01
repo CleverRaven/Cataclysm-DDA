@@ -8,9 +8,9 @@
     "id": "fish_small",
     "type": "harvest",
     "entries": [
-      { "drop": "fish", "scale_num": [ 0.2, 0.4 ], "max": 2 },
-      { "drop": "stomach" },
-      { "drop": "bone", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.5 ], "max": 4 }
+      { "drop": "fish", "scale_num": [ 0.2, 0.4 ], "max": 2, "type": "flesh" },
+      { "drop": "stomach", "type": "offal" },
+      { "drop": "bone", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.5 ], "max": 4 , "type": "bone" }
     ]
   },
   {
@@ -18,10 +18,10 @@
     "type": "harvest",
     "message": "You gut and fillet the fish",
     "entries": [
-      { "drop": "fish", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 14 },
-      { "drop": "liver", "base_num": [ 0, 1 ], "scale_num": [ 0.7, 0.9 ], "max": 2 },
-      { "drop": "kidney", "base_num": [ -1, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 2 },
-      { "drop": "bone", "base_num": [ 2, 4 ], "scale_num": [ 0.5, 0.7 ], "max": 4 }
+      { "drop": "fish", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 14, "type": "flesh" },
+      { "drop": "liver", "base_num": [ 0, 1 ], "scale_num": [ 0.7, 0.9 ], "max": 2, "type": "offal" },
+      { "drop": "kidney", "base_num": [ -1, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 2, "type": "offal" },
+      { "drop": "bone", "base_num": [ 2, 4 ], "scale_num": [ 0.5, 0.7 ], "max": 4, "type": "bone" },
     ]
   },
   {
@@ -29,110 +29,12 @@
     "type": "harvest",
     "message": "You search for any salvageable bionic hardware in what's left of this failed experiment",
     "entries": [
-      { "drop": "bio_power_storage", "base_num": [ 0, 0 ], "scale_num": [ 0.05, 0.2 ], "max": 1 },
-      { "drop": "burnt_out_bionic", "scale_num": [ 0.1, 0.3 ], "max": 1 },
-      { "drop": "sinew", "base_num": [ 5, 15 ], "scale_num": [ 0.6, 0.9 ], "max": 20 },
-      { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8 },
-      { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10 },
-      { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12 }
-    ]
-  },
-  {
-    "id": "animal_tiny",
-    "//": "Weight: 1000",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "base_num": [ -2, 1 ], "scale_num": [ 0.8, 0.9 ], "max": 3 },
-      { "drop": "stomach", "base_num": [ -1, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 1 },
-      { "drop": "bone", "base_num": [ -2, 0 ], "scale_num": [ 0.8, 0.9 ], "max": 1 },
-      { "drop": "sinew", "base_num": [ 4, 7 ], "scale_num": [ 0.6, 0.9 ], "max": 8 },
-      { "drop": "raw_leather", "base_num": [ -5, -3 ], "scale_num": [ 0.6, 0.8 ], "max": 1 },
-      { "drop": "fat", "base_num": [ -2, 0 ], "scale_num": [ 0.8, 0.9 ], "max": 1 }
-    ]
-  },
-  {
-    "id": "animal_tiny_fur",
-    "//": "Weight: 1000",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "base_num": [ -2, 1 ], "scale_num": [ 0.8, 0.9 ], "max": 3 },
-      { "drop": "stomach", "base_num": [ -1, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 1 },
-      { "drop": "bone", "base_num": [ -2, 0 ], "scale_num": [ 0.8, 0.9 ], "max": 1 },
-      { "drop": "sinew", "base_num": [ 4, 7 ], "scale_num": [ 0.6, 0.9 ], "max": 8 },
-      { "drop": "raw_fur", "base_num": [ -5, -3 ], "scale_num": [ 0.6, 0.8 ], "max": 1 },
-      { "drop": "fat", "base_num": [ -2, 0 ], "scale_num": [ 0.8, 0.9 ], "max": 1 }
-    ]
-  },
-  {
-    "id": "animal_small",
-    "//": "Weight: 40750",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "base_num": [ 25, 45 ], "scale_num": [ 0.8, 0.9 ], "max": 60 },
-      { "drop": "lung", "base_num": [ -1, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 2 },
-      { "drop": "liver", "base_num": [ -1, 1 ], "scale_num": [ 0.7, 1 ], "max": 2 },
-      { "drop": "brain", "base_num": [ -1, 1 ], "scale_num": [ 0.3, 0.5 ], "max": 2 },
-      { "drop": "sweetbread", "base_num": [ -4, -2 ], "scale_num": [ 0.3, 0.5 ], "max": 1 },
-      { "drop": "kidney", "base_num": [ -1, 1 ], "scale_num": [ 0.5, 0.7 ], "max": 2 },
-      { "drop": "stomach", "base_num": [ -1, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 1 },
-      { "drop": "bone", "base_num": [ 3, 8 ], "scale_num": [ 0.8, 0.9 ], "max": 11 },
-      { "drop": "sinew", "base_num": [ 14, 28 ], "scale_num": [ 0.6, 0.9 ], "max": 34 },
-      { "drop": "raw_leather", "base_num": [ -1, 1 ], "scale_num": [ 0.6, 0.8 ], "max": 2 },
-      { "drop": "fat", "base_num": [ 7, 12 ], "scale_num": [ 0.8, 0.9 ], "max": 14 }
-    ]
-  },
-  {
-    "id": "animal_small_fur",
-    "//": "Weight: 40750",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "base_num": [ 25, 45 ], "scale_num": [ 0.8, 0.9 ], "max": 60 },
-      { "drop": "lung", "base_num": [ -1, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 2 },
-      { "drop": "liver", "base_num": [ -1, 1 ], "scale_num": [ 0.7, 1 ], "max": 2 },
-      { "drop": "brain", "base_num": [ -1, 1 ], "scale_num": [ 0.3, 0.5 ], "max": 2 },
-      { "drop": "sweetbread", "base_num": [ -4, -2 ], "scale_num": [ 0.3, 0.5 ], "max": 1 },
-      { "drop": "kidney", "base_num": [ -1, 1 ], "scale_num": [ 0.5, 0.7 ], "max": 2 },
-      { "drop": "stomach", "base_num": [ -1, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 1 },
-      { "drop": "bone", "base_num": [ 3, 8 ], "scale_num": [ 0.8, 0.9 ], "max": 11 },
-      { "drop": "sinew", "base_num": [ 14, 28 ], "scale_num": [ 0.6, 0.9 ], "max": 34 },
-      { "drop": "raw_fur", "base_num": [ -1, 1 ], "scale_num": [ 0.6, 0.8 ], "max": 2 },
-      { "drop": "fat", "base_num": [ 7, 12 ], "scale_num": [ 0.8, 0.9 ], "max": 14 }
-    ]
-  },
-  {
-    "id": "animal_medium",
-    "//": "Weight: 81500",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "base_num": [ 50, 90 ], "scale_num": [ 0.8, 0.9 ], "max": 120 },
-      { "drop": "lung", "base_num": [ 2, 3 ], "scale_num": [ 0.6, 0.9 ], "max": 3 },
-      { "drop": "liver", "base_num": [ 1, 3 ], "scale_num": [ 0.7, 1 ], "max": 4 },
-      { "drop": "brain", "base_num": [ -1, 4 ], "scale_num": [ 0.3, 0.5 ], "max": 5 },
-      { "drop": "sweetbread", "base_num": [ -3, -1 ], "scale_num": [ 0.3, 0.5 ], "max": 2 },
-      { "drop": "kidney", "base_num": [ 1, 3 ], "scale_num": [ 0.5, 0.7 ], "max": 3 },
-      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "bone", "base_num": [ 6, 19 ], "scale_num": [ 0.8, 0.9 ], "max": 25 },
-      { "drop": "sinew", "base_num": [ 32, 64 ], "scale_num": [ 0.6, 0.9 ], "max": 77 },
-      { "drop": "raw_leather", "base_num": [ 1, 2 ], "scale_num": [ 0.6, 0.8 ], "max": 5 },
-      { "drop": "fat", "base_num": [ 17, 27 ], "scale_num": [ 0.8, 0.9 ], "max": 31 }
-    ]
-  },
-  {
-    "id": "animal_medium_fur",
-    "//": "Weight: 81500",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "base_num": [ 50, 90 ], "scale_num": [ 0.8, 0.9 ], "max": 120 },
-      { "drop": "lung", "base_num": [ 2, 3 ], "scale_num": [ 0.6, 0.9 ], "max": 3 },
-      { "drop": "liver", "base_num": [ 1, 3 ], "scale_num": [ 0.7, 1 ], "max": 4 },
-      { "drop": "brain", "base_num": [ -1, 4 ], "scale_num": [ 0.3, 0.5 ], "max": 5 },
-      { "drop": "sweetbread", "base_num": [ -3, -1 ], "scale_num": [ 0.3, 0.5 ], "max": 2 },
-      { "drop": "kidney", "base_num": [ 1, 3 ], "scale_num": [ 0.5, 0.7 ], "max": 3 },
-      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "bone", "base_num": [ 6, 19 ], "scale_num": [ 0.8, 0.9 ], "max": 25 },
-      { "drop": "sinew", "base_num": [ 32, 64 ], "scale_num": [ 0.6, 0.9 ], "max": 77 },
-      { "drop": "raw_fur", "base_num": [ 1, 2 ], "scale_num": [ 0.6, 0.8 ], "max": 5 },
-      { "drop": "fat", "base_num": [ 17, 27 ], "scale_num": [ 0.8, 0.9 ], "max": 31 }
+      { "drop": "bio_power_storage", "base_num": [ 0, 0 ], "scale_num": [ 0.05, 0.2 ], "max": 1, "type": "bionic" },
+      { "drop": "burnt_out_bionic", "scale_num": [ 0.1, 0.3 ], "max": 1, "type": "bionic" },
+      { "drop": "sinew", "base_num": [ 5, 15 ], "scale_num": [ 0.6, 0.9 ], "max": 20, "type": "bone" },
+      { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8, "type": "flesh" },
+      { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10, "type": "bone" },
+      { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12, "type": "bone" }
     ]
   },
   {
@@ -140,35 +42,17 @@
     "//": "Weight: 120000g",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "base_num": [ 73, 132 ], "scale_num": [ 0.8, 0.9 ], "max": 176 },
-      { "drop": "lung", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.9 ], "max": 4 },
-      { "drop": "liver", "base_num": [ 1, 4 ], "scale_num": [ 0.7, 1 ], "max": 6 },
-      { "drop": "brain", "base_num": [ 0, 6 ], "scale_num": [ 0.3, 0.5 ], "max": 8 },
-      { "drop": "sweetbread", "base_num": [ -2, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 3 },
-      { "drop": "kidney", "base_num": [ 1, 5 ], "scale_num": [ 0.5, 0.7 ], "max": 4 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "bone", "base_num": [ 10, 30 ], "scale_num": [ 0.8, 0.9 ], "max": 40 },
-      { "drop": "sinew", "base_num": [ 50, 100 ], "scale_num": [ 0.6, 0.9 ], "max": 120 },
-      { "drop": "raw_leather", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.8 ], "max": 10 },
-      { "drop": "fat", "base_num": [ 20, 40 ], "scale_num": [ 0.8, 0.9 ], "max": 50 }
-    ]
-  },
-  {
-    "id": "animal_large_fur",
-    "//": "Weight: 120000g",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "base_num": [ 73, 132 ], "scale_num": [ 0.8, 0.9 ], "max": 176 },
-      { "drop": "lung", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.9 ], "max": 4 },
-      { "drop": "liver", "base_num": [ 1, 4 ], "scale_num": [ 0.7, 1 ], "max": 6 },
-      { "drop": "brain", "base_num": [ 0, 6 ], "scale_num": [ 0.3, 0.5 ], "max": 8 },
-      { "drop": "sweetbread", "base_num": [ -2, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 3 },
-      { "drop": "kidney", "base_num": [ 1, 5 ], "scale_num": [ 0.5, 0.7 ], "max": 4 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "bone", "base_num": [ 10, 30 ], "scale_num": [ 0.8, 0.9 ], "max": 40 },
-      { "drop": "sinew", "base_num": [ 50, 100 ], "scale_num": [ 0.6, 0.9 ], "max": 120 },
-      { "drop": "raw_fur", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.8 ], "max": 10 },
-      { "drop": "fat", "base_num": [ 20, 40 ], "scale_num": [ 0.8, 0.9 ], "max": 50 }
+      { "drop": "meat", "base_num": [ 73, 132 ], "scale_num": [ 0.8, 0.9 ], "max": 176, "type": "flesh" },
+      { "drop": "lung", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.9 ], "max": 4, "type": "flesh" },
+      { "drop": "liver", "base_num": [ 1, 4 ], "scale_num": [ 0.7, 1 ], "max": 6, "type": "offal" },
+      { "drop": "brain", "base_num": [ 0, 6 ], "scale_num": [ 0.3, 0.5 ], "max": 8, "type": "flesh" },
+      { "drop": "sweetbread", "base_num": [ -2, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 3, "type": "flesh" },
+      { "drop": "kidney", "base_num": [ 1, 5 ], "scale_num": [ 0.5, 0.7 ], "max": 4, "type": "offal" },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "base_num": [ 10, 30 ], "scale_num": [ 0.8, 0.9 ], "max": 40, "type": "bone" },
+      { "drop": "sinew", "base_num": [ 50, 100 ], "scale_num": [ 0.6, 0.9 ], "max": 120, "type" },
+      { "drop": "raw_leather", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.8 ], "max": 10, "type": "skin" },
+      { "drop": "fat", "base_num": [ 20, 40 ], "scale_num": [ 0.8, 0.9 ], "max": 50, "type": "flesh" }
     ]
   },
   {
@@ -176,8 +60,8 @@
     "type": "harvest",
     "message": "You carefully carve open the carapace, avoiding the acrid corrosion.",
     "entries": [
-      { "drop": "meat_tainted", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 8 },
-      { "drop": "acidchitin_piece", "base_num": [ 1, 4 ], "scale_num": [ 0.2, 0.5 ], "max": 6 }
+      { "drop": "meat_tainted", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 8, "type": "flesh" },
+      { "drop": "acidchitin_piece", "base_num": [ 1, 4 ], "scale_num": [ 0.2, 0.5 ], "max": 6, "type": "bone" }
     ]
   },
   {
@@ -185,8 +69,8 @@
     "type": "harvest",
     "message": "You delicately cut open the soft tissue, avoiding the corroding fluids.",
     "entries": [
-      { "drop": "meat_tainted", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.5 ], "max": 4 },
-      { "drop": "acidchitin_piece", "base_num": [ 0, 1 ], "scale_num": [ 0.2, 0.5 ], "max": 1 }
+      { "drop": "meat_tainted", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.5 ], "max": 4, "type": "flesh" },
+      { "drop": "acidchitin_piece", "base_num": [ 0, 1 ], "scale_num": [ 0.2, 0.5 ], "max": 1, "type": "flesh" }
     ]
   },
   {
@@ -194,10 +78,10 @@
     "type": "harvest",
     "message": "You laboriously dissect the colossal insect.",
     "entries": [
-      { "drop": "meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80 },
-      { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10 },
-      { "drop": "sweetbread", "base_num": [ 3, 4 ], "scale_num": [ 0.4, 0.6 ], "max": 8 },
-      { "drop": "fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18 }
+      { "drop": "meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
+      { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
+      { "drop": "sweetbread", "base_num": [ 3, 4 ], "scale_num": [ 0.4, 0.6 ], "max": 8, "type": "offal" },
+      { "drop": "fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18, "type": "flesh" }
     ]
   },
   {
@@ -205,10 +89,10 @@
     "type": "harvest",
     "message": "You laboriously hack and dig through the remains of the fungal mass.",
     "entries": [
-      { "drop": "veggy", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 20 },
-      { "drop": "veggy_tainted", "base_num": [ 16, 25 ], "scale_num": [ 0.6, 0.8 ], "max": 50 },
-      { "drop": "plant_sac", "base_num": [ 3, 6 ], "scale_num": [ 0.7, 0.9 ], "max": 10 },
-      { "drop": "plant_fibre", "base_num": [ 4, 8 ], "scale_num": [ 0.5, 0.7 ], "max": 10 }
+      { "drop": "veggy", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 20, "type": "flesh" },
+      { "drop": "veggy_tainted", "base_num": [ 16, 25 ], "scale_num": [ 0.6, 0.8 ], "max": 50, "type": "flesh" },
+      { "drop": "plant_sac", "base_num": [ 3, 6 ], "scale_num": [ 0.7, 0.9 ], "max": 10, "type": "offal" },
+      { "drop": "plant_fibre", "base_num": [ 4, 8 ], "scale_num": [ 0.5, 0.7 ], "max": 10, "type": "bone" }
     ]
   },
   {
@@ -216,9 +100,9 @@
     "type": "harvest",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
-      { "drop": "meat_tainted", "base_num": [ 100, 130 ], "scale_num": [ 0.4, 0.5 ], "max": 150 },
-      { "drop": "fat_tainted", "base_num": [ 50, 80 ], "scale_num": [ 0.5, 0.7 ], "max": 90 },
-      { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3 }
+      { "drop": "meat_tainted", "base_num": [ 100, 130 ], "scale_num": [ 0.4, 0.5 ], "max": 150, "type": "flesh" },
+      { "drop": "fat_tainted", "base_num": [ 50, 80 ], "scale_num": [ 0.5, 0.7 ], "max": 90, "type": "flesh" },
+      { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "flesh" }
     ],
     "//": "what, you thought jabberwocks only had one heart?"
   }
