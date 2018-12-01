@@ -881,13 +881,20 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                              const std::function<int()> &roll_butchery, butcher_type action )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
-
+    int monster_weight = to_gram(mt.weight);
+    int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
     for( const auto &entry : *mt.harvest ) {
         int butchery = roll_butchery();
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+        int roll = 0;
+        // mass_ratio is not strictly required, and if it is not there, it allows for more precisely define amounts of items butchered
+        if (entry.mass_ratio != 0.00f) {
+            roll = static_cast<int>(round(entry.mass_ratio * monster_weight));
+        } else {
+            roll = std::min<int>(entry.max, round(rng_float(min_num, max_num)));
+        }
 
         const itype *drop = item::find_type( entry.drop );
 
@@ -973,6 +980,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 roll /= 4;
             }
         }
+        // divide total dropped weight by drop's weight to get amount
+        if (entry.mass_ratio != 0.00f) {
+            monster_weight_remaining -= roll;
+            roll = ceil(roll / to_gram((item::find_type(entry.drop))->weight));
+        } else {
+            monster_weight_remaining = monster_weight_remaining - roll * to_gram((item::find_type(entry.drop))->weight);
+        }
 
         if( roll <= 0 ) {
             p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
@@ -996,6 +1010,14 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
         practice++;
     }
+
+    // add the remaining unusable weight as rotting garbage
+    if (monster_weight_remaining > 0) {
+        item ruined_parts("ruined_chunks", age, monster_weight_remaining);
+        ruined_parts.set_mtype(&mt);
+        g->m.add_item_or_charges(p.pos(), ruined_parts);
+    }
+
     if( action == DISSECT ) {
         p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
     } else {

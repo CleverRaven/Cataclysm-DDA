@@ -21,7 +21,7 @@
       { "drop": "fish", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 14, "type": "flesh" },
       { "drop": "liver", "base_num": [ 0, 1 ], "scale_num": [ 0.7, 0.9 ], "max": 2, "type": "offal" },
       { "drop": "kidney", "base_num": [ -1, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 2, "type": "offal" },
-      { "drop": "bone", "base_num": [ 2, 4 ], "scale_num": [ 0.5, 0.7 ], "max": 4, "type": "bone" },
+      { "drop": "bone", "base_num": [ 2, 4 ], "scale_num": [ 0.5, 0.7 ], "max": 4, "type": "bone" }
     ]
   },
   {
@@ -42,17 +42,17 @@
     "//": "Weight: 120000g",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "base_num": [ 73, 132 ], "scale_num": [ 0.8, 0.9 ], "max": 176, "type": "flesh" },
-      { "drop": "lung", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.9 ], "max": 4, "type": "flesh" },
-      { "drop": "liver", "base_num": [ 1, 4 ], "scale_num": [ 0.7, 1 ], "max": 6, "type": "offal" },
-      { "drop": "brain", "base_num": [ 0, 6 ], "scale_num": [ 0.3, 0.5 ], "max": 8, "type": "flesh" },
-      { "drop": "sweetbread", "base_num": [ -2, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 3, "type": "flesh" },
-      { "drop": "kidney", "base_num": [ 1, 5 ], "scale_num": [ 0.5, 0.7 ], "max": 4, "type": "offal" },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "base_num": [ 10, 30 ], "scale_num": [ 0.8, 0.9 ], "max": 40, "type": "bone" },
-      { "drop": "sinew", "base_num": [ 50, 100 ], "scale_num": [ 0.6, 0.9 ], "max": 120, "type" },
-      { "drop": "raw_leather", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.8 ], "max": 10, "type": "skin" },
-      { "drop": "fat", "base_num": [ 20, 40 ], "scale_num": [ 0.8, 0.9 ], "max": 50, "type": "flesh" }
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "base_num": [ 50, 100 ], "scale_num": [ 0.6, 0.9 ], "max": 120, "type": "bone" },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
   },
   {

@@ -24,6 +24,7 @@ struct harvest_entry {
 
     int max = 1000;
     itype_id type = "null";
+    float mass_ratio = 0.00f;
 
     static harvest_entry load( JsonObject &jo, const std::string &src );
 };
