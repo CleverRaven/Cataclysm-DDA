@@ -6,7 +6,6 @@
 
 #include <cmath>
 #include <limits>
-#include <math.h>
 #include <vector>
 
 // Z-value for confidence interval
@@ -86,7 +85,7 @@ class statistics
             double adj_proportion = adj_numerator / adj_denominator;
             double a = adj_proportion * ( 1.0 - adj_proportion );
             double b = a / adj_denominator;
-            double c = sqrt( b );
+            double c = std::sqrt( b );
             _error = c * _Z;
             return _error;
         }
