@@ -4,6 +4,11 @@
 
 set -ex
 
+function run_tests
+{
+    $WINE "$@" -r cata --rng-seed `shuf -i 0-1000000000 -n 1`
+}
+
 if [ -n "$CMAKE" ]
 then
     mkdir build
@@ -15,12 +20,14 @@ then
         -DSOUND=${SOUND:-0} \
         ..
     make -j3
-    ctest --output-on-failure
+    cd ..
+    [ -f cata_test ] && run_tests ./cata_test
+    [ -f cata_test-tiles ] && run_tests ./cata_test-tiles
 else
     make -j3 RELEASE=1 BACKTRACE=1 DEBUG_SYMBOLS=1 CROSS="$CROSS_COMPILATION"
-    $WINE ./tests/cata_test -r cata --rng-seed `shuf -i 0-1000000000 -n 1`
+    run_tests ./tests/cata_test
     if [ -n "$MODS" ]
     then
-        $WINE ./tests/cata_test -r cata --rng-seed `shuf -i 0-1000000000 -n 1` $MODS
+        run_tests ./tests/cata_test $MODS
     fi
 fi
