@@ -10733,5 +10733,25 @@
     "material": [ "flesh" ],
     "volume": 1,
     "fun": -30
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "ruined_chunks",
+    "//": "This item should not get any use whatsoever, it is merely conservation of mass and an attractor for carrion.",
+    "symbol": "∴",
+    "name": "yucky",
+    "name_plural": "yuckies",
+    "charges": 150,
+    "volume": 1,
+    "weight": 1,
+    "color": "black",
+    "looks-like": "meat_tainted",
+    "description": "Eugh.",
+    "material": [ "flesh" ],
+    "spoils_in": "8 hours",
+    "vitamins": [ ],
+    "rot_spawn": "GROUP_CARRION",
+    "rot_spawn_chance": 1
   }
 ]

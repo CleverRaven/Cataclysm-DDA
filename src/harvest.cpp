@@ -59,7 +59,8 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     assign( jo, "base_num", ret.base_num, strict, -1000.0f );
     assign( jo, "scale_num", ret.scale_num, strict, -1000.0f );
     assign( jo, "max", ret.max, strict, 1 );
-    assign(jo, "type", ret.type, strict);
+    assign( jo, "type", ret.type, strict );
+    assign( jo, "mass_ratio", ret.mass_ratio, strict, -1000.0f );
 
     return ret;
 }
