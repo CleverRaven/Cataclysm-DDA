@@ -513,6 +513,7 @@ static void grab()
     const cata::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
+        return;
     }
     const tripoint grabp = *grabp_;
 

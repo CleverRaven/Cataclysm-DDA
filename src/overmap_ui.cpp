@@ -311,6 +311,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
 
+    const oter_id forest = oter_str_id( "forest" ).id();
+
     std::string sZoneName;
     tripoint tripointZone = tripoint( -1, -1, -1 );
     const auto &zones = zone_manager::get_manager();
@@ -339,6 +341,31 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     constexpr size_t cache_size = 8; // used below to calculate the next index
     std::array<std::pair<oter_id, oter_t const *>, cache_size> cache {{}};
     size_t cache_next = 0;
+
+    const auto set_color_and_symbol = [&]( const oter_id & cur_ter, const int omx, const int omy,
+                                           const int z, long & ter_sym,
+    nc_color & ter_color ) {
+        // First see if we have the oter_t cached
+        oter_t const *info = nullptr;
+        for( auto const &c : cache ) {
+            if( c.first == cur_ter ) {
+                info = c.second;
+                break;
+            }
+        }
+        // Nope, look in the hash map next
+        if( !info ) {
+            info = &cur_ter.obj();
+            cache[cache_next] = std::make_pair( cur_ter, info );
+            cache_next = ( cache_next + 1 ) % cache_size;
+        }
+        // Ok, we found something
+        if( info ) {
+            bool const explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
+            ter_color = explored ? c_dark_gray : info->get_color();
+            ter_sym = info->get_sym();
+        }
+    };
 
     int const offset_x = cursx - om_half_width;
     int const offset_y = cursy - om_half_height;
@@ -456,29 +483,14 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             } else if( !sZoneName.empty() && tripointZone.x == omx && tripointZone.y == omy ) {
                 ter_color = c_yellow;
                 ter_sym   = 'Z';
+            } else if( !uistate.overmap_show_forest_trails && cur_ter &&
+                       is_ot_type( "forest_trail", cur_ter ) ) {
+                // If forest trails shouldn't be displayed, and this is a forest trail, then
+                // instead render it like a forest.
+                set_color_and_symbol( forest, omx, omy, z, ter_sym, ter_color );
             } else {
                 // Nothing special, but is visible to the player.
-                // First see if we have the oter_t cached
-                oter_t const *info = nullptr;
-                for( auto const &c : cache ) {
-                    if( c.first == cur_ter ) {
-                        info = c.second;
-                        break;
-                    }
-                }
-                // Nope, look in the hash map next
-                if( !info ) {
-                    info = &cur_ter.obj();
-                    cache[cache_next] = std::make_pair( cur_ter, info );
-                    cache_next = ( cache_next + 1 ) % cache_size;
-                }
-                // Okay, we found something
-                if( info ) {
-                    // Map tile marked as explored
-                    bool const explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
-                    ter_color = explored ? c_dark_gray : info->get_color();
-                    ter_sym   = info->get_sym();
-                }
+                set_color_and_symbol( cur_ter, omx, omy, z, ter_sym, ter_color );
             }
 
             // Are we debugging monster groups?
@@ -735,6 +747,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
+        print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
@@ -796,6 +809,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
+    ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
 
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
@@ -942,6 +956,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             overmap_buffer.toggle_explored( curs.x, curs.y, curs.z );
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
+        } else if( action == "TOGGLE_FOREST_TRAILS" ) {
+            uistate.overmap_show_forest_trails = !uistate.overmap_show_forest_trails;
         } else if( action == "SEARCH" ) {
             std::string term = string_input_popup()
                                .title( _( "Search term:" ) )

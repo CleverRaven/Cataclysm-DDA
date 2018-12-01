@@ -1276,6 +1276,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "count", slot.def_charges, strict, 1L );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
+    assign( jo, "prop_damage", slot.prop_damage, strict );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )

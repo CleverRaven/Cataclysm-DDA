@@ -616,6 +616,12 @@ struct islot_ammo : common_ranged_data {
      * @warning It is not read from the json directly.
      * */
     bool special_cookoff = false;
+
+    /**
+     * If set, ammo does not give a flat damage, instead it multiplies the base
+     * damage of the gun by this value.
+     */
+    cata::optional<float> prop_damage;
 };
 
 struct islot_bionic {
