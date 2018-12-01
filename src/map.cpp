@@ -7269,53 +7269,43 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 long map::determine_wall_corner( const tripoint &p ) const
 {
-    // This could be cached nicely
     int test_connect_group = ter( tripoint( p.x, p.y, p.z ) ).obj().connect_group;
-    const bool above_connects = ter( tripoint( p.x, p.y - 1,
-                                     p.z ) ).obj().connects_to( test_connect_group );
-    const bool below_connects = ter( tripoint( p.x, p.y + 1,
-                                     p.z ) ).obj().connects_to( test_connect_group );
-    const bool left_connects  = ter( tripoint( p.x - 1, p.y,
-                                     p.z ) ).obj().connects_to( test_connect_group );
-    const bool right_connects = ter( tripoint( p.x + 1, p.y,
-                                     p.z ) ).obj().connects_to( test_connect_group );
-    const auto bits = ( above_connects ? 1 : 0 ) +
-                      ( right_connects ? 2 : 0 ) +
-                      ( below_connects ? 4 : 0 ) +
-                      ( left_connects  ? 8 : 0 );
-    switch( bits ) {
-        case 1 | 2 | 4 | 8:
+    uint8_t connections = get_known_connections( p, test_connect_group );
+    // The bits in connections are SEWN, whereas the characters in LINE_
+    // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.
+    switch( connections ) {
+        case 8 | 2 | 1 | 4:
             return LINE_XXXX;
-        case 0 | 2 | 4 | 8:
+        case 0 | 2 | 1 | 4:
             return LINE_OXXX;
 
-        case 1 | 0 | 4 | 8:
+        case 8 | 0 | 1 | 4:
             return LINE_XOXX;
-        case 0 | 0 | 4 | 8:
+        case 0 | 0 | 1 | 4:
             return LINE_OOXX;
 
-        case 1 | 2 | 0 | 8:
+        case 8 | 2 | 0 | 4:
             return LINE_XXOX;
-        case 0 | 2 | 0 | 8:
+        case 0 | 2 | 0 | 4:
             return LINE_OXOX;
-        case 1 | 0 | 0 | 8:
+        case 8 | 0 | 0 | 4:
             return LINE_XOOX;
-        case 0 | 0 | 0 | 8:
+        case 0 | 0 | 0 | 4:
             return LINE_OXOX; // LINE_OOOX would be better
 
-        case 1 | 2 | 4 | 0:
+        case 8 | 2 | 1 | 0:
             return LINE_XXXO;
-        case 0 | 2 | 4 | 0:
+        case 0 | 2 | 1 | 0:
             return LINE_OXXO;
-        case 1 | 0 | 4 | 0:
+        case 8 | 0 | 1 | 0:
             return LINE_XOXO;
-        case 0 | 0 | 4 | 0:
+        case 0 | 0 | 1 | 0:
             return LINE_XOXO; // LINE_OOXO would be better
-        case 1 | 2 | 0 | 0:
+        case 8 | 2 | 0 | 0:
             return LINE_XXOO;
         case 0 | 2 | 0 | 0:
             return LINE_OXOX; // LINE_OXOO would be better
-        case 1 | 0 | 0 | 0:
+        case 8 | 0 | 0 | 0:
             return LINE_XOXO; // LINE_XOOO would be better
 
         case 0 | 0 | 0 | 0:
