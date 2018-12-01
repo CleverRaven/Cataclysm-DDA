@@ -3945,6 +3945,19 @@ void vehicle::refresh()
     check_environmental_effects = true;
     insides_dirty = true;
     invalidate_mass();
+
+    /*
+     * side-walls using sentinel_parts
+     */
+    if( sentinel_present() ) {
+        if( !need_sentinel() ) {
+            remove_sentinel();
+        }
+    } else {
+        if( need_sentinel() ) {
+            add_sentinel();
+        }
+    }
 }
 
 const point &vehicle::pivot_point() const
@@ -4849,5 +4862,5 @@ sentinel_part::sentinel_part( vehicle_part *org, point p ) : vehicle_part( *org 
 sentinel_part::~sentinel_part()
 {
     mount = original->mount;
-    *original = ( vehicle_part ) * this;
+    *original = static_cast< vehicle_part>( *this);
 }
