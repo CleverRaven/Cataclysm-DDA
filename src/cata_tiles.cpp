@@ -3068,35 +3068,8 @@ void cata_tiles::get_rotation_and_subtile( const char val, int &rotation, int &s
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
                                      int connect_group )
 {
-    constexpr std::array<point, 4> offsets = {{
-            { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 }
-        }
-    };
-    auto &ch = g->m.access_cache( p.z );
-    bool is_transparent =
-        ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
-    char val = 0;
-
-    // populate connection information
-    for( int i = 0; i < 4; ++i ) {
-        tripoint neighbour = p + offsets[i];
-        if( !g->m.inbounds( neighbour ) ) {
-            continue;
-        }
-        const ter_t *neighbour_terrain = nullptr;
-        if( is_transparent || ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ) {
-            neighbour_terrain = &g->m.ter( neighbour ).obj();
-        } else {
-            ter_str_id t_id( g->u.get_memorized_tile( g->m.getabs( neighbour ) ).tile );
-            if( t_id.is_valid() ) {
-                neighbour_terrain = &t_id.obj();
-            }
-        }
-        if( neighbour_terrain && neighbour_terrain->connects_to( connect_group ) ) {
-            val += 1 << i;
-        }
-    }
-    get_rotation_and_subtile( val, rotation, subtile );
+    uint8_t connections = g->m.get_known_connections( p, connect_group );
+    get_rotation_and_subtile( connections, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int &rotation )

@@ -1333,6 +1333,40 @@ ter_id map::ter( const tripoint &p ) const
     return current_submap->get_ter( l );
 }
 
+uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
+{
+    constexpr std::array<point, 4> offsets = {{
+            { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 }
+        }
+    };
+    auto &ch = access_cache( p.z );
+    bool is_transparent =
+        ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+    uint8_t val = 0;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint neighbour = p + offsets[i];
+        if( !inbounds( neighbour ) ) {
+            continue;
+        }
+        const ter_t *neighbour_terrain = nullptr;
+        if( is_transparent || ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ) {
+            neighbour_terrain = &ter( neighbour ).obj();
+        } else {
+            ter_str_id t_id( g->u.get_memorized_tile( getabs( neighbour ) ).tile );
+            if( t_id.is_valid() ) {
+                neighbour_terrain = &t_id.obj();
+            }
+        }
+        if( neighbour_terrain && neighbour_terrain->connects_to( connect_group ) ) {
+            val += 1 << i;
+        }
+    }
+
+    return val;
+}
+
 /*
  * Get the results of harvesting this tile's furniture or terrain
  */

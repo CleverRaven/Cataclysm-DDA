@@ -591,6 +591,13 @@ class map
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
         ter_id ter( const tripoint &p ) const;
+
+        // Return a bitfield of the adjacent tiles which connect to the given
+        // connect_group.  From least-significant bit the order is south, east,
+        // west, north (because that's what cata_tiles expects).
+        // Based on a combination of visibility and memory, not simply the true
+        // terrain.
+        uint8_t get_known_connections( const tripoint &p, int connect_group ) const;
         /**
          * Returns the full harvest list, for spawning.
          */
