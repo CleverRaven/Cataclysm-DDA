@@ -384,7 +384,7 @@ struct vehicle_part {
  */
 struct sentinel_part : public vehicle_part {
     private:
-        vehicle_part *original;
+        point mimic_location;
     public:
         sentinel_part() = delete;
         sentinel_part( vehicle_part *org, point p );
@@ -1395,6 +1395,8 @@ class vehicle
         std::map<point, std::vector<int> >
         relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
+        std::vector<int> sidewalls;        // List of sidewalls indices
+        std::vector<int> sentinels;        // List of sentinels indices
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
@@ -1541,7 +1543,6 @@ class vehicle
         /*
          * Sentinel operations
          */
-        bool sentinel_on = false;
         bool sentinel_present() const;
         bool need_sentinel() const;
         void add_sentinel();
