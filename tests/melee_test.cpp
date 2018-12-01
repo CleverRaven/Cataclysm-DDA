@@ -74,7 +74,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
         standard_npc dude( "TestCharacter", {}, 0, 8, 8, 8, 8 );
         float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
-
+        check_near( prob, 0.6f, 0.1f );
     }
 
     SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {
