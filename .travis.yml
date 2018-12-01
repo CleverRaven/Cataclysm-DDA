@@ -25,6 +25,12 @@ addons:
 compiler: gcc
 os: linux
 
+# We have branch builds disabled globally to prevent double-builds of PRs.
+# This re-enables just the master branch.
+branches:
+  only:
+  - master
+
 jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
