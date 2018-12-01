@@ -160,7 +160,11 @@ endif
 
 # Enable backtrace by default
 ifndef BACKTRACE
-  BACKTRACE = 1
+  # ...except not on native Windows builds, because the relevant headers are
+  # probably not available
+  ifneq ($(MSYS2), 1)
+    BACKTRACE = 1
+  endif
 endif
 
 ifeq ($(RUNTESTS), 1)
