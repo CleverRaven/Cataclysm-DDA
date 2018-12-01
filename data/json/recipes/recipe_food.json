@@ -5588,7 +5588,8 @@
         [ "bologna", 5 ],
         [ "bacon", 2 ],
         [ "fried_spam", 2 ],
-        [ "sausage", 1 ]
+        [ "sausage", 1 ],
+        [ "meat_smoked", 1 ]
       ]
     ]
   },
