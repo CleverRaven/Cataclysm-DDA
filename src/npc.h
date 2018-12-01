@@ -87,7 +87,8 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_3,
 
     NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
-    NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
+    NPC_MISSION_GUARD, // Assigns an non-allied NPC to guard a position
+    NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
 };
 
 struct npc_companion_mission {
@@ -218,11 +219,13 @@ struct npc_short_term_cache {
     float danger;
     float total_danger;
     float danger_assessment;
-    std::shared_ptr<Creature> target;
+    // Use weak_ptr to avoid circular references between Creatures
+    std::weak_ptr<Creature> target;
 
     double my_weapon_value;
 
-    std::vector<std::shared_ptr<Creature>> friends;
+    // Use weak_ptr to avoid circular references between Creatures
+    std::vector<std::weak_ptr<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
 };
 

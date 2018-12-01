@@ -1141,6 +1141,43 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
 
+    //Memorize everything the character just saw even if it wasn't displayed.
+    for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
+        for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+            //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
+            if( x >= o_x && x < sx + o_x &&
+                y >= o_y && y < sy + o_y ) {
+                continue;
+            }
+            tripoint p( x, y, center.z );
+            int height_3d = 0;
+            if( iso_mode ) {
+                //Iso_mode skips in a checkerboard
+                if( ( y ) % 2 != ( x ) % 2 ) {
+                    continue;
+                }
+                //iso_mode does weird things to x and y... replicate that
+                //The MAPSIZE*SEEX/2 offset is to keep the rectangle in the upper right quadrant.
+                p.x = ( x - y - MAPSIZE * SEEX / 2 + MAPSIZE * SEEY / 2 ) / 2 + MAPSIZE * SEEX / 2;
+                p.y = ( y + x - MAPSIZE * SEEY / 2 - MAPSIZE * SEEX / 2 ) / 2 + MAPSIZE * SEEY / 2;
+                //Check if we're in previously done iso_mode space
+                if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o_x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o_x &&
+                    p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o_y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o_y ) {
+                    continue;
+                }
+            }
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            if( apply_vision_effects( p, g->m.get_visibility( lighting, cache ) ) ) {
+                continue;
+            }
+            //calling draw to memorize everything.
+            draw_terrain( p, lighting, height_3d );
+            draw_furniture( p, lighting, height_3d );
+            draw_trap( p, lighting, height_3d );
+            draw_vpart( p, lighting, height_3d );
+        }
+    }
+
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
                    do_draw_cursor || do_draw_weather || do_draw_sct ||

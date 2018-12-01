@@ -75,6 +75,7 @@ ignorable = {
     "ITEM_OPTION",
     "ITEM_WHITELIST",
     "MIGRATION",
+    "mod_tileset",
     "monitems",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",

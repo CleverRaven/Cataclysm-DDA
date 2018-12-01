@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "output.h"
 #include "skill.h"
+#include "uistate.h"
 #include "string_formatter.h"
 
 #include <algorithm>
@@ -389,5 +390,10 @@ std::string recipe::required_skills_string( const Character *c ) const
 
 std::string recipe::result_name() const
 {
-    return item::nname( result_ );
+    std::string name = item::nname( result_ );
+    if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
+        name = "* " + name;
+    }
+
+    return name;
 }

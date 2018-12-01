@@ -545,10 +545,6 @@
         "name" : "Squeeze"
     },{
         "type" : "item_action",
-        "id" : "PIPEBOMB_ACT",
-        "name" : "Activate"
-    },{
-        "type" : "item_action",
         "id" : "PLANTBLECH",
         "name" : "Consume"
     },{
@@ -561,7 +557,7 @@
         "name" : { "ctxt": "PORTABLE_GAME", "str": "Play" }
     },{
         "type" : "item_action",
-        "id" : "PORTABLE_STRUCTURE",
+        "id" : "deploy_tent",
         "name" : "Put up"
     },{
         "type" : "item_action",

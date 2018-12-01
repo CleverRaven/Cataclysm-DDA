@@ -250,11 +250,13 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         mission_key.text["Expand Base"] = string_format( _( "Notes:\n"
                                           "Your base has become large enough to support an expansion.  Expansions open up new opportunities "
                                           "but can be expensive and time consuming.  Pick them carefully, only 8 can be built at each camp.\n \n"
-                                          "Skill used: fabrication\n"
-                                          "Difficulty: N/A \n"
+                                          "Skill used: N/A \n"
                                           "Effects:\n"
-                                          "> Choose any one of the available expansions.  Starting with a farm or lumberyard are always a solid choice "
-                                          "since food is used to support companion missions and wood is your primary construction material.\n \n"
+                                          "> Choose any one of the available expansions.  Starting with a farm is always a solid choice "
+                                          "since food is used to support companion missions and little is needed to get it going.  "
+                                          "With minimal investment, a mechanic can be useful as a chop-shop to rapidly dismantle large vehicles, "
+                                          "and a forge provides the resources to make charcoal.  \n \n"
+                                          "NOTE: Actions available through expansions are located in separate tabs of the Camp Manager window.  \n \n"
                                           "Risk: None\n"
                                           "Time: 3 Hours \n"
                                           "Positions: %d/1\n" ), npc_list.size() );
@@ -1821,7 +1823,7 @@ void talk_function::camp_fortifications_return( npc &p )
         bool build_dir_NS = ( comp->companion_mission_points[0].y != comp->companion_mission_points[1].y );
         //Ensure all tiles are generated before putting fences/trenches down...
         for( auto pt : comp->companion_mission_points ) {
-            if( MAPBUFFER.lookup_submap( om_to_sm_copy( pt ) ) == NULL ) {
+            if( MAPBUFFER.lookup_submap( om_to_sm_copy( pt ) ) == nullptr ) {
                 oter_id &omt_test = overmap_buffer.ter( pt );
                 std::string om_i = omt_test.id().c_str();
                 //The thick forests will gen harsh boundries since it won't recognize these tiles when they become fortifications
@@ -2211,7 +2213,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
     const int tab_step = 3;
     int tab_space = 1;
     int tab_x = 0;
-    for( auto t : tabs ) {
+    for( auto &t : tabs ) {
         bool tab_empty = entries[tab_x + 1].empty();
         draw_subtab( win, tab_space, t, tab_x == cur_tab, false, tab_empty );
         tab_space += tab_step + utf8_width( t );
@@ -3348,7 +3350,10 @@ bool talk_function::camp_distribute_food( npc &p )
     }
 
     int total = 0;
-    for( auto &i : g->m.i_at( p_food_stock ) ) {
+    std::vector<item> keep_me;
+    auto initial_items = g->m.i_at( p_food_stock );
+    for( auto &i : initial_items ) {
+        bool track = p_trash == p_food_stock;
         if( i.is_container() && i.get_contained().is_food() ) {
             auto comest = i.get_contained();
             i.contents.clear();
@@ -3359,9 +3364,14 @@ bool talk_function::camp_distribute_food( npc &p )
             i.on_contents_changed();
             g->m.add_item_or_charges( litter_spread, i, false );
             i = comest;
+            track = false;
         }
         if( i.is_comestible() && ( i.rotten() || i.type->comestible->fun < -6 ) ) {
-            g->m.add_item_or_charges( p_trash, i, false );
+            if( track ) {
+                keep_me.push_back( i );
+            } else {
+                g->m.add_item_or_charges( p_trash, i, false );
+            }
         } else if( i.is_food() ) {
             float rot_multip;
             int rots_in = to_days<int>( time_duration::from_turns( i.spoilage_sort_order() ) );
@@ -3378,12 +3388,24 @@ bool talk_function::camp_distribute_food( npc &p )
                 total += i.type->comestible->nutr * rot_multip;
             }
         } else if( i.is_corpse() ) {
-            g->m.add_item_or_charges( p_trash, i, false );
+            if( track ) {
+                keep_me.push_back( i );
+            } else {
+                g->m.add_item_or_charges( p_trash, i, false );
+            }
         } else {
-            g->m.add_item_or_charges( p_tool, i, false );
+            if( p_tool == p_food_stock ) {
+                keep_me.push_back( i );
+            } else {
+                g->m.add_item_or_charges( p_tool, i, false );
+            }
         }
     }
     g->m.i_clear( p_food_stock );
+    for( auto &i : keep_me ) {
+        g->m.add_item_or_charges( p_food_stock, i, false );
+    }
+
     popup( _( "You distribute %d kcal worth of food to your companions." ), total * 10 );
     camp_food_supply( total );
     return true;

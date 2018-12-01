@@ -353,7 +353,7 @@ bool main_menu::opening_screen()
     // Play title music, whoo!
     play_music( "title" );
 
-    world_generator->set_active_world( NULL );
+    world_generator->set_active_world( nullptr );
     world_generator->init();
 
     get_help().load();
@@ -528,7 +528,7 @@ bool main_menu::opening_screen()
                         g->gamemode = get_special_game( special_game_id( sel2 + 1 ) );
                         // check world
                         WORLDPTR world = world_generator->make_new_world( special_game_id( sel2 + 1 ) );
-                        if( world == NULL ) {
+                        if( world == nullptr ) {
                             continue;
                         }
                         world_generator->set_active_world( world );
@@ -684,7 +684,7 @@ bool main_menu::new_character_tab()
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
                     WORLDPTR world = world_generator->pick_world( sel2 != 3 && sel2 != 4 );
-                    if( world == NULL ) {
+                    if( world == nullptr ) {
                         continue;
                     }
                     world_generator->set_active_world( world );
@@ -785,7 +785,7 @@ bool main_menu::new_character_tab()
                 }
             } else if( action == "RIGHT" || action == "CONFIRM" ) {
                 WORLDPTR world = world_generator->pick_world();
-                if( world == NULL ) {
+                if( world == nullptr ) {
                     g->u = player();
                     continue;
                 }

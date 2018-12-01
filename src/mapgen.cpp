@@ -114,7 +114,7 @@ void mtrap_set( map *m, int x, int y, trap_id t );
 // x%2 and y%2 must be 0!
 void map::generate( const int x, const int y, const int z, const time_point &when )
 {
-    dbg( D_INFO ) << "map::generate( g[" << g << "], x[" << x << "], "
+    dbg( D_INFO ) << "map::generate( g[" << g.get() << "], x[" << x << "], "
                   << "y[" << y << "], z[" << z << "], when[" << to_string( when ) << "] )";
 
     set_abs_sub( x, y, z );
@@ -165,11 +165,11 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
     if( ex.chance > 0 && one_in( ex.chance ) ) {
         std::string *extra = ex.values.pick();
-        if( extra == NULL ) {
+        if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras().c_str() );
         } else {
             auto func = MapExtras::get_function( *( ex.values.pick() ) );
-            if( func != NULL ) {
+            if( func != nullptr ) {
                 func( *this, abs_sub );
             }
         }
@@ -293,7 +293,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
                 }
             }
         }
-        return NULL; // nothing
+        return nullptr; // nothing
     } else if( jio.has_string( "method" ) ) {
         const std::string mgtype = jio.get_string( "method" );
         if( mgtype == "builtin" ) { // c-function
@@ -2254,7 +2254,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
     mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above,
                     t_below, zlevel, *rsettings, *this );
 
-    computer *tmpcomp = NULL;
+    computer *tmpcomp = nullptr;
     bool terrain_type_found = true;
     const std::string function_key = terrain_type->get_mapgen_id();
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-16 22:24+0800\n"
+"POT-Creation-Date: 2018-11-23 11:58+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4473,19 +4473,6 @@ msgid "A large American flag made to fly in even the worst conditions."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "ANBC suit"
-msgid_plural "ANBC suits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for ANBC suit
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"An armored, impermeable full-body suit that functions as body armor, as well "
-"as protecting from nuclear, biological, and chemical hazards."
-msgstr ""
-
-#: lang/json/ARMOR_from_json.py
 msgid "leather apron"
 msgid_plural "leather aprons"
 msgstr[0] ""
@@ -7265,20 +7252,6 @@ msgid ""
 "A felt orange sombrero with traditional white and yellow hand stitching.  "
 "The wide brim keeps the sun out of your eyes, and a thin strap hooks around "
 "your chin."
-msgstr ""
-
-#: lang/json/ARMOR_from_json.py
-msgid "hazmat suit"
-msgid_plural "hazmat suits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for hazmat suit
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"An impermeable whole-body garment worn as protection against hazardous "
-"materials.  Though very restrictive and fragile, wearing it will provide "
-"complete protection against ambient radiation."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -10914,6 +10887,12 @@ msgid ""
 "harm."
 msgstr ""
 
+#: lang/json/ARMOR_from_json.py
+msgid "hazmat suit"
+msgid_plural "hazmat suits"
+msgstr[0] ""
+msgstr[1] ""
+
 #. ~ Description for hazmat suit
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -10922,6 +10901,12 @@ msgid ""
 "complete protection against ambient radiation.  It requires a separate gas "
 "mask for full protection."
 msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "ANBC suit"
+msgid_plural "ANBC suits"
+msgstr[0] ""
+msgstr[1] ""
 
 #. ~ Description for ANBC suit
 #: lang/json/ARMOR_from_json.py
@@ -17827,18 +17812,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "salted fish slices"
-msgid_plural "salted fish slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for salted fish slices
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Fish fillets cured in brine and vacuum-packed.  Salty but tasty in a pinch."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "batter fried fish"
 msgid_plural "batter fried fish"
 msgstr[0] ""
@@ -21137,8 +21110,7 @@ msgstr ""
 
 #. ~ Description for salted meat slice
 #: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch."
+msgid "Meat slices cured in brine.  Salty but tasty in a pinch."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -26656,6 +26628,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
+msgid "vacuum-packed bag"
+msgid_plural "vacuum-packed bags"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vacuum-packed bag
+#: lang/json/CONTAINER_from_json.py
+msgid "This is a bag of vacuum-packed food."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "tin can"
 msgid_plural "tin cans"
 msgstr[0] ""
@@ -31572,89 +31555,6 @@ msgid ""
 "feel confident that you won't have to worry about depleting its power supply "
 "for at least 160 million years of faithful service.  The cover is closed.  "
 "Use it to open the cover and show the light."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed fruit slice"
-msgid_plural "vacuum-packed fruit slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action menu_text for vacuum-packed fruit slice.
-#. ~ Use action menu_text for vacuum-packed fish slice.
-#. ~ Use action menu_text for vacuum-packed salted simpleton slice.
-#. ~ Use action menu_text for vacuum-packed meat slice.
-#. ~ Use action menu_text for vacuum-packed veggy chunk.
-#: lang/json/GENERIC_from_json.py
-msgid "Open bag"
-msgstr ""
-
-#. ~ Use action msg for vacuum-packed fruit slice.
-#. ~ Use action msg for vacuum-packed fish slice.
-#. ~ Use action msg for vacuum-packed salted simpleton slice.
-#. ~ Use action msg for vacuum-packed meat slice.
-#. ~ Use action msg for vacuum-packed veggy chunk.
-#: lang/json/GENERIC_from_json.py
-msgid "You open the vacuum pack, exposing it to the atmosphere."
-msgstr ""
-
-#. ~ Description for vacuum-packed fruit slice
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed fruit slices in plastic packaging.  Use to "
-"open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed fish slice"
-msgid_plural "vacuum-packed fish slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vacuum-packed fish slice
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed fish slices in plastic packaging.  Use to "
-"open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed salted simpleton slice"
-msgid_plural "vacuum-packed salted simpleton slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vacuum-packed salted simpleton slice
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed human flesh slices in plastic packaging.  Use "
-"to open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed meat slice"
-msgid_plural "vacuum-packed meat slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vacuum-packed meat slice
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed meat slices in plastic packaging.  Use to "
-"open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed veggy chunk"
-msgid_plural "vacuum-packed veggy chunks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vacuum-packed veggy chunk
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed vegetable slices in plastic packaging.  Use "
-"to open and eat to enjoy."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -38058,6 +37958,34 @@ msgstr ""
 #. ~ Description for Crazy Cataclysm
 #: lang/json/MOD_INFO_from_json.py
 msgid "Want a little crazy in your Cataclysm?  Try this one."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "(DP_RP) Chesthole Indicators"
+msgstr ""
+
+#. ~ Description for (DP_RP) Chesthole Indicators
+#: lang/json/MOD_INFO_from_json.py
+msgid "Changes interface indicators to Chesthole version."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "(DP_RP) REMIX Indicators"
+msgstr ""
+
+#. ~ Description for (DP_RP) REMIX Indicators
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Changes interface indicators to remix of Xotto, Chesthole and DeadPeople."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "(DP_RP) Xotto Indicators"
+msgstr ""
+
+#. ~ Description for (DP_RP) Xotto Indicators
+#: lang/json/MOD_INFO_from_json.py
+msgid "Changes interface indicators to Xotto version."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -55967,6 +55895,14 @@ msgid "Mark firewood source"
 msgstr ""
 
 #: lang/json/construction_from_json.py
+msgid ""
+"Firewood or other flammable materials on a nearby tile marked in this way "
+"may be used to automatically refuel fires.  This will be done to maintain "
+"light during long-running tasks that require it such as crafting or reading, "
+"but not (for example) if you are simply waiting nearby."
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Butchering Rack"
 msgstr ""
 
@@ -71466,6 +71402,11 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "The Red Dragon Tea Shop"
+msgstr ""
+
+#. ~ Sign
+#: lang/json/mapgen_from_json.py
+msgid "The Green Leaf Tea Shop"
 msgstr ""
 
 #. ~ Sign
@@ -95470,6 +95411,10 @@ msgid "son of an ass"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "Oh sugar!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "sad"
 msgstr ""
 
@@ -95731,6 +95676,10 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "my days are <really> numbered"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<name_g>, I'm sorry"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -99627,8 +99576,8 @@ msgstr ""
 #: lang/json/talk_topic_from_json.py
 msgid ""
 "Guess that makes two of us.  Well, kind of.  I don't think we're open, "
-"though.  Full up as hell; it's almost a crowd downstairs.  See the trader "
-"over there?  There's the one to ask."
+"though.  Full up as hell; it's almost a crowd downstairs.  Did you see the "
+"trader at the enterance?  There's the one to ask."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -101835,7 +101784,19 @@ msgid "This is a trait test response."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
+msgid "This is a short trait test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
 msgid "This is a wearing test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a npc trait test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a npc short trait test response."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -101868,6 +101829,10 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py
 msgid "This is a nearby role test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a class test response."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -113011,7 +112976,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/auto_pickup.cpp
-msgid "Won't display bottled and suffixes=(fits)"
+msgid "Won't display content or suffix matches"
 msgstr ""
 
 #: src/auto_pickup.cpp
@@ -117629,12 +117594,17 @@ msgstr ""
 
 #: src/editmap.cpp
 #, c-format
-msgid "apparent light: %.2f, light_at: %.2f"
+msgid "outside: %d obstructed: %d"
 msgstr ""
 
 #: src/editmap.cpp
 #, c-format
-msgid "outside: %d"
+msgid "light_at: %s"
+msgstr ""
+
+#: src/editmap.cpp
+#, c-format
+msgid "apparent light: %.5f (%d)"
 msgstr ""
 
 #: src/editmap.cpp
@@ -128171,11 +128141,15 @@ msgid "Warmth: "
 msgstr ""
 
 #: src/item.cpp
-msgid "<bold>Encumbrance</bold>: "
+msgid "<num> <info>(fits)</info>"
 msgstr ""
 
 #: src/item.cpp
-msgid "<num> <info>(fits)</info>"
+msgid "<num> <bad>(poor fit)</bad>"
+msgstr ""
+
+#: src/item.cpp
+msgid "<bold>Encumbrance</bold>: "
 msgstr ""
 
 #: src/item.cpp
@@ -128200,6 +128174,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "Environmental protection: "
+msgstr ""
+
+#: src/item.cpp
+msgid "When active: "
 msgstr ""
 
 #: src/item.cpp
@@ -128736,7 +128714,7 @@ msgid " (undersize)"
 msgstr ""
 
 #: src/item.cpp
-msgid " (fits)"
+msgid " (poor fit)"
 msgstr ""
 
 #: src/item.cpp
@@ -128786,7 +128764,7 @@ msgstr ""
 msgid "sawn-off "
 msgstr ""
 
-#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (fits)").
+#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
 #: src/item.cpp
 #, c-format
 msgid "%1$s%2$s%3$s%4$s%5$s%6$s"
@@ -129073,6 +129051,13 @@ msgstr ""
 
 #: src/item_action.cpp
 msgid "Execute which action?"
+msgstr ""
+
+#: src/item_factory.cpp
+msgid ""
+"Can be activated to <good>increase environmental protection</good>.  Will "
+"consume charges when active, but <info>only when environmental hazards are "
+"present</info>."
 msgstr ""
 
 #: src/item_factory.cpp
@@ -138294,6 +138279,11 @@ msgstr ""
 #: src/monmove.cpp
 #, c-format
 msgid "The %1$s climbs over the %2$s."
+msgstr ""
+
+#: src/monmove.cpp
+#, c-format
+msgid "A %1$s flies over the %2$s!"
 msgstr ""
 
 #: src/monmove.cpp

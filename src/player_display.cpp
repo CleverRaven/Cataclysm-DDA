@@ -341,7 +341,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         if( std::min( bionics_win_size_y, trait_win_size_y ) > max_shared_y ) {
             bionics_win_size_y = max_shared_y;
             // trait window is less than the shared size, so give space to bionics
-        } else if( trait_win_size_y < max_shared_y ) {
+        } else if( trait_win_size_y <= max_shared_y ) {
             bionics_win_size_y = maxy - infooffsetybottom - trait_win_size_y;
         }
         // fall through if bionics is smaller
@@ -502,7 +502,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
         mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name.c_str(),
                    male ? _( "Male" ) : _( "Female" ), race.c_str() );
-    } else if( prof == NULL || prof == prof->generic() ) {
+    } else if( prof == nullptr || prof == prof->generic() ) {
         // Regular person. Nothing interesting.
         //~ player info window: 1s - name, 2s - gender, '|' - field separator.
         mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s" ), name.c_str(),
@@ -1114,7 +1114,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 }
 
-                const Skill *selectedSkill = NULL;
+                const Skill *selectedSkill = nullptr;
 
                 for( size_t i = min; i < max; i++ ) {
                     const Skill *aSkill = skillslist[i];

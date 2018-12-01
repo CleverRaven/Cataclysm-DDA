@@ -484,7 +484,7 @@ task_reason veh_interact::cant_do (char mode)
         }
         break;
     case 'c': // change tire
-        valid_target = wheel != NULL;
+        valid_target = wheel != nullptr;
         ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
         has_tools = has_wrench && has_wheel && ( g->u.can_lift( *veh ) || has_jack );
         break;
@@ -555,7 +555,7 @@ bool veh_interact::can_self_jack()
 }
 
 bool veh_interact::can_install_part() {
-    if( sel_vpart_info == NULL ) {
+    if( sel_vpart_info == nullptr ) {
         werase (w_msg);
         wrefresh (w_msg);
         return false;
@@ -869,7 +869,7 @@ bool veh_interact::do_install( std::string &msg )
                 }
             }
         } else if (action == "QUIT") {
-            sel_vpart_info = NULL;
+            sel_vpart_info = nullptr;
             werase (w_list);
             wrefresh (w_list);
             werase (w_msg);
@@ -1805,7 +1805,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
 
     need_repair.clear();
     parts_here.clear();
-    wheel = NULL;
+    wheel = nullptr;
     if( cpart >= 0 ) {
         parts_here = veh->parts_at_relative( veh->parts[cpart].mount, true );
         for( size_t i = 0; i < parts_here.size(); i++ ) {
@@ -2221,7 +2221,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     wborder(w_details, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
 
-    if ( part == NULL ) {
+    if ( part == nullptr ) {
         wrefresh(w_details);
         return;
     }
@@ -2518,6 +2518,10 @@ void act_vehicle_unload_fuel( vehicle* veh ) {
 
     int qty = veh->fuel_left( fuel );
     if( fuel == "plut_cell" ) {
+        if( qty / PLUTONIUM_CHARGES == 0 ) {
+            add_msg( m_info, _( "The vehicle has no charged plutonium cells." ) );
+            return;
+        }
         item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         g->u.i_add( plutonium );
         veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );

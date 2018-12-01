@@ -111,15 +111,26 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
     d.gen_responses( d.topic_stack.back() );
-    REQUIRE( d.responses.size() == 2 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a trait test response." );
-    g->u.wear_item( item( "badge_marshal" ) );
-    d.gen_responses( d.topic_stack.back() );
     REQUIRE( d.responses.size() == 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
-    CHECK( d.responses[2].text == "This is a wearing test response." );
+    CHECK( d.responses[2].text == "This is a short trait test response." );
+    g->u.wear_item( item( "badge_marshal" ) );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a trait test response." );
+    CHECK( d.responses[2].text == "This is a short trait test response." );
+    CHECK( d.responses[3].text == "This is a wearing test response." );
+    talker_npc.toggle_trait( trait_id( "ELFA_EARS" ) );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 6 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a trait test response." );
+    CHECK( d.responses[2].text == "This is a short trait test response." );
+    CHECK( d.responses[3].text == "This is a wearing test response." );
+    CHECK( d.responses[4].text == "This is a npc trait test response." );
+    CHECK( d.responses[5].text == "This is a npc short trait test response." );
 
     d.add_topic( "TALK_TEST_EFFECT" );
     d.gen_responses( d.topic_stack.back() );
@@ -182,6 +193,17 @@ TEST_CASE( "npc_talk_test" )
     REQUIRE( d.responses.size() == 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a nearby role test response." );
+
+    d.add_topic( "TALK_TEST_NPC_CLASS" );
+    talker_npc.myclass = npc_class_id( "NC_NONE" );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    talker_npc.myclass = npc_class_id( "NC_TEST_CLASS" );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a class test response." );
 
     for( npc *guy : g->allies() ) {
         guy->set_attitude( NPCATT_NULL );

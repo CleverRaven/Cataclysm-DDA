@@ -195,7 +195,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     bool show_hidden = false;
     int batch_line = 0;
     int display_mode = 0;
-    const recipe *chosen = NULL;
+    const recipe *chosen = nullptr;
     std::vector<iteminfo> thisItem;
     std::vector<iteminfo> dummy;
 
@@ -210,6 +210,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
@@ -252,9 +253,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else {
                 std::vector<const recipe *> picking;
-                if( filterstring.empty() ) {
-                    picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
-                } else {
+                if( !filterstring.empty() ) {
                     auto qry = trim( filterstring );
                     if( qry.size() > 2 && qry[1] == ':' ) {
                         switch( qry[0] ) {
@@ -314,6 +313,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                     } else {
                         picking = available_recipes.search( qry );
                     }
+                } else if( subtab.cur() == "CSC_*_FAVORITE" ) {
+                    picking = available_recipes.favorite();
+                } else if( subtab.cur() == "CSC_*_RECENT" ) {
+                    picking = available_recipes.recent();
+                } else {
+                    picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 }
 
                 current.clear();
@@ -334,13 +339,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                     }
                 }
 
-                std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
-                    return b->difficulty < a->difficulty;
-                } );
+                if( subtab.cur() != "CSC_*_RECENT" ) {
+                    std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
+                        return b->difficulty < a->difficulty;
+                    } );
 
-                std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
-                    return availability_cache[a] && !availability_cache[b];
-                } );
+                    std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
+                        return availability_cache[a] && !availability_cache[b];
+                    } );
+                }
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
@@ -369,20 +376,20 @@ const recipe *select_crafting_recipe( int &batch_size )
             wprintz( w_data, c_white, "  " );
             if( !filterstring.empty() ) {
                 wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
+                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
                 wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
+                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
             if( !filterstring.empty() ) {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
             } else {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
             }
             mvwprintz( w_data, dataLines + 2, 5, c_white,
                        _( "Press <ENTER> to attempt to craft object." ) );
@@ -738,6 +745,18 @@ const recipe *select_crafting_recipe( int &batch_size )
                 keepline = true;
             }
             redraw = true;
+        } else if( action == "TOGGLE_FAVORITE" ) {
+            keepline = true;
+            redraw = true;
+            if( current.empty() ) {
+                popup( _( "Nothing selected!" ) );
+                continue;
+            }
+            if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
+                uistate.favorite_recipes.erase( current[line]->ident() );
+            } else {
+                uistate.favorite_recipes.insert( current[line]->ident() );
+            }
         } else if( action == "HIDE_SHOW_RECIPE" ) {
             if( current.empty() ) {
                 popup( _( "Nothing selected!" ) );

@@ -26,7 +26,6 @@ data/json/itemgroups/tools.json
 data/json/itemgroups/vending_machines.json
 data/json/items/ammo.json
 data/json/items/ammo_types.json
-data/json/items/archery.json
 data/json/items/armor/bandolier.json
 data/json/items/armor/boots.json
 data/json/items/armor/holster.json
@@ -37,7 +36,6 @@ data/json/items/comestibles/med.json
 data/json/items/comestibles/mutagen.json
 data/json/items/comestibles/protein.json
 data/json/items/containers.json
-data/json/items/crossbows.json
 data/json/items/fake.json
 data/json/items/generic/ammolink.json
 data/json/items/generic/string.json
@@ -247,14 +245,12 @@ data/json/recipes/weapon/magazines.json
 data/json/recipes/weapon/mods.json
 data/json/recipes/weapon/piercing.json
 data/json/recipes/weapon/ranged.json
-data/json/regional_map_settings.json
 data/json/requirements/ammo.json
 data/json/road_vehicles.json
 data/json/snippets.json
 data/json/species.json
 data/json/speech.json
 data/json/techniques.json
-data/json/test_regions.json
 data/json/traps.json
 data/json/tutorial.json
 data/json/uncraft/ammo/38.json

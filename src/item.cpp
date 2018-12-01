@@ -952,7 +952,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       charges * batch ) );
         }
         if( debug && parts->test( iteminfo_parts::BASE_DEBUG ) ) {
-            if( g != NULL ) {
+            if( g != nullptr ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "", iteminfo::lower_is_better,
                                           to_hours<int>( age() ) ) );
 
@@ -1054,9 +1054,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "FOOD", _( "Portions: " ),
                                       abs( int( food_item->charges ) * batch ) ) );
         }
-        if( food_item->corpse != NULL && ( debug || ( g != NULL &&
-                                           ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
-                                             g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) )
+        if( food_item->corpse != nullptr && ( debug || ( g != nullptr &&
+                                              ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
+                                                g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) )
             && parts->test( iteminfo_parts::FOOD_SMELL ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
@@ -1168,10 +1168,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             const auto &ammo = *ammo_data()->ammo;
-            if( !ammo.damage.empty() ) {
-                if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
-                    info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "",
-                                       iteminfo::no_newline, ammo.damage.total_damage() );
+            if( !ammo.damage.empty() || ammo.prop_damage ) {
+                if( !ammo.damage.empty() ) {
+                    if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
+                        info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "",
+                                           iteminfo::no_newline, ammo.damage.total_damage() );
+                    }
+                } else if( ammo.prop_damage ) {
+                    if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
+                        info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "",
+                                           iteminfo::no_newline, *ammo.prop_damage );
+                    }
                 }
                 if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
                     info.emplace_back( "AMMO", space + _( "Armor-pierce: " ),
@@ -1311,12 +1318,19 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( has_ammo ) {
-            // ammo_damage and sum_of_damage not shown so don't need to translate.
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) )
-                info.push_back( iteminfo( "GUN", "ammo_damage", "",
-                                          iteminfo::no_newline | iteminfo::no_name |
-                                          iteminfo::show_plus,
-                                          ammo_dam.total_damage() ) );
+            // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
+            if( mod->ammo_data()->ammo->prop_damage ) {
+                if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) )
+                    info.push_back( iteminfo( "GUN", "ammo_mult", "*",
+                                              iteminfo::no_newline | iteminfo::no_name,
+                                              *mod->ammo_data()->ammo->prop_damage ) );
+            } else {
+                if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) )
+                    info.push_back( iteminfo( "GUN", "ammo_damage", "",
+                                              iteminfo::no_newline | iteminfo::no_name |
+                                              iteminfo::show_plus,
+                                              ammo_dam.total_damage() ) );
+            }
             if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) )
                 info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
                                           iteminfo::no_newline | iteminfo::no_name,
@@ -1673,21 +1687,36 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.back().bNewLine = true;
 
         if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
-            info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "",
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
                                       iteminfo::no_newline, bash_resist() ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "",
-                                      iteminfo::no_newline, cut_resist() ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ),
+                                      cut_resist() ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
                                       iteminfo::no_newline, acid_resist() ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ),
-                                      fire_resist() ) );
-            info.push_back( iteminfo( "ARMOR", _( "Environmental protection: " ), "",
-                                      iteminfo::no_newline, get_env_resist() ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
+                                      iteminfo::no_newline, fire_resist() ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
+                                      get_env_resist() ) );
             if( type->can_use( "GASMASK" ) ) {
-                info.push_back( iteminfo( "ARMOR", space + _( "When active: " ),
-                                          get_env_resist_w_filter() ) );
+                info.push_back( iteminfo( "ARMOR",
+                                          _( "<bold>Protection when active</bold>: " ) ) );
+                info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
+                                          iteminfo::no_newline,
+                                          acid_resist( false, get_base_env_resist_w_filter() ) ) );
+                info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
+                                          iteminfo::no_newline,
+                                          fire_resist( false, get_base_env_resist_w_filter() ) ) );
+                info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
+                                          get_env_resist( get_base_env_resist_w_filter() ) ) );
             }
-            info.back().bNewLine = true;
+
+            if( damage() > 0 ) {
+                info.push_back( iteminfo( "ARMOR",
+                                          _( "Protection values are <bad>reduced by "
+                                             "damage</bad> and you may be able to "
+                                             "<info>improve them by repairing this "
+                                             "item</info>." ) ) );
+            }
         }
 
     }
@@ -1795,6 +1824,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     }
     if( is_container() && parts->test( iteminfo_parts::CONTAINER_DETAILS ) ) {
+        insert_separation_line();
         const auto &c = *type->container;
 
         temp1.str( "" );
@@ -1818,6 +1848,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 
     if( is_tool() ) {
+        insert_separation_line();
         if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
             info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) );
         }
@@ -3531,7 +3562,7 @@ units::volume item::get_storage() const
     return t->storage;
 }
 
-int item::get_env_resist() const
+int item::get_env_resist( int override_base_resist ) const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
@@ -3540,12 +3571,12 @@ int item::get_env_resist() const
     // modify if item is a gas mask and has filter
     int resist_base = t->env_resist;
     int resist_filter = get_var( "overwrite_env_resist", 0 );
-    int resist = std::max( resist_base, resist_filter );
+    int resist = std::max( { resist_base, resist_filter, override_base_resist } );
 
     return lround( resist * get_relative_health() );
 }
 
-int item::get_env_resist_w_filter() const
+int item::get_base_env_resist_w_filter() const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
@@ -3833,7 +3864,7 @@ int item::stab_resist( bool to_self ) const
     return static_cast<int>( 0.8f * cut_resist( to_self ) );
 }
 
-int item::acid_resist( bool to_self ) const
+int item::acid_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Currently no items are damaged by acid
@@ -3857,7 +3888,7 @@ int item::acid_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    const int env = get_env_resist();
+    const int env = get_env_resist( base_env_resist );
     if( env < 10 ) {
         // Low env protection means it doesn't prevent acid seeping in.
         resist *= env / 10.0f;
@@ -3866,7 +3897,7 @@ int item::acid_resist( bool to_self ) const
     return lround( resist );
 }
 
-int item::fire_resist( bool to_self ) const
+int item::fire_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Fire damages items in a different way
@@ -3887,7 +3918,7 @@ int item::fire_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    const int env = get_env_resist();
+    const int env = get_env_resist( base_env_resist );
     if( env < 10 ) {
         // Iron resists immersion in magma, iron-clad knight won't.
         resist *= env / 10.0f;
@@ -4775,12 +4806,24 @@ damage_instance item::gun_damage( bool with_ammo ) const
         return damage_instance();
     }
     damage_instance ret = type->gun->damage;
-    if( with_ammo && ammo_data() ) {
-        ret.add( ammo_data()->ammo->damage );
-    }
+
     for( const auto mod : gunmods() ) {
         ret.add( mod->type->gunmod->damage );
     }
+
+    if( with_ammo && ammo_data() ) {
+        if( ammo_data()->ammo->prop_damage ) {
+            for( auto &elem : ret.damage_units ) {
+                if( elem.type == DT_STAB ) {
+                    elem.amount *= *ammo_data()->ammo->prop_damage;
+                    elem.res_pen = ammo_data()->ammo->legacy_pierce;
+                }
+            }
+        } else {
+            ret.add( ammo_data()->ammo->damage );
+        }
+    }
+
     int item_damage = damage_level( 4 );
     if( item_damage != 0 ) {
         // @todo This isn't a good solution for multi-damage guns/ammos
@@ -4788,6 +4831,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
             du.amount -= item_damage * 2;
         }
     }
+
     return ret;
 }
 
@@ -5493,8 +5537,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     item *container = nullptr;
-    if( ammo->is_ammo_container() || ammo->is_watertight_container() ||
-        ammo->is_non_resealable_container() ) {
+    if( ammo->is_ammo_container() || ammo->is_container() ) {
         container = ammo;
         ammo = &ammo->contents.front();
     }

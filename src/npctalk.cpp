@@ -34,6 +34,7 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
@@ -156,6 +157,83 @@ int cash_to_favor( const npc &, int cash )
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
     double scaled_mission_val = sqrt( cash / 100.0 );
     return roll_remainder( scaled_mission_val );
+}
+
+void game::chat()
+{
+    const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
+        // @todo: Get rid of the z-level check when z-level vision gets "better"
+        return u.posz() == guy.posz() &&
+               u.sees( guy.pos() ) &&
+               rl_dist( u.pos(), guy.pos() ) <= 24;
+    } );
+    const std::vector<npc *> followers = get_npcs_if( [&]( const npc &guy ) {
+        return guy.is_friend() && guy.is_following() && u.posz() == guy.posz() &&
+               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= 24;
+    } );
+    const std::vector<npc *> guards = get_npcs_if( [&]( const npc &guy ) {
+        return guy.mission == NPC_MISSION_GUARD_ALLY &&
+               guy.companion_mission_role_id != "FACTION_CAMP" && u.posz() == guy.posz() &&
+               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= 24;
+    } );
+
+    uilist nmenu;
+    nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
+
+    int i = 0;
+
+    for( auto &elem : available ) {
+        nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
+    }
+
+    int yell = 0;
+    int yell_sentence = 0;
+    int yell_guard = -1;
+    int yell_follow = -1;
+
+    nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
+    nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
+    if( !followers.empty() ) {
+        nmenu.addentry( yell_guard = i++, true, 'c', _( "Tell all your allies to guard" ) );
+    }
+    if( !guards.empty() ) {
+        nmenu.addentry( yell_follow = i++, true, 'd', _( "Tell all your allies to follow" ) );
+    }
+
+    nmenu.query();
+    if( nmenu.ret < 0 ) {
+        return;
+    } else if( nmenu.ret == yell ) {
+        u.shout();
+    } else if( nmenu.ret == yell_sentence ) {
+        std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
+        string_input_popup popup;
+        popup.title( string_format( _( "Yell a sentence" ) ) )
+        .width( 64 )
+        .description( popupdesc )
+        .identifier( "sentence" )
+        .max_length( 128 )
+        .query();
+
+        std::string sentence = popup.text();
+        add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
+        u.shout();
+    } else if( nmenu.ret == yell_guard ) {
+        for( npc *p: followers ) {
+           talk_function::assign_guard( *p );
+        }
+    } else if( nmenu.ret == yell_follow ) {
+        for( npc *p: guards ) {
+           talk_function::stop_guard( *p );
+        }
+    } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
+        available[nmenu.ret]->talk_to_u();
+    } else {
+        return;
+    }
+
+    u.moves -= 100;
+    refresh_all();
 }
 
 void npc_chatbin::check_missions()
@@ -475,6 +553,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             case NPC_MISSION_BASE:
                 return _( "I'm guarding this location." );
             case NPC_MISSION_GUARD:
+            case NPC_MISSION_GUARD_ALLY:
                 return _( "I'm guarding this location." );
             case NPC_MISSION_NULL:
                 return p->myclass.obj().get_job_description();
@@ -1447,7 +1526,7 @@ void talk_function::become_overseer( npc &p )
     }
     p.companion_mission_role_id = "FACTION_CAMP";
     p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD;
+    p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
     p.set_destination();
 }
@@ -2179,6 +2258,34 @@ conditional_t::conditional_t( JsonObject jo )
             }
             return false;
         };
+    } else if( jo.has_member( "npc_has_any_trait" ) ) {
+        std::vector<trait_id> traits_to_check;
+        for( auto &&f : jo.get_string_array( "npc_has_any_trait" ) ) { // *NOPAD*
+            traits_to_check.emplace_back( f );
+        }
+        condition = [traits_to_check]( const dialogue & d ) {
+            for( const auto &trait : traits_to_check ) {
+                if( d.beta->has_trait( trait ) ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+    } else if( jo.has_member( "u_has_trait" ) ) {
+        std::string trait_to_check = jo.get_string( "u_has_trait" );
+        condition = [trait_to_check]( const dialogue & d ) {
+            return d.alpha->has_trait( trait_id( trait_to_check ) );
+        };
+    } else if( jo.has_member( "npc_has_trait" ) ) {
+        std::string trait_to_check = jo.get_string( "npc_has_trait" );
+        condition = [trait_to_check]( const dialogue & d ) {
+            return d.beta->has_trait( trait_id( trait_to_check ) );
+        };
+    } else if( jo.has_member( "npc_has_class" ) ) {
+        std::string class_to_check = jo.get_string( "npc_has_class" );
+        condition = [class_to_check]( const dialogue & d ) {
+            return d.beta->myclass == npc_class_id( class_to_check );
+        };
     } else if( jo.has_string( "u_has_mission" ) ) {
         const std::string &mission = jo.get_string( "u_has_mission" );
         condition = [mission]( const dialogue & ) {
@@ -2436,6 +2543,14 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             const bool in_effect = d.beta->has_effect( efftype_id( effect_id ) );
             return ( in_effect ? yes : no )( d );
         };
+    } else if( jo.has_member( "u_has_effect" ) ) {
+        const std::string effect_id = jo.get_string( "u_has_effect" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [effect_id, yes, no]( const dialogue & d ) {
+            const bool in_effect = d.alpha->has_effect( efftype_id( effect_id ) );
+            return ( in_effect ? yes : no )( d );
+        };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
         std::vector<trait_id> traits_to_check;
         for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) { // *NOPAD*
@@ -2448,6 +2563,51 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
                 if( d.alpha->has_trait( trait ) ) {
                     return yes( d );
                 }
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "npc_has_any_trait" ) ) {
+        std::vector<trait_id> traits_to_check;
+        for( auto &&f : jo.get_string_array( "npc_has_any_trait" ) ) { // *NOPAD*
+            traits_to_check.emplace_back( f );
+        }
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [traits_to_check, yes, no]( const dialogue & d ) {
+            for( const auto &trait : traits_to_check ) {
+                if( d.beta->has_trait( trait ) ) {
+                    return yes( d );
+                }
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "u_has_trait" ) ) {
+        std::string trait_to_check = jo.get_string( "u_has_trait" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [trait_to_check, yes, no]( const dialogue & d ) {
+            if( d.alpha->has_trait( trait_id( trait_to_check ) ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "npc_has_trait" ) ) {
+        std::string trait_to_check = jo.get_string( "npc_has_trait" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [trait_to_check, yes, no]( const dialogue & d ) {
+            if( d.beta->has_trait( trait_id( trait_to_check ) ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "npc_has_class" ) ) {
+        std::string class_to_check = jo.get_string( "npc_has_class" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [class_to_check, yes, no]( const dialogue & d ) {
+            if( d.beta->myclass == npc_class_id( class_to_check ) ) {
+                return yes( d );
             }
             return no( d );
         };

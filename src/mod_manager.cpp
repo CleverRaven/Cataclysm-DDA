@@ -386,7 +386,7 @@ std::string mod_manager::get_mods_list_file( const WORLDPTR world )
 
 void mod_manager::save_mods_list( WORLDPTR world ) const
 {
-    if( world == NULL ) {
+    if( world == nullptr ) {
         return;
     }
     const std::string path = get_mods_list_file( world );
@@ -404,7 +404,7 @@ void mod_manager::save_mods_list( WORLDPTR world ) const
 
 void mod_manager::load_mods_list( WORLDPTR world ) const
 {
-    if( world == NULL ) {
+    if( world == nullptr ) {
         return;
     }
     std::vector<mod_id> &amo = world->active_mod_order;

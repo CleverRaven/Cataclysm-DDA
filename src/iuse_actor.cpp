@@ -9,6 +9,7 @@
 #include "cata_utility.h"
 #include "crafting.h"
 #include "debug.h"
+#include "vpart_position.h"
 #include "effect.h"
 #include "event.h"
 #include "field.h"
@@ -161,7 +162,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
         }
     }
 
-    if( p.sees( pos ) && !msg_transform.empty() ) {
+    if( possess && !msg_transform.empty() ) {
         p.add_msg_if_player( m_neutral, _( msg_transform.c_str() ), it.tname().c_str() );
     }
 
@@ -339,11 +340,13 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
         return 0;
     }
     if( it.charges > 0 ) {
-        if( no_deactivate_msg.empty() ) {
-            p.add_msg_if_player( m_warning,
-                                 _( "You've already set the %s's timer you might want to get away from it." ), it.tname().c_str() );
-        } else {
-            p.add_msg_if_player( m_info, _( no_deactivate_msg.c_str() ), it.tname().c_str() );
+        if( p.has_item( it ) ) {
+            if( no_deactivate_msg.empty() ) {
+                p.add_msg_if_player( m_warning,
+                                     _( "You've already set the %s's timer you might want to get away from it." ), it.tname().c_str() );
+            } else {
+                p.add_msg_if_player( m_info, _( no_deactivate_msg.c_str() ), it.tname().c_str() );
+            }
         }
         return 0;
     }
@@ -423,7 +426,7 @@ long unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &
     }
 
     vehicle *veh = g->m.add_vehicle( vehicle_id, p.posx(), p.posy(), 0, 0, 0, false );
-    if( veh == NULL ) {
+    if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname().c_str() );
         return 0;
     }
@@ -680,7 +683,9 @@ long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/
         target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
-        if( !choose_adjacent( query, target ) ) {
+        if( const cata::optional<tripoint> pnt_ = choose_adjacent( query ) ) {
+            target = *pnt_;
+        } else {
             return 0;
         }
         if( !g->is_empty( target ) ) {
@@ -817,21 +822,23 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_npc() ) {
         return 0;
     }
-    tripoint dirp;
-    if( !choose_adjacent( _( "Use your lockpick where?" ), dirp ) ) {
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
+    if( !pnt_ ) {
         return 0;
     }
-    if( dirp == p.pos() ) {
+    const tripoint pnt = *pnt_;
+
+    if( pnt == p.pos() ) {
         p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
         return 0;
     }
-    const ter_id type = g->m.ter( dirp );
-    if( g->critter_at<npc>( dirp ) ) {
+    if( g->critter_at<npc>( pnt ) ) {
         p.add_msg_if_player( m_info,
                              _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
         return 0;
     }
 
+    const ter_id type = g->m.ter( pnt );
     ter_id new_type;
     std::string open_message;
     if( type == t_chaingate_l ) {
@@ -876,7 +883,7 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( pick_roll >= door_roll ) {
         p.practice( skill_mechanics, 1 );
         p.add_msg_if_player( m_good, open_message );
-        g->m.ter_set( dirp, new_type );
+        g->m.ter_set( pnt, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) ) {
         if( it.inc_damage() ) {
             p.add_msg_if_player( m_bad,
@@ -914,30 +921,32 @@ void deploy_furn_actor::load( JsonObject &obj )
 
 long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 {
-    tripoint dir = pos;
+    tripoint pnt = pos;
     if( pos == p.pos() ) {
-        if( !choose_adjacent( _( "Deploy where?" ), dir ) ) {
+        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
+            pnt = *pnt_;
+        } else {
             return 0;
         }
     }
 
-    if( dir.x == p.posx() && dir.y == p.posy() ) {
+    if( pnt == p.pos() ) {
         p.add_msg_if_player( m_info,
                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
         return 0;
     }
 
-    if( g->m.move_cost( dir ) != 2 ) {
+    if( g->m.move_cost( pnt ) != 2 ) {
         p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname().c_str() );
         return 0;
     }
 
-    if( g->m.has_furn( dir ) ) {
+    if( g->m.has_furn( pnt ) ) {
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return 0;
     }
 
-    g->m.furn_set( dir, furn_type );
+    g->m.furn_set( pnt, furn_type );
     p.mod_moves( -200 );
     return 1;
 }
@@ -1003,9 +1012,13 @@ iuse_actor *firestarter_actor::clone() const
 
 bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
-    if( pos == p.pos() && !choose_adjacent( _( "Light where?" ), pos ) ) {
-        g->refresh_all();
-        return false;
+    if( pos == p.pos() ) {
+        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
+            pos = *pnt_;
+        } else {
+            g->refresh_all();
+            return false;
+        }
     }
     if( pos == p.pos() ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
@@ -1172,14 +1185,12 @@ long salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    item &cut = *item_loc.get_item();
-
-    if( !try_to_cut_up( p, cut ) ) {
+    if( !try_to_cut_up( p, *item_loc.get_item() ) ) {
         // Messages should have already been displayed.
         return 0;
     }
 
-    return cut_up( p, it, cut );
+    return cut_up( p, it, item_loc );
 }
 
 static const units::volume minimal_volume_to_cut = 250_ml;
@@ -1263,29 +1274,28 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 // function returns charges from it during the cutting process of the *cut.
 // it cuts
 // cut gets cut
-int salvage_actor::cut_up( player &p, item &it, item &cut ) const
+int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
 {
-    const bool filthy = cut.is_filthy();
-    int pos = p.get_item_position( &cut );
+    const bool filthy = cut.get_item()->is_filthy();
     // total number of raw components == total volume of item.
     // This can go awry if there is a volume / recipe mismatch.
-    int count = cut.volume() / minimal_volume_to_cut;
+    int count = cut.get_item()->volume() / minimal_volume_to_cut;
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
     // What material components can we get back?
-    std::vector<material_id> cut_material_components = cut.made_of();
+    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     // What materials do we salvage (ids and counts).
     std::map<std::string, int> materials_salvaged;
 
     // Final just in case check (that perhaps was not done elsewhere);
-    if( &cut == &it ) {
+    if( cut.get_item() == &it ) {
         add_msg( m_info, _( "You can not cut the %s with itself." ), it.tname().c_str() );
         return 0;
     }
-    if( !cut.contents.empty() ) {
+    if( !cut.get_item()->contents.empty() ) {
         // Should have been ensured by try_to_cut_up
-        debugmsg( "tried to cut a non-empty item %s", cut.tname().c_str() );
+        debugmsg( "tried to cut a non-empty item %s", cut.get_item()->tname().c_str() );
         return 0;
     }
 
@@ -1306,8 +1316,9 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     // If more than 1 material component can still be salvaged,
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
-    if( count > 0 && cut.damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.damage_level( 4 ) ), 1.0 );
+    if( count > 0 && cut.get_item()->damage() > 0 ) {
+        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level( 4 ) ),
+                                         1.0 );
         for( int i = count; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
                 count--;
@@ -1323,16 +1334,16 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
         }
     }
 
-    add_msg( m_info, _( "You try to salvage materials from the %s." ), cut.tname().c_str() );
+    add_msg( m_info, _( "You try to salvage materials from the %s." ),
+             cut.get_item()->tname().c_str() );
+
+    item_location::type cut_type = cut.where();
+    tripoint pos = cut.position();
 
     // Clean up before removing the item.
-    remove_ammo( cut, p );
+    remove_ammo( *cut.get_item(), p );
     // Original item has been consumed.
-    if( pos != INT_MIN ) {
-        p.i_rem( pos );
-    } else {
-        g->m.i_rem( p.posx(), p.posy(), &cut );
-    }
+    cut.remove_item();
 
     for( auto salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
@@ -1344,11 +1355,11 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
             if( filthy ) {
                 result.item_tags.insert( "FILTHY" );
             }
-            if( pos != INT_MIN ) {
+            if( cut_type == item_location::type::character ) {
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( p.posx(), p.posy(), result, amount, 0 );
+                    g->m.spawn_an_item( pos.x, pos.y, result, amount, 0 );
                 }
             }
         } else {
@@ -3429,10 +3440,13 @@ long place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-    tripoint pos = p.pos();
-    if( !choose_adjacent( string_format( _( "Place %s where?" ), it.tname().c_str() ), pos ) ) {
+    const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
+                                          it.tname() ) );
+    if( !pos_ ) {
         return 0;
     }
+    tripoint pos = *pos_;
+
     if( !is_allowed( p, pos, it.tname() ) ) {
         return 0;
     }
@@ -3817,4 +3831,94 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     test_crossing_threshold( p, m_category );
 
     return it.type->charges_to_use();
+}
+
+iuse_actor *deploy_tent_actor::clone() const
+{
+    return new deploy_tent_actor( *this );
+}
+
+void deploy_tent_actor::load( JsonObject &obj )
+{
+    assign( obj, "radius", radius );
+    assign( obj, "wall", wall );
+    assign( obj, "floor", floor );
+    assign( obj, "floor_center", floor_center );
+    assign( obj, "door_opened", door_opened );
+    assign( obj, "door_closed", door_closed );
+    assign( obj, "broken_type", broken_type );
+}
+
+long deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    int diam = 2 * radius + 1;
+
+    const cata::optional<tripoint> dir = choose_direction( string_format(
+            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    if( !dir ) {
+        return 0;
+    }
+    const tripoint direction = *dir;
+
+    // We place the center of the structure (radius + 1)
+    // spaces away from the player.
+    // First check there's enough room.
+    const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
+                            ( radius + 1 ) * direction.y, 0 );
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        if( const auto vp = g->m.veh_at( dest ) ) {
+            add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
+            return 0;
+        }
+        if( const Creature *const c = g->critter_at( dest ) ) {
+            add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
+            return 0;
+        }
+        if( g->m.impassable( dest ) || !g->m.has_flag( "FLAT", dest ) ) {
+            add_msg( m_info, _( "The %s in that direction is not passable." ), g->m.name( dest ) );
+            return 0;
+        }
+        if( g->m.has_furn( dest ) ) {
+            add_msg( m_info, _( "There is already furniture (%s) there." ), g->m.furnname( dest ) );
+            return 0;
+        }
+    }
+    // Make a square of floor surrounded by wall.
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        g->m.furn_set( dest, wall );
+    }
+    for( const tripoint &dest : g->m.points_in_radius( center, radius - 1 ) ) {
+        g->m.furn_set( dest, floor );
+    }
+    // Place the center floor and the door.
+    if( floor_center ) {
+        g->m.furn_set( center, *floor_center );
+    }
+    g->m.furn_set( p.pos() + direction, door_closed );
+    add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
+    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
+    return 1;
+}
+
+bool deploy_tent_actor::check_intact( const tripoint &center ) const
+{
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        const furn_id fid = g->m.furn( dest );
+        if( dest == center && floor_center ) {
+            if( fid != *floor_center ) {
+                return false;
+            }
+        } else if( square_dist( dest, center ) < radius ) {
+            // So we are inside the tent
+            if( fid != floor ) {
+                return false;
+            }
+        } else {
+            // We are on the border of the tent
+            if( fid != wall && fid != door_opened && fid != door_closed ) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

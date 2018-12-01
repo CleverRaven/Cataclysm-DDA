@@ -250,7 +250,7 @@ void editmap_hilight::draw( editmap &hm, bool update )
                 if( t_field.fieldCount() > 0 ) {
                     field_id t_ftype = t_field.fieldSymbol();
                     const field_entry *t_fld = t_field.findField( t_ftype );
-                    if( t_fld != NULL ) {
+                    if( t_fld != nullptr ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
                     }
@@ -361,7 +361,7 @@ cata::optional<tripoint> editmap::edit()
     std::string action;
 
     uberdraw = uistate.editmap_nsa_viewmode;
-    infoHeight = 14;
+    infoHeight = 20;
 
     w_info = catacurses::newwin( infoHeight, width, TERMY - infoHeight, offsetX );
     w_help = catacurses::newwin( 3, width - 2, TERMY - 3, offsetX + 1 );
@@ -537,7 +537,7 @@ void editmap::update_view( bool update_info )
                 if( t_field.fieldCount() > 0 ) {
                     field_id t_ftype = t_field.fieldSymbol();
                     const field_entry *t_fld = t_field.findField( t_ftype );
-                    if( t_fld != NULL ) {
+                    if( t_fld != nullptr ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
                     }
@@ -602,10 +602,16 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off++, 1, _( "transparency: %.5f, visibility: %.5f," ),
                    map_cache.transparency_cache[target.x][target.y],
                    map_cache.seen_cache[target.x][target.y] );
-        mvwprintw( w_info, off++, 1, _( "apparent light: %.2f, light_at: %.2f" ),
-                   map_cache.seen_cache[target.x][target.y] * map_cache.lm[target.x][target.y],
-                   map_cache.lm[target.x][target.y] );
-        mvwprintw( w_info, off++, 1, _( "outside: %d" ), static_cast<int>( g->m.is_outside( target ) ) );
+        map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
+        int apparent_light = static_cast<int>(
+                                 g->m.apparent_light_at( target, g->m.get_visibility_variables_cache() ) );
+        mvwprintw( w_info, off++, 1, _( "outside: %d obstructed: %d" ),
+                   static_cast<int>( g->m.is_outside( target ) ),
+                   static_cast<int>( al.obstructed ) );
+        mvwprintw( w_info, off++, 1, _( "light_at: %s" ),
+                   map_cache.lm[target.x][target.y].to_string() );
+        mvwprintw( w_info, off++, 1, _( "apparent light: %.5f (%d)" ),
+                   al.apparent_light, apparent_light );
         std::string extras;
         if( veh_in >= 0 ) {
             extras += _( " [vehicle]" );
@@ -618,7 +624,7 @@ void editmap::update_view( bool update_info )
         }
 
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras.c_str() );
-        off++;  // 4-5
+        off++;  // 9
 
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
@@ -627,13 +633,13 @@ void editmap::update_view( bool update_info )
                        cur.name().c_str(), cur.getFieldType(),
                        cur.getFieldDensity(), to_turns<int>( cur.getFieldAge() )
                      );
-            off++; // 5ish
+            off++; // 10ish
         }
 
         if( cur_trap != tr_null ) {
             auto &t = cur_trap.obj();
             mvwprintz( w_info, off, 1, t.color, _( "trap: %s (%d)" ), t.name().c_str(), cur_trap.to_i() );
-            off++; // 6
+            off++; // 11
         }
 
         if( critter != nullptr ) {
@@ -1037,14 +1043,14 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id id
     int fdens = 1;
     const field_t &ftype = fieldlist[idx];
     field_entry *fld = field.findField( idx );
-    if( fld != NULL ) {
+    if( fld != nullptr ) {
         fdens = fld->getFieldDensity();
     }
     fmenu.entries[idx].txt = ftype.name( fdens - 1 );
-    if( fld != NULL ) {
+    if( fld != nullptr ) {
         fmenu.entries[idx].txt += " " + std::string( fdens, '*' );
     }
-    fmenu.entries[idx].text_color = ( fld != NULL ? c_cyan : fmenu.text_color );
+    fmenu.entries[idx].text_color = ( fld != nullptr ? c_cyan : fmenu.text_color );
     fmenu.entries[idx].extratxt.color = ftype.color[fdens - 1];
 }
 
@@ -1090,7 +1096,7 @@ int editmap::edit_fld()
             int fdens = 0;
             const field_id idx = static_cast<field_id>( fmenu.selected );
             field_entry *fld = cur_field->findField( idx );
-            if( fld != NULL ) {
+            if( fld != nullptr ) {
                 fdens = fld->getFieldDensity();
             }
             int fsel_dens = fdens;
@@ -1127,7 +1133,7 @@ int editmap::edit_fld()
                     field &t_field = g->m.get_field( elem );
                     field_entry *t_fld = t_field.findField( fid );
                     int t_dens = 0;
-                    if( t_fld != NULL ) {
+                    if( t_fld != nullptr ) {
                         t_dens = t_fld->getFieldDensity();
                     }
                     if( fsel_dens != 0 ) {

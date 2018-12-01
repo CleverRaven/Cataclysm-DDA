@@ -2,8 +2,13 @@
 #ifndef SDL_WRAPPERS_H
 #define SDL_WRAPPERS_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#   include <SDL2/SDL.h>
+#   include <SDL2/SDL_ttf.h>
+#else
+#   include <SDL.h>
+#   include <SDL_ttf.h>
+#endif
 
 #include <memory>
 

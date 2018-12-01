@@ -5,7 +5,11 @@
 #include "ui.h"
 
 #ifdef TILES
-#include "SDL2/SDL.h"
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#       include <SDL2/SDL.h>
+#   else
+#       include <SDL.h>
+#   endif
 #endif // TILES
 
 extern bool test_mode;

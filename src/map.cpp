@@ -5363,7 +5363,7 @@ void map::update_visibility_cache( const int zlev )
     visibility_variables_cache.variables_set = true; // Not used yet
     visibility_variables_cache.g_light_level = static_cast<int>( g->light_level( zlev ) );
     visibility_variables_cache.vision_threshold = g->u.get_vision_threshold(
-                get_cache_ref( g->u.posz() ).lm[g->u.posx()][g->u.posy()] );
+                get_cache_ref( g->u.posz() ).lm[g->u.posx()][g->u.posy()].max() );
 
     visibility_variables_cache.u_clairvoyance = g->u.clairvoyance();
     visibility_variables_cache.u_sight_impaired = g->u.sight_impaired();
@@ -5401,56 +5401,6 @@ void map::update_visibility_cache( const int zlev )
 const visibility_variables &map::get_visibility_variables_cache() const
 {
     return visibility_variables_cache;
-}
-
-lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
-{
-    const int dist = rl_dist( g->u.pos(), p );
-
-    // Clairvoyance overrides everything.
-    if( dist <= cache.u_clairvoyance ) {
-        return LL_BRIGHT;
-    }
-    const auto &map_cache = get_cache_ref( p.z );
-    const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
-    const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
-    const float apparent_light = vis * map_cache.lm[p.x][p.y];
-
-    // Unimpaired range is an override to strictly limit vision range based on various conditions,
-    // but the player can still see light sources.
-    if( dist > g->u.unimpaired_range() ) {
-        if( !obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
-            return LL_BRIGHT_ONLY;
-        } else {
-            return LL_DARK;
-        }
-    }
-    if( obstructed ) {
-        if( apparent_light > LIGHT_AMBIENT_LIT ) {
-            if( apparent_light > cache.g_light_level ) {
-                // This represents too hazy to see detail,
-                // but enough light getting through to illuminate.
-                return LL_BRIGHT_ONLY;
-            } else {
-                // If it's not brighter than the surroundings, it just ends up shadowy.
-                return LL_LOW;
-            }
-        } else {
-            return LL_BLANK;
-        }
-    }
-    // Then we just search for the light level in descending order.
-    if( apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
-        return LL_BRIGHT;
-    }
-    if( apparent_light > LIGHT_AMBIENT_LIT ) {
-        return LL_LIT;
-    }
-    if( apparent_light > cache.vision_threshold ) {
-        return LL_LOW;
-    } else {
-        return LL_BLANK;
-    }
 }
 
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const
@@ -5706,7 +5656,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         const field_id &fid = curr_field.fieldSymbol();
         const field_entry *fe = curr_field.findField( fid );
         const field_t &f = fieldlist[fid];
-        if( f.sym == '&' || fe == NULL ) {
+        if( f.sym == '&' || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
         } else if( f.sym == '*' ) {
             // A random symbol.
@@ -6396,8 +6346,8 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     static const oter_id rock( "empty_rock" );
     static const oter_id air( "open_air" );
 
-    dbg( D_INFO ) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y
-                  << "], gridx["
+    dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
+                  << "], worldy[" << abs_sub.y << "], gridx["
                   << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
 
     const int absx = abs_sub.x + gridx,
@@ -7478,15 +7428,20 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 continue;
             }
 
-            if( vp.is_inside() ) {
-                outside_cache[px][py] = false;
-            }
+            bool vehicle_is_opaque =
+                vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken();
 
-            if( vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken() ) {
+            if( vehicle_is_opaque ) {
                 int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE, true );
                 if( dpart < 0 || !v.v->parts[dpart].open ) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+                } else {
+                    vehicle_is_opaque = false;
                 }
+            }
+
+            if( vehicle_is_opaque || vp.is_inside() ) {
+                outside_cache[px][py] = false;
             }
 
             if( vp.has_feature( VPFLAG_BOARDABLE ) && !vp.part().is_broken() ) {
@@ -8060,7 +8015,8 @@ level_cache::level_cache()
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     floor_cache_dirty = false;
-    std::fill_n( &lm[0][0], map_dimensions, 0.0f );
+    constexpr four_quadrants four_zeros( 0.0f );
+    std::fill_n( &lm[0][0], map_dimensions, four_zeros );
     std::fill_n( &sm[0][0], map_dimensions, 0.0f );
     std::fill_n( &light_source_buffer[0][0], map_dimensions, 0.0f );
     std::fill_n( &outside_cache[0][0], map_dimensions, false );

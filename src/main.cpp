@@ -32,13 +32,17 @@
 #endif
 #include "translations.h"
 #ifdef TILES
-#include <SDL2/SDL_version.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#      include <SDL2/SDL_version.h>
+#   else
+#      include <SDL_version.h>
+#   endif
 #endif
 
 #ifdef __ANDROID__
-#include "SDL_system.h"
-#include "SDL_filesystem.h"
-#include "SDL_keyboard.h"
+#include <SDL_system.h>
+#include <SDL_filesystem.h>
+#include <SDL_keyboard.h>
 #include <android/log.h>
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
@@ -595,7 +599,7 @@ int main( int argc, char *argv[] )
     srand( seed );
     rng_set_engine_seed( seed );
 
-    g = new game;
+    g.reset( new game );
     // First load and initialize everything that does not
     // depend on the mods.
     try {
@@ -732,9 +736,7 @@ void exit_handler( int s )
         deinitDebug();
 
         int exit_status = 0;
-        if( g != NULL ) {
-            delete g;
-        }
+        g.reset();
 
         catacurses::endwin();
 

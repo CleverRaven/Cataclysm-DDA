@@ -25,6 +25,12 @@ addons:
 compiler: gcc
 os: linux
 
+# We have branch builds disabled globally to prevent double-builds of PRs.
+# This re-enables just the master branch.
+branches:
+  only:
+  - master
+
 jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
@@ -48,7 +54,7 @@ jobs:
           packages: ["wine"]
 
     # Linux Tiles
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
       compiler: gcc
       addons: &gcc8
         apt:
@@ -66,6 +72,7 @@ jobs:
 
     # GCC 4.9
     - env: COMPILER=g++-4.9
+      if: type != pull_request
       compiler: gcc
       addons: &gcc49
         apt:
@@ -74,6 +81,7 @@ jobs:
 
     # GCC 6
     - env: COMPILER=g++-6
+      if: type != pull_request
       compiler: gcc
       addons: &gcc6
         apt:
@@ -82,6 +90,7 @@ jobs:
 
     # GCC 7
     - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough' CODE_COVERAGE=true
+      if: type != pull_request
       compiler: gcc
       dist: trusty
       addons: &gcc7
@@ -107,6 +116,7 @@ jobs:
 
     # Clang 3.9
     - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      if: type != pull_request
       compiler: clang
       addons: &clang39
         apt:
@@ -115,6 +125,7 @@ jobs:
 
     # Clang 4.0
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      if: type != pull_request
       compiler: clang
       addons: &clang40
         apt:
@@ -123,6 +134,7 @@ jobs:
 
     # Clang 5.0
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      if: type != pull_request
       dist: trusty
       compiler: clang
       addons: &clang50
@@ -131,7 +143,7 @@ jobs:
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
           
     # Clang 6.0
-    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address
       dist: trusty
       compiler: clang
       addons: &clang60
