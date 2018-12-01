@@ -1176,7 +1176,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     
     // Not all acid trail monsters leave as much acid. Generate trails of three tiles, then pause for ten tiles.
     if( has_flag( MF_SHORTACIDTRAIL ) ) {
-        for( int acidlength = 3; acidlength >= -10; acidlength = acidlength -1 ) {
+        for( int acidlength = 3; acidlength >= -10; acidlength-- ) {
             if( acidlength >=1 ) {
                 g->m.add_field( pos(), fd_acid, acidlength );
             } else { if( acidlength == -9 ) {
