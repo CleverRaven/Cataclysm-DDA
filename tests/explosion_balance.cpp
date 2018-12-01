@@ -103,7 +103,7 @@ void check_vehicle_damage( std::string explosive_id, std::string vehicle_id, int
     std::vector<int> after_hp = get_part_hp( target_vehicle );
 
     // We don't expect any destroyed parts.
-    CHECK( before_hp.size() == after_hp.size() );
+    REQUIRE( before_hp.size() == after_hp.size() );
     for( unsigned int i = 0; i < before_hp.size(); ++i ) {
         INFO( target_vehicle->parts[ i ].name() );
         if( target_vehicle->parts[ i ].name() == "windshield" ||
