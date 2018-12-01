@@ -15,7 +15,6 @@
 
 class JsonIn;
 class JsonOut;
-class vehicle;
 
 class zone_type
 {
@@ -131,7 +130,6 @@ class zone_manager
     private:
         static constexpr int MAX_DISTANCE = 10;
         std::vector<zone_data> zones;
-        std::vector<vehicle *> zone_vehs;
         std::map<zone_type_id, zone_type> types;
         std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
         std::unordered_set<tripoint> get_point_set( const zone_type_id &type ) const;
@@ -154,12 +152,8 @@ class zone_manager
                         const tripoint &start, const tripoint &end,
                         std::shared_ptr<zone_options> options = nullptr );
 
-        void register_veh( vehicle *const veh );
-
         bool remove( const size_t index );
         bool remove( zone_data &zone );
-
-        void deregister_veh( vehicle const *const veh );
 
         unsigned int size() const {
             return zones.size();
@@ -198,6 +192,7 @@ class zone_manager::zone_data
         zone_type_id type;
         bool invert;
         bool enabled;
+        bool is_vehicle;
         tripoint start;
         tripoint end;
         std::shared_ptr<zone_options> options;
@@ -208,6 +203,7 @@ class zone_manager::zone_data
             type = zone_type_id( "" );
             invert = false;
             enabled = false;
+            is_vehicle = false;
             start = tripoint( 0, 0, 0 );
             end = tripoint( 0, 0, 0 );
             options = nullptr;
@@ -221,6 +217,7 @@ class zone_manager::zone_data
             type = _type;
             invert = _invert;
             enabled = _enabled;
+            is_vehicle = false;
             start = _start;
             end = _end;
 
@@ -236,6 +233,7 @@ class zone_manager::zone_data
         bool set_type(); // returns true if type is changed
         void set_position( const std::pair<tripoint, tripoint> position );
         void set_enabled( const bool enabled );
+        void set_is_vehicle( const bool is_vehicle );
 
         std::string get_name() const {
             return name;
@@ -248,6 +246,9 @@ class zone_manager::zone_data
         }
         bool get_enabled() const {
             return enabled;
+        }
+        bool get_is_vehicle() const {
+            return is_vehicle;
         }
         tripoint get_start_point() const {
             return start;

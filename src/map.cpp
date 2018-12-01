@@ -754,6 +754,18 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     return dmg_veh1;
 }
 
+void map::get_vehicle_zones( tripoint p )
+{
+    std::vector<zone_manager::zone_data> veh_zones;
+    for( auto veh : this->get_cache( p.z ).zone_vehicles ) {
+        veh->refresh_zones();
+        for( auto zone : veh->loot_zones ) {
+            veh_zones.emplace_back(zone.second);
+        }
+    }
+    //return veh_zones;
+}
+
 // 3D vehicle functions
 
 VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
