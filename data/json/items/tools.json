@@ -1859,7 +1859,7 @@
     "ammo": "battery",
     "initial_charges": 300,
     "max_charges": 300,
-    "qualities": [ [ "DRILL", 3 ] ]
+    "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ]
   },
   {
     "id": "cot",
@@ -2604,7 +2604,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "PRY", 1 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
