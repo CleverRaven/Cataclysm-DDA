@@ -110,7 +110,7 @@
     "dodge": 2,
     "vision_day": 30,
     "vision_night": 10,
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],

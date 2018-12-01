@@ -117,6 +117,16 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "meat_scrap_cooked",
+    "copy-from": "meat_scrap",
+    "type": "COMESTIBLE",
+    "name": "cooked scrap of meat",
+    "parasites": 0,
+    "fun": 0,
+    "healthy": 0,
+    "calories": 51
+  },
+  {
     "id": "offal",
     "copy-from": "meat",
     "type": "COMESTIBLE",
