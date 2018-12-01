@@ -131,6 +131,7 @@ Underground temperatures relatively constant and independent from weather patter
 Nearby hordes appear on minimap.
 Moves social modifiers of mutations to JSON.
 Rates of hunger, thirst, fatigue, and learning moved to JSON, healing mutations use relative values instead of absolute.
+Added pet and livestock carriers so animals can ride in vehicles.
 Adds shelf life to many foods, previously canned or vacuum packed food has shelf life when opened.
 Include/Exclude filter for overmap search.
 Carrion can now eat adjacent crops or food.
@@ -179,7 +180,6 @@ Add "calories" field to it_comest.
 Terrain connections for groups other than WALL.
 Hands free mechanics.
 Update Evac Center.
-Implement MAG_DESTROY and MAG_EJECT.
 Implements integral_volume for gun mods.
 Veterinarian Clinic.
 Implement disintegrating ammo linkages.
@@ -211,12 +211,17 @@ Add MShockXotto+ tileset
 Add descriptions to furniture objects.
 Small town buildings.
 Subway.
+Added Cable Charger Bionic.
+Mainlined vehicle rams from Blazemod.
+Add ammo pouches for fast access to ammunition.
 Hallucination monsters are now described in extended description.
 New monster ability 'ABSORBS_SPLITS'.
 Pallet lifter for fast battery swapping.
 Add Speedloaders.
 Remove Solar Panels CBM.
 Software Lights on!
+Added can sealer and related recipes for better food preservation.
+Seperated dashboard (electronics controls) from steering.
 Acidic Ant Expansion - Acidic Chitin Item & Equipment.
 Add engine blocks and engine deconstruction recipes.
 Butchering yields for fungal towers and other structures.
@@ -552,7 +557,6 @@ Remove memorization of recipes from reading books.
 Nerf Sensory Dulling.
 More realistic diesel recipe.
 Evened out addiction witdrawal but made it longer.
-Prevent cable bionic from draining power when full.
 Rework firestarter and extended firestarter.
 Fix 145 items spawning in a house
 Standardise handloading recipes.
