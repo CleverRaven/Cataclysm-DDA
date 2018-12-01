@@ -57,7 +57,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     if( what == "AMMO" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Stack",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
+            "Range", "Dispersion", "Recoil", "Damage", "Pierce", "Damage multiplier"
         };
         auto dump = [&rows]( const item & obj ) {
             // a common task is comparing ammo by type so ammo has multiple repeat the entry
@@ -74,6 +74,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 damage_instance damage = obj.type->ammo->damage;
                 r.push_back( to_string( damage.total_damage() ) );
                 r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
+                r.push_back( obj.type->ammo->prop_damage ? to_string( *obj.type->ammo->prop_damage ) : "---" );
                 rows.push_back( r );
             }
         };

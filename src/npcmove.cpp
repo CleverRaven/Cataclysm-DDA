@@ -238,6 +238,11 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
+            if( critter.type->difficulty > 10 ) {
+                const std::string speech = string_format( _( "<monster_warning> %s." ),
+                                           critter.type->nname() );
+                complain_about( "warning_" + critter.type->nname(), 10_minutes, speech, true );
+            }
         }
     }
     assessment /= 10;
@@ -384,9 +389,13 @@ void npc::move()
 
     if( action == npc_undecided ) {
         if( is_guarding() ) {
-            action = goal == global_omt_location() ?
-                     npc_pause :
-                     npc_goto_destination;
+            // if we're in a vehicle, stay in the vehicle
+            if( in_vehicle ) {
+                action = npc_pause;
+                goal = global_omt_location();
+            } else {
+                action = goal == global_omt_location() ?  npc_pause : npc_goto_destination;
+            }
         } else if( has_new_items && scan_new_items() ) {
             return;
         } else if( !fetching_item ) {
