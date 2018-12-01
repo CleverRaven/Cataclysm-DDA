@@ -1345,7 +1345,11 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
     uint8_t val = 0;
     auto const is_memorized =
     [&]( const tripoint & q ) {
+#ifdef TILES
         return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
+#else
+        return g->u.get_memorized_symbol( getabs( q ) );
+#endif
     };
 
     // populate connection information
