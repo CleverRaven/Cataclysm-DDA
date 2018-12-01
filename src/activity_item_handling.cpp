@@ -839,7 +839,8 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     return move_cost_inv( it, src, dest );
 }
 
-static void move_item( item &it, int quantity, const tripoint &src, const tripoint &dest )
+static void move_item( item &it, int quantity, const tripoint &src, const tripoint &dest,
+                       vehicle *src_veh, int src_part, vehicle *dest_veh, int dest_part )
 {
     item leftovers = it;
 
@@ -856,14 +857,24 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     // Check that we can pick it up.
     if( !it.made_of_from_type( LIQUID ) ) {
         g->u.mod_moves( -move_cost( it, src, dest ) );
-        drop_on_map( g->u, item_drop_reason::deliberate, { it }, dest );
-        // Remove from map.
-        g->m.i_rem( src, &it );
+        put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, { it }, dest );
+        // Remove from map or vehicle.
+        if( src_veh ) {
+            src_veh->remove_item( src_part, &it );
+        } else {
+            g->m.i_rem( src, &it );
+        }
     }
 
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
-        g->m.add_item_or_charges( src, leftovers );
+        if( src_veh ) {
+            if( !src_veh->add_item( src_part, leftovers ) ) {
+                debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
+            }
+        } else {
+            g->m.add_item_or_charges( src, leftovers );
+        }
     }
 }
 
@@ -896,8 +907,8 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p.pos() );
     const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );
-    vehicle *veh;
-    int vstor;
+    vehicle *src_veh, *dest_veh;
+    int src_part, dest_part;
 
     // Nuke the current activity, leaving the backlog alone.
     p.activity = player_activity();
@@ -931,17 +942,30 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
             if( !mgr.has( id, src ) ) {
+
+                //Check source for cargo part
+                if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
+                        false ) ) {
+                    src_veh = &vp->vehicle();
+                    src_part = vp->part_index();
+                } else {
+                    src_veh = nullptr;
+                    src_part = -1;
+                }
+
                 const auto &dest_set = mgr.get_near( id, abspos );
 
                 for( auto &dest : dest_set ) {
                     const auto &dest_loc = g->m.getlocal( dest );
+
+                    //Check destination for cargo part
                     if( const cata::optional<vpart_reference> vp = g->m.veh_at( dest_loc ).part_with_feature( "CARGO",
                             false ) ) {
-                        veh = &vp->vehicle();
-                        vstor = vp->part_index();
+                        dest_veh = &vp->vehicle();
+                        dest_part = vp->part_index();
                     } else {
-                        veh = nullptr;
-                        vstor = -1;
+                        dest_veh = nullptr;
+                        dest_part = -1;
                     }
 
                     // skip tiles with inaccessible furniture, like filled charcoal kiln
@@ -949,10 +973,15 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                         continue;
                     }
 
-                    // check free space at destination
+                    units::volume free_space;
                     // if there's a vehicle with space do not check the tile beneath
-                    if( ( veh && veh->get_items( vstor ).amount_can_fit( *it ) ) != ( !veh &&
-                            g->m.free_volume( dest_loc ) > it->volume() ) ) {
+                    if( dest_veh ) {
+                        free_space = dest_veh->free_volume( dest_part );
+                    } else {
+                        free_space = g->m.free_volume( dest_loc );
+                    }
+                    // check free space at destination
+                    if( free_space > it->volume() ) {
                         // before we move any item, check if player is at or adjacent to the loot source tile
                         if( !is_adjacent_or_closer ) {
                             std::vector<tripoint> route;
@@ -984,18 +1013,9 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             p.set_destination( route, player_activity( activity_id( "ACT_MOVE_LOOT" ) ) );
                             return;
                         }
-                        //Try putting it in vehicle cargo
-                        if( veh && veh->add_item( vstor, *it ) ) {
-                            g->m.i_rem( src_loc, it );
-                            break;
-                        } else {
-                            add_msg( m_info, _( "Failed to store in Vehicle" ) );
-                            move_item( *it, it->count(), src_loc, dest_loc );
-                            break;
-                        }
+                        move_item( *it, it->count(), src_loc, dest_loc, src_veh, src_part, dest_veh, dest_part );
                     }
                 }
-
                 if( p.moves <= 0 ) {
                     // Restart activity and break from cycle.
                     p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );

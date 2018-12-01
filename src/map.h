@@ -486,6 +486,7 @@ class map
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( submap *const to, const int zlev );
+        void get_vehicle_zones( tripoint p );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
