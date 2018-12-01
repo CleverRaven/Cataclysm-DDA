@@ -1343,6 +1343,10 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
     bool is_transparent =
         ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     uint8_t val = 0;
+    auto const is_memorized =
+    [&]( const tripoint & q ) {
+        return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
+    };
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
@@ -1350,17 +1354,13 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
         if( !inbounds( neighbour ) ) {
             continue;
         }
-        const ter_t *neighbour_terrain = nullptr;
-        if( is_transparent || ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ) {
-            neighbour_terrain = &ter( neighbour ).obj();
-        } else {
-            ter_str_id t_id( g->u.get_memorized_tile( getabs( neighbour ) ).tile );
-            if( t_id.is_valid() ) {
-                neighbour_terrain = &t_id.obj();
+        if( is_transparent ||
+            ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ||
+            is_memorized( neighbour ) ) {
+            const ter_t &neighbour_terrain = ter( neighbour ).obj();
+            if( neighbour_terrain.connects_to( connect_group ) ) {
+                val += 1 << i;
             }
-        }
-        if( neighbour_terrain && neighbour_terrain->connects_to( connect_group ) ) {
-            val += 1 << i;
         }
     }
 
