@@ -107,6 +107,20 @@ class statistics
             return _error;
         }
 
+        /** Use to continue testing until we are sure whether the result is
+         * inside or outside the target.
+         *
+         * Returns true if the confidence interval partially overlaps the target region.
+         */
+        bool uncertain_about( const epsilon_threshold &t ) {
+            if( test_threshold( t ) || // Inside target
+                ( t.midpoint - t.epsilon ) > upper() || // Below target
+                ( t.midpoint + t.epsilon ) < lower() ) { // Above target
+                return false;
+            }
+            return true;
+        }
+
         bool test_threshold( const epsilon_threshold &t ) {
             return ( ( t.midpoint - t.epsilon ) < lower() &&
                      ( t.midpoint + t.epsilon ) > upper() );
@@ -115,10 +129,18 @@ class statistics
             return ( t.lower_thresh < lower() && t.upper_thresh > upper() );
         }
         double upper() {
-            return avg() + margin_of_error();
+            double result = avg() + margin_of_error();
+            if( std::is_same<T, bool>::value ) {
+                result = std::min( result, 1.0 );
+            }
+            return result;
         }
         double lower() {
-            return avg() - margin_of_error();
+            double result = avg() - margin_of_error();
+            if( std::is_same<T, bool>::value ) {
+                result = std::max( result, 0.0 );
+            }
+            return result;
         }
         // Test if some value is a member of the confidence interval of the
         // sample
