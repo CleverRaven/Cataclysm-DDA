@@ -1071,6 +1071,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         return true;
     };
 
+    auto recalc_recoil = [&recoil_pc, &recoil_pos, &pc]( tripoint & dst ) {
+        static const double recoil_per_deg = MAX_RECOIL / 180;
+
+        const int phi = std::abs( g->m.coord_to_angle( pc.pos().x, pc.pos().y, dst.x, dst.y ) -
+                                  g->m.coord_to_angle( pc.pos().x, pc.pos().y, recoil_pos.x, recoil_pos.y ) ) % 360;
+        const double angle = phi > 180 ? 360 - phi : phi;
+
+        return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
+    };
+
     const tripoint old_offset = pc.view_offset;
     do {
         ret = g->m.find_clear_path( src, dst );
@@ -1250,16 +1260,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             pc.view_offset.z--;
         }
 
-        auto recalc_recoil = [&recoil_pc, &recoil_pos, &pc]( tripoint &dst ) {
-            static const double recoil_per_deg = MAX_RECOIL / 180;
-
-            const int phi = std::abs( g->m.coord_to_angle( pc.pos().x, pc.pos().y, dst.x, dst.y ) -
-            g->m.coord_to_angle( pc.pos().x, pc.pos().y, recoil_pos.x, recoil_pos.y ) ) % 360;
-            const double angle = phi > 180 ? 360 - phi : phi;
-
-            return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
-        };
-
         /* More drawing to terrain */
         if( targ != tripoint_zero ) {
             const Creature *critter = g->critter_at( dst, true );
@@ -1276,7 +1276,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
             dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
 
-            // TODO: spend move points swinging the gun around.
             pc.recoil = recalc_recoil( dst );
 
         } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
