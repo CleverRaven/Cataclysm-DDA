@@ -343,6 +343,34 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
     }
 
+    if( bcp->has_level( camp_ctr, 5, base_dir ) ) {
+        std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_clearcut" );
+        mission_key.text["Clearcut"] = string_format( _( "Notes:\n"
+                                       "Send a companion to a clear a nearby forest.\n \n"
+                                       "Skill used: fabrication\n"
+                                       "Difficulty: 1 \n"
+                                       "Effects:\n"
+                                       "> 95%% of trees/trunks at the forest position"
+                                       " will be cut down.\n"
+                                       "> 0%% of total material will be brought back.\n"
+                                       "> Forest will become a field tile.\n"
+                                       "> Useful for clearing land for another faction camp.\n \n"
+                                       "Risk: None\n"
+                                       "Time: 6 Hour Base + Travel Time + Cutting Time\n"
+                                       "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.push( "Clearcut", _( "Clear a forest" ), "", false, npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = _( "Clearing a forest...\n" );
+            bool avail = false;
+            for( auto &elem : npc_list ) {
+                avail |= update_time_left( entry, elem );
+            }
+            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            mission_key.text["Recover Clearcutter"] = entry;
+            mission_key.push( "Recover Clearcutter", _( "Recover Clear Cutter" ), "", true, avail );
+        }
+    }
+
     if( bcp->has_level( camp_ctr, 7, base_dir ) ) {
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
         mission_key.text["Setup Hide Site"] = string_format( _( "Notes:\n"
@@ -841,6 +869,17 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         }
     }
 
+    if( cur_key.id == "Clearcut" ) {
+        start_clearcut( p );
+    } else if( cur_key.id == "Recover Clearcutter" ) {
+        npc *comp = companion_choose_return( p, "_faction_camp_clearcut",
+                                             calendar::before_time_starts );
+        if( comp != nullptr ) {
+            popup( _( "%s returns from working in the woods..." ), comp->name );
+            camp_companion_return( *comp );
+        }
+    }
+
     if( cur_key.id == "Setup Hide Site" ) {
         start_setup_hide_site( p );
     } else if( cur_key.id == "Recover Hide Setup" ) {
@@ -1262,6 +1301,44 @@ void talk_function::start_cut_logs( npc &p )
 }
 
 void talk_function::start_clearcut( npc &p )
+{
+    std::vector<std::string> log_sources = { "forest", "forest_thick" };
+    popup( _( "Forests are the only valid cutting locations." ) );
+    const tripoint omt_pos = p.global_omt_location();
+    tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
+    if( forest != tripoint( -999, -999, -999 ) ) {
+        int tree_est = om_cutdown_trees_est( forest, 95 );
+        int tree_young_est = om_harvest_ter_est( p, forest, ter_id( "t_tree_young" ), 95 );
+        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        //Very roughly what the player does + 6 hours for prep, clean up, breaks
+        time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
+        time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2 );
+        time_duration work_time = travel_time + chop_time;
+        int need_food = time_to_food( work_time );
+        if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, chop_time,
+                       travel_time, dist, 2, need_food ) ) ) {
+            return;
+        } else if( camp_food_supply() < need_food ) {
+            popup( _( "You don't have enough food stored to feed your companion." ) );
+            return;
+        }
+        g->draw_ter();
+        //wrefresh( g->w_terrain );
+        npc *comp = individual_mission( p, _( "departs to clear a forest..." ),
+                                        "_faction_camp_clearcut", false, {}, "fabrication", 1 );
+        if( comp != nullptr ) {
+            comp->companion_mission_time_ret = calendar::turn + work_time;
+            om_cutdown_trees_trunks( forest, 95 );
+            om_harvest_ter_break( p, forest, ter_id( "t_tree_young" ), 95 );
+            //If we cleared a forest...
+            if( om_cutdown_trees_est( forest ) < 5 ) {
+                oter_id &omt_trees = overmap_buffer.ter( forest );
+                omt_trees = oter_id( "field" );
+            }
+        }
+    }
+}
+
 void talk_function::start_setup_hide_site( npc &p )
 {
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );

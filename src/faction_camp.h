@@ -150,6 +150,7 @@ void camp_recruit_return( npc &p, const std::string &task, int score );
 /// Called when a companion is sent to cut logs
 void start_camp_upgrade( npc &p, const std::string &bldg );
 void start_cut_logs( npc &p );
+void start_clearcut( npc &p );
 void start_setup_hide_site( npc &p );
 void start_relay_hide_site( npc &p );
 /// Called when a compansion is sent to start fortifications
