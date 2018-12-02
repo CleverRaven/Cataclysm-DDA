@@ -238,10 +238,12 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
-            if( critter.type->difficulty > 10 ) {
-                const std::string speech = string_format( _( "<monster_warning> %s." ),
+            if( critter.type->difficulty > 10 && ( is_enemy() || !critter.friendly ) ) {
+                const std::string snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
+                const std::string speech = string_format( _( "%s %s." ), snip,
                                            critter.type->nname() );
-                complain_about( "warning_" + critter.type->nname(), 10_minutes, speech, true );
+                complain_about( "warning_" + critter.type->nname(), 10_minutes, speech,
+                                is_enemy() );
             }
         }
     }
