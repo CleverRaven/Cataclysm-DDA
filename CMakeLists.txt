@@ -189,10 +189,6 @@ IF(RELEASE)
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
 	SET(CMAKE_BUILD_TYPE RELEASE)
 	ADD_DEFINITIONS(-DRELEASE)
-	IF(MINGW)
-		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
-		ADD_DEFINITIONS(-D__NO_INLINE__)
-	ENDIF(MINGW)
     # Use PREFIX as storage of data,gfx,lua etc.. Usefull only on *nix OS.
     IF (PREFIX AND NOT WIN32)
 	    ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
