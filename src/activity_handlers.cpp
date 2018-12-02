@@ -1044,7 +1044,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = DISSECT;
     }
 
+    //Negative index means try to start next item
     if( act->index < 0 ) {
+        //No values means no items left to try
+        if( act->values.empty() ) {
+            act->set_to_null();
+            return;
+        }
         set_up_butchery( *act, *p, action );
         return;
     }
@@ -1072,7 +1078,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
-        act->set_to_null();
+        act->index = -1;
         return;
     }
 
@@ -1126,7 +1132,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
                                      corpse->size + 1 ) ) );
         }
-        act->set_to_null();
+        act->index = -1;
         return;
     }
 
@@ -1219,19 +1225,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
-            act->set_to_null();
-            return;
+            break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
             g->m.i_rem( p->pos(), act->index );
             break;
     }
     // multibutchering
-    if( act->values.empty() ) {
-        act->set_to_null();
-    } else {
-        set_up_butchery( *act, *p, action );
-    }
+    act->index = -1;
 }
 
 enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};

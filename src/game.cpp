@@ -9129,7 +9129,7 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
             time_to_cut = butcher_time_to_cut( g->u, items[corpses[corpse]], bt );
         } else {
             for( int i : corpses ) {
-                time_to_cut += butcher_time_to_cut( g->u, items[corpses[i]], bt );
+                time_to_cut += butcher_time_to_cut( g->u, items[i], bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -9417,11 +9417,10 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
-            int index = corpses[indexer_index];
-            butcher_submenu( items, corpses, index );
+            butcher_submenu( items, corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
-            u.activity.values.push_back( index );
+            u.activity.values.push_back( indexer_index );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
