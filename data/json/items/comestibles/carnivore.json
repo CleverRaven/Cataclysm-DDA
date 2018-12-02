@@ -43,7 +43,7 @@
     "type": "COMESTIBLE",
     "name": "human stomach",
     "description": "The stomach of a human.  It is surprisingly durable.",
-    "material": "flesh"
+    "material": "hflesh"
   },
   {
     "id": "hstomach_large",
