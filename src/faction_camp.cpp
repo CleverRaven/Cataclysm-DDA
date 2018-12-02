@@ -840,7 +840,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
 
     if( cur_key.id == "Upgrade Camp" ) {
         const std::string bldg = bcp->next_upgrade( base_dir );
-        start_camp_upgrade( p, bldg );
+        start_camp_upgrade( p, bldg, "_faction_upgrade_camp" );
     } else if( cur_key.id == "Recover Ally from Upgrading" ) {
         bcp->upgrade_return( p, base_dir, "_faction_upgrade_camp" );
     }
@@ -990,50 +990,28 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         bcp->survey_return( p );
     }
 
-    if( cur_key.id == cur_key.dir + " Expansion Upgrade" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
-                std::string bldg_exp = bcp->next_upgrade( dir );
-                const recipe &making = recipe_id( bldg_exp ).obj();
-                //Stop upgrade if you don't have materials
-                inventory total_inv = g->u.crafting_inventory();
-                if( making.requirements().can_make_with_inventory( total_inv, 1 ) ) {
-                    time_duration making_time = time_duration::from_turns( making.time / 100 );
-                    int need_food = time_to_food( making_time );
-                    if( camp_food_supply() < need_food ) {
-                        popup( _( "You don't have enough food stored to feed your companion." ) );
-                        break;
-                    }
-                    npc *comp = individual_mission( p, _( "begins to upgrade the expansion..." ),
-                                                    "_faction_upgrade_exp_" + cur_key.dir, false,
-                                                    {}, making.skill_used.str(),
-                                                    making.difficulty );
-                    if( comp != nullptr ) {
-                        g->u.consume_components_for_craft( &making, 1, true );
-                        g->u.invalidate_crafting_inventory();
-                        comp->companion_mission_time_ret = calendar::turn + making_time;
-                    }
-                } else {
-                    popup( _( "You don't have the materials for the upgrade." ) );
-                }
-            }
-        }
-    } else if( cur_key.id == "Recover Ally, " + cur_key.dir + " Expansion" ) {
-        for( const std::string &dir : bcp->directions ) {
-            //Find the expansion that is in that direction
-            if( cur_key.dir  == dir ) {
-                bcp->upgrade_return( p, dir, "_faction_upgrade_exp_" + cur_key.dir );
-                break;
-            }
+    bcp->craft_construction( p, cur_key.id, cur_key.dir, "BASE", "_faction_camp_crafting_" );
+    if( cur_key.id == base_dir + " (Finish) Crafting" ) {
+        npc *comp = companion_choose_return( p, "_faction_camp_crafting_" + base_dir,
+                                             calendar::before_time_starts );
+        if( comp != nullptr ) {
+            popup( _( "%s returns to you with something..." ), comp->name );
+            camp_companion_return( *comp );
         }
     }
 
-    //Will be generalized for all crafting, when needed
-    bcp->craft_construction( p, cur_key.id, cur_key.dir, "BASE", "_faction_camp_crafting_" );
-    bcp->craft_construction( p, cur_key.id, cur_key.dir, "FARM", "_faction_exp_farm_crafting_" );
-    if( cur_key.id == cur_key.dir + " (Finish) Crafting" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+    for( const std::string &dir : bcp->directions ) {
+        if( dir == cur_key.dir ) {
+            if( cur_key.id == cur_key.dir + " Expansion Upgrade" ) {
+                std::string bldg_exp = bcp->next_upgrade( cur_key.dir );
+                start_camp_upgrade( p, bldg_exp, "_faction_upgrade_exp_" + cur_key.dir );
+            } else if( cur_key.id == "Recover Ally, " + cur_key.dir + " Expansion" ) {
+                bcp->upgrade_return( p, dir, "_faction_upgrade_exp_" + cur_key.dir );
+            }
+
+            bcp->craft_construction( p, cur_key.id, cur_key.dir, "FARM",
+                                     "_faction_exp_farm_crafting_" );
+            if( cur_key.id == dir + " (Finish) Crafting" && dir != base_dir ) {
                 npc *comp = companion_choose_return( p,
                                                      "_faction_exp_farm_crafting_" + cur_key.dir,
                                                      calendar::before_time_starts );
@@ -1041,38 +1019,21 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                     popup( _( "%s returns from your farm with something..." ), comp->name );
                     camp_companion_return( *comp );
                 }
-                break;
             }
-        }
-        if( cur_key.dir == "[B]" ) {
-            npc *comp = companion_choose_return( p, "_faction_camp_crafting_" + cur_key.dir,
-                                                 calendar::before_time_starts );
-            if( comp != nullptr ) {
-                popup( _( "%s returns to you with something..." ), comp->name );
-                camp_companion_return( *comp );
-            }
-        }
-    }
-    bcp->craft_construction( p, cur_key.id, cur_key.dir, "COOK", "_faction_exp_kitchen_cooking_" );
-    if( cur_key.id == cur_key.dir + " (Finish) Cooking" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+
+            bcp->craft_construction( p, cur_key.id, dir, "COOK", "_faction_exp_kitchen_cooking_" );
+            if( cur_key.id == cur_key.dir + " (Finish) Cooking" ) {
                 npc *comp = companion_choose_return( p, "_faction_exp_kitchen_cooking_" +
                                                      cur_key.dir, calendar::before_time_starts );
                 if( comp != nullptr ) {
                     popup( _( "%s returns from your kitchen with something..." ), comp->name );
                     camp_companion_return( *comp );
                 }
-                break;
             }
-        }
-    }
 
-    bcp->craft_construction( p, cur_key.id, cur_key.dir, "SMITH",
-                             "_faction_exp_blacksmith_crafting_" );
-    if( cur_key.id == cur_key.dir + " (Finish) Smithing" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+            bcp->craft_construction( p, cur_key.id, cur_key.dir, "SMITH",
+                                     "_faction_exp_blacksmith_crafting_" );
+            if( cur_key.id == cur_key.dir + " (Finish) Smithing" ) {
                 npc *comp = companion_choose_return( p, "_faction_exp_blacksmith_crafting_" +
                                                      cur_key.dir, calendar::before_time_starts );
                 if( comp != nullptr ) {
@@ -1080,30 +1041,16 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                            comp->name );
                     camp_companion_return( *comp );
                 }
-                break;
             }
-        }
-    }
 
-    if( cur_key.id == cur_key.dir + " Plow Fields" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+            if( cur_key.id == cur_key.dir + " Plow Fields" ) {
                 individual_mission( p, _( "begins plowing the field..." ),
                                     "_faction_exp_plow_" + cur_key.dir );
-            }
-        }
-    } else if( cur_key.id == cur_key.dir + " (Finish) Plow Fields" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+            } else if( cur_key.id == dir + " (Finish) Plow Fields" ) {
                 camp_farm_return( p, "_faction_exp_plow_" + cur_key.dir, farm_ops::plow );
-                break;
             }
-        }
-    }
 
-    if( cur_key.id == cur_key.dir + " Plant Fields" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+            if( cur_key.id == cur_key.dir + " Plant Fields" ) {
                 inventory total_inv = g->u.crafting_inventory();
                 std::vector<item *> seed_inv = total_inv.items_with( []( const item & itm ) {
                     return itm.is_seed() && itm.typeId() != "marloss_seed" &&
@@ -1118,59 +1065,35 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                         individual_mission_give_equipment( seed_inv,
                                                            _( "Which seeds do you wish to have planted?" ) );
                     individual_mission( p, _( "begins planting the field..." ),
-                                        "_faction_exp_plant_" + cur_key.dir,
-                                        false, lost_equipment );
+                                        "_faction_exp_plant_" + cur_key.dir, false, lost_equipment );
                 }
-            }
-        }
-    } else if( cur_key.id == cur_key.dir + " (Finish) Plant Fields" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+            } else if( cur_key.id == cur_key.dir + " (Finish) Plant Fields" ) {
                 camp_farm_return( p, "_faction_exp_plant_" + cur_key.dir, farm_ops::plant );
-                break;
             }
-        }
-    }
 
-    if( cur_key.id == cur_key.dir + " Harvest Fields" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+            if( cur_key.id == cur_key.dir + " Harvest Fields" ) {
                 individual_mission( p, _( "begins to harvest the field..." ),
-                                    "_faction_exp_harvest_" + cur_key.dir,
-                                    false, {}, "survival" );
-            }
-        }
-    } else if( cur_key.id == cur_key.dir + " (Finish) Harvest Fields" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+                                    "_faction_exp_harvest_" + cur_key.dir, false, {}, "survival" );
+            }  else if( cur_key.id == dir + " (Finish) Harvest Fields" ) {
                 camp_farm_return( p, "_faction_exp_harvest_" + cur_key.dir, farm_ops::harvest );
-                break;
             }
-        }
-    }
 
-    if( cur_key.id == cur_key.dir + " Chop Shop" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
+            if( cur_key.id == cur_key.dir + " Chop Shop" ) {
                 int need_food = time_to_food( 5_days );
                 if( camp_food_supply() < need_food ) {
                     popup( _( "You don't have enough food stored to feed your companion." ) );
                 } else {
-                    camp_garage_chop_start( p, "_faction_exp_chop_shop_" + cur_key.dir );
+                    camp_garage_chop_start( p, "_faction_exp_chop_shop_" + dir );
                 }
-            }
-        }
-    } else if( cur_key.id == cur_key.dir + " (Finish) Chop Shop" ) {
-        for( const std::string &dir : bcp->directions ) {
-            if( dir == cur_key.dir ) {
-                npc *comp = companion_choose_return( p, "_faction_exp_chop_shop_" + cur_key.dir,
+            } else if( cur_key.id == cur_key.dir + " (Finish) Chop Shop" ) {
+                npc *comp = companion_choose_return( p, "_faction_exp_chop_shop_" + dir,
                                                      calendar::turn - 5_days );
                 if( comp != nullptr ) {
                     popup( _( "%s returns from your garage..." ), comp->name );
                     camp_companion_return( *comp );
                 }
-                break;
             }
+            break;
         }
     }
 
@@ -1181,7 +1104,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
 }
 
 // camp faction companion mission start functions
-void talk_function::start_camp_upgrade( npc &p, const std::string &bldg )
+void talk_function::start_camp_upgrade( npc &p, const std::string &bldg, const std::string &key )
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
@@ -1194,7 +1117,7 @@ void talk_function::start_camp_upgrade( npc &p, const std::string &bldg )
             return;
         }
         npc *comp = individual_mission( p, _( "begins to upgrade the camp..." ),
-                                        "_faction_upgrade_camp", false, {},
+                                        key, false, {},
                                         making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
             comp->companion_mission_time_ret = calendar::turn + making_time;

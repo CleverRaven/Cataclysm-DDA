@@ -148,7 +148,7 @@ std::string om_gathering_description( npc &p, const std::string &bldg );
 bool camp_gathering_return( npc &p, const std::string &task, time_duration min_time );
 void camp_recruit_return( npc &p, const std::string &task, int score );
 /// Called when a companion is sent to cut logs
-void start_camp_upgrade( npc &p, const std::string &bldg );
+void start_camp_upgrade( npc &p, const std::string &bldg, const std::string &key );
 void start_cut_logs( npc &p );
 void start_clearcut( npc &p );
 void start_setup_hide_site( npc &p );
