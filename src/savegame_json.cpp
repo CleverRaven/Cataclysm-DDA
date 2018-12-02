@@ -2185,11 +2185,12 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "labels", labels );
 
     point p;
-    zone_manager::zone_data zd;
-    JsonObject zone_data = jsin.get_object();
-    while( !jsin.end_object() ) {
-        data.read( "point", p );
-        data.read( "zone_data", zd );
+    zone_data zd;
+    JsonArray ja = data.get_array( "zones" );
+    while( ja.has_more() ) {
+        JsonObject sdata = ja.next_object();
+        sdata.read( "point", p );
+        sdata.read( "zone", zd );
         loot_zones.try_emplace( p, zd );
     }
 
@@ -2250,12 +2251,15 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "parts", parts );
     json.member( "tags", tags );
     json.member( "labels", labels );
-    json.start_object();
+    json.member( "zones" );
+    json.start_array();
     for( auto const &z : loot_zones ) {
+        json.start_object();
         json.member( "point", z.first );
-        json.member( "zone_data", z.second );
+        json.member( "zone", z.second );
+        json.end_object();
     }
-    json.end_object();
+    json.end_array();
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );

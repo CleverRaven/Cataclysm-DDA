@@ -1478,6 +1478,16 @@ bool vehicle::remove_part( int p )
         }
     }
 
+    //Remove loot zone if Cargo was removed.
+    const auto lz_iter = loot_zones.find( parts[p].mount );
+    const bool no_zone = lz_iter != loot_zones.end();
+
+    if( no_zone && part_flag( p, "CARGO" ) ) {
+        debugmsg( "cargo zone removed" );
+        loot_zones.erase( lz_iter );
+        zones_dirty = true;
+    }
+
     parts[p].removed = true;
     removed_part_count++;
 
@@ -1496,17 +1506,12 @@ bool vehicle::remove_part( int p )
     const point &vp_mount = parts[p].mount;
     const auto iter = labels.find( label( vp_mount ) );
     const bool no_label = iter != labels.end();
-    const auto lz_iter = loot_zones.find( vp_mount );
-    const bool no_zone = lz_iter != loot_zones.end();
     const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
     // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
-    if( no_label || no_zone || grab_found ) {
+    if( no_label || grab_found ) {
         if( parts_at_relative( vp_mount, false ).empty() ) {
             if( no_label ) {
                 labels.erase( iter );
-            }
-            if( no_zone ) {
-                zones_dirty = true;
             }
             if( grab_found ) {
                 add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
@@ -4822,21 +4827,25 @@ vehicle_part_range vehicle::get_all_parts() const
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
-void vehicle::refresh_zones()
+bool vehicle::refresh_zones()
 {
     if( zones_dirty ) {
         decltype( loot_zones ) new_zones;
         for( auto const &z : loot_zones ) {
-            zone_manager::zone_data zone = z.second;
+            zone_data zone = z.second;
             //Get the global position of the first cargo part at the relative coordinate
-            tripoint zone_pos = this->global_part_pos3( this->part_with_feature( z.first, "CARGO", true ) );
+
+            tripoint zone_pos = this->global_part_pos3( this->part_with_feature( z.first, "CARGO", false ) );
+            zone_pos = g->m.getabs( zone_pos );
             //Set the position of the zone to that part
             zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ) );
             new_zones.try_emplace( z.first, zone );
         }
         loot_zones = new_zones;
         zones_dirty = false;
+        return true;
     }
+    return false;
 }
 
 template<>

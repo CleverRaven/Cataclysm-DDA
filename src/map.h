@@ -64,7 +64,6 @@ struct mapgendata;
 class map_cursor;
 class Character;
 class item_location;
-class zone_manager;
 class zone_data;
 struct trap;
 struct oter_t;
@@ -488,7 +487,11 @@ class map
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( submap *const to, const int zlev );
-        void get_vehicle_zones( tripoint p );
+        //Returns true if vehicle zones are dirty and need to be recached
+        bool check_vehicle_zones( const int zlev );
+        std::vector<zone_data *> get_vehicle_zones( const int zlev );
+        void map::register_vehicle_zone( vehicle *, const int zlev );
+        bool map::deregister_vehicle_zone( zone_data &zone );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );

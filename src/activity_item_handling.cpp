@@ -297,7 +297,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
                                const tripoint &where )
 {
     if( const cata::optional<vpart_reference> vp =
-            g->m.veh_at( where ).part_with_feature( "CARGO", true ) ) {
+            g->m.veh_at( where ).part_with_feature( "CARGO", false ) ) {
         put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
         return;
     }
@@ -904,7 +904,10 @@ static std::vector<tripoint> route_adjacent( const player &p, const tripoint &de
 
 void activity_on_turn_move_loot( player_activity &, player &p )
 {
-    const auto &mgr = zone_manager::get_manager();
+    auto &mgr = zone_manager::get_manager();
+    if( g->m.check_vehicle_zones( g->u.posz() ) ) {
+        mgr.cache_vzones();
+    }
     const auto abspos = g->m.getabs( p.pos() );
     const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );
     vehicle *src_veh, *dest_veh;

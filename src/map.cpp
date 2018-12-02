@@ -755,16 +755,51 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     return dmg_veh1;
 }
 
-void map::get_vehicle_zones( tripoint p )
+bool map::check_vehicle_zones( const int zlev )
 {
-    std::vector<zone_manager::zone_data> veh_zones;
-    for( auto veh : this->get_cache( p.z ).zone_vehicles ) {
-        veh->refresh_zones();
-        for( auto zone : veh->loot_zones ) {
-            veh_zones.emplace_back(zone.second);
+    for( auto veh : this->get_cache( zlev ).zone_vehicles ) {
+        if( veh->zones_dirty ) {
+            return true;
         }
     }
-    //return veh_zones;
+    return false;
+}
+
+std::vector<zone_data *> map::get_vehicle_zones( const int zlev )
+{
+    std::vector<zone_data *> veh_zones;
+    bool rebuild = false;
+    for( auto veh : this->get_cache( zlev ).zone_vehicles ) {
+        if( veh->refresh_zones() ) {
+            rebuild = true;
+        }
+        for( auto &zone : veh->loot_zones ) {
+            veh_zones.emplace_back( &zone.second );
+        }
+    }
+    if( rebuild ) {
+        zone_manager::get_manager().cache_vzones();
+    }
+    return veh_zones;
+}
+
+void map::register_vehicle_zone( vehicle *veh, const int zlev )
+{
+    auto &ch = get_cache( zlev );
+    ch.zone_vehicles.insert( veh );
+}
+
+bool map::deregister_vehicle_zone( zone_data &zone )
+{
+    for( auto veh : this->get_cache( g->u.posz() ).zone_vehicles ) {
+        for( auto it = veh->loot_zones.begin(); it != veh->loot_zones.end(); it++ ) {
+            if( &zone == &( it->second ) ) {
+                veh->loot_zones.erase( it );
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 // 3D vehicle functions
@@ -6459,6 +6494,9 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
             // Only add if not tracking already.
             if( map_cache.vehicle_list.find( it ) == map_cache.vehicle_list.end() ) {
                 map_cache.vehicle_list.insert( it );
+                if( !it->loot_zones.empty() ) {
+                    map_cache.zone_vehicles.insert( it );
+                }
                 add_vehicle_to_cache( it );
             }
         }
