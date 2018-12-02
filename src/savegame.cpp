@@ -22,6 +22,7 @@
 #include "overmapbuffer.h"
 #include "scent_map.h"
 #include "translations.h"
+#include "tuple_hash.h"
 
 #include <algorithm>
 #include <cmath>

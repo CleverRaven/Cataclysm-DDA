@@ -513,7 +513,7 @@ class game
         std::list<std::string> get_npc_kill();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
-        void teleport( player *p = NULL, bool add_teleglow = true );
+        void teleport( player *p = nullptr, bool add_teleglow = true );
         /** Handles swimming by the player. Called by plmove(). */
         void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
@@ -680,7 +680,7 @@ class game
         // and sets it (view set_driving_view_offset), if
         // the options for this feature is deactivated or if veh is NULL,
         // the function set the driving offset to (0,0)
-        void calc_driving_offset( vehicle *veh = NULL );
+        void calc_driving_offset( vehicle *veh = nullptr );
 
         /**
          * @name Liquid handling
@@ -762,7 +762,7 @@ class game
          * Basically `false` indicates the user does not *want* to handle the liquid, `true`
          * indicates they want to handle it.
          */
-        bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
+        bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
                             const tripoint *source_pos = nullptr,
                             const vehicle *source_veh = nullptr, const int part_num = -1,
                             const monster *source_mon = nullptr );

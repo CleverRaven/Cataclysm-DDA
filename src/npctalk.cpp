@@ -1500,8 +1500,9 @@ void talk_function::start_camp( npc &p )
     }
 
     editmap edit;
-    if (!edit.mapgen_set( "faction_base_camp_0", omt_pos) ){
-        popup( _("You weren't able to survey the camp site.") );
+    tripoint new_pos = omt_pos;
+    if ( !edit.mapgen_set( "faction_base_camp_0", new_pos ) ) {
+        popup( _( "You weren't able to survey the camp site." ) );
         return;
     }
     become_overseer( p );
@@ -1510,25 +1511,12 @@ void talk_function::start_camp( npc &p )
 void talk_function::recover_camp( npc &p )
 {
     const tripoint omt_pos = p.global_omt_location();
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-    if( !om_min_level( "faction_base_camp_0", omt_ref.id().c_str() ) ){
+    const std::string &omt_ref = overmap_buffer.ter( omt_pos ).id().c_str();
+    if( omt_ref.find( "faction_base_camp" ) == std::string::npos ) {
         popup( _("There is no faction camp here to recover!") );
         return;
     }
     become_overseer( p );
-}
-
-void talk_function::become_overseer( npc &p )
-{
-    add_msg( _( "%s has become a camp manager." ), p.name );
-    if( p.name.find( _(", Camp Manager") ) == std::string::npos ){
-        p.name = p.name + _(", Camp Manager");
-    }
-    p.companion_mission_role_id = "FACTION_CAMP";
-    p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD_ALLY;
-    p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
-    p.set_destination();
 }
 
 void talk_function::remove_overseer( npc &p )
@@ -2338,7 +2326,12 @@ conditional_t::conditional_t( JsonObject jo )
             oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
             if( location == "FACTION_CAMP_ANY" ) {
-                return talk_function::om_min_level( "faction_base_camp_1", omt_ref.id().c_str() );
+                if( g->m.camp_at( omt_pos ) ) {
+                    return true;
+                }
+                // legacy check
+                const std::string &omt_str = omt_ref.id().c_str();
+                return omt_str.find( "faction_base_camp" ) != std::string::npos;
             } else {
                 return omt_ref == oter_id( location );
             }

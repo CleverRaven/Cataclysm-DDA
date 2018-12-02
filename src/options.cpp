@@ -895,6 +895,55 @@ void options_manager::init()
     vPages.emplace_back( "android", translate_marker( "Android" ) );
 #endif
 
+    add_options_general();
+    add_options_interface();
+    add_options_graphics();
+    add_options_debug();
+    add_options_world_default();
+    add_options_android();
+
+    for( unsigned i = 0; i < vPages.size(); ++i ) {
+        mPageItems[i].resize( mOptionsSort[vPages[i].first] );
+    }
+
+    for( auto &elem : options ) {
+        for( unsigned i = 0; i < vPages.size(); ++i ) {
+            if( vPages[i].first == ( elem.second ).getPage() &&
+                ( elem.second ).getSortPos() > -1 ) {
+                mPageItems[i][( elem.second ).getSortPos()] = elem.first;
+                break;
+            }
+        }
+    }
+
+    //Sort out possible double empty lines after options are hidden
+    for( unsigned i = 0; i < vPages.size(); ++i ) {
+        bool bLastLineEmpty = false;
+        while( mPageItems[i][0].empty() ) {
+            //delete empty lines at the beginning
+            mPageItems[i].erase( mPageItems[i].begin() );
+        }
+
+        while( mPageItems[i][mPageItems[i].size() - 1].empty() ) {
+            //delete empty lines at the end
+            mPageItems[i].erase( mPageItems[i].end() - 1 );
+        }
+
+        for( unsigned j = mPageItems[i].size() - 1; j > 0; --j ) {
+            bool bThisLineEmpty = mPageItems[i][j].empty();
+
+            if( bLastLineEmpty && bThisLineEmpty ) {
+                //delete empty lines in between
+                mPageItems[i].erase( mPageItems[i].begin() + j );
+            }
+
+            bLastLineEmpty = bThisLineEmpty;
+        }
+    }
+}
+
+void options_manager::add_options_general()
+{
     ////////////////////////////GENERAL//////////////////////////
     add( "DEF_CHAR_NAME", "general", translate_marker( "Default character name" ),
          translate_marker( "Set a default character name that will be used instead of a random name on character creation." ),
@@ -1087,7 +1136,10 @@ void options_manager::init()
        );
 
     get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
+}
 
+void options_manager::add_options_interface()
+{
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
@@ -1304,7 +1356,10 @@ void options_manager::init()
         { "hidekb", translate_marker( "HideKB" ) }
     },
     "show", COPT_CURSES_HIDE );
+}
 
+void options_manager::add_options_graphics()
+{
     ////////////////////////////GRAPHICS/////////////////////////
     add( "ANIMATIONS", "graphics", translate_marker( "Animations" ),
          translate_marker( "If true, will display enabled animations." ),
@@ -1455,7 +1510,10 @@ void options_manager::init()
         { "linear", translate_marker( "Linear filtering" ) }
     },
     "none", COPT_CURSES_HIDE );
+}
 
+void options_manager::add_options_debug()
+{
     ////////////////////////////DEBUG////////////////////////////
     add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
          translate_marker( "Determines the scope, which is known in the beginning of the game." ),
@@ -1518,7 +1576,10 @@ void options_manager::init()
          translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
          true
        );
+}
 
+void options_manager::add_options_world_default()
+{
     ////////////////////////////WORLD DEFAULT////////////////////
     add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
          translate_marker( "Controls what migrations are applied for legacy worlds" ),
@@ -1684,7 +1745,10 @@ void options_manager::init()
     { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
     "any"
        );
+}
 
+void options_manager::add_options_android()
+{
 #ifdef __ANDROID__
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
          translate_marker( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
@@ -1926,45 +1990,6 @@ void options_manager::init()
        );
 
 #endif
-
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
-        mPageItems[i].resize( mOptionsSort[vPages[i].first] );
-    }
-
-    for( auto &elem : options ) {
-        for( unsigned i = 0; i < vPages.size(); ++i ) {
-            if( vPages[i].first == ( elem.second ).getPage() &&
-                ( elem.second ).getSortPos() > -1 ) {
-                mPageItems[i][( elem.second ).getSortPos()] = elem.first;
-                break;
-            }
-        }
-    }
-
-    //Sort out possible double empty lines after options are hidden
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
-        bool bLastLineEmpty = false;
-        while( mPageItems[i][0].empty() ) {
-            //delete empty lines at the beginning
-            mPageItems[i].erase( mPageItems[i].begin() );
-        }
-
-        while( mPageItems[i][mPageItems[i].size() - 1].empty() ) {
-            //delete empty lines at the end
-            mPageItems[i].erase( mPageItems[i].end() - 1 );
-        }
-
-        for( unsigned j = mPageItems[i].size() - 1; j > 0; --j ) {
-            bool bThisLineEmpty = mPageItems[i][j].empty();
-
-            if( bLastLineEmpty && bThisLineEmpty ) {
-                //delete empty lines in between
-                mPageItems[i].erase( mPageItems[i].begin() + j );
-            }
-
-            bLastLineEmpty = bThisLineEmpty;
-        }
-    }
 }
 
 #ifdef TILES
@@ -2041,7 +2066,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
-    if( world_generator->active_world == NULL ) {
+    if( world_generator->active_world == nullptr ) {
         ingame = false;
     }
 

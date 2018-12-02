@@ -960,13 +960,13 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     tmp = item( seed_data.fruit_id, calendar::turn );
                     check = false;
                     for( const std::string &elem : plant_names ) {
-                        if( elem == tmp.type_name( 3 ).c_str() ) {
+                        if( elem == tmp.type_name( 3 ) ) {
                             check = true;
                         }
                     }
                     if( !check ) {
                         plant_types.push_back( tmp.typeId() );
-                        plant_names.push_back( tmp.type_name( 3 ).c_str() );
+                        plant_names.push_back( tmp.type_name( 3 ) );
                         seed_types.push_back( seed.typeId() );
                     }
                 }
@@ -1399,7 +1399,7 @@ bool talk_function::companion_om_combat_check( const std::vector<std::shared_ptr
     }
 
     //If the map isn't generated we need to do that...
-    if( MAPBUFFER.lookup_submap( om_to_sm_copy( om_tgt ) ) == NULL ) {
+    if( MAPBUFFER.lookup_submap( om_to_sm_copy( om_tgt ) ) == nullptr ) {
         //This doesn't gen monsters...
         //tinymap tmpmap;
         //tmpmap.generate( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z, calendar::turn );
@@ -1425,7 +1425,7 @@ bool talk_function::companion_om_combat_check( const std::vector<std::shared_ptr
         }
     }
     float avg_survival = 0;
-    for( auto guy : group ) {
+    for( auto &guy : group ) {
         avg_survival += guy->get_skill_level( skill_survival );
     }
     avg_survival = avg_survival / group.size();

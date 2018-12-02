@@ -60,13 +60,12 @@ void teleport_long()
 
 void teleport_overmap()
 {
-    tripoint dir;
-
-    if( !choose_direction( _( "Where is the desired overmap?" ), dir ) ) {
+    const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+    if( !dir_ ) {
         return;
     }
 
-    const tripoint offset( OMAPX * dir.x, OMAPY * dir.y, dir.z );
+    const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
     const tripoint where( g->u.global_omt_location() + offset );
 
     g->place_player_overmap( where );

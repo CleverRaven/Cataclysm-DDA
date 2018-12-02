@@ -8,6 +8,7 @@
 #include "damage.h"
 #include "enums.h" // tripoint
 #include "string_id.h"
+#include "tuple_hash.h"
 
 #include <map>
 #include <set>

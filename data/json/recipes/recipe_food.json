@@ -80,7 +80,7 @@
   },
   {
     "type": "recipe",
-    "result": "sweetbread",
+    "result": "sweetbread_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "difficulty": 4,
@@ -5588,7 +5588,8 @@
         [ "bologna", 5 ],
         [ "bacon", 2 ],
         [ "fried_spam", 2 ],
-        [ "sausage", 1 ]
+        [ "sausage", 1 ],
+        [ "meat_smoked", 1 ]
       ]
     ]
   },
@@ -6965,7 +6966,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "stomach", 1 ], [ "stomach_large", 1 ] ],
-      [ [ "offal", 1 ] ],
+      [ [ "offal", 1 ], [ "liver", 1 ], [ "lung", 1 ], [ "kidney", 1 ] ],
       [ [ "oatmeal", 1 ], [ "buckwheat", 1 ] ],
       [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
     ]
@@ -6989,7 +6990,7 @@
     "components": [
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "stomach", 2 ], [ "stomach_large", 1 ] ],
-      [ [ "offal", 2 ] ],
+      [ [ "offal", 2 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ],
       [ [ "oatmeal", 2 ], [ "buckwheat", 2 ] ],
       [ [ "fat", 2 ], [ "tallow", 2 ], [ "lard", 2 ] ]
     ]
@@ -7384,7 +7385,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
-      [ [ "offal", 4 ] ],
+      [ [ "offal", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "lung", 4 ], [ "brain", 4 ] ],
       [ [ "stomach", 2 ], [ "stomach_large", 1 ] ],
       [
         [ "salt_water", 4 ],
@@ -7409,7 +7410,7 @@
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
-      [ [ "offal", 4 ] ],
+      [ [ "offal", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "lung", 4 ], [ "brain", 4 ] ],
       [ [ "stomach", 2 ], [ "stomach_large", 1 ] ],
       [
         [ "salt_water", 4 ],

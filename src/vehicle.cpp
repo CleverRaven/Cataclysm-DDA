@@ -2368,7 +2368,7 @@ int vehicle::part_at( const point dp ) const
  */
 int vehicle::index_of_part( const vehicle_part *const part, bool const check_removed ) const
 {
-    if( part != NULL ) {
+    if( part != nullptr ) {
         for( const vpart_reference &vp : get_all_parts() ) {
             const vehicle_part &next_part = vp.part();
             if( !check_removed && next_part.removed ) {
@@ -2640,7 +2640,13 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         if( vp && &vp->vehicle() == this && player_controlling ) {
             const int p = part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
             if( p >= 0 && part_info( p ).fuel_type == fuel_type_muscle && is_part_on( p ) ) {
-                fl += 10;
+                //Broken limbs prevent muscle engines from working
+                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && g->u.hp_cur[hp_leg_l] > 0 &&
+                      g->u.hp_cur[hp_leg_r] > 0 ) || ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
+                                                       g->u.hp_cur[hp_arm_l] > 0 &&
+                                                       g->u.hp_cur[hp_arm_r] > 0 ) ) {
+                    fl += 10;
+                }
             }
         }
         // As do any other engine flagged as perpetual
@@ -2739,7 +2745,7 @@ int vehicle::total_power_w( bool const fueled, bool const safe ) const
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
         if( is_engine_on( e ) &&
-            ( !fueled || is_perpetual_type( e ) || fuel_left( part_info( p ).fuel_type ) ) ) {
+            ( !fueled || fuel_left( part_info( p ).fuel_type ) ) ) {
             int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
             if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
                 m2c *= 0.6;
@@ -2860,7 +2866,7 @@ void vehicle::noise_and_smoke( double load, double time )
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
         // FIXME: fuel_left should be called with the vehicle_part's fuel_type for flexfuel support
-        if( is_engine_on( e ) && ( is_perpetual_type( e ) || fuel_left( part_info( p ).fuel_type ) ) ) {
+        if( is_engine_on( e ) &&  fuel_left( part_info( p ).fuel_type ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = part_vpower_w( p, true );
@@ -4541,6 +4547,7 @@ bool vehicle::restore( const std::string &data )
     turn( 0 );
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     precalc_mounts( 1, pivot_rotation[1], pivot_anchor[1] );
+    last_update = calendar::turn;
     return true;
 }
 
