@@ -64,6 +64,8 @@ struct mapgendata;
 class map_cursor;
 class Character;
 class item_location;
+class zone_manager;
+class zone_data;
 struct trap;
 struct oter_t;
 enum direction : unsigned;
