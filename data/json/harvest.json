@@ -8,9 +8,9 @@
     "id": "fish_small",
     "type": "harvest",
     "entries": [
-      { "drop": "fish", "scale_num": [ 0.2, 0.4 ], "max": 2, "type": "flesh" },
-      { "drop": "stomach", "type": "offal" },
-      { "drop": "bone", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.5 ], "max": 4 , "type": "bone" }
+      { "drop": "fish", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -18,10 +18,10 @@
     "type": "harvest",
     "message": "You gut and fillet the fish",
     "entries": [
-      { "drop": "fish", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 14, "type": "flesh" },
-      { "drop": "liver", "base_num": [ 0, 1 ], "scale_num": [ 0.7, 0.9 ], "max": 2, "type": "offal" },
-      { "drop": "kidney", "base_num": [ -1, 0 ], "scale_num": [ 0.3, 0.5 ], "max": 2, "type": "offal" },
-      { "drop": "bone", "base_num": [ 2, 4 ], "scale_num": [ 0.5, 0.7 ], "max": 4, "type": "bone" }
+      { "drop": "fish", "type": "flesh", "mass_ratio": 0.38 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.02 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -256,5 +256,16 @@
       { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "flesh" }
     ],
     "//": "what, you thought jabberwocks only had one heart?"
+  },
+  {
+    "id": "zombie_leather",
+    "//": "any zombie that might drop leather. mostly animals.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 }
+    ]
   }
 ]
