@@ -1092,12 +1092,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 y = row + o_y;
             }
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
-                // draw 1 tile border of offscreen_type around the edge of the max visible area.
-                // This is perhaps unnecessary. It only affects tilesets that have a "dark" tile
-                // distinguishable from black, allowing them to denote the border of max view range.
-                // Adds 4 int comparisons per checked off-map tile, and max 480 extra textures drawn.
-                if( y >= min_visible_y - 1 && y <= max_visible_y + 1 && x >= min_visible_x - 1 &&
-                    x <= max_visible_x + 1 ) {
+                int height_3d = 0;
+                if( !draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d ) ) {
                     apply_vision_effects( temp, offscreen_type );
                 }
                 continue;

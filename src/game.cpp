@@ -7412,10 +7412,10 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
                 dy *= soffset;
             }
 
-            lx = clamp( lx + dx, 0, MAPSIZE * SEEX );
-            ly = clamp( ly + dy, 0, MAPSIZE * SEEY );
-            center.x = clamp( center.x + dx, 0, MAPSIZE * SEEX );
-            center.y = clamp( center.y + dy, 0, MAPSIZE * SEEY );
+            lx = lx + dx;
+            ly = ly + dy;
+            center.x = center.x + dx;
+            center.y = center.y + dy;
             if( select_zone && has_first_point ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
