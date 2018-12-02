@@ -59,6 +59,7 @@
     "melee_cut": 0,
     "vision_day": 10,
     "vision_night": 3,
+    "harvest": "arachnid_tainted",
     "upgrades": { "age_grow": 7, "into": "mon_skittering_plague" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
@@ -90,6 +91,7 @@
     "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid_tainted",
     "reproduction": { "baby_egg": "egg_roach_plague", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
@@ -124,6 +126,7 @@
     "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "reproduction": { "baby_egg": "egg_roach", "baby_count": 1, "baby_timer": 7 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
@@ -155,6 +158,7 @@
     "melee_cut": 0,
     "vision_day": 10,
     "vision_night": 3,
+    "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 7, "into": "mon_giant_cockroach" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
@@ -186,6 +190,7 @@
     "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "reproduction": { "baby_egg": "egg_roach", "baby_count": 3, "baby_timer": 7 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
@@ -219,6 +224,7 @@
     "armor_cut": 6,
     "vision_day": 10,
     "vision_night": 5,
+    "harvest": "arachnid_bee",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "bees", 50 ] ], "//": "50% chance of an item from group bees" },
     "death_function": [ "NORMAL" ],
@@ -250,6 +256,7 @@
     "armor_cut": 8,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CHITIN", "FAT" ]
   },
@@ -279,6 +286,7 @@
     "armor_cut": 6,
     "vision_day": 30,
     "vision_night": 5,
+    "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -309,6 +317,7 @@
     "dodge": 5,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN", "FAT" ]
@@ -337,6 +346,7 @@
     "dodge": 8,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "CHITIN" ]
   },
@@ -367,6 +377,7 @@
     "armor_acid": 3,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
@@ -399,6 +410,7 @@
     "armor_acid": 3,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT" ]
@@ -428,6 +440,7 @@
     "armor_cut": 3,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -459,6 +472,7 @@
     "armor_cut": 8,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS" ]
   },
@@ -488,6 +502,7 @@
     "armor_cut": 6,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS" ]
   },
@@ -517,6 +532,7 @@
     "armor_cut": 6,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CHITIN", "CLIMBS" ]
   },
@@ -546,6 +562,7 @@
     "armor_cut": 4,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CHITIN", "CLIMBS" ]
@@ -576,6 +593,7 @@
     "armor_cut": 4,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS" ]
@@ -606,6 +624,7 @@
     "armor_cut": 8,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CHITIN", "FAT", "CLIMBS" ]
@@ -636,6 +655,7 @@
     "armor_cut": 8,
     "vision_day": 10,
     "vision_night": 5,
+    "harvest": "arachnid_wasp",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "wasps", 40 ] ], "//": "40% chance of an item from group bees" },
     "death_function": [ "NORMAL" ],
@@ -664,6 +684,7 @@
     "melee_cut": 3,
     "dodge": 8,
     "armor_cut": 6,
+    "harvest": "arachnid",
     "special_attacks": [ [ "DERMATIK", 25 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
@@ -691,6 +712,7 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 1,
+    "harvest": "mammal_tiny",
     "special_attacks": [ [ "DERMATIK_GROWTH", 14400 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA" ]
@@ -720,6 +742,7 @@
     "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "upgrades": { "age_grow": 14, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
@@ -755,7 +778,7 @@
     "special_attacks": [ [ "ACID", 23 ], [ "EAT_FOOD", 30 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
-    "harvest": "acidant_med",
+    "harvest": "arachnid_acid",
     "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
   },
   {
@@ -780,7 +803,7 @@
     "melee_cut": 0,
     "upgrades": { "into": "mon_ant_acid", "half_life": 0 },
     "death_function": [ "ACID", "NORMAL" ],
-    "harvest": "acidant_larva",
+    "harvest": "arachnid_acid",
     "flags": [ "LARVA", "POISON", "SMELLS" ]
   },
   {
@@ -842,7 +865,7 @@
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
-    "harvest": "acidant_med",
+    "harvest": "arachnid_acid",
     "flags": [ "ACIDPROOF", "ACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
   },
   {
@@ -871,6 +894,7 @@
     "armor_cut": 1,
     "vision_day": 3,
     "vision_night": 3,
+    "harvest": "arachnid",
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "death_function": [ "NORMAL", "FUNGUS" ],
     "flags": [ "SEES", "SMELLS", "POISON", "CLIMBS" ]
@@ -895,6 +919,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_cut": 0,
+    "harvest": "arachnid",
     "upgrades": { "age_grow": 3, "into": "mon_ant" },
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "LARVA" ]
@@ -922,6 +947,7 @@
     "dodge": 1,
     "armor_bash": 6,
     "armor_cut": 14,
+    "harvest": "arachnid",
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
@@ -953,6 +979,7 @@
     "armor_cut": 12,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "arachnid",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
@@ -982,6 +1009,7 @@
     "armor_bash": 3,
     "armor_cut": 4,
     "vision_day": 10,
+    "harvest": "arachnid",
     "reproduction": { "baby_egg": "egg_locust", "baby_count": 5, "baby_timer": 10 },
     "baby_flags": [ "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
@@ -1013,6 +1041,7 @@
     "dodge": 3,
     "melee_cut": 0,
     "vision_day": 10,
+    "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 10, "into": "mon_locust" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4 }, [ "EAT_CROP", 120 ] ],
