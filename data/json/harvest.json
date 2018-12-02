@@ -384,7 +384,7 @@
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 }
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "fur", "type": "skin", "mass_ratio": 0.001 }
     ]
   }

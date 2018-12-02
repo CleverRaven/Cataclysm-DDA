@@ -4056,7 +4056,7 @@
     "armor_cut": 10,
     "vision_day": 25,
     "vision_night": 5,
-    "harvest", "zombie",
+    "harvest": "zombie",
     "special_attacks": [
       {
         "type": "bite",
