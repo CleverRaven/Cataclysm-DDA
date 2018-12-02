@@ -189,8 +189,6 @@ IF(RELEASE)
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
 	SET(CMAKE_BUILD_TYPE RELEASE)
 	ADD_DEFINITIONS(-DRELEASE)
-	# FIXME: Removed -Werror for a while. Currently it is broken in upstream.
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os")
 	IF(MINGW)
 		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
 		ADD_DEFINITIONS(-D__NO_INLINE__)
@@ -204,10 +202,6 @@ ELSE (RELEASE)
 	MESSAGE(STATUS "Build ${PROJECT} in development mode (RELEASE=OFF) --\n")
 	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
 	SET(CMAKE_BUILD_TYPE DEBUG)
-	IF(NOT WIN32)
-		# Reduce objects and binary size to avoid 'file too big' error
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_DEBUG")
-	ENDIF(NOT WIN32)
 	SET(CMAKE_VERBOSE_MAKEFILE ON)
 	# Since CataclusmDDA does not respect PREFIX for development builds
 	# and has funny path handlers, we should create resulting Binaries
@@ -237,14 +231,15 @@ ENDIF (LUA)
 
 	MESSAGE(STATUS "See INSTALL file for details and more info --\n")
 
-IF(NOT MSVC)
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11 -MMD")
-ELSE()
+IF(MSVC)
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 		add_definitions(-D_AMD64_)
 	else()
 		add_definitions(-D_X86_)
 	endif()
+ELSE()
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11")
+	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g -D_GLIBCXX_DEBUG")
 ENDIF()
 
 # Force out-of-source build
