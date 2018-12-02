@@ -18,6 +18,7 @@
     "morale": 100,
     "melee_cut": 0,
     "vision_day": 1,
+    "harvest": "exempt",
     "death_function": [ "MELT" ],
     "flags": [ "REGENERATES_50", "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
@@ -51,6 +52,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
+    "harvest": "bird_large",
     "flags": [
       "HEARS",
       "KEENNOSE",
@@ -92,6 +94,7 @@
     "armor_cut": 30,
     "vision_day": 30,
     "vision_night": 20,
+    "harvest": "shellfish",
     "path_settings": { "max_dist": 50 },
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
