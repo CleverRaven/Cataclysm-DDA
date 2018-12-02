@@ -189,6 +189,24 @@
     ]
   },
   {
+    "id": "bird_tiny",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.40 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
+    ]
+  },
+  {
+    "id": "bird_small",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.30 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
+    ]
+  },
+  {
     "id": "acidant_med",
     "type": "harvest",
     "message": "You carefully carve open the carapace, avoiding the acrid corrosion.",
