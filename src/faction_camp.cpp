@@ -1248,8 +1248,8 @@ void talk_function::start_cut_logs( npc &p )
             work_time = travel_time + chop_time;
             comp->companion_mission_time_ret = calendar::turn + work_time;
             //If we cleared a forest...
-            tree_est = om_cutdown_trees( forest, .50, false, false );
-            if( tree_est < 20 ) {
+            tree_est = om_cutdown_trees( forest, 1, false, false );
+            if( tree_est < 5 ) {
                 oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
                 if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
