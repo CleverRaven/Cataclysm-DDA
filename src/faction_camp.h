@@ -140,7 +140,7 @@ int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mas
 
 /// Returns the description for the recipe of the next building @ref bldg
 std::string om_upgrade_description( const std::string &bldg );
-/// Currently does the same as om_upgrade_description but should convert fire charges to raw charcoal needed and allow dark craft
+/// Returns the description of a camp crafting options. converts fire charges to charcoal, allows dark crafting
 std::string om_craft_description( const std::string &bldg );
 /// Provides a "guess" for some of the things your gatherers will return with to upgrade the camp
 std::string om_gathering_description( npc &p, const std::string &bldg );

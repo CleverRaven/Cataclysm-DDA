@@ -15,6 +15,7 @@ class martialart;
 class JsonObject;
 class mission;
 class time_point;
+class time_duration;
 class npc;
 class item;
 struct tripoint;
@@ -28,6 +29,7 @@ struct mission_entry {
     std::string id;
     std::string name_display;
     std::string dir;
+    std::string text;
     bool priority;
     bool possible;
 };
@@ -37,7 +39,6 @@ class mission_data
     public:
         //see mission_key_push() for each key description
         std::vector<std::vector<mission_entry>> entries;
-        std::map<std::string, std::string> text;
         mission_entry cur_key;
 
         mission_data();
@@ -49,9 +50,15 @@ class mission_data
         * @param priority turns the mission key yellow and pushes to front of main tab
         * @param possible grays the mission key when false
         */
-        void push( const std::string &id, const std::string &name_display = "",
-                   const std::string &dir = "", bool priority = false, bool possible = true );
-
+        void add( const std::string &id, const std::string &name_display = "",
+                  const std::string &text = "" );
+        void add_start( const std::string &id, const std::string &name_display,
+                        const std::string &dir, const std::string &text, bool possible = true );
+        void add_return( const std::string &id, const std::string &name_display,
+                         const std::string &dir, const std::string &text, bool possible = true );
+        void add( const std::string &id, const std::string &name_display,
+                  const std::string &dir, const std::string &text,
+                  bool priority = false, bool possible = true );
 };
 
 namespace talk_function
