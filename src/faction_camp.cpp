@@ -1209,8 +1209,8 @@ void talk_function::start_cut_logs( npc &p )
     const tripoint omt_pos = p.global_omt_location();
     tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
     if( forest != tripoint( -999, -999, -999 ) ) {
-        int tree_est = om_cutdown_trees( forest, .50, false, false );
-        int tree_young_est = om_harvest_ter( p, forest, ter_id( "t_tree_young" ), .50, false );
+        int tree_est = om_cutdown_trees_est( forest, 50 );
+        int tree_young_est = om_harvest_ter_est( p, forest, ter_id( "t_tree_young" ), 50 );
         int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
@@ -1220,7 +1220,8 @@ void talk_function::start_cut_logs( npc &p )
         int trips = tree_est + tree_young_est * 3  / 4;
         //Alwasy have to come back so no odd number of trips
         trips += trips & 1 ? 1 : 0;
-        time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
+        time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
+                                    trips );
         time_duration work_time = travel_time + chop_time;
         int need_food = time_to_food( work_time );
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, chop_time, travel_time,
@@ -1232,24 +1233,24 @@ void talk_function::start_cut_logs( npc &p )
         }
         g->draw_ter();
         //wrefresh( g->w_terrain );
-        npc *comp = individual_mission( p, _( "departs to cut logs..." ), "_faction_camp_cut_log", false, {},
+        npc *comp = individual_mission( p, _( "departs to cut logs..." ),
+                                        "_faction_camp_cut_log", false, {},
                                         "fabrication", 2 );
         if( comp != nullptr ) {
             units::mass carry_m = comp->weight_capacity() - comp->weight_carried();
             // everyone gets at least a makeshift sling of storage
             units::volume carry_v = comp->volume_capacity() - comp->volume_carried() + item(
                                         itype_id( "makeshift_sling" ) ).get_storage();
-            om_cutdown_trees( forest, .50 );
-            om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), .50, true );
-            std::pair<units::mass, units::volume> harvest = om_harvest_itm( comp, forest, .95, true );
+            om_cutdown_trees_logs( forest, 50 );
+            om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
+            std::pair<units::mass, units::volume> harvest = om_harvest_itm( comp, forest, 95 );
             // recalculate trips based on actual load and capacity
             trips = om_carry_weight_to_trips( harvest.first, harvest.second, carry_m, carry_v );
             travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
             work_time = travel_time + chop_time;
             comp->companion_mission_time_ret = calendar::turn + work_time;
             //If we cleared a forest...
-            tree_est = om_cutdown_trees( forest, 1, false, false );
-            if( tree_est < 5 ) {
+            if( om_cutdown_trees_est( forest ) < 5 ) {
                 oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
                 if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
@@ -1260,6 +1261,7 @@ void talk_function::start_cut_logs( npc &p )
     }
 }
 
+void talk_function::start_clearcut( npc &p )
 void talk_function::start_setup_hide_site( npc &p )
 {
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_hide_site" );
@@ -2401,116 +2403,156 @@ bool basecamp::om_upgrade( npc &comp, const std::string &next_upgrade, const tri
     return true;
 }
 
+
+int talk_function::om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f,
+                                        int chance )
+{
+    return om_harvest_furn( comp, omt_tgt, f, chance, true, false );
+}
+int talk_function::om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f,
+        int chance )
+{
+    return om_harvest_furn( comp, omt_tgt, f, chance, false, false );
+}
 int talk_function::om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f,
-                                    float chance, bool force_bash )
+                                    int chance, bool estimate, bool bring_back )
 {
     const furn_t &furn_tgt = f.obj();
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, comp.posz(), false );
+    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
     int harvested = 0;
     int total = 0;
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
-            if( target_bay.furn( x, y ) == f && x_in_y( chance, 1.0 ) ) {
-                if( force_bash || comp.str_cur > furn_tgt.bash.str_min + rng( -2, 2 ) ) {
-                    for( const item &itm : item_group::items_from( furn_tgt.bash.drop_group, calendar::turn ) ) {
-                        comp.companion_mission_inv.push_back( itm );
-                    }
-                    harvested++;
-                    target_bay.furn_set( x, y, furn_tgt.bash.furn_set );
+    tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+        if( target_bay.furn( p ) == f && x_in_y( chance, 100 ) ) {
+            total++;
+            if( estimate ) {
+                continue;
+            }
+            if( bring_back ) {
+                for( const item &itm : item_group::items_from( furn_tgt.bash.drop_group,
+                        calendar::turn ) ) {
+                    comp.companion_mission_inv.push_back( itm );
                 }
-                total++;
+                harvested++;
+            }
+            if( bring_back || comp.str_cur > furn_tgt.bash.str_min + rng( -2, 2 ) ) {
+                target_bay.furn_set( p, furn_tgt.bash.furn_set );
             }
         }
     }
     target_bay.save();
-    if( !force_bash ) {
-        return total;
+    if( bring_back ) {
+        return harvested;
     }
-    return harvested;
+    return total;
 }
 
+int talk_function::om_harvest_ter_est( npc &comp, const tripoint &omt_tgt, const ter_id &t,
+                                       int chance )
+{
+    return om_harvest_ter( comp, omt_tgt, t, chance, true, false );
+}
+int talk_function::om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t,
+        int chance )
+{
+    return om_harvest_ter( comp, omt_tgt, t, chance, false, false );
+}
 int talk_function::om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &t,
-                                   float chance, bool force_bash )
+                                   int chance, bool estimate, bool bring_back )
 {
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, comp.posz(), false );
+    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
     int harvested = 0;
     int total = 0;
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
-            if( target_bay.ter( x, y ) == t && x_in_y( chance, 1.0 ) ) {
-                if( force_bash ) {
-                    for( const item &itm : item_group::items_from( ter_tgt.bash.drop_group, calendar::turn ) ) {
-                        comp.companion_mission_inv.push_back( itm );
-                    }
-                    harvested++;
-                    target_bay.ter_set( x, y, ter_tgt.bash.ter_set );
+    tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+        if( target_bay.ter( p ) == t && x_in_y( chance, 100 ) ) {
+            total++;
+            if( estimate ) {
+                continue;
+            }
+            if( bring_back ) {
+                for( const item &itm : item_group::items_from( ter_tgt.bash.drop_group,
+                        calendar::turn ) ) {
+                    comp.companion_mission_inv.push_back( itm );
                 }
-                total++;
+                harvested++;
+                target_bay.ter_set( p, ter_tgt.bash.ter_set );
             }
         }
     }
     target_bay.save();
-    if( !force_bash ) {
-        return total;
+    if( bring_back ) {
+        return harvested;
     }
-    return harvested;
+    return total;
 }
 
-int talk_function::om_cutdown_trees( const tripoint &omt_tgt, float chance, bool force_cut,
+int talk_function::om_cutdown_trees_est( const tripoint &omt_tgt, int chance )
+{
+    return om_cutdown_trees( omt_tgt, chance, true, false );
+}
+int talk_function::om_cutdown_trees_logs( const tripoint &omt_tgt, int chance )
+{
+    return om_cutdown_trees( omt_tgt, chance, false, true );
+}
+int talk_function::om_cutdown_trees_trunks( const tripoint &omt_tgt, int chance )
+{
+    return om_cutdown_trees( omt_tgt, chance, false, false );
+}
+int talk_function::om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate,
                                      bool force_cut_trunk )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
     int harvested = 0;
     int total = 0;
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
-            if( target_bay.ter( x, y ).obj().has_flag( "TREE" ) && rng( 0, 100 ) < chance * 100 ) {
-                if( force_cut ) {
-                    tripoint direction;
-                    direction.x = ( rng( 0, 1 ) == 1 ) ? -1 : 1;
-                    direction.y = rng( -1, 1 );
-                    tripoint to = tripoint( x, y, 0 ) + tripoint( 3 * direction.x + rng( -1, 1 ),
-                                  3 * direction.y + rng( -1, 1 ), 0 );
-                    std::vector<tripoint> tree = line_to( tripoint( x, y, 0 ), to, rng( 1, 8 ) );
-                    for( auto &elem : tree ) {
-                        target_bay.destroy( elem );
-                        target_bay.ter_set( elem, t_trunk );
-                    }
-                    target_bay.ter_set( x, y, t_dirt );
-                    harvested++;
-                }
-                total++;
+    tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+        if( target_bay.ter( p ).obj().has_flag( "TREE" ) && rng( 0, 100 ) < chance ) {
+            total++;
+            if( estimate ) {
+                continue;
             }
+            // get a random number that is either 1 or -1
+            int dir_x = 3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 );
+            int dir_y = 3 * rng( -1, 1 ) + rng( -1, 1 );
+            tripoint to = p + tripoint( dir_x, dir_y, omt_tgt.z );
+            std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
+            for( auto &elem : tree ) {
+                target_bay.destroy( elem );
+                target_bay.ter_set( elem, t_trunk );
+            }
+            target_bay.ter_set( p, t_dirt );
+            harvested++;
         }
     }
-    // having cut down the trees, collect all the logs
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
-            if( target_bay.ter( x, y ) == ter_id( "t_trunk" ) ) {
-                if( force_cut_trunk ) {
-                    target_bay.ter_set( x, y, t_dirt );
-                    target_bay.spawn_item( x, y, "log", rng( 2, 3 ), 0, calendar::turn );
-                    harvested++;
-                }
-                total++;
-            }
-        }
-    }
-
-    target_bay.save();
-    if( !force_cut && !force_cut_trunk ) {
+    if( estimate ) {
         return total;
     }
+    if( !force_cut_trunk ) {
+        target_bay.save();
+        return harvested;
+    }
+    // having cut down the trees, cut the trunks into logs
+    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+        if( target_bay.ter( p ) == ter_id( "t_trunk" ) ) {
+            target_bay.ter_set( p, t_dirt );
+            target_bay.spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
+            harvested++;
+        }
+    }
+    target_bay.save();
     return harvested;
 }
 
 std::pair<units::mass, units::volume> talk_function::om_harvest_itm( npc *comp,
-        const tripoint &omt_tgt, float chance,
-        bool take )
+        const tripoint &omt_tgt, int chance, bool take )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
@@ -2518,22 +2560,22 @@ std::pair<units::mass, units::volume> talk_function::om_harvest_itm( npc *comp,
     units::volume harvested_v = 0;
     units::mass total_m = 0;
     units::volume total_v = 0;
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
-            for( item &i : target_bay.i_at( x, y ) ) {
-                total_m += i.weight( true );
-                total_v += i.volume( true );
-                if( take && x_in_y( chance, 1.0 ) ) {
-                    if( comp ) {
-                        comp->companion_mission_inv.push_back( i );
-                    }
-                    harvested_m += i.weight( true );
-                    harvested_v += i.volume( true );
+    tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+        for( const item &i : target_bay.i_at( p ) ) {
+            total_m += i.weight( true );
+            total_v += i.volume( true );
+            if( take && x_in_y( chance, 100 ) ) {
+                if( comp ) {
+                    comp->companion_mission_inv.push_back( i );
                 }
+                harvested_m += i.weight( true );
+                harvested_v += i.volume( true );
             }
-            if( take ) {
-                target_bay.i_clear( x, y );
-            }
+        }
+        if( take ) {
+            target_bay.i_clear( p );
         }
     }
     target_bay.save();

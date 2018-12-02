@@ -58,21 +58,38 @@ void remove_overseer( npc & );
  * @param comp NPC companion
  * @param omt_tgt the targeted OM tile
  * @param f furniture you are looking for
- * @param chance chance of destruction, 0 to 1.00
- * @param force_bash whether you want to destroy the furniture and drop the items vs counting the furniture
+ * @param chance chance of destruction, 0 to 100
+ * @param estimate if true, non-destructive count of the furniture
+ * @param bring_back force the destruction of the furniture and bring back the drop items
  */
-int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, float chance = 1.0,
-                     bool force_bash = true );
+int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100,
+                     bool estimate = false, bool bring_back = true );
+// om_harvest_furn helper function that counts the furniture instances
+int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100 );
+int om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100 );
 /// Exact same as om_harvest_furn but functions on terrain
-int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &f, float chance = 1.0,
-                    bool force_bash = true );
+int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &t, int chance = 100,
+                    bool estimate = false, bool bring_back = true );
+// om_harvest_furn helper function that counts the furniture instances
+int om_harvest_ter_est( npc &comp, const tripoint &omt_tgt, const ter_id &t, int chance = 100 );
+int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, int chance = 100 );
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total mass and volume
 /// @ref take, whether you take the item or count it
 std::pair<units::mass, units::volume> om_harvest_itm( npc *comp, const tripoint &omt_tgt,
-        float chance = 1.0, bool take = true );
-/// Counts or cuts trees into trunks and trunks into logs, if both are false it returns the total of the two combined
-int om_cutdown_trees( const tripoint &omt_tgt, float chance = 1.0, bool force_cut = true,
+        int chance = 100, bool take = true );
+/*
+ * Counts or cuts trees into trunks and trunks into logs
+ * @param omt_tgt the targeted OM tile
+ * @param chance chance of destruction, 0 to 100
+ * @param estimate if true, non-destructive count of trees
+ * @force_cut_trunk if true and estimate is false, chop tree trunks into logs
+ */
+int om_cutdown_trees( const tripoint &omt_tgt, int chance = 100, bool estimate = false,
                       bool force_cut_trunk = true );
+int om_cutdown_trees_est( const tripoint &omt_tgt, int chance = 100 );
+int om_cutdown_trees_logs( const tripoint &omt_tgt, int chance = 100 );
+int om_cutdown_trees_trunks( const tripoint &omt_tgt, int chance = 100 );
+
 /// Creates an improvised shelter at @ref omt_tgt and dumps the @ref itms into the building
 bool om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<item *> &itms,
                        const std::vector<item *> &itms_rem = {} );
