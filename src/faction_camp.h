@@ -155,7 +155,7 @@ void start_setup_hide_site( npc &p );
 void start_relay_hide_site( npc &p );
 /// Called when a compansion is sent to start fortifications
 void start_fortifications( std::string &bldg_exp, npc &p );
-void start_combat_mission( std::string &miss, npc &p );
+void start_combat_mission( const std::string &miss, npc &p );
 
 /// Called when a companion completes a chop shop @ref task mission
 bool camp_garage_chop_start( npc &p, const std::string &task );
@@ -189,7 +189,7 @@ void camp_companion_return( npc &comp );
  */
 bool camp_farm_return( npc &p, const std::string &task, farm_ops op );
 void camp_fortifications_return( npc &p );
-void combat_mission_return( std::string &miss, npc &p );
+void combat_mission_return( const std::string &miss, npc &p );
 /// Returns the OM tiles surrounding the camp, @ref purge removes all tiles that aren't expansions
 std::vector<std::pair<std::string, tripoint>> om_building_region( npc &p, int range,
         bool purge = false );
