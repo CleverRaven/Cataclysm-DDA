@@ -884,9 +884,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     int monster_weight = to_gram(mt.weight);
 
     if (corpse_item->has_flag("QUARTERED")) {
-        monster_weight = monster_weight * 3 / 4 / 4;
-    } else if (corpse_item->has_flag("FIELD_DRESS") || corpse_item->has_flag("FIELD_DRESS_FAILED")) {
-        monster_weight = monster_weight * 3 / 4;
+        monster_weight = monster_weight / 4;
     }
 
     int monster_weight_remaining = monster_weight;
@@ -1009,7 +1007,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 roll = ceil(roll / to_gram((item::find_type(entry.drop))->weight));
             }
             else {
-                monster_weight_remaining = monster_weight_remaining - roll * to_gram((item::find_type(entry.drop))->weight);
+                monster_weight_remaining -= roll * to_gram((item::find_type(entry.drop))->weight);
             }
 
             if (roll <= 0) {
@@ -1040,7 +1038,16 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     if (monster_weight_remaining > 0) {
         if (action == F_DRESS) {
             // 25% of the corpse weight is what's removed during field dressing
-            monster_weight_remaining = monster_weight_remaining - (monster_weight * 3 / 4);
+            monster_weight_remaining -= (monster_weight * 3 / 4);
+        }
+        else {
+            // a carcass is 75% of the weight of the unmodified creature's weight
+            if (corpse_item->has_flag("FIELD_DRESS") || corpse_item->has_flag("FIELD_DRESS_FAILED") && !corpse_item->has_flag("QUARTERED")) {
+                monster_weight_remaining -= monster_weight / 4;
+            }
+            else if (corpse_item->has_flag("QUARTERED")) {
+                monster_weight_remaining -= (monster_weight - (monster_weight * 3 / 4 / 4));
+            }
         }
         item ruined_parts("ruined_chunks", age, monster_weight_remaining);
         ruined_parts.set_mtype(&mt);
