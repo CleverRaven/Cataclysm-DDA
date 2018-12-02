@@ -43,7 +43,7 @@
     "type": "COMESTIBLE",
     "name": "human stomach",
     "description": "The stomach of a human.  It is surprisingly durable.",
-    "material": "hflesh"
+    "material": "flesh"
   },
   {
     "id": "hstomach_large",
@@ -86,7 +86,7 @@
     "volume": 1,
     "price": 500,
     "spoils_in": "1 day",
-    "calories": 798,
+    "calories": 449,
     "healthy": -1,
     "fun": -10,
     "flags": [ "SMOKABLE" ]
@@ -99,7 +99,7 @@
     "description": "Freshly cooked meat.  Very nutritious.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
-    "calories": 512,
+    "calories": 402,
     "healthy": 0,
     "fun": 0,
     "flags": [ "EATEN_HOT" ]
@@ -309,7 +309,7 @@
     "healthy": -2,
     "quench": 2,
     "fun": -10,
-    "calories": 208,
+    "calories": 50,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ]
   },
   {
@@ -329,7 +329,7 @@
     "name": "raw liver",
     "description": "The liver from an animal.",
     "quench": -4,
-    "calories": 306,
+    "calories": 73,
     "vitamins": [ [ "vitA", 75 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 336 ] ]
   },
   {
@@ -356,7 +356,7 @@
     "quench": 10,
     "fun": -20,
     "parasites": 100,
-    "calories": 323,
+    "calories": 78,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "vitB", 54 ] ]
   },
   {
@@ -381,7 +381,7 @@
     "color": "brown",
     "healthy": -8,
     "quench": -5,
-    "calories": "224",
+    "calories": "54",
     "vitamins": [ [ "vitA", 6 ], [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 155 ] ]
   },
   {
@@ -405,7 +405,7 @@
     "color": "brown",
     "healthy": 0,
     "quench": 0,
-    "calories": 685,
+    "calories": 164,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 2 ], [ "vitB", 12 ] ]
   },
   {
