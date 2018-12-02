@@ -1395,8 +1395,8 @@ class vehicle
         /** Required strength to be able to successfully lift the vehicle unaided by equipment */
         int lift_strength() const;
 
-        // Called by zone_manager to make sure the real position of each zone_data is accurate
-        void refresh_zones();
+        // Called by map.cpp to make sure the real position of each zone_data is accurate
+        bool refresh_zones();
 
         // config values
         std::string name;   // vehicle name
@@ -1411,7 +1411,7 @@ class vehicle
         std::map<point, std::vector<int> >
         relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
-        std::map<point, zone_manager::zone_data> loot_zones;
+        std::map<point, zone_data> loot_zones;
         // relative loot zone positions
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices

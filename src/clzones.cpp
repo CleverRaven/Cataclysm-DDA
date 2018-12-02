@@ -229,8 +229,8 @@ void plot_options::serialize( JsonOut &json ) const
 
 void plot_options::deserialize( JsonObject &jo_zone )
 {
-    mark = jo_zone.get_string( "mark", "" );
-    seed = jo_zone.get_string( "seed", "" );
+    jo_zone.read( "mark", mark );
+    jo_zone.read( "seed", seed );
 }
 
 cata::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
@@ -275,9 +275,9 @@ cata::optional<zone_type_id> zone_manager::query_type() const
     return iter->first;
 }
 
-bool zone_manager::zone_data::set_name()
+bool zone_data::set_name()
 {
-    const auto maybe_name = get_manager().query_name( name );
+    const auto maybe_name = zone_manager::get_manager().query_name( name );
     if( maybe_name.has_value() ) {
         auto new_name = maybe_name.value();
         if( new_name.empty() ) {
@@ -291,40 +291,40 @@ bool zone_manager::zone_data::set_name()
     return false;
 }
 
-bool zone_manager::zone_data::set_type()
+bool zone_data::set_type()
 {
-    const auto maybe_type = get_manager().query_type();
+    const auto maybe_type = zone_manager::get_manager().query_type();
     if( maybe_type.has_value() && maybe_type.value() != type ) {
         auto new_options = zone_options::create( maybe_type.value() );
         if( new_options->query_at_creation() ) {
             type = maybe_type.value();
             options = new_options;
-            get_manager().cache_data();
+            zone_manager::get_manager().cache_data();
             return true;
         }
     }
     return false;
 }
 
-void zone_manager::zone_data::set_position( const std::pair<tripoint, tripoint> position )
+void zone_data::set_position( const std::pair<tripoint, tripoint> position )
 {
     start = position.first;
     end = position.second;
 
-    get_manager().cache_data();
+    zone_manager::get_manager().cache_data();
 }
 
-void zone_manager::zone_data::set_enabled( const bool _enabled )
+void zone_data::set_enabled( const bool _enabled )
 {
     enabled = _enabled;
 }
 
-void zone_manager::zone_data::set_is_vehicle(const bool _is_vehicle)
+void zone_data::set_is_vehicle( const bool _is_vehicle )
 {
     is_vehicle = _is_vehicle;
 }
 
-tripoint zone_manager::zone_data::get_center_point() const
+tripoint zone_data::get_center_point() const
 {
     return tripoint( ( start.x + end.x ) / 2, ( start.y + end.y ) / 2, ( start.z + end.z ) / 2 );
 }
@@ -370,6 +370,32 @@ void zone_manager::cache_data()
     }
 }
 
+void zone_manager::cache_vzones()
+{
+    vzone_cache.clear();
+    auto vzones = g->m.get_vehicle_zones( g->u.posz() );
+    for( auto elem : vzones ) {
+        if( !elem->get_enabled() ) {
+            continue;
+        }
+
+        const zone_type_id &type = elem->get_type();
+        auto &cache = vzone_cache[type];
+
+        tripoint start = elem->get_start_point();
+        tripoint end = elem->get_end_point();
+
+        // Draw marked area
+        for( int x = start.x; x <= end.x; ++x ) {
+            for( int y = start.y; y <= end.y; ++y ) {
+                for( int z = start.z; z <= end.z; ++z ) {
+                    cache.insert( tripoint( x, y, z ) );
+                }
+            }
+        }
+    }
+}
+
 std::unordered_set<tripoint> zone_manager::get_point_set( const zone_type_id &type ) const
 {
     const auto &type_iter = area_cache.find( type );
@@ -380,17 +406,35 @@ std::unordered_set<tripoint> zone_manager::get_point_set( const zone_type_id &ty
     return type_iter->second;
 }
 
+std::unordered_set<tripoint> zone_manager::get_vzone_set( const zone_type_id &type ) const
+{
+    //Only regenerate the vehicle zone cache if any vehicles have moved
+    const auto &type_iter = vzone_cache.find( type );
+    if( type_iter == vzone_cache.end() ) {
+        return std::unordered_set<tripoint>();
+    }
+
+    return type_iter->second;
+}
+
 bool zone_manager::has( const zone_type_id &type, const tripoint &where ) const
 {
     const auto &point_set = get_point_set( type );
-    return point_set.find( where ) != point_set.end();
+    const auto &vzone_set = get_vzone_set( type );
+    return point_set.find( where ) != point_set.end() || vzone_set.find( where ) != vzone_set.end();
 }
 
 bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) const
 {
     const auto &point_set = get_point_set( type );
-
     for( auto &point : point_set ) {
+        if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            return true;
+        }
+    }
+
+    const auto &vzone_set = get_vzone_set( type );
+    for( auto &point : vzone_set ) {
         if( square_dist( point, where ) <= MAX_DISTANCE ) {
             return true;
         }
@@ -406,6 +450,13 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     auto near_point_set = std::unordered_set<tripoint>();
 
     for( auto &point : point_set ) {
+        if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            near_point_set.insert( point );
+        }
+    }
+
+    const auto &vzone_set = get_vzone_set( type );
+    for( auto &point : vzone_set ) {
         if( square_dist( point, where ) <= MAX_DISTANCE ) {
             near_point_set.insert( point );
         }
@@ -512,10 +563,10 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     return zone_type_id();
 }
 
-std::vector<zone_manager::zone_data> zone_manager::get_zones( const zone_type_id &type,
+std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
         const tripoint &where ) const
 {
-    auto zones = std::vector<zone_manager::zone_data>();
+    auto zones = std::vector<zone_data>();
 
     for( const auto &zone : this->zones ) {
         if( zone.get_type() == type ) {
@@ -528,18 +579,7 @@ std::vector<zone_manager::zone_data> zone_manager::get_zones( const zone_type_id
     return zones;
 }
 
-const zone_manager::zone_data *zone_manager::get_top_zone( const tripoint &where ) const
-{
-    for( const auto &zone : zones ) {
-        if( zone.has_inside( where ) ) {
-            return &zone;
-        }
-    }
-
-    return nullptr;
-}
-
-const zone_manager::zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
+const zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
 {
     for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
         const auto &zone = *it;
@@ -548,41 +588,41 @@ const zone_manager::zone_data *zone_manager::get_bottom_zone( const tripoint &wh
             return &zone;
         }
     }
+    auto vzones = g->m.get_vehicle_zones( g->u.posz() );
+    for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
+        const auto zone = *it;
+
+        if( zone->has_inside( where ) ) {
+            return zone;
+        }
+    }
 
     return nullptr;
 }
 
-zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
-        const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
-        std::shared_ptr<zone_options> options )
+zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
+                              const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
+                              std::shared_ptr<zone_options> options )
 {
-    zone_manager::zone_data new_zone = zone_data(name, type, invert, enabled, start,
-        end, options);
+    zone_data new_zone = zone_data( name, type, invert, enabled, start,
+                                    end, options );
     //the start is a vehicle tile with cargo space
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( start ).part_with_feature( "CARGO",
-            false ) ) {
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
+                start ) ).part_with_feature( "CARGO", false ) ) {
         //TODO:Allow for loot zones on vehicles to be larger than 1x1
         if( start.x == end.x && start.y == end.y && start.z == end.z ) {
             //create a vehicle loot zone
-            new_zone.set_is_vehicle(true);
+            new_zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.try_emplace( vp->mount(), new_zone );
+            g->m.register_vehicle_zone( &vp->vehicle(), g->u.posz() );
+            cache_vzones();
         }
     } else {
         //Create a regular zone
-        zones.push_back(new_zone);
+        zones.push_back( new_zone );
         cache_data();
     }
     return zones.back();
-}
-
-bool zone_manager::remove( const size_t index )
-{
-    if( index < zones.size() ) {
-        zones.erase( zones.begin() + index );
-        return true;
-    }
-
-    return false;
 }
 
 bool zone_manager::remove( zone_data &zone )
@@ -593,11 +633,19 @@ bool zone_manager::remove( zone_data &zone )
             return true;
         }
     }
-    return false;
+    if( !g->m.deregister_vehicle_zone( zone ) ) {
+        debugmsg( "Tried to remove a zone from an unloaded vehicle" );
+        return false;
+    }
+    cache_vzones();
+    return true;
 }
 
 void zone_manager::swap( zone_data &a, zone_data &b )
 {
+    if( a.get_is_vehicle() != b.get_is_vehicle() ) {
+        debugmsg( "Cannot swap a vehicle zone with a terrain zone" );
+    }
     std::swap( a, b );
 }
 
@@ -609,6 +657,12 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
         zones.emplace_back( zone );
     }
 
+    auto vzones = g->m.get_vehicle_zones( g->u.posz() );
+
+    for( auto zone : vzones ) {
+        zones.emplace_back( *zone );
+    }
+
     return zones;
 }
 
@@ -618,6 +672,12 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones() const
 
     for( auto &zone : this->zones ) {
         zones.emplace_back( zone );
+    }
+
+    auto vzones = g->m.get_vehicle_zones( g->u.posz() );
+
+    for( auto zone : vzones ) {
+        zones.emplace_back( *zone );
     }
 
     return zones;
@@ -640,7 +700,7 @@ void zone_manager::deserialize( JsonIn &jsin )
 }
 
 
-void zone_manager::zone_data::serialize( JsonOut &json ) const
+void zone_data::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "name", name );
@@ -654,17 +714,38 @@ void zone_manager::zone_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void zone_manager::zone_data::deserialize( JsonIn &jsin )
+void zone_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "name", name );
     data.read( "type", type );
     data.read( "invert", invert );
     data.read( "enabled", enabled );
-    data.read( "is_vehicle", is_vehicle );
-    data.read( "start", start );
-    data.read( "end", end );
-    this->get_options().deserialize( data );
+    //Legacy support
+    if( data.has_member( "is_vehicle" ) ) {
+        data.read( "is_vehicle", is_vehicle );
+    } else {
+        is_vehicle = false;
+    }
+    //Legacy support
+    if( data.has_member( "start_x" ) ) {
+        tripoint s;
+        tripoint e;
+        data.read( "start_x", s.x );
+        data.read( "start_y", s.y );
+        data.read( "start_z", s.z );
+        data.read( "end_x", e.x );
+        data.read( "end_y", e.y );
+        data.read( "end_z", e.z );
+        start = s;
+        end = e;
+    } else {
+        data.read( "start", start );
+        data.read( "end", end );
+    }
+    auto new_options = zone_options::create( type );
+    new_options->deserialize( data );
+    options = new_options;
 }
 
 bool zone_manager::save_zones()
