@@ -446,5 +446,60 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
     ]
+  },
+  {
+    "id": "CBM_SCI",
+    "type": "harvest",
+    "entries": [
+      { "drop": "bio_power_storage", "type": "bionic" },
+      { "drop": "bionics_sci", "type": "bionic_group" },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "CBM_TECH",
+    "type": "harvest",
+    "entries": [
+      { "drop": "bio_power_storage", "type": "bionic" },
+      { "drop": "bionics_tech", "type": "bionic_group" },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "CBM_SUBS",
+    "type": "harvest",
+    "entries": [
+      { "drop": "bio_power_storage", "type": "bionic" },
+      { "drop": "bionics_subs", "type": "bionic_group" },
+      { "drop": "bionics_subs", "type": "bionic_group" },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "CBM_OP",
+    "type": "harvest",
+    "entries": [
+      { "drop": "bio_power_storage_mkII", "type": "bionic" },
+      { "drop": "bionics_op", "type": "bionic_group" },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "CBM_POWER",
+    "type": "harvest",
+    "entries": [
+      { "drop": "bio_power_storage", "type": "bionic" },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
   }
 ]
