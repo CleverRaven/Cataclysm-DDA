@@ -1,5 +1,6 @@
 #include "ammo.h"
 #include "auto_pickup.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "crafting.h"
@@ -2750,3 +2751,61 @@ void deserialize( recipe_subset &value, JsonIn &jsin )
         value.include( &recipe_id( jsin.get_string() ).obj() );
     }
 }
+
+// basecamp
+void basecamp::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "name", name );
+    json.member( "pos", pos );
+    json.member( "bb_pos", bb_pos );
+    json.member( "sort_points" );
+    json.start_array();
+    for( const tripoint &it : sort_points ) {
+        json.start_object();
+        json.member( "pos", it );
+        json.end_object();
+    }
+    json.end_array();
+    json.member( "expansions" );
+    json.start_array();
+    for( auto it = expansions.begin(); it != expansions.end(); ++it ) {
+        json.start_object();
+        json.member( "dir", it->first );
+        json.member( "type", it->second.type );
+        json.member( "cur_level", it->second.cur_level );
+        json.member( "pos", it->second.pos );
+        json.end_object();
+    }
+    json.end_array();
+    json.end_object();
+}
+
+void basecamp::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "name", name );
+    data.read( "pos", pos );
+    data.read( "bb_pos", bb_pos );
+    JsonArray ja = data.get_array( "sort_points" );
+    while( ja.has_more() ) {
+        JsonObject sdata = ja.next_object();
+        tripoint spt;
+        sdata.read( "pos", spt );
+        sort_points.push_back( spt );
+    }
+    ja = data.get_array( "expansions" );
+    while( ja.has_more() ) {
+        JsonObject edata = ja.next_object();
+        expansion_data e;
+        const std::string dir = edata.get_string( "dir" );
+        edata.read( "type", e.type );
+        edata.read( "cur_level", e.cur_level );
+        edata.read( "pos", e.pos );
+        expansions[ dir ] = e;
+        if( dir != "[B]" ) {
+            directions.push_back( dir );
+        }
+    }
+}
+
