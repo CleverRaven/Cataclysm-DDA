@@ -258,6 +258,14 @@
     "//": "what, you thought jabberwocks only had one heart?"
   },
   {
+    "id": "arachnid_tainted",
+    "type": "harvest",
+    "entires": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "zombie_leather",
     "//": "any zombie that might drop leather. mostly animals.",
     "type": "harvest",
