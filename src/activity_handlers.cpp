@@ -882,9 +882,16 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
     int monster_weight = to_gram(mt.weight);
+
+    if (corpse_item->has_flag("QUARTERED")) {
+        monster_weight = monster_weight * 3 / 4 / 4;
+    } else if (corpse_item->has_flag("FIELD_DRESS") || corpse_item->has_flag("FIELD_DRESS_FAILED")) {
+        monster_weight = monster_weight * 3 / 4;
+    }
+
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
-    for( const auto &entry : *mt.harvest ) {
+    for (const auto &entry : *mt.harvest) {
         int butchery = roll_butchery();
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
@@ -892,127 +899,149 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         // mass_ratio is not strictly required, and if it is not there, it allows for more precisely define amounts of items butchered
         if (entry.mass_ratio != 0.00f) {
             roll = static_cast<int>(round(entry.mass_ratio * monster_weight));
-        } else {
+        }
+        else if (entry.type != "bionic" && entry.type != "bionic_group") {
             roll = std::min<int>(entry.max, round(rng_float(min_num, max_num)));
         }
-
-        const itype *drop = item::find_type( entry.drop );
+        const itype *drop = NULL;
+        if (entry.type != "bionic_group") {
+            drop = item::find_type(entry.drop);
+        }
 
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
-        if( drop->bionic.has_value() ) {
-            if( action == F_DRESS ) {
-                p.add_msg_if_player( m_bad,
-                                     _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
+        if (entry.type == "bionic" || entry.type == "bionic_group") {
+            if (action == F_DRESS) {
+                p.add_msg_if_player(m_bad,
+                    _("You suspect there might be bionics implanted in this corpse, that careful dissection might reveal."));
                 continue;
             }
-            if( action == BUTCHER || action == BUTCHER_FULL ) {
-                switch( rng( 1, 3 ) ) {
-                    case 1:
-                        p.add_msg_if_player( m_bad,
-                                             _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
-                        break;
-                    case 2:
-                        p.add_msg_if_player( m_bad,
-                                             _( "You find traces of implants in the body, but you care only for the flesh." ) );
-                        break;
-                    case 3:
-                        p.add_msg_if_player( m_bad,
-                                             _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
-                        break;
+            if (action == BUTCHER || action == BUTCHER_FULL) {
+                switch (rng(1, 3)) {
+                case 1:
+                    p.add_msg_if_player(m_bad,
+                        _("Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it."));
+                    break;
+                case 2:
+                    p.add_msg_if_player(m_bad,
+                        _("You find traces of implants in the body, but you care only for the flesh."));
+                    break;
+                case 3:
+                    p.add_msg_if_player(m_bad,
+                        _("You found some bionics in the body, but harvesting them would require more surgical approach."));
+                    break;
                 }
                 continue;
             }
-        } else if( action == DISSECT ) {
+        }
+        if (action == DISSECT) {
+            if (entry.type == "bionic") {
+                butcher_cbm_item(entry.drop, p.pos(), age, roll_butchery());
+            }
+            else if (entry.type == "bionic_group") {
+                butcher_cbm_group(entry.drop, p.pos(), age, roll_butchery());
+            }
             continue;
         }
 
         // QUICK BUTCHERY
-        if( action == BUTCHER ) {
-            if( entry.type == "flesh" ) {
+        if (action == BUTCHER) {
+            if (entry.type == "flesh") {
                 roll = roll / 4;
-            } else if( entry.type == "bone" ) {
+            }
+            else if (entry.type == "bone") {
                 roll = roll / 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
-                roll /= 2 ;
+            }
+            else if (corpse_item->get_mtype()->size >= MS_MEDIUM && (entry.type == "skin")) {
+                roll /= 2;
             }
             else if (entry.type == "offal") {
                 roll = roll / 5;
-            } else {
+            }
+            else {
                 continue;
             }
         }
         // field dressing ignores everything outside below list
-        if( action == F_DRESS ) {
-            if( entry.type == "bone" ) {
-                roll = rng( 0, roll / 2 );
+        if (action == F_DRESS) {
+            if (entry.type == "bone") {
+                roll = rng(0, roll / 2);
             }
-            if( entry.type == "flesh" ) {
+            if (entry.type == "flesh") {
                 continue;
             }
         }
 
         // field dressing removed innards and bones from meatless limbs
-        if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-            if( entry.type == "offal" ) {
+        if ((action == BUTCHER_FULL) && corpse_item->has_flag("FIELD_DRESS")) {
+            if (entry.type == "offal") {
                 continue;
             }
-            if( entry.type == "bone" ) {
-                roll = ( roll / 2 ) + rng( roll / 2, roll );
+            if (entry.type == "bone") {
+                roll = (roll / 2) + rng(roll / 2, roll);
             }
         }
         // unskillfull field dressing may damage the skin, meat, and other parts
-        if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
-            if( entry.type == "offal" ) {
+        if ((action == BUTCHER_FULL) && corpse_item->has_flag("FIELD_DRESS_FAILED")) {
+            if (entry.type == "offal") {
                 continue;
             }
-            if( entry.type == "bone" ) {
-                roll = ( roll / 2 ) + rng( roll / 2, roll );
+            if (entry.type == "bone") {
+                roll = (roll / 2) + rng(roll / 2, roll);
             }
-            if( entry.type == "flesh" || entry.type == "skin" ) {
-                roll = rng( 0, roll );
+            if (entry.type == "flesh" || entry.type == "skin") {
+                roll = rng(0, roll);
             }
         }
         // quartering ruins skin
-        if( corpse_item->has_flag( "QUARTERED" ) ) {
-            if( entry.type == "skin" ) {
+        if (corpse_item->has_flag("QUARTERED")) {
+            if (entry.type == "skin") {
                 roll = 0; //not continue to show fail effect
-            } else {
+            }
+            else {
                 roll /= 4;
             }
         }
-        // divide total dropped weight by drop's weight to get amount
-        if (entry.mass_ratio != 0.00f) {
-            monster_weight_remaining -= roll;
-            roll = ceil(roll / to_gram((item::find_type(entry.drop))->weight));
-        } else {
-            monster_weight_remaining = monster_weight_remaining - roll * to_gram((item::find_type(entry.drop))->weight);
-        }
-
-        if( roll <= 0 ) {
-            p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
-            continue;
-        }
-
-        if( drop->phase == LIQUID ) {
-            g->handle_all_liquid( item( drop, age, roll ), 1 );
-
-        } else if( drop->stackable ) {
-            g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
-
-        } else {
-            item obj( drop, age );
-            obj.set_mtype( &mt );
-            for( int i = 0; i != roll; ++i ) {
-                g->m.add_item_or_charges( p.pos(), obj );
+        
+        if ( action != DISSECT && entry.type != "bionic_group" ) {
+            // divide total dropped weight by drop's weight to get amount
+            if (entry.mass_ratio != 0.00f) {
+                monster_weight_remaining -= roll;
+                roll = ceil(roll / to_gram((item::find_type(entry.drop))->weight));
             }
-        }
+            else {
+                monster_weight_remaining = monster_weight_remaining - roll * to_gram((item::find_type(entry.drop))->weight);
+            }
 
-        p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+            if (roll <= 0) {
+                p.add_msg_if_player(m_bad, _("You fail to harvest: %s"), drop->nname(1).c_str());
+                continue;
+            }
+        
+            if( drop->phase == LIQUID ) {
+                g->handle_all_liquid( item( drop, age, roll ), 1 );
+
+            } else if( drop->stackable ) {
+                g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
+
+            } else {
+                item obj( drop, age );
+                obj.set_mtype( &mt );
+                for( int i = 0; i != roll; ++i ) {
+                    g->m.add_item_or_charges( p.pos(), obj );
+                }
+            }
+
+            p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+        }
         practice++;
     }
 
     // add the remaining unusable weight as rotting garbage
     if (monster_weight_remaining > 0) {
+        if (action == F_DRESS) {
+            // 25% of the corpse weight is what's removed during field dressing
+            monster_weight_remaining = monster_weight_remaining - (monster_weight * 3 / 4);
+        }
         item ruined_parts("ruined_chunks", age, monster_weight_remaining);
         ruined_parts.set_mtype(&mt);
         g->m.add_item_or_charges(p.pos(), ruined_parts);
@@ -1145,7 +1174,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     // all action types - yields
     if( corpse->harvest.is_null() ) {
-        butchery_drops_hardcoded( &corpse_item, corpse, p, bday, roll_butchery, action );
+        //butchery_drops_hardcoded( &corpse_item, corpse, p, bday, roll_butchery, action );
+        debugmsg("well poop. how did it get here?");
     } else {
         butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action );
     }
