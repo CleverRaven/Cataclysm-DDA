@@ -1771,7 +1771,7 @@ bool talk_function::camp_gathering_return( npc &p, const std::string &task,
     int favor = 2;
     int threat = 10;
     std::string skill_group = "gathering";
-    int skill = comp->get_skill_level( skill_survival );
+    int skill = 2 * comp->get_skill_level( skill_survival ) + comp->per_cur;
     int checks_per_cycle = 6;
     if( task == "_faction_camp_foraging" ) {
         task_description = _( "foraging for edible plants" );
