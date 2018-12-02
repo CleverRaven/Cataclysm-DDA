@@ -250,7 +250,7 @@ void editmap_hilight::draw( editmap &hm, bool update )
                 if( t_field.fieldCount() > 0 ) {
                     field_id t_ftype = t_field.fieldSymbol();
                     const field_entry *t_fld = t_field.findField( t_ftype );
-                    if( t_fld != NULL ) {
+                    if( t_fld != nullptr ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
                     }
@@ -537,7 +537,7 @@ void editmap::update_view( bool update_info )
                 if( t_field.fieldCount() > 0 ) {
                     field_id t_ftype = t_field.fieldSymbol();
                     const field_entry *t_fld = t_field.findField( t_ftype );
-                    if( t_fld != NULL ) {
+                    if( t_fld != nullptr ) {
                         t_col = t_fld->color();
                         t_sym = t_fld->symbol();
                     }
@@ -1043,14 +1043,14 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id id
     int fdens = 1;
     const field_t &ftype = fieldlist[idx];
     field_entry *fld = field.findField( idx );
-    if( fld != NULL ) {
+    if( fld != nullptr ) {
         fdens = fld->getFieldDensity();
     }
     fmenu.entries[idx].txt = ftype.name( fdens - 1 );
-    if( fld != NULL ) {
+    if( fld != nullptr ) {
         fmenu.entries[idx].txt += " " + std::string( fdens, '*' );
     }
-    fmenu.entries[idx].text_color = ( fld != NULL ? c_cyan : fmenu.text_color );
+    fmenu.entries[idx].text_color = ( fld != nullptr ? c_cyan : fmenu.text_color );
     fmenu.entries[idx].extratxt.color = ftype.color[fdens - 1];
 }
 
@@ -1096,7 +1096,7 @@ int editmap::edit_fld()
             int fdens = 0;
             const field_id idx = static_cast<field_id>( fmenu.selected );
             field_entry *fld = cur_field->findField( idx );
-            if( fld != NULL ) {
+            if( fld != nullptr ) {
                 fdens = fld->getFieldDensity();
             }
             int fsel_dens = fdens;
@@ -1133,7 +1133,7 @@ int editmap::edit_fld()
                     field &t_field = g->m.get_field( elem );
                     field_entry *t_fld = t_field.findField( fid );
                     int t_dens = 0;
-                    if( t_fld != NULL ) {
+                    if( t_fld != nullptr ) {
                         t_dens = t_fld->getFieldDensity();
                     }
                     if( fsel_dens != 0 ) {
@@ -1818,7 +1818,7 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
 /*
  * Write over an existing om tile with one from json
  */
-bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool change_sensitive )
+bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool change_sensitive )
 {
     if( r > 0 ) {
         popup( _( "Select a tile up to %d tiles away." ), r );
@@ -1924,7 +1924,9 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
             destsm->temperature = srcsm->temperature;
             destsm->last_touched = calendar::turn;
             destsm->comp = std::move( srcsm->comp );
-            destsm->camp = srcsm->camp;
+            if( srcsm->camp.is_valid() ) {
+                destsm->camp = srcsm->camp;
+            }
 
             if( spawns_todo > 0 ) {
                 g->m.spawn_monsters( true );

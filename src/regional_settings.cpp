@@ -182,6 +182,61 @@ void load_forest_mapgen_settings( JsonObject &jo, forest_mapgen_settings &forest
     }
 }
 
+void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_trail_settings,
+                                 const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "forest_trail_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"forest_trail_settings\": { ... } required for default" );
+        }
+    } else {
+        JsonObject forest_trail_settings_jo = jo.get_object( "forest_trail_settings" );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "chance", forest_trail_settings.chance,
+                                    !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "border_point_chance",
+                                    forest_trail_settings.border_point_chance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "minimum_forest_size",
+                                    forest_trail_settings.minimum_forest_size, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "random_point_min",
+                                    forest_trail_settings.random_point_min, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "random_point_max",
+                                    forest_trail_settings.random_point_max, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "random_point_size_scalar",
+                                    forest_trail_settings.random_point_size_scalar, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_chance",
+                                    forest_trail_settings.trailhead_chance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_center_variance",
+                                    forest_trail_settings.trail_center_variance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_min",
+                                    forest_trail_settings.trail_width_offset_min, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_max",
+                                    forest_trail_settings.trail_width_offset_max, !overlay );
+        read_and_set_or_throw<bool>( forest_trail_settings_jo, "clear_trail_terrain",
+                                     forest_trail_settings.clear_trail_terrain, !overlay );
+
+        if( forest_trail_settings.clear_trail_terrain ) {
+            forest_trail_settings.unfinalized_trail_terrain.clear();
+        }
+
+        if( !forest_trail_settings_jo.has_object( "trail_terrain" ) ) {
+            if( !overlay ) {
+                forest_trail_settings_jo.throw_error( "trail_terrain required" );
+            }
+        } else {
+            JsonObject trail_terrain_jo = forest_trail_settings_jo.get_object( "trail_terrain" );
+            std::set<std::string> keys = trail_terrain_jo.get_member_names();
+            for( const auto &key : keys ) {
+                int weight = 0;
+                if( key != "//" ) {
+                    if( trail_terrain_jo.read( key, weight ) ) {
+                        forest_trail_settings.unfinalized_trail_terrain[key] = weight;
+                    }
+                }
+            }
+        }
+    }
+}
+
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -279,6 +334,8 @@ void load_region_settings( JsonObject &jo )
     }
 
     load_forest_mapgen_settings( jo, new_region.forest_composition, strict, false );
+
+    load_forest_trail_settings( jo, new_region.forest_trail, strict, false );
 
     if( ! jo.has_object( "map_extras" ) ) {
         if( strict ) {
@@ -485,6 +542,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     }
 
     load_forest_mapgen_settings( jo, region.forest_composition, false, true );
+
+    load_forest_trail_settings( jo, region.forest_trail, false, true );
 
     JsonObject mapextrajo = jo.get_object( "map_extras" );
     std::set<std::string> extrazones = mapextrajo.get_member_names();
@@ -694,6 +753,18 @@ void forest_mapgen_settings::finalize()
     }
 }
 
+void forest_trail_settings::finalize()
+{
+    for( const std::pair<const std::string, int> &pr : unfinalized_trail_terrain ) {
+        const ter_str_id tid( pr.first );
+        if( !tid.is_valid() ) {
+            debugmsg( "Tried to add invalid terrain %s to forest_trail_settings trail_terrain.", tid.c_str() );
+            continue;
+        }
+        trail_terrain.add( tid.id(), pr.second );
+    }
+}
+
 void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
@@ -705,6 +776,7 @@ void regional_settings::finalize()
         default_groundcover_str.reset();
         city_spec.finalize();
         forest_composition.finalize();
+        forest_trail.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
 }

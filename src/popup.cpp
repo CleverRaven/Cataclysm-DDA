@@ -233,7 +233,6 @@ query_popup::result query_popup::query_once()
     }
 
     if( test_mode ) {
-        std::cerr << text << std::endl;
         return { false, "ERROR", {} };
     }
 

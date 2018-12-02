@@ -48,27 +48,11 @@ void help::deserialize( JsonIn &jsin )
                 line = string_replace( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
                 continue;
             }
-
-            size_t pos = line.find( "<press_", 0, 7 );
-            while( pos != std::string::npos ) {
-                size_t pos2 = line.find( ">", pos, 1 );
-
-                std::string action = line.substr( pos + 7, pos2 - pos - 7 );
-                auto replace = "<color_light_blue>" + press_x( look_up_action( action ), "", "" ) + "</color>";
-
-                if( replace.empty() ) {
-                    debugmsg( "Help json: Unknown action: %s", action );
-                } else {
-                    line = string_replace( line, "<press_" + action + ">", replace );
-                }
-
-                pos = line.find( "<press_", pos2, 7 );
-            }
         }
 
-        help_texts[jo.get_int( "order" )] = std::make_pair( _( jo.get_string( "name" ).c_str() ),
-                                            messages );
-        hotkeys.push_back( get_hotkeys( jo.get_string( "name" ) ) );
+        std::string name = jo.get_string( "name" );
+        help_texts[jo.get_int( "order" )] = std::make_pair( name, messages );
+        hotkeys.push_back( get_hotkeys( name ) );
     }
 }
 
@@ -110,7 +94,7 @@ Press ESC to return to the game." ) ) + 1;
     size_t half_size = help_texts.size() / 2;
     int second_column = getmaxx( win ) / 2;
     for( size_t i = 0; i < help_texts.size(); i++ ) {
-        auto &cat_name = help_texts[i].first;
+        std::string cat_name = _( help_texts[i].first.c_str() );
         if( i < half_size ) {
             second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
         }
@@ -168,7 +152,30 @@ void help::display_help()
         for( size_t i = 0; i < hotkeys.size(); ++i ) {
             for( const std::string &hotkey : hotkeys[i] ) {
                 if( sInput == hotkey ) {
-                    multipage( w_help, help_texts[i].second );
+                    std::vector<std::string> i18n_help_texts;
+                    i18n_help_texts.reserve( help_texts[i].second.size() );
+                    std::transform( help_texts[i].second.begin(), help_texts[i].second.end(),
+                    std::back_inserter( i18n_help_texts ), [&]( std::string & line ) {
+                        std::string line_proc = _( line.c_str() );
+                        size_t pos = line_proc.find( "<press_", 0, 7 );
+                        while( pos != std::string::npos ) {
+                            size_t pos2 = line_proc.find( ">", pos, 1 );
+
+                            std::string action = line_proc.substr( pos + 7, pos2 - pos - 7 );
+                            auto replace = "<color_light_blue>" + press_x( look_up_action( action ), "", "" ) + "</color>";
+
+                            if( replace.empty() ) {
+                                debugmsg( "Help json: Unknown action: %s", action );
+                            } else {
+                                line_proc = string_replace( line_proc, "<press_" + action + ">", replace );
+                            }
+
+                            pos = line_proc.find( "<press_", pos2, 7 );
+                        }
+                        return line_proc;
+                    } );
+
+                    multipage( w_help, i18n_help_texts );
                     action = "CONFIRM";
                     break;
                 }

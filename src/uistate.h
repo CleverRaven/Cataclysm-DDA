@@ -58,6 +58,7 @@ class uistatedata
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
+        bool overmap_show_forest_trails = true;
 
         bool debug_ranged;
         tripoint adv_inv_last_coords = {-999, -999, -999};
@@ -85,6 +86,8 @@ class uistatedata
         om_direction::type omedit_rotation = om_direction::type::none;
 
         std::set<recipe_id> hidden_recipes;
+        std::set<recipe_id> favorite_recipes;
+        std::vector<recipe_id> recent_recipes;
 
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
@@ -139,12 +142,15 @@ class uistatedata
             json.member( "overmap_show_overlays", overmap_show_overlays );
             json.member( "overmap_show_city_labels", overmap_show_city_labels );
             json.member( "overmap_show_hordes", overmap_show_hordes );
+            json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
             json.member( "vmenu_show_items", vmenu_show_items );
             json.member( "list_item_sort", list_item_sort );
             json.member( "list_item_filter_active", list_item_filter_active );
             json.member( "list_item_downvote_active", list_item_downvote_active );
             json.member( "list_item_priority_active", list_item_priority_active );
             json.member( "hidden_recipes", hidden_recipes );
+            json.member( "favorite_recipes", favorite_recipes );
+            json.member( "recent_recipes", recent_recipes );
 
             json.member( "input_history" );
             json.start_object();
@@ -227,7 +233,10 @@ class uistatedata
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_city_labels", overmap_show_city_labels );
             jo.read( "overmap_show_hordes", overmap_show_hordes );
+            jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
             jo.read( "hidden_recipes", hidden_recipes );
+            jo.read( "favorite_recipes", favorite_recipes );
+            jo.read( "recent_recipes", recent_recipes );
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,

@@ -93,7 +93,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
         } catch( const std::exception &err ) {
             debugmsg( "Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what() );
         }
-        return NULL;
+        return nullptr;
     }
 
     return iter->second;
@@ -406,8 +406,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
         // Output base camp if any
         if( sm->camp.is_valid() ) {
-            jsout.member( "camp" );
-            jsout.write( sm->camp.save_data() );
+            jsout.member( "camp", sm->camp );
         }
         if( delete_after_save ) {
             submaps_to_delete.push_back( submap_addr );
@@ -435,12 +434,12 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     if( !read_from_file_optional_json( quad_path.str(),
                                        std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
-        return NULL;
+        return nullptr;
     }
     if( submaps.count( p ) == 0 ) {
         debugmsg( "file %s did not contain the expected submap %d,%d,%d",
                   quad_path.str().c_str(), p.x, p.y, p.z );
-        return NULL;
+        return nullptr;
     }
     return submaps[ p ];
 }
@@ -609,7 +608,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         int type = jsin.get_int();
                         int density = jsin.get_int();
                         int age = jsin.get_int();
-                        if( sm->fld[i][j].findField( field_id( type ) ) == NULL ) {
+                        if( sm->fld[i][j].findField( field_id( type ) ) == nullptr ) {
                             sm->field_count++;
                         }
                         sm->fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );
@@ -678,10 +677,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 std::string computer_data = jsin.get_string();
                 std::unique_ptr<computer> new_comp( new computer( "BUGGED_COMPUTER", -100 ) );
                 new_comp->load_data( computer_data );
-                sm->comp.reset( new_comp.release() );
+                sm->comp = std::move( new_comp );
             } else if( submap_member_name == "camp" ) {
-                std::string camp_data = jsin.get_string();
-                sm->camp.load_data( camp_data );
+                jsin.read( sm->camp );
             } else {
                 jsin.skip_value();
             }

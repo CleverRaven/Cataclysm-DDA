@@ -1092,12 +1092,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 y = row + o_y;
             }
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
-                // draw 1 tile border of offscreen_type around the edge of the max visible area.
-                // This is perhaps unnecessary. It only affects tilesets that have a "dark" tile
-                // distinguishable from black, allowing them to denote the border of max view range.
-                // Adds 4 int comparisons per checked off-map tile, and max 480 extra textures drawn.
-                if( y >= min_visible_y - 1 && y <= max_visible_y + 1 && x >= min_visible_x - 1 &&
-                    x <= max_visible_x + 1 ) {
+                int height_3d = 0;
+                if( !draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d ) ) {
                     apply_vision_effects( temp, offscreen_type );
                 }
                 continue;
@@ -1138,6 +1134,43 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             for( auto &p : draw_points ) {
                 ( this->*f )( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
             }
+        }
+    }
+
+    //Memorize everything the character just saw even if it wasn't displayed.
+    for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
+        for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+            //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
+            if( x >= o_x && x < sx + o_x &&
+                y >= o_y && y < sy + o_y ) {
+                continue;
+            }
+            tripoint p( x, y, center.z );
+            int height_3d = 0;
+            if( iso_mode ) {
+                //Iso_mode skips in a checkerboard
+                if( ( y ) % 2 != ( x ) % 2 ) {
+                    continue;
+                }
+                //iso_mode does weird things to x and y... replicate that
+                //The MAPSIZE*SEEX/2 offset is to keep the rectangle in the upper right quadrant.
+                p.x = ( x - y - MAPSIZE * SEEX / 2 + MAPSIZE * SEEY / 2 ) / 2 + MAPSIZE * SEEX / 2;
+                p.y = ( y + x - MAPSIZE * SEEY / 2 - MAPSIZE * SEEX / 2 ) / 2 + MAPSIZE * SEEY / 2;
+                //Check if we're in previously done iso_mode space
+                if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o_x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o_x &&
+                    p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o_y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o_y ) {
+                    continue;
+                }
+            }
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            if( apply_vision_effects( p, g->m.get_visibility( lighting, cache ) ) ) {
+                continue;
+            }
+            //calling draw to memorize everything.
+            draw_terrain( p, lighting, height_3d );
+            draw_furniture( p, lighting, height_3d );
+            draw_trap( p, lighting, height_3d );
+            draw_vpart( p, lighting, height_3d );
         }
     }
 

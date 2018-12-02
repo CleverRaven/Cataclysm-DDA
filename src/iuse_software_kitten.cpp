@@ -444,14 +444,14 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                     }
                     wrefresh( w );
                     refresh_display();
-                    nanosleep( &ts, NULL );
+                    nanosleep( &ts, nullptr );
                 }
 
                 /* They're in love! */
                 mvwprintz( w, 0, ( ( rfkCOLS - 6 ) / 2 ) - 1, c_light_red, "<3<3<3" );
                 wrefresh( w );
                 refresh_display();
-                nanosleep( &ts, NULL );
+                nanosleep( &ts, nullptr );
                 for( int c = 0; c < rfkCOLS; c++ ) {
                     mvwputch( w, 0, c, c_white, ' ' );
                     mvwputch( w, 1, c, c_white, ' ' );
