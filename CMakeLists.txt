@@ -13,7 +13,6 @@ option(LUA          "Lua support (required for some mods)."					"OFF")
 option(TILES        "Build graphical tileset version."						"OFF")
 option(CURSES       "Build curses version."							"ON" )
 option(SOUND        "Support for in-game sounds & music."					"OFF")
-option(RELEASE      "Disable debug. Use it for user-ready buils."				"OFF")
 option(BACKTRACE    "Support for printing stack backtraces on crash"			"ON" )
 option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
@@ -28,7 +27,6 @@ include(CTest)
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
-IF (RELEASE)
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
@@ -38,7 +36,6 @@ MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
 MESSAGE("                               --= Dark Days Ahead =--")
 MESSAGE("\n * http://en.cataclysmdda.com/\n")
-ENDIF (RELEASE)
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
@@ -176,7 +173,20 @@ IF(TILES)
 ENDIF(TILES)
 
 # Set build types and display info
-IF(RELEASE)
+IF(CMAKE_BUILD_TYPE STREQUAL Debug)
+	MESSAGE("\n")
+	MESSAGE(STATUS "Build ${PROJECT} in development mode --\n")
+	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
+	SET(CMAKE_VERBOSE_MAKEFILE ON)
+	# Since CataclusmDDA does not respect PREFIX for development builds
+	# and has funny path handlers, we should create resulting Binaries
+	# in the source redectory
+	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+		${CMAKE_SOURCE_DIR}
+		CACHE PATH "Single Directory for all Executables."
+	)
+	SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
+ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
 	MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
 	MESSAGE(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
@@ -187,27 +197,12 @@ IF(RELEASE)
 	MESSAGE(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
 	MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
-	SET(CMAKE_BUILD_TYPE RELEASE)
 	ADD_DEFINITIONS(-DRELEASE)
     # Use PREFIX as storage of data,gfx,lua etc.. Usefull only on *nix OS.
     IF (PREFIX AND NOT WIN32)
 	    ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
-ELSE (RELEASE)
-	MESSAGE("\n")
-	MESSAGE(STATUS "Build ${PROJECT} in development mode (RELEASE=OFF) --\n")
-	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
-	SET(CMAKE_BUILD_TYPE DEBUG)
-	SET(CMAKE_VERBOSE_MAKEFILE ON)
-	# Since CataclusmDDA does not respect PREFIX for development builds
-	# and has funny path handlers, we should create resulting Binaries
-	# in the source redectory
-	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-		${CMAKE_SOURCE_DIR}
-		CACHE PATH "Single Directory for all Executables."
-	)
-	SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
-ENDIF (RELEASE)
+ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 
 	MESSAGE(STATUS "LUA                           : ${LUA}")
 IF (LUA)
@@ -218,7 +213,6 @@ ENDIF (LUA)
 	MESSAGE(STATUS "TILES                         : ${TILES}")
 	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
-	MESSAGE(STATUS "RELEASE                       : ${RELEASE}")
 	MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
 	MESSAGE(STATUS "LOCALIZE                      : ${LOCALIZE}")
 	MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
