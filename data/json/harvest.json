@@ -292,6 +292,36 @@
     ]
   },
   {
+    "id": "arachnid",
+    "type": "harvest",
+    "entires": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "arachnid_bee",
+    "//": "todo: add stinger here and remove drops from death",
+    "type": "harvest",
+    "entires": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "arachnid_wasp",
+    "//": "todo: add stinger here and remove drops from death",
+    "type": "harvest",
+    "entires": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "zombie_leather",
     "//": "any zombie that might drop leather. mostly animals.",
     "type": "harvest",
