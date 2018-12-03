@@ -490,8 +490,8 @@ class map
         //Returns true if vehicle zones are dirty and need to be recached
         bool check_vehicle_zones( const int zlev );
         std::vector<zone_data *> get_vehicle_zones( const int zlev );
-        void map::register_vehicle_zone( vehicle *, const int zlev );
-        bool map::deregister_vehicle_zone( zone_data &zone );
+        void register_vehicle_zone( vehicle *, const int zlev );
+        bool deregister_vehicle_zone( zone_data &zone );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
