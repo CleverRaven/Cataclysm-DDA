@@ -2228,7 +2228,7 @@ void vehicle::deserialize( JsonIn &jsin )
         JsonObject sdata = ja.next_object();
         sdata.read( "point", p );
         sdata.read( "zone", zd );
-        loot_zones.try_emplace( p, zd );
+        loot_zones.emplace( p, zd );
     }
 
     // Note that it's possible for a vehicle to be loaded midway

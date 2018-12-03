@@ -757,7 +757,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
 bool map::check_vehicle_zones( const int zlev )
 {
-    for( auto veh : this->get_cache( zlev ).zone_vehicles ) {
+    for( auto veh : get_cache( zlev ).zone_vehicles ) {
         if( veh->zones_dirty ) {
             return true;
         }
@@ -769,7 +769,7 @@ std::vector<zone_data *> map::get_vehicle_zones( const int zlev )
 {
     std::vector<zone_data *> veh_zones;
     bool rebuild = false;
-    for( auto veh : this->get_cache( zlev ).zone_vehicles ) {
+    for( auto veh : get_cache( zlev ).zone_vehicles ) {
         if( veh->refresh_zones() ) {
             rebuild = true;
         }
@@ -791,7 +791,7 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 
 bool map::deregister_vehicle_zone( zone_data &zone )
 {
-    for( auto veh : this->get_cache( g->u.posz() ).zone_vehicles ) {
+    for( auto veh : get_cache( g->u.posz() ).zone_vehicles ) {
         for( auto it = veh->loot_zones.begin(); it != veh->loot_zones.end(); it++ ) {
             if( &zone == &( it->second ) ) {
                 veh->loot_zones.erase( it );
