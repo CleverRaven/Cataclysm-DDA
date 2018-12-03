@@ -565,10 +565,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if (entry.type == "flesh") {
                 continue;
             }
+            if (entry.type == "skin") {
+                continue;
+            }
         }
 
         // field dressing removed innards and bones from meatless limbs
-        if ((action == BUTCHER_FULL) && corpse_item->has_flag("FIELD_DRESS")) {
+        if ((action == BUTCHER_FULL || action == BUTCHER) && corpse_item->has_flag("FIELD_DRESS")) {
             if (entry.type == "offal") {
                 continue;
             }
@@ -577,7 +580,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             }
         }
         // unskillfull field dressing may damage the skin, meat, and other parts
-        if ((action == BUTCHER_FULL) && corpse_item->has_flag("FIELD_DRESS_FAILED")) {
+        if ((action == BUTCHER_FULL || action == BUTCHER) && corpse_item->has_flag("FIELD_DRESS_FAILED")) {
             if (entry.type == "offal") {
                 continue;
             }
