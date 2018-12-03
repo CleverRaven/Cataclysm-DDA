@@ -790,11 +790,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     // all action types - yields
     if( corpse->harvest.is_null() ) {
-        //butchery_drops_hardcoded( &corpse_item, corpse, p, bday, roll_butchery, action );
-        debugmsg("well poop. how did it get here?");
-    } else {
-        butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action );
+        debugmsg("Error: %s has no harvest entry.", corpse_item.type_name(1));
     }
+    butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action );
+    
 
     // reveal hidden items / hidden content
     if( action != F_DRESS ) {
