@@ -26,14 +26,16 @@ static const itype_id fuel_type_battery( "battery" );
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : vehicle_part( vpart_id::NULL_ID(), point(0,0), item(), false,nullptr ){};
+    : vehicle_part( vpart_id::NULL_ID(), point( 0, 0 ), item(), false, nullptr ) {};
 
 vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj )
-    : vehicle_part(vp,dp,std::move(obj),false,nullptr )
+    : vehicle_part( vp, dp, std::move( obj ), false, nullptr )
 {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj, bool isSentinel, vehicle_part* ori)
-    : mount( dp ), id( vp ), base( std::move( obj ) ), is_this_sentinel(isSentinel), original(ori),does_it_have_sentinel(false),sentinel(nullptr)
+vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj, bool isSentinel,
+                            vehicle_part *ori )
+    : mount( dp ), id( vp ), base( std::move( obj ) ), is_this_sentinel( isSentinel ), original( ori ),
+      does_it_have_sentinel( false ), sentinel( nullptr )
 {
     // Mark base item as being installed as a vehicle part
     base.item_tags.insert( "VEHICLE" );
@@ -462,19 +464,19 @@ bool vehicle_part::has_sentinel() const
 {
     return does_it_have_sentinel;
 }
-vehicle_part* vehicle_part::get_sentinel() const
+vehicle_part *vehicle_part::get_sentinel() const
 {
     return sentinel;
 }
-vehicle_part* vehicle_part::set_sentinel(point newMount)
+vehicle_part *vehicle_part::set_sentinel( point newMount )
 {
-    sentinel = new vehicle_part( id, newMount, std::move( base ), true, this);
+    sentinel = new vehicle_part( id, newMount, std::move( base ), true, this );
     return sentinel;
 }
 bool vehicle_part::remove_sentinel()
 {
     bool rtn = false;
-    if(sentinel){
+    if( sentinel ) {
         delete sentinel;
         rtn = true;
     }
@@ -499,13 +501,14 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
     bool rtn = false;
     if( pt.info().durability > 0 ) {
         rtn = pt.base.mod_damage( -( pt.base.max_damage() * qty / pt.info().durability ), dt );
-        if(pt.is_sentinel()){
-            pt.original->base.mod_damage( -( pt.original->base.max_damage() * qty / pt.original->info().durability ), dt );
+        if( pt.is_sentinel() ) {
+            pt.original->base.mod_damage( -( pt.original->base.max_damage() * qty /
+                                             pt.original->info().durability ), dt );
+        } else if( pt.has_sentinel() ) {
+            pt.sentinel->base.mod_damage( -( pt.sentinel->base.max_damage() * qty /
+                                             pt.sentinel->info().durability ), dt );
         }
-        else if(pt.has_sentinel()){
-            pt.sentinel->base.mod_damage( -( pt.sentinel->base.max_damage() * qty / pt.sentinel->info().durability ), dt );
-        }
-    } 
+    }
     return rtn;
 }
 
