@@ -56,9 +56,7 @@
     "id": "mammal_tiny",
     "//": "animals so tiny they don't drop chunks of meat",
     "type": "harvest",
-    "entries": [
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 }
-    ]
+    "entries": [ { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 } ]
   },
   {
     "id": "mammal_small_fur",
@@ -81,7 +79,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.30 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
@@ -135,7 +133,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.30 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
@@ -235,7 +233,7 @@
     "id": "bird_tiny",
     "type": "harvest",
     "entries": [
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.40 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
     ]
   },
@@ -243,7 +241,7 @@
     "id": "bird_small",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.30 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
@@ -253,7 +251,7 @@
     "id": "bird_large",
     "type": "harvest",
     "entries": [
-      { "drops": "meat", "type": "flesh", "mass_ratio": 0.30 },
+      { "drops": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drops": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drops": "fat", "type": "flesh", "mass_ratio": 0.18 },
       { "drops": "feather", "type": "skin", "mass_ratio": 0.03 },
@@ -490,7 +488,7 @@
     "//": "todo: add biollante item",
     "entries": [
       { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.5 },
-      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.20 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
     ]
   },
@@ -499,7 +497,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.5 },
-      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.20 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
     ]
   },
@@ -508,7 +506,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.4 },
-      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.20 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "stick", "type": "bone", "mass_ratio": 0.05 }
     ]
@@ -519,7 +517,7 @@
     "entries": [
       { "drop": "log", "type": "bone", "mass_ratio": 0.35 },
       { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.20 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
     ]
   }
