@@ -475,7 +475,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &age,
+void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
                              const std::function<int()> &roll_butchery, butcher_type action )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
@@ -531,10 +531,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         }
         if (action == DISSECT) {
             if (entry.type == "bionic") {
-                butcher_cbm_item(entry.drop, p.pos(), age, roll_butchery());
+                butcher_cbm_item(entry.drop, p.pos(), bday, roll_butchery());
             }
             else if (entry.type == "bionic_group") {
-                butcher_cbm_group(entry.drop, p.pos(), age, roll_butchery());
+                butcher_cbm_group(entry.drop, p.pos(), bday, roll_butchery());
             }
             continue;
         }
@@ -617,13 +617,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             }
         
             if( drop->phase == LIQUID ) {
-                g->handle_all_liquid( item( drop, age, roll ), 1 );
+                g->handle_all_liquid( item( drop, bday, roll ), 1 );
 
             } else if( drop->stackable ) {
-                g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
+                g->m.add_item_or_charges( p.pos(), item( drop, bday, roll ) );
 
             } else {
-                item obj( drop, age );
+                item obj( drop, bday );
                 obj.set_mtype( &mt );
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
@@ -650,7 +650,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 monster_weight_remaining -= (monster_weight - (monster_weight * 3 / 4 / 4));
             }
         }
-        item ruined_parts("ruined_chunks", age, monster_weight_remaining);
+        item ruined_parts("ruined_chunks", bday, monster_weight_remaining);
         ruined_parts.set_mtype(&mt);
         g->m.add_item_or_charges(p.pos(), ruined_parts);
     }
