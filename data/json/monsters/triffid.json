@@ -69,6 +69,7 @@
     "morale": 100,
     "melee_cut": 0,
     "armor_bash": 8,
+    "harvest": "exempt",
     "special_attacks": [ [ "GROW_VINE", 2 ] ],
     "death_function": [ "KILL_VINES" ],
     "flags": [ "NOHEAD", "IMMOBILE" ]
@@ -92,6 +93,7 @@
     "morale": 100,
     "melee_cut": 0,
     "armor_bash": 2,
+    "harvest": "exempt",
     "special_attacks": [ [ "VINE", 5 ] ],
     "death_function": [ "VINE_CUT" ],
     "flags": [ "NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE" ]
