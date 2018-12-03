@@ -3900,14 +3900,17 @@ void vehicle::refresh()
 
 
         if( vpi.has_flag( VPFLAG_OBSTACLE ) && vpi.has_flag( VPFLAG_OPAQUE ) ) {
-            for( size_t adj = 2; adj < 4; adj++ ) {
-                if( parts_at_relative( vp.mount() + vehicles::cardinal_d[ adj ], false ).empty() ) {
-                    sidewalls.push_back( p );
+            if( !sentinel_present() ) {
+                for( size_t adj = 2; adj < 4; adj++ ) {
+                    if( parts_at_relative( vp.mount() + vehicles::cardinal_d[ adj ], false ).empty() ) {
+                        sidewalls.push_back( p );
+                    }
+                }
+            } else {
+                if( vp.part().is_sentinel() ) {
+                    sentinels.push_back( p );
                 }
             }
-        }
-        if( vp.part().is_sentinel() ) {
-            sentinels.push_back( p );
         }
         if( vp.part().is_unavailable() ) {
             continue;
@@ -3966,6 +3969,7 @@ void vehicle::refresh()
                 int sIdx = install_part( sentinel_mount, vp.part().set_sentinel( sentinel_mount ) );
                 sentinels.push_back( sIdx );
             }
+            sentinel_on = true;
         }
     } else {
         if( !need_sentinel() ) {
@@ -3975,6 +3979,7 @@ void vehicle::refresh()
                 vehicle_part *ori = vp.part().get_original();
                 ori->remove_sentinel();
             }
+            sentinel_on = false;
         } else {
             for( int i : sentinels ) {
                 vpart_reference vp( *this, i );
@@ -4850,7 +4855,7 @@ vehicle_part_range vehicle::get_all_parts() const
 
 bool vehicle::sentinel_present() const
 {
-    return sentinels.size() != 0;
+    return sentinel_on;
 }
 bool vehicle::need_sentinel() const
 {
