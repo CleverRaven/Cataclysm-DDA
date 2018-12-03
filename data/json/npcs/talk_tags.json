@@ -537,5 +537,81 @@
             "I'm getting my ass out of here!  You'd better do the same, <name_g>!",
             "Fire in the hole, motherfuckers!"
         ]
+    },{
+        "type": "snippet",
+        "category": "<shitty>",
+        "text": [
+            "shitty",
+            "lame",
+            "crappy",
+            "unpleasant",
+            "<swear> <shitty>",
+            "<very> <shitty>",
+            "awful",
+            "terrible",
+            "horrible",
+            "miserable",
+            "fucked-up"
+        ]
+    },{
+        "type": "snippet",
+        "category": "<dumb>",
+            "text": [ 
+            "stupid", 
+            "idiotic", 
+            "dumb", 
+            "dumb-ass", 
+            "moronic", 
+            "mickey mouse", 
+            "shit-for-brains" 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<zombie>",
+        "text": [ 
+            "zombie", 
+            "Z", 
+            "shambler", 
+            "goo-puker", 
+            "walker", 
+            "walking corpse", 
+            "<swear> <zombie>", 
+            "living dead" 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<zombies>",
+        "text": [ 
+            "zombies", 
+            "Z", 
+            "dead", 
+            "<swear> zombies", 
+            "living dead" 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<monster>",
+        "text": [
+            "monster",
+            "demon",
+            "horror",
+            "indescribable beast",
+            "creature made of nightmares",
+            "critter",
+            "<swear> <monster>",
+            "unbelievable <swear> thing",
+            "walking nightmare",
+            "thing right out of a scary movie"
+        ]
+    },{
+        "type": "snippet",
+        "category": "<the_cataclysm>",
+        "text": [ 
+            "the cataclysm", 
+            "the apocalypse", 
+            "the end of the world", 
+            "Armageddon", 
+            "the end of days" 
+        ]
     }
 ]
