@@ -126,7 +126,7 @@ void harvest_list::check_consistency()
             return item::type_is_defined( entry.drop ) ? "" : entry.drop;
         } );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid drop(s): %s", hl.id_.c_str(), errors.c_str() );
+            debugmsg( "Harvest list %s has invalid drop(s): %s", hl.id_.c_str(), errors.c_str() ); //TODO: allow non-items in special case
         }
     }
 }
