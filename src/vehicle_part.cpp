@@ -26,10 +26,14 @@ static const itype_id fuel_type_battery( "battery" );
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
+    : vehicle_part( vpart_id::NULL_ID(), point(0,0), item(), false,nullptr ){};
 
 vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj )
-    : mount( dp ), id( vp ), base( std::move( obj ) )
+    : vehicle_part(vp,dp,std::move(obj),false,nullptr )
+{}
+
+vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj, bool isSentinel, vehicle_part* ori)
+    : mount( dp ), id( vp ), base( std::move( obj ) ), is_this_sentinel(isSentinel), original(ori),does_it_have_sentinel(false),sentinel(nullptr)
 {
     // Mark base item as being installed as a vehicle part
     base.item_tags.insert( "VEHICLE" );
@@ -448,6 +452,29 @@ const vpart_info &vehicle_part::info() const
         info_cache = &id.obj();
     }
     return *info_cache;
+}
+
+bool vehicle_part::is_sentinel() const
+{
+    return is_this_sentinel;
+}
+bool vehicle_part::has_sentinel() const
+{
+    return does_it_have_sentinel;
+}
+vehicle_part* vehicle_part::get_sentinel() const
+{
+    return sentinel;
+}
+vehicle_part* vehicle_part::set_sentinel(point newMount)
+{
+    sentinel = new vehicle_part( id, newMount, std::move( base ), true, this);
+    return sentinel;
+}
+bool vehicle_part::remove_sentinel()
+{
+    delete sentinel;
+    return true;
 }
 
 void vehicle::set_hp( vehicle_part &pt, int qty )

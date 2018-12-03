@@ -129,6 +129,7 @@ struct vehicle_part {
         vehicle_part(); /** DefaultConstructible */
 
         vehicle_part( const vpart_id &vp, point dp, item &&it );
+        vehicle_part( const vpart_id &vp, point dp, item &&it, bool isSentinel, vehicle_part* original );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -356,6 +357,11 @@ struct vehicle_part {
          */
         int crew_id = -1;
 
+        bool is_this_sentinel;
+        vehicle_part *original;
+        bool does_it_have_sentinel;
+        vehicle_part *sentinel;
+
     public:
         /** Get part definition common to all parts of this type */
         const vpart_info &info() const;
@@ -375,20 +381,13 @@ struct vehicle_part {
          * this part.
          */
         item_group::ItemList pieces_for_broken_part() const;
-};
 
-/**
- * Sentinel Parts that is used to block diagnal openings created when vehicles are at an angle.
- * The sentinel_part serves as a special type of vehicle_part with a specific purpose of being used only to block passage 'through' the walls of the vehicle.
- * It is designed to be dynamically created on a vehicle_part*, with the constructor copying over the value from the original, and removed when nolonger needed with the constructor who also takes care of the transfer of datasets.
- */
-struct sentinel_part : public vehicle_part {
-    private:
-        point mimic_location;
-    public:
-        sentinel_part() = delete;
-        sentinel_part( vehicle_part *org, point p );
-        ~sentinel_part();
+        /** Is this a sentinel part spawned due to vehicle being diagonal **/
+        bool is_sentinel() const;
+        bool has_sentinel() const;
+        vehicle_part* get_sentinel() const;
+        vehicle_part* set_sentinel(point newMount); 
+        bool remove_sentinel();
 };
 
 class turret_data
