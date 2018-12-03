@@ -412,7 +412,6 @@
         "id" : "NC_APIS",
         "name" : "Apis",
         "job_description" : "I'm bugged - I shouldn't talk to you.",
-        "traits": [ { "group": "BG_survival_story_UNIVERSAL" } ],
         "common" : false,
         "bonus_dex" : { "rng" : [ 5, 10 ] },
         "bonus_int" : { "rng" : [ -4, -8 ] },
@@ -427,6 +426,7 @@
         "weapon_override": "EMPTY_GROUP",
         "//": "NPCs can't run yet and we want this one to be fast, so road runner.",
         "traits": [
+            { "group": "BG_survival_story_UNIVERSAL" },
             [ "THRESH_INSECT", 100 ],
             [ "BEE", 100 ],
             [ "MANDIBLES", 100 ],
