@@ -618,7 +618,7 @@ zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
         if( start.x == end.x && start.y == end.y && start.z == end.z ) {
             //create a vehicle loot zone
             new_zone.set_is_vehicle( true );
-            vp->vehicle().loot_zones.try_emplace( vp->mount(), new_zone );
+            vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
             g->m.register_vehicle_zone( &vp->vehicle(), g->u.posz() );
             cache_vzones();
         }
@@ -715,7 +715,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "is_vehicle", is_vehicle );
     json.member( "start", start );
     json.member( "end", end );
-    this->get_options().serialize( json );
+    get_options().serialize( json );
     json.end_object();
 }
 

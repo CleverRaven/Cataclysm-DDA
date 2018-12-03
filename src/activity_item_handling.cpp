@@ -840,7 +840,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
 }
 
 static void move_item( item &it, int quantity, const tripoint &src, const tripoint &dest,
-                       vehicle *src_veh, int src_part, vehicle *dest_veh, int dest_part )
+                       vehicle *src_veh, int src_part )
 {
     item leftovers = it;
 
@@ -1023,7 +1023,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             p.set_destination( route, player_activity( activity_id( "ACT_MOVE_LOOT" ) ) );
                             return;
                         }
-                        move_item( *it, it->count(), src_loc, dest_loc, src_veh, src_part, dest_veh, dest_part );
+                        move_item( *it, it->count(), src_loc, dest_loc, src_veh, src_part );
                     }
                 }
                 if( p.moves <= 0 ) {

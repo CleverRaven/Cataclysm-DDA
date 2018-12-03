@@ -1826,7 +1826,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             // remove loot zones associated with the mov_part
             const auto lz_iter = loot_zones.find( cur_mount );
             if( lz_iter != loot_zones.end() ) {
-                new_zones.try_emplace( new_mount, lz_iter->second );
+                new_zones.emplace( new_mount, lz_iter->second );
                 loot_zones.erase( lz_iter );
             }
             // remove the passenger from the old new vehicle
@@ -4300,7 +4300,7 @@ void vehicle::shift_parts( const point delta )
 
     decltype( loot_zones ) new_zones;
     for( auto const &z : loot_zones ) {
-        new_zones.try_emplace( z.first - delta, z.second );
+        new_zones.emplace( z.first - delta, z.second );
     }
     loot_zones = new_zones;
 
@@ -4835,11 +4835,11 @@ bool vehicle::refresh_zones()
             zone_data zone = z.second;
             //Get the global position of the first cargo part at the relative coordinate
 
-            tripoint zone_pos = this->global_part_pos3( this->part_with_feature( z.first, "CARGO", false ) );
+            tripoint zone_pos = global_part_pos3( part_with_feature( z.first, "CARGO", false ) );
             zone_pos = g->m.getabs( zone_pos );
             //Set the position of the zone to that part
             zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ), false );
-            new_zones.try_emplace( z.first, zone );
+            new_zones.emplace( z.first, zone );
         }
         loot_zones = new_zones;
         zones_dirty = false;
