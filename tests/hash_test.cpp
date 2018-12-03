@@ -119,6 +119,9 @@ TEST_CASE( "legacy_tripoint_hash_distribution", "[.]" )
     CHECK( count_unique_elements( found_hashes ) > element_count * 0.9 );
 }
 
+#ifdef RELEASE
+// These tests are slow and probably pointless for non-release builds
+
 template<class CoordinateType, class Hash>
 long get_set_runtime()
 {
@@ -150,3 +153,4 @@ TEST_CASE( "legacy_tripoint_hash_runoff", "[hash]" )
     long new_runtime = get_set_runtime<tripoint, std::hash<tripoint>>();
     CHECK( new_runtime < legacy_runtime );
 }
+#endif // RELEASE
