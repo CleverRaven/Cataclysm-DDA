@@ -647,7 +647,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     if (monster_weight_remaining > 0) {
         if (action == F_DRESS) {
             // 25% of the corpse weight is what's removed during field dressing
-            monster_weight_remaining -= (monster_weight * 3 / 4);
+            monster_weight_remaining -= monster_weight * 3 / 4;
         }
         else {
             // a carcass is 75% of the weight of the unmodified creature's weight
