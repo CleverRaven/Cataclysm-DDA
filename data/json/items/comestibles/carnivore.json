@@ -121,6 +121,7 @@
     "copy-from": "meat_scrap",
     "type": "COMESTIBLE",
     "name": "cooked scrap of meat",
+    "name_plural": "cooked scraps of meat",
     "parasites": 0,
     "fun": 0,
     "healthy": 0,
