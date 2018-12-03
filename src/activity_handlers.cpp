@@ -480,7 +480,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
     int monster_weight = to_gram(mt.weight);
-
+    monster_weight -= monster_weight * rng_float(-0.1, 0.1);
     if (corpse_item->has_flag("QUARTERED")) {
         monster_weight = monster_weight / 4;
     }
