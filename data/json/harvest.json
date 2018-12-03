@@ -205,7 +205,7 @@
   },
   {
     "id": "animal_large_noskin",
-    "//": "for those vertibrates that don'e have something you can skin off of them",
+    "//": "for those vertibrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
