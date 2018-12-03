@@ -5135,7 +5135,7 @@ bool vehicle::refresh_zones()
             tripoint zone_pos = this->global_part_pos3( this->part_with_feature( z.first, "CARGO", false ) );
             zone_pos = g->m.getabs( zone_pos );
             //Set the position of the zone to that part
-            zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ) );
+            zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ), false );
             new_zones.try_emplace( z.first, zone );
         }
         loot_zones = new_zones;
