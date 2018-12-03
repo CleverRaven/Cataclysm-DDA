@@ -3957,7 +3957,7 @@ void vehicle::refresh()
      * Sentinel
      * Check if sentinel is needed on the sidewalls and act accordingly
      */
-    if( sentinels.empty() ) {
+    if( !sentinel_present() ) {
         if( need_sentinel() ) {
             for( int i : sidewalls ) {
                 vpart_reference vp( *this, i );
@@ -3974,6 +3974,15 @@ void vehicle::refresh()
                 remove_part( vp.part_index() );
                 vehicle_part *ori = vp.part().get_original();
                 ori->remove_sentinel();
+            }
+        } else {
+            for( int i : sentinels ) {
+                vpart_reference vp( *this, i );
+                vehicle_part *ori = vp.part().get_original();
+                if( ori->removed ) {
+                    remove_part( vp.part_index() );
+                    ori->remove_sentinel();
+                }
             }
         }
     }

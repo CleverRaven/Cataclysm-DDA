@@ -1545,6 +1545,7 @@ class vehicle
         /*
          * Sentinel operations
          */
+        bool sentinel_on;
         bool sentinel_present() const;
         bool need_sentinel() const;
 };

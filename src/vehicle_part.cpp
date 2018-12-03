@@ -48,7 +48,9 @@ vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj, bool
 
 vehicle_part::~vehicle_part()
 {
-    delete sentinel;
+    if( has_sentinel() ) {
+        remove_sentinel();
+    }
 }
 
 vehicle_part::operator bool() const
