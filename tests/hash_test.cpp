@@ -13,7 +13,12 @@
 // Previously tried inserting into an unordered_set,
 // but that was slower than appending to a vector and doing the sort+unique manually.
 // This should be dramatically faster (but approximate) if we insert into a HyperLogLog instead.
+#ifdef _GLIBCXX_DEBUG
+// Smaller test on libstdc++ debug containers because otherwise this takes ~1 minute.
+constexpr int MAX_COORDINATE = 30;
+#else
 constexpr int MAX_COORDINATE = 300;
+#endif
 constexpr int NUM_ENTRIES_2D = ( ( MAX_COORDINATE * 2 ) + 1 ) * ( ( MAX_COORDINATE * 2 ) + 1 );
 constexpr int NUM_ENTRIES_3D = NUM_ENTRIES_2D * ( 21 );
 
