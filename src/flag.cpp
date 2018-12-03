@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <map>
 
-std::map<std::string, json_flag> json_flags_all;
+static std::map<std::string, json_flag> json_flags_all;
 
 const json_flag &json_flag::get( const std::string &id )
 {
