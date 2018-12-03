@@ -3971,7 +3971,7 @@ void vehicle::refresh()
             for( int i : sidewalls ) {
                 vpart_reference vp( *this, i );
                 point sentinel_mount = parts_at_relative( vp.mount() + point( 0, 1 ),
-                                       false ).empty() ? vp.mount() + point( 0, 1 ) : vp.mount() + point( 1, 0 ) ;
+                                       false ).empty() ? vp.mount() + point( 0, 1 ) : vp.mount() + point( 0, -1 ) ;
                 int sIdx = install_part( sentinel_mount, vp.part().set_sentinel( sentinel_mount ) );
                 sentinels.push_back( sIdx );
             }
