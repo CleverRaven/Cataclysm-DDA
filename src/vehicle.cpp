@@ -3898,7 +3898,6 @@ void vehicle::refresh()
                                 static_cast<int>( p ), svpv );
         relative_parts[pt].insert( vii, p );
 
-
         if( vpi.has_flag( VPFLAG_OBSTACLE ) && vpi.has_flag( VPFLAG_OPAQUE ) ) {
             if( !sentinel_present() ) {
                 for( size_t adj = 2; adj < 4; adj++ ) {
@@ -3909,6 +3908,13 @@ void vehicle::refresh()
             } else {
                 if( vp.part().is_sentinel() ) {
                     sentinels.push_back( p );
+                }
+                for( size_t adj = 2; adj < 4; adj++ ) {
+                    std::vector<int> find_sidewall = parts_at_relative( vp.mount() + vehicles::cardinal_d[ adj ],
+                                                     false );
+                    if( ! find_sidewall.empty() ) {
+                        sidewalls.push_back( find_sidewall[0] );
+                    }
                 }
             }
         }
