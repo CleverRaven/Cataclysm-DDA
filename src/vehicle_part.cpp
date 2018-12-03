@@ -481,15 +481,17 @@ vehicle_part *vehicle_part::get_original() const
 }
 vehicle_part &vehicle_part::set_sentinel( point newMount )
 {
+    does_it_have_sentinel = true;
     sentinel = new vehicle_part( id, newMount, std::move( base ), true, this );
     return *sentinel;
 }
 bool vehicle_part::remove_sentinel()
 {
     bool rtn = false;
-    if( sentinel ) {
+    if( has_sentinel() ) {
         delete sentinel;
         rtn = true;
+        does_it_have_sentinel = false;
     }
     return rtn;
 }
