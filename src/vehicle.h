@@ -382,7 +382,7 @@ struct vehicle_part {
          * this part.
          */
         item_group::ItemList pieces_for_broken_part() const;
-        /* 
+        /*
          * Diagonal wall (sentinel) operations
          */
         bool is_sentinel() const;
