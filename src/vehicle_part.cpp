@@ -46,6 +46,10 @@ vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj, bool
     }
 }
 
+vehicle_part::~vehicle_part(){
+    delete sentinel;
+}
+
 vehicle_part::operator bool() const
 {
     return id != vpart_id::NULL_ID();
@@ -468,10 +472,14 @@ vehicle_part *vehicle_part::get_sentinel() const
 {
     return sentinel;
 }
-vehicle_part *vehicle_part::set_sentinel( point newMount )
+vehicle_part *vehicle_part::get_original() const
+{
+    return original;
+}
+vehicle_part& vehicle_part::set_sentinel( point newMount )
 {
     sentinel = new vehicle_part( id, newMount, std::move( base ), true, this );
-    return sentinel;
+    return *sentinel;
 }
 bool vehicle_part::remove_sentinel()
 {

@@ -130,6 +130,7 @@ struct vehicle_part {
 
         vehicle_part( const vpart_id &vp, point dp, item &&it );
         vehicle_part( const vpart_id &vp, point dp, item &&it, bool isSentinel, vehicle_part *original );
+        ~vehicle_part();
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -387,7 +388,8 @@ struct vehicle_part {
         bool is_sentinel() const;
         bool has_sentinel() const;
         vehicle_part *get_sentinel() const;
-        vehicle_part *set_sentinel( point newMount );
+        vehicle_part *get_original() const;
+        vehicle_part &set_sentinel( point newMount );
         bool remove_sentinel();
 };
 

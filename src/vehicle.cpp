@@ -3903,24 +3903,11 @@ void vehicle::refresh()
             for( size_t adj = 2; adj < 4; adj++ ) {
                 if( parts_at_relative( vp.mount() + vehicles::cardinal_d[ adj ], false ).empty() ) {
                     sidewalls.push_back( p );
-                    if( sentinel_present() ) {
-                        if( !need_sentinel() ) {
-                            // first get rid of sentinel from the list
-                            // then remove_sentinel
-                            vp.part().remove_sentinel();
-                        }
-                    } else {
-                        if( need_sentinel() ) {
-                            point sentinel_mount = parts_at_relative( vp.mount() + point(0,1),false).empty() ? vp.mount() + point(0,1) : vp.mount() + point(1,0) ;
-                            vp.part().set_sentinel(sentinel_mount);
-                            // add the sentinel part to the vehicle and get index
-                            int sIdx;
-                            // then push_back the index to sentinels
-                            sentinels.push_back( sIdx );
-                        }
-                    }
                 }
             }
+        }
+        if( vp.part().is_sentinel() ){
+            sentinels.push_back( p );
         }
         if( vp.part().is_unavailable() ) {
             continue;
@@ -3963,6 +3950,31 @@ void vehicle::refresh()
         }
         if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
             extra_drag += vpi.power;
+        }
+    }
+
+    /*
+     * Sentinel
+     * Check if sentinel is needed on the sidewalls and act accordingly
+     */
+    if(sentinels.empty()){
+        if( need_sentinel() ) {
+            for(int i : sidewalls){
+                vpart_reference vp(*this,i);
+                point sentinel_mount = parts_at_relative( vp.mount() + point(0,1),false).empty() ? vp.mount() + point(0,1) : vp.mount() + point(1,0) ;
+                int sIdx = install_part(sentinel_mount,vp.part().set_sentinel(sentinel_mount));
+                sentinels.push_back( sIdx );
+            }
+        }
+    }
+    else{
+        if( !need_sentinel() ) {
+            for(int i : sentinels){
+                vpart_reference vp(*this,i);
+                remove_part(vp.part_index());
+                vehicle_part* ori = vp.part().get_original();
+                ori->remove_sentinel();
+            }
         }
     }
 
