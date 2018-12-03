@@ -137,6 +137,10 @@ void mapgen_field( map *m, oter_id terrain_type, mapgendata dat, const time_poin
                    float density );
 void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                     float density );
+void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
+                      float density );
+void mapgen_railroad_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
+                             float density );
 void mapgen_highway( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                      float density );
 void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
