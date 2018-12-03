@@ -310,7 +310,7 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> position,
                               const bool manual )
 {
     if( is_vehicle && manual ) {
-        popup( "You cannot move a loot zone tied to a vehicle.", PF_NONE );
+        debugmsg( "Tried moving a lootzone bound to a vehicle part" );
         return;
     }
     start = position.first;
