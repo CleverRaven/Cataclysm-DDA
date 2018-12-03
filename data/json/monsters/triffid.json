@@ -201,6 +201,7 @@
     "melee_cut": 8,
     "armor_bash": 12,
     "armor_cut": 8,
+    "harvest": "triffid_queen",
     "special_attacks": [ [ "GROWPLANTS", 2 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]
