@@ -4879,14 +4879,3 @@ bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part
            ( !( part_status_flag::available & required_ ) || vp.is_available() ) &&
            ( !( part_status_flag::enabled & required_ ) || vp.enabled );
 }
-
-sentinel_part::sentinel_part( vehicle_part *org, point p ) : vehicle_part( *org )
-{
-    this->mimic_location = org->mount;
-    this->mount = p;
-}
-sentinel_part::~sentinel_part()
-{
-    vehicle_part &original;
-    original = static_cast< vehicle_part>( *this );
-}
