@@ -929,9 +929,26 @@ void activity_on_turn_move_loot( player_activity &, player &p )
         }
 
         auto items = std::vector<item *>();
-        for( auto &it : g->m.i_at( src_loc ) ) {
-            if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-                items.push_back( &it );
+
+        //Check source for cargo part
+        //map_stack and vehicle_stack are different types
+        //No way to avoid for loop duplication
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
+                false ) ) {
+            src_veh = &vp->vehicle();
+            src_part = vp->part_index();
+            for( auto &it : src_veh->get_items( src_part ) ) {
+                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+                    items.push_back( &it );
+                }
+            }
+        } else {
+            src_veh = nullptr;
+            src_part = -1;
+            for( auto &it : g->m.i_at( src_loc ) ) {
+                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+                    items.push_back( &it );
+                }
             }
         }
 
@@ -942,16 +959,6 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
             if( !mgr.has( id, src ) ) {
-
-                //Check source for cargo part
-                if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
-                        false ) ) {
-                    src_veh = &vp->vehicle();
-                    src_part = vp->part_index();
-                } else {
-                    src_veh = nullptr;
-                    src_part = -1;
-                }
 
                 const auto &dest_set = mgr.get_near( id, abspos );
 

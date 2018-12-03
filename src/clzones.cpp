@@ -307,7 +307,7 @@ bool zone_data::set_type()
 }
 
 void zone_data::set_position( const std::pair<tripoint, tripoint> position,
-                              const bool manual = true )
+                              const bool manual )
 {
     if( is_vehicle && manual ) {
         popup( "You cannot move a loot zone tied to a vehicle.", PF_NONE );
