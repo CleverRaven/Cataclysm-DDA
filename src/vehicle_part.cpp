@@ -473,8 +473,12 @@ vehicle_part* vehicle_part::set_sentinel(point newMount)
 }
 bool vehicle_part::remove_sentinel()
 {
-    delete sentinel;
-    return true;
+    bool rtn = false;
+    if(sentinel){
+        delete sentinel;
+        rtn = true;
+    }
+    return rtn;
 }
 
 void vehicle::set_hp( vehicle_part &pt, int qty )
@@ -492,11 +496,17 @@ void vehicle::set_hp( vehicle_part &pt, int qty )
 
 bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 {
+    bool rtn = false;
     if( pt.info().durability > 0 ) {
-        return pt.base.mod_damage( -( pt.base.max_damage() * qty / pt.info().durability ), dt );
-    } else {
-        return false;
-    }
+        rtn = pt.base.mod_damage( -( pt.base.max_damage() * qty / pt.info().durability ), dt );
+        if(pt.is_sentinel()){
+            pt.original->base.mod_damage( -( pt.original->base.max_damage() * qty / pt.original->info().durability ), dt );
+        }
+        else if(pt.has_sentinel()){
+            pt.sentinel->base.mod_damage( -( pt.sentinel->base.max_damage() * qty / pt.sentinel->info().durability ), dt );
+        }
+    } 
+    return rtn;
 }
 
 bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
