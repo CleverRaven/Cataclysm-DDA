@@ -4848,12 +4848,6 @@ bool vehicle::need_sentinel() const
     int orientation = abs( face.dir() ) % 90;
     return orientation > 29 && orientation < 61 && !sentinel_present();
 }
-void vehicle::add_sentinel()
-{
-}
-void vehicle::remove_sentinel()
-{
-}
 
 template<>
 bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) const

@@ -1547,8 +1547,6 @@ class vehicle
          */
         bool sentinel_present() const;
         bool need_sentinel() const;
-        void add_sentinel();
-        void remove_sentinel();
 };
 
 #endif
