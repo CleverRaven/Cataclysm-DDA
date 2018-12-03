@@ -3,6 +3,7 @@
 #include "assign.h"
 #include "debug.h"
 #include "item.h"
+#include "item_group.h"
 #include "output.h"
 
 #include <algorithm>
@@ -123,10 +124,10 @@ void harvest_list::check_consistency()
         const auto &hl = pr.second;
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
         []( const harvest_entry & entry ) {
-            return item::type_is_defined( entry.drop ) ? "" : entry.drop;
+            return (item::type_is_defined( entry.drop ) || (entry.type == "bionic_group" && item_group::group_is_defined( entry.drop))) ? "" : entry.drop;
         } );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid drop(s): %s", hl.id_.c_str(), errors.c_str() ); //TODO: allow non-items in special case
+            debugmsg( "Harvest list %s has invalid drop(s): %s", hl.id_.c_str(), errors.c_str() );
         }
     }
 }
