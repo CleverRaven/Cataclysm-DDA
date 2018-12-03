@@ -584,8 +584,9 @@
         "text": [ 
             "zombies", 
             "Z", 
+            "Z's",
             "dead", 
-            "<swear> zombies", 
+            "<swear> <zombies>", 
             "living dead" 
         ]
     },{
