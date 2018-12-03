@@ -381,8 +381,9 @@ struct vehicle_part {
          * this part.
          */
         item_group::ItemList pieces_for_broken_part() const;
-
-        /** Is this a sentinel part spawned due to vehicle being diagonal **/
+        /* 
+         * Diagonal wall (sentinel) operations
+         */
         bool is_sentinel() const;
         bool has_sentinel() const;
         vehicle_part *get_sentinel() const;
