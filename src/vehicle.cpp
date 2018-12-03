@@ -3914,8 +3914,9 @@ void vehicle::refresh()
                             point sentinel_mount = parts_at_relative( vp.mount() + point(0,1),false).empty() ? vp.mount() + point(0,1) : vp.mount() + point(1,0) ;
                             vp.part().set_sentinel(sentinel_mount);
                             // add the sentinel part to the vehicle and get index
+                            int sIdx;
                             // then push_back the index to sentinels
-                            sentinels.push_back( /*index of newly created sentinel*/);
+                            sentinels.push_back( sIdx );
                         }
                     }
                 }
