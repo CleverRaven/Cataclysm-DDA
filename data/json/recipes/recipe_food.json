@@ -84,7 +84,7 @@
     "copy-from": "meat_cooked",
     "time": 750,
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ ["meat_scrap", 1 ] ] ]
+    "components": [ [ [ "meat_scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
