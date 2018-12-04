@@ -658,7 +658,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             monster_weight_remaining -= monster_weight * 3 / 4;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
-            if( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) &&
+            if( ( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
                 !corpse_item->has_flag( "QUARTERED" ) ) {
                 monster_weight_remaining -= monster_weight / 4;
             } else if( corpse_item->has_flag( "QUARTERED" ) ) {
