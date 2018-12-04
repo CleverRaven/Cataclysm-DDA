@@ -9783,6 +9783,8 @@ bool game::unload( item &it )
         target->contents.erase( std::remove_if( target->contents.begin(),
         target->contents.end(), [&]( item & e ) {
             int mv = u.item_reload_cost( *target, e, e.charges ) / 2;
+            // Capped reload time to avoid stun lock when unloading too many rounds.
+            mv = std::min( mv, 500 );
             if( !add_or_drop_with_msg( u, e, true ) ) {
                 return false;
             }
