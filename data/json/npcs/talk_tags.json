@@ -539,6 +539,30 @@
         ]
     },{
         "type": "snippet",
+        "category": "<BGSS_intro_question>",
+        "text": [
+            "Tell me about how you survived the cataclysm.",
+            "How did you survive the cataclysm?",
+            "What was the cataclysm like for you?"
+        ]
+    },{
+        "type": "snippet",
+        "category": "<done_conversation_section>",
+        "text": [ 
+            "Let's talk about something else.", 
+            "Let's change the subject.", 
+            "I'd like to ask you about something else." 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<end_talking>",
+        "text": [ 
+            "We should probably get going.", 
+            "We'd better get moving.", 
+            "Let's head out." 
+        ]
+    },{
+        "type": "snippet",
         "category": "<shitty>",
         "text": [
             "shitty",
