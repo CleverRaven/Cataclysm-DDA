@@ -687,3 +687,25 @@ TEST_CASE( "Inventory letter test", "[invlet]" )
                                       WIELDED_OR_WORN );
     merge_invlet_test_autoletter_off( "Merging worn item into an inventory stack", dummy, WORN );
 }
+
+TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
+{
+    invlet_favorites fav;
+    fav.set( 'a', "a" );
+    CHECK( fav.invlets_for( "a" ) == "a" );
+    CHECK( fav.invlets_for( "b" ) == "" );
+    fav.set( 'a', "b" );
+    CHECK( fav.invlets_for( "a" ) == "" );
+    CHECK( fav.invlets_for( "b" ) == "a" );
+}
+
+TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[invlet]" )
+{
+    invlet_favorites fav;
+    fav.set( 'a', "a" );
+    fav.set( 'b', "a" );
+    fav.set( 'c', "a" );
+    CHECK( fav.invlets_for( "a" ) == "abc" );
+    fav.set( 'b', "a" );
+    CHECK( fav.invlets_for( "a" ) == "abc" );
+}
