@@ -513,7 +513,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
         int roll = 0;
-        // mass_ratio is not strictly required, and if it is not there, it allows for more precisely define amounts of items butchered
+        // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( round( entry.mass_ratio * monster_weight ) );
         } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
