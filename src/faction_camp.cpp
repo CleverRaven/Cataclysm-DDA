@@ -1248,8 +1248,8 @@ void talk_function::start_cut_logs( npc &p )
             work_time = travel_time + chop_time;
             comp->companion_mission_time_ret = calendar::turn + work_time;
             //If we cleared a forest...
-            tree_est = om_cutdown_trees( forest, .50, false, false );
-            if( tree_est < 20 ) {
+            tree_est = om_cutdown_trees( forest, 1, false, false );
+            if( tree_est < 5 ) {
                 oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
                 if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
@@ -1771,7 +1771,7 @@ bool talk_function::camp_gathering_return( npc &p, const std::string &task,
     int favor = 2;
     int threat = 10;
     std::string skill_group = "gathering";
-    int skill = comp->get_skill_level( skill_survival );
+    int skill = 2 * comp->get_skill_level( skill_survival ) + comp->per_cur;
     int checks_per_cycle = 6;
     if( task == "_faction_camp_foraging" ) {
         task_description = _( "foraging for edible plants" );
