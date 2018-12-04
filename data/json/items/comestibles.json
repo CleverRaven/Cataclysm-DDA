@@ -10728,7 +10728,7 @@
     "description": "Eugh.",
     "material": [ "flesh" ],
     "spoils_in": "8 hours",
-    "vitamins": [ ],
+    "vitamins": [  ],
     "rot_spawn": "GROUP_CARRION",
     "rot_spawn_chance": 1
   }
