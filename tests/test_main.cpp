@@ -239,6 +239,8 @@ int main( int argc, const char *argv[] )
 
     test_mode = true;
 
+    setupDebug( DebugOutput::std_err );
+
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite );
