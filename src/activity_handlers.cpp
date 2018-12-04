@@ -483,6 +483,11 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 
+harvest_list butchery_flags_deprecate( const mtype &mt )
+{
+    return harvest_list::all().find( harvest_id( "mammal_large_fur" ) )->second;
+}
+
 void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
                              const std::function<int()> &roll_butchery, butcher_type action,
                              const std::function<double()> &roll_drops )
@@ -496,7 +501,14 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
-    for( const auto &entry : *mt.harvest ) {
+
+    harvest_list harvest_iterator = *mt.harvest;
+    if( harvest_iterator.is_null() ) {
+        debugmsg( "Error: %s has no harvest entry.", corpse_item->type_name( 1 ) );
+        harvest_iterator = butchery_flags_deprecate( mt );
+    }
+
+    for( const auto &entry : harvest_iterator ) {
         int butchery = roll_butchery();
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
@@ -788,11 +800,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
     };
     // all action types - yields
-    if( corpse->harvest.is_null() ) {
-        debugmsg( "Error: %s has no harvest entry.", corpse_item.type_name( 1 ) );
-    }
     butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
-
 
     // reveal hidden items / hidden content
     if( action != F_DRESS ) {
