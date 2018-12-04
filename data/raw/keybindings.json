@@ -534,13 +534,6 @@
   },
   {
     "type": "keybinding",
-    "id": "CENTER",
-    "category": "OVERMAP",
-    "name": "Center On Character",
-    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "LEVEL_UP",
     "name": "Go Up",
     "bindings": [ { "input_method": "keyboard", "key": "<" } ]
@@ -898,6 +891,12 @@
     "id": "TOGGLE_SNAP_TO_TARGET",
     "name": "Toggle Snap to Target",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CENTER",
+    "name": "Center On Character",
+    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
   },
   {
     "type": "keybinding",

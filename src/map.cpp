@@ -7306,10 +7306,9 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // In future, scale effective obstacle density by the thickness of the obstacle.
     // Also consider modelling partial obstacles.
     // TODO: Support z-levels.
-    const int sz = start.z + OVERMAP_DEPTH;
     for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
         for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, sz );
+            auto const cur_submap = get_submap_at_grid( smx, smy, start.z );
 
             // TODO: Init indices to prevent iterating over unused submap sections.
             for( int sx = 0; sx < SEEX; ++sx ) {
@@ -7339,7 +7338,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
             int px = v.x + vp.part().precalc[0].x;
             int py = v.y + vp.part().precalc[0].y;
-            if( v.z != sz ) {
+            if( v.z != start.z ) {
                 break;
             }
             if( px < start.x || py < start.y || v.z < start.z ||
@@ -7356,8 +7355,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // Iterate over creatures and set them to block their squares relative to their size.
     for( Creature &critter : g->all_creatures() ) {
         const tripoint &loc = critter.pos();
-        int z = loc.z + OVERMAP_DEPTH;
-        if( z != sz ) {
+        if( loc.z != start.z ) {
             continue;
         }
         // TODO: scale this with expected creature "thickness".

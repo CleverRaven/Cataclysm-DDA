@@ -62,7 +62,7 @@ basecamp::basecamp( std::string const &name_, const tripoint &pos_ ): name( name
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_, const tripoint &pos_,
                     std::vector<tripoint> sort_points_,
                     std::vector<std::string> directions_,
-                    std::map<const std::string, expansion_data> expansions_ ):
+                    std::map<std::string, expansion_data> expansions_ ):
     sort_points( sort_points_ ), directions( directions_ ), name( name_ ),
     pos( pos_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {

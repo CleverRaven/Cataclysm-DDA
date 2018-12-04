@@ -7248,6 +7248,7 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
         ctxt.register_action( "LIST_ITEMS" );
     }
     ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "CENTER" );
 
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "CONFIRM" );
@@ -7374,6 +7375,9 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
             draw_sidebar();
+        } else if( action == "CENTER" ) {
+            center = start_point;
+            lp = start_point;
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
             // Maximum mouse events before a forced graphics update
