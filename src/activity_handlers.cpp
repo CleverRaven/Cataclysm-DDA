@@ -517,6 +517,8 @@ harvest_list butchery_flags_deprecate( const mtype &mt )
             } else {
                 harvest_id_name = "mammal_tiny";
             }
+        } else if( mt.has_flag( MF_HUMAN ) ) {
+            harvest_id_name = "human";
         } else if( mt.size >= MS_SMALL && mt.size <= MS_MEDIUM ) {
             if( mt.has_flag( MF_LEATHER ) ) {
                 harvest_id_name = "mammal_leather";
@@ -528,8 +530,8 @@ harvest_list butchery_flags_deprecate( const mtype &mt )
                 harvest_id_name = "bird_small";
             } else if( mt.has_flag( MF_AQUATIC ) ) {
                 harvest_id_name = "fish_large";
-            } else if( mt.has_flag( MF_CHITIN ) && mt.has_flag( MF_ARTHROPOD_BLOOD ) ) {
-                harvest_id_name = "shellfish";
+            } else if( mt.has_flag( MF_CHITIN ) ) {
+                harvest_id_name = "arachnid";
             } else if( mt.has_flag( MF_BONES ) ) {
                 harvest_id_name = "animal_noskin";
             } else {
@@ -546,8 +548,8 @@ harvest_list butchery_flags_deprecate( const mtype &mt )
                 harvest_id_name = "bird_large";
             } else if( mt.has_flag( MF_AQUATIC ) ) {
                 harvest_id_name = "fish_large";
-            } else if( mt.has_flag( MF_CHITIN ) && mt.has_flag( MF_ARTHROPOD_BLOOD ) ) {
-                harvest_id_name = "shellfish";
+            } else if( mt.has_flag( MF_CHITIN ) ) {
+                harvest_id_name = "arachnid";
             } else if( mt.has_flag( MF_BONES ) ) {
                 harvest_id_name = "animal_large_noskin";
             } else {
