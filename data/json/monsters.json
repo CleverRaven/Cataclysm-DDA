@@ -2958,7 +2958,6 @@
       "GROUP_BASH",
       "POISON",
       "BLEED",
-      "CBM_OP",
       "ACIDPROOF",
       "NO_BREATHE",
       "REVIVES",
@@ -3204,7 +3203,6 @@
       "GROUP_BASH",
       "POISON",
       "ELECTRIC",
-      "CBM_SUBS",
       "NO_BREATHE",
       "REVIVES",
       "FILTHY"
@@ -3244,7 +3242,6 @@
       "WARM",
       "POISON",
       "ELECTRIC",
-      "CBM_SUBS",
       "NO_BREATHE",
       "REVIVES",
       "ELECTRIC_FIELD",
@@ -3504,7 +3501,6 @@
       "GROUP_BASH",
       "POISON",
       "ELECTRIC",
-      "CBM_CIV",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -4357,7 +4353,6 @@
       "BASHES",
       "POISON",
       "BLEED",
-      "CBM_SCI",
       "ACIDPROOF",
       "NO_BREATHE",
       "REVIVES",
@@ -4824,7 +4819,7 @@
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CBM_TECH", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_tough",
