@@ -923,6 +923,33 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &loca
     return result;
 }
 
+std::vector<city_reference> overmapbuffer::get_railroad_stations_near( const tripoint &location,
+        int radius )
+{
+    std::vector<city_reference> result;
+
+    for( const auto om : get_overmaps_near( location, radius ) ) {
+        const auto abs_pos_om = om_to_sm_copy( om->pos() );
+        result.reserve( result.size() + om->railroad_stations.size() );
+        std::transform( om->railroad_stations.begin(), om->railroad_stations.end(),
+                        std::back_inserter( result ),
+        [&]( city & element ) {
+            const auto rel_pos_railroad_station = omt_to_sm_copy( element.x, element.y );
+            const auto abs_pos_railroad_station = tripoint( rel_pos_railroad_station + abs_pos_om, 0 );
+            const auto distance = rl_dist( abs_pos_railroad_station, location );
+
+            return city_reference{ &element, abs_pos_railroad_station, distance };
+        } );
+    }
+
+    std::sort( result.begin(), result.end(), []( const city_reference & lhs,
+    const city_reference & rhs ) {
+        return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
+    } );
+
+    return result;
+}
+
 city_reference overmapbuffer::closest_city( const tripoint &center )
 {
     const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );

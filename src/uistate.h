@@ -57,6 +57,7 @@ class uistatedata
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
         bool overmap_show_city_labels = true;
+        bool overmap_show_railroad_labels = true;
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
 
@@ -141,6 +142,7 @@ class uistatedata
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
             json.member( "overmap_show_city_labels", overmap_show_city_labels );
+            json.member( "overmap_show_railroad_labels", overmap_show_railroad_labels );
             json.member( "overmap_show_hordes", overmap_show_hordes );
             json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
             json.member( "vmenu_show_items", vmenu_show_items );
@@ -232,6 +234,7 @@ class uistatedata
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_city_labels", overmap_show_city_labels );
+            jo.read( "overmap_show_railroad_labels", overmap_show_railroad_labels );
             jo.read( "overmap_show_hordes", overmap_show_hordes );
             jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
             jo.read( "hidden_recipes", hidden_recipes );

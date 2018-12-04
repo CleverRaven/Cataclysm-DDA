@@ -347,6 +347,11 @@ class overmapbuffer
          */
         std::vector<city_reference> get_cities_near( const tripoint &location, int radius );
         /**
+         * Find all railroad stations within the specified @ref radius.
+         * Result is sorted by proximity to @ref location in ascending order.
+         */
+        std::vector<city_reference> get_railroad_stations_near( const tripoint &location, int radius );
+        /**
          * Find the closest city. If no city is close, returns an object with city set to nullptr.
          * @param center The center of the search, the distance for determining the closest city is
          * calculated as distance to this point. In global submap coordinates!

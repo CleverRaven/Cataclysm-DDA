@@ -707,6 +707,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_RAILROAD_LABELS",
+    "category": "OVERMAP",
+    "name": "Toggle Railroad Labels",
+    "bindings": [ { "input_method": "keyboard", "key": "R" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_HORDES",
     "category": "OVERMAP",
     "name": "Toggle Hordes",
