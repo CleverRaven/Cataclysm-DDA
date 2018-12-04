@@ -482,10 +482,81 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
 
     return time_to_cut;
 }
-
+// The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
 harvest_list butchery_flags_deprecate( const mtype &mt )
 {
-    return harvest_list::all().find( harvest_id( "mammal_large_fur" ) )->second;
+    std::string harvest_id_name = "null";
+    if( mt.has_flag( MF_POISON ) ) { // POISON tag means tainted meat
+        if( mt.made_of( material_id( "veggy" ) ) ) {
+            harvest_id_name = "fungaloid";
+        } else if( mt.has_flag( MF_CHITIN ) ) { // only arachnids drop chitin
+            harvest_id_name = "arachnid_tainted";
+            // acid ants have ACIDPROOF and do not have the CHITIN flag
+        } else if( mt.has_flag( MF_ACIDPROOF ) ) {
+            harvest_id_name = "arachnid_acid";
+        } else if( mt.has_flag( MF_LEATHER ) ) {
+            harvest_id_name = "zombie_leather";
+        } else if( mt.has_flag( MF_FUR ) ) {
+            harvest_id_name = "zombie_fur";
+        } else if( mt.has_flag( MF_BONES ) ) {
+            harvest_id_name = "zombie";
+        } else {
+            harvest_id_name = "zombie_meatslug";
+        }
+    } else { // drops regular edible meat
+        if( mt.made_of( material_id( "veggy" ) ) ) {
+            harvest_id_name = "triffid_small";
+        } else if( mt.size == MS_TINY ) {
+            if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_tiny";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_small";
+                // crayfish and razorclaws etc have chitin and arthropod blood. ants do not have arthropod blood.
+            } else if( mt.has_flag( MF_CHITIN ) && mt.has_flag( MF_ARTHROPOD_BLOOD ) ) {
+                harvest_id_name = "shellfish";
+            } else {
+                harvest_id_name = "mammal_tiny";
+            }
+        } else if( mt.size >= MS_SMALL && mt.size <= MS_MEDIUM ) {
+            if( mt.has_flag( MF_LEATHER ) ) {
+                harvest_id_name = "mammal_leather";
+            } else if( mt.has_flag( MF_FUR ) ) {
+                harvest_id_name = "mammal_fur";
+            } else if( mt.has_flag( MF_WOOL ) ) {
+                harvest_id_name = "mammal_wool";
+            } else if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_small";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_large";
+            } else if( mt.has_flag( MF_CHITIN ) && mt.has_flag( MF_ARTHROPOD_BLOOD ) ) {
+                harvest_id_name = "shellfish";
+            } else if( mt.has_flag( MF_BONES ) ) {
+                harvest_id_name = "animal_noskin";
+            } else {
+                harvest_id_name = "meatslug";
+            }
+        } else if( mt.size >= MS_LARGE ) {
+            if( mt.has_flag( MF_LEATHER ) ) {
+                harvest_id_name = "mammal_large_leather";
+            } else if( mt.has_flag( MF_FUR ) ) {
+                harvest_id_name = "mammal_large_fur";
+            } else if( mt.has_flag( MF_WOOL ) ) {
+                harvest_id_name = "mammal_large_wool";
+            } else if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_large";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_large";
+            } else if( mt.has_flag( MF_CHITIN ) && mt.has_flag( MF_ARTHROPOD_BLOOD ) ) {
+                harvest_id_name = "shellfish";
+            } else if( mt.has_flag( MF_BONES ) ) {
+                harvest_id_name = "animal_large_noskin";
+            } else {
+                harvest_id_name = "meatslug";
+            }
+        }
+    }
+
+    return harvest_list::all().find( harvest_id( harvest_id_name ) )->second;
 }
 
 void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
