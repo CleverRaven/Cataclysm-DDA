@@ -721,6 +721,12 @@ void debug_write_backtrace( std::ostream &out )
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
+    // If debugging has not been initialized then stop
+    // (we could instead use std::cerr in this case?)
+    if( !debugFile.file ) {
+        return nullStream;
+    }
+
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
