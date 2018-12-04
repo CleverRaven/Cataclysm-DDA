@@ -476,7 +476,8 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
 }
 
 void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
-                             const std::function<int()> &roll_butchery, butcher_type action )
+                             const std::function<int()> &roll_butchery, butcher_type action,
+                             const std::function<double()> &roll_drops )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
     int monster_weight = to_gram( mt.weight );
@@ -598,6 +599,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( action != DISSECT && entry.type != "bionic_group" ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
+                // apply skill before converting to items, but only if mass_ratio is defined
+                roll *= roll_drops();
                 monster_weight_remaining -= roll;
                 roll = ceil( roll / to_gram( ( item::find_type( entry.drop ) )->weight ) );
             } else {
@@ -765,12 +768,16 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-
+    // function just for drop yields
+    auto roll_drops = [&]() {
+        factor < -50 ? factor = -50 : factor;
+        return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
+    };
     // all action types - yields
     if( corpse->harvest.is_null() ) {
         debugmsg( "Error: %s has no harvest entry.", corpse_item.type_name( 1 ) );
     }
-    butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action );
+    butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
 
 
     // reveal hidden items / hidden content
