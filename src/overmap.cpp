@@ -183,10 +183,11 @@ bool overmap_special_id::is_valid() const
     return specials.is_valid( *this );
 }
 
-city::city( int const X, int const Y, int const S )
+city::city( int const X, int const Y, int const S, om_direction::type const R )
     : x( X )
     , y( Y )
     , s( S )
+    , r( R )
     , name( Name::get( nameIsTownName ) )
 {
 }
@@ -350,6 +351,16 @@ void overmap_specials::reset()
 const std::vector<overmap_special> &overmap_specials::get_all()
 {
     return specials.get_all();
+}
+
+const overmap_special overmap_specials::get_specific( const std::string &id )
+{
+    for( const auto &elem : specials.get_all() ) {
+        if( elem.id.str() == id ) {
+            return elem;
+        }
+    }
+    return overmap_special();
 }
 
 overmap_special_batch overmap_specials::get_default_batch( const point &origin )
@@ -1143,6 +1154,11 @@ void overmap::generate( const overmap *north, const overmap *east,
                 roads_out.push_back( city( i.x, 0, 0 ) );
             }
         }
+        for( auto &i : north->railroads_out ) {
+            if( i.y == OMAPY - 1 ) {
+                railroads_out.push_back( city( i.x, 0, 0 ) );
+            }
+        }
     }
     size_t rivers_from_north = river_start.size();
     if( west != nullptr ) {
@@ -1162,6 +1178,11 @@ void overmap::generate( const overmap *north, const overmap *east,
         for( auto &i : west->roads_out ) {
             if( i.x == OMAPX - 1 ) {
                 roads_out.push_back( city( 0, i.y, 0 ) );
+            }
+        }
+        for( auto &i : west->railroads_out ) {
+            if( i.x == OMAPX - 1 ) {
+                railroads_out.push_back( city( 0, i.y, 0 ) );
             }
         }
     }
@@ -1184,6 +1205,11 @@ void overmap::generate( const overmap *north, const overmap *east,
                 roads_out.push_back( city( i.x, OMAPY - 1, 0 ) );
             }
         }
+        for( auto &i : south->railroads_out ) {
+            if( i.y == 0 ) {
+                railroads_out.push_back( city( i.x, OMAPY - 1, 0 ) );
+            }
+        }
     }
     size_t rivers_to_south = river_end.size();
     if( east != nullptr ) {
@@ -1203,6 +1229,11 @@ void overmap::generate( const overmap *north, const overmap *east,
         for( auto &i : east->roads_out ) {
             if( i.x == 0 ) {
                 roads_out.push_back( city( OMAPX - 1, i.y, 0 ) );
+            }
+        }
+        for( auto &i : east->railroads_out ) {
+            if( i.x == 0 ) {
+                railroads_out.push_back( city( OMAPX - 1, i.y, 0 ) );
             }
         }
     }
@@ -1267,9 +1298,10 @@ void overmap::generate( const overmap *north, const overmap *east,
         }
     }
 
-    // Cities and forests come next.
+    // Cities, railroad stations and forests come next.
     // These are agnostic of adjacent maps, so it's very simple.
     place_cities();
+    place_railroad_stations();
     place_forest();
 
     place_forest_trails();
@@ -1314,6 +1346,45 @@ void overmap::generate( const overmap *north, const overmap *east,
         }
     }
 
+    if( railroads_out.size() < 2 ) {
+        std::vector<city> viable_railroads;
+        int tmp;
+        // Populate viable_railroads with one point for each neighborless side.
+        // Make sure these points don't conflict with rivers.
+        // TODO: In theory this is a potential infinte loop...
+        if( north == NULL ) {
+            do {
+                tmp = rng( 10, OMAPX - 11 );
+            } while( is_river( ter( tmp, 0, 0 ) ) || is_river( ter( tmp - 1, 0, 0 ) ) ||
+                     is_river( ter( tmp + 1, 0, 0 ) ) );
+            viable_railroads.push_back( city( tmp, 0, 0 ) );
+        }
+        if( east == NULL ) {
+            do {
+                tmp = rng( 10, OMAPY - 11 );
+            } while( is_river( ter( OMAPX - 1, tmp, 0 ) ) || is_river( ter( OMAPX - 1, tmp - 1, 0 ) ) ||
+                     is_river( ter( OMAPX - 1, tmp + 1, 0 ) ) );
+            viable_railroads.push_back( city( OMAPX - 1, tmp, 0 ) );
+        }
+        if( south == NULL ) {
+            do {
+                tmp = rng( 10, OMAPX - 11 );
+            } while( is_river( ter( tmp, OMAPY - 1, 0 ) ) || is_river( ter( tmp - 1, OMAPY - 1, 0 ) ) ||
+                     is_river( ter( tmp + 1, OMAPY - 1, 0 ) ) );
+            viable_railroads.push_back( city( tmp, OMAPY - 1, 0 ) );
+        }
+        if( west == NULL ) {
+            do {
+                tmp = rng( 10, OMAPY - 11 );
+            } while( is_river( ter( 0, tmp, 0 ) ) || is_river( ter( 0, tmp - 1, 0 ) ) ||
+                     is_river( ter( 0, tmp + 1, 0 ) ) );
+            viable_railroads.push_back( city( 0, tmp, 0 ) );
+        }
+        while( railroads_out.size() < 2 && !viable_railroads.empty() ) {
+            railroads_out.push_back( random_entry_removed( viable_railroads ) );
+        }
+    }
+
     std::vector<point> road_points; // cities and roads_out together
     // Compile our master list of roads; it's less messy if roads_out is first
     road_points.reserve( roads_out.size() + cities.size() );
@@ -1323,10 +1394,25 @@ void overmap::generate( const overmap *north, const overmap *east,
     for( const auto &elem : cities ) {
         road_points.emplace_back( elem.x, elem.y );
     }
-
     // And finally connect them via roads.
     const string_id<overmap_connection> local_road( "local_road" );
     connect_closest_points( road_points, 0, *local_road );
+
+    std::vector<point> railroad_points; // railroad_stations and railroads_out together
+    // Compile our master list of railroads; it's less messy if railroads_out is first
+    railroad_points.reserve( railroads_out.size() + railroad_stations.size() * 2 );
+    for( const auto &elem : railroads_out ) {
+        railroad_points.emplace_back( elem.x, elem.y );
+    }
+    for( const auto &elem : railroad_stations ) {
+        //om_direction::type rotation = om_direction::type::none;
+        om_direction::type rotation = elem.r;
+        railroad_points.emplace_back( om_direction::rotate( point( elem.x, elem.y - 2 ), rotation ) );
+        railroad_points.emplace_back( om_direction::rotate( point( elem.x, elem.y + 5 ), rotation ) );
+    }
+    // And finally connect them via railroads.
+    const string_id<overmap_connection> local_railroad( "local_railroad" );
+    connect_closest_points( railroad_points, 0, *local_railroad );
 
     place_specials( enabled_specials );
 
@@ -2331,6 +2417,38 @@ void overmap::place_cities()
     }
 }
 
+void overmap::place_railroad_stations()
+{
+    const size_t num_stations = settings.railroad_spec.num_stations;
+    const int min_border_distance = settings.railroad_spec.min_border_distance;
+    DebugLog( D_ERROR, D_GAME ) << " Running `place_railroad_stations` with [num_stations] = [" <<
+                                num_stations << "].";
+
+    while( railroad_stations.size() <= num_stations ) {
+
+        // TODO put railroad_stations closer to the edge when they can span overmaps
+        // don't draw railroad_stations across the edge of the map, they will get clipped
+        int cx = rng( min_border_distance - 1, OMAPX - min_border_distance );
+        int cy = rng( min_border_distance - 1, OMAPY - min_border_distance );
+
+        const tripoint p = tripoint( cx, cy, 0 );
+        const city &nearest_city = get_nearest_city( p );
+        const std::string station_id = settings.railroad_spec.pick_station().c_str();
+        overmap_special railroad_station_special = overmap_specials::get_specific( station_id );
+        const auto rotation = random_special_rotation( railroad_station_special, p );
+        if( rotation == om_direction::type::invalid ) {
+            continue;
+        }
+        place_special( railroad_station_special, p, rotation, nearest_city );
+
+        city station( cx, cy, 1, rotation );
+        railroad_stations.push_back( station );
+
+        DebugLog( D_ERROR, D_GAME ) << " Near city [" << nearest_city.name << "] at [" << nearest_city.x <<
+                                    "," << nearest_city.y << "] placing [" << station_id << "] named [" <<
+                                    station.name << "] at [" << station.x << "," << station.y << "].";
+    }
+}
 overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
 {
     if( rng( 0, 99 ) > settings.city_spec.shop_radius * town_dist ) {
@@ -3276,17 +3394,28 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
 void overmap::place_special( const overmap_special &special, const tripoint &p,
                              om_direction::type dir, const city &cit )
 {
+
+    DebugLog( D_ERROR, D_GAME ) << " Near city [" << cit.name << "] at [" << cit.x << "," << cit.y <<
+                                "] placing overmap special [" << special.id.c_str() << "] at [" << p.x << "," << p.y << "].";
+
     assert( p != invalid_tripoint );
+    DebugLog( D_ERROR, D_GAME ) << "tripoint is valid";
     assert( dir != om_direction::type::invalid );
+    DebugLog( D_ERROR, D_GAME ) << "direction is valid";
     assert( can_place_special( special, p, dir ) );
+    DebugLog( D_ERROR, D_GAME ) << "can_place_special is true";
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
+
+    DebugLog( D_ERROR, D_GAME ) << "special.terrains.size()=" << special.terrains.size();
 
     for( const auto &elem : special.terrains ) {
         const tripoint location = p + om_direction::rotate( elem.p, dir );
         const oter_id tid = elem.terrain->get_rotated( dir );
 
         ter( location.x, location.y, location.z ) = tid;
+        DebugLog( D_ERROR, D_GAME ) << "Placed [" << tid.id().c_str() << "] at [" << location.x << "," <<
+                                    location.y << "," << location.z << "].";
 
         if( blob ) {
             for( int x = -2; x <= 2; x++ ) {

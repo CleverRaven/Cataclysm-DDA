@@ -384,6 +384,7 @@ void check_consistency();
 void reset();
 
 const std::vector<overmap_special> &get_all();
+const overmap_special get_specific( const std::string &id );
 
 overmap_special_batch get_default_batch( const point &origin );
 /**
