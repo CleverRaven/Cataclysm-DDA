@@ -29,7 +29,7 @@ bool invlet_wrapper::valid( const long invlet ) const
     return find( static_cast<char>( invlet ) ) != std::string::npos;
 }
 
-invlet_preferences::invlet_preferences( std::unordered_map<itype_id, std::string> map )
+invlet_favorites::invlet_favorites( std::unordered_map<itype_id, std::string> map )
 {
     for( const auto &p : map ) {
         if( p.second.empty() ) {
@@ -48,7 +48,7 @@ invlet_preferences::invlet_preferences( std::unordered_map<itype_id, std::string
     }
 }
 
-void invlet_preferences::set( char invlet, itype_id id )
+void invlet_favorites::set( char invlet, itype_id id )
 {
     if( contains( invlet, id ) ) {
         return;
@@ -59,7 +59,7 @@ void invlet_preferences::set( char invlet, itype_id id )
     invlets_by_id[id].push_back( invlet );
 }
 
-void invlet_preferences::erase( char invlet )
+void invlet_favorites::erase( char invlet )
 {
     uint8_t invlet_u = invlet;
     const std::string &id = ids_by_invlet[invlet_u];
@@ -72,13 +72,13 @@ void invlet_preferences::erase( char invlet )
     ids_by_invlet[invlet_u].clear();
 }
 
-bool invlet_preferences::contains( char invlet, itype_id id ) const
+bool invlet_favorites::contains( char invlet, itype_id id ) const
 {
     uint8_t invlet_u = invlet;
     return ids_by_invlet[invlet_u] == id;
 }
 
-std::string invlet_preferences::invlets_for( itype_id id ) const
+std::string invlet_favorites::invlets_for( itype_id id ) const
 {
     auto map_iterator = invlets_by_id.find( id );
     if( map_iterator == invlets_by_id.end() ) {
@@ -88,7 +88,7 @@ std::string invlet_preferences::invlets_for( itype_id id ) const
 }
 
 const std::unordered_map<itype_id, std::string> &
-invlet_preferences::get_invlets_by_id() const
+invlet_favorites::get_invlets_by_id() const
 {
     return invlets_by_id;
 }

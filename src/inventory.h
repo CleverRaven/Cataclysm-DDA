@@ -53,11 +53,11 @@ const extern invlet_wrapper inv_chars;
 // For each item id, store a set of "favorite" inventory letters.
 // This class maintains a bidirectional mapping between invlet letters and item ids.
 // Each invlet has at most one id and each id has any number of invlets.
-class invlet_preferences
+class invlet_favorites
 {
     public:
-        invlet_preferences() = default;
-        invlet_preferences( std::unordered_map<itype_id, std::string> );
+        invlet_favorites() = default;
+        invlet_favorites( std::unordered_map<itype_id, std::string> );
 
         void set( char invlet, itype_id );
         void erase( char invlet );
@@ -201,7 +201,7 @@ class inventory : public visitable<inventory>
         void copy_invlet_of( const inventory &other );
 
     private:
-        invlet_preferences invlet_cache;
+        invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const std::string &item_type );
 
         invstack items;
