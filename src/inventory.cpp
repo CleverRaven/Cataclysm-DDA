@@ -50,6 +50,9 @@ invlet_preferences::invlet_preferences( std::unordered_map<itype_id, std::string
 
 void invlet_preferences::set( char invlet, itype_id id )
 {
+    if( contains( invlet, id ) ) {
+        return;
+    }
     erase( invlet );
     uint8_t invlet_u = invlet;
     ids_by_invlet[invlet_u] = id;
