@@ -290,6 +290,29 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 }
 ```
 
+## Railroad
+
+### Fields
+
+|       Identifier        |                            Description                             |
+| ----------------------- | ------------------------------------------------------------------ |
+| `num_stations`          | Number of railroad stations per overmap.                           |
+| `min_border_distance`   | Minimum distance from overmap border.                              |
+| `stations`              | Weighted list of overmap terrains and specials used for stations.  |
+
+### Example
+```json
+{
+	"railroad": {
+		"num_stations": 5,
+		"min_border_distance": 10,
+		"stations": {
+			"Railroad Station": 1
+		}
+	}
+}
+```
+
 ## City
 
 The **city** section defines the possible overmap terrains and specials that may be used as

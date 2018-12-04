@@ -519,6 +519,7 @@
     "swamp_maxsize": 4,
     "swamp_river_influence": 5,
     "swamp_spread_chance": 8500,
+    "railroad": { "num_stations": 5, "min_border_distance": 10, "stations": { "Railroad Station": 1 } },
     "city": {
       "type": "town",
       "shop_radius": 80,

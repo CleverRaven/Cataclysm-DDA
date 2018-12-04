@@ -27,7 +27,18 @@ class building_bin
         overmap_special_id pick() const;
         std::vector<std::string> all;
         void clear();
-        void finalize();
+        void finalize( bool check_for_non_zero_coordinates = true );
+};
+
+struct railroad_settings {
+    int num_stations = 5;
+    int min_border_distance = 10;
+    building_bin stations;
+
+    overmap_special_id pick_station() const {
+        return stations.pick()->id;
+    }
+    void finalize();
 };
 
 struct city_settings {
@@ -186,6 +197,7 @@ struct regional_settings {
     int swamp_spread_chance   =
         8500; // SWAMPCHANCE: (one in, every forest*forest size) chance of swamp extending past forest
 
+    railroad_settings railroad_spec;
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;
