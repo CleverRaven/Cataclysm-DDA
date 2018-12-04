@@ -406,8 +406,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
         // Output base camp if any
         if( sm->camp.is_valid() ) {
-            jsout.member( "camp" );
-            jsout.write( sm->camp.save_data() );
+            jsout.member( "camp", sm->camp );
         }
         if( delete_after_save ) {
             submaps_to_delete.push_back( submap_addr );
@@ -680,8 +679,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 new_comp->load_data( computer_data );
                 sm->comp = std::move( new_comp );
             } else if( submap_member_name == "camp" ) {
-                std::string camp_data = jsin.get_string();
-                sm->camp.load_data( camp_data );
+                jsin.read( sm->camp );
             } else {
                 jsin.skip_value();
             }

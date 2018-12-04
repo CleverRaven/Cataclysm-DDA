@@ -194,9 +194,9 @@ struct CataReporter : Catch::ConsoleReporter {
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
         auto r = ConsoleReporter::assertionEnded( assertionStats );
+#ifdef BACKTRACE
         Catch::AssertionResult const &result = assertionStats.assertionResult;
 
-#ifdef BACKTRACE
         if( result.getResultType() == Catch::ResultWas::FatalErrorCondition ) {
             // We are in a signal handler for a fatal error condition, so print a
             // backtrace

@@ -1,7 +1,6 @@
 #if defined BACKTRACE
 
 #include <csignal>
-#include <cstdalign>
 #include <cstdio>
 #include <cstdint>
 #include <exception>
