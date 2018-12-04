@@ -1487,7 +1487,6 @@ bool vehicle::remove_part( int p )
     const bool no_zone = lz_iter != loot_zones.end();
 
     if( no_zone && part_flag( p, "CARGO" ) ) {
-        debugmsg( "cargo zone removed" );
         loot_zones.erase( lz_iter );
         zones_dirty = true;
     }
