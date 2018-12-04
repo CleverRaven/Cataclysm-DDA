@@ -23,7 +23,7 @@
     "price": 500,
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE" ],
-    "calories": 200
+    "calories": 231
   },
   {
     "id": "fish_cooked",
