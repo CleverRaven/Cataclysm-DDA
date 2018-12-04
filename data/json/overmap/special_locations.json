@@ -62,6 +62,16 @@
   },
   {
     "type": "overmap_location",
+    "id": "railroad",
+    "terrains": [ "railroad" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad_level_crossing_allowed",
+    "terrains": [ "hiway_ns", "hiway_ew", "road" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "need_none",
     "terrains": [ "house", "s_gas", "s_pharm", "s_hardware", "s_sports", "s_liquor", "s_gun", "s_library" ]
   },
