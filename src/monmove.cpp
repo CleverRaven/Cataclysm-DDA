@@ -1174,15 +1174,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         g->m.add_field( pos(), fd_acid, 3 );
     }
     
-    // Not all acid trail monsters leave as much acid. Generate trails of three tiles, then pause for ten tiles.
+    // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
     if( has_flag( MF_SHORTACIDTRAIL ) ) {
-        for( int acidlength = 3; acidlength >= -10; acidlength-- ) {
-            if( acidlength >=1 ) {
-                g->m.add_field( pos(), fd_acid, acidlength );
-            } else { if( acidlength == -9 ) {
-                acidlength = 3; // reset loop
-            } }
-        } 
+        if( one_in( 5 ) ) {
+            g->m.add_field( pos(), fd_acid, 3 );
+        }
     }
     
     if( has_flag( MF_SLUDGETRAIL ) ) {
