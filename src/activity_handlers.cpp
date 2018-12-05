@@ -644,7 +644,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.type == "flesh" ) {
                 roll = roll / 4;
             } else if( entry.type == "bone" ) {
-                roll = roll / 2;
+                 roll /= 2;
             } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
