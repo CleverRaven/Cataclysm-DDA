@@ -9757,6 +9757,15 @@
     "flags": [ "RIVER" ]
   },
   {
+    "type": "overmap_terrain",
+    "id": "railroad_level_crossing",
+    "name": "railroad level crossing",
+    "sym": 4194414,
+    "color": "red",
+    "see_cost": 2,
+    "extras": "road"
+  },
+  {
     "abstract": "generic_railroad_station",
     "type": "overmap_terrain",
     "name": "railroad station",
