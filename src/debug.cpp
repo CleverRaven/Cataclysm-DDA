@@ -300,7 +300,7 @@ DebugFile::~DebugFile()
 
 void DebugFile::deinit()
 {
-    if( file ) {
+    if( file && file.get() != &std::cerr ) {
         *file << "\n";
         *file << get_time() << " : Log shutdown.\n";
         *file << "-----------------------------------------\n\n";
