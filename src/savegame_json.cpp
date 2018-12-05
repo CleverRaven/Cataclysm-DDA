@@ -2609,41 +2609,76 @@ void player_morale::load( JsonObject &jsin )
 
 void map_memory::store( JsonOut &jsout ) const
 {
-    jsout.start_object();
-    jsout.member( "map_memory_tiles" );
+    jsout.start_array();
     jsout.start_array();
     for( const auto &elem : tile_cache.list() ) {
-        jsout.start_object();
-        jsout.member( "x", elem.first.x );
-        jsout.member( "y", elem.first.y );
-        jsout.member( "z", elem.first.z );
-        jsout.member( "tile", elem.second.tile );
-        jsout.member( "subtile", elem.second.subtile );
-        jsout.member( "rotation", elem.second.rotation );
-        jsout.end_object();
+        jsout.start_array();
+        jsout.write( elem.first.x );
+        jsout.write( elem.first.y );
+        jsout.write( elem.first.z );
+        jsout.write( elem.second.tile );
+        jsout.write( elem.second.subtile );
+        jsout.write( elem.second.rotation );
+        jsout.end_array();
     }
     jsout.end_array();
 
-    jsout.member( "map_memory_curses" );
     jsout.start_array();
     for( const auto &elem : symbol_cache.list() ) {
-        jsout.start_object();
-        jsout.member( "x", elem.first.x );
-        jsout.member( "y", elem.first.y );
-        jsout.member( "z", elem.first.z );
-        jsout.member( "symbol", elem.second );
-        jsout.end_object();
+        jsout.start_array();
+        jsout.write( elem.first.x );
+        jsout.write( elem.first.y );
+        jsout.write( elem.first.z );
+        jsout.write( elem.second );
+        jsout.end_array();
     }
     jsout.end_array();
-    jsout.end_object();
+    jsout.end_array();
 }
 
 void map_memory::load( JsonIn &jsin )
 {
-    JsonObject jsobj = jsin.get_object();
-    load( jsobj );
+    // Legacy loading of object version.
+    if( jsin.test_object() ) {
+        JsonObject jsobj = jsin.get_object();
+        load( jsobj );
+    } else {
+        // This file is large enough that it's more than called for to minimize the
+        // amount of data written and read and make it a bit less "friendly",
+        // and use the streaming interface.
+        jsin.start_array();
+        tile_cache.clear();
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            tripoint p;
+            p.x = jsin.get_int();
+            p.y = jsin.get_int();
+            p.z = jsin.get_int();
+            const std::string tile = jsin.get_string();
+            const int subtile = jsin.get_int();
+            const int rotation = jsin.get_int();
+            memorize_tile( std::numeric_limits<int>::max(), p,
+                           tile, subtile, rotation );
+            jsin.end_array();
+        }
+        symbol_cache.clear();
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            tripoint p;
+            p.x = jsin.get_int();
+            p.y = jsin.get_int();
+            p.z = jsin.get_int();
+            const long symbol = jsin.get_long();
+            memorize_symbol( std::numeric_limits<int>::max(), p, symbol );
+            jsin.end_array();
+        }
+        jsin.end_array();
+    }
 }
 
+// Deserializer for legacy object-based memory map.
 void map_memory::load( JsonObject &jsin )
 {
     JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
