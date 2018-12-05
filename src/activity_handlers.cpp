@@ -719,7 +719,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 }
             }
 
-            p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+            p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
         }
         practice++;
     }
