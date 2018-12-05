@@ -567,7 +567,7 @@ harvest_list butchery_flags_deprecate( const mtype &mt )
         }
     }
 
-    return harvest_list::all().find( harvest_id( harvest_id_name ) )->second;
+    return harvest_list::all().at( harvest_id( harvest_id_name ) );
 }
 
 void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
