@@ -499,6 +499,8 @@ harvest_list butchery_flags_deprecate( const mtype &mt )
     } else if( mt.has_flag( MF_POISON ) ) { // POISON tag means tainted meat
         if( mt.made_of( material_id( "veggy" ) ) ) {
             harvest_id_name = "fungaloid";
+        } else if( mt.made_of( material_id( "bone" ) ) ) {
+            harvest_id_name = "mr_bones";
         } else if( mt.has_flag( MF_CHITIN ) ) { // only arachnids drop chitin
             harvest_id_name = "arachnid_tainted";
             // acid ants have ACIDPROOF and do not have the CHITIN flag
@@ -587,7 +589,6 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 
     harvest_list harvest_iterator = *mt.harvest;
     if( harvest_iterator.is_null() ) {
-        debugmsg( "Error: %s has no harvest entry.", corpse_item->type_name( 1 ) );
         harvest_iterator = butchery_flags_deprecate( mt );
     }
 
