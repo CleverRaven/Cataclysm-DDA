@@ -2522,5 +2522,30 @@
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
     [ [ "ash", 500 ] ]
   ]
+},
+{
+  "result": "anesthesia_kit",
+  "type": "recipe",
+  "category": "CC_OTHER",
+  "subcategory": "CC_OTHER_MEDICAL",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "skills_required": [ "firstaid", 6 ],
+  "time": 40000,
+  "book_learn":[ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ] ],
+  "qualities": [
+    { "id": "CHEM", "level": 3 },
+    { "id": "BOIL", "level": 2 }
+    ],
+  "tools": [ 
+    [ [ "electrolysis_kit", 50 ] ],
+    [ [ "surface_heat", 50, "LIST" ] ]
+  ],
+  "components":[
+    [ [ "ether", 2700 ] ],
+    [ [ "jar", 2 ] ],
+    [ [ "hose", 1 ] ],
+    [ [ "rag", 3 ] ]
+  ]
 }
 ]
