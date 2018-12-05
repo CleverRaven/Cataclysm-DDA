@@ -570,7 +570,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     int monster_weight = to_gram( mt.weight );
     monster_weight -= monster_weight * rng_float( -0.1, 0.1 );
     if( corpse_item->has_flag( "QUARTERED" ) ) {
-        monster_weight = monster_weight / 4;
+        monster_weight /= 4;
     }
 
     int monster_weight_remaining = monster_weight;
