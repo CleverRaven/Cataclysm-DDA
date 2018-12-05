@@ -145,16 +145,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_small_fur",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_cat",
@@ -184,17 +175,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_tiny",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "ANIMAL",
-      "CATFOOD",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_chipmunk",
@@ -341,17 +322,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "MILKABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_coyote",
@@ -383,17 +354,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_fur",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "BLEED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_coyote_wolf",
@@ -581,17 +542,7 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "7 puppies and 300-320 days per-litter for size medium canines",
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_bull_pup",
@@ -641,17 +592,7 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_pitbullmix_pup",
@@ -750,18 +691,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "GROUP_MORALE",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "SWARMS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "DOGFOOD", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
   },
   {
     "id": "mon_dog_bcollie",
@@ -779,18 +709,7 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [
-      "ANIMAL",
-      "CLIMBS",
-      "DOGFOOD",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "CLIMBS", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_bcollie_pup",
@@ -875,18 +794,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "GROUP_MORALE",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "SWARMS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "DOGFOOD", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
   },
   {
     "id": "mon_dog_chihuahua",
@@ -953,17 +861,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "HARDTOSHOOT",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_dachshund",
@@ -1029,18 +927,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "HARDTOSHOOT",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "STUMBLES",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "STUMBLES", "WARM" ]
   },
   {
     "id": "mon_dog_gshepherd",
@@ -1114,17 +1001,7 @@
     "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_gpyrenees_pup",
@@ -1181,17 +1058,7 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_rottweiler_pup",
@@ -1244,18 +1111,7 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [
-      "ANIMAL",
-      "CLIMBS",
-      "DOGFOOD",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "CLIMBS", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_auscattle_pup",
@@ -1320,17 +1176,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "BLEED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_fox_red",
@@ -1362,17 +1208,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "BLEED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_groundhog",
@@ -1454,16 +1290,7 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "PATH_AVOID_DANGER_1",
-      "WARM"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CATTLEFODDER", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_lemming",
@@ -1519,17 +1346,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "BLEED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_moose",
@@ -1939,17 +1756,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "MILKABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_squirrel",
