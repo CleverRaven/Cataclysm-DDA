@@ -265,7 +265,7 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "flesh" }
+      { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "offal" }
     ],
     "//": "what, you thought jabberwocks only had one heart?"
   },
