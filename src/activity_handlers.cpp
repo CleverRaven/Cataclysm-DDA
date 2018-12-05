@@ -486,7 +486,17 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
 harvest_list butchery_flags_deprecate( const mtype &mt )
 {
     std::string harvest_id_name = "null";
-    if( mt.has_flag( MF_POISON ) ) { // POISON tag means tainted meat
+    if( mt.has_flag( MF_CBM_CIV ) ) {
+        harvest_id_name = "CBM_CIV";
+    } else if( mt.has_flag( MF_CBM_SCI ) ) {
+        harvest_id_name = "CBM_SCI";
+    } else if( mt.has_flag( MF_CBM_TECH ) ) {
+        harvest_id_name = "CBM_TECH";
+    } else if( mt.has_flag( MF_CBM_SUBS ) ) {
+        harvest_id_name = "CBM_SUBS";
+    } else if( mt.has_flag( MF_CBM_OP ) ) {
+        harvest_id_name = "CBM_OP";
+    } else if( mt.has_flag( MF_POISON ) ) { // POISON tag means tainted meat
         if( mt.made_of( material_id( "veggy" ) ) ) {
             harvest_id_name = "fungaloid";
         } else if( mt.has_flag( MF_CHITIN ) ) { // only arachnids drop chitin
