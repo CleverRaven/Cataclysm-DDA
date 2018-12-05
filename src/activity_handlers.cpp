@@ -701,7 +701,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             }
 
             if( roll <= 0 ) {
-                p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
+                p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
                 continue;
             }
 
