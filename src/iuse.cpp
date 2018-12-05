@@ -1760,12 +1760,8 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return 0;
     }
-    const tripoint op = ms_to_omt_copy( g->m.getabs( pnt ) );
-    if( !overmap_buffer.ter( op )->has_flag( river_tile ) ) {
-        p->add_msg_if_player( m_info, _( "That water does not contain any fish.  Try a river instead." ) );
-        return 0;
-    }
-    std::vector<monster *> fishables = g->get_fishable( 60 );
+
+    std::vector<monster *> fishables = g->get_fishable( 60, pnt );
     if( fishables.empty() ) {
         p->add_msg_if_player( m_info,
                               _( "There are no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
@@ -1775,6 +1771,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
 
     p->assign_activity( activity_id( "ACT_FISH" ), 30000, 0, p->get_item_position( it ), it->tname() );
+    p->activity.placement = pnt;
 
     return 0;
 }
@@ -1813,12 +1810,8 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return 0;
         }
-        const tripoint op = ms_to_omt_copy( g->m.getabs( pnt ) );
-        if( !overmap_buffer.ter( op )->has_flag( river_tile ) ) {
-            p->add_msg_if_player( m_info, _( "That water does not contain any fish, try a river instead." ) );
-            return 0;
-        }
-        std::vector<monster *> fishables = g->get_fishable( 60 );
+
+        std::vector<monster *> fishables = g->get_fishable( 60, pnt );
         if( fishables.empty() ) {
             p->add_msg_if_player( m_info,
                                   _( "There is no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
@@ -1845,10 +1838,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             if( !g->m.has_flag( "FISHABLE", pos ) ) {
                 return 0;
             }
-            point op = ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
-            if( !overmap_buffer.ter( op.x, op.y, g->get_levz() )->has_flag( river_tile ) ) {
-                return 0;
-            }
+
             int success = -50;
             const int surv = p->get_skill_level( skill_survival );
             const int attempts = rng( it->charges, it->charges * it->charges );
@@ -1880,7 +1870,8 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 
                 return 0;
             }
-            std::vector<monster *> fishables = g->get_fishable( 60 ); //get the fishables around the trap's spot
+            std::vector<monster *> fishables = g->get_fishable( 60,
+                                               pos ); //get the fishables around the trap's spot
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
                 if( fishables.size() > 1 ) {
