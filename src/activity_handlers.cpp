@@ -568,7 +568,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
     int monster_weight = to_gram( mt.weight );
-    monster_weight -= monster_weight * rng_float( -0.1, 0.1 );
+    monster_weight += round( monster_weight * rng_float( -0.1, 0.1 ) );
     if( corpse_item->has_flag( "QUARTERED" ) ) {
         monster_weight /= 4;
     }
@@ -576,12 +576,12 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
-    harvest_list harvest_iterator = *mt.harvest;
-    if( harvest_iterator.is_null() ) {
-        harvest_iterator = butchery_flags_deprecate( mt );
+    harvest_list harvest = *mt.harvest;
+    if( harvest.is_null() ) {
+        harvest = butchery_flags_deprecate( mt );
     }
 
-    for( const auto &entry : harvest_iterator ) {
+    for( const auto &entry : harvest ) {
         int butchery = roll_butchery();
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
@@ -636,7 +636,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.type == "flesh" ) {
                 roll = roll / 4;
             } else if( entry.type == "bone" ) {
-                 roll /= 2;
+                roll /= 2;
             } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
@@ -863,7 +863,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
     // function just for drop yields
     auto roll_drops = [&]() {
-        factor < -50 ? factor = -50 : factor;
+        factor = std::max( factor, -50 );
         return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
     };
     // all action types - yields
