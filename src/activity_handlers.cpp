@@ -523,9 +523,6 @@ harvest_list butchery_flags_deprecate( const mtype &mt )
                 harvest_id_name = "bird_tiny";
             } else if( mt.has_flag( MF_AQUATIC ) ) {
                 harvest_id_name = "fish_small";
-                // crayfish and razorclaws etc have chitin and arthropod blood. ants do not have arthropod blood.
-            } else if( mt.has_flag( MF_CHITIN ) && mt.has_flag( MF_ARTHROPOD_BLOOD ) ) {
-                harvest_id_name = "shellfish";
             } else {
                 harvest_id_name = "mammal_tiny";
             }
