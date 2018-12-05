@@ -312,7 +312,7 @@ std::string player::get_miss_reason()
         farsightedness );
 
     const std::string *const reason = melee_miss_reasons.pick();
-    if( reason == NULL ) {
+    if( reason == nullptr ) {
         return std::string();
     }
     return *reason;

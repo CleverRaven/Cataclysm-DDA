@@ -5329,22 +5329,20 @@ basecamp *map::camp_at( const tripoint &p, const int radius )
     if( !inbounds( p ) ) {
         return nullptr;
     }
+    const int sx = std::max( 0, p.x - radius );
+    const int sy = std::max( 0, p.y - radius );
+    const int ex = std::min( p.x + radius, SEEX * MAPSIZE - 1 );
+    const int ey = std::min( p.y + radius, SEEY * MAPSIZE - 1 );
 
-    const int sx = std::max( 0, p.x / SEEX - radius );
-    const int sy = std::max( 0, p.y / SEEY - radius );
-    const int ex = std::min( MAPSIZE - 1, p.x / SEEX + radius );
-    const int ey = std::min( MAPSIZE - 1, p.y / SEEY + radius );
-
-    for( int ly = sy; ly < ey; ++ly ) {
-        for( int lx = sx; lx < ex; ++lx ) {
-            submap *const current_submap = get_submap_at( p );
+    for( int ly = sy; ly < ey; ly += SEEY ) {
+        for( int lx = sx; lx < ex; lx += SEEX ) {
+            submap *const current_submap = get_submap_at( tripoint( lx, ly, p.z ) );
             if( current_submap->camp.is_valid() ) {
                 // we only allow on camp per size radius, kinda
                 return &( current_submap->camp );
             }
         }
     }
-
     return nullptr;
 }
 
@@ -5355,7 +5353,7 @@ void map::add_camp( const tripoint &p, const std::string &name )
         return;
     }
 
-    get_submap_at( p )->camp = basecamp( name, p.x, p.y );
+    get_submap_at( p )->camp = basecamp( name, p );
 }
 
 void map::update_visibility_cache( const int zlev )
@@ -5460,20 +5458,22 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
     return true;
 }
 
-void map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                    const tripoint &view_center ) const
+bool map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                    const tripoint &view_center, bool move_cursor ) const
 {
-    if( !g->u.should_show_map_memory() ) {
-        return;
-    }
     long sym = g->u.get_memorized_symbol( getabs( p ) );
     if( sym == 0 ) {
-        return;
+        return false;
     }
-    const int k = p.x + getmaxx( w ) / 2 - view_center.x;
-    const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+    if( move_cursor ) {
+        const int k = p.x + getmaxx( w ) / 2 - view_center.x;
+        const int j = p.y + getmaxy( w ) / 2 - view_center.y;
 
-    mvwputch( w, j, k, c_brown, sym );
+        mvwputch( w, j, k, c_brown, sym );
+    } else {
+        wputch( w, c_brown, sym );
+    }
+    return true;
 }
 
 void map::draw( const catacurses::window &w, const tripoint &center )
@@ -5496,6 +5496,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     p.z = center.z;
     int &x = p.x;
     int &y = p.y;
+    const bool do_map_memory = g->u.should_show_map_memory();
     for( y = center.y - getmaxy( w ) / 2; y <= center.y + getmaxy( w ) / 2; y++ ) {
         if( y - center.y + getmaxy( w ) / 2 >= getmaxy( w ) ) {
             continue;
@@ -5503,22 +5504,26 @@ void map::draw( const catacurses::window &w, const tripoint &center )
 
         wmove( w, y - center.y + getmaxy( w ) / 2, 0 );
 
+        const int maxxrender = center.x - getmaxx( w ) / 2 + getmaxx( w );
+        x = center.x - getmaxx( w ) / 2;
         if( y < 0 || y >= MAPSIZE * SEEY ) {
-            for( int x = 0; x < getmaxx( w ); x++ ) {
-                wputch( w, c_black, ' ' );
+            for( ; x < maxxrender; x++ ) {
+                if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
+                    wputch( w, c_black, ' ' );
+                }
             }
             continue;
         }
 
-        x = center.x - getmaxx( w ) / 2;
         while( x < 0 ) {
-            wputch( w, c_black, ' ' );
+            if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
+                wputch( w, c_black, ' ' );
+            }
             x++;
         }
 
         int lx = 0;
         int ly = 0;
-        const int maxxrender = center.x - getmaxx( w ) / 2 + getmaxx( w );
         const int maxx = std::min( MAPSIZE * SEEX, maxxrender );
         while( x < maxx ) {
             submap *cur_submap = get_submap_at( p, lx, ly );
@@ -5550,7 +5555,9 @@ void map::draw( const catacurses::window &w, const tripoint &center )
         }
 
         while( x < maxxrender ) {
-            wputch( w, c_black, ' ' );
+            if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
+                wputch( w, c_black, ' ' );
+            }
             x++;
         }
     }
@@ -5656,7 +5663,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         const field_id &fid = curr_field.fieldSymbol();
         const field_entry *fe = curr_field.findField( fid );
         const field_t &f = fieldlist[fid];
-        if( f.sym == '&' || fe == NULL ) {
+        if( f.sym == '&' || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
         } else if( f.sym == '*' ) {
             // A random symbol.
@@ -6346,8 +6353,8 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     static const oter_id rock( "empty_rock" );
     static const oter_id air( "open_air" );
 
-    dbg( D_INFO ) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y
-                  << "], gridx["
+    dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
+                  << "], worldy[" << abs_sub.y << "], gridx["
                   << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
 
     const int absx = abs_sub.x + gridx,
@@ -7299,10 +7306,9 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // In future, scale effective obstacle density by the thickness of the obstacle.
     // Also consider modelling partial obstacles.
     // TODO: Support z-levels.
-    const int sz = start.z + OVERMAP_DEPTH;
     for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
         for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, sz );
+            auto const cur_submap = get_submap_at_grid( smx, smy, start.z );
 
             // TODO: Init indices to prevent iterating over unused submap sections.
             for( int sx = 0; sx < SEEX; ++sx ) {
@@ -7332,7 +7338,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
             int px = v.x + vp.part().precalc[0].x;
             int py = v.y + vp.part().precalc[0].y;
-            if( v.z != sz ) {
+            if( v.z != start.z ) {
                 break;
             }
             if( px < start.x || py < start.y || v.z < start.z ||
@@ -7349,8 +7355,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // Iterate over creatures and set them to block their squares relative to their size.
     for( Creature &critter : g->all_creatures() ) {
         const tripoint &loc = critter.pos();
-        int z = loc.z + OVERMAP_DEPTH;
-        if( z != sz ) {
+        if( loc.z != start.z ) {
             continue;
         }
         // TODO: scale this with expected creature "thickness".
@@ -7428,15 +7433,20 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 continue;
             }
 
-            if( vp.is_inside() ) {
-                outside_cache[px][py] = false;
-            }
+            bool vehicle_is_opaque =
+                vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken();
 
-            if( vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken() ) {
+            if( vehicle_is_opaque ) {
                 int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE, true );
                 if( dpart < 0 || !v.v->parts[dpart].open ) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+                } else {
+                    vehicle_is_opaque = false;
                 }
+            }
+
+            if( vehicle_is_opaque || vp.is_inside() ) {
+                outside_cache[px][py] = false;
             }
 
             if( vp.has_feature( VPFLAG_BOARDABLE ) && !vp.part().is_broken() ) {

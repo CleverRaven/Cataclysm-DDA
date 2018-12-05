@@ -398,10 +398,12 @@ static void open()
     player &u = g->u;
     map &m = g->m;
 
-    tripoint openp;
-    if( !choose_adjacent_highlight( _( "Open where?" ), openp, ACTION_OPEN ) ) {
+    const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+                                            ACTION_OPEN );
+    if( !openp_ ) {
         return;
     }
+    const tripoint openp = *openp_;
 
     u.moves -= 100;
 
@@ -460,9 +462,9 @@ static void open()
 
 static void close()
 {
-    tripoint closep;
-    if( choose_adjacent_highlight( _( "Close where?" ), closep, ACTION_CLOSE ) ) {
-        doors::close_door( g->m, g->u, closep );
+    if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
+            ACTION_CLOSE ) ) {
+        doors::close_door( g->m, g->u, *pnt );
     }
 }
 
@@ -497,7 +499,6 @@ static void grab()
     player &u = g->u;
     map &m = g->m;
 
-    tripoint grabp( 0, 0, 0 );
     if( u.get_grab_type() != OBJECT_NONE ) {
         if( const optional_vpart_position vp = m.veh_at( u.pos() + u.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
@@ -509,32 +510,35 @@ static void grab()
         return;
     }
 
-    if( choose_adjacent( _( "Grab where?" ), grabp ) ) {
-        if( grabp == u.pos() ) {
-            add_msg( _( "You get a hold of yourself." ) );
-            u.grab( OBJECT_NONE );
+    const cata::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    if( !grabp_ ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+    const tripoint grabp = *grabp_;
+
+    if( grabp == u.pos() ) {
+        add_msg( _( "You get a hold of yourself." ) );
+        u.grab( OBJECT_NONE );
+        return;
+    }
+
+    if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
+        u.grab( OBJECT_VEHICLE, grabp - u.pos() );
+        add_msg( _( "You grab the %s." ), vp->vehicle().name );
+    } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
+        if( m.furn( grabp ).obj().move_str_req < 0 ) {
+            add_msg( _( "You can not grab the %s" ), m.furnname( grabp ).c_str() );
             return;
         }
-
-        if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
-            u.grab( OBJECT_VEHICLE, grabp - u.pos() );
-            add_msg( _( "You grab the %s." ), vp->vehicle().name );
-        } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-            if( m.furn( grabp ).obj().move_str_req < 0 ) {
-                add_msg( _( "You can not grab the %s" ), m.furnname( grabp ).c_str() );
-                return;
-            }
-            u.grab( OBJECT_FURNITURE, grabp - u.pos() );
-            if( !m.can_move_furniture( grabp, &u ) ) {
-                add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ).c_str() );
-            } else {
-                add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
-            }
-        } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
-            add_msg( m_info, _( "There's nothing to grab there!" ) );
+        u.grab( OBJECT_FURNITURE, grabp - u.pos() );
+        if( !m.can_move_furniture( grabp, &u ) ) {
+            add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ).c_str() );
+        } else {
+            add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
         }
-    } else {
-        add_msg( _( "Never mind." ) );
+    } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+        add_msg( m_info, _( "There's nothing to grab there!" ) );
     }
 }
 
@@ -569,12 +573,13 @@ static void smash()
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
     int smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
-    tripoint smashp;
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
-    if( !choose_adjacent( _( "Smash where?" ), smashp, allow_floor_bash ) ) {
+    const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
+    if( !smashp_ ) {
         return;
     }
+    tripoint smashp = *smashp_;
 
     bool smash_floor = false;
     if( smashp.z != u.posz() ) {

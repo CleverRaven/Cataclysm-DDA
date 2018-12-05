@@ -31,7 +31,7 @@ template <typename W, typename T> struct weighted_list {
                 invalidate_precalc();
                 return &( objects[objects.size() - 1].obj );
             }
-            return NULL;
+            return nullptr;
         }
 
         /**
@@ -56,7 +56,7 @@ template <typename W, typename T> struct weighted_list {
                 // if not found, add to end of list
                 return add( obj, weight );
             }
-            return NULL;
+            return nullptr;
         }
 
         /**
@@ -89,7 +89,7 @@ template <typename W, typename T> struct weighted_list {
             if( total_weight > 0 ) {
                 return &( objects[pick_ent( randi )].obj );
             } else {
-                return NULL;
+                return nullptr;
             }
         }
         const T *pick() const {
@@ -106,7 +106,7 @@ template <typename W, typename T> struct weighted_list {
             if( total_weight > 0 ) {
                 return &( objects[pick_ent( randi )].obj );
             } else {
-                return NULL;
+                return nullptr;
             }
         }
         T *pick() {

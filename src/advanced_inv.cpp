@@ -28,7 +28,7 @@
 #include "vpart_reference.h"
 
 #ifdef __ANDROID__
-#include "SDL_keyboard.h"
+#include <SDL_keyboard.h>
 #endif
 
 #include <algorithm>

@@ -1,5 +1,6 @@
 #include "ammo.h"
 #include "auto_pickup.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "crafting.h"
@@ -162,16 +163,19 @@ void player_activity::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    json.member( "moves_left", moves_left );
-    json.member( "index", index );
-    json.member( "position", position );
-    json.member( "coords", coords );
-    json.member( "name", name );
-    json.member( "targets", targets );
-    json.member( "placement", placement );
-    json.member( "values", values );
-    json.member( "str_values", str_values );
-    json.member( "auto_resume", auto_resume );
+
+    if( !type.is_null() ) {
+        json.member( "moves_left", moves_left );
+        json.member( "index", index );
+        json.member( "position", position );
+        json.member( "coords", coords );
+        json.member( "name", name );
+        json.member( "targets", targets );
+        json.member( "placement", placement );
+        json.member( "values", values );
+        json.member( "str_values", str_values );
+        json.member( "auto_resume", auto_resume );
+    }
     json.end_object();
 }
 
@@ -187,6 +191,10 @@ void player_activity::deserialize( JsonIn &jsin )
         deserialize_legacy_type( tmp_type_legacy, type );
     } else {
         type = activity_id( tmptype );
+    }
+
+    if( type.is_null() ) {
+        return;
     }
 
     if( !data.read( "position", tmppos ) ) {
@@ -630,10 +638,10 @@ void player::serialize( JsonOut &json ) const
     // contain start_object(), store(), end_object().
 
     // player-specific specifics
-    if( prof != NULL ) {
+    if( prof != nullptr ) {
         json.member( "profession", prof->ident() );
     }
-    if( g->scen != NULL ) {
+    if( g->scen != nullptr ) {
         json.member( "scenario", g->scen->ident() );
     }
     // someday, npcs may drive
@@ -679,7 +687,6 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "player_stats", lifetime_stats );
 
-    player_map_memory.store( json );
     json.member( "show_map_memory", show_map_memory );
 
     json.member( "assigned_invlet" );
@@ -857,7 +864,10 @@ void player::deserialize( JsonIn &jsin )
 
     data.read( "player_stats", lifetime_stats );
 
-    player_map_memory.load( data );
+    //Load from legacy map_memory save location (now in its own file <playername>.mm)
+    if( data.has_member( "map_memory_tiles" ) || data.has_member( "map_memory_curses" ) ) {
+        player_map_memory.load( data );
+    }
     data.read( "show_map_memory", show_map_memory );
 
     parray = data.get_array( "assigned_invlet" );
@@ -2576,7 +2586,7 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    if( item_type != NULL ) {
+    if( item_type != nullptr ) {
         // @todo: refactor player_morale to not require this hack
         json.member( "item_type", item_type->get_id() );
     }
@@ -2599,6 +2609,7 @@ void player_morale::load( JsonObject &jsin )
 
 void map_memory::store( JsonOut &jsout ) const
 {
+    jsout.start_object();
     jsout.member( "map_memory_tiles" );
     jsout.start_array();
     for( const auto &elem : tile_cache.list() ) {
@@ -2624,6 +2635,13 @@ void map_memory::store( JsonOut &jsout ) const
         jsout.end_object();
     }
     jsout.end_array();
+    jsout.end_object();
+}
+
+void map_memory::load( JsonIn &jsin )
+{
+    JsonObject jsobj = jsin.get_object();
+    load( jsobj );
 }
 
 void map_memory::load( JsonObject &jsin )
@@ -2733,3 +2751,61 @@ void deserialize( recipe_subset &value, JsonIn &jsin )
         value.include( &recipe_id( jsin.get_string() ).obj() );
     }
 }
+
+// basecamp
+void basecamp::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "name", name );
+    json.member( "pos", pos );
+    json.member( "bb_pos", bb_pos );
+    json.member( "sort_points" );
+    json.start_array();
+    for( const tripoint &it : sort_points ) {
+        json.start_object();
+        json.member( "pos", it );
+        json.end_object();
+    }
+    json.end_array();
+    json.member( "expansions" );
+    json.start_array();
+    for( auto it = expansions.begin(); it != expansions.end(); ++it ) {
+        json.start_object();
+        json.member( "dir", it->first );
+        json.member( "type", it->second.type );
+        json.member( "cur_level", it->second.cur_level );
+        json.member( "pos", it->second.pos );
+        json.end_object();
+    }
+    json.end_array();
+    json.end_object();
+}
+
+void basecamp::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "name", name );
+    data.read( "pos", pos );
+    data.read( "bb_pos", bb_pos );
+    JsonArray ja = data.get_array( "sort_points" );
+    while( ja.has_more() ) {
+        JsonObject sdata = ja.next_object();
+        tripoint spt;
+        sdata.read( "pos", spt );
+        sort_points.push_back( spt );
+    }
+    ja = data.get_array( "expansions" );
+    while( ja.has_more() ) {
+        JsonObject edata = ja.next_object();
+        expansion_data e;
+        const std::string dir = edata.get_string( "dir" );
+        edata.read( "type", e.type );
+        edata.read( "cur_level", e.cur_level );
+        edata.read( "pos", e.pos );
+        expansions[ dir ] = e;
+        if( dir != "[B]" ) {
+            directions.push_back( dir );
+        }
+    }
+}
+

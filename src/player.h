@@ -202,6 +202,9 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const;
 
+        void serialize_map_memory( JsonOut &jsout ) const;
+        void deserialize_map_memory( JsonIn &jsin );
+
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, const std::string &epitaph );
         /** Handles and displays detailed character info for the '@' screen */

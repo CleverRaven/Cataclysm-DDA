@@ -8,8 +8,12 @@
         "locations": [ "field", "road" ]
       },{
         "terrain": "road",
-        "locations": [ "forest" ],
+        "locations": [ "forest_without_trail" ],
         "basic_cost": 20
+      },{
+        "terrain": "road",
+        "locations": [ "forest_trail" ],
+        "basic_cost": 25
       },{
         "terrain": "road",
         "locations": [ "swamp" ],
@@ -41,6 +45,31 @@
         "terrain": "subway",
         "locations": [ "subterranean_subway" ],
         "flags": [ "ORTHOGONAL" ]
+      }
+    ]
+  }, {
+    "type": "overmap_connection",
+    "id": "forest_trail",
+    "subtypes": [
+      {
+        "terrain": "forest_trail",
+        "locations": [ "forest_trail" ],
+        "basic_cost": 0
+      },
+      {
+        "terrain": "forest_trail",
+        "locations": [ "forest_edge" ],
+        "basic_cost": 100
+      },
+      {
+        "terrain": "forest_trail",
+        "locations": [ "forest_center" ],
+        "basic_cost": 0
+      },
+      {
+        "terrain": "forest_trail",
+        "locations": [ "swamp" ],
+        "basic_cost": 40
       }
     ]
   }

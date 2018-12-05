@@ -103,11 +103,13 @@ static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
-Character::Character() : Creature(), visitable<Character>(), hp_cur( {
-    {
-        0
-    }
-} ), hp_max( {{0}} )
+Character::Character() :
+    Creature(),
+    visitable<Character>(),
+    hp_cur( {{0}} ),
+    hp_max( {{0}} ),
+    damage_bandaged( {{0}} ),
+    damage_disinfected( {{0}} )
 {
     str_max = 0;
     dex_max = 0;
@@ -1286,7 +1288,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     check_req( _( "perception" ),   get_per(), it.type->min_per );
 
     for( const auto &elem : it.type->min_skills ) {
-        check_req( context.contextualize_skill( elem.first )->name().c_str(),
+        check_req( context.contextualize_skill( elem.first )->name(),
                    get_skill_level( elem.first, context ),
                    elem.second );
     }

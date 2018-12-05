@@ -238,6 +238,13 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
+            if( critter.type->difficulty > 10 && ( is_enemy() || !critter.friendly ) ) {
+                const std::string snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
+                const std::string speech = string_format( _( "%s %s." ), snip,
+                                           critter.type->nname() );
+                complain_about( "warning_" + critter.type->nname(), 10_minutes, speech,
+                                is_enemy() );
+            }
         }
     }
     assessment /= 10;
@@ -384,9 +391,13 @@ void npc::move()
 
     if( action == npc_undecided ) {
         if( is_guarding() ) {
-            action = goal == global_omt_location() ?
-                     npc_pause :
-                     npc_goto_destination;
+            // if we're in a vehicle, stay in the vehicle
+            if( in_vehicle ) {
+                action = npc_pause;
+                goal = global_omt_location();
+            } else {
+                action = goal == global_omt_location() ?  npc_pause : npc_goto_destination;
+            }
         } else if( has_new_items && scan_new_items() ) {
             return;
         } else if( !fetching_item ) {
@@ -1371,7 +1382,11 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
     int safe_angle = 30;
 
     for( const auto &fr : ai_cache.friends ) {
-        const Creature &ally = *fr.get();
+        const std::shared_ptr<Creature> ally_p = fr.lock();
+        if( !ally_p ) {
+            continue;
+        }
+        const Creature &ally = *ally_p;
 
         // @todo: Extract common functions with turret target selection
         int safe_angle_ally = safe_angle;
@@ -1680,8 +1695,9 @@ void npc::avoid_friendly_fire()
     // Calculate center of weight of friends and move away from that
     tripoint center;
     for( const auto &fr : ai_cache.friends ) {
-        const Creature &ally = *fr.get();
-        center += ally.pos();
+        if( std::shared_ptr<Creature> fr_p = fr.lock() ) {
+            center += fr_p->pos();
+        }
     }
 
     float friend_count = ai_cache.friends.size();
@@ -3154,12 +3170,15 @@ void print_action( const char *prepend, npc_action action )
 
 const Creature *npc::current_target() const
 {
-    return ai_cache.target.get();
+    // TODO: Arguably we should return a shared_ptr to ensure that the returned
+    // object stays alive while the caller uses it.  Not doing that for now.
+    return ai_cache.target.lock().get();
 }
 
 Creature *npc::current_target()
 {
-    return const_cast<Creature *>( const_cast<const npc *>( this )->current_target() );
+    // TODO: As above.
+    return ai_cache.target.lock().get();
 }
 
 // Maybe TODO: Move to Character method and use map methods

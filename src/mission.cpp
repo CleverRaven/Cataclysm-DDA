@@ -453,7 +453,7 @@ void mission::set_player_id_legacy_0c( int id )
 
 std::string mission::name()
 {
-    if( type == NULL ) {
+    if( type == nullptr ) {
         return "NULL";
     }
     return _( type->name.c_str() );
@@ -461,7 +461,7 @@ std::string mission::name()
 
 mission_type_id mission::mission_id()
 {
-    if( type == NULL ) {
+    if( type == nullptr ) {
         return mission_type_id( "NULL" );
     }
     return type->id;
@@ -534,7 +534,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 mission::mission()
     : deadline( 0 )
 {
-    type = NULL;
+    type = nullptr;
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;

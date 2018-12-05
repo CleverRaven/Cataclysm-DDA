@@ -527,10 +527,10 @@
   },
   {
     "type": "keybinding",
-    "id": "CENTER",
-    "category": "OVERMAP",
-    "name": "Center On Character",
-    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
+    "id": "TOGGLE_FAVORITE",
+    "category": "CRAFTING",
+    "name": "Toggle recipes to be shown in favorite tab",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
@@ -714,6 +714,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_FOREST_TRAILS",
+    "category": "OVERMAP",
+    "name": "Toggle Forest Trails",
+    "bindings": [ { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXPLORED",
     "category": "OVERMAP",
     "name": "Toggle Explored",
@@ -884,6 +891,12 @@
     "id": "TOGGLE_SNAP_TO_TARGET",
     "name": "Toggle Snap to Target",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CENTER",
+    "name": "Center On Character",
+    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
   },
   {
     "type": "keybinding",

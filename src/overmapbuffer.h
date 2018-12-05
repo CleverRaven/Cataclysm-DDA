@@ -290,7 +290,7 @@ class overmapbuffer
         typedef std::pair<point, std::string> t_point_with_note;
         typedef std::vector<t_point_with_note> t_notes_vector;
         t_notes_vector get_all_notes( int z ) {
-            return get_notes( z, NULL ); // NULL => don't filter notes
+            return get_notes( z, nullptr ); // NULL => don't filter notes
         }
         t_notes_vector find_notes( int z, const std::string &pattern ) {
             return get_notes( z, &pattern ); // filter with pattern

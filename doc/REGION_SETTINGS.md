@@ -244,6 +244,52 @@ water only, while this does.
 }
 ```
 
+## Forest Trail Settings
+
+The **forest_trail_settings** section defines the attributes used in generating trails in the
+forests, including their likelihood of spawning, their connectivity, their chance for spawning
+trailheads, and some general tuning of the actual trail width/position in mapgen.
+
+### Fields
+
+|         Identifier         |                                         Description                                         |
+| -------------------------- | ------------------------------------------------------------------------------------------- |
+| `chance`                   | One in X chance a contiguous forest will have a trail system.                               |
+| `border_point_chance`      | One in X chance that the N/S/E/W-most point of the forest will be part of the trail system. |
+| `minimum_forest_size`      | Minimum contiguous forest size before a trail system can be spawned.                        |
+| `random_point_min`         | Minimum # of random points from contiguous forest used to form trail system.                |
+| `random_point_max`         | Maximum # of random points from contiguous forest used to form trail system.                |
+| `random_point_size_scalar` | Forest size is divided by this and added to the minimum number of random points.            |
+| `trailhead_chance`         | One in X chance a trailhead will spawn at end of trail near field.                          |
+| `trail_center_variance`    | Center of the trail in mapgen is offset in X and Y by a random amount between +/- variance  |
+| `trail_width_offset_min`   | Trail width in mapgen is offset by `rng(trail_width_offset_min, trail_width_offset_max)`.   |
+| `trail_width_offset_max`   | Trail width is mapgen offset by `rng(trail_width_offset_min, trail_width_offset_max)`.      |
+| `clear_trail_terrain`      | Clear all previously defined `trail_terrain`.                                               |
+| `trail_terrain`            | Weighted list of terrain that will used for the trail.                                      |
+
+### Example
+
+```json
+{
+	"forest_trail_settings": {
+		"chance": 2,
+		"border_point_chance": 2,
+		"minimum_forest_size": 100,
+		"random_point_min": 4,
+		"random_point_max": 50,
+		"random_point_size_scalar": 100,
+		"trailhead_chance": 1,
+		"trail_center_variance": 3,
+		"trail_width_offset_min": 1,
+		"trail_width_offset_max": 3,
+		"clear_trail_terrain": false,
+		"trail_terrain": {
+			"t_dirt": 1
+		}
+	}
+}
+```
+
 ## City
 
 The **city** section defines the possible overmap terrains and specials that may be used as

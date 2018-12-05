@@ -8,6 +8,7 @@
 #include "pldata.h"
 #include "string_id.h"
 #include "translations.h"
+#include "tuple_hash.h"
 
 #include <unordered_map>
 #include <tuple>

@@ -8,7 +8,7 @@
 #include <cstdlib>
 
 #if (defined _WIN32 || defined WINDOW)
-#include "windows.h"
+#include <windows.h>
 #endif
 
 /** Map where we store filenames */
@@ -241,7 +241,7 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
 #endif
 
         const char *v = setlocale( LC_ALL, NULL );
-        if( v != NULL ) {
+        if( v != nullptr ) {
             loc_name = v;
         }
     } else {

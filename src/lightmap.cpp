@@ -93,6 +93,9 @@ void map::build_transparency_cache( const int zlev )
                     }
 
                     if( outside_cache[x][y] ) {
+                        // FIXME: Places inside vehicles haven't been marked as
+                        // inside yet so this is incorrectly penalising for
+                        // weather in vehicles.
                         value *= sight_penalty;
                     }
 
@@ -224,7 +227,7 @@ void map::generate_lightmap( const int zlev )
                     const int y = sy + smy * SEEY;
                     const tripoint p( x, y, zlev );
                     // Project light into any openings into buildings.
-                    if( natural_light > LIGHT_SOURCE_BRIGHT && !outside_cache[p.x][p.y] ) {
+                    if( !outside_cache[p.x][p.y] ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
                             if( INBOUNDS( p.x + dir_x[i], p.y + dir_y[i] ) &&
