@@ -691,15 +691,15 @@ bool inventory::has_charges( const itype_id &it, long quantity ) const
     return ( charges_of( it ) >= quantity );
 }
 
-bool inventory::has_charges_with(const itype_id &it, long quantity, const std::function<bool(const item &)> &filter) const
+bool inventory::has_charges_with( const itype_id &it, long quantity,
+                                  const std::function<bool( const item & )> &filter ) const
 {
     long charges = 0;
-    for (const item *itr : items_with(filter)) 
-    {
-        charges = sum_no_wrap(charges, itr->charges_of(it));
+    for( const item *itr : items_with( filter ) ) {
+        charges = sum_no_wrap( charges, itr->charges_of( it ) );
     }
 
-    return (charges >= quantity);
+    return ( charges >= quantity );
 }
 
 int inventory::leak_level( std::string flag ) const
