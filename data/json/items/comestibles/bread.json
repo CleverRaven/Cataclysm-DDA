@@ -23,6 +23,29 @@
     }
   },
   {
+    "id": "sourdough_split",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "freshly fed sourdough starter",
+    "description": "This jar contains a floury paste with sourdough starter mixed in. It needs a few hours to recover its strength before it can be used again.",
+    "weight": 52,
+    "volume": 1,
+    "price": 10,
+    "bashing": 8,
+    "material": [ "glass", "wheat" ],
+    "looks_like": "jar_glass",
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "sourdough_starter",
+      "msg": "The starter is now stinky and bubbly, and looks ready for cooking.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 180000,
+      "not_ready_msg": "The starter isn't quite ready to go."
+    }
+  },
+  {
     "id": "sourdough_starter",
     "type": "GENERIC",
     "category": "food",
