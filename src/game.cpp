@@ -7382,7 +7382,6 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
             ctxt.set_timeout( BLINK_SPEED );
         }
 
-        int dx, dy;
         redraw = true;
         //Wait for input
         if( action_unprocessed ) {
@@ -7466,16 +7465,16 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
             } else if( lp == old_lp ) { // not blinking and cursor not changed
                 redraw = false; // no need to redraw, so don't redraw to save CPU
             }
-        } else if( ctxt.get_direction( dx, dy, action ) ) {
+        } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             if( fast_scroll ) {
-                dx *= soffset;
-                dy *= soffset;
+                vec->x *= soffset;
+                vec->y *= soffset;
             }
 
-            lx = lx + dx;
-            ly = ly + dy;
-            center.x = center.x + dx;
-            center.y = center.y + dy;
+            lx = lx + vec->x;
+            ly = ly + vec->y;
+            center.x = center.x + vec->x;
+            center.y = center.y + vec->y;
             if( select_zone && has_first_point ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
