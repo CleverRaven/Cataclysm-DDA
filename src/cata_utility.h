@@ -89,14 +89,12 @@ static T sum_no_wrap(T a, T b)
     // Check for overflow
     if ((a > 0) && (b > std::numeric_limits<T>::max() - a))
     {
-        assert(false);
         return std::numeric_limits<T>::max();
     }
 
     // Check for underflow
     if ((a < 0) && (b < std::numeric_limits<T>::min() - a))
     {
-        assert(false);
         return std::numeric_limits<T>::min();
     }
 
