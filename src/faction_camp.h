@@ -75,8 +75,8 @@ int om_harvest_ter_est( npc &comp, const tripoint &omt_tgt, const ter_id &t, int
 int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, int chance = 100 );
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total mass and volume
 /// @ref take, whether you take the item or count it
-std::pair<units::mass, units::volume> om_harvest_itm( npc *comp, const tripoint &omt_tgt,
-        int chance = 100, bool take = true );
+std::pair<units::mass, units::volume> om_harvest_itm( std::shared_ptr<npc> comp,
+        const tripoint &omt_tgt, int chance = 100, bool take = true );
 /*
  * Counts or cuts trees into trunks and trunks into logs
  * @param omt_tgt the targeted OM tile
@@ -133,7 +133,8 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
                                    time_duration travel_time,
                                    int distance, int trips, int need_food );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the items @ref itms
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp = nullptr );
+int om_carry_weight_to_trips( const std::vector<item *> &itms,
+                              std::shared_ptr<npc> comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items with @ref carry_mass and @ref carry_volume moved per trip
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
                               units::volume carry_volume );

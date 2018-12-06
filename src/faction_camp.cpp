@@ -829,6 +829,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     const std::string base_dir = "[B]";
 
     std::string mission_role = p.companion_mission_role_id;
+    npc_ptr comp = nullptr;
 
     if( cur_key.id == "Distribute Food" ) {
         bcp->distribute_food();
@@ -865,8 +866,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         if( camp_food_supply() < need_food ) {
             popup( _( "You don't have enough food stored to feed your companion." ) );
         } else {
-            npc *comp = individual_mission( p, _( "departs to dig ditches and scrub toilets..." ),
-                                            "_faction_camp_menial" );
+            comp = individual_mission( p, _( "departs to dig ditches and scrub toilets..." ),
+                                       "_faction_camp_menial" );
             if( comp != nullptr ) {
                 comp->companion_mission_time_ret = calendar::turn + 3_hours;
             }
@@ -878,8 +879,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     if( cur_key.id == "Cut Logs" ) {
         start_cut_logs( p );
     } else if( cur_key.id == "Recover Log Cutter" ) {
-        npc *comp = companion_choose_return( p, "_faction_camp_cut_log",
-                                             calendar::before_time_starts );
+        comp = companion_choose_return( p, "_faction_camp_cut_log",
+                                        calendar::before_time_starts );
         if( comp != nullptr ) {
             popup( _( "%s returns from working in the woods..." ), comp->name );
             camp_companion_return( *comp );
@@ -889,8 +890,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     if( cur_key.id == "Clearcut" ) {
         start_clearcut( p );
     } else if( cur_key.id == "Recover Clearcutter" ) {
-        npc *comp = companion_choose_return( p, "_faction_camp_clearcut",
-                                             calendar::before_time_starts );
+        comp = companion_choose_return( p, "_faction_camp_clearcut", calendar::before_time_starts );
         if( comp != nullptr ) {
             popup( _( "%s returns from working in the woods..." ), comp->name );
             camp_companion_return( *comp );
@@ -900,8 +900,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     if( cur_key.id == "Setup Hide Site" ) {
         start_setup_hide_site( p );
     } else if( cur_key.id == "Recover Hide Setup" ) {
-        npc *comp = companion_choose_return( p, "_faction_camp_hide_site",
-                                             calendar::before_time_starts );
+        comp = companion_choose_return( p, "_faction_camp_hide_site",
+                                        calendar::before_time_starts );
         if( comp != nullptr ) {
             popup( _( "%s returns from working on the hide site..." ), comp->name );
             camp_companion_return( *comp );
@@ -911,8 +911,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
     if( cur_key.id == "Relay Hide Site" ) {
         start_relay_hide_site( p );
     } else if( cur_key.id == "Recover Hide Transport" ) {
-        npc *comp = companion_choose_return( p, "_faction_camp_hide_trans",
-                                             calendar::before_time_starts );
+        comp = companion_choose_return( p, "_faction_camp_hide_trans",
+                                        calendar::before_time_starts );
         if( comp != nullptr ) {
             popup( _( "%s returns from shuttling gear between the hide site..." ), comp->name );
             camp_companion_return( *comp );
@@ -955,8 +955,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         if( camp_food_supply() < need_food ) {
             popup( _( "You don't have enough food stored to feed your companion." ) );
         } else {
-            npc *comp = individual_mission( p, _( "departs to search for recruits..." ),
-                                            "_faction_camp_recruit_0", false, {}, "speech", 2 );
+            comp = individual_mission( p, _( "departs to search for recruits..." ),
+                                       "_faction_camp_recruit_0", false, {}, "speech", 2 );
             if( comp != nullptr ) {
                 comp->companion_mission_time_ret = calendar::turn + 4_days;
             }
@@ -980,8 +980,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         if( camp_food_supply() < need_food ) {
             popup( _( "You don't have enough food stored to feed your companion." ) );
         } else {
-            npc *comp = individual_mission( p, _( "departs to survey land..." ),
-                                            "_faction_camp_expansion" );
+            comp = individual_mission( p, _( "departs to survey land..." ),
+                                       "_faction_camp_expansion" );
             if( comp != nullptr ) {
                 comp->companion_mission_time_ret = calendar::turn + 3_hours;
             }
@@ -992,8 +992,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
 
     bcp->craft_construction( p, cur_key.id, cur_key.dir, "BASE", "_faction_camp_crafting_" );
     if( cur_key.id == base_dir + " (Finish) Crafting" ) {
-        npc *comp = companion_choose_return( p, "_faction_camp_crafting_" + base_dir,
-                                             calendar::before_time_starts );
+        comp = companion_choose_return( p, "_faction_camp_crafting_" + base_dir,
+                                        calendar::before_time_starts );
         if( comp != nullptr ) {
             popup( _( "%s returns to you with something..." ), comp->name );
             camp_companion_return( *comp );
@@ -1012,9 +1012,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
             bcp->craft_construction( p, cur_key.id, cur_key.dir, "FARM",
                                      "_faction_exp_farm_crafting_" );
             if( cur_key.id == dir + " (Finish) Crafting" && dir != base_dir ) {
-                npc *comp = companion_choose_return( p,
-                                                     "_faction_exp_farm_crafting_" + cur_key.dir,
-                                                     calendar::before_time_starts );
+                comp = companion_choose_return( p, "_faction_exp_farm_crafting_" + cur_key.dir,
+                                                calendar::before_time_starts );
                 if( comp != nullptr ) {
                     popup( _( "%s returns from your farm with something..." ), comp->name );
                     camp_companion_return( *comp );
@@ -1023,8 +1022,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
 
             bcp->craft_construction( p, cur_key.id, dir, "COOK", "_faction_exp_kitchen_cooking_" );
             if( cur_key.id == cur_key.dir + " (Finish) Cooking" ) {
-                npc *comp = companion_choose_return( p, "_faction_exp_kitchen_cooking_" +
-                                                     cur_key.dir, calendar::before_time_starts );
+                comp = companion_choose_return( p, "_faction_exp_kitchen_cooking_" + cur_key.dir,
+                                                calendar::before_time_starts );
                 if( comp != nullptr ) {
                     popup( _( "%s returns from your kitchen with something..." ), comp->name );
                     camp_companion_return( *comp );
@@ -1034,8 +1033,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
             bcp->craft_construction( p, cur_key.id, cur_key.dir, "SMITH",
                                      "_faction_exp_blacksmith_crafting_" );
             if( cur_key.id == cur_key.dir + " (Finish) Smithing" ) {
-                npc *comp = companion_choose_return( p, "_faction_exp_blacksmith_crafting_" +
-                                                     cur_key.dir, calendar::before_time_starts );
+                comp = companion_choose_return( p, "_faction_exp_blacksmith_crafting_" +
+                                                cur_key.dir, calendar::before_time_starts );
                 if( comp != nullptr ) {
                     popup( _( "%s returns from your blacksmith shop with something..." ),
                            comp->name );
@@ -1086,8 +1085,8 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                     camp_garage_chop_start( p, "_faction_exp_chop_shop_" + dir );
                 }
             } else if( cur_key.id == cur_key.dir + " (Finish) Chop Shop" ) {
-                npc *comp = companion_choose_return( p, "_faction_exp_chop_shop_" + dir,
-                                                     calendar::turn - 5_days );
+                comp = companion_choose_return( p, "_faction_exp_chop_shop_" + dir,
+                                                calendar::turn - 5_days );
                 if( comp != nullptr ) {
                     popup( _( "%s returns from your garage..." ), comp->name );
                     camp_companion_return( *comp );
@@ -1116,9 +1115,9 @@ void talk_function::start_camp_upgrade( npc &p, const std::string &bldg, const s
             popup( _( "You don't have enough food stored to feed your companion." ) );
             return;
         }
-        npc *comp = individual_mission( p, _( "begins to upgrade the camp..." ),
-                                        key, false, {},
-                                        making.skill_used.str(), making.difficulty );
+        npc_ptr comp = individual_mission( p, _( "begins to upgrade the camp..." ),
+                                           key, false, {}, making.skill_used.str(),
+                                           making.difficulty );
         if( comp != nullptr ) {
             comp->companion_mission_time_ret = calendar::turn + making_time;
             g->u.consume_components_for_craft( &making, 1, true );
@@ -1161,9 +1160,9 @@ void talk_function::start_cut_logs( npc &p )
         }
         g->draw_ter();
         //wrefresh( g->w_terrain );
-        npc *comp = individual_mission( p, _( "departs to cut logs..." ),
-                                        "_faction_camp_cut_log", false, {},
-                                        "fabrication", 2 );
+        npc_ptr comp = individual_mission( p, _( "departs to cut logs..." ),
+                                           "_faction_camp_cut_log", false, {},
+                                           "fabrication", 2 );
         if( comp != nullptr ) {
             units::mass carry_m = comp->weight_capacity() - comp->weight_carried();
             // everyone gets at least a makeshift sling of storage
@@ -1213,8 +1212,9 @@ void talk_function::start_clearcut( npc &p )
         }
         g->draw_ter();
         //wrefresh( g->w_terrain );
-        npc *comp = individual_mission( p, _( "departs to clear a forest..." ),
-                                        "_faction_camp_clearcut", false, {}, "fabrication", 1 );
+        npc_ptr comp = individual_mission( p, _( "departs to clear a forest..." ),
+                                           "_faction_camp_clearcut", false, {}, "fabrication",
+                                           1 );
         if( comp != nullptr ) {
             comp->companion_mission_time_ret = calendar::turn + work_time;
             om_cutdown_trees_trunks( forest, 95 );
@@ -1257,9 +1257,9 @@ void talk_function::start_setup_hide_site( npc &p )
                 popup( _( "You don't have enough food stored to feed your companion." ) );
                 return;
             }
-            npc *comp = individual_mission( p, _( "departs to build a hide site..." ),
-                                            "_faction_camp_hide_site", false,
-                                            {}, "survival", 3 );
+            npc_ptr comp = individual_mission( p, _( "departs to build a hide site..." ),
+                                               "_faction_camp_hide_site", false,
+                                               {}, "survival", 3 );
             if( comp != nullptr ) {
                 trips = om_carry_weight_to_trips( losing_equipment, comp );
                 work_time = build_time + companion_travel_time_calc( forest, omt_pos, 0_minutes,
@@ -1318,9 +1318,9 @@ void talk_function::start_relay_hide_site( npc &p )
                 popup( _( "You don't have enough food stored to feed your companion." ) );
                 return;
             }
-            npc *comp = individual_mission( p, _( "departs for the hide site..." ),
-                                            "_faction_camp_hide_site",
-                                            false, {}, "survival", 3 );
+            npc_ptr comp = individual_mission( p, _( "departs for the hide site..." ),
+                                               "_faction_camp_hide_site",
+                                               false, {}, "survival", 3 );
             if( comp != nullptr ) {
                 // recalculate trips based on actual load
                 trips = std::max( om_carry_weight_to_trips( gaining_equipment, comp ),
@@ -1416,9 +1416,9 @@ void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
         } else if( camp_food_supply() < need_food ) {
             popup( _( "You don't have enough food stored to feed your companion." ) );
         } else {
-            npc *comp = individual_mission( p, _( "begins constructing fortifications..." ),
-                                            "_faction_camp_om_fortifications", false, {},
-                                            making.skill_used.str(), making.difficulty );
+            npc_ptr comp = individual_mission( p, _( "begins constructing fortifications..." ),
+                                               "_faction_camp_om_fortifications", false, {},
+                                               making.skill_used.str(), making.difficulty );
             if( comp != nullptr ) {
                 g->u.consume_components_for_craft( &making, ( fortify_om.size() * 2 ) - 2, true );
                 g->u.invalidate_crafting_inventory();
@@ -1454,8 +1454,8 @@ void talk_function::start_combat_mission( const std::string &miss, npc &p )
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return;
     }
-    npc *comp = individual_mission( p, _( "departs on patrol..." ), miss, false, {},
-                                    "survival", 3 );
+    npc_ptr comp = individual_mission( p, _( "departs on patrol..." ), miss, false, {},
+                                       "survival", 3 );
     if( comp != nullptr ) {
         comp->companion_mission_points = scout_points;
         comp->companion_mission_time_ret = calendar::turn + travel_time;
@@ -1491,9 +1491,9 @@ void basecamp::craft_construction( npc &p, const std::string &cur_id, const std:
                 popup( _( "Your batch is too large!" ) );
                 continue;
             }
-            npc *comp = talk_function::individual_mission( p, _( "begins to work..." ),
-                        miss_id + cur_dir, false, {},
-                        making.skill_used.str(), making.difficulty );
+            npc_ptr comp = talk_function::individual_mission( p, _( "begins to work..." ),
+                           miss_id + cur_dir, false, {},
+                           making.skill_used.str(), making.difficulty );
             if( comp != nullptr ) {
                 time_duration making_time = time_duration::from_turns( making.time / 100 ) *
                                             batch_size;
@@ -1530,8 +1530,9 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
         return false;
     }
 
-    npc *comp = individual_mission( p, _( "begins working in the garage..." ),
-                                    "_faction_exp_chop_shop_" + dir, false, {}, "mechanics", 2 );
+    npc_ptr comp = individual_mission( p, _( "begins working in the garage..." ),
+                                       "_faction_exp_chop_shop_" + dir, false, {},
+                                       "mechanics", 2 );
     if( comp == nullptr ) {
         return false;
     }
@@ -1626,7 +1627,7 @@ bool basecamp::upgrade_return( npc &p, const std::string &dir, const std::string
     }
     const recipe &making = recipe_id( bldg ).obj();
 
-    npc *comp = talk_function::companion_choose_return( p, miss, calendar::before_time_starts );
+    npc_ptr comp = talk_function::companion_choose_return( p, miss, calendar::before_time_starts );
 
     if( comp == nullptr || !om_upgrade( p, bldg, upos ) ) {
         return false;
@@ -1643,8 +1644,8 @@ bool basecamp::upgrade_return( npc &p, const std::string &dir, const std::string
 
 bool basecamp::menial_return( npc &p )
 {
-    npc *comp = talk_function::companion_choose_return( p, "_faction_camp_menial",
-                calendar::before_time_starts );
+    npc_ptr comp = talk_function::companion_choose_return( p, "_faction_camp_menial",
+                   calendar::before_time_starts );
     if( comp == nullptr ) {
         return false;
     }
@@ -1723,7 +1724,7 @@ bool basecamp::menial_return( npc &p )
 bool talk_function::camp_gathering_return( npc &p, const std::string &task,
         time_duration min_time )
 {
-    npc *comp = companion_choose_return( p, task, calendar::turn - min_time );
+    npc_ptr comp = companion_choose_return( p, task, calendar::turn - min_time );
     if( comp == nullptr ) {
         return false;
     }
@@ -1800,8 +1801,8 @@ bool talk_function::camp_gathering_return( npc &p, const std::string &task,
 
 void talk_function::camp_fortifications_return( npc &p )
 {
-    npc *comp = companion_choose_return( p, "_faction_camp_om_fortifications",
-                                         calendar::before_time_starts );
+    npc_ptr comp = companion_choose_return( p, "_faction_camp_om_fortifications",
+                                            calendar::before_time_starts );
     if( comp != nullptr ) {
         popup( _( "%s returns from constructing fortifications..." ), comp->name );
         editmap edit;
@@ -1860,7 +1861,7 @@ void talk_function::camp_fortifications_return( npc &p )
 
 void talk_function::camp_recruit_return( npc &p, const std::string &task, int score )
 {
-    npc *comp = companion_choose_return( p, task, calendar::turn - 4_days );
+    npc_ptr comp = companion_choose_return( p, task, calendar::turn - 4_days );
     if( comp == nullptr ) {
         return;
     }
@@ -1974,7 +1975,7 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
 
 void talk_function::combat_mission_return( const std::string &miss, npc &p )
 {
-    npc *comp = companion_choose_return( p, miss, calendar::before_time_starts );
+    npc_ptr comp = companion_choose_return( p, miss, calendar::before_time_starts );
     if( comp != nullptr ) {
         bool patrolling = miss == "_faction_camp_combat_0";
         comp_list patrol;
@@ -2017,8 +2018,8 @@ void talk_function::combat_mission_return( const std::string &miss, npc &p )
 
 bool basecamp::survey_return( npc &p )
 {
-    npc *comp = talk_function::companion_choose_return( p, "_faction_camp_expansion",
-                calendar::before_time_starts );
+    npc_ptr comp = talk_function::companion_choose_return( p, "_faction_camp_expansion",
+                   calendar::before_time_starts );
     if( comp == nullptr ) {
         return false;
     }
@@ -2107,7 +2108,7 @@ bool talk_function::camp_farm_return( npc &p, const std::string &task, farm_ops 
         work += 5_minutes * plots_plow;
     }
 
-    npc *comp = companion_choose_return( p, task, calendar::turn - work );
+    npc_ptr comp = companion_choose_return( p, task, calendar::turn - work );
     if( comp == nullptr ) {
         return false;
     }
@@ -2526,7 +2527,7 @@ int talk_function::om_cutdown_trees( const tripoint &omt_tgt, int chance, bool e
     return harvested;
 }
 
-std::pair<units::mass, units::volume> talk_function::om_harvest_itm( npc *comp,
+std::pair<units::mass, units::volume> talk_function::om_harvest_itm( npc_ptr comp,
         const tripoint &omt_tgt, int chance, bool take )
 {
     tinymap target_bay;
@@ -2751,7 +2752,7 @@ int talk_function::om_carry_weight_to_trips( units::mass mass, units::volume vol
     return 2 * std::max( trips_m, trips_v );
 }
 
-int talk_function::om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp )
+int talk_function::om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
 {
     units::mass total_m = 0;
     units::volume total_v = 0;
