@@ -2540,7 +2540,15 @@
     [ [ "ether", 2700 ] ],
     [ [ "jar_3l_glass", 1 ] ],
     [ [ "hose", 1 ] ],
-    [ [ "rag", 2 ] ]
+    [ [ "rag", 2 ] ],
+    [
+      [ "heroin", 5 ],
+      [ "oxycodone", 10 ],
+      [ "tramadol", 15 ],
+      [ "diazepam", 15 ],
+      [ "codeine", 20 ],
+      [ "poppy_pain", 20 ]
+    ]
   ]
 },
 {
