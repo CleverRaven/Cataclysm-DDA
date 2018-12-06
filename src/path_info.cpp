@@ -1,12 +1,14 @@
 #include "path_info.h"
-#include "options.h"
+
 #include "filesystem.h"
+#include "options.h"
 #include "translations.h"
+
+#include <clocale>
 #include <cstdlib>
-#include <locale.h>
 
 #if (defined _WIN32 || defined WINDOW)
-#include "windows.h"
+#include <windows.h>
 #endif
 
 /** Map where we store filenames */
@@ -56,9 +58,7 @@ void PATH_INFO::init_user_dir( const char *ud )
 
 void PATH_INFO::update_pathname( const std::string &name, const std::string &path )
 {
-    std::map<std::string, std::string>::iterator iter;
-
-    iter = FILENAMES.find( name );
+    std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
     if( iter != FILENAMES.end() ) {
         FILENAMES[name] = path;
     } else {
@@ -109,6 +109,7 @@ void PATH_INFO::update_config_dir()
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
+    update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
     update_pathname( "fontlist", FILENAMES["config_dir"] + "fontlist.txt" );
     update_pathname( "fontdata", FILENAMES["config_dir"] + "fonts.json" );
     update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
@@ -192,6 +193,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "user_keybindings", FILENAMES["config_dir"] + "keybindings.json" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
+    update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
     update_pathname( "fontlist", FILENAMES["config_dir"] + "fontlist.txt" );
     update_pathname( "fontdata", FILENAMES["config_dir"] + "fonts.json" );
     update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
@@ -239,7 +241,7 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
 #endif
 
         const char *v = setlocale( LC_ALL, NULL );
-        if( v != NULL ) {
+        if( v != nullptr ) {
             loc_name = v;
         }
     } else {

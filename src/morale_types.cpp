@@ -1,7 +1,8 @@
 #include "morale_types.h"
+
 #include "generic_factory.h"
-#include "json.h"
 #include "itype.h"
+#include "json.h"
 #include "string_formatter.h"
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
@@ -84,7 +85,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
         }
     };
 
-    if( lmt >= 0 && ( size_t )lmt <= legacy_morale_types.size() ) {
+    if( lmt >= 0 && static_cast<size_t>( lmt ) <= legacy_morale_types.size() ) {
         return legacy_morale_types[ lmt ];
     }
 

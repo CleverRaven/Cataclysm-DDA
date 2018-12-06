@@ -1,19 +1,18 @@
+#include "trap.h"
+
+#include "debug.h"
+#include "event.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "debug.h"
-#include "trap.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "output.h"
 #include "rng.h"
-#include "messages.h"
 #include "sounds.h"
 #include "translations.h"
-#include "event.h"
-#include "npc.h"
-#include "monster.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "morale_types.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -32,7 +31,6 @@ const efftype_id effect_tetanus( "tetanus" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 

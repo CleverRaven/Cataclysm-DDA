@@ -2,17 +2,20 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "visitable.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "bodypart.h"
-#include "calendar.h"
 #include "pldata.h"
+#include "rng.h"
+#include "visitable.h"
 
-#include <map>
-#include <vector>
 #include <bitset>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 class Skill;
 struct pathfinding_settings;
@@ -60,7 +63,6 @@ enum fatigue_levels {
     EXHAUSTED = 575,
     MASSIVE_FATIGUE = 1000
 };
-
 
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.
@@ -276,7 +278,7 @@ class Character : public Creature, public visitable<Character>
         int encumb( body_part bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
-        units::mass get_weight() const override;
+        units::mass get_weight() const;
         /** Get encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
@@ -392,7 +394,14 @@ class Character : public Creature, public visitable<Character>
 
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const;
-        /** Applies encumbrance from items only */
+
+        /** Return the position in the worn list where new_item would be
+         * put by default */
+        std::list<item>::iterator position_to_wear_new_item( const item &new_item );
+
+        /** Applies encumbrance from items only
+         * If new_item is not null, then calculate under the asumption that it
+         * is added to existing work items. */
         void item_encumb( std::array<encumbrance_data, num_bp> &vals,
                           const item &new_item ) const;
     public:
@@ -721,13 +730,13 @@ class Character : public Creature, public visitable<Character>
         pimpl<bionic_collection> my_bionics;
 
     protected:
-        void on_stat_change( const std::string &, int ) override {};
-        virtual void on_mutation_gain( const trait_id & ) {};
-        virtual void on_mutation_loss( const trait_id & ) {};
+        void on_stat_change( const std::string &, int ) override {}
+        virtual void on_mutation_gain( const trait_id & ) {}
+        virtual void on_mutation_loss( const trait_id & ) {}
     public:
-        virtual void on_item_wear( const item & ) {};
-        virtual void on_item_takeoff( const item & ) {};
-        virtual void on_worn_item_washed( const item & ) {};
+        virtual void on_item_wear( const item & ) {}
+        virtual void on_item_takeoff( const item & ) {}
+        virtual void on_worn_item_washed( const item & ) {}
 
     protected:
         Character();

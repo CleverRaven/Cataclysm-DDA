@@ -265,6 +265,10 @@
         "name" : "Clear rubble"
     },{
         "type" : "item_action",
+        "id" : "COIN_FLIP",
+        "name" : "Flip"
+    },{
+        "type" : "item_action",
         "id" : "COKE",
         "name" : "Snort coke"
     },{
@@ -330,7 +334,7 @@
     },{
         "type" : "item_action",
         "id" : "ECIG",
-        "name" : "Smoke"
+        "name" : { "ctxt": "ECIG", "str": "Smoke" }
     },{
         "type" : "item_action",
         "id" : "EHANDCUFFS",
@@ -445,6 +449,10 @@
         "name" : "Place"
     },{
         "type" : "item_action",
+        "id" : "MAGIC_8_BALL",
+        "name" : "Ask"
+    },{
+        "type" : "item_action",
         "id" : "MARLOSS",
         "name" : "Consume"
     },{
@@ -537,10 +545,6 @@
         "name" : "Squeeze"
     },{
         "type" : "item_action",
-        "id" : "PIPEBOMB_ACT",
-        "name" : "Activate"
-    },{
-        "type" : "item_action",
         "id" : "PLANTBLECH",
         "name" : "Consume"
     },{
@@ -550,10 +554,10 @@
     },{
         "type" : "item_action",
         "id" : "PORTABLE_GAME",
-        "name" : "Play"
+        "name" : { "ctxt": "PORTABLE_GAME", "str": "Play" }
     },{
         "type" : "item_action",
-        "id" : "PORTABLE_STRUCTURE",
+        "id" : "deploy_tent",
         "name" : "Put up"
     },{
         "type" : "item_action",
@@ -650,7 +654,7 @@
     },{
         "type" : "item_action",
         "id" : "SMOKING",
-        "name" : "Smoke"
+        "name" : { "ctxt": "SMOKING", "str": "Smoke" }
     },{
         "type" : "item_action",
         "id" : "SPRAY_CAN",
@@ -758,7 +762,7 @@
     },{
         "type" : "item_action",
         "id" : "musical_instrument",
-        "name" : "Play"
+        "name" : { "ctxt": "musical_instrument", "str": "Play" }
     },{
         "type" : "item_action",
         "id" : "place_monster",

@@ -1375,48 +1375,6 @@
     [ [ "plut_cell", 1 ] ]
   ]
 },{
-  "type" : "recipe",
-  "result": "pipebomb_radio",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_TOOLS",
-  "skill_used": "fabrication",
-  "skills_required" : [ "electronics", 3 ],
-  "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 3]],
-  "using": [ [ "soldering_standard", 5 ] ],
-  "difficulty": 4,
-  "time": 750,
-  "autolearn": true,
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "pipebomb", 1 ] ],
-    [ [ "pilot_light", 1 ] ],
-    [ [ "battery", 5 ] ],
-    [ [ "antenna", 1 ] ],
-    [ [ "amplifier", 1 ] ],
-    [ [ "cable", 5 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "dynamite_radio",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_TOOLS",
-  "skill_used": "fabrication",
-  "skills_required" : [ "electronics", 3 ],
-  "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 3]],
-  "using": [ [ "soldering_standard", 5 ] ],
-  "difficulty": 4,
-  "time": 750,
-  "autolearn": true,
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "dynamite", 1 ] ],
-    [ [ "pilot_light", 1 ] ],
-    [ [ "battery", 5 ] ],
-    [ [ "antenna", 1 ] ],
-    [ [ "amplifier", 1 ] ],
-    [ [ "cable", 5 ] ]
-  ]
-},{
   "type": "recipe",
   "result": "motor_micro",
   "category": "CC_ELECTRONIC",
@@ -1462,7 +1420,7 @@
     { "id": "HAMMER", "level": 1 },
     { "id": "SCREW_FINE", "level": 1 }
   ],
-  "components": [ 
+  "components": [
     [ [ "plastic_chunk", 1 ] ],
     [ [ "scrap", 1 ] ],
     [ [ "cable", 3 ] ]

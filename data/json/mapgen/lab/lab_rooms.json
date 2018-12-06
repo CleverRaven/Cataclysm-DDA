@@ -949,7 +949,7 @@
         "r.xx.xx.r"
       ],
       "palettes": [ "lab_palette" ],
-      "items": { "r": { "item": "electronics", "chance": 10 } }      
+      "items": { "r": { "item": "electronics", "chance": 10 } }
     }
   },
   {

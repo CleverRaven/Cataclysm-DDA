@@ -1,10 +1,10 @@
 #include "mission.h"
-#include "translations.h"
-#include "rng.h"
-#include "generic_factory.h"
-#include "calendar.h"
-#include "item.h"
+
 #include "assign.h"
+#include "calendar.h"
+#include "generic_factory.h"
+#include "item.h"
+#include "rng.h"
 
 #include <algorithm>
 

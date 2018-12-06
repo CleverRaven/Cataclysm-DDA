@@ -1,9 +1,6 @@
-#include "player.h"
-
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
-#include "output.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -11,19 +8,23 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "string_formatter.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 namespace
 {
+const skill_id skill_survival( "survival" );
+const skill_id skill_cooking( "cooking" );
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
@@ -121,7 +122,7 @@ int player::nutrition_for( const item &comest ) const
         nutr *= 1.5f;
     }
 
-    return ( int )nutr;
+    return static_cast<int>( nutr );
 }
 
 std::pair<int, int> player::fun_for( const item &comest ) const
@@ -1174,6 +1175,11 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
 int player::get_acquirable_energy( const item &it ) const
 {
     return get_acquirable_energy( it, get_cbm_rechargeable_with( it ) );
+}
+
+bool player::can_estimate_rot() const
+{
+    return get_skill_level( skill_cooking ) >= 3 || get_skill_level( skill_survival ) >= 4;
 }
 
 bool player::can_consume_as_is( const item &it ) const

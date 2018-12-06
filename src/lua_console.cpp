@@ -1,7 +1,6 @@
 #include "lua_console.h"
 
 #include "catalua.h"
-#include "catacharset.h"
 #include "input.h"
 #include "string_input_popup.h"
 

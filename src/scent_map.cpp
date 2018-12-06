@@ -1,9 +1,10 @@
 #include "scent_map.h"
+
 #include "calendar.h"
 #include "color.h"
+#include "game.h"
 #include "map.h"
 #include "output.h"
-#include "game.h"
 
 #include <cassert>
 #include <cmath>
@@ -118,8 +119,8 @@ void scent_map::update( const tripoint &center, map &m )
 {
     // Stop updating scent after X turns of the player not moving.
     // Once wind is added, need to reset this on wind shifts as well.
-    if( center != player_last_position ) {
-        player_last_position = center;
+    if( !player_last_position || center != *player_last_position ) {
+        player_last_position.emplace( center );
         player_last_moved = calendar::turn;
     } else if( player_last_moved + 1000_turns < calendar::turn ) {
         return;
@@ -193,9 +194,8 @@ void scent_map::update( const tripoint &center, map &m )
                 } else {
                     this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
                 }
-                int temp_scent;
                 // take the old scent and subtract what diffuses out
-                temp_scent = scent_here * ( 10 * 1000 - squares_used * this_diffusivity );
+                int temp_scent = scent_here * ( 10 * 1000 - squares_used * this_diffusivity );
                 // neighboring walls and reduce_scent squares absorb some scent
                 temp_scent -= scent_here * this_diffusivity * ( 90 - squares_used ) / 5;
                 // we've already summed neighboring scent values in the y direction in the previous

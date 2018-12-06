@@ -178,9 +178,14 @@
   {
     "type": "recipe",
     "result": "animal_locker",
-    "copy-from": "animal_locker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
     "id_suffix": "repurpose_wire_basket",
     "time": 25000,
+    "autolearn": true,
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "basket", 1 ] ] ]

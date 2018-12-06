@@ -2,16 +2,16 @@
 #ifndef REGIONAL_SETTINGS_H
 #define REGIONAL_SETTINGS_H
 
-#include "weighted_list.h"
-#include "omdata.h"
 #include "mapdata.h"
+#include "omdata.h"
 #include "weather_gen.h"
+#include "weighted_list.h"
 
 #include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <memory>
 
 class JsonObject;
 
@@ -22,7 +22,7 @@ class building_bin
         weighted_int_list<overmap_special_id> buildings;
         std::map<overmap_special_id, int> unfinalized_buildings;
     public:
-        building_bin() {};
+        building_bin() = default;
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
         std::vector<std::string> all;
@@ -139,12 +139,31 @@ struct forest_mapgen_settings {
     forest_mapgen_settings() = default;
 };
 
+struct forest_trail_settings {
+    int chance = 1;
+    int border_point_chance = 2;
+    int minimum_forest_size = 50;
+    int random_point_min = 4;
+    int random_point_max = 50;
+    int random_point_size_scalar = 100;
+    int trailhead_chance = 1;
+    int trail_center_variance = 3;
+    int trail_width_offset_min = 1;
+    int trail_width_offset_max = 3;
+    bool clear_trail_terrain = false;
+    std::map<std::string, int> unfinalized_trail_terrain;
+    weighted_int_list<ter_id> trail_terrain;
+
+    void finalize();
+    forest_trail_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<std::string> values;
 
-    map_extras() : chance( 0 ), values() {}
-    map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
+    map_extras() : chance( 0 ) {}
+    map_extras( const unsigned int embellished ) : chance( embellished ) {}
 };
 
 struct sid_or_sid;
@@ -170,6 +189,7 @@ struct regional_settings {
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;
+    forest_trail_settings forest_trail;
 
     weather_generator weather;
 

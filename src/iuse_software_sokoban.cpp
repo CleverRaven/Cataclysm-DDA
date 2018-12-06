@@ -1,17 +1,15 @@
 #include "iuse_software_sokoban.h"
 
-#include "output.h"
-#include "input.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "path_info.h"
-#include "translations.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "input.h"
+#include "output.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
 
-#include <iostream>
-#include <iterator>
 #include <sstream>
 
 sokoban_game::sokoban_game()

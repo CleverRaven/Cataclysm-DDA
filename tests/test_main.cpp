@@ -4,17 +4,15 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
-#include "init.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "mod_manager.h"
-#include "morale.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "pathfinding.h"
 #include "player.h"
 #include "worldfactory.h"
-#include "loading_ui.h"
 
 #include <algorithm>
 #include <cstring>
@@ -87,7 +85,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     get_options().load();
 
     // Apply command-line option overrides for test suite execution.
-    if( option_overrides.size() > 0 ) {
+    if( !option_overrides.empty() ) {
         for( auto iter = option_overrides.begin(); iter != option_overrides.end(); ++iter ) {
             name_value_pair_t option = *iter;
             if( get_options().has_option( option.first ) ) {
@@ -98,7 +96,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     }
     init_colors();
 
-    g = new game;
+    g.reset( new game );
     g->new_game = true;
     g->load_static_data();
 
@@ -180,6 +178,39 @@ option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec 
     return ret;
 }
 
+struct CataReporter : Catch::ConsoleReporter {
+    using ConsoleReporter::ConsoleReporter;
+
+    static std::string getDescription() {
+        return "As console reporter, but with backtrace support if enabled at build time "
+               "and seeding the Cataclysm RNG before each test";
+    }
+
+    virtual void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
+        ConsoleReporter::sectionStarting( sectionInfo );
+        // Initialize the cata RNG with the Catch seed for reproducible tests
+        rng_set_engine_seed( m_config->rngSeed() );
+    }
+
+    bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
+        auto r = ConsoleReporter::assertionEnded( assertionStats );
+#ifdef BACKTRACE
+        Catch::AssertionResult const &result = assertionStats.assertionResult;
+
+        if( result.getResultType() == Catch::ResultWas::FatalErrorCondition ) {
+            // We are in a signal handler for a fatal error condition, so print a
+            // backtrace
+            stream << "Stack trace at fatal error:\n";
+            debug_write_backtrace( stream );
+        }
+#endif
+
+        return r;
+    }
+};
+
+REGISTER_REPORTER( "cata", CataReporter )
+
 int main( int argc, const char *argv[] )
 {
     Catch::Session session;
@@ -207,9 +238,6 @@ int main( int argc, const char *argv[] )
     }
 
     test_mode = true;
-
-    // Initialize the cata RNG with the Catch seed for reproducible tests
-    rng_set_engine_seed( session.config().rngSeed() );
 
     try {
         // TODO: Only init game if we're running tests that need it.

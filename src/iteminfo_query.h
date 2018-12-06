@@ -1,9 +1,9 @@
 #pragma once
-#ifndef ITEMINFOQUERY_H
-#define ITEMINFOQUERY_H
+#ifndef ITEMINFO_QUERY_H
+#define ITEMINFO_QUERY_H
 
-#include <string>
 #include <bitset>
+#include <string>
 #include <vector>
 
 enum class iteminfo_parts : size_t {
@@ -44,6 +44,7 @@ enum class iteminfo_parts : size_t {
 
     AMMO_REMAINING_OR_TYPES,
     AMMO_DAMAGE_VALUE,
+    AMMO_DAMAGE_PROPORTIONAL,
     AMMO_DAMAGE_AP,
     AMMO_DAMAGE_RANGE,
     AMMO_DAMAGE_DISPERSION,
@@ -67,6 +68,7 @@ enum class iteminfo_parts : size_t {
     GUN_DAMAGE,
     GUN_DAMAGE_LOADEDAMMO,
     GUN_DAMAGE_TOTAL,
+    GUN_DAMAGE_AMMOPROP,
     GUN_ARMORPIERCE,
     GUN_ARMORPIERCE_LOADEDAMMO,
     GUN_ARMORPIERCE_TOTAL,
@@ -97,6 +99,8 @@ enum class iteminfo_parts : size_t {
     GUNMOD_ARMORPIERCE,
     GUNMOD_HANDLING,
     GUNMOD_AMMO,
+    GUNMOD_RELOAD,
+    GUNMOD_STRENGTH,
 
     GUNMOD_USEDON,
     GUNMOD_LOCATION,
@@ -146,6 +150,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_MELEEDMG_PIERCE,
     DESCRIPTION_MELEEDMG_MOVES,
     DESCRIPTION_APPLICABLEMARTIALARTS,
+    DESCRIPTION_USE_METHODS,
     DESCRIPTION_REPAIREDWITH,
 
     DESCRIPTION_CONDUCTIVITY,

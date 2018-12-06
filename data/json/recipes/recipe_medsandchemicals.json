@@ -444,7 +444,9 @@
       [ "saline", 5 ]
     ],
     [
-      [ "oxycodone", 40 ]
+      [ "codeine", 25 ],
+      [ "morphine", 3 ],
+      [ "oxycodone", 2 ]
     ]
   ]
 },{
@@ -578,7 +580,7 @@
   "difficulty": 2,
   "time": 5000,
   "autolearn": true,
-  "qualities": [ { "id": "CUT", "level": 1 } ], 
+  "qualities": [ { "id": "CUT", "level": 1 } ],
   "components": [ [ [ "jabberwock_heart", 1 ] ] ]
 },{
   "type" : "recipe",

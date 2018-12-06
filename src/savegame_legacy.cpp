@@ -1,18 +1,18 @@
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
+#include "calendar.h"
 #include "itype.h"
+#include "json.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
 #include "overmap.h"
-#include "json.h"
 #include "player_activity.h"
-#include "calendar.h"
 
-#include <unordered_map>
-#include <string>
 #include <sstream>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace std
@@ -222,7 +222,7 @@ void item::load_info( const std::string &data )
     dump >> burnt >> poison >> ammotmp >> owned >> bday_ >>
          mode >> acttmp >> corp >> mission_id >> player_id;
     bday = time_point::from_turn( bday_ );
-    corpse = NULL;
+    corpse = nullptr;
     getline( dump, corpse_name );
     if( corpse_name == " ''" ) {
         corpse_name.clear();
@@ -370,7 +370,7 @@ void overmap::unserialize_legacy( std::istream &fin )
             radio_tower tmp;
             int tmp_type;
             fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
-            tmp.type = ( radio_type )tmp_type;
+            tmp.type = static_cast<radio_type>( tmp_type );
             getline( fin, tmp.message ); // Chomp endl
             getline( fin, tmp.message );
             radios.push_back( tmp );
@@ -581,7 +581,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID() // NUM_ACTIVITIES
     };
 
-    if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
+    if( legacy_type < 0 || static_cast<size_t>( legacy_type ) >= legacy_map.size() ) {
         debugmsg( "Bad legacy activity data. Got %d, expected something from 0 to %d", legacy_type,
                   legacy_map.size() );
         dest = activity_id::NULL_ID();

@@ -20,7 +20,7 @@ Vehicle prototypes do not currently accept copy-from
     { "x": 0, "y": 0, "part": "seat" },    // positive y is to the right
     { "x": 0, "y": 0, "part": "controls"}, // See vehicle_parts.json for part ids
     { "x": 0, "y": 1, "parts: [ "frame", "seat" ] }, // Arrays of parts on the same space
-    { "x": 0, "y": 1, "parts: [ { "part": "tank", "fuel": "gasoline" }, "battery_car" },  
+    { "x": 0, "y": 1, "parts: [ { "part": "tank", "fuel": "gasoline" }, "battery_car" },
     { "x": 0, "y": 1, "part": "stereo" },  // parts arrays and part may be mixed on the same space
     { "x": 1, "y": 0, "parts: [ "frame, "wheel" ] },
     { "x": 1, "y": 1, "parts: [ "frame, "wheel" ] },
@@ -35,7 +35,7 @@ Vehicle prototypes do not currently accept copy-from
 ]
 ```
 
-.* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags). 
+.* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags).
 
 ### Parts list
 The part list contains an arbitary number of lines. Each line is of the form:

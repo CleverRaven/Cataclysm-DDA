@@ -2,20 +2,17 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
-#include "iuse.h"
-#include "game_constants.h"
+#include "calendar.h"
 #include "color.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
-#include "int_id.h"
-#include "explosion.h"
 #include "units.h"
-#include "calendar.h"
 
-#include <limits.h>
-#include <set>
 #include <map>
-#include <string>
+#include <set>
 #include <vector>
 
 class vitamin;
@@ -43,6 +40,7 @@ struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 struct furn_t;
 struct itype;
+class item_location;
 
 /**
  * Transform an item into a specific type.
@@ -204,7 +202,7 @@ struct effect_data {
     bool permanent;
 
     effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
-        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
+        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
 /**
@@ -457,7 +455,8 @@ class salvage_actor : public iuse_actor
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
-        int cut_up( player &p, item &it, item &cut ) const;
+        int cut_up( player &p, item &it, item_location &cut ) const;
+        int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const item &it ) const;
 
         salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
@@ -780,7 +779,7 @@ class repair_item_actor : public iuse_actor
         enum repair_type : int {
             RT_NOTHING = 0,
             RT_REPAIR,          // Just repairing damage
-            RT_REFIT,           // Adding (fits) tag
+            RT_REFIT,           // Refitting
             RT_REINFORCE,       // Getting damage below 0
             RT_PRACTICE,        // Wanted to reinforce, but can't
             NUM_REPAIR_TYPES
@@ -964,7 +963,7 @@ class install_bionic_actor : public iuse_actor
     public:
         install_bionic_actor( const std::string &type = "install_bionic" ) : iuse_actor( type ) {}
 
-        void load( JsonObject & ) override {};
+        void load( JsonObject & ) override {}
         long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -976,7 +975,7 @@ class detach_gunmods_actor : public iuse_actor
     public:
         detach_gunmods_actor( const std::string &type = "detach_gunmods" ) : iuse_actor( type ) {}
 
-        void load( JsonObject & ) override {};
+        void load( JsonObject & ) override {}
         long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -1010,4 +1009,26 @@ class mutagen_iv_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
+
+class deploy_tent_actor : public iuse_actor
+{
+    public:
+        string_id<furn_t> wall;
+        string_id<furn_t> floor;
+        cata::optional<string_id<furn_t>> floor_center;
+        string_id<furn_t> door_opened;
+        string_id<furn_t> door_closed;
+        int radius = 1;
+        cata::optional<itype_id> broken_type;
+
+        deploy_tent_actor() : iuse_actor( "deploy_tent" ) {}
+
+        ~deploy_tent_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+
+        bool check_intact( const tripoint &pos ) const;
+};
+
 #endif

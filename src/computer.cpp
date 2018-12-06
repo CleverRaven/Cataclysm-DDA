@@ -1,35 +1,35 @@
 #include "computer.h"
+
 #include "coordinate_conversions.h"
-#include "game.h"
-#include "map.h"
 #include "debug.h"
+#include "event.h"
+#include "field.h"
+#include "game.h"
+#include "input.h"
+#include "json.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mission.h"
 #include "monster.h"
+#include "mtype.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
-#include "output.h"
-#include "json.h"
 #include "overmapbuffer.h"
-#include "messages.h"
-#include "sounds.h"
-#include "rng.h"
-#include "mission.h"
-#include "translations.h"
-#include "monster.h"
-#include "event.h"
-#include "trap.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "string_formatter.h"
-#include "field.h"
 #include "player.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
-#include "input.h"
-#include "map_iterator.h"
-#include "line.h"
+#include "translations.h"
+#include "trap.h"
 
-#include <string>
-#include <sstream>
 #include <algorithm>
+#include <sstream>
+#include <string>
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
@@ -201,7 +201,7 @@ void computer::use()
         do {
             // TODO: use input context
             ch = inp_mngr.get_input_event().get_first_input();
-        } while( ch != 'q' && ch != 'Q' && ( ch < '1' || ch - '1' >= ( char )options_size ) );
+        } while( ch != 'q' && ch != 'Q' && ( ch < '1' || ch - '1' >= static_cast<char>( options_size ) ) );
         if( ch == 'q' || ch == 'Q' ) {
             break; // Exit from main computer loop
         } else { // We selected an option other than quit.
@@ -374,7 +374,6 @@ void computer::activate_function( computer_action action )
             g->m.translate_radius( t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos(), true );
             query_any( _( "Lock enabled.  Press any key..." ) );
             break;
-
 
         // UNLOCK_DISARM falls through to just UNLOCK
         case COMPACT_UNLOCK_DISARM:
@@ -863,7 +862,7 @@ of pureed bone & LSD." ) );
         case COMPACT_DOWNLOAD_SOFTWARE:
             if( item *const usb = pick_usb() ) {
                 mission *miss = mission::find( mission_id );
-                if( miss == NULL ) {
+                if( miss == nullptr ) {
                     debugmsg( _( "Computer couldn't find its mission!" ) );
                     return;
                 }

@@ -1,23 +1,20 @@
 #pragma once
 #ifndef MTYPE_H
 #define MTYPE_H
-// SEE ALSO: monitemsdef.cpp, which defines data on which items any given
-// monster may carry.
 
-#include "enums.h"
 #include "color.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "damage.h"
-#include "pathfinding.h"
+#include "enums.h"
+#include "int_id.h"
 #include "mattack_common.h"
+#include "pathfinding.h"
+#include "string_id.h"
+#include "units.h"
 
 #include <bitset>
-#include <string>
-#include <vector>
-#include <set>
 #include <map>
-#include <math.h>
+#include <set>
+#include <vector>
 
 class Creature;
 class monster;
@@ -68,6 +65,8 @@ enum monster_trigger : int {
     MTRIG_FRIEND_DIED, // A monster of the same type died
     MTRIG_FRIEND_ATTACKED, // A monster of the same type attacked
     MTRIG_SOUND,  // Heard a sound
+    MTRIG_PLAYER_NEAR_BABY, // Player/npc is near a baby monster of this type
+    MTRIG_MATING_SEASON, // It's the monster's mating season (defined by baby_flags)
     N_MONSTER_TRIGGERS
 };
 
@@ -184,7 +183,7 @@ struct mon_effect_data {
     mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
                      int nchance ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
-        chance( nchance ) {};
+        chance( nchance ) {}
 };
 
 struct mtype {
@@ -217,6 +216,8 @@ struct mtype {
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
         m_size size;
+        units::volume volume;
+        units::mass weight;
         std::vector<material_id> mat;
         phase_id phase;
         std::set<m_flag> flags;

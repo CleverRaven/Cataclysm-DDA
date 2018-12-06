@@ -3,15 +3,21 @@
 #define INPUT_H
 
 #include <functional>
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
+
 #ifdef __ANDROID__
 #include <list>
 #include <algorithm>
 #endif
-#include <utility>
 
+struct tripoint;
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 namespace catacurses
 {
 class window;
@@ -205,7 +211,7 @@ class input_manager
          *                           keybinding is overridden by something else in the given context.
          */
         const std::vector<input_event> &get_input_for_action( const std::string &action_descriptor,
-                const std::string &context = "default", bool *overwrites_default = NULL );
+                const std::string &context = "default", bool *overwrites_default = nullptr );
 
         /**
          * Return first char associated with an action ID in a given context.
@@ -257,8 +263,6 @@ class input_manager
          * only input events from the keyboard are considered.
          */
         void wait_for_any_key();
-
-        bool translate_to_window_position();
 
         /**
          * Sets global input polling timeout as appropriate for the current interface system.
@@ -328,7 +332,7 @@ class input_manager
         const action_attributes &get_action_attributes(
             const std::string &action_id,
             const std::string &context = "default",
-            bool *overwrites_default = NULL );
+            bool *overwrites_default = nullptr );
 
         /**
          * Get a value to be used as the default name for a newly created action.
@@ -371,7 +375,7 @@ class input_context
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
-        };
+        }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
         input_context( std::string category ) : registered_any_input( false ),
@@ -380,14 +384,14 @@ class input_context
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
-        };
+        }
 
 #ifdef __ANDROID__
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
 
-        // hack to allow creating manual keybindings for getch() instances, uimenus etc. that don't use an input_context outside of the Android version
+        // hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
             manual_key( long _key, const std::string &_text ) : key( _key ), text( _text ) {}
             long key;
@@ -555,7 +559,7 @@ class input_context
                                     const std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
-        } );
+        } ) const;
 
         /**
          * Handles input and returns the next action in the queue.
@@ -587,15 +591,13 @@ class input_context
         bool get_direction( int &dx, int &dy, const std::string &action );
 
         /**
-         * Get the coordinates associated with the last mouse click.
+         * Get the coordinates associated with the last mouse click (if any).
          *
          * TODO: This right now is more or less specific to the map window,
          *       and returns the absolute map coordinate.
          *       Eventually this should be made more flexible.
-         *
-         * @return true if we could process a click inside the window, false otherwise.
          */
-        bool get_coordinates( const catacurses::window &window, int &x, int &y );
+        cata::optional<tripoint> get_coordinates( const catacurses::window &window );
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -642,7 +644,7 @@ class input_context
         /**
         * Get/Set edittext to display IME unspecified string.
         */
-        void set_edittext( std::string s );
+        void set_edittext( const std::string &s );
         std::string get_edittext();
 
         void set_iso( bool mode = true );

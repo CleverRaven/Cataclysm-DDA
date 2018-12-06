@@ -1,32 +1,30 @@
 #include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "rng.h"
-#include "line.h"
+
+#include "basecamp.h"
+#include "bionics.h"
 #include "debug.h"
-#include "catacharset.h"
+#include "game.h"
+#include "itype.h"
+#include "line.h"
+#include "map.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "units.h"
-#include "overmapbuffer.h"
-#include "translations.h"
-#include "basecamp.h"
-#include "itype.h"
-#include "skill.h"
-#include "overmap.h"
 #include "npctalk.h"
-#include "mission_companion.h"
 #include "npctrade.h"
-#include "bionics.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "requirements.h"
-
+#include "rng.h"
 #include "string_formatter.h"
-#include <vector>
-#include <string>
-#include <sstream>
+#include "translations.h"
+#include "ui.h"
+#include "units.h"
+
 #include <algorithm>
+#include <string>
+#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -164,16 +162,16 @@ void talk_function::assign_base( npc &p )
         return;
     }
 
-    add_msg( _( "%1$s waits at %2$s" ), p.name.c_str(), camp->camp_name().c_str() );
+    add_msg( _( "%1$s waits at %2$s" ), p.name, camp->camp_name() );
     p.mission = NPC_MISSION_BASE;
     p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::assign_guard( npc &p )
 {
-    add_msg( _( "%s is posted as a guard." ), p.name.c_str() );
+    add_msg( _( "%s is posted as a guard." ), p.name );
     p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD;
+    p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_destination();
 }
@@ -181,7 +179,7 @@ void talk_function::assign_guard( npc &p )
 void talk_function::stop_guard( npc &p )
 {
     p.set_attitude( NPCATT_FOLLOW );
-    add_msg( _( "%s begins to follow you." ), p.name.c_str() );
+    add_msg( _( "%s begins to follow you." ), p.name );
     p.mission = NPC_MISSION_NULL;
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
@@ -204,13 +202,13 @@ void talk_function::reveal_stats( npc &p )
 
 void talk_function::end_conversation( npc &p )
 {
-    add_msg( _( "%s starts ignoring you." ), p.name.c_str() );
+    add_msg( _( "%s starts ignoring you." ), p.name );
     p.chatbin.first_topic = "TALK_DONE";
 }
 
 void talk_function::insult_combat( npc &p )
 {
-    add_msg( _( "You start a fight with %s!" ), p.name.c_str() );
+    add_msg( _( "You start a fight with %s!" ), p.name );
     p.chatbin.first_topic = "TALK_DONE";
     p.set_attitude( NPCATT_KILL );
 }
@@ -233,18 +231,13 @@ void talk_function::bionic_install( npc &p )
                 bio->typeId() ==  "bio_power_storage_mkII" ) {
 
                 bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() + " - $" + to_string( bio->price( true ) * 2 / 100 ) );
+                bionic_names.push_back( bio->tname() + " - " + format_money( bio->price( true ) * 2 ) );
             }
         }
     }
     // Choose bionic if applicable
-    int bionic_index = 0;
-    bionic_names.push_back( _( "Cancel" ) );
-    bionic_index = menu_vec( false, _( "Which bionic do you wish to have installed?" ),
-                             bionic_names ) - 1;
-    if( bionic_index == static_cast<int>( bionic_names.size() ) - 1 ) {
-        bionic_index = -1;
-    }
+    int bionic_index = uilist( _( "Which bionic do you wish to have installed?" ),
+                               bionic_names );
     // Did we cancel?
     if( bionic_index < 0 ) {
         popup( _( "You decide to hold off..." ) );
@@ -289,21 +282,16 @@ void talk_function::bionic_remove( npc &p )
                 bionic_types.push_back( bio.id.str() );
                 if( item::type_is_defined( bio.id.str() ) ) {
                     tmp = item( bio.id.str(), 0 );
-                    bionic_names.push_back( tmp.tname() + " - $" + to_string( 500 + ( tmp.price( true ) / 400 ) ) );
+                    bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
-                    bionic_names.push_back( bio.id.str() + " - $" + to_string( 500 ) );
+                    bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
                 }
             }
         }
     }
     // Choose bionic if applicable
-    int bionic_index = 0;
-    bionic_names.push_back( _( "Cancel" ) );
-    bionic_index = menu_vec( false, _( "Which bionic do you wish to uninstall?" ),
-                             bionic_names ) - 1;
-    if( bionic_index == static_cast<int>( bionic_names.size() ) - 1 ) {
-        bionic_index = -1;
-    }
+    int bionic_index = uilist( _( "Which bionic do you wish to uninstall?" ),
+                               bionic_names );
     // Did we cancel?
     if( bionic_index < 0 ) {
         popup( _( "You decide to hold off..." ) );
@@ -342,7 +330,7 @@ void talk_function::give_equipment( npc &p )
         giving.erase( giving.begin() + index );
     }
     if( giving.empty() ) {
-        popup( _( "%s has nothing to give!" ), p.name.c_str() );
+        popup( _( "%s has nothing to give!" ), p.name );
         return;
     }
     if( chosen == -1 ) {
@@ -350,7 +338,7 @@ void talk_function::give_equipment( npc &p )
     }
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
-    popup( _( "%1$s gives you a %2$s" ), p.name.c_str(), it.tname().c_str() );
+    popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
 
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
@@ -359,7 +347,6 @@ void talk_function::give_equipment( npc &p )
 
 void talk_function::give_aid( npc &p )
 {
-    g->u.cash -= 20000;
     p.add_effect( effect_currently_busy, 30_minutes );
     body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -381,7 +368,6 @@ void talk_function::give_aid( npc &p )
 
 void talk_function::give_all_aid( npc &p )
 {
-    g->u.cash -= 30000;
     p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     body_part bp_healed;
@@ -407,19 +393,17 @@ void talk_function::give_all_aid( npc &p )
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
-    g->u.cash -= 1000;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
     g->u.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name.c_str() );
+    add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
 }
 
 void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
-    g->u.cash -= 500;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent shave..." ), p.name.c_str() );
+    add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
 }
 
 void talk_function::buy_10_logs( npc &p )
@@ -445,8 +429,7 @@ void talk_function::buy_10_logs( npc &p )
     bay.save();
 
     p.add_effect( effect_currently_busy, 1_days );
-    g->u.cash -= 200000;
-    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
+    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name );
 }
 
 void talk_function::buy_100_logs( npc &p )
@@ -472,8 +455,7 @@ void talk_function::buy_100_logs( npc &p )
     bay.save();
 
     p.add_effect( effect_currently_busy, 7_days );
-    g->u.cash -= 1200000;
-    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
+    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name );
 }
 
 void talk_function::follow( npc &p )
@@ -515,7 +497,7 @@ void talk_function::hostile( npc &p )
     }
 
     if( p.sees( g->u ) ) {
-        add_msg( _( "%s turns hostile!" ), p.name.c_str() );
+        add_msg( _( "%s turns hostile!" ), p.name );
     }
 
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
@@ -526,19 +508,19 @@ void talk_function::hostile( npc &p )
 
 void talk_function::flee( npc &p )
 {
-    add_msg( _( "%s turns to flee!" ), p.name.c_str() );
+    add_msg( _( "%s turns to flee!" ), p.name );
     p.set_attitude( NPCATT_FLEE );
 }
 
 void talk_function::leave( npc &p )
 {
-    add_msg( _( "%s leaves." ), p.name.c_str() );
+    add_msg( _( "%s leaves." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::stranger_neutral( npc &p )
 {
-    add_msg( _( "%s feels less threatened by you." ), p.name.c_str() );
+    add_msg( _( "%s feels less threatened by you." ), p.name );
     p.set_attitude( NPCATT_NULL );
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
@@ -546,8 +528,7 @@ void talk_function::stranger_neutral( npc &p )
 void talk_function::start_mugging( npc &p )
 {
     p.set_attitude( NPCATT_MUG );
-    add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ),
-             p.name.c_str() );
+    add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ), p.name );
 }
 
 void talk_function::player_leaving( npc &p )
@@ -588,7 +569,8 @@ bool pay_npc( npc &np, int cost )
         return true;
     }
 
-    if( g->u.cash + ( unsigned long )np.op_of_u.owed >= ( unsigned long )cost ) {
+    if( g->u.cash + static_cast<unsigned long>( np.op_of_u.owed ) >= static_cast<unsigned long>
+        ( cost ) ) {
         g->u.cash -= cost - np.op_of_u.owed;
         np.op_of_u.owed = 0;
         return true;
@@ -626,5 +608,3 @@ void talk_function::start_training( npc &p )
     g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
-
-

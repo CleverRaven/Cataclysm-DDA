@@ -1,16 +1,17 @@
 #include "recipe_dictionary.h"
 
-#include "itype.h"
-#include "generic_factory.h"
-#include "item_factory.h"
-#include "item.h"
-#include "init.h"
 #include "cata_utility.h"
 #include "crafting.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "output.h"
 #include "skill.h"
+#include "uistate.h"
 
 #include <algorithm>
-#include <numeric>
 
 recipe_dictionary recipe_dict;
 
@@ -41,6 +42,9 @@ const recipe &string_id<recipe>::obj() const
 {
     const auto iter = recipe_dict.recipes.find( *this );
     if( iter != recipe_dict.recipes.end() ) {
+        if( iter->second.obsolete ) {
+            return null_recipe;
+        }
         return iter->second;
     }
     if( *this != NULL_ID() ) {
@@ -84,6 +88,39 @@ bool search_reqs( std::vector<std::vector<item_comp> >  gp,
     } );
 }
 
+std::vector<const recipe *> recipe_subset::favorite() const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r ) {
+            return false;
+        }
+        return uistate.favorite_recipes.find( r->ident() ) != uistate.favorite_recipes.end();
+    } );
+
+    return res;
+}
+
+std::vector<const recipe *> recipe_subset::recent() const
+{
+    std::vector<const recipe *> res;
+
+    for( auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend();
+         ++rec_id ) {
+        std::find_if( recipes.begin(), recipes.end(), [&rec_id, &res]( const recipe * r ) {
+            if( !*r || *rec_id != r->ident() ) {
+                return false;
+            }
+
+            res.push_back( r );
+            return true;
+        } );
+    }
+
+    return res;
+}
+
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
 {
@@ -98,7 +135,11 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( r->result_name(), txt );
 
             case search_type::skill:
-                return lcmatch( r->required_skills_string(), txt ) || lcmatch( r->skill_used->name(), txt );
+                return lcmatch( r->required_skills_string( nullptr ), txt ) ||
+                       lcmatch( r->skill_used->name(), txt );
+
+            case search_type::primary_skill:
+                return lcmatch( r->skill_used->name(), txt );
 
             case search_type::component:
                 return search_reqs( r->requirements().get_components(), txt );
@@ -114,6 +155,11 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
                     return lcmatch( e.first->name, txt );
                 } );
+            }
+
+            case search_type::description_result: {
+                const item result = r->create_result();
+                return lcmatch( remove_color_tags( result.info( true ) ), txt );
             }
 
             default:
@@ -136,9 +182,14 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     return res;
 }
 
-bool recipe_subset::empty_category( const std::string &cat,
-                                    const std::string &subcat ) const
+bool recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const
 {
+    if( subcat == "CSC_*_FAVORITE" ) {
+        return uistate.favorite_recipes.empty();
+    } else if( subcat == "CSC_*_RECENT" ) {
+        return uistate.recent_recipes.empty();
+    }
+
     auto iter = category.find( cat );
     if( iter != category.end() ) {
         if( subcat.empty() ) {
@@ -232,7 +283,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
-        if( elem.is_blacklisted() ) {
+        if( elem.is_blacklisted() || elem.obsolete ) {
             return true;
         }
 

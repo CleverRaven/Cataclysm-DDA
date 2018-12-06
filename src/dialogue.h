@@ -2,21 +2,17 @@
 #ifndef DIALOGUE_H
 #define DIALOGUE_H
 
+#include "dialogue_win.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "npctalk.h"
-#include "dialogue_win.h"
 
-#include <memory>
-#include <vector>
-#include <string>
 #include <functional>
+#include <string>
+#include <vector>
 
 class JsonObject;
 class mission;
+class time_duration;
 class time_point;
 class npc;
 class item;
@@ -110,8 +106,10 @@ struct talk_response {
                 effect_fun_t( talkfunction_ptr effect );
                 effect_fun_t( std::function<void( npc & )> effect );
                 void set_companion_mission( std::string &role_id );
-                void set_u_add_effect( std::string &new_effect, std::string &duration );
-                void set_npc_add_effect( std::string &new_effect, std::string &duration );
+                void set_u_add_permanent_effect( std::string &new_effect );
+                void set_u_add_effect( std::string &new_effect, const time_duration &duration );
+                void set_npc_add_permanent_effect( std::string &new_effect );
+                void set_npc_add_effect( std::string &new_effect, const time_duration &duration );
                 void set_u_add_trait( std::string &new_trait );
                 void set_npc_add_trait( std::string &new_trait );
                 void set_u_buy_item( std::string &new_trait, int cost, int count, std::string &container_name );
@@ -150,9 +148,8 @@ struct talk_response {
                 /**
                  * Sets an effect to a function object and consequence to explicitly given one.
                  */
-                void set_effect_consequence( effect_fun_t eff, dialogue_consequence con );
+                void set_effect_consequence( const effect_fun_t &eff, dialogue_consequence con );
                 void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
-
 
                 void load_effect( JsonObject &jo );
                 void parse_sub_effect( JsonObject jo );
@@ -346,8 +343,6 @@ class json_talk_response
  */
 class json_talk_topic
 {
-    public:
-
     private:
         bool replace_built_in_responses = false;
         std::vector<json_talk_response> responses;

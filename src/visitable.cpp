@@ -1,21 +1,23 @@
 #include "visitable.h"
 
-#include "string_id.h"
-#include "debug.h"
-#include "item.h"
-#include "inventory.h"
-#include "character.h"
-#include "map_selector.h"
-#include "vehicle_selector.h"
 #include "bionics.h"
+#include "character.h"
+#include "debug.h"
+#include "game.h"
+#include "inventory.h"
+#include "item.h"
 #include "map.h"
+#include "map_selector.h"
+#include "player.h"
+#include "string_id.h"
 #include "submap.h"
-#include "vehicle.h"
 #include "veh_type.h"
 #include "game.h"
 #include "itype.h"
 #include "player.h"
 #include "cata_utility.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 
 /** @relates visitable */
 template <typename T>
@@ -104,7 +106,7 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int qty = 0;
 
     auto pos = veh.parts[ part ].mount;
-    for( const auto &n : veh.parts_at_relative( pos.x, pos.y, true ) ) {
+    for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
         if( !veh.parts[ n ].is_broken() ) {
@@ -198,7 +200,7 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int res = INT_MIN;
 
     auto pos = veh.parts[ part ].mount;
-    for( const auto &n : veh.parts_at_relative( pos.x, pos.y, true ) ) {
+    for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
         if( !veh.parts[ n ].is_broken() ) {
@@ -807,7 +809,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
 
     if( what == "toolset" ) {
         if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
-            return std::min( ( long )p->power_level, limit );
+            return std::min( static_cast<long>( p->power_level ), limit );
         } else {
             return 0;
         }

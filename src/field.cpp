@@ -1,34 +1,32 @@
 #include "field.h"
-#include "rng.h"
-#include "map.h"
+
+#include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "emit.h"
 #include "enums.h"
 #include "fire.h"
-#include "game.h"
 #include "fungal_effects.h"
-#include "messages.h"
-#include "vpart_position.h"
-#include "translations.h"
-#include "material.h"
-#include "monster.h"
-#include "npc.h"
-#include "trap.h"
+#include "game.h"
 #include "itype.h"
-#include "emit.h"
-#include "vehicle.h"
-#include "output.h"
-#include "calendar.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "emit.h"
-#include "scent_map.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "morale_types.h"
+#include "mapdata.h"
+#include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
+#include "output.h"
+#include "rng.h"
+#include "scent_map.h"
+#include "submap.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
-#include <queue>
 #include <algorithm>
+#include <queue>
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -513,9 +511,8 @@ bool map::process_fields()
     bool dirty_transparency_cache = false;
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    bool zlev_dirty;
     for( int z = minz; z <= maxz; z++ ) {
-        zlev_dirty = false;
+        bool zlev_dirty = false;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
                 submap *const current_submap = get_submap_at_grid( x, y, z );
@@ -559,32 +556,17 @@ int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
     return ter.movecost + furn.movecost;
 }
 
-// A helper to turn neighbor index back into a tripoint
-// Ugly, but can save time where it matters
-tripoint offset_by_index( const size_t index, const tripoint &base )
-{
-    switch( index ) {
-        case 0:
-            return tripoint( base.x - 1, base.y - 1, base.z );
-        case 1:
-            return tripoint( base.x, base.y - 1, base.z );
-        case 2:
-            return tripoint( base.x + 1, base.y - 1, base.z );
-        case 3:
-            return tripoint( base.x - 1, base.y, base.z );
-        case 4:
-            return tripoint( base.x + 1, base.y, base.z );
-        case 5:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        case 6:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        case 7:
-            return tripoint( base.x - 1, base.y + 1, base.z );
-        default:
-            debugmsg( "offset_by_index got invalid index: %d", index );
-            return tripoint_min;
+static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { -1, -1, 0 },
+        {  0, -1, 0 },
+        { +1, -1, 0 },
+        { -1,  0, 0 },
+        { +1,  0, 0 },
+        { -1, +1, 0 },
+        {  0, +1, 0 },
+        { +1, +1, 0 },
     }
-}
+};
 
 bool at_edge( const size_t x, const size_t y )
 {
@@ -618,14 +600,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
         const bool east = pt.x < SEEX * my_MAPSIZE - 1;
         const bool south = pt.y < SEEY * my_MAPSIZE - 1;
         return std::array< maptile, 8 > { {
-                maptile_has_bounds( {pt.x - 1, pt.y - 1, pt.z}, west &&north ),
-                maptile_has_bounds( {pt.x, pt.y - 1, pt.z}, north ),
-                maptile_has_bounds( {pt.x + 1, pt.y - 1, pt.z}, east &&north ),
-                maptile_has_bounds( {pt.x - 1, pt.y, pt.z}, west ),
-                maptile_has_bounds( {pt.x + 1, pt.y, pt.z}, east ),
-                maptile_has_bounds( {pt.x - 1, pt.y + 1, pt.z}, west &&south ),
-                maptile_has_bounds( {pt.x, pt.y + 1, pt.z}, south ),
-                maptile_has_bounds( {pt.x + 1, pt.y + 1, pt.z}, east &&south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[0], west &&north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[1], north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[2], east &&north ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[3], west ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[4], east ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[5], west &&south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[6], south ),
+                maptile_has_bounds( pt + eight_horizontal_neighbors[7], east &&south ),
             }
         };
     };
@@ -688,7 +670,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         }
 
         auto neighs = get_neighbors( p );
-        const size_t end_it = ( size_t )rng( 0, neighs.size() - 1 );
+        const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
         std::vector<size_t> spread;
         spread.reserve( 8 );
         // Start at end_it + 1, then wrap around until i == end_it
@@ -752,7 +734,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
     //Holds m.field_at(x,y).findField(fd_some_field) type returns.
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
-    field_id curtype; //Holds cur.getFieldType() as that is what the old system used before rewrite.
 
     tripoint thep;
     thep.z = submap_z;
@@ -786,7 +767,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     continue;
                 }
 
-                curtype = cur.getFieldType();
+                //Holds cur.getFieldType() as that is what the old system used before rewrite.
+                field_id curtype = cur.getFieldType();
                 // Again, legacy support in the event someone Mods setFieldDensity to allow more values.
                 if( cur.getFieldDensity() > 3 || cur.getFieldDensity() < 1 ) {
                     debugmsg( "Whoooooa density of %d", cur.getFieldDensity() );
@@ -798,7 +780,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 int part;
-                vehicle *veh;
                 switch( curtype ) {
                     case fd_null:
                     case num_fields:
@@ -952,7 +933,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
 
                         //Get the part of the vehicle in the fire.
-                        veh = veh_at_internal( p, part ); // _internal skips the boundary check
+                        vehicle *veh = veh_at_internal( p, part ); // _internal skips the boundary check
                         if( veh != nullptr ) {
                             veh->damage( part, cur.getFieldDensity() * 10, DT_HEAT, true );
                             //Damage the vehicle in the fire.
@@ -1061,7 +1042,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // if there is more fire there, make it bigger and give it some fuel.
                                 // This is how big fires spend their excess age:
                                 // making other fires bigger. Flashpoint.
-                                const size_t end_it = ( size_t )rng( 0, neighs.size() - 1 );
+                                const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                                 for( size_t i = ( end_it + 1 ) % neighs.size();
                                      i != end_it && cur.getFieldAge() < 0_turns;
                                      i = ( i + 1 ) % neighs.size() ) {
@@ -1145,7 +1126,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // Our iterator will start at end_i + 1 and increment from there and then wrap around.
                         // This guarantees it will check all neighbors, starting from a random one
-                        const size_t end_i = ( size_t )rng( 0, neighs.size() - 1 );
+                        const size_t end_i = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                         for( size_t i = ( end_i + 1 ) % neighs.size();
                              i != end_i; i = ( i + 1 ) % neighs.size() ) {
                             if( one_in( cur.getFieldDensity() * 2 ) ) {
@@ -1182,7 +1163,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                                    nearwebfld || ( dst.get_item_count() > 0 && flammable_items_at( offset_by_index( i, p ) ) &&
+                                    nearwebfld || ( dst.get_item_count() > 0 &&
+                                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
                                                     one_in( 5 ) )
                                 ) ) {
                                 dst.add_field( fd_fire, 1, 0_turns ); // Nearby open flammable ground? Set it on fire.
@@ -2509,8 +2491,7 @@ time_duration field_entry::setFieldAge( const time_duration new_age )
 }
 
 field::field()
-    : field_list()
-    , draw_symbol( fd_null )
+    : draw_symbol( fd_null )
 {
 }
 
@@ -2723,7 +2704,7 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
                     continue;
                 }
 
-                open.push( { ( float )rl_dist( center, pt ), pt } );
+                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
             }
         }
     }

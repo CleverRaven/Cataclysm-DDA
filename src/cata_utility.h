@@ -2,13 +2,13 @@
 #ifndef CATA_UTILITY_H
 #define CATA_UTILITY_H
 
-#include <utility>
-#include <string>
-#include <vector>
 #include <fstream>
 #include <functional>
 #include <limits>
 #include <type_traits>
+#include <string>
+#include <utility>
+#include <vector>
 
 class item;
 class Creature;
@@ -124,7 +124,7 @@ bool lcmatch( const std::string &str, const std::string &qry );
  * Examle: bank,-house,tank,-car
  * Will match text containing tank or bank while not containing house or car
  *
- * @param test String to be matched
+ * @param text String to be matched
  * @param filter String with include/exclude rules
  *
  * @return true if include/exclude rules pass. See Example.
@@ -262,7 +262,6 @@ double temp_to_celsius( double fahrenheit );
  * @return Temperature in degrees K.
  */
 double temp_to_kelvin( double fahrenheit );
-
 
 /**
  * Clamp (number and space wise) value to with,
@@ -500,5 +499,15 @@ inline void deserialize( T &obj, const std::string &data )
     }, data );
 }
 /**@}*/
+
+/**
+ * \brief Returns true iff s1 starts with s2
+ */
+bool string_starts_with( const std::string &s1, const std::string &s2 );
+
+/**
+ * \brief Returns true iff s1 ends with s2
+ */
+bool string_ends_with( const std::string &s1, const std::string &s2 );
 
 #endif // CAT_UTILITY_H

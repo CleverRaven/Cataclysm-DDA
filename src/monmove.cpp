@@ -1,31 +1,26 @@
 // Monster movement code; essentially, the AI
 
-#include "monster.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "field.h"
+#include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "debug.h"
-#include "game.h"
-#include "output.h"
-#include "line.h"
-#include "rng.h"
-#include "pldata.h"
-#include "messages.h"
-#include "cursesdef.h"
-#include "trap.h"
-#include "sounds.h"
-#include "monattack.h"
-#include "monfaction.h"
-#include "translations.h"
-#include "npc.h"
 #include "mapdata.h"
+#include "messages.h"
+#include "monfaction.h"
+#include "monster.h"
 #include "mtype.h"
-#include "field.h"
+#include "npc.h"
+#include "output.h"
+#include "rng.h"
 #include "scent_map.h"
+#include "sounds.h"
+#include "translations.h"
+#include "trap.h"
 
-#include <stdlib.h>
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
+#include <cmath>
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -77,7 +72,7 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( !can_submerge() && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( ( !can_submerge() && !has_flag( MF_FLIES ) ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         return false;
     }
     if( has_flag( MF_DIGS ) && !g->m.has_flag( "DIGGABLE", p ) ) {
@@ -206,7 +201,11 @@ void monster::plan( const mfactions &factions )
     bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
     int angers_hostile_near =
         ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
+    int angers_mating_season = ( type->anger.find( MTRIG_MATING_SEASON ) != type->anger.end() ) ? 3 : 0;
+    int angers_cub_threatened = ( type->anger.find( MTRIG_PLAYER_NEAR_BABY ) != type->anger.end() ) ?
+                                8 : 0;
     int fears_hostile_near = ( type->fear.find( MTRIG_HOSTILE_CLOSE ) != type->fear.end() ) ? 5 : 0;
+    auto all_monsters = g->all_monsters();
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
@@ -219,10 +218,38 @@ void monster::plan( const mfactions &factions )
         if( dist <= 5 ) {
             anger += angers_hostile_near;
             morale -= fears_hostile_near;
+            if( angers_mating_season > 0 ) {
+                bool mating_angry = false;
+                season_type season = season_of_year( calendar::turn );
+                for( auto &elem : type->baby_flags ) {
+                    if( ( season == SUMMER && elem == "SUMMER" ) ||
+                        ( season == WINTER && elem == "WINTER" ) ||
+                        ( season == SPRING && elem == "SPRING" ) ||
+                        ( season == AUTUMN && elem == "AUTUMN" ) ) {
+                        mating_angry = true;
+                        break;
+                    }
+                }
+                if( mating_angry ) {
+                    anger += angers_mating_season;
+                }
+            }
+        }
+        if( angers_cub_threatened > 0 ) {
+            for( monster &tmp : all_monsters ) {
+                if( type->baby_monster == tmp.type->id ) {
+                    // baby nearby; is the player too close?
+                    dist = tmp.rate_target( g->u, dist, smart_planning );
+                    if( dist <= 3 ) {
+                        //proximity to baby; monster gets furious and less likely to flee
+                        anger += angers_cub_threatened;
+                        morale += angers_cub_threatened / 2;
+                    }
+                }
+            }
         }
     } else if( friendly != 0 && !docile ) {
-        // Target unfriendly monsters, only if we aren't interacting with the player.
-        for( monster &tmp : g->all_monsters() ) {
+        for( monster &tmp : all_monsters ) {
             if( tmp.friendly == 0 ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
@@ -260,6 +287,22 @@ void monster::plan( const mfactions &factions )
         if( rating <= 5 ) {
             anger += angers_hostile_near;
             morale -= fears_hostile_near;
+            if( angers_mating_season > 0 ) {
+                bool mating_angry = false;
+                season_type season = season_of_year( calendar::turn );
+                for( auto &elem : type->baby_flags ) {
+                    if( ( season == SUMMER && elem == "SUMMER" ) ||
+                        ( season == WINTER && elem == "WINTER" ) ||
+                        ( season == SPRING && elem == "SPRING" ) ||
+                        ( season == AUTUMN && elem == "AUTUMN" ) ) {
+                        mating_angry = true;
+                        break;
+                    }
+                }
+                if( mating_angry ) {
+                    anger += angers_mating_season;
+                }
+            }
         }
     }
 
@@ -1046,8 +1089,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         // and the same regardless of the distance measurement mode.
         // Note: Keep this as float here or else it will cancel valid moves
         const float cost = stagger_adjustment *
-                           ( float )( climbs ? calc_climb_cost( pos(), p ) :
-                                      calc_movecost( pos(), p ) );
+                           static_cast<float>( climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ) );
         if( cost > 0.0f ) {
             moves -= static_cast<int>( ceil( cost ) );
         } else {
@@ -1059,7 +1101,13 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     bool was_water = g->m.is_divable( pos() );
     bool will_be_water = on_ground && can_submerge() && g->m.is_divable( p );
 
-    if( was_water && !will_be_water && g->u.sees( p ) ) {
+    //Birds and other flying creatures flying over the deep water terrain
+    if( was_water && flies && g->u.sees( p ) ) {
+        if( one_in( 4 ) ) {
+            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name().c_str(),
+                     g->m.tername( pos() ).c_str() );
+        }
+    } else if( was_water && !will_be_water && g->u.sees( p ) ) {
         //Use more dramatic messages for swimming monsters
         add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name().c_str(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
@@ -1340,7 +1388,7 @@ void monster::knock_back_from( const tripoint &p )
         die( nullptr );
         return;
     }
-    tripoint to = pos();;
+    tripoint to = pos();
     if( p.x < posx() ) {
         to.x++;
     }

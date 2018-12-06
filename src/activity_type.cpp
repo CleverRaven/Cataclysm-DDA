@@ -6,6 +6,7 @@
 #include "json.h"
 #include "translations.h"
 
+#include <map>
 #include <unordered_map>
 
 // activity_type functions
@@ -53,7 +54,7 @@ void activity_type::load( JsonObject &jo )
 void activity_type::check_consistency()
 {
     for( const auto &pair : activity_type_all ) {
-        if( pair.second.stop_phrase_ == "" ) {
+        if( pair.second.stop_phrase_.empty() ) {
             debugmsg( "%s doesn't have a stop phrase", pair.first.c_str() );
         }
         if( pair.second.based_on_ == based_on_type::NEITHER &&

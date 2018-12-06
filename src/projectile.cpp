@@ -1,12 +1,12 @@
 #include "projectile.h"
 
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
 #include "explosion.h"
 #include "field.h"
-#include "rng.h"
+#include "game.h"
 #include "item.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "rng.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )

@@ -131,11 +131,32 @@ Groups of vehicle definitions with self-explanatory names of files:
 
 # Raw JS
 
+### Time duration
+
+A string containing one or more pairs of number and time duration unit. Number and unit, as well as each pair, can be separated by an arbitrary amount of spaces.
+Available units:
+- "hours", "hour", "h" - one hour
+- "days", "day", "d" - one day
+- "minutes", "minute", "m" - one minute
+- "turns", "turn", "t" - one turn,
+
+Examples:
+- " +1 day -23 hours 50m " (1*24*60 - 23*60 + 50 == 110 minutes)
+- "1 turn 1 minutes 9 turns" (2 minutes because 10 turns are 1 minute)
+
 ### All Files
 
 ```JSON
 "//" : "comment", // Preferred method of leaving comments inside json files.
 ```
+
+Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context, by writing it like:
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar" }
+```
+
+Currently, only effect names, item action names, and item category names support this syntax. If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
 
 ### Bionics
 
@@ -558,7 +579,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
 "bodytemp_sleep" : 50, // Additional units of bodytemp which are applied when sleeping
 "initial_ma_styles": [ "style_crane" ], // (optional) A list of ids of martial art styles of which the player can choose one when starting a game.
-"mixed_effect": false, // Wheather the trait has both positive and negative effects. This is purely declarative and is only used for the user interface. (default: false)
+"mixed_effect": false, // Whether the trait has both positive and negative effects. This is purely declarative and is only used for the user interface. (default: false)
 "description": "Nothing gets you down!" // In-game description
 "starting_trait": true, // Can be selected at character creation (default: false)
 "valid": false,      // Can be mutated ingame (default: true)
@@ -600,6 +621,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
         { "bash" : 1 }        // ...and gives them those resistances instead
     ]
 ],
+"stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
 "starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
 "cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
@@ -640,7 +662,7 @@ Vehicle components when installed on a vehicle.
                                * SPECIAL: A part may have at most ONE of the following fields:
                                *    wheel_width = base wheel width in inches
                                *    size        = trunk/box storage volume capacity
-                               *    power       = base engine power (in half-horsepower)
+                               *    power       = base engine power in watts
                                *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
                                *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
@@ -747,7 +769,7 @@ See also VEHICLE_JSON.md
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
 "weight" : 350,                   // Weight of the item in grams. For stackable items (ammo, comestibles) this is the weight per charge.
-"volume" : 1,                     // Volume, measured in 1/4 liters. For stackable items (ammo, comestibles) this is the volume of stack_size charges.
+"volume" : 1,                     // Volume, measured in 1/4 liters. For stackable items (ammo, comestibles) this is the volume of stack_size charges. Volume in ml and L can be used - "50ml" or "2L"
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
@@ -785,6 +807,7 @@ See also VEHICLE_JSON.md
                       // additional some ammo specific entries:
 "ammo_type" : "shot", // Determines what it can be loaded in
 "damage" : 18,        // Ranged damage when fired
+"prop_damage": 2,     // Multiplies the damage of weapon by amount (overrides damage field)
 "pierce" : 0,         // Armor piercing ability when fired
 "range" : 5,          // Range when fired
 "dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
@@ -823,7 +846,7 @@ Armor can be defined like this:
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
 "coverage" : 80,      // What percentage of body part
-"material_thickness" : 1,  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
+"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
@@ -898,7 +921,7 @@ CBMs can be defined like this:
 "type" : "BIONIC_ITEM",         // Defines this as a CBM
 ...                             // same entries as above for the generic item.
                                 // additional some CBM specific entries:
-"bionic_id" : "bio_advreactor", // ID of the installed bionic if not equaivalent to "id"
+"bionic_id" : "bio_advreactor", // ID of the installed bionic if not equivalent to "id"
 "difficulty" : 11,              // Difficulty of installing CBM
 "is_upgrade" : true             // Whether the CBM is an upgrade of another bionic.
 ```
@@ -910,7 +933,7 @@ CBMs can be defined like this:
 ...                         // same entries as above for the generic item.
                             // additional some comestible specific entries:
 "addiction_type" : "crack", // Addiction type
-"spoils_in" : 0,            // How long a comestible is good for. 0 = no spoilage
+"spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
@@ -1023,6 +1046,8 @@ Gun mods can be defined like this:
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
 "ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
+"reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
+"min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
 
 ### Tools
@@ -1064,7 +1089,7 @@ Every item type can have optional seed data, if the item has seed data, it's con
     "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
     "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
-    "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
+    "grow" : 91 // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
                 // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
@@ -1092,7 +1117,7 @@ Currently only vats can only accept and produce liquid items.
 
 ```JSON
 "brewable" : {
-    "time": 3600, // Time (in turns) the fermentation will take.
+    "time": 3600, // A time duration: how long the fermentation will take.
     "result": "beer" // The id of the result of the fermentation.
 }
 ```
@@ -1110,6 +1135,8 @@ For this to work, the item needs to be a tool that consumes charges upon invocat
 - `ARTC_SOLAR` Recharges in sunlight
 - `ARTC_PAIN` Creates pain to recharge
 - `ARTC_HP` Drains HP to recharge
+- `ARTC_FATIGUE` Creates fatigue to recharge
+- `ARTC_PORTAL` Consumes portals to recharge
 
 #### `Effects_carried`
 
@@ -1195,6 +1222,8 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_LIGHT` Temporary light source
 - `AEA_GROWTH` Grow plants, a la triffid queen
 - `AEA_HURTALL` Hurts all monsters!
+- `AEA_FUN` Temporary morale bonus
+- `AEA_SPLIT` Split between good and bad
 - `AEA_RADIATION` Spew radioactive gas
 - `AEA_PAIN` Increases player pain
 - `AEA_MUTATE` Chance of mutation
@@ -1208,6 +1237,7 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_FLASH` Flashbang
 - `AEA_VOMIT` User vomits
 - `AEA_SHADOWS` Summon shadow creatures
+- `AEA_STAMINA_EMPTY` Empties most of the player's stamina gauge
 
 ### Software Data
 
@@ -2070,7 +2100,7 @@ The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 bei
 
 # MOD tileset
 
-MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`. 
+MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`.
 
 Example:
 ```JSON

@@ -17,10 +17,31 @@ struct memorized_terrain_tile {
     int rotation;
 };
 
+template<typename T>
+class lru_cache
+{
+    public:
+        using Pair = std::pair<tripoint, T>;
+
+        void insert( int limit, const tripoint &, const T & );
+        T get( const tripoint &, const T &default_ ) const;
+
+        void clear();
+        const std::list<Pair> &list() const;
+    private:
+        void trim( int limit );
+        std::list<Pair> ordered_list;
+        std::unordered_map<tripoint, typename std::list<Pair>::iterator> map;
+};
+
+extern template class lru_cache<memorized_terrain_tile>;
+extern template class lru_cache<long>;
+
 class map_memory
 {
     public:
         void store( JsonOut &jsout ) const;
+        void load( JsonIn &jsin );
         void load( JsonObject &jsin );
 
         /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
@@ -32,13 +53,8 @@ class map_memory
         void memorize_symbol( int limit, const tripoint &pos, const long symbol );
         long get_symbol( const tripoint &p ) const;
     private:
-        void trim( int limit );
-        using tile_pair = std::pair<tripoint, memorized_terrain_tile>;
-        std::list<tile_pair> tiles;
-        std::unordered_map<tripoint, std::list<tile_pair>::iterator> tile_map;
-        using symbol_pair = std::pair<tripoint, long>;
-        std::list<symbol_pair> symbols;
-        std::unordered_map<tripoint, std::list<symbol_pair>::iterator> symbol_map;
+        lru_cache<memorized_terrain_tile> tile_cache;
+        lru_cache<long> symbol_cache;
 };
 
 #endif

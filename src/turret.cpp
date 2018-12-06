@@ -1,20 +1,20 @@
 #include "vehicle.h"
 
 #include "game.h"
-#include "player.h"
-#include "item.h"
-#include "output.h"
-#include "itype.h"
-#include "string_formatter.h"
-#include "veh_type.h"
 #include "gun_mode.h"
-#include "vehicle_selector.h"
-#include "npc.h"
-#include "ranged.h"
-#include "projectile.h"
+#include "item.h"
+#include "itype.h"
 #include "messages.h"
+#include "npc.h"
+#include "output.h"
+#include "player.h"
+#include "projectile.h"
+#include "ranged.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
+#include "veh_type.h"
+#include "vehicle_selector.h"
 
 #include <algorithm>
 #include <numeric>
@@ -60,7 +60,7 @@ const turret_data vehicle::turret_query( const vehicle_part &pt ) const
 
 turret_data vehicle::turret_query( const tripoint &pos )
 {
-    auto res = get_parts( pos, "TURRET", false, false );
+    auto res = get_parts_at( pos, "TURRET", part_status_flag::any );
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 
@@ -299,9 +299,8 @@ void vehicle::turrets_set_targeting()
 
     int sel = 0;
     while( true ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Set turret targeting" );
-        menu.return_invalid = true;
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
@@ -313,7 +312,7 @@ void vehicle::turrets_set_targeting()
         }
 
         menu.query();
-        if( menu.ret < 0 || menu.ret >= static_cast<int>( turrets.size() ) ) {
+        if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= turrets.size() ) {
             break;
         }
 
@@ -342,9 +341,8 @@ void vehicle::turrets_set_mode()
 
     int sel = 0;
     while( true ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Set turret firing modes" );
-        menu.return_invalid = true;
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
@@ -356,7 +354,7 @@ void vehicle::turrets_set_mode()
         }
 
         menu.query();
-        if( menu.ret < 0 || menu.ret >= static_cast<int>( turrets.size() ) ) {
+        if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= turrets.size() ) {
             break;
         }
 
@@ -406,8 +404,8 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
         return std::max( lhs, res );
     } );
 
-    std::vector<tripoint> trajectory;
-    trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr, range );
+    std::vector<tripoint> trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr,
+                                       range );
 
     bool got_target = !trajectory.empty();
     if( got_target ) {
@@ -453,8 +451,8 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
         return turrets_aim_and_fire( false, false, tur_part );
     }
 
-    std::vector<std::string> options( 1, _( "Cancel" ) );
-    std::vector<vehicle_part *> guns( 1, nullptr );
+    std::vector<std::string> options;
+    std::vector<vehicle_part *> guns;
 
     // Get a group of turrets that are ready to fire
     for( auto &t : turrets() ) {
@@ -469,8 +467,13 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
 
     vehicle_part *chosen;
 
-    if( options.size() > 1 ) {
-        chosen = guns[( uimenu( false, _( "Aim which turret?" ), options ) ) - 1 ];
+    if( !options.empty() ) {
+        const int ret = uilist( _( "Aim which turret?" ), options );
+        if( ret >= 0 ) {
+            chosen = guns[ret];
+        } else {
+            chosen = nullptr;
+        }
     } else {
         add_msg( m_warning, _( "None of the turrets are available to fire." ) );
         return shots;

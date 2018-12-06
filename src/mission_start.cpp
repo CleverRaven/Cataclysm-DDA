@@ -1,28 +1,27 @@
 #include "mission.h"
 
+#include "computer.h"
 #include "coordinate_conversions.h"
+#include "debug.h"
+#include "field.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "output.h"
-#include "debug.h"
-#include "name.h"
-#include <sstream>
-#include "string_formatter.h"
-#include "omdata.h"
-#include "overmapbuffer.h"
 #include "mapdata.h"
-#include "messages.h"
-#include "translations.h"
-#include "overmap.h"
-#include "trap.h"
-#include "line.h"
-#include "computer.h"
 // TODO: Remove this include once 2D wrappers are no longer needed
 #include "mapgen_functions.h"
-#include "field.h"
+#include "messages.h"
+#include "name.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "omdata.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "trap.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -201,11 +200,11 @@ void mission_start::join( mission *miss )
 void mission_start::infect_npc( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if( p == NULL ) {
+    if( p == nullptr ) {
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
-    p->add_effect( effect_infection, 1_turns, num_bp, 1, true );
+    p->add_effect( effect_infection, 1_turns, num_bp, true, true );
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";
@@ -217,7 +216,7 @@ void mission_start::infect_npc( mission *miss )
 void mission_start::need_drugs_npc( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if( p == NULL ) {
+    if( p == nullptr ) {
         debugmsg( "mission_start::need_drugs_npc() couldn't find an NPC!" );
         return;
     }
@@ -233,7 +232,7 @@ void mission_start::place_dog( mission *miss )
 {
     const tripoint house = random_house_in_closest_city();
     npc *dev = g->find_npc( miss->npc_id );
-    if( dev == NULL ) {
+    if( dev == nullptr ) {
         debugmsg( "Couldn't find NPC! %d", miss->npc_id );
         return;
     }
@@ -495,7 +494,7 @@ static tripoint find_potential_computer_point( tinymap &compmap, int z )
 void mission_start::place_npc_software( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
-    if( dev == NULL ) {
+    if( dev == nullptr ) {
         debugmsg( "Couldn't find NPC! %d", miss->npc_id );
         return;
     }
@@ -609,7 +608,7 @@ void mission_start::place_deposit_box( mission *miss )
 void mission_start::reveal_lab_black_box( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
-    if( dev != NULL ) {
+    if( dev != nullptr ) {
         g->u.i_add( item( "black_box", 0 ) );
         add_msg( _( "%s gave you back the black box." ), dev->name.c_str() );
     }
@@ -619,7 +618,7 @@ void mission_start::reveal_lab_black_box( mission *miss )
 void mission_start::open_sarcophagus( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if( p != NULL ) {
+    if( p != nullptr ) {
         p->set_attitude( NPCATT_FOLLOW );
         g->u.i_add( item( "sarcophagus_access_code", 0 ) );
         add_msg( m_good, _( "%s gave you sarcophagus access code." ), p->name.c_str() );
@@ -632,7 +631,7 @@ void mission_start::open_sarcophagus( mission *miss )
 void mission_start::reveal_hospital( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
-    if( dev != NULL ) {
+    if( dev != nullptr ) {
         g->u.i_add( item( "vacutainer", 0 ) );
         add_msg( _( "%s gave you a blood draw kit." ), dev->name.c_str() );
         g->u.i_add( item( "usb_drive", 0 ) );
@@ -1675,7 +1674,7 @@ void mission_start::ranch_bartender_2( mission *miss )
     bay.draw_square_ter( t_wall_half, 14, 10, 19, 15 );
     bay.draw_square_ter( t_dirt, 15, 11, 18, 14 );
     bay.draw_square_ter( t_wall_half, 14, 15, 17, 18 );
-    bay.draw_square_ter( t_dirt, 15, 15, 16, 18 );;
+    bay.draw_square_ter( t_dirt, 15, 15, 16, 18 );
     bay.translate( t_door_frame, t_door_c );
     bay.translate( t_wall_half, t_wall_wood );
     bay.draw_square_ter( t_window_frame, 0, 13, 0, 13 );
@@ -1786,7 +1785,7 @@ void reveal_target( mission *miss, const std::string &omter_id )
 
 void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
 {
-    reveal_target( miss, random_entry( omter_ids ).c_str() );
+    reveal_target( miss, random_entry( omter_ids ) );
 }
 
 void mission_start::reveal_weather_station( mission *miss )

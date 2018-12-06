@@ -2,9 +2,9 @@
 #ifndef CALENDAR_H
 #define CALENDAR_H
 
-#include <string>
-
 #include "optional.h"
+
+#include <string>
 
 class time_duration;
 class time_point;
@@ -259,6 +259,8 @@ constexpr T to_hours( const time_duration duration );
 template<typename T>
 constexpr T to_days( const time_duration duration );
 template<typename T>
+constexpr T to_weeks( const time_duration duration );
+template<typename T>
 constexpr T to_moves( const time_duration duration );
 
 template<typename T>
@@ -308,6 +310,8 @@ class time_duration
     public:
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
+
+        static time_duration read_from_json_string( JsonIn &jsin );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -366,6 +370,10 @@ class time_duration
         template<typename T>
         friend constexpr T to_days( const time_duration duration ) {
             return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 );
+        }
+        template<typename T>
+        friend constexpr T to_weeks( const time_duration duration ) {
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 * 7 );
         }
         template<typename T>
         friend constexpr T to_moves( const time_duration duration ) {
@@ -478,6 +486,28 @@ enum class clipped_align {
     none,
     right,
 };
+
+enum class clipped_unit {
+    forever,
+    second,
+    minute,
+    hour,
+    day,
+    week,
+    season,
+    year,
+};
+
+/**
+ * Returns a value representing the passed in duration truncated to an appropriate unit
+ * along with the unit in question.
+ * "10 days" or "1 minute".
+ * The chosen unit will be the smallest unit, that is at least as much as the
+ * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
+ * 59 minutes will return "59 minutes".
+ */
+std::pair<int, clipped_unit> clipped_time( const time_duration &d );
+
 /**
  * Returns a string showing a duration as whole number of appropriate units, e.g.
  * "10 days" or "1 minute".

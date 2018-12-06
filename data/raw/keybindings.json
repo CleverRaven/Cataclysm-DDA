@@ -2,42 +2,42 @@
   {
     "type": "keybinding",
     "id": "SCROLL_UP",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Scroll up",
     "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_DOWN",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Scroll down",
     "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
   },
   {
     "type": "keybinding",
     "id": "UP",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Pan up",
     "bindings": [ { "input_method": "keyboard", "key": "UP" } ]
   },
   {
     "type": "keybinding",
     "id": "DOWN",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Pan down",
     "bindings": [ { "input_method": "keyboard", "key": "DOWN" } ]
   },
   {
     "type": "keybinding",
     "id": "FILTER",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Filter",
     "bindings": [ { "input_method": "keyboard", "key": "/" } ]
   },
   {
     "type": "keybinding",
     "id": "QUIT",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Cancel menu",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
@@ -428,10 +428,24 @@
   },
   {
     "type": "keybinding",
+    "id": "SORT_ARMOR",
+    "category": "SORT_ARMOR",
+    "name": "Sort armor into natural layer order",
+    "bindings": [ { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EQUIP_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Equip armor from inventory",
     "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EQUIP_ARMOR_HERE",
+    "category": "SORT_ARMOR",
+    "name": "Equip armor from inventory at this position",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
   },
   {
     "type": "keybinding",
@@ -513,10 +527,10 @@
   },
   {
     "type": "keybinding",
-    "id": "CENTER",
-    "category": "OVERMAP",
-    "name": "Center On Character",
-    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
+    "id": "TOGGLE_FAVORITE",
+    "category": "CRAFTING",
+    "name": "Toggle recipes to be shown in favorite tab",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
@@ -700,6 +714,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_FOREST_TRAILS",
+    "category": "OVERMAP",
+    "name": "Toggle Forest Trails",
+    "bindings": [ { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXPLORED",
     "category": "OVERMAP",
     "name": "Toggle Explored",
@@ -870,6 +891,12 @@
     "id": "TOGGLE_SNAP_TO_TARGET",
     "name": "Toggle Snap to Target",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CENTER",
+    "name": "Center On Character",
+    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
   },
   {
     "type": "keybinding",
@@ -1969,6 +1996,34 @@
     "category": "LIST_ITEMS",
     "name": "Change sort order",
     "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SAFEMODE_BLACKLIST_ADD",
+    "category": "LIST_MONSTERS",
+    "name": "Add to safemode blacklist",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SAFEMODE_BLACKLIST_REMOVE",
+    "category": "LIST_MONSTERS",
+    "name": "Remove from safemode blacklist",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "look",
+    "category": "LIST_MONSTERS",
+    "name": "look around",
+    "bindings": [ { "input_method": "keyboard", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "fire",
+    "category": "LIST_MONSTERS",
+    "name": "fire",
+    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
     "type": "keybinding",

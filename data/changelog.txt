@@ -128,7 +128,8 @@ Fixed deafening noise from collapsing buildings.
 Optimized mapgen when generating homogeneous tiles (empty air or all rock).
 Shadowcasting optimizations for ~10% performance speedup.
 
-Infrastructure:
+## Infrastructure:
+
 Allow multifunctions containing both iuse_actor and cpp iuse_method.
 Overhauled mapgen to allow more flexible specification of map features.
 Windows build cleanup.

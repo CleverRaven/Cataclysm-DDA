@@ -5,7 +5,6 @@
 #include "string_formatter.h"
 
 #include <memory>
-#include <cstdint>
 #include <string>
 
 class nc_color;

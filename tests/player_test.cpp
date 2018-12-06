@@ -1,17 +1,8 @@
 #include "catch/catch.hpp"
 
-#include "morale.h"
-#include "player.h"
 #include "game.h"
-#include "overmapbuffer.h"
-#include "item_factory.h"
-#include "start_location.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "options.h"
-#include "map.h"
+#include "player.h"
 #include "weather.h"
-#include "itype.h"
 
 #include <string>
 

@@ -1,13 +1,15 @@
 #include "animation.h"
+
 #include "game.h"
 #include "map.h"
-#include "options.h"
-#include "output.h"
 #include "monster.h"
 #include "mtype.h"
-#include "weather.h"
+#include "options.h"
+#include "output.h"
 #include "player.h"
 #include "popup.h"
+#include "weather.h"
+
 #ifdef TILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
@@ -17,7 +19,6 @@ extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #endif
 
 #include <algorithm>
-#include <array>
 
 bool is_valid_in_w_terrain( int x, int y ); // see game.cpp
 
@@ -101,7 +102,7 @@ tripoint relative_view_pos( player const &u, tripoint const &p ) noexcept
 }
 
 // Convert p to screen position relative to the current terrain view
-static tripoint relative_view_pos( game const &g, tripoint const &p ) noexcept
+tripoint relative_view_pos( game const &g, tripoint const &p ) noexcept
 {
     return { POSX + p.x - g.ter_view_x,
              POSY + p.y - g.ter_view_y,
@@ -219,7 +220,7 @@ void draw_custom_explosion_curses( game &g,
 void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
 {
     if( test_mode ) {
-        return; // avoid segfault
+        return; // avoid segfault from null tilecontext in tests
     }
 
     if( !use_tiles ) {
@@ -255,7 +256,7 @@ void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
 void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_color> &all_area )
 {
     if( test_mode ) {
-        return; // avoid segfault
+        return; // avoid segfault from null tilecontext in tests
     }
 
     constexpr explosion_neighbors all_neighbors = N_NORTH | N_SOUTH | N_WEST | N_EAST;
@@ -335,10 +336,9 @@ void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_
 
     // We need to save the layers because we will draw them in reverse order
     std::list< std::map<tripoint, explosion_tile> > layers;
-    bool changed;
     while( !neighbors.empty() ) {
         std::map<tripoint, explosion_tile> layer;
-        changed = false;
+        bool changed = false;
         // Find a layer that can be drawn
         for( const auto &pr : neighbors ) {
             if( pr.second.neighborhood != all_neighbors ) {
@@ -470,6 +470,10 @@ void draw_hit_mon_curses( const tripoint &center, const monster &m, player const
 #if defined(TILES)
 void game::draw_hit_mon( const tripoint &p, const monster &m, bool const dead )
 {
+    if( test_mode ) {
+        return; // avoid segfault from null tilecontext in tests
+    }
+
     if( !use_tiles ) {
         draw_hit_mon_curses( p, m, u, dead );
         return;
@@ -502,6 +506,10 @@ void draw_hit_player_curses( game const &g, player const &p, const int dam )
 #if defined(TILES)
 void game::draw_hit_player( player const &p, const int dam )
 {
+    if( test_mode ) {
+        return; // avoid segfault from null tilecontext in tests
+    }
+
     if( !use_tiles ) {
         draw_hit_player_curses( *this, p, dam );
         return;

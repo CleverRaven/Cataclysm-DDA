@@ -2,9 +2,9 @@
 
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "optional.h"
 #include "rng.h"
-#include "map_iterator.h"
 
 #include <vector>
 

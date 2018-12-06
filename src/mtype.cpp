@@ -1,11 +1,15 @@
 #include "mtype.h"
+
 #include "creature.h"
-#include "translations.h"
-#include "monstergenerator.h"
-#include "mondeath.h"
 #include "field.h"
+#include "item.h"
+#include "itype.h"
+#include "mondeath.h"
+#include "monstergenerator.h"
+#include "translations.h"
 
 #include <algorithm>
+#include <cmath>
 
 const species_id MOLLUSK( "MOLLUSK" );
 
@@ -17,6 +21,8 @@ mtype::mtype()
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
+    volume = 62499_ml;
+    weight = 81499_gram;
     mat = { material_id( "flesh" ) };
     phase = SOLID;
     def_chance = 0;
@@ -211,19 +217,9 @@ itype_id mtype::get_meat_itype() const
 
 int mtype::get_meat_chunks_count() const
 {
-    switch( size ) {
-        case MS_TINY:
-            return 2;
-        case MS_SMALL:
-            return 64;
-        case MS_MEDIUM:
-            return 128;
-        case MS_LARGE:
-            return 192;
-        case MS_HUGE:
-            return 320;
-    }
-    return 0;
+    float ch = to_gram( weight ) * ( 0.40f - 0.02f * log10f( to_gram( weight ) ) );
+    const itype *chunk = item::find_type( get_meat_itype() );
+    return static_cast<int>( ch / to_gram( chunk->weight ) );
 }
 
 std::string mtype::get_description() const

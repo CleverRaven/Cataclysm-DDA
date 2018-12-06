@@ -6,7 +6,6 @@
 #include "mtype.h"
 #include "player.h"
 
-
 player &get_sanitized_player( )
 {
     player &dummy = g->u;

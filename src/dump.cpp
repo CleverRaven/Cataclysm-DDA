@@ -1,24 +1,21 @@
+#include "ammo.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "game.h"
+#include "init.h"
+#include "item_factory.h"
+#include "iuse_actor.h"
+#include "loading_ui.h"
+#include "npc.h"
+#include "player.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vitamin.h"
 
 #include <algorithm>
 #include <iostream>
 #include <iterator>
-
-#include "compatibility.h"
-#include "init.h"
-#include "item_factory.h"
-#include "iuse_actor.h"
-#include "recipe_dictionary.h"
-#include "player.h"
-#include "vehicle.h"
-#include "string_formatter.h"
-#include "veh_type.h"
-#include "skill.h"
-#include "vitamin.h"
-#include "npc.h"
-#include "ammo.h"
-#include "crafting.h"
-#include "loading_ui.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -60,7 +57,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     if( what == "AMMO" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Stack",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
+            "Range", "Dispersion", "Recoil", "Damage", "Pierce", "Damage multiplier"
         };
         auto dump = [&rows]( const item & obj ) {
             // a common task is comparing ammo by type so ammo has multiple repeat the entry
@@ -77,6 +74,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 damage_instance damage = obj.type->ammo->damage;
                 r.push_back( to_string( damage.total_damage() ) );
                 r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
+                r.push_back( obj.type->ammo->prop_damage ? to_string( *obj.type->ammo->prop_damage ) : "---" );
                 rows.push_back( r );
             }
         };
@@ -276,11 +274,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_mass() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_aerodynamics() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_friction() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
-                                                 false ) / 2.0f ) ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_mass() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_aerodynamics() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_friction() ) ) );
+            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
+                                        false ) / 2.0f ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {

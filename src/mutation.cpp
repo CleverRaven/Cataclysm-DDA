@@ -1,31 +1,24 @@
 #include "mutation.h"
-#include "player.h"
+
 #include "action.h"
+#include "field.h"
 #include "game.h"
-#include "map.h"
 #include "item.h"
 #include "itype.h"
-#include "translations.h"
-#include "messages.h"
-#include "monster.h"
-#include "overmapbuffer.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "sounds.h"
-#include "options.h"
 #include "mapdata.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "field.h"
-#include "vitamin.h"
+#include "monster.h"
 #include "output.h"
+#include "player.h"
+#include "translations.h"
+#include "ui.h"
 
 #include <algorithm>
 
 const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_ROBUST( "ROBUST" );
-static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
@@ -43,7 +36,6 @@ static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -127,13 +119,6 @@ int Character::get_mod( const trait_id &mut, std::string arg ) const
     if( found != mod_data.end() ) {
         ret += found->second;
     }
-    /* Deactivated due to inability to store active mutation state
-    if (has_active_mutation(mut)) {
-        found = mod_data.find(std::make_pair(true, arg));
-        if (found != mod_data.end()) {
-            ret += found->second;
-        }
-    } */
     return ret;
 }
 
@@ -340,78 +325,95 @@ void player::activate_mutation( const trait_id &mut )
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == "BURROW" ) {
-        int choice = menu( true, _( "Perform which function:" ), _( "Turn on digging mode" ),
-                           _( "Dig pit" ), _( "Fill pit/tamp ground" ), _( "Clear rubble" ),
-                           _( "Churn up ground" ), NULL );
-        tripoint dirp;
-        if( choice != 1 ) {
+        int choice = uilist( _( "Perform which function:" ), {
+            _( "Turn on digging mode" ),
+            _( "Dig pit" ),
+            _( "Fill pit/tamp ground" ),
+            _( "Clear rubble" ),
+            _( "Churn up ground" )
+        } );
+        if( choice == UILIST_CANCEL ) {
+            tdata.powered = false;
+        } else if( choice != 0 ) {
             tdata.powered = false;
             if( is_underwater() ) {
                 add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
                 return;
             } else {
-                if( choice == 2 ) {
-                    if( !choose_adjacent( _( "Dig pit where?" ), dirp ) ) {
+                if( choice == 1 ) {
+                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig pit where?" ) );
+                    if( !pnt_ ) {
                         return;
                     }
-                    if( dirp == pos() ) {
+                    const tripoint pnt = *pnt_;
+
+                    if( pnt == pos() ) {
                         add_msg_if_player( m_info, _( "You delve into yourself." ) );
                         return;
                     }
                     int moves;
-                    if( g->m.ter( dirp ) == t_pit_shallow ) {
+                    if( g->m.ter( pnt ) == t_pit_shallow ) {
                         moves = MINUTES( 30 ) * 100;
-                    } else if( g->m.has_flag( "DIGGABLE", dirp ) ) {
+                    } else if( g->m.has_flag( "DIGGABLE", pnt ) ) {
                         moves = MINUTES( 10 ) * 100;
                     } else {
                         add_msg_if_player( _( "You can't dig a pit on this ground." ) );
                         return;
                     }
                     assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
-                    activity.placement = dirp;
-                } else if( choice == 3 ) {
-                    if( !choose_adjacent( _( "Fill pit where?" ), dirp ) ) {
+                    activity.placement = pnt;
+                } else if( choice == 2 ) {
+                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Fill pit where?" ) );
+                    if( !pnt_ ) {
                         return;
                     }
-                    if( dirp == pos() ) {
+                    const tripoint pnt = *pnt_;
+
+                    if( pnt == pos() ) {
                         add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
                         return;
                     }
                     int moves;
-                    if( g->m.ter( dirp ) == t_pit || g->m.ter( dirp ) == t_pit_spiked ||
-                        g->m.ter( dirp ) == t_pit_glass || g->m.ter( dirp ) == t_pit_corpsed ) {
+                    if( g->m.ter( pnt ) == t_pit || g->m.ter( pnt ) == t_pit_spiked ||
+                        g->m.ter( pnt ) == t_pit_glass || g->m.ter( pnt ) == t_pit_corpsed ) {
                         moves = MINUTES( 15 ) * 100;
-                    } else if( g->m.ter( dirp ) == t_pit_shallow ) {
+                    } else if( g->m.ter( pnt ) == t_pit_shallow ) {
                         moves = MINUTES( 10 ) * 100;
-                    } else if( g->m.ter( dirp ) == t_dirtmound ) {
+                    } else if( g->m.ter( pnt ) == t_dirtmound ) {
                         moves = MINUTES( 5 ) * 100;
                     } else {
                         add_msg_if_player( _( "There is no pit to fill." ) );
                         return;
                     }
                     assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
-                    activity.placement = dirp;
-                } else if( choice == 4 ) {
-                    if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
+                    activity.placement = pnt;
+                } else if( choice == 3 ) {
+                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Clear rubble where?" ) );
+                    if( !pnt_ ) {
                         return;
                     }
-                    if( g->m.has_flag( "RUBBLE", dirp ) ) {
+                    const tripoint pnt = *pnt_;
+
+                    if( g->m.has_flag( "RUBBLE", pnt ) ) {
                         // 75 seconds
                         assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), 1250, -1, 0 );
-                        activity.placement = dirp;
+                        activity.placement = pnt;
                     } else {
                         add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
                         return;
                     }
-                } else if( choice == 5 ) {
-                    if( !choose_adjacent( _( "Churn up ground where?" ), dirp ) ) {
+                } else if( choice == 4 ) {
+                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Churn up ground where?" ) );
+                    if( !pnt_ ) {
                         return;
                     }
-                    if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) &&
-                        g->m.ter( dirp ) != t_dirtmound ) {
+                    const tripoint pnt = *pnt_;
+
+                    if( g->m.has_flag( "DIGGABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
+                        g->m.ter( pnt ) != t_dirtmound ) {
                         add_msg_if_player( _( "You churn up the earth here." ) );
                         moves = -300;
-                        g->m.ter_set( dirp, t_dirtmound );
+                        g->m.ter_set( pnt, t_dirtmound );
                     } else {
                         add_msg_if_player( _( "You can't churn up this ground." ) );
                     }
@@ -698,8 +700,7 @@ void player::mutate_category( const std::string &cat )
     }
 
     // Pull the category's list for valid mutations
-    std::vector<trait_id> valid;
-    valid = mutations_category[cat];
+    std::vector<trait_id> valid = mutations_category[cat];
 
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation
@@ -726,12 +727,12 @@ void player::mutate_category( const std::string &cat )
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
 {
     std::vector<trait_id> ret;
-    for( auto it : id->prereqs ) {
+    for( const trait_id &it : id->prereqs ) {
         ret.push_back( it );
         std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
         ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
     }
-    for( auto it : id->prereqs2 ) {
+    for( const trait_id &it : id->prereqs2 ) {
         ret.push_back( it );
         std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
         ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );

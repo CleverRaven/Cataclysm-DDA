@@ -2,17 +2,16 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "pimpl.h"
 #include "bodypart.h"
-#include "string_id.h"
+#include "pimpl.h"
 #include "string_formatter.h"
+#include "string_id.h"
 
-#include <string>
-#include <unordered_map>
-#include <map>
-#include <vector>
-#include <set>
 #include <climits>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <vector>
 
 enum game_message_type : int;
 class nc_color;
@@ -55,6 +54,8 @@ template<typename V, typename U>
 class quantity;
 class mass_in_gram_tag;
 using mass = quantity<int, mass_in_gram_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
 }
 
 enum m_size : int {
@@ -270,7 +271,7 @@ class Creature
          */
         virtual bool is_immune_field( const field_id ) const {
             return false;
-        };
+        }
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         virtual float fall_damage_mod() const = 0;
@@ -399,10 +400,10 @@ class Creature
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const {
             return false;
-        };
+        }
         virtual bool uncanny_dodge() {
             return false;
-        };
+        }
 
         virtual body_part get_random_body_part( bool main = false ) const = 0;
         /**
@@ -466,7 +467,6 @@ class Creature
         virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
-        virtual units::mass get_weight() const;
 
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
@@ -614,8 +614,8 @@ class Creature
         Creature &operator=( Creature && ) = default;
 
     protected:
-        virtual void on_stat_change( const std::string &, int ) {};
-        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {};
+        virtual void on_stat_change( const std::string &, int ) {}
+        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
