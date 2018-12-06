@@ -17,7 +17,11 @@
     "material": "alcohol",
     "symbol": "~",
     "color": "white",
-    "ammo_type": "conc_alcohol"
+    "ammo_type": "conc_alcohol",
+    "fuel": {
+      "energy": 15.6,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
   },
   {
     "id": "denat_alcohol",
@@ -105,6 +109,11 @@
     "color": "yellow",
     "material": "hydrocarbons",
     "ammo_type": "lamp_oil",
+    "fuel": {
+      "//": "Roughly equivalent to LPG",
+      "energy": 26,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    },
     "range": 6,
     "damage": 2,
     "pierce": 2,

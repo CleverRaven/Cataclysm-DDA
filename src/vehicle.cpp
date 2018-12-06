@@ -621,7 +621,7 @@ bool vehicle::has_engine_conflict( const vpart_info *possible_conflict,
 
 bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
 {
-    return part_info( engines[e] ).fuel_type == ft;
+    return parts[ engines[e] ].ammo_current() == ft;
 }
 
 bool vehicle::is_perpetual_type( const int e ) const
@@ -2641,6 +2641,18 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 
     return fl;
 }
+int vehicle::fuel_left( const int p, bool recurse ) const
+{
+    return fuel_left( parts[ p ].fuel_current(), recurse );
+}
+
+int vehicle::engine_fuel_left( const int e, bool recurse ) const
+{
+    if( static_cast<size_t>( e ) < engines.size() ) {
+        return fuel_left( parts[ engines[ e ] ].fuel_current(), recurse );
+    }
+    return 0;
+}
 
 int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
@@ -2706,7 +2718,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     int fcon = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_type_on( e, ftype ) ) {
-            if( part_info( engines[e] ).fuel_type == fuel_type_battery &&
+            if( parts[ engines[e] ].ammo_current() == fuel_type_battery &&
                 part_epower_w( engines[e] ) >= 0 ) {
                 // Electric engine - use epower instead
                 fcon -= part_epower_w( engines[e] );
@@ -2729,8 +2741,7 @@ int vehicle::total_power_w( bool const fueled, bool const safe ) const
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( is_engine_on( e ) &&
-            ( !fueled || fuel_left( part_info( p ).fuel_type ) ) ) {
+        if( is_engine_on( e ) && ( !fueled || engine_fuel_left( e ) ) ) {
             int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
             if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
                 m2c *= 0.6;
@@ -2850,8 +2861,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        // FIXME: fuel_left should be called with the vehicle_part's fuel_type for flexfuel support
-        if( is_engine_on( e ) &&  fuel_left( part_info( p ).fuel_type ) ) {
+        if( is_engine_on( e ) &&  engine_fuel_left( e ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = part_vpower_w( p, true );
@@ -3111,7 +3121,8 @@ std::map<itype_id, int> vehicle::fuel_usage() const
         const size_t e = engines[ i ];
         const auto &info = part_info( e );
         static const itype_id null_fuel_type( "null" );
-        if( info.fuel_type == null_fuel_type ) {
+        const itype_id &cur_fuel = parts[ e ].fuel_current();
+        if( cur_fuel  == null_fuel_type ) {
             continue;
         }
 
@@ -3121,7 +3132,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
                 usage *= 2;
             }
 
-            ret[ info.fuel_type ] += usage;
+            ret[ cur_fuel ] += usage;
         }
     }
 
@@ -3461,7 +3472,7 @@ int vehicle::discharge_battery( int amount, bool recurse )
 void vehicle::do_engine_damage( size_t e, int strain )
 {
     if( is_engine_on( e ) && !is_perpetual_type( e ) &&
-        fuel_left( part_info( engines[e] ).fuel_type ) &&  rng( 1, 100 ) < strain ) {
+        engine_fuel_left( e ) &&  rng( 1, 100 ) < strain ) {
         int dmg = rng( strain * 2, strain * 4 );
         damage_direct( engines[e], dmg );
         if( one_in( 2 ) ) {
@@ -3479,8 +3490,8 @@ void vehicle::idle( bool on_map )
     if( engine_on && total_power_w() > 0 ) {
         for( size_t e = 0; e < engines.size(); e++ ) {
             size_t p = engines[e];
-            if( fuel_left( part_info( p ).fuel_type ) && is_engine_on( e ) ) {
-                engines_power += part_vpower_w( engines[e] );
+            if( engine_fuel_left( e ) && is_engine_on( e ) ) {
+                engines_power += part_vpower_w( p );
             }
         }
 

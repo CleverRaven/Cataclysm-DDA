@@ -159,6 +159,10 @@ struct vehicle_part {
         /** Amount of fuel, charges or ammunition currently contained by a part */
         long ammo_remaining() const;
 
+        /** Type of fuel used by an engine */
+        itype_id fuel_current() const;
+        /** Set an engine to use a different type of fuel */
+        bool fuel_set( const itype_id &fuel );
         /**
          * Set fuel, charges or ammunition for this part removing any existing ammo
          * @param ammo specific type of ammo (must be compatible with vehicle part)
@@ -930,6 +934,10 @@ class vehicle
 
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false ) const;
+        // Checks how much of the part p's current fuel is left
+        int fuel_left( const int p, bool recurse = false ) const;
+        // Checks how much of an engine's current fuel is left in the tanks.
+        int engine_fuel_left( const int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)
