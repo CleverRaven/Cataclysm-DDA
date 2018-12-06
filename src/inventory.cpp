@@ -699,7 +699,7 @@ bool inventory::has_charges_with( const itype_id &it, long quantity,
         charges = sum_no_wrap( charges, itr->charges_of( it ) );
     }
 
-    return ( charges >= quantity );
+    return charges >= quantity;
 }
 
 int inventory::leak_level( std::string flag ) const
