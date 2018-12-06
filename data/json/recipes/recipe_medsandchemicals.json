@@ -2524,28 +2524,45 @@
   ]
 },
 {
-  "result": "anesthesia_kit",
+  "result": "anesthesia",
   "type": "recipe",
   "category": "CC_OTHER",
   "subcategory": "CC_OTHER_MEDICAL",
-  "skill_used": "cooking",
-  "difficulty": 6,
-  "skills_required": [ "firstaid", 6 ],
-  "time": 40000,
+  "skill_used": "firstaid",
+  "difficulty": 3,
+  "time": 5000,
   "book_learn":[ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ] ],
   "qualities": [
-    { "id": "CHEM", "level": 3 },
-    { "id": "BOIL", "level": 2 }
+    { "id": "SEW", "level": 1 },
+    { "id": "CONTAIN", "level": 1 }
     ],
-  "tools": [ 
-    [ [ "electrolysis_kit", 50 ] ],
-    [ [ "surface_heat", 50, "LIST" ] ]
-  ],
   "components":[
     [ [ "ether", 2700 ] ],
-    [ [ "jar", 2 ] ],
+    [ [ "jar_3l_glass", 1 ] ],
     [ [ "hose", 1 ] ],
-    [ [ "rag", 3 ] ]
+    [ [ "rag", 2 ] ]
+  ]
+},
+{
+  "result": "ether",
+  "type": "recipe",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 80000,
+  "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 7 ] ],
+  "charges": 250,
+  "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+  "byproducts": [ [ "water_clean" ] ],
+  "components": [
+    [ [ "chem_ethanol", 250 ] ],
+    [
+      [ "chem_acetic_acid", 1 ],
+      [ "chem_nitric_acid", 1 ],
+      [ "chem_sulphuric_acid", 1 ],
+      [ "acid", 1 ]
+    ]
   ]
 }
 ]
