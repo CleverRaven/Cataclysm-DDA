@@ -8338,7 +8338,7 @@
   },
   {
     "type": "recipe",
-    "result": "sourdough_starter",
+    "result": "sourdough_split",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -8352,7 +8352,7 @@
   {
     "type": "recipe",
     "result": "sourdough_bread",
-    "byproducts": [ [ "sourdough_starter", 1 ] ],
+    "byproducts": [ [ "sourdough_split", 1 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
