@@ -1886,7 +1886,7 @@
   {
     "type": "recipe",
     "result": "jerrycan_big",
-	"id_suffix": "welder",
+    "id_suffix": "welder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
