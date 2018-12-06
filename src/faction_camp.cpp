@@ -88,25 +88,35 @@ static std::array<std::pair<const std::string, point>, COMPANION_SORT_POINTS> so
     }
 };
 
-static bool update_time_left( std::string &entry, const npc_ptr comp )
+static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
-    entry = entry + " " +  comp->name;
-    if( comp->companion_mission_time_ret < calendar:: turn ) {
-        entry = entry +  _( " [DONE]\n" );
-        return true;
-    } else {
-        entry = entry + " [" + to_string( comp->companion_mission_time_ret - calendar::turn ) +
-                _( " left]\n" );
+    bool avail = false;
+    for( auto &comp : npc_list ) {
+        if( comp->companion_mission_time_ret < calendar:: turn ) {
+            entry = entry +  _( " [DONE]\n" );
+            avail = true;
+        } else {
+            entry = entry + " [" +
+                    to_string( comp->companion_mission_time_ret - calendar::turn ) +
+                    _( " left]\n" );
+        }
     }
-    return false;
+    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+    return avail;
 }
 
-static bool update_time_fixed( std::string &entry, const npc_ptr comp, time_duration duration )
+static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
+                               const time_duration &duration )
 {
-    time_duration elapsed = calendar::turn - comp->companion_mission_time;
-    entry = entry + " " +  comp->name + " [" + to_string( elapsed ) + "/" +
-            to_string( duration ) + "]\n";
-    return elapsed >= duration;
+    bool avail = false;
+    for( auto &comp : npc_list ) {
+        time_duration elapsed = calendar::turn - comp->companion_mission_time;
+        entry = entry + " " +  comp->name + " [" + to_string( elapsed ) + "/" +
+                to_string( duration ) + "]\n";
+        avail |= elapsed >= duration;
+    }
+    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+    return avail;
 }
 
 static basecamp *get_basecamp( npc &p )
@@ -156,11 +166,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         mission_key.add_start( "Upgrade Camp", _( "Upgrade Camp" ), "", entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Working to expand your camp!\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Ally from Upgrading",
                                     _( "Recover Ally from Upgrading" ), "", entry, avail );
         }
@@ -182,11 +188,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
             }
         } else {
             entry = _( "Busy crafting!\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( base_dir + " (Finish) Crafting",
                                     base_dir + _( " (Finish) Crafting" ), base_dir, entry, avail );
         }
@@ -199,11 +201,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Searching for materials to upgrade the camp.\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_fixed( entry, elem, 3_hours );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            bool avail = update_time_fixed( entry, npc_list, 3_hours );
             mission_key.add_return( "Recover Ally from Gathering",
                                     _( "Recover Ally from Gathering" ), "", entry, avail );
         }
@@ -256,11 +254,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Searching for firewood.\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_fixed( entry, elem, 3_hours );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Firewood Gatherers",
                                     _( "Recover Firewood Gatherers" ), "", entry, avail );
         }
@@ -283,11 +277,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         mission_key.add_start( "Menial Labor", _( "Menial Labor" ), "", entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Performing menial labor...\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Menial Laborer", _( "Recover Menial Laborer" ), "",
                                     entry, avail );
         }
@@ -316,11 +306,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         mission_key.add_start( "Expand Base", _( "Expand Base" ), "", entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Surveying for expansion...\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Surveyor", _( "Recover Surveyor" ), "",
                                     entry, avail );
         }
@@ -343,11 +329,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         mission_key.add_start( "Cut Logs", _( "Cut Logs" ), "", entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Cutting logs in the woods...\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Log Cutter", _( "Recover Log Cutter" ), "", entry,
                                     avail );
         }
@@ -371,11 +353,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         mission_key.add_start( "Clearcut", _( "Clear a forest" ), "", entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Clearing a forest...\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Clearcutter", _( "Recover Clear Cutter" ), "", entry,
                                     avail );
         }
@@ -399,11 +377,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Setting up a hide site...\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Hide Setup", _( "Recover Hide Setup" ), "", entry,
                                     avail );
         }
@@ -425,11 +399,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Transferring gear to a hide site...\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Hide Relay", _( "Recover Hide Relay" ), "", entry,
                                     avail );
         }
@@ -452,10 +422,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Foraging for edible plants.\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_fixed( entry, elem, 4_hours );
-            }
+            bool avail = update_time_fixed( entry, npc_list, 4_hours );
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
             mission_key.add_return( "Recover Foragers", _( "Recover Foragers" ), "",
                                     entry, avail );
@@ -478,10 +445,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.size() < 2 );
         if( !npc_list.empty() ) {
             entry = _( "Trapping Small Game.\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_fixed( entry, elem, 6_hours );
-            }
+            bool avail = update_time_fixed( entry, npc_list, 6_hours );
             entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
             mission_key.add_return( "Recover Trappers", _( "Recover Trappers" ), "",
                                     entry, avail );
@@ -504,11 +468,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Hunting large animals.\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_fixed( entry, elem, 6_hours );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            bool avail = update_time_fixed( entry, npc_list, 6_hours );
             mission_key.add_return( "Recover Hunter", _( "Recover Hunter" ), "", entry, avail );
         }
     }
@@ -523,11 +483,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Constructing fortifications...\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?\n" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Finish Map Fort", _( "Finish Map Fortifications" ), "", entry,
                                     avail );
         }
@@ -540,11 +496,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = _( "Searching for recruits.\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Recruiter", _( "Recover Recruiter" ), "", entry,
                                     avail );
         }
@@ -569,11 +521,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Scouting the region.\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Scout", _( "Recover Scout" ), "", entry, avail );
         }
     }
@@ -599,11 +547,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = _( "Patrolling the region.\n" );
-            bool avail = false;
-            for( auto &elem : npc_list ) {
-                avail |= update_time_left( entry, elem );
-            }
-            entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+            bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Combat Patrol", _( "Recover Combat Patrol" ), "",
                                     entry, avail );
         }
@@ -620,11 +564,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                    npc_list.empty() );
             if( !npc_list.empty() ) {
                 entry = _( "Working to upgrade your expansions!\n" );
-                bool avail = false;
-                for( auto &elem : npc_list ) {
-                    avail |= update_time_left( entry, elem );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( "Recover Ally, " + dir + " Expansion",
                                         _( "Recover Ally, " ) + dir + _( " Expansion" ), dir,
                                         entry, avail );
@@ -648,11 +588,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                    npc_list.empty() );
             if( !npc_list.empty() ) {
                 entry = _( "Working at the chop shop...\n" );
-                bool avail = false;
-                for( auto &elem : npc_list ) {
-                    avail |= update_time_left( entry, elem );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( dir + " (Finish) Chop Shop",
                                         dir + _( " (Finish) Chop Shop" ), dir, entry, avail );
             }
@@ -673,11 +609,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 }
             } else {
                 entry = _( "Working in your kitchen!\n" );
-                bool avail = false;
-                for( auto &elem : npc_list ) {
-                    avail |= update_time_left( entry, elem );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( dir + " (Finish) Cooking", dir + _( " (Finish) Cooking" ),
                                         dir, entry, avail );
             }
@@ -697,11 +629,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 }
             } else {
                 entry = _( "Working in your blacksmith shop!\n" );
-                bool avail = false;
-                for( auto &elem : npc_list ) {
-                    avail |= update_time_left( entry, elem );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( dir + " (Finish) Smithing",
                                         dir + _( " (Finish) Smithing" ),
                                         dir, entry, avail );
@@ -728,11 +656,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 mission_key.add_start( title_e, dir + _( " Plow Fields" ), dir, entry, true );
             } else {
                 entry = _( "Working to plow your fields!\n" );
-                bool avail = false;
-                for( auto &elem : npc_list ) {
-                    avail |= update_time_left( entry, elem );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( dir + " (Finish) Plow Fields",
                                         dir + _( " (Finish) Plow Fields" ), dir, entry, avail );
             }
@@ -758,11 +682,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                        npc_list.empty() );
             } else if( !npc_list.empty() ) {
                 entry = _( "Working to plant your fields!\n" );
-                bool avail = false;
-                for( auto &elem : npc_list ) {
-                    avail |= update_time_left( entry, elem );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( dir + " (Finish) Plant Fields",
                                         dir + _( " (Finish) Plant Fields" ), dir, entry, avail );
             }
@@ -784,11 +704,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 mission_key.add_start( title_e, dir + _( " Harvest Fields" ), dir, entry, true );
             } else {
                 entry = _( "Working to harvest your fields!\n" );
-                bool avail = false;
-                for( auto &elem : npc_list ) {
-                    avail |= update_time_left( entry, elem );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( dir + " (Finish) Harvest Fields",
                                         dir + _( " (Finish) Harvest Fields" ), dir, entry, avail );
             }
@@ -808,11 +724,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 }
             } else {
                 entry = _( "Working on your farm!\n" );
-                bool avail = false;
-                for( auto &elem : npc_list ) {
-                    avail |= update_time_left( entry, elem );
-                }
-                entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+                bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( dir + " (Finish) Crafting",
                                         dir + _( " (Finish) Crafting" ), dir, entry, avail );
             }
