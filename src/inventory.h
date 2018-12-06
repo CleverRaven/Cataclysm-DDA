@@ -57,12 +57,12 @@ class invlet_favorites
 {
     public:
         invlet_favorites() = default;
-        invlet_favorites( std::unordered_map<itype_id, std::string> );
+        invlet_favorites( const std::unordered_map<itype_id, std::string> & );
 
-        void set( char invlet, itype_id );
+        void set( char invlet, const itype_id & );
         void erase( char invlet );
-        bool contains( char invlet, itype_id ) const;
-        std::string invlets_for( itype_id ) const;
+        bool contains( char invlet, const itype_id & ) const;
+        std::string invlets_for( const itype_id & ) const;
 
         // For serialization only
         const std::unordered_map<itype_id, std::string> &get_invlets_by_id() const;
