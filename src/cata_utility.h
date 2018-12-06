@@ -7,6 +7,8 @@
 #include <vector>
 #include <fstream>
 #include <functional>
+#include <limits>
+#include <type_traits>
 
 class item;
 class Creature;
@@ -71,6 +73,35 @@ double round_up( double val, unsigned int dp );
  *         boundary, otherwise returns false.
  */
 bool isBetween( int test, int down, int up );
+
+/** Sums the two terms, being careful to not trigger overflow or underflow
+ * Correctly handles overflow, underflow, and nonintegral types
+ *
+ * @param a The first addend.
+ * @param b The second addend.
+ * @return the sum of the addends, but truncated to std::numeric_limits<T>::max or min.
+ */
+template <typename T>
+static T sum_no_wrap(T a, T b)
+{
+    static_assert(std::is_integral<T>::value, "sum_no_wrap applied to nonintegral type.");
+
+    // Check for overflow
+    if ((a > 0) && (b > std::numeric_limits<T>::max() - a))
+    {
+        assert(false);
+        return std::numeric_limits<T>::max();
+    }
+
+    // Check for underflow
+    if ((a < 0) && (b < std::numeric_limits<T>::min() - a))
+    {
+        assert(false);
+        return std::numeric_limits<T>::min();
+    }
+
+    return a + b;
+}
 
 /**
  * Perform case sensitive search for a query string inside a subject string.

@@ -18,23 +18,7 @@
 #include "messages.h" //for rust message
 #include "output.h"
 #include "translations.h"
-
-/** Sums the two terms, being careful to not trigger overflow.
- * Doesn't handle underflow.
- *
- * @param a The first addend.
- * @param b The second addend.
- * @return the sum of the addends, but truncated to std::numeric_limits<int>::max().
- */
-template <typename T>
-static T sum_no_wrap(T a, T b)
-{
-    if (a > std::numeric_limits<T>::max() - b ||
-        b > std::numeric_limits<T>::max() - a) {
-        return std::numeric_limits<T>::max();
-    }
-    return a + b;
-}
+#include "cata_utility.h"
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );
@@ -714,9 +698,9 @@ bool inventory::has_charges( const itype_id &it, long quantity ) const
 
 bool inventory::has_charges_with(const itype_id &it, long quantity, const std::function<bool(const item &)> &filter) const
 {
-    std::vector<const item *> items = items_with(filter);
     long charges = 0;
-    for (auto &itr : items) {
+    for (const item *itr : items_with(filter)) 
+    {
         charges = sum_no_wrap(charges, itr->charges_of(it));
     }
 

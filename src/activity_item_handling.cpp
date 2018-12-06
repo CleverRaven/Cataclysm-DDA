@@ -517,8 +517,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     }
 
     std::function<bool(const item &)> unfrozen = [](const item& it) {
-        const std::string frozenFlag("FROZEN");
-        return !it.has_flag(frozenFlag);
+        return !it.has_flag("FROZEN");
     };
 
     const inventory &crafting_inv = p->crafting_inventory();

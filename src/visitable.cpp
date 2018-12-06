@@ -15,6 +15,7 @@
 #include "game.h"
 #include "itype.h"
 #include "player.h"
+#include "cata_utility.h"
 
 /** @relates visitable */
 template <typename T>
@@ -78,23 +79,6 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
     return visit_items( [&filter]( const item * node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
-}
-
-/** Sums the two terms, being careful to not trigger overflow.
- * Doesn't handle underflow.
- *
- * @param a The first addend.
- * @param b The second addend.
- * @return the sum of the addends, but truncated to std::numeric_limits<int>::max().
- */
-template <typename T>
-static T sum_no_wrap( T a, T b )
-{
-    if( a > std::numeric_limits<T>::max() - b ||
-        b > std::numeric_limits<T>::max() - a ) {
-        return std::numeric_limits<T>::max();
-    }
-    return a + b;
 }
 
 template <typename T>
