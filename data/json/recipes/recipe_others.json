@@ -1893,7 +1893,7 @@
     "difficulty": 2,
     "time": 10000,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5] ],
+    "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 8 ], [ "scrap", 40 ] ] ]
   },
