@@ -378,7 +378,7 @@ void zone_manager::cache_data()
 void zone_manager::cache_vzones()
 {
     vzone_cache.clear();
-    auto vzones = g->m.get_vehicle_zones( g->u.posz() );
+    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
     for( auto elem : vzones ) {
         if( !elem->get_enabled() ) {
             continue;
@@ -593,7 +593,7 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
             return &zone;
         }
     }
-    auto vzones = g->m.get_vehicle_zones( g->u.posz() );
+    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
     for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
         const auto zone = *it;
 
@@ -619,7 +619,7 @@ zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
             //create a vehicle loot zone
             new_zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
-            g->m.register_vehicle_zone( &vp->vehicle(), g->u.posz() );
+            g->m.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
             cache_vzones();
         }
     } else {
@@ -662,7 +662,7 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
         zones.emplace_back( zone );
     }
 
-    auto vzones = g->m.get_vehicle_zones( g->u.posz() );
+    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
 
     for( auto zone : vzones ) {
         zones.emplace_back( *zone );
@@ -679,7 +679,7 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones() const
         zones.emplace_back( zone );
     }
 
-    auto vzones = g->m.get_vehicle_zones( g->u.posz() );
+    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
 
     for( auto zone : vzones ) {
         zones.emplace_back( *zone );
