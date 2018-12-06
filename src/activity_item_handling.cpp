@@ -902,7 +902,7 @@ static std::vector<tripoint> route_adjacent( const player &p, const tripoint &de
 void activity_on_turn_move_loot( player_activity &, player &p )
 {
     auto &mgr = zone_manager::get_manager();
-    if( g->m.check_vehicle_zones( g->u.posz() ) ) {
+    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
     const auto abspos = g->m.getabs( p.pos() );
@@ -931,8 +931,8 @@ void activity_on_turn_move_loot( player_activity &, player &p )
         auto items = std::vector<item *>();
 
         //Check source for cargo part
-        //map_stack and vehicle_stack are different types
-        //No way to avoid for loop duplication
+        //map_stack and vehicle_stack are different types but inherit from item_stack
+        //TODO: use one for loop
         if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
                 false ) ) {
             src_veh = &vp->vehicle();

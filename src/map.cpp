@@ -791,7 +791,7 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 
 bool map::deregister_vehicle_zone( zone_data &zone )
 {
-    for( auto veh : get_cache( g->u.posz() ).zone_vehicles ) {
+    for( auto veh : get_cache( zone.get_start_point().z ).zone_vehicles ) {
         for( auto it = veh->loot_zones.begin(); it != veh->loot_zones.end(); it++ ) {
             if( &zone == &( it->second ) ) {
                 veh->loot_zones.erase( it );
