@@ -476,7 +476,6 @@ class map
                                      const pathfinding_settings &settings,
         const std::set<tripoint> &pre_closed = {{ }} ) const;
 
-        int coord_to_angle( const int x, const int y, const int tgtx, const int tgty ) const;
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
@@ -1452,8 +1451,9 @@ class map
                            bool invert, bool show_items,
                            const tripoint &view_center,
                            bool low_light, bool bright_light, bool inorder ) const;
-        void draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                       const tripoint &view_center ) const;
+        bool draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                       const tripoint &view_center,
+                                       bool move_cursor = true ) const;
         /**
          * Draws the tile as seen from above.
          */

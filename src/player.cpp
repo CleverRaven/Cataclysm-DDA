@@ -7417,9 +7417,14 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
         if( base.is_gun() || base.is_magazine() ) {
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.front().ammo_data() : sel.ammo->ammo_data();
             if( ammo ) {
-                const damage_instance &dam = ammo->ammo->damage;
-                row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
-                                      static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
+                if( ammo->ammo->prop_damage ) {
+                    row += string_format("| *%-6d | %-7d", static_cast<int>( *ammo->ammo->prop_damage ),
+                                         ammo->ammo->legacy_pierce );
+                } else {
+                    const damage_instance &dam = ammo->ammo->damage;
+                    row += string_format("| %-7d | %-7d", static_cast<int>( dam.total_damage()),
+                                         static_cast<int>( dam.empty() ? 0.0f : (*dam.begin()).res_pen ));
+                }
             } else {
                 row += "|         |         ";
             }
@@ -11567,6 +11572,16 @@ void player::toggle_map_memory()
 bool player::should_show_map_memory()
 {
     return show_map_memory;
+}
+
+void player::serialize_map_memory( JsonOut &jsout ) const
+{
+    player_map_memory.store( jsout );
+}
+
+void player::deserialize_map_memory( JsonIn &jsin )
+{
+    player_map_memory.load( jsin );
 }
 
 memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const

@@ -238,6 +238,13 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
+            if( critter.type->difficulty > 10 && ( is_enemy() || !critter.friendly ) ) {
+                const std::string snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
+                const std::string speech = string_format( _( "%s %s." ), snip,
+                                           critter.type->nname() );
+                complain_about( "warning_" + critter.type->nname(), 10_minutes, speech,
+                                is_enemy() );
+            }
         }
     }
     assessment /= 10;
@@ -384,9 +391,13 @@ void npc::move()
 
     if( action == npc_undecided ) {
         if( is_guarding() ) {
-            action = goal == global_omt_location() ?
-                     npc_pause :
-                     npc_goto_destination;
+            // if we're in a vehicle, stay in the vehicle
+            if( in_vehicle ) {
+                action = npc_pause;
+                goal = global_omt_location();
+            } else {
+                action = goal == global_omt_location() ?  npc_pause : npc_goto_destination;
+            }
         } else if( has_new_items && scan_new_items() ) {
             return;
         } else if( !fetching_item ) {
@@ -1365,7 +1376,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    int target_angle = g->m.coord_to_angle( posx(), posy(), tar.x, tar.y );
+    int target_angle = coord_to_angle( pos(), tar );
 
     // @todo: Base on dispersion
     int safe_angle = 30;
@@ -1384,7 +1395,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
             safe_angle_ally += ( 3 - ally_dist ) * 30;
         }
 
-        int ally_angle = g->m.coord_to_angle( posx(), posy(), ally.posx(), ally.posy() );
+        int ally_angle = coord_to_angle( pos(), ally.pos() );
         int angle_diff = abs( ally_angle - target_angle );
         angle_diff = std::min( 360 - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {

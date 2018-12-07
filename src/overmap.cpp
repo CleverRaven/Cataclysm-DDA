@@ -3699,7 +3699,9 @@ void overmap::add_mon_group( const mongroup &group )
                 pop_here = pop / total_area;
             } else {
                 // non-diffuse groups are more dense towards the center.
-                pop_here = ( 1.0 - static_cast<double>( dist ) / rad ) * pop / total_area;
+                // This computation is delicate, be careful and see
+                // https://github.com/CleverRaven/Cataclysm-DDA/issues/26941
+                pop_here = ( static_cast<double>( rad - dist ) / rad ) * pop / total_area;
             }
             if( pop_here > pop || pop_here < 0 ) {
                 DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": invalid population here: " << pop_here;

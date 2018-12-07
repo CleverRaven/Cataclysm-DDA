@@ -41,6 +41,7 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
+const trap_str_id tr_practice_target( "tr_practice_target" );
 
 // Construction functions.
 namespace construct
@@ -69,6 +70,7 @@ void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
 void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
+void done_mark_practice_target( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -299,7 +301,7 @@ void construction_menu()
                 std::copy_if( available.begin(), available.end(),
                               std::back_inserter( constructs ),
                 [&]( const std::string & a ) {
-                    return lcmatch( a, filter );
+                    return lcmatch( _( a.c_str() ), filter );
                 } );
             } else {
                 constructs = cat_available[category_name];
@@ -508,7 +510,7 @@ void construction_menu()
                         if( !current_con->pre_note.empty() ) {
                             current_line.str( "" );
                             current_line << _( "Annotation: " )
-                                         << colorize( current_con->pre_note, color_data );
+                                         << colorize( _( current_con->pre_note.c_str() ), color_data );
                             std::vector<std::string> folded_result_string =
                                 foldstring( current_line.str(), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
@@ -788,19 +790,20 @@ void place_construction( const std::string &desc )
     }
     wrefresh( g->w_terrain );
 
-    tripoint dirp;
-    if( !choose_adjacent( _( "Construct where?" ), dirp ) ) {
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    if( !pnt_ ) {
+        return;
+    }
+    const tripoint pnt = *pnt_;
+
+    if( valid.find( pnt ) == valid.end() ) {
+        cons.front()->explain_failure( pnt );
         return;
     }
 
-    if( valid.find( dirp ) == valid.end() ) {
-        cons.front()->explain_failure( dirp );
-        return;
-    }
-
-    const construction &con = *valid.find( dirp )->second;
+    const construction &con = *valid.find( pnt )->second;
     g->u.assign_activity( activity_id( "ACT_BUILD" ), con.adjusted_time(), con.id );
-    g->u.activity.placement = dirp;
+    g->u.activity.placement = pnt;
 }
 
 void complete_construction()
@@ -1155,6 +1158,11 @@ void construct::done_mark_firewood( const tripoint &p )
     g->m.trap_set( p, tr_firewood_source );
 }
 
+void construct::done_mark_practice_target( const tripoint &p )
+{
+    g->m.trap_set( p, tr_practice_target );
+}
+
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1259,7 +1267,8 @@ void load_construction( JsonObject &jo )
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
-            { "done_mark_firewood", construct::done_mark_firewood }
+            { "done_mark_firewood", construct::done_mark_firewood },
+            { "done_mark_practice_target", construct::done_mark_practice_target }
         }
     };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;

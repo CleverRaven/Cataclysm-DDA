@@ -258,7 +258,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         } else if( pldist < 3 ) {
             iff_hangle = ( pldist == 2 ? 30 : 60 );  // granularity increases with proximity
         }
-        u_angle = g->m.coord_to_angle( posx(), posy(), u.posx(), u.posy() );
+        u_angle = coord_to_angle( pos(), u.pos() );
     }
 
     if( area > 0 && in_veh != nullptr ) {
@@ -308,7 +308,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            int tangle = g->m.coord_to_angle( posx(), posy(), m->posx(), m->posy() );
+            int tangle = coord_to_angle( pos(), m->pos() );
             int diff = abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&

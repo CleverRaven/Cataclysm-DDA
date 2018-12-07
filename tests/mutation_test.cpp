@@ -5,6 +5,8 @@
 #include "npc.h"
 #include "player.h"
 
+#include <sstream>
+
 std::string get_mutations_as_string( const player &p );
 
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the

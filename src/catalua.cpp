@@ -1172,14 +1172,12 @@ static int game_get_monster_types( lua_State *L )
 static int game_choose_adjacent( lua_State *L )
 {
     const std::string parameter1 = lua_tostring_wrapper( L, 1 );
-    int parameter2 = ( int ) lua_tonumber( L, 2 );
-    int parameter3 = ( int ) lua_tonumber( L, 3 );
-    bool success = ( bool ) choose_adjacent( parameter1, parameter2, parameter3 );
-    if( success ) {
-        // parameter2 and parameter3 were updated by the call
-        lua_pushnumber( L, parameter2 );
-        lua_pushnumber( L, parameter3 );
-        return 2; // 2 return values
+    const cata::optional<tripoint> pnt = choose_adjacent( parameter1 );
+    if( pnt ) {
+        lua_pushnumber( L, pnt->x );
+        lua_pushnumber( L, pnt->y );
+        lua_pushnumber( L, pnt->z );
+        return 3; // 3 return values
     } else {
         return 0; // 0 return values
     }

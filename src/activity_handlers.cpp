@@ -34,6 +34,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "map_selector.h"
 
 #include <algorithm>
 #include <cmath>
@@ -938,7 +939,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
                 entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
+                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ||
+                entry.drop == "brain" ) {
                 continue;
             }
         }
@@ -947,7 +949,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
             if( entry.drop == "stomach" || entry.drop == "stomach_large" ||
                 entry.drop == "hstomach" || entry.drop == "hstomach_large" ||
-                entry.drop == "offal" || entry.drop == "plant_sac" ) {
+                entry.drop == "offal" || entry.drop == "plant_sac" ||
+                entry.drop == "liver" || entry.drop == "kidney" ||
+                entry.drop == "lung" || entry.drop == "sweetbread" ) {
                 continue;
             }
             if( entry.drop == "bone" ) {
@@ -1501,10 +1505,10 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, int sSkillLevel, int fishChance )
+static void rod_fish( player *p, int sSkillLevel, int fishChance, const tripoint &fish_point )
 {
     if( sSkillLevel > fishChance ) {
-        std::vector<monster *> fishables = g->get_fishable( 60 ); //get the nearby fish list.
+        std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.empty() ) {
             if( one_in( 20 ) ) {
@@ -1539,8 +1543,9 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
         sSkillLevel = p->get_skill_level( skill_survival ) * 1.5 + dice( 1, 6 ) + 3;
         fishChance = dice( 1, 20 );
     }
+    const tripoint fish_pos = act->placement;
     ///\EFFECT_SURVIVAL increases chance of fishing success
-    rod_fish( p, sSkillLevel, fishChance );
+    rod_fish( p, sSkillLevel, fishChance, fish_pos );
     p->practice( skill_survival, rng( 5, 15 ) );
     act->set_to_null();
 }
@@ -1690,7 +1695,8 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( actor->valid_to_cut_up( *it ) ) {
-            actor->cut_up( *p, *salvage_tool, *it );
+            item_location item_loc( map_cursor( p->pos() ), &*it );
+            actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }
     }
@@ -2814,7 +2820,12 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     tripoint direction;
-    while( !choose_direction( _( "Select a direction for the tree to fall in." ), direction ) ) {
+    while( true ) {
+        if( const cata::optional<tripoint> dir = choose_direction(
+                    _( "Select a direction for the tree to fall in." ) ) ) {
+            direction = *dir;
+            break;
+        }
         // try again
     }
 

@@ -303,9 +303,11 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     } else {
         input_context ctxt( "EGET_DIRECTION" );
         ctxt.set_iso( true );
-        if( !ctxt.get_direction( p.x, p.y, action ) ) {
+        const cata::optional<tripoint> vec = ctxt.get_direction( action );
+        if( !vec ) {
             return false;
         }
+        p = *vec;
     }
     return true;
 }
@@ -1818,7 +1820,7 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
 /*
  * Write over an existing om tile with one from json
  */
-bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool change_sensitive )
+bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool change_sensitive )
 {
     if( r > 0 ) {
         popup( _( "Select a tile up to %d tiles away." ), r );
@@ -1924,7 +1926,9 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
             destsm->temperature = srcsm->temperature;
             destsm->last_touched = calendar::turn;
             destsm->comp = std::move( srcsm->comp );
-            destsm->camp = srcsm->camp;
+            if( srcsm->camp.is_valid() ) {
+                destsm->camp = srcsm->camp;
+            }
 
             if( spawns_todo > 0 ) {
                 g->m.spawn_monsters( true );
@@ -2024,8 +2028,6 @@ int editmap::mapgen_retarget()
     ctxt.register_action( "ANY_INPUT" );
     std::string action;
     tripoint origm = target;
-    int omx = -2;
-    int omy = -2;
     uphelp( "",
             pgettext( "map generator", "[enter] accept, [q] abort" ), pgettext( "map generator",
                     "Mapgen: Moving target" ) );
@@ -2033,8 +2035,8 @@ int editmap::mapgen_retarget()
     do {
         action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
-        if( ctxt.get_direction( omx, omy, action ) ) {
-            tripoint ptarget = tripoint( target.x + ( omx * 24 ), target.y + ( omy * 24 ), target.z );
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            tripoint ptarget = tripoint( target.x + ( vec->x * 24 ), target.y + ( vec->y * 24 ), target.z );
             if( pinbounds( ptarget ) && inbounds( ptarget.x + 24, ptarget.y + 24, ptarget.z ) ) {
                 target = ptarget;
 
