@@ -75,10 +75,8 @@ double round_up( double val, unsigned int dp );
 bool isBetween( int test, int down, int up );
 
 /** Sums the two terms, being careful to not trigger overflow or underflow
- * Correctly handles overflow, underflow, and nonintegral types
+ * Correctly handles overflow and underflow.
  *
- * @param a The first addend.
- * @param b The second addend.
  * @return the sum of the addends, but truncated to std::numeric_limits<T>::max or min.
  */
 template <typename T>
