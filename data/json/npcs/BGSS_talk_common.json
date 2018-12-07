@@ -623,7 +623,7 @@
         "success": { "topic": "BGSS_PREPPER_2_SOLD" },
         "failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
       },
-      { "text": "Sorry for changing the subject.  What was it you were saying?", "topic": "TALK_FRIEND" },
+      { "text": "Sorry for changing the subject.  What was it you were saying?", "topic": "TALK_NONE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -634,7 +634,7 @@
     "dynamic_line": "All right.  Here they are.",
     "effect": { "npc_add_effect": "player_BGSS_HASMAPS", "duration": "permanent", "u_buy_item": "survivormap" },
     "responses": [
-      { "text": "Thanks! What was it you were saying before?", "topic": "TALK_FRIEND" },
+      { "text": "Thanks! What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -645,7 +645,7 @@
     "dynamic_line": "Nice try.  You want the maps, you pay up.",
     "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "permanent" },
     "responses": [
-      { "text": "Fine.  What was it you were saying before?", "topic": "TALK_FRIEND" },
+      { "text": "Fine.  What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
