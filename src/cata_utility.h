@@ -85,12 +85,12 @@ static T sum_no_wrap( T a, T b )
     static_assert( std::is_integral<T>::value, "sum_no_wrap applied to nonintegral type." );
 
     // Check for overflow
-    if( ( a > 0 ) && ( b > std::numeric_limits<T>::max() - a ) ) {
+    if( a > 0 && b > std::numeric_limits<T>::max() - a ) {
         return std::numeric_limits<T>::max();
     }
 
     // Check for underflow
-    if( ( a < 0 ) && ( b < std::numeric_limits<T>::min() - a ) ) {
+    if( a < 0 && b < std::numeric_limits<T>::min() - a ) {
         return std::numeric_limits<T>::min();
     }
 
