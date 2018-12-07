@@ -930,26 +930,25 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
         auto items = std::vector<item *>();
 
-        //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
-        //TODO: use one for loop
+        auto insert_all_items = []( item_stack & src_items, std::vector<item *> &i ) {
+            for( auto &it : src_items ) {
+                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+                    i.push_back( &it );
+                }
+            }
+        };
+
+        //Check source for cargo part
         if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
                 false ) ) {
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
-            for( auto &it : src_veh->get_items( src_part ) ) {
-                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-                    items.push_back( &it );
-                }
-            }
+            insert_all_items( src_veh->get_items( src_part ), items );
         } else {
             src_veh = nullptr;
             src_part = -1;
-            for( auto &it : g->m.i_at( src_loc ) ) {
-                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-                    items.push_back( &it );
-                }
-            }
+            insert_all_items( g->m.i_at( src_loc ), items );
         }
 
         for( auto it : items ) {
