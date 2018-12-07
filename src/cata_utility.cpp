@@ -46,15 +46,16 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    std::string needle;
-    needle.reserve( qry.size() );
-    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
+    std::locale::global( std::locale( "ru_RU.utf8" ) );
+    auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
 
-    std::string haystack;
-    haystack.reserve( str.size() );
-    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
+    std::wstring whaystack = utf8_to_wstr( str );
+    std::wstring wneedle = utf8_to_wstr( qry );
 
-    return haystack.find( needle ) != std::string::npos;
+    f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
+    f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
+
+    return whaystack.find( wneedle ) != std::wstring::npos;
 }
 
 bool match_include_exclude( const std::string &text, std::string filter )
