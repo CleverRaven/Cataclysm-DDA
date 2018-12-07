@@ -209,7 +209,7 @@ struct CataReporter : Catch::ConsoleReporter {
     }
 };
 
-REGISTER_REPORTER( "cata", CataReporter )
+CATCH_REGISTER_REPORTER( "cata", CataReporter )
 
 int main( int argc, const char *argv[] )
 {
