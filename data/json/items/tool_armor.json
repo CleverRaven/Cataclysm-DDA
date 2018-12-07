@@ -110,7 +110,7 @@
         "material_thickness": 1,
         "environmental_protection": 4,
         "use_action": "DIRECTIONAL_HOLOGRAM",
-        "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE" ]
+        "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER" ]
     },
     {
         "type" : "TOOL_ARMOR",
