@@ -1057,6 +1057,11 @@ void options_manager::add_options_general()
          1, 100, 50
        );
 
+    add( "SAFEMODEIGNORETURNS", "general", translate_marker( "Turns to remember ignored monsters" ),
+         translate_marker( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
+         0, 600, 200
+       );
+
     mOptionsSort["general"]++;
 
     add( "TURN_DURATION", "general", translate_marker( "Realtime turn progression" ),
