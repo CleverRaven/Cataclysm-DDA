@@ -41,6 +41,7 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
+const trap_str_id tr_practice_target( "tr_practice_target" );
 
 // Construction functions.
 namespace construct
@@ -69,6 +70,7 @@ void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
 void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
+void done_mark_practice_target( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -1156,6 +1158,11 @@ void construct::done_mark_firewood( const tripoint &p )
     g->m.trap_set( p, tr_firewood_source );
 }
 
+void construct::done_mark_practice_target( const tripoint &p )
+{
+    g->m.trap_set( p, tr_practice_target );
+}
+
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1260,7 +1267,8 @@ void load_construction( JsonObject &jo )
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
-            { "done_mark_firewood", construct::done_mark_firewood }
+            { "done_mark_firewood", construct::done_mark_firewood },
+            { "done_mark_practice_target", construct::done_mark_practice_target }
         }
     };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;

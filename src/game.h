@@ -1065,7 +1065,6 @@ class game
 
         // ########################## DATA ################################
 
-        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
         std::vector<std::shared_ptr<monster>> new_seen_mon;
