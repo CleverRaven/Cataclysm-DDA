@@ -239,6 +239,8 @@ int main( int argc, const char *argv[] )
 
     test_mode = true;
 
+    setupDebug( DebugOutput::std_err );
+
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite );
@@ -251,7 +253,9 @@ int main( int argc, const char *argv[] )
 
     const auto start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
-    printf( "Starting the actual test at %s", std::ctime( &start_time ) );
+    // Leading newline in case there were debug messages during
+    // initialization.
+    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );

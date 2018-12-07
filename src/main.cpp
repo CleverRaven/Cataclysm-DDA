@@ -537,7 +537,7 @@ int main( int argc, char *argv[] )
         exit( 1 );
     }
 
-    setupDebug();
+    setupDebug( DebugOutput::file );
 
     /**
      * OS X does not populate locale env vars correctly (they usually default to
