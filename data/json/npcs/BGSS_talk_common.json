@@ -282,6 +282,7 @@
     "id": "BGSS_EVACUEE_5_STORY1",
     "type": "talk_topic",
     "dynamic_line": "My Evac shelter got swarmed by some of those bees, the ones the size of dogs.  I took out a few with a two-by-four, but pretty quick I realized it was either head for the hills or get stuck like a pig.  The rest is history.",
+    "//": "TK: In a future iteration, this evacuee might give you directions to a hive.",
     "responses": [
       { "text": "Giant bees? Tell me more.", "topic": "BGSS_EVACUEE_5_BEES" },
       {
@@ -376,6 +377,7 @@
     "id": "BGSS_FEMA_EVACUEE_1_ESCAPE1",
     "type": "talk_topic",
     "dynamic_line": "That place was chaos.  I only stayed a few hours.  They had a big backhoe running, digging a huge pit in a cordoned section they wouldn't let us near.  Well, I managed to sneak over that way, and saw them dumping load after load of the dead in the pit, pouring dirt back over them even as they revived and tried to climb out.  Even with all the shit I've seen since, it haunts me.  I knew then I had to get out.  Luckily for me, we were attacked the next morning by some giant horror, a kind I haven't really seen since then.  While the guards were busy with that, I grabbed some supplies I'd stocked up over the night and I fucked right out of there.  A few others tried to fuck out with me, but as far as I know I was the only lucky one.",
+    "//": "TK: In a future version this character will give you directions to the FEMA camp.",
     "responses": [
       { "text": "Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
@@ -786,6 +788,7 @@
     "id": "BGSS_LOST_PARTNER_1_TRIFFIDS",
     "type": "talk_topic",
     "dynamic_line": "Yeah, have you seen them yet? They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent...  I barely made it out, only because they were, uh, distracted.",
+    "//": "In a future version this NPC might give you directions to a triffid grove.",
     "responses": [
       { "text": "I'm sorry you lost someone.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
@@ -905,7 +908,8 @@
     ],
     "responses": [
       { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -914,7 +918,8 @@
     "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up one of my tractors.  Not that I'd been working the fields since...  well, it'd been a <shitty> year and I hadn't done much worth doing.  There were explosions and things, and choppers overhead.  I was scared, kept the curtains drawn, kept changing the channels.  Then, one day, there were no channels to change to.  Just the emergency broadcast, over and over.",
     "responses": [
       { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -922,7 +927,10 @@
     "type": "talk_topic",
     "dynamic_line": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday.",
     "//": "In the future this NPC should give you the map coordinates to the farm if you persuade.",
-    "responses": [ { "text": "Thanks for telling me that.", "topic": "TALK_FRIEND" } ]
+    "responses": [ 
+      { "text": "Thanks for telling me that. <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "BGSS_RURAL_2_STORY1",
@@ -930,22 +938,28 @@
     "dynamic_line": "Well, I lived on the edge of a small town.  Corner store and a gas station and not much else.  We heard about the shit goin' down in the city, but we didn't see much of it until the military came blazing through and tried to set up a camp there.  They wanted to bottle us all up in town, and I wasn't having with that, so my dog Buck and I, we headed out while they were all sniffin' their own farts.",
     "responses": [
       { "text": "What happened next?", "topic": "BGSS_RURAL_2_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_RURAL_2_STORY2",
     "type": "talk_topic",
     "dynamic_line": "Buck and I slipped out and went East, headin' for my friend's ranch.  Cute little dope thought we were just goin' for a real long walk.  I couldn't take the truck without the army boys catchin' wind of it.  We made it out to the forest, camped out in a lean to.  Packed up and kept heading out.  At first we walked along the highway a little, but saw too many army trucks and buses full of evacuees, and that's when we found out about the <zombies>.",
+    "//": "TK: In a future version this NPC might give you directions to the ranch.",
     "responses": [
       { "text": "Where's Buck now?", "topic": "BGSS_RURAL_2_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }
+      { "text": "I see where this is headed. <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I see where this is headed. <end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_RURAL_2_STORY3",
     "type": "talk_topic",
     "dynamic_line": "We got to my buddy's ranch, but the <swear> g-men had been there first.  It was all boarded up and there was a police barricade out front.  One of those <swear> turrets...  <swear> shot Buck.  Almost got me too.  I managed to get my pup...  get him outta there, that...  it wasn't easy, had to use a police car door as a shield, had to kill a cop-zombie first.  And then, well, while I was still cryin', Buck came back.  I had to ...  <swear!>.  I...  I can't say it.  You know.",
-    "responses": [ { "text": "I'm sorry.  <done_conversation_section>", "topic": "TALK_FRIEND" } ]
+    "responses": [ 
+      { "text": "I'm sorry about Buck.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I'm sorry about Buck. <end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]
