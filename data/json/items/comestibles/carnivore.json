@@ -374,7 +374,7 @@
     "name": "raw brains",
     "name_plural": "raw brains",
     "description": "The brain from an animal. You wouldn't want to eat this raw...",
-    "color": "grey",
+    "color": "light_gray",
     "healthy": -15,
     "quench": 10,
     "fun": -20,

@@ -1885,6 +1885,20 @@
   },
   {
     "type": "recipe",
+    "result": "jerrycan_big",
+    "id_suffix": "welder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 10000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 8 ], [ "scrap", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "flask_hip",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",

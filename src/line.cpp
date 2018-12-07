@@ -740,3 +740,12 @@ void calc_ray_end( const int angle, const int range, const tripoint &p, tripoint
         }
     }
 }
+
+double coord_to_angle( const tripoint &a, const tripoint &b )
+{
+    double rad = atan2( b.y - a.y, b.x - a.x );
+    if( rad < 0 ) {
+        rad += 2 * M_PI;
+    }
+    return rad * 180 / M_PI;
+}

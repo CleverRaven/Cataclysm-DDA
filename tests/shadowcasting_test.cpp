@@ -12,10 +12,6 @@
 constexpr unsigned int NUMERATOR = 1;
 constexpr unsigned int DENOMINATOR = 10;
 
-// The width and height of the area being checked.
-constexpr int DIMENSION = 121;
-
-
 void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
                    const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
                    const int xx, const int xy, const int yx, const int yy,

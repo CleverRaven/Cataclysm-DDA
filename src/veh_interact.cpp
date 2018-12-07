@@ -299,10 +299,8 @@ void veh_interact::do_main_loop()
         wrefresh( w_msg );
         std::string msg;
         bool redraw = false;
-        int dx = 0;
-        int dy = 0;
-        if( main_context.get_direction( dx, dy, action ) ) {
-            move_cursor( dx, dy );
+        if( const cata::optional<tripoint> vec = main_context.get_direction( action ) ) {
+            move_cursor( vec->x, vec->y );
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
@@ -1318,7 +1316,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 break;
             }
         }
-        
+
         wrefresh( w_list );
 
         if( !std::any_of( opts.begin(), opts.end(), []( const part_option & e ) {
