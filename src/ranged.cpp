@@ -1242,12 +1242,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
             targ.x -= dst.x;
             targ.y -= dst.y;
+        } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            targ.x = vec->x;
+            targ.y = vec->y;
         } else {
-            ctxt.get_direction( targ.x, targ.y, action );
-            if( targ.x == -2 ) {
-                targ.x = 0;
-                targ.y = 0;
-            }
+            targ.x = 0;
+            targ.y = 0;
         }
         if( action == "FIRE" && mode == TARGET_MODE_FIRE && aim_mode->has_threshold ) {
             action = aim_mode->action;

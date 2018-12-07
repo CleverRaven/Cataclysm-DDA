@@ -826,12 +826,10 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
               fast_scroll, &ictxt, data );
         action = ictxt.handle_input( BLINK_SPEED );
 
-        int dirx = 0;
-        int diry = 0;
-        if( ictxt.get_direction( dirx, diry, action ) ) {
+        if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
-            curs.x += dirx * scroll_d;
-            curs.y += diry * scroll_d;
+            curs.x += vec->x * scroll_d;
+            curs.y += vec->y * scroll_d;
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH ) {
@@ -1145,9 +1143,9 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
                     action = ctxt.handle_input( BLINK_SPEED );
 
-                    if( ictxt.get_direction( dirx, diry, action ) ) {
-                        curs.x += dirx;
-                        curs.y += diry;
+                    if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+                        curs.x += vec->x;
+                        curs.y += vec->y;
                     } else if( action == "CONFIRM" ) { // Actually modify the overmap
                         if( terrain ) {
                             overmap_buffer.ter( curs ) = uistate.place_terrain->id.id();
