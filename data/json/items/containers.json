@@ -1037,5 +1037,24 @@
     "contains": 17,
     "seals": true,
     "watertight": true
+  },
+  {
+    "id": "test_tube",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "test tube",
+    "description": "A 50ml laboratory cylindrical test tube, with a rubber stopper.",
+    "weight": 36,
+    "volume": "50ml",
+    "price": 300,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": "glass",
+    "symbol": ")",
+    "color": "light_cyan",
+    "contains": "50ml",
+    "seals": true,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1] ]
   }
 ]
