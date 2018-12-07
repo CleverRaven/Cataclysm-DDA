@@ -804,7 +804,7 @@
     "upgrades": { "into": "mon_ant_acid", "half_life": 0 },
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "flags": [ "LARVA", "ACIDPROOF", "POISON", "SMELLS" ]
+    "flags": [ "ACIDPROOF", "LARVA", "POISON", "SMELLS" ]
   },
   {
     "id": "mon_ant_acid_queen",
