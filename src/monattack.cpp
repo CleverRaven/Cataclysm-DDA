@@ -352,10 +352,10 @@ bool mattack::shriek_stun( monster *z )
         return false;
     }
 
-    int target_angle = g->m.coord_to_angle( z->posx(), z->posy(), target->posx(), target->posy() );
+    int target_angle = coord_to_angle( z->pos(), target->pos() );
     int cone_angle = 20;
     for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4 ) ) {
-        int tile_angle = g->m.coord_to_angle( z->posx(), z->posy(), cone.x, cone.y );
+        int tile_angle = coord_to_angle( z->pos(), cone );
         int diff = abs( target_angle - tile_angle );
         if( diff + cone_angle > 360 || diff > cone_angle || cone == z->pos() ) {
             continue; // skip the target, because it's outside cone or it's the source
@@ -921,8 +921,7 @@ bool mattack::smash( monster *z )
                                    _( "A blow from the %s sends <npcname> flying!" ),
                                    z->name().c_str(), target->disp_name().c_str() );
     // TODO: Make this parabolic
-    g->fling_creature( target, g->m.coord_to_angle( z->posx(), z->posy(), target->posx(),
-                       target->posy() ),
+    g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
 
     return true;
@@ -1751,7 +1750,7 @@ bool mattack::fungus_sprout( monster *z )
     }
 
     if( push_player ) {
-        const int angle = g->m.coord_to_angle( z->posx(), z->posy(), g->u.posx(), g->u.posy() );
+        const int angle = coord_to_angle( z->pos(), g->u.pos() );
         add_msg( m_bad, _( "You're shoved away as a fungal wall grows!" ) );
         g->fling_creature( &g->u, angle, rng( 10, 50 ) );
     }
@@ -1819,8 +1818,7 @@ bool mattack::fungus_fortify( monster *z )
     }
     if( push_player ) {
         add_msg( m_bad, _( "You're shoved away as a fungal hedgerow grows!" ) );
-        g->fling_creature( &g->u, g->m.coord_to_angle( z->posx(), z->posy(), g->u.posx(),
-                           g->u.posy() ), rng( 10, 50 ) );
+        g->fling_creature( &g->u, coord_to_angle( z->pos(), g->u.pos() ), rng( 10, 50 ) );
     }
     if( fortified || mycus || peaceful ) {
         return true;
@@ -2420,7 +2418,7 @@ bool mattack::ranged_pull( monster *z )
         // Recalculate the ray each step
         // We can't depend on either the target position being constant (obviously),
         // but neither on z pos staying constant, because we may want to shift the map mid-pull
-        const int dir = g->m.coord_to_angle( target->posx(), target->posy(), z->posx(), z->posy() );
+        const int dir = coord_to_angle( target->pos(), z->pos() );
         tileray tdir( dir );
         tdir.advance();
         pt.x = target->posx() + tdir.dx();

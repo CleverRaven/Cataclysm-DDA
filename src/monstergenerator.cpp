@@ -423,6 +423,7 @@ void MonsterGenerator::init_flags()
     flag_map["ELECTRIC"] = MF_ELECTRIC;
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
+    flag_map["SHORTACIDTRAIL"] = MF_SHORTACIDTRAIL;
     flag_map["FIREPROOF"] = MF_FIREPROOF;
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;

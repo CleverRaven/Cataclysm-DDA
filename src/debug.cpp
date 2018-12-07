@@ -222,14 +222,62 @@ struct NullBuf : public std::streambuf {
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
+struct time_info {
+    int hours;
+    int minutes;
+    int seconds;
+    int mseconds;
+
+    template <typename Stream>
+    friend Stream &operator<<( Stream &out, time_info const &t ) {
+        using char_t = typename Stream::char_type;
+        using base   = std::basic_ostream<char_t>;
+
+        static_assert( std::is_base_of<base, Stream>::value, "" );
+
+        out << std::setfill( '0' );
+        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
+            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
+
+        return out;
+    }
+};
+
+#ifdef _MSC_VER
+time_info get_time() noexcept
+{
+    SYSTEMTIME time {};
+
+    GetLocalTime( &time );
+
+    return time_info { static_cast<int>( time.wHour ), static_cast<int>( time.wMinute ),
+                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds )
+                     };
+}
+#else
+time_info get_time() noexcept
+{
+    timeval tv;
+    gettimeofday( &tv, nullptr );
+
+    auto const tt      = time_t {tv.tv_sec};
+    auto const current = localtime( &tt );
+
+    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
+                     };
+}
+#endif
+
 struct DebugFile {
     DebugFile();
     ~DebugFile();
-    void init( const std::string &filename );
+    void init( DebugOutput, const std::string &filename );
     void deinit();
 
-    std::ofstream &currentTime();
-    std::ofstream file;
+    // Using shared_ptr for the type-erased deleter support, not because
+    // it needs to be shared.
+    std::shared_ptr<std::ostream> file;
     std::string filename;
 };
 
@@ -247,42 +295,60 @@ DebugFile::DebugFile()
 
 DebugFile::~DebugFile()
 {
-    if( file.is_open() ) {
-        deinit();
-    }
+    deinit();
 }
 
 void DebugFile::deinit()
 {
-    file << "\n";
-    currentTime() << " : Log shutdown.\n";
-    file << "-----------------------------------------\n\n";
-    file.close();
+    if( file && file.get() != &std::cerr ) {
+        *file << "\n";
+        *file << get_time() << " : Log shutdown.\n";
+        *file << "-----------------------------------------\n\n";
+    }
+    file.reset();
 }
 
-void DebugFile::init( const std::string &filename )
+void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 {
-    this->filename = filename;
-    const std::string oldfile = filename + ".prev";
-    bool rename_failed = false;
-    struct stat buffer;
-    if( stat( filename.c_str(), &buffer ) == 0 ) {
-        // Continue with the old log file if it's smaller than 1 MiB
-        if( buffer.st_size >= 1024 * 1024 ) {
-            rename_failed = !rename_file( filename, oldfile );
+    switch( output_mode ) {
+        case DebugOutput::std_err:
+            struct null_deleter {
+                void operator()( std::ostream * ) const {}
+            };
+            file = std::shared_ptr<std::ostream>( &std::cerr, null_deleter() );
+            return;
+        case DebugOutput::file: {
+            this->filename = filename;
+            const std::string oldfile = filename + ".prev";
+            bool rename_failed = false;
+            struct stat buffer;
+            if( stat( filename.c_str(), &buffer ) == 0 ) {
+                // Continue with the old log file if it's smaller than 1 MiB
+                if( buffer.st_size >= 1024 * 1024 ) {
+                    rename_failed = !rename_file( filename, oldfile );
+                }
+            }
+            file = std::make_shared<std::ofstream>(
+                       filename.c_str(), std::ios::out | std::ios::app );
+            *file << "\n\n-----------------------------------------\n";
+            *file << get_time() << " : Starting log.";
+            DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
+            if( rename_failed ) {
+                DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
+                                            << oldfile << " failed.\n"
+                                            << "Check the file permissions. This "
+                                            "program will continue to use the "
+                                            "previous log file.";
+            }
         }
-    }
-    file.open( filename.c_str(), std::ios::out | std::ios::app );
-    file << "\n\n-----------------------------------------\n";
-    currentTime() << " : Starting log.";
-    DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
-    if( rename_failed ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to " << oldfile << " failed.\n" <<
-                                    "Check the file permissions. This program will continue to use the previous log file.";
+        return;
+        default:
+            std::cerr << "Unexpected debug output mode " << static_cast<int>( output_mode )
+                      << std::endl;
     }
 }
 
-void setupDebug()
+void setupDebug( DebugOutput output_mode )
 {
     int level = 0;
 
@@ -328,7 +394,7 @@ void setupDebug()
         limitDebugClass( cl );
     }
 
-    debugFile.init( FILENAMES["debug"] );
+    debugFile.init( output_mode, FILENAMES["debug"] );
 }
 
 void deinitDebug()
@@ -381,58 +447,6 @@ std::ostream &operator<<( std::ostream &out, DebugClass cl )
         }
     }
     return out;
-}
-
-struct time_info {
-    int hours;
-    int minutes;
-    int seconds;
-    int mseconds;
-
-    template <typename Stream>
-    friend Stream &operator<<( Stream &out, time_info const &t ) {
-        using char_t = typename Stream::char_type;
-        using base   = std::basic_ostream<char_t>;
-
-        static_assert( std::is_base_of<base, Stream>::value, "" );
-
-        out << std::setfill( '0' );
-        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
-            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
-
-        return out;
-    }
-};
-
-#ifdef _MSC_VER
-time_info get_time() noexcept
-{
-    SYSTEMTIME time {};
-
-    GetLocalTime( &time );
-
-    return time_info { static_cast<int>( time.wHour ), static_cast<int>( time.wMinute ),
-                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds )
-                     };
-}
-#else
-time_info get_time() noexcept
-{
-    timeval tv;
-    gettimeofday( &tv, nullptr );
-
-    auto const tt      = time_t {tv.tv_sec};
-    auto const current = localtime( &tt );
-
-    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
-                     };
-}
-#endif
-
-std::ofstream &DebugFile::currentTime()
-{
-    return ( file << get_time() );
 }
 
 #ifdef BACKTRACE
@@ -707,26 +721,33 @@ void debug_write_backtrace( std::ostream &out )
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
+    // If debugging has not been initialized then stop
+    // (we could instead use std::cerr in this case?)
+    if( !debugFile.file ) {
+        return nullStream;
+    }
+
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
-        debugFile.file << std::endl;
-        debugFile.currentTime() << " ";
-        debugFile.file << lev;
+        std::ostream &out = *debugFile.file;
+        out << std::endl;
+        out << get_time() << " ";
+        out << lev;
         if( cl != debugClass ) {
-            debugFile.file << cl;
+            out << cl;
         }
-        debugFile.file << ": ";
+        out << ": ";
 
         // Backtrace on error.
 #ifdef BACKTRACE
         if( lev == D_ERROR ) {
-            debugFile.file << "(error message will follow backtrace)";
-            debug_write_backtrace( debugFile.file );
+            out << "(error message will follow backtrace)";
+            debug_write_backtrace( out );
         }
 #endif
 
-        return debugFile.file;
+        return out;
     }
     return nullStream;
 }
