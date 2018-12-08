@@ -45,7 +45,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_HUNTER_extra",
+    "id" : "NC_HUNTER_storage",
     "items":[
       ["null", 5],
       ["backpack_leather", 25]

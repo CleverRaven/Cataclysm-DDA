@@ -64,16 +64,30 @@
       ["jacket_windbreaker", 10],
       ["jacket_leather", 20],
       ["trenchcoat", 20],
-      ["jacket_jean", 60],
+      ["jacket_jean", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_COWBOY_vest",
+    "items":[
+      ["null", 20],
       ["kevlar", 5]
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_COWBOY_extra",
+    "id" : "NC_COWBOY_storage",
     "items":[
       ["null", 75],
       ["backpack", 10],
       ["backpack_leather", 10],
+      ["holster", 25]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_COWBOY_storage",
+    "items":[
+      ["null", 75],
       ["holster", 25]
     ]
   },{

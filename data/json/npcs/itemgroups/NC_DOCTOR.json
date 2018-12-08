@@ -45,12 +45,19 @@
     "type" : "item_group",
     "id" : "NC_DOCTOR_coat",
     "items":[
+      ["null", 10],
       ["coat_lab", 90],
       ["hoodie", 5],
       ["jacket_light", 5],
       ["jacket_leather", 5],
       ["trenchcoat", 5],
-      ["jacket_jean", 5],
+      ["jacket_jean", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_DOCTOR_vest",
+    "items":[
+      ["null", 20],
       ["kevlar", 5]
     ]
   },{

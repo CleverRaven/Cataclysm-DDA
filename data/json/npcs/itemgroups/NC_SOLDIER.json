@@ -37,7 +37,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_SOLDIER_coat",
+    "id" : "NC_SOLDIER_vest",
     "items":[
       ["null", 10],
       ["kevlar", 10],
@@ -77,7 +77,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_SOLDIER_extra",
+    "id" : "NC_SOLDIER_storage",
     "items":[
       ["null", 5],
       ["molle_pack", 40],

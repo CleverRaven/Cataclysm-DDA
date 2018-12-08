@@ -18,7 +18,13 @@
       ["jacket_leather", 10],
       ["trenchcoat", 5],
       ["jacket_jean", 10],
-      ["jacket_windbreaker", 5],
+      ["jacket_windbreaker", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_SCIENTIST_vest",
+    "items":[
+      ["null", 20],
       ["kevlar", 5]
     ]
   }

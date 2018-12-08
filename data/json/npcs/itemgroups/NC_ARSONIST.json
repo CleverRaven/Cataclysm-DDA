@@ -63,6 +63,13 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "NC_ARSONIST_vest",
+    "items":[
+      ["null", 20],
+      ["kevlar", 5]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "NC_ARSONIST_shoes",
     "items":[
       ["sneakers", 20],
@@ -100,7 +107,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_ARSONIST_extra",
+    "id" : "NC_ARSONIST_storage",
     "items":[
       ["null", 5],
       ["backpack", 25],

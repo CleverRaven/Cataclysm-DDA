@@ -49,7 +49,13 @@
       ["jacket_leather", 30],
       ["jacket_leather_mod", 30],
       ["jacket_jean", 30],
-      ["football_armor", 40],
+      ["football_armor", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_THUG_vest",
+    "items":[
+      ["null", 20],
       ["kevlar", 5]
     ]
   },{

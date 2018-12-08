@@ -1,7 +1,7 @@
 [
   {
     "type" : "item_group",
-    "id" : "NC_BARTENDER_extra",
+    "id" : "NC_BARTENDER_storage",
     "items":[
       ["backpack", 90]
     ]
@@ -9,7 +9,14 @@
     "type" : "item_group",
     "id" : "NC_BARTENDER_coat",
     "items":[
-      ["trenchcoat", 80],
+      ["null", 20],
+      ["trenchcoat", 80]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_BARTENDER_vest",
+    "items":[
+      ["null", 40],
       ["vest", 60]
     ]
   },{
