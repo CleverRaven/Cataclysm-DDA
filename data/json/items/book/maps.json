@@ -2,7 +2,7 @@
   {
     "abstract": "abstractmap",
     "type": "GENERIC",
-    "category": "books",
+    "category": "maps",
     "name": "abstract map",
     "description": "seeing this is a bug",
     "weight": 30,
