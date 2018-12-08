@@ -299,7 +299,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 if( !seesFromVehBound ) {
                     continue;
                 }
-
             } else {
                 continue;
             }
