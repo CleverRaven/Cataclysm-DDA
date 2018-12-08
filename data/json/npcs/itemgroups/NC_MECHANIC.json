@@ -86,7 +86,8 @@
     "id" : "NC_MECHANIC_eyes",
     "items":[
       ["null", 50],
-      ["goggles_welding", 10]
+      ["goggles_welding", 10],
+      ["glasses_safety", 20]
     ]
   },{
     "type" : "item_group",
