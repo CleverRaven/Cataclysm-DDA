@@ -33,7 +33,7 @@
   {
     "type": "item_group",
     "id": "npc_shirt_female",
-    "items": [ [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "dress_shirt", 20 ], [ "tank_top", 20 ] ]
+    "items": [ [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "dress_shirt", 20 ], [ "tank_top", 20 ], [ "sundress", 10 ]
   },
   {
     "type": "item_group",
