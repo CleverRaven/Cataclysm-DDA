@@ -287,12 +287,14 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 // TODO: to visibility checking another way, probably using 3D FOV
                 std::vector<tripoint> path_to_target = line_to( pos(), m->pos() );
                 path_to_target.insert( path_to_target.begin(), pos() );
+
+                // Getting point on vehicle boundaries and on line between target and turret
                 while( in_veh != veh_pointer_or_null( g->m.veh_at( path_to_target.back() ) ) ) {
                     path_to_target.pop_back();
                 }
                 tripoint oldPos = pos();
-                setpos( path_to_target.back() );
-                bool seesFromVehBound = sees( *m );
+                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary postion
+                bool seesFromVehBound = sees( *m ); // And look from there
                 setpos( oldPos );
                 if( !seesFromVehBound ) {
                     continue;
