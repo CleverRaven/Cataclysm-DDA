@@ -718,6 +718,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
         ret.push_back( random_item_from( type, "hat" ) );
         ret.push_back( random_item_from( type, "extra" ) );
+        ret.push_back( random_item_from( type, "storage" ) );
     }
 
     who.worn.clear();
