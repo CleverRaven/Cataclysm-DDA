@@ -712,6 +712,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( get_clothing_item( type, "shirt", male ) );
         ret.push_back( random_item_from( type, "gloves" ) );
         ret.push_back( random_item_from( type, "coat" ) );
+        ret.push_back( random_item_from( type, "vest" ) );
         ret.push_back( random_item_from( type, "shoes" ) );
         ret.push_back( random_item_from( type, "masks" ) );
         // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
@@ -719,6 +720,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "hat" ) );
         ret.push_back( random_item_from( type, "extra" ) );
         ret.push_back( random_item_from( type, "storage" ) );
+        ret.push_back( random_item_from( type, "holster" ) );
     }
 
     who.worn.clear();
