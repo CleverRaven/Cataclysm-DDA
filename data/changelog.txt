@@ -25,7 +25,7 @@ Allow many actions targeting adjacent tiles. Reading, storing liquids, unloading
 Allows certain claw-based mutations to count as having a butchering quality.
 Adds an item flag for certain clothing that allows making mutation natural attacks without said clothing getting in the way.
 Start with book recipes of selected skills on char gen.
-Allow gathering wool staples from sheeps.
+Allow gathering wool staples from sheep.
 Allow vehicles to pivot around arbitrary points.
 Added debug Overmap Editor.
 Add steerable wheels.
@@ -116,7 +116,7 @@ Allow shelter NPC to provide tips.
 Morale craft speed penalty.
 Fully random Play Now!
 Added vitamin tracking and vitamin-related disorders.
-Allow resuming light-cancelled jobs.
+Allow resuming light-canceled jobs.
 Washboard Batch Washing.
 New characters: Start with loaded/holstered guns and sheathed blades.
 Removed restriction to blood draw kit so centrifuge can work with any container with blood.
@@ -221,7 +221,7 @@ Add Speedloaders.
 Remove Solar Panels CBM.
 Software Lights on!
 Added can sealer and related recipes for better food preservation.
-Seperated dashboard (electronics controls) from steering.
+Separated dashboard (electronics controls) from steering.
 Acidic Ant Expansion - Acidic Chitin Item & Equipment.
 Add engine blocks and engine deconstruction recipes.
 Butchering yields for fungal towers and other structures.
@@ -279,7 +279,7 @@ Added dynamic loading of crafting gui categories.
 Sort by name in inventory instead of id.
 Add quit action to new character window.
 Extend blackspace window to cover minimap instead of using map legend window.
-Allow cancelling crafting from component/tool selection menus.
+Allow canceling crafting from component/tool selection menus.
 Updated MShock Modded Tileset.
 Scrollable item info text in crafting menu.
 Added Y/N query to attacking friendly NPCs.
@@ -459,7 +459,7 @@ Add More Classes and Scenarios mod.
 Craftable Gun Pack mod revamp.
 More snippet/flier entries for mods.
 Support total conversion mods.
-Remove Arcana and PK_rebalancing mods since they are maintained in seperate repositories now.
+Remove Arcana and PK_rebalancing mods since they are maintained in separate repositories now.
 Add huge vehicles mod.
 Expanded Realistic Guns: bandolier update.
 Magazines for Icecoon's Arsenal.
@@ -502,7 +502,7 @@ Variable draw costs for dedicated inventory containers (holsters).
 Last amigara horror to die always drops an artifact.
 Adjust the way monster upgrade times are calculated.
 Replace no pickup feature with move penalty.
-Added encumberance to weapons worn with shoulder straps.
+Added encumbrance to weapons worn with shoulder straps.
 Added batch crafting times to various comestibles.
 Made DEX prevent cuts from broken glass more often.
 Make farming yield multiples of default charge of a plant item on gather.
@@ -512,7 +512,7 @@ WBLOCK_2 usage changes.
 Correct nutrition_for thresholds.
 Change handling of recoil penalty.
 Remove completely unrealistic energy weapon recipes.
-Standardise ammo disassembly.
+Standardize ammo disassembly.
 Rationalize ranged skill training.
 Item handling is slower with increasing hand encumbrance.
 Add minimum move cost when handling items.
@@ -538,7 +538,7 @@ Overhauled Adrenaline effect.  Replaced speed and stat boost with temporary pain
 Add inaccuracy penalty whilst driving.
 Make rain drenching slower, harder to completely avoid.
 Improve garage doors behavior.
-Overhaul distillation and use of alcohols by widening the gap between drinkable and refined alchohol.
+Overhaul distillation and use of alcohols by widening the gap between drinkable and refined alcohol.
 Expunge vermin.
 Make crafting of brewed/fermented items more realistic and involved.
 Turn toolbox into a truly versatile tool.
@@ -556,15 +556,15 @@ Change chisel requirement to CHISEL quality requirement.
 Remove memorization of recipes from reading books.
 Nerf Sensory Dulling.
 More realistic diesel recipe.
-Evened out addiction witdrawal but made it longer.
+Evened out addiction withdrawal but made it longer.
 Rework firestarter and extended firestarter.
 Fix 145 items spawning in a house
-Standardise handloading recipes.
+Standardize handloading recipes.
 Derive vehicle part hp from base item.
 Adjust multi-pool defaults.
 Fungus and aberration monsters now also drop filthy clothes.
 Adds few missing cancels mutations.
-Updated the plant mutations to give some encumberance that makes sense.
+Updated the plant mutations to give some encumbrance that makes sense.
 Allow Steel Jerrycans to be used as vehicle tanks.
 Forklift gets lifting and jack capabilities. Half of the boom crane.
 Medium storage battery 700 -> 7000
@@ -601,7 +601,7 @@ Give zapback zombies weak electric melee.
 Remove requirement for large power reserve just to turn on a part.
 Bash shouldn't give better items than deconstruct now.
 Stops roadblocks from spawning live zeds.
-Remove gasoline and disel from explosive recipes.
+Remove gasoline and diesel from explosive recipes.
 Restore sum of errors based dispersion.
 Newly recruited NPC engage close enemies only.
 Nerf to tree yield.
@@ -835,7 +835,7 @@ Rewrite trap loading to use generic_factory.
 Encapsulate the WINDOW pointer in class game in unique_ptr.
 Add char_validity_check unit-test.
 Use dedicated type for mass/weight values.
-Use get_files_from_path instead of platform dependant code.
+Use get_files_from_path instead of platform dependent code.
 Implement and use a copy_file function.
 Added ability for mutations to spawn items via JSON.
 Added the ability to load mods from user_dir/mods.
@@ -846,7 +846,7 @@ Use a wider type for symbols.
 Json formatter.
 Jsonize mutation armor.
 Mapgen palettes.
-Changed recipies to use filament group.
+Changed recipes to use filament group.
 Use variadic template functions instead of plain C-like variadic function arguments.
 Move class map_item_stack into separate header and source files.
 Load only base_colors file when it is available.
@@ -949,7 +949,7 @@ Add comment for translators about mutation UI.
 Add Chinese main menu ASCII art.
 Allow json_flags to be translated.
 Display localized "Really quit?" string in main menu.
-Fully handle languange changes.
+Fully handle language changes.
 Install only specified translations for curses version.
 Extract text field of morale_type for translation.
 Fix refugee center NPCs' unlocalized names and occupations.
