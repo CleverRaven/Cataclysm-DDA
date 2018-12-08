@@ -985,7 +985,7 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
                              it.tname().c_str() );
         return 0;
     }
-    const auto center = p.global_omt_location();
+    const tripoint &center = it.get_var( "reveal_map_center_omt", p.global_omt_location() );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );

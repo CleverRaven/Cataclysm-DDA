@@ -4177,6 +4177,12 @@ item &map::add_item_at( const tripoint &p,
     submap *const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
 
+    if( new_item.is_map() ) {
+        //new_item.set_var( "origin_abs", g->m.getabs( p ) );
+        //new_item.set_var( "origin_omt", ms_to_omt_copy( g->m.getabs( p ) ) );
+        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( g->m.getabs( p ) ) );
+    }
+
     current_submap->update_lum_add( new_item, lx, ly );
     const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
     if( new_item.needs_processing() ) {
