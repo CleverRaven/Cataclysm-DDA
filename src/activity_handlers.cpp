@@ -264,7 +264,14 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     item corpse_item = items[act.index];
-    const mtype &corpse = *( corpse_item.get_mtype() );
+    const mtype *corpse_ptr = corpse_item.get_mtype();
+    if( corpse_ptr == nullptr ) {
+        debugmsg( "Tried to butcher a non-corpse item, %s",
+                  corpse_item.tname( corpse_item.count() ) );
+        act.set_to_null();
+        return;
+    }
+    const mtype &corpse = *corpse_ptr;
 
     if( action != DISSECT ) {
         if( factor == INT_MIN ) {
