@@ -122,7 +122,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_RICH_weapon_cutting",
+    "id" : "NC_RICH_cutting",
     "items":[
       ["longsword", 30],
       ["arming_sword", 40],
@@ -131,7 +131,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_RICH_weapon_stabbing",
+    "id" : "NC_RICH_stabbing",
     "items":[
       ["estoc", 20],
       ["rapier", 50],
@@ -139,7 +139,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_RICH_weapon_bashing",
+    "id" : "NC_RICH_bashing",
     "items":[
       ["cane", 50],
       ["mace", 40],

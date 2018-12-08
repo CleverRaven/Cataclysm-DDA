@@ -115,13 +115,13 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_FIREFIGHTER_weapon_cutting",
+    "id" : "NC_FIREFIGHTER_cutting",
     "items":[
       ["fire_ax", 50]
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_FIREFIGHTER_weapon_bashing",
+    "id" : "NC_FIREFIGHTER_bashing",
     "items":[
       ["fire_ax", 20],
       ["hammer_sledge", 10],

@@ -99,21 +99,21 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_PRIEST_weapon_cutting",
+    "id" : "NC_PRIEST_cutting",
     "items":[
       ["cane", 50],
       ["q_staff", 10]
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_PRIEST_weapon_stabbing",
+    "id" : "NC_PRIEST_stabbing",
     "items":[
       ["cane", 50],
       ["q_staff", 10]
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_PRIEST_weapon_bashing",
+    "id" : "NC_PRIEST_bashing",
     "items":[
       ["cane", 50],
       ["q_staff", 10]

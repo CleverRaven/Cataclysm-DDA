@@ -113,20 +113,20 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_MECHANIC_weapon_cutting",
+    "id" : "NC_MECHANIC_cutting",
     "items":[
       ["screwdriver", 50],
       ["ax", 20]
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_MECHANIC_weapon_stabbing",
+    "id" : "NC_MECHANIC_stabbing",
     "items":[
       ["screwdriver", 50]
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_MECHANIC_weapon_bashing",
+    "id" : "NC_MECHANIC_bashing",
     "items":[
       ["hammer_sledge", 10],
       ["pipe", 50],
