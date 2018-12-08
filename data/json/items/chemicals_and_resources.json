@@ -956,7 +956,7 @@
     "type": "COMESTIBLE",
     "id": "ether",
     "category": "chems",
-    "price": 135000,
+    "price": 10,
     "name": "ether",
     "name_plural": "ether",
     "symbol": "!",
