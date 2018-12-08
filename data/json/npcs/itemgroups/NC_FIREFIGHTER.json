@@ -97,7 +97,7 @@
     "type" : "item_group",
     "id" : "NC_FIREFIGHTER_eyes",
     "items":[
-      ["null", 100],
+      ["null", 100]
     ]
   },{
     "type" : "item_group",
