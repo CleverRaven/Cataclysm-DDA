@@ -649,6 +649,23 @@ double item::get_var( const std::string &name, const double default_value ) cons
     return atof( it->second.c_str() );
 }
 
+void item::set_var( const std::string &name, const tripoint &value )
+{
+    item_vars[name] = string_format( "%d,%d,%d", value.x, value.y, value.z );
+}
+
+tripoint item::get_var( const std::string &name, const tripoint &default_value ) const
+{
+    const auto it = item_vars.find( name );
+    if( it == item_vars.end() ) {
+        return default_value;
+    }
+    std::vector<std::string> values = string_split( it->second, ',' );
+    return tripoint( atoi( values[0].c_str() ),
+                     atoi( values[1].c_str() ),
+                     atoi( values[2].c_str() ) );
+}
+
 void item::set_var( const std::string &name, const std::string &value )
 {
     item_vars[name] = value;

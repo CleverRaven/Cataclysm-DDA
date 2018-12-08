@@ -1270,6 +1270,8 @@ class item : public visitable<item>
         void set_var( const std::string &name, long value );
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
+        void set_var( const std::string &name, const tripoint &value );
+        tripoint get_var( const std::string &name, const tripoint &default_value ) const;
         void set_var( const std::string &name, const std::string &value );
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */
