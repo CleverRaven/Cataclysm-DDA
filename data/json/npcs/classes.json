@@ -424,6 +424,27 @@
         ]
     },{
         "type" : "npc_class",
+        "id" : "NC_PROSTITUTE",
+        "name" : "Prostitute",
+        "job_description" : "I'm just trying to make some cash.",
+        "bonus_str" : { "rng" : [ -1, 1 ] },
+        "bonus_int" : { "rng" : [ -4, 4 ] },
+        "bonus_per" : { "rng" : [ 0, 2 ] },
+        "skills" : [
+            {
+                "skill" : "ALL", "level" : {
+                    "sum" : [
+                        { "dice" : [ 3, 2 ] },
+                        { "constant" : -3 }
+                    ]
+                }
+            },
+            { "skill": "speech", "bonus" : { "rng" : [ 0, 2 ] } },
+            { "skill": "barter", "bonus" : { "rng" : [ 0, 2 ] } },
+            { "skill": "stabbing", "bonus" : { "rng" : [ 0, 1 ] } }
+        ]
+    },{
+        "type" : "npc_class",
         "id" : "NC_FIREFIGHTER",
         "name" : "Firefighter",
         "job_description" : "I'm searching for people to rescue.",
