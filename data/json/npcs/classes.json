@@ -463,7 +463,7 @@
         "type" : "npc_class",
         "id" : "NC_PRIEST",
         "name" : "Priest",
-        "job_description" : "I'm spreading the good word througout the land.",
+        "job_description" : "I'm spreading the good word throughout the land.",
         "bonus_str" : { "rng" : [ -2, 2 ] },
         "bonus_int" : { "rng" : [ 2, 4 ] },
         "skills" : [
