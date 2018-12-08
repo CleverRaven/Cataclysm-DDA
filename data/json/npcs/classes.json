@@ -122,7 +122,8 @@
                 }
             },
             { "skill": "firstaid", "bonus" : { "rng" : [ 2, 6 ] } }
-        ]
+        ],
+        "traits": [ [ "PROF_MED", 100 ] ]
     },{
         "type" : "npc_class",
         "id" : "NC_CYBERDOC",
@@ -148,7 +149,8 @@
             { "skill": "firstaid", "bonus" : { "rng" : [ 0, 4 ] } },
             { "skill": "electronics", "bonus" : { "rng" : [ 0, 4 ] } },
             { "skill": "computer", "bonus" : { "rng" : [ 0, 4 ] } }
-        ]
+        ],
+        "traits": [ [ "PROF_AUTODOC", 100 ] ]
     },{
         "type" : "npc_class",
         "id" : "NC_FARMER",
@@ -411,7 +413,8 @@
             { "skill": "rifle", "bonus" : { "rng" : [ 1, 2 ] } },
             { "skill": "pistol", "bonus" : { "rng" : [ 1, 4 ] } },
             { "skill": "gun", "bonus" : { "rng" : [ 2, 4 ] } }
-        ]
+        ],
+        "traits": [ { "group": "traits_police" } ]
     },{
         "type" : "npc_class",
         "id" : "NC_MECHANIC",
@@ -473,7 +476,8 @@
                 }
             },
             { "skill": "speech", "bonus" : { "rng" : [ 2, 8 ] } }
-        ]
+        ],
+        "traits": [ [ "SPIRITUAL", 100 ] ]
     },{
         "type" : "npc_class",
         "id" : "NC_RICH",
@@ -515,7 +519,8 @@
             { "skill": "speech", "bonus" : { "rng" : [ 0, 2 ] } },
             { "skill": "barter", "bonus" : { "rng" : [ 0, 2 ] } },
             { "skill": "stabbing", "bonus" : { "rng" : [ 0, 1 ] } }
-        ]
+        ],
+        "traits": [ [ "PRETTY", 100 ] ]
     },{
         "type" : "npc_class",
         "id" : "NC_FIREFIGHTER",
