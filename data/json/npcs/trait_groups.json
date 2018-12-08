@@ -3,9 +3,6 @@
     "type": "trait_group",
     "id": "traits_police",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "PROF_POLICE", "prob": 80 },
-      { "trait": "PROF_PD_DET", "prob": 20 }
-    ]
+    "traits": [ { "trait": "PROF_POLICE", "prob": 80 }, { "trait": "PROF_PD_DET", "prob": 20 } ]
   }
 ]
