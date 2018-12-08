@@ -340,6 +340,29 @@
         ]
     },{
         "type" : "npc_class",
+        "id" : "NC_POLICE",
+        "name" : "Police",
+        "job_description" : "I'm here to serve and protect.",
+        "bonus_str" : { "rng" : [ 0, 2 ] },
+        "bonus_dex" : { "one_in" : 2 },
+        "bonus_per" : { "rng" : [ 0, 2 ] },
+        "skills" : [
+            {
+                "skill" : "ALL", "level" : {
+                    "sum" : [
+                        { "dice" : [ 3, 2 ] },
+                        { "constant" : -3 }
+                    ]
+                }
+            },
+            { "skill": "melee", "bonus" : { "rng" : [ 1, 2 ] } },
+            { "skill": "bashing", "bonus" : { "rng" : [ 1, 2 ] } },
+            { "skill": "rifle", "bonus" : { "rng" : [ 1, 2 ] } },
+            { "skill": "pistol", "bonus" : { "rng" : [ 1, 4 ] } },
+            { "skill": "gun", "bonus" : { "rng" : [ 2, 4 ] } }
+        ]
+    },{
+        "type" : "npc_class",
         "id" : "NC_BARTENDER",
         "name" : "Bartender",
         "job_description" : "I'm looking for new drink recipes.",
