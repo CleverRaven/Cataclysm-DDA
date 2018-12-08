@@ -5662,10 +5662,12 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
 static std::string photo_quality_name( const int index )
 {
-    static std::array<std::string, 6> const names { {
+    static std::array<std::string, 6> const names {
+        {
             //~ photo quality adjective
             { translate_marker( "awful" ) }, { translate_marker( "bad" ) }, { translate_marker( "not bad" ) }, { translate_marker( "good" ) }, { translate_marker( "fine" ) }, { translate_marker( "exceptional" ) }
-        } };
+        }
+    };
     return _( names[index].c_str() );
 }
 
@@ -6441,13 +6443,16 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
-    if( it->contents.empty() ) {
+    auto bomb_it = std::find_if( it->contents.begin(), it->contents.end(), []( const item & c ) {
+        return c.has_flag( "RADIOCARITEM" );
+    } );
+    if( bomb_it == it->contents.end() ) {
         choice = uilist( _( "Using RC car:" ), {
             _( "Turn on" ), _( "Put a bomb to car" )
         } );
-    } else if( it->contents.size() == 1 ) {
+    } else {
         choice = uilist( _( "Using RC car:" ), {
-            _( "Turn on" ), it->contents.front().tname().c_str()
+            _( "Turn on" ), bomb_it->tname().c_str()
         } );
     }
     if( choice < 0 ) {
@@ -6460,17 +6465,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
-        item bomb;
-
-        if( !it->contents.empty() ) {
-            bomb = it->contents.front();
-        }
-
         it->convert( "radio_car_on" ).active = true;
-
-        if( !( bomb.is_null() ) ) {
-            it->put_in( bomb );
-        }
 
         p->add_msg_if_player(
             _( "You turned on your RC car, now place it on ground, and use radio control to play." ) );
@@ -6480,7 +6475,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 
     if( choice == 1 ) {
 
-        if( it->contents.empty() ) { //arming car with bomb
+        if( bomb_it == it->contents.end() ) { //arming car with bomb
             int inventory_index = g->inv_for_flag( "RADIOCARITEM", _( "Arm what?" ) );
             item &put = p->i_at( inventory_index );
             if( put.is_null() ) {
@@ -6503,11 +6498,10 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             }
         } else { // Disarm the car
             p->moves -= 150;
-            item &bomb = it->contents.front();
 
-            p->inv.assign_empty_invlet( bomb, *p, true ); // force getting an invlet.
-            p->i_add( bomb );
-            it->contents.erase( it->contents.begin() );
+            p->inv.assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
+            p->i_add( *bomb_it );
+            it->contents.erase( bomb_it );
 
             p->add_msg_if_player( _( "You disarmed your RC car" ) );
         }
@@ -6538,17 +6532,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     }
 
     if( choice == 0 ) {
-        item bomb;
-
-        if( !it->contents.empty() ) {
-            bomb = it->contents.front();
-        }
-
         it->convert( "radio_car" ).active = false;
-
-        if( !( bomb.is_null() ) ) {
-            it->put_in( bomb );
-        }
 
         p->add_msg_if_player( _( "You turned off your RC car" ) );
         return it->type->charges_to_use();
@@ -6582,7 +6566,7 @@ void sendRadioSignal( player &p, const std::string &signal )
 int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) {
-        if( it->charges == 0 ) {
+        if( !it->ammo_sufficient() ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
         } else if( p->get_value( "remote_controlling" ).empty() ) {
@@ -6761,7 +6745,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     vehicle *remote = g->remoteveh();
     if( t ) {
         bool stop = false;
-        if( it->charges == 0 ) {
+        if( !it->ammo_sufficient() ) {
             p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
             stop = true;
         } else if( remote == nullptr ) {
@@ -6893,9 +6877,10 @@ bool multicooker_hallu( player &p )
 int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
+    static const int charges_to_start = 50;
 
     if( t ) {
-        if( it->charges == 0 ) {
+        if( !it->ammo_sufficient() ) {
             it->active = false;
             return 0;
         }
@@ -6964,11 +6949,16 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         uilist menu;
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
+        // Find actual contents rather than attached mod or battery.
+        auto dish_it = std::find_if_not( it->contents.begin(), it->contents.end(), []( const item & c ) {
+            return c.is_toolmod() || c.is_magazine();
+        } );
+
         if( it->active ) {
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
-            if( it->contents.empty() ) {
-                if( it->ammo_remaining() < 50 ) {
+            if( dish_it == it->contents.end() ) {
+                if( it->ammo_remaining() < charges_to_start ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -7011,7 +7001,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( mc_take == choice ) {
-            item &dish = it->contents.front();
+            item &dish = *dish_it;
 
             if( dish.has_flag( "HOT" ) ) {
                 p->add_msg_if_player( m_good,
@@ -7023,7 +7013,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             }
 
             p->i_add( dish );
-            it->contents.clear();
+            it->contents.erase( dish_it );
 
             return 0;
         }
@@ -7067,7 +7057,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     mealtime = meal->time * 2 ;
                 }
 
-                const int all_charges = 50 + mealtime / ( it->type->tool->turns_per_charge * 100 );
+                const int all_charges = charges_to_start + mealtime / ( it->type->tool->turns_per_charge * 100 );
 
                 if( it->ammo_remaining() < all_charges ) {
 
@@ -7090,7 +7080,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
                 it->active = true;
-                it->charges -= 50;
+                it->ammo_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 
