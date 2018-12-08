@@ -1065,6 +1065,7 @@ class item : public visitable<item>
         bool is_ammo() const;
         bool is_armor() const;
         bool is_book() const;
+        bool is_map() const;
         bool is_salvageable() const;
 
         bool is_tool() const;

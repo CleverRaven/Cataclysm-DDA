@@ -4371,6 +4371,11 @@ bool item::is_book() const
     return type->book.has_value();
 }
 
+bool item::is_map() const
+{
+    return type->category->id() == "maps";
+}
+
 bool item::is_container() const
 {
     return type->container.has_value();
