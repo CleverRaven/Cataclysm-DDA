@@ -7638,6 +7638,26 @@
     }
   },
   {
+    "id": "trailmap",
+    "type": "GENERIC",
+    "category": "books",
+    "name": "trail guide",
+    "description": "This is a printed guide to the best local trails.  It has general details about the trails, trailhead amenities, suggestions for the best thru-hikes, and advice on interacting with local wildlife in a responsible and respectful manner.",
+    "weight": 30,
+    "volume": 1,
+    "price": 500,
+    "to_hit": -1,
+    "material": "paper",
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "forest_trail", "trailhead" ],
+      "message": "You add trails and trailheads to your map."
+    }
+  },
+  {
     "id": "trimmer_off",
     "type": "TOOL",
     "name": "hedge trimmer (off)",
