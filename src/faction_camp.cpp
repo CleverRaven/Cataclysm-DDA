@@ -409,7 +409,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                               "Positions: %d/1\n" ), npc_list.size() );
         mission_key.push( "Relay Hide Site", _( "Relay Hide Site" ), "", false, npc_list.empty() );
         if( !npc_list.empty() ) {
-            entry = _( "Transfering gear to a hide site...\n" );
+            entry = _( "Transferring gear to a hide site...\n" );
             bool avail = false;
             for( auto &elem : npc_list ) {
                 avail |= update_time_left( entry, elem );
@@ -428,7 +428,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                           "Difficulty: N/A \n"
                                           "Foraging Possibilities:\n"
                                           "> wild vegetables\n"
-                                          "> fruits and nuts dependening on season\n"
+                                          "> fruits and nuts depending on season\n"
                                           "May produce less food than consumed!\n"
                                           "Risk: Very Low\n"
                                           "Time: 4 Hours, Repeated\n"
@@ -450,7 +450,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                               "Send a companion to set traps for small game.\n \n"
                                               "Skill used: trapping\n"
                                               "Difficulty: N/A \n"
-                                              "Trappinng Possibilities:\n"
+                                              "Trapping Possibilities:\n"
                                               "> small and tiny animal corpses\n"
                                               "May produce less food than consumed!\n"
                                               "Risk: Low\n"
@@ -1040,7 +1040,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
         }
     }
 
-    //Will be generalized for all crafing, when needed
+    //Will be generalized for all crafting, when needed
     bcp->craft_construction( p, cur_key.id, cur_key.dir, "BASE", "_faction_camp_crafting_" );
     bcp->craft_construction( p, cur_key.id, cur_key.dir, "FARM", "_faction_exp_farm_crafting_" );
     if( cur_key.id == cur_key.dir + " (Finish) Crafting" ) {
@@ -1257,7 +1257,7 @@ void talk_function::start_cut_logs( npc &p )
         // 20 young trees => ~60 sticks which can be carried 8 at a time, so 8 round trips or 16 trips total
         //This all needs to be in an om_carry_weight_over_distance function eventually...
         int trips = tree_est + tree_young_est * 3  / 4;
-        //Alwasy have to come back so no odd number of trips
+        //Always have to come back so no odd number of trips
         trips += trips & 1 ? 1 : 0;
         time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
                                     trips );
@@ -1465,7 +1465,7 @@ void talk_function::start_fortifications( std::string &bldg_exp, npc &p )
             "faction_wall_level_S_1", "faction_wall_level_W_1"
         };
     }
-    popup( _( "Select a start and end point.  Line must be straight. Fields, forests, and swamps are valid fortification locations."
+    popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and swamps are valid fortification locations."
               "  In addition to existing fortification constructions." ) );
     const tripoint omt_pos = p.global_omt_location();
     tripoint start = om_target_tile( omt_pos, 2, 90, allowed_locations );
@@ -1928,7 +1928,7 @@ void talk_function::camp_fortifications_return( npc &p )
             if( MAPBUFFER.lookup_submap( om_to_sm_copy( pt ) ) == nullptr ) {
                 oter_id &omt_test = overmap_buffer.ter( pt );
                 std::string om_i = omt_test.id().c_str();
-                //The thick forests will gen harsh boundries since it won't recognize these tiles when they become fortifications
+                //The thick forests will gen harsh boundaries since it won't recognize these tiles when they become fortifications
                 if( om_i == "forest_thick" ) {
                     om_i = "forest";
                 }
@@ -1996,7 +1996,7 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         popup( _( "%s didn't find anyone to recruit..." ), comp->name );
         return;
     }
-    //Chance of convencing them to come back
+    //Chance of convincing them to come back
     skill = ( 100 * comp->get_skill_level( skill_speech ) + score ) / 100;
     if( rng( 1, 20 ) + skill  > 19 ) {
         popup( _( "%s convinced %s to hear a recruitment offer from you..." ), comp->name, recruit->name );

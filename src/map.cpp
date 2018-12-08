@@ -6908,9 +6908,9 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         if( impassable( upper_left ) ||
             ( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) ) {
             const tripoint glp = getabs( gp );
-            dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-                           " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
-                           " global " << glp.x << "," << glp.y << "," << glp.z;
+            dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
+                             " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
+                             " global " << glp.x << "," << glp.y << "," << glp.z;
             return;
         }
 
