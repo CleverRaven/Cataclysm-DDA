@@ -2006,7 +2006,6 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
   },
-
   {
     "result": "militarymap",
     "type": "uncraft",
