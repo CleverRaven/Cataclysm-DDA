@@ -403,6 +403,27 @@
         ]
     },{
         "type" : "npc_class",
+        "id" : "NC_RICH",
+        "name" : "Rich",
+        "job_description" : "I'm looking for new business opportunities.",
+        "bonus_str" : { "rng" : [ -2, 2 ] },
+        "bonus_int" : { "rng" : [ 2, 4 ] },
+        "bonus_per" : { "rng" : [ 0, 1 ] },
+        "skills" : [
+            {
+                "skill" : "ALL", "level" : {
+                    "sum" : [
+                        { "dice" : [ 3, 2 ] },
+                        { "constant" : -3 }
+                    ]
+                }
+            },
+            { "skill": "speech", "bonus" : { "rng" : [ 0, 5 ] } },
+            { "skill": "melee", "bonus" : { "rng" : [ 0, 1 ] } },
+            { "skill": "stabbing", "bonus" : { "rng" : [ 0, 2 ] } }
+        ]
+    },{
+        "type" : "npc_class",
         "id" : "NC_FIREFIGHTER",
         "name" : "Firefighter",
         "job_description" : "I'm searching for people to rescue.",
