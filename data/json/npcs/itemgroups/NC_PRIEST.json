@@ -1,0 +1,154 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "NC_PRIEST_pants_male",
+    "items":[
+      ["pants", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_pants_female",
+    "items":[
+      ["pants", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_shirt_male",
+    "items":[
+      ["dress_shirt", 50],
+      ["longshirt", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_shirt_female",
+    "items":[
+      ["dress_shirt", 50],
+      ["longshirt", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_gloves",
+    "items":[
+      ["null", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_vest",
+    "items":[
+      ["null", 80],
+      ["waistcoat", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_coat",
+    "items":[
+      ["null", 10],
+      ["kariginu", 50],
+      ["kittel", 50],
+      ["robe", 50],
+      ["thawb", 50],
+      ["cassock", 50],
+      ["cloak", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_shoes",
+    "items":[
+      ["dress_shoes", 50],
+      ["leathersandals", 20],
+      ["bastsandals", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_extra",
+    "items":[
+      ["null", 5],
+      ["holy_symbol", 80],
+      ["small_relic", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_masks",
+    "items":[
+      ["null", 50],
+      ["mask_rioter", 10],
+      ["keffiyeh", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_eyes",
+    "items":[
+      ["null", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_hat",
+    "items":[
+      ["null", 50],
+      ["kippah", 20],
+      ["kufi", 20],
+      ["turban", 20],
+      ["eboshi", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_storage",
+    "items":[
+      ["null", 5],
+      ["mbag", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_weapon_cutting",
+    "items":[
+      ["cane", 50],
+      ["q_staff", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_weapon_stabbing",
+    "items":[
+      ["cane", 50],
+      ["q_staff", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_weapon_bashing",
+    "items":[
+      ["cane", 50],
+      ["q_staff", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_weapon_random",
+    "items":[
+      ["cane", 50],
+      ["q_staff", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_PRIEST_misc",
+    "items":[
+      ["holybook_bible1", 10],
+      ["holybook_bible2", 10],
+      ["holybook_bible3", 10],
+      ["holybook_granth", 10],
+      ["holybook_hadith", 5],
+      ["holybook_kallisti", 10],
+      ["holybook_kojiki", 10],
+      ["holybook_mormon", 5],
+      ["holybook_pastafarian", 5],
+      ["holybook_quran", 10],
+      ["holybook_scientology", 10],
+      ["holybook_slack", 5],
+      ["holybook_sutras", 10],
+      ["holybook_talmud", 10],
+      ["holybook_tanakh", 5],
+      ["holybook_tripitaka", 10],
+      ["holybook_upanishads", 10],
+      ["holybook_vedas", 10],
+      ["sports_drink", 20],
+      ["water_clean", 50]
+    ]
+  }
+]

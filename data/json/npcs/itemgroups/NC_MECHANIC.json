@@ -1,0 +1,172 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_pants_male",
+    "items":[
+      ["technician_pants_gray", 50],
+      ["pants_cargo", 20],
+      ["pants", 20],
+      ["pants_leather", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_pants_female",
+    "items":[
+      ["technician_pants_gray", 50],
+      ["pants_cargo", 20],
+      ["pants", 20],
+      ["pants_leather", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_shirt_male",
+    "items":[
+      ["technician_shirt_gray", 50],
+      ["tshirt", 20],
+      ["sweatshirt", 20],
+      ["sweater", 20],
+      ["tank_top", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_shirt_female",
+    "items":[
+      ["technician_shirt_gray", 50],
+      ["tshirt", 20],
+      ["sweatshirt", 20],
+      ["sweater", 20],
+      ["tank_top", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_gloves",
+    "items":[
+      ["null", 50],
+      ["fire_gauntlets", 10],
+      ["gloves_leather", 20],
+      ["gloves_rubber", 20],
+      ["gloves_work", 50],
+      ["nomex_gloves", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_vest",
+    "items":[
+      ["null", 80],
+      ["apron_leather", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_coat",
+    "items":[
+      ["null", 50],
+      ["jacket_jean", 30],
+      ["jacket_leather", 20],
+      ["jacket_leather_red", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_shoes",
+    "items":[
+      ["boots_combat", 10],
+      ["boots_hiking", 30],
+      ["boots_rubber", 20],
+      ["boots_steel", 50],
+      ["boots", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_masks",
+    "items":[
+      ["null", 50],
+      ["mask_filter", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_eyes",
+    "items":[
+      ["null", 50],
+      ["goggles_welding", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_hat",
+    "items":[
+      ["null", 50],
+      ["hat_ball", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_storage",
+    "items":[
+      ["null", 5],
+      ["backpack_leather", 30],
+      ["backpack", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_holster",
+    "items":[
+      ["null", 20],
+      ["tool_belt", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_weapon_cutting",
+    "items":[
+      ["screwdriver", 50],
+      ["ax", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_weapon_stabbing",
+    "items":[
+      ["screwdriver", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_weapon_bashing",
+    "items":[
+      ["hammer_sledge", 10],
+      ["pipe", 50],
+      ["hammer", 30],
+      ["wrench", 50],
+      ["shovel", 30],
+      ["ax", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_weapon_random",
+    "items":[
+      ["glock_19", 5],
+      ["hammer_sledge", 10],
+      ["pipe", 50],
+      ["hammer", 30],
+      ["wrench", 50],
+      ["screwdriver", 50],
+      ["shovel", 30],
+      ["ax", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_MECHANIC_misc",
+    "items":[
+      ["toolbox", 5],
+      ["hacksaw", 20],
+      ["saw", 20],
+      ["screwdriver_set", 20],
+      ["multitool", 5],
+      ["elbow_pads", 20],
+      ["knee_pads", 20],
+      ["sports_drink", 20],
+      ["water_clean", 50],
+      ["drivebelt", 10],
+      ["filter_air", 10],
+      ["filter_liquid", 10],
+      ["glowplug", 10],
+      ["pump_complex", 10],
+      ["well_pump", 10],
+      ["duct_tape", 20]
+    ]
+  }
+]
