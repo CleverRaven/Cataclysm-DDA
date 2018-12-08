@@ -1050,7 +1050,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     const auto set_last_target = [&pc]( const tripoint & dst ) {
         if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
             pc.last_target = g->shared_from( *critter_ptr );
-            pc.last_target_pos = tripoint_min;
+            pc.last_target_pos = cata::nullopt;
         } else {
             pc.last_target.reset();
             pc.last_target_pos = dst;
