@@ -77,15 +77,12 @@
   {
     "type": "item_group",
     "id": "npc_vest",
-    "items": [
-      [ "null", 80 ],
-      [ "kevlar", 10 ]
-    ]
+    "items": [ [ "null", 80 ], [ "kevlar", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_shoes",
-    "items": [ 
+    "items": [
       [ "sneakers", 20 ],
       [ "boots_western", 10 ],
       [ "boots_winter", 5 ],
@@ -93,16 +90,16 @@
       [ "flip_flops", 5 ],
       [ "lowtops", 20 ],
       [ "boots_hiking", 20 ],
-      [ "boots", 20 ] 
+      [ "boots", 20 ]
     ]
   },
   {
     "type": "item_group",
     "id": "npc_masks",
-    "items": [ 
-      [ "null", 80 ], 
-      [ "mask_dust", 10 ], 
-      [ "bandana", 10 ], 
+    "items": [
+      [ "null", 80 ],
+      [ "mask_dust", 10 ],
+      [ "bandana", 10 ],
       [ "mask_filter", 10 ],
       [ "balclava", 10 ],
       [ "mask_ski", 10 ]
@@ -140,25 +137,25 @@
   {
     "type": "item_group",
     "id": "npc_storage",
-    "items": [ 
-      [ "null", 75 ], 
-      [ "backpack", 10 ], 
-      [ "backpack_leather", 10 ], 
-      [ "molle_pack", 10 ], 
-      [ "duffelbag", 5 ], 
-      [ "rucksack", 5 ] 
+    "items": [
+      [ "null", 75 ],
+      [ "backpack", 10 ],
+      [ "backpack_leather", 10 ],
+      [ "molle_pack", 10 ],
+      [ "duffelbag", 5 ],
+      [ "rucksack", 5 ]
     ]
   },
   {
     "type": "item_group",
     "id": "npc_extra",
-    "items": [ 
-      [ "null", 20 ], 
-      [ "knit_scarf", 10 ], 
-      [ "long_knit_scarf", 10 ], 
-      [ "scarf", 10 ], 
-      [ "scarf_long", 10 ], 
-      [ "keffiyeh", 10 ] 
+    "items": [
+      [ "null", 20 ],
+      [ "knit_scarf", 10 ],
+      [ "long_knit_scarf", 10 ],
+      [ "scarf", 10 ],
+      [ "scarf_long", 10 ],
+      [ "keffiyeh", 10 ]
     ]
   },
   {

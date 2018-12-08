@@ -1,161 +1,113 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_pants_male",
-    "items":[
-      ["technician_pants_gray", 50],
-      ["pants_cargo", 20],
-      ["pants", 20],
-      ["pants_leather", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_pants_female",
-    "items":[
-      ["technician_pants_gray", 50],
-      ["pants_cargo", 20],
-      ["pants", 20],
-      ["pants_leather", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_shirt_male",
-    "items":[
-      ["technician_shirt_gray", 50],
-      ["tshirt", 20],
-      ["sweatshirt", 20],
-      ["sweater", 20],
-      ["tank_top", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_shirt_female",
-    "items":[
-      ["technician_shirt_gray", 50],
-      ["tshirt", 20],
-      ["sweatshirt", 20],
-      ["sweater", 20],
-      ["tank_top", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_gloves",
-    "items":[
-      ["null", 50],
-      ["gloves_leather", 20],
-      ["gloves_rubber", 20],
-      ["gloves_work", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_vest",
-    "items":[
-      ["null", 80],
-      ["vest", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_coat",
-    "items":[
-      ["null", 50],
-      ["jacket_jean", 30],
-      ["jacket_leather", 20],
-      ["jacket_leather_red", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_shoes",
-    "items":[
-      ["boots_combat", 10],
-      ["boots_hiking", 30],
-      ["boots_rubber", 50],
-      ["boots", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_masks",
-    "items":[
-      ["null", 50],
-      ["mask_filter", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_eyes",
-    "items":[
-      ["null", 50],
-      ["glasses_safety", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_hat",
-    "items":[
-      ["null", 50],
-      ["hat_ball", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_storage",
-    "items":[
-      ["null", 5],
-      ["backpack_leather", 30],
-      ["backpack", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_holster",
-    "items":[
-      ["null", 20],
-      ["tool_belt", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_cutting",
-    "items":[
-      ["pockknife", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_stabbing",
-    "items":[
-      ["screwdriver", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_bashing",
-    "items":[
-      ["pipe", 50],
-      ["hammer", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_weapon_random",
-    "items":[
-      ["pipe", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ELECTRICIAN_misc",
-    "items":[
-      ["toolbox", 5],
-      ["eink_tablet_pc", 20],
-      ["soldering_iron", 20],
-      ["solder_wire", 20],
-      ["cable", 20],
-      ["RAM", 20],
-      ["processor", 20],
-      ["power_supply", 20],
-      ["amplifier", 20],
-      ["transponder", 20],
-      ["receiver", 20],
-      ["antenna", 20],
-      ["circuit", 20],
-      ["e_scrap", 20],
-      ["screwdriver_set", 20],
-      ["multitool", 5],
-      ["elbow_pads", 20],
-      ["knee_pads", 20],
-      ["sports_drink", 20],
-      ["water_clean", 50]
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_pants_male",
+    "items": [ [ "technician_pants_gray", 50 ], [ "pants_cargo", 20 ], [ "pants", 20 ], [ "pants_leather", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_pants_female",
+    "items": [ [ "technician_pants_gray", 50 ], [ "pants_cargo", 20 ], [ "pants", 20 ], [ "pants_leather", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_shirt_male",
+    "items": [ [ "technician_shirt_gray", 50 ], [ "tshirt", 20 ], [ "sweatshirt", 20 ], [ "sweater", 20 ], [ "tank_top", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_shirt_female",
+    "items": [ [ "technician_shirt_gray", 50 ], [ "tshirt", 20 ], [ "sweatshirt", 20 ], [ "sweater", 20 ], [ "tank_top", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_gloves",
+    "items": [ [ "null", 50 ], [ "gloves_leather", 20 ], [ "gloves_rubber", 20 ], [ "gloves_work", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_vest",
+    "items": [ [ "null", 80 ], [ "vest", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_coat",
+    "items": [ [ "null", 50 ], [ "jacket_jean", 30 ], [ "jacket_leather", 20 ], [ "jacket_leather_red", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_shoes",
+    "items": [ [ "boots_combat", 10 ], [ "boots_hiking", 30 ], [ "boots_rubber", 50 ], [ "boots", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_masks",
+    "items": [ [ "null", 50 ], [ "mask_filter", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_eyes",
+    "items": [ [ "null", 50 ], [ "glasses_safety", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_hat",
+    "items": [ [ "null", 50 ], [ "hat_ball", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_storage",
+    "items": [ [ "null", 5 ], [ "backpack_leather", 30 ], [ "backpack", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_holster",
+    "items": [ [ "null", 20 ], [ "tool_belt", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_cutting",
+    "items": [ [ "pockknife", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_stabbing",
+    "items": [ [ "screwdriver", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_bashing",
+    "items": [ [ "pipe", 50 ], [ "hammer", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_weapon_random",
+    "items": [ [ "pipe", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ELECTRICIAN_misc",
+    "items": [
+      [ "toolbox", 5 ],
+      [ "eink_tablet_pc", 20 ],
+      [ "soldering_iron", 20 ],
+      [ "solder_wire", 20 ],
+      [ "cable", 20 ],
+      [ "RAM", 20 ],
+      [ "processor", 20 ],
+      [ "power_supply", 20 ],
+      [ "amplifier", 20 ],
+      [ "transponder", 20 ],
+      [ "receiver", 20 ],
+      [ "antenna", 20 ],
+      [ "circuit", 20 ],
+      [ "e_scrap", 20 ],
+      [ "screwdriver_set", 20 ],
+      [ "multitool", 5 ],
+      [ "elbow_pads", 20 ],
+      [ "knee_pads", 20 ],
+      [ "sports_drink", 20 ],
+      [ "water_clean", 50 ]
     ]
   }
 ]
