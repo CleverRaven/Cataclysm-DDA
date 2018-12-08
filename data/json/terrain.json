@@ -494,7 +494,20 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_floor_no_roof",
+    "name": "rock floor",
+    "description": "A relatively flat area of rock and stone.  Looks stable enough to be mined with the proper mining gear.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_open_air",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -2974,6 +2987,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
       "items": [
         { "item": "rock", "count": [ 3, 7 ] },
         { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
