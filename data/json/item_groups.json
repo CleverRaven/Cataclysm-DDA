@@ -1572,6 +1572,7 @@
       ["portable_game", 8],
       ["game_watch", 2],
       ["roadmap", 40],
+      ["trailmap", 20],
       ["file", 10],
       ["touristmap", 20],
       ["restaurantmap", 20],
@@ -1669,6 +1670,7 @@
       [ "flyer", 10 ],
       [ "mag_fabrication", 30 ],
       [ "mag_tailor", 25 ],
+      [ "trailmap", 10 ],
       [ "survnote", 1 ]
     ]
   },{
@@ -2364,7 +2366,8 @@
       ["straw_basket", 1],
       ["straw_hat", 5],
       ["l-stick", 1],
-      ["tourist_table", 30]
+      ["tourist_table", 30],
+      ["trailmap", 5]
     ]
   },{
     "type" : "item_group",
@@ -3154,6 +3157,7 @@
     "id" : "traveler",
     "items":[
       ["roadmap", 6],
+      ["trailmap", 6],
       ["touristmap", 4],
       ["lighter", 60],
       ["cig", 40],
@@ -7868,6 +7872,7 @@
       ["inhaler", 5],
       ["knife_swissarmy", 5],
       ["roadmap", 1],
+      ["trailmap", 1],
       ["touristmap", 1],
       ["eclipse_glasses", 1],
       ["thermos", 5]
@@ -9210,6 +9215,7 @@
       ["permanent_marker", 50],
       ["scissors", 25],
       ["roadmap", 10],
+      ["trailmap", 20],
       ["touristmap", 5],
       ["restaurantmap", 5],
       ["magnifying_glass", 25],
@@ -9344,6 +9350,7 @@
       [ "touristmap", 25 ],
       [ "restaurantmap", 25 ],
       [ "roadmap", 25 ],
+      [ "trailmap", 25 ],
       [ "modern_tanner", 20 ],
       [ "pocket_survival", 20 ],
       [ "flyer", 40 ],
@@ -9760,6 +9767,7 @@
       [ "mag_tailor", 15 ],
       [ "survnote", 3 ],
       [ "touristmap", 3 ],
+      [ "trailmap", 3 ],
       [ "phonebook", 60 ],
       [ "holybook_bible1", 1 ],
       [ "holybook_bible2", 1 ],

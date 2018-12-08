@@ -1990,8 +1990,8 @@ void npc::die( Creature *nkiller )
                                    name.c_str() );
         } else if( psycho ) {
             g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed an innocent, %s, in cold blood. They were weak." ),
-                                   pgettext( "memorial_female", "Killed an innocent, %s, in cold blood. They were weak." ),
+                                             "Killed an innocent, %s, in cold blood.  They were weak." ),
+                                   pgettext( "memorial_female", "Killed an innocent, %s, in cold blood.  They were weak." ),
                                    name.c_str() );
         } else if( cannibal ) {
             g->u.add_memorial_log( pgettext( "memorial_male", "Killed an innocent, %s." ),
