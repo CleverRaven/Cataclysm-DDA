@@ -309,7 +309,7 @@ const npc_class_id &npc_class::random_common()
     }
 
     //If no classes are defined, or a null class is rolled
-    if( common_classes.empty() || !one_in( common_classes.size() ) ) {
+    if( common_classes.empty() || one_in( common_classes.size() ) ) {
         return NC_NONE;
     }
 
