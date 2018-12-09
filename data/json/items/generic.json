@@ -88,7 +88,7 @@
     "description": "A dead plant.  Good for starting fires.",
     "material": "paper",
     "weight": 20,
-    "volume": 1,
+    "volume": "10ml",
     "to_hit": -2,
     "flags": [ "TRADER_AVOID" ]
   },
