@@ -91,5 +91,13 @@
       "price": 5
     },
     "extend": { "flags": [ "BELTED" ] }
+  },
+  {
+    "id": "stick_fiber",
+    "type": "GENERIC",
+    "name": "fibrous stalk",
+    "description": "a rather green stick.  very fibrous.",
+    "volume": "100 ml",
+    "weight": 80
   }
 ]
