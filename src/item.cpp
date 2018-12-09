@@ -5,6 +5,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -31,6 +32,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "overmap.h"
 #include "player.h"
 #include "projectile.h"
@@ -2952,14 +2954,15 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    std::string &prefixed_name = name;
     if( is_map() ) {
-        const std::string city_name = g->get_cur_om().get_nearest_city( get_var( "reveal_map_center_omt",
-                                      tripoint_min ) ).name;
-        prefixed_name = string_format( "%s %s", city_name.c_str(), name.c_str() );
+        const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
+                        g->u.global_omt_location() ) ) ).city;
+        if( c != nullptr ) {
+            name = string_format( "%s %s", c->name.c_str(), name.c_str() );
+        }
     }
 
-    return string_format( "%s%s%s", prefixed_name.c_str(), sidetxt.c_str(), amt.c_str() );
+    return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
 }
 
 nc_color item::color() const
