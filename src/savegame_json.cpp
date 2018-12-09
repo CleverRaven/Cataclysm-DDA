@@ -549,7 +549,7 @@ void player::load( JsonObject &data )
     data.read( "last_target_type", tmptartyp );
     data.read( "last_target_pos", last_target_pos );
 
-    // Fixes savefile with invalid last_target_pos 
+    // Fixes savefile with invalid last_target_pos.
     if( last_target_pos && *last_target_pos == tripoint_min ) {
         last_target_pos = cata::nullopt;
     }
