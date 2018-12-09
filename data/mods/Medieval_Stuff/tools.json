@@ -37,7 +37,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "khopesh",
@@ -57,7 +57,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "dao",
@@ -77,7 +77,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "anvil_bronze",
