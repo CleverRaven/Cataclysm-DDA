@@ -1,0 +1,116 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_RICH_pants_male",
+    "items": [ [ "pants", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_pants_female",
+    "items": [ [ "pants", 20 ], [ "nanoskirt", 50 ], [ "skirt", 20 ], [ "skirt_leather", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_shirt_male",
+    "items": [ [ "dress_shirt", 50 ], [ "longshirt", 50 ], [ "tux", 10 ], [ "suit", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_shirt_female",
+    "items": [ [ "dress_shirt", 50 ], [ "sundress", 50 ], [ "dress", 50 ], [ "gown", 50 ], [ "longshirt", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_gloves",
+    "items": [ [ "null", 20 ], [ "gloves_leather", 50 ], [ "long_glove_white", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_vest",
+    "items": [ [ "null", 50 ], [ "waistcoat", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_coat",
+    "items": [
+      [ "null", 10 ],
+      [ "greatcoat", 50 ],
+      [ "peacoat", 50 ],
+      [ "jacket_leather_red", 50 ],
+      [ "trenchcoat_fur", 50 ],
+      [ "trenchcoat_faux_fur", 50 ],
+      [ "coat_fur", 50 ],
+      [ "coat_faux_fur", 50 ],
+      [ "coat_fur_sf", 50 ],
+      [ "cloak_fur", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_shoes",
+    "items": [ [ "dress_shoes", 50 ], [ "dance_shoes", 30 ], [ "leathersandals", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_extra",
+    "items": [
+      [ "null", 5 ],
+      [ "necklace", 50 ],
+      [ "ring", 50 ],
+      [ "silver_ear", 50 ],
+      [ "copper_ear", 50 ],
+      [ "diamond_ring", 50 ],
+      [ "gold_ear", 50 ],
+      [ "gold_watch", 50 ],
+      [ "silver_bracelet", 50 ],
+      [ "copper_bracelet", 50 ],
+      [ "gold_bracelet", 50 ],
+      [ "brooch", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_masks",
+    "items": [ [ "null", 80 ], [ "scarf_fur", 50 ], [ "scarf_fur_long", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_eyes",
+    "items": [ [ "null", 50 ], [ "fancy_sunglasses", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_hat",
+    "items": [ [ "null", 80 ], [ "beret", 20 ], [ "beret_wool", 20 ], [ "tophat", 20 ], [ "bowhat", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_storage",
+    "items": [ [ "null", 5 ], [ "mbag", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_cutting",
+    "items": [ [ "longsword", 30 ], [ "arming_sword", 40 ], [ "zweihander", 10 ], [ "cavalry_sabre", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_stabbing",
+    "items": [ [ "estoc", 20 ], [ "rapier", 50 ], [ "spear_steel", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_bashing",
+    "items": [ [ "cane", 50 ], [ "mace", 40 ], [ "morningstar", 20 ], [ "battleaxe", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_weapon_random",
+    "items": [ [ "cane", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_RICH_misc",
+    "items": [ [ "money_bundle", 50 ], [ "smart_phone", 50 ], [ "cigar", 20 ], [ "sports_drink", 20 ], [ "water_clean", 50 ] ]
+  }
+]

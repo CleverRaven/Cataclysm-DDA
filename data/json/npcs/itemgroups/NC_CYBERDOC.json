@@ -1,0 +1,68 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_pants_male",
+    "items": [ [ "jeans", 20 ], [ "pants", 60 ], [ "pants_leather", 20 ], [ "pants_cargo", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_pants_female",
+    "items": [ [ "jeans", 20 ], [ "pants", 80 ], [ "pants_leather", 20 ], [ "pants_cargo", 20 ], [ "skirt", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_shirt_male",
+    "items": [ [ "polo_shirt", 50 ], [ "dress_shirt", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_shirt_female",
+    "items": [ [ "polo_shirt", 50 ], [ "dress_shirt", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_gloves",
+    "items": [ [ "null", 60 ], [ "gloves_medical", 60 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_coat",
+    "items": [
+      [ "null", 10 ],
+      [ "coat_lab", 90 ],
+      [ "hoodie", 5 ],
+      [ "jacket_light", 5 ],
+      [ "jacket_leather", 5 ],
+      [ "trenchcoat", 5 ],
+      [ "jacket_jean", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_vest",
+    "items": [ [ "null", 20 ], [ "kevlar", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_masks",
+    "items": [ [ "null", 5 ], [ "mask_dust", 80 ], [ "bandana", 10 ], [ "mask_filter", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_eyes",
+    "items": [ [ "null", 50 ], [ "glasses_safety", 50 ], [ "goggles_welding", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBERDOC_misc",
+    "items": [
+      [ "bandages", 50 ],
+      [ "cotton_ball", 50 ],
+      [ "1st_aid", 35 ],
+      [ "burnt_out_bionic", 20 ],
+      [ "soldering_iron", 50 ],
+      [ "e_scrap", 50 ],
+      [ "anesthesia", 20 ]
+    ]
+  }
+]

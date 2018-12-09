@@ -1,0 +1,105 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_pants_male",
+    "items": [ [ "pants", 20 ], [ "pants_cargo", 20 ], [ "bunker_pants", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_pants_female",
+    "items": [ [ "pants", 20 ], [ "pants_cargo", 20 ], [ "bunker_pants", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_shirt_male",
+    "items": [ [ "longshirt", 20 ], [ "polo_shirt", 20 ], [ "tshirt", 50 ], [ "under_armor", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_shirt_female",
+    "items": [ [ "longshirt", 20 ], [ "polo_shirt", 20 ], [ "tshirt", 50 ], [ "under_armor", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_gloves",
+    "items": [ [ "null", 10 ], [ "fire_gauntlets", 50 ], [ "nomex_gloves", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_vest",
+    "items": [ [ "null", 50 ], [ "vest", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_coat",
+    "items": [ [ "null", 30 ], [ "bunker_coat", 20 ], [ "jacket_leather", 10 ], [ "entry_suit", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_shoes",
+    "items": [ [ "boots_bunker", 50 ], [ "boots_steel", 20 ], [ "boots", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_extra",
+    "items": [ [ "null", 20 ], [ "wearable_light", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_masks",
+    "items": [ [ "null", 50 ], [ "mask_bunker", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_eyes",
+    "items": [ [ "null", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_hat",
+    "items": [ [ "null", 10 ], [ "firehelmet", 40 ], [ "hat_ball", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_eyes",
+    "items": [ [ "null", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_holster",
+    "items": [ [ "null", 20 ], [ "fireman_belt", 80 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_storage",
+    "items": [ [ "null", 10 ], [ "molle_pack", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_cutting",
+    "items": [ [ "fire_ax", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_bashing",
+    "items": [ [ "fire_ax", 20 ], [ "hammer_sledge", 10 ], [ "halligan", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_weapon_random",
+    "items": [ [ "fire_ax", 20 ], [ "hammer_sledge", 10 ], [ "halligan", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FIREFIGHTER_misc",
+    "items": [
+      [ "oxygen_tank", 50 ],
+      [ "sm_extinguisher", 30 ],
+      [ "1st_aid", 50 ],
+      [ "saline", 20 ],
+      [ "holybook_bible2", 10 ],
+      [ "sports_drink", 20 ],
+      [ "water_clean", 50 ]
+    ]
+  }
+]
