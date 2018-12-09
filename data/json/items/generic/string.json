@@ -94,10 +94,15 @@
   },
   {
     "id": "stick_fiber",
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
+    "category": "spare_parts",
     "name": "fibrous stalk",
-    "description": "a rather green stick.  very fibrous.",
-    "volume": "100 ml",
+    "symbol": "=",
+    "description": "A rather green stick.  Very fibrous.",
+    "fun": -100,
+    "health": -20,
+    "volume": 4,
+    "stack_size": 10,
     "weight": 80
   }
 ]
