@@ -299,10 +299,8 @@ void veh_interact::do_main_loop()
         wrefresh( w_msg );
         std::string msg;
         bool redraw = false;
-        int dx = 0;
-        int dy = 0;
-        if( main_context.get_direction( dx, dy, action ) ) {
-            move_cursor( dx, dy );
+        if( const cata::optional<tripoint> vec = main_context.get_direction( action ) ) {
+            move_cursor( vec->x, vec->y );
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
@@ -1155,7 +1153,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%s     <color_light_gray>%3s</color>",
-                                            pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
+                                            pt.fuel_current() != "null" ? item::nname( pt.fuel_current() ).c_str() : "",
                                             pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
@@ -1318,7 +1316,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 break;
             }
         }
-        
+
         wrefresh( w_list );
 
         if( !std::any_of( opts.begin(), opts.end(), []( const part_option & e ) {

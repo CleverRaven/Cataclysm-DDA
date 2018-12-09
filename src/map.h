@@ -476,7 +476,6 @@ class map
                                      const pathfinding_settings &settings,
         const std::set<tripoint> &pre_closed = {{ }} ) const;
 
-        int coord_to_angle( const int x, const int y, const int tgtx, const int tgty ) const;
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );

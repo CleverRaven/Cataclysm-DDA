@@ -20,10 +20,11 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "diesel",
+    "fuel_options": [ "diesel", "chem_ethanol", "denat_alcohol", "lamp_oil" ],
     "cold_affects_start": true,
     "m2c": 65,
     "extend": { "flags": [ "E_COLD_START" ] },
-    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle."
+    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn methanol, ethanol, or lamp oil, though somewhat less efficiently."
   },
   {
     "abstract": "gasoline_engine",
@@ -221,13 +222,14 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "coal_lump",
+    "fuel_options": [ "coal_lump", "charcoal" ],
     "cold_affects_start": true,
     "looks_like": "diesel_engine_v12",
     "m2c": 65,
     "backfire_threshold": 0.7,
     "backfire_freq": 10,
     "noise_factor": 20,
-    "description": "A closed cycle, external combustion steam engine.  Burns coal from a bunker in the vehicle to produce steam."
+    "description": "A closed cycle, external combustion steam engine.  Burns coal or charcoal from a bunker in the vehicle to produce steam."
   },
   {
     "id": "engine_steam_makeshift",

@@ -149,7 +149,8 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 /**
  * Reads engine info from a JsonObject.
  */
-void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo )
+void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+                              const itype_id &fuel_type )
 {
     vpslot_engine e_info;
     if( eptr ) {
@@ -167,6 +168,15 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
         while( excludes.has_more() ) {
             e_info.exclusions.push_back( excludes.next_string() );
         }
+    }
+    auto fuel_opts = jo.get_array( "fuel_options" );
+    if( !fuel_opts.empty() ) {
+        e_info.fuel_opts.clear();
+        while( fuel_opts.has_more() ) {
+            e_info.fuel_opts.push_back( itype_id( fuel_opts.next_string() ) );
+        }
+    } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
+        e_info.fuel_opts.push_back( fuel_type );
     }
     eptr = e_info;
     assert( eptr );
@@ -271,7 +281,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     }
 
     if( def.has_flag( "ENGINE" ) ) {
-        load_engine( def.engine_info, jo );
+        load_engine( def.engine_info, jo, def.fuel_type );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -718,6 +728,12 @@ std::vector<std::string> vpart_info::engine_excludes() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->exclusions : std::vector<std::string>();
 }
+
+std::vector<itype_id> vpart_info::engine_fuel_opts() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
+}
+
 
 /** @relates string_id */
 template<>

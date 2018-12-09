@@ -519,8 +519,14 @@ class game
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
-        /** Returns the list of currently fishable monsters within distance of the player. */
-        std::vector<monster *> get_fishable( int distance );
+        /**
+         * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
+         * out to the specificed distance.
+         * @param distance Distance around the fish_pos to examine for contiguous fishable terrain.
+         * @param fish_pos The location being fished.
+         * @return Fishable monsters within the specified contiguous fishable terrain.
+         */
+        std::vector<monster *> get_fishable( int distance, const tripoint &fish_pos );
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
 
@@ -1059,7 +1065,6 @@ class game
 
         // ########################## DATA ################################
 
-        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
         std::vector<std::shared_ptr<monster>> new_seen_mon;

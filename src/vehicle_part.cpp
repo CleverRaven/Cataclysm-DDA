@@ -145,6 +145,32 @@ bool vehicle_part::is_available( const bool carried ) const
     return !is_unavailable( carried );
 }
 
+itype_id vehicle_part::fuel_current() const
+{
+    if( is_engine() ) {
+        if( ammo_pref == "null" ) {
+            return info().fuel_type != "muscle" ? info().fuel_type : "null";
+        } else {
+            return ammo_pref;
+        }
+    }
+
+    return "null";
+}
+
+bool vehicle_part::fuel_set( const itype_id &fuel )
+{
+    if( is_engine() ) {
+        for( const itype_id &avail : info().engine_fuel_opts() ) {
+            if( fuel == avail ) {
+                ammo_pref = fuel;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {
@@ -157,10 +183,6 @@ itype_id vehicle_part::ammo_current() const
 
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_current();
-    }
-
-    if( is_engine() ) {
-        return info().fuel_type != "muscle" ? info().fuel_type : "null";
     }
 
     return "null";

@@ -25,7 +25,7 @@ class basecamp
         basecamp( const std::string &name_, const tripoint &pos_ );
         basecamp( const std::string &name_, const tripoint &bb_pos_, const tripoint &pos_,
                   std::vector<tripoint> sort_points_, std::vector<std::string> directions_,
-                  std::map<const std::string, expansion_data> expansions_ );
+                  std::map<std::string, expansion_data> expansions_ );
 
         inline bool is_valid() const {
             return !name.empty() && pos != tripoint( 0, 0, 0 );
@@ -100,7 +100,7 @@ class basecamp
         tripoint pos;
         // location of associated bulletin board
         tripoint bb_pos;
-        std::map<const std::string, expansion_data> expansions;
+        std::map<std::string, expansion_data> expansions;
 };
 
 #endif

@@ -16,9 +16,9 @@
       { "item": "steel_chunk", "count": [ 6, 9 ] },
       { "item": "scrap", "count": [ 6, 9 ] }
     ],
-    "requirements": { 
+    "requirements": {
       "install": { "time": 5000, "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 60000, "using": [ [ "welding_standard", 5 ] ] }	
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 60000, "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "FOLDABLE", "REVERSIBLE" ]
   },

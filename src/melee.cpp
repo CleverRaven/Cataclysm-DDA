@@ -1030,15 +1030,19 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         return false;
     }
 
+    // pre-computed matrix of adjacent squares
+    std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
+    std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
+
+    // filter the values to be between -1 and 1 to avoid indexing the array out of bounds
+    int dy = std::max( -1, std::min( 1, t.posy() - posy() ) );
+    int dx = std::max( -1, std::min( 1, t.posx() - posx() ) );
+    int lookup = dy + 1 + 3 * ( dx + 1 );
+
     //wide hits all targets adjacent to the attacker and the target
     if( technique.aoe == "wide" ) {
         //check if either (or both) of the squares next to our target contain a possible victim
         //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
-        std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
-        std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
-
-        int lookup = t.posy() - posy() + 1 + ( 3 * ( t.posx() - posx() + 1 ) );
-
         tripoint left = pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
         tripoint right = pos() + tripoint( offset_b[lookup], -offset_a[lookup], 0 );
 
@@ -1068,12 +1072,6 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         // Impale hits the target and a single target behind them
         // Check if the square cardinally behind our target, or to the left / right,
         // contains a possible target.
-        // Offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares.
-        std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
-        std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
-
-        int lookup = t.posy() - posy() + 1 + ( 3 * ( t.posx() - posx() + 1 ) );
-
         tripoint left = t.pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
         tripoint target_pos = t.pos() + ( t.pos() - pos() );
         tripoint right = t.pos() + tripoint( offset_b[lookup], -offset_b[lookup], 0 );

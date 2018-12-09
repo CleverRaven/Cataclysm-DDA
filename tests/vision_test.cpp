@@ -8,6 +8,9 @@
 
 #include "map_helpers.h"
 
+#include <iomanip>
+#include <sstream>
+
 void full_map_test( const std::vector<std::string> &setup,
                     const std::vector<std::string> &expected_results,
                     calendar time )

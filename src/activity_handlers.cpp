@@ -264,7 +264,14 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     item corpse_item = items[act.index];
-    const mtype &corpse = *( corpse_item.get_mtype() );
+    const mtype *corpse_ptr = corpse_item.get_mtype();
+    if( corpse_ptr == nullptr ) {
+        debugmsg( "Tried to butcher a non-corpse item, %s",
+                  corpse_item.tname( corpse_item.count() ) );
+        act.set_to_null();
+        return;
+    }
+    const mtype &corpse = *corpse_ptr;
 
     if( action != DISSECT ) {
         if( factor == INT_MIN ) {
@@ -1506,10 +1513,10 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, int sSkillLevel, int fishChance )
+static void rod_fish( player *p, int sSkillLevel, int fishChance, const tripoint &fish_point )
 {
     if( sSkillLevel > fishChance ) {
-        std::vector<monster *> fishables = g->get_fishable( 60 ); //get the nearby fish list.
+        std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.empty() ) {
             if( one_in( 20 ) ) {
@@ -1544,8 +1551,9 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
         sSkillLevel = p->get_skill_level( skill_survival ) * 1.5 + dice( 1, 6 ) + 3;
         fishChance = dice( 1, 20 );
     }
+    const tripoint fish_pos = act->placement;
     ///\EFFECT_SURVIVAL increases chance of fishing success
-    rod_fish( p, sSkillLevel, fishChance );
+    rod_fish( p, sSkillLevel, fishChance, fish_pos );
     p->practice( skill_survival, rng( 5, 15 ) );
     act->set_to_null();
 }

@@ -12,6 +12,8 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 
+#include <sstream>
+
 typedef statistics<long> efficiency_stat;
 
 const efftype_id effect_blind( "blind" );

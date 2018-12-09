@@ -109,6 +109,7 @@
 #include <iterator>
 #include <locale>
 #include <map>
+#include <queue>
 #include <set>
 #include <sstream>
 #include <string>
@@ -823,6 +824,7 @@ bool game::start_game()
     nextweather = calendar::turn;
     safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
+    get_safemode().load_global();
 
     init_autosave();
 
@@ -4197,13 +4199,68 @@ Creature *game::is_hostile_within( int distance )
 }
 
 //get the fishable critters around and return these
-std::vector<monster *> game::get_fishable( int distance )
+std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_pos )
 {
+    // We're going to get the contiguous fishable terrain starting at
+    // the provided fishing location (e.g. where a line was cast or a fish
+    // trap was set), and then check whether or not fishable monsters are
+    // actually in those locations. This will help us ensure that we're
+    // getting our fish from the location that we're ACTUALLY fishing,
+    // rather than just somewhere in the vicinity.
+
+    std::unordered_set<tripoint> visited;
+    const int min_x = fish_pos.x - distance;
+    const int max_x = fish_pos.x + distance;
+    const int min_y = fish_pos.y - distance;
+    const int max_y = fish_pos.y + distance;
+
+    const auto get_fishable_terrain = [&]( tripoint starting_point,
+    std::unordered_set<tripoint> &fishable_terrain ) {
+        std::queue<tripoint> to_check;
+        to_check.push( starting_point );
+        while( !to_check.empty() ) {
+            const tripoint current_point = to_check.front();
+            to_check.pop();
+
+            // We've been here before, so bail.
+            if( visited.find( current_point ) != visited.end() ) {
+                continue;
+            }
+
+            // This point is out of bounds, so bail.
+            bool in_bounds = current_point.x >= min_x && current_point.x <= max_x && current_point.y >= min_y &&
+                             current_point.y <= max_y;
+            if( !in_bounds ) {
+                continue;
+            }
+
+            // Mark this point as visited.
+            visited.emplace( current_point );
+
+            if( m.has_flag( "FISHABLE", current_point ) ) {
+                fishable_terrain.emplace( current_point );
+                to_check.push( tripoint( current_point.x, current_point.y + 1, current_point.z ) );
+                to_check.push( tripoint( current_point.x, current_point.y - 1, current_point.z ) );
+                to_check.push( tripoint( current_point.x + 1, current_point.y, current_point.z ) );
+                to_check.push( tripoint( current_point.x - 1, current_point.y, current_point.z ) );
+            }
+        }
+        return;
+    };
+
+    // Starting at the provided location, get our fishable terrain
+    // and populate a set with those locations which we'll then use
+    // to determine if any fishable monsters are in those locations.
+    std::unordered_set<tripoint> fishable_points;
+    get_fishable_terrain( fish_pos, fishable_points );
+
     std::vector<monster *> unique_fish;
     for( monster &critter : all_monsters() ) {
+        // If it is fishable...
         if( critter.has_flag( MF_FISHABLE ) ) {
-            int mondist = rl_dist( u.pos(), critter.pos() );
-            if( mondist <= distance ) {
+            const tripoint critter_pos = critter.pos();
+            // ...and it is in a fishable location.
+            if( fishable_points.find( critter_pos ) != fishable_points.end() ) {
                 unique_fish.push_back( &critter );
             }
         }
@@ -4237,6 +4294,9 @@ int game::mon_info( const catacurses::window &w )
 
     tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
+
+    const int current_turn = calendar::turn;
+    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
     for( auto &c : u.get_visible_creatures( SEEX * MAPSIZE ) ) {
         const auto m = dynamic_cast<monster *>( c );
@@ -4319,9 +4379,12 @@ int game::mon_info( const catacurses::window &w )
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
                             critter.ignoring = 0;
-                        } else if( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) {
+                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
+                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
+                                   ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
                             passmon = true;
                         }
+                        critter.lastseen_turn = current_turn;
                     }
 
                     if( !passmon ) {
@@ -7248,6 +7311,7 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
         ctxt.register_action( "LIST_ITEMS" );
     }
     ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "CENTER" );
 
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "CONFIRM" );
@@ -7325,7 +7389,6 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
             ctxt.set_timeout( BLINK_SPEED );
         }
 
-        int dx, dy;
         redraw = true;
         //Wait for input
         if( action_unprocessed ) {
@@ -7374,6 +7437,9 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
             draw_sidebar();
+        } else if( action == "CENTER" ) {
+            center = start_point;
+            lp = start_point;
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
             // Maximum mouse events before a forced graphics update
@@ -7406,16 +7472,16 @@ cata::optional<tripoint> game::look_around( catacurses::window w_info, tripoint 
             } else if( lp == old_lp ) { // not blinking and cursor not changed
                 redraw = false; // no need to redraw, so don't redraw to save CPU
             }
-        } else if( ctxt.get_direction( dx, dy, action ) ) {
+        } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             if( fast_scroll ) {
-                dx *= soffset;
-                dy *= soffset;
+                vec->x *= soffset;
+                vec->y *= soffset;
             }
 
-            lx = lx + dx;
-            ly = ly + dy;
-            center.x = center.x + dx;
-            center.y = center.y + dy;
+            lx = lx + vec->x;
+            ly = ly + vec->y;
+            center.x = center.x + vec->x;
+            center.y = center.y + vec->y;
             if( select_zone && has_first_point ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
@@ -8207,7 +8273,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             iLastActivePos = look_around();
         } else if( action == "fire" ) {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                last_target = shared_from( *cCurMon );
+                u.last_target = shared_from( *cCurMon );
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
             }

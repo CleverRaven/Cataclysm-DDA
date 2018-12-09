@@ -2618,7 +2618,7 @@ point map::random_outdoor_tile()
 bool map::has_adjacent_furniture( const tripoint &p )
 {
     const signed char cx[4] = { 0, -1, 0, 1};
-    const signed char cy[4] = {-1,  0, 1, 0};
+    const signed char cy[4] = { -1,  0, 1, 0};
 
     for( int i = 0; i < 4; i++ ) {
         const int adj_x = p.x + cx[i];
@@ -4919,17 +4919,22 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
             n->item_counter = 0;
         }
         trigger_item = true;
-    } else if( n->has_flag( "RADIO_CONTAINER" ) && !n->contents.empty() &&
-               n->contents.front().has_flag( signal ) ) {
-        // A bomb is the only thing meaningfully placed in a container,
-        // If that changes, this needs logic to handle the alternative.
-        n->convert( n->contents.front().typeId() );
-        if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
-            n->process( nullptr, pos, true );
-        }
+    } else if( n->has_flag( "RADIO_CONTAINER" ) && !n->contents.empty() ) {
+        auto it = std::find_if( n->contents.begin(), n->contents.end(), [ &signal ]( const item & c ) {
+            return c.has_flag( signal );
+        } );
+        if( it != n->contents.end() ) {
+            n->convert( it->typeId() );
+            if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
+                n->process( nullptr, pos, true );
+            }
 
-        n->charges = 0;
-        trigger_item = true;
+            // Clear possible mods to prevent unnecessary pop-ups.
+            n->contents.clear();
+
+            n->charges = 0;
+            trigger_item = true;
+        }
     }
     if( trigger_item ) {
         return process_item( items, n, pos, true, 0, 1 );
@@ -6084,19 +6089,6 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     return circle;
 }
 
-int map::coord_to_angle( const int x, const int y, const int tgtx, const int tgty ) const
-{
-    const double DBLRAD2DEG = 57.2957795130823f;
-    //const double PI = 3.14159265358979f;
-    const double DBLPI = 6.28318530717958f;
-    double rad = atan2( static_cast<double>( tgty - y ), static_cast<double>( tgtx - x ) );
-    if( rad < 0 ) {
-        rad = DBLPI - ( 0 - rad );
-    }
-
-    return int( rad * DBLRAD2DEG );
-}
-
 void map::save()
 {
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -6921,9 +6913,9 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         if( impassable( upper_left ) ||
             ( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) ) {
             const tripoint glp = getabs( gp );
-            dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-                           " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
-                           " global " << glp.x << "," << glp.y << "," << glp.z;
+            dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
+                             " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
+                             " global " << glp.x << "," << glp.y << "," << glp.z;
             return;
         }
 
@@ -7306,10 +7298,9 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // In future, scale effective obstacle density by the thickness of the obstacle.
     // Also consider modelling partial obstacles.
     // TODO: Support z-levels.
-    const int sz = start.z + OVERMAP_DEPTH;
     for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
         for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, sz );
+            auto const cur_submap = get_submap_at_grid( smx, smy, start.z );
 
             // TODO: Init indices to prevent iterating over unused submap sections.
             for( int sx = 0; sx < SEEX; ++sx ) {
@@ -7339,7 +7330,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
             int px = v.x + vp.part().precalc[0].x;
             int py = v.y + vp.part().precalc[0].y;
-            if( v.z != sz ) {
+            if( v.z != start.z ) {
                 break;
             }
             if( px < start.x || py < start.y || v.z < start.z ||
@@ -7356,8 +7347,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // Iterate over creatures and set them to block their squares relative to their size.
     for( Creature &critter : g->all_creatures() ) {
         const tripoint &loc = critter.pos();
-        int z = loc.z + OVERMAP_DEPTH;
-        if( z != sz ) {
+        if( loc.z != start.z ) {
             continue;
         }
         // TODO: scale this with expected creature "thickness".

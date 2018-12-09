@@ -20,7 +20,7 @@
       "I don't know, look for supplies and other survivors I guess.",
       "Maybe we should start boarding up this place.",
       "I suppose getting a car up and running should really be useful if we have to disappear quickly from here.",
-      "We could look for one of those farms out here. They can provide plenty of food and aren't close to the cities.",
+      "We could look for one of those farms out here.  They can provide plenty of food and aren't close to the cities.",
       "We should probably stay away from those cities, even if there's plenty of useful stuff there."
     ],
     "responses": [ { "text": "Hmm, okay.", "topic": "TALK_NONE" } ]

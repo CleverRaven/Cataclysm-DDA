@@ -1128,7 +1128,7 @@ int sfx::get_heard_volume( const tripoint &source )
 
 int sfx::get_heard_angle( const tripoint &source )
 {
-    int angle = g->m.coord_to_angle( g->u.posx(), g->u.posy(), source.x, source.y ) + 90;
+    int angle = coord_to_angle( g->u.pos(), source ) + 90;
     //add_msg(m_warning, "angle: %i", angle);
     return ( angle );
 }

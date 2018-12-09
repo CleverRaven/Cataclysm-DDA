@@ -1317,15 +1317,15 @@ void effect::deserialize( JsonIn &jsin )
 std::string texitify_base_healing_power( const int power )
 {
     if( power == 1 ) {
-        return _( "very poor" );
+        return colorize( _( "very poor" ), c_red );
     } else if( power == 2 ) {
-        return _( "poor" );
+        return colorize( _( "poor" ), c_light_red );
     } else if( power == 3 ) {
-        return _( "decent" );
+        return colorize( _( "average" ), c_yellow );
     } else if( power == 4 ) {
-        return _( "good" );
+        return colorize( _( "good" ), c_light_green );
     } else if( power >= 5 ) {
-        return _( "great" );
+        return colorize( _( "great" ), c_green );
     }
     if( power < 1 ) {
         debugmsg( "Tried to convert zero or negative value." );
@@ -1336,21 +1336,21 @@ std::string texitify_base_healing_power( const int power )
 std::string texitify_healing_power( const int power )
 {
     if( power >= 1 && power <= 2 ) {
-        return _( "poor" );
+        return colorize( _( "very poor" ), c_red );
     } else if( power >= 3 && power <= 4 ) {
-        return _( "decent" );
+        return colorize( _( "poor" ), c_light_red );
     } else if( power >= 5 && power <= 6 ) {
-        return _( "average" );
+        return colorize( _( "average" ), c_yellow );
     } else if( power >= 7 && power <= 8 ) {
-        return _( "good" );
+        return colorize( _( "good" ), c_yellow );
     } else if( power >= 9 && power <= 10 ) {
-        return _( "very good" );
+        return colorize( _( "very good" ), c_light_green );
     } else if( power >= 11 && power <= 12 ) {
-        return _( "great" );
+        return colorize( _( "great" ), c_light_green );
     } else if( power >= 13 && power <= 14 ) {
-        return _( "outstanding" );
+        return colorize( _( "outstanding" ), c_green );
     } else if( power >= 15 ) {
-        return _( "perfect" );
+        return colorize( _( "perfect" ), c_green );
     }
     if( power < 1 ) {
         debugmsg( "Converted value out of bounds." );

@@ -315,11 +315,18 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
                                      bool fullsize, bool verbose, bool desc, bool isHorizontal ) const
 {
     auto fuels = get_printable_fuel_types();
-
+    if( fuels.empty() ) {
+        return;
+    }
     if( !fullsize ) {
-        if( !fuels.empty() ) {
-            print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
+        for( size_t e = 0; e < engines.size(); e++ ) {
+            if( is_engine_on( e ) ) {
+                print_fuel_indicator( win, y, x, parts[ engines [ e ] ].fuel_current(), verbose,
+                                      desc );
+                return;
+            }
         }
+        print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
         return;
     }
 
