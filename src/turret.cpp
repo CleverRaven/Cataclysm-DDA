@@ -552,7 +552,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
                                                   "%s points in your direction and emits %d annoyed sounding beeps.",
                                                   boo_hoo ),
                              cpu.name.c_str(), boo_hoo );
-                } else  {
+                } else {
                     add_msg( m_warning, ngettext( "%s emits an IFF warning beep.",
                                                   "%s emits %d annoyed sounding beeps.",
                                                   boo_hoo ),
