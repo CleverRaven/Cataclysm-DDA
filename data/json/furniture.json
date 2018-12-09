@@ -992,7 +992,8 @@
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 2, 4 ] },
-        { "item": "scrap_copper", "count": [ 1, 2 ] }
+        { "item": "scrap_copper", "count": [ 1, 2 ] },
+        { "item": "motor_tiny", "prob": 25 }
       ]
     }
   },
@@ -1035,7 +1036,8 @@
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 3, 6 ] }
+        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "motor_tiny", "prob": 25 }
       ]
     }
   },
