@@ -48,7 +48,6 @@ struct city {
     }
 
     int get_distance_from( const tripoint &p ) const;
-    tripoint position() const;
 };
 
 struct om_note {
@@ -295,12 +294,14 @@ class overmap
         // parse data in an old overmap file
         void unserialize_legacy( std::istream &fin );
         void unserialize_view_legacy( std::istream &fin );
-        const city &get_nearest_city( const tripoint &p ) const;
     private:
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,
                        overmap_special_batch &enabled_specials );
         bool generate_sub( int const z );
+
+        const city &get_nearest_city( const tripoint &p ) const;
+
         void signal_hordes( const tripoint &p, int sig_power );
         void process_mongroups();
         void move_hordes();

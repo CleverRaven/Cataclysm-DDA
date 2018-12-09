@@ -196,11 +196,6 @@ int city::get_distance_from( const tripoint &p ) const
     return std::max( int( trig_dist( p, { x, y, 0 } ) ) - s, 0 );
 }
 
-tripoint city::position() const
-{
-    return tripoint( x, y, 0 );
-}
-
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
 
@@ -2325,9 +2320,6 @@ void overmap::place_cities()
             tmp.y = cy;
             tmp.s = size;
             cities.push_back( tmp );
-
-            DebugLog( D_INFO, DC_ALL ) << "CITY:[" << tmp.name << "] at {" << tmp.x << "," << tmp.x <<
-                                       "} with size of [" << tmp.s << "]";
 
             const auto start_dir = om_direction::random();
             auto cur_dir = start_dir;
