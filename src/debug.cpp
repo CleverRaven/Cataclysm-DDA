@@ -741,9 +741,16 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 
         // Backtrace on error.
 #ifdef BACKTRACE
-        if( lev == D_ERROR ) {
+        // Push the first retrieved value back by a second so it won't match.
+        static time_t next_backtrace = time( nullptr ) - 1;
+        time_t now = time( nullptr );
+        if( lev == D_ERROR && now >= next_backtrace ) {
             out << "(error message will follow backtrace)";
             debug_write_backtrace( out );
+            time_t after = time( nullptr );
+            // Cool down for 60s between backtrace emissions.
+            next_backtrace = after + 60;
+            out << "Backtrace emission took " << after - now << " seconds." << std::endl;
         }
 #endif
 

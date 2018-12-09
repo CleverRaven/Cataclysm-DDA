@@ -56,24 +56,27 @@ std::string get_cat_name( const std::string &prefixed_name )
 
 void load_recipe_category( JsonObject &jsobj )
 {
-    std::string category = jsobj.get_string( "id" );
+    const std::string category = jsobj.get_string( "id" );
+    const bool is_hidden = jsobj.get_bool( "is_hidden", false );
 
     if( category.find( "CC_" ) != 0 ) {
         jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
-    craft_cat_list.push_back( category );
+    if( !is_hidden ) {
+        craft_cat_list.push_back( category );
 
-    std::string cat_name = get_cat_name( category );
+        const std::string cat_name = get_cat_name( category );
 
-    craft_subcat_list[category] = std::vector<std::string>();
-    JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
-    while( subcats.has_more() ) {
-        std::string subcat_id = subcats.next_string();
-        if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
-            jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
+        craft_subcat_list[category] = std::vector<std::string>();
+        JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
+        while( subcats.has_more() ) {
+            const std::string subcat_id = subcats.next_string();
+            if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
+                jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
+            }
+            craft_subcat_list[category].push_back( subcat_id );
         }
-        craft_subcat_list[category].push_back( subcat_id );
     }
 }
 

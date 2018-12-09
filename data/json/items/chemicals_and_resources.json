@@ -951,5 +951,19 @@
     "weight" : 1,
     "ammo_type" : "components",
     "count" : 100
-   }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "ether",
+    "category": "chems",
+    "price": 10,
+    "name": "ether",
+    "name_plural": "ether",
+    "symbol": "!",
+    "color": "white",
+    "container": "bottle_glass",
+    "description": "Diethyl ether largely supplanted the use of chloroform as a general anesthetic due to ether's more favorable therapeutic index, that is, a greater difference between an effective dose and a potentially toxic dose.",
+    "volume": "1 ml",
+    "phase": "liquid"
+  }
 ]
