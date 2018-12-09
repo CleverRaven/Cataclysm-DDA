@@ -274,7 +274,7 @@ TEST_CASE( "npc_talk_test" )
     d.gen_responses( d.topic_stack.back() );
     REQUIRE( d.responses.size() == 9 );
     REQUIRE( !g->u.has_effect( effect_infection ) );
-    talk_response::effect_t &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     CHECK( g->u.has_effect( effect_infection ) );
     CHECK( g->u.get_effect_dur( effect_infection ) == time_duration::from_turns( 10 ) );
