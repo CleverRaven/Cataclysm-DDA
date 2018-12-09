@@ -3053,7 +3053,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3073,7 +3077,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3095,7 +3103,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3115,7 +3127,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3139,7 +3155,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3159,7 +3179,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3181,7 +3205,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3201,7 +3229,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3223,7 +3255,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3242,7 +3278,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3262,7 +3302,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3281,7 +3325,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3299,7 +3347,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 50 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 50 ] }
+      ]
     }
   },
   {
@@ -3340,7 +3392,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3361,7 +3417,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3383,7 +3443,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3404,7 +3468,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3435,7 +3503,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3457,7 +3529,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3479,7 +3555,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3500,7 +3580,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3522,7 +3606,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3543,7 +3631,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3565,7 +3657,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3586,7 +3682,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3608,7 +3708,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3629,7 +3733,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3660,7 +3768,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3682,7 +3794,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3713,7 +3829,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3735,7 +3855,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3761,7 +3885,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3779,7 +3907,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3803,7 +3935,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3822,7 +3958,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3845,7 +3985,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3863,7 +4007,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3881,7 +4029,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3899,7 +4051,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3922,7 +4078,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3942,7 +4102,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3964,7 +4128,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -3984,7 +4152,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -4006,7 +4178,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -4026,7 +4202,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -4047,7 +4227,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -4066,7 +4250,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -4084,7 +4272,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 50 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 50 ] }
+      ]
     }
   },
   {
@@ -7184,7 +7376,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
@@ -7202,7 +7398,11 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] }, { "item": "withered", "prob": 80, "count": [ 1, 200 ] } ]
+      "items": [
+        { "item": "stick", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "withered", "prob": 80, "count": [ 1, 200 ] }
+      ]
     }
   },
   {
