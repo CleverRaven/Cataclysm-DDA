@@ -97,6 +97,7 @@ struct vpslot_engine {
     int noise_factor = 0;
     int m2c = 1;
     std::vector<std::string> exclusions;
+    std::vector<itype_id> fuel_opts;
 };
 
 class vpart_info
@@ -246,6 +247,7 @@ class vpart_info
         int engine_muscle_power_factor() const;
         float engine_damaged_power_factor() const;
         int engine_noise_factor() const;
+        std::vector<itype_id> engine_fuel_opts() const;
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;
@@ -271,7 +273,8 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo );
+        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+                                 const itype_id &fuel_type );
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

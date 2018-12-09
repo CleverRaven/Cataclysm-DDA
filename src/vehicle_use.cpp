@@ -274,26 +274,53 @@ void vehicle::control_engines()
     int e_toggle = 0;
     bool dirty = false;
     //count active engines
-    int active_count = 0;
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_part_on( engines[e] ) ) {
-            active_count++;
+    int active_mask = 0;
+    int fuel_count = 0;
+    int i = 0;
+    for( int e : engines ) {
+        if( is_part_on( e ) ) {
+            active_mask |= 1 << i++;
         }
+        fuel_count += part_info( e ).engine_fuel_opts().size();
     }
 
-    //show menu until user finishes
-    while( e_toggle >= 0 && e_toggle < static_cast<int>( engines.size() ) ) {
-        e_toggle = select_engine();
-        if( e_toggle >= 0 && e_toggle < static_cast<int>( engines.size() ) &&
-            ( active_count > 1 || !is_part_on( engines[e_toggle] ) ) ) {
-            active_count += ( !is_part_on( engines[e_toggle] ) ) ? 1 : -1;
-            toggle_specific_engine( e_toggle, !is_part_on( engines[e_toggle] ) );
-            dirty = true;
+    const auto adjust_engine = [this]( int e_toggle ) {
+        int i = 0;
+        for( int e : engines ) {
+            for( const itype_id &fuel : part_info( e ).engine_fuel_opts() ) {
+                if( i == e_toggle ) {
+                    if( parts[ e ].fuel_current() == fuel ) {
+                        toggle_specific_part( e, !is_part_on( e ) );
+                    } else {
+                        parts[ e ].fuel_set( fuel );
+                    }
+                    return;
+                }
+                i += 1;
+            }
         }
-    }
+    };
+
+    //show menu until user finishes
+    do {
+        e_toggle = select_engine();
+        if( e_toggle < 0 || e_toggle >= fuel_count ) {
+            break;
+        }
+        dirty = true;
+        adjust_engine( e_toggle );
+    } while( e_toggle >= 0 && e_toggle < fuel_count );
 
     if( !dirty ) {
         return;
+    }
+
+    bool engines_were_on = engine_on;
+    int new_active_mask = 0;
+    i = 0;
+    for( int e : engines ) {
+        engine_on |= is_part_on( e );
+        new_active_mask |= 1 << i++;
     }
 
     // if current velocity greater than new configuration safe speed
@@ -303,15 +330,16 @@ void vehicle::control_engines()
         cruise_velocity = safe_vel;
     }
 
-    if( engine_on ) {
+    if( engines_were_on && !engine_on ) {
         add_msg( _( "You turn off the %s's engines to change their configurations." ), name );
-        engine_on = false;
     } else if( !g->u.controlling_vehicle ) {
         add_msg( _( "You change the %s's engine configuration." ), name );
         return;
     }
 
-    start_engines();
+    if( engine_on ) {
+        start_engines();
+    }
 }
 
 int vehicle::select_engine()
@@ -319,15 +347,16 @@ int vehicle::select_engine()
     uilist tmenu;
     std::string name;
     tmenu.text = _( "Toggle which?" );
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        if( parts[ engines[ e] ].is_unavailable() ) {
-            continue;
+    int i = 0;
+    for( int e : engines ) {
+        for( const itype_id &fuel_id : part_info( e ).engine_fuel_opts() ) {
+            bool is_active = parts[ e ].enabled && parts[ e ].fuel_current() == fuel_id;
+            bool is_available = parts[ e ].is_available() && fuel_left( fuel_id );
+            tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
+                            is_active ? "x" : " ", parts[ e ].name(),
+                            item::find_type( fuel_id )->nname( 1 ) );
         }
-        name = parts[ engines[ e ] ].name();
-        tmenu.addentry( e, true, -1, "[%s] %s",
-                        ( ( parts[engines[e]].enabled ) ? "x" : " " ), name.c_str() );
     }
-
     tmenu.query();
     return tmenu.ret;
 }
@@ -680,7 +709,7 @@ double vehicle::engine_cold_factor( const int e ) const
 int vehicle::engine_start_time( const int e ) const
 {
     if( !is_engine_on( e ) || part_info( engines[e] ).has_flag( "E_STARTS_INSTANTLY" ) ||
-        !fuel_left( part_info( engines[e] ).fuel_type ) ) {
+        !engine_fuel_left( e ) ) {
         return 0;
     }
 
@@ -703,9 +732,20 @@ bool vehicle::start_engine( const int e )
     }
 
     const vpart_info &einfo = part_info( engines[e] );
-    const vehicle_part &eng = parts[ engines[ e ] ];
+    vehicle_part &eng = parts[ engines[ e ] ];
 
-    if( fuel_left( einfo.fuel_type ) <= 0 && einfo.fuel_type != fuel_type_none ) {
+    bool out_of_fuel = false;
+    if( einfo.fuel_type != fuel_type_none && engine_fuel_left( e ) <= 0 ) {
+        for( const itype_id &fuel_id : einfo.engine_fuel_opts() ) {
+            if( fuel_left( fuel_id ) > 0 ) {
+                eng.fuel_set( fuel_id );
+                break;
+            }
+        }
+        out_of_fuel = true;
+    }
+
+    if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
             if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.hp_cur[hp_arm_l] == 0 ||

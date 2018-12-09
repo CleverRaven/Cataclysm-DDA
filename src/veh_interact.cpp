@@ -1153,7 +1153,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%s     <color_light_gray>%3s</color>",
-                                            pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
+                                            pt.fuel_current() != "null" ? item::nname( pt.fuel_current() ).c_str() : "",
                                             pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
