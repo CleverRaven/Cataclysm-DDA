@@ -1304,6 +1304,13 @@
     "components": [ [ [ "element", 3 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 8 ] ] ]
   },
   {
+    "result": "militarymap",
+    "type": "uncraft",
+    "time": 500,
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "money_bundle",
     "type": "uncraft",
     "time": 500,
@@ -1531,11 +1538,25 @@
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
+    "result": "restaurantmap",
+    "type": "uncraft",
+    "time": 500,
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "ring",
     "type": "uncraft",
     "time": 500,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ] ]
+  },
+  {
+    "result": "roadmap",
+    "type": "uncraft",
+    "time": 500,
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "vehicle_controls",
@@ -1682,6 +1703,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "survivormap",
+    "type": "uncraft",
+    "time": 500,
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "survnote",
     "type": "uncraft",
     "time": 100,
@@ -1746,6 +1774,13 @@
     "time": 10000,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ], [ [ "element", 4 ] ] ]
+  },
+  {
+    "result": "touristmap",
+    "type": "uncraft",
+    "time": 500,
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "tshirt",
@@ -2007,42 +2042,7 @@
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
   },
   {
-    "result": "militarymap",
-    "type": "uncraft",
-    "time": 500,
-    "components": [ [ [ "paper", 10 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "survivormap",
-    "type": "uncraft",
-    "time": 500,
-    "components": [ [ [ "paper", 10 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "roadmap",
-    "type": "uncraft",
-    "time": 500,
-    "components": [ [ [ "paper", 10 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "trailmap",
-    "type": "uncraft",
-    "time": 500,
-    "components": [ [ [ "paper", 10 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "touristmap",
-    "type": "uncraft",
-    "time": 500,
-    "components": [ [ [ "paper", 10 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "restaurantmap",
     "type": "uncraft",
     "time": 500,
     "components": [ [ [ "paper", 10 ] ] ],
