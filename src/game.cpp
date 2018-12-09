@@ -9486,7 +9486,7 @@ void game::butcher()
             butcher_submenu( items, corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
-            u.activity.values.push_back( indexer_index );
+            u.activity.values.push_back( corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
