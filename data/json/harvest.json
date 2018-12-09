@@ -402,7 +402,7 @@
     "entries": [
       { "drop": "veggy_tainted", "type": "flesh", "mass_ratio": 0.5 },
       { "drop": "plant_sac", "type": "offal", "mass_ratio": 0.2 },
-      { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -413,7 +413,7 @@
       { "drop": "veggy", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 20, "type": "flesh" },
       { "drop": "veggy_tainted", "base_num": [ 16, 25 ], "scale_num": [ 0.6, 0.8 ], "max": 50, "type": "flesh" },
       { "drop": "plant_sac", "base_num": [ 3, 6 ], "scale_num": [ 0.7, 0.9 ], "max": 10, "type": "offal" },
-      { "drop": "plant_fibre", "base_num": [ 4, 8 ], "scale_num": [ 0.5, 0.7 ], "max": 10, "type": "bone" }
+      { "drop": "stick_fiber", "base_num": [ 4, 8 ], "scale_num": [ 0.5, 0.7 ], "max": 10, "type": "bone" }
     ]
   },
   {
@@ -487,7 +487,7 @@
     "type": "harvest",
     "//": "todo: add biollante item",
     "entries": [
-      { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.5 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
     ]
@@ -496,7 +496,7 @@
     "id": "triffid_small",
     "type": "harvest",
     "entries": [
-      { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.5 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
     ]
@@ -505,7 +505,7 @@
     "id": "triffid_large",
     "type": "harvest",
     "entries": [
-      { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.4 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.4 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "stick", "type": "bone", "mass_ratio": 0.05 }
@@ -516,7 +516,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "log", "type": "bone", "mass_ratio": 0.35 },
-      { "drop": "plant_fibre", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
     ]
