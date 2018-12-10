@@ -5,6 +5,9 @@ Dialogues work like state machines. They start with a certain topic (the NPC say
 
 Note that it is perfectly fine to have a response that switches the topic back to itself.
 
+NPC missions are controlled by a seperate but related JSON structure and are documented in
+MISSIONS_JSON.md.
+
 Two topics are special:
 - "TALK_DONE" ends the dialogue immediately.
 - "TALK_NONE" goes to the previously talked about topic.

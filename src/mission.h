@@ -19,6 +19,7 @@ class npc;
 class Creature;
 class npc_class;
 class JsonObject;
+class JsonArray;
 class JsonIn;
 class JsonOut;
 struct mission_type;
@@ -75,6 +76,16 @@ struct mission_place {
         return true;
     }
     static bool near_town( const tripoint & );
+};
+
+struct mission_start_t {
+    void set_reveal( const std::string &terrain );
+    void set_reveal_any( JsonArray &ja );
+    void set_target_om( JsonObject &jo, bool random );
+    void set_target_om_or_create( JsonObject &jo );
+    void load( JsonObject &jo );
+    void apply( mission *miss ) const;
+    std::vector<std::function<void( mission *miss )>> start_funcs;
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -232,6 +243,7 @@ struct mission_type {
 
     static void check_consistency();
 
+    void parse_start( JsonObject &jo );
     void load( JsonObject &jo, const std::string &src );
 };
 

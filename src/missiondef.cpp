@@ -299,7 +299,12 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
     assign_function( jo, "place", place, tripoint_function_map );
-    assign_function( jo, "start", start, mission_function_map );
+    if( jo.has_string( "start" ) ) {
+        assign_function( jo, "start", start, mission_function_map );
+    } else if( jo.has_member( "start" ) ) {
+        JsonObject j_start = jo.get_object( "start" );
+        parse_start( j_start );
+    }
     assign_function( jo, "end", end, mission_function_map );
     assign_function( jo, "fail", fail, mission_function_map );
 
