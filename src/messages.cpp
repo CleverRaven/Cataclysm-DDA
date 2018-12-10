@@ -1,18 +1,19 @@
 #include "messages.h"
-#include "input.h"
-#include "game.h"
-#include "debug.h"
-#include "compatibility.h" //to_string
-#include "json.h"
-#include "options.h"
-#include "output.h"
+
 #include "calendar.h"
-#include "translations.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "json.h"
+#include "output.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
 
 #ifdef __ANDROID__
-#include "SDL_keyboard.h"
+#include "options.h"
+#include <SDL_keyboard.h>
 #endif
 
 #include <deque>
@@ -166,9 +167,8 @@ class messages_impl
             std::transform( begin( messages ) + offset, end( messages ), back_inserter( result ),
             []( game_message const & msg ) {
                 return std::make_pair( to_string_time_of_day( msg.timestamp_in_turns ),
-                                       msg.count ? msg.message + to_string( msg.count ) : msg.message );
-            }
-                          );
+                                       msg.get_with_count() );
+            } );
 
             return result;
         }

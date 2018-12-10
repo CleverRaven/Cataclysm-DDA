@@ -1,12 +1,13 @@
 #include "name.h"
-#include <map>
-#include <string>
 
+#include "cata_utility.h"
 #include "json.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "rng.h"
-#include "cata_utility.h"
+
+#include <map>
+#include <string>
 
 namespace Name
 {

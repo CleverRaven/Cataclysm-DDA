@@ -60,9 +60,8 @@
  * Latest version: http://www.cl.cam.ac.uk/~mgk25/ucs/wcwidth.c
  */
 
-#include <stdint.h>
-#include <wchar.h>
-#include <stdint.h>
+#include <cstdint>
+#include <cwchar>
 
 struct interval {
     uint32_t first;
@@ -73,7 +72,7 @@ struct interval {
 static uint32_t bisearch( uint32_t ucs, const struct interval *table, uint32_t max )
 {
     uint32_t min = 0;
-    uint32_t mid;
+    uint32_t mid = 0;
 
     if( ucs < table[0].first || ucs > table[max].last ) {
         return 0;

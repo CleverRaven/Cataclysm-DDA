@@ -2,22 +2,22 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "character.h"
-#include "map_memory.h"
-#include "pimpl.h"
-#include "item.h"
-#include "player_activity.h"
-#include "weighted_list.h"
-#include "game_constants.h"
-#include "ret_val.h"
-#include "damage.h"
 #include "calendar.h"
+#include "character.h"
+#include "damage.h"
+#include "game_constants.h"
+#include "item.h"
+#include "map_memory.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "weighted_list.h"
 
-#include <unordered_set>
-#include <memory>
 #include <array>
+#include <memory>
+#include <unordered_set>
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
@@ -201,6 +201,9 @@ class player : public Character
 
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const;
+
+        void serialize_map_memory( JsonOut &jsout ) const;
+        void deserialize_map_memory( JsonIn &jsin );
 
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, const std::string &epitaph );
@@ -444,7 +447,7 @@ class player : public Character
         void ma_ongethit_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff( mabuff_id buff_id ) const;
+        bool has_mabuff( const mabuff_id &buff_id ) const;
         /** Returns true if the player has access to the entered martial art */
         bool has_martialart( const matype_id &ma_id ) const;
         /** Adds the entered martial art to the player's list */
@@ -1449,6 +1452,8 @@ class player : public Character
         int oxygen;
         int stamina;
         double recoil = MAX_RECOIL;
+        std::weak_ptr<Creature> last_target;
+        cata::optional<tripoint> last_target_pos;
         int scent;
         int dodges_left;
         int blocks_left;

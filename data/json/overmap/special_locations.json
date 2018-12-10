@@ -6,8 +6,13 @@
   },
   {
     "type": "overmap_location",
-    "id": "forest",
+    "id": "forest_without_trail",
     "terrains": [ "forest", "forest_thick" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest",
+    "terrains": [ "forest", "forest_thick", "forest_trail" ]
   },
   {
     "type": "overmap_location",
@@ -17,7 +22,7 @@
   {
     "type": "overmap_location",
     "id": "land",
-    "terrains": [ "forest", "forest_thick", "forest_water", "field" ]
+    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail" ]
   },
   {
     "type": "overmap_location",
@@ -38,7 +43,7 @@
   {
     "type": "overmap_location",
     "id": "wilderness",
-    "terrains": [ "forest", "forest_thick", "field" ]
+    "terrains": [ "forest", "forest_thick", "field", "forest_trail" ]
   },
   {
     "type": "overmap_location",
@@ -84,5 +89,30 @@
     "type": "overmap_location",
     "id": "need_food",
     "terrains": [ "s_grocery" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest_trail",
+    "terrains": [ "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest_edge",
+    "terrains": [ "forest" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest_center",
+    "terrains": [ "forest_thick" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad",
+    "terrains": [ "railroad" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad_level_crossing_allowed",
+    "terrains": [ "hiway_ns", "hiway_ew", "road" ]
   }
 ]

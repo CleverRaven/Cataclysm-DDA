@@ -4,17 +4,15 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
-#include "init.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "mod_manager.h"
-#include "morale.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "pathfinding.h"
 #include "player.h"
 #include "worldfactory.h"
-#include "loading_ui.h"
 
 #include <algorithm>
 #include <cstring>
@@ -87,7 +85,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     get_options().load();
 
     // Apply command-line option overrides for test suite execution.
-    if( option_overrides.size() > 0 ) {
+    if( !option_overrides.empty() ) {
         for( auto iter = option_overrides.begin(); iter != option_overrides.end(); ++iter ) {
             name_value_pair_t option = *iter;
             if( get_options().has_option( option.first ) ) {
@@ -98,7 +96,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     }
     init_colors();
 
-    g = new game;
+    g.reset( new game );
     g->new_game = true;
     g->load_static_data();
 
@@ -196,9 +194,9 @@ struct CataReporter : Catch::ConsoleReporter {
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
         auto r = ConsoleReporter::assertionEnded( assertionStats );
+#ifdef BACKTRACE
         Catch::AssertionResult const &result = assertionStats.assertionResult;
 
-#ifdef BACKTRACE
         if( result.getResultType() == Catch::ResultWas::FatalErrorCondition ) {
             // We are in a signal handler for a fatal error condition, so print a
             // backtrace
@@ -211,7 +209,7 @@ struct CataReporter : Catch::ConsoleReporter {
     }
 };
 
-REGISTER_REPORTER( "cata", CataReporter );
+CATCH_REGISTER_REPORTER( "cata", CataReporter )
 
 int main( int argc, const char *argv[] )
 {
@@ -241,6 +239,8 @@ int main( int argc, const char *argv[] )
 
     test_mode = true;
 
+    setupDebug( DebugOutput::std_err );
+
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite );
@@ -253,7 +253,9 @@ int main( int argc, const char *argv[] )
 
     const auto start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
-    printf( "Starting the actual test at %s", std::ctime( &start_time ) );
+    // Leading newline in case there were debug messages during
+    // initialization.
+    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );

@@ -9,12 +9,10 @@
 #include "string_id.h"
 #include "translations.h"
 
-#include <string>
-#include <vector>
-#include <limits>
-#include <list>
 #include <bitset>
+#include <list>
 #include <set>
+#include <vector>
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
@@ -84,7 +82,7 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
-};
+}
 
 struct overmap_spawns {
         overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
@@ -300,7 +298,7 @@ struct overmap_special_spawns : public overmap_spawns {
 };
 
 struct overmap_special_terrain {
-    overmap_special_terrain() { };
+    overmap_special_terrain() {}
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
@@ -326,6 +324,7 @@ struct overmap_special_connection {
         jo.read( "point", p );
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
+        jo.read( "connection", connection );
     }
 };
 

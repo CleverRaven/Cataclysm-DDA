@@ -320,7 +320,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ]
   },
   {
     "id": "milk_curdling",

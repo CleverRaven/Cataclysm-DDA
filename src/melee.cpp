@@ -1,32 +1,30 @@
 #include "melee.h"
-#include "player.h"
+
+#include "cata_utility.h"
 #include "debug.h"
+#include "field.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "itype.h"
+#include "line.h"
 #include "map.h"
-#include "debug.h"
-#include "rng.h"
+#include "map_iterator.h"
 #include "martialarts.h"
 #include "messages.h"
-#include "mutation.h"
-#include "sounds.h"
-#include "translations.h"
-#include "map_iterator.h"
 #include "monster.h"
-#include "npc.h"
-#include "itype.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "line.h"
 #include "mtype.h"
-#include "field.h"
-#include "cata_utility.h"
+#include "mutation.h"
+#include "npc.h"
+#include "output.h"
+#include "player.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
 
-#include <sstream>
-#include <stdlib.h>
 #include <algorithm>
-
-#include "cursesdef.h"
+#include <cstdlib>
+#include <sstream>
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -40,7 +38,6 @@ static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_melee( "melee" );
-static const skill_id skill_dodge( "dodge" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -315,7 +312,7 @@ std::string player::get_miss_reason()
         farsightedness );
 
     const std::string *const reason = melee_miss_reasons.pick();
-    if( reason == NULL ) {
+    if( reason == nullptr ) {
         return std::string();
     }
     return *reason;
@@ -370,7 +367,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 
     if( hit_spread < 0 ) {
         int stumble_pen = stumble( *this, cur_weapon );
-        sfx::generate_melee_sound( pos(), t.pos(), 0, 0 );
+        sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
 
             if( one_in( 2 ) ) {
@@ -460,7 +457,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
                     material = "steel";
                 }
             }
-            sfx::generate_melee_sound( pos(), t.pos(), 1, t.is_monster(), material );
+            sfx::generate_melee_sound( pos(), t.pos(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
@@ -1033,15 +1030,19 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         return false;
     }
 
+    // pre-computed matrix of adjacent squares
+    std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
+    std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
+
+    // filter the values to be between -1 and 1 to avoid indexing the array out of bounds
+    int dy = std::max( -1, std::min( 1, t.posy() - posy() ) );
+    int dx = std::max( -1, std::min( 1, t.posx() - posx() ) );
+    int lookup = dy + 1 + 3 * ( dx + 1 );
+
     //wide hits all targets adjacent to the attacker and the target
     if( technique.aoe == "wide" ) {
         //check if either (or both) of the squares next to our target contain a possible victim
         //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
-        std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
-        std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
-
-        int lookup = t.posy() - posy() + 1 + ( 3 * ( t.posx() - posx() + 1 ) );
-
         tripoint left = pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
         tripoint right = pos() + tripoint( offset_b[lookup], -offset_a[lookup], 0 );
 
@@ -1071,12 +1072,6 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         // Impale hits the target and a single target behind them
         // Check if the square cardinally behind our target, or to the left / right,
         // contains a possible target.
-        // Offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares.
-        std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
-        std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
-
-        int lookup = t.posy() - posy() + 1 + ( 3 * ( t.posx() - posx() + 1 ) );
-
         tripoint left = t.pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
         tripoint target_pos = t.pos() + ( t.pos() - pos() );
         tripoint right = t.pos() + tripoint( offset_b[lookup], -offset_b[lookup], 0 );
@@ -1836,9 +1831,8 @@ void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit )
 {
     std::string msg;
-    game_message_type msgtype;
-    msgtype = m_good;
-    std::string sSCTmod = "";
+    game_message_type msgtype = m_good;
+    std::string sSCTmod;
     game_message_type gmtSCTcolor = m_good;
 
     if( dam <= 0 ) {
@@ -1911,7 +1905,7 @@ int player::attack_speed( const item &weap ) const
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
-    const float stamina_ratio = ( float )stamina / ( float )get_stamina_max();
+    const float stamina_ratio = static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() );
     // Increase cost multiplier linearly from 1.0 to 2.0 as stamina goes from 25% to 0%.
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
     const float ma_mult = mabuff_attack_cost_mult();

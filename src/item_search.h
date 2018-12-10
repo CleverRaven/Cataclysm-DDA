@@ -4,9 +4,9 @@
 
 #include "output.h"
 
-#include <string>
-#include <functional>
 #include <algorithm>
+#include <functional>
+#include <string>
 
 /**
  * Get a function that returns true if the value matches the query.

@@ -1,5 +1,6 @@
 #pragma once
 #ifndef DEBUG_MENU_H
+#define DEBUG_MENU_H
 
 #include "enums.h"
 

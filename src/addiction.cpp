@@ -1,10 +1,10 @@
 #include "addiction.h"
-#include "debug.h"
-#include "pldata.h"
-#include "player.h"
+
 #include "morale_types.h"
-#include "rng.h"
 #include "output.h"
+#include "player.h"
+#include "pldata.h"
+#include "rng.h"
 #include "translations.h"
 
 const efftype_id effect_hallu( "hallu" );
@@ -343,7 +343,7 @@ const std::string &addiction_text( addiction const &cur )
         return iter->second;
     }
 
-    static const std::string error_string( "" );
+    static const std::string error_string;
     return error_string;
 }
 

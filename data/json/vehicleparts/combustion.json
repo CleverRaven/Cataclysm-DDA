@@ -20,10 +20,11 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "diesel",
+    "fuel_options": [ "diesel", "chem_ethanol", "denat_alcohol", "lamp_oil" ],
     "cold_affects_start": true,
     "m2c": 65,
     "extend": { "flags": [ "E_COLD_START" ] },
-    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle."
+    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn methanol, ethanol, or lamp oil, though somewhat less efficiently."
   },
   {
     "abstract": "gasoline_engine",
@@ -41,7 +42,7 @@
     "difficulty": 4,
     "durability": 400,
     "epower": -350,
-    "power": 600,
+    "power": 223800,
     "energy_consumption": 600000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -57,7 +58,7 @@
     "difficulty": 4,
     "durability": 400,
     "epower": -250,
-    "power": 400,
+    "power": 149200,
     "energy_consumption": 400000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -73,7 +74,7 @@
     "difficulty": 4,
     "durability": 400,
     "epower": -350,
-    "power": 650,
+    "power": 242450,
     "energy_consumption": 650000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -89,7 +90,7 @@
     "difficulty": 2,
     "durability": 150,
     "epower": 0,
-    "power": 60,
+    "power": 22380,
     "energy_consumption": 60000,
     "folded_volume": 6,
     "breaks_into": [
@@ -108,7 +109,7 @@
     "difficulty": 2,
     "durability": 120,
     "epower": 0,
-    "power": 30,
+    "power": 11190,
     "energy_consumption": 30000,
     "folded_volume": 3,
     "breaks_into": [
@@ -126,7 +127,7 @@
     "difficulty": 2,
     "durability": 300,
     "epower": -150,
-    "power": 250,
+    "power": 93250,
     "energy_consumption": 250000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 20, 30 ] },
@@ -142,7 +143,7 @@
     "difficulty": 6,
     "durability": 600,
     "epower": -350,
-    "power": 1200,
+    "power": 447600,
     "energy_consumption": 1200000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 45, 58 ] },
@@ -158,7 +159,7 @@
     "difficulty": 7,
     "durability": 600,
     "epower": -400,
-    "power": 1200,
+    "power": 447600,
     "energy_consumption": 1200000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 45, 58 ] },
@@ -174,7 +175,7 @@
     "difficulty": 3,
     "durability": 400,
     "epower": -200,
-    "power": 400,
+    "power": 149200,
     "energy_consumption": 400000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -190,7 +191,7 @@
     "difficulty": 3,
     "durability": 400,
     "epower": -250,
-    "power": 650,
+    "power": 242450,
     "energy_consumption": 650000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 40, 50 ] },
@@ -206,7 +207,7 @@
     "difficulty": 2,
     "durability": 200,
     "epower": -50,
-    "power": 100,
+    "power": 37300,
     "energy_consumption": 100000,
     "folded_volume": 8,
     "breaks_into": [
@@ -221,13 +222,14 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "coal_lump",
+    "fuel_options": [ "coal_lump", "charcoal" ],
     "cold_affects_start": true,
     "looks_like": "diesel_engine_v12",
     "m2c": 65,
     "backfire_threshold": 0.7,
     "backfire_freq": 10,
     "noise_factor": 20,
-    "description": "A closed cycle, external combustion steam engine.  Burns coal from a bunker in the vehicle to produce steam."
+    "description": "A closed cycle, external combustion steam engine.  Burns coal or charcoal from a bunker in the vehicle to produce steam."
   },
   {
     "id": "engine_steam_makeshift",
@@ -237,7 +239,7 @@
     "difficulty": 4,
     "durability": 200,
     "epower": 0,
-    "power": 150,
+    "power": 55950,
     "energy_consumption": 150000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
@@ -254,7 +256,7 @@
     "difficulty": 4,
     "durability": 200,
     "epower": 0,
-    "power": 250,
+    "power": 93250,
     "energy_consumption": 250000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
@@ -271,7 +273,7 @@
     "difficulty": 4,
     "durability": 200,
     "epower": -20,
-    "power": 400,
+    "power": 149200,
     "energy_consumption": 400000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },

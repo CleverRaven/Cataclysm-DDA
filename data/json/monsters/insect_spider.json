@@ -498,8 +498,8 @@
     "default_faction": "spider_web",
     "species": [ "SPIDER" ],
     "diff": 7,
-    "volume": "30000 ml",
-    "weight": 40750,
+    "volume": "750 ml",
+    "weight": 1000,
     "hp": 20,
     "speed": 40,
     "material": [ "iflesh" ],
@@ -557,8 +557,8 @@
     "default_faction": "spider_widow",
     "species": [ "SPIDER" ],
     "diff": 10,
-    "volume": "30000 ml",
-    "weight": 40750,
+    "volume": "750 ml",
+    "weight": 1000,
     "hp": 30,
     "speed": 90,
     "material": [ "iflesh" ],
@@ -780,7 +780,7 @@
     "upgrades": { "into": "mon_ant_acid", "half_life": 0 },
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "acidant_larva",
-    "flags": [ "LARVA", "POISON", "SMELLS" ]
+    "flags": [ "ACIDPROOF", "LARVA", "POISON", "SMELLS" ]
   },
   {
     "id": "mon_ant_acid_queen",
@@ -842,7 +842,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "acidant_med",
-    "flags": [ "ACIDPROOF", "ACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
+    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
   },
   {
     "id": "mon_ant_fungus",

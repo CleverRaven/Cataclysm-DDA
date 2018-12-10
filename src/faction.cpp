@@ -1,23 +1,21 @@
 #include "faction.h"
-#include <sstream>
 
-#include "rng.h"
-#include "math.h"
-#include "string_formatter.h"
-#include "output.h"
-#include "debug.h"
-#include "input.h"
+#include "catacharset.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "catacharset.h"
-
+#include "input.h"
 #include "json.h"
+#include "output.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 
+#include <cmath>
+#include <cstdlib>
 #include <map>
 #include <string>
-#include <cstdlib>
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 
@@ -465,7 +463,7 @@ int faction::response_time( const tripoint &abs_sm_pos ) const
 
 std::string invent_name()
 {
-    std::string ret = "";
+    std::string ret;
     std::string tmp;
     int syllables = rng( 2, 3 );
     for( int i = 0; i < syllables; i++ ) {

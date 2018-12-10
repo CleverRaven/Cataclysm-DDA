@@ -2,13 +2,13 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include <vector>
-#include <string>
 #include "enums.h"
-#include <functional>
-#include <math.h>
-
 #include "game_constants.h"
+
+#include <cmath>
+#include <functional>
+#include <string>
+#include <vector>
 
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )
@@ -125,6 +125,14 @@ std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );
 // Currently limited to the same z-level as @from.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out );
+/**
+ * Calculates the horizontal angle between the lines from (0,0,0) to @p a and
+ * the line from (0,0,0) to @p b.
+ * Returned value is in degree and in the range 0....360.
+ * Example: if @p a is (0,1) and @p b is (1,0), the result will 90 degree
+ * The function currently ignores the z component.
+ */
+double coord_to_angle( const tripoint &a, const tripoint &b );
 
 // weird class for 2d vectors where dist is derived from rl_dist
 struct rl_vec2d {

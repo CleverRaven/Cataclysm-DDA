@@ -2201,8 +2201,9 @@
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
         "pre_terrain" : "t_sand",
-        "post_special" : "done_extract_sand"
+        "post_special" : "done_extract_maybe_revert_to_dirt"
     },{
         "type" : "construction",
         "description" : "Extract Clay",
@@ -2210,8 +2211,9 @@
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ]  } ],
         "pre_terrain" : "t_clay",
-        "post_special" : "done_extract_clay"
+        "post_special" : "done_extract_maybe_revert_to_dirt"
     },{
         "type" : "construction",
         "description" : "Build Charcoal Kiln",
@@ -2386,8 +2388,18 @@
         "category" : "OTHER",
         "required_skills" : [],
         "time" : 0,
+        "pre_note" : "Firewood or other flammable materials on a nearby tile marked in this way may be used to automatically refuel fires.  This will be done to maintain light during long-running tasks that require it such as crafting or reading, but not (for example) if you are simply waiting nearby.",
         "pre_special" : "check_no_trap",
         "post_special" : "done_mark_firewood"
+    },{
+        "type" : "construction",
+        "description" : "Mark practice target",
+        "category" : "OTHER",
+        "required_skills" : [],
+        "time" : 0,
+        "pre_note" : "Mark a spot for target practice.  Firing will automatically target the first practice target location found in gun range, if no enemies are around.",
+        "pre_special" : "check_no_trap",
+        "post_special" : "done_mark_practice_target"
     },{
         "type" : "construction",
         "description" : "Build Butchering Rack",

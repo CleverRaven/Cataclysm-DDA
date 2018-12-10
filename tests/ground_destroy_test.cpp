@@ -4,14 +4,10 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "options.h"
-#include "player.h"
-
 #include "map_helpers.h"
+#include "mapdata.h"
+#include "options.h"
 
-#include <fstream>
 #include <string>
 #include <vector>
 
@@ -26,7 +22,7 @@ TEST_CASE( "pavement_destroy", "[.]" )
 
     bool zlevels_set = get_option<bool>( "ZLEVELS" );
     INFO( "ZLEVELS is " << zlevels_set );
-    clear_map();
+    clear_map_and_put_player_underground();
     // Populate the map with pavement.
     tripoint pt( 0, 0, 0 );
     g->m.ter_set( pt, ter_id( "t_pavement" ) );
@@ -53,7 +49,7 @@ TEST_CASE( "explosion_on_ground", "[.]" )
     bool zlevels_set = get_option<bool>( "ZLEVELS" );
     INFO( "ZLEVELS is " << zlevels_set );
 
-    clear_map();
+    clear_map_and_put_player_underground();
     std::vector<ter_id> test_terrain_id = {
         ter_id( "t_dirt" ), ter_id( "t_grass" )
     };

@@ -2,14 +2,14 @@
 #ifndef FONT_LOADER_H
 #define FONT_LOADER_H
 
+#include "debug.h"
+#include "filesystem.h"
 #include "json.h"
 #include "path_info.h"
-#include "filesystem.h"
-#include "debug.h"
 
-#include <string>
 #include <fstream>
 #include <stdexcept>
+#include <string>
 
 class font_loader
 {

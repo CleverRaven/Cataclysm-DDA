@@ -1,7 +1,6 @@
 #if defined BACKTRACE
 
 #include <csignal>
-#include <cstdalign>
 #include <cstdio>
 #include <cstdint>
 #include <exception>
@@ -9,7 +8,11 @@
 #include <typeinfo>
 
 #ifdef TILES
-#include <SDL.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#       include <SDL2/SDL.h>
+#   else
+#       include <SDL.h>
+#   endif
 #endif
 
 #include "crash.h"
@@ -303,7 +306,7 @@ void init_crash_handlers()
     char const *type;
     char const *msg;
     try {
-        auto &&ex = std::current_exception();
+        auto &&ex = std::current_exception(); // *NOPAD*
         if( ex ) {
             std::rethrow_exception( ex );
         } else {

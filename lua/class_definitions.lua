@@ -1193,13 +1193,17 @@ classes = {
         functions = {
         }
     },
-    uimenu = {
+    uilist = {
         attributes = {
             title = {
                 type = "string",
                 writable = true
             },
             selected = {
+                type = "int",
+                writable = false
+            },
+            ret = {
                 type = "int",
                 writable = false
             }
@@ -1269,7 +1273,6 @@ classes = {
             { name = "collapse_at", rval = nil, args = { "tripoint", "bool" } },
             { name = "collapse_check", rval = "int", args = { "tripoint" } },
             { name = "combined_movecost", rval = "int", args = { "tripoint", "tripoint" } },
-            { name = "coord_to_angle", rval = "int", args = { "int", "int", "int", "int" } },
             { name = "could_see_items", rval = "bool", args = { "tripoint", "Creature" } },
             { name = "creature_in_field", rval = nil, args = { "Creature" } },
             { name = "creature_on_trap", rval = nil, args = { "Creature" }, optional_args = { "bool" } },
@@ -2204,9 +2207,14 @@ global_functions = {
         rval = "string"
     },
     create_uimenu = {
-        cpp_name = "create_uimenu",
+        cpp_name = "create_uilist_no_cancel",
         args = {},
-        rval = "uimenu&"
+        rval = "uilist&"
+    },
+    create_uilist = {
+        cpp_name = "create_uilist",
+        args = {},
+        rval = "uilist&"
     },
     get_terrain_type = {
         cpp_name = "get_terrain_type",

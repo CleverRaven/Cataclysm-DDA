@@ -2,15 +2,15 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
-#include "string_id.h"
 #include "bonuses.h"
 #include "calendar.h"
+#include "string_id.h"
 #include "ui.h"
 
-#include <string>
-#include <vector>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
 
 enum damage_type : int;
 class JsonObject;
@@ -238,7 +238,7 @@ class martialart
         std::vector<mabuff_id> ongethit_buffs;
 };
 
-class ma_style_callback : public uimenu_callback
+class ma_style_callback : public uilist_callback
 {
     private:
         size_t offset;
@@ -250,7 +250,7 @@ class ma_style_callback : public uimenu_callback
             , styles( selectable_styles )
         {}
 
-        bool key( const input_context &ctxt, const input_event &event, int entnum, uimenu *menu ) override;
+        bool key( const input_context &ctxt, const input_event &event, int entnum, uilist *menu ) override;
         ~ma_style_callback() override = default;
 };
 

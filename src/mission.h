@@ -2,15 +2,15 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include <vector>
-#include <string>
+#include "calendar.h"
+#include "enums.h"
+#include "npc_favor.h"
+
 #include <functional>
 #include <iosfwd>
 #include <map>
-
-#include "enums.h"
-#include "calendar.h"
-#include "npc_favor.h"
+#include <string>
+#include <vector>
 
 class player;
 class mission;
@@ -159,7 +159,7 @@ struct mission_start {
 };
 
 struct mission_end { // These functions are run when a mission ends
-    static void standard( mission * ) {};       // Nothing special happens
+    static void standard( mission * ) {}     // Nothing special happens
     static void leave( mission * );          // NPC leaves after the mission is complete
     static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
@@ -167,7 +167,7 @@ struct mission_end { // These functions are run when a mission ends
 };
 
 struct mission_fail {
-    static void standard( mission * ) {};   // Nothing special happens
+    static void standard( mission * ) {} // Nothing special happens
     static void kill_npc( mission * );   // Kill the NPC who assigned it!
 };
 
@@ -363,8 +363,6 @@ class mission
         static void on_creature_death( Creature &poor_dead_dude );
         /*@}*/
 
-        // Don't use this, it's only for loading legacy saves.
-        static void unserialize_legacy( std::istream &fin );
         // Serializes and unserializes all missions
         static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );

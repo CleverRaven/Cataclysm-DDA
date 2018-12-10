@@ -2,26 +2,24 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
-#include "optional.h"
-#include "color.h" // nc_color
-#include "enums.h" // point
-#include "iuse.h" // use_function
-#include "pldata.h" // add_type
 #include "bodypart.h" // body_part::num_bp
-#include "string_id.h"
-#include "explosion.h"
-#include "units.h"
-#include "damage.h"
-#include "translations.h"
 #include "calendar.h"
+#include "color.h" // nc_color
+#include "damage.h"
+#include "enums.h" // point
+#include "explosion.h"
 #include "game_constants.h"
+#include "iuse.h" // use_function
+#include "optional.h"
+#include "pldata.h" // add_type
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
 
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
-#include <set>
-#include <map>
-#include <bitset>
-#include <memory>
 
 // see item.h
 class item_category;
@@ -618,6 +616,12 @@ struct islot_ammo : common_ranged_data {
      * @warning It is not read from the json directly.
      * */
     bool special_cookoff = false;
+
+    /**
+     * If set, ammo does not give a flat damage, instead it multiplies the base
+     * damage of the gun by this value.
+     */
+    cata::optional<float> prop_damage;
 };
 
 struct islot_bionic {

@@ -1,13 +1,14 @@
 #include "weather_gen.h"
-#include "weather.h"
-#include "enums.h"
+
 #include "calendar.h"
-#include "simplexnoise.h"
+#include "enums.h"
 #include "json.h"
+#include "simplexnoise.h"
+#include "weather.h"
 
 #include <cmath>
-#include <fstream>
 #include <cstdlib>
+#include <fstream>
 
 namespace
 {

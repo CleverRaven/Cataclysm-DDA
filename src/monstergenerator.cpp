@@ -5,22 +5,21 @@
 #include "creature.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
+#include "json.h"
 #include "mattack_actors.h"
 #include "monattack.h"
 #include "mondeath.h"
-#include "json.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "mtype.h"
+#include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "material.h"
-#include "options.h"
-#include "harvest.h"
 
 #include <algorithm>
 
@@ -181,9 +180,8 @@ void MonsterGenerator::set_mtype_flags( mtype &mon )
 {
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
-    m_flag nflag;
     for( std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag ) {
-        nflag = m_flag( *flag );
+        m_flag nflag = m_flag( *flag );
         mon.bitflags[nflag] = true;
     }
     monster_trigger ntrig;
@@ -382,6 +380,10 @@ void MonsterGenerator::init_trigger()
     trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
     trigger_map["FRIEND_ATTACKED"] = MTRIG_FRIEND_ATTACKED;// // A monster of the same type attacked
     trigger_map["SOUND"] = MTRIG_SOUND;//  // Heard a sound
+    trigger_map["PLAYER_NEAR_BABY"] =
+        MTRIG_PLAYER_NEAR_BABY; // // Player/npc is near a baby monster of this type
+    trigger_map["MATING_SEASON"] =
+        MTRIG_MATING_SEASON; // It's the monster's mating season (defined by baby_flags)
 }
 
 void MonsterGenerator::init_flags()
@@ -421,6 +423,7 @@ void MonsterGenerator::init_flags()
     flag_map["ELECTRIC"] = MF_ELECTRIC;
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
+    flag_map["SHORTACIDTRAIL"] = MF_SHORTACIDTRAIL;
     flag_map["FIREPROOF"] = MF_FIREPROOF;
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
@@ -679,14 +682,16 @@ void mtype::load( JsonObject &jo, const std::string &src )
                   mtype_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
                   "null" );
-        if( jo.has_member( "baby_flags" ) ) {
-            baby_flags.clear();
-            JsonArray baby_tags = jo.get_array( "baby_flags" );
-            while( baby_tags.has_more() ) {
-                baby_flags.push_back( baby_tags.next_string() );
-            }
-        }
         reproduces = true;
+    }
+
+    if( jo.has_member( "baby_flags" ) ) {
+        // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
+        baby_flags.clear();
+        JsonArray baby_tags = jo.get_array( "baby_flags" );
+        while( baby_tags.has_more() ) {
+            baby_flags.push_back( baby_tags.next_string() );
+        }
     }
 
     if( jo.has_member( "biosignature" ) ) {

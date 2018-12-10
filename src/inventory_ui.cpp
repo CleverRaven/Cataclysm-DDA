@@ -1,29 +1,27 @@
 #include "inventory_ui.h"
 
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "game.h"
-#include "player.h"
-#include "action.h"
+#include "item.h"
+#include "item_category.h"
+#include "item_search.h"
+#include "itype.h"
 #include "map.h"
 #include "map_selector.h"
-#include "output.h"
-#include "translations.h"
-#include "item_category.h"
-#include "string_formatter.h"
 #include "options.h"
-#include "messages.h"
-#include "catacharset.h"
-#include "vpart_reference.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "cata_utility.h"
 #include "vpart_position.h"
-#include "item.h"
-#include "itype.h"
-#include "item_search.h"
-#include "string_input_popup.h"
+#include "vpart_reference.h"
 
 #ifdef __ANDROID__
-#include "SDL_keyboard.h"
+#include <SDL_keyboard.h>
 #endif
 
 #include <set>
@@ -870,7 +868,7 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( id, name, 0 ) {}
+    selected_cat( id, no_translation( name ), 0 ) {}
 
 selection_column::~selection_column() = default;
 
@@ -965,7 +963,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 
         const std::string name = string_format( "%s %s", category.name().c_str(), suffix.c_str() );
         const int sort_rank = category.sort_rank() + dist;
-        const item_category new_category( id, name, sort_rank );
+        const item_category new_category( id, no_translation( name ), sort_rank );
 
         categories.push_back( new_category );
     } else {
@@ -1020,8 +1018,9 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    static const item_category items_worn_category( "ITEMS_WORN", _( "ITEMS WORN" ), -100 );
-    static const item_category weapon_held_category( "WEAPON_HELD", _( "WEAPON HELD" ), -200 );
+    static const item_category items_worn_category( "ITEMS_WORN", translation( "ITEMS WORN" ), -100 );
+    static const item_category weapon_held_category( "WEAPON_HELD", translation( "WEAPON HELD" ),
+            -200 );
     character.visit_items( [ this, &character ]( item * it ) {
         if( it == &character.weapon ) {
             add_item( own_gear_column, item_location( character, it ), 1, &weapon_held_category );
@@ -1045,7 +1044,7 @@ void inventory_selector::add_map_items( const tripoint &target )
     if( g->m.accessible_items( target ) ) {
         const auto items = g->m.i_at( target );
         const std::string name = to_upper_case( g->m.name( target ) );
-        const item_category map_cat( name, name, 100 );
+        const item_category map_cat( name, no_translation( name ), 100 );
 
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
@@ -1063,7 +1062,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     const int part = vp->part_index();
     const auto items = veh->get_items( part );
     const std::string name = to_upper_case( veh->parts[part].name() );
-    const item_category vehicle_cat( name, name, 200 );
+    const item_category vehicle_cat( name, no_translation( name ), 200 );
 
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
@@ -1263,7 +1262,7 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 
 inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     units::mass weight_carried, units::mass weight_capacity,
-    units::volume volume_carried, units::volume volume_capacity )
+    const units::volume &volume_carried, const units::volume &volume_capacity )
 {
     return {
         {
@@ -1480,7 +1479,6 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     : u( u )
     , preset( preset )
     , ctxt( "INVENTORY" )
-    , columns()
     , active_column_index( 0 )
     , mode( navigation_mode::ITEM )
     , own_inv_column( preset )
@@ -1719,7 +1717,7 @@ void inventory_multiselector::rearrange_columns( size_t client_width )
 void inventory_multiselector::on_entry_add( const inventory_entry &entry )
 {
     if( entry.is_item() ) {
-        static_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
+        dynamic_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
     }
 }
 

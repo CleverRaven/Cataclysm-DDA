@@ -1,23 +1,22 @@
 #include "inventory.h"
-#include <sstream>
-#include "game.h"
-#include "map.h"
-#include "iexamine.h"
+
 #include "debug.h"
-#include "iuse.h"
-#include "vpart_reference.h"
-#include "iuse_actor.h"
-#include "options.h"
-#include "vpart_position.h"
-#include "npc.h"
+#include "game.h"
+#include "iexamine.h"
 #include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
+#include "iuse_actor.h"
+#include "map.h"
 #include "map_iterator.h"
-#include <algorithm>
+#include "mapdata.h"
 #include "messages.h" //for rust message
+#include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
+#include <algorithm>
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );
@@ -30,11 +29,7 @@ bool invlet_wrapper::valid( const long invlet ) const
     return find( static_cast<char>( invlet ) ) != std::string::npos;
 }
 
-inventory::inventory()
-    : invlet_cache()
-    , items()
-{
-}
+inventory::inventory() = default;
 
 invslice inventory::slice()
 {
@@ -339,7 +334,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         if( g->m.has_furn( p ) ) {
             const furn_t &f = g->m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
-            if( type != NULL ) {
+            if( type != nullptr ) {
                 const itype *ammo = f.crafting_ammo_item_type();
                 item furn_item( type, calendar::turn, 0 );
                 furn_item.item_tags.insert( "PSEUDO" );
@@ -819,7 +814,7 @@ void inventory::rust_iron_items()
                 one_in( 500 ) &&
                 //Scale with volume, bigger = slower (see #24204)
                 one_in( static_cast<int>( 14 * std::cbrt( 0.5 * std::max( 0.05,
-                                          ( double )( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
+                                          static_cast<double>( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/3.14 (from volume of sphere)
                 g->m.water_from( g->u.pos() ).typeId() ==
                 "salt_water" ) { //Freshwater without oxygen rusts slower than air

@@ -1,14 +1,15 @@
 #include "mtype.h"
-#include "itype.h"
-#include "debug.h"
-#include "item.h"
+
 #include "creature.h"
-#include "translations.h"
-#include "monstergenerator.h"
-#include "mondeath.h"
 #include "field.h"
+#include "item.h"
+#include "itype.h"
+#include "mondeath.h"
+#include "monstergenerator.h"
+#include "translations.h"
 
 #include <algorithm>
+#include <cmath>
 
 const species_id MOLLUSK( "MOLLUSK" );
 

@@ -2,21 +2,22 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "string_id.h"
-#include "enums.h"
+#include "calendar.h"
 #include "color.h"
 #include "damage.h"
-#include "calendar.h"
-#include "units.h"
+#include "enums.h"
 #include "optional.h"
+#include "string_id.h"
+#include "units.h"
 
-#include <vector>
-#include <bitset>
-#include <string>
-#include <memory>
-#include <map>
-#include <utility>
 #include <array>
+#include <bitset>
+#include <map>
+#include <memory>
+#include <string>
+#include <set>
+#include <utility>
+#include <vector>
 
 using itype_id = std::string;
 
@@ -96,6 +97,7 @@ struct vpslot_engine {
     int noise_factor = 0;
     int m2c = 1;
     std::vector<std::string> exclusions;
+    std::vector<itype_id> fuel_opts;
 };
 
 class vpart_info
@@ -245,6 +247,7 @@ class vpart_info
         int engine_muscle_power_factor() const;
         float engine_damaged_power_factor() const;
         int engine_noise_factor() const;
+        std::vector<itype_id> engine_fuel_opts() const;
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;
@@ -270,7 +273,8 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo );
+        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+                                 const itype_id &fuel_type );
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

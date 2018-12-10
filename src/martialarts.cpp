@@ -1,20 +1,21 @@
 #include "martialarts.h"
-#include "player.h"
+
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
-#include "json.h"
-#include "translations.h"
-#include "itype.h"
-#include "damage.h"
-#include "output.h"
+#include "generic_factory.h"
 #include "input.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "translations.h"
 
+#include <algorithm>
 #include <map>
 #include <string>
-#include <algorithm>
-#include "generic_factory.h"
-#include "string_formatter.h"
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
@@ -317,7 +318,6 @@ void clear_techniques_and_martial_arts()
     ma_techniques.reset();
 }
 
-#include "messages.h"
 bool ma_requirements::is_valid_player( const player &u ) const
 {
     for( const auto &buff_id : req_buffs ) {
@@ -353,7 +353,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
 
 bool ma_requirements::is_valid_weapon( const item &i ) const
 {
-    for( auto flag : req_flags ) {
+    for( const std::string &flag : req_flags ) {
         if( !i.has_flag( flag ) ) {
             return false;
         }
@@ -383,7 +383,7 @@ std::string ma_requirements::get_description( bool buff ) const
         }, enumeration_conjunction::none ) << std::endl;
     }
 
-    if( req_buffs.size() ) {
+    if( !req_buffs.empty() ) {
         dump << string_format( _( "<bold>Requires:</bold> " ) );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
@@ -543,18 +543,18 @@ std::string ma_buff::get_description( bool passive ) const
 
     if( dodges_bonus > 0 ) {
         dump << string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
     } else if( dodges_bonus < 0 ) {
         dump << string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
     }
 
     if( blocks_bonus > 0 ) {
         dump << string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
     } else if( blocks_bonus < 0 ) {
         dump << string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( "", " per stack", max_stacks ) ) << std::endl;
+                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
     }
 
     if( quiet ) {
@@ -886,7 +886,7 @@ bool player::can_melee() const
     } );
 }
 
-bool player::has_mabuff( mabuff_id id ) const
+bool player::has_mabuff( const mabuff_id &id ) const
 {
     return search_ma_buff_effect( *effects, [&id]( const ma_buff & b, const effect & ) {
         return b.id == id;
@@ -999,7 +999,7 @@ std::string ma_technique::get_description() const
 }
 
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
-                             uimenu *menu )
+                             uilist *menu )
 {
     const std::string action = ctxt.input_to_action( event );
     if( action != "SHOW_DESCRIPTION" ) {

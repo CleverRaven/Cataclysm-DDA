@@ -2,11 +2,10 @@
 #ifndef RNG_H
 #define RNG_H
 
-#include "compatibility.h"
 #include "optional.h"
 
-#include <functional>
 #include <array>
+#include <functional>
 
 // Some of the RNG functions are based on an engine.
 // By default, that engine is seeded by time on first call to such a function.

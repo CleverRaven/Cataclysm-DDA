@@ -2,8 +2,8 @@
 #ifndef ITEM_LOCATION_H
 #define ITEM_LOCATION_H
 
-#include <memory>
 #include <list>
+#include <memory>
 
 struct tripoint;
 class item;

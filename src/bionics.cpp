@@ -1,38 +1,35 @@
 #include "bionics.h"
-#include "player.h"
 
 #include "action.h"
 #include "ballistics.h"
-#include "dispersion.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
+#include "cata_utility.h"
 #include "debug.h"
-#include "rng.h"
+#include "dispersion.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
 #include "input.h"
 #include "item.h"
-#include "bodypart.h"
-#include "messages.h"
-#include "overmapbuffer.h"
-#include "projectile.h"
-#include "string_formatter.h"
-#include "sounds.h"
-#include "translations.h"
-#include "monster.h"
-#include "overmap.h"
-#include "options.h"
-#include "effect.h"
-#include "json.h"
 #include "itype.h"
-#include "vehicle.h"
-#include "field.h"
-#include "weather.h"
-#include "cata_utility.h"
-#include "output.h"
+#include "json.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
 #include "mutation.h"
-#include "requirements.h"
-#include "vpart_position.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "ui.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "weather.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -78,12 +75,6 @@ const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PAINRESIST( "PAINRESIST" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 
 namespace
 {
@@ -360,7 +351,7 @@ bool player::activate_bionic( int b, bool eff_only )
         item water = item( "water_clean", 0 );
         water.reset_temp_check();
         int humidity = weatherPoint.humidity;
-        int water_charges = ( humidity * 3.0 ) / 100.0 + 0.5;
+        int water_charges = lround( humidity * 3.0 / 100.0 );
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
         water.charges = water_charges;
@@ -372,9 +363,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
-        tripoint dirp;
-        if( choose_adjacent( _( "Start a fire where?" ), dirp ) &&
-            g->m.add_field( dirp, fd_fire, 1 ) ) {
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
+        if( pnt && g->m.add_field( *pnt, fd_fire, 1 ) ) {
             mod_moves( -100 );
         } else {
             add_msg_if_player( m_info, _( "You can't light a fire there." ) );
@@ -399,9 +389,8 @@ bool player::activate_bionic( int b, bool eff_only )
 
     } else if( bio.id == "bio_emp" ) {
         g->refresh_all();
-        tripoint dirp;
-        if( choose_adjacent( _( "Create an EMP where?" ), dirp ) ) {
-            g->emp_blast( dirp );
+        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
+            g->emp_blast( *pnt );
             mod_moves( -100 );
         } else {
             charge_power( bionics[bionic_id( "bio_emp" )].power_activate );
@@ -505,7 +494,7 @@ bool player::activate_bionic( int b, bool eff_only )
                                get_local_humidity( weatherPoint.humidity, g->weather,
                                        g->is_sheltered( g->u.pos() ) ) ).c_str() );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
-                           print_pressure( ( int )weatherPoint.pressure ).c_str() );
+                           print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
                            convert_velocity( int( windpower ), VU_WIND ),
                            velocity_units( VU_WIND ) );
@@ -730,7 +719,7 @@ void player::process_bionic( int b )
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
-                heal( ( hp_part )i, 1 );
+                heal( static_cast<hp_part>( i ), 1 );
                 charge_power( -5 );
             }
         }
@@ -1523,7 +1512,7 @@ void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "id", id );
-    json.member( "invlet", ( int )invlet );
+    json.member( "invlet", static_cast<int>( invlet ) );
     json.member( "powered", powered );
     json.member( "charge", charge );
     json.end_object();

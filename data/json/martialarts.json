@@ -491,7 +491,6 @@
                 "id" : "fencing_move_buff",
                 "name" : "Fencing Footwork",
                 "description" : "+2 stab and +1 acc per stack",
-                "unarmed_allowed" : true,
                 "min_melee" : 2,
                 "buff_duration" : 2,
                 "max_stacks" : 2,

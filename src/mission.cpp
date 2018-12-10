@@ -1,21 +1,21 @@
 #include "mission.h"
-#include "game.h"
+
 #include "debug.h"
-#include "overmapbuffer.h"
-#include "translations.h"
-#include "requirements.h"
-#include "string_formatter.h"
-#include "overmap.h"
-#include "line.h"
+#include "game.h"
 #include "io.h"
+#include "line.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "requirements.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "translations.h"
 
-#include <sstream>
+#include <algorithm>
 #include <memory>
 #include <unordered_map>
-#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -270,13 +270,11 @@ bool mission::is_complete( const int _npc_id ) const
             const tripoint cur_pos = g->u.global_omt_location();
             return ( rl_dist( cur_pos, target ) <= 1 );
         }
-        break;
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
             return is_ot_type( type->target_id.str(), cur_ter );
         }
-        break;
 
         case MGOAL_FIND_ITEM: {
             inventory tmp_inv = u.crafting_inventory();
@@ -338,7 +336,6 @@ bool mission::is_complete( const int _npc_id ) const
         default:
             return false;
     }
-    return false;
 }
 
 bool mission::has_deadline() const
@@ -456,7 +453,7 @@ void mission::set_player_id_legacy_0c( int id )
 
 std::string mission::name()
 {
-    if( type == NULL ) {
+    if( type == nullptr ) {
         return "NULL";
     }
     return _( type->name.c_str() );
@@ -464,7 +461,7 @@ std::string mission::name()
 
 mission_type_id mission::mission_id()
 {
-    if( type == NULL ) {
+    if( type == nullptr ) {
         return mission_type_id( "NULL" );
     }
     return type->id;
@@ -537,7 +534,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 mission::mission()
     : deadline( 0 )
 {
-    type = NULL;
+    type = nullptr;
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
@@ -566,7 +563,7 @@ mission_type::mission_type( mission_type_id ID, const std::string &NAME, mission
     id( ID ), name( NAME ), goal( GOAL ), difficulty( DIF ), value( VAL ),
     urgent( URGENT ), place( PLACE ), start( START ), end( END ), fail( FAIL )
 {
-};
+}
 
 namespace io
 {

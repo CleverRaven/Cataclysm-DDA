@@ -1,43 +1,36 @@
 #include "game.h"
 
+#include "artifact.h"
+#include "auto_pickup.h"
+#include "computer.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
-#include "output.h"
-#include "skill.h"
-#include "line.h"
-#include "computer.h"
-#include "options.h"
-#include "auto_pickup.h"
-#include "mapbuffer.h"
 #include "debug.h"
-#include "map.h"
-#include "output.h"
-#include "artifact.h"
-#include "mission.h"
 #include "faction.h"
-#include "overmapbuffer.h"
-#include "trap.h"
-#include "messages.h"
-#include "mapdata.h"
-#include "translations.h"
-#include "mongroup.h"
-#include "scent_map.h"
 #include "io.h"
+#include "line.h"
+#include "map.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mission.h"
+#include "mongroup.h"
+#include "monster.h"
+#include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "scent_map.h"
+#include "translations.h"
+#include "tuple_hash.h"
 
+#include <algorithm>
+#include <cmath>
 #include <map>
 #include <set>
-#include <algorithm>
-#include <string>
 #include <sstream>
-#include <math.h>
+#include <string>
 #include <vector>
-#include "debug.h"
-#include "weather.h"
-#include "mapsharing.h"
-#include "monster.h"
-#include "overmap.h"
-#include "weather_gen.h"
-#include "npc.h"
 
 #ifdef __ANDROID__
 #include "input.h"
@@ -76,16 +69,6 @@ void game::serialize( std::ostream &fout )
     json.member( "turn", static_cast<int>( calendar::turn ) );
     json.member( "calendar_start", static_cast<int>( calendar::start ) );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
-    if( const auto lt_ptr = last_target.lock() ) {
-        if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
-            json.member( "last_target", guy->getID() );
-            json.member( "last_target_type", +1 );
-        } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
-            // monsters don't have IDs, so get its index in the Creature_tracker instead
-            json.member( "last_target", critter_tracker->temporary_id( *mon ) );
-            json.member( "last_target_type", -1 );
-        }
-    }
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
@@ -185,8 +168,6 @@ void game::unserialize( std::istream &fin )
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
-    int tmptar = 0;
-    int tmptartyp = 0;
     int levx = 0;
     int levy = 0;
     int levz = 0;
@@ -198,10 +179,8 @@ void game::unserialize( std::istream &fin )
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = ( season_type )data.get_int( "initial_season",
-                                   static_cast<int>( SPRING ) );
-        data.read( "last_target", tmptar );
-        data.read( "last_target_type", tmptartyp );
+        calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
+                                   static_cast<int>( SPRING ) ) );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
         data.read( "levx", levx );
@@ -228,14 +207,6 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "active_monsters", *critter_tracker );
-
-        if( tmptartyp == +1 ) {
-            // Use overmap_buffer because game::active_npc is not filled yet.
-            last_target = overmap_buffer.find_npc( tmptar );
-        } else if( tmptartyp == -1 ) {
-            // Need to do this *after* the monsters have been loaded!
-            last_target = critter_tracker->from_temporary_id( tmptar );
-        }
 
         JsonArray vdata = data.get_array( "stair_monsters" );
         coming_to_stairs.clear();
@@ -1097,7 +1068,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
                 }
                 lastval = value;
                 json.start_array();
-                json.write( ( bool )value );
+                json.write( static_cast<bool>( value ) );
                 count = 1;
             } else {
                 count++;

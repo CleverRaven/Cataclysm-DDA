@@ -9,13 +9,14 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
+#include "output.h"
 #include "player.h"
 #include "projectile.h"
+#include "rng.h"
 #include "sounds.h"
-#include "output.h"
-#include "vpart_position.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 #include <algorithm>
 

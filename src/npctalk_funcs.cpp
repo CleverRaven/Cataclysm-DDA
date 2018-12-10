@@ -1,33 +1,30 @@
 #include "npc.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "rng.h"
-#include "line.h"
+
+#include "basecamp.h"
+#include "bionics.h"
 #include "debug.h"
-#include "catacharset.h"
+#include "game.h"
+#include "itype.h"
+#include "line.h"
+#include "map.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "units.h"
-#include "overmapbuffer.h"
-#include "translations.h"
-#include "basecamp.h"
-#include "itype.h"
-#include "skill.h"
-#include "overmap.h"
 #include "npctalk.h"
-#include "mission_companion.h"
 #include "npctrade.h"
-#include "bionics.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "requirements.h"
-#include "ui.h"
-
+#include "rng.h"
 #include "string_formatter.h"
-#include <vector>
-#include <string>
-#include <sstream>
+#include "translations.h"
+#include "ui.h"
+#include "units.h"
+
 #include <algorithm>
+#include <string>
+#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -174,7 +171,7 @@ void talk_function::assign_guard( npc &p )
 {
     add_msg( _( "%s is posted as a guard." ), p.name );
     p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD;
+    p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_destination();
 }
@@ -234,7 +231,7 @@ void talk_function::bionic_install( npc &p )
                 bio->typeId() ==  "bio_power_storage_mkII" ) {
 
                 bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() + " - $" + to_string( bio->price( true ) * 2 / 100 ) );
+                bionic_names.push_back( bio->tname() + " - " + format_money( bio->price( true ) * 2 ) );
             }
         }
     }
@@ -285,9 +282,9 @@ void talk_function::bionic_remove( npc &p )
                 bionic_types.push_back( bio.id.str() );
                 if( item::type_is_defined( bio.id.str() ) ) {
                     tmp = item( bio.id.str(), 0 );
-                    bionic_names.push_back( tmp.tname() + " - $" + to_string( 500 + ( tmp.price( true ) / 400 ) ) );
+                    bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
-                    bionic_names.push_back( bio.id.str() + " - $" + to_string( 500 ) );
+                    bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
                 }
             }
         }
@@ -572,7 +569,8 @@ bool pay_npc( npc &np, int cost )
         return true;
     }
 
-    if( g->u.cash + ( unsigned long )np.op_of_u.owed >= ( unsigned long )cost ) {
+    if( g->u.cash + static_cast<unsigned long>( np.op_of_u.owed ) >= static_cast<unsigned long>
+        ( cost ) ) {
         g->u.cash -= cost - np.op_of_u.owed;
         np.op_of_u.owed = 0;
         return true;
@@ -610,5 +608,3 @@ void talk_function::start_training( npc &p )
     g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
-
-

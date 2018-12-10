@@ -1,21 +1,24 @@
 #include "debug.h"
-#include "path_info.h"
-#include "output.h"
-#include "filesystem.h"
+
 #include "cursesdef.h"
+#include "filesystem.h"
+#include "get_version.h"
 #include "input.h"
-#include <time.h>
-#include <cassert>
-#include <cstdlib>
-#include <cstdarg>
-#include <cstring>
+#include "output.h"
+#include "path_info.h"
+
 #include <algorithm>
-#include <iosfwd>
-#include <iomanip>
+#include <cassert>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <exception>
 #include <fstream>
+#include <iomanip>
+#include <iosfwd>
 #include <streambuf>
 #include <sys/stat.h>
-#include <exception>
 
 #ifndef _MSC_VER
 #include <sys/time.h>
@@ -26,13 +29,18 @@
 #include "platform_win.h"
 #include <dbghelp.h>
 #else
+#include <cstdlib>
 #include <execinfo.h>
-#include <stdlib.h>
+#include <unistd.h>
 #endif
 #endif
 
 #ifdef TILES
-#include <SDL.h>
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#       include <SDL2/SDL.h>
+#   else
+#       include <SDL.h>
+#   endif
 #endif // TILES
 
 // Static defines                                                   {{{1
@@ -205,7 +213,7 @@ void *tracePtrs[TRACE_SIZE];
 // ---------------------------------------------------------------------
 
 struct NullBuf : public std::streambuf {
-    NullBuf() {}
+    NullBuf() = default;
     int overflow( int c ) override {
         return c;
     }
@@ -214,14 +222,62 @@ struct NullBuf : public std::streambuf {
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
+struct time_info {
+    int hours;
+    int minutes;
+    int seconds;
+    int mseconds;
+
+    template <typename Stream>
+    friend Stream &operator<<( Stream &out, time_info const &t ) {
+        using char_t = typename Stream::char_type;
+        using base   = std::basic_ostream<char_t>;
+
+        static_assert( std::is_base_of<base, Stream>::value, "" );
+
+        out << std::setfill( '0' );
+        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
+            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
+
+        return out;
+    }
+};
+
+#ifdef _MSC_VER
+time_info get_time() noexcept
+{
+    SYSTEMTIME time {};
+
+    GetLocalTime( &time );
+
+    return time_info { static_cast<int>( time.wHour ), static_cast<int>( time.wMinute ),
+                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds )
+                     };
+}
+#else
+time_info get_time() noexcept
+{
+    timeval tv;
+    gettimeofday( &tv, nullptr );
+
+    auto const tt      = time_t {tv.tv_sec};
+    auto const current = localtime( &tt );
+
+    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
+                     };
+}
+#endif
+
 struct DebugFile {
     DebugFile();
     ~DebugFile();
-    void init( const std::string &filename );
+    void init( DebugOutput, const std::string &filename );
     void deinit();
 
-    std::ofstream &currentTime();
-    std::ofstream file;
+    // Using shared_ptr for the type-erased deleter support, not because
+    // it needs to be shared.
+    std::shared_ptr<std::ostream> file;
     std::string filename;
 };
 
@@ -239,41 +295,60 @@ DebugFile::DebugFile()
 
 DebugFile::~DebugFile()
 {
-    if( file.is_open() ) {
-        deinit();
-    }
+    deinit();
 }
 
 void DebugFile::deinit()
 {
-    file << "\n";
-    currentTime() << " : Log shutdown.\n";
-    file << "-----------------------------------------\n\n";
-    file.close();
+    if( file && file.get() != &std::cerr ) {
+        *file << "\n";
+        *file << get_time() << " : Log shutdown.\n";
+        *file << "-----------------------------------------\n\n";
+    }
+    file.reset();
 }
 
-void DebugFile::init( const std::string &filename )
+void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 {
-    this->filename = filename;
-    const std::string oldfile = filename + ".prev";
-    bool rename_failed = false;
-    struct stat buffer;
-    if( stat( filename.c_str(), &buffer ) == 0 ) {
-        // Continue with the old log file if it's smaller than 1 MiB
-        if( buffer.st_size >= 1024 * 1024 ) {
-            rename_failed = !rename_file( filename, oldfile );
+    switch( output_mode ) {
+        case DebugOutput::std_err:
+            struct null_deleter {
+                void operator()( std::ostream * ) const {}
+            };
+            file = std::shared_ptr<std::ostream>( &std::cerr, null_deleter() );
+            return;
+        case DebugOutput::file: {
+            this->filename = filename;
+            const std::string oldfile = filename + ".prev";
+            bool rename_failed = false;
+            struct stat buffer;
+            if( stat( filename.c_str(), &buffer ) == 0 ) {
+                // Continue with the old log file if it's smaller than 1 MiB
+                if( buffer.st_size >= 1024 * 1024 ) {
+                    rename_failed = !rename_file( filename, oldfile );
+                }
+            }
+            file = std::make_shared<std::ofstream>(
+                       filename.c_str(), std::ios::out | std::ios::app );
+            *file << "\n\n-----------------------------------------\n";
+            *file << get_time() << " : Starting log.";
+            DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
+            if( rename_failed ) {
+                DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
+                                            << oldfile << " failed.\n"
+                                            << "Check the file permissions. This "
+                                            "program will continue to use the "
+                                            "previous log file.";
+            }
         }
-    }
-    file.open( filename.c_str(), std::ios::out | std::ios::app );
-    file << "\n\n-----------------------------------------\n";
-    currentTime() << " : Starting log.";
-    if( rename_failed ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to " << oldfile << " failed.\n" <<
-                                    "Check the file permissions. This program will continue to use the previous log file.";
+        return;
+        default:
+            std::cerr << "Unexpected debug output mode " << static_cast<int>( output_mode )
+                      << std::endl;
     }
 }
 
-void setupDebug()
+void setupDebug( DebugOutput output_mode )
 {
     int level = 0;
 
@@ -319,7 +394,7 @@ void setupDebug()
         limitDebugClass( cl );
     }
 
-    debugFile.init( FILENAMES["debug"] );
+    debugFile.init( output_mode, FILENAMES["debug"] );
 }
 
 void deinitDebug()
@@ -374,58 +449,6 @@ std::ostream &operator<<( std::ostream &out, DebugClass cl )
     return out;
 }
 
-struct time_info {
-    int hours;
-    int minutes;
-    int seconds;
-    int mseconds;
-
-    template <typename Stream>
-    friend Stream &operator<<( Stream &out, time_info const &t ) {
-        using char_t = typename Stream::char_type;
-        using base   = std::basic_ostream<char_t>;
-
-        static_assert( std::is_base_of<base, Stream>::value, "" );
-
-        out << std::setfill( '0' );
-        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
-            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
-
-        return out;
-    }
-};
-
-#ifdef _MSC_VER
-time_info get_time() noexcept
-{
-    SYSTEMTIME time {};
-
-    GetLocalTime( &time );
-
-    return time_info { static_cast<int>( time.wHour ), static_cast<int>( time.wMinute ),
-                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds )
-                     };
-}
-#else
-time_info get_time() noexcept
-{
-    timeval tv;
-    gettimeofday( &tv, nullptr );
-
-    auto const tt      = time_t {tv.tv_sec};
-    auto const current = localtime( &tt );
-
-    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
-                     };
-}
-#endif
-
-std::ofstream &DebugFile::currentTime()
-{
-    return ( file << get_time() );
-}
-
 #ifdef BACKTRACE
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
@@ -442,6 +465,93 @@ bool debug_is_safe_string( const char *start, const char *finish )
         return c && in_safe != end( safe_chars );
     };
     return std::all_of( start, finish, is_safe_char );
+}
+
+std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
+{
+    if( binary.find( '/' ) != std::string::npos ) {
+        // The easy case, where we have a path to the binary
+        return binary;
+    }
+    // If the binary name has no slashes then it was found via PATH
+    // lookup, and we need to do the same to pass the correct name
+    // to addr2line.  An alternative would be to use /proc/self/exe,
+    // but that's Linux-specific.
+    // Obviously this will not work in all situations, but it will
+    // usually do the right thing.
+    const char *path = std::getenv( "PATH" );
+    if( !path ) {
+        // Should be impossible, but I want to avoid segfaults
+        // in the crash handler.
+        out << "\tbacktrace: PATH not set\n";
+        return binary;
+    }
+
+    for( const std::string &path_elem : string_split( path, ':' ) ) {
+        if( path_elem.empty() ) {
+            continue;
+        }
+        std::string candidate = path_elem + "/" + binary;
+        if( 0 == access( candidate.c_str(), X_OK ) ) {
+            return candidate;
+        }
+    }
+
+    return binary;
+}
+
+cata::optional<uintptr_t> debug_compute_load_offset(
+    const std::string &binary, const std::string &symbol,
+    const std::string &offset_within_symbol_s, void *address, std::ostream &out )
+{
+    // I don't know a good way to compute this offset.  This
+    // seems to work, but I'm not sure how portable it is.
+    //
+    // backtrace_symbols has provided the address of a symbol as loaded
+    // in memory.  We use nm to compute the address of the same symbol
+    // in the binary file, and take the difference of the two.
+    //
+    // There are platform-specific functions which can do similar
+    // things (e.g. dladdr1 in GNU libdl) but this approach might
+    // perhaps be more portable and adds no link-time dependencies.
+
+    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, 0, 0 );
+    std::string string_sought = " " + symbol;
+
+    // We need to try calling nm in two different ways, because one
+    // works for executables and the other for libraries.
+    const char *nm_variants[] = { "nm", "nm -D" };
+    for( const char *nm_variant : nm_variants ) {
+        std::ostringstream cmd;
+        cmd << nm_variant << ' ' << binary << " 2>&1";
+        FILE *nm = popen( cmd.str().c_str(), "re" );
+        if( !nm ) {
+            out << "\tbacktrace: popen(nm) failed\n";
+            return cata::nullopt;
+        }
+
+        char buf[1024];
+        while( fgets( buf, sizeof( buf ), nm ) ) {
+            std::string line( buf );
+            while( !line.empty() && std::isspace( line.end()[-1] ) ) {
+                line.erase( line.end() - 1 );
+            }
+            if( string_ends_with( line, string_sought ) ) {
+                std::istringstream line_is( line );
+                uintptr_t symbol_address;
+                line_is >> std::hex >> symbol_address;
+                if( line_is ) {
+                    pclose( nm );
+                    return reinterpret_cast<uintptr_t>( address ) -
+                           ( symbol_address + offset_within_symbol );
+                }
+            }
+        }
+
+        pclose( nm );
+    }
+
+    return cata::nullopt;
 }
 
 void debug_write_backtrace( std::ostream &out )
@@ -480,7 +590,7 @@ void debug_write_backtrace( std::ostream &out )
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
     for( int i = 0; i < count; ++i ) {
-        out << "\n\t(" << funcNames[i] << "), ";
+        out << "\n\t" << funcNames[i];
     }
     out << "\n\n\tAttempting to repeat stack trace using debug symbols...\n";
     // Try to print the backtrace again, but this time using addr2line
@@ -492,14 +602,26 @@ void debug_write_backtrace( std::ostream &out )
     // addresses as possible in each commandline.  To that end, we track
     // the binary of the frame and issue a command whenever that
     // changes.
-    std::string addresses;
+    std::vector<uintptr_t> addresses;
+    std::map<std::string, uintptr_t> load_offsets;
     std::string last_binary_name;
 
-    auto call_addr2line = [&out]( const std::string & binary, const std::string & addresses ) {
-        std::string cmd = "addr2line -e " + binary + " -f -C " + addresses;
-        FILE *addr2line = popen( cmd.c_str(), "re" );
+    auto call_addr2line = [&out, &load_offsets]( const std::string & binary,
+    const std::vector<uintptr_t> &addresses ) {
+        const auto load_offset_it = load_offsets.find( binary );
+        const uintptr_t load_offset = ( load_offset_it == load_offsets.end() ) ? 0 :
+                                      load_offset_it->second;
+
+        std::ostringstream cmd;
+        cmd.imbue( std::locale::classic() );
+        cmd << "addr2line -i -e " << binary << " -f -C" << std::hex;
+        for( uintptr_t address : addresses ) {
+            cmd << " 0x" << ( address - load_offset );
+        }
+        cmd << " 2>&1";
+        FILE *addr2line = popen( cmd.str().c_str(), "re" );
         if( addr2line == nullptr ) {
-            out << "backtrace: popen(addr2line) failed\n";
+            out << "\tbacktrace: popen(addr2line) failed\n";
             return false;
         }
         char buf[1024];
@@ -520,39 +642,63 @@ void debug_write_backtrace( std::ostream &out )
         if( 0 != pclose( addr2line ) ) {
             // Most likely reason is that addr2line is not installed, so
             // in this case we give up and don't try any more frames.
-            out << "backtrace: addr2line failed\n";
+            out << "\tbacktrace: addr2line failed\n";
             return false;
         }
         return true;
     };
 
     for( int i = 0; i < count; ++i ) {
-        // We want to call addr2Line to convert the address to a
-        // useful format
+        // An example string from backtrace_symbols is
+        //   ./cataclysm-tiles(_Z21debug_write_backtraceRSo+0x3d) [0x55ddebfa313d]
+        // From that we need to extract the binary name, the symbol
+        // name, and the offset within the symbol.  We don't need to
+        // extract the address (the last thing) because that's already
+        // available in tracePtrs.
+
         auto funcName = funcNames[i];
         const auto funcNameEnd = funcName + std::strlen( funcName );
         const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
-        auto addressStart = std::find( funcName, funcNameEnd, '[' );
-        auto addressEnd = std::find( addressStart, funcNameEnd, ']' );
-        if( binaryEnd == funcNameEnd || addressEnd == funcNameEnd ) {
-            out << "backtrace: Could not extract binary name and address from line\n";
-            continue;
-        }
-        ++addressStart;
-
-        if( !debug_is_safe_string( addressStart, addressEnd ) ) {
-            out << "backtrace: Address not safe\n";
+        if( binaryEnd == funcNameEnd ) {
+            out << "\tbacktrace: Could not extract binary name from line\n";
             continue;
         }
 
         if( !debug_is_safe_string( funcName, binaryEnd ) ) {
-            out << "backtrace: Binary name not safe\n";
+            out << "\tbacktrace: Binary name not safe\n";
             continue;
         }
 
         std::string binary_name( funcName, binaryEnd );
+        binary_name = debug_resolve_binary( binary_name, out );
+
+        // For each binary we need to determine its offset relative to
+        // its natural load address in order to undo ASLR and pass the
+        // correct addresses to addr2line
+        auto load_offset = load_offsets.find( binary_name );
+        if( load_offset == load_offsets.end() ) {
+            const auto symbolNameStart = binaryEnd + 1;
+            const auto symbolNameEnd = std::find( symbolNameStart, funcNameEnd, '+' );
+            const auto offsetEnd = std::find( symbolNameStart, funcNameEnd, ')' );
+
+            if( symbolNameEnd < offsetEnd && offsetEnd < funcNameEnd ) {
+                const auto offsetStart = symbolNameEnd + 1;
+                std::string symbol_name( symbolNameStart, symbolNameEnd );
+                std::string offset_within_symbol( offsetStart, offsetEnd );
+
+                cata::optional<uintptr_t> offset =
+                    debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
+                                               tracePtrs[i], out );
+                if( offset ) {
+                    load_offsets.emplace( binary_name, *offset );
+                }
+            }
+        }
 
         if( !last_binary_name.empty() && binary_name != last_binary_name ) {
+            // We have reached the end of the sequence of addresses
+            // within this binary, so call addr2line before proceeding
+            // to the next binary.
             if( !call_addr2line( last_binary_name, addresses ) ) {
                 addresses.clear();
                 break;
@@ -562,8 +708,7 @@ void debug_write_backtrace( std::ostream &out )
         }
 
         last_binary_name = binary_name;
-        addresses += " ";
-        addresses.insert( addresses.end(), addressStart, addressEnd );
+        addresses.push_back( reinterpret_cast<uintptr_t>( tracePtrs[i] ) );
     }
 
     if( !addresses.empty() ) {
@@ -576,26 +721,40 @@ void debug_write_backtrace( std::ostream &out )
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
+    // If debugging has not been initialized then stop
+    // (we could instead use std::cerr in this case?)
+    if( !debugFile.file ) {
+        return nullStream;
+    }
+
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
-        debugFile.file << std::endl;
-        debugFile.currentTime() << " ";
-        debugFile.file << lev;
+        std::ostream &out = *debugFile.file;
+        out << std::endl;
+        out << get_time() << " ";
+        out << lev;
         if( cl != debugClass ) {
-            debugFile.file << cl;
+            out << cl;
         }
-        debugFile.file << ": ";
+        out << ": ";
 
         // Backtrace on error.
 #ifdef BACKTRACE
-        if( lev == D_ERROR ) {
-            debugFile.file << "(error message will follow backtrace)";
-            debug_write_backtrace( debugFile.file );
+        // Push the first retrieved value back by a second so it won't match.
+        static time_t next_backtrace = time( nullptr ) - 1;
+        time_t now = time( nullptr );
+        if( lev == D_ERROR && now >= next_backtrace ) {
+            out << "(error message will follow backtrace)";
+            debug_write_backtrace( out );
+            time_t after = time( nullptr );
+            // Cool down for 60s between backtrace emissions.
+            next_backtrace = after + 60;
+            out << "Backtrace emission took " << after - now << " seconds." << std::endl;
         }
 #endif
 
-        return debugFile.file;
+        return out;
     }
     return nullStream;
 }

@@ -1,29 +1,28 @@
 #include "input.h"
+
 #include "action.h"
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "json.h"
-#include "output.h"
-#include "game.h"
-#include "path_info.h"
 #include "filesystem.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "catacharset.h"
-#include "optional.h"
-#include "cata_utility.h"
-#include "options.h"
-#include "string_input_popup.h"
-#include "cursesdef.h"
-#include "popup.h"
+#include "game.h"
 #include "help.h"
+#include "json.h"
+#include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
+#include "popup.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
 
+#include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include <errno.h>
-#include <ctype.h>
-#include <algorithm>
 
 using std::min; // from <algorithm>
 using std::max;
@@ -79,7 +78,7 @@ std::string get_input_string_from_file( std::string fname )
     read_from_file_optional( fname, [&ret]( std::istream & fin ) {
         getline( fin, ret );
         //remove utf8 bmm
-        if( !ret.empty() && ( unsigned char )ret[0] == 0xef ) {
+        if( !ret.empty() && static_cast<unsigned char>( ret[0] ) == 0xef ) {
             ret.erase( 0, 3 );
         }
         while( !ret.empty() && ( ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n' ) ) {
@@ -661,7 +660,7 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
         // TODO: fix for Unicode.
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
             events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
-            result.push_back( ( char )events_event.sequence.front() );
+            result.push_back( static_cast<char>( events_event.sequence.front() ) );
         }
     }
     return result;
@@ -677,7 +676,7 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
                 category );
         for( const auto &events_event : events ) {
             // Only consider keyboard events without modifiers
-            if( events_event.type == CATA_INPUT_KEYBOARD && 0 == events_event.modifiers.size() ) {
+            if( events_event.type == CATA_INPUT_KEYBOARD && events_event.modifiers.empty() ) {
                 requested_keys.erase( std::remove_if( requested_keys.begin(), requested_keys.end(),
                                                       ContainsPredicate<std::vector<long>, char>(
                                                               events_event.sequence ) ),
@@ -742,7 +741,7 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
 
 const std::string input_context::get_desc( const std::string &action_descriptor,
         const std::string &text,
-        const std::function<bool( const input_event & )> evt_filter )
+        const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
@@ -790,7 +789,7 @@ const std::string &input_context::handle_input( const int timeout )
     inp_mngr.set_timeout( timeout );
     next_action.type = CATA_INPUT_ERROR;
     const std::string *result = &CATA_ERROR;
-    while( 1 ) {
+    while( true ) {
         next_action = inp_mngr.get_input_event();
         if( next_action.type == CATA_INPUT_TIMEOUT ) {
             result = &TIMEOUT;
@@ -885,41 +884,36 @@ void rotate_direction_cw( int &dx, int &dy )
     dy = ( dir_num / 3 ) - 1;
 }
 
-bool input_context::get_direction( int &dx, int &dy, const std::string &action )
+cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
 {
+    static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+        return p;
+    } );
+    static const auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+        rotate_direction_cw( p.x, p.y );
+        return p;
+    } );
+    const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
+
     if( action == "UP" ) {
-        dx = 0;
-        dy = -1;
+        return transform( tripoint( 0, -1, 0 ) );
     } else if( action == "DOWN" ) {
-        dx = 0;
-        dy = 1;
+        return transform( tripoint( 0, +1, 0 ) );
     } else if( action == "LEFT" ) {
-        dx = -1;
-        dy = 0;
+        return transform( tripoint( -1, 0, 0 ) );
     } else if( action ==  "RIGHT" ) {
-        dx = 1;
-        dy = 0;
+        return transform( tripoint( +1, 0, 0 ) );
     } else if( action == "LEFTUP" ) {
-        dx = -1;
-        dy = -1;
+        return transform( tripoint( -1, -1, 0 ) );
     } else if( action == "RIGHTUP" ) {
-        dx = 1;
-        dy = -1;
+        return transform( tripoint( +1, -1, 0 ) );
     } else if( action == "LEFTDOWN" ) {
-        dx = -1;
-        dy = 1;
+        return transform( tripoint( -1, +1, 0 ) );
     } else if( action == "RIGHTDOWN" ) {
-        dx = 1;
-        dy = 1;
+        return transform( tripoint( +1, +1, 0 ) );
     } else {
-        dx = -2;
-        dy = -2;
-        return false;
+        return cata::nullopt;
     }
-    if( iso_mode && tile_iso && use_tiles ) {
-        rotate_direction_cw( dx, dy );
-    }
-    return true;
 }
 
 // Custom set of hotkeys that explicitly don't include the hardcoded
@@ -1343,7 +1337,7 @@ std::vector<std::string> input_context::filter_strings_by_phrase(
     return filtered_strings;
 }
 
-void input_context::set_edittext( std::string s )
+void input_context::set_edittext( const std::string &s )
 {
     edittext = s;
 }

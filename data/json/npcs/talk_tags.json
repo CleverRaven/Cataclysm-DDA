@@ -89,7 +89,8 @@
             "motherfucker",
             "<swear><punc> <swear!>",
             "<very> <swear!>",
-            "son of an ass"
+            "son of an ass",
+            "Oh sugar!"
         ]
     },{
         "type" : "snippet",
@@ -185,7 +186,8 @@
             "I'm <very> doomed",
             "I'm done for",
             "I won't last much longer",
-            "my days are <really> numbered"
+            "my days are <really> numbered",
+            "<name_g>, I'm sorry"
         ]
     },{
         "type" : "snippet",
@@ -534,6 +536,34 @@
             "I <really> need to get some distance.",
             "I'm getting my ass out of here!  You'd better do the same, <name_g>!",
             "Fire in the hole, motherfuckers!"
+        ]
+    },{
+        "type": "snippet",
+        "category": "<monster_warning_h>",
+        "//": "Hostile NPCs are foul-mouthed",
+        "text": [
+          "Fuck me!  A <swear>",
+          "Watch out for that",
+          "Watch out!  I see a",
+          "<swear!>, a",
+          "<swear!>, I'm doomed!  There's a <swear> <swear>",
+          "<swear!>, here comes a <swear>"
+        ]
+    },{
+
+        "type": "snippet",
+        "category": "<monster_warning>",
+        "text": [
+          "Look out for that",
+          "Hey!  Over there!  I see a",
+          "Incoming",
+          "Watch out for that",
+          "Watch out!  I see a",
+          "Are we fighting?  There's a",
+          "Hey, <name_g>!  <monster_warning>",
+          "<swear!>, a",
+          "Look out!  A",
+          "<swear!>, here comes a <swear>"
         ]
     }
 ]

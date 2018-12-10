@@ -6,7 +6,6 @@
 #include "inventory_ui.h"
 
 #include <list>
-#include <string>
 
 namespace cata
 {

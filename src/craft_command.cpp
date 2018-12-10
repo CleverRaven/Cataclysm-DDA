@@ -2,20 +2,18 @@
 
 #include "debug.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
-#include "inventory.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
-#include "crafting.h"
+#include "uistate.h"
 
-#include <list>
 #include <sstream>
-#include <string>
-#include <vector>
+#include <algorithm>
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -90,6 +88,18 @@ void craft_command::execute()
     /* legacy support for lua bindings to last_batch and lastrecipe */
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
+
+    const auto iter = std::find( uistate.recent_recipes.begin(), uistate.recent_recipes.end(),
+                                 rec->ident() );
+    if( iter != uistate.recent_recipes.end() ) {
+        uistate.recent_recipes.erase( iter );
+    }
+
+    uistate.recent_recipes.push_back( rec->ident() );
+
+    if( uistate.recent_recipes.size() > 20 ) {
+        uistate.recent_recipes.erase( uistate.recent_recipes.begin() );
+    }
 }
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
