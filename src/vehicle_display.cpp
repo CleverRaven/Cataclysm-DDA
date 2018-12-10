@@ -315,6 +315,9 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
                                      bool fullsize, bool verbose, bool desc, bool isHorizontal ) const
 {
     auto fuels = get_printable_fuel_types();
+    if( fuels.empty() ) {
+        return;
+    }
     if( !fullsize ) {
         for( size_t e = 0; e < engines.size(); e++ ) {
             if( is_engine_on( e ) ) {
