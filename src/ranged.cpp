@@ -934,6 +934,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             idx = -1;
             if( pc.last_target_pos ) {
                 dst = *pc.last_target_pos;
+
+                if( pc.last_target.expired() && pc.has_activity( activity_id( "ACT_AIM" ) ) &&
+                    std::find(pc.activity.str_values.begin(), pc.activity.str_values.end(), "AIM" ) == pc.activity.str_values.end()
+                ) {
+                    //We lost our target. Stop auto aiming.
+                    pc.cancel_activity();
+                }
             } else {
                 auto adjacent = closest_tripoints_first( range, dst );
                 const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
@@ -1048,12 +1055,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     const auto set_last_target = [&pc]( const tripoint & dst ) {
+        pc.last_target_pos = dst;
         if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
             pc.last_target = g->shared_from( *critter_ptr );
-            pc.last_target_pos = cata::nullopt;
         } else {
             pc.last_target.reset();
-            pc.last_target_pos = dst;
         }
     };
 
@@ -1326,9 +1332,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
             // This action basically means "FIRE" as well, the actual firing may be delayed
             // through aiming, but there is usually no means to stop it. Therefore we query here.
-            if( !confirm_non_enemy_target( dst ) ) {
+            if( !confirm_non_enemy_target( dst ) || dst == src ) {
                 continue;
             }
+
             recoil_pc = pc.recoil;
             recoil_pos = dst;
             int aim_threshold;
@@ -1364,11 +1371,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 pc.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 pc.activity.str_values.push_back( action );
                 pc.view_offset = old_offset;
-                set_last_target( dst );
                 return empty_result;
             }
         } else if( action == "FIRE" ) {
-            if( !confirm_non_enemy_target( dst ) ) {
+            if( !confirm_non_enemy_target( dst ) || dst == src ) {
                 continue;
             }
             target = find_target( t, dst );
