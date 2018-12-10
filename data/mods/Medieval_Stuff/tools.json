@@ -37,7 +37,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ]
   },
   {
     "id": "khopesh",
