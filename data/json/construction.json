@@ -2432,7 +2432,7 @@
   },
   {
     "type": "construction",
-    "description": "Reinforce Junk Metal Wall",
+    "description": "Reinforce Junk Metal Wall using bolts",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 120,
@@ -2445,6 +2445,38 @@
     "components": [
       [ [ "wire", 16 ], [ "spike", 16 ], [ "nail", 32 ] ],
       [ [ "small_metal_sheet", 20 ], [ "scrap", 40 ] ],
+      [
+        [ "sheet_metal", 4 ],
+        [ "steel_plate", 2 ],
+        [ "frame", 2 ],
+        [ "hdframe", 1 ],
+        [ "xlframe", 4 ],
+        [ "pipe", 12 ]
+      ]
+    ],
+    "pre_terrain": "t_junk_palisade",
+    "post_terrain": "t_junk_wall"
+  },
+  {
+    "type": "construction",
+    "description": "Reinforce Junk Metal Wall using spot-welds",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": 90,
+    "qualities": [
+      [ { "id": "SAW_M", "level": 1 } ],
+	  [ { "id": "GLARE", "level": 2 } ]
+    ],
+	"tools": [
+        [
+          [ "oxy_torch", 4 ],
+          [ "welder", 20 ],
+          [ "welder_crude", 30 ],
+          [ "toolset", 30 ]
+        ]
+    ],
+    "components": [
+      [ [ "small_metal_sheet", 15 ], [ "scrap", 30 ] ],
       [
         [ "sheet_metal", 4 ],
         [ "steel_plate", 2 ],
