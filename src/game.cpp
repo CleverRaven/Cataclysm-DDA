@@ -6406,7 +6406,7 @@ void game::peek()
         return;
     }
 
-    if( ( *p ).z != 0 ) {
+    if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
         vertical_move( ( *p ).z, false );
         if( old_pos != u.pos() ) {
