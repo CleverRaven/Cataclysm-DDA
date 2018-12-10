@@ -6408,10 +6408,10 @@ void game::peek()
 
     if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
-        vertical_move( ( *p ).z, false );
+        vertical_move( p->z, false );
         if( old_pos != u.pos() ) {
             look_around();
-            vertical_move( ( *p ).z * -1, false );
+            vertical_move( p->z * -1, false );
             draw_ter();
         }
         wrefresh( w_terrain );
