@@ -2419,7 +2419,7 @@
         "pre_special" : "check_empty",
         "post_terrain" : "f_butcher_rack"
     },
-	{
+  {
     "type": "construction",
     "description": "Build Junk Metal Barrier",
     "category": "CONSTRUCT",
@@ -2487,5 +2487,32 @@
     ],
     "pre_terrain": "t_junk_palisade",
     "post_terrain": "t_junk_wall"
-  }
+  },
+  {
+    "type": "construction",
+    "description": "Build Junk Metal Floor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": 120,
+    "qualities": [
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "HAMMER", "level": 1 } ],
+      [ { "id": "WRENCH", "level": 2 } ],
+      [ { "id": "DRILL", "level": 1 } ]
+    ],
+    "components": [
+      [ [ "wire", 16 ], [ "spike", 16 ], [ "nail", 32 ] ],
+      [ [ "small_metal_sheet", 20 ], [ "scrap", 40 ] ],
+      [
+        [ "sheet_metal", 4 ],
+        [ "steel_plate", 2 ],
+        [ "frame", 2 ],
+        [ "hdframe", 1 ],
+        [ "xlframe", 4 ],
+        [ "pipe", 12 ]
+      ]
+    ],
+    "pre_special" : "check_empty",
+    "post_terrain": "t_junk_floor"
+  },
 ]
