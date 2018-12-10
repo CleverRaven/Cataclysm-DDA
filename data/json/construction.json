@@ -2434,7 +2434,7 @@
     "components": [
       [ [ "pipe", 6 ], [ "frame", 1 ], [ "xlframe", 1 ] ],
       [ [ "wire", 8 ], [ "spike", 8 ], [ "nail", 16 ] ],
-      [ [ "scrap", 40 ], [ "sheet_metal", 1 ], [ "small_metal_sheet", 20 ] ]
+      [ [ "scrap", 40 ], [ "sheet_metal", 1 ], [ "sheet_metal_small", 20 ] ]
     ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_junk_palisade"
@@ -2453,7 +2453,7 @@
     ],
     "components": [
       [ [ "wire", 16 ], [ "spike", 16 ], [ "nail", 32 ] ],
-      [ [ "small_metal_sheet", 20 ], [ "scrap", 40 ] ],
+      [ [ "sheet_metal_small", 20 ], [ "scrap", 40 ] ],
       [
         [ "sheet_metal", 4 ],
         [ "steel_plate", 2 ],
@@ -2475,7 +2475,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "components": [
-      [ [ "small_metal_sheet", 15 ], [ "scrap", 30 ] ],
+      [ [ "sheet_metal_small", 15 ], [ "scrap", 30 ] ],
       [
         [ "sheet_metal", 4 ],
         [ "steel_plate", 2 ],
@@ -2502,7 +2502,7 @@
     ],
     "components": [
       [ [ "wire", 16 ], [ "spike", 16 ], [ "nail", 32 ] ],
-      [ [ "small_metal_sheet", 20 ], [ "scrap", 40 ] ],
+      [ [ "sheet_metal_small", 20 ], [ "scrap", 40 ] ],
       [
         [ "sheet_metal", 4 ],
         [ "steel_plate", 2 ],
@@ -2514,5 +2514,5 @@
     ],
     "pre_special" : "check_empty",
     "post_terrain": "t_junk_floor"
-  },
+  }
 ]
