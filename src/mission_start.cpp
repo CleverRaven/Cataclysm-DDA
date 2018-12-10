@@ -601,41 +601,6 @@ void mission_start::place_deposit_box( mission *miss )
     compmap.save();
 }
 
-void mission_start::reveal_lab_black_box( mission *miss )
-{
-    npc *dev = g->find_npc( miss->npc_id );
-    if( dev != nullptr ) {
-        g->u.i_add( item( "black_box", 0 ) );
-        add_msg( _( "%s gave you back the black box." ), dev->name );
-    }
-    target_om_ter( "lab", 3, miss, false );
-}
-
-void mission_start::open_sarcophagus( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    if( p != nullptr ) {
-        p->set_attitude( NPCATT_FOLLOW );
-        g->u.i_add( item( "sarcophagus_access_code", 0 ) );
-        add_msg( m_good, _( "%s gave you sarcophagus access code." ), p->name );
-    } else {
-        DebugLog( D_ERROR, DC_ALL ) << "mission_start: open_sarcophagus() <= Can't find NPC";
-    }
-    target_om_ter( "haz_sar", 3, miss, false );
-}
-
-void mission_start::reveal_hospital( mission *miss )
-{
-    npc *dev = g->find_npc( miss->npc_id );
-    if( dev != nullptr ) {
-        g->u.i_add( item( "vacutainer", 0 ) );
-        add_msg( _( "%s gave you a blood draw kit." ), dev->name );
-        g->u.i_add( item( "usb_drive", 0 ) );
-        add_msg( _( "%s gave you a USB drive." ), dev->name );
-    }
-    target_om_ter( "hospital_2", 3, miss, false );
-}
-
 void mission_start::find_safety( mission *miss )
 {
     const tripoint place = g->u.global_omt_location();
@@ -686,16 +651,6 @@ void mission_start::find_safety( mission *miss )
     }
 }
 
-void mission_start::point_prison( mission *miss )
-{
-    target_om_ter( "prison_1_5", 3, miss, false );
-}
-
-void mission_start::point_cabin_strange( mission *miss )
-{
-    target_om_ter( "cabin_strange", 3, miss, false );
-}
-
 void mission_start::recruit_tracker( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
@@ -716,12 +671,6 @@ void mission_start::recruit_tracker( mission *miss )
     temp->op_of_u.owed = 10;
     temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ),
                            temp->getID() ) );
-}
-
-void mission_start::radio_repeater( mission *miss )
-{
-    target_om_ter( "necropolis_c_23", 3, miss, false, -2 );
-    g->u.i_add( item( "repeater_mod_guide", calendar::turn ) );
 }
 
 void mission_start::start_commune( mission *miss )
@@ -1780,26 +1729,6 @@ void reveal_target( mission *miss, const std::string &omter_id )
 void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
 {
     reveal_target( miss, random_entry( omter_ids ) );
-}
-
-void mission_start::reveal_weather_station( mission *miss )
-{
-    reveal_target( miss, "station_radio" );
-}
-
-void mission_start::reveal_office_tower( mission *miss )
-{
-    reveal_target( miss, "office_tower_1" );
-}
-
-void mission_start::reveal_doctors_office( mission *miss )
-{
-    reveal_any_target( miss, { "office_doctor", "hospital_2" } );
-}
-
-void mission_start::reveal_cathedral( mission *miss )
-{
-    reveal_any_target( miss, { "cathedral_1", "museum" } );
 }
 
 void mission_start::reveal_refugee_center( mission *miss )
