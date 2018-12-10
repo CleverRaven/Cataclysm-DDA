@@ -936,8 +936,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 dst = *pc.last_target_pos;
 
                 if( pc.last_target.expired() && pc.has_activity( activity_id( "ACT_AIM" ) ) &&
-                    std::find(pc.activity.str_values.begin(), pc.activity.str_values.end(), "AIM" ) == pc.activity.str_values.end()
-                ) {
+                    std::find( pc.activity.str_values.begin(), pc.activity.str_values.end(),
+                               "AIM" ) == pc.activity.str_values.end()
+                  ) {
                     //We lost our target. Stop auto aiming.
                     pc.cancel_activity();
                 }
