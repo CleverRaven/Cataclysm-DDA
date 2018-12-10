@@ -105,7 +105,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_grabber", mission_start::place_grabber },
         { "place_bandit_camp", mission_start::place_bandit_camp },
         { "place_jabberwock", mission_start::place_jabberwock },
-        { "kill_100_z", mission_start::kill_100_z },
         { "kill_20_nightmares", mission_start::kill_20_nightmares },
         { "kill_horde_master", mission_start::kill_horde_master },
         { "place_npc_software", mission_start::place_npc_software },
@@ -313,6 +312,9 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "monster_species" ) ) {
         monster_species = species_id( jo.get_string( "monster_species" ) );
+    }
+    if( jo.has_member( "monster_type" ) ) {
+        monster_type = mtype_id( jo.get_string( "monster_type" ) );
     }
 
     if( jo.has_member( "monster_kill_goal" ) ) {
