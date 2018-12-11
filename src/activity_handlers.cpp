@@ -580,7 +580,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     if( corpse_item->has_flag( "QUARTERED" ) ) {
         monster_weight /= 4;
     }
-
+    p.add_msg_if_player(m_bad, _("corpse damage: %s"), to_string(corpse_item->damage()));
+    p.add_msg_if_player(m_bad, _("corpse damage level: %s"), to_string(corpse_item->damage_level(4)));
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
