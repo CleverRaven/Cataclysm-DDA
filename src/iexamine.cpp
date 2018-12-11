@@ -2915,10 +2915,10 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     p.moves -= 100;
 }
 
-void iexamine::curtains(player &p, const tripoint &examp)
+void iexamine::curtains( player &p, const tripoint &examp )
 {
-    if (g->m.is_outside(p.pos()) && g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp )) {
-        locked_object(p, examp);
+    if( g->m.is_outside( p.pos() ) && g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ) {
+        locked_object( p, examp );
         return;
     }
 
@@ -2934,8 +2934,8 @@ void iexamine::curtains(player &p, const tripoint &examp)
 
     if( choice == 0 ) {
         // Peek
-        g->peek(examp );
-        p.add_msg_if_player( _("You carefully peek through the curtains.") );
+        g->peek( examp );
+        p.add_msg_if_player( _( "You carefully peek through the curtains." ) );
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
         if( ter == t_window_domestic || ter == t_curtains ) {
@@ -2949,9 +2949,9 @@ void iexamine::curtains(player &p, const tripoint &examp)
         g->m.spawn_item( p.pos(), "stick", 1, 0, calendar::turn );
         g->m.spawn_item( p.pos(), "string_36", 1, 0, calendar::turn );
         p.moves -= 200;
-        p.add_msg_if_player( _("You tear the curtains and curtain rod off the windowframe.") );
+        p.add_msg_if_player( _( "You tear the curtains and curtain rod off the windowframe." ) );
     } else {
-        p.add_msg_if_player( _("Never mind."));
+        p.add_msg_if_player( _( "Never mind." ) );
     }
 }
 
