@@ -3622,9 +3622,10 @@ int item::get_encumber_when_containing(
 
     const bool tiniest = p.has_trait( trait_id( "SMALL2" ) ) ||
                          p.has_trait( trait_id( "SMALL_OK" ) );
-    if( !has_flag( "UNDERSIZE" ) && tiniest ) {
+    const bool is_undersize = has_flag( "UNDERSIZE" );
+    if( !is_undersize && tiniest ) {
         encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
-    } else if( !tiniest && has_flag( "UNDERSIZE" ) ) {
+    } else if( is_undersize && !tiniest ) {
         encumber *= 3; // normal humans have a HARD time wearing undersized clothing
     }
 
