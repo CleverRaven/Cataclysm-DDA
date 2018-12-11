@@ -594,7 +594,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( ypos >= componentPrintHeight &&
                 component_print_buffer.size() > static_cast<size_t>( components_printed ) ) {
-                mvwprintz( w_data, ypos++, xpos, col, _( "v (more)" ) );
+                mvwprintz( w_data, ypos++, xpos, col,
+                           _( "v (%s for more)" ),
+                           ctxt.press_x( "CYCLE_MODE" ) );
                 rotated_color = stored_color;
             }
 
