@@ -182,6 +182,17 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
     assert( eptr );
 }
 
+void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo )
+{
+    vpslot_wheel wh_info;
+    if( whptr ) {
+        wh_info = *whptr;
+    }
+    assign( jo, "rolling_resistance", wh_info.rolling_resistance );
+    whptr = wh_info;
+    assert( whptr );
+}
+
 /**
  * Reads in a vehicle part from a JsonObject.
  */
@@ -282,6 +293,10 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
 
     if( def.has_flag( "ENGINE" ) ) {
         load_engine( def.engine_info, jo, def.fuel_type );
+    }
+
+    if( def.has_flag( "WHEEL" ) ) {
+        load_wheel( def.wheel_info, jo );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -734,6 +749,15 @@ std::vector<itype_id> vpart_info::engine_fuel_opts() const
     return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
 }
 
+/**
+ * @name Wheel specific functions
+ *
+ */
+float vpart_info::wheel_rolling_resistance() const
+{
+    // caster wheels return 29, so if a part rolls worse than a caster wheel...
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->rolling_resistance : 50;
+}
 
 /** @relates string_id */
 template<>
