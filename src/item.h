@@ -5,6 +5,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "enums.h"
 #include "item_location.h"
 #include "string_id.h"
 #include "visitable.h"
@@ -167,36 +168,6 @@ inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
 inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
 {
     return l = l | r;
-}
-
-/**
- *  Possible layers that a piece of clothing/armor can occupy
- *
- *  Every piece of clothing occupies one distinct layer on the body-part that
- *  it covers.  This is used for example by @ref Character to calculate
- *  encumbrance values, @ref player to calculate time to wear/remove the item,
- *  and by @ref profession to place the characters' clothing in a sane order
- *  when starting the game.
- */
-enum layer_level {
-    /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR = 0,
-    /* "Normal" layer, default if no flags set */
-    REGULAR_LAYER,
-    /* "Waist" layer, corresponds to WAIST flag. */
-    WAIST_LAYER,
-    /* "Outer" layer, corresponds to OUTER flag. */
-    OUTER_LAYER,
-    /* "Strapped" layer, corresponds to BELTED flag */
-    BELTED_LAYER,
-    /* Not a valid layer; used for C-style iteration through this enum */
-    MAX_CLOTHING_LAYER
-};
-
-inline layer_level &operator++( layer_level &l )
-{
-    l = static_cast<layer_level>( l + 1 );
-    return l;
 }
 
 class item : public visitable<item>

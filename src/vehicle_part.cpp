@@ -260,7 +260,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint &pos )
     return base.ammo_consume( qty, pos );
 }
 
-float vehicle_part::consume_energy( const itype_id &ftype, float energy )
+double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 {
     if( base.contents.empty() || !is_fuel_store() ) {
         return 0.0f;
@@ -269,16 +269,18 @@ float vehicle_part::consume_energy( const itype_id &ftype, float energy )
     item &fuel = base.contents.back();
     if( fuel.typeId() == ftype ) {
         assert( fuel.is_fuel() );
-        float energy_per_unit = fuel.fuel_energy();
-        long charges_to_use = static_cast<int>( std::ceil( energy / energy_per_unit ) );
+        // convert energy density in MJ/L to J/ml
+        double energy_per_mL = fuel.fuel_energy() * 1000;
+        long charges_to_use = static_cast<int>( std::ceil( energy_j / energy_per_mL ) );
+
         if( charges_to_use > fuel.charges ) {
             long had_charges = fuel.charges;
             base.contents.clear();
-            return had_charges * energy_per_unit;
+            return had_charges * energy_per_mL;
         }
 
         fuel.charges -= charges_to_use;
-        return charges_to_use * energy_per_unit;
+        return charges_to_use * energy_per_mL;
     }
     return 0.0f;
 }

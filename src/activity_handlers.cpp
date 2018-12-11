@@ -2866,7 +2866,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
     // cleanup unwanted tiles (local coords)
     auto cleanup = [&]( const tripoint & tile ) {
-        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound ) {
+        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
             return true;
         }
 
