@@ -2481,7 +2481,7 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL"
     ],
-    "examine_action": "locked_object",
+    "examine_action": "curtains",
     "close": "t_curtains",
     "open": "t_window_open",
     "deconstruct": {
@@ -2610,6 +2610,7 @@
     "color": "light_gray",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "examine_action": "curtains",
     "close": "t_window_domestic",
     "bash": {
       "str_min": 3,
