@@ -1200,3 +1200,105 @@ bool overmapbuffer::is_safe( int x, int y, int z )
     }
     return true;
 }
+
+bool overmapbuffer::place_special( const overmap_special &special, const tripoint &p,
+                                   om_direction::type dir, const bool must_be_unexplored, const bool force )
+{
+    // get_om_global will transform these into overmap local coordinates, which
+    // we'll then use with the overmap methods.
+    int x = p.x;
+    int y = p.y;
+    overmap &om = get_om_global( x, y );
+    const tripoint om_loc( x, y, p.z );
+
+    // Get the closest city that is within the overmap because
+    // all of the overmap generation functions only function within
+    // the single overmap. If future generation is hoisted up to the
+    // buffer to spawn overmaps, then this can also be changed accordingly.
+    const city c = om.get_nearest_city( om_loc );
+
+    bool placed = false;
+    // Only place this special if we can actually place it per its criteria, or we're forcing
+    // the placement, which is mostly a debug behavior, since a forced placement may not function
+    // correctly (e.g. won't check correct underlying terrain).
+    if( om.can_place_special( special, om_loc, dir, must_be_unexplored ) || force ) {
+        om.place_special( special, om_loc, dir, c, must_be_unexplored, force );
+        placed = true;
+    }
+    return placed;
+}
+
+bool overmapbuffer::place_special( const overmap_special_id special_id, const tripoint &center,
+                                   int radius )
+{
+    // First find the requested special. If it doesn't exist, we're done here.
+    bool found = false;
+    overmap_special special;
+    for( const auto &elem : overmap_specials::get_all() ) {
+        if( elem.id == special_id ) {
+            special = elem;
+            found = true;
+            break;
+        }
+    }
+    if( !found ) {
+        return false;
+    }
+
+    // Figure out the longest side of the special for purposes of determining our sector size
+    // when attempting placements.
+    const auto calculate_longest_side = [&special]() {
+        auto min_max_x = std::minmax_element( special.terrains.begin(),
+                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
+        const overmap_special_terrain & rhs ) {
+            return lhs.p.x < rhs.p.x;
+        } );
+
+        auto min_max_y = std::minmax_element( special.terrains.begin(),
+                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
+        const overmap_special_terrain & rhs ) {
+            return lhs.p.y < rhs.p.y;
+        } );
+
+        const int special_longest_side = std::max( min_max_x.second->p.x - min_max_x.first->p.x,
+                                         min_max_y.second->p.y - min_max_y.first->p.y ) + 1;
+
+        // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
+        return std::min( special_longest_side, OMSPEC_FREQ );
+    };
+
+    const int longest_side = calculate_longest_side();
+
+    // Predefine our sectors to search in.
+    om_special_sectors sectors = get_sectors( longest_side );
+
+    // Get all of the overmaps within the defined radius of the center.
+    for( const auto &om : get_overmaps_near( omt_to_sm_copy( center ), omt_to_sm_copy( radius ) ) ) {
+
+        // Build an overmap_special_batch for the special on this overmap.
+        std::vector<const overmap_special *> specials;
+        specials.push_back( &special );
+        overmap_special_batch batch( om->pos(), specials );
+
+        // Attempt to place the specials using our batch and sectors. We
+        // require they be placed in unexplored terrain right now.
+        om->place_specials_pass( batch, sectors, true, true );
+
+        // The place special pass will erase specials that have reached their
+        // maximum number of instances so first check if its been erased.
+        if( batch.empty() ) {
+            return true;
+        }
+
+        // Hasn't been erased, so lets check placement counts.
+        for( const auto &special_placement : batch ) {
+            if( special_placement.instances_placed > 0 ) {
+                // It was placed, lets get outta here.
+                return true;
+            }
+        }
+    }
+
+    // If we got this far, we've failed to make the placement.
+    return false;
+}

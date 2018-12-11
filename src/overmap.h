@@ -94,6 +94,11 @@ struct map_layer {
     std::vector<om_note> notes;
 };
 
+struct om_special_sectors {
+    std::vector<point> sectors;
+    int sector_width;
+};
+
 // Wrapper around an overmap special to track progress of placing specials.
 struct overmap_special_placement {
     int instances_placed;
@@ -364,11 +369,6 @@ class overmap
         void polish_river();
         void good_river( int x, int y, int z );
 
-        // Returns a vector of permuted coordinates of overmap sectors.
-        // Each sector consists of 12x12 small maps. Coordinates of the sectors are in range [0, 15], [0, 15].
-        // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
-        std::vector<point> get_sectors() const;
-
         om_direction::type random_special_rotation( const overmap_special &special,
                 const tripoint &p, bool must_be_unexplored ) const;
 
@@ -391,7 +391,7 @@ class overmap
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
         void place_specials_pass( overmap_special_batch &enabled_specials,
-                                  std::vector<point> &sectors, bool place_optional, const bool must_be_unexplored );
+                                  om_special_sectors &sectors, bool place_optional, const bool must_be_unexplored );
 
         /**
          * Attempts to place specials within a sector.
@@ -400,7 +400,7 @@ class overmap
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
         bool place_special_attempt( overmap_special_batch &enabled_specials,
-                                    const point &sector, bool place_optional, const bool must_be_unexplored );
+                                    const point &sector, const int sector_width, bool place_optional, const bool must_be_unexplored );
 
         void place_mongroups();
         void place_radios();
@@ -416,5 +416,11 @@ bool is_river( const oter_id &ter );
 bool is_ot_type( const std::string &otype, const oter_id &oter );
 // Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
 bool is_ot_subtype( const char *otype, const oter_id &oter );
+
+/**
+* Gets a collection of sectors and their width for usage in placing overmap specials.
+* @param sector_width used to divide the OMAPX by OMAPY map into sectors.
+*/
+om_special_sectors get_sectors( const int sector_width );
 
 #endif

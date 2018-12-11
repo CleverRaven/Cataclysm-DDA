@@ -4,6 +4,7 @@
 
 #include "enums.h"
 #include "int_id.h"
+#include "omdata.h"
 #include "overmap_types.h"
 #include "string_id.h"
 
@@ -19,13 +20,7 @@ struct om_vehicle;
 
 struct oter_t;
 using oter_id = int_id<oter_t>;
-
-class overmap_special;
-using overmap_special_id = string_id<overmap_special>;
-
 class overmap;
-class overmap_special;
-class overmap_special_batch;
 struct radio_tower;
 struct regional_settings;
 class vehicle;
@@ -409,6 +404,33 @@ class overmapbuffer
         city_reference closest_known_city( const tripoint &center );
 
         std::string get_description_at( const tripoint &where );
+
+        /**
+         * Place the specified overmap special directly on the map using the provided location and rotation.
+         * Intended to be used when you have a special in hand, the desired location and rotation are known
+         * and the special should be directly placed rather than using the overmap's placement algorithm.
+         * @param special The overmap special to place.
+         * @param location The location to place the overmap special. Absolute overmap terrain coordinates.
+         * @param dir The direction to rotate the overmap special before placement.
+         * @param must_be_unexplored If true, will require that all of the terrains where the special would be
+         * placed are unexplored.
+         * @param force If true, placement will bypass the checks for valid placement.
+         * @returns True if the special was placed, else false.
+         */
+        bool place_special( const overmap_special &special, const tripoint &location,
+                            om_direction::type dir,
+                            const bool must_be_unexplored, const bool force );
+        /**
+         * Place the specified overmap special using the overmap's placement algorithm. Intended to be used
+         * when you have a special that you want placed but it should be placed similarly to as if it were
+         * created during overmap generation.
+         * @param special_id The id of overmap special to place.
+         * @param center Used in conjunction with radius to search the specified and adjacent overmaps for
+         * a valid placement location. Absolute overmap terrain coordinates.
+         * @param radius Used in conjunction with center. Absolute overmap terrain units.
+         * @returns True if the special was placed, else false.
+         */
+        bool place_special( const overmap_special_id special_id, const tripoint &center, int radius );
 
     private:
         /**

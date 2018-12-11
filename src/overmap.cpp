@@ -3371,27 +3371,28 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
     }
 }
 
-std::vector<point> overmap::get_sectors() const
+om_special_sectors get_sectors( const int sector_width )
 {
     std::vector<point> res;
 
-    res.reserve( ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) );
-    for( int x = 0; x < OMAPX; x += OMSPEC_FREQ ) {
-        for( int y = 0; y < OMAPY; y += OMSPEC_FREQ ) {
+    res.reserve( ( OMAPX / sector_width ) * ( OMAPY / sector_width ) );
+    for( int x = 0; x < OMAPX; x += sector_width ) {
+        for( int y = 0; y < OMAPY; y += sector_width ) {
             res.emplace_back( x, y );
         }
     }
     std::random_shuffle( res.begin(), res.end() );
-    return res;
+    return { res, sector_width };
 }
 
 bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
-                                     const point &sector, const bool place_optional, const bool must_be_unexplored )
+                                     const point &sector, const int sector_width, const bool place_optional,
+                                     const bool must_be_unexplored )
 {
     const int x = sector.x;
     const int y = sector.y;
 
-    const tripoint p( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
+    const tripoint p( rng( x, x + sector_width - 1 ), rng( y, y + sector_width - 1 ), 0 );
     const city &nearest_city = get_nearest_city( p );
 
     std::random_shuffle( enabled_specials.begin(), enabled_specials.end() );
@@ -3425,17 +3426,18 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
 }
 
 void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
-                                   std::vector<point> &sectors, const bool place_optional, const bool must_be_unexplored )
+                                   om_special_sectors &sectors, const bool place_optional, const bool must_be_unexplored )
 {
     // Walk over sectors in random order, to minimize "clumping".
-    std::random_shuffle( sectors.begin(), sectors.end() );
-    for( auto it = sectors.begin(); it != sectors.end(); ) {
+    std::random_shuffle( sectors.sectors.begin(), sectors.sectors.end() );
+    for( auto it = sectors.sectors.begin(); it != sectors.sectors.end(); ) {
         const size_t attempts = 10;
         bool placed = false;
         for( size_t i = 0; i < attempts; ++i ) {
-            if( place_special_attempt( enabled_specials, *it, place_optional, must_be_unexplored ) ) {
+            if( place_special_attempt( enabled_specials, *it, sectors.sector_width, place_optional,
+                                       must_be_unexplored ) ) {
                 placed = true;
-                it = sectors.erase( it );
+                it = sectors.sectors.erase( it );
                 if( enabled_specials.empty() ) {
                     return; // Job done. Bail out.
                 }
@@ -3475,7 +3477,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     if( enabled_specials.empty() ) {
         return;
     }
-    std::vector<point> sectors = get_sectors();
+    om_special_sectors sectors = get_sectors( OMSPEC_FREQ );
 
     // First, place the mandatory specials to ensure that all minimum instance
     // counts are met.
