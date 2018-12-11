@@ -3286,6 +3286,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         const tripoint location = p + om_direction::rotate( elem.p, dir );
         const oter_id tid = elem.terrain->get_rotated( dir );
 
+        overmap_special_placements[location] = special.id;
         ter( location.x, location.y, location.z ) = tid;
 
         if( blob ) {
