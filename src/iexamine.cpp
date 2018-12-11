@@ -2917,7 +2917,8 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
 
 void iexamine::curtains( player &p, const tripoint &examp )
 {
-    if( g->m.is_outside( p.pos() ) && g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ) {
+    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ;
+    if( g->m.is_outside( p.pos() ) && ( g->m.has_flag( "WALL", examp ) || closed_window_with_curtains ) ) {
         locked_object( p, examp );
         return;
     }
@@ -2927,7 +2928,7 @@ void iexamine::curtains( player &p, const tripoint &examp )
     // Peek through the curtains, or tear them down.
     uilist window_menu;
     window_menu.text = _( "Do what with the curtains?" );
-    window_menu.addentry( 0, !ter.obj().close, 'p', _( "Peek through the closed curtains." ) );
+    window_menu.addentry( 0, ( !ter.obj().close && closed_window_with_curtains ), 'p', _( "Peek through the closed curtains." ) );
     window_menu.addentry( 1, true, 't', _( "Tear down the curtains." ) );
     window_menu.query();
     const int choice = window_menu.ret;
@@ -2942,6 +2943,8 @@ void iexamine::curtains( player &p, const tripoint &examp )
             g->m.ter_set( examp, t_window_no_curtains );
         } else if( ter == t_window_open ) {
             g->m.ter_set( examp, t_window_no_curtains_open );
+        } else if( ter == t_window_domestic_taped ) {
+            g->m.ter_set( examp, t_window_no_curtains_taped );
         }
 
         g->m.spawn_item( p.pos(), "nail", 1, 4, calendar::turn );

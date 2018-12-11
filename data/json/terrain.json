@@ -2585,6 +2585,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "flags": [ "FLAMMABLE", "NOITEM", "WALL" ],
+    "examine_action": "curtains",
     "bash": {
       "str_min": 6,
       "str_max": 12,
