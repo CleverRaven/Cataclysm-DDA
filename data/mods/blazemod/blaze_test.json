@@ -406,7 +406,7 @@
       { "item": "dshards", "count": [ 50, 100 ] },
       { "item": "dcluster", "count": [ 2, 6 ] }
     ],
-    "flags": [ "OBSTACLE", "WINDOW" ]
+    "flags": [ "OBSTACLE", "WINDOW", "FULL_BOARD" ]
   },
   {
     "id": "dboard_ne",
