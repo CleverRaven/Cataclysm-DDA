@@ -272,7 +272,7 @@
   {
     "id": "arachnid_tainted",
     "type": "harvest",
-    "entires": [
+    "entries: [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
@@ -291,7 +291,7 @@
   {
     "id": "arachnid",
     "type": "harvest",
-    "entires": [
+    "entries: [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
@@ -302,7 +302,7 @@
     "id": "arachnid_bee",
     "//": "todo: add stinger here and remove drops from death",
     "type": "harvest",
-    "entires": [
+    "entries: [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
@@ -312,7 +312,7 @@
     "id": "arachnid_wasp",
     "//": "todo: add stinger here and remove drops from death",
     "type": "harvest",
-    "entires": [
+    "entries: [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
