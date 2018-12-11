@@ -1542,8 +1542,9 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
     const int armorenc = !power_armor || !it.is_power_armor() ?
                          encumber_val : std::max( 0, encumber_val - 40 );
 
+    body_part_set covered_parts = it.get_covered_body_parts();
     for( const body_part bp : all_body_parts ) {
-        if( !it.covers( bp ) ) {
+        if( !covered_parts.test( bp ) ) {
             continue;
         }
         highest_layer_so_far[bp] =
