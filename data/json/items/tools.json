@@ -6888,7 +6888,7 @@
     "name": "syringe",
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": 10,
-    "volume": 1,
+    "volume": "50ml",
     "price": 2500,
     "material": "plastic",
     "symbol": ",",
