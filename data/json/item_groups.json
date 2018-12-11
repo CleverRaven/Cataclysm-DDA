@@ -2368,7 +2368,8 @@
       ["straw_hat", 5],
       ["l-stick", 1],
       ["tourist_table", 30],
-      ["trailmap", 5]
+      ["trailmap", 5],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",
@@ -2574,7 +2575,8 @@
       ["iceaxe", 30],
       ["powered_earmuffs", 80],
       ["bandolier_wrist", 100],
-      ["tourist_table", 20]
+      ["tourist_table", 20],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",
@@ -9137,7 +9139,8 @@
       ["weed", 10],
       ["joint", 10],
       ["smart_phone", 20],
-      ["camera", 20]
+      ["camera", 20],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",
