@@ -208,15 +208,13 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
-        const int rain = divide_roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ),
-                                                1.0f );
+        const int rain = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ) );
         it.add_rain_to_container( false, rain );
         // add_msg(m_debug, "Retroactively adding %d water from turn %d to %d", rain, startturn, endturn);
     }
 
     if( data.acid_amount > 0 ) {
-        const int acid = divide_roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.acid_amount ),
-                                                1.0f );
+        const int acid = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.acid_amount ) );
         it.add_rain_to_container( true, acid );
     }
 }

@@ -4593,6 +4593,7 @@ needs_rates player::calc_needs_rates()
         rates.thirst = std::min( rates.thirst, std::max( 0.5f, rates.thirst - 0.5f ) );
     }
 
+
     if( asleep ) {
         rates.recovery = 1.0f + mutation_value( "fatigue_regen_modifier" );
         if( !is_hibernating() ) {
@@ -4605,7 +4606,6 @@ needs_rates player::calc_needs_rates()
             const int accelerated_recovery_chance = 24 - intense + 1;
             const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
             rates.recovery += accelerated_recovery_rate;
-
         } else {
             // Hunger and thirst advance *much* more slowly whilst we hibernate.
             rates.hunger *= ( 2.0f / 7.0f );
@@ -4652,7 +4652,7 @@ void player::update_needs( int rate_multiplier )
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
         if( rates.fatigue > 0.0f ) {
-            int fatigue_roll = divide_roll_remainder( rates.fatigue * rate_multiplier, 1.0 );
+            int fatigue_roll = roll_remainder( rates.fatigue * rate_multiplier );
             mod_fatigue( fatigue_roll );
 
             if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
@@ -4674,7 +4674,7 @@ void player::update_needs( int rate_multiplier )
         }
     } else if( asleep ) {
         if( rates.recovery > 0.0f ) {
-            int recovered = divide_roll_remainder( rates.recovery * rate_multiplier, 1.0 );
+            int recovered = roll_remainder( rates.recovery * rate_multiplier );
             if( get_fatigue() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
@@ -6984,8 +6984,7 @@ void player::update_body_wetness( const w_point &weather )
     // A modifier on drying time
     double delay = 1.0;
     // Weather slows down drying
-    delay -= ( weather.temperature - 65 ) / 100.0;
-    delay += ( weather.humidity - 66 ) / 100.0;
+    delay += ( ( weather.humidity - 66 ) - ( weather.temperature - 65 ) ) / 100;
     delay = std::max( 0.1, delay );
     // Fur/slime retains moisture
     if( has_trait( trait_LIGHTFUR ) || has_trait( trait_FUR ) || has_trait( trait_FELINE_FUR ) ||
@@ -6994,10 +6993,10 @@ void player::update_body_wetness( const w_point &weather )
         delay = delay * 6 / 5;
     }
     if( has_trait( trait_URSINE_FUR ) || has_trait( trait_SLIMY ) ) {
-        delay = delay * 3 / 2;
+        delay *= 1.5;
     }
 
-    if( !one_in_improved( average_drying * delay / 100.0 ) ) {
+    if( !x_in_y( 1, average_drying / 100.0 * delay ) ) {
         // No drying this turn
         return;
     }

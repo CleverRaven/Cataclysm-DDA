@@ -12,25 +12,23 @@
 
 #include "optional.h"
 
-// Some of the RNG functions are based on an engine.
+// All PRNG functions use an engine, see the C++11 <random> header
 // By default, that engine is seeded by time on first call to such a function.
 // If this function is called with a non-zero seed then the engine will be
 // seeded (or re-seeded) with the given seed.
 void rng_set_engine_seed( uintmax_t seed );
+std::mt19937 &rng_get_engine();
 
-std::default_random_engine &rng_get_engine();
-
+std::mt19937 &rng_get_engine();
+uintmax_t rng_bits();
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
-bool one_in( int chance );
-bool one_in_improved( double chance );
+bool one_in( long chance );
 bool x_in_y( double x, double y );
-int dice( int number, int sides );
+long dice( long number, long sides );
 
 // Returns x + x_in_y( x-int(x), 1 )
 int roll_remainder( double value );
-// Returns x/y + x_in_y( (x/y)-int(x/y), 1 )
-int divide_roll_remainder( double dividend, double divisor );
 
 int djb2_hash( const unsigned char *input );
 

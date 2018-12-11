@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <wctype.h>
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <csignal>
 #include <ctime>
@@ -691,7 +692,7 @@ bool game::start_game()
         gamemode.reset( new special_game() );
     }
 
-    seed = rand();
+    seed = rng_bits();
     new_game = true;
     start_calendar();
     nextweather = calendar::turn;
@@ -1677,7 +1678,7 @@ const weather_generator &game::get_cur_weather_gen() const
     return settings.weather;
 }
 
-unsigned int game::get_seed() const
+uintmax_t game::get_seed() const
 {
     return seed;
 }

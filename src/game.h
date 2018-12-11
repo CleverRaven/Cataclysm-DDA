@@ -919,7 +919,7 @@ class game
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload( int pos = INT_MIN );
 
-        unsigned int get_seed() const;
+        uintmax_t get_seed() const;
 
         /** If invoked, NPCs will be reloaded before next turn. */
         void set_npcs_dirty();
@@ -1154,7 +1154,7 @@ class game
         int tileset_zoom;
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
-        unsigned int seed;
+        uintmax_t seed;
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
