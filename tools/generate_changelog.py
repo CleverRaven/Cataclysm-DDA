@@ -860,7 +860,14 @@ def main_entry(argv):
     parser.add_argument(
         '-N', '--include-summary-none',
         action='store_true',
-        help='Indicates if Pull Requests with Summary "None" should be included in the output."',
+        help='Indicates if Pull Requests with Summary "None" should be included in the output.',
+        default=None
+    )
+
+    parser.add_argument(
+        '-f', '--flatten-output',
+        action='store_true',
+        help='Output a flattened format with no headings.',
         default=None
     )
 
@@ -888,13 +895,13 @@ def main_entry(argv):
 
     if arguments.group_by_date:
         main_by_date(arguments.target_date, arguments.end_date, arguments.token_file,
-                     arguments.output_file, arguments.include_summary_none)
+                     arguments.output_file,arguments.include_summary_none, arguments.flatten_output)
     elif arguments.group_by_build:
         main_by_build(arguments.target_date, arguments.end_date, arguments.token_file,
-                      arguments.output_file, arguments.include_summary_none)
+                      arguments.output_file,arguments.include_summary_none)
 
 
-def main_by_date(target_dttm, end_dttm, token_file, output_file, include_summary_none):
+def main_by_date(target_dttm, end_dttm, token_file, output_file, include_summary_none, flatten):
     personal_token = read_personal_token(token_file)
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
@@ -911,15 +918,15 @@ def main_by_date(target_dttm, end_dttm, token_file, output_file, include_summary
     ### build script output
     if output_file is None:
         build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, sys.stdout,
-                             include_summary_none)
+                             include_summary_none, flatten)
     else:
         with open(output_file, 'w', encoding='utf8') as opened_output_file:
             build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, opened_output_file,
-                                 include_summary_none)
+                                 include_summary_none, flatten)
 
 
 def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file,
-                         include_summary_none):
+                         include_summary_none, flatten):
     ### group commits with no PR by date
     commits_with_no_pr = collections.defaultdict(list)
     for commit in commit_repo.traverse_commits_by_first_parent():
@@ -949,19 +956,25 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
         sort_by_type = lambda pr: pr.summ_type
         sorted_pr_list_by_category = sorted(pr_with_summary[curr_date], key=sort_by_type)
         for pr_type, pr_list_by_category in itertools.groupby(sorted_pr_list_by_category, key=sort_by_type):
-            print(f"    {pr_type}", file=output_file)
+            if not flatten:
+                print(f"    {pr_type}", file=output_file)
             for pr in pr_list_by_category:
-                print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
+                if flatten:
+                    print(f"{pr_type} {pr.summ_desc}", file=output_file)
+                else:
+                    print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
             print(file=output_file)
 
         if curr_date in commits_with_no_pr:
-            print(f"    MISC. COMMITS", file=output_file)
+            if not flatten:
+                print(f"    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr[curr_date]:
                 print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
             print(file=output_file)
 
         if curr_date in pr_with_invalid_summary or (include_summary_none and curr_date in pr_with_summary_none):
-            print(f"    MISC. PULL REQUESTS", file=output_file)
+            if not flatten:
+                print(f"    MISC. PULL REQUESTS", file=output_file)
             for pr in pr_with_invalid_summary[curr_date]:
                 print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
             if include_summary_none:
