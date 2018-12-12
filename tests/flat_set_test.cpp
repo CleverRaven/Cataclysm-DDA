@@ -102,3 +102,33 @@ TEST_CASE( "flat_set_comparison", "[flat_set]" )
     CHECK( int_set{ 0 } < int_set{ 1 } );
     CHECK( int_set{ 6, 0 } < int_set{ 1 } );
 }
+
+struct int_like {
+    int i;
+#define INT_LIKE_OPERATOR( op ) \
+    friend bool operator op( int_like l, int r ) { \
+        return l.i op r; \
+    } \
+    friend bool operator op( int l, int_like r ) { \
+        return l op r.i; \
+    } \
+    friend bool operator op( int_like l, int_like r ) { \
+        return l.i op r.i; \
+    }
+    INT_LIKE_OPERATOR( == );
+    INT_LIKE_OPERATOR( < );
+};
+
+TEST_CASE( "flat_set_transparent_lookup", "[flat_set]" )
+{
+    cata::flat_set<int_like> s;
+    s.insert( int_like{ 0 } );
+    CHECK( s.count( 0 ) == 1 );
+    CHECK( s.count( 1 ) == 0 );
+    CHECK( s.find( -1 ) == s.end() );
+    CHECK( s.find( 0 ) == s.begin() );
+    CHECK( s.find( 1 ) == s.end() );
+    CHECK( s.lower_bound( 0 ) == s.begin() );
+    CHECK( s.upper_bound( 0 ) == s.end() );
+    CHECK( s.equal_range( 0 ) == std::make_pair( s.begin(), s.end() ) );
+}

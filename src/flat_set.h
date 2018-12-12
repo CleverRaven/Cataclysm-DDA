@@ -26,6 +26,14 @@ struct transparent_less_than {
 template<typename T, typename Compare = transparent_less_than, typename Data = std::vector<T>>
 class flat_set : private Compare, Data
 {
+    private:
+        template<typename Cmp, typename Sfinae, typename = void>
+        struct has_is_transparent {};
+        template<typename Cmp, typename Sfinae>
+        struct has_is_transparent<Cmp, Sfinae, typename Cmp::is_transparent> {
+            using type = void;
+        };
+
     public:
         using typename Data::value_type;
         using typename Data::const_reference;
@@ -94,11 +102,23 @@ class flat_set : private Compare, Data
         const_iterator lower_bound( const T &t ) const {
             return std::lower_bound( begin(), end(), t, key_comp() );
         }
+        template<typename K, typename = typename has_is_transparent<Compare, K>::type>
+        const_iterator lower_bound( const K &k ) const {
+            return std::lower_bound( begin(), end(), k, key_comp() );
+        }
         const_iterator upper_bound( const T &t ) const {
             return std::upper_bound( begin(), end(), t, key_comp() );
         }
+        template<typename K, typename = typename has_is_transparent<Compare, K>::type>
+        const_iterator upper_bound( const K &k ) const {
+            return std::upper_bound( begin(), end(), k, key_comp() );
+        }
         std::pair<const_iterator, const_iterator> equal_range( const T &t ) const {
             return { lower_bound( t ), upper_bound( t ) };
+        }
+        template<typename K, typename = typename has_is_transparent<Compare, K>::type>
+        std::pair<const_iterator, const_iterator> equal_range( const K &k ) const {
+            return { lower_bound( k ), upper_bound( k ) };
         }
 
         const_iterator find( const value_type &value ) const {
@@ -108,9 +128,22 @@ class flat_set : private Compare, Data
             }
             return end();
         }
+        template<typename K, typename = typename has_is_transparent<Compare, K>::type>
+        const_iterator find( const K &k ) const {
+            auto at = lower_bound( k );
+            if( at != end() && *at == k ) {
+                return at;
+            }
+            return end();
+        }
         size_type count( const T &t ) const {
             auto at = lower_bound( t );
             return at != end() && *at == t;
+        }
+        template<typename K, typename = typename has_is_transparent<Compare, K>::type>
+        size_type count( const K &k ) const {
+            auto at = lower_bound( k );
+            return at != end() && *at == k;
         }
 
         iterator insert( iterator, const value_type &value ) {
