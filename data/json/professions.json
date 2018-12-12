@@ -144,7 +144,7 @@
     "points": 3,
     "skills": [ 
         { "level": 2, "name": "unarmed" },
-        { "level": 2, "name": "survival"},
+        { "level": 2, "name": "survival" },
         { "level": 2, "name": "tailor" },
         { "level": 2, "name": "fabrication" },
         { "level": 2, "name": "cooking" }
