@@ -172,7 +172,7 @@
   },
   {
     "type": "mutation",
-    "id": "BGSS_Out_of_town_1",
+    "id": "BGSS_Out_of_Town_1",
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
@@ -181,7 +181,7 @@
   },
   {
     "type": "mutation",
-    "id": "BGSS_Out_of_town_2",
+    "id": "BGSS_Out_of_Town_2",
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
