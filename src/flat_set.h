@@ -51,6 +51,9 @@ class flat_set : private Compare, Data
             Compare( kc ), Data( first, last ) {
             sort_data();
         }
+        flat_set( std::initializer_list<value_type> init ) : Data( init ) {
+            sort_data();
+        }
 
         const key_compare &key_comp() const {
             return *this;
@@ -156,7 +159,21 @@ class flat_set : private Compare, Data
             swap( static_cast<Compare &>( l ), static_cast<Compare &>( r ) );
             swap( static_cast<Data &>( l ), static_cast<Data &>( r ) );
         }
+#define FLAT_SET_OPERATOR( op ) \
+    friend bool operator op( const flat_set &l, const flat_set &r ) { \
+        return l.data() op r.data(); \
+    }
+        FLAT_SET_OPERATOR( == );
+        FLAT_SET_OPERATOR( != );
+        FLAT_SET_OPERATOR( < );
+        FLAT_SET_OPERATOR( <= );
+        FLAT_SET_OPERATOR( > );
+        FLAT_SET_OPERATOR( >= );
+#undef FLAT_SET_OPERATOR
     private:
+        const Data &data() const {
+            return *this;
+        }
         void sort_data() {
             std::sort( Data::begin(), Data::end(), key_comp() );
             auto new_end = std::unique( Data::begin(), Data::end() );

@@ -82,3 +82,15 @@ TEST_CASE( "reversed_flat_set_insertion", "[flat_set]" )
     CHECK( s.count( 4 ) == 1 );
     CHECK( s.count( 5 ) == 0 );
 }
+
+TEST_CASE( "flat_set_comparison", "[flat_set]" )
+{
+    using int_set = cata::flat_set<int>;
+    CHECK( int_set{} == int_set{} );
+    CHECK( int_set{ 0 } == int_set{ 0 } );
+    CHECK( int_set{} != int_set{ 0 } );
+    CHECK( int_set{ 0 } != int_set{ 1 } );
+    CHECK( int_set{} < int_set{ 0 } );
+    CHECK( int_set{ 0 } < int_set{ 1 } );
+    CHECK( int_set{ 6, 0 } < int_set{ 1 } );
+}
