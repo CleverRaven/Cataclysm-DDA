@@ -193,7 +193,7 @@
   {
     "id": "BGSS_RELIGIOUS_1_FAITH1",
     "type": "talk_topic",
-    "dynamic_line": "What? How could you say something like that? I can't believe you'd look at all this and think it could be anything but the end-times.  The dead are walking, the gates of Hell itself have opened, the Beasts of the Devil walk the Earth, and the Righteous have all be drawn up into the Lord's Kingdom.  What more proof could you possibly ask for?",
+    "dynamic_line": "What?  How could you say something like that?  I can't believe you'd look at all this and think it could be anything but the end-times.  The dead are walking, the gates of Hell itself have opened, the Beasts of the Devil walk the Earth, and the Righteous have all be drawn up into the Lord's Kingdom.  What more proof could you possibly ask for?",
     "responses": [
       { "text": "What will you do, then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
