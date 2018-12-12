@@ -34,10 +34,10 @@ class flat_set : private Compare, Data
         using value_compare = Compare;
         using typename Data::size_type;
         using typename Data::difference_type;
-        using typename Data::iterator;
         using typename Data::const_iterator;
-        using typename Data::reverse_iterator;
+        using iterator = const_iterator;
         using typename Data::const_reverse_iterator;
+        using reverse_iterator = const_reverse_iterator;
 
         flat_set() = default;
         flat_set( const key_compare &kc ) : Compare( kc ) {}
@@ -66,39 +66,39 @@ class flat_set : private Compare, Data
         using Data::capacity;
         using Data::shrink_to_fit;
 
-        using Data::begin;
-        using Data::end;
-        using Data::rbegin;
-        using Data::rend;
+        iterator begin() const {
+            return cbegin();
+        }
+        iterator end() const {
+            return cend();
+        }
+        reverse_iterator rbegin() const {
+            return crbegin();
+        }
+        reverse_iterator rend() const {
+            return crend();
+        }
         using Data::cbegin;
         using Data::cend;
         using Data::crbegin;
         using Data::crend;
 
-        iterator lower_bound( const T &t ) {
-            return std::lower_bound( begin(), end(), t, key_comp() );
-        }
         const_iterator lower_bound( const T &t ) const {
             return std::lower_bound( begin(), end(), t, key_comp() );
         }
-        iterator upper_bound( const T &t ) {
-            return std::upper_bound( begin(), end(), t, key_comp() );
-        }
         const_iterator upper_bound( const T &t ) const {
             return std::upper_bound( begin(), end(), t, key_comp() );
-        }
-        std::pair<iterator, iterator> equal_range( const T &t ) {
-            return { lower_bound( t ), upper_bound( t ) };
         }
         std::pair<const_iterator, const_iterator> equal_range( const T &t ) const {
             return { lower_bound( t ), upper_bound( t ) };
         }
 
-        iterator find( const value_type &value ) {
-            return find_impl( *this, value );
-        }
         const_iterator find( const value_type &value ) const {
-            return find_impl( *this, value );
+            auto at = lower_bound( value );
+            if( at != end() && *at == value ) {
+                return at;
+            }
+            return end();
         }
         size_type count( const T &t ) const {
             auto at = lower_bound( t );
@@ -152,17 +152,9 @@ class flat_set : private Compare, Data
             swap( static_cast<Data &>( l ), static_cast<Data &>( r ) );
         }
     private:
-        template<typename FlatSet>
-        static auto find_impl( FlatSet &s, const value_type &value ) -> decltype( s.end() ) {
-            auto at = s.lower_bound( value );
-            if( at != s.end() && *at == value ) {
-                return at;
-            }
-            return s.end();
-        }
         void sort_data() {
-            std::sort( begin(), end(), key_comp() );
-            auto new_end = std::unique( begin(), end() );
+            std::sort( Data::begin(), Data::end(), key_comp() );
+            auto new_end = std::unique( Data::begin(), Data::end() );
             Data::erase( new_end, end() );
         }
 };
