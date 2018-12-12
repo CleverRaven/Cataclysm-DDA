@@ -203,7 +203,7 @@
   {
     "id": "BGSS_RELIGIOUS_1_FAITH2",
     "type": "talk_topic",
-    "dynamic_line": "I will keep the faith, and keep praying, and strike down the agents of Hell where I see them.  That's all we few can do, isn't it? I suppose perhaps we're the meek that shall inherit the Earth.  Although I don't love our odds.",
+    "dynamic_line": "I will keep the faith, and keep praying, and strike down the agents of Hell where I see them.  That's all we few can do, isn't it?  I suppose perhaps we're the meek that shall inherit the Earth.  Although I don't love our odds.",
     "responses": [
       {
         "text": "What if you're wrong?",
