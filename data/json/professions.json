@@ -141,13 +141,12 @@
     "ident": "vagabond",
     "name": "Vagabond",
     "description": "Circumstances left you wandering, with no home, no family, no friends.  But the world you knew is gone, and maybe your experiences relying on yourself to survive could be useful in this new one.",
-    "points": 3,
+    "points": 2,
     "skills": [
-      { "level": 2, "name": "unarmed" },
-      { "level": 2, "name": "survival" },
-      { "level": 2, "name": "tailor" },
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "tailor" },
       { "level": 2, "name": "fabrication" },
-      { "level": 2, "name": "cooking" }
+      { "level": 1, "name": "cooking" }
     ],
     "items": {
       "both": [
@@ -156,11 +155,11 @@
         "gloves_light",
         "hat_ball",
         "duffelbag",
+        "backpack",
         "long_underpants",
         "boots",
         "socks_wool",
         "socks",
-        "long_undertop",
         "hoodie",
         "folding_poncho_on",
         "knit_scarf",
