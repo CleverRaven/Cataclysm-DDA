@@ -22,34 +22,32 @@ struct transparent_less_than {
  *
  * O(n) insertion, O(log(n)) lookup, only one allocation at any given time.
  */
-template<typename T, typename Compare = transparent_less_than>
-class flat_set : private Compare
+template<typename T, typename Compare = transparent_less_than, typename Data = std::vector<T>>
+class flat_set : private Compare, Data
 {
-    private:
-        using Data = std::vector<T>;
     public:
-        using value_type = typename Data::value_type;
-        using const_reference = typename Data::const_reference;
-        using const_pointer = typename Data::const_pointer;
+        using typename Data::value_type;
+        using typename Data::const_reference;
+        using typename Data::const_pointer;
         using key_type = value_type;
         using key_compare = Compare;
         using value_compare = Compare;
-        using size_type = typename Data::size_type;
-        using difference_type = typename Data::difference_type;
-        using iterator = typename Data::iterator;
-        using const_iterator = typename Data::const_iterator;
-        using reverse_iterator = typename Data::reverse_iterator;
-        using const_reverse_iterator = typename Data::const_reverse_iterator;
+        using typename Data::size_type;
+        using typename Data::difference_type;
+        using typename Data::iterator;
+        using typename Data::const_iterator;
+        using typename Data::reverse_iterator;
+        using typename Data::const_reverse_iterator;
 
         flat_set() = default;
         flat_set( const key_compare &kc ) : Compare( kc ) {}
         template<typename InputIt>
-        flat_set( InputIt first, InputIt last ) : data( first, last ) {
+        flat_set( InputIt first, InputIt last ) : Data( first, last ) {
             sort_data();
         }
         template<typename InputIt>
         flat_set( InputIt first, InputIt last, const key_compare &kc ) :
-            Compare( kc ), data( first, last ) {
+            Compare( kc ), Data( first, last ) {
             sort_data();
         }
 
@@ -60,41 +58,14 @@ class flat_set : private Compare
             return *this;
         }
 
-        size_type size() const {
-            return data.size();
-        }
-        constexpr size_type max_size() const {
-            return data.max_size();
-        }
-        bool empty() const {
-            return data.empty();
-        }
+        using Data::size;
+        using Data::max_size;
+        using Data::empty;
 
-        iterator begin() {
-            return data.begin();
-        }
-        const_iterator begin() const {
-            return data.begin();
-        }
-        iterator end() {
-            return data.end();
-        }
-        const_iterator end() const {
-            return data.end();
-        }
-
-        reverse_iterator rbegin() {
-            return data.rbegin();
-        }
-        const_reverse_iterator rbegin() const {
-            return data.rbegin();
-        }
-        reverse_iterator rend() {
-            return data.rend();
-        }
-        const_reverse_iterator rend() const {
-            return data.rend();
-        }
+        using Data::begin;
+        using Data::end;
+        using Data::rbegin;
+        using Data::rend;
 
         iterator lower_bound( const T &t ) {
             return std::lower_bound( begin(), end(), t, key_comp() );
@@ -139,23 +110,24 @@ class flat_set : private Compare
             if( at != end() && *at == value ) {
                 return { at, false };
             }
-            return { data.insert( at, value ), true };
+            return { Data::insert( at, value ), true };
         }
         std::pair<iterator, bool> insert( value_type &&value ) {
             auto at = lower_bound( value );
             if( at != end() && *at == value ) {
                 return { at, false };
             }
-            return { data.insert( at, std::move( value ) ), true };
+            return { Data::insert( at, std::move( value ) ), true };
         }
 
         template<typename InputIt>
         void insert( InputIt first, InputIt last ) {
             /// @todo could be faster when inserting only a few elements
-            data.insert( data.end(), first, last );
+            Data::insert( end(), first, last );
             sort_data();
         }
 
+        using Data::erase;
         size_type erase( const value_type &value ) {
             auto at = find( value );
             if( at != end() ) {
@@ -163,12 +135,6 @@ class flat_set : private Compare
                 return 1;
             }
             return 0;
-        }
-        iterator erase( const_iterator at ) {
-            return data.erase( at );
-        }
-        iterator erase( const_iterator first, const_iterator last ) {
-            return data.erase( first, last );
         }
     private:
         template<typename FlatSet>
@@ -182,10 +148,8 @@ class flat_set : private Compare
         void sort_data() {
             std::sort( begin(), end(), key_comp() );
             auto new_end = std::unique( begin(), end() );
-            data.erase( new_end, end() );
+            Data::erase( new_end, end() );
         }
-
-        Data data;
 };
 
 }
