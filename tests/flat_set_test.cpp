@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "flat_set.h"
+#include "assertion_helpers.h"
 
 #if 0
 // Uncomment this to check container concepts if Boost is installed
@@ -21,8 +22,7 @@ TEST_CASE( "flat_set", "[flat_set]" )
     s.insert( 4 );
     s.insert( 3 );
     std::vector<int> ref{ 1, 2, 3, 4 };
-    REQUIRE( s.size() == ref.size() );
-    CHECK( std::equal( s.begin(), s.end(), ref.begin() ) );
+    check_containers_equal( s, ref );
     CHECK( s.count( 0 ) == 0 );
     CHECK( s.count( 1 ) == 1 );
     CHECK( s.count( 2 ) == 1 );
@@ -49,8 +49,7 @@ TEST_CASE( "reversed_flat_set_insertion", "[flat_set]" )
     s.insert( 4 );
     s.insert( 3 );
     std::vector<int> ref{ 4, 3, 2, 1 };
-    REQUIRE( s.size() == ref.size() );
-    CHECK( std::equal( s.begin(), s.end(), ref.begin() ) );
+    check_containers_equal( s, ref );
     CHECK( s.count( 0 ) == 0 );
     CHECK( s.count( 1 ) == 1 );
     CHECK( s.count( 2 ) == 1 );
