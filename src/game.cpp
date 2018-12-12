@@ -6400,7 +6400,7 @@ void game::examine( const tripoint &examp )
 //represents carefully peeking around a corner, hence the large move cost.
 void game::peek()
 {
-    const cata::optional<tripoint> p = choose_adjacent( _( "Peek where?" ), true );
+    const cata::optional<tripoint> p = choose_direction( _( "Peek where?" ), true );
     if( !p ) {
         refresh_all();
         return;
@@ -6409,6 +6409,7 @@ void game::peek()
     if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
         vertical_move( p->z, false );
+
         if( old_pos != u.pos() ) {
             look_around();
             vertical_move( p->z * -1, false );
@@ -6417,11 +6418,12 @@ void game::peek()
         wrefresh( w_terrain );
         return;
     }
-    if( m.impassable( *p ) ) {
+
+    if( m.impassable( u.pos() + *p ) ) {
         return;
     }
 
-    peek( *p );
+    peek( u.pos() + *p );
 }
 
 void game::peek( const tripoint &p )
