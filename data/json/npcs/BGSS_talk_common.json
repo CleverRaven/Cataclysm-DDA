@@ -636,7 +636,7 @@
     "dynamic_line": "All right.  Here they are.",
     "effect": { "npc_add_effect": "player_BGSS_HASMAPS", "duration": "permanent", "u_buy_item": "survivormap" },
     "responses": [
-      { "text": "Thanks! What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Thanks!  What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
