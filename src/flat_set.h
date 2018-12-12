@@ -2,6 +2,7 @@
 #ifndef CATA_FLAT_SET
 #define CATA_FLAT_SET
 
+#include <algorithm>
 #include <vector>
 
 namespace cata
