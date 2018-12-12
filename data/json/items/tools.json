@@ -3498,7 +3498,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -7558,6 +7558,7 @@
       [ "HAMMER", 3 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 2 ],
+      [ "AXE", 1 ],
       [ "WRENCH", 2 ],
       [ "SCREW", 1 ],
       [ "HAMMER_FINE", 1 ],
