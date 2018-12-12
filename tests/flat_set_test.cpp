@@ -41,6 +41,30 @@ TEST_CASE( "flat_set", "[flat_set]" )
     CHECK( s.find( 5 ) == s.end() );
 }
 
+TEST_CASE( "flat_set_ranged_operations", "[flat_set]" )
+{
+    std::vector<int> in1{ 0, 0, 2, 4, 6 };
+    cata::flat_set<int> s( in1.begin(), in1.end() );
+    {
+        INFO( "constructing" );
+        std::vector<int> ref1{ 0, 2, 4, 6 };
+        check_containers_equal( s, ref1 );
+    }
+    {
+        INFO( "inserting range" );
+        std::vector<int> in2{ 1, 2, 3, 4 };
+        s.insert( in2.begin(), in2.end() );
+        std::vector<int> ref2{ 0, 1, 2, 3, 4, 6 };
+        check_containers_equal( s, ref2 );
+    }
+    {
+        INFO( "erasing range" );
+        s.erase( s.lower_bound( 2 ), s.lower_bound( 4 ) );
+        std::vector<int> ref3{ 0, 1, 4, 6 };
+        check_containers_equal( s, ref3 );
+    }
+}
+
 TEST_CASE( "reversed_flat_set_insertion", "[flat_set]" )
 {
     cata::flat_set<int, std::greater<int>> s;

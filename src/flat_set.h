@@ -181,6 +181,8 @@ class flat_set : private Compare
         }
         void sort_data() {
             std::sort( begin(), end(), key_comp() );
+            auto new_end = std::unique( begin(), end() );
+            data.erase( new_end, end() );
         }
 
         Data data;
