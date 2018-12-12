@@ -62,10 +62,18 @@ class flat_set : private Compare, Data
         using Data::max_size;
         using Data::empty;
 
+        using Data::reserve;
+        using Data::capacity;
+        using Data::shrink_to_fit;
+
         using Data::begin;
         using Data::end;
         using Data::rbegin;
         using Data::rend;
+        using Data::cbegin;
+        using Data::cend;
+        using Data::crbegin;
+        using Data::crend;
 
         iterator lower_bound( const T &t ) {
             return std::lower_bound( begin(), end(), t, key_comp() );
@@ -127,6 +135,7 @@ class flat_set : private Compare, Data
             sort_data();
         }
 
+        using Data::clear;
         using Data::erase;
         size_type erase( const value_type &value ) {
             auto at = find( value );
@@ -135,6 +144,12 @@ class flat_set : private Compare, Data
                 return 1;
             }
             return 0;
+        }
+
+        friend void swap( flat_set &l, flat_set &r ) {
+            using std::swap;
+            swap( static_cast<Compare &>( l ), static_cast<Compare &>( r ) );
+            swap( static_cast<Data &>( l ), static_cast<Data &>( r ) );
         }
     private:
         template<typename FlatSet>
