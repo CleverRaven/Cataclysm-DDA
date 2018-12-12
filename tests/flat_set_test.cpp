@@ -83,6 +83,14 @@ TEST_CASE( "reversed_flat_set_insertion", "[flat_set]" )
     CHECK( s.count( 5 ) == 0 );
 }
 
+TEST_CASE( "flat_set_std_inserter", "[flat_set]" )
+{
+    std::vector<int> in{ 0, 2, 3, 4 };
+    cata::flat_set<int> s;
+    std::copy( in.begin(), in.end(), std::inserter( s, s.end() ) );
+    check_containers_equal( s, in );
+}
+
 TEST_CASE( "flat_set_comparison", "[flat_set]" )
 {
     using int_set = cata::flat_set<int>;

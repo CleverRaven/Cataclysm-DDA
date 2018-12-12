@@ -113,13 +113,13 @@ class flat_set : private Compare, Data
             return at != end() && *at == t;
         }
 
-        std::pair<iterator, bool> insert( iterator, const value_type &value ) {
+        iterator insert( iterator, const value_type &value ) {
             /// @todo Use insertion hint
-            return insert( value );
+            return insert( value ).first;
         }
-        std::pair<iterator, bool> insert( iterator, value_type &&value ) {
+        iterator insert( iterator, value_type &&value ) {
             /// @todo Use insertion hint
-            return insert( std::move( value ) );
+            return insert( std::move( value ) ).first;
         }
         std::pair<iterator, bool> insert( const value_type &value ) {
             auto at = lower_bound( value );
