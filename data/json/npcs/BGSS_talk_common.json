@@ -752,7 +752,7 @@
   {
     "id": "BGSS_LOST_PARTNER_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "That's how it goes, you know? These are the end times.  I don't really want to talk about it more than that.  And honestly, I never really felt like I belonged, in the old world.  In a weird way, I actually feel like I have a purpose now.  Do you ever get that?",
+    "dynamic_line": "That's how it goes, you know?  These are the end times.  I don't really want to talk about it more than that.  And honestly, I never really felt like I belonged, in the old world.  In a weird way, I actually feel like I have a purpose now.  Do you ever get that?",
     "responses": [
       { "text": "No, that's messed up.", "topic": "BGSS_LOST_PARTNER_1_NOWAY" },
       {
