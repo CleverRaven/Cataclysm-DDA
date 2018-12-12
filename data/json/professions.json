@@ -147,7 +147,7 @@
         { "level": 2, "name": "survival"},
         { "level": 2, "name": "tailor"},
         { "level": 2, "name": "fabrication"},
-        { "level": 2, "name": "cooking"}
+        { "level": 2, "name": "cooking" }
     ],
     "items": {
       "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "duffelbag", "long_underpants", "boots", "socks_wool", "socks", "long_undertop", "hoodie", "folding_poncho_on", "knit_scarf", "jug_plastic", "can_beans", "pockknife", "matches" ],
