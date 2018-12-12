@@ -628,6 +628,23 @@
    },
    {
     "type" : "AMMO",
+    "id" : "chem_formaldehyde",
+    "category" : "chems",
+    "price" : 200,
+    "name" : "formaldehyde",
+    "name_plural" : "formaldehyde",
+    "symbol" : "~",
+    "color" : "white",
+    "description" : "Formaldehyde, here dissolved in water, was widely used before the Cataclysm as a precursor to production of many chemicals and materials and as an embalming agent. Easily identifiable by its pungent odor. Terribly toxic, carcinogenic, and volatile.",
+    "volume" : 1,
+    "weight" : 300,
+    "bashing" : 1,
+    "ammo_type" : "components",
+    "phase" : "liquid",
+    "container" : "bottle_glass"
+   },
+   {
+    "type" : "AMMO",
     "id" : "chem_thermite",
     "category" : "chems",
     "price" : 2500,
