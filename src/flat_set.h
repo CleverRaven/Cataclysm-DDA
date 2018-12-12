@@ -83,6 +83,10 @@ class flat_set : private Compare, Data
         using Data::crbegin;
         using Data::crend;
 
+        const_reference operator[]( size_type i ) const {
+            return Data::operator[]( i );
+        }
+
         const_iterator lower_bound( const T &t ) const {
             return std::lower_bound( begin(), end(), t, key_comp() );
         }

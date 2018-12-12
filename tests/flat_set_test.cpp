@@ -8,6 +8,7 @@
 #include <boost/concept/assert.hpp>
 #include <boost/concept_check.hpp>
 
+BOOST_CONCEPT_ASSERT( ( boost::RandomAccessContainer<cata::flat_set<int>> ) );
 BOOST_CONCEPT_ASSERT( ( boost::SimpleAssociativeContainer<cata::flat_set<int>> ) );
 BOOST_CONCEPT_ASSERT( ( boost::SortedAssociativeContainer<cata::flat_set<int>> ) );
 BOOST_CONCEPT_ASSERT( ( boost::UniqueAssociativeContainer<cata::flat_set<int>> ) );
