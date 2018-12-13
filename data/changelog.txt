@@ -148,11 +148,8 @@ Field dressing corpses aka Butchery overhaul.
 Smoking rack interactions expansion.
 Freezer & freeze mechanics overhaul.
 Add reminder effects for some medicine.
-Adds vehicle wreckages (of crashed helicopters) to helicopter crash-sites and randomly fills them with the dead pilots/occupants.
-adds new Farm: Plot zone and an activity to till it
+Added infrastructure for setting a farm plot zone and triggering actions across the entire zone.
 Hot air and direct heat radiation from fires affect local temperature and can heat nearby area including interiors.
-Adds player feedback about finished activity to sort out loot and tilling plots activities
-adds new option for Farm: Plot zone to attach specific seed and new activity to plant in nearby plot zones
 
 ## Content:
 
@@ -251,19 +248,11 @@ New mutation category: Mouse 🐁
 Injectable mutagen finales, targetable purifier smart shots.
 Overhauling tank drone.
 Add refugee center start (costs 1 point).
-fix steel_lump volume
-consistent capitalization of material names in materials.json
-Adds ant-infested labs
+Adds vehicle wreckages (of crashed helicopters) to helicopter crash-sites.
+Adds ant-infested labs.
 Adds the incandescent husk, an evolution of the shocker zombie that moves slowly and emits a lightning cloud
-Adds new bows and crossbows
-Give sprayable chemicals default container
-Teddy bears can serve as pillows.
 Removed CBM crafting.
-Add alternative sinker materials for pro fishing rod
-Added camping scenario and additional camp related start_locations
-Adds milkshakes, ice cream, and other desserts that taste best when frozen
-Adds json file for helicopter corpses with their loot
-Adds new location 'Mass Grave'
+Adds new location 'Mass Grave'.
 
 ## Interface:
 
@@ -449,12 +438,8 @@ Martial arts techniques description.
 Show activation and deactivation cost for all bionics that have them.
 Ask to ignore repeating distractions when performing an activity.
 Added filtering by skill to Read menu.
-Add for scrolling the overview pane in the vehicle interaction window
-Flush sidebar messages before entering pickup UI
-Option to copy error message text for tiles
-Fixed weird line shifting for long (translated) strings
-Reduce clutter of [B]utcher UI by stacking identical salvage/disassemble targets into a single line with counter
-Copyedits and standardizes some item definitions
+Add scrolling the overview pane in the vehicle interaction window.
+Reduce clutter of [B]utcher UI by stacking identical salvage/disassemble targets.
 
 ## Mods:
 
@@ -510,7 +495,6 @@ Allow adding contents to existing monster groups in JSON.
 Safe autodoc mod, a dependency of Bright Nights.
 Makes Crazy Cataclysm a little crazier.
 Nested mapgen structures.
-The Manual Bionic Installation mod, in the Balance section, does what it says on the tin.
 
 ## Balance:
 
@@ -663,10 +647,6 @@ Make portals unavoidably teleport you.
 Removed ability of losing existing CBMs due installation fails.
 Vary horde speed based on monsters in horde.
 Obsolete impossible gunmods.
-Querns can be used in dark environment
-Disinfected rags and cotton balls can be made in dark
-Balancing tweaks for butchery: more quick butchery yields, overkill drops, optional metal rack recipe components.
-Recosts Archaeologist and National Guard professions
 
 ## Bugfixes:
 
@@ -743,44 +723,15 @@ Fixed stuck movement after holding numpad keys in SDL version.
 Fix crash when NPC tries to take off and drop items where he can't when asked to wear something.
 Fix display of isolated linear tiles.
 Fix for excessive overheating from fire sources.
-Fix creatures being able to see you through cameras and mirrors
-Fix nail count in count rack, again.  Coat racks just really want nails, ok
-Fix DISPLAY option not being saved
-Remove explosion effect from small arms ammo put into fire
-Adds survivor belt to wire cutting toolset
-Fixed butchering requirements to only require one type of sawing
-Hemostatic powder is a touch too powerful
-Removed ability to dodge under the effect of anesthesia
-Adds ability to exit from the holster item menu
-Fix eating from tin cans from a vehicle
-Fix crash/weird behavior when handling items while over-encumbered
+Fix creatures being able to see you through cameras and mirrors.
+Remove explosion effect from small arms ammo put into fire.
+Fix crash/weird behavior when handling items while over-encumbered/
 Fixes the autoattack range for HAS_REACH weapons when the gameworld is circular.
-Fixes miscellaneous grammar issues in vehicle_parts.json
-Fix drinking from 'aluminum can' segfault and fix tin cans more
-Fix crash with no audio device
+Fix drinking from 'aluminum can' segfault.
+Fix crash with no audio device.
 Fixes creatures not setting off traps or falling z-levels after being flung.
-Fix crash when resizing window during character creation
-Fix using cash card stacks
-Increased lifting ability of boom and cantilever cranes
-Prevent possible null dereferences when reloading
-Fix activating first aid kits/MREs while wielding them
-Fix compound greatbow turning into normal compound bow
-Deduplicate place_item regression in zoo
-Fix duplicate book ID
-Fix invalid valid() check
-Fix debug message when loading submap monsters
-Fixed typo in door curtains
-Fixes and tweaks of values used by freezing mechanic.
-fixes error after mouse move to destination is finished
-Fix overmap special exhaustion when placing mandatory specials
-Add workaround for reloading cold water
-Remove rare chash during harvesting
-Fixes crash related to crops growing when loading map
-adds check for safe mode to tilling farm plot activity to prevent potential infinite loop
-fix weird logic in fd_toxic_gas processing
-Fix some crash and weirdness related to NPC movement
-remove old hack when listing comestibles.
-Updated aircraft designs to fix some random parts leftover from the tests, improve loot tables and connect them to the freshly uploaded pull request with corpse.json file at #25267
+Fix crash when resizing window during character creation.
+Fix overmap special exhaustion when placing mandatory specials.
 
 ## Performance:
 
@@ -820,8 +771,7 @@ Cache values in season_of_year and reuse on same turn.
 Remove unneeded SDL_RenderSetLogicalSize.
 Use map::points_in_radius instead of manual iterating.
 Reduce Submap constant memory requirements of Cosmetic strings.
-Reduce memory consumption for soundpacks
-Code optimizations reported by static code analysis
+Reduce memory consumption for soundpacks.
 
 ## Infrastructure:
 
@@ -934,16 +884,9 @@ Added FRAGILE_MELEE flag to represent fragile melee weapons.
 Unicode support for SCT.
 Update vehicleDef.py to produce better vehicle templates.
 Move fuel and engine parameters to JSON.
-Fix item.h astyle issues.  It was messy, you didn't wanna go in there
 Added pull request template.
-Reorganize the vehicle.cpp code
-Adds the Debug Bionic Power trait, which gives you full bionic power each turn and can be activated to repeatedly increase max bionic power by 100.
-Increase code clarity of Messages and remove unneeded indirection
+Adds the Debug Bionic Power trait.
 Fix flaky explosion regression test.
-Removed station_radio from the hardcoded mapgen list
-Added missing scenario flags to documentation file JSON_FLAGS.md
-Move plant care actions to new functions.
-Improve vehicle prototypes
 
 ## Build:
 
@@ -1011,7 +954,6 @@ Debug stack trace & crash handler for Windows.
 Add PR validator to ensure use of a summary line.
 Android build standup.
 Add unit test for NPC movement fixes.
-Make object files depend on the object directory
 
 ## I18N and A11Y:
 
@@ -1045,10 +987,6 @@ Display l10nized tab names when creating new world.
 Link against ncursesw if L10N enabled.
 Make user-facing error messages translatable.
 Many, Many new strings and menus are translatable.
-Synchronized translations as of Aug 24, 2018
-Replaced dash with hyphen
-Fix unlocalized logging into computers
-Routine i18n updates as of Aug 31, 2018
 
 ## Statistics:
 
