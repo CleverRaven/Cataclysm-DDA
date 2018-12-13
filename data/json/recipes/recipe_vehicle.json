@@ -110,12 +110,12 @@
     "time": 180000,
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 50 ] ],
-    "qualities": [ 
-      { "id": "HAMMER", "level": 2 }, 
-      { "id": "SAW_M", "level": 1}, 
-      { "id": "DRILL", "level": 1 }, 
-      { "id": "SCREW", "level": 1 }, 
-      { "id": "WRENCH", "level": 1 } 
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
     ],
     "components": [
       [ [ "sheet_metal", 10 ] ],
