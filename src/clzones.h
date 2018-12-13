@@ -128,7 +128,7 @@ class zone_manager
         using ref_const_zone_data = std::reference_wrapper<const zone_manager::zone_data>;
 
     private:
-        const int MAX_DISTANCE = 10;
+        static constexpr int MAX_DISTANCE = 10;
         std::vector<zone_data> zones;
         std::map<zone_type_id, zone_type> types;
         std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
