@@ -100,6 +100,8 @@ void mdeath::normal( monster &z )
 void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int distance,
                      int pile_size = 1 )
 {
+    // can't have less than one item in a pile or it would cause an infinite loop
+    std::max( pile_size, 1 ); 
     const item chunk( chunk_name );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
@@ -136,17 +138,7 @@ void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int dist
 
 void mdeath::splatter( monster &z )
 {
-    // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
-    const std::vector<material_id> gib_mats = {{
-            material_id( "flesh" ), material_id( "hflesh" ),
-            material_id( "veggy" ), material_id( "iflesh" ),
-            material_id( "bone" )
-        }
-    };
-    const bool gibbable = !z.type->has_flag( MF_NOGIB ) &&
-    std::any_of( gib_mats.begin(), gib_mats.end(), [&z]( const material_id & gm ) {
-        return z.made_of( gm );
-    } );
+    const bool gibbable = !z.type->has_flag(MF_NOGIB);
 
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -184,19 +176,19 @@ void mdeath::splatter( monster &z )
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
-        int gib_distance = std::min( ( int )floor( 2.0 + overflow_ratio / 10 ), 4 );
+        int gib_distance = round( rng( 2, 4 ) );
         for( const auto entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
                 scatter_chunks( entry.drop, ( entry.mass_ratio / overflow_ratio / 10 * to_gram(
                                                   z.type->weight ) ) / to_gram( ( item::find_type( entry.drop ) )->weight ), z, gib_distance,
-                                std::max( gib_distance, 2 ) );
+                                to_gram( ( item::find_type( entry.drop ) )->weight ) / ( gib_distance - 1 ) );
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.type->weight );
             }
         }
         scatter_chunks( "ruined_chunks", gibbed_weight / 150, z, gib_distance,
-                        gibbed_weight / 150 / std::max( gib_distance + 2, 2 ) );
+                        gibbed_weight / 150 / ( gib_distance + 1 ) );
         //TODO: add corpse with gib flag
     }
 }
