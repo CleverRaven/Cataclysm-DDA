@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "enums.h"
+#include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
 #include "string_id.h"
@@ -1902,7 +1903,7 @@ class item : public visitable<item>
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
-        std::set<std::string> item_tags; // generic item specific flags
+        cata::flat_set<std::string> item_tags; // generic item specific flags
 
     private:
         const itype *curammo = nullptr;
