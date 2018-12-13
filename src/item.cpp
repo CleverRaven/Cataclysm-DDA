@@ -1681,7 +1681,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         insert_separation_line();
 
         if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
-            int encumbrance = get_encumber();
+            int encumbrance = get_encumber( g->u );
             std::string format;
             if( has_flag( "FIT" ) ) {
                 format = _( "<num> <info>(fits)</info>" );
@@ -1692,7 +1692,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                       encumbrance ) );
             if( !type->rigid ) {
-                const auto encumbrance_when_full = get_encumber_when_containing( get_total_capacity() );
+                const auto encumbrance_when_full =
+                    get_encumber_when_containing( g->u, get_total_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
                                           iteminfo::no_newline | iteminfo::lower_is_better,
                                           encumbrance_when_full ) );
@@ -2134,7 +2135,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>can be refitted</info>." ) ) );
             }
-            if( little && get_encumber() ) {
+            if( little && get_encumber( g->u ) ) {
                 if( !has_flag( "UNDERSIZE" ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "* These clothes are <bad>too large</bad> but <info>can be undersized</info>." ) ) );
@@ -2846,7 +2847,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                        g->u.has_trait( trait_id( "SMALL_OK" ) );
     const bool fits = has_flag( "FIT" );
     const bool undersize = has_flag( "UNDERSIZE" );
-    if( get_encumber() ) {
+    if( get_encumber( g->u ) ) {
         if( small && !undersize ) {
             ret << _( " (oversize)" );
         } else if( !small && undersize ) {
@@ -3634,16 +3635,17 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber() const
+int item::get_encumber( const Character &p ) const
 {
     units::volume contents_volume( 0 );
     for( const auto &e : contents ) {
         contents_volume += e.volume();
     }
-    return get_encumber_when_containing( contents_volume );
+    return get_encumber_when_containing( p, contents_volume );
 }
 
-int item::get_encumber_when_containing( const units::volume &contents_volume ) const
+int item::get_encumber_when_containing(
+    const Character &p, const units::volume &contents_volume ) const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
@@ -3662,8 +3664,8 @@ int item::get_encumber_when_containing( const units::volume &contents_volume ) c
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
-    const bool tiniest = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                         g->u.has_trait( trait_id( "SMALL_OK" ) );
+    const bool tiniest = p.has_trait( trait_id( "SMALL2" ) ) ||
+                         p.has_trait( trait_id( "SMALL_OK" ) );
     if( !has_flag( "UNDERSIZE" ) && tiniest ) {
         encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
     } else if( !tiniest && has_flag( "UNDERSIZE" ) ) {
