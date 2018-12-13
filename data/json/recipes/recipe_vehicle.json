@@ -99,5 +99,47 @@
       [ [ "chain", 2 ] ],
       [ [ "blade", 9 ] ]
     ]
+  },
+  {
+    "result": "minifreezer",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 180000,
+    "book_learn": [ [ "textbook_mechanics", 5 ] ],
+    "using": [ [ "welding_standard", 50 ] ],
+    "qualities": [ 
+      { "id": "HAMMER", "level": 2 }, 
+      { "id": "SAW_M", "level": 1}, 
+      { "id": "DRILL", "level": 1 }, 
+      { "id": "SCREW", "level": 1 }, 
+      { "id": "WRENCH", "level": 1 } 
+    ],
+    "components": [
+      [ [ "sheet_metal", 10 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "ammonia", 30 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ]
+    ]
+  },
+  {
+    "result": "minifridge",
+    "type": "recipe",
+    "copy-from": "minifreezer",
+    "components": [
+      [ [ "sheet_metal", 10 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "ammonia", 15 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ]
+    ]
+  },
   }
 ]
