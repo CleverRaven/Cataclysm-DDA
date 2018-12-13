@@ -655,7 +655,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
-                                  min_num );
+                                  entry.base_num.first );
         }
         const itype *drop = NULL;
         if( entry.type != "bionic_group" ) {
