@@ -569,6 +569,60 @@ harvest_list butchery_flags_deprecate( const mtype &mt )
     return harvest_list::all().at( harvest_id( harvest_id_name ) );
 }
 
+// this function modifies the input weight by its damage level, depending on the bodypart
+int corpse_damage_effect( int weight, std::string entry_type, int damage_level )
+{
+    float slight_damage = 0.9;
+    float damage = 0.75;
+    float high_damage = 0.5;
+    int destroyed = 0;
+
+    switch( damage_level ) {
+        case 2: // "damaged"
+            if( entry_type == "offal" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "skin" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * slight_damage );
+            }
+            break;
+        case 3: // "mangled"
+            if( entry_type == "offal" ) {
+                return destroyed;
+            }
+            if( entry_type == "skin" ) {
+                return round( weight * high_damage );
+            }
+            if( entry_type == "bone" ) {
+                return round( weight * slight_damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * damage );
+            }
+            break;
+        case 4: // "pulped"
+            if( entry_type == "offal" ) {
+                return destroyed;
+            }
+            if( entry_type == "skin" ) {
+                return destroyed;
+            }
+            if( entry_type == "bone" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * high_damage );
+            }
+            break;
+        default: // "bruised" modifier is almost impossible to avoid; also includes no modifier (zero damage)
+            break;
+    }
+    return weight;
+}
+
 void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
                              const std::function<int()> &roll_butchery, butcher_type action,
                              const std::function<double()> &roll_drops )
@@ -579,7 +633,6 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     if( corpse_item->has_flag( "QUARTERED" ) ) {
         monster_weight /= 4;
     }
-
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
@@ -596,8 +649,12 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( round( entry.mass_ratio * monster_weight ) );
+            roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) );
         } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
             roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+            // will not give less than min_num defined in the JSON
+            roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
+                                  entry.base_num.first );
         }
         const itype *drop = NULL;
         if( entry.type != "bionic_group" ) {
