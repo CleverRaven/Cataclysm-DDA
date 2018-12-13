@@ -1,0 +1,31 @@
+[
+  {
+    "id": "792_57",
+    "type": "AMMO",
+    "name": "7.92x57mm Mauser",
+    "description": "A rifle cartridge adopted and produced by the German Empire. It is a popular military rifle cartridge, being used in rifles and machine guns both by the military and by civilians up until the cataclysm.",
+    "weight": 10,
+    "volume": 1,
+    "price": 3000,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "count": 40,
+    "stack_size": 40,
+    "ammo_type": "792x57",
+    "casing": "792_57_casing",
+    "range": 14,
+    "damage": 26,
+    "pierce": 3,
+    "dispersion": 130,
+    "recoil": 570,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "reloaded_792_57",
+    "copy-from": "792_57",
+    "type": "AMMO",
+    "name": "Reloaded 7.92x57mm",
+    "proportional": { "price": 0.7, "damage": 0.9, "pierce": 0.9, "dispersion": 1.1 }
+  }
+]
