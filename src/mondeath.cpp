@@ -101,7 +101,7 @@ void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int dist
                      int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop
-    std::max( pile_size, 1 ); 
+    std::max( pile_size, 1 );
     const item chunk( chunk_name );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
@@ -138,7 +138,7 @@ void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int dist
 
 void mdeath::splatter( monster &z )
 {
-    const bool gibbable = !z.type->has_flag(MF_NOGIB);
+    const bool gibbable = !z.type->has_flag( MF_NOGIB );
 
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -187,9 +187,18 @@ void mdeath::splatter( monster &z )
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.type->weight );
             }
         }
-        scatter_chunks( "ruined_chunks", gibbed_weight / 150, z, gib_distance,
-                        gibbed_weight / 150 / ( gib_distance + 1 ) );
-        //TODO: add corpse with gib flag
+        if( gibbed_weight > 0 ) {
+            scatter_chunks( "ruined_chunks", gibbed_weight / 150, z, gib_distance,
+                            gibbed_weight / 150 / ( gib_distance + 1 ) );
+        }
+        // add corpse with gib flag
+        item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+        corpse.set_damage( 4000 );
+        corpse.set_flag( "GIBBED" );
+        if( z.has_effect( effect_no_ammo ) ) {
+            corpse.set_var( "no_ammo", "no_ammo" );
+        }
+        g->m.add_item_or_charges( z.pos(), corpse );
     }
 }
 
