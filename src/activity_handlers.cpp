@@ -635,9 +635,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     }
     if( corpse_item->has_flag( "GIBBED" ) ) {
         monster_weight = round( 0.85 * monster_weight );
-        if (action != F_DRESS) {
-            p.add_msg_if_player(m_bad,
-                _("You salvage what you can from the corpse, but it is badly damaged."));
+        if( action != F_DRESS ) {
+            p.add_msg_if_player( m_bad,
+                                 _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
     int monster_weight_remaining = monster_weight;
@@ -700,6 +700,11 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 butcher_cbm_group( entry.drop, p.pos(), bday, roll_butchery() );
             }
             continue;
+        }
+
+        // Check if monster was gibbed, and handle accordingly
+        if( corpse_item->has_flag( "GIBBED" ) && ( entry.type == "flesh" || entry.type == "bone" ) ) {
+            roll /= 2;
         }
 
         // QUICK BUTCHERY
