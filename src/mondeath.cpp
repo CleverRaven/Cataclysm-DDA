@@ -188,8 +188,8 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
-            scatter_chunks( "ruined_chunks", gibbed_weight / 150, z, gib_distance,
-                            gibbed_weight / 150 / ( gib_distance + 1 ) );
+            scatter_chunks( "ruined_chunks", gibbed_weight / 15, z, gib_distance,
+                            gibbed_weight / 15 / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
