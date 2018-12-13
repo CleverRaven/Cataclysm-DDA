@@ -38,7 +38,34 @@ void test_encumbrance(
     }
 }
 
+static constexpr int postman_shirt_e = 0;
+static constexpr int longshirt_e = 3;
+static constexpr int jacket_jean_e = 11;
+
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {
-    test_encumbrance( { "longshirt" }, "TORSO", 3 );
+    test_encumbrance( { "postman_shirt" }, "TORSO", postman_shirt_e );
+    test_encumbrance( { "longshirt" }, "TORSO", longshirt_e );
+    test_encumbrance( { "jacket_jean" }, "TORSO", jacket_jean_e );
+}
+
+TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
+{
+    test_encumbrance( { "longshirt", "jacket_jean" }, "TORSO", longshirt_e + jacket_jean_e );
+}
+
+TEST_CASE( "out_of_order_encumbrance", "[encumbrance]" )
+{
+    test_encumbrance( { "jacket_jean", "longshirt" }, "TORSO", longshirt_e * 2 + jacket_jean_e );
+}
+
+TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
+{
+    // When stacking within a layer, encumbrance for additional items is
+    // counted twice
+    test_encumbrance( { "longshirt", "longshirt" }, "TORSO", longshirt_e * 2 + longshirt_e );
+    // ... with a minimum of 2
+    test_encumbrance( { "postman_shirt", "postman_shirt" }, "TORSO", postman_shirt_e * 2 + 2 );
+    // ... and a maximum of 10
+    test_encumbrance( { "jacket_jean", "jacket_jean" }, "TORSO", jacket_jean_e * 2 + 10 );
 }
