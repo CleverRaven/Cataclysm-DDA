@@ -2744,6 +2744,30 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     return fcon;
 }
 
+int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
+{
+    item fuel = item( ftype );
+    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) ) {
+        return 0;
+    }
+    // consume this fuel type's share of alternator load for 3600 seconds
+    int amount_pct = 3600 * alternator_load / 1000;
+
+    // calculate fuel consumption for the lower of safe speed or 70 mph
+    // or 0 if the vehicle is idling
+    if( velocity > 0 ) {
+        int target_v = std::min( safe_velocity(), 70 * 100 );
+        int vslowdown = slowdown( target_v );
+        // add 3600 seconds worth of fuel consumption for the engine
+        // HACK - engines consume 1 second worth of fuel per turn, even though a turn is 6 seconds
+        if( vslowdown > 0 ) {
+            amount_pct += 600 * vslowdown / acceleration( true, target_v );
+        }
+    }
+    int energy_j_per_mL = fuel.fuel_energy() * 1000;
+    return -amount_pct * fuel_rate_w / energy_j_per_mL;
+}
+
 int vehicle::total_power_w( bool const fueled, bool const safe ) const
 {
     int pwr = 0;
@@ -3493,7 +3517,13 @@ std::vector<vehicle_part *> vehicle::lights( bool active )
     return res;
 }
 
-void vehicle::power_parts()
+int vehicle::total_epower_w()
+{
+    int engine_epower = 0;
+    return total_epower_w( engine_epower, false );
+}
+
+int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
 {
     int epower = 0;
 
@@ -3511,11 +3541,12 @@ void vehicle::power_parts()
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
     // Electric motor consumption not included, see @ref vpart_info::energy_consumption
-    int engine_epower = 0;
     if( engine_on ) {
+        int engine_vpower = 0;
         for( size_t e = 0; e < engines.size(); ++e ) {
             if( is_engine_on( e ) ) {
                 engine_epower += part_epower_w( engines[e] );
+                engine_vpower += part_vpower_w( engines[e] );
             }
         }
 
@@ -3528,15 +3559,33 @@ void vehicle::power_parts()
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
             if( is_alternator_on( p ) ) {
-                alternators_epower += part_info( alternators[p] ).epower;
+                alternators_epower += part_epower_w( alternators[p] );
                 alternators_power += part_vpower_w( alternators[p] );
             }
         }
+        alternator_load = 1000 * abs( alternators_power ) / engine_vpower;
         if( alternators_epower > 0 ) {
-            alternator_load = static_cast<float>( abs( alternators_power ) );
             epower += alternators_epower;
         }
     }
+
+    if( skip_solar ) {
+        return epower;
+    }
+    for( int part : solar_panels ) {
+        if( parts[ part ].is_unavailable() ) {
+            continue;
+        }
+        epower += part_epower_w( part );
+    }
+    return epower;
+}
+
+void vehicle::power_parts()
+{
+    int engine_epower = 0;
+    int epower = total_epower_w( engine_epower );
+
     bool reactor_online = false;
     int delta_energy_bat = power_to_energy_bat( epower, 6 * to_turns<int>( 1_turns ) );
     int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
@@ -3775,17 +3824,8 @@ void vehicle::do_engine_damage( size_t e, int strain )
 
 void vehicle::idle( bool on_map )
 {
-    int engines_power = 0;
-
     if( engine_on && total_power_w() > 0 ) {
-        for( size_t e = 0; e < engines.size(); e++ ) {
-            size_t p = engines[e];
-            if( engine_fuel_left( e ) && is_engine_on( e ) ) {
-                engines_power += part_vpower_w( p );
-            }
-        }
-
-        int idle_rate = 1000 * alternator_load / engines_power;
+        int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
@@ -4117,7 +4157,7 @@ void vehicle::gain_moves()
             shed_loose_parts();
         }
         of_turn = 1 + of_turn_carry;
-        const int vslowdown = slowdown();
+        const int vslowdown = slowdown( velocity );
         if( vslowdown > abs( velocity ) ) {
             stop();
         } else if( velocity < 0 ) {
