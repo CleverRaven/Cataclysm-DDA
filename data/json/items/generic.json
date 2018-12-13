@@ -2799,7 +2799,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "condensor coil",
-    "description": "A compressor and a fan work together to cool down the refrigerant."
+    "description": "A compressor and a fan work together to cool down the refrigerant.",
     "weight": 20000,
     "volume": 8,
     "price": 1000,
