@@ -8366,6 +8366,7 @@
     "material": "platinum",
     "symbol": ";",
     "color": "light_gray",
+    "looks_like": "link_sheet",
     "flags": [ "FRAGILE_MELEE" ]
   },
   {
@@ -8382,6 +8383,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
+    "looks_like": "pot_canning",
     "container_data": { "contains": 8, "seals": true, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
