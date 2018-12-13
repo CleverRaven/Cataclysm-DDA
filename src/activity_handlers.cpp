@@ -800,7 +800,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         }
         practice++;
     }
-
+    // 20% of the original corpse weight is not an item, but liquid gore
+    monster_weight_remaining -= monster_weight / 5;
     // add the remaining unusable weight as rotting garbage
     if( monster_weight_remaining > 0 ) {
         if( action == F_DRESS ) {
@@ -815,7 +816,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
             }
         }
-        item ruined_parts( "ruined_chunks", bday, monster_weight_remaining );
+        item ruined_parts( "ruined_chunks", bday,
+                           monster_weight_remaining / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) );
         ruined_parts.set_mtype( &mt );
         g->m.add_item_or_charges( p.pos(), ruined_parts );
     }
