@@ -633,6 +633,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     if( corpse_item->has_flag( "QUARTERED" ) ) {
         monster_weight /= 4;
     }
+    if( corpse_item->has_flag( "GIBBED" ) ) {
+        monster_weight = round( 0.85 * monster_weight );
+        if (action != F_DRESS) {
+            p.add_msg_if_player(m_bad,
+                _("You salvage what you can from the corpse, but it is badly damaged."));
+        }
+    }
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
