@@ -164,6 +164,7 @@
       ["alternator_motorbike", 6],
       ["alternator_car", 6],
       ["alternator_truck", 6],
+      ["alternator_bicycle", 4],
       ["foot_crank", 10],
       ["55gal_drum", 1],
       ["flyer", 10],
@@ -2367,7 +2368,8 @@
       ["straw_hat", 5],
       ["l-stick", 1],
       ["tourist_table", 30],
-      ["trailmap", 5]
+      ["trailmap", 5],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",
@@ -2573,7 +2575,8 @@
       ["iceaxe", 30],
       ["powered_earmuffs", 80],
       ["bandolier_wrist", 100],
-      ["tourist_table", 20]
+      ["tourist_table", 20],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",
@@ -5128,6 +5131,7 @@
       ["alternator_motorbike", 6],
       ["alternator_car", 6],
       ["alternator_truck", 6],
+      ["alternator_bicycle", 4],
       ["generator_7500w", 3],
       ["storage_battery", 6],
       ["solar_panel", 3],
@@ -9135,7 +9139,8 @@
       ["weed", 10],
       ["joint", 10],
       ["smart_phone", 20],
-      ["camera", 20]
+      ["camera", 20],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",

@@ -844,6 +844,8 @@ struct itype {
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
         units::volume magazine_well = 0;
 
+        layer_level layer;
+
         /**
          * How much insulation this item provides, either as a container, or as
          * a vehicle base part.  Larger means more insulation, less than 1 but

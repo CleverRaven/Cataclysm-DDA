@@ -24,12 +24,14 @@ class JsonOut;
 struct mission_type;
 struct oter_type_t;
 struct species_type;
+struct mtype;
 
 enum npc_mission : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using species_id = string_id<species_type>;
+using mtype_id = string_id<mtype>;
 
 namespace debug_menu
 {
@@ -77,9 +79,6 @@ struct mission_place {
 
 /* mission_start functions are first run when a mission is accepted; this
  * initializes the mission's key values, like the target and description.
- * These functions are also run once a turn for each active mission, to check
- * if the current goal has been reached.  At that point they either start the
- * goal, or run the appropriate mission_end function.
  */
 struct mission_start {
     static void standard( mission * );           // Standard for its goal type
@@ -96,7 +95,6 @@ struct mission_start {
     static void place_grabber( mission * );      // For Old Guard mission
     static void place_bandit_camp( mission * );  // For Old Guard mission
     static void place_jabberwock( mission * );   // Put a jabberwok in the woods nearby
-    static void kill_100_z( mission * );         // Kill 100 more regular zombies
     static void kill_20_nightmares( mission * ); // Kill 20 more regular nightmares
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
@@ -187,7 +185,7 @@ struct mission_type {
     int item_count = 1;
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
-    std::string monster_type = "mon_null";
+    mtype_id monster_type = mtype_id::NULL_ID();
     species_id monster_species;
     int monster_kill_goal = -1;
     string_id<oter_type_t> target_id;
@@ -265,7 +263,7 @@ class mission
         string_id<oter_type_t> target_id;      // Destination type to be reached
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
-        std::string monster_type;    // Monster ID that are to be killed
+        mtype_id monster_type;    // Monster ID that are to be killed
         species_id monster_species;  // Monster species that are to be killed
         int monster_kill_goal;  // The number of monsters you need to kill
         int kill_count_to_reach; // The kill count you need to reach to complete mission

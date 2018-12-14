@@ -1990,7 +1990,7 @@
     "components": [
       [ [ "glasses_safety", 1 ] ],
       [ [ "hose", 3 ] ],
-      [ [ "flask_glass", 4 ], [ "jar_glass", 4 ], [ "bottle_glass", 4 ] ],
+      [ [ "flask_glass", 4 ], [ "jar_glass", 4 ], [ "bottle_glass", 4 ], [ "test_tube", 20 ] ],
       [ [ "box_small", 1 ], [ "bag_canvas", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "rucksack", 1 ] ]
     ]
   },
@@ -2964,6 +2964,19 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "test_tube",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skills_used": "fabrication",
+    "difficulty": 4,
+    "time": 4000,
+    "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ],
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "type": "recipe",
