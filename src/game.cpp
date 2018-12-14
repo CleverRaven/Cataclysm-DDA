@@ -9186,6 +9186,55 @@ void add_disassemblables( uilist &menu, map_stack &items,
     }
 }
 
+// Butchery sub-menu and time calculation
+void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int corpse = -1 )
+{
+    auto cut_time = [&]( enum butcher_type bt ) {
+        int time_to_cut = 0;
+        if( corpse != -1 ) {
+            time_to_cut = butcher_time_to_cut( g->u, items[corpses[corpse]], bt );
+        } else {
+            for( int i : corpses ) {
+                time_to_cut += butcher_time_to_cut( g->u, items[i], bt );
+            }
+        }
+        return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
+    };
+    uilist smenu;
+    smenu.desc_enabled = true;
+    smenu.text = _( "Choose type of butchery:" );
+    smenu.addentry_col( BUTCHER, true, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
+                        _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
+    smenu.addentry_col( BUTCHER_FULL, true, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
+                        _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
+    smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
+                        _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
+    smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
+                        _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+    smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
+                        _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
+    smenu.query();
+    switch( smenu.ret ) {
+        case BUTCHER:
+            g->u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            break;
+        case BUTCHER_FULL:
+            g->u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+            break;
+        case F_DRESS:
+            g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
+            break;
+        case QUARTER:
+            g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+            break;
+        case DISSECT:
+            g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
+            break;
+        default:
+            return;
+    }
+}
+
 void game::butcher()
 {
     const static std::string salvage_string = "salvage";
@@ -9326,14 +9375,8 @@ void game::butcher()
         add_disassemblables( kmenu, items, disassembly_stacks, i );
         add_salvagables( kmenu, items, salvage_stacks, i, *salvage_iuse );
 
-        if( corpses.size() > 1 && factor > INT_MIN ) {
-            int time_to_cut = 0;
-            for( auto index : corpses ) {
-                time_to_cut += butcher_time_to_cut( u, items[index], BUTCHER );
-            }
-
-            kmenu.addentry_col( MULTIBUTCHER, true, 'b', _( "Quick butcher everything" ),
-                                to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) ) );
+        if( corpses.size() > 1 ) {
+            kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
         }
         if( disassembles.size() > 1 ) {
             int time_to_disassemble = 0;
@@ -9423,11 +9466,7 @@ void game::butcher()
                     u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
                     break;
                 case MULTIBUTCHER:
-                    if( g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                        u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
-                    } else {
-                        u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
-                    }
+                    butcher_submenu( items, corpses );
                     for( int i : corpses ) {
                         u.activity.values.push_back( i );
                     }
@@ -9444,47 +9483,10 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
-            auto cut_time = [&]( enum butcher_type bt ) {
-                return to_string_clipped( time_duration::from_turns( butcher_time_to_cut( u, items[corpses[ret]],
-                                          bt ) / 100 ) );
-            };
-            uilist smenu;
-            smenu.desc_enabled = true;
-            smenu.text = _( "Choose type of butchery:" );
-            smenu.addentry_col( BUTCHER, true, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
-                                _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
-            smenu.addentry_col( BUTCHER_FULL, true, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
-                                _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
-            smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
-                                _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside.  Yields internal organs.  Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
-            smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
-                                _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
-            smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
-                                _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
-            smenu.query();
-            switch( smenu.ret ) {
-                case BUTCHER:
-                    u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
-                    break;
-                case BUTCHER_FULL:
-                    u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
-                    break;
-                case F_DRESS:
-                    u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
-                    break;
-                case QUARTER:
-                    u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
-                    break;
-                case DISSECT:
-                    u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
-                    break;
-                default:
-                    return;
-            }
+            butcher_submenu( items, corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
-            int index = corpses[indexer_index];
-            u.activity.values.push_back( index );
+            u.activity.values.push_back( corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
