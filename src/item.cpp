@@ -2851,6 +2851,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
     }
+
+    if( has_var( "NANOFAB_ITEM_ID" ) ) {
+        ret << string_format( " (%s)" , find_type( get_var( "NANOFAB_ITEM_ID" ) )->nname(1) );
+    }
+
     if( has_flag( "RADIO_MOD" ) ) {
         ret << _( " (radio:" );
         if( has_flag( "RADIOSIGNAL_1" ) ) {
@@ -6353,7 +6358,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag( "RADIO_ACTIVATION" ) ||
+    return active || has_flag("RADIO_ACTIVATION") || has_flag( "NANOFAB_TEMPLATE" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || ( is_food() );
 }
@@ -6965,6 +6970,12 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
             ++it;
         }
     }
+
+    if ( has_flag("NANOFAB_TEMPLATE") && !has_var( "NANOFAB_ITEM_ID") ) {
+            itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
+            set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
+    }
+
     if( activate ) {
         return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
     }
