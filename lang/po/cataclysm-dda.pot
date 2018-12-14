@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-08 22:12+0800\n"
+"POT-Creation-Date: 2018-12-14 18:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6583,7 +6583,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "An essential article of the gentleman's apparel.  Also corrects near-"
-"sightedness.  You can use this to focus sunlight."
+"sightedness.  The concave lenses diffuse the sunlight, rendering them "
+"useless for starting fires."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -16914,6 +16915,20 @@ msgstr[1] ""
 msgid ""
 "This is a liquid form of sodium hydroxide.  It is highly corrosive, handle "
 "with care."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "ether"
+msgid_plural "ether"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for ether
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Diethyl ether largely supplanted the use of chloroform as a general "
+"anesthetic due to ether's more favorable therapeutic index, that is, a "
+"greater difference between an effective dose and a potentially toxic dose."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -27487,6 +27502,17 @@ msgid "A big, square plastic bucket usually used for carrying ice cream."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
+msgid "test tube"
+msgid_plural "test tubes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for test tube
+#: lang/json/CONTAINER_from_json.py
+msgid "A 50ml laboratory cylindrical test tube, with a rubber stopper."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "blood draw kit"
 msgid_plural "blood draw kits"
 msgstr[0] ""
@@ -28069,11 +28095,12 @@ msgstr ""
 #. ~ Description for nearby fire
 #. ~ Description for muscle
 #. ~ Description for a smoking device and a source of flame
+#. ~ Description for abstract map
 #. ~ Description for seeing this is a bug
 #. ~ Description for weapon
 #: lang/json/GENERIC_from_json.py
-#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
-#: lang/json/TOOL_from_json.py lang/json/skill_from_json.py
+#: lang/json/TOOL_from_json.py
+#: lang/json/skill_from_json.py
 msgid "seeing this is a bug"
 msgid_plural "seeing this is a bugs"
 msgstr[0] ""
@@ -32183,25 +32210,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "military operations map"
-msgid_plural "military operations maps"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for military operations map.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and facilities to your map."
-msgstr ""
-
-#. ~ Description for military operations map
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a printed topographical map of the local area.  Originally of "
-"military origin, it details the locations of evacuation centers and military "
-"facilities.  Using it will add points of interest to your map."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "frying pan"
 msgid_plural "frying pans"
 msgstr[0] ""
@@ -32298,45 +32306,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "restaurant guide"
-msgid_plural "restaurant guides"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for restaurant guide.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and restaurants to your map."
-msgstr ""
-
-#. ~ Description for restaurant guide
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is glossy printed pamphlet that details dining establishments in the "
-"local area.  Printed by the Chamber of Commerce, it lists the addresses of "
-"all the best diners and bars.  Using it will add points of interest to your "
-"map."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "road map"
-msgid_plural "road maps"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for road map.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and points of interest to your map."
-msgstr ""
-
-#. ~ Description for road map
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a road map for the local area.  Listing information on civic sites "
-"like hospitals and police stations, it can be used to add points of interest "
-"to your map."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "stone pot"
 msgid_plural "stone pots"
 msgstr[0] ""
@@ -32366,25 +32335,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "survivor's map"
-msgid_plural "survivor's maps"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for survivor's map.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and possible supply points to your map."
-msgstr ""
-
-#. ~ Description for survivor's map
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a hand-drawn map of the local area.  Whomever created it has marked "
-"down the locations of nearby supply sources including gun stores and gas "
-"stations.  Using it will add points of interest to your map."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "teapot"
 msgid_plural "teapots"
 msgstr[0] ""
@@ -32406,24 +32356,6 @@ msgstr[1] ""
 msgid ""
 "A telescoping umbrella which collapses down for easy storage, useful for "
 "keeping dry when wielded."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "tourist guide"
-msgid_plural "tourist guides"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for tourist guide.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and tourist attractions to your map."
-msgstr ""
-
-#. ~ Description for tourist guide
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is glossy printed pamphlet for tourists that details local hotels and "
-"attractions."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -33127,10 +33059,10 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A Unified Power System recharging station designed to operate on vehicle "
-"power.  Once installed in a vehicle storage space and turned on from vehicle "
-"controls, it will slowly charge all tools with rechargeable batteries in "
-"that space.  The system can only be installed in existing storage "
-"compartments."
+"power.  Once installed in a vehicle storage space and turned on from a "
+"dashboard or electronics control unit, it will slowly charge all tools with "
+"rechargeable batteries in that space.  The system can only be installed in "
+"existing storage compartments."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -33358,6 +33290,123 @@ msgstr[1] ""
 #. ~ Description for turret mount
 #: lang/json/GENERIC_from_json.py
 msgid "A universal mount for weapons intended to be installed as turrets."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "abstract map"
+msgid_plural "abstract maps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "military operations map"
+msgid_plural "military operations maps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for military operations map.
+#. ~ Use action message for restaurant guide.
+#: lang/json/GENERIC_from_json.py
+msgid "You add roads and restaurants to your map."
+msgstr ""
+
+#. ~ Description for military operations map
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a printed topographical map of the local area.  Originally of "
+"military origin, it details the locations of evacuation centers and military "
+"facilities.  Using it will add points of interest to your map."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "survivor's map"
+msgid_plural "survivor's maps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for survivor's map.
+#: lang/json/GENERIC_from_json.py
+msgid "You add roads and possible supply points to your map."
+msgstr ""
+
+#. ~ Description for survivor's map
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a hand-drawn map of the local area.  Whomever created it has marked "
+"down the locations of nearby supply sources including gun stores and gas "
+"stations.  Using it will add points of interest to your map."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "road map"
+msgid_plural "road maps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for road map.
+#: lang/json/GENERIC_from_json.py
+msgid "You add roads and points of interest to your map."
+msgstr ""
+
+#. ~ Description for road map
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a road map for the local area.  Listing information on civic sites "
+"like hospitals and police stations, it can be used to add points of interest "
+"to your map."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "trail guide"
+msgid_plural "trail guides"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for trail guide.
+#: lang/json/GENERIC_from_json.py
+msgid "You add trails and trailheads to your map."
+msgstr ""
+
+#. ~ Description for trail guide
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a printed guide to the best local trails.  It has general details "
+"about the trails, trailhead amenities, suggestions for the best thru-hikes, "
+"and advice on interacting with local wildlife in a responsible and "
+"respectful manner."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "tourist guide"
+msgid_plural "tourist guides"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for tourist guide.
+#: lang/json/GENERIC_from_json.py
+msgid "You add roads and tourist attractions to your map."
+msgstr ""
+
+#. ~ Description for tourist guide
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is glossy printed pamphlet for tourists that details local hotels and "
+"attractions."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "restaurant guide"
+msgid_plural "restaurant guides"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for restaurant guide
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is glossy printed pamphlet that details dining establishments in the "
+"local area.  Printed by the Chamber of Commerce, it lists the addresses of "
+"all the best diners and bars.  Using it will add points of interest to your "
+"map."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -34744,6 +34793,17 @@ msgstr[1] ""
 msgid ""
 "A compact lightweight alternator used to power small vehicle electrical "
 "systems."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "bicycle alternator"
+msgid_plural "bicycle alternators"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bicycle alternator
+#: lang/json/GENERIC_from_json.py
+msgid "A very lightweight alternator used to power a bicycle's headlights."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -37118,6 +37178,10 @@ msgstr ""
 
 #: lang/json/ITEM_CATEGORY_from_json.py
 msgid "BOOKS"
+msgstr ""
+
+#: lang/json/ITEM_CATEGORY_from_json.py
+msgid "MAPS"
 msgstr ""
 
 #. ~ Crafting recipes subcategory of 'WEAPON' category
@@ -40373,7 +40437,7 @@ msgid ""
 "scarred.  It shuffles as it walks."
 msgstr ""
 
-#: lang/json/MONSTER_from_json.py
+#: lang/json/MONSTER_from_json.py lang/json/snippet_from_json.py
 msgid "zombie"
 msgstr ""
 
@@ -59419,6 +59483,29 @@ msgid "You've been struck by lightning, and feel... different."
 msgstr ""
 
 #: lang/json/effects_from_json.py
+msgid "Story Denied"
+msgstr ""
+
+#. ~ Description of effect 'Story Denied'.
+#: lang/json/effects_from_json.py
+msgid ""
+"AI tag used when you already asked an NPC for a detail in their survival "
+"story and they don't want to tell you again right now.  This is a bug if you "
+"have it."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Religious Offence"
+msgstr ""
+
+#. ~ Description of effect 'Religious Offence'.
+#: lang/json/effects_from_json.py
+msgid ""
+"AI tag used when you offended an NPC with a specific conversation option.  "
+"This is a bug if you have it."
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Stuck in a light snare"
 msgstr ""
 
@@ -69171,7 +69258,7 @@ msgstr ""
 #: lang/json/item_action_from_json.py
 #: lang/json/item_action_from_json.py lang/json/talk_topic_from_json.py
 #: lang/json/talk_topic_from_json.py
-#: src/game_inventory.cpp
+#: lang/json/talk_topic_from_json.py src/game_inventory.cpp
 msgid "..."
 msgstr ""
 
@@ -70754,6 +70841,10 @@ msgid "Throw Item"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Blind Throw Item"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Fire Wielded Item"
 msgstr ""
 
@@ -71896,6 +71987,11 @@ msgstr ""
 #. ~ Computer option
 #: lang/json/mapgen_from_json.py
 msgid "Lock Door"
+msgstr ""
+
+#. ~ Sign
+#: lang/json/mapgen_from_json.py
+msgid "Get Apples n Ciders!"
 msgstr ""
 
 #. ~ Sign
@@ -82224,6 +82320,15 @@ msgstr ""
 msgid ""
 "NPC trait that makes it impossible to say anything.  It is a bug if you have "
 "it."
+msgstr ""
+
+#. ~ Description for Survivor
+#: lang/json/mutation_from_json.py
+msgid "This NPC could tell you about how they survived the cataclysm"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Survival Story:  Left_for_Dead_1"
 msgstr ""
 
 #. ~ Description for Martial Arts Training
@@ -96910,7 +97015,7 @@ msgstr ""
 msgid "you dig"
 msgstr ""
 
-#: lang/json/snippet_from_json.py src/monster.cpp
+#: lang/json/snippet_from_json.py
 msgid "dig"
 msgstr ""
 
@@ -97428,6 +97533,219 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "Look out!  A"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Tell me about how you survived the cataclysm."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "How did you survive the cataclysm?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "What was the cataclysm like for you?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Let's talk about something else."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Let's change the subject."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'd like to ask you about something else."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "We should probably get going."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "We'd better get moving."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Let's head out."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shitty"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "lame"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "crappy"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "unpleasant"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <shitty>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<very> <shitty>"
+msgstr ""
+
+#. ~ photo quality adjective
+#: lang/json/snippet_from_json.py src/iuse.cpp
+msgid "awful"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "terrible"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "horrible"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "miserable"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "fucked-up"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "stupid"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "idiotic"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "dumb"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "dumb-ass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "moronic"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "mickey mouse"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shit-for-brains"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Z"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shambler"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "goo-puker"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "walker"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "walking corpse"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <zombie>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "living dead"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "zombies"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Z's"
+msgstr ""
+
+#: lang/json/snippet_from_json.py src/artifact.cpp
+msgid "dead"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <zombies>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "monster"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "demon"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "horror"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "indescribable beast"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "creature made of nightmares"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "critter"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <monster>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "unbelievable <swear> thing"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "walking nightmare"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "thing right out of a scary movie"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "the cataclysm"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "the apocalypse"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "the end of the world"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Armageddon"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "the end of days"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -100426,6 +100744,1030 @@ msgid "Clothing Store"
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
+msgid "<BGSS_intro_question>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I don't even <swear> know anymore.  I have no <swear> idea what is going "
+"on.  I'm just doing what I can to stay alive.  The world ended and I bungled "
+"along not dying, until I met you."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Huh."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Before <the_cataclysm>? Who cares about that? This is a new world, and yeah, "
+"it's pretty <shitty>.  It's the one we've got though, so let's not dwell in "
+"the past when we should be making the best of what little we have left."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I can respect that."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"To be honest...  I don't really remember.  I remember vague details of my "
+"life before the world was like this, but <the_cataclysm> itself?  It's all a "
+"blur.  I don't know how I got where I am now, or how any of this happened.  "
+"I think something pretty bad must have happened to me.  Or maybe I was just "
+"hit in the head really hard.  Or both.  Both seems likely."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"My story.  Huh.  It's nothing special.  I had people, but they've risen to "
+"be with the Lord.  I don't understand why He didn't take me too, but I "
+"suppose it'll all be clear in time."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Do you mean in a religious sense, or...?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "<done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "<end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Of course.  It's clear enough, isn't it?  That...  that end, was the "
+"Rapture.  I'm still here, and I still don't understand why, but I will keep "
+"Jesus in my heart through the Tribulations to come.  When they're past, I'm "
+"sure He will welcome me into the Kingdom of Heaven.  Or...  or something "
+"along those lines.  It's not going exactly like I thought it would, but "
+"that's prophecy for you."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What if you're wrong?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What will you do then?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"What?  How could you say something like that?  I can't believe you'd look at "
+"all this and think it could be anything but the end-times.  The dead are "
+"walking, the gates of Hell itself have opened, the Beasts of the Devil walk "
+"the Earth, and the Righteous have all be drawn up into the Lord's Kingdom.  "
+"What more proof could you possibly ask for?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What will you do, then?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I will keep the faith, and keep praying, and strike down the agents of Hell "
+"where I see them.  That's all we few can do, isn't it?  I suppose perhaps "
+"we're the meek that shall inherit the Earth.  Although I don't love our odds."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Same as anyone.  I turned away from God, and now I'm paying the price.  The "
+"Rapture has come, and I was left behind.  So now, I guess I wander through "
+"Hell on Earth.  I wish I'd paid more attention in Sunday School."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I made it to one of those <swear> evac shelters, but it was almost worse "
+"than what I left behind.  Escaped from there, been on the run since."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How did you survive on the run?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I spent a lot of time rummaging for rhubarb and bits of vegetables in the "
+"forest before I found the courage to start picking off some of those dead "
+"monsters.  I guess I was getting desperate."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Same as most people who didn't get killed straight up during the riots.  I "
+"went to one of those <dumb> <swear> evacuation death traps.  I actually "
+"lived there for a while with three others.  One guy who I guess had watched "
+"a lot of movies kinda ran the show, because he seemed to really know what "
+"was going on.  Spoiler alert: he <swear> didn't."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened to your original crew?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Things went south when our fearless leader decided we had to put down one of "
+"the other survivors that had been bitten.  Her husband felt a bit strongly "
+"against that, and I wasn't too keen on it either; by this point, he'd "
+"already been wrong about a lot.  Well, he took matters into his own hands "
+"and killed her.  Then her husband decided one good turn deserves another, "
+"and killed the idiot.  And then she got back up and I killed her again, and "
+"pulped our former leader.  Unfortunately she'd given her husband a hell of a "
+"nip during the struggle, when he couldn't get his shit together enough to "
+"fight back.  Not that I fucking blame him.  We made it out of there "
+"together, but it was too much for him, he clearly wasn't in it anymore...  "
+"The bite got infected, but it was another <zombie> that finally killed him.  "
+"And then I was alone."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What do you think happened? You see them around anywhere?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"There's nothing too special about me, I'm not sure why I survived.  I got "
+"evacuated with a handful of others, but we were too late to make the second "
+"trip to a FEMA center.  We got attacked by the dead...  I was the only one "
+"to make it out.  I never looked back."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"They were shipping me with a bunch of evacuees over to a refugee center, "
+"when the bus got smashed in by the biggest zombie you ever saw.  It was busy "
+"with the other passengers, so I did what anyone would do and fucked right "
+"out of there."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"My Evac shelter got swarmed by some of those bees, the ones the size of "
+"dogs.  I took out a few with a two-by-four, but pretty quick I realized it "
+"was either head for the hills or get stuck like a pig.  The rest is history."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Giant bees? Tell me more."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "But bees aren't usually aggressive..."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah, I'm sure you've seen them, they're everywhere.  Like something out of "
+"an old sci-fi movie.  Some of the others in the evac shelter got stung, it "
+"was no joke.  I didn't stick around to see what the lasting effect was "
+"though.  I'm not ashamed to admit I ran like a <swear> chicken."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "But bees aren't usually aggressive...  Do you mean wasps?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well, excuse me if I didn't stop to <swear> ask what kind of killer bugs "
+"they were."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry.  Could you tell me more about them?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Right.  Sorry."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well, I was at home when the cell phone alert went off and told me to get to "
+"an evac shelter.  So I went to an evac shelter.  And then the shelter got "
+"too crowded, and people were waiting to get taken to the refugee center, but "
+"the buses never came.  You must already know about all that.  It turned into "
+"panic, and then fighting.  I didn't stick around to see what happened next; "
+"I headed into the woods with what tools I could snatch from the lockers.  I "
+"went back a few days later, but the place was totally abandoned.  No idea "
+"what happened to all those people."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That's a tall order.  I guess the short version is that I got evacuated to a "
+"FEMA camp for my so-called safety, but luckily I made it out."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Tell me more about that FEMA camp."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How did you get out?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"It was terrifying.  We were shipped there on a repurposed school bus, about "
+"thirty of us.  You can probably see the issues right away.  A few of the "
+"folks on board the bus had injuries, and some schmuck who had seen too many "
+"B-movies tried to insist that anyone who 'had been bitten' was going to "
+"'turn'.  Fucking idiot, right? I've been bitten a dozen times now and the "
+"worst I got was a gross infection."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened after that?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That guy started a frenzy.  People were already panicked.  There was an "
+"armed guy overseeing the transport, acting like a cop but really he was just "
+"some <dumb> kid they'd handed a rifle to.  He tried to calm things down, and "
+"I guess it actually worked for a bit, although the 'kill the infected' bunch "
+"were pretty <swear> freaked out and were clearly ready to jump the moment "
+"the granny with the cut on her arm started frothing at the mouth.  They "
+"started acting up again when we got to the camp.  That didn't go well for "
+"them.  A few heavily armed soldiers dragged them away, and I never saw them "
+"again."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That place was chaos.  I only stayed a few hours.  They had a big backhoe "
+"running, digging a huge pit in a cordoned section they wouldn't let us "
+"near.  Well, I managed to sneak over that way, and saw them dumping load "
+"after load of the dead in the pit, pouring dirt back over them even as they "
+"revived and tried to climb out.  Even with all the shit I've seen since, it "
+"haunts me.  I knew then I had to get out.  Luckily for me, we were attacked "
+"the next morning by some giant horror, a kind I haven't really seen since "
+"then.  While the guards were busy with that, I grabbed some supplies I'd "
+"stocked up over the night and I fucked right out of there.  A few others "
+"tried to fuck out with me, but as far as I know I was the only lucky one."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's a story for another day.  I don't really like thinking about it."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry.  Tell me more about that FEMA camp."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry for asking.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry for asking.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I was late to evacuate when the shit hit the fan.  Got stuck in town for a "
+"few days, survived by hiding in basements eating girl scout cookies and "
+"drinking warm root beer.  Eventually I managed to weasel my way out without "
+"getting caught by the <zombies>.  I spent a few days holed up in an "
+"abandoned mall, but I needed food so I headed out to fend for myself in the "
+"woods.  I wasn't doing a great job of it, so I'm kinda glad you showed up."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I was home with the flu when the world went to shit, and when I recovered "
+"enough to make a run to the store for groceries...  Well, I've been running "
+"ever since."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Come on, don't leave me hanging."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Okay, well, I was kinda out of it those first few days.  I knew there were "
+"storms, but I was having crazy fever dreams and stuff.  Honestly I probably "
+"should have gone to the hospital, except then I guess I'd be dead now.  I "
+"don't know what was a dream and what was the world ending.  I remember "
+"heading to the fridge for a drink and noticing the light was out and the "
+"water was warm, I think that was a bit before my fever broke.  I was still "
+"pretty groggy when I ran out of chicken soup, so it took me a while to "
+"really process how dark and dead my building was when I headed out."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened when you went out?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"You probably remember what the cities were like.  I think it was about day "
+"four.  Once I stepped outside I realized what was going on, or realized I "
+"didn't know what was going on at least.  I saw a bunch of rioters smashing a "
+"car, and then I noticed one of them was bashing a woman's head in.  I "
+"cancelled my grocery trip, ran back to my apartment before they saw me, and "
+"holed up there for as long as I could.  Things got comparatively quiet as "
+"the dead started to outnumber the living, so I started looting what I could "
+"from my neighbors, re-killing them when I had to.  Eventually the <zombies> "
+"overran my building and I had to climb out and head for the hills on an old "
+"bike."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me all that.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me all that.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Nothin' special before <the_cataclysm>.  When the dead started walking, I "
+"geared up and started puttin' them back down."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How did that go?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Cool.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Cool.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Almost got killed.  One <zombie> is easy pickins, but ten is a lot, and a "
+"hundred is a death trap.  I got myself in too deep, an' barely slipped out "
+"with my guts still inside me.  Holed up in an old motel for a while lickin' "
+"my wounds and thinkin' about what I wanted to do next.  That's when I "
+"figured it out."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Figured what out?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Never mind.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Never mind.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"This is it.  This is what I was made for.  There in the street, smashin' "
+"monster heads and prayin' I'd make it out? I've never felt like that.  "
+"Alive.  Important.  So after I got myself all stuck back together, I nutted "
+"up and went back to it.  Probly killed a thousand Z since then, and I'm "
+"still not tired of it."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "It's good you found your calling.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "It's good you found your calling.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Oh, you know.  Blah blah blah, had a job and a life, everyone died.  Boo "
+"hoo.  I gotta be straight with you though: I honestly think I like this "
+"better.  Fighting for survival every day? I've never felt so alive.  I've "
+"killed hundreds of those bastards.  Sooner or later one of them will take me "
+"out, but I'll go down knowing I did something actually important."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well y'see, I'm not from these parts at all.  I was driving up from the "
+"South to visit my son when it all happened.  I was staying at a motel when a "
+"military convoy passed through and told us to evacuate to a FEMA shelter."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Tell me about your son."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "So, you went to one of the FEMA camps?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"He lives up in Northern Canada, way in the middle of nowhere, with his crazy "
+"wife and my three grandkids.  He's an environmental engineer for some oil "
+"and gas company out there.  She's a bit of a hippy-dippy headcase.  I love "
+"em both though, and as far as I'm concerned they all made it out of this "
+"fucked up mess safe, out there in the boondocks.  I guess they think I'm "
+"dead, so they'll steer clear of this hellhole, and that's the best as could "
+"be."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What was it you said before?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Lord no.  I'll be fucked if I let a kid in a too-big uniform tell me what "
+"the hell to do.  I had my Hummer loaded out and ready to go offroading, I "
+"had a ton of gas, and I even had as many rifles as the border was gonna let "
+"me bring over.  I didn't know what I was supposed to be running from, but I "
+"sure as shit didn't run.  "
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Where did you go then?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"At first, I just kept going North, but I ran into a huge military blockade.  "
+"They even had those giant walking robots like on TV.  I started going up to "
+"check it out, and before I knew it they were opening fire! I coulda died, "
+"but I still have pretty good reactions.  I turned tail and rolled out of "
+"there.  My Hummer had taken some bad hits though, and I found out the hard "
+"way I was leaking gas all down the freeway.  Made it a few miles before I "
+"wound up stuck in the ass-end of nowhere.  I settled in to wander.  I guess "
+"I'm still kinda heading North, just by a pretty round-about way, you know?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's quite a story.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's quite a story.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Ooooh, boy.  I was ready for this.  The winds were blowing this way for "
+"years.  I had a full last man on earth shelter set up just out of town.  So, "
+"of course, just my luck: I was miles out of town for a work conference when "
+"China attacked and the world ended."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened to you?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What about your shelter?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Our conference was at a retreat by a lake.  We all got the emergency "
+"broadcast on our cells, but I was the only one to read between the lines and "
+"see it for what it was: large scale bio-terrorism.  I wasn't about to stay "
+"and find out who of my coworkers was a sleeper agent.  Although I'd bet "
+"fifty bucks it was Lee.  Anyway, I stole the co-ordinator's pickup and "
+"headed straight for my shelter."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Did you get there?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"No, I barely got two miles.  I crashed into some kind of hell-spawn chink "
+"bio-weapon, a crazy screeching <monster> made of arms and legs and heads "
+"from all sorts of creatures, humans too.  I think I killed it, but I know "
+"for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a "
+"couple bullets into it for good measure.  I hope I never see something like "
+"that again."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I still haven't made it there.  Every time I've tried I've been headed off "
+"by the <zombies>.  Who knows, maybe someday."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Could you tell me that story again?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Oh, man.  I thought I was ready.  I had it all planned out.  Bug out bags.  "
+"Loaded guns.  Maps of escape routes.  Bunker in the back yard."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sounds like it didn't work out."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Hey, I'd really be interested in seeing those maps."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Depends on your definition.  I'm alive, aren't I? When Hell itself came down "
+"from the skies and monsters started attacking the cities, I grabbed my stuff "
+"and crammed into the bunker.  My surface cameras stayed online for days; I "
+"could see everything happening up there.  I watched those things stride "
+"past.  I still have nightmares about the way their bodies moved, like they "
+"broke the world just to be here.  I had nothing better to do.  I watched "
+"them rip up the cops and the military, watched the dead rise back up and "
+"start fighting the living.  I watched the nice old lady down the street rip "
+"the head off my neighbor's dog.  I saw a soldier's body twitch and grow into "
+"some kind of electrified hulk beast.  I watched it all happen."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Why did you leave your bunker?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Honestly? I was planning to die.  After what I'd seen, I went a little "
+"crazy.  I thought it was over for sure, I figured there was no point in "
+"fighting it.  I thought I wouldn't last a minute out here, but I couldn't "
+"bring myself to end it down there.  I headed out, planning to let the "
+"<zombies> finish me off, but what can I say? Survival instinct is a funny "
+"thing, and I killed the ones outside the bunker.  I guess the adrenaline was "
+"what I needed.  It's kept me going since then."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me that.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me that.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah, I do.  I'd be willing to part with them for, say, $1000.  Straight "
+"from your ATM account, no cash cards."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "[$2000] You have a deal."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Whatever's in that map benefits both of us."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How 'bout you <swear> hand it over and I don't get <swear> pissed off?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry for changing the subject.  What was it you were saying?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "All right.  Here they are."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks!  What was it you were saying before?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Nice try.  You want the maps, you pay up."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Fine.  What was it you were saying before?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I didn't even know about <the_cataclysm> right away.  I was way out, away "
+"from the worst of it.  My car broke down out on the highway, and I was "
+"waiting for a tow for hours.  I finally wound up camping in the bushes off "
+"the side of the road; good thing, too, because a semi truck whipped by - "
+"dead driver, you know - and turned my car into a skid mark.  I feel bad for "
+"the bastards that were in the cities when it hit."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How did you survive outside?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What did you see in those first few days?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Ha, I don't fully understand it myself.  Those first few days were a tough "
+"time to be outside, that's for sure.  I got caught in one of those hellish "
+"rainstorms, it started to burn my skin right off.  I managed to take shelter "
+"under a car, lying on top of my tent.  Wrecked the damn thing, but better it "
+"than me.  From what I hear, though, I got lucky.  That was pretty much the "
+"worst I saw.  I didn't run into any of those demon-monsters that I hear "
+"attacked the cities, so I guess I got off lucky."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Besides the acid rain, I mostly saw people fleeing the cities.  I tried to "
+"stay away from the roads, but I didn't want to get lost in the woods either, "
+"so I stuck to the deep margins.  I saw cars, buses, trucks loaded down with "
+"evacuees.  Plenty went right on, but a lot stalled out of gas and other "
+"stuff.  Some were so full of gear and people there were folks hanging off "
+"them.  Stalling out was a death sentence, because the dead were coming along "
+"the roads picking off the survivors."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I was out on a fishing trip with my friend when it happened.  I don't know "
+"exactly how the days line up...  our first clue that Armageddon had come was "
+"when we got blasted by some kind of poison wind, with a sort of acid mist in "
+"it that burnt our eyes and skin.  We weren't sure what to make of it so we "
+"went inside to rest up, and while we were in there a weird dust settled over "
+"everything."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened after the acid mist?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"By morning, the area around the lake was covered in a pinkish mold, and "
+"there were walking mushrooms around shooting clouds of the dust in the air.  "
+"We didn't know what was going on, but neither of us wanted to stay and find "
+"out.  We packed up our shit, scraped off the boat, and took off upriver."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened to your friend?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"She took sick a few hours after we left the lake.  Puking, complaining about "
+"her joints hurting.  I took us to a little shop I knew about on the "
+"riverside, hoping they might have something to help or at least know what "
+"was going on."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I guess they didn't know."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"The shop was empty, actually.  She was desperate though, so I broke in.  I "
+"found out more about the chaos in towns from the store radio.  Got my friend "
+"some painkillers and gravol, but when I came out to the boat, well...  it "
+"was too late for her."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "She was dead?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I wish.  That would have been a mercy.  She was letting out an awful, "
+"choking scream, and her body was shredding itself apart.  Mushrooms were "
+"busting out of every part of her.  I...  I ran.  Now I wish that I'd put her "
+"out of her misery, but going back there now would be suicide."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's awful.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's awful.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"My wife made it out with me, but got eaten by one of those <swear> plant "
+"monsters a few days before I met you.  This hasn't been a great year for me."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"My husband made it out with me, but got eaten by one of those <swear> plant "
+"monsters a few days before I met you.  This hasn't been a great year for me."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I'm sorry to hear it."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Tell me about those plant monsters."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That's how it goes, you know?  These are the end times.  I don't really want "
+"to talk about it more than that.  And honestly, I never really felt like I "
+"belonged, in the old world.  In a weird way, I actually feel like I have a "
+"purpose now.  Do you ever get that?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "No, that's messed up."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah, I get that.  Sometimes I feel like my existence began shortly after "
+"the cataclysm."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I guess those of us who made it this far have to have made it for a reason, "
+"or something.  I don't mean like a religious reason, just...  we're "
+"survivors."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Haha, yeah, I can see why you'd think that.  I don't mean it's a good "
+"apocalypse.  I just mean that at least now I know what I'm doing every day.  "
+"I'd still kill a hundred zombies for an internet connection and a night "
+"watching crappy movies with...  sorry.  Let's change the subject."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah, have you seen them yet? They're these <shitty> walking flowers with a "
+"big <swear> stinger in the middle.  They travel in packs.  They hate the "
+"zombies, and we were using them for cover to clear a horde of the dead.  "
+"Unfortunately, turns out the plants are better trackers than the <zombies>.  "
+"They almost seemed intelligent...  I barely made it out, only because they "
+"were, uh, distracted."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I'm sorry you lost someone."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Just another <shitty> tale of love and loss.  Not something I like to tell."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "It might help to get it off your chest."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Suck it up.  If we're going to work together I need to know you."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Never mind.  Sorry I brought it up."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I appreciate the sentiment, but I don't think it would.  Drop it."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "OK."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Oh, <fuck_you>.  This doesn't have anything to do with you, or with us."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "All right, fine.  I had someone.  I lost her."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "All right, fine.  I had someone.  I lost him."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"She was at home when the bombs started dropping and the world went to hell.  "
+"I was at work.  I tried to make it to our house, but the city was a war "
+"zone.  Things I can't describe lurching through the streets, crushing people "
+"and cars.  Soldiers trying to stop them, but hitting people in the crossfire "
+"as much as anything.  And then the collateral damage would get right back up "
+"and join the enemy.  If it hadn't been for my wife, I would have just left, "
+"but I did what I could and I slipped through.  I actually <swear> made it "
+"alive."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"He was at home when the bombs started dropping and the world went to hell.  "
+"I was at work.  I tried to make it to our house, but the city was a war "
+"zone.  Things I can't describe lurching through the streets, crushing people "
+"and cars.  Soldiers trying to stop them, but hitting people in the crossfire "
+"as much as anything.  And then the collateral damage would get right back up "
+"and join the enemy.  If it hadn't been for my husband, I would have just "
+"left, but I did what I could and I slipped through.  I actually <swear> made "
+"it alive."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "You must have seen some shit."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I take it home was bad."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah.  I really did.  It took me two days to make it across the city on "
+"foot, camping out in dumpsters and places like that.  I started moving more "
+"by night, and I learned right away to avoid the military.  They were a "
+"magnet for the <zombies>, and they were usually stationed where the monsters "
+"were coming.  Some parts of the city were pretty tame at first.  There were "
+"a few chunks where people had been evacuated or cleared out, and the "
+"<zombies> didn't really go there.  Later on, others like me started moving "
+"into those neighborhoods, so I switched and started running through the "
+"blasted out downtown.  I had to anyway, to get home.  By the time I made the "
+"switch though, the fighting was starting to die off, and I was mostly just "
+"avoiding attention from zombies and other things."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"The first warning was that I had to move from the preserved parts of the "
+"city to the burnt out ones to get home.  It only got worse.  There was a "
+"police barricade right outside my house, with a totally useless pair of "
+"automated turrets sitting in front just idly watching the zombies lurch by.  "
+"That was before someone switched them to kill everybody, back when it only "
+"killed trespassing humans.  Good times, you can always trust bureaucracy to "
+"fuck things up in the most spectacular way possible.  Anyway, the house "
+"itself was half collapsed, a SWAT van had plowed into it.  I think I knew "
+"what I was going to see in there, but I had made it that far and I wasn't "
+"going to turn back."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "You must have seen some shit on the way there."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Did you make it into the house?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I did.  Took a few hours to get an opening.  And you wanna know the fucked "
+"up part? Like, out of all this?  My wife was still alive.  She'd been in the "
+"basement the whole time, pinned under a collapsed piece of floor.  And she'd "
+"lost a ton of blood, she was delirius by the time I found her.  I couldn't "
+"get her out, so I gave her food and water and just stayed with her and held "
+"her hand until she passed.  And then...  well, then I did what you have to "
+"do to the dead now.  And then I packed up the last few fragments of my life, "
+"and I try to never look back."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I did.  Took a few hours to get an opening.  And you wanna know the fucked "
+"up part? Like, out of all this?  My husband was still alive.  He'd been in "
+"the basement the whole time, pinned under a collapsed piece of floor.  And "
+"he'd lost a ton of blood, he was delirius by the time I found him.  I "
+"couldn't get him out, so I gave him food and water and just stayed with him "
+"and held his hand until he passed.  And then...  well, then I did what you "
+"have to do to the dead now.  And then I packed up the last few fragments of "
+"my life, and I try to never look back."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I lived alone, on the old family property way out of town.  My wife passed "
+"away a bit over a month before this started... cancer.  If anything good has "
+"come out of all this, it's that I finally see a positive to losing her so "
+"young.  I'd been shut in for a while anyway.  When the news started talking "
+"about Chinese bio weapons and sleeper agents, and showing the rioting in "
+"Boston and such, I curled up with my canned soup and changed the channel."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I lived alone, on the old family property way out of town.  My husband "
+"passed away a bit over a month before this started... cancer.  If anything "
+"good has come out of all this, it's that I finally see a positive to losing "
+"him so young.  I'd been shut in for a while anyway.  When the news started "
+"talking about Chinese bio weapons and sleeper agents, and showing the "
+"rioting in Boston and such, I curled up with my canned soup and changed the "
+"channel."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened next?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well, it built up a bit.  There was that acid rain, it burnt up one of my "
+"tractors.  Not that I'd been working the fields since...  well, it'd been a "
+"<shitty> year and I hadn't done much worth doing.  There were explosions and "
+"things, and choppers overhead.  I was scared, kept the curtains drawn, kept "
+"changing the channels.  Then, one day, there were no channels to change to.  "
+"Just the emergency broadcast, over and over."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That was the first thing to really shake me out of it.  I didn't really have "
+"any very close friends, but there were people back in town I cared about a "
+"bit.  I had sent some texts, but I hadn't really twigged that they hadn't "
+"replied for days.  I got in my truck and tried to get back to town.  Didn't "
+"get far before I hit a <zombie> infested pileup blocking the highway, and "
+"that's when I started to put it all together.  Never did get to town.  "
+"Unfortunately I led the <zombies> back to my farm, and had to bug out of "
+"there.  Might go back and clear it out, someday."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me that. <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well, I lived on the edge of a small town.  Corner store and a gas station "
+"and not much else.  We heard about the shit goin' down in the city, but we "
+"didn't see much of it until the military came blazing through and tried to "
+"set up a camp there.  They wanted to bottle us all up in town, and I wasn't "
+"having with that, so my dog Buck and I, we headed out while they were all "
+"sniffin' their own farts."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Buck and I slipped out and went East, headin' for my friend's ranch.  Cute "
+"little dope thought we were just goin' for a real long walk.  I couldn't "
+"take the truck without the army boys catchin' wind of it.  We made it out to "
+"the forest, camped out in a lean to.  Packed up and kept heading out.  At "
+"first we walked along the highway a little, but saw too many army trucks and "
+"buses full of evacuees, and that's when we found out about the <zombies>."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Where's Buck now?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I see where this is headed. <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I see where this is headed. <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"We got to my buddy's ranch, but the <swear> g-men had been there first.  It "
+"was all boarded up and there was a police barricade out front.  One of those "
+"<swear> turrets...  <swear> shot Buck.  Almost got me too.  I managed to get "
+"my pup...  get him outta there, that...  it wasn't easy, had to use a police "
+"car door as a shield, had to kill a cop-zombie first.  And then, well, while "
+"I was still cryin', Buck came back.  I had to ...  <swear!>.  I...  I can't "
+"say it.  You know."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I'm sorry about Buck.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I'm sorry about Buck. <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
 msgid "That sure is a shiny badge you got there!"
 msgstr ""
 
@@ -100673,20 +102015,19 @@ msgstr ""
 msgid "Never mind, I'm not interested."
 msgstr ""
 
-#: lang/json/talk_topic_from_json.py src/crafting.cpp src/game.cpp
+#: lang/json/talk_topic_from_json.py src/crafting.cpp
 #: src/game.cpp
-#: src/game.cpp src/handle_action.cpp
 #: src/handle_action.cpp
 #: src/handle_action.cpp src/iexamine.cpp
 #: src/iexamine.cpp
 #: src/iexamine.cpp src/iuse.cpp
 #: src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp
 #: src/iuse_actor.cpp
 #: src/iuse_actor.cpp src/npctalk.cpp
-#: src/npctalk.cpp
-#: src/pickup.cpp src/player.cpp
+#: src/npctalk.cpp src/pickup.cpp
 #: src/player.cpp
-#: src/veh_interact.cpp
+#: src/player.cpp src/veh_interact.cpp
 msgid "Never mind."
 msgstr ""
 
@@ -102287,10 +103628,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
-msgid "OK."
-msgstr ""
-
-#: lang/json/talk_topic_from_json.py
 msgid ""
 "I keep getting sick!  At first I thought it was something I ate but now it "
 "seems like I can't keep anything down..."
@@ -103304,7 +104641,6 @@ msgid "<npcname> disarms %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
-#: lang/json/technique_from_json.py src/monster.cpp
 msgid "grab"
 msgstr ""
 
@@ -109214,7 +110550,9 @@ msgid "A combustion engine.  Burns fuel from a tank in the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "A combustion engine.  Burns diesel fuel from a tank in the vehicle."
+msgid ""
+"A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can "
+"also burn methanol, ethanol, or lamp oil, though somewhat less efficiently."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -109223,8 +110561,8 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid ""
-"A closed cycle, external combustion steam engine.  Burns coal from a bunker "
-"in the vehicle to produce steam."
+"A closed cycle, external combustion steam engine.  Burns coal or charcoal "
+"from a bunker in the vehicle to produce steam."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -113252,10 +114590,6 @@ msgstr ""
 
 #: src/artifact.cpp
 msgid "shrinks and grows very slightly with a regular pulse, as if breathing"
-msgstr ""
-
-#: src/artifact.cpp
-msgid "dead"
 msgstr ""
 
 #: src/artifact.cpp
@@ -117294,7 +118628,8 @@ msgid "Impossible"
 msgstr ""
 
 #: src/crafting_gui.cpp
-msgid "v (more)"
+#, c-format
+msgid "v (%s for more)"
 msgstr ""
 
 #: src/crafting_gui.cpp
@@ -120835,6 +122170,15 @@ msgid " left]\n"
 msgstr ""
 
 #: src/faction_camp.cpp
+#: src/faction_camp.cpp src/mission_companion.cpp
+#: src/mission_companion.cpp
+msgid ""
+"\n"
+" \n"
+"Do you wish to bring your allies back into your party?"
+msgstr ""
+
+#: src/faction_camp.cpp
 #, c-format
 msgid "%s has become a camp manager."
 msgstr ""
@@ -120849,14 +122193,6 @@ msgstr ""
 
 #: src/faction_camp.cpp
 msgid "Working to expand your camp!\n"
-msgstr ""
-
-#: src/faction_camp.cpp
-#: src/mission_companion.cpp
-msgid ""
-"\n"
-" \n"
-"Do you wish to bring your allies back into your party?"
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -120888,7 +122224,8 @@ msgstr ""
 msgid ""
 "Notes:\n"
 "Distribute food to your follower and fill you larders.  Place the food you "
-"wish to distribute opposite the tent door between the manager and wall.\n"
+"wish to distribute on the companion food sort point.  By default, that is "
+"opposite the tent door between the manager and wall.\n"
 " \n"
 "Effects:\n"
 "> Increases your faction's food supply value which in turn is used to pay "
@@ -120968,7 +122305,7 @@ msgid ""
 "front of the tent.\n"
 "Default, top to bottom:  Clothing, Food, Books/Bionics, and Tools.  Wood "
 "will be piled to the south.  Trash to the north.\n"
-" \n"
+"\n"
 "Risk: None\n"
 "Time: 3 Hours\n"
 "Positions: %d/1\n"
@@ -120983,13 +122320,6 @@ msgid "Performing menial labor...\n"
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid ""
-"\n"
-" \n"
-"Do you wish to bring your allies back into your party?\n"
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "Recover Menial Laborer"
 msgstr ""
 
@@ -120997,8 +122327,8 @@ msgstr ""
 #, c-format
 msgid ""
 "Notes:\n"
-"Your base has become large enough to support an expansion.  Expansions open "
-"up new opportunities but can be expensive and time consuming.  Pick them "
+"Your base has become large enough to support an expansion.Expansions open up "
+"new opportunities but can be expensive and time consuming.  Pick them "
 "carefully, only 8 can be built at each camp.\n"
 " \n"
 "Skill used: N/A \n"
@@ -121041,7 +122371,7 @@ msgid ""
 "> 50%% of trees/trunks at the forest position will be cut down.\n"
 "> 100%% of total material will be brought back.\n"
 "> Repeatable with diminishing returns.\n"
-" \n"
+"> Will eventually turn forests into fields.\n"
 "Risk: None\n"
 "Time: 6 Hour Base + Travel Time + Cutting Time\n"
 "Positions: %d/1\n"
@@ -121070,7 +122400,7 @@ msgid ""
 "Effects:\n"
 "> 95%% of trees/trunks at the forest position will be cut down.\n"
 "> 0%% of total material will be brought back.\n"
-"> Forest will become a field tile.\n"
+"> Forest should become a field tile.\n"
 "> Useful for clearing land for another faction camp.\n"
 " \n"
 "Risk: None\n"
@@ -121155,7 +122485,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Notes:\n"
-"Send a companion to edible plans.\n"
+"Send a companion to forage for edible plants.\n"
 " \n"
 "Skill used: survival\n"
 "Difficulty: N/A \n"
@@ -121355,7 +122685,7 @@ msgid ""
 "> Skill plays a huge role to determine what is salvaged.\n"
 " \n"
 "Risk: None\n"
-"Time: Skill Based \n"
+"Time: 5 days \n"
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -121497,10 +122827,6 @@ msgid "departs to search for materials..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "There are too many companions working on this mission!"
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "departs to search for firewood..."
 msgstr ""
 
@@ -121548,29 +122874,13 @@ msgid "departs to survey land..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You have already selected a surveyor!"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "begins to upgrade the expansion..."
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You don't have the materials for the upgrade."
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You already have a worker upgrading that expansion!"
+#, c-format
+msgid "%s returns to you with something..."
 msgstr ""
 
 #: src/faction_camp.cpp
 #, c-format
 msgid "%s returns from your farm with something..."
-msgstr ""
-
-#: src/faction_camp.cpp
-#, c-format
-msgid "%s returns to you with something..."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -121588,10 +122898,6 @@ msgid "begins plowing the field..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You already have someone plowing that field."
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "You have no additional seeds to give your companions..."
 msgstr ""
 
@@ -121604,19 +122910,7 @@ msgid "Which seeds do you wish to have planted?"
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You already have someone planting that field."
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "begins to harvest the field..."
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You already have someone harvesting that field."
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You already have someone working in that garage."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -121625,11 +122919,11 @@ msgid "%s returns from your garage..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You already have a companion upgrading the camp."
+msgid "begins to upgrade the camp..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "begins to upgrade the camp..."
+msgid "You don't have the materials for the upgrade."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -121727,10 +123021,6 @@ msgstr ""
 
 #: src/faction_camp.cpp
 msgid "Your batch is too large!"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You already have someone working in that expansion."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -124318,6 +125608,11 @@ msgstr ""
 msgid "Press %s to list items and monsters"
 msgstr ""
 
+#: src/game.cpp
+#, c-format
+msgid "Press %s to blind throw"
+msgstr ""
+
 #. ~ "Fast Scroll" mark below the top right corner of the info window
 #: src/game.cpp
 msgid "F"
@@ -124593,62 +125888,6 @@ msgid "%s (%d)"
 msgstr ""
 
 #: src/game.cpp
-msgid "You can't butcher while driving!"
-msgstr ""
-
-#: src/game.cpp
-msgid "You don't have a butchering tool."
-msgstr ""
-
-#: src/game.cpp
-msgid "There are no corpses here to butcher."
-msgstr ""
-
-#: src/game.cpp
-msgid "You can't access the items here."
-msgstr ""
-
-#: src/game.cpp
-msgid "You don't have the necessary tools to disassemble any items here."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You see %s nearby! Start butchering anyway?"
-msgstr ""
-
-#: src/game.cpp
-msgid "Choose corpse to butcher / item to disassemble"
-msgstr ""
-
-#: src/game.cpp
-msgid "Quick butcher everything"
-msgstr ""
-
-#: src/game.cpp
-msgid "Disassemble everything once"
-msgstr ""
-
-#: src/game.cpp
-msgid "Disassemble everything"
-msgstr ""
-
-#: src/game.cpp
-msgid "Cut up everything"
-msgstr ""
-
-#: src/game.cpp
-msgid ""
-"You are not in the mood and the prospect of guts and blood on your hands "
-"convinces you to turn away."
-msgstr ""
-
-#: src/game.cpp
-msgid ""
-"You are not in the mood and the prospect of work stops you before you begin."
-msgstr ""
-
-#: src/game.cpp
 msgid "Choose type of butchery:"
 msgstr ""
 
@@ -124683,7 +125922,7 @@ msgstr ""
 #: src/game.cpp
 msgid ""
 "Technique that involves removing internal organs and viscera to protect the "
-"corpse from rotting from inside.  Yields internal organs.  Carcass will be "
+"corpse from rotting from inside. Yields internal organs. Carcass will be "
 "lighter and will stay fresh longer.  Can be combined with other methods for "
 "better effects."
 msgstr ""
@@ -124694,7 +125933,7 @@ msgstr ""
 
 #: src/game.cpp
 msgid ""
-"By quartering a previously field dressed corpse you will acquire four parts "
+"By quartering a previously field dressed corpse you will aquire four parts "
 "with reduced weight and volume.  It may help in transporting large game.  "
 "This action destroys skin, hide, pelt, etc., so don't use it if you want to "
 "harvest them later."
@@ -124710,6 +125949,62 @@ msgid ""
 "implants, and harvest them if possible.  Requires scalpel-grade cutting "
 "tools, ruins corpse, and consumes lot of time.  Your medical knowledge is "
 "most useful here."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't butcher while driving!"
+msgstr ""
+
+#: src/game.cpp
+msgid "You don't have a butchering tool."
+msgstr ""
+
+#: src/game.cpp
+msgid "There are no corpses here to butcher."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't access the items here."
+msgstr ""
+
+#: src/game.cpp
+msgid "You don't have the necessary tools to disassemble any items here."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You see %s nearby! Start butchering anyway?"
+msgstr ""
+
+#: src/game.cpp
+msgid "Choose corpse to butcher / item to disassemble"
+msgstr ""
+
+#: src/game.cpp
+msgid "Butcher everything"
+msgstr ""
+
+#: src/game.cpp
+msgid "Disassemble everything once"
+msgstr ""
+
+#: src/game.cpp
+msgid "Disassemble everything"
+msgstr ""
+
+#: src/game.cpp
+msgid "Cut up everything"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"You are not in the mood and the prospect of guts and blood on your hands "
+"convinces you to turn away."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"You are not in the mood and the prospect of work stops you before you begin."
 msgstr ""
 
 #: src/game.cpp
@@ -127567,7 +128862,7 @@ msgid "Do what with the curtains?"
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Peek through the curtains."
+msgid "Peek through the closed curtains."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -132374,11 +133669,6 @@ msgstr ""
 msgid "This memory card does not contain any new data."
 msgstr ""
 
-#. ~ photo quality adjective
-#: src/iuse.cpp
-msgid "awful"
-msgstr ""
-
 #: src/iuse.cpp
 msgid "bad"
 msgstr ""
@@ -136913,19 +138203,19 @@ msgstr ""
 msgid ""
 "Cost: $1000\n"
 " \n"
-"\n"
-"              .........\n"
-"              .........\n"
-"              .........\n"
-"              .........\n"
-"              .........\n"
-"              .........\n"
-"              ..#....**\n"
-"              ..#Ov..**\n"
-"              ...O|....\n"
+" \n"
+"                .........\n"
+"                .........\n"
+"                .........\n"
+"                .........\n"
+"                .........\n"
+"                .........\n"
+"                ..#....**\n"
+"                ..#Ov..**\n"
+"                ...O|....\n"
 " \n"
 "We're willing to let you purchase a field at a substantial discount to use "
-"for your own agricultural enterprises.  We'll plow it for you so you know "
+"for your own agricultural enterprises.  We'll plow it for you  so you know "
 "exactly what is yours... after you have a field you can hire workers to "
 "plant or harvest crops for you.  If the crop is something we have a demand "
 "for, we'll be willing to liquidate it."
@@ -139420,14 +140710,17 @@ msgid "It has the following senses: %s."
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Hearing as sense"
 msgid "hearing"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Sight as sense"
 msgid "sight"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Smell as sense"
 msgid "smell"
 msgstr ""
 
@@ -139441,14 +140734,22 @@ msgid "It can %s."
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Swim as an action"
 msgid "swim"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Fly as an action"
 msgid "fly"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Dig as an action"
+msgid "dig"
+msgstr ""
+
+#: src/monster.cpp
+msgctxt "Climb as an action"
 msgid "climb"
 msgstr ""
 
@@ -139458,10 +140759,17 @@ msgid "<bad>In fight it can %s.</bad>"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Grab as an action"
+msgid "grab"
+msgstr ""
+
+#: src/monster.cpp
+msgctxt "Poison as an action"
 msgid "poison"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Paralyze as an action"
 msgid "paralyze"
 msgstr ""
 
@@ -144641,6 +145949,10 @@ msgid "Wielding - %s"
 msgstr ""
 
 #: src/pickup.cpp
+msgid "Lost track of vehicle."
+msgstr ""
+
+#: src/pickup.cpp
 msgid "You can't pick up a liquid!"
 msgstr ""
 
@@ -148148,6 +149460,11 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "Throwing %s"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Blind throwing %s"
 msgstr ""
 
 #: src/ranged.cpp
