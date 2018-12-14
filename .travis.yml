@@ -34,9 +34,6 @@ branches:
 jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
-    - stage: jsonlint
-      script: ./build-scripts/lint-json.sh
-
     - stage: test
       # GCC 5 is the pre-installed compiler on Xenial
       env: COMPILER=g++ MODS=--mods=RL_Classes
