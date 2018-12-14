@@ -276,5 +276,39 @@
     "capacity": 32,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
-  }
+  },
+  {
+    "id": "mp40mag",
+    "type": "MAGAZINE",
+    "name": "MP40 magazine",
+    "description": "A 32-round magazine for use with the MP40.",
+    "weight": 220,
+    "volume": 2,
+    "price": 4500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 32,
+    "reliability": 8,
+    "reload_time": 120,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "mp40bigmag",
+    "type": "MAGAZINE",
+    "name": "MP40 drum magazine",
+    "description": "A custom 50-round drum magazine for use with the MP40.",
+    "weight": 340,
+    "volume": 3,
+    "price": 9800,
+    "material": "steel",
+    "symbol": "#",
+    "color": "gray",
+    "ammo_type": "9mm",
+    "capacity": 50,
+    "reliability": 8,
+    "reload_time": 170,
+    "flags": [ "MAG_BULKY" ]
+  },
 ]
