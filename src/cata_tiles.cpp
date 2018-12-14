@@ -1712,7 +1712,7 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
             looks_like = "vp_" + new_vpi.looks_like;
         } else if( category == C_ITEM ) {
             if( !item::type_is_defined( looks_like ) ) {
-                if( looks_like.substr(0, 7) == "corpse_" ) {
+                if( looks_like.substr( 0, 7 ) == "corpse_" ) {
                     looks_like = "corpse";
                     continue;
                 }
@@ -2418,7 +2418,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
         // get the last item in the stack, it will be used for display
         const item &displayed_item = cur_maptile.get_uppermost_item();
         // get the item's name, as that is the key used to find it in the map
-        const std::string it_name = ( displayed_item.is_corpse() ) ? "corpse_" + displayed_item.get_mtype()->id.str() : displayed_item.typeId();
+        const std::string it_name = ( displayed_item.is_corpse() ) ? "corpse_" +
+                                    displayed_item.get_mtype()->id.str() : displayed_item.typeId();
 
         const std::string it_category = displayed_item.type->get_item_type_string();
         ret_draw_item = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
