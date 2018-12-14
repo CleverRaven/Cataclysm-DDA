@@ -440,5 +440,49 @@
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fn57mag" ] ]
     ]
-  }
+  },
+  {
+    "id": "mp40",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": "MP40",
+    "description": "The Maschinenpistole 40 is a popular WWII gun made by the Nazis between 1940 and 1945. It is chambered for 9x19mm Parabellum, making ammo for it widely available.",
+    "weight": 2400,
+    "volume": 5,
+    "price": 2300000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "skill": "smg",
+    "ranged_damage": 1,
+    "dispersion": 230,
+    "durability": 9,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 13 ]
+    ],
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "9mm", [ "mp40mag", "mp40bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "ump45mag" ] ],
+    ]
+  },
+  {
+    "id": "replica_mp40",
+    "copy-from": "mp40"
+    "type": "GUN",
+    "name": "Replica MP40",
+    "description": "This is a reproduction model of the German Maschinenpistole 40. This replica does shoot, and is made to be as close to the original as possible, however it does not shoot fully auto due to various gun regulations during production.",
+    "weight": 2250,
+    "price": 90000,
+    "dispersion": 240,
+    "durability": 10,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+    ]
+  },
 ]
