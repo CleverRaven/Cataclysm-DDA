@@ -395,20 +395,9 @@ void mission_start::place_jabberwock( mission *miss )
     grove.save();
 }
 
-void mission_start::kill_100_z( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    p->set_attitude( NPCATT_FOLLOW );//npc joins you
-    //kill count of the monsters from a given species you need to reach
-    miss->kill_count_to_reach = g->kill_count( miss->monster_species ) + miss->monster_kill_goal;
-}
-
 void mission_start::kill_20_nightmares( mission *miss )
 {
     target_om_ter( "necropolis_c_44", 3, miss, false, -2 );
-    miss->monster_type = mon_charred_nightmare.str();
-    //kill count of the monster type you need to reach
-    miss->kill_count_to_reach = g->kill_count( mon_charred_nightmare ) + miss->monster_kill_goal;
 }
 
 void mission_start::kill_horde_master( mission *miss )

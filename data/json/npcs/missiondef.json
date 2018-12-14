@@ -509,7 +509,7 @@
     "monster_kill_goal": 100,
     "difficulty": 5,
     "value": 250000,
-    "start": "kill_100_z",
+    "start": "join",
     "end": "leave",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_KILL_HORDE_MASTER",
@@ -647,6 +647,7 @@
     "difficulty": 5,
     "value": 250000,
     "start": "kill_20_nightmares",
+    "monster_type": "mon_charred_nightmare",
     "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

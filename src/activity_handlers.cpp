@@ -326,30 +326,30 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
             u.add_msg_if_player( m_info,
                                  _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         } else if( big_corpse && !has_rope && !b_rack_present ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( big_corpse && !has_table_nearby ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( !u.has_quality( quality_id( "CUT" ) ) ) {
             u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
                              u.has_quality( quality_id( "SAW_M" ) ) ) ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a saw to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -358,14 +358,14 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info,
                              _( "It would be futile to search for implants inside this badly damaged corpse." ) );
-        act.set_to_null();
+        act.index = -1;
         return;
     }
 
     if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) ||
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
-        act.set_to_null();
+        act.index = -1;
         return;
     }
 
@@ -373,18 +373,18 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         if( corpse.size == MS_TINY ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( corpse_item.has_flag( "QUARTERED" ) ) {
             u.add_msg_if_player( m_bad, _( "This is already quartered." ), corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
                                  corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -411,7 +411,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             }
         } else {
             u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -1051,7 +1051,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = DISSECT;
     }
 
+    //Negative index means try to start next item
     if( act->index < 0 ) {
+        //No values means no items left to try
+        if( act->values.empty() ) {
+            act->set_to_null();
+            return;
+        }
         set_up_butchery( *act, *p, action );
         return;
     }
@@ -1079,7 +1085,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
-        act->set_to_null();
+        act->index = -1;
         return;
     }
 
@@ -1133,7 +1139,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
                                      corpse->size + 1 ) ) );
         }
-        act->set_to_null();
+        act->index = -1;
         return;
     }
 
@@ -1226,19 +1232,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
-            act->set_to_null();
-            return;
+            break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
             g->m.i_rem( p->pos(), act->index );
             break;
     }
     // multibutchering
-    if( act->values.empty() ) {
-        act->set_to_null();
-    } else {
-        set_up_butchery( *act, *p, action );
-    }
+    act->index = -1;
 }
 
 enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};

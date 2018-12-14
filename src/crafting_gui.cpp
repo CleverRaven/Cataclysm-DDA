@@ -237,8 +237,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 keepline = false;
             }
 
-            if( display_mode > 2 ) {
-                display_mode = 2;
+            if( display_mode > 1 ) {
+                display_mode = 1;
             }
 
             TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
@@ -516,13 +516,13 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             //handle positioning of component list if it needed to be scrolled
             int componentPrintOffset = 0;
-            if( display_mode > 2 ) {
-                componentPrintOffset = ( display_mode - 2 ) * componentPrintHeight;
+            if( display_mode > 1 ) {
+                componentPrintOffset = ( display_mode - 1 ) * componentPrintHeight;
             }
             if( component_print_buffer.size() < static_cast<size_t>( componentPrintOffset ) ) {
                 componentPrintOffset = 0;
                 if( previous_tab != tab.cur() || previous_subtab != subtab.cur() || previous_item_line != line ) {
-                    display_mode = 2;
+                    display_mode = 1;
                 } else {
                     display_mode = 0;
                 }
@@ -576,7 +576,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             //color needs to be preserved in case part of the previous page was cut off
             nc_color stored_color = col;
-            if( display_mode > 2 ) {
+            if( display_mode > 1 ) {
                 stored_color = rotated_color;
             } else {
                 rotated_color = col;
@@ -594,7 +594,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( ypos >= componentPrintHeight &&
                 component_print_buffer.size() > static_cast<size_t>( components_printed ) ) {
-                mvwprintz( w_data, ypos++, xpos, col, _( "v (more)" ) );
+                mvwprintz( w_data, ypos++, xpos, col,
+                           _( "v (%s for more)" ),
+                           ctxt.press_x( "CYCLE_MODE" ) );
                 rotated_color = stored_color;
             }
 

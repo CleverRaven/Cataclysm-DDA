@@ -2047,5 +2047,12 @@
     "time": 100,
     "components": [ [ [ "chem_formaldehyde", 10 ] ], [ [ "human_brain_embalmed", 5 ] ], [ [ "jar_3l_glass", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "trailmap",
+    "type": "uncraft",
+    "time": 500,
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
