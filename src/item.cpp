@@ -2887,7 +2887,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += _( "sawn-off " );
     }
     if( has_flag( "DIAMOND" ) ) {
-        modtext += std::string( _( "diamond" ) ) + " ";
+        modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
     ret.str( "" );
