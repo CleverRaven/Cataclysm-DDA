@@ -254,9 +254,9 @@
     ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
-      [ "9mm", [ "m3mag", "m3bigmag" ] ],
+      [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "45", [ "ump45mag" ] ],
+      [ "45", [ "m3mag", "m3bigmag" ] ],
     ]
   },
   {
@@ -284,9 +284,9 @@
     ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
-      [ "9mm", [ "m3mag", "m3bigmag" ] ],
+      [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "45", [ "ump45mag" ] ],
+      [ "45", [ "m3mag", "m3bigmag" ] ],
     ]
   },
   {  
