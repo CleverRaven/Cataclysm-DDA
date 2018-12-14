@@ -183,17 +183,16 @@ bool overmap_special_id::is_valid() const
     return specials.is_valid( *this );
 }
 
-city::city( int const X, int const Y, int const S )
-    : x( X )
-    , y( Y )
-    , s( S )
+city::city( const point &P, int const S )
+    : pos( P )
+    , size( S )
     , name( Name::get( nameIsTownName ) )
 {
 }
 
 int city::get_distance_from( const tripoint &p ) const
 {
-    return std::max( int( trig_dist( p, { x, y, 0 } ) ) - s, 0 );
+    return std::max( int( trig_dist( p, { pos.x, pos.y, 0 } ) ) - size, 0 );
 }
 
 std::map<enum radio_type, std::string> radio_type_names =
@@ -747,7 +746,7 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
     if( !requires_city() ) {
         return true;
     }
-    if( !cit || !city_size.contains( cit.s ) ) {
+    if( !cit || !city_size.contains( cit.size ) ) {
         return false;
     }
     return city_distance.contains( cit.get_distance_from( p ) );
@@ -1139,8 +1138,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
         for( auto &i : north->roads_out ) {
-            if( i.y == OMAPY - 1 ) {
-                roads_out.push_back( city( i.x, 0, 0 ) );
+            if( i.pos.y == OMAPY - 1 ) {
+                roads_out.push_back( city( i.pos.x, 0, 0 ) );
             }
         }
     }
@@ -1160,8 +1159,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
         for( auto &i : west->roads_out ) {
-            if( i.x == OMAPX - 1 ) {
-                roads_out.push_back( city( 0, i.y, 0 ) );
+            if( i.pos.x == OMAPX - 1 ) {
+                roads_out.push_back( city( 0, i.pos.y, 0 ) );
             }
         }
     }
@@ -1180,8 +1179,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
         for( auto &i : south->roads_out ) {
-            if( i.y == 0 ) {
-                roads_out.push_back( city( i.x, OMAPY - 1, 0 ) );
+            if( i.pos.y == 0 ) {
+                roads_out.push_back( city( i.pos.x, OMAPY - 1, 0 ) );
             }
         }
     }
@@ -1201,8 +1200,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
         for( auto &i : east->roads_out ) {
-            if( i.x == 0 ) {
-                roads_out.push_back( city( OMAPX - 1, i.y, 0 ) );
+            if( i.pos.x == 0 ) {
+                roads_out.push_back( city( OMAPX - 1, i.pos.y, 0 ) );
             }
         }
     }
@@ -1318,10 +1317,10 @@ void overmap::generate( const overmap *north, const overmap *east,
     // Compile our master list of roads; it's less messy if roads_out is first
     road_points.reserve( roads_out.size() + cities.size() );
     for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.x, elem.y );
+        road_points.emplace_back( elem.pos.x, elem.pos.y );
     }
     for( const auto &elem : cities ) {
-        road_points.emplace_back( elem.x, elem.y );
+        road_points.emplace_back( elem.pos.x, elem.pos.y );
     }
 
     // And finally connect them via roads.
@@ -1469,13 +1468,13 @@ bool overmap::generate_sub( int const z )
     }
 
     for( auto &i : goo_points ) {
-        requires_sub |= build_slimepit( i.x, i.y, z, i.s );
+        requires_sub |= build_slimepit( i.pos.x, i.pos.y, z, i.size );
     }
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
     for( auto &i : ant_points ) {
-        build_anthill( i.x, i.y, z, i.s );
+        build_anthill( i.pos.x, i.pos.y, z, i.size );
     }
 
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
@@ -1489,25 +1488,25 @@ bool overmap::generate_sub( int const z )
     }
 
     for( auto &i : lab_points ) {
-        bool lab = build_lab( i.x, i.y, z, i.s, &lab_train_points, "", lab_train_odds );
+        bool lab = build_lab( i.pos.x, i.pos.y, z, i.size, &lab_train_points, "", lab_train_odds );
         requires_sub |= lab;
-        if( !lab && ter( i.x, i.y, z ) == "lab_core" ) {
-            ter( i.x, i.y, z ) = oter_id( "lab" );
+        if( !lab && ter( i.pos.x, i.pos.y, z ) == "lab_core" ) {
+            ter( i.pos.x, i.pos.y, z ) = oter_id( "lab" );
         }
     }
     for( auto &i : ice_lab_points ) {
-        bool ice_lab = build_lab( i.x, i.y, z, i.s, &lab_train_points, "ice_", lab_train_odds );
+        bool ice_lab = build_lab( i.pos.x, i.pos.y, z, i.size, &lab_train_points, "ice_", lab_train_odds );
         requires_sub |= ice_lab;
-        if( !ice_lab && ter( i.x, i.y, z ) == "ice_lab_core" ) {
-            ter( i.x, i.y, z ) = oter_id( "ice_lab" );
+        if( !ice_lab && ter( i.pos.x, i.pos.y, z ) == "ice_lab_core" ) {
+            ter( i.pos.x, i.pos.y, z ) = oter_id( "ice_lab" );
         }
     }
     for( auto &i : central_lab_points ) {
-        bool central_lab = build_lab( i.x, i.y, z, i.s, &central_lab_train_points, "central_",
+        bool central_lab = build_lab( i.pos.x, i.pos.y, z, i.size, &central_lab_train_points, "central_",
                                       lab_train_odds );
         requires_sub |= central_lab;
-        if( !central_lab && ter( i.x, i.y, z ) == "central_lab_core" ) {
-            ter( i.x, i.y, z ) = oter_id( "central_lab" );
+        if( !central_lab && ter( i.pos.x, i.pos.y, z ) == "central_lab_core" ) {
+            ter( i.pos.x, i.pos.y, z ) = oter_id( "central_lab" );
         }
     }
 
@@ -1555,11 +1554,11 @@ bool overmap::generate_sub( int const z )
     for( auto &i : cities ) {
         if( one_in( 3 ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_CHUD" ),
-                                     i.x * 2, i.y * 2, z, i.s, i.s * 20 ) );
+                                     i.pos.x * 2, i.pos.y * 2, z, i.size, i.size * 20 ) );
         }
         if( !one_in( 8 ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_SEWER" ),
-                                     i.x * 2, i.y * 2, z, ( i.s * 7 ) / 2, i.s * 70 ) );
+                                     i.pos.x * 2, i.pos.y * 2, z, ( i.size * 7 ) / 2, i.size * 70 ) );
         }
     }
 
@@ -1568,7 +1567,7 @@ bool overmap::generate_sub( int const z )
         place_rifts( z );
     }
     for( auto &i : mine_points ) {
-        build_mine( i.x, i.y, z, i.s );
+        build_mine( i.pos.x, i.pos.y, z, i.size );
     }
 
     for( auto &i : shaft_points ) {
@@ -1655,7 +1654,7 @@ void mongroup::wander( overmap &om )
         // Find a nearby city to return to..
         for( const city &check_city : om.cities ) {
             // Check if this is the nearest city so far.
-            int distance = rl_dist( check_city.x * 2, check_city.y * 2, pos.x, pos.y );
+            int distance = rl_dist( check_city.pos.x * 2, check_city.pos.y * 2, pos.x, pos.y );
             if( !target_city || distance < target_distance ) {
                 target_distance = distance;
                 target_city = &check_city;
@@ -1667,8 +1666,8 @@ void mongroup::wander( overmap &om )
         // @todo: somehow use the same algorithm that distributes zombie
         // density at world gen to spread the hordes over the actual
         // city, rather than the center city tile
-        target.x = target_city->x * 2 + rng( -5, 5 );
-        target.y = target_city->y * 2 + rng( -5, 5 );
+        target.x = target_city->pos.x * 2 + rng( -5, 5 );
+        target.y = target_city->pos.y * 2 + rng( -5, 5 );
         interest = 100;
     } else {
         target.x = pos.x + rng( -10, 10 );
@@ -1888,7 +1887,7 @@ void overmap::place_forest()
             [&]( const city & c ) {
                 return
                     // is this city too close?
-                    trig_dist( forx, fory, c.x, c.y ) - fors / 2 < c.s &&
+                    trig_dist( forx, fory, c.pos.x, c.pos.y ) - fors / 2 < c.size &&
                     // occasionally accept near a city if we've been failing
                     tries > rng( -1000 / ( i - forests_placed + 1 ), 2 );
             }
@@ -2124,7 +2123,7 @@ void overmap::place_forest_trailheads()
     // road network.
     std::vector<point> road_points;
     for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.x, elem.y );
+        road_points.emplace_back( elem.pos.x, elem.pos.y );
     }
 
     // Trailheads may be placed if all of the following are true:
@@ -2316,16 +2315,15 @@ void overmap::place_cities()
         if( ter( cx, cy, 0 ) == settings.default_oter ) {
             ter( cx, cy, 0 ) = oter_id( "road_nesw" ); // every city starts with an intersection
             city tmp;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = size;
+            tmp.pos = { cx, cy };
+            tmp.size = size;
             cities.push_back( tmp );
 
             const auto start_dir = om_direction::random();
             auto cur_dir = start_dir;
 
             do {
-                build_city_street( local_road, point( cx, cy ), size, cur_dir, tmp );
+                build_city_street( local_road, tmp.pos, size, cur_dir, tmp );
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
         }
     }
@@ -2347,8 +2345,8 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
     const tripoint building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
 
-    const int town_dist = trig_dist( building_pos.x, building_pos.y, town.x,
-                                     town.y ) / std::max( town.s, 1 );
+    const int town_dist = trig_dist( building_pos.x, building_pos.y, town.pos.x,
+                                     town.pos.y ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
@@ -3304,7 +3302,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         for( const auto &elem : special.connections ) {
             if( elem.connection ) {
                 const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
-                build_connection( point( cit.x, cit.y ), point( rp.x, rp.y ), elem.p.z, *elem.connection );
+                build_connection( cit.pos, point( rp.x, rp.y ), elem.p.z, *elem.connection );
             }
         }
     }
@@ -3527,9 +3525,10 @@ void overmap::place_mongroups()
     // Cities are full of zombies
     for( auto &elem : cities ) {
         if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-            if( !one_in( 16 ) || elem.s > 5 ) {
-                mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
-                            elem.s * 80 );
+            if( !one_in( 16 ) || elem.size > 5 ) {
+                mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.pos.x * 2 ), ( elem.pos.y * 2 ), 0,
+                            int( elem.size * 2.5 ),
+                            elem.size * 80 );
                 //                m.set_target( zg.back().posx, zg.back().posy );
                 m.horde = true;
                 m.wander( *this );

@@ -859,11 +859,11 @@ void overmap::unserialize( std::istream &fin )
                     if( city_member_name == "name" ) {
                         jsin.read( new_city.name );
                     } else if( city_member_name == "x" ) {
-                        jsin.read( new_city.x );
+                        jsin.read( new_city.pos.x );
                     } else if( city_member_name == "y" ) {
-                        jsin.read( new_city.y );
+                        jsin.read( new_city.pos.y );
                     } else if( city_member_name == "size" ) {
-                        jsin.read( new_city.s );
+                        jsin.read( new_city.size );
                     }
                 }
                 cities.push_back( new_city );
@@ -876,9 +876,9 @@ void overmap::unserialize( std::istream &fin )
                 while( !jsin.end_object() ) {
                     std::string road_member_name = jsin.get_member_name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.x );
+                        jsin.read( new_road.pos.x );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.y );
+                        jsin.read( new_road.pos.y );
                     }
                 }
                 roads_out.push_back( new_road );
@@ -1241,9 +1241,9 @@ void overmap::serialize( std::ostream &fout ) const
     for( auto &i : cities ) {
         json.start_object();
         json.member( "name", i.name );
-        json.member( "x", i.x );
-        json.member( "y", i.y );
-        json.member( "size", i.s );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
+        json.member( "size", i.size );
         json.end_object();
     }
     json.end_array();
@@ -1253,8 +1253,8 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : roads_out ) {
         json.start_object();
-        json.member( "x", i.x );
-        json.member( "y", i.y );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
         json.end_object();
     }
     json.end_array();

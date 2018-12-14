@@ -49,7 +49,7 @@ const efftype_id effect_infection( "infection" );
 static tripoint random_house_in_city( const city_reference &cref )
 {
     const auto city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
-    const auto size = cref.city->s;
+    const auto size = cref.city->size;
     const int z = cref.abs_sm_pos.z;
     std::vector<tripoint> valid;
     int startx = city_center_omt.x - size;

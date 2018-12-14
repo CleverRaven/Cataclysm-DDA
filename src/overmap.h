@@ -36,15 +36,15 @@ struct path;
 }
 
 struct city {
-    // in overmap terrain coordinates
-    int x;
-    int y;
-    int s;
+    // location of the city (in overmap terrain coordinates)
+    point pos;
+    int size;
     std::string name;
-    city( int X = -1, int Y = -1, int S = -1 );
+    city( const point &P = point_zero, const int S = -1 );
+    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {};
 
     operator bool() const {
-        return s >= 0;
+        return size >= 0;
     }
 
     int get_distance_from( const tripoint &p ) const;
