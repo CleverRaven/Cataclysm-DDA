@@ -11,7 +11,7 @@
   {
     "type": "mutation",
     "id": "Exp_Agriculture0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Agriculture Training",
     "points": 0,
     "description": "This survivor has some formal training in agriculture, but not much experience.",
@@ -30,7 +30,7 @@
   {
     "type": "mutation",
     "id": "Exp_Agriculture1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Agriculture Expert",
     "points": 0,
     "description": "This survivor has extensive experience in agriculture.",
@@ -40,7 +40,7 @@
   {
     "type": "mutation",
     "id": "Exp_Agriculture0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Agriculture Expert",
     "points": 0,
     "description": "This survivor has extensive experience in agriculture.",
@@ -59,7 +59,7 @@
   {
     "type": "mutation",
     "id": "Exp_Biochemistry0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Biochemistry Training",
     "points": 0,
     "description": "This survivor has some formal training in biochemistry, but not much experience.",
@@ -78,7 +78,7 @@
   {
     "type": "mutation",
     "id": "Exp_Biochemistry1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Biochemistry Expert",
     "points": 0,
     "description": "This survivor has extensive experience in biochemistry, a PhD or equivalent.",
@@ -88,7 +88,7 @@
   {
     "type": "mutation",
     "id": "Exp_Biochemistry0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Biochemistry Expert",
     "points": 0,
     "description": "This survivor has extensive experience in biochemistry, a PhD or equivalent.",
@@ -107,7 +107,7 @@
   {
     "type": "mutation",
     "id": "Exp_Bookkeeping0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Bookkeeping Training",
     "points": 0,
     "description": "This survivor has some formal training in bookkeeping, but not much experience.",
@@ -126,7 +126,7 @@
   {
     "type": "mutation",
     "id": "Exp_Bookkeeping1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Bookkeeping Expert",
     "points": 0,
     "description": "This survivor has extensive experience in bookkeeping.",
@@ -136,7 +136,7 @@
   {
     "type": "mutation",
     "id": "Exp_Bookkeeping0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Bookkeeping Expert",
     "points": 0,
     "description": "This survivor has extensive experience in bookkeeping.",
@@ -155,7 +155,7 @@
   {
     "type": "mutation",
     "id": "Exp_Botany0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Botany Training",
     "points": 0,
     "description": "This survivor has some formal training in botany, but not much experience.",
@@ -174,7 +174,7 @@
   {
     "type": "mutation",
     "id": "Exp_Botany1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Botany Expert",
     "points": 0,
     "description": "This survivor has extensive experience in botany, a PhD or equivalent.",
@@ -184,7 +184,7 @@
   {
     "type": "mutation",
     "id": "Exp_Botany0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Botany Expert",
     "points": 0,
     "description": "This survivor has extensive experience in botany, a PhD or equivalent.",
@@ -203,7 +203,7 @@
   {
     "type": "mutation",
     "id": "Exp_Entomology0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Entomology Training",
     "points": 0,
     "description": "This survivor has some formal training in entomology, but not much experience.",
@@ -222,7 +222,7 @@
   {
     "type": "mutation",
     "id": "Exp_Entomology1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Entomology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in entomology, a PhD or equivalent.",
@@ -232,7 +232,7 @@
   {
     "type": "mutation",
     "id": "Exp_Entomology0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Entomology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in entomology, a PhD or equivalent.",
@@ -251,7 +251,7 @@
   {
     "type": "mutation",
     "id": "Exp_Culinary0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Culinary Training",
     "points": 0,
     "description": "This survivor has some formal training in culinary arts, but not much experience.",
@@ -270,7 +270,7 @@
   {
     "type": "mutation",
     "id": "Exp_Culinary1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Culinary Expert",
     "points": 0,
     "description": "This survivor has extensive experience in culinary arts, a professional chef or equivalent.",
@@ -280,7 +280,7 @@
   {
     "type": "mutation",
     "id": "Exp_Culinary0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Culinary Expert",
     "points": 0,
     "description": "This survivor has extensive experience in culinary arts, a professional chef or equivalent.",
@@ -299,7 +299,7 @@
   {
     "type": "mutation",
     "id": "Exp_Geology0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Geology Training",
     "points": 0,
     "description": "This survivor has some formal training in geology, but not much experience.",
@@ -318,7 +318,7 @@
   {
     "type": "mutation",
     "id": "Exp_Geology1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Geology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in geology, a PhD or equivalent.",
@@ -328,7 +328,7 @@
   {
     "type": "mutation",
     "id": "Exp_Geology0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Geology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in geology, a PhD or equivalent.",
@@ -347,7 +347,7 @@
   {
     "type": "mutation",
     "id": "Exp_Chemistry0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Chemistry Training",
     "points": 0,
     "description": "This survivor has some formal training in inorganic chemistry, but not much experience.",
@@ -366,7 +366,7 @@
   {
     "type": "mutation",
     "id": "Exp_Chemistry1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Chemistry Expert",
     "points": 0,
     "description": "This survivor has extensive experience in inorganic chemistry, a PhD or equivalent.",
@@ -376,7 +376,7 @@
   {
     "type": "mutation",
     "id": "Exp_Chemistry0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Chemistry Expert",
     "points": 0,
     "description": "This survivor has extensive experience in inorganic chemistry, a PhD or equivalent.",
@@ -395,7 +395,7 @@
   {
     "type": "mutation",
     "id": "Exp_Medicine0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Medicine Training",
     "points": 0,
     "description": "This survivor has some formal training in medicine, but not much experience.",
@@ -414,7 +414,7 @@
   {
     "type": "mutation",
     "id": "Exp_Medicine1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Medicine Expert",
     "points": 0,
     "description": "This survivor has extensive experience in medicine, an MD or equivalent.",
@@ -424,7 +424,7 @@
   {
     "type": "mutation",
     "id": "Exp_Medicine0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Medicine Expert",
     "points": 0,
     "description": "This survivor has extensive experience in medicine, an MD or equivalent.",
@@ -443,7 +443,7 @@
   {
     "type": "mutation",
     "id": "Exp_Mycology0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Mycology Training",
     "points": 0,
     "description": "This survivor has some formal training in mycology, but not much experience.",
@@ -462,7 +462,7 @@
   {
     "type": "mutation",
     "id": "Exp_Mycology1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Mycology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in mycology, a PhD or equivalent.",
@@ -472,7 +472,7 @@
   {
     "type": "mutation",
     "id": "Exp_Mycology0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Mycology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in mycology, a PhD or equivalent.",
@@ -491,7 +491,7 @@
   {
     "type": "mutation",
     "id": "Exp_Physics0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Physics Training",
     "points": 0,
     "description": "This survivor has some formal training in physics, but not much experience.",
@@ -510,7 +510,7 @@
   {
     "type": "mutation",
     "id": "Exp_Physics1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Physics Expert",
     "points": 0,
     "description": "This survivor has extensive experience in physics, a PhD or equivalent.",
@@ -520,7 +520,7 @@
   {
     "type": "mutation",
     "id": "Exp_Physics0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Physics Expert",
     "points": 0,
     "description": "This survivor has extensive experience in physics, a PhD or equivalent.",
@@ -539,7 +539,7 @@
   {
     "type": "mutation",
     "id": "Exp_Physiology0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Physiology Training",
     "points": 0,
     "description": "This survivor has some formal training in physiology, but not much experience.",
@@ -558,7 +558,7 @@
   {
     "type": "mutation",
     "id": "Exp_Physiology1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Physiology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in physiology, a PhD or equivalent.",
@@ -568,7 +568,7 @@
   {
     "type": "mutation",
     "id": "Exp_Physiology0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Physiology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in physiology, a PhD or equivalent.",
@@ -587,7 +587,7 @@
   {
     "type": "mutation",
     "id": "Exp_Psychology0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Psychology Training",
     "points": 0,
     "description": "This survivor has some formal training in psychology, but not much experience.",
@@ -606,7 +606,7 @@
   {
     "type": "mutation",
     "id": "Exp_Psychology1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Psychology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in psychology, a PhD or equivalent.",
@@ -616,7 +616,7 @@
   {
     "type": "mutation",
     "id": "Exp_Psychology0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Psychology Expert",
     "points": 0,
     "description": "This survivor has extensive experience in psychology, a PhD or equivalent.",
@@ -635,7 +635,7 @@
   {
     "type": "mutation",
     "id": "Exp_Sanitation0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Sanitation Training",
     "points": 0,
     "description": "This survivor has some formal training in sanitation, but not much experience.",
@@ -654,7 +654,7 @@
   {
     "type": "mutation",
     "id": "Exp_Sanitation1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Sanitation Expert",
     "points": 0,
     "description": "This survivor has extensive experience in sanitation.",
@@ -664,7 +664,7 @@
   {
     "type": "mutation",
     "id": "Exp_Sanitation0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Sanitation Expert",
     "points": 0,
     "description": "This survivor has extensive experience in sanitation.",
@@ -683,7 +683,7 @@
   {
     "type": "mutation",
     "id": "Exp_Teaching0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Teaching Training",
     "points": 0,
     "description": "This survivor has some formal training in teaching, but not much experience.",
@@ -702,7 +702,7 @@
   {
     "type": "mutation",
     "id": "Exp_Teaching1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Teaching Expert",
     "points": 0,
     "description": "This survivor has extensive experience in teaching, a PhD or equivalent.",
@@ -712,7 +712,7 @@
   {
     "type": "mutation",
     "id": "Exp_Teaching0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Teaching Expert",
     "points": 0,
     "description": "This survivor has extensive experience in teaching, a PhD or equivalent.",
@@ -731,7 +731,7 @@
   {
     "type": "mutation",
     "id": "Exp_Veterinary0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Veterinary Training",
     "points": 0,
     "description": "This survivor has some formal training in veterinary medicine, but not much experience.",
@@ -750,7 +750,7 @@
   {
     "type": "mutation",
     "id": "Exp_Veterinary1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do."
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Veterinary Expert",
     "points": 0,
     "description": "This survivor has extensive experience in veterinary medicine, a DVM or equivalent.",
@@ -760,7 +760,7 @@
   {
     "type": "mutation",
     "id": "Exp_Veterinary0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't."
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Veterinary Expert",
     "points": 0,
     "description": "This survivor has extensive experience in veterinary medicine, a DVM or equivalent.",
