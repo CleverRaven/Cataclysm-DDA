@@ -75,8 +75,8 @@ int om_harvest_ter_est( npc &comp, const tripoint &omt_tgt, const ter_id &t, int
 int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, int chance = 100 );
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total mass and volume
 /// @ref take, whether you take the item or count it
-std::pair<units::mass, units::volume> om_harvest_itm( npc *comp, const tripoint &omt_tgt,
-        int chance = 100, bool take = true );
+std::pair<units::mass, units::volume> om_harvest_itm( std::shared_ptr<npc> comp,
+        const tripoint &omt_tgt, int chance = 100, bool take = true );
 /*
  * Counts or cuts trees into trunks and trunks into logs
  * @param omt_tgt the targeted OM tile
@@ -133,14 +133,15 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
                                    time_duration travel_time,
                                    int distance, int trips, int need_food );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the items @ref itms
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp = nullptr );
+int om_carry_weight_to_trips( const std::vector<item *> &itms,
+                              std::shared_ptr<npc> comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items with @ref carry_mass and @ref carry_volume moved per trip
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
                               units::volume carry_volume );
 
 /// Returns the description for the recipe of the next building @ref bldg
 std::string om_upgrade_description( const std::string &bldg );
-/// Currently does the same as om_upgrade_description but should convert fire charges to raw charcoal needed and allow dark craft
+/// Returns the description of a camp crafting options. converts fire charges to charcoal, allows dark crafting
 std::string om_craft_description( const std::string &bldg );
 /// Provides a "guess" for some of the things your gatherers will return with to upgrade the camp
 std::string om_gathering_description( npc &p, const std::string &bldg );
@@ -148,14 +149,14 @@ std::string om_gathering_description( npc &p, const std::string &bldg );
 bool camp_gathering_return( npc &p, const std::string &task, time_duration min_time );
 void camp_recruit_return( npc &p, const std::string &task, int score );
 /// Called when a companion is sent to cut logs
-void start_camp_upgrade( npc &p, const std::string &bldg );
+void start_camp_upgrade( npc &p, const std::string &bldg, const std::string &key );
 void start_cut_logs( npc &p );
 void start_clearcut( npc &p );
 void start_setup_hide_site( npc &p );
 void start_relay_hide_site( npc &p );
 /// Called when a compansion is sent to start fortifications
 void start_fortifications( std::string &bldg_exp, npc &p );
-void start_combat_mission( std::string &miss, npc &p );
+void start_combat_mission( const std::string &miss, npc &p );
 
 /// Called when a companion completes a chop shop @ref task mission
 bool camp_garage_chop_start( npc &p, const std::string &task );
@@ -189,7 +190,7 @@ void camp_companion_return( npc &comp );
  */
 bool camp_farm_return( npc &p, const std::string &task, farm_ops op );
 void camp_fortifications_return( npc &p );
-void combat_mission_return( std::string &miss, npc &p );
+void combat_mission_return( const std::string &miss, npc &p );
 /// Returns the OM tiles surrounding the camp, @ref purge removes all tiles that aren't expansions
 std::vector<std::pair<std::string, tripoint>> om_building_region( npc &p, int range,
         bool purge = false );

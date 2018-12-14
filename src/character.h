@@ -555,8 +555,9 @@ class Character : public Creature, public visitable<Character>
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
-        /** Dispersion of a thrown item, against a given target. */
-        int throwing_dispersion( const item &to_throw, Creature *critter = nullptr ) const;
+        /** Dispersion of a thrown item, against a given target, taking into account whether or not the throw was blind. */
+        int throwing_dispersion( const item &to_throw, Creature *critter = nullptr,
+                                 bool is_blind_throw = false ) const;
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
 

@@ -2,6 +2,7 @@
 
 #include "calendar.h"
 #include "itype.h"
+#include "ret_val.h"
 #include "units.h"
 
 #include "item.h"
@@ -24,6 +25,24 @@ TEST_CASE( "item_volume", "[item]" )
         i.charges++;
         CHECK( i.volume() > v ); // one more charge should not fit
     }
+}
+
+TEST_CASE( "simple_item_layers", "[item]" )
+{
+    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR );
+    CHECK( item( "10gal_hat" ).get_layer() == REGULAR_LAYER );
+    CHECK( item( "baldric" ).get_layer() == WAIST_LAYER );
+    CHECK( item( "aep_suit" ).get_layer() == OUTER_LAYER );
+    CHECK( item( "2byarm_guard" ).get_layer() == BELTED_LAYER );
+}
+
+TEST_CASE( "gun_layer", "[item]" )
+{
+    item gun( "win70" );
+    item mod( "shoulder_strap" );
+    CHECK( gun.is_gunmod_compatible( mod ).success() );
+    gun.contents.push_back( mod );
+    CHECK( gun.get_layer() == BELTED_LAYER );
 }
 
 // second minute hour day week season year

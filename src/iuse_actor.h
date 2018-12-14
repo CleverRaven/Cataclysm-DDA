@@ -371,8 +371,10 @@ class reveal_map_actor : public iuse_actor
     public:
         /**
          * The radius of the overmap area that gets revealed.
-         * This is in overmap terrain coordinates. A radius of 1 means all terrains directly around
-         * the character are revealed.
+         * This is in overmap terrain coordinates.
+         * A radius of 1 means all terrains directly around center are revealed.
+         * The center is location of nearest city defined in `reveal_map_center_omt` variable of
+         * activated item (or current player global omt location if variable is not set).
          */
         int radius = 0;
         /**

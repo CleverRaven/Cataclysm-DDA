@@ -5,6 +5,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -31,6 +32,8 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
+#include "overmap.h"
 #include "player.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -647,6 +650,23 @@ double item::get_var( const std::string &name, const double default_value ) cons
         return default_value;
     }
     return atof( it->second.c_str() );
+}
+
+void item::set_var( const std::string &name, const tripoint &value )
+{
+    item_vars[name] = string_format( "%d,%d,%d", value.x, value.y, value.z );
+}
+
+tripoint item::get_var( const std::string &name, const tripoint &default_value ) const
+{
+    const auto it = item_vars.find( name );
+    if( it == item_vars.end() ) {
+        return default_value;
+    }
+    std::vector<std::string> values = string_split( it->second, ',' );
+    return tripoint( atoi( values[0].c_str() ),
+                     atoi( values[1].c_str() ),
+                     atoi( values[2].c_str() ) );
 }
 
 void item::set_var( const std::string &name, const std::string &value )
@@ -2934,6 +2954,14 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
+    if( is_map() ) {
+        const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
+                        g->u.global_omt_location() ) ) ).city;
+        if( c != nullptr ) {
+            name = string_format( "%s %s", c->name.c_str(), name.c_str() );
+        }
+    }
+
     return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
 }
 
@@ -3651,9 +3679,23 @@ int item::get_encumber_when_containing( const units::volume &contents_volume ) c
 
 layer_level item::get_layer() const
 {
-    // We assume that an item will never have per-item flags defining its
-    // layer, so we can defer to the itype.
-    return type->layer;
+    if( type->armor ) {
+        // We assume that an item will never have per-item flags defining its
+        // layer, so we can defer to the itype.
+        return type->layer;
+    }
+
+    if( has_flag( "SKINTIGHT" ) ) {
+        return UNDERWEAR;
+    } else if( has_flag( "WAIST" ) ) {
+        return WAIST_LAYER;
+    } else if( has_flag( "OUTER" ) ) {
+        return OUTER_LAYER;
+    } else if( has_flag( "BELTED" ) ) {
+        return BELTED_LAYER;
+    } else {
+        return REGULAR_LAYER;
+    }
 }
 
 int item::get_coverage() const
@@ -4345,6 +4387,11 @@ bool item::is_armor() const
 bool item::is_book() const
 {
     return type->book.has_value();
+}
+
+bool item::is_map() const
+{
+    return type->category->id() == "maps";
 }
 
 bool item::is_container() const
