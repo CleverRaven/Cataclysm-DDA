@@ -971,7 +971,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": "steel grille",
-    "description": "This is a metal grille. It can be used as a framework for making a chemical catalyst.",
+    "description": "This is a metal grille.  It can be used as a framework for making a chemical catalyst.",
     "weight": 600,
     "volume": 1,
     "price": 500,
