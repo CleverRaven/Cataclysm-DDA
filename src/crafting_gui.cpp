@@ -720,11 +720,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    prefix.key, prefix.example, padding, spaces, prefix.description );
             }
 
+            description +=
+                _( "\nYou can use <color_white>arrow keys</color> to go through search history\n\n" );
+
             string_input_popup()
             .title( _( "Search:" ) )
             .width( 85 )
             .description( description )
             .desc_color( c_light_gray )
+            .identifier( "craft_recipy_filter" )
+            .hist_use_uilist( false )
             .edit( filterstring );
             redraw = true;
         } else if( action == "QUIT" ) {
