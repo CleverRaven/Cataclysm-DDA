@@ -2470,7 +2470,8 @@
 ],
 "components": [
 [
-[ "splinter", 40 ]
+[ "splinter", 40 ],
+[ "2x4", 12 ]
 ],
 [
 [ "water", 3 ],
