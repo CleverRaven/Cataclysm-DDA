@@ -33,7 +33,7 @@ struct tile_type {
     bool multitile = false;
     bool rotates = false;
     int height_3d = 0;
-    point offset = {0, 0};
+    point offset = point_zero;
 
     std::vector<std::string> available_subtiles;
 };

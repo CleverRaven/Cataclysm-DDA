@@ -285,7 +285,7 @@ tripoint editmap::screen2pos( const tripoint &p )
  */
 bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 {
-    p = {0, 0, 0};
+    p = tripoint_zero;
     if( action == "CENTER" ) {
         p = ( g->u.pos() - target );
     } else if( action == "LEFT_WIDE" ) {

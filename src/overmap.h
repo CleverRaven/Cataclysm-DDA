@@ -260,7 +260,7 @@ class overmap
         std::vector<std::shared_ptr<npc>> npcs;
 
         bool nullbool = false;
-        point loc{ 0, 0 };
+        point loc = point_zero;
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint, scent_trace> scents;
