@@ -37,7 +37,7 @@
     "name": "methanol",
     "copy-from": "chem_ethanol",
     "type": "AMMO",
-    "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves. Very toxic.",
+    "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves.  Very toxic.",
     "price": 5,
     "price_postapoc": 100
   },
