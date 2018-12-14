@@ -2418,7 +2418,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
         // get the last item in the stack, it will be used for display
         const item &displayed_item = cur_maptile.get_uppermost_item();
         // get the item's name, as that is the key used to find it in the map
-        const std::string it_name = ( displayed_item.is_corpse() ) ? "corpse_" +
+        const std::string it_name = displayed_item.is_corpse() ? "corpse_" +
                                     displayed_item.get_mtype()->id.str() : displayed_item.typeId();
 
         const std::string it_category = displayed_item.type->get_item_type_string();
