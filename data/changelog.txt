@@ -1,4 +1,4 @@
-# 0.D (2018-09-01)
+# 0.D (2018-10-01)
 
 ## Features:
 
@@ -150,6 +150,33 @@ Freezer & freeze mechanics overhaul.
 Add reminder effects for some medicine.
 Added infrastructure for setting a farm plot zone and triggering actions across the entire zone.
 Hot air and direct heat radiation from fires affect local temperature and can heat nearby area including interiors.
+Adds player feedback about finished activity to sort out loot and tilling plots activities
+adds new option for Farm: Plot zone to attach specific seed and new activity to plant in nearby plot zones
+Smarter defrosting for comestibles EATEN_COLD
+Add support for solid fuels like coal for vehicle engines
+Zone manager hides distant zones, shortcut for showing all zones
+New lua feature: Lua-coded monster attack
+Copy World Settings to a new world.
+Added more Lua callback (some with arguments)
+allows heating up food in pots, etc. from adjacent tiles without picking the tool up
+Add lab mission chain.
+Updated Lua callbacks with player id
+Simplify class_definitions.lua: optional arguments
+Integrated Toolset CBM can help in heating up food.
+More items to heat up food in/with
+smoking rack more user friendly, wild veggy now smokable
+Update lua classes
+New MOD feature: Add graphical tiles
+Make car/storage batteries charge in UPS charge station
+Introduces 'Tip of the day' in main menu.
+Save pooltype and remaining skill-, trait- and statpoints in character template.
+Item infos for medication. (Quench, Fun, Stimulation, Portions, Addicting)
+Added map memory.
+Added a button to hide recipes in the crafting menu.
+Adds loadable bike racks
+Sort list of crafting components
+NPC photos taken with a camera are saved to the camera and can be listed.
+Skeletal creatures drop bones around on death. Juggernauts can't smell no more, but are hard to shoot.
 
 ## Content:
 
@@ -253,6 +280,33 @@ Adds ant-infested labs.
 Adds the incandescent husk, an evolution of the shocker zombie that moves slowly and emits a lightning cloud
 Removed CBM crafting.
 Adds new location 'Mass Grave'.
+Add alternative sinker materials for pro fishing rod
+Added camping scenario and additional camp related start_locations
+Adds milkshakes, ice cream, and other desserts that taste best when frozen
+Adds json file for helicopter corpses with their loot
+Adds new location 'Mass Grave'
+Adds additional berries
+Adds flower pots and ways/places to get them in game.
+Adds the Intravenous Needletip and Titanium Skeletal Bracing CBMs.
+Expand lab monster spawns: Shockers, technicians, (rare) secubots.
+Lab json: Hidden lab basement escapable now, plus a rare lab room with a vat of chems.
+Add a lab escape starting area
+Adds more lab variety, including wall-dependent rooms.
+Adds recently merged plants to regional_map_settings
+rebalance sheet metal stats; adjust recipes accordingly
+Add chance of turrets to barracks & vaults, let computers disarm turrets
+Improve lab escape more.
+Tower labs: Glass walls, remove lights, fix monster group.
+Adding new starting scenario at refugee center.
+Perception stat now determines overmap visibility, and the Topographagnosia trait is now available.
+Added Micro Motor to Microwave Disassembly
+New snippets for tips of the day.
+Adds 3 new ground types and adds them to mapgen
+Adds more nuts and trees
+The mouse category of mutations now has proper dreams.
+Added a few faux fur items
+More flowers and trees
+Add motor_tiny and complete the addition of motor_micro
 
 ## Interface:
 
@@ -440,6 +494,50 @@ Ask to ignore repeating distractions when performing an activity.
 Added filtering by skill to Read menu.
 Add scrolling the overview pane in the vehicle interaction window.
 Reduce clutter of [B]utcher UI by stacking identical salvage/disassemble targets.
+Add for scrolling the overview pane in the vehicle interaction window
+Flush sidebar messages before entering pickup UI
+Option to copy error message text for tiles
+Fixed weird line shifting for long (translated) strings
+Reduce clutter of [B]utcher UI by stacking identical salvage/disassemble targets into a single line with counter
+Copyedits and standardizes some item definitions
+Adds (mushy) suffix to mushy food and highlights impact on joy in 'Eat' menu.
+Reduce savegame size by not serializing empty vehicle part target data
+Added feedback for contained fire's expected time left, before it goes out.
+Limb selection menu shows if limb is already bandaged or disinfected.
+The mass grave's overmap location is now lowercase
+Minor formatting fix to color helper text in the overmap note UI
+NPC follower warns on sleeping and sleep when you do.
+Players can now save before sleeping and set an alarm at the same time.
+"New Note" UI has been upgraded with colors and a live preview.
+Prevent error sound in main menu from playing repeatedly at input polling rate
+Fixed long gun name and firing mode being overlapped by "Normal" text in the sidebar
+Migrate the ESC menu so it will only close when pressing ESC
+Migrate the action menu so it will only close when pressing ESC
+Move color-coded recoil info from the aiming window title to the aiming window's body
+Migrate the AIM sort menu and destination menu to use uilist
+Migrate the color template menu and the custom color menu to use uilist
+Migrate zone manager menus and fix some related bugs
+Migrate the bio-remote menu and the radio control menu to use uilist
+looks_like support for item overlays
+Adds quality filtering to item search
+Message window overhaul: filtering, page scrolling, and better interface.
+Migrate tailor's kit menus to use uilist
+Copyedits and standardizes some item definitions
+Migrate the crafting component & tool menus to use uilist
+Migrate the debug menus to use uilist and fix some related bugs
+Allow deleting overmap notes by clearing them
+Fix redraw after closing the edit terrain/map menus
+Show related craftable items for current recipe by hotkey
+Messages for installing and uninstalling bionics have been updated to reflect new installation mechanics.
+Migrate the chat menu to use uilist
+Migrate the unload item menu to use uilist
+Migrate the butchery menu to use uilist
+Migrate the handle liquid menu to use uilist
+Migrate pet & npc examine menus to use uilist
+Migrate the inventory item menu to use uilist
+Migrate the world end menu to use uilist
+Add bindable shortcut key to reload current tileset
+Refactor bodypart menu to use uilist
 
 ## Mods:
 
@@ -495,6 +593,16 @@ Allow adding contents to existing monster groups in JSON.
 Safe autodoc mod, a dependency of Bright Nights.
 Makes Crazy Cataclysm a little crazier.
 Nested mapgen structures.
+The Manual Bionic Installation mod, in the Balance section, does what it says on the tin.
+Update more of blazemod and make vortex parts work
+Added simple log function for Lua
+More Survival Tools: hobo stove and hexamine stove passive heating
+Added Fuji's Struct mod
+fix stairs and open spaces in to prevent NPC death
+A mod to expand robot types and include weaker jury-rigged versions for players to build.
+Added missing overmap terrain definition back to Salvaged Robots mod
+Moved Bionics Systems Mod to base game and Crazy Cataclysm.
+Partially moved Folding Parts Mod to base game.
 
 ## Balance:
 
@@ -647,6 +755,28 @@ Make portals unavoidably teleport you.
 Removed ability of losing existing CBMs due installation fails.
 Vary horde speed based on monsters in horde.
 Obsolete impossible gunmods.
+Querns can be used in dark environment
+Disinfected rags and cotton balls can be made in dark
+Balancing tweaks for butchery: more quick butchery yields, overkill drops, optional metal rack recipe components.
+Recosts Archaeologist and National Guard professions
+Allow vine to replace rope in butcher.
+Fixed zombie pilot/zombie pilot gibs loot
+Adjust dog reproduction rates to more closely match the real world.
+Adjust fridge/freezer power consumption
+Tweaked fat and other butcher yields
+Balances mail spawns, and adds mailboxes to homes missing them
+Create LOUDMOVES flag, add to secubots
+Suits of armor now have a chance to spawn fake or inferior weaponry.
+Synchronized charcoal smoker need for charcoal with adequate recipes.
+Pyromaniac's positive mood bonuses are now significantly shorter-lived.
+Changed vehicle hatch and door durability so that hatches are superior to their door equivalents.
+Lumber no longer made from / substitute for long stick
+Stopped dogs from forcing emotional reactions in characters
+Mouse mutagen is now cheaper to make.
+Add farm_tools to spawn on Farm
+Add Saltpetre to Farming Tools Itemgroup
+Ice cream crafting yields have been greatly increased.
+Reduce group spawn of wild animals.
 
 ## Bugfixes:
 
@@ -732,6 +862,113 @@ Fix crash with no audio device.
 Fixes creatures not setting off traps or falling z-levels after being flung.
 Fix crash when resizing window during character creation.
 Fix overmap special exhaustion when placing mandatory specials.
+Fix crash when resizing window during character creation
+Fix using cash card stacks
+Increased lifting ability of boom and cantilever cranes
+Prevent possible null dereferences when reloading
+Fix activating first aid kits/MREs while wielding them
+Fix compound greatbow turning into normal compound bow
+Deduplicate place_item regression in zoo
+Fix duplicate book ID
+Fix invalid valid() check
+Fix debug message when loading submap monsters
+Fixed typo in door curtains
+Fixes and tweaks of values used by freezing mechanic.
+fixes error after mouse move to destination is finished
+Fix overmap special exhaustion when placing mandatory specials
+Add workaround for reloading cold water
+Remove rare chash during harvesting
+Fixes crash related to crops growing when loading map
+adds check for safe mode to tilling farm plot activity to prevent potential infinite loop
+fix weird logic in fd_toxic_gas processing
+Fix some crash and weirdness related to NPC movement
+remove old hack when listing comestibles.
+Updated aircraft designs to fix some random parts leftover from the tests, improve loot tables and connect them to the freshly uploaded pull request with corpse.json file at #25267
+Prevents players from inheriting each other's deafness.
+Fix bug with iterators when erasing overmap specials.
+Fixed mission texts and names
+Fixes error when repairing with welder lying on the ground
+Restore rocks as slingshot cannon ammo
+More limits to animal reproduction
+Add missing material for sorbet.
+Fixes inserting food into smoking racks.
+Fix vehicle tanks
+Mycus Provenance and Mycogenesis now mutate properly
+Fix vehicle tanks more
+Removes Hyperactive, a post-threshold Mouse mutation, from starting traits.
+Flag zoo and golf scenarios as CITY_START.
+fix incorrect colors
+Fix pocket watches typo
+Add double spaces after sentence breaks in descriptions
+Corrected messages if NPC is screaming or howling'
+Fix OP throwing
+Fix fake alarm clock messages after interrupted sleep.
+Fix for melee sound related crashes.
+disable recharging vehicle batteries from handheld batteries.
+Sort out loot teleport items from inaccessible or guarded location exploit fix.
+Some unwinnable lab escapes are now winnable.
+Stop making every building in Urban Development mod mandatory
+Fix debug message when NPC dies on vehicle
+Relax evac center placement constraints.
+Fix text wrapping of spaces, long words, and colored text
+fix for crash to desktop when player tries to remove charcoal or food from smoking rack
+The Intravenous Needletip CBM now allows you to use serums.
+Laundry baskets are now correctly wearable.
+Added charges to camp fire drill
+fix incorrect colors
+Fix fractional fuel consumption calculations
+Fix cbm uncraft.
+Fix liquified blob feed weight for blazemod
+Fix 'player base missions' window for non english game languages
+Fixed severe lag related to temperatures.
+Fixes crash from trying to apply an EMP effect to an already dead Creature
+Fix hot food recipes
+Correct description of Jerk Jerky to reflect spoilage changes.
+Fix throwing stacks of items
+Fix wrong tripoint usage for temperature calculations
+Prevent invincible vehicle effect
+Reimplement stairs placement logic
+removing zone in zonemanager sometimes removed wrong zone fix
+Fix mod tileset wrong handling
+dispensary no longer spawns broken joint_lit, replaced with normal joint.
+Make vehicle cranes provide lift based on seeing their destination instead of walkability
+Fix graphical tile "overlay_female_" is invisible
+Fixed Boxer Mastiff description
+npc ai: include enemy weapon when assessing enemy threat
+Retain mod load order when loading modlist from file.
+Avoid drawing garbage in borders
+Make trying to sleep into an activity
+Makes water extinguish fire based lit items (excluding explosives)
+Fix items going spoiled while crafting
+Reorder recycle outputs for steel
+Added flamethrower magazines to all flamethrower spawns, magazine spawns to a lot of guns missing them, and launchers now spawn with ammo.
+spawn electric 2 wheelers with sensible batteries
+Consistently allow pumpkins in broth recipes
+Don't leave lingering worldname/maps directories
+Fix potential infinite loop. Avoid leaving token fertilizer item on the map.
+Mailboxes won't appear in mansion basements anymore
+Fix error with placement of basements.
+Various fixes for vehicle part JSON bugs
+Add one more storage battery to electric SUV
+add missing boards to properly enclose fire engine cab
+Moving stacks during Advanced Inventory management will now correctly consume time according the numbers of items moved.
+sort out of spilled liquid infinite loop fix
+Small characters can now resize clothing that's been reinforced.
+Fix for multiplied stomach in butchery yields
+Boats: Enable boats with oars to move by removing redundant oar definition
+map memory: remember furniture, vehicles and traps
+Adds missing bash data
+Synchronized hardcoded  ammo limits of mini-tank with it's JSON
+Small characters can't refit items that aren't clothing.
+Fix translated mutation descriptions not updated after switching language
+Fix translated mutation category and dream strings not updated after switching language
+Fix selection of random subtile sprites.
+Fix aim penalty when switching targets
+Fix toolmods being used as craft components
+Fixes sealed jar of pickled eggs turning into jar of generic pickles when opened.
+Fix stacking of read books without chapters
+Sleep deprivation is now saved and loaded correctly.
+Fix falling down mineshaft with experimental zlevels
 
 ## Performance:
 
@@ -772,6 +1009,11 @@ Remove unneeded SDL_RenderSetLogicalSize.
 Use map::points_in_radius instead of manual iterating.
 Reduce Submap constant memory requirements of Cosmetic strings.
 Reduce memory consumption for soundpacks.
+Reduce memory consumption for soundpacks
+Code optimizations reported by static code analysis
+Replaced `const ..` with `const .. &` for `std::string` arguments
+Simplify mod_manager_ui try_shift boolean if condition
+Code optimizations reported by static code analysis
 
 ## Infrastructure:
 
@@ -887,6 +1129,44 @@ Move fuel and engine parameters to JSON.
 Added pull request template.
 Adds the Debug Bionic Power trait.
 Fix flaky explosion regression test.
+Removed station_radio from the hardcoded mapgen list
+Added missing scenario flags to documentation file JSON_FLAGS.md
+Move plant care actions to new functions.
+Improve vehicle prototypes
+Changed segment size magic number (32) to SEG_SIZE define
+Astyled overmap code
+Astyled overmapbuffer code
+Unhardcoded firestarting items
+Removed duplicate empty lines in source code
+Astyled map code
+Astyled mapdata code
+Astyled mapgen code
+Replaced C-style (int) cast with static_cast<int>
+Fixup the PR summary validator
+Document the region_settings and region_overlay json objects.
+Detect unexpected mutation failure in the mutation unit test.
+Astyled mission related code
+Move some static NPC responses into JSON
+Added getters and setters for the colors of `string_input_popup`s.
+astyle map.cpp to pass both astyle version 3.0 and 3.1
+Code optimizations reported by static analysis
+Astyled savegame code
+Astyled artifact code
+Replaced C-style (int) cast with static_cast<int>
+Mutation types added; player can't have two mutations of the same type.
+Add forest composition attributes to region_settings and use in mapgen.
+Add `uilist` for finer control of `uimenu`'s `return_invalid` functionality
+Converted nutrition points to calories (kcal) - Part 1 of 3 - JSON parsing.
+Conversion of nutrition to calories (kcal) - Part 2 of 3 - Display Calories instead of Nutrition.
+Move game::handle_action and its dependencies
+Refactor item temperature calculation
+Use unordered_map for sparse caching temperature
+Extract regional settings from overmap
+Allow specifying terrain-dependent furniture in forest mapgen.
+Implement proper vehicle part iterator and range
+vehicles: Improve performance of vehicles::precalc_mount
+Treat format strings without arguments as pure strings
+Remove redundant vehicle coordinate functions
 
 ## Build:
 
@@ -954,6 +1234,14 @@ Debug stack trace & crash handler for Windows.
 Add PR validator to ensure use of a summary line.
 Android build standup.
 Add unit test for NPC movement fixes.
+Make object files depend on the object directory
+Added lua binary link on dev.narc.ro
+Fixed astyle regression
+Update vehicle efficiency test cases
+Fix handle_action.cpp with cross-compile to Android. Add a quickshort of debug message
+Fixes incorret fallthrough cases
+Enhanced Android build process
+Fix Lua-related errors in Android builds
 
 ## I18N and A11Y:
 
@@ -987,6 +1275,17 @@ Display l10nized tab names when creating new world.
 Link against ncursesw if L10N enabled.
 Make user-facing error messages translatable.
 Many, Many new strings and menus are translatable.
+Synchronized translations as of Aug 24, 2018
+Replaced dash with hyphen
+Fix unlocalized logging into computers
+Routine i18n updates as of Aug 31, 2018
+misc typos in json files.
+Routine i18n updates as of Sep 7, 2018
+Add translation context to separate faction adj into different string
+Routine i18n updates as of Sep 15, 2018
+Routine i18n updates as of Sep 21, 2018
+Fix missing i18n in vehicle parts descriptions
+Routine i18n updates as of Sep 28, 2018
 
 ## Statistics:
 
