@@ -2435,7 +2435,7 @@
 "category": "CC_CHEM",
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
-"difficulty": 4,
+"difficulty": 3,
 "time": 10000,
 "batch_time_factors": [ 80, 4 ],
 "autolearn": true,
