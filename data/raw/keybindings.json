@@ -884,7 +884,7 @@
     "type": "keybinding",
     "id": "TRAVEL_TO",
     "name": "Travel to destination",
-    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "T" } ]
   },
   {
     "type": "keybinding",
@@ -1561,6 +1561,13 @@
     "name": "Throw Item",
     "category": "DEFAULTMODE",
     "id": "throw",
+    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Blind Throw Item",
+    "category": "LOOK",
+    "id": "throw_blind",
     "bindings": [ { "input_method": "keyboard", "key": "t" } ]
   },
   {
