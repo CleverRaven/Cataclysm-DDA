@@ -5841,7 +5841,7 @@
       ]
     }
   },
-  },{
+  {
       "type" : "terrain",
       "id" : "t_nanofab_body",
       "name": "nanofabricator",
@@ -5869,6 +5869,7 @@
               { "item": "scrap", "count": [12, 18] }
           ]
       }
+  },
   {
       "type" : "terrain",
       "id" : "t_nanofab",

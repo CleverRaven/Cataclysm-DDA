@@ -90,7 +90,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "CCC..................CCC",
         "C..........YY..........C",
@@ -129,7 +129,7 @@
         "?": "t_nanofab",
         "r": "t_metal_floor",
         "/": "t_nanofab_body",
-        "Y": "t_utility_light",
+        "Y": "t_thconc_floor_olight",
         "p": "t_metal_floor"
       },
       "mapping": {
