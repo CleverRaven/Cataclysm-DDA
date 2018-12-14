@@ -83,6 +83,71 @@
     }
   },
   {
+    "//": "nano_fabricator room",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_finale_1level" ],
+    "weight": 50,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "CCC..................CCC",
+        "C..........YY..........C",
+        "........................",
+        "....cc............cc....",
+        "....cc..c......c..cc....",
+        "....cc..c..//..c..cc....",
+        "........c..//..c........",
+        "........c......c........",
+        "....cc.....YY.....cc....",
+        "....cc............cc....",
+        "....cc..--gGGg--..cc....",
+        "........-,,,,,,-........",
+        "..YY....g,/,,/,g....YY..",
+        "........g,?,,?,g........",
+        "ggGGg----,,,,,,----gGGgg",
+        ".x...-CC-+gggg+-CC-...x.",
+        ".x..x-,,,,,,,,,,,,-x..x.",
+        ".x..C-,r,,,rr,,,r,-C..x.",
+        ".x..C-Y,,,,,,,,,,Y-C..x.",
+        ".x..x----GggggG----x..x.",
+        ".R....G..........G....R.",
+        "......G....YY....G......",
+        ".Yxx..g..........g..xxY.",
+        "......g..........g......"
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_research"
+      ],
+      "furniture": {
+        "R": "f_rack"
+      },
+      "terrain": {
+        "C": "t_machinery_electronic",
+        "x": "t_machinery_heavy",
+        "?": "t_nanofab",
+        "r": "t_metal_floor",
+        "/": "t_nanofab_body",
+        "Y": "t_thconc_floor_olight",
+        "p": "t_metal_floor"
+      },
+      "mapping": {
+        "r": {
+          "item": { "item": "standard_template_construct" }
+        },
+        "R": {
+          "item": { "item": "nanomaterial" }
+        }
+      },
+      "place_monster": [
+        { "monster": "mon_tripod", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
+        { "monster": "mon_tripod", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
+        { "monster": "mon_zombie_scientist", "x": [2, 20], "y": [ 1, 9 ], "chance": 90, "repeat": [1,2] }
+      ]
+   }
+ },
+ {
     "//": "mutagen tank, ~75% chance normal mutagen, ~25% flavored mutagen",
     "type": "mapgen",
     "method": "json",
