@@ -728,7 +728,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             .width( 85 )
             .description( description )
             .desc_color( c_light_gray )
-            .identifier( "craft_recipy_filter" )
+            .identifier( "craft_recipe_filter" )
             .hist_use_uilist( false )
             .edit( filterstring );
             redraw = true;
