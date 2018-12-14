@@ -27,5 +27,23 @@
     "reliability": 9,
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ]
-  }
+  },
+  {
+    "id": "xm500mag",
+    "type": "MAGAZINE",
+    "name": "Barrett XM500 Magazine",
+    "description": "Standard 10-round box magazine for a Barrett XM500 anti-materiel rifle.",
+    "weight": 700,
+    "volume": 2,
+    "price": 12000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "gray",
+    "looks_like": "8x40_50_mag",
+    "ammo_type": "50",
+    "capacity": 10,
+    "reliability": 10,
+    "reload_time": 120,
+    "flags": [ "MAG_BULKY" ]
+  },
 ]
