@@ -1,0 +1,34 @@
+[
+  {
+    "id": "stg44mag",
+    "type": "MAGAZINE",
+    "name": "STG44 magazine",
+    "description": "A standard 30-round magazine made for the Strumgewehr 44 assault rifle, made of stamped sheet metal.",
+    "weight": 470,
+    "volume": 2,
+    "price": 4000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "792_57",
+    "capacity": 30,
+    "reliability": 9,
+  },
+  {
+    "id": "stg44bigmag",
+    "type": "MAGAZINE",
+    "name": "STG44 extended magazine",
+    "description": "A custom 40-round, 7.92x57mm magazine specifically designed for the Strumgewehr 44 assault rifle.",
+    "weight": 580,
+    "volume": 3,
+    "price": 9700,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "792_57",
+    "capacity": 40,
+    "reliability": 8,
+    "reload_time": 120,
+    "flags": [ "MAG_BULKY" ]
+  }
+]
