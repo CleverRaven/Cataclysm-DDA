@@ -2869,7 +2869,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        ret << string_format( " (%s)" , find_type( get_var( "NANOFAB_ITEM_ID" ) )->nname(1) );
+        ret << string_format( " (%s)", find_type( get_var( "NANOFAB_ITEM_ID" ) )->nname( 1 ) );
     }
 
     if( has_flag( "RADIO_MOD" ) ) {
@@ -6332,7 +6332,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag("RADIO_ACTIVATION") || has_flag( "NANOFAB_TEMPLATE" ) ||
+    return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "NANOFAB_TEMPLATE" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || ( is_food() );
 }
@@ -6945,9 +6945,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         }
     }
 
-    if ( has_flag("NANOFAB_TEMPLATE") && !has_var( "NANOFAB_ITEM_ID") ) {
-            itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
-            set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
+    if( has_flag( "NANOFAB_TEMPLATE" ) && !has_var( "NANOFAB_ITEM_ID" ) ) {
+        itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
+        set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
     }
 
     if( activate ) {
