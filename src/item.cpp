@@ -3679,9 +3679,23 @@ int item::get_encumber_when_containing( const units::volume &contents_volume ) c
 
 layer_level item::get_layer() const
 {
-    // We assume that an item will never have per-item flags defining its
-    // layer, so we can defer to the itype.
-    return type->layer;
+    if( type->armor ) {
+        // We assume that an item will never have per-item flags defining its
+        // layer, so we can defer to the itype.
+        return type->layer;
+    }
+
+    if( has_flag( "SKINTIGHT" ) ) {
+        return UNDERWEAR;
+    } else if( has_flag( "WAIST" ) ) {
+        return WAIST_LAYER;
+    } else if( has_flag( "OUTER" ) ) {
+        return OUTER_LAYER;
+    } else if( has_flag( "BELTED" ) ) {
+        return BELTED_LAYER;
+    } else {
+        return REGULAR_LAYER;
+    }
 }
 
 int item::get_coverage() const
