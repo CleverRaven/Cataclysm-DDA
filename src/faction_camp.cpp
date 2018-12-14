@@ -365,8 +365,8 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                   "> Rotten: 0%%\n"
                                   "> Rots in < 2 days: 60%%\n"
                                   "> Rots in < 5 days: 80%%\n \n"
-                                  "Total faction food stock: %d kcal or %d day's rations" ),
-                               10 * camp_food_supply(), camp_food_supply( 0, true ) );
+                                  "Total faction food stock: %d kcal\nor %d day's rations" ),
+                               camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
 
         entry = string_format( _( "Notes:\n"
@@ -2933,7 +2933,7 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
     entry += string_format( _( ">Working: %23s\n" ), to_string( working_time ) );
     entry += "----                   ----\n";
     entry += string_format( _( "Total:    %23s\n" ), to_string( total_time ) );
-    entry += string_format( _( "Food:     %15d (kcal)\n \n" ), 10 * need_food );
+    entry += string_format( _( "Food:     %15d (kcal)\n \n" ), need_food );
     return entry;
 }
 
@@ -3168,7 +3168,7 @@ int camp_food_supply( int change, bool return_days )
         yours->food_supply = 0;
     }
     if( return_days ) {
-        return 10 * yours->food_supply / 2600;
+        return yours->food_supply / 2500;
     }
 
     return yours->food_supply;
@@ -3176,14 +3176,12 @@ int camp_food_supply( int change, bool return_days )
 
 int camp_food_supply( time_duration work )
 {
-    int nut_consumption = time_to_food( work );
-    g->faction_manager_ptr->get( faction_id( "your_followers" ) )-> food_supply -= nut_consumption;
-    return g->faction_manager_ptr->get( faction_id( "your_followers" ) )-> food_supply;
+    return camp_food_supply( -time_to_food( work ) );
 }
 
 int time_to_food( time_duration work )
 {
-    return 260 * to_hours<int>( work ) / 24;
+    return 2500 * to_hours<int>( work ) / 24;
 }
 
 // mission support
@@ -3234,11 +3232,7 @@ bool basecamp::distribute_food()
             } else {
                 rot_multip = quick_rot;
             }
-            if( i.count_by_charges() ) {
-                total += i.type->comestible->nutr * i.charges * rot_multip;
-            } else {
-                total += i.type->comestible->nutr * rot_multip;
-            }
+            total += i.type->comestible->get_calories() * rot_multip * i.count();
         } else if( i.is_corpse() ) {
             if( track ) {
                 keep_me.push_back( i );
@@ -3258,7 +3252,7 @@ bool basecamp::distribute_food()
         g->m.add_item_or_charges( p_food_stock, i, false );
     }
 
-    popup( _( "You distribute %d kcal worth of food to your companions." ), total * 10 );
+    popup( _( "You distribute %d kcal worth of food to your companions." ), total );
     camp_food_supply( total );
     return true;
 }
