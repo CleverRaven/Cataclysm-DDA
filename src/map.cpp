@@ -5550,7 +5550,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                          lighting == LL_LOW, lighting == LL_BRIGHT, false );
                         p.z++;
                     }
-                } else if( vis == VIS_HIDDEN || vis == VIS_DARK ) {
+                } else if( do_map_memory && ( vis == VIS_HIDDEN || vis == VIS_DARK ) ) {
                     draw_maptile_from_memory( w, p, center );
                 }
 
