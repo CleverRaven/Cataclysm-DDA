@@ -2275,22 +2275,19 @@ std::string talk_function::name_mission_tabs( npc &p, const std::string &id,
 int basecamp::recipe_batch_max( const recipe &making, const inventory &total_inv ) const
 {
     int max_batch = 0;
-    int max_checks = 9;
-    int iter = 0;
-    size_t batch_size = 1000;
-    time_duration making_time = time_duration::from_turns( making.time / 100 );
-    while( batch_size > 0 ) {
-        while( iter < max_checks ) {
-            if( making.requirements().can_make_with_inventory( total_inv,
-                    max_batch + batch_size ) &&
-                static_cast<size_t>( camp_food_supply() ) >
-                ( max_batch + batch_size ) * time_to_food( making_time ) ) {
+    const int max_checks = 9;
+    for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
+        for( int iter = 0; iter < max_checks; iter++ ) {
+            int batch_turns = making.batch_time( max_batch + batch_size, 1.0, 0 ) / 100;
+            int food_req = time_to_food( time_duration::from_turns( batch_turns ) );
+            bool can_make = making.requirements().can_make_with_inventory( total_inv,
+                            max_batch + batch_size );
+            if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
+            } else {
+                break;
             }
-            iter++;
         }
-        iter = 0;
-        batch_size /= 10;
     }
     return max_batch;
 }
