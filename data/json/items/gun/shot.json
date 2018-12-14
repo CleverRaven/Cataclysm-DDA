@@ -272,5 +272,23 @@
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
-  }
+  },
+  {
+    "id": "winchester1897",
+    "copy-from": "shotgun_pump",
+    "type": "GUN",
+    "name": "Winchester Model 1897",
+    "name_plural": "Model 1897",
+    "description": "The Winchester Model 1897 “Trench Gun” is a single barrel pump shotgun produced from 1897 to 1957. It has seen a wide range of military and civilian use, as well as being used in both world wars.",
+    "weight": 3300,
+    "volume": 10,
+    "price": 82500,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "dispersion": 350,
+    "durability": 9,
+    "clip_size": 5,
+    "barrel_length": 1
+  },
 ]
