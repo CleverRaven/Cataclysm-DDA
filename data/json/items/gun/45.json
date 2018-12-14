@@ -228,5 +228,80 @@
     "ranged_damage": 0,
     "built_in_mods": [ "match_trigger" ],
     "default_mods": [ "suppressor" ]
-  }
+  },
+  { 
+    "id": "m3",
+    "type": "GUN",
+    "reload_noise_volume": 12,
+    "name": "M3 Submachine Gun",
+    "description": "The M3 “Grease Gun” is an American submachine gun produced from 1942 to 1945. This M3 is the original variant, which is less advanced than the M3A1. It is chambered for .45 ACP and 9x19 Parabellum, making ammo for it widely available.",
+    "weight": 2450,
+    "volume": 5,
+    "price": 2000000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "45",
+    "skill": "smg",
+    "ranged_damage": 1,
+    "dispersion": 225,
+    "durability": 10,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 13 ]
+    ],
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "9mm", [ "m3mag", "m3bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "ump45mag" ] ],
+    ]
+  },
+  {
+    "id": "m3a1",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": "M3A1 Submachine Gun",
+    "description": "The M3A1 “Grease Gun” is a more advanced version of the M3 submachine gun. Reloading is much faster with this variant, and less troublesome. Other improvements were made as well. It is chambered for .45 ACP and 9x19 Parabellum, making ammo for it widely available.",
+    "weight": 2400,
+    "volume": 5,
+    "price": 2200000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "45",
+    "skill": "smg",
+    "ranged_damage": 1,
+    "dispersion": 210,
+    "durability": 11,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 13 ]
+    ],
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "9mm", [ "m3mag", "m3bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "ump45mag" ] ],
+    ]
+  },
+  {  
+    "id": "replica_m3",
+    "copy-from": "m3a1"
+    "type": "GUN",
+    "reload_noise_volume": 9,
+    "name": "Replica M3",
+    "description": "This is a reproduction model of the M3 Submachine Gun (the M3A1 variant). This replica does shoot, but it doesn’t completely match the look of the original, and does not shoot fully auto due to various gun regulations during production.",
+    "weight": 2350,
+    "price": 110000,
+    "dispersion": 220,
+    "durability": 10,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+    ]
+  },
 ]
