@@ -310,6 +310,19 @@ overmapbuffer::get_existing_om_global_with_coordinates(
     return overmap_with_local_coordinates { om, tripoint( x, y, p.z ) };
 }
 
+bool overmapbuffer::is_omt_generated( const tripoint &loc )
+{
+    cata::optional<overmap_with_local_coordinates> om = get_existing_om_global_with_coordinates( loc );
+
+    // If the overmap doesn't exist, then for sure the local mapgen
+    // hasn't happened.
+    if( !om ) {
+        return false;
+    }
+
+    return om->overmap_pointer->is_omt_generated( om->coordinates );
+}
+
 bool overmapbuffer::has_note( int x, int y, int z )
 {
     const overmap *om = get_existing_om_global( x, y );

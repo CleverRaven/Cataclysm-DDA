@@ -112,7 +112,6 @@ class overmapbuffer
         int get_horde_size( int x, int y, int z );
         std::vector<om_vehicle> get_vehicle( int x, int y, int z );
         const regional_settings &get_settings( int x, int y, int z );
-
         /**
          * Accessors for horde introspection into overmaps.
          * Probably also useful for NPC overmap-scale navigation.
@@ -303,6 +302,12 @@ class overmapbuffer
          * (x,y) are global overmap coordinates (same as @ref get).
          */
         overmap *get_existing( int x, int y );
+        /**
+         * Returns whether or not the location has been generated (e.g. mapgen has run).
+         * @param loc is in world-global omt coordinates.
+         * @returns True if the location has been generated.
+         */
+        bool is_omt_generated( const tripoint &loc );
 
         typedef std::pair<point, std::string> t_point_with_note;
         typedef std::vector<t_point_with_note> t_notes_vector;

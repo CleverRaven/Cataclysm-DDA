@@ -216,6 +216,13 @@ class overmap
          */
         std::vector<point> find_notes( const int z, const std::string &text );
 
+        /**
+         * Returns whether or not the location has been generated (e.g. mapgen has run).
+         * @param loc Location to check.
+         * @returns True if param @loc has been generated.
+         */
+        bool is_omt_generated( const tripoint &loc ) const;
+
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point global_base_point() const;
 
