@@ -268,6 +268,16 @@ overmap &overmapbuffer::get_om_global( const tripoint &p )
     return get( om_pos.x, om_pos.y );
 }
 
+overmap_reference_with_local_coordinates overmapbuffer::get_om_global_with_coordinates(
+    const tripoint &p )
+{
+    int x = p.x;
+    int y = p.y;
+    const point om_pos = omt_to_om_remain( x, y );
+    overmap *om = &get( om_pos.x, om_pos.y );
+    return { om, tripoint( x, y, p.z ) };
+}
+
 overmap *overmapbuffer::get_existing_om_global( int &x, int &y )
 {
     const point om_pos = omt_to_om_remain( x, y );
@@ -284,6 +294,21 @@ overmap *overmapbuffer::get_existing_om_global( const tripoint &p )
 {
     const tripoint om_pos = omt_to_om_copy( p );
     return get_existing( om_pos.x, om_pos.y );
+}
+
+cata::optional<overmap_reference_with_local_coordinates>
+overmapbuffer::get_existing_om_global_with_coordinates(
+    const tripoint &p )
+{
+    int x = p.x;
+    int y = p.y;
+    const point om_pos = omt_to_om_remain( x, y );
+    overmap *om = get_existing( om_pos.x, om_pos.y );
+    if( om == nullptr ) {
+        return cata::nullopt;
+    }
+
+    return overmap_reference_with_local_coordinates{ om, tripoint( x, y, p.z ) };
 }
 
 bool overmapbuffer::has_note( int x, int y, int z )

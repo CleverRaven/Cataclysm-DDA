@@ -54,6 +54,15 @@ struct city_reference {
     int get_distance_from_bounds() const;
 };
 
+/**
+* Container for a pointer to an overmap and a set of coordinates which are
+* local to that overmap.
+*/
+struct overmap_reference_with_local_coordinates {
+    overmap *overmap;
+    tripoint coordinates;
+};
+
 class overmapbuffer
 {
     public:
@@ -273,6 +282,18 @@ class overmapbuffer
         overmap &get_om_global( int &x, int &y );
         overmap &get_om_global( const point &p );
         overmap &get_om_global( const tripoint &p );
+
+        /**
+        * These two functions return the overmap that contains the given
+        * global overmap terrain coordinate. They additionally will reproject
+        * and return the provided global overmap terrain coordinate to the
+        * local coordinate system, so that it can be used with that overmap.
+        * They follow the same semantics as the get_om_global and
+        * get_existing_om_global regarding creating new overmaps.
+        */
+        overmap_reference_with_local_coordinates get_om_global_with_coordinates( const tripoint &p );
+        cata::optional<overmap_reference_with_local_coordinates> get_existing_om_global_with_coordinates(
+            const tripoint &p );
         /**
          * (x,y) are global overmap coordinates (same as @ref get).
          * @returns true if the buffer has a overmap with
