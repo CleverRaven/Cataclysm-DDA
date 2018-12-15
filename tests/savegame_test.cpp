@@ -12,7 +12,7 @@
 // Intentionally ignoring the name member.
 bool operator==( const city &a, const city &b )
 {
-    return a.x == b.x && a.y == b.y && a.s == b.s;
+    return a.pos.x == b.pos.x && a.pos.y == b.pos.y && a.size == b.size;
 }
 bool operator==( const radio_tower &a, const radio_tower &b )
 {
