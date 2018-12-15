@@ -312,9 +312,6 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 {
     switch( output_mode ) {
         case DebugOutput::std_err:
-            struct null_deleter {
-                void operator()( std::ostream * ) const {}
-            };
             file = std::shared_ptr<std::ostream>( &std::cerr, null_deleter() );
             return;
         case DebugOutput::file: {

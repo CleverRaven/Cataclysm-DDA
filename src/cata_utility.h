@@ -33,6 +33,15 @@ struct pair_greater_cmp_first {
 };
 
 /**
+ * For use with smart pointers when you don't actually want the deleter to do
+ * anything.
+ */
+struct null_deleter {
+    template<typename T>
+    void operator()( T * ) const {}
+};
+
+/**
  * Type of object that a measurement is taken on.  Used, for example, to display wind speed in m/s
  * while displaying vehicle speed in km/h.
  */
