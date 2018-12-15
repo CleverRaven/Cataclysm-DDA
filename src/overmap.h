@@ -346,13 +346,13 @@ class overmap
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,
-                                     const point &dest, int z ) const;
+                                     const point &dest, int z, const bool must_be_unexplored ) const;
         pf::path lay_out_street( const overmap_connection &connection, const point &source,
                                  om_direction::type dir, size_t len ) const;
 
         void build_connection( const overmap_connection &connection, const pf::path &path, int z );
         void build_connection( const point &source, const point &dest, int z,
-                               const overmap_connection &connection );
+                               const overmap_connection &connection, const bool must_be_unexplored );
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
         // Polishing
@@ -370,13 +370,13 @@ class overmap
         std::vector<point> get_sectors() const;
 
         om_direction::type random_special_rotation( const overmap_special &special,
-                const tripoint &p ) const;
+                const tripoint &p, bool must_be_unexplored ) const;
 
         bool can_place_special( const overmap_special &special, const tripoint &p,
-                                om_direction::type dir ) const;
+                                om_direction::type dir, const bool must_be_unexplored ) const;
 
         void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir,
-                            const city &cit );
+                            const city &cit, const bool must_be_unexplored, const bool force );
         /**
          * Iterate over the overmap and place the quota of specials.
          * If the stated minimums are not reached, it will spawn a new nearby overmap
@@ -391,7 +391,7 @@ class overmap
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
         void place_specials_pass( overmap_special_batch &enabled_specials,
-                                  std::vector<point> &sectors, bool place_optional );
+                                  std::vector<point> &sectors, bool place_optional, const bool must_be_unexplored );
 
         /**
          * Attempts to place specials within a sector.
@@ -400,7 +400,7 @@ class overmap
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
         bool place_special_attempt( overmap_special_batch &enabled_specials,
-                                    const point &sector, bool place_optional );
+                                    const point &sector, bool place_optional, const bool must_be_unexplored );
 
         void place_mongroups();
         void place_radios();

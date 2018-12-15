@@ -2352,8 +2352,8 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
     for( size_t retries = 10; retries > 0; --retries ) {
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
 
-        if( can_place_special( *building_tid, building_pos, building_dir ) ) {
-            place_special( *building_tid, building_pos, building_dir, town );
+        if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
+            place_special( *building_tid, building_pos, building_dir, town, false, false );
             break;
         }
     }
@@ -2774,7 +2774,7 @@ void overmap::place_rifts( const int z )
 }
 
 pf::path overmap::lay_out_connection( const overmap_connection &connection, const point &source,
-                                      const point &dest, int z ) const
+                                      const point &dest, int z, const bool must_be_unexplored ) const
 {
     const auto estimate = [&]( const pf::node & cur, const pf::node * prev ) {
         const auto &id( get_ter( cur.x, cur.y, z ) );
@@ -2785,8 +2785,21 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
             return pf::rejected;  // No option for this terrain.
         }
 
-        const bool existing = connection.has( id );
-        if( existing && id->is_rotatable() &&
+        const bool existing_connection = connection.has( id );
+
+        // Only do this check if it needs to be unexplored and there isn't already a connection.
+        if( must_be_unexplored && !existing_connection ) {
+            // If this must be unexplored, check if we've already got a submap generated.
+            const bool existing_submap = is_omt_generated( tripoint( cur.x, cur.y, z ) );
+
+            // If there is an existing submap, this area has already been explored and this
+            // isn't a valid placement.
+            if( existing_submap ) {
+                return pf::rejected;
+            }
+        }
+
+        if( existing_connection && id->is_rotatable() &&
             !om_direction::are_parallel( id->get_dir(), static_cast<om_direction::type>( cur.dir ) ) ) {
             return pf::rejected; // Can't intersect.
         }
@@ -2804,7 +2817,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
         const int dy = dest.y - cur.y;
         const int dist = subtype->is_orthogonal() ? std::abs( dx ) + std::abs( dy ) : std::sqrt(
                              dx * dx + dy * dy );
-        const int existency_mult = existing ? 1 : 5; // Prefer existing connections.
+        const int existency_mult = existing_connection ? 1 : 5; // Prefer existing connections.
 
         return existency_mult * dist + subtype->basic_cost;
     };
@@ -2916,9 +2929,10 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
 }
 
 void overmap::build_connection( const point &source, const point &dest, int z,
-                                const overmap_connection &connection )
+                                const overmap_connection &connection, const bool must_be_unexplored )
 {
-    build_connection( connection, lay_out_connection( connection, source, dest, z ), z );
+    build_connection( connection, lay_out_connection( connection, source, dest, z, must_be_unexplored ),
+                      z );
 }
 
 void overmap::connect_closest_points( const std::vector<point> &points, int z,
@@ -2938,7 +2952,7 @@ void overmap::connect_closest_points( const std::vector<point> &points, int z,
             }
         }
         if( closest > 0 ) {
-            build_connection( points[i], points[k], z, connection );
+            build_connection( points[i], points[k], z, connection, false );
         }
     }
 }
@@ -3212,7 +3226,7 @@ bool om_direction::are_parallel( type dir1, type dir2 )
 }
 
 om_direction::type overmap::random_special_rotation( const overmap_special &special,
-        const tripoint &p ) const
+        const tripoint &p, const bool must_be_unexplored ) const
 {
     std::vector<om_direction::type> rotations( om_direction::size );
     const auto first = rotations.begin();
@@ -3252,14 +3266,14 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
     // Pick first valid rotation at random.
     std::random_shuffle( first, last );
     const auto rotation = std::find_if( first, last, [&]( om_direction::type elem ) {
-        return can_place_special( special, p, elem );
+        return can_place_special( special, p, elem, must_be_unexplored );
     } );
 
     return rotation != last ? *rotation : om_direction::type::invalid;
 }
 
 bool overmap::can_place_special( const overmap_special &special, const tripoint &p,
-                                 om_direction::type dir ) const
+                                 om_direction::type dir, const bool must_be_unexplored ) const
 {
     assert( p != invalid_tripoint );
     assert( dir != om_direction::type::invalid );
@@ -3276,6 +3290,17 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
             return false;
         }
 
+        if( must_be_unexplored ) {
+            // If this must be unexplored, check if we've already got a submap generated.
+            const bool existing_submap = is_omt_generated( rp );
+
+            // If there is an existing submap, this area has already been explored and this
+            // isn't a valid placement.
+            if( existing_submap ) {
+                return false;
+            }
+        }
+
         const oter_id tid = get_ter( rp );
 
         if( rp.z == 0 ) {
@@ -3288,11 +3313,13 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
 
 // checks around the selected point to see if the special can be placed there
 void overmap::place_special( const overmap_special &special, const tripoint &p,
-                             om_direction::type dir, const city &cit )
+                             om_direction::type dir, const city &cit, const bool must_be_unexplored, const bool force )
 {
     assert( p != invalid_tripoint );
     assert( dir != om_direction::type::invalid );
-    assert( can_place_special( special, p, dir ) );
+    if( !force ) {
+        assert( can_place_special( special, p, dir, must_be_unexplored ) );
+    }
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
 
@@ -3319,7 +3346,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         for( const auto &elem : special.connections ) {
             if( elem.connection ) {
                 const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
-                build_connection( cit.pos, point( rp.x, rp.y ), elem.p.z, *elem.connection );
+                build_connection( cit.pos, point( rp.x, rp.y ), elem.p.z, *elem.connection, must_be_unexplored );
             }
         }
     }
@@ -3338,8 +3365,8 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         // This basement isn't part of the special that we asserted we could place at
         // the top of this function, so we need to make sure we can place the basement
         // special before doing so.
-        if( can_place_special( *basement_tid, basement_p, dir ) ) {
-            place_special( *basement_tid, basement_p, dir, cit );
+        if( can_place_special( *basement_tid, basement_p, dir, must_be_unexplored ) || force ) {
+            place_special( *basement_tid, basement_p, dir, cit, force, must_be_unexplored );
         }
     }
 }
@@ -3359,7 +3386,7 @@ std::vector<point> overmap::get_sectors() const
 }
 
 bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
-                                     const point &sector, const bool place_optional )
+                                     const point &sector, const bool place_optional, const bool must_be_unexplored )
 {
     const int x = sector.x;
     const int y = sector.y;
@@ -3380,12 +3407,12 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
             continue;
         }
         // See if we can actually place the special there.
-        const auto rotation = random_special_rotation( special, p );
+        const auto rotation = random_special_rotation( special, p, must_be_unexplored );
         if( rotation == om_direction::type::invalid ) {
             continue;
         }
 
-        place_special( special, p, rotation, nearest_city );
+        place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
 
         if( ++iter->instances_placed >= special.occurrences.max ) {
             enabled_specials.erase( iter );
@@ -3398,7 +3425,7 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
 }
 
 void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
-                                   std::vector<point> &sectors, const bool place_optional )
+                                   std::vector<point> &sectors, const bool place_optional, const bool must_be_unexplored )
 {
     // Walk over sectors in random order, to minimize "clumping".
     std::random_shuffle( sectors.begin(), sectors.end() );
@@ -3406,7 +3433,7 @@ void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
         const size_t attempts = 10;
         bool placed = false;
         for( size_t i = 0; i < attempts; ++i ) {
-            if( place_special_attempt( enabled_specials, *it, place_optional ) ) {
+            if( place_special_attempt( enabled_specials, *it, place_optional, must_be_unexplored ) ) {
                 placed = true;
                 it = sectors.erase( it );
                 if( enabled_specials.empty() ) {
@@ -3452,7 +3479,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
     // First, place the mandatory specials to ensure that all minimum instance
     // counts are met.
-    place_specials_pass( enabled_specials, sectors, false );
+    place_specials_pass( enabled_specials, sectors, false, false );
 
     // Snapshot remaining specials, which will be the optional specials and
     // any unplaced mandatory specials. By passing a copy into the creation of
@@ -3495,7 +3522,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         }
     }
     // Then fill in non-mandatory specials.
-    place_specials_pass( enabled_specials, sectors, true );
+    place_specials_pass( enabled_specials, sectors, true, false );
 
     // Clean up...
     // Because we passed a copy of the specials for placement in adjacent overmaps rather than
