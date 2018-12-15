@@ -5,6 +5,7 @@
 #include "enums.h"
 #include "int_id.h"
 #include "overmap_types.h"
+#include "string_id.h"
 
 #include <memory>
 #include <set>
@@ -18,6 +19,9 @@ struct om_vehicle;
 
 struct oter_t;
 using oter_id = int_id<oter_t>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
 
 class overmap;
 class overmap_special;
@@ -215,9 +219,18 @@ class overmapbuffer
          * If 0, OMAPX is used.
          * @param must_be_seen If true, only terrain seen by the player
          * should be searched.
+         * @param allow_subtype_matches If true, will allow matching on subtypes for the
+         * terrain type (e.g. forest will match forest_thick and forest_water).
+         * @param existing_overmaps_only If true, will restrict searches to existing overmaps only. This
+         * is particularly useful if we want to attempt to add a missing overmap special to an existing
+         * overmap rather than creating many overmaps in an attempt to find it.
+         * @param om_special If set, the terrain must be part of the specified
+         * overmap special.
          */
         std::vector<tripoint> find_all( const tripoint &origin, const std::string &type,
-                                        int dist, bool must_be_seen );
+                                        int dist, bool must_be_seen, bool allow_subtype_matches = false,
+                                        bool existing_overmaps_only = false,
+                                        cata::optional<overmap_special_id> om_special = cata::nullopt );
 
         /**
          * Returns a random point of specific terrain type among those found in certain search radius.
@@ -229,9 +242,18 @@ class overmapbuffer
          * @param origin uses overmap terrain coordinates.
          * @param must_be_seen If true, only terrain seen by the player
          * should be searched.
+         * @param allow_subtype_matches If true, will allow matching on subtypes for the
+         * terrain type (e.g. forest will match forest_thick and forest_water).
+         * @param existing_overmaps_only If true, will restrict searches to existing overmaps only. This
+         * is particularly useful if we want to attempt to add a missing overmap special to an existing
+         * overmap rather than creating many overmaps in an attempt to find it.
+         * @param om_special If set, the terrain must be part of the specified
+         * overmap special.
          */
         tripoint find_random( const tripoint &origin, const std::string &type,
-                              int dist, bool must_be_seen );
+                              int dist, bool must_be_seen, bool allow_subtype_matches = false,
+                              bool existing_overmaps_only = false,
+                              cata::optional<overmap_special_id> om_special = cata::nullopt );
 
         /**
          * Mark a square area around center on Z-level z
@@ -258,9 +280,18 @@ class overmapbuffer
          * @param origin uses overmap terrain coordinates.
          * @param must_be_seen If true, only terrain seen by the player
          * should be searched.
+         * @param allow_subtype_matches If true, will allow matching on subtypes for the
+         * terrain type (e.g. forest will match forest_thick and forest_water).
+         * @param existing_overmaps_only If true, will restrict searches to existing overmaps only. This
+         * is particularly useful if we want to attempt to add a missing overmap special to an existing
+         * overmap rather than creating many overmaps in an attempt to find it.
+         * @param om_special If set, the terrain must be part of the specified
+         * overmap special.
          */
         tripoint find_closest( const tripoint &origin, const std::string &type, int radius,
-                               bool must_be_seen, bool allow_subtype_matches = false );
+                               bool must_be_seen, bool allow_subtype_matches = false,
+                               bool existing_overmaps_only = false,
+                               cata::optional<overmap_special_id> om_special = cata::nullopt );
 
         /* These 4 functions return the overmap that contains the given
          * overmap terrain coordinate.
@@ -380,6 +411,24 @@ class overmapbuffer
         std::string get_description_at( const tripoint &where );
 
     private:
+        /**
+         * Common function used by the find_closest/all/random to determine if the location is
+         * findable based on the specified criteria.
+         * @param location The location to evaluate. Uses overmap terrain coordinates.
+         * @param type Type of terrain to look for
+         * @param must_be_seen If true, the terrain must have been seen by the player to be acceptable.
+         * @param allow_subtype_matches If true, will allow matching on subtypes for the terrain type
+         * (e.g. forest will match forest_thick and forest_water).
+         * @param existing_overmaps_only If true, will restrict searches to existing overmaps only. This
+         * is particularly useful if we want to attempt to add a missing overmap special to an existing
+         * overmap rather than creating many overmaps in an attempt to find it.
+         * @param om_special If set, the terrain must be part of the specified overmap special.
+         */
+        bool is_findable_location( const tripoint &location, const std::string &type, bool must_be_seen,
+                                   bool allow_subtype_matches = false,
+                                   bool existing_overmaps_only = false,
+                                   cata::optional<overmap_special_id> om_special = cata::nullopt );
+
         std::unordered_map< point, std::unique_ptr< overmap > > overmaps;
         /**
          * Set of overmap coordinates of overmaps that are known
@@ -404,6 +453,15 @@ class overmapbuffer
          */
         bool check_ot_type( const std::string &otype, int x, int y, int z );
         bool check_ot_subtype( const std::string &otype, int x, int y, int z );
+        bool check_overmap_special_type( const overmap_special_id &id, const tripoint &loc );
+
+        /**
+        * These versions of the check_* methods will only check existing overmaps, and
+        * return false if the overmap doesn't exist. They do not create new overmaps.
+        */
+        bool check_ot_type_existing( const std::string &otype, const tripoint &loc );
+        bool check_ot_subtype_existing( const std::string &otype, const tripoint &loc );
+        bool check_overmap_special_type_existing( const overmap_special_id &id, const tripoint &loc );
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds
