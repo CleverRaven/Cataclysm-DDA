@@ -81,98 +81,103 @@ struct talk_topic {
     std::string reason;
 };
 
+struct talk_effect_fun_t {
+    private:
+        std::function<void( const dialogue &d )> function;
+
+    public:
+        talk_effect_fun_t() = default;
+        talk_effect_fun_t( talkfunction_ptr effect );
+        talk_effect_fun_t( const std::function<void( npc & )> effect );
+        void set_companion_mission( const std::string &role_id );
+        void set_u_add_permanent_effect( const std::string &new_effect );
+        void set_u_add_effect( const std::string &new_effect, const time_duration &duration );
+        void set_npc_add_permanent_effect( const std::string &new_effect );
+        void set_npc_add_effect( const std::string &new_effect, const time_duration &duration );
+        void set_u_add_trait( const std::string &new_trait );
+        void set_npc_add_trait( const std::string &new_trait );
+        void set_u_buy_item( const std::string &new_trait, int cost, int count,
+                             const std::string &container_name );
+        void set_u_spend_cash( int amount );
+        void set_npc_change_faction( const std::string &faction_name );
+        void set_change_faction_rep( int amount );
+        void operator()( const dialogue &d ) const {
+            if( !function ) {
+                return;
+            }
+            return function( d );
+        }
+};
+
+/**
+ * Defines what happens when the trial succeeds or fails. If trial is
+ * TALK_TRIAL_NONE it always succeeds.
+ */
+struct talk_effect_t {
+        /**
+          * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
+          */
+        npc_opinion opinion;
+        /**
+          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
+          */
+        talk_topic next_topic = talk_topic( "TALK_NONE" );
+
+        talk_topic apply( dialogue &d ) const;
+        dialogue_consequence get_consequence( const dialogue &d ) const;
+
+        /**
+          * Sets an effect and consequence based on function pointer.
+          */
+        void set_effect( talkfunction_ptr effect );
+        void set_effect( talk_effect_fun_t effect );
+        /**
+          * Sets an effect to a function object and consequence to explicitly given one.
+          */
+        void set_effect_consequence( const talk_effect_fun_t &eff, dialogue_consequence con );
+        void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
+
+        void load_effect( JsonObject &jo );
+        void parse_sub_effect( JsonObject jo );
+        void parse_string_effect( const std::string &type, JsonObject &jo );
+
+        talk_effect_t() = default;
+        talk_effect_t( JsonObject );
+
+        /**
+         * Functions that are called when the response is chosen.
+         */
+        std::vector<talk_effect_fun_t> effects;
+    private:
+        dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
+};
+
+
 /**
  * This defines possible responses from the player character.
  */
 struct talk_response {
-        /**
-         * What the player character says (literally). Should already be translated and will be
-         * displayed.
-         */
-        std::string text;
-        talk_trial trial;
-        /**
-         * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
-         */
-        mission *mission_selected = nullptr;
-        skill_id skill = skill_id::NULL_ID();
-        matype_id style = matype_id::NULL_ID();
-        struct effect_fun_t {
-            private:
-                std::function<void( const dialogue &d )> function;
+    /**
+     * What the player character says (literally). Should already be translated and will be
+     * displayed.
+     */
+    std::string text;
+    talk_trial trial;
+    /**
+     * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
+     */
+    mission *mission_selected = nullptr;
+    skill_id skill = skill_id::NULL_ID();
+    matype_id style = matype_id::NULL_ID();
 
-            public:
-                effect_fun_t() = default;
-                effect_fun_t( talkfunction_ptr effect );
-                effect_fun_t( std::function<void( npc & )> effect );
-                void set_companion_mission( std::string &role_id );
-                void set_u_add_permanent_effect( std::string &new_effect );
-                void set_u_add_effect( std::string &new_effect, const time_duration &duration );
-                void set_npc_add_permanent_effect( std::string &new_effect );
-                void set_npc_add_effect( std::string &new_effect, const time_duration &duration );
-                void set_u_add_trait( std::string &new_trait );
-                void set_npc_add_trait( std::string &new_trait );
-                void set_u_buy_item( std::string &new_trait, int cost, int count, std::string &container_name );
-                void set_u_spend_cash( int amount );
-                void set_npc_change_faction( std::string &faction_name );
-                void set_change_faction_rep( int amount );
-                void operator()( const dialogue &d ) const {
-                    if( !function ) {
-                        return;
-                    }
-                    return function( d );
-                }
-        };
-        /**
-         * Defines what happens when the trial succeeds or fails. If trial is
-         * TALK_TRIAL_NONE it always succeeds.
-         */
-        struct effect_t {
-                /**
-                 * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
-                 */
-                npc_opinion opinion;
-                /**
-                 * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
-                 */
-                talk_topic next_topic = talk_topic( "TALK_NONE" );
+    talk_effect_t success;
+    talk_effect_t failure;
 
-                talk_topic apply( dialogue &d ) const;
-                dialogue_consequence get_consequence( const dialogue &d ) const;
+    talk_data create_option_line( const dialogue &d, char letter );
+    std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
-                /**
-                 * Sets an effect and consequence based on function pointer.
-                 */
-                void set_effect( talkfunction_ptr effect );
-                void set_effect( effect_fun_t effect );
-                /**
-                 * Sets an effect to a function object and consequence to explicitly given one.
-                 */
-                void set_effect_consequence( const effect_fun_t &eff, dialogue_consequence con );
-                void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
-
-                void load_effect( JsonObject &jo );
-                void parse_sub_effect( JsonObject jo );
-                void parse_string_effect( const std::string &type, JsonObject &jo );
-
-                effect_t() = default;
-                effect_t( JsonObject );
-
-            private:
-                /**
-                 * Functions that are called when the response is chosen.
-                 */
-                std::vector<effect_fun_t> effects;
-                dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
-        };
-        effect_t success;
-        effect_t failure;
-
-        talk_data create_option_line( const dialogue &d, char letter );
-        std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
-
-        talk_response() = default;
-        talk_response( JsonObject );
+    talk_response() = default;
+    talk_response( JsonObject );
 };
 
 struct dialogue {

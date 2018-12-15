@@ -110,14 +110,8 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_npc_software", mission_start::place_npc_software },
         { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
-        { "reveal_lab_black_box", mission_start::reveal_lab_black_box },
-        { "open_sarcophagus", mission_start::open_sarcophagus },
-        { "reveal_hospital", mission_start::reveal_hospital },
         { "find_safety", mission_start::find_safety },
-        { "point_prison", mission_start::point_prison },
-        { "point_cabin_strange", mission_start::point_cabin_strange },
         { "recruit_tracker", mission_start::recruit_tracker },
-        { "radio_repeater", mission_start::radio_repeater },
         { "start_commune", mission_start::start_commune },
         { "ranch_construct_1", mission_start::ranch_construct_1 },
         { "ranch_construct_2", mission_start::ranch_construct_2 },
@@ -152,10 +146,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "ranch_bartender_3", mission_start::ranch_bartender_3 },
         { "ranch_bartender_4", mission_start::ranch_bartender_4 },
         { "place_book", mission_start::place_book },
-        { "reveal_weather_station", mission_start::reveal_weather_station },
-        { "reveal_office_tower", mission_start::reveal_office_tower },
-        { "reveal_doctors_office", mission_start::reveal_doctors_office },
-        { "reveal_cathedral", mission_start::reveal_cathedral },
         { "reveal_refugee_center", mission_start::reveal_refugee_center },
         { "create_lab_console", mission_start::create_lab_console },
         { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
@@ -299,7 +289,12 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
     assign_function( jo, "place", place, tripoint_function_map );
-    assign_function( jo, "start", start, mission_function_map );
+    if( jo.has_string( "start" ) ) {
+        assign_function( jo, "start", start, mission_function_map );
+    } else if( jo.has_member( "start" ) ) {
+        JsonObject j_start = jo.get_object( "start" );
+        parse_start( j_start );
+    }
     assign_function( jo, "end", end, mission_function_map );
     assign_function( jo, "fail", fail, mission_function_map );
 

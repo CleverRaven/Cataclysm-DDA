@@ -677,7 +677,8 @@ class player : public Character
 
         // ranged.cpp
         /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
+        dealt_projectile_attack throw_item( const tripoint &target, const item &thrown,
+                                            const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
         // Mental skills and stats
         /** Returns the player's reading speed */

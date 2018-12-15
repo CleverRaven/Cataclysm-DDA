@@ -110,9 +110,9 @@
   {
     "type": "mutation",
     "id": "BGSS_Left_for_Dead_1",
-    "name": "Survival Story:  Left_for_Dead_1",
+    "name": "Survivor",
     "points": 0,
-    "description": "",
+    "description": "This NPC could tell you about how they survived the cataclysm",
     "valid": false,
     "purifiable": false
   },

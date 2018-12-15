@@ -17,7 +17,7 @@
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "lung_cooked",
-    "components": [ [ [ "lung", 11 ] ] ]
+    "components": [ [ [ "lung", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -2988,6 +2988,21 @@ bool overmap::check_ot_subtype( const std::string &otype, int x, int y, int z ) 
     return is_ot_subtype( otype.c_str(), oter );
 }
 
+bool overmap::check_overmap_special_type( const overmap_special_id &id,
+        const tripoint &location ) const
+{
+    // Try and find the special associated with this location.
+    auto found_id = overmap_special_placements.find( location );
+
+    // There was no special here, so bail.
+    if( found_id == overmap_special_placements.end() ) {
+        return false;
+    }
+
+    // Return whether the found special was a match with our requested id.
+    return found_id->second == id;
+}
+
 void overmap::good_river( int x, int y, int z )
 {
     if( !is_ot_type( "river", get_ter( x, y, z ) ) ) {
@@ -3286,6 +3301,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         const tripoint location = p + om_direction::rotate( elem.p, dir );
         const oter_id tid = elem.terrain->get_rotated( dir );
 
+        overmap_special_placements[location] = special.id;
         ter( location.x, location.y, location.z ) = tid;
 
         if( blob ) {
