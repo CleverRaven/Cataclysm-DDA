@@ -265,6 +265,11 @@ class overmap
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint, scent_trace> scents;
 
+        // Records the locations where a given overmap special was placed, which
+        // can be used after placement to lookup whether a given location was created
+        // as part of a special.
+        std::unordered_map<tripoint, overmap_special_id> overmap_special_placements;
+
         regional_settings settings;
 
         oter_id get_default_terrain( int z ) const;
@@ -346,6 +351,7 @@ class overmap
         // Polishing
         bool check_ot_type( const std::string &otype, int x, int y, int z ) const;
         bool check_ot_subtype( const std::string &otype, int x, int y, int z ) const;
+        bool check_overmap_special_type( const overmap_special_id &id, const tripoint &location ) const;
         void chip_rock( int x, int y, int z );
 
         void polish_river();
