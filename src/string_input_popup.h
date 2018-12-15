@@ -63,7 +63,7 @@ class string_input_popup
         int _position = -1;
         int _hist_str_ind = 0;
         //Counts only when @_hist_use_uilist is false
-        const int _hist_max_size = 100;
+        const size_t _hist_max_size = 100;
 
         catacurses::window w;
 
