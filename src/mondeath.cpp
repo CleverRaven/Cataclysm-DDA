@@ -102,7 +102,7 @@ void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int dist
 {
     // can't have less than one item in a pile or it would cause an infinite loop
     pile_size = std::max( pile_size, 1 );
-    distance = abs(distance);
+    distance = abs( distance );
     const item chunk( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
@@ -189,7 +189,8 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
-            scatter_chunks( "ruined_chunks", gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) ) ->weight ), z, gib_distance,
+            scatter_chunks( "ruined_chunks",
+                            gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) ) ->weight ), z, gib_distance,
                             gibbed_weight / 15 / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
