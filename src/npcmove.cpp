@@ -796,7 +796,7 @@ void npc::choose_target()
     const int max_range = std::max( weapon.reach_range( *this ),
                                     confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) );
 
-    constexpr static int def_radius = 6;
+    static constexpr int def_radius = 6;
 
     const auto ok_by_rules = [max_range, this]( const Creature & c, int dist, int scaled_dist ) {
         if( !is_following() ) {
