@@ -191,7 +191,7 @@ void mdeath::splatter( monster &z )
         if( gibbed_weight > 0 ) {
             scatter_chunks( "ruined_chunks",
                             gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) ) ->weight ), z, gib_distance,
-                            gibbed_weight / to_gram((item::find_type("ruined_chunks"))->weight) / ( gib_distance + 1 ) );
+                            gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
