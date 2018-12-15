@@ -1121,7 +1121,13 @@
     "time": 180000,
     "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "CUT", "level": 1 }
+    ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
