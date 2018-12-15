@@ -3610,11 +3610,11 @@ std::string get_music_description()
     return no_description;
 }
 
-void iuse::play_music( player &p, const tripoint &source, int const volume, int const max_morale )
+void iuse::play_music( player &p, const tripoint &source, const int volume, const int max_morale )
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    bool const do_effects = p.can_hear( source, volume );
+    const bool do_effects = p.can_hear( source, volume );
     std::string sound;
     if( calendar::once_every( 5_minutes ) ) {
         // Every 5 minutes, describe the music
@@ -5662,7 +5662,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
 static std::string photo_quality_name( const int index )
 {
-    static std::array<std::string, 6> const names {
+    static const std::array<std::string, 6> names {
         {
             //~ photo quality adjective
             { translate_marker( "awful" ) }, { translate_marker( "bad" ) }, { translate_marker( "not bad" ) }, { translate_marker( "good" ) }, { translate_marker( "fine" ) }, { translate_marker( "exceptional" ) }
@@ -7215,7 +7215,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
-        auto const confirm_source_vehicle = []( player * p, item * it, const bool detach_if_missing ) {
+        const auto confirm_source_vehicle = []( player * p, item * it, const bool detach_if_missing ) {
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
@@ -7354,7 +7354,7 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
-    w_point const weatherPoint = *g->weather_precise;
+    const w_point weatherPoint = *g->weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
     const auto player_local_temp = g->get_temperature( g->u.pos() );
@@ -7805,7 +7805,7 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
         BALL8_UNK = 10,
         BALL8_BAD = 15
     };
-    const static std::array<const char *, 20> tab = {{
+    static const std::array<const char *, 20> tab = {{
             translate_marker( "It is certain." ),
             translate_marker( "It is decidedly so." ),
             translate_marker( "Without a doubt." ),

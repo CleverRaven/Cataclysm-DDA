@@ -437,7 +437,7 @@ int vehicle::turrets_aim_and_fire( bool manual, bool automatic, vehicle_part *tu
 
     if( turrets_aim( manual, automatic, tur_part ) ) {
         // turrets_aim already set the targets for any available turrets that can reach the target.
-        auto const &turs = turrets();
+        const auto &turs = turrets();
         std::for_each( turs.begin(), turs.end(), fire_if_able );
     }
 

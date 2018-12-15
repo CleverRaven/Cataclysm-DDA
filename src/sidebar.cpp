@@ -127,7 +127,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
     const int hpy = wide ? 0 : 1;
     const int dy = wide ? 1 : 2;
 
-    bool const is_self_aware = p.has_trait( trait_SELFAWARE );
+    const bool is_self_aware = p.has_trait( trait_SELFAWARE );
 
     for( int i = 0; i < num_hp_parts; i++ ) {
         wmove( w_HP, i * dy + hpy, hpx );
@@ -165,7 +165,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             continue;
         }
 
-        auto const &hp = get_hp_bar( p.hp_cur[i], p.hp_max[i] );
+        const auto &hp = get_hp_bar( p.hp_cur[i], p.hp_max[i] );
 
         if( is_self_aware ) {
             wprintz( w_HP, hp.second, "%3d  ", p.hp_cur[i] );

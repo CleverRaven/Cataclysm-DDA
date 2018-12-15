@@ -183,7 +183,7 @@ bool overmap_special_id::is_valid() const
     return specials.is_valid( *this );
 }
 
-city::city( int const X, int const Y, int const S )
+city::city( const int X, const int Y, const int S )
     : x( X )
     , y( Y )
     , s( S )
@@ -845,7 +845,7 @@ void overmap_special::check() const
 }
 
 // *** BEGIN overmap FUNCTIONS ***
-overmap::overmap( int const x, int const y ) : loc( x, y )
+overmap::overmap( const int x, const int y ) : loc( x, y )
 {
     const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
@@ -950,7 +950,7 @@ bool &overmap::explored( int x, int y, int z )
     return layer[z + OVERMAP_DEPTH].explored[x][y];
 }
 
-bool overmap::is_explored( int const x, int const y, int const z ) const
+bool overmap::is_explored( const int x, const int y, const int z ) const
 {
     if( !inbounds( x, y, z ) ) {
         return false;
@@ -1017,7 +1017,7 @@ std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( c
     return result;
 }
 
-bool overmap::has_note( int const x, int const y, int const z ) const
+bool overmap::has_note( const int x, const int y, const int z ) const
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         return false;
@@ -1031,23 +1031,23 @@ bool overmap::has_note( int const x, int const y, int const z ) const
     return false;
 }
 
-std::string const &overmap::note( int const x, int const y, int const z ) const
+const std::string &overmap::note( const int x, const int y, const int z ) const
 {
-    static std::string const fallback {};
+    static const std::string fallback {};
 
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         return fallback;
     }
 
-    auto const &notes = layer[z + OVERMAP_DEPTH].notes;
-    auto const it = std::find_if( begin( notes ), end( notes ), [&]( om_note const & n ) {
+    const auto &notes = layer[z + OVERMAP_DEPTH].notes;
+    const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
         return n.x == x && n.y == y;
     } );
 
     return ( it != std::end( notes ) ) ? it->text : fallback;
 }
 
-void overmap::add_note( int const x, int const y, int const z, std::string message )
+void overmap::add_note( const int x, const int y, const int z, std::string message )
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         debugmsg( "Attempting to add not to overmap for blank layer %d", z );
@@ -1055,7 +1055,7 @@ void overmap::add_note( int const x, int const y, int const z, std::string messa
     }
 
     auto &notes = layer[z + OVERMAP_DEPTH].notes;
-    auto const it = std::find_if( begin( notes ), end( notes ), [&]( om_note const & n ) {
+    const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
         return n.x == x && n.y == y;
     } );
 
@@ -1068,12 +1068,12 @@ void overmap::add_note( int const x, int const y, int const z, std::string messa
     }
 }
 
-void overmap::delete_note( int const x, int const y, int const z )
+void overmap::delete_note( const int x, const int y, const int z )
 {
     add_note( x, y, z, std::string {} );
 }
 
-std::vector<point> overmap::find_notes( int const z, std::string const &text )
+std::vector<point> overmap::find_notes( const int z, const std::string &text )
 {
     std::vector<point> note_locations;
     map_layer &this_layer = layer[z + OVERMAP_DEPTH];
@@ -1099,7 +1099,7 @@ bool overmap::inbounds( int x, int y, int z, int clearance )
 
 const scent_trace &overmap::scent_at( const tripoint &loc ) const
 {
-    const static scent_trace null_scent;
+    static const scent_trace null_scent;
     const auto &scent_found = scents.find( loc );
     if( scent_found != scents.end() ) {
         return scent_found->second;
@@ -1352,7 +1352,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     dbg( D_INFO ) << "overmap::generate done";
 }
 
-bool overmap::generate_sub( int const z )
+bool overmap::generate_sub( const int z )
 {
     bool requires_sub = false;
     std::vector<point> subway_points;
@@ -2740,7 +2740,7 @@ void overmap::build_mine( int x, int y, int z, int s )
     ter( x, y, z ) = mine_finale_or_down;
 }
 
-void overmap::place_rifts( int const z )
+void overmap::place_rifts( const int z )
 {
     int num_rifts = rng( 0, 2 ) * rng( 0, 2 );
     std::vector<point> riftline;
@@ -3649,8 +3649,8 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    std::string const plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
-    std::string const terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
+    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
 
     using namespace std::placeholders;
     if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
@@ -3674,8 +3674,8 @@ void overmap::open( overmap_special_batch &enabled_specials )
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    std::string const plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
-    std::string const terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
+    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
 
     ofstream_wrapper fout_player( plrfilename );
     serialize_view( fout_player );

@@ -54,7 +54,7 @@ enum change_types : int {
 
 char keybind( const std::string &opt, const std::string &context )
 {
-    auto const keys = input_context( context ).keys_bound_to( opt );
+    const auto keys = input_context( context ).keys_bound_to( opt );
     return keys.empty() ? ' ' : keys.front();
 }
 
@@ -1166,7 +1166,7 @@ void vehicle::open_all_at( int p )
     }
 }
 
-void vehicle::open_or_close( int const part_index, bool const opening )
+void vehicle::open_or_close( const int part_index, const bool opening )
 {
     parts[part_index].open = opening;
     insides_dirty = true;

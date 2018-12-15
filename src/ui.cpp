@@ -58,7 +58,7 @@ uilist::uilist( const std::string &msg, const std::vector<std::string> &opts )
 {
 }
 
-uilist::uilist( const std::string &msg, std::initializer_list<char const *const> opts )
+uilist::uilist( const std::string &msg, std::initializer_list<const char *const> opts )
     : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
 {
 }
@@ -90,7 +90,7 @@ uilist::uilist( int startx, int width, int starty, const std::string &msg,
 }
 
 uilist::uilist( int startx, int width, int starty, const std::string &msg,
-                std::initializer_list<char const *const> opts )
+                std::initializer_list<const char *const> opts )
 {
     init();
     w_x = startx;

@@ -2564,12 +2564,12 @@ void game::move_save_to_graveyard()
         debugmsg( "could not create graveyard path '%s'", graveyard_dir.c_str() );
     }
 
-    auto const save_files = get_files_from_path( prefix, save_dir );
+    const auto save_files = get_files_from_path( prefix, save_dir );
     if( save_files.empty() ) {
         debugmsg( "could not find save files in '%s'", save_dir.c_str() );
     }
 
-    for( auto const &src_path : save_files ) {
+    for( const auto &src_path : save_files ) {
         const std::string dst_path = graveyard_dir +
                                      src_path.substr( src_path.rfind( '/' ), std::string::npos );
 
@@ -2897,9 +2897,9 @@ void game::write_memorial_file( std::string sLastWords )
     constexpr size_t suffix_len   = 24 + 1;
     constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
 
-    size_t const name_len = u.name.size();
+    const size_t name_len = u.name.size();
     // Here -1 leaves space for the ~
-    size_t const truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
+    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
 
     std::ostringstream memorial_file_path;
     memorial_file_path << memorial_active_world_dir;
@@ -2909,7 +2909,7 @@ void game::write_memorial_file( std::string sLastWords )
         std::locale locale {"C"};
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( memorial_file_path ),
-        [&]( char const c ) {
+        [&]( const char c ) {
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
@@ -4082,7 +4082,7 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             if( overmap_buffer.get_horde_size( omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE ) {
-                tripoint const cur_pos {omx, omy, get_levz()};
+                const tripoint cur_pos {omx, omy, get_levz()};
                 if( overmap_buffer.seen( omx, omy, get_levz() )
                     && g->u.overmap_los( cur_pos, sight_points ) ) {
                     mvwputch( w_minimap, j + 3, i + 3, c_green,
@@ -5330,7 +5330,7 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
 }
 
 template<typename T>
-T const *game::critter_at( const tripoint &p, bool allow_hallucination ) const
+const T *game::critter_at( const tripoint &p, bool allow_hallucination ) const
 {
     return const_cast<game *>( this )->critter_at<T>( p, allow_hallucination );
 }
@@ -6688,7 +6688,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         }
 
         const int max_width = getmaxx( w_look ) - column - 1;
-        for( auto const &it : item_names ) {
+        for( const auto &it : item_names ) {
             if( line >= last_line - 2 ) {
                 mvwprintz( w_look, ++line, column, c_yellow, _( "More items here..." ) );
                 break;
@@ -8355,7 +8355,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const int iCurPos = iStartPos + y;
                     const int iCatPos = CatSortIter->first;
                     if( iCurPos == iCatPos ) {
-                        std::string const &cat_name = Creature::get_attitude_ui_data( CatSortIter->second ).first;
+                        const std::string &cat_name = Creature::get_attitude_ui_data( CatSortIter->second ).first;
                         mvwprintz( w_monsters, y, 1, c_magenta, cat_name );
                         ++CatSortIter;
                         continue;
@@ -9291,7 +9291,7 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
 
 void game::butcher()
 {
-    const static std::string salvage_string = "salvage";
+    static const std::string salvage_string = "salvage";
     if( u.controlling_vehicle ) {
         add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
@@ -10067,7 +10067,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
                                    press_x( ACTION_WHITELIST_ENEMY ).c_str() );
     }
 
-    std::string const msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
+    const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
     add_msg( m_warning,
              _( "Spotted %1$s--safe mode is on! (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
              spotted_creature_name.c_str(), msg_safe_mode.c_str(),

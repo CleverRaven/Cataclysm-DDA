@@ -634,7 +634,7 @@ void npc::randomize_from_faction( faction *fac )
         dex_max += rng( 0, 3 );
         per_max += rng( 0, 2 );
         int_max += rng( 0, 2 );
-        for( auto const &skill : Skill::skills ) {
+        for( const auto &skill : Skill::skills ) {
             if( one_in( 3 ) ) {
                 mod_skill_level( skill.ident(), rng( 2, 4 ) );
             }
@@ -844,9 +844,9 @@ skill_id npc::best_skill() const
     int highest_level = std::numeric_limits<int>::min();
     skill_id highest_skill( skill_id::NULL_ID() );
 
-    for( auto const &p : *_skills ) {
+    for( const auto &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
-            int const level = p.second.level();
+            const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
                 highest_skill = p.first;

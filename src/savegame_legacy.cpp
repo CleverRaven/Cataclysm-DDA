@@ -169,7 +169,7 @@ std::string convert_talk_topic( talk_topic_enum const old_value )
         }
     };
 #undef WRAP
-    auto const iter = talk_topic_enum_mapping.find( old_value );
+    const auto iter = talk_topic_enum_mapping.find( old_value );
     if( iter == talk_topic_enum_mapping.end() ) {
         debugmsg( "could not convert %d to new talk topic string", static_cast<int>( old_value ) );
         return "TALK_NONE";

@@ -480,7 +480,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 // cTile is a UTF-8 strings, and must be a single cell wide!
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
-std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
+const std::pair<std::string, nc_color> &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
 std::pair<std::string, nc_color> get_light_level( const float light );
 
@@ -706,8 +706,8 @@ class scrollingcombattext
                 std::string getType() const {
                     return sType;
                 }
-                std::string getText( std::string const &type = "full" ) const;
-                game_message_type getMsgType( std::string const &type = "first" ) const;
+                std::string getText( const std::string &type = "full" ) const;
+                game_message_type getMsgType( const std::string &type = "first" ) const;
         };
 
         std::vector<cSCT> vSCT;

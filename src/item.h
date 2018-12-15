@@ -80,7 +80,7 @@ class map;
 
 enum damage_type : int;
 
-std::string const &rad_badge_color( int rad );
+const std::string &rad_badge_color( int rad );
 
 struct light_emission {
     unsigned short luminance;
@@ -922,7 +922,7 @@ class item : public visitable<item>
         float get_relative_health() const;
 
         /**
-         * Apply damage to item constrained by @ref min_damage and @ref max_damage
+         * Apply damage to const itemrained by @ref min_damage and @ref max_damage
          * @param qty maximum amount by which to adjust damage (negative permissible)
          * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed

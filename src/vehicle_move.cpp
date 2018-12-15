@@ -991,7 +991,7 @@ rl_vec2d vehicle::dir_vec() const
     return degree_to_vec( turn_dir );
 }
 
-float get_collision_factor( float const delta_v )
+float get_collision_factor( const float delta_v )
 {
     if( std::abs( delta_v ) <= 31 ) {
         return ( 1 - ( 0.9 * std::abs( delta_v ) ) / 31 );

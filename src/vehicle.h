@@ -141,13 +141,13 @@ struct vehicle_part {
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
-        bool has_flag( int const flag ) const noexcept {
+        bool has_flag( const int flag ) const noexcept {
             return flag & flags;
         }
-        int  set_flag( int const flag )       noexcept {
+        int  set_flag( const int flag )       noexcept {
             return flags |= flag;
         }
-        int  remove_flag( int const flag )    noexcept {
+        int  remove_flag( const int flag )    noexcept {
             return flags &= ~flag;
         }
 
@@ -570,8 +570,8 @@ class vehicle
         bool has_structural_part( point dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
-        bool is_connected( vehicle_part const &to, vehicle_part const &from,
-                           vehicle_part const &excluded ) const;
+        bool is_connected( const vehicle_part &to, const vehicle_part &from,
+                           const vehicle_part &excluded ) const;
         void add_missing_frames();
         void add_steerable_wheels();
 
@@ -659,9 +659,9 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( player const &p ) const;
+        bool player_in_control( const player &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( player const &p ) const;
+        bool remote_controlled( const player &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int veh_init_fuel, int veh_init_status );

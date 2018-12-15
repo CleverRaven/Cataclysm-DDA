@@ -2058,13 +2058,13 @@ void veh_interact::display_stats()
 
     // Write the most damaged part
     if( mostDamagedPart ) {
-        char const *damaged_header = mostDamagedPart == most_repairable ?
+        const char *damaged_header = mostDamagedPart == most_repairable ?
                                             _( "Most damaged:" ) : _( "Most damaged (can't repair):" );
         print_part( damaged_header, 6, mostDamagedPart );
     }
     // Write the part that needs repair the most.
     if( most_repairable && most_repairable != mostDamagedPart ) {
-        char const * needsRepair = _( "Needs repair:" );
+        const char * needsRepair = _( "Needs repair:" );
         print_part( needsRepair, 7, most_repairable );
     }
 
