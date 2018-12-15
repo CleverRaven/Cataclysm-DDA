@@ -1317,7 +1317,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     // Compile our master list of roads; it's less messy if roads_out is first
     road_points.reserve( roads_out.size() + cities.size() );
     for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.pos.x, elem.pos.y );
+        road_points.emplace_back( elem.pos );
     }
     for( const auto &elem : cities ) {
         road_points.emplace_back( elem.pos.x, elem.pos.y );
