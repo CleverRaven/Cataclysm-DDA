@@ -2633,8 +2633,8 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if( vp && &vp->vehicle() == this && player_controlling ) {
-            const int p = part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
-            if( p >= 0 && part_info( p ).fuel_type == fuel_type_muscle && is_part_on( p ) ) {
+            const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
+            if( p >= 0 && part_info( p ).fuel_type == fuel_type_muscle ) {
                 //Broken limbs prevent muscle engines from working
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && g->u.hp_cur[hp_leg_l] > 0 &&
                       g->u.hp_cur[hp_leg_r] > 0 ) || ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
