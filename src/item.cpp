@@ -5651,7 +5651,7 @@ bool item::reload( player &u, item_location loc, long qty )
         if( ammo->has_flag( "SPEEDLOADER" ) ) {
             curammo = find_type( ammo->contents.front().typeId() );
             qty = std::min( qty, ammo->ammo_remaining() );
-            ammo->ammo_consume( qty, { 0, 0, 0 } );
+            ammo->ammo_consume( qty, tripoint_zero );
             charges += qty;
         } else if( ammo_type() == ammotype( "plutonium" ) ) {
             curammo = find_type( ammo->typeId() );
