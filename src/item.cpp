@@ -1950,9 +1950,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         std::map<quality_id, int> most_quality;
         for( const auto &e : contents ) {
             for( const auto &q : e.type->qualities ) {
-                //most_quality.emplace(q);
-                if( most_quality.operator[]( q.first ) < q.second ) {
-                    most_quality.insert_or_assign( q.first, q.second );
+                most_quality.emplace( q );
+                if( most_quality.at( q.first ) < q.second ) {
+                    most_quality[ q.first ] = q.second;
                 }
             }
         }
