@@ -500,7 +500,7 @@ player::player() : Character()
     active_mission = nullptr;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = {0, 0, 0};
+    grab_point = tripoint_zero;
     grab_type = OBJECT_NONE;
     hauling = false;
     move_mode = "walk";

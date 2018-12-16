@@ -34,7 +34,7 @@ const city_reference city_reference::invalid{ nullptr, tripoint(), -1 };
 int city_reference::get_distance_from_bounds() const
 {
     assert( city != nullptr );
-    return distance - omt_to_sm_copy( city->s );
+    return distance - omt_to_sm_copy( city->size );
 }
 
 std::string overmapbuffer::terrain_filename( const int x, const int y )
@@ -907,7 +907,7 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &loca
         result.reserve( result.size() + om->cities.size() );
         std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
         [&]( city & element ) {
-            const auto rel_pos_city = omt_to_sm_copy( element.x, element.y );
+            const auto rel_pos_city = omt_to_sm_copy( element.pos );
             const auto abs_pos_city = tripoint( rel_pos_city + abs_pos_om, 0 );
             const auto distance = rl_dist( abs_pos_city, location );
 
@@ -968,7 +968,7 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     const direction dir = direction_from( closest_cref.abs_sm_pos, where );
     const std::string dir_name = direction_name( dir );
 
-    const int sm_size = omt_to_sm_copy( closest_cref.city->s );
+    const int sm_size = omt_to_sm_copy( closest_cref.city->size );
     const int sm_dist = closest_cref.distance;
 
     if( sm_dist <= 3 * sm_size / 4 ) {

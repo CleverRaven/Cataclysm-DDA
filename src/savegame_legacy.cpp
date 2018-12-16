@@ -356,15 +356,15 @@ void overmap::unserialize_legacy( std::istream &fin )
                                                 std::move( new_monster ) ) );
         } else if( datatype == 't' ) { // City
             fin >> cx >> cy >> cs;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = cs;
+            tmp.pos.x = cx;
+            tmp.pos.y = cy;
+            tmp.size = cs;
             cities.push_back( tmp );
         } else if( datatype == 'R' ) { // Road leading out
             fin >> cx >> cy;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = -1;
+            tmp.pos.x = cx;
+            tmp.pos.y = cy;
+            tmp.size = -1;
             roads_out.push_back( tmp );
         } else if( datatype == 'T' ) { // Radio tower
             radio_tower tmp;

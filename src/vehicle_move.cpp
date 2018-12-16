@@ -60,9 +60,9 @@ int vmiph_to_cmps( int vmiph )
     return vmiph / mps_to_miph;
 }
 
-int vehicle::slowdown() const
+int vehicle::slowdown( int at_velocity ) const
 {
-    double mps =  vmiph_to_mps( abs( velocity ) );
+    double mps =  vmiph_to_mps( abs( at_velocity ) );
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
@@ -84,7 +84,7 @@ int vehicle::slowdown() const
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name.c_str(), slowdown );
     }
     add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
-             name, velocity, f_total_drag, slowdown, drag() );
+             name, at_velocity, f_total_drag, slowdown, drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( falling || is_floating ) ) {
         slowdown += drag();

@@ -937,7 +937,7 @@ void pointmenu_cb::refresh( uilist *menu ) {
     }
     if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
         last = menu->selected;
-        g->u.view_offset = {0, 0, 0};
+        g->u.view_offset = tripoint_zero;
         g->draw_ter();
         wrefresh( g->w_terrain );
         menu->redraw( false ); // show() won't redraw borders

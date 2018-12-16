@@ -315,6 +315,9 @@ inline bool operator<( const tripoint &a, const tripoint &b )
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_zero { 0, 0, 0 };
 
+static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
+static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
+
 struct sphere {
     int radius = 0;
     tripoint center = tripoint( 0, 0, 0 );
