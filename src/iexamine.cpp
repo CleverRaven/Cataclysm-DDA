@@ -161,7 +161,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     //item *it = nanofab_template.get_item();
     item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
 
-    auto qty = new_item.volume() / units::legacy_volume_factor;
+    auto qty = new_item.volume() / 250_ml;
     qty = std::max( 1, qty );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
 
