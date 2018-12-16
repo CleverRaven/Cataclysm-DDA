@@ -170,7 +170,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     // Consume materials
-    for( const auto& e : reqs.get_components() ) {
+    for( const auto &e : reqs.get_components() ) {
         p.consume_items( e );
     }
     for( const auto& e : reqs.get_tools() ) {
