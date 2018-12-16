@@ -59,7 +59,7 @@ struct city_reference {
 * local to that overmap.
 */
 struct overmap_reference_with_local_coordinates {
-    overmap *overmap;
+    overmap *overmap_pointer;
     tripoint coordinates;
 };
 
