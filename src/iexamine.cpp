@@ -140,7 +140,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     bool table_exists = false;
     tripoint spawn_point;
     for( const auto &valid_location : g->m.points_in_radius( examp, 1, 0 ) ) {
-        if( g->m.ter( valid_location ) == t_nanofab_body ) {
+        if( g->m.ter( valid_location ) == ter_str_id( "t_nanofab_body" ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
