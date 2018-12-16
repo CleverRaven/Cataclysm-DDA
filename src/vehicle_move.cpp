@@ -889,7 +889,7 @@ void vehicle::pldrive( int x, int y )
     }
 
     if( y != 0 ) {
-        int thr_amount = 10 * 100;
+        int thr_amount = 5 * 100;
         if( cruise_on ) {
             cruise_thrust( -y * thr_amount );
         } else {
@@ -1062,7 +1062,7 @@ bool vehicle::act_on_map()
             }
         }
     }
-    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( velocity ) );
+    const float turn_cost = vehicles::vmiph_per_tile / std::max<float>( 0.0001f, abs( velocity ) );
 
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
