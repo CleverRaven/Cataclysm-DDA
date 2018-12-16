@@ -173,7 +173,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     for( const auto &e : reqs.get_components() ) {
         p.consume_items( e );
     }
-    for( const auto& e : reqs.get_tools() ) {
+    for( const auto &e : reqs.get_tools() ) {
         p.consume_tools( e );
     }
     p.invalidate_crafting_inventory();
