@@ -178,7 +178,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
     p.invalidate_crafting_inventory();
 
-    if (new_item.is_armor() && new_item.has_flag( "VARSIZE" ) ){
+    if( new_item.is_armor() && new_item.has_flag( "VARSIZE" ) ) {
         new_item.item_tags.insert( "FIT" );
     }
 
