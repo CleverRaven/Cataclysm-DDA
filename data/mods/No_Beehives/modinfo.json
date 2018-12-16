@@ -14,8 +14,6 @@
   },
   {
     "type": "MONSTER_BLACKLIST",
-    "monsters": [
-      "mon_bee"
-      ]
+    "monsters": [ "mon_bee" ]
   }
 ]
