@@ -4,7 +4,7 @@
     "ident": "No_Bees",
     "name": "No Bees",
     "authors": [ "Inglonias" ],
-    "description": "Removes bees and beehives from the game.",
+    "description": "Removes bees and beehives from the game",
     "category": "monster_exclude",
     "dependencies": [ "dda" ]
   },
