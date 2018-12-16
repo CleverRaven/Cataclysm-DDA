@@ -622,22 +622,22 @@ std::string monster::extended_description() const
     };
 
     describe_flags( _( "It has the following senses: %s." ), {
-        {m_flag::MF_HEARS, _( "hearing" )},
-        {m_flag::MF_SEES, _( "sight" )},
-        {m_flag::MF_SMELLS, _( "smell" )},
+        {m_flag::MF_HEARS, pgettext( "Hearing as sense", "hearing" )},
+        {m_flag::MF_SEES, pgettext( "Sight as sense", "sight" )},
+        {m_flag::MF_SMELLS, pgettext( "Smell as sense", "smell" )},
     }, _( "It doesn't have senses." ) );
 
     describe_flags( _( "It can %s." ), {
-        {m_flag::MF_SWIMS, _( "swim" )},
-        {m_flag::MF_FLIES, _( "fly" )},
-        {m_flag::MF_CAN_DIG, _( "dig" )},
-        {m_flag::MF_CLIMBS, _( "climb" )}
+        {m_flag::MF_SWIMS, pgettext( "Swim as an action", "swim" )},
+        {m_flag::MF_FLIES, pgettext( "Fly as an action", "fly" )},
+        {m_flag::MF_CAN_DIG, pgettext( "Dig as an action", "dig" )},
+        {m_flag::MF_CLIMBS, pgettext( "Climb as an action", "climb" )}
     } );
 
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
-        {m_flag::MF_GRABS, _( "grab" )},
-        {m_flag::MF_VENOM, _( "poison" )},
-        {m_flag::MF_PARALYZE, _( "paralyze" )},
+        {m_flag::MF_GRABS, pgettext( "Grab as an action", "grab" )},
+        {m_flag::MF_VENOM, pgettext( "Poison as an action", "poison" )},
+        {m_flag::MF_PARALYZE, pgettext( "Paralyze as an action", "paralyze" )},
         {m_flag::MF_BLEED, _( "cause bleed" )}
     } );
 

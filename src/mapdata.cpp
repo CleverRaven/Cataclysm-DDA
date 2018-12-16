@@ -217,7 +217,10 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
     if( is_furniture ) {
         furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
     } else {
-        ter_set = ter_str_id( j.get_string( "ter_set" ) );
+        const std::string ter_set_string = j.get_string( "ter_set" );
+        ter_set = ter_str_id( ter_set_string );
+        ter_set_bashed_from_above = ter_str_id( j.get_string( "ter_set_bashed_from_above",
+                                                ter_set_string ) );
     }
 
     if( j.has_member( "items" ) ) {

@@ -119,7 +119,7 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    position = { 0, 0, 0 };
+    position = tripoint_zero;
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );
@@ -1990,8 +1990,8 @@ void npc::die( Creature *nkiller )
                                    name.c_str() );
         } else if( psycho ) {
             g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed an innocent, %s, in cold blood. They were weak." ),
-                                   pgettext( "memorial_female", "Killed an innocent, %s, in cold blood. They were weak." ),
+                                             "Killed an innocent, %s, in cold blood.  They were weak." ),
+                                   pgettext( "memorial_female", "Killed an innocent, %s, in cold blood.  They were weak." ),
                                    name.c_str() );
         } else if( cannibal ) {
             g->u.add_memorial_log( pgettext( "memorial_male", "Killed an innocent, %s." ),

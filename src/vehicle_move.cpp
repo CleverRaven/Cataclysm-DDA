@@ -33,17 +33,62 @@ const skill_id skill_driving( "driving" );
 
 // tile height in meters
 static const float tile_height = 4;
-int vehicle::slowdown() const
-{
-    const double relative_sin = sin( DEGREES( face.dir() - move.dir() ) );
-    // Mph lost per tile when coasting, by an ideal vehicle
-    const int base_slowdown = falling ? 1 : 5 + std::floor( 45 * std::abs( relative_sin ) );
+// miles per hour to vehicle 100ths of miles per hour
+static const int mi_to_vmi = 100;
+// meters per second to miles per hour
+static const float mps_to_miph = 2.23694f;
 
-    // "Anti-ideal" vehicle slows down up to 10 times faster than ideal one
-    const float k_slowdown = 20.0f / ( 2.0f + 9 * ( k_dynamics() * k_mass() ) );
-    // drag is in units of 1/2 HP here, so plows make good emergency brakes.
-    const int slowdown = drag() + static_cast<int>( std::ceil( k_slowdown * base_slowdown ) );
-    add_msg( m_debug, "%s vel: %d, slowdown: %d", name, velocity, slowdown );
+// convert m/s to vehicle 100ths of a mile per hour
+int mps_to_vmiph( double mps )
+{
+    return mps * mps_to_miph * mi_to_vmi;
+}
+
+// convert vehicle 100ths of a mile per hour to m/s
+double vmiph_to_mps( int vmiph )
+{
+    return vmiph / mps_to_miph / mi_to_vmi;
+}
+
+int cmps_to_vmiph( int cmps )
+{
+    return cmps * mps_to_miph;
+}
+
+int vmiph_to_cmps( int vmiph )
+{
+    return vmiph / mps_to_miph;
+}
+
+int vehicle::slowdown( int at_velocity ) const
+{
+    double mps =  vmiph_to_mps( abs( at_velocity ) );
+
+    // slowdown due to air resistance is proportional to square of speed
+    double f_total_drag = coeff_air_drag() * mps * mps;
+    bool is_floating = !floating.empty();
+    if( is_floating ) {
+        // same with water resistance
+        f_total_drag += coeff_water_drag() * mps * mps;
+    } else if( !falling ) {
+        // slowdown due to rolling resistance is proportional to speed
+        double f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable + mps );
+        // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
+        const double skid_factor = 1 + 24 * std::abs( sin( DEGREES( face.dir() - move.dir() ) ) );
+        f_total_drag += f_rolling_drag * skid_factor;
+    }
+    double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
+    // converting m/s^2 to vmiph/s
+    int slowdown = mps_to_vmiph( accel_slowdown );
+    if( slowdown < 0 ) {
+        debugmsg( "vehicle %s has negative drag slowdown %d\n", name.c_str(), slowdown );
+    }
+    add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
+             name, at_velocity, f_total_drag, slowdown, drag() );
+    // plows slow rolling vehicles, but not falling or floating vehicles
+    if( !( falling || is_floating ) ) {
+        slowdown += drag();
+    }
 
     return slowdown;
 }
@@ -54,10 +99,7 @@ void vehicle::thrust( int thd )
     //ensure it is not skidding. Set turns used to 0.
     if( velocity == 0 ) {
         turn_dir = face.dir();
-        move = face;
-        of_turn_carry = 0;
-        last_turn = 0;
-        skidding = false;
+        stop();
     }
 
     if( has_part( "STEREO", true ) ) {
@@ -66,11 +108,6 @@ void vehicle::thrust( int thd )
 
     if( has_part( "CHIMES", true ) ) {
         play_chimes();
-    }
-
-    // No need to change velocity
-    if( !thd ) {
-        return;
     }
 
     bool pl_ctrl = player_in_control( g->u );
@@ -96,25 +133,18 @@ void vehicle::thrust( int thd )
 
     // @todo: Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
-    int accel = acceleration() * traction;
+    int accel = current_acceleration() * traction;
     if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
             add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
         }
-
         return;
     }
-
     int max_vel = max_velocity() * traction;
+
     // Get braking power
-    int brake = 30 * k_mass();
-    int brk = abs( velocity ) * brake / 100;
-    if( brk < accel ) {
-        brk = accel;
-    }
-    if( brk < 10 * 100 ) {
-        brk = 10 * 100;
-    }
+    int brk = std::max( 1000, abs( max_vel ) * 3 / 10 );
+
     //pos or neg if accelerator or brake
     int vel_inc = ( ( thrusting ) ? accel : brk ) * thd;
     if( thd == -1 && thrusting ) {
@@ -122,25 +152,24 @@ void vehicle::thrust( int thd )
         vel_inc = .6 * vel_inc;
     }
 
+    //find power ratio used of engines max
+    int load;
     // Keep exact cruise control speed
     if( cruise_on ) {
+        int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
-            vel_inc = std::min( vel_inc, cruise_velocity - velocity );
+            vel_inc = std::min( vel_inc, effective_cruise - velocity );
         } else {
-            vel_inc = std::max( vel_inc, cruise_velocity - velocity );
+            vel_inc = std::max( vel_inc, effective_cruise - velocity );
         }
-    }
-
-    //find power ratio used of engines max
-    double load;
-    if( cruise_on ) {
-        load = static_cast<float>( abs( vel_inc ) ) / std::max( ( thrusting ? accel : brk ), 1 );
+        //find power ratio used of engines max
+        load = 1000 * abs( vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
     } else {
-        load = ( thrusting ? 1.0 : 0.0 );
+        load = ( thrusting ? 1000 : 0 );
     }
 
     // only consume resources if engine accelerating
-    if( load >= 0.01 && thrusting ) {
+    if( load >= 1 && thrusting ) {
         //abort if engines not operational
         if( total_power_w() <= 0 || !engine_on || accel == 0 ) {
             if( pl_ctrl ) {
@@ -162,7 +191,9 @@ void vehicle::thrust( int thd )
 
         //make noise and consume fuel
         noise_and_smoke( load );
-        consume_fuel( load );
+        // HACK - vehicles don't move as far as they should in 6 seconds, so for movement ONLY
+        // consume fuel as though a turn were 1 second
+        consume_fuel( load, 1 );
 
         //break the engines a bit, if going too fast.
         int strn = static_cast<int>( ( strain() * strain() * 100 ) );
@@ -992,24 +1023,15 @@ bool vehicle::act_on_map()
     if( should_fall ) {
         const float g = 9.8f; // 9.8 m/s^2
         // Convert from 100*mph to m/s
-        const float old_vel = vertical_velocity / 2.23694 / 100;
+        const float old_vel = vmiph_to_mps( vertical_velocity );
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
         // Note: That drops the sign
         const float new_vel = -sqrt( 2 * tile_height * g + old_vel * old_vel );
-        vertical_velocity = new_vel * 2.23694 * 100;
+        vertical_velocity = mps_to_vmiph( new_vel );
         falling = true;
     } else {
         // Not actually falling, was just marked for fall test
         falling = false;
-    }
-
-    const int vslowdown = slowdown();
-    if( vslowdown > abs( velocity ) ) {
-        stop();
-    } else if( velocity < 0 ) {
-        velocity += vslowdown;
-    } else {
-        velocity -= vslowdown;
     }
 
     // Low enough for bicycles to go in reverse.

@@ -1651,7 +1651,7 @@ std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &
     return {{ success.get_consequence( d ), failure.get_consequence( d ) }};
 }
 
-dialogue_consequence talk_response::effect_t::get_consequence( const dialogue &d ) const
+dialogue_consequence talk_effect_t::get_consequence( const dialogue &d ) const
 {
     if( d.beta->op_of_u.anger + opinion.anger >= d.beta->hostile_anger_level() ) {
         return dialogue_consequence::hostile;
@@ -1811,7 +1811,7 @@ talk_topic load_inline_topic( JsonObject jo )
     return talk_topic( id );
 }
 
-talk_response::effect_fun_t::effect_fun_t( talkfunction_ptr ptr )
+talk_effect_fun_t::talk_effect_fun_t( talkfunction_ptr ptr )
 {
     function = [ptr]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1819,7 +1819,7 @@ talk_response::effect_fun_t::effect_fun_t( talkfunction_ptr ptr )
     };
 }
 
-talk_response::effect_fun_t::effect_fun_t( std::function<void( npc &p )> ptr )
+talk_effect_fun_t::talk_effect_fun_t( std::function<void( npc &p )> ptr )
 {
     function = [ptr]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1827,7 +1827,7 @@ talk_response::effect_fun_t::effect_fun_t( std::function<void( npc &p )> ptr )
     };
 }
 
-void talk_response::effect_fun_t::set_companion_mission( std::string &role_id )
+void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
 {
     function = [role_id]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1836,7 +1836,7 @@ void talk_response::effect_fun_t::set_companion_mission( std::string &role_id )
     };
 }
 
-void talk_response::effect_fun_t::set_u_add_permanent_effect( std::string &new_effect )
+void talk_effect_fun_t::set_u_add_permanent_effect( const std::string &new_effect )
 {
     function = [new_effect]( const dialogue &d ) {
         player &u = *d.alpha;
@@ -1844,7 +1844,7 @@ void talk_response::effect_fun_t::set_u_add_permanent_effect( std::string &new_e
     };
 }
 
-void talk_response::effect_fun_t::set_u_add_effect( std::string &new_effect, const time_duration &duration )
+void talk_effect_fun_t::set_u_add_effect( const std::string &new_effect, const time_duration &duration )
 {
     function = [new_effect, duration]( const dialogue &d ) {
         player &u = *d.alpha;
@@ -1852,7 +1852,7 @@ void talk_response::effect_fun_t::set_u_add_effect( std::string &new_effect, con
     };
 }
 
-void talk_response::effect_fun_t::set_npc_add_permanent_effect( std::string &new_effect )
+void talk_effect_fun_t::set_npc_add_permanent_effect( const std::string &new_effect )
 {
     function = [new_effect]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1860,7 +1860,8 @@ void talk_response::effect_fun_t::set_npc_add_permanent_effect( std::string &new
     };
 }
 
-void talk_response::effect_fun_t::set_npc_add_effect( std::string &new_effect, const time_duration &duration )
+void talk_effect_fun_t::set_npc_add_effect( const std::string &new_effect,
+                                       const time_duration &duration )
 {
     function = [new_effect, duration]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1868,7 +1869,7 @@ void talk_response::effect_fun_t::set_npc_add_effect( std::string &new_effect, c
     };
 }
 
-void talk_response::effect_fun_t::set_u_add_trait( std::string &new_trait )
+void talk_effect_fun_t::set_u_add_trait( const std::string &new_trait )
 {
     function = [new_trait]( const dialogue &d ) {
         player &u = *d.alpha;
@@ -1876,7 +1877,7 @@ void talk_response::effect_fun_t::set_u_add_trait( std::string &new_trait )
     };
 }
 
-void talk_response::effect_fun_t::set_npc_add_trait( std::string &new_trait )
+void talk_effect_fun_t::set_npc_add_trait( const std::string &new_trait )
 {
     function = [new_trait]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1884,7 +1885,8 @@ void talk_response::effect_fun_t::set_npc_add_trait( std::string &new_trait )
     };
 }
 
-void talk_response::effect_fun_t::set_u_buy_item( std::string &item_name, int cost, int count, std::string &container_name )
+void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, int count,
+                                   const std::string &container_name )
 {
     function = [item_name, cost, count, container_name]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1910,7 +1912,7 @@ void talk_response::effect_fun_t::set_u_buy_item( std::string &item_name, int co
     };
 }
 
-void talk_response::effect_fun_t::set_u_spend_cash( int amount )
+void talk_effect_fun_t::set_u_spend_cash( int amount )
 {
     function = [amount]( const dialogue &d ) {
         player &u = *d.alpha;
@@ -1918,7 +1920,7 @@ void talk_response::effect_fun_t::set_u_spend_cash( int amount )
     };
 }
 
-void talk_response::effect_fun_t::set_npc_change_faction( std::string &faction_name )
+void talk_effect_fun_t::set_npc_change_faction( const std::string &faction_name )
 {
     function = [faction_name]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1926,7 +1928,7 @@ void talk_response::effect_fun_t::set_npc_change_faction( std::string &faction_n
     };
 }
 
-void talk_response::effect_fun_t::set_change_faction_rep( int rep_change )
+void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1935,31 +1937,32 @@ void talk_response::effect_fun_t::set_change_faction_rep( int rep_change )
     };
 }
 
-void talk_response::effect_t::set_effect_consequence( const effect_fun_t &fun, dialogue_consequence con )
+void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, con );
 }
 
-void talk_response::effect_t::set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con )
+void talk_effect_t::set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con )
 {
-    effect_fun_t npctalk_setter( ptr );
+    talk_effect_fun_t npctalk_setter( ptr );
     set_effect_consequence( npctalk_setter, con );
 }
 
-void talk_response::effect_t::set_effect( effect_fun_t fun )
+void talk_effect_t::set_effect( talk_effect_fun_t fun )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, dialogue_consequence::none );
 }
 
-void talk_response::effect_t::set_effect( talkfunction_ptr ptr )
+void talk_effect_t::set_effect( talkfunction_ptr ptr )
 {
-    effect_fun_t npctalk_setter( ptr );
+    talk_effect_fun_t npctalk_setter( ptr );
     dialogue_consequence response;
     if( ptr == &talk_function::hostile ) {
         response = dialogue_consequence::hostile;
-    } else if( ptr == &talk_function::player_weapon_drop || ptr == &talk_function::player_weapon_away ||
+    } else if( ptr == &talk_function::player_weapon_drop ||
+               ptr == &talk_function::player_weapon_away ||
                ptr == &talk_function::start_mugging ) {
         response = dialogue_consequence::helpless;
     } else {
@@ -1968,9 +1971,9 @@ void talk_response::effect_t::set_effect( talkfunction_ptr ptr )
     set_effect_consequence( npctalk_setter, response );
 }
 
-talk_topic talk_response::effect_t::apply( dialogue &d ) const
+talk_topic talk_effect_t::apply( dialogue &d ) const
 {
-    for( const effect_fun_t &effect: effects ) {
+    for( const talk_effect_fun_t &effect: effects ) {
         effect( d );
     }
     d.beta->op_of_u += opinion;
@@ -1993,7 +1996,7 @@ talk_topic talk_response::effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-talk_response::effect_t::effect_t( JsonObject jo )
+talk_effect_t::talk_effect_t( JsonObject jo )
 {
     load_effect( jo );
     if( jo.has_object( "topic" ) ) {
@@ -2008,9 +2011,9 @@ talk_response::effect_t::effect_t( JsonObject jo )
     }
 }
 
-void talk_response::effect_t::parse_sub_effect( JsonObject jo )
+void talk_effect_t::parse_sub_effect( JsonObject jo )
 {
-    effect_fun_t subeffect_fun;
+    talk_effect_fun_t subeffect_fun;
     if( jo.has_string( "companion_mission" ) ) {
         std::string role_id = jo.get_string( "companion_mission" );
         subeffect_fun.set_companion_mission( role_id );
@@ -2064,7 +2067,7 @@ void talk_response::effect_t::parse_sub_effect( JsonObject jo )
     set_effect( subeffect_fun );
 }
 
-void talk_response::effect_t::parse_string_effect( const std::string &type, JsonObject &jo )
+void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo )
 {
     static const std::unordered_map<std::string, void( * )( npc & )> static_functions_map = {
         {
@@ -2124,7 +2127,7 @@ void talk_response::effect_t::parse_string_effect( const std::string &type, Json
     jo.throw_error( "unknown effect string", type );
 }
 
-void talk_response::effect_t::load_effect( JsonObject &jo )
+void talk_effect_t::load_effect( JsonObject &jo )
 {
     static const std::string member_name( "effect" );
     if( !jo.has_member( member_name ) ) {
@@ -2159,7 +2162,7 @@ talk_response::talk_response( JsonObject jo )
         trial = talk_trial( jo.get_object( "trial" ) );
     }
     if( jo.has_member( "success" ) ) {
-        success = effect_t( jo.get_object( "success" ) );
+        success = talk_effect_t( jo.get_object( "success" ) );
     } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching without a possible failure
         success.next_topic = talk_topic( jo.get_string( "topic" ) );
@@ -2171,7 +2174,7 @@ talk_response::talk_response( JsonObject jo )
         jo.throw_error( "the failure effect is mandatory if a talk_trial has been defined" );
     }
     if( jo.has_member( "failure" ) ) {
-        failure = effect_t( jo.get_object( "failure" ) );
+        failure = talk_effect_t( jo.get_object( "failure" ) );
     }
     text = _( jo.get_string( "text" ).c_str() );
     // TODO: mission_selected

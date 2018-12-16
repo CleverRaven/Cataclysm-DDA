@@ -2618,7 +2618,7 @@ point map::random_outdoor_tile()
 bool map::has_adjacent_furniture( const tripoint &p )
 {
     const signed char cx[4] = { 0, -1, 0, 1};
-    const signed char cy[4] = {-1,  0, 1, 0};
+    const signed char cy[4] = { -1,  0, 1, 0};
 
     for( int i = 0; i < 4; i++ ) {
         const int adj_x = p.x + cx[i];
@@ -3086,6 +3086,10 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Handle error earlier so that we can assume smash_ter is true below
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                   ter( p ).obj().id.c_str() );
+    } else if( params.bashing_from_above && bash->ter_set_bashed_from_above ) {
+        // If this terrain is being bashed from above and this terrain
+        // has a valid post-destroy bashed-from-above terrain, set it
+        ter_set( p, bash->ter_set_bashed_from_above );
     } else if( bash->ter_set ) {
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash->ter_set );
@@ -3095,6 +3099,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( bash->bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
             // When bashing the tile below, don't allow bashing the floor
             bash_params params_below = params; // Make a copy
+            params_below.bashing_from_above = true;
             bash_ter_furn( below, params_below );
         }
 
@@ -3149,7 +3154,7 @@ bash_params map::bash( const tripoint &p, const int str,
                        const vehicle *bashing_vehicle )
 {
     bash_params bsh{
-        str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false
+        str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
     };
     if( !inbounds( p ) ) {
         return bsh;
@@ -4177,6 +4182,10 @@ item &map::add_item_at( const tripoint &p,
     submap *const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
 
+    if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
+        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( g->m.getabs( p ) ) );
+    }
+
     current_submap->update_lum_add( new_item, lx, ly );
     const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
     if( new_item.needs_processing() ) {
@@ -4919,17 +4928,22 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
             n->item_counter = 0;
         }
         trigger_item = true;
-    } else if( n->has_flag( "RADIO_CONTAINER" ) && !n->contents.empty() &&
-               n->contents.front().has_flag( signal ) ) {
-        // A bomb is the only thing meaningfully placed in a container,
-        // If that changes, this needs logic to handle the alternative.
-        n->convert( n->contents.front().typeId() );
-        if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
-            n->process( nullptr, pos, true );
-        }
+    } else if( n->has_flag( "RADIO_CONTAINER" ) && !n->contents.empty() ) {
+        auto it = std::find_if( n->contents.begin(), n->contents.end(), [ &signal ]( const item & c ) {
+            return c.has_flag( signal );
+        } );
+        if( it != n->contents.end() ) {
+            n->convert( it->typeId() );
+            if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
+                n->process( nullptr, pos, true );
+            }
 
-        n->charges = 0;
-        trigger_item = true;
+            // Clear possible mods to prevent unnecessary pop-ups.
+            n->contents.clear();
+
+            n->charges = 0;
+            trigger_item = true;
+        }
     }
     if( trigger_item ) {
         return process_item( items, n, pos, true, 0, 1 );
@@ -5545,7 +5559,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                          lighting == LL_LOW, lighting == LL_BRIGHT, false );
                         p.z++;
                     }
-                } else if( vis == VIS_HIDDEN || vis == VIS_DARK ) {
+                } else if( do_map_memory && ( vis == VIS_HIDDEN || vis == VIS_DARK ) ) {
                     draw_maptile_from_memory( w, p, center );
                 }
 
@@ -6908,9 +6922,9 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         if( impassable( upper_left ) ||
             ( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) ) {
             const tripoint glp = getabs( gp );
-            dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-                           " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
-                           " global " << glp.x << "," << glp.y << "," << glp.z;
+            dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
+                             " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
+                             " global " << glp.x << "," << glp.y << "," << glp.z;
             return;
         }
 

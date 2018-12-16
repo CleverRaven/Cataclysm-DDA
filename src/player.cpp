@@ -500,7 +500,7 @@ player::player() : Character()
     active_mission = nullptr;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = {0, 0, 0};
+    grab_point = tripoint_zero;
     grab_type = OBJECT_NONE;
     hauling = false;
     move_mode = "walk";
@@ -7620,16 +7620,8 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     }
 
     if( !prompt && ammo_list.size() == 1 ) {
-        // Suppress display of reload prompt when...
-        if( !base.is_gun() ) {
-            return std::move( ammo_list[ 0 ]); // reloading tools
-
-        } else if( base.magazine_integral() && base.ammo_remaining() > 0 ) {
-            return std::move( ammo_list[ 0 ] ); // adding to partially filled integral magazines
-
-        } else if( base.has_flag( "RELOAD_AND_SHOOT" ) && has_item( *ammo_list[ 0 ].ammo ) ) {
-            return std::move( ammo_list[ 0 ] ); // using bows etc and ammo is already in player possession
-        }
+        // unconditionally suppress the prompt if there's only one option
+        return std::move( ammo_list[ 0 ] );
     }
 
     return select_ammo( base, std::move( ammo_list ) );

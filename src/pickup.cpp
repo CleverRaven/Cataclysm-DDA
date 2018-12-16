@@ -570,6 +570,11 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     if( from_vehicle ) {
         const cata::optional<vpart_reference> vp = g->m.veh_at( pickup_target ).part_with_feature( "CARGO",
                 false );
+        if( !vp ) {
+            // Can't find the vehicle! bail out.
+            add_msg( m_info, _( "Lost track of vehicle." ) );
+            return false;
+        }
         veh = &vp->vehicle();
         cargo_part = vp->part_index();
     }

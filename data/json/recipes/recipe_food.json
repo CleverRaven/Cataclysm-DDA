@@ -2097,7 +2097,6 @@
       [
         [ "fish", 2 ],
         [ "dry_fish", 2 ],
-        [ "salted_fish", 3 ],
         [ "fish_smoked", 2 ],
         [ "fish_pickled", 1 ],
         [ "salted_fish", 2 ],
@@ -8196,8 +8195,7 @@
         [ "seasoning_salt", 60 ],
         [ "soysauce", 8 ],
         [ "pepper", 80 ],
-        [ "seed_garlic", 24 ],
-        [ "garlic", 4 ],
+        [ "garlic_clove", 24 ],
         [ "salt_water", 4 ],
         [ "salt", 60 ]
       ]

@@ -38,11 +38,13 @@
 #include <numeric>
 #include <string>
 
-static inline const char *status_color( bool status )
+static inline const std::string status_color( bool status )
 {
-    static const char *good = "green";
-    static const char *bad = "red";
-    return status ? good : bad;
+    return status ? "<color_green>" : "<color_red>";
+}
+static inline const std::string health_color( bool status )
+{
+    return status ? "<color_light_green>" : "<color_light_red>";
 }
 
 // cap JACK requirements to support arbitrarily large vehicles
@@ -272,11 +274,12 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
             ok = false;
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        msg << string_format( _( "> <color_%1$s>%2$s %3$i</color>\n" ), status_color( hasSkill ),
+        msg << string_format( _( "> %1$s%2$s %3$i</color>\n" ), status_color( hasSkill ),
                               e.first.obj().name().c_str(), e.second );
     }
     if( skills.empty() ) {
-        msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
+        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the word "NONE"
+        msg << string_format( "> %1$s%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
 
     auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv );
@@ -628,7 +631,8 @@ bool veh_interact::can_install_part() {
         if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
-        msg << string_format( _( "> <color_%1$s>%2$s %3$i</color> for extra engines." ),
+        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
+        msg << string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
                               status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
                               skill_mechanics.obj().name().c_str(), dif_eng ) << "\n";
     }
@@ -637,7 +641,8 @@ bool veh_interact::can_install_part() {
         if( g->u.get_skill_level( skill_mechanics ) < dif_steering ) {
             ok = false;
         }
-        msg << string_format( _( "> <color_%1$s>%2$s %3$i</color> for extra steering axles." ),
+        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
+        msg << string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
                               status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
                               skill_mechanics.obj().name().c_str(), dif_steering ) << "\n";
     }
@@ -665,11 +670,12 @@ bool veh_interact::can_install_part() {
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
-    msg << string_format( _( "> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_%4$s>strength %5$i</color>" ),
+    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, %3$i is skill level, %4$s represents the internal color name which shouldn't be translated, and %5$i is the strength number
+    msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
 
-    std::string install_color = string_format( "<color_%1$s>",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
+    std::string install_color = string_format( "%s",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
     sel_vpart_info->format_description( msg, install_color, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
@@ -1120,16 +1126,30 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     std::map<std::string, std::function<void( const catacurses::window &, int )>> headers;
 
-    headers["ENGINE"] = []( const catacurses::window & w, int y ) {
-        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Engines" ) );
+    headers["ENGINE"] = [this]( const catacurses::window & w, int y ) {
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray,
+        string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
+                       health_color( true ), veh->total_power_w( true, true ) / 1000,
+                       health_color( false ), veh->total_power_w() / 1000 ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     headers["TANK"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Tanks" ) );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    headers["BATTERY"] = []( const catacurses::window & w, int y ) {
-        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Batteries" ) );
+    headers["BATTERY"] = [this]( const catacurses::window & w, int y ) {
+        int epower_w = veh->total_epower_w();
+        std::string batt;
+        if( abs( epower_w ) < 10000 ) {
+            batt = string_format( _( "Batteries: %s%s%4d W</color>" ),
+                                  health_color( epower_w >= 0 ),
+                                  epower_w > 0 ? "+" : "", epower_w );
+        } else {
+            batt = string_format( _( "Batteries: %s%s%4.1f kW</color>" ),
+                                  health_color( epower_w >= 0 ),
+                                  epower_w > 0 ? "+" : "", epower_w / 1000.0 );
+        }
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
     headers["REACTOR"] = []( const catacurses::window & w, int y ) {
@@ -1153,7 +1173,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%s     <color_light_gray>%3s</color>",
-                                            pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
+                                            pt.fuel_current() != "null" ? item::nname( pt.fuel_current() ).c_str() : "",
                                             pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
@@ -1450,13 +1470,15 @@ bool veh_interact::can_remove_part( int idx ) {
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
-    msg << string_format( _( "> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_%4$s>strength %5$i</color>" ),
+    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
+    msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
 
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
-        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), reason ) << "\n";
+        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
+        msg << string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) << "\n";
         ok = false;
     }
 
@@ -1593,8 +1615,9 @@ bool veh_interact::do_tirechange( std::string &msg )
             return false;
 
         case LACK_TOOLS:
-            msg = string_format( _( "To change a wheel you need a <color_%1$s>wrench</color>, a <color_%2$s>wheel</color>, and either "
-                                    "<color_%3$s>lifting equipment</color> or <color_%4$s>%5$d</color> strength." ),
+	    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
+            msg = string_format( _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
+                                    "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
                                  status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
                                  status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
             return false;

@@ -120,7 +120,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "frame_cover" },
       { "x": 0, "y": 0, "part": "small_storage_battery" },
-      { "x": 0, "y": 0, "part": "engine_1cyl" },
+      { "x": 0, "y": 0, "part": "engine_vtwin" },
       { "x": 0, "y": 0, "part": "generator_7500w" },
       { "x": 0, "y": 0, "part": "wheel_small" },
       { "x": 1, "y": 0, "part": "frame_cover" },

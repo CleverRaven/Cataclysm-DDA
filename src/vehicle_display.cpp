@@ -1,5 +1,6 @@
 #include "vehicle.h"
 
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "coordinate_conversions.h"
@@ -312,24 +313,32 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
  * @param isHorizontal true if the menu is not vertical
  */
 void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x, int start_index,
-                                     bool fullsize, bool verbose, bool desc, bool isHorizontal ) const
+                                     bool fullsize, bool verbose, bool desc, bool isHorizontal )
 {
     auto fuels = get_printable_fuel_types();
-
+    if( fuels.empty() ) {
+        return;
+    }
     if( !fullsize ) {
-        if( !fuels.empty() ) {
-            print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
+        for( size_t e = 0; e < engines.size(); e++ ) {
+            if( is_engine_on( e ) ) {
+                print_fuel_indicator( win, y, x, parts[ engines [ e ] ].fuel_current(), verbose,
+                                      desc );
+                return;
+            }
         }
+        print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
         return;
     }
 
     int yofs = 0;
     int max_gauge = ( ( isHorizontal ) ? 12 : 5 ) + start_index;
     int max_size = std::min( static_cast<int>( fuels.size() ), max_gauge );
+    std::map<itype_id, int> fuel_usages = fuel_usage();
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator( win, y + yofs, x, f, verbose, desc );
+        print_fuel_indicator( win, y + yofs, x, f, fuel_usages, verbose, desc );
         yofs++;
     }
 
@@ -348,9 +357,19 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
  * @param fuel_type ID of the fuel type to draw
  * @param verbose true if there should be anything after the gauge (either the %, or number)
  * @param desc true if the name of the fuel should be at the end
+ * @param fuel_usages map of fuel types to consumption for verbose
  */
 void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
-                                    const itype_id &fuel_type, bool verbose, bool desc ) const
+                                    const itype_id &fuel_type, bool verbose, bool desc )
+{
+    std::map<itype_id, int> fuel_usages;
+    print_fuel_indicator( win, y, x, fuel_type, fuel_usages, verbose, desc );
+}
+
+void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
+                                    const itype_id &fuel_type,
+                                    std::map<itype_id, int> fuel_usages,
+                                    bool verbose, bool desc )
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
@@ -371,5 +390,44 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
     }
     if( desc ) {
         wprintz( win, c_light_gray, " - %s", item::nname( fuel_type ) );
+    }
+    if( verbose ) {
+        auto fuel_data = fuel_usages.find( fuel_type );
+        int rate = 0;
+        std::string units;
+        if( fuel_data != fuel_usages.end() ) {
+            rate = consumption_per_hour( fuel_type, fuel_data->second );
+            units = _( "mL" );
+        } else if( fuel_type == itype_id( "battery" ) ) {
+            rate = power_to_energy_bat( total_epower_w(), 3600 );
+            units = _( "kJ" );
+        }
+        if( rate != 0 ) {
+            int tank_use = 0;
+            nc_color tank_color = c_light_green;
+            std::string tank_goal = _( "full" );
+            if( rate > 0 ) {
+                tank_use = cap - f_left;
+                if( !tank_use ) {
+                    return;
+                }
+            } else {
+                if( !f_left ) {
+                    return;
+                }
+                tank_use = f_left;
+                tank_color = c_light_red;
+                tank_goal = _( "empty" );
+            }
+            if( debug_mode ) {
+                wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
+                         rate, units, 100.0 * rate  / cap,
+                         to_string_clipped( 60_minutes * tank_use / abs( rate ) ), tank_goal );
+            } else {
+                wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
+                         100.0 * rate  / cap,
+                         to_string_clipped( 60_minutes * tank_use / abs( rate ) ), tank_goal );
+            }
+        }
     }
 }
