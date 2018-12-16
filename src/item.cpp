@@ -150,6 +150,11 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         }
     }
 
+    if( has_flag( "NANOFAB_TEMPLATE" ) ) {
+        itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
+        set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
+    }
+
     if( type->gun ) {
         for( const auto &mod : type->gun->built_in_mods ) {
             emplace_back( mod, turn, qty ).item_tags.insert( "IRREMOVABLE" );
@@ -6358,7 +6363,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "NANOFAB_TEMPLATE" ) ||
+    return active || has_flag( "RADIO_ACTIVATION" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || ( is_food() );
 }
@@ -6969,11 +6974,6 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         } else {
             ++it;
         }
-    }
-
-    if( has_flag( "NANOFAB_TEMPLATE" ) && !has_var( "NANOFAB_ITEM_ID" ) ) {
-        itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
-        set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
     }
 
     if( activate ) {
