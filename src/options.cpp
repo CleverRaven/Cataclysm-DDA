@@ -1649,7 +1649,13 @@ void options_manager::add_options_world_default()
          translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
-
+    
+    mOptionsSort["world_default"]++;
+    
+    add("FOOD_WATER_NEEDS", "world_default", translate_marker( "Hunger and thirst rate" ),
+         translate_marker( "Determines the rate at which hunger and thirst grows. A lower value decreases the rate and a higher increases it." ),
+         0, 1000, 100, COPT_NO_HIDE, "%i%%");
+    
     mOptionsSort["world_default"]++;
 
     add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),

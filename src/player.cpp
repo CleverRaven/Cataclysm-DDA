@@ -1,5 +1,4 @@
 #include "player.h"
-
 #include "action.h"
 #include "addiction.h"
 #include "ammo.h"
@@ -4318,11 +4317,20 @@ void player::update_needs( int rate_multiplier )
     const bool hibernating = asleep && is_hibernating();
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
-    float hunger_rate = metabolic_rate();
+    
+    // set the player appetite according to the setting
+    float appetite = (get_option<int>( "FOOD_WATER_NEEDS" )/100.0);
+    
+    // appetite for food
+    float hunger_rate = metabolic_rate() * appetite;
+
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
 
     float thirst_rate = get_option< float >( "PLAYER_THIRST_RATE" );
     thirst_rate *= 1.0f +  mutation_value( "thirst_modifier" );
+    
+    // appetite for drink
+    thirst_rate *= appetite;
     if( worn_with_flag( "SLOWS_THIRST" ) ) {
         thirst_rate *= 0.7f;
     }
