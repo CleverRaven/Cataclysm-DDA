@@ -151,7 +151,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     auto nanofab_template= g->inv_map_splice( []( const item &e ) {
-        return ( e.has_var( "NANOFAB_ITEM_ID" ) );
+        return e.has_var( "NANOFAB_ITEM_ID" );
     }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE, _( "You don't have any usable templates." ) );
 
     if( !nanofab_template ) {
