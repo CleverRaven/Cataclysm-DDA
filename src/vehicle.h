@@ -607,8 +607,13 @@ class vehicle
         units::volume total_folded_volume() const;
 
         // Vehicle fuel indicator (by fuel)
-        void print_fuel_indicator( const catacurses::window &w, int y, int x, const itype_id &fuelType,
-                                   bool verbose = false, bool desc = false ) const;
+        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+                                   const itype_id &fuelType,
+                                   bool verbose = false, bool desc = false );
+        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+                                   const itype_id &fuelType,
+                                   std::map<itype_id, int> fuel_usages,
+                                   bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
         int engine_start_time( const int e ) const;
@@ -911,7 +916,7 @@ class vehicle
 
         // Vehicle fuel indicators (all of them)
         void print_fuel_indicators( const catacurses::window &win, int y, int x, int startIndex = 0,
-                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
+                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, int dir, const point &pivot );
@@ -962,8 +967,9 @@ class vehicle
          */
         double drain_energy( const itype_id &ftype, double energy_w );
 
-        // fuel consumption of vehicle engines of given type, in one-hundredth of fuel
+        // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;
+        int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
         void consume_fuel( int load, const int t_seconds = 6 );
 
@@ -978,6 +984,14 @@ class vehicle
          */
         std::vector<vehicle_part *> lights( bool active = false );
 
+        // Calculate vehicle's total drain or production of electrical power, including nominal
+        // solar power.
+        int total_epower_w();
+        // Calculate vehicle's total drain or production of electrical power, optionally
+        // including nominal solar power.  Return engine power as engine_power
+        int total_epower_w( int &engine_power, bool skip_solar = true );
+        // Produce and consume electrical power, with excess power stored or taken from
+        // batteries
         void power_parts();
 
         /**
@@ -1146,7 +1160,7 @@ class vehicle
         void thrust( int thd );
 
         //deceleration due to ground friction and air resistance
-        int slowdown() const;
+        int slowdown( int velocity ) const;
 
         // depending on skid vectors, chance to recover.
         void possibly_recover_from_skid();
@@ -1458,7 +1472,8 @@ class vehicle
         int smy;
         int smz;
 
-        float alternator_load;
+        // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
+        int alternator_load;
 
         /// Time occupied points were calculated.
         time_point occupied_cache_time = calendar::before_time_starts;
