@@ -5333,9 +5333,15 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             }
 
             // non-auxiliary gunmods may provide additional modes for the base item
+
+
         } else if( e->is_gunmod() ) {
-            for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
+            for( auto m : e->type->gunmod->mode_modifier )
+                  if( m.first == ("REACH"))   {
+				res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
+                                                 m.second.qty(), m.second.flags() } );
+            } else {
+        		res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( this ),
                                                  m.second.qty(), m.second.flags() } );
             }
         }
