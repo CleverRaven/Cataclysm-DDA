@@ -159,6 +159,12 @@ struct bash_params {
     bool success; // Was anything destroyed?
 
     bool bashed_solid; // Did we bash furniture, terrain or vehicle
+
+    // Are we bashing this location from above?
+    // Used in determining what sort of terrain the location will turn into,
+    // since if we bashed from above and destroyed it, it probably shouldn't
+    // have a roof either.
+    bool bashing_from_above;
 };
 
 struct level_cache {

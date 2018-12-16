@@ -15,6 +15,7 @@ class martialart;
 class JsonObject;
 class mission;
 class time_point;
+class time_duration;
 class npc;
 class item;
 struct tripoint;
@@ -28,6 +29,7 @@ struct mission_entry {
     std::string id;
     std::string name_display;
     std::string dir;
+    std::string text;
     bool priority;
     bool possible;
 };
@@ -37,7 +39,6 @@ class mission_data
     public:
         //see mission_key_push() for each key description
         std::vector<std::vector<mission_entry>> entries;
-        std::map<std::string, std::string> text;
         mission_entry cur_key;
 
         mission_data();
@@ -49,9 +50,15 @@ class mission_data
         * @param priority turns the mission key yellow and pushes to front of main tab
         * @param possible grays the mission key when false
         */
-        void push( const std::string &id, const std::string &name_display = "",
-                   const std::string &dir = "", bool priority = false, bool possible = true );
-
+        void add( const std::string &id, const std::string &name_display = "",
+                  const std::string &text = "" );
+        void add_start( const std::string &id, const std::string &name_display,
+                        const std::string &dir, const std::string &text, bool possible = true );
+        void add_return( const std::string &id, const std::string &name_display,
+                         const std::string &dir, const std::string &text, bool possible = true );
+        void add( const std::string &id, const std::string &name_display,
+                  const std::string &dir, const std::string &text,
+                  bool priority = false, bool possible = true );
 };
 
 namespace talk_function
@@ -77,9 +84,9 @@ void companion_mission( npc & );
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
-npc *individual_mission( npc &p, const std::string &desc, const std::string &id, bool group = false,
-                         const std::vector<item *> &equipment = {}, const std::string &skill_tested = "",
-                         int skill_level = 0 );
+std::shared_ptr<npc> individual_mission( npc &p, const std::string &desc, const std::string &id,
+        bool group = false, const std::vector<item *> &equipment = {},
+        const std::string &skill_tested = "", int skill_level = 0 );
 
 ///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
 std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
@@ -127,14 +134,16 @@ std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
 /// Returns npcs that have the given companion mission.
 std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id,
                                bool contains = false );
-
-std::vector<npc *> companion_sort( std::vector<npc *> available,
-                                   const std::string &skill_tested = "" );
-std::vector<comp_rank> companion_rank( const std::vector<npc *> &available, bool adj = true );
-npc *companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
-npc *companion_choose_return( const npc &p, const std::string &id, const time_point &deadline );
-void companion_return( npc &comp );               //Return NPC to your party
-std::vector<item *> loot_building( const tripoint
-                                   site ); //Smash stuff, steal valuables, and change map maker
+std::vector<std::shared_ptr<npc>> companion_sort( std::vector<std::shared_ptr<npc>> available,
+                               const std::string &skill_tested = "" );
+std::vector<comp_rank> companion_rank( const std::vector<std::shared_ptr<npc>> &available,
+                                       bool adj = true );
+std::shared_ptr<npc> companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
+std::shared_ptr<npc> companion_choose_return( const npc &p, const std::string &id,
+        const time_point &deadline );
+//Return NPC to your party
+void companion_return( npc &comp );
+//Smash stuff, steal valuables, and change map maker
+std::vector<item *> loot_building( const tripoint site );
 }
 #endif

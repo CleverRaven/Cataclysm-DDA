@@ -363,7 +363,8 @@ int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
 
 // Perfect situation gives us 1000 dispersion at lvl 0
 // This goes down linearly to 250  dispersion at lvl 10
-int Character::throwing_dispersion( const item &to_throw, Creature *critter ) const
+int Character::throwing_dispersion( const item &to_throw, Creature *critter,
+                                    bool is_blind_throw ) const
 {
     units::mass weight = to_throw.weight();
     units::volume volume = to_throw.volume();
@@ -396,10 +397,18 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter ) co
     // 1 perception per 1 eye encumbrance
     ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
     dispersion += std::max( 0, ( encumb( bp_eyes ) - get_per() ) * 10 );
+
+    // If throwing blind, we're assuming they mechanically can't achieve the
+    // accuracy of a normal throw.
+    if( is_blind_throw ) {
+        dispersion *= 4;
+    }
+
     return std::max( 0, dispersion );
 }
 
-dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
+dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw,
+        const cata::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
@@ -488,7 +497,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj.set_custom_explosion( thrown.type->explosion );
     }
 
-    float range = rl_dist( pos(), target );
+    // Throw from the player's position, unless we're blind throwing, in which case
+    // throw from the the blind throw position instead.
+    const tripoint throw_from = blind_throw_from_pos ? *blind_throw_from_pos : pos();
+
+    float range = rl_dist( throw_from, target );
     proj.range = range;
     int skill_lvl = get_skill_level( skill_used );
     // Avoid awarding tons of xp for lucky throws against hard to hit targets
@@ -499,8 +512,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const float final_xp_mult = range_factor * damage_factor;
 
     Creature *critter = g->critter_at( target, true );
-    const dispersion_sources dispersion = throwing_dispersion( thrown, critter );
-    auto dealt_attack = projectile_attack( proj, pos(), target, dispersion, this );
+    const dispersion_sources dispersion = throwing_dispersion( thrown, critter,
+                                          blind_throw_from_pos.has_value() );
+    auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, this );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
@@ -558,6 +572,10 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
 
         case TARGET_MODE_THROW:
             title = string_format( _( "Throwing %s" ), name.c_str() );
+            break;
+
+        case TARGET_MODE_THROW_BLIND:
+            title = string_format( _( "Blind throwing %s" ), name.c_str() );
             break;
 
         default:
@@ -707,7 +725,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
 
     std::vector<aim_type> aim_types;
-    if( mode == TARGET_MODE_THROW ) {
+    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
         aim_types = get_default_aim_type();
     } else {
         aim_types = p.get_aim_types( ranged_weapon );
@@ -729,7 +747,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         int moves_to_fire;
-        if( mode == TARGET_MODE_THROW ) {
+        if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
             moves_to_fire = throw_cost( p, ranged_weapon );
         } else {
             moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_fire( p,
@@ -825,14 +843,14 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 }
 
 static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number,
-                           const item *weapon, const tripoint &target_pos )
+                           const item *weapon, const tripoint &target_pos, bool is_blind_throw )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
         target = nullptr;
     }
 
-    const dispersion_sources dispersion = p.throwing_dispersion( *weapon, target );
+    const dispersion_sources dispersion = p.throwing_dispersion( *weapon, target, is_blind_throw );
     const double range = rl_dist( p.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
@@ -850,7 +868,9 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const auto &confidence_config = target != nullptr ?
                                     confidence_config_critter : confidence_config_object;
 
-    return print_ranged_chance( p, w, line_number, TARGET_MODE_THROW, *weapon, dispersion,
+    const target_mode throwing_target_mode = is_blind_throw ? TARGET_MODE_THROW_BLIND :
+            TARGET_MODE_THROW;
+    return print_ranged_chance( p, w, line_number, throwing_target_mode, *weapon, dispersion,
                                 confidence_config,
                                 range, target_size );
 }
@@ -1217,7 +1237,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = draw_turret_aim( pc, w_target, line_number, dst );
         } else if( mode == TARGET_MODE_THROW ) {
-            line_number = draw_throw_aim( pc, w_target, line_number, relevant, dst );
+            line_number = draw_throw_aim( pc, w_target, line_number, relevant, dst, false );
+        } else if( mode == TARGET_MODE_THROW_BLIND ) {
+            line_number = draw_throw_aim( pc, w_target, line_number, relevant, dst, true );
         }
 
         wrefresh( w_target );
