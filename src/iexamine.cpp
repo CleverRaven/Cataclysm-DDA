@@ -158,7 +158,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
-    //item *it = nanofab_template.get_item();
     item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
 
     auto qty = new_item.volume() / 250_ml;
@@ -179,11 +178,12 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
     p.invalidate_crafting_inventory();
 
-    // Create the item
-    g->m.spawn_an_item( spawn_point, new_item, new_item.type->charges_default() , 0);
-    if (new_item.is_armor() && new_item.has_flag( "VARSISE" ) ){
+    if (new_item.is_armor() && new_item.has_flag( "VARSIZE" ) ){
         new_item.item_tags.insert( "FIT" );
     }
+
+    g->m.add_item_or_charges( spawn_point, new_item );
+
 
 }
 
