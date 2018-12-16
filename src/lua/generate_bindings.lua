@@ -576,7 +576,7 @@ function generate_LuaValue_constants(class_name, class, by_value_and_reference)
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const char * const " .. cpp_name .. "::METATABLE_NAME = \"" .. metatable_name .. "\";" .. br
     cpp_output = cpp_output .. "template<>" .. br
-    cpp_output = cpp_output .. cpp_name.."::Type *"..cpp_name.."::get_subclass( lua_State* const S, int const i) {"..br
+    cpp_output = cpp_output .. cpp_name.."::Type *"..cpp_name.."::get_subclass( lua_State* const S, const int i) {"..br
     for child, class in sorted_pairs(classes) do
         -- Note: while the function get_subclass resides in LuaValue<T>, this calls into LuaValue or
         -- LuaReference, that way we get a simple pointer. Unconditionally calling LuaValue<T>::get,

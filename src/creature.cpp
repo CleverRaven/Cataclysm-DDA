@@ -1442,10 +1442,10 @@ void Creature::check_dead_state()
     }
 }
 
-std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude att )
+const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    static std::array<pair_t, 5> const strings {
+    static const std::array<pair_t, 5> strings {
         {
             pair_t {_( "Hostile" ), c_red},
             pair_t {_( "Neutral" ), h_white},

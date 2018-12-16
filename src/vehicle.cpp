@@ -122,7 +122,7 @@ vehicle::vehicle() : vehicle( vproto_id() )
 
 vehicle::~vehicle() = default;
 
-bool vehicle::player_in_control( player const &p ) const
+bool vehicle::player_in_control( const player &p ) const
 {
     // Debug switch to prevent vehicles from skidding
     // without having to place the player in them.
@@ -139,7 +139,7 @@ bool vehicle::player_in_control( player const &p ) const
     return remote_controlled( p );
 }
 
-bool vehicle::remote_controlled( player const &p ) const
+bool vehicle::remote_controlled( const player &p ) const
 {
     vehicle *veh = g->remoteveh();
     if( veh != this ) {
@@ -578,7 +578,7 @@ bool vehicle::is_engine_type_on( int e, const itype_id &ft ) const
     return is_engine_on( e ) && is_engine_type( e, ft );
 }
 
-bool vehicle::has_engine_type( const itype_id &ft, bool const enabled ) const
+bool vehicle::has_engine_type( const itype_id &ft, const bool enabled ) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_type( e, ft ) && ( !enabled || is_engine_on( e ) ) ) {
@@ -587,7 +587,7 @@ bool vehicle::has_engine_type( const itype_id &ft, bool const enabled ) const
     }
     return false;
 }
-bool vehicle::has_engine_type_not( const itype_id &ft, bool const enabled ) const
+bool vehicle::has_engine_type_not( const itype_id &ft, const bool enabled ) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( !is_engine_type( e, ft ) && ( !enabled || is_engine_on( e ) ) ) {
@@ -633,17 +633,17 @@ bool vehicle::is_perpetual_type( const int e ) const
     return item( ft ).has_flag( "PERPETUAL" );
 }
 
-bool vehicle::is_engine_on( int const e ) const
+bool vehicle::is_engine_on( const int e ) const
 {
     return parts[ engines[ e ] ].is_available() && is_part_on( engines[ e ] );
 }
 
-bool vehicle::is_part_on( int const p ) const
+bool vehicle::is_part_on( const int p ) const
 {
     return parts[p].enabled;
 }
 
-bool vehicle::is_alternator_on( int const a ) const
+bool vehicle::is_alternator_on( const int a ) const
 {
     auto alt = parts[ alternators [ a ] ];
     if( alt.is_unavailable() ) {
@@ -689,7 +689,7 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 
 // engines & alternators all have power.
 // engines provide, whilst alternators consume.
-int vehicle::part_vpower_w( int const index, bool const at_full_hp ) const
+int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
 {
     const vehicle_part &vp = parts[ index ];
 
@@ -720,7 +720,7 @@ int vehicle::part_vpower_w( int const index, bool const at_full_hp ) const
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
 // for motor consumption see @ref vpart_info::energy_consumption instead
-int vehicle::part_epower_w( int const index ) const
+int vehicle::part_epower_w( const int index ) const
 {
     int e = part_info( index ).epower;
     if( e < 0 ) {
@@ -740,7 +740,7 @@ int vehicle::power_to_energy_bat( const int power_w, const int t_seconds ) const
     return energy_bat;
 }
 
-int vehicle::vhp_to_watts( int const power_vhp )
+int vehicle::vhp_to_watts( const int power_vhp )
 {
     // Convert vhp units (0.5 HP ) to watts
     // Used primarily for calculating battery charge/discharge
@@ -995,13 +995,13 @@ bool vehicle::can_mount( const point dp, const vpart_id &id ) const
     return true;
 }
 
-bool vehicle::can_unmount( int const p ) const
+bool vehicle::can_unmount( const int p ) const
 {
     std::string no_reason;
     return can_unmount( p, no_reason );
 }
 
-bool vehicle::can_unmount( int const p, std::string &reason ) const
+bool vehicle::can_unmount( const int p, std::string &reason ) const
 {
     if( p < 0 || p > static_cast<int>( parts.size() ) ) {
         return false;
@@ -1094,7 +1094,7 @@ bool vehicle::can_unmount( int const p, std::string &reason ) const
                  * Every other part must have some path (that doesn't involve
                  * the part about to be removed) to the target part, in order
                  * for the part to be legally removable. */
-                for( auto const &next_part : connected_parts ) {
+                for( const auto &next_part : connected_parts ) {
                     if( !is_connected( connected_parts[0], next_part, parts[p] ) ) {
                         //Removing that part would break the vehicle in two
                         reason = _( "Removing this part would split the vehicle." );
@@ -1120,8 +1120,8 @@ bool vehicle::can_unmount( int const p, std::string &reason ) const
  *        be included in the path.
  * @return true if a path exists without the excluded part, false otherwise.
  */
-bool vehicle::is_connected( vehicle_part const &to, vehicle_part const &from,
-                            vehicle_part const &excluded_part ) const
+bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
+                            const vehicle_part &excluded_part ) const
 {
     const auto target = to.mount;
     const auto excluded = excluded_part.mount;
@@ -1890,7 +1890,7 @@ item_group::ItemList vehicle_part::pieces_for_broken_part() const
 }
 
 std::vector<int> vehicle::parts_at_relative( const point &dp,
-        bool const use_cache ) const
+        const bool use_cache ) const
 {
     if( !use_cache ) {
         std::vector<int> res;
@@ -2361,7 +2361,7 @@ int vehicle::part_at( const point dp ) const
  * @param check_removed Check whether this part can be removed
  * @return The part index, -1 if it is not part of this vehicle.
  */
-int vehicle::index_of_part( const vehicle_part *const part, bool const check_removed ) const
+int vehicle::index_of_part( const vehicle_part *const part, const bool check_removed ) const
 {
     if( part != nullptr ) {
         for( const vpart_reference &vp : get_all_parts() ) {
@@ -2768,7 +2768,7 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
     return -amount_pct * fuel_rate_w / energy_j_per_mL;
 }
 
-int vehicle::total_power_w( bool const fueled, bool const safe ) const
+int vehicle::total_power_w( const bool fueled, const bool safe ) const
 {
     int pwr = 0;
     int cnt = 0;
@@ -2799,7 +2799,7 @@ int vehicle::total_power_w( bool const fueled, bool const safe ) const
     return pwr;
 }
 
-int vehicle::acceleration( bool const fueled, int at_vel_in_vmi ) const
+int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( !( engine_on || skidding ) ) {
         return 0;
@@ -2847,7 +2847,7 @@ double simple_cubic_solution( double a, double b, double c, double d )
     }
 }
 
-int vehicle::current_acceleration( bool const fueled ) const
+int vehicle::current_acceleration( const bool fueled ) const
 {
     return acceleration( fueled, std::abs( velocity ) );
 }
@@ -2877,7 +2877,7 @@ int vehicle::current_acceleration( bool const fueled ) const
 // c_air_drag * v^3 + c_rolling_drag * v^2 + c_rolling_drag * 33.3 * v - engine power = 0
 // solve for v with the simplified cubic equation solver
 // got it? quiz on Wednesday.
-int vehicle::max_velocity( bool const fueled ) const
+int vehicle::max_velocity( const bool fueled ) const
 {
     int total_engine_w = total_power_w( fueled );
     double c_rolling_drag = coeff_rolling_drag();
@@ -2890,7 +2890,7 @@ int vehicle::max_velocity( bool const fueled ) const
 }
 
 // the same physics as max_velocity, but with a smaller engine power
-int vehicle::safe_velocity( bool const fueled ) const
+int vehicle::safe_velocity( const bool fueled ) const
 {
     int effective_engine_w = total_power_w( fueled, true );
     double c_rolling_drag = coeff_rolling_drag();
@@ -3923,17 +3923,17 @@ void vehicle::slow_leak()
 }
 
 // total volume of all the things
-units::volume vehicle::stored_volume( int const part ) const
+units::volume vehicle::stored_volume( const int part ) const
 {
     return get_items( part ).stored_volume();
 }
 
-units::volume vehicle::max_volume( int const part ) const
+units::volume vehicle::max_volume( const int part ) const
 {
     return get_items( part ).max_volume();
 }
 
-units::volume vehicle::free_volume( int const part ) const
+units::volume vehicle::free_volume( const int part ) const
 {
     return get_items( part ).free_volume();
 }
@@ -4071,13 +4071,13 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
     return veh_items.erase( it );
 }
 
-vehicle_stack vehicle::get_items( int const part )
+vehicle_stack vehicle::get_items( const int part )
 {
     const tripoint pos = global_part_pos3( part );
     return vehicle_stack( &parts[part].items, point( pos.x, pos.y ), this, part );
 }
 
-vehicle_stack vehicle::get_items( int const part ) const
+vehicle_stack vehicle::get_items( const int part ) const
 {
     // HACK: callers could modify items through this
     // TODO: a const version of vehicle_stack is needed
@@ -4430,7 +4430,7 @@ void vehicle::shed_loose_parts()
     // remove_part rebuilds the loose_parts vector, when all of those parts have been removed,
     // it will stay empty.
     while( !loose_parts.empty() ) {
-        int const elem = loose_parts.front();
+        const int elem = loose_parts.front();
         if( part_flag( elem, "POWER_TRANSFER" ) ) {
             remove_remote_part( elem );
         }
