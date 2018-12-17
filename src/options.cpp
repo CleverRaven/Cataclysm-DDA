@@ -1653,7 +1653,7 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
     
     add("FOOD_WATER_NEEDS", "world_default", translate_marker( "Hunger and thirst rate" ),
-         translate_marker( "Determines the rate at which hunger and thirst grows. A lower value decreases the rate and a higher increases it." ),
+         translate_marker( "Determines the rate at which hunger and thirst grows.  A lower value decreases the rate and a higher increases it." ),
          0, 1000, 100, COPT_NO_HIDE, "%i%%");
     
     mOptionsSort["world_default"]++;
