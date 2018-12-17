@@ -86,11 +86,11 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
-std::string const &rad_badge_color( int const rad )
+const std::string &rad_badge_color( const int rad )
 {
-    using pair_t = std::pair<int const, std::string const>;
+    using pair_t = std::pair<const int, const std::string>;
 
-    static std::array<pair_t, 6> const values = {{
+    static const std::array<pair_t, 6> values = {{
             pair_t {  0, _( "green" ) },
             pair_t { 30, _( "blue" )  },
             pair_t { 60, _( "yellow" )},
@@ -100,7 +100,7 @@ std::string const &rad_badge_color( int const rad )
         }
     };
 
-    for( auto const &i : values ) {
+    for( const auto &i : values ) {
         if( rad <= i.first ) {
             return i.second;
         }
@@ -215,7 +215,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         result.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
-    // This is unconditional because the item constructor above sets result.name to
+    // This is unconditional because the const itemructor above sets result.name to
     // "human corpse".
     result.corpse_name = name;
 
@@ -1801,7 +1801,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             std::vector<std::string> recipe_list;
-            for( auto const &elem : book.recipes ) {
+            for( const auto &elem : book.recipes ) {
                 const bool knows_it = g->u.knows_recipe( elem.recipe );
                 // If the player knows it, they recognize it even if it's not clearly stated.
                 if( elem.is_hidden() && !knows_it ) {
@@ -2347,7 +2347,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         info.emplace_back( "DESCRIPTION", space );
                     }
 
-                    auto const description = _( contents_item.type->description.c_str() );
+                    const auto description = _( contents_item.type->description.c_str() );
 
                     if( contents_item.made_of_from_type( LIQUID ) ) {
                         auto contents_volume = contents_item.volume() * batch;
@@ -5651,7 +5651,7 @@ bool item::reload( player &u, item_location loc, long qty )
         if( ammo->has_flag( "SPEEDLOADER" ) ) {
             curammo = find_type( ammo->contents.front().typeId() );
             qty = std::min( qty, ammo->ammo_remaining() );
-            ammo->ammo_consume( qty, { 0, 0, 0 } );
+            ammo->ammo_consume( qty, tripoint_zero );
             charges += qty;
         } else if( ammo_type() == ammotype( "plutonium" ) ) {
             curammo = find_type( ammo->typeId() );

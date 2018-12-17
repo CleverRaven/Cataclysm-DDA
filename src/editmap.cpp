@@ -285,7 +285,7 @@ tripoint editmap::screen2pos( const tripoint &p )
  */
 bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 {
-    p = {0, 0, 0};
+    p = tripoint_zero;
     if( action == "CENTER" ) {
         p = ( g->u.pos() - target );
     } else if( action == "LEFT_WIDE" ) {
@@ -710,7 +710,7 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
  * @return Whether an overflow happened.
  */
 template<typename T>
-bool increment( int_id<T> &id, int const delta, int const count )
+bool increment( int_id<T> &id, const int delta, const int count )
 {
     const int new_id = id.to_i() + delta;
     if( new_id < 0 ) {
@@ -725,7 +725,7 @@ bool increment( int_id<T> &id, int const delta, int const count )
     }
 }
 template<typename T>
-bool would_overflow( const int_id<T> &id, int const delta, int const count )
+bool would_overflow( const int_id<T> &id, const int delta, const int count )
 {
     const int new_id = id.to_i() + delta;
     return new_id < 0 || new_id >= count;
@@ -1131,7 +1131,7 @@ int editmap::edit_fld()
             }
             if( fdens != fsel_dens || target_list.size() > 1 ) {
                 for( auto &elem : target_list ) {
-                    auto const fid = static_cast<field_id>( idx );
+                    const auto fid = static_cast<field_id>( idx );
                     field &t_field = g->m.get_field( elem );
                     field_entry *t_fld = t_field.findField( fid );
                     int t_dens = 0;
@@ -1159,7 +1159,7 @@ int editmap::edit_fld()
             for( auto &elem : target_list ) {
                 field &t_field = g->m.get_field( elem );
                 while( t_field.fieldCount() > 0 ) {
-                    auto const rmid = t_field.begin()->first;
+                    const auto rmid = t_field.begin()->first;
                     g->m.remove_field( elem, rmid );
                     if( elem == target ) {
                         update_fmenu_entry( fmenu, t_field, rmid );

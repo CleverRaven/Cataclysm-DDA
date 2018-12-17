@@ -1818,10 +1818,10 @@ void talk_function::camp_recruit_return( npc &p, const std::string &task, int sc
         description += string_format( _( "Perception:      %10d\n \n" ), recruit->per_max );
         description += string_format( _( "Top 3 Skills:\n" ) );
 
-        const auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a,
-        Skill const & b ) {
-            int const level_a = recruit->get_skill_level( a.ident() );
-            int const level_b = recruit->get_skill_level( b.ident() );
+        const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a,
+        const Skill & b ) {
+            const int level_a = recruit->get_skill_level( a.ident() );
+            const int level_b = recruit->get_skill_level( b.ident() );
             return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
         } );
 

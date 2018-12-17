@@ -87,7 +87,7 @@ void mdeath::normal( monster &z )
     }
     // if mdeath::splatter was set along normal makes sure it is not called twice
     bool splatt = false;
-    for( auto const &deathfunction : z.type->dies ) {
+    for( const auto &deathfunction : z.type->dies ) {
         if( deathfunction == mdeath::splatter ) {
             splatt = true;
         }
@@ -146,7 +146,7 @@ void mdeath::splatter( monster &z )
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
     bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
     // make sure that full splatter happens when this is a set death function, not part of normal
-    for( auto const &deathfunction : z.type->dies ) {
+    for( const auto &deathfunction : z.type->dies ) {
         if( deathfunction == mdeath::splatter ) {
             pulverized = true;
         }

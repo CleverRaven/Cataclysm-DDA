@@ -803,7 +803,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
         int get_known_recipes( const islot_book &book ) const {
             int res = 0;
-            for( auto const &elem : book.recipes ) {
+            for( const auto &elem : book.recipes ) {
                 if( p.knows_recipe( elem.recipe ) ) {
                     ++res; // If the player knows it, they recognize it even if it's not clearly stated.
                 }

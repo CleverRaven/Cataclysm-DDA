@@ -83,14 +83,14 @@ struct submap {
         rad[x][y] = radiation;
     }
 
-    void update_lum_add( item const &i, int const x, int const y ) {
+    void update_lum_add( const item &i, const int x, const int y ) {
         is_uniform = false;
         if( i.is_emissive() && lum[x][y] < 255 ) {
             lum[x][y]++;
         }
     }
 
-    void update_lum_rem( item const &i, int const x, int const y ) {
+    void update_lum_rem( const item &i, const int x, const int y ) {
         is_uniform = false;
         if( !i.is_emissive() ) {
             return;
@@ -102,7 +102,7 @@ struct submap {
         // Have to scan through all items to be sure removing i will actually lower
         // the count below 255.
         int count = 0;
-        for( auto const &it : itm[x][y] ) {
+        for( const auto &it : itm[x][y] ) {
             if( it.is_emissive() ) {
                 count++;
             }

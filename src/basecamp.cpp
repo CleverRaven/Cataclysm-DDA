@@ -55,7 +55,7 @@ basecamp::basecamp(): bb_pos( tripoint( 0, 0, 0 ) )
 {
 }
 
-basecamp::basecamp( std::string const &name_, const tripoint &pos_ ): name( name_ ), pos( pos_ )
+basecamp::basecamp( const std::string &name_, const tripoint &pos_ ): name( name_ ), pos( pos_ )
 {
 }
 
@@ -223,7 +223,7 @@ std::string basecamp::expansion_tab( const std::string &dir ) const
 }
 
 // legacy load and save
-void basecamp::load_data( std::string const &data )
+void basecamp::load_data( const std::string &data )
 {
     std::stringstream stream( data );
     stream >> name >> bb_pos.x >> bb_pos.y;

@@ -33,7 +33,7 @@ struct tile_type {
     bool multitile = false;
     bool rotates = false;
     int height_3d = 0;
-    point offset = {0, 0};
+    point offset = point_zero;
 
     std::vector<std::string> available_subtiles;
 };
@@ -527,13 +527,13 @@ class cata_tiles
         point player_to_screen( int x, int y ) const;
     protected:
         template <typename maptype>
-        void tile_loading_report( maptype const &tiletypemap, std::string const &label,
-                                  std::string const &prefix = "" );
+        void tile_loading_report( const maptype &tiletypemap, const std::string &label,
+                                  const std::string &prefix = "" );
         template <typename arraytype>
-        void tile_loading_report( arraytype const &array, int array_length, std::string const &label,
-                                  std::string const &prefix = "" );
+        void tile_loading_report( const arraytype &array, int array_length, const std::string &label,
+                                  const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, std::string const &label, std::string const &prefix );
+        void tile_loading_report( size_t count, const std::string &label, const std::string &prefix );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).

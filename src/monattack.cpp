@@ -972,7 +972,7 @@ find_empty_neighbors( const tripoint &origin )
  */
 template <size_t N = 1>
 std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( Creature const &c )
+find_empty_neighbors( const Creature &c )
 {
     return find_empty_neighbors<N>( c.pos() );
 }
@@ -981,7 +981,7 @@ find_empty_neighbors( Creature const &c )
 /**
  * Get a size_t value in the closed interval [0, size]; a convenience to avoid messy casting.
   */
-size_t get_random_index( size_t const size )
+size_t get_random_index( const size_t size )
 {
     return static_cast<size_t>( rng( 0, static_cast<long>( size - 1 ) ) );
 }
@@ -991,7 +991,7 @@ size_t get_random_index( size_t const size )
  * Get a size_t value in the closed interval [0, c.size() - 1]; a convenience to avoid messy casting.
  */
 template <typename Container>
-size_t get_random_index( Container const &c )
+size_t get_random_index( const Container &c )
 {
     return get_random_index( c.size() );
 }
@@ -1031,7 +1031,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     constexpr int att_acid_density = 3;
 
     // flavor messages
-    static std::array<char const *, 4> const m_flavor = {{
+    static const std::array<const char *, 4> m_flavor = {{
             _( "The %s gesticulates wildly!" ),
             _( "The %s coughs up a strange dust." ),
             _( "The %s moans softly." ),
@@ -1079,8 +1079,8 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     }
 
     // need an open space for these attacks
-    auto const empty_neighbors = find_empty_neighbors( *z );
-    size_t const empty_neighbor_count = empty_neighbors.second;
+    const auto empty_neighbors = find_empty_neighbors( *z );
+    const size_t empty_neighbor_count = empty_neighbors.second;
 
     if( empty_neighbor_count ) {
         if( z->ammo["bot_manhack"] > 0 ) {
@@ -1124,9 +1124,9 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
                 break;
             }
 
-            int const  dodge_skill  = foe->get_dodge();
-            bool const critial_fail = one_in( dodge_skill );
-            bool const is_trivial   = dodge_skill > att_rad_dodge_diff;
+            const int  dodge_skill  = foe->get_dodge();
+            const bool critial_fail = one_in( dodge_skill );
+            const bool is_trivial   = dodge_skill > att_rad_dodge_diff;
 
             ///\EFFECT_DODGE increases chance to avoid science effect
             if( !critial_fail && ( is_trivial || dodge_skill > rng( 0, att_rad_dodge_diff ) ) ) {
@@ -4511,8 +4511,8 @@ int grenade_helper( monster *const z, Creature *const target, const int dist,
         return 0;
     }
     // We need an open space for these attacks
-    auto const empty_neighbors = find_empty_neighbors( *z );
-    size_t const empty_neighbor_count = empty_neighbors.second;
+    const auto empty_neighbors = find_empty_neighbors( *z );
+    const size_t empty_neighbor_count = empty_neighbors.second;
     if( !empty_neighbor_count ) {
         return 0;
     }

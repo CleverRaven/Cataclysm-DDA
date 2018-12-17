@@ -566,7 +566,7 @@ static std::string print_time_just_hour( const time_point &p )
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast( point const &abs_sm_pos )
+std::string weather_forecast( const point &abs_sm_pos )
 {
     std::ostringstream weather_report;
     // Local conditions
