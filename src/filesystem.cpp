@@ -31,9 +31,9 @@
 // TODO: move elsewhere
 //--------------------------------------------------------------------------------------------------
 #if (defined __MINGW32__ || defined __CYGWIN__)
-size_t strnlen( const char *const start, size_t const maxlen )
+size_t strnlen( const char *const start, const size_t maxlen )
 {
-    auto const end = reinterpret_cast<const char *>( memchr( start, '\0', maxlen ) );
+    const auto end = reinterpret_cast<const char *>( memchr( start, '\0', maxlen ) );
     return ( end ) ? static_cast<size_t>( end - start ) : maxlen;
 }
 #endif
@@ -42,7 +42,7 @@ namespace
 {
 
 #if (defined _WIN32 || defined __WIN32__)
-bool do_mkdir( std::string const &path, int const mode )
+bool do_mkdir( const std::string &path, const int mode )
 {
     ( void )mode; //not used on windows
 #ifdef _MSC_VER
@@ -52,7 +52,7 @@ bool do_mkdir( std::string const &path, int const mode )
 #endif
 }
 #else
-bool do_mkdir( std::string const &path, int const mode )
+bool do_mkdir( const std::string &path, const int mode )
 {
     return mkdir( path.c_str(), mode ) == 0;
 }
@@ -60,7 +60,7 @@ bool do_mkdir( std::string const &path, int const mode )
 
 } //anonymous namespace
 
-bool assure_dir_exist( std::string const &path )
+bool assure_dir_exist( const std::string &path )
 {
     DIR *dir = opendir( path.c_str() );
     if( dir != nullptr ) {
@@ -141,7 +141,7 @@ inline size_t sizeof_array( T const( & )[N] ) noexcept
 // For non-empty path, call function for each file at path.
 //--------------------------------------------------------------------------------------------------
 template <typename Function>
-void for_each_dir_entry( std::string const &path, Function function )
+void for_each_dir_entry( const std::string &path, Function function )
 {
     using dir_ptr = DIR*;
 
@@ -151,12 +151,12 @@ void for_each_dir_entry( std::string const &path, Function function )
 
     dir_ptr root = opendir( path.c_str() );
     if( !root ) {
-        auto const e_str = strerror( errno );
+        const auto e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
-    while( auto const entry = readdir( root ) ) {
+    while( const auto entry = readdir( root ) ) {
         function( *entry );
     }
     closedir( root );
@@ -164,11 +164,11 @@ void for_each_dir_entry( std::string const &path, Function function )
 
 //--------------------------------------------------------------------------------------------------
 #if !defined (_WIN32) && !defined (__WIN32__)
-std::string resolve_path( std::string const &full_path )
+std::string resolve_path( const std::string &full_path )
 {
-    auto const result_str = realpath( full_path.c_str(), nullptr );
+    const auto result_str = realpath( full_path.c_str(), nullptr );
     if( !result_str ) {
-        auto const e_str = strerror( errno );
+        const auto e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "realpath [" << full_path << "] failed with \"" << e_str << "\".";
         return {};
     }
@@ -180,7 +180,7 @@ std::string resolve_path( std::string const &full_path )
 #endif
 
 //--------------------------------------------------------------------------------------------------
-bool is_directory_stat( std::string const &full_path )
+bool is_directory_stat( const std::string &full_path )
 {
     if( full_path.empty() ) {
         return false;
@@ -188,7 +188,7 @@ bool is_directory_stat( std::string const &full_path )
 
     struct stat result;
     if( stat( full_path.c_str(), &result ) != 0 ) {
-        auto const e_str = strerror( errno );
+        const auto e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }
@@ -210,14 +210,14 @@ bool is_directory_stat( std::string const &full_path )
 // Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
 #if defined (__MINGW32__)
-bool is_directory( dirent const &entry, std::string const &full_path )
+bool is_directory( const dirent &entry, const std::string &full_path )
 {
     // no dirent::d_type
     ( void )entry; //not used for mingw
     return is_directory_stat( full_path );
 }
 #else
-bool is_directory( dirent const &entry, std::string const &full_path )
+bool is_directory( const dirent &entry, const std::string &full_path )
 {
     if( entry.d_type == DT_DIR ) {
         return true;
@@ -240,7 +240,7 @@ bool is_directory( dirent const &entry, std::string const &full_path )
 //--------------------------------------------------------------------------------------------------
 // Returns true if the name of entry matches "." or "..".
 //--------------------------------------------------------------------------------------------------
-bool is_special_dir( dirent const &entry )
+bool is_special_dir( const dirent &entry )
 {
     return !strncmp( entry.d_name, ".",  sizeof( entry.d_name ) - 1 ) ||
            !strncmp( entry.d_name, "..", sizeof( entry.d_name ) - 1 );
@@ -250,16 +250,16 @@ bool is_special_dir( dirent const &entry )
 // If at_end is true, returns whether entry's name ends in match.
 // Otherwise, returns whether entry's name contains match.
 //--------------------------------------------------------------------------------------------------
-bool name_contains( dirent const &entry, std::string const &match, bool const at_end )
+bool name_contains( const dirent &entry, const std::string &match, const bool at_end )
 {
-    auto const len_fname = strnlen( entry.d_name, sizeof_array( entry.d_name ) );
-    auto const len_match = match.length();
+    const auto len_fname = strnlen( entry.d_name, sizeof_array( entry.d_name ) );
+    const auto len_match = match.length();
 
     if( len_match > len_fname ) {
         return false;
     }
 
-    auto const offset = at_end ? ( len_fname - len_match ) : 0;
+    const auto offset = at_end ? ( len_fname - len_match ) : 0;
     return strstr( entry.d_name + offset, match.c_str() ) != 0;
 }
 
@@ -275,26 +275,26 @@ bool name_contains( dirent const &entry, std::string const &match, bool const at
 // Files ending in ~ are excluded.
 //--------------------------------------------------------------------------------------------------
 template <typename Predicate>
-std::vector<std::string> find_file_if_bfs( std::string const &root_path, bool const recurse,
+std::vector<std::string> find_file_if_bfs( const std::string &root_path, const bool recurse,
         Predicate predicate )
 {
     std::deque<std::string>  directories {!root_path.empty() ? root_path : "."};
     std::vector<std::string> results;
 
     while( !directories.empty() ) {
-        auto const path = std::move( directories.front() );
+        const auto path = std::move( directories.front() );
         directories.pop_front();
 
-        auto const n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
-        auto const n_results = static_cast<std::ptrdiff_t>( results.size() );
+        const auto n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
+        const auto n_results = static_cast<std::ptrdiff_t>( results.size() );
 
-        for_each_dir_entry( path, [&]( dirent const & entry ) {
+        for_each_dir_entry( path, [&]( const dirent & entry ) {
             // exclude special directories.
             if( is_special_dir( entry ) ) {
                 return;
             }
 
-            auto const full_path = path + "/" + entry.d_name;
+            const auto full_path = path + "/" + entry.d_name;
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
@@ -302,7 +302,7 @@ std::vector<std::string> find_file_if_bfs( std::string const &root_path, bool co
             }
 
             // add sub directories to recurse if requested
-            auto const is_dir = is_directory( entry, full_path );
+            const auto is_dir = is_directory( entry, full_path );
             if( recurse && is_dir ) {
                 directories.emplace_back( full_path );
             }
@@ -327,10 +327,10 @@ std::vector<std::string> find_file_if_bfs( std::string const &root_path, bool co
 } //anonymous namespace
 
 //--------------------------------------------------------------------------------------------------
-std::vector<std::string> get_files_from_path( std::string const &pattern,
-        std::string const &root_path, bool const recurse, bool const match_extension )
+std::vector<std::string> get_files_from_path( const std::string &pattern,
+        const std::string &root_path, const bool recurse, const bool match_extension )
 {
-    return find_file_if_bfs( root_path, recurse, [&]( dirent const & entry, bool ) {
+    return find_file_if_bfs( root_path, recurse, [&]( const dirent & entry, bool ) {
         return name_contains( entry, pattern, match_extension );
     } );
 }
@@ -342,14 +342,14 @@ std::vector<std::string> get_files_from_path( std::string const &pattern,
  *  @param recurse Be recurse or not.
  *  @return vector or directories without pattern filename at end.
  */
-std::vector<std::string> get_directories_with( std::string const &pattern,
-        std::string const &root_path, bool const recurse )
+std::vector<std::string> get_directories_with( const std::string &pattern,
+        const std::string &root_path, const bool recurse )
 {
     if( pattern.empty() ) {
         return std::vector<std::string>();
     }
 
-    auto files = find_file_if_bfs( root_path, recurse, [&]( dirent const & entry, bool ) {
+    auto files = find_file_if_bfs( root_path, recurse, [&]( const dirent & entry, bool ) {
         return name_contains( entry, pattern, true );
     } );
 
@@ -370,18 +370,18 @@ std::vector<std::string> get_directories_with( std::string const &pattern,
  *  @param recurse Be recurse or not.
  *  @return vector or directories without pattern filename at end.
  */
-std::vector<std::string> get_directories_with( std::vector<std::string> const &patterns,
-        std::string const &root_path, bool const recurse )
+std::vector<std::string> get_directories_with( const std::vector<std::string> &patterns,
+        const std::string &root_path, const bool recurse )
 {
     if( patterns.empty() ) {
         return std::vector<std::string>();
     }
 
-    auto const ext_beg = std::begin( patterns );
-    auto const ext_end = std::end( patterns );
+    const auto ext_beg = std::begin( patterns );
+    const auto ext_end = std::end( patterns );
 
-    auto files = find_file_if_bfs( root_path, recurse, [&]( dirent const & entry, bool ) {
-        return std::any_of( ext_beg, ext_end, [&]( std::string const & ext ) {
+    auto files = find_file_if_bfs( root_path, recurse, [&]( const dirent & entry, bool ) {
+        return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
             return name_contains( entry, ext, true );
         } );
     } );

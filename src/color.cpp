@@ -51,13 +51,13 @@ void color_manager::finalize()
 
         if( !entry.name_custom.empty() ) {
             // Not using name_to_color because we want default color of this name
-            auto const id = name_to_id( entry.name_custom );
+            const auto id = name_to_id( entry.name_custom );
             auto &other = color_array[id];
             entry.custom = other.color;
         }
 
         if( !entry.name_invert_custom.empty() ) {
-            auto const id = name_to_id( entry.name_invert_custom );
+            const auto id = name_to_id( entry.name_invert_custom );
             auto &other = color_array[id];
             entry.custom = other.color;
         }
@@ -85,7 +85,7 @@ void color_manager::finalize()
 
 nc_color color_manager::name_to_color( const std::string &name ) const
 {
-    auto const id = name_to_id( name );
+    const auto id = name_to_id( name );
     auto &entry = color_array[id];
 
     return entry.custom > 0 ? entry.custom : entry.color;
@@ -653,9 +653,9 @@ std::string colorize( const std::string &text, const nc_color color )
     return get_tag_from_color( color ) + text + "</color>";
 }
 
-nc_color get_note_color( std::string const &note_id )
+nc_color get_note_color( const std::string &note_id )
 {
-    auto const candidate_color = color_by_string_map.find( note_id );
+    const auto candidate_color = color_by_string_map.find( note_id );
     if( candidate_color != std::end( color_by_string_map ) ) {
         return candidate_color->second.color;
     }
@@ -666,7 +666,7 @@ nc_color get_note_color( std::string const &note_id )
 std::list<std::pair<std::string, std::string>> get_note_color_names()
 {
     std::list<std::pair<std::string, std::string>> color_list;
-    for( auto const &color_pair : color_by_string_map ) {
+    for( const auto &color_pair : color_by_string_map ) {
         color_list.emplace_back( color_pair.first, color_pair.second.name );
     }
     return color_list;

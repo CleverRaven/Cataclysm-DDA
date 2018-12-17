@@ -2518,7 +2518,7 @@ void map::decay_fields_and_scent( const time_duration amount )
     const auto &outside_cache = get_cache_ref( smz ).outside_cache;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, smz );
+            const auto cur_submap = get_submap_at_grid( smx, smy, smz );
             int to_proc = cur_submap->field_count;
             if( to_proc < 1 ) {
                 if( to_proc < 0 ) {
@@ -4375,8 +4375,8 @@ void map::process_active_items()
     process_items( true, process_map_items, std::string {} );
 }
 
-void map::process_items( bool const active, map::map_process_func processor,
-                         std::string const &signal )
+void map::process_items( const bool active, map::map_process_func processor,
+                         const std::string &signal )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
@@ -4408,13 +4408,13 @@ void map::process_items( bool const active, map::map_process_func processor,
 }
 
 void map::process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                   map::map_process_func processor, std::string const &signal )
+                                   map::map_process_func processor, const std::string &signal )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
     std::list<item_reference> active_items = current_submap.active_items.get();
-    auto const grid_offset = point {gridp.x * SEEX, gridp.y * SEEY};
+    const auto grid_offset = point {gridp.x * SEEX, gridp.y * SEEY};
     for( auto &active_item : active_items ) {
         if( !current_submap.active_items.has( active_item ) ) {
             continue;
@@ -4431,13 +4431,13 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 }
 
 void map::process_items_in_vehicles( submap &current_submap, const int gridz,
-                                     map::map_process_func processor, std::string const &signal )
+                                     map::map_process_func processor, const std::string &signal )
 {
-    std::vector<vehicle *> const &veh_in_nonant = current_submap.vehicles;
+    const std::vector<vehicle *> &veh_in_nonant = current_submap.vehicles;
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
-    std::vector<vehicle *> const vehicles = veh_in_nonant;
+    const std::vector<vehicle *> vehicles = veh_in_nonant;
     for( auto &cur_veh : vehicles ) {
         if( std::find( begin( veh_in_nonant ), end( veh_in_nonant ), cur_veh ) == veh_in_nonant.end() ) {
             // vehicle not in the vehicle list of the nonant, has been
@@ -4451,7 +4451,7 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
 }
 
 void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
-                                    map::map_process_func processor, std::string const &signal )
+                                    map::map_process_func processor, const std::string &signal )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
@@ -4469,7 +4469,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         } else if( !cur_veh.active_items.has( active_item ) ) {
             continue;
         }
-        auto const it = std::find_if( begin( cargo_parts ),
+        const auto it = std::find_if( begin( cargo_parts ),
         end( cargo_parts ), [&]( const vpart_reference & part ) {
             return active_item.location == part.mount();
         } );
@@ -4508,7 +4508,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
 
         // item does not exist anymore, might have been an exploding bomb,
         // check if the vehicle is still valid (does exist)
-        auto const &veh_in_nonant = current_submap.vehicles;
+        const auto &veh_in_nonant = current_submap.vehicles;
         if( std::find( begin( veh_in_nonant ), end( veh_in_nonant ), &cur_veh ) == veh_in_nonant.end() ) {
             // Nope, vehicle is not in the vehicle list of the submap,
             // it might have moved to another submap (unlikely)
@@ -4696,7 +4696,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         } );
         if( iter != stack.end() ) {
             item furn_item( itt, -1, iter->charges );
-            // The item constructor limits the charges to the (type specific) maximum.
+            // The const itemructor limits the charges to the (type specific) maximum.
             // Setting it separately circumvents that it is synchronized with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
             furn_item.charges = iter->charges;
@@ -7268,7 +7268,7 @@ void map::build_outside_cache( const int zlev )
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+            const auto cur_submap = get_submap_at_grid( smx, smy, zlev );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -7309,7 +7309,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // TODO: Support z-levels.
     for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
         for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, start.z );
+            const auto cur_submap = get_submap_at_grid( smx, smy, start.z );
 
             // TODO: Init indices to prevent iterating over unused submap sections.
             for( int sx = 0; sx < SEEX; ++sx ) {
@@ -7380,7 +7380,7 @@ void map::build_floor_cache( const int zlev )
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+            const auto cur_submap = get_submap_at_grid( smx, smy, zlev );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -7800,9 +7800,9 @@ field &map::get_field( const tripoint &p )
     return field_at( p );
 }
 
-void map::creature_on_trap( Creature &c, bool const may_avoid )
+void map::creature_on_trap( Creature &c, const bool may_avoid )
 {
-    auto const &tr = tr_at( c.pos() );
+    const auto &tr = tr_at( c.pos() );
     if( tr.is_null() ) {
         return;
     }
@@ -8079,7 +8079,7 @@ void map::update_pathfinding_cache( int zlev ) const
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+            const auto cur_submap = get_submap_at_grid( smx, smy, zlev );
 
             tripoint p( 0, 0, zlev );
 
@@ -8112,7 +8112,7 @@ void map::update_pathfinding_cache( int zlev ) const
                         cur_value |= PF_VEHICLE;
                     }
 
-                    for( auto const &fld : tile.get_field() ) {
+                    for( const auto &fld : tile.get_field() ) {
                         const field_entry &cur = fld.second;
                         const field_id type = cur.getFieldType();
                         const int density = cur.getFieldDensity();

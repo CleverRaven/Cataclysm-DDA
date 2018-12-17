@@ -16,10 +16,10 @@
 
 namespace
 {
-std::string clothing_layer( item const &worn_item );
-std::vector<std::string> clothing_properties( item const &worn_item, int width );
-std::vector<std::string> clothing_protection( item const &worn_item, int width );
-std::vector<std::string> clothing_flags_description( item const &worn_item );
+std::string clothing_layer( const item &worn_item );
+std::vector<std::string> clothing_properties( const item &worn_item, int width );
+std::vector<std::string> clothing_protection( const item &worn_item, int width );
+std::vector<std::string> clothing_flags_description( const item &worn_item );
 
 struct item_penalties {
     std::vector<body_part> body_parts_with_stacking_penalty;
@@ -231,7 +231,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     }
 }
 
-std::string clothing_layer( item const &worn_item )
+std::string clothing_layer( const item &worn_item )
 {
     std::string layer;
 
@@ -248,7 +248,7 @@ std::string clothing_layer( item const &worn_item )
     return layer;
 }
 
-std::vector<std::string> clothing_properties( item const &worn_item, int const width )
+std::vector<std::string> clothing_properties( const item &worn_item, const int width )
 {
     std::vector<std::string> props;
     props.reserve( 5 );
@@ -266,7 +266,7 @@ std::vector<std::string> clothing_properties( item const &worn_item, int const w
     return props;
 }
 
-std::vector<std::string> clothing_protection( item const &worn_item, int const width )
+std::vector<std::string> clothing_protection( const item &worn_item, const int width )
 {
     std::vector<std::string> prot;
     prot.reserve( 4 );
@@ -282,7 +282,7 @@ std::vector<std::string> clothing_protection( item const &worn_item, int const w
     return prot;
 }
 
-std::vector<std::string> clothing_flags_description( item const &worn_item )
+std::vector<std::string> clothing_flags_description( const item &worn_item )
 {
     std::vector<std::string> description_stack;
 
