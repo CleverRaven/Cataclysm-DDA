@@ -526,7 +526,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     k = std::max( 10.0f, std::min( 90.0f, k ) );
 
     bool smashed = true;
-    std::string snd; // NOTE: Unused!
+    std::string snd = "Smash!"; // NOTE: Unused!
     float dmg = 0.0f;
     float part_dmg = 0.0f;
     // Calculate Impulse of car
@@ -686,7 +686,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( part_flag( ret.part, "SHARP" ) ) {
                 critter->bleed();
             } else {
-                sounds::sound( p, 20, snd );
+                sounds::sound( p, 20, sounds::sound_t::combat, snd );
             }
         }
     } else {
@@ -702,7 +702,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        sounds::sound( p, smashed ? 80 : 50, snd );
+        sounds::sound( p, smashed ? 80 : 50, sounds::sound_t::combat, snd );
     }
 
     if( smashed && !vert_coll ) {
@@ -818,7 +818,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         }
     }
     if( noise > 0 ) {
-        sounds::sound( p, noise, snd );
+        sounds::sound( p, noise, sounds::sound_t::combat, snd );
     }
     if( part_damage && chance >= rng( 1, 100 ) ) {
         // Hit the wheel directly since it ran right over the trap.
