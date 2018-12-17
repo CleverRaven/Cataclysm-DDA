@@ -146,7 +146,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
             break;
         }
     }
-    if (!table_exists){
+    if( !table_exists ) {
         return;
     }
 
