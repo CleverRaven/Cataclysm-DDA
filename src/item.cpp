@@ -3066,6 +3066,9 @@ units::mass item::weight( bool include_contents ) const
         if( has_flag( "QUARTERED" ) ) {
             ret /= 4;
         }
+        if( has_flag( "GIBBED" ) ) {
+            ret *= 0.85;
+        }
 
     } else if( magazine_integral() && !is_magazine() ) {
         if( ammo_type() == ammotype( "plutonium" ) ) {
