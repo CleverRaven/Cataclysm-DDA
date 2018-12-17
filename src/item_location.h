@@ -30,11 +30,7 @@ class item_location
         };
 
         item_location();
-        item_location( const item_location & ) = delete;
-        item_location &operator= ( const item_location & ) = delete;
-        item_location( item_location && );
-        item_location &operator=( item_location && );
-        ~item_location();
+        ~item_location() = default;
 
         static const item_location nowhere;
 

@@ -9042,7 +9042,8 @@ bool game::plfire()
     // @todo: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
         if( !gun->ammo_remaining() ) {
-            item::reload_option opt = u.select_ammo( *gun );
+            item::reload_option opt = gun->ammo_location ? item::reload_option( &u, args.relevant,
+                                      args.relevant, std::move( gun->ammo_location ) ) : u.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
                 return false;
@@ -9641,9 +9642,14 @@ void game::reload( item_location &loc, bool prompt )
 
     // bows etc do not need to reload.
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
-        add_msg( m_info,
-                 _( "The %s does not need to be reloaded, it reloads and fires in a single motion." ),
-                 it->tname().c_str() );
+        item::reload_option opt = u.select_ammo( *it, prompt );
+        if( !opt ) {
+            return;
+        } else if( it->ammo_location && opt.ammo == it->ammo_location ) {
+            it->ammo_location = item_location();
+        } else {
+            it->ammo_location = opt.ammo.clone();
+        }
         return;
     }
 
@@ -9725,7 +9731,7 @@ void game::reload()
         }
 
         item_location item_loc = inv_map_splice( [&]( const item & it ) {
-            return ( u.rate_action_reload( it ) == HINT_GOOD && !it.has_flag( "RELOAD_AND_SHOOT" ) );
+            return u.rate_action_reload( it ) == HINT_GOOD;
         }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
         if( !item_loc ) {

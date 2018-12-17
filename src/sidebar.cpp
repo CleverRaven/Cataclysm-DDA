@@ -228,6 +228,10 @@ static std::string print_gun_mode( const player &p )
     auto m = p.weapon.gun_current_mode();
     if( m ) {
         if( m.melee() || !m->is_gunmod() ) {
+            if( p.weapon.ammo_location ) {
+                return string_format( "%s (%d)", p.weapname().c_str(),
+                                      ( *p.weapon.ammo_location ).charges );
+            }
             return string_format( m.name().empty() ? "%s" : "%s (%s)",
                                   p.weapname().c_str(), m.name() );
         } else {
