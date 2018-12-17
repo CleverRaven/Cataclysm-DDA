@@ -2796,7 +2796,7 @@ std::vector<std::pair<std::string, tripoint>> talk_function::om_building_region(
 point talk_function::om_dir_to_offset( const std::string &dir )
 {
     std::map<const std::string, point> dir2pt = { {
-            { "[B]", point( 0, 0 ) },
+            { "[B]", point_zero },
             { "[N]", point( 0, -1 ) }, { "[S]", point( 0, 1 ) },
             { "[E]", point( 1, 0 ) }, { "[W]", point( -1, 0 ) },
             { "[NE]", point( 1, -1 ) }, { "[SE]", point( 1, 1 ) },

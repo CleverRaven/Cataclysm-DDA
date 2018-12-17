@@ -1368,7 +1368,7 @@ static int veh_lumi( vehicle &veh )
 void game::calc_driving_offset( vehicle *veh )
 {
     if( veh == nullptr || !get_option<bool>( "DRIVING_VIEW_OFFSET" ) ) {
-        set_driving_view_offset( point( 0, 0 ) );
+        set_driving_view_offset( point_zero );
         return;
     }
     const int g_light_level = static_cast<int>( light_level( u.posz() ) );
