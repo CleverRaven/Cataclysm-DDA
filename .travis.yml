@@ -38,16 +38,20 @@ jobs:
       # GCC 5 is the pre-installed compiler on Xenial
       env: COMPILER=g++ MODS=--mods=RL_Classes
 
-    # Then build different configurations and targets in parallell.
+    # Then build different configurations and targets in parallel.
+    #
+    # MXE variants disabled while pkg.mxe.cc is down
     - stage: variants
       # GCC MinGW
       env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+      if: type = disabled
       addons: &gcc
         apt:
           packages: ["wine"]
 
     # Windows Tiles
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
+      if: type = disabled
       compiler: gcc
       addons: &gcc
         apt:
