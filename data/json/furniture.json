@@ -1019,7 +1019,7 @@
         { "item": "hose", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "cu_pipe", "count": [ 3, 6 ] },
-        { "item": "refrigerant_tank", "count": 1 }
+        { "item": "refrigerant_tank", "count": 1 },
         { "item": "motor_tiny", "count": 1 }
       ]
     },
