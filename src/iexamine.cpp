@@ -160,8 +160,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
     item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
 
-    auto qty = new_item.volume() / 250_ml;
-    qty = std::max( 1, qty );
+    auto qty = std::max( 1, new_item.volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
 
     if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
