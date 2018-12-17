@@ -4319,7 +4319,7 @@ void player::update_needs( int rate_multiplier )
     const bool mycus = has_trait( trait_M_DEPENDENT );
     
     // set the player appetite according to the setting
-    float appetite = (get_option<int>( "FOOD_WATER_NEEDS" )/100.0);
+    float appetite = get_option<int>( "FOOD_WATER_NEEDS" ) / 100.0;
     
     // appetite for food
     float hunger_rate = metabolic_rate() * appetite;
