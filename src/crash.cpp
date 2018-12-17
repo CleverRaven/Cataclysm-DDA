@@ -48,7 +48,7 @@ extern "C" {
     static SYMBOL_INFO *const sym = ( SYMBOL_INFO * ) &sym_storage;
 
     // compose message ourselves to avoid potential dynamical allocation.
-    static void append_str( FILE *file, char **beg, char *end, char const *from )
+    static void append_str( FILE *file, char **beg, char *end, const char *from )
     {
         fputs( from, stderr );
         if( file ) {
@@ -91,7 +91,7 @@ extern "C" {
         append_uint( file, beg, end, uintptr_t( p ) );
     }
 
-    static void dump_to( char const *file )
+    static void dump_to( const char *file )
     {
         HANDLE handle = CreateFile( file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
                                     FILE_ATTRIBUTE_NORMAL, NULL );
@@ -105,7 +105,7 @@ extern "C" {
         CloseHandle( handle );
     }
 
-    static void log_crash( char const *type, char const *msg )
+    static void log_crash( const char *type, const char *msg )
     {
         dump_to( ".core" );
         const char *crash_log_file = "config/crash.log";
@@ -140,7 +140,7 @@ extern "C" {
                 DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, MODULE_PATH_LEN );
                 // mod_len == MODULE_NAME_LEN means insufficient buffer
                 if( mod_len > 0 && mod_len < MODULE_PATH_LEN ) {
-                    char const *mod_name = mod_path + mod_len;
+                    const char *mod_name = mod_path + mod_len;
                     for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
                     }
                     append_str( file, &beg, end, mod_name );
@@ -174,7 +174,7 @@ extern "C" {
         signal( sig, SIG_DFL );
         // undefined behavior according to the standard
         // but we can get nothing out of it without these
-        char const *msg;
+        const char *msg;
         switch( sig ) {
             case SIGSEGV:
                 msg = "SIGSEGV: Segmentation fault";
@@ -231,7 +231,7 @@ extern "C" {
         return "crash.log";
     }
 
-    static void log_crash( char const *type, char const *msg )
+    static void log_crash( const char *type, const char *msg )
     {
         // This implementation is not technically async-signal-safe for many
         // reasons, including the memory allocations and the SDL message box.
@@ -264,7 +264,7 @@ extern "C" {
     static void signal_handler( int sig )
     {
         signal( sig, SIG_DFL );
-        char const *msg;
+        const char *msg;
         switch( sig ) {
             case SIGSEGV:
                 msg = "SIGSEGV: Segmentation fault";
@@ -303,8 +303,8 @@ void init_crash_handlers()
 [[noreturn]] static void crash_terminate_handler()
 {
     //@todo thread-safety?
-    char const *type;
-    char const *msg;
+    const char *type;
+    const char *msg;
     try {
         auto &&ex = std::current_exception(); // *NOPAD*
         if( ex ) {
@@ -312,7 +312,7 @@ void init_crash_handlers()
         } else {
             type = msg = "Unexpected termination";
         }
-    } catch( std::exception const &e ) {
+    } catch( const std::exception &e ) {
         type = typeid( e ).name();
         msg = e.what();
         log_crash( type, msg );

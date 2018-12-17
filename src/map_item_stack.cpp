@@ -21,13 +21,13 @@ map_item_stack::map_item_stack() : example( nullptr ), totalcount( 0 )
     vIG.push_back( item_group() );
 }
 
-map_item_stack::map_item_stack( item const *const it, const tripoint &pos ) : example( it ),
+map_item_stack::map_item_stack( const item *const it, const tripoint &pos ) : example( it ),
     totalcount( it->count() )
 {
     vIG.emplace_back( pos, totalcount );
 }
 
-void map_item_stack::add_at_pos( item const *const it, const tripoint &pos )
+void map_item_stack::add_at_pos( const item *const it, const tripoint &pos )
 {
     const int amount = it->count();
 

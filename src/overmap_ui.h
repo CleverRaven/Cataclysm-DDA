@@ -29,7 +29,7 @@ void display_scents();
 /**
  * Display overmap like with @ref display() and display the given zone.
  */
-void display_zones( const tripoint &center, const tripoint &select, int const iZoneIndex );
+void display_zones( const tripoint &center, const tripoint &select, const int iZoneIndex );
 /**
  * Display overmap like with @ref display() and enable the overmap editor.
  */

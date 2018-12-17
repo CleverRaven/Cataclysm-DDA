@@ -761,7 +761,7 @@
     "melee_cut": 4,
     "dodge": 4,
     "armor_bash": 6,
-    "harvest": "acidant_med",
+    "harvest": "arachnid_acid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ]
   },

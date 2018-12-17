@@ -872,7 +872,7 @@ void player::deserialize( JsonIn &jsin )
     // another character (not the current one) fails, the other character(s) are not informed.
     // We must inform them when they get loaded the next time.
     // Only active missions need checking, failed/complete will not change anymore.
-    auto const last = std::remove_if( active_missions.begin(),
+    const auto last = std::remove_if( active_missions.begin(),
     active_missions.end(), []( mission const * m ) {
         return m->has_failed();
     } );

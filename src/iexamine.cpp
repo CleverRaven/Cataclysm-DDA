@@ -208,8 +208,8 @@ public:
         }
     }
 private:
-    void add_choice(int const i, char const *const title) { amenu.addentry(i, true, -1, title); }
-    void add_info(int const i, char const *const title) { amenu.addentry(i, false, -1, title); }
+    void add_choice( const int i, const char *const title ) { amenu.addentry(i, true, -1, title); }
+    void add_info( const int i, const char *const title ) { amenu.addentry(i, false, -1, title); }
 
     options choose_option()
     {
@@ -222,7 +222,7 @@ private:
     }
 
     //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
-    void reset(bool const clear = true) {
+    void reset( const bool clear = true ) {
         const int card_count   = u.amount_of("cash_card");
         const int charge_count = card_count ? u.charges_of("cash_card") : 0;
 
@@ -263,7 +263,7 @@ private:
     }
 
     //! print a bank statement for @p print = true;
-    void finish_interaction(bool const print = true) {
+    void finish_interaction( const bool print = true ) {
         if (print) {
             add_msg(m_info, _("Your account now holds %s."), format_money(u.cash));
         }
@@ -272,7 +272,7 @@ private:
     }
 
     //! Prompt for an integral value clamped to [0, max].
-    static long prompt_for_amount(char const *const msg, long const max) {
+    static long prompt_for_amount(const char *const msg, const long max) {
         const std::string formatted = string_format(msg, max);
         const long amount = string_input_popup()
                             .title( formatted )
@@ -417,13 +417,13 @@ void iexamine::vending( player &p, const tripoint &examp )
         return;
     }
 
-    int const padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
-    int const padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
-    int const window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
-    int const window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    int const w_items_w  = window_w / 2;
-    int const w_info_w   = window_w - w_items_w;
-    int const list_lines = window_h - 4; // minus for header and footer
+    const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
+    const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+    const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
+    const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+    const int w_items_w  = window_w / 2;
+    const int w_info_w   = window_w - w_items_w;
+    const int list_lines = window_h - 4; // minus for header and footer
 
     constexpr int first_item_offset = 3; // header size
 
@@ -456,13 +456,13 @@ void iexamine::vending( player &p, const tripoint &examp )
         item_list.emplace_back( &pair );
     }
 
-    int const lines_above = list_lines / 2;                  // lines above the selector
-    int const lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
+    const int lines_above = list_lines / 2;                  // lines above the selector
+    const int lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
 
     int cur_pos = 0;
     for( ;; ) {
-        int const num_items = item_list.size();
-        int const page_size = std::min( num_items, list_lines );
+        const int num_items = item_list.size();
+        const int page_size = std::min( num_items, list_lines );
 
         werase( w );
         wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -487,8 +487,8 @@ void iexamine::vending( player &p, const tripoint &examp )
 
         for( int line = 0; line < page_size; ++line ) {
             const int i = page_beg + line;
-            auto const color = (i == cur_pos) ? h_light_gray : c_light_gray;
-            auto const &elem = item_list[i];
+            const auto color = (i == cur_pos) ? h_light_gray : c_light_gray;
+            const auto &elem = item_list[i];
             const int count = elem->second.size();
             const char c = (count < 10) ? ('0' + count) : '*';
             trim_and_print(w, first_item_offset + line, 1, w_items_w-3, color, "%c %s", c, elem->first.c_str());
@@ -4177,7 +4177,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
-iexamine_function iexamine_function_from_string(std::string const &function_name)
+iexamine_function iexamine_function_from_string(const std::string &function_name)
 {
     static const std::map<std::string, iexamine_function> function_map = {{
         { "none", &iexamine::none },

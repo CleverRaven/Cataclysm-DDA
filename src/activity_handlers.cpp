@@ -1474,7 +1474,7 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
-    const static std::string salvage_string = "salvage";
+    static const std::string salvage_string = "salvage";
     item &main_tool = p->i_at( act->index );
     auto items = g->m.i_at( p->pos() );
     item *salvage_tool = main_tool.get_usable_item( salvage_string );

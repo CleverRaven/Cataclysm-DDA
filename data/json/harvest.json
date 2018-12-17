@@ -113,7 +113,7 @@
     ]
   },
   {
-    "id": "mammal_small_fur",
+    "id": "mammal_small_leather",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
@@ -296,6 +296,16 @@
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "arachnid_acid",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {

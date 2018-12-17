@@ -122,14 +122,30 @@ void harvest_list::check_consistency()
 {
     for( const auto &pr : harvest_all ) {
         const auto &hl = pr.second;
+        const std::string hl_id = hl.id().c_str();
+        auto error_func = [&]( const harvest_entry & entry ) {
+            std::string errorlist = "";
+            if( !( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
+                    item_group::group_is_defined( entry.drop ) ) ) ) {
+                errorlist += entry.drop;
+            }
+            // non butchery harvests need to be excluded
+            if( std::string( hl_id.substr( 0, 14 ) ) != std::string( "harvest_inline" ) ) {
+                if( entry.type == "null" ) {
+                    errorlist += "null type";
+                } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
+                              entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
+                    errorlist += entry.type;
+                }
+            }
+            return errorlist;
+        };
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
-        []( const harvest_entry & entry ) {
-            return ( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
-                     item_group::group_is_defined( entry.drop ) ) ) ? "" : entry.drop;
-        } );
+                                   error_func );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid drop(s): %s", hl.id_.c_str(), errors.c_str() );
+            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors.c_str() );
         }
+
     }
 }
 
