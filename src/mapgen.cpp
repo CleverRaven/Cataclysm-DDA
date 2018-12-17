@@ -127,7 +127,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            setsubmap( get_nonant( gridx, gridy ), new submap() );
+            setsubmap( get_nonant( { gridx, gridy } ), new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
@@ -200,7 +200,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
             if( i <= 1 && j <= 1 ) {
                 saven( i, j, z );
             } else {
-                delete get_submap_at_grid( i, j, z );
+                delete get_submap_at_grid( { i, j, z } );
             }
         }
     }
@@ -6844,9 +6844,8 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
         debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y );
         return;
     }
-    int offset_x = 0;
-    int offset_y = 0;
-    submap *place_on_submap = get_submap_at( x, y, offset_x, offset_y );
+    point offset;
+    submap *place_on_submap = get_submap_at( { x, y }, offset );
 
     if( !place_on_submap ) {
         debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
@@ -6863,7 +6862,7 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset_x, offset_y, faction_id, mission_id, friendly, name );
+    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name );
     place_on_submap->spawns.push_back( tmp );
 }
 
@@ -6919,8 +6918,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     vehicle *placed_vehicle = add_vehicle_to_map( std::move( veh ), merge_wrecks );
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy,
-                                  placed_vehicle->smz );
+        submap *place_on_submap = get_submap_at_grid( { placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz} );
         place_on_submap->vehicles.push_back( placed_vehicle );
         place_on_submap->is_uniform = false;
 
@@ -7158,15 +7156,14 @@ void map::rotate( int turns )
                     new_y = old_x;
                     break;
             }
-            int new_lx = 0;
-            int new_ly = 0;
-            const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
+            point new_l;
+            const auto new_sm = get_submap_at( { new_x, new_y }, new_l );
             new_sm->is_uniform = false;
-            std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
-            std::swap( furnrot[old_x][old_y], new_sm->frn[new_lx][new_ly] );
-            std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
-            std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
-            std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
+            std::swap( rotated[old_x][old_y], new_sm->ter[new_l.x][new_l.y] );
+            std::swap( furnrot[old_x][old_y], new_sm->frn[new_l.x][new_l.y] );
+            std::swap( traprot[old_x][old_y], new_sm->trp[new_l.x][new_l.y] );
+            std::swap( fldrot[old_x][old_y], new_sm->fld[new_l.x][new_l.y] );
+            std::swap( radrot[old_x][old_y], new_sm->rad[new_l.x][new_l.y] );
             auto items = i_at( new_x, new_y );
             itrot[old_x][old_y].reserve( items.size() );
             // Copy items, if we move them, it'll wreck i_clear().
@@ -7178,64 +7175,64 @@ void map::rotate( int turns )
     //Next, spawn points and cosmetic strings
     for( int sx = 0; sx < 2; sx++ ) {
         for( int sy = 0; sy < 2; sy++ ) {
-            const auto from = get_submap_at_grid( sx, sy );
+            const auto from = get_submap_at_grid( { sx, sy } );
             size_t gridto = 0;
             switch( turns ) {
                 case 0:
-                    gridto = get_nonant( sx, sy );
+                    gridto = get_nonant( { sx, sy } );
                     break;
                 case 1:
-                    gridto = get_nonant( 1 - sy, sx );
+                    gridto = get_nonant( { 1 - sy, sx } );
                     break;
                 case 2:
-                    gridto = get_nonant( 1 - sx, 1 - sy );
+                    gridto = get_nonant( { 1 - sx, 1 - sy } );
                     break;
                 case 3:
-                    gridto = get_nonant( sy, 1 - sx );
+                    gridto = get_nonant( { sy, 1 - sx } );
                     break;
             }
             for( auto &spawn : from->spawns ) {
                 spawn_point tmp = spawn;
-                int new_x = tmp.posx;
-                int new_y = tmp.posy;
+                int new_x = tmp.pos.x;
+                int new_y = tmp.pos.y;
                 switch( turns ) {
                     case 1:
-                        new_x = SEEY - 1 - tmp.posy;
-                        new_y = tmp.posx;
+                        new_x = SEEY - 1 - tmp.pos.y;
+                        new_y = tmp.pos.x;
                         break;
                     case 2:
-                        new_x = SEEX - 1 - tmp.posx;
-                        new_y = SEEY - 1 - tmp.posy;
+                        new_x = SEEX - 1 - tmp.pos.x;
+                        new_y = SEEY - 1 - tmp.pos.y;
                         break;
                     case 3:
-                        new_x = tmp.posy;
-                        new_y = SEEX - 1 - tmp.posx;
+                        new_x = tmp.pos.y;
+                        new_y = SEEX - 1 - tmp.pos.x;
                         break;
                 }
-                tmp.posx = new_x;
-                tmp.posy = new_y;
+                tmp.pos.x = new_x;
+                tmp.pos.y = new_y;
                 sprot[gridto].push_back( tmp );
             }
             for( auto &cosm : from->cosmetics ) {
                 submap::cosmetic_t tmp = cosm;
-                int new_x = tmp.p.x;
-                int new_y = tmp.p.y;
+                int new_x = tmp.pos.x;
+                int new_y = tmp.pos.y;
                 switch( turns ) {
                     case 1:
-                        new_x = SEEY - 1 - tmp.p.y;
-                        new_y = tmp.p.x;
+                        new_x = SEEY - 1 - tmp.pos.y;
+                        new_y = tmp.pos.x;
                         break;
                     case 2:
-                        new_x = SEEX - 1 - tmp.p.x;
-                        new_y = SEEY - 1 - tmp.p.y;
+                        new_x = SEEX - 1 - tmp.pos.x;
+                        new_y = SEEY - 1 - tmp.pos.y;
                         break;
                     case 3:
-                        new_x = tmp.p.y;
-                        new_y = SEEX - 1 - tmp.p.x;
+                        new_x = tmp.pos.y;
+                        new_y = SEEX - 1 - tmp.pos.x;
                         break;
                 }
-                tmp.p.x = new_x;
-                tmp.p.y = new_y;
+                tmp.pos.x = new_x;
+                tmp.pos.y = new_y;
                 cosmetics_rot[gridto].push_back( tmp );
             }
             // as vehrot starts out empty, this clears the other vehicles vector
@@ -7249,7 +7246,7 @@ void map::rotate( int turns )
     // change vehicles' directions
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t i = get_nonant( gridx, gridy );
+            const size_t i = get_nonant( { gridx, gridy } );
             for( auto &v : vehrot[i] ) {
                 vehicle *veh = v;
                 // turn the steering wheel, vehicle::turn does not actually
@@ -7311,15 +7308,15 @@ void map::rotate( int turns )
 
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            int lx = 0;
-            int ly = 0;
-            const auto sm = get_submap_at( i, j, lx, ly );
+            point p( i, j );
+            point l;
+            const auto sm = get_submap_at( p, l );
             sm->is_uniform = false;
-            std::swap( rotated[i][j], sm->ter[lx][ly] );
-            std::swap( furnrot[i][j], sm->frn[lx][ly] );
-            std::swap( traprot[i][j], sm->trp[lx][ly] );
-            std::swap( fldrot[i][j], sm->fld[lx][ly] );
-            std::swap( radrot[i][j], sm->rad[lx][ly] );
+            std::swap( rotated[i][j], sm->ter[l.x][l.y] );
+            std::swap( furnrot[i][j], sm->frn[l.x][l.y] );
+            std::swap( traprot[i][j], sm->trp[l.x][l.y] );
+            std::swap( fldrot[i][j], sm->fld[l.x][l.y] );
+            std::swap( radrot[i][j], sm->rad[l.x][l.y] );
             for( auto &itm : itrot[i][j] ) {
                 add_item( i, j, itm );
             }

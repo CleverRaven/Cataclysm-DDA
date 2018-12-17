@@ -4950,7 +4950,7 @@ bool is_sm_tile_outside( const tripoint &real_global_pos )
     }
 
     return !( sm->ter[px][py].obj().has_flag( TFLAG_INDOORS ) ||
-              sm->get_furn( px, py ).obj().has_flag( TFLAG_INDOORS ) );
+              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )
