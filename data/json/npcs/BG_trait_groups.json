@@ -37,7 +37,7 @@
       { "trait": "BGSS_Out_of_Town_2" },
       { "trait": "BGSS_Lost_Partner_1" },
       { "trait": "BGSS_Lost_Partner_2" },
-	  { "trait": "BGSS_Codger" }
+      { "trait": "BGSS_Codger" }
     ]
   },
   {
@@ -57,7 +57,7 @@
       { "trait": "BGSS_Hunter_2" },
       { "trait": "BGSS_Rural_1" },
       { "trait": "BGSS_Rural_2" },
-	  { "trait": "BGSS_Codger" }
+      { "trait": "BGSS_Codger" }
     ]
   },
   {
