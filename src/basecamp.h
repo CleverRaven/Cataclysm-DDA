@@ -28,7 +28,7 @@ class basecamp
                   std::map<std::string, expansion_data> expansions_ );
 
         inline bool is_valid() const {
-            return !name.empty() && pos != tripoint( 0, 0, 0 );
+            return !name.empty() && pos != tripoint_zero;
         }
         inline int board_x() const {
             return bb_pos.x;

@@ -320,7 +320,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     if( dp.z == -1 && !bash_floor ) {
         // First check current level, then the one below if current had no collisions
         // Bash floors on the current one, but not on the one below.
-        if( collision( colls, tripoint( 0, 0, 0 ), just_detect, true ) ) {
+        if( collision( colls, tripoint_zero, just_detect, true ) ) {
             return true;
         }
     }
