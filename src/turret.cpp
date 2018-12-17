@@ -558,8 +558,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
                                                   boo_hoo ),
                              cpu.name.c_str(), boo_hoo );
                 }
-                return shots;
             }
+            return shots;
         }
 
         target.second = auto_target->pos();
