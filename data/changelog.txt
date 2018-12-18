@@ -161,15 +161,9 @@ Item infos for medication. (Quench, Fun, Stimulation, Portions, Addicting)
 Added map memory.
 Added a button to hide recipes in the crafting menu.
 Adds loadable bike racks.
-adds descriptions for zone types
 Allow hauling items along the ground.
-The Fish mutation tree now has unique, post-threshold mutations.
-Made black box a vehicle part
-Added auto foraging of bushes and trees
+Added auto foraging of bushes and trees.
 Added autopickup rules based on material types.
-Faction camp overseer fixes
-Lua update: overmap move functions
-Added more terrains to grass, dirt and metal sounds
 
 ## Content:
 
@@ -277,34 +271,9 @@ Added extensive new lab-based scenarios, areas and monsters.
 Added camping scenario and additional camp related start_locations.
 Adds the Intravenous Needletip and Titanium Skeletal Bracing CBMs.
 Adding new starting scenario at refugee center.
-Perception stat now determines overmap visibility, and the Topographagnosia trait is now available.
-make adjustments to some furniture appliances
-Adds smartphones and their spawn
+The Fish mutation tree now has unique, post-threshold mutations.
 Labs can have funagloid portals, lab escape allows crowbar.
-Implements additional mutation types.
-Added small carry weight bonus to large and huge mutations
-Added additional tip
-Summarizes change set #27
-Changelog Summary 00
-Improved black box placement in helicopters
-Adds electric combat chainsaw
-Add electric chainsaw lajatang
-Minor lab content additions
-Adds summary21.txt
-Adds XL pot helmet.
-radiation biomonitor is now worn on either hand like a wristwatch
-Added jumpsuit recipe
-Added bone meal tablets
-Added FILTHY tag, monsters with the tag now drop dirty clothing.
-Added bodypillows
-Camp expansion allows regular tents
-Added necromancer snippet
-Adds new lore snippets (leaflets) for recently added CBMs
-Creates recipes to allow use of food processor to decrease time required to process protein powder.
-Cellphone looks_like for smartphones
-Add more improvised tool options
-Portable sleeping bags
-Added recipes for fixed tents
+Many options for using miscelaneous items as improvised tools.
 
 ## Interface:
 
@@ -501,44 +470,20 @@ Players can now save before sleeping and set an alarm at the same time.
 Migrate menu handling to uilist interface.
 Added looks_like for targeted tile fallback.
 Adds quality filtering to item search.
+Android on-screen keyboard now automatically appears for menu filters, advanced inventory filter, inventory filter, and creating map notes.
 Message window overhaul: filtering, page scrolling, and better interface.
 Show related craftable items for current recipe by hotkey.
-Improvements to container descriptions
-Migrate terrain examine menus to use uilist
-Migrate the zone action menu to use uilist
-Migrate sleep and wait menus to use uilist
-Worn clothing placed into a sane layer by default
+Adds descriptions for zone types.
+Worn clothing placed into a sane layer by default.
 Scrollable MOTD and Credits.
-Allow viewing long mod descriptions
-faction missions: display all faction missions
-Amount of mods of an item is now displayed as an integer following its name
-Migrate item activation menus to use uilist
-Evac console: Searching for refugee center text.
-Martial arts books now highlighted when learnable and other quality-of-life improvements
-Translating direction descriptions on the fly
-Translating construction descriptions on the fly
-Keg, kiln & vat examine UI improvements
-tweak iuse::misc_repair, iuse::sew_advanced
-Migrate more item activation menus to uilist
-Removed unnecessary 'Use Tiles' optiion from Android pre-launch settings dialog.
-Migrate some faction camp menus and ranch field planting/harvesting menus to uilist
-Android: Mutations menu items automatically added to quick shortcuts.
-Android: Bionics menu items automatically added to quick shortcuts.
+Allow viewing long mod descriptions.
+Amount of mods of an item is now displayed as an integer following its name.
 Android quick shortcut dimensions now account for screen density, defaulting to a sensible size on all devices.
-Option to display temperature in Kelvin.
-Option to display vehicle speed in tiles/turn.
-Refactor popup UIs
-Avoid invlet clashes on worn items
-Main menu sub item wrap
-Halloween CDDA main menu logo
-Improvements to holster and bandolier descriptions
-npctalk: create a big dialogue window
+Many options for selecting units to display.
+npctalk: create a big dialogue window.
 Even when only capital inputs are allowed, using lowercase inputs should still set the dialog cursor.
 Enhanced limb menu (body window) and textified healing related effects.
-Prefer dropping items into vehicle cargo spaces where available in more situations
-B menu show butcher, disassemble and salvage times
-Add 'N weeks' to possible time span displays
-Migrate vehicle-related menus to uilist
+B menu show butcher, disassemble and salvage times.
 
 ## Mods:
 
@@ -597,9 +542,6 @@ Nested mapgen structures.
 Added Fuji's Struct mod.
 Salvaged Robots mod.
 Partially moved Folding Parts Mod to base game.
-Even more buildings.
-Revise blob fuel tanks
-Bright Nights: Fix missing battery charger vehicle part description
 Convert Bright Nights region_settings to region_overlay.
 
 ## Balance:
@@ -756,16 +698,13 @@ Obsolete impossible gunmods.
 Create LOUDMOVES flag, add to secubots.
 Lumber no longer made from / substitute for long stick.
 Fix OP throwing.
-Add saltpetre to supplies_farming
-Give Little trait a small dodge bonus for consistency
-Adjusted repair kit qualities to match crafting components
+Perception stat now determines overmap visibility, and the Topographagnosia trait is now available.
+Added FILTHY tag, monsters with the tag now drop dirty clothing.
+Portable sleeping bags.
 Removes the vac_sealer requirement from sealed glass jar recipes, adds canning pot, updates recipes.
-fixes fermenting sauerkraut jar weight
 Allow crafting a fur rollmat with tanned pelts.
-Adjusts honey sandwich calories
-AEA_FIREBALL was rebalanced to slightly less than the power of a grenade.
-Wearing clothing out of natural layer order now imposes additional encumbrance
-Added deconstruct recipe for vehicle controls, reduced component requirements for crafting controls
+Wearing clothing out of natural layer order now imposes additional encumbrance.
+Added deconstruct recipe for vehicle controls, reduced component requirements for crafting controls.
 
 ## Bugfixes:
 
@@ -860,76 +799,16 @@ Fix wrong tripoint usage for temperature calculations.
 Make trying to sleep into an activity.
 Fix items going spoiled while crafting.
 Sort out of spilled liquid infinite loop fix.
-Fixes UNDERSIZE on-wear message
-Fix uimenu height calculation with description enabled
-Reset points to 0 when loading legacy character templates.
-Debug mutations counted as thresholds.
-Stop hallucinated animals from using taming item
-put cheese in lasagne
-remove unused/redundant item lasagne_cooked
-Fix recipe name used as filter from 'related recipes menu'
-Fix inventory item action menu not returning to inventory UI after canceling
-set ammo type to 'blob feed' for multiplying gelatinous/oozing/gray mass, to ease the 'invalid ammo' debug check
-Fix for liquid placed in standing tanks being marked dirty.
-Fixup blob turrent in blazemod
-Fix confusing error message in AIM liquid transfer
-The internal furnace can only consume itens up to a maximum mass and volume
-Fix vehicle part install CTD
-Recalculate morale after washing filthy worn items
-Added flamethrower magazines to flamethrower spawns, small pressurized tank can now be used by the simple flamethrower.
-Prevent Too Many Mandator Specials error.
-Store world options using the classic locale
-fix duplicate electronics category from appearing in crafting menu. #25944
-Fix traps ignoring monster armor
-Correct display monitor material
-Add harvested variant for blackjack oak
-Long stick updates for NPC camp recipes
-Apache/interceptor variant C consistency fix
-Restore main menu control flow.
-enable sleeping in autodoc couches
-Fix frozen liquids ejected from keg/vat
-Stop tool requirements erroneously checking for eligibility as crafting component
-Mutants with Proboscis can now properly use the Consume menu to inject mutagenic serum with a syringe and consume other previously manually consumable medication
-vehicles: make the vehicle split code more robust and stop game crashes
-Fixes 2 leaks of lua resources: 1 stack frame leak, one of global registry objects.
-Fix world creation option prerequisit
-Update canning pot description
-Prevent loop if weapon is lost while targeting.
-Fix photo quality adjectives not changed when switching language
+The internal furnace can only consume itens up to a maximum mass and volume.
+Fix vehicle part install CTD.
+Recalculate morale after washing filthy worn items.
+Avoid invlet clashes on worn items.
+Prefer dropping items into vehicle cargo spaces where available in more situations.
+Fix traps ignoring monster armor.
+Vehicles: make the vehicle split code more robust and stop game crashes.
 Use maps on all zlevels so they actually reveal things.
-Fix excessive empty lines in some menu's descriptions
-Robots won't transform into blobs no more
-Crafting: Filter only valid recipes.
-A couple instances of nails being added by item stacks instead of charges in json
-Fix crash when talking to ranch foreman about prospectus; Fix agricultural investment option not functioning
-Prevent jackhammer/pickaxe from mining vehicles
-Android on-screen keyboard now automatically appears for menu filters, advanced inventory filter, inventory filter, and creating map notes.
-Adds forged sword to medieval swordsmanship style
-Fixed explosions causing infections if player is wearing clean clothes as if they are filthy
-Fix XL pot helmet OVERSIZE flag in techniques field
-bionics: install_bionics talk_function consumes CBMs
-Consistent fireproof / firey monsters immunity to fire-related fields
-More fixes to menu description size
-Improve comestible menu performance.
-npctalk_to_JSON: fix a missing line for the Tacoma Commune lumberjack
-faction camps: require 2 NPCs to set up a camp
-Prevent mopping keg contents
-Fixed zombie technicians pulling fake items
-Fixed Advanced Microreactor CBM not being installable.
-Fix halloween theme language fallback
-Some comestibles in powder form still had a description that mentioned you could eat them (which is not possible) changed.
-Capture shift+tab in wincurses build
-Fix hiring the Evac Center's Merc.
-Makes Item Kilns give the expected amount of charcoal.
-Fix lag due to copying player objects
-Adjusted sugar content in flavored bonemeal tablet
-Fix truncated per-charge volume
-Fix weird item categorization part 1
-Added mortar_pestle to the protein_powder recipe
-Fix some minor issues in the vehicles JSON
-corrected dispersion for .308 ammo types
-added mortar and pestle to human flesh powder tools
-Reset harvest lists before loading a new game
+Fix crash when talking to ranch foreman about prospectus; Fix agricultural investment option not functioning.
+Consistent fireproof / firey monsters immunity to fire-related fields.
 Type cast for prevention of integer overflow with large volume containers like cargo containers.
 
 ## Performance:
@@ -971,8 +850,8 @@ Remove unneeded SDL_RenderSetLogicalSize.
 Use map::points_in_radius instead of manual iterating.
 Reduce Submap constant memory requirements of Cosmetic strings.
 Reduce memory consumption for soundpacks.
-Code optimizations reported by static code analysis
-Removed lag in construction menu
+Fix lag due to copying player objects.
+Encode mapbuffer terrain data using RLE scheme for smaller save files.
 
 ## Infrastructure:
 
@@ -1093,36 +972,17 @@ Jsonize large swaths of NPC dialogue.
 Enhance generation of forest tiles with terrain-dependent furniture and forest composition attributes.
 Conversion of nutrition to calories (kcal).
 Implement proper vehicle part iterator and range.
-Fix incorrect generation of string formatter error messages
-Engine/motor energy consumption
-Add script to generate Changelog from SUMMARY lines in Pull Requests
-Make input timeout context-specific
-npctalk to JSON: expand response conditions
-Properly implement time duration string alignment
-Encode mapbuffer terrain data using RLE scheme for smaller save files
-Refactor npctalk.cpp to remove window management, add tests
-Migrate toggle-engines menu to uilist
-Refactor npctalk.cpp to allow more flexible effects and trials.
-npctalk to JSON: add unit test cases for effects
-npctalk to JSON: move refugee ranch dialogue into JSON
-Test cases for issues 24707,23250
-made_of_any(materials) for creature
-Faster builds with CMake
-npctalk to JSON: Move more mission dialogue into JSON
-npctalk to JSON: move Old Guard dialogue to JSON
-npctalk to JSON: move Evac Center dialogue to JSON
-Improve reproducibility of tests
-npctalk to JSON: NPC greetings to JSON
+Add script to generate Changelog from SUMMARY lines in Pull Requests.
+Make input timeout context-specific.
+Npctalk to JSON: Move most NPC dialog to JSON.
+Properly implement time duration string alignment.
+made_of_any(materials) for creature.
 Add the option to create Changelogs grouped by Build to generate_changelog.py
-POSIX crash handling and backtrace improvements
-add support for deferral of player movement, use it to fix two bugs
-Better test reproducibility
-Eliminate Xcode's 'for loop copy' warnings
-Load time duration from string (containing units)
-Basic restructure of mission_companion.cpp
+POSIX crash handling and backtrace improvements.
+Add support for deferral of player movement, use it to fix two bugs.
+Load time duration from string (containing units).
 Converts monster size to weight and volume.
-Replace usage of sentinel tripoint_min with cata::optional
-Allow gunmods to modify the base reload time of guns, and modify the minimum strength required.
+Replace usage of sentinel tripoint_min with cata::optional.
 
 ## Build:
 
@@ -1190,8 +1050,9 @@ Debug stack trace & crash handler for Windows.
 Add PR validator to ensure use of a summary line.
 Android build standup.
 Add unit test for NPC movement fixes.
-Fixed Android build regression
-Change MSVC configs to build test executable
+Fixed Android build regression.
+Change MSVC configs to build test executable.
+Faster builds with CMake.
 
 ## I18N and A11Y:
 
@@ -1225,13 +1086,6 @@ Display l10nized tab names when creating new world.
 Link against ncursesw if L10N enabled.
 Make user-facing error messages translatable.
 Many, Many new strings and menus are translatable.
-Routine i18n updates as of Oct 5, 2018
-Renamed generic 'bird egg' variants to have '<species> egg' names
-Routine i18n updates as of Oct 12, 2018
-Language name change for Hungarian
-Remove now useless lang/extra/android
-Add double spaces after sentence breaks and tweak a description to sound less repetitive.
-Routine i18n updates as of Oct 26, 2018
 
 ## Statistics:
 
