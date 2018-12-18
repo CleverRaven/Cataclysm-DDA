@@ -1947,11 +1947,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     } ) ) {
 
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
-
+        std::map<quality_id, int> most_quality;
         for( const auto &e : contents ) {
             for( const auto &q : e.type->qualities ) {
-                name_quality( q );
+                auto emplace_result = most_quality.emplace( q );
+                if( !emplace_result.second && most_quality.at( emplace_result.first->first ) < q.second ) {
+                    most_quality[ q.first ] = q.second;
+                }
             }
+        }
+        for( const auto &q : most_quality ) {
+            name_quality( q );
         }
     }
 
