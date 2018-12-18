@@ -560,7 +560,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
             } else if( submap_member_name == "items" ) {
                 jsin.start_array();
                 while( !jsin.end_array() ) {
-                    const point p( jsin.get_int(), jsin.get_int() );
+                    int i = jsin.get_int();
+                    int j = jsin.get_int();
+                    const point p( i, j );
                     jsin.start_array();
                     while( !jsin.end_array() ) {
                         item tmp;
@@ -587,7 +589,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     jsin.start_array();
-                    const point p( jsin.get_int(), jsin.get_int() );
+                    int i = jsin.get_int();
+                    int j = jsin.get_int();
+                    const point p( i, j );
                     // TODO: jsin should support returning an id like jsin.get_id<trap>()
                     const trap_str_id trid( jsin.get_string() );
                     if( trid == "tr_brazier" ) {
@@ -619,7 +623,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     jsin.start_array();
-                    point p( jsin.get_int(), jsin.get_int() );
+                    int i = jsin.get_int();
+                    int j = jsin.get_int();
+                    const point p( i, j );
                     sm->set_graffiti( p, jsin.get_string() );
                     jsin.end_array();
                 }
@@ -629,7 +635,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
 
                 while( !jsin.end_array() ) {
                     jsin.start_array();
-                    point p( jsin.get_int(), jsin.get_int() );
+                    int i = jsin.get_int();
+                    int j = jsin.get_int();
+                    const point p( i, j );
                     std::string type, str;
                     // Try to read as current format
                     if( jsin.test_string() ) {
@@ -654,7 +662,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     // TODO: json should know how to read an string_id
                     const mtype_id type = mtype_id( jsin.get_string() );
                     int count = jsin.get_int();
-                    point p( jsin.get_int(), jsin.get_int() );
+                    int i = jsin.get_int();
+                    int j = jsin.get_int();
+                    const point p( i, j );
                     int faction_id = jsin.get_int();
                     int mission_id = jsin.get_int();
                     bool friendly = jsin.get_bool();
