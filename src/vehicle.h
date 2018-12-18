@@ -1132,7 +1132,7 @@ class vehicle
         /*@}*/
 
         // Extra drag on the vehicle from components other than wheels.
-        int drag() const;
+        int static_drag() const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;

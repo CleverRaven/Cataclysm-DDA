@@ -3311,7 +3311,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
     return std::max( 0.1f, traction );
 }
 
-int vehicle::drag() const
+int vehicle::static_drag() const
 {
     return extra_drag / 1000 + ( engine_on ? 0 : 300 );
 }
@@ -3556,7 +3556,9 @@ int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
                 alternators_power += part_vpower_w( alternators[p] );
             }
         }
-        alternator_load = 1000 * abs( alternators_power ) / engine_vpower;
+        alternator_load = 1000 * abs( alternators_power + extra_drag ) / engine_vpower;
+        // could check if alternator_load > 1000 and then reduce alternator epower,
+        // but that's a lot of work for a corner case.
         if( alternators_epower > 0 ) {
             epower += alternators_epower;
         }
