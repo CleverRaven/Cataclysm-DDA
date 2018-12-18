@@ -36,15 +36,15 @@ struct path;
 }
 
 struct city {
-    // in overmap terrain coordinates
-    int x;
-    int y;
-    int s;
+    // location of the city (in overmap terrain coordinates)
+    point pos;
+    int size;
     std::string name;
-    city( int X = -1, int Y = -1, int S = -1 );
+    city( const point &P = point_zero, const int S = -1 );
+    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {};
 
     operator bool() const {
-        return s >= 0;
+        return size >= 0;
     }
 
     int get_distance_from( const tripoint &p ) const;
@@ -146,7 +146,7 @@ class overmap
         overmap( int x, int y );
         ~overmap();
 
-        overmap &operator=( overmap const & ) = default;
+        overmap &operator=( const overmap & ) = default;
 
         /**
          * Create content in the overmap.
@@ -154,7 +154,7 @@ class overmap
         void populate( overmap_special_batch &enabled_specials );
         void populate();
 
-        point const &pos() const {
+        const point &pos() const {
             return loc;
         }
 
@@ -180,10 +180,10 @@ class overmap
         const oter_id get_ter( const tripoint &p ) const;
         bool   &seen( int x, int y, int z );
         bool   &explored( int x, int y, int z );
-        bool is_explored( int const x, int const y, int const z ) const;
+        bool is_explored( const int x, const int y, const int z ) const;
 
         bool has_note( int x, int y, int z ) const;
-        std::string const &note( int x, int y, int z ) const;
+        const std::string &note( int x, int y, int z ) const;
         void add_note( int x, int y, int z, std::string message );
         void delete_note( int x, int y, int z );
 
@@ -214,7 +214,7 @@ class overmap
          * @returns A vector of note coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching notes are found.
          */
-        std::vector<point> find_notes( int const z, std::string const &text );
+        std::vector<point> find_notes( const int z, const std::string &text );
 
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point global_base_point() const;
@@ -260,10 +260,15 @@ class overmap
         std::vector<std::shared_ptr<npc>> npcs;
 
         bool nullbool = false;
-        point loc{ 0, 0 };
+        point loc = point_zero;
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint, scent_trace> scents;
+
+        // Records the locations where a given overmap special was placed, which
+        // can be used after placement to lookup whether a given location was created
+        // as part of a special.
+        std::unordered_map<tripoint, overmap_special_id> overmap_special_placements;
 
         regional_settings settings;
 
@@ -298,7 +303,7 @@ class overmap
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,
                        overmap_special_batch &enabled_specials );
-        bool generate_sub( int const z );
+        bool generate_sub( const int z );
 
         const city &get_nearest_city( const tripoint &p ) const;
 
@@ -330,7 +335,7 @@ class overmap
         void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
         bool build_slimepit( int x, int y, int z, int s );
         void build_mine( int x, int y, int z, int s );
-        void place_rifts( int const z );
+        void place_rifts( const int z );
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,
@@ -346,6 +351,7 @@ class overmap
         // Polishing
         bool check_ot_type( const std::string &otype, int x, int y, int z ) const;
         bool check_ot_subtype( const std::string &otype, int x, int y, int z ) const;
+        bool check_overmap_special_type( const overmap_special_id &id, const tripoint &location ) const;
         void chip_rock( int x, int y, int z );
 
         void polish_river();

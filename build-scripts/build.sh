@@ -30,4 +30,5 @@ else
     then
         run_tests ./tests/cata_test $MODS
     fi
+    build-scripts/lint-json.sh
 fi

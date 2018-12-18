@@ -1273,7 +1273,6 @@ classes = {
             { name = "collapse_at", rval = nil, args = { "tripoint", "bool" } },
             { name = "collapse_check", rval = "int", args = { "tripoint" } },
             { name = "combined_movecost", rval = "int", args = { "tripoint", "tripoint" } },
-            { name = "coord_to_angle", rval = "int", args = { "int", "int", "int", "int" } },
             { name = "could_see_items", rval = "bool", args = { "tripoint", "Creature" } },
             { name = "creature_in_field", rval = nil, args = { "Creature" } },
             { name = "creature_on_trap", rval = nil, args = { "Creature" }, optional_args = { "bool" } },

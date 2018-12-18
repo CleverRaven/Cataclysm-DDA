@@ -130,6 +130,36 @@ enum object_type {
     NUM_OBJECTS,
 };
 
+/**
+ *  Possible layers that a piece of clothing/armor can occupy
+ *
+ *  Every piece of clothing occupies one distinct layer on the body-part that
+ *  it covers.  This is used for example by @ref Character to calculate
+ *  encumbrance values, @ref player to calculate time to wear/remove the item,
+ *  and by @ref profession to place the characters' clothing in a sane order
+ *  when starting the game.
+ */
+enum layer_level {
+    /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
+    UNDERWEAR = 0,
+    /* "Normal" layer, default if no flags set */
+    REGULAR_LAYER,
+    /* "Waist" layer, corresponds to WAIST flag. */
+    WAIST_LAYER,
+    /* "Outer" layer, corresponds to OUTER flag. */
+    OUTER_LAYER,
+    /* "Strapped" layer, corresponds to BELTED flag */
+    BELTED_LAYER,
+    /* Not a valid layer; used for C-style iteration through this enum */
+    MAX_CLOTHING_LAYER
+};
+
+inline layer_level &operator++( layer_level &l )
+{
+    l = static_cast<layer_level>( l + 1 );
+    return l;
+}
+
 struct point {
     int x = 0;
     int y = 0;
@@ -285,9 +315,12 @@ inline bool operator<( const tripoint &a, const tripoint &b )
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_zero { 0, 0, 0 };
 
+static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
+static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
+
 struct sphere {
     int radius = 0;
-    tripoint center = tripoint( 0, 0, 0 );
+    tripoint center = tripoint_zero;
 
     sphere() = default;
     explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}

@@ -232,9 +232,6 @@ int minesweeper_game::start_game()
         }
     };
 
-    int iDirY = 0;
-    int iDirX = 0;
-
     std::string action = "NEW";
 
     do {
@@ -257,9 +254,9 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( ctxt.get_direction( iDirX, iDirY, action ) ) {
-            if( iPlayerX + iDirX >= 0 && iPlayerX + iDirX < iLevelX && iPlayerY + iDirY >= 0 &&
-                iPlayerY + iDirY < iLevelY ) {
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            if( iPlayerX + vec->x >= 0 && iPlayerX + vec->x < iLevelX && iPlayerY + vec->y >= 0 &&
+                iPlayerY + vec->y < iLevelY ) {
 
                 std::string sGlyph;
 
@@ -284,8 +281,8 @@ int minesweeper_game::start_game()
                               ( i == 0 ) ? cColor : hilite( cColor ), sGlyph );
 
                     if( i == 0 ) {
-                        iPlayerX += iDirX;
-                        iPlayerY += iDirY;
+                        iPlayerX += vec->x;
+                        iPlayerY += vec->y;
                     }
                 }
             }

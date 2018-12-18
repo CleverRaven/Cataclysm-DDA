@@ -136,6 +136,16 @@ struct liquid_dest_opt {
     tripoint pos;
 };
 
+enum peek_act : int {
+    PA_BLIND_THROW
+    // obvious future additional value is PA_BLIND_FIRE
+};
+
+struct look_around_result {
+    cata::optional<tripoint> position;
+    cata::optional<peek_act> peek_action;
+};
+
 class game
 {
         friend class editmap;
@@ -303,7 +313,7 @@ class game
         template<typename T = Creature>
         T * critter_at( const tripoint &p, bool allow_hallucination = false );
         template<typename T = Creature>
-        T const * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        const T * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
         /**
          * Returns a shared pointer to the given critter (which can be of any of the subclasses of
          * @ref Creature). The function may return an empty pointer if the given critter
@@ -519,8 +529,14 @@ class game
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
-        /** Returns the list of currently fishable monsters within distance of the player. */
-        std::vector<monster *> get_fishable( int distance );
+        /**
+         * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
+         * out to the specificed distance.
+         * @param distance Distance around the fish_pos to examine for contiguous fishable terrain.
+         * @param fish_pos The location being fished.
+         * @return Fishable monsters within the specified contiguous fishable terrain.
+         */
+        std::vector<monster *> get_fishable( int distance, const tripoint &fish_pos );
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
 
@@ -558,8 +574,8 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
-        cata::optional<tripoint> look_around( catacurses::window w_info, tripoint &center,
-                                              tripoint start_point, bool has_first_point, bool select_zone );
+        look_around_result look_around( catacurses::window w_info, tripoint &center,
+                                        tripoint start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -804,10 +820,10 @@ class game
         void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false );
-        void draw_hit_player( player const &p, int dam );
-        void draw_line( const tripoint &p, const tripoint &center_point, std::vector<tripoint> const &ret );
-        void draw_line( const tripoint &p, std::vector<tripoint> const &ret );
-        void draw_weather( weather_printable const &wPrint );
+        void draw_hit_player( const player &p, int dam );
+        void draw_line( const tripoint &p, const tripoint &center_point, const std::vector<tripoint> &ret );
+        void draw_line( const tripoint &p, const std::vector<tripoint> &ret );
+        void draw_weather( const weather_printable &wPrint );
         void draw_sct();
         void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
         // Draw critter (if visible!) on its current position into w_terrain.
@@ -958,7 +974,8 @@ class game
         void wield( item_location &loc );
 
         void chat(); // Talk to a nearby NPC  'C'
-        void plthrow( int pos = INT_MIN ); // Throw an item  't'
+        void plthrow( int pos = INT_MIN,
+                      const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt ); // Throw an item  't'
 
         // Internal methods to show "look around" info
         void print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -1059,7 +1076,6 @@ class game
 
         // ########################## DATA ################################
 
-        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
         std::vector<std::shared_ptr<monster>> new_seen_mon;

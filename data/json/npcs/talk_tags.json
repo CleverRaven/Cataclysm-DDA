@@ -539,6 +539,19 @@
         ]
     },{
         "type": "snippet",
+        "category": "<monster_warning_h>",
+        "//": "Hostile NPCs are foul-mouthed",
+        "text": [
+          "Fuck me!  A <swear>",
+          "Watch out for that",
+          "Watch out!  I see a",
+          "<swear!>, a",
+          "<swear!>, I'm doomed!  There's a <swear> <swear>",
+          "<swear!>, here comes a <swear>"
+        ]
+    },{
+
+        "type": "snippet",
         "category": "<monster_warning>",
         "text": [
           "Look out for that",
@@ -551,6 +564,107 @@
           "<swear!>, a",
           "Look out!  A",
           "<swear!>, here comes a <swear>"
+        ]
+    },{
+        "type": "snippet",
+        "category": "<BGSS_intro_question>",
+        "text": [
+            "Tell me about how you survived the cataclysm.",
+            "How did you survive the cataclysm?",
+            "What was the cataclysm like for you?"
+        ]
+    },{
+        "type": "snippet",
+        "category": "<done_conversation_section>",
+        "text": [ 
+            "Let's talk about something else.", 
+            "Let's change the subject.", 
+            "I'd like to ask you about something else." 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<end_talking>",
+        "text": [ 
+            "We should probably get going.", 
+            "We'd better get moving.", 
+            "Let's head out." 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<shitty>",
+        "text": [
+            "shitty",
+            "lame",
+            "crappy",
+            "unpleasant",
+            "<swear> <shitty>",
+            "<very> <shitty>",
+            "awful",
+            "terrible",
+            "horrible",
+            "miserable",
+            "fucked-up"
+        ]
+    },{
+        "type": "snippet",
+        "category": "<dumb>",
+            "text": [ 
+            "stupid", 
+            "idiotic", 
+            "dumb", 
+            "dumb-ass", 
+            "moronic", 
+            "mickey mouse", 
+            "shit-for-brains" 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<zombie>",
+        "text": [ 
+            "zombie", 
+            "Z", 
+            "shambler", 
+            "goo-puker", 
+            "walker", 
+            "walking corpse", 
+            "<swear> <zombie>", 
+            "living dead" 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<zombies>",
+        "text": [ 
+            "zombies", 
+            "Z", 
+            "Z's",
+            "dead", 
+            "<swear> <zombies>", 
+            "living dead" 
+        ]
+    },{
+        "type": "snippet",
+        "category": "<monster>",
+        "text": [
+            "monster",
+            "demon",
+            "horror",
+            "indescribable beast",
+            "creature made of nightmares",
+            "critter",
+            "<swear> <monster>",
+            "unbelievable <swear> thing",
+            "walking nightmare",
+            "thing right out of a scary movie"
+        ]
+    },{
+        "type": "snippet",
+        "category": "<the_cataclysm>",
+        "text": [ 
+            "the cataclysm", 
+            "the apocalypse", 
+            "the end of the world", 
+            "Armageddon", 
+            "the end of days" 
         ]
     }
 ]

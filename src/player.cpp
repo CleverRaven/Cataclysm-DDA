@@ -500,7 +500,7 @@ player::player() : Character()
     active_mission = nullptr;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = {0, 0, 0};
+    grab_point = tripoint_zero;
     grab_type = OBJECT_NONE;
     hauling = false;
     move_mode = "walk";
@@ -1017,7 +1017,7 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
     int Ctemperature = int( 100 * temp_to_celsius( player_local_temp ) );
-    w_point const weather = *g->weather_precise;
+    const w_point weather = *g->weather_precise;
     int vehwindspeed = 0;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
         vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
@@ -5891,7 +5891,7 @@ void player::suffer()
 
             // Actual irradiation levels of badges and the player aren't precisely matched.
             // This is intentional.
-            int const before = it->irridation;
+            const int before = it->irridation;
 
             const int delta = rng( 0, rads_max );
             if (delta == 0) {
@@ -7620,16 +7620,8 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     }
 
     if( !prompt && ammo_list.size() == 1 ) {
-        // Suppress display of reload prompt when...
-        if( !base.is_gun() ) {
-            return std::move( ammo_list[ 0 ]); // reloading tools
-
-        } else if( base.magazine_integral() && base.ammo_remaining() > 0 ) {
-            return std::move( ammo_list[ 0 ] ); // adding to partially filled integral magazines
-
-        } else if( base.has_flag( "RELOAD_AND_SHOOT" ) && has_item( *ammo_list[ 0 ].ammo ) ) {
-            return std::move( ammo_list[ 0 ] ); // using bows etc and ammo is already in player possession
-        }
+        // unconditionally suppress the prompt if there's only one option
+        return std::move( ammo_list[ 0 ] );
     }
 
     return select_ammo( base, std::move( ammo_list ) );
@@ -9498,7 +9490,7 @@ void player::do_read( item &book )
                 reading->time );
 
         std::vector<std::string> recipe_list;
-        for( auto const & elem : reading->recipes ) {
+        for( const auto & elem : reading->recipes ) {
             // If the player knows it, they recognize it even if it's not clearly stated.
             if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
                 continue;
@@ -9744,7 +9736,7 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
             continue;
         }
 
-        for( auto const &elem : candidate.type->book->recipes ) {
+        for( const auto &elem : candidate.type->book->recipes ) {
             if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 res.include( elem.recipe, elem.skill_level );
             }

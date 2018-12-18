@@ -30,6 +30,7 @@ mission mission_type::create( const int npc_id ) const
     ret.value = value;
     ret.follow_up = follow_up;
     ret.monster_species = monster_species;
+    ret.monster_type = monster_type;
     ret.monster_kill_goal = monster_kill_goal;
 
     if( deadline_low != 0 || deadline_high != 0 ) {
@@ -186,6 +187,11 @@ void mission::assign( player &u )
     player_id = u.getID();
     u.on_mission_assignment( *this );
     if( status == mission_status::yet_to_start ) {
+        if( type->goal == MGOAL_KILL_MONSTER_TYPE && monster_type != mtype_id::NULL_ID() ) {
+            kill_count_to_reach = g->kill_count( monster_type ) + monster_kill_goal;
+        } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
+            kill_count_to_reach = g->kill_count( monster_species ) + monster_kill_goal;
+        }
         type->start( this );
         status = mission_status::in_progress;
     }
@@ -325,7 +331,7 @@ bool mission::is_complete( const int _npc_id ) const
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
-            return g->kill_count( mtype_id( monster_type ) ) >= kill_count_to_reach;
+            return g->kill_count( monster_type ) >= kill_count_to_reach;
 
         case MGOAL_KILL_MONSTER_SPEC:
             return g->kill_count( monster_species ) >= kill_count_to_reach;
@@ -538,13 +544,13 @@ mission::mission()
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint( INT_MIN, INT_MIN, INT_MIN );
+    target = tripoint_min;
     item_id = "null";
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
     recruit_class = NC_NONE;
     target_npc_id = -1;
-    monster_type = "mon_null";
+    monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;
     npc_id = -1;
     good_fac_id = -1;

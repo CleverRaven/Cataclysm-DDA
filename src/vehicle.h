@@ -41,6 +41,8 @@ class window;
 namespace vehicles
 {
 extern point cardinal_d[5];
+// ratio of constant rolling resistance to the part that varies with velocity
+constexpr double rolling_constant_to_variable = 33.33;
 }
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor( float delta_v );
@@ -111,6 +113,12 @@ struct bounding_box {
 
 char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
 
+int mps_to_vmiph( double mps );
+double vmiph_to_mps( int vmiph );
+int cmps_to_vmiph( int cmps );
+int vmiph_to_cmps( int vmiph );
+static constexpr float accel_g = 9.81f;
+
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
@@ -134,13 +142,13 @@ struct vehicle_part {
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
-        bool has_flag( int const flag ) const noexcept {
+        bool has_flag( const int flag ) const noexcept {
             return flag & flags;
         }
-        int  set_flag( int const flag )       noexcept {
+        int  set_flag( const int flag )       noexcept {
             return flags |= flag;
         }
-        int  remove_flag( int const flag )    noexcept {
+        int  remove_flag( const int flag )    noexcept {
             return flags &= ~flag;
         }
 
@@ -160,6 +168,10 @@ struct vehicle_part {
         /** Amount of fuel, charges or ammunition currently contained by a part */
         long ammo_remaining() const;
 
+        /** Type of fuel used by an engine */
+        itype_id fuel_current() const;
+        /** Set an engine to use a different type of fuel */
+        bool fuel_set( const itype_id &fuel );
         /**
          * Set fuel, charges or ammunition for this part removing any existing ammo
          * @param ammo specific type of ammo (must be compatible with vehicle part)
@@ -182,10 +194,10 @@ struct vehicle_part {
         /**
          * Consume fuel by energy content.
          * @param ftype Type of fuel to consume
-         * @param energy Energy to consume, in kJ
-         * @return Energy actually consumed, in kJ
+         * @param energy_j Energy to consume, in J
+         * @return Energy actually consumed, in J
          */
-        float consume_energy( const itype_id &ftype, float energy );
+        double consume_energy( const itype_id &ftype, double energy_j );
 
         /* @retun true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
@@ -559,8 +571,8 @@ class vehicle
         bool has_structural_part( point dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
-        bool is_connected( vehicle_part const &to, vehicle_part const &from,
-                           vehicle_part const &excluded ) const;
+        bool is_connected( const vehicle_part &to, const vehicle_part &from,
+                           const vehicle_part &excluded ) const;
         void add_missing_frames();
         void add_steerable_wheels();
 
@@ -575,12 +587,14 @@ class vehicle
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
         int part_vpower_w( int index, bool at_full_hp = false ) const;
+        int part_vpower_vhp( int index, bool at_full_hp = false ) const;
 
         // get vpart epowerinfo for part number.
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        int power_to_energy_bat( const int power_w, const time_duration t ) const;
+        // time duration can't resolve less than 6 seconds so specify time in seconds
+        int power_to_energy_bat( const int power_w, const int t_seconds ) const;
 
         // convert vhp to watts.
         static int vhp_to_watts( int power );
@@ -594,8 +608,13 @@ class vehicle
         units::volume total_folded_volume() const;
 
         // Vehicle fuel indicator (by fuel)
-        void print_fuel_indicator( const catacurses::window &w, int y, int x, const itype_id &fuelType,
-                                   bool verbose = false, bool desc = false ) const;
+        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+                                   const itype_id &fuelType,
+                                   bool verbose = false, bool desc = false );
+        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+                                   const itype_id &fuelType,
+                                   std::map<itype_id, int> fuel_usages,
+                                   bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
         int engine_start_time( const int e ) const;
@@ -646,16 +665,16 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( player const &p ) const;
+        bool player_in_control( const player &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( player const &p ) const;
+        bool remote_controlled( const player &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int veh_init_fuel, int veh_init_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point( 0, 0 ),
+                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero,
                     float damage_size = 0 );
 
         void serialize( JsonOut &jsout ) const;
@@ -898,7 +917,7 @@ class vehicle
 
         // Vehicle fuel indicators (all of them)
         void print_fuel_indicators( const catacurses::window &win, int y, int x, int startIndex = 0,
-                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
+                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, int dir, const point &pivot );
@@ -931,6 +950,10 @@ class vehicle
 
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false ) const;
+        // Checks how much of the part p's current fuel is left
+        int fuel_left( const int p, bool recurse = false ) const;
+        // Checks how much of an engine's current fuel is left in the tanks.
+        int engine_fuel_left( const int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)
@@ -940,15 +963,16 @@ class vehicle
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
-         * @param energy Desired amount of energy of fuel to consume
+         * @param energy_w Desired amount of energy of fuel to consume
          * @return Amount of energy actually consumed. May be more or less than energy.
          */
-        float drain_energy( const itype_id &ftype, float energy );
+        double drain_energy( const itype_id &ftype, double energy_w );
 
-        // fuel consumption of vehicle engines of given type, in one-hundredth of fuel
+        // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;
+        int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( double load );
+        void consume_fuel( int load, const int t_seconds = 6 );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -961,6 +985,14 @@ class vehicle
          */
         std::vector<vehicle_part *> lights( bool active = false );
 
+        // Calculate vehicle's total drain or production of electrical power, including nominal
+        // solar power.
+        int total_epower_w();
+        // Calculate vehicle's total drain or production of electrical power, optionally
+        // including nominal solar power.  Return engine power as engine_power
+        int total_epower_w( int &engine_power, bool skip_solar = true );
+        // Produce and consume electrical power, with excess power stored or taken from
+        // batteries
         void power_parts();
 
         /**
@@ -1004,7 +1036,8 @@ class vehicle
 
         // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted
-        int acceleration( bool fueled = true ) const;
+        int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        int current_acceleration( bool fueled = true ) const;
 
         // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted
@@ -1018,7 +1051,7 @@ class vehicle
         void spew_smoke( double joules, int part, int density = 1 );
 
         // Loop through engines and generate noise and smoke for each one
-        void noise_and_smoke( double load, double time = 6.0 );
+        void noise_and_smoke( int load, time_duration time = 1_turns );
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
@@ -1066,6 +1099,30 @@ class vehicle
         float k_mass() const;
 
         /**
+         * coefficient of air drag in kg/m
+         * multiplied by the square of speed to calculate air drag force in N
+         * proportional to cross sectional area of the vehicle, times the density of air,
+         * times a dimensional constant based on the vehicle's shape
+         */
+        double coeff_air_drag() const;
+
+        /**
+         * coefficient of rolling resistance
+         * multiplied by velocity to get the variable part of rolling resistance drag in N
+         * multiplied by a constant to get the constant part of rolling resistance drag in N
+         * depends on wheel design, wheel number, and vehicle weight
+         */
+        double coeff_rolling_drag() const;
+
+        /**
+         * coefficient of water drag in kg/m
+         * multiplied by the square of speed to calculate water drag force in N
+         * proportional to cross sectional area of the vehicle, times the density of water,
+         * times a dimensional constant based on the vehicle's shape
+         */
+        double coeff_water_drag() const;
+
+        /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
          * and the surface beneath wheels.
@@ -1104,7 +1161,7 @@ class vehicle
         void thrust( int thd );
 
         //deceleration due to ground friction and air resistance
-        int slowdown() const;
+        int slowdown( int velocity ) const;
 
         // depending on skid vectors, chance to recover.
         void possibly_recover_from_skid();
@@ -1421,7 +1478,8 @@ class vehicle
         int smy;
         int smz;
 
-        float alternator_load;
+        // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
+        int alternator_load;
 
         /// Time occupied points were calculated.
         time_point occupied_cache_time = calendar::before_time_starts;
@@ -1531,6 +1589,21 @@ class vehicle
         mutable units::mass mass_cache;
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
+
+        // cached values for air, water, and  rolling resistance;
+        mutable bool coeff_rolling_dirty = true;
+        mutable bool coeff_air_dirty = true;
+        mutable bool coeff_water_dirty = true;
+        // air and water use a two stage dirty check: one dirty bit gets set on part install,
+        // removal, or breakage. The other dirty bit only gets set during part_removal_cleanup,
+        // and that's the bit that controls recalculation.  The intent is to only recalculate
+        // the coeffs once per turn, even if multiple parts are destroyed in a collision
+        mutable bool coeff_air_changed = true;
+        mutable bool coeff_water_changed = true;
+
+        mutable double coefficient_air_resistance;
+        mutable double coefficient_rolling_resistance;
+        mutable double coefficient_water_resistance;
 };
 
 #endif

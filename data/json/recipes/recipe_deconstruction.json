@@ -2040,5 +2040,12 @@
     "time": 4000,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "result": "trailmap",
+    "type": "uncraft",
+    "time": 500,
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

@@ -12,6 +12,8 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 
+#include <sstream>
+
 typedef statistics<long> efficiency_stat;
 
 const efftype_id effect_blind( "blind" );
@@ -187,11 +189,12 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
 
-    veh.cruise_velocity = veh.safe_velocity();
+    const int target_velocity = std::min( 70 * 100, veh.safe_velocity() );
+    veh.cruise_velocity = target_velocity;
     // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
     // Otherwise changing the amount of fuel in the tank perturbs the test results.
     if( reset_velocity_turn == -1 ) {
-        veh.velocity = veh.cruise_velocity;
+        veh.velocity = target_velocity;
     }
     int reset_counter = 0;
     long tiles_travelled = 0;
@@ -218,7 +221,7 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
         if( reset_counter > reset_velocity_turn ) {
             if( smooth_stops ) {
                 accelerating = !accelerating;
-                veh.cruise_velocity = accelerating ? veh.safe_velocity() : 0;
+                veh.cruise_velocity = accelerating ? target_velocity : 0;
             } else {
                 veh.velocity = 0;
                 veh.last_turn = 0;
@@ -373,20 +376,20 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 230100, 185500, 12790, 10650 );
-    test_vehicle( "car", 225700, 130800, 12860, 7469 );
-    test_vehicle( "car_sports", 259200, 148800, 13350, 7557 );
-    test_vehicle( "electric_car", 69590, 45180, 3620, 2300 );
-    test_vehicle( "suv", 474900, 233000, 26800, 13310 );
-    test_vehicle( "motorcycle", 65910, 36970, 3108, 1756 );
-    test_vehicle( "quad_bike", 42710, 28810, 2675, 1756 );
-    test_vehicle( "scooter", 58320, 56490, 2966, 2966 );
-    test_vehicle( "superbike", 75480, 8131, 3204, 1190 );
-    test_vehicle( "ambulance", 303500, 230100, 19050, 14950 );
-    test_vehicle( "fire_engine", 363100, 304800, 21880, 18520 );
-    test_vehicle( "fire_truck", 249700, 55040, 16550, 3450 );
-    test_vehicle( "truck_swat", 272100, 60190, 19810, 4421 );
-    test_vehicle( "tractor_plow", 226900, 226900, 13300, 13300 );
-    test_vehicle( "apc", 867300, 770300, 62170, 57230 );
-    test_vehicle( "humvee", 353100, 169400, 22400, 10360 );
+    test_vehicle( "beetle", 70680, 57360, 28980, 23000 );
+    test_vehicle( "car", 88270, 72000, 21310, 13990 );
+    test_vehicle( "car_sports", 57730, 40330, 17280, 9882 );
+    test_vehicle( "electric_car", 12200, 8417, 3510, 2010 );
+    test_vehicle( "suv", 157800, 113100, 34160, 18490 );
+    test_vehicle( "motorcycle", 28380, 29630, 17940, 14720 );
+    test_vehicle( "quad_bike", 21570, 20810, 13280, 11310 );
+    test_vehicle( "scooter", 114200, 106600, 80480, 78110 );
+    test_vehicle( "superbike", 23300, 17980, 12230, 6519 );
+    test_vehicle( "ambulance", 52940, 44790, 24260, 19760 );
+    test_vehicle( "fire_engine", 57240, 48470, 19360, 16770 );
+    test_vehicle( "fire_truck", 45880, 8499, 10230, 2605 );
+    test_vehicle( "truck_swat", 83770, 13620, 15980, 4517 );
+    test_vehicle( "tractor_plow", 80460, 80460, 39630, 39630 );
+    test_vehicle( "apc", 253200, 226200, 63520, 58470 );
+    test_vehicle( "humvee", 80900, 55990, 15020, 7055 );
 }

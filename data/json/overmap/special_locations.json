@@ -104,5 +104,15 @@
     "type": "overmap_location",
     "id": "forest_center",
     "terrains": [ "forest_thick" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad",
+    "terrains": [ "railroad" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad_level_crossing_allowed",
+    "terrains": [ "hiway_ns", "hiway_ew", "road" ]
   }
 ]

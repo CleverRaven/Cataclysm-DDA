@@ -5,6 +5,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -31,6 +32,8 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
+#include "overmap.h"
 #include "player.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -83,11 +86,11 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
-std::string const &rad_badge_color( int const rad )
+const std::string &rad_badge_color( const int rad )
 {
-    using pair_t = std::pair<int const, std::string const>;
+    using pair_t = std::pair<const int, const std::string>;
 
-    static std::array<pair_t, 6> const values = {{
+    static const std::array<pair_t, 6> values = {{
             pair_t {  0, _( "green" ) },
             pair_t { 30, _( "blue" )  },
             pair_t { 60, _( "yellow" )},
@@ -97,7 +100,7 @@ std::string const &rad_badge_color( int const rad )
         }
     };
 
-    for( auto const &i : values ) {
+    for( const auto &i : values ) {
         if( rad <= i.first ) {
             return i.second;
         }
@@ -212,7 +215,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         result.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
-    // This is unconditional because the item constructor above sets result.name to
+    // This is unconditional because the const itemructor above sets result.name to
     // "human corpse".
     result.corpse_name = name;
 
@@ -647,6 +650,23 @@ double item::get_var( const std::string &name, const double default_value ) cons
         return default_value;
     }
     return atof( it->second.c_str() );
+}
+
+void item::set_var( const std::string &name, const tripoint &value )
+{
+    item_vars[name] = string_format( "%d,%d,%d", value.x, value.y, value.z );
+}
+
+tripoint item::get_var( const std::string &name, const tripoint &default_value ) const
+{
+    const auto it = item_vars.find( name );
+    if( it == item_vars.end() ) {
+        return default_value;
+    }
+    std::vector<std::string> values = string_split( it->second, ',' );
+    return tripoint( atoi( values[0].c_str() ),
+                     atoi( values[1].c_str() ),
+                     atoi( values[2].c_str() ) );
 }
 
 void item::set_var( const std::string &name, const std::string &value )
@@ -1781,7 +1801,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             std::vector<std::string> recipe_list;
-            for( auto const &elem : book.recipes ) {
+            for( const auto &elem : book.recipes ) {
                 const bool knows_it = g->u.knows_recipe( elem.recipe );
                 // If the player knows it, they recognize it even if it's not clearly stated.
                 if( elem.is_hidden() && !knows_it ) {
@@ -1927,11 +1947,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     } ) ) {
 
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
-
+        std::map<quality_id, int> most_quality;
         for( const auto &e : contents ) {
             for( const auto &q : e.type->qualities ) {
-                name_quality( q );
+                auto emplace_result = most_quality.emplace( q );
+                if( !emplace_result.second && most_quality.at( emplace_result.first->first ) < q.second ) {
+                    most_quality[ q.first ] = q.second;
+                }
             }
+        }
+        for( const auto &q : most_quality ) {
+            name_quality( q );
         }
     }
 
@@ -2327,7 +2353,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         info.emplace_back( "DESCRIPTION", space );
                     }
 
-                    auto const description = _( contents_item.type->description.c_str() );
+                    const auto description = _( contents_item.type->description.c_str() );
 
                     if( contents_item.made_of_from_type( LIQUID ) ) {
                         auto contents_volume = contents_item.volume() * batch;
@@ -2867,7 +2893,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += _( "sawn-off " );
     }
     if( has_flag( "DIAMOND" ) ) {
-        modtext += std::string( _( "diamond" ) ) + " ";
+        modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
     ret.str( "" );
@@ -2931,6 +2957,14 @@ std::string item::display_name( unsigned int quantity ) const
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
             amt = string_format( " (%i)", amount );
+        }
+    }
+
+    if( is_map() ) {
+        const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
+                        g->u.global_omt_location() ) ) ).city;
+        if( c != nullptr ) {
+            name = string_format( "%s %s", c->name.c_str(), name.c_str() );
         }
     }
 
@@ -3651,6 +3685,12 @@ int item::get_encumber_when_containing( const units::volume &contents_volume ) c
 
 layer_level item::get_layer() const
 {
+    if( type->armor ) {
+        // We assume that an item will never have per-item flags defining its
+        // layer, so we can defer to the itype.
+        return type->layer;
+    }
+
     if( has_flag( "SKINTIGHT" ) ) {
         return UNDERWEAR;
     } else if( has_flag( "WAIST" ) ) {
@@ -3659,8 +3699,9 @@ layer_level item::get_layer() const
         return OUTER_LAYER;
     } else if( has_flag( "BELTED" ) ) {
         return BELTED_LAYER;
+    } else {
+        return REGULAR_LAYER;
     }
-    return REGULAR_LAYER;
 }
 
 int item::get_coverage() const
@@ -4352,6 +4393,11 @@ bool item::is_armor() const
 bool item::is_book() const
 {
     return type->book.has_value();
+}
+
+bool item::is_map() const
+{
+    return type->category->id() == "maps";
 }
 
 bool item::is_container() const
@@ -5611,7 +5657,7 @@ bool item::reload( player &u, item_location loc, long qty )
         if( ammo->has_flag( "SPEEDLOADER" ) ) {
             curammo = find_type( ammo->contents.front().typeId() );
             qty = std::min( qty, ammo->ammo_remaining() );
-            ammo->ammo_consume( qty, { 0, 0, 0 } );
+            ammo->ammo_consume( qty, tripoint_zero );
             charges += qty;
         } else if( ammo_type() == ammotype( "plutonium" ) ) {
             curammo = find_type( ammo->typeId() );

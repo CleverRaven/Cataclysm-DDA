@@ -758,7 +758,7 @@ void sfx::do_projectile_hit( const Creature &target )
     const int angle = get_heard_angle( target.pos() );
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
-        static std::set<material_id> const fleshy = {
+        static const std::set<material_id> fleshy = {
             material_id( "flesh" ),
             material_id( "hflesh" ),
             material_id( "iflesh" ),
@@ -929,7 +929,7 @@ void sfx::do_footstep()
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         int heard_volume = sfx::get_heard_volume( g->u.pos() );
         const auto terrain = g->m.ter( g->u.pos() ).id();
-        static std::set<ter_str_id> const grass = {
+        static const std::set<ter_str_id> grass = {
             ter_str_id( "t_grass" ),
             ter_str_id( "t_shrub" ),
             ter_str_id( "t_shrub_peanut" ),
@@ -967,7 +967,7 @@ void sfx::do_footstep()
             ter_str_id( "t_trunk" ),
             ter_str_id( "t_stump" ),
         };
-        static std::set<ter_str_id> const dirt = {
+        static const std::set<ter_str_id> dirt = {
             ter_str_id( "t_dirt" ),
             ter_str_id( "t_dirtmound" ),
             ter_str_id( "t_dirtmoundfloor" ),
@@ -1002,7 +1002,7 @@ void sfx::do_footstep()
             ter_str_id( "t_railroad_tie_d1" ),
             ter_str_id( "t_railroad_tie_d2" ),
         };
-        static std::set<ter_str_id> const metal = {
+        static const std::set<ter_str_id> metal = {
             ter_str_id( "t_ov_smreb_cage" ),
             ter_str_id( "t_metal_floor" ),
             ter_str_id( "t_grate" ),
@@ -1016,7 +1016,7 @@ void sfx::do_footstep()
             ter_str_id( "t_machinery_old" ),
             ter_str_id( "t_machinery_electronic" ),
         };
-        static std::set<ter_str_id> const water = {
+        static const std::set<ter_str_id> water = {
             ter_str_id( "t_water_sh" ),
             ter_str_id( "t_water_dp" ),
             ter_str_id( "t_swater_sh" ),
@@ -1024,7 +1024,7 @@ void sfx::do_footstep()
             ter_str_id( "t_water_pool" ),
             ter_str_id( "t_sewage" ),
         };
-        static std::set<ter_str_id> const chain_fence = {
+        static const std::set<ter_str_id> chain_fence = {
             ter_str_id( "t_chainfence" ),
         };
         if( !g->u.wearing_something_on( bp_foot_l ) ) {
@@ -1063,7 +1063,7 @@ void sfx::do_obstacle()
 {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
     const auto terrain = g->m.ter( g->u.pos() ).id();
-    static std::set<ter_str_id> const water = {
+    static const std::set<ter_str_id> water = {
         ter_str_id( "t_water_sh" ),
         ter_str_id( "t_water_dp" ),
         ter_str_id( "t_swater_sh" ),
@@ -1128,7 +1128,7 @@ int sfx::get_heard_volume( const tripoint &source )
 
 int sfx::get_heard_angle( const tripoint &source )
 {
-    int angle = g->m.coord_to_angle( g->u.posx(), g->u.posy(), source.x, source.y ) + 90;
+    int angle = coord_to_angle( g->u.pos(), source ) + 90;
     //add_msg(m_warning, "angle: %i", angle);
     return ( angle );
 }

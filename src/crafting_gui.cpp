@@ -56,24 +56,27 @@ std::string get_cat_name( const std::string &prefixed_name )
 
 void load_recipe_category( JsonObject &jsobj )
 {
-    std::string category = jsobj.get_string( "id" );
+    const std::string category = jsobj.get_string( "id" );
+    const bool is_hidden = jsobj.get_bool( "is_hidden", false );
 
     if( category.find( "CC_" ) != 0 ) {
         jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
-    craft_cat_list.push_back( category );
+    if( !is_hidden ) {
+        craft_cat_list.push_back( category );
 
-    std::string cat_name = get_cat_name( category );
+        const std::string cat_name = get_cat_name( category );
 
-    craft_subcat_list[category] = std::vector<std::string>();
-    JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
-    while( subcats.has_more() ) {
-        std::string subcat_id = subcats.next_string();
-        if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
-            jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
+        craft_subcat_list[category] = std::vector<std::string>();
+        JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
+        while( subcats.has_more() ) {
+            const std::string subcat_id = subcats.next_string();
+            if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
+                jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
+            }
+            craft_subcat_list[category].push_back( subcat_id );
         }
-        craft_subcat_list[category].push_back( subcat_id );
     }
 }
 
@@ -234,8 +237,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 keepline = false;
             }
 
-            if( display_mode > 2 ) {
-                display_mode = 2;
+            if( display_mode > 1 ) {
+                display_mode = 1;
             }
 
             TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
@@ -513,13 +516,13 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             //handle positioning of component list if it needed to be scrolled
             int componentPrintOffset = 0;
-            if( display_mode > 2 ) {
-                componentPrintOffset = ( display_mode - 2 ) * componentPrintHeight;
+            if( display_mode > 1 ) {
+                componentPrintOffset = ( display_mode - 1 ) * componentPrintHeight;
             }
             if( component_print_buffer.size() < static_cast<size_t>( componentPrintOffset ) ) {
                 componentPrintOffset = 0;
                 if( previous_tab != tab.cur() || previous_subtab != subtab.cur() || previous_item_line != line ) {
-                    display_mode = 2;
+                    display_mode = 1;
                 } else {
                     display_mode = 0;
                 }
@@ -573,7 +576,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             //color needs to be preserved in case part of the previous page was cut off
             nc_color stored_color = col;
-            if( display_mode > 2 ) {
+            if( display_mode > 1 ) {
                 stored_color = rotated_color;
             } else {
                 rotated_color = col;
@@ -591,7 +594,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( ypos >= componentPrintHeight &&
                 component_print_buffer.size() > static_cast<size_t>( components_printed ) ) {
-                mvwprintz( w_data, ypos++, xpos, col, _( "v (more)" ) );
+                mvwprintz( w_data, ypos++, xpos, col,
+                           _( "v (%s for more)" ),
+                           ctxt.press_x( "CYCLE_MODE" ) );
                 rotated_color = stored_color;
             }
 

@@ -264,7 +264,14 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     item corpse_item = items[act.index];
-    const mtype &corpse = *( corpse_item.get_mtype() );
+    const mtype *corpse_ptr = corpse_item.get_mtype();
+    if( corpse_ptr == nullptr ) {
+        debugmsg( "Tried to butcher a non-corpse item, %s",
+                  corpse_item.tname( corpse_item.count() ) );
+        act.set_to_null();
+        return;
+    }
+    const mtype &corpse = *corpse_ptr;
 
     if( action != DISSECT ) {
         if( factor == INT_MIN ) {
@@ -319,30 +326,30 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
             u.add_msg_if_player( m_info,
                                  _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         } else if( big_corpse && !has_rope && !b_rack_present ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( big_corpse && !has_table_nearby ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( !u.has_quality( quality_id( "CUT" ) ) ) {
             u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
                              u.has_quality( quality_id( "SAW_M" ) ) ) ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a saw to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -351,14 +358,14 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info,
                              _( "It would be futile to search for implants inside this badly damaged corpse." ) );
-        act.set_to_null();
+        act.index = -1;
         return;
     }
 
     if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) ||
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
-        act.set_to_null();
+        act.index = -1;
         return;
     }
 
@@ -366,18 +373,18 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         if( corpse.size == MS_TINY ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( corpse_item.has_flag( "QUARTERED" ) ) {
             u.add_msg_if_player( m_bad, _( "This is already quartered." ), corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
                                  corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -404,7 +411,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             }
         } else {
             u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -1044,7 +1051,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = DISSECT;
     }
 
+    //Negative index means try to start next item
     if( act->index < 0 ) {
+        //No values means no items left to try
+        if( act->values.empty() ) {
+            act->set_to_null();
+            return;
+        }
         set_up_butchery( *act, *p, action );
         return;
     }
@@ -1072,7 +1085,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
-        act->set_to_null();
+        act->index = -1;
         return;
     }
 
@@ -1126,7 +1139,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
                                      corpse->size + 1 ) ) );
         }
-        act->set_to_null();
+        act->index = -1;
         return;
     }
 
@@ -1219,19 +1232,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
-            act->set_to_null();
-            return;
+            break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
             g->m.i_rem( p->pos(), act->index );
             break;
     }
     // multibutchering
-    if( act->values.empty() ) {
-        act->set_to_null();
-    } else {
-        set_up_butchery( *act, *p, action );
-    }
+    act->index = -1;
 }
 
 enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
@@ -1505,10 +1513,10 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, int sSkillLevel, int fishChance )
+static void rod_fish( player *p, int sSkillLevel, int fishChance, const tripoint &fish_point )
 {
     if( sSkillLevel > fishChance ) {
-        std::vector<monster *> fishables = g->get_fishable( 60 ); //get the nearby fish list.
+        std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.empty() ) {
             if( one_in( 20 ) ) {
@@ -1543,8 +1551,9 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
         sSkillLevel = p->get_skill_level( skill_survival ) * 1.5 + dice( 1, 6 ) + 3;
         fishChance = dice( 1, 20 );
     }
+    const tripoint fish_pos = act->placement;
     ///\EFFECT_SURVIVAL increases chance of fishing success
-    rod_fish( p, sSkillLevel, fishChance );
+    rod_fish( p, sSkillLevel, fishChance, fish_pos );
     p->practice( skill_survival, rng( 5, 15 ) );
     act->set_to_null();
 }
@@ -1674,7 +1683,7 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
-    const static std::string salvage_string = "salvage";
+    static const std::string salvage_string = "salvage";
     item &main_tool = p->i_at( act->index );
     auto items = g->m.i_at( p->pos() );
     item *salvage_tool = main_tool.get_usable_item( salvage_string );
@@ -3069,7 +3078,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
     // cleanup unwanted tiles (local coords)
     auto cleanup = [&]( const tripoint & tile ) {
-        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound ) {
+        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
             return true;
         }
 

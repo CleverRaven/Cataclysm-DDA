@@ -58,21 +58,38 @@ void remove_overseer( npc & );
  * @param comp NPC companion
  * @param omt_tgt the targeted OM tile
  * @param f furniture you are looking for
- * @param chance chance of destruction, 0 to 1.00
- * @param force_bash whether you want to destroy the furniture and drop the items vs counting the furniture
+ * @param chance chance of destruction, 0 to 100
+ * @param estimate if true, non-destructive count of the furniture
+ * @param bring_back force the destruction of the furniture and bring back the drop items
  */
-int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, float chance = 1.0,
-                     bool force_bash = true );
+int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100,
+                     bool estimate = false, bool bring_back = true );
+// om_harvest_furn helper function that counts the furniture instances
+int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100 );
+int om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100 );
 /// Exact same as om_harvest_furn but functions on terrain
-int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &f, float chance = 1.0,
-                    bool force_bash = true );
+int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &t, int chance = 100,
+                    bool estimate = false, bool bring_back = true );
+// om_harvest_furn helper function that counts the furniture instances
+int om_harvest_ter_est( npc &comp, const tripoint &omt_tgt, const ter_id &t, int chance = 100 );
+int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, int chance = 100 );
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total mass and volume
 /// @ref take, whether you take the item or count it
-std::pair<units::mass, units::volume> om_harvest_itm( npc *comp, const tripoint &omt_tgt,
-        float chance = 1.0, bool take = true );
-/// Counts or cuts trees into trunks and trunks into logs, if both are false it returns the total of the two combined
-int om_cutdown_trees( const tripoint &omt_tgt, float chance = 1.0, bool force_cut = true,
+std::pair<units::mass, units::volume> om_harvest_itm( std::shared_ptr<npc> comp,
+        const tripoint &omt_tgt, int chance = 100, bool take = true );
+/*
+ * Counts or cuts trees into trunks and trunks into logs
+ * @param omt_tgt the targeted OM tile
+ * @param chance chance of destruction, 0 to 100
+ * @param estimate if true, non-destructive count of trees
+ * @force_cut_trunk if true and estimate is false, chop tree trunks into logs
+ */
+int om_cutdown_trees( const tripoint &omt_tgt, int chance = 100, bool estimate = false,
                       bool force_cut_trunk = true );
+int om_cutdown_trees_est( const tripoint &omt_tgt, int chance = 100 );
+int om_cutdown_trees_logs( const tripoint &omt_tgt, int chance = 100 );
+int om_cutdown_trees_trunks( const tripoint &omt_tgt, int chance = 100 );
+
 /// Creates an improvised shelter at @ref omt_tgt and dumps the @ref itms into the building
 bool om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<item *> &itms,
                        const std::vector<item *> &itms_rem = {} );
@@ -116,14 +133,15 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
                                    time_duration travel_time,
                                    int distance, int trips, int need_food );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the items @ref itms
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc *comp = nullptr );
+int om_carry_weight_to_trips( const std::vector<item *> &itms,
+                              std::shared_ptr<npc> comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items with @ref carry_mass and @ref carry_volume moved per trip
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
                               units::volume carry_volume );
 
 /// Returns the description for the recipe of the next building @ref bldg
 std::string om_upgrade_description( const std::string &bldg );
-/// Currently does the same as om_upgrade_description but should convert fire charges to raw charcoal needed and allow dark craft
+/// Returns the description of a camp crafting options. converts fire charges to charcoal, allows dark crafting
 std::string om_craft_description( const std::string &bldg );
 /// Provides a "guess" for some of the things your gatherers will return with to upgrade the camp
 std::string om_gathering_description( npc &p, const std::string &bldg );
@@ -131,16 +149,18 @@ std::string om_gathering_description( npc &p, const std::string &bldg );
 bool camp_gathering_return( npc &p, const std::string &task, time_duration min_time );
 void camp_recruit_return( npc &p, const std::string &task, int score );
 /// Called when a companion is sent to cut logs
-void start_camp_upgrade( npc &p, const std::string &bldg );
+void start_camp_upgrade( npc &p, const std::string &bldg, const std::string &key );
 void start_cut_logs( npc &p );
+void start_clearcut( npc &p );
 void start_setup_hide_site( npc &p );
 void start_relay_hide_site( npc &p );
 /// Called when a compansion is sent to start fortifications
 void start_fortifications( std::string &bldg_exp, npc &p );
-void start_combat_mission( std::string &miss, npc &p );
+void start_combat_mission( const std::string &miss, npc &p );
 
 /// Called when a companion completes a chop shop @ref task mission
-bool camp_garage_chop_start( npc &p, const std::string &task );
+bool camp_garage_chop_start( npc &p, const std::string dir, const tripoint &omt_tgt );
+void camp_farm_start( npc &p, const std::string &dir, const tripoint &omt_tgt, farm_ops op );
 
 /**
  * spawn items or corpses based on search attempts
@@ -169,9 +189,9 @@ void camp_companion_return( npc &comp );
  * @param plant NPC will keep planting until they are out of dirt mounds or seeds in mission inventory
  * @param plow references the farm json and plows any dirt or grass tiles that are where dirt mounds should be
  */
-bool camp_farm_return( npc &p, const std::string &task, farm_ops op );
+bool camp_farm_return( npc &p, const std::string &task, const tripoint &omt_trg, farm_ops op );
 void camp_fortifications_return( npc &p );
-void combat_mission_return( std::string &miss, npc &p );
+void combat_mission_return( const std::string &miss, npc &p );
 /// Returns the OM tiles surrounding the camp, @ref purge removes all tiles that aren't expansions
 std::vector<std::pair<std::string, tripoint>> om_building_region( npc &p, int range,
         bool purge = false );
@@ -180,7 +200,7 @@ std::string om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 /// Converts a direction into a point offset
 point om_dir_to_offset( const std::string &dir );
 /// Returns a string for the number of plants that are harvestable, plots ready to plany, and ground that needs tilling
-std::string camp_farm_description( const tripoint &omt_pos, farm_ops operation );
+std::string camp_farm_description( const tripoint &omt_pos, size_t &plots, farm_ops operation );
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
 /// Takes a mission line and gets the camp's direction from it "[NW]"

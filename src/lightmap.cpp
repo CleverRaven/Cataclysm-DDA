@@ -77,7 +77,7 @@ void map::build_transparency_cache( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+            const auto cur_submap = get_submap_at_grid( {smx, smy, zlev} );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -99,7 +99,7 @@ void map::build_transparency_cache( const int zlev )
                         value *= sight_penalty;
                     }
 
-                    for( auto const &fld : cur_submap->fld[sx][sy] ) {
+                    for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
                         const field_id type = cur.getFieldType();
                         const int density = cur.getFieldDensity();
@@ -154,7 +154,7 @@ void map::apply_character_light( player &p )
         apply_light_source( p.pos(), 4 );
     }
 
-    float const held_luminance = p.active_light();
+    const float held_luminance = p.active_light();
     if( held_luminance > LIGHT_AMBIENT_LOW ) {
         apply_light_source( p.pos(), held_luminance );
     }
@@ -219,7 +219,7 @@ void map::generate_lightmap( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+            const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {

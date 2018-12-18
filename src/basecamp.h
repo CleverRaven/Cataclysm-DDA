@@ -25,10 +25,10 @@ class basecamp
         basecamp( const std::string &name_, const tripoint &pos_ );
         basecamp( const std::string &name_, const tripoint &bb_pos_, const tripoint &pos_,
                   std::vector<tripoint> sort_points_, std::vector<std::string> directions_,
-                  std::map<const std::string, expansion_data> expansions_ );
+                  std::map<std::string, expansion_data> expansions_ );
 
         inline bool is_valid() const {
-            return !name.empty() && pos != tripoint( 0, 0, 0 );
+            return !name.empty() && pos != tripoint_zero;
         }
         inline int board_x() const {
             return bb_pos.x;
@@ -39,7 +39,7 @@ class basecamp
         tripoint camp_pos() const {
             return pos;
         }
-        inline std::string const &camp_name() const {
+        inline const std::string &camp_name() const {
             return name;
         }
         std::string board_name() const;
@@ -93,14 +93,14 @@ class basecamp
         // Save/load
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
-        void load_data( std::string const &data );
+        void load_data( const std::string &data );
     private:
         std::string name;
         // location of the camp in the overmap
         tripoint pos;
         // location of associated bulletin board
         tripoint bb_pos;
-        std::map<const std::string, expansion_data> expansions;
+        std::map<std::string, expansion_data> expansions;
 };
 
 #endif

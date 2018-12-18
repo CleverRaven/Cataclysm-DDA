@@ -44,7 +44,10 @@
         "7": "t_console",
         "r": "t_floor_blue"
       },
-      "place_loot": [ { "item": "anesthesia", "x": 15, "y": 11, "repeat": [4,9] } ],
+      "place_loot": [
+        { "item": "anesthesia", "x": 15, "y": 11, "repeat": [ 4, 9 ] },
+        { "item": "id_science", "x": 7, "y": 11, "chance": 100 }
+      ],
       "mapping": {
         "r": {
           "items": [
@@ -139,6 +142,7 @@
         { "monster": "mon_secubot", "x": [ 1, 7 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 50 }
       ],
+      "place_loot": [ { "item": "id_science", "x": 6, "y": 14, "chance": 100 } ],
       "place_nested": [
         {
           "chunks": [
@@ -348,6 +352,7 @@
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 75, "repeat": 2 }
       ],
+      "place_loot": [ { "item": "id_science", "x": 7, "y": 11, "chance": 100 } ],
       "place_nested": [
         { "chunks": [ "lab_finale_4x4" ], "x": 10, "y": 10 },
         { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }

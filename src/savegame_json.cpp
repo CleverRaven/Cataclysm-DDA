@@ -33,6 +33,8 @@
 #include "vitamin.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "creature_tracker.h"
+#include "overmapbuffer.h"
 
 #include <algorithm>
 #include <limits>
@@ -540,6 +542,25 @@ void player::load( JsonObject &data )
 
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
+
+    int tmptar = 0;
+    int tmptartyp = 0;
+    data.read( "last_target", tmptar );
+    data.read( "last_target_type", tmptartyp );
+    data.read( "last_target_pos", last_target_pos );
+
+    // Fixes savefile with invalid last_target_pos.
+    if( last_target_pos && *last_target_pos == tripoint_min ) {
+        last_target_pos = cata::nullopt;
+    }
+
+    if( tmptartyp == +1 ) {
+        // Use overmap_buffer because game::active_npc is not filled yet.
+        last_target = overmap_buffer.find_npc( tmptar );
+    } else if( tmptartyp == -1 ) {
+        // Need to do this *after* the monsters have been loaded!
+        last_target = g->critter_tracker->from_temporary_id( tmptar );
+    }
 }
 
 /*
@@ -617,6 +638,19 @@ void player::store( JsonOut &json ) const
 
     if( !weapon.is_null() ) {
         json.member( "weapon", weapon ); // also saves contents
+    }
+
+    if( const auto lt_ptr = last_target.lock() ) {
+        if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
+            json.member( "last_target", guy->getID() );
+            json.member( "last_target_type", +1 );
+        } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
+            // monsters don't have IDs, so get its index in the Creature_tracker instead
+            json.member( "last_target", g->critter_tracker->temporary_id( *mon ) );
+            json.member( "last_target_type", -1 );
+        }
+    } else {
+        json.member( "last_target_pos", last_target_pos );
     }
 }
 
@@ -838,7 +872,7 @@ void player::deserialize( JsonIn &jsin )
     // another character (not the current one) fails, the other character(s) are not informed.
     // We must inform them when they get loaded the next time.
     // Only active missions need checking, failed/complete will not change anymore.
-    auto const last = std::remove_if( active_missions.begin(),
+    const auto last = std::remove_if( active_missions.begin(),
     active_missions.end(), []( mission const * m ) {
         return m->has_failed();
     } );
@@ -2628,41 +2662,76 @@ void player_morale::load( JsonObject &jsin )
 
 void map_memory::store( JsonOut &jsout ) const
 {
-    jsout.start_object();
-    jsout.member( "map_memory_tiles" );
+    jsout.start_array();
     jsout.start_array();
     for( const auto &elem : tile_cache.list() ) {
-        jsout.start_object();
-        jsout.member( "x", elem.first.x );
-        jsout.member( "y", elem.first.y );
-        jsout.member( "z", elem.first.z );
-        jsout.member( "tile", elem.second.tile );
-        jsout.member( "subtile", elem.second.subtile );
-        jsout.member( "rotation", elem.second.rotation );
-        jsout.end_object();
+        jsout.start_array();
+        jsout.write( elem.first.x );
+        jsout.write( elem.first.y );
+        jsout.write( elem.first.z );
+        jsout.write( elem.second.tile );
+        jsout.write( elem.second.subtile );
+        jsout.write( elem.second.rotation );
+        jsout.end_array();
     }
     jsout.end_array();
 
-    jsout.member( "map_memory_curses" );
     jsout.start_array();
     for( const auto &elem : symbol_cache.list() ) {
-        jsout.start_object();
-        jsout.member( "x", elem.first.x );
-        jsout.member( "y", elem.first.y );
-        jsout.member( "z", elem.first.z );
-        jsout.member( "symbol", elem.second );
-        jsout.end_object();
+        jsout.start_array();
+        jsout.write( elem.first.x );
+        jsout.write( elem.first.y );
+        jsout.write( elem.first.z );
+        jsout.write( elem.second );
+        jsout.end_array();
     }
     jsout.end_array();
-    jsout.end_object();
+    jsout.end_array();
 }
 
 void map_memory::load( JsonIn &jsin )
 {
-    JsonObject jsobj = jsin.get_object();
-    load( jsobj );
+    // Legacy loading of object version.
+    if( jsin.test_object() ) {
+        JsonObject jsobj = jsin.get_object();
+        load( jsobj );
+    } else {
+        // This file is large enough that it's more than called for to minimize the
+        // amount of data written and read and make it a bit less "friendly",
+        // and use the streaming interface.
+        jsin.start_array();
+        tile_cache.clear();
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            tripoint p;
+            p.x = jsin.get_int();
+            p.y = jsin.get_int();
+            p.z = jsin.get_int();
+            const std::string tile = jsin.get_string();
+            const int subtile = jsin.get_int();
+            const int rotation = jsin.get_int();
+            memorize_tile( std::numeric_limits<int>::max(), p,
+                           tile, subtile, rotation );
+            jsin.end_array();
+        }
+        symbol_cache.clear();
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            tripoint p;
+            p.x = jsin.get_int();
+            p.y = jsin.get_int();
+            p.z = jsin.get_int();
+            const long symbol = jsin.get_long();
+            memorize_symbol( std::numeric_limits<int>::max(), p, symbol );
+            jsin.end_array();
+        }
+        jsin.end_array();
+    }
 }
 
+// Deserializer for legacy object-based memory map.
 void map_memory::load( JsonObject &jsin )
 {
     JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );

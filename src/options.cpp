@@ -766,7 +766,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
-    auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
+    const auto resource_dirs = get_directories_with( FILENAMES[filename_label],
                                FILENAMES[dirname_label], true );
 
     for( auto &resource_dir : resource_dirs ) {
@@ -1055,6 +1055,11 @@ void options_manager::add_options_general()
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
          translate_marker( "Number of turns after which safe mode is reactivated. Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
          1, 100, 50
+       );
+
+    add( "SAFEMODEIGNORETURNS", "general", translate_marker( "Turns to remember ignored monsters" ),
+         translate_marker( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
+         0, 600, 200
        );
 
     mOptionsSort["general"]++;
