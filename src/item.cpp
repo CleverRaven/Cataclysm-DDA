@@ -3080,7 +3080,7 @@ units::volume item::corpse_volume( units::volume corpse_volume ) const
     if( has_flag( "QUARTERED" ) ) {
         corpse_volume_ml /= 4;
     }
-    if( has_flag( "FIELD_DRESS" ) ) {
+    if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED") ) {
         corpse_volume_ml *= 0.75;
     }
     if( corpse_volume_ml > 0 ) {
