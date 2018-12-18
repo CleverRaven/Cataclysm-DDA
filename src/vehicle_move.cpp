@@ -84,10 +84,10 @@ int vehicle::slowdown( int at_velocity ) const
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name.c_str(), slowdown );
     }
     add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
-             name, at_velocity, f_total_drag, slowdown, drag() );
+             name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( falling || is_floating ) ) {
-        slowdown += drag();
+        slowdown += static_drag();
     }
 
     return slowdown;
@@ -97,7 +97,7 @@ void vehicle::thrust( int thd )
 {
     //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
-    if( velocity == 0 ) {
+    if( !is_moving() ) {
         turn_dir = face.dir();
         stop();
     }

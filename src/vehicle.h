@@ -1134,7 +1134,8 @@ class vehicle
         /*@}*/
 
         // Extra drag on the vehicle from components other than wheels.
-        int drag() const;
+        // @param actual is current drag if true or nominal drag otherwise
+        int static_drag( bool actual = true ) const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;

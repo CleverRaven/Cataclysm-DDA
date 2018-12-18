@@ -2093,17 +2093,23 @@ void veh_interact::display_stats()
 
     bool is_boat = !veh->floating.empty();
 
-    fold_and_print(w_stats, y[8], x[8], w[8], c_light_gray,
-                   _("K aerodynamics: <color_light_blue>%3d</color>%%"),
-                   int(veh->k_aerodynamics() * 100));
-    fold_and_print(w_stats, y[9], x[9], w[9], c_light_gray,
-                   _("K friction:     <color_light_blue>%3d</color>%%"),
-                   int(veh->k_friction() * 100));
-    fold_and_print(w_stats, y[10], x[10], w[10], c_light_gray,
-                   _("K mass:         <color_light_blue>%3d</color>%%"),
-                   int(veh->k_mass() * 100));
+    fold_and_print( w_stats, y[8], x[8], w[8], c_light_gray,
+                   _( "Air drag:       <color_light_blue>%5.2f</color>" ),
+                   veh->coeff_air_drag() );
+    if( is_boat ) {
+        fold_and_print( w_stats, y[9], x[9], w[9], c_light_gray,
+                       _( "Water drag:     <color_light_blue>%5.2f</color>"),
+                       veh->coeff_water_drag() );
+    } else {
+        fold_and_print( w_stats, y[9], x[9], w[9], c_light_gray,
+                       _( "Rolling drag:   <color_light_blue>%5.2f</color>"),
+                       veh->coeff_rolling_drag() );
+    }
+    fold_and_print( w_stats, y[10], x[10], w[10], c_light_gray,
+                   _( "Static drag:    <color_light_blue>%5d</color>"),
+                   veh->static_drag( false ) );
     fold_and_print( w_stats, y[11], x[11], w[11], c_light_gray,
-                    _("Offroad:        <color_light_blue>%3d</color>%%"),
+                    _( "Offroad:        <color_light_blue>%4d</color>%%" ),
                     int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"

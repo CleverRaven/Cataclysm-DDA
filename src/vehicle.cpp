@@ -3316,9 +3316,9 @@ float vehicle::k_traction( float wheel_traction_area ) const
     return std::max( 0.1f, traction );
 }
 
-int vehicle::drag() const
+int vehicle::static_drag( bool actual ) const
 {
-    return extra_drag / 1000 + ( engine_on ? 0 : 300 );
+    return extra_drag / 1000 + ( actual && !engine_on ? 300 : 0 );
 }
 
 float vehicle::strain() const
