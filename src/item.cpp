@@ -3529,9 +3529,9 @@ int item::spoilage_sort_order()
     }
 
     if( subject->type->comestible ) {
-        if( subject->type->category->id() == "food" ) {
+        if( subject->get_category().id() == "food" ) {
             return bottom - 3;
-        } else if( subject->type->category->id() == "drugs" ) {
+        } else if( subject->get_category().id() == "drugs" ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -4397,7 +4397,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return type->category->id() == "maps";
+    return get_category().id() == "maps";
 }
 
 bool item::is_container() const
