@@ -51,7 +51,7 @@ static int max_upgrade_by_type( const std::string &type )
     return max;
 }
 
-basecamp::basecamp(): bb_pos( tripoint( 0, 0, 0 ) )
+basecamp::basecamp(): bb_pos( tripoint_zero )
 {
 }
 

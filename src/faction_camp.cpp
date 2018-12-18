@@ -1,4 +1,3 @@
-
 #include "ammo.h"
 #include "bionics.h"
 #include "catacharset.h"
@@ -556,6 +555,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     //This starts all of the expansion missions
     for( const std::string &dir : bcp->directions ) {
         const std::string bldg_exp = bcp->next_upgrade( dir );
+        const tripoint omt_trg = bcp->camp_pos() + om_dir_to_offset( dir );
         if( bldg_exp != "null" ) {
             comp_list npc_list = companion_list( p, "_faction_upgrade_exp_" + dir );
             std::string title_e = dir + " Expansion Upgrade";
@@ -637,13 +637,13 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
 
         if( bcp->has_level( "farm", 1, dir ) ) {
-            const tripoint farm_pos = bcp->camp_pos() + om_dir_to_offset( dir );
+            size_t plots = 0;
             comp_list npc_list = companion_list( p, "_faction_exp_plow_" + dir );
             if( npc_list.empty() ) {
                 std::string title_e = dir + " Plow Fields";
                 entry = _( "Notes:\n"
                            "Plow any spaces that have reverted to dirt or grass.\n \n" ) +
-                        camp_farm_description( farm_pos, farm_ops::plow ) +
+                        camp_farm_description( omt_trg, plots, farm_ops::plow ) +
                         _( "\n \n"
                            "Skill used: fabrication\n"
                            "Difficulty: N/A \n"
@@ -653,7 +653,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                            "Risk: None\n"
                            "Time: 5 Min / Plot \n"
                            "Positions: 0/1 \n" );
-                mission_key.add_start( title_e, dir + _( " Plow Fields" ), dir, entry, true );
+                mission_key.add_start( title_e, dir + _( " Plow Fields" ), dir, entry, plots > 0 );
             } else {
                 entry = _( "Working to plow your fields!\n" );
                 bool avail = update_time_left( entry, npc_list );
@@ -662,12 +662,12 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
             }
 
             npc_list = companion_list( p, "_faction_exp_plant_" + dir );
-            if( npc_list.empty() && g->get_temperature( farm_pos ) > 50 ) {
+            if( npc_list.empty() ) {
                 std::string title_e = dir + " Plant Fields";
                 entry = _( "Notes:\n"
                            "Plant designated seeds in the spaces that have already been "
                            "tilled.\n \n" ) +
-                        camp_farm_description( farm_pos, farm_ops::plant ) +
+                        camp_farm_description( omt_trg, plots, farm_ops::plant ) +
                         _( "\n \n"
                            "Skill used: survival\n"
                            "Difficulty: N/A \n"
@@ -679,8 +679,8 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                            "Time: 1 Min / Plot \n"
                            "Positions: 0/1 \n" );
                 mission_key.add_start( title_e, dir + _( " Plant Fields" ), dir, entry,
-                                       npc_list.empty() );
-            } else if( !npc_list.empty() ) {
+                                       plots > 0 && g->get_temperature( omt_trg ) > 50 );
+            } else {
                 entry = _( "Working to plant your fields!\n" );
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( dir + " (Finish) Plant Fields",
@@ -692,7 +692,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                 std::string title_e = dir + " Harvest Fields";
                 entry = _( "Notes:\n"
                            "Harvest any plants that are ripe and bring the produce back.\n \n" ) +
-                        camp_farm_description( farm_pos, farm_ops::harvest ) +
+                        camp_farm_description( omt_trg, plots, farm_ops::harvest ) +
                         _( "\n \n"
                            "Skill used: survival\n"
                            "Difficulty: N/A \n"
@@ -701,7 +701,8 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                            "Risk: None\n"
                            "Time: 3 Min / Plot \n"
                            "Positions: 0/1 \n" );
-                mission_key.add_start( title_e, dir + _( " Harvest Fields" ), dir, entry, true );
+                mission_key.add_start( title_e, dir + _( " Harvest Fields" ), dir, entry,
+                                       plots > 0 );
             } else {
                 entry = _( "Working to harvest your fields!\n" );
                 bool avail = update_time_left( entry, npc_list );
@@ -914,6 +915,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
 
     for( const std::string &dir : bcp->directions ) {
         if( dir == cur_key.dir ) {
+            const tripoint omt_trg = bcp->camp_pos() + om_dir_to_offset( dir );
             if( cur_key.id == cur_key.dir + " Expansion Upgrade" ) {
                 std::string bldg_exp = bcp->next_upgrade( cur_key.dir );
                 start_camp_upgrade( p, bldg_exp, "_faction_upgrade_exp_" + cur_key.dir );
@@ -955,38 +957,23 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
             }
 
             if( cur_key.id == cur_key.dir + " Plow Fields" ) {
-                individual_mission( p, _( "begins plowing the field..." ),
-                                    "_faction_exp_plow_" + cur_key.dir );
+                camp_farm_start( p, cur_key.dir, omt_trg, farm_ops::plow );
             } else if( cur_key.id == dir + " (Finish) Plow Fields" ) {
-                camp_farm_return( p, "_faction_exp_plow_" + cur_key.dir, farm_ops::plow );
+                camp_farm_return( p, "_faction_exp_plow_" + cur_key.dir, omt_trg, farm_ops::plow );
             }
 
             if( cur_key.id == cur_key.dir + " Plant Fields" ) {
-                inventory total_inv = g->u.crafting_inventory();
-                std::vector<item *> seed_inv = total_inv.items_with( []( const item & itm ) {
-                    return itm.is_seed() && itm.typeId() != "marloss_seed" &&
-                           itm.typeId() != "fungal_seeds";
-                } );
-                if( seed_inv.empty() ) {
-                    popup( _( "You have no additional seeds to give your companions..." ) );
-                    individual_mission( p, _( "begins planting the field..." ),
-                                        "_faction_exp_plant_" + cur_key.dir );
-                } else {
-                    std::vector<item *> lost_equipment =
-                        individual_mission_give_equipment( seed_inv,
-                                                           _( "Which seeds do you wish to have planted?" ) );
-                    individual_mission( p, _( "begins planting the field..." ),
-                                        "_faction_exp_plant_" + cur_key.dir, false, lost_equipment );
-                }
+                camp_farm_start( p, cur_key.dir, omt_trg, farm_ops::plant );
             } else if( cur_key.id == cur_key.dir + " (Finish) Plant Fields" ) {
-                camp_farm_return( p, "_faction_exp_plant_" + cur_key.dir, farm_ops::plant );
+                camp_farm_return( p, "_faction_exp_plant_" + cur_key.dir, omt_trg,
+                                  farm_ops::plant );
             }
 
             if( cur_key.id == cur_key.dir + " Harvest Fields" ) {
-                individual_mission( p, _( "begins to harvest the field..." ),
-                                    "_faction_exp_harvest_" + cur_key.dir, false, {}, "survival" );
+                camp_farm_start( p, cur_key.dir, omt_trg, farm_ops::harvest );
             }  else if( cur_key.id == dir + " (Finish) Harvest Fields" ) {
-                camp_farm_return( p, "_faction_exp_harvest_" + cur_key.dir, farm_ops::harvest );
+                camp_farm_return( p, "_faction_exp_harvest_" + cur_key.dir, omt_trg,
+                                  farm_ops::harvest );
             }
 
             if( cur_key.id == cur_key.dir + " Chop Shop" ) {
@@ -994,7 +981,7 @@ bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
                 if( camp_food_supply() < need_food ) {
                     popup( _( "You don't have enough food stored to feed your companion." ) );
                 } else {
-                    camp_garage_chop_start( p, "_faction_exp_chop_shop_" + dir );
+                    camp_garage_chop_start( p, cur_key.dir, omt_trg );
                 }
             } else if( cur_key.id == cur_key.dir + " (Finish) Chop Shop" ) {
                 comp = companion_choose_return( p, "_faction_exp_chop_shop_" + dir,
@@ -1420,20 +1407,179 @@ void basecamp::craft_construction( npc &p, const std::string &cur_id, const std:
     }
 }
 
-bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
+static bool farm_valid_seed( const item &itm )
 {
-    std::string dir = camp_direction( task );
-    const tripoint omt_pos = p.global_omt_location();
-    tripoint omt_trg;
-    std::vector<std::pair<std::string, tripoint>> om_expansions = om_building_region( p, 1, true );
-    for( const auto &e : om_expansions ) {
-        if( dir == om_simple_dir( omt_pos, e.second ) ) {
-            omt_trg = e.second;
+    return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
+}
+
+static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm_ops op,
+        npc_ptr comp = nullptr )
+{
+    size_t plots_cnt = 0;
+    std::string crops;
+
+    const auto is_dirtmound = []( const tripoint & pos, tinymap & bay1, tinymap & bay2 ) {
+        return ( bay1.ter( pos ) == t_dirtmound ) && ( !bay2.has_furn( pos ) );
+    };
+    const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
+        const ter_id &farm_ter = farm_map.ter( pos );
+        return farm_ter == t_dirt || farm_ter == t_grass ||
+               farm_ter == ter_str_id( "t_grass_long" ) ||
+               farm_ter == ter_str_id( "t_grass_tall" ) ||
+               farm_ter == ter_str_id( "t_grass_tall" ) ||
+               farm_ter == ter_str_id( "t_grass_dead" ) ;
+    };
+
+    std::set<std::string> plant_names;
+    std::vector<item *> seed_inv;
+    if( comp ) {
+        seed_inv = comp->companion_mission_inv.items_with( farm_valid_seed );
+    }
+
+    //farm_json is what the are should look like according to jsons
+    tinymap farm_json;
+    farm_json.generate( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, calendar::turn );
+    //farm_map is what the area actually looks like
+    tinymap farm_map;
+    farm_map.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    for( const tripoint &pos : farm_map.points_in_rectangle( mapmin, mapmax ) ) {
+        switch( op ) {
+            case farm_ops::plow:
+                //Needs to be plowed to match json
+                if( is_dirtmound( pos, farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
+                    plots_cnt += 1;
+                    if( comp ) {
+                        farm_map.ter_set( pos, t_dirtmound );
+                    }
+                }
+                break;
+            case farm_ops::plant:
+                if( is_dirtmound( pos, farm_map, farm_map ) ) {
+                    plots_cnt += 1;
+                    if( comp && !seed_inv.empty() ) {
+                        item *tmp_seed = seed_inv.back();
+                        seed_inv.pop_back();
+                        std::list<item> used_seed;
+                        if( tmp_seed->count_by_charges() ) {
+                            used_seed.push_back( *tmp_seed );
+                            tmp_seed->charges -= 1;
+                            if( tmp_seed->charges > 0 ) {
+                                seed_inv.push_back( tmp_seed );
+                            }
+                        }
+                        used_seed.front().set_age( 0 );
+                        farm_map.add_item_or_charges( pos, used_seed.front() );
+                        farm_map.set( pos, t_dirt, f_plant_seed );
+                    }
+                }
+                break;
+            case farm_ops::harvest:
+                if( farm_map.furn( pos ) == f_plant_harvest && !farm_map.i_at( pos ).empty() ) {
+                    const item &seed = farm_map.i_at( pos ).front();
+                    if( farm_valid_seed( seed ) ) {
+                        plots_cnt += 1;
+                        if( comp ) {
+                            long skillLevel = comp->get_skill_level( skill_survival );
+                            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+                            long plant_cnt = rng( skillLevel / 2, skillLevel );
+                            plant_cnt = std::min( std::max( plant_cnt, 1l ), 9l );
+                            long seed_cnt = std::max( 1l, rng( plant_cnt / 4, plant_cnt / 2 ) );
+                            for( auto &i : iexamine::get_harvest_items( *seed.type, plant_cnt,
+                                    seed_cnt, true ) ) {
+                                g->m.add_item_or_charges( g->u.pos(), i );
+                            }
+                            farm_map.i_clear( pos );
+                            farm_map.furn_set( pos, f_null );
+                            farm_map.ter_set( pos, t_dirt );
+                        } else {
+                            plant_names.insert( item::nname( itype_id( seed.type->seed->fruit_id ) ) );
+                        }
+                    }
+                }
+                break;
+            default:
+                // let the callers handle no op argument
+                break;
+        }
+    }
+    if( comp ) {
+        farm_map.save();
+    }
+
+    int total_c = 0;
+    for( const std::string &i : plant_names ) {
+        if( total_c < 5 ) {
+            crops += "\t" + i + " \n";
+            total_c++;
+        } else if( total_c == 5 ) {
+            crops += _( "+ more \n" );
+            break;
         }
     }
 
+    return std::make_pair( plots_cnt, crops );
+}
+
+void talk_function::camp_farm_start( npc &p, const std::string &dir, const tripoint &omt_tgt,
+                                     farm_ops op )
+{
+    std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
+    size_t plots_cnt = farm_data.first;
+    if( !plots_cnt ) {
+        return;
+    }
+
+    time_duration work = 0_minutes;
+    npc_ptr comp = nullptr;
+    switch( op ) {
+        case farm_ops::harvest:
+            work += 3_minutes * plots_cnt;
+            comp = individual_mission( p, _( "begins to harvest the field..." ),
+                                       "_faction_exp_harvest_" + dir, false, {}, "survival" );
+            break;
+        case farm_ops::plant: {
+            inventory total_inv = g->u.crafting_inventory();
+            std::vector<item *> seed_inv = total_inv.items_with( farm_valid_seed );
+            if( seed_inv.empty() ) {
+                popup( _( "You have no additional seeds to give your companions..." ) );
+                return;
+            }
+            std::vector<item *> plant_these;
+            plant_these = individual_mission_give_equipment( seed_inv,
+                          _( "Which seeds do you wish to have planted?" ) );
+            size_t seed_cnt = 0;
+            for( item *seeds : plant_these ) {
+                seed_cnt += seeds->count();
+            }
+            size_t plots_seeded = std::min( seed_cnt, plots_cnt );
+            if( !seed_cnt ) {
+                return;
+            }
+            work += 1_minutes * plots_seeded;
+            comp = individual_mission( p, _( "begins planting the field..." ),
+                                       "_faction_exp_plant_" + dir, false, plant_these );
+            break;
+        }
+        case farm_ops::plow:
+            work += 5_minutes * plots_cnt;
+            comp = individual_mission( p, _( "begins plowing the field..." ),
+                                       "_faction_exp_plow_" + dir );
+            break;
+        default:
+            debugmsg( "Farm operations called with no operation" );
+    }
+    if( comp != nullptr ) {
+        comp->companion_mission_time_ret = calendar::turn + work;
+        comp->companion_mission_time = calendar::turn;
+    }
+}
+
+bool talk_function::camp_garage_chop_start( npc &p, const std::string dir, const tripoint &omt_tgt )
+{
     editmap edit;
-    vehicle *car = edit.mapgen_veh_query( omt_trg );
+    vehicle *car = edit.mapgen_veh_query( omt_tgt );
     if( car == nullptr ) {
         return false;
     }
@@ -1497,7 +1643,7 @@ bool talk_function::camp_garage_chop_start( npc &p, const std::string &task )
         p_all.erase( p_all.begin() + 0 );
     }
     companion_skill_trainer( *comp, skill_mechanics, 5_days, 2 );
-    edit.mapgen_veh_destroy( omt_trg, car );
+    edit.mapgen_veh_destroy( omt_tgt, car );
     return true;
 }
 
@@ -1962,133 +2108,15 @@ bool basecamp::survey_return( npc &p )
     return true;
 }
 
-bool talk_function::camp_farm_return( npc &p, const std::string &task, farm_ops op )
+bool talk_function::camp_farm_return( npc &p, const std::string &task, const tripoint &omt_tgt,
+                                      farm_ops op )
 {
-    std::string dir = camp_direction( task );
-    const tripoint omt_pos = p.global_omt_location();
-    tripoint omt_trg;
-    std::vector<std::pair<std::string, tripoint>> om_expansions = om_building_region( p, 1, true );
-    for( const auto &e : om_expansions ) {
-        if( dir == om_simple_dir( omt_pos, e.second ) ) {
-            omt_trg = e.second;
-            break;
-        }
-    }
-    int harvestable = 0;
-    int plots_empty = 0;
-    int plots_plow = 0;
-    bool plow = op & farm_ops::plow;
-    bool plant = op & farm_ops::plant;
-    bool harvest = op & farm_ops::harvest;
-
-    //bay_json is what the are should look like according to jsons
-    tinymap bay_json;
-    bay_json.generate( omt_trg.x * 2, omt_trg.y * 2, omt_trg.z, calendar::turn );
-    //bay is what the area actually looks like
-    tinymap bay;
-    bay.load( omt_trg.x * 2, omt_trg.y * 2, omt_trg.z, false );
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
-            //Needs to be plowed to match json
-            if( bay_json.ter( x, y ) == ter_str_id( "t_dirtmound" ) &&
-                ( bay.ter( x, y ) == ter_str_id( "t_dirt" ) ||
-                  bay.ter( x, y ) == ter_str_id( "t_grass" ) )
-                && bay.furn( x, y ) == furn_str_id( "f_null" ) ) {
-                plots_plow++;
-            }
-            if( bay.ter( x, y ) == ter_str_id( "t_dirtmound" ) &&
-                bay.furn( x, y ) == furn_str_id( "f_null" ) ) {
-                plots_empty++;
-            }
-            if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) &&
-                !bay.i_at( x, y ).empty() ) {
-                const item &seed = bay.i_at( x, y )[0];
-                if( seed.is_seed() ) {
-                    harvestable++;
-                }
-            }
-        }
-    }
-    time_duration work = 0_minutes;
-    if( harvest ) {
-        work += 3_minutes * harvestable;
-    }
-    if( plant ) {
-        work += 1_minutes * plots_empty;
-    }
-    if( plow ) {
-        work += 5_minutes * plots_plow;
-    }
-
-    npc_ptr comp = companion_choose_return( p, task, calendar::turn - work );
+    npc_ptr comp = companion_choose_return( p, task, calendar::turn );
     if( comp == nullptr ) {
         return false;
     }
 
-    std::vector<item *> seed_inv = comp->companion_mission_inv.items_with( []( const item & itm ) {
-        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
-    } );
-
-    if( plant && seed_inv.empty() ) {
-        popup( _( "No seeds to plant!" ) );
-    }
-
-    //Now that we know we have spent enough time working, we can update the map itself.
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
-            //Needs to be plowed to match json
-            if( plow && bay_json.ter( x, y ) == ter_str_id( "t_dirtmound" ) &&
-                ( bay.ter( x, y ) == ter_str_id( "t_dirt" ) ||
-                  bay.ter( x, y ) == ter_str_id( "t_grass" ) ) &&
-                bay.furn( x, y ) == furn_str_id( "f_null" ) ) {
-                bay.ter_set( x, y, t_dirtmound );
-            }
-            if( plant && bay.ter( x, y ) == ter_str_id( "t_dirtmound" ) &&
-                bay.furn( x, y ) == furn_str_id( "f_null" ) ) {
-                if( !seed_inv.empty() ) {
-                    item *tmp_seed = seed_inv.back();
-                    seed_inv.pop_back();
-                    std::list<item> used_seed;
-                    if( tmp_seed->count_by_charges() ) {
-                        used_seed.push_back( *tmp_seed );
-                        tmp_seed->charges -= 1;
-                        if( tmp_seed->charges > 0 ) {
-                            seed_inv.push_back( tmp_seed );
-                        }
-                    }
-                    used_seed.front().set_age( 0 );
-                    bay.add_item_or_charges( x, y, used_seed.front() );
-                    bay.set( x, y, t_dirt, f_plant_seed );
-                }
-            }
-            if( harvest && bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) &&
-                !bay.i_at( x, y ).empty() ) {
-                const item &seed = bay.i_at( x, y )[0];
-                if( seed.is_seed() && seed.typeId() != "fungal_seeds" &&
-                    seed.typeId() != "marloss_seed" ) {
-                    const itype &type = *seed.type;
-                    int skillLevel = comp->get_skill_level( skill_survival );
-                    ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-                    int plantCount = rng( skillLevel / 2, skillLevel );
-                    //this differs from
-                    if( plantCount >= 9 ) {
-                        plantCount = 9;
-                    } else if( plantCount <= 0 ) {
-                        plantCount = 1;
-                    }
-                    const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
-                    for( auto &i : iexamine::get_harvest_items( type, plantCount, seedCount,
-                            true ) ) {
-                        g->m.add_item_or_charges( g->u.posx(), g->u.posy(), i );
-                    }
-                    bay.i_clear( x, y );
-                    bay.furn_set( x, y, f_null );
-                    bay.ter_set( x, y, t_dirt );
-                }
-            }
-        }
-    }
-    bay.save();
+    farm_action( omt_tgt, op, comp );
 
     //Give any seeds the NPC didn't use back to you.
     for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
@@ -2099,9 +2127,8 @@ bool talk_function::camp_farm_return( npc &p, const std::string &task, farm_ops 
         }
     }
     comp->companion_mission_inv.clear();
-
-    companion_skill_trainer( *comp, skill_survival, work, 2 );
-
+    companion_skill_trainer( *comp, skill_survival,
+                             comp->companion_mission_time - comp->companion_mission_time_ret, 2 );
     popup( _( "%s returns from working your fields..." ), comp->name );
     camp_companion_return( *comp );
     return true;
@@ -2575,7 +2602,6 @@ void talk_function::om_range_mark( const tripoint &origin, int range, bool add_n
             }
         }
     }
-
 }
 
 void talk_function::om_line_mark( const tripoint &origin, const tripoint &dest, bool add_notes,
@@ -2796,7 +2822,7 @@ std::vector<std::pair<std::string, tripoint>> talk_function::om_building_region(
 point talk_function::om_dir_to_offset( const std::string &dir )
 {
     std::map<const std::string, point> dir2pt = { {
-            { "[B]", point( 0, 0 ) },
+            { "[B]", point_zero },
             { "[N]", point( 0, -1 ) }, { "[S]", point( 0, 1 ) },
             { "[E]", point( 1, 0 ) }, { "[W]", point( -1, 0 ) },
             { "[NE]", point( 1, -1 ) }, { "[SE]", point( 1, 1 ) },
@@ -3019,68 +3045,25 @@ std::string talk_function::om_gathering_description( npc &p, const std::string &
     return output;
 }
 
-std::string talk_function::camp_farm_description( const tripoint &omt_pos, farm_ops op )
+std::string talk_function::camp_farm_description( const tripoint &omt_tgt, size_t &plots_cnt,
+        farm_ops op )
 {
-    std::vector<std::string> plant_names;
-    int harvestable = 0;
-    int plots_empty = 0;
-    int plots_plow = 0;
-
-    //bay_json is what the are should look like according to jsons
-    tinymap bay_json;
-    bay_json.generate( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, calendar::turn );
-    //bay is what the area actually looks like
-    tinymap bay;
-    bay.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
-            //Needs to be plowed to match json
-            if( bay_json.ter( x, y ) == ter_str_id( "t_dirtmound" ) &&
-                ( bay.ter( x, y ) == ter_str_id( "t_dirt" ) ||
-                  bay.ter( x, y ) == ter_str_id( "t_grass" ) ) &&
-                bay.furn( x, y ) == furn_str_id( "f_null" ) ) {
-                plots_plow++;
-            }
-            if( bay.ter( x, y ) == ter_str_id( "t_dirtmound" ) &&
-                bay.furn( x, y ) == furn_str_id( "f_null" ) ) {
-                plots_empty++;
-            }
-            if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) &&
-                !bay.i_at( x, y ).empty() ) {
-                const item &seed = bay.i_at( x, y )[0];
-                if( seed.is_seed() ) {
-                    harvestable++;
-                    const islot_seed &seed_data = *seed.type->seed;
-                    item tmp = item( seed_data.fruit_id, calendar::turn );
-                    if( std::find( plant_names.begin(), plant_names.end(),
-                                   tmp.type_name( 3 ) ) != plant_names.end() ) {
-                        plant_names.push_back( tmp.type_name( 3 ) );
-                    }
-                }
-            }
-        }
-    }
-
-    std::string crops;
-    int total_c = 0;
-    for( const std::string &i : plant_names ) {
-        if( total_c < 5 ) {
-            crops += "\t" + i + " \n";
-            total_c++;
-        } else if( total_c == 5 ) {
-            crops += "+ more \n";
-            total_c++;
-        }
-    }
+    std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
     std::string entry;
-    if( op & farm_ops::harvest ) {
-        entry += _( "Harvestable: " ) + to_string( harvestable ) + " \n" + crops;
-    }
-    if( op & farm_ops::plant ) {
-        entry += _( "Ready for Planting: " ) + to_string( plots_empty ) + " \n";
-    }
-    if( op & farm_ops::plow ) {
-        entry += _( "Needs Plowing: " ) + to_string( plots_plow ) + " \n";
+    plots_cnt = farm_data.first;
+    switch( op ) {
+        case farm_ops::harvest:
+            entry += _( "Harvestable: " ) + to_string( plots_cnt ) + " \n" + farm_data.second;
+            break;
+        case farm_ops::plant:
+            entry += _( "Ready for Planting: " ) + to_string( plots_cnt ) + " \n";
+            break;
+        case farm_ops::plow:
+            entry += _( "Needs Plowing: " ) + to_string( plots_cnt ) + " \n";
+            break;
+        default:
+            debugmsg( "Farm operations called with no operation" );
+            break;
     }
     return entry;
 }

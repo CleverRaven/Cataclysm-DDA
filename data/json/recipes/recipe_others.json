@@ -2976,7 +2976,7 @@
     "result": "test_tube",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
-    "skills_used": "fabrication",
+    "skill_used": "fabrication",
     "difficulty": 4,
     "time": 4000,
     "book_learn": [ [ "glassblowing_book", 4 ] ],
