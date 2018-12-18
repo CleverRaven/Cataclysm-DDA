@@ -542,15 +542,22 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         int boo_hoo;
 
         // @todo: calculate chance to hit and cap range based upon this
-        int max_range = 12;
+        int max_range = 20;
         int range = std::min( gun.range(), max_range );
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
-            if( u_see && boo_hoo ) {
-                add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
-                                              "%s points in your direction and emits %d annoyed sounding beeps.",
-                                              boo_hoo ),
-                         cpu.name.c_str(), boo_hoo );
+            if( boo_hoo ) {
+                if( u_see ) {
+                    add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
+                                                  "%s points in your direction and emits %d annoyed sounding beeps.",
+                                                  boo_hoo ),
+                             cpu.name.c_str(), boo_hoo );
+                } else {
+                    add_msg( m_warning, ngettext( "%s emits an IFF warning beep.",
+                                                  "%s emits %d annoyed sounding beeps.",
+                                                  boo_hoo ),
+                             cpu.name.c_str(), boo_hoo );
+                }
             }
             return shots;
         }
