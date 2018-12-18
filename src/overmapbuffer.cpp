@@ -877,7 +877,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
             }
         }
     }
-    return radio_tower_reference{ nullptr, point( 0, 0 ), 0 };
+    return radio_tower_reference{ nullptr, point_zero, 0 };
 }
 
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
