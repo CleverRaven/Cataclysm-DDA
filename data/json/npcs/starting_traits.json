@@ -1,5 +1,6 @@
 [
   {
+    "//": "Mainlined from a mod originally written by Spencer Michaels",
     "//": "This group picks out several negative and positive traits",
     "type": "trait_group",
     "id": "NPC_starting_traits",
@@ -17,7 +18,6 @@
       { "group": "trait_group_DRUNKEN", "prob": 10 },
       { "group": "trait_group_GOODCARDIO", "prob": 10 },
       { "group": "trait_group_WAKEFUL", "prob": 10 },
-      { "group": "trait_group_LIGHTEATER", "prob": 10 },
       { "group": "trait_group_LIGHTSTEP", "prob": 10 },
       { "group": "trait_group_OPTIMISTIC", "prob": 10 },
       { "group": "trait_group_PACKMULE", "prob": 10 },
