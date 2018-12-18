@@ -398,7 +398,7 @@ point direction_XY( const direction dir )
             return point( 1,  1 );
     }
 
-    return point( 0, 0 );
+    return point_zero;
 }
 
 namespace

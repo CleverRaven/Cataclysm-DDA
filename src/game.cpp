@@ -1368,7 +1368,7 @@ static int veh_lumi( vehicle &veh )
 void game::calc_driving_offset( vehicle *veh )
 {
     if( veh == nullptr || !get_option<bool>( "DRIVING_VIEW_OFFSET" ) ) {
-        set_driving_view_offset( point( 0, 0 ) );
+        set_driving_view_offset( point_zero );
         return;
     }
     const int g_light_level = static_cast<int>( light_level( u.posz() ) );
@@ -7205,7 +7205,7 @@ void game::zones_manager()
                 tripoint offset = tripoint( offset_x, offset_y, 0 ); //ASCII
 #ifdef TILES
                 if( use_tiles ) {
-                    offset = tripoint( 0, 0, 0 ); //TILES
+                    offset = tripoint_zero; //TILES
                 } else {
                     offset = tripoint( -offset_x, -offset_y, 0 ); //SDL
                 }
@@ -7399,7 +7399,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     const tripoint start = tripoint( std::min( dx, POSX ), std::min( dy, POSY ), lz );
                     const tripoint end = tripoint( std::max( dx, POSX ), std::max( dy, POSY ), lz );
 
-                    tripoint offset = tripoint( 0, 0, 0 ); //ASCII/SDL
+                    tripoint offset = tripoint_zero; //ASCII/SDL
 #ifdef TILES
                     if( use_tiles ) {
                         offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
@@ -10678,7 +10678,7 @@ bool game::walk_move( const tripoint &dest_loc )
         // Source relative to the player
         u.activity.placement = u.pos() - dest_loc;
         // Destination relative to the player
-        u.activity.coords.push_back( tripoint( 0, 0, 0 ) );
+        u.activity.coords.push_back( tripoint_zero );
         map_stack items = m.i_at( u.pos() );
         if( items.empty() ) {
             u.stop_hauling();

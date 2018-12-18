@@ -84,7 +84,7 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
 {
-    submap_coords = point( 0, 0 );
+    submap_coords = point_zero;
     position.x = -1;
     position.y = -1;
     position.z = 500;
