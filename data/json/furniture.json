@@ -975,6 +975,7 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "refrigerant_tank", "count": 1 },
         { "item": "motor_tiny", "count": 1 }
       ]
     },
@@ -1018,6 +1019,7 @@
         { "item": "hose", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "cu_pipe", "count": [ 3, 6 ] },
+        { "item": "refrigerant_tank", "count": 1 },
         { "item": "motor_tiny", "count": 1 }
       ]
     },

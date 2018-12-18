@@ -124,17 +124,25 @@ void harvest_list::check_consistency()
         const auto &hl = pr.second;
         const std::string hl_id = hl.id().c_str();
         auto error_func = [&]( const harvest_entry & entry ) {
-            std::string errorlist = "";
+            std::string errorlist;
+            bool item_valid = true;
             if( !( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
                     item_group::group_is_defined( entry.drop ) ) ) ) {
+                item_valid = false;
                 errorlist += entry.drop;
             }
             // non butchery harvests need to be excluded
             if( hl_id.substr( 0, 14 ) != "harvest_inline" ) {
                 if( entry.type == "null" ) {
+                    if( !item_valid ) {
+                        errorlist += ", ";
+                    }
                     errorlist += "null type";
                 } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
                               entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
+                    if( !item_valid ) {
+                        errorlist += ", ";
+                    }
                     errorlist += entry.type;
                 }
             }

@@ -38,28 +38,31 @@ jobs:
       # GCC 5 is the pre-installed compiler on Xenial
       env: COMPILER=g++ MODS=--mods=RL_Classes
 
-    # Then build different configurations and targets in parallell.
+    # Then build different configurations and targets in parallel.
     - stage: variants
+    # Linux Tiles
+      env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: *apt_sources
+
+      # MXE variants disabled while pkg.mxe.cc is down
       # GCC MinGW
-      env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+      if: type = disabled
       addons: &gcc
         apt:
           packages: ["wine"]
 
     # Windows Tiles
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
+      if: type = disabled
       compiler: gcc
       addons: &gcc
         apt:
           packages: ["wine"]
-
-    # Linux Tiles
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
-      compiler: gcc
-      addons: &gcc8
-        apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
-          sources: *apt_sources
 
     # CMake Clang 6.0 Tiles
     - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1

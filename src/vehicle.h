@@ -673,7 +673,7 @@ class vehicle
 
         // damages all parts of a vehicle by a random amount
         void smash( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point( 0, 0 ),
+                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero,
                     float damage_size = 0 );
 
         void serialize( JsonOut &jsout ) const;

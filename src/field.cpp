@@ -515,7 +515,7 @@ bool map::process_fields()
         bool zlev_dirty = false;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
-                submap *const current_submap = get_submap_at_grid( x, y, z );
+                submap *const current_submap = get_submap_at_grid( { x, y, z } );
                 if( current_submap->field_count > 0 ) {
                     const bool cur_dirty = process_fields_in_submap( current_submap, x, y, z );
                     zlev_dirty |= cur_dirty;

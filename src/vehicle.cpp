@@ -64,7 +64,7 @@ const int bat_energy_j = 1000;
 inline int modulo( int v, int m );
 //
 // Point dxs for the adjacent cardinal tiles.
-point vehicles::cardinal_d[5] = { point( -1, 0 ), point( 1, 0 ), point( 0, -1 ), point( 0, 1 ), point( 0, 0 ) };
+point vehicles::cardinal_d[5] = { point( -1, 0 ), point( 1, 0 ), point( 0, -1 ), point( 0, 1 ), point_zero };
 
 // Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
@@ -1298,7 +1298,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
     bool found_all_parts = true;
-    const point mount_zero = point( 0, 0 );
+    const point mount_zero = point_zero;
     std::string axis;
     if( carry_veh_structs.size() == 1 ) {
         axis = "X";
@@ -1715,7 +1715,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
         bool success = split_vehicles( all_vehicles );
         if( success ) {
             // update the active cache
-            shift_parts( point( 0, 0 ) );
+            shift_parts( point_zero );
             return true;
         }
     }
@@ -1839,7 +1839,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
 
         if( !split_mounts.empty() ) {
             // include refresh
-            new_vehicle->shift_parts( point( 0, 0 ) - mnt_offset );
+            new_vehicle->shift_parts( point_zero - mnt_offset );
         } else {
             new_vehicle->refresh();
         }
@@ -4640,7 +4640,7 @@ void vehicle::shift_parts( const point delta )
  */
 bool vehicle::shift_if_needed()
 {
-    std::vector<int> vehicle_origin = parts_at_relative( point( 0, 0 ), true );
+    std::vector<int> vehicle_origin = parts_at_relative( point_zero, true );
     if( !vehicle_origin.empty() && !parts[ vehicle_origin[ 0 ] ].removed ) {
         // Shifting is not needed.
         return false;
@@ -4950,7 +4950,7 @@ bool is_sm_tile_outside( const tripoint &real_global_pos )
     }
 
     return !( sm->ter[px][py].obj().has_flag( TFLAG_INDOORS ) ||
-              sm->get_furn( px, py ).obj().has_flag( TFLAG_INDOORS ) );
+              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )
