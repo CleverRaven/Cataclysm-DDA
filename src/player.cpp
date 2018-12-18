@@ -2901,7 +2901,7 @@ void player::pause()
     vehicle *veh = nullptr;
     for( auto &v : vehs ) {
         veh = v.v;
-        if( veh && veh->velocity != 0 && veh->player_in_control( *this ) ) {
+        if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
             if( one_in( 8 ) ) {
                 double exp_temp = 1 + veh->total_mass() / 400.0_kilogram + std::abs( veh->velocity / 3200.0 );
                 int experience = int( exp_temp );

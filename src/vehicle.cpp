@@ -2755,7 +2755,7 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
 
     // calculate fuel consumption for the lower of safe speed or 70 mph
     // or 0 if the vehicle is idling
-    if( velocity > 0 ) {
+    if( is_moving() ) {
         int target_v = std::min( safe_velocity(), 70 * 100 );
         int vslowdown = slowdown( target_v );
         // add 3600 seconds worth of fuel consumption for the engine
@@ -2797,6 +2797,11 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
         pwr = pwr * 4 / ( 4 + cnt - 1 );
     }
     return pwr;
+}
+
+bool vehicle::is_moving() const
+{
+    return velocity != 0;
 }
 
 int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
@@ -4152,7 +4157,7 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
-    if( velocity != 0 || falling ) {
+    if( is_moving() || falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
         }

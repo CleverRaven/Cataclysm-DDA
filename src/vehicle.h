@@ -1038,6 +1038,8 @@ class vehicle
         int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
         int current_acceleration( bool fueled = true ) const;
 
+        // is the vehicle currently moving?
+        bool is_moving() const;
         // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted
         int max_velocity( bool fueled = true ) const;

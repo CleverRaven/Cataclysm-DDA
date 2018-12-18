@@ -1594,7 +1594,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     bool moved = false;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
         const optional_vpart_position ovp = g->m.veh_at( p );
-        if( abs( vp->vehicle().velocity ) > 0 &&
+        if( vp->vehicle().is_moving() &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
               !ovp.part_with_feature( VPFLAG_BOARDABLE, true ) ) ) {
             move_pause();
@@ -1966,7 +1966,7 @@ void npc::find_item()
         consider_terrain( p );
 
         const optional_vpart_position vp = g->m.veh_at( p );
-        if( !vp || vp->vehicle().velocity != 0 || !sees( p ) ) {
+        if( !vp || vp->vehicle().is_moving() || !sees( p ) ) {
             continue;
         }
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );

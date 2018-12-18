@@ -499,9 +499,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
                        int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
         }
 
-        const int vel_offset = 11 + ( veh->velocity != 0 ? 2 : 0 );
+        const int vel_offset = 11 + ( veh->is_moving() ? 2 : 0 );
         wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - vel_offset );
-        if( veh->velocity != 0 ) {
+        if( veh->is_moving() ) {
             nc_color col_indc = veh->skidding ? c_red : c_green;
             int dfm = veh->face.dir() - veh->move.dir();
 
