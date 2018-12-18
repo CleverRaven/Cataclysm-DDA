@@ -2780,5 +2780,46 @@
     "material": "plastic",
     "symbol": ")",
     "color": "green"
+  },
+  {
+    "id": "evaporator_coil",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "evaporator coil",
+    "description": "A set of long, snakelike tubes for evaporating refrigerant.",
+    "weight": 20000,
+    "volume": 8,
+    "price": 1000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "black"
+  },
+  {
+    "id": "condensor_coil",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "condensor coil",
+    "description": "A compressor and a fan work together to cool down the refrigerant.",
+    "weight": 20000,
+    "volume": 8,
+    "price": 1000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "black"
+  },
+  {
+    "id": "refrigerant_tank",
+    "type": "GENERIC",
+    "name": "refrigerant tank",
+    "name_plural": "refrigerant tanks",
+    "description": "A small tank containing some sort of refrigerant often used in devices such as freezers.  Hermetically sealed to prevent evaporation - cannot be opened without prior connection to compatible valve.",
+    "weight": 410,
+    "volume": "1L",
+    "price": 3000,
+    "to_hit": -4,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "}",
+    "color": "light_cyan"
   }
 ]
