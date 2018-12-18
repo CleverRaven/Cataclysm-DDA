@@ -483,7 +483,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
-harvest_list butchery_flags_deprecate( const mtype &mt )
+harvest_id butchery_flags_deprecate( const mtype &mt )
 {
     std::string harvest_id_name = "null";
     if( mt.has_flag( MF_CBM_CIV ) ) {
@@ -567,7 +567,7 @@ harvest_list butchery_flags_deprecate( const mtype &mt )
         }
     }
 
-    return harvest_list::all().at( harvest_id( harvest_id_name ) );
+    return harvest_id( harvest_id_name );
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
@@ -644,10 +644,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
-    harvest_list harvest = *mt.harvest;
-    if( harvest.is_null() ) {
-        harvest = butchery_flags_deprecate( mt );
-    }
+    harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate(mt) : mt.harvest;
+    const harvest_list &harvest = *hid;
 
     for( const auto &entry : harvest ) {
         int butchery = roll_butchery();
