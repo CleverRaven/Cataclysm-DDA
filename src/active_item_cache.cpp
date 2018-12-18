@@ -42,7 +42,7 @@ bool active_item_cache::has( std::list<item>::iterator it, point ) const
     return active_item_set.find( &*it ) != active_item_set.end();
 }
 
-bool active_item_cache::has( item_reference const &itm ) const
+bool active_item_cache::has( const item_reference &itm ) const
 {
     const auto found = active_item_set.find( itm.item_id );
     return found != active_item_set.end() && found->second;

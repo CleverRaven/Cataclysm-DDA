@@ -1770,5 +1770,38 @@
     [ [ "cable", 50 ], [ "jumper_cable", 1 ] ],
     [ [ "scrap", 2 ] ]
   ]
+},{
+  "type": "recipe",
+  "result": "condensor_coil",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "mechanics",
+  "using": [ [ "soldering_standard", 10 ] ],
+  "difficulty": 4,
+  "book_learn": [ [ "textbook_mechanics", 5 ] ],
+  "time": 60000,
+  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
+  "components": [
+    [ [ "cu_pipe", 3 ] ],
+    [ [ "motor_tiny", 1 ] ],
+    [ [ "sheet_metal_small", 5 ] ],
+    [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
+  ]
+},{
+  "type": "recipe",
+  "result": "evaporator_coil",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "mechanics",
+  "using": [ [ "soldering_standard", 50 ] ],
+  "difficulty": 4,
+  "book_learn": [ [ "textbook_mechanics", 5 ] ],
+  "time": 60000,
+  "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 2 } ],
+  "components": [
+    [ [ "cu_pipe", 4 ] ],
+    [ [ "sheet_metal_small", 8 ] ],
+    [ [ "sheet_metal", 2 ] ]
+  ]
 }
 ]

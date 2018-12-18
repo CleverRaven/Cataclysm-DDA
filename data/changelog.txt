@@ -1,4 +1,4 @@
-# 0.D (806a38a87f5169ab9aa00b708cbe7a3e59c3d108)
+# 0.D (2018-10-01)
 
 ## Features:
 
@@ -148,6 +148,19 @@ Field dressing corpses aka Butchery overhaul.
 Smoking rack interactions expansion.
 Freezer & freeze mechanics overhaul.
 Add reminder effects for some medicine.
+Added infrastructure for setting a farm plot zone and triggering actions across the entire zone.
+Hot air and direct heat radiation from fires affect local temperature and can heat nearby area including interiors.
+Add support for solid fuels like coal for vehicle engines.
+Zone manager hides distant zones, shortcut for showing all zones.
+New lua feature: Lua-coded monster attack.
+Copy World Settings to a new world.
+New MOD feature: Add graphical tiles.
+Introduces 'Tip of the day' in main menu.
+Save pooltype and remaining skill-, trait- and statpoints in character template.
+Item infos for medication. (Quench, Fun, Stimulation, Portions, Addicting)
+Added map memory.
+Added a button to hide recipes in the crafting menu.
+Adds loadable bike racks.
 
 ## Content:
 
@@ -246,6 +259,16 @@ New mutation category: Mouse 🐁
 Injectable mutagen finales, targetable purifier smart shots.
 Overhauling tank drone.
 Add refugee center start (costs 1 point).
+Adds vehicle wreckages (of crashed helicopters) to helicopter crash-sites.
+Adds ant-infested labs.
+Adds the incandescent husk, an evolution of the shocker zombie that moves slowly and emits a lightning cloud
+Removed CBM crafting.
+Adds new location 'Mass Grave'.
+Added extensive new lab-based scenarios, areas and monsters.
+Added camping scenario and additional camp related start_locations.
+Adds the Intravenous Needletip and Titanium Skeletal Bracing CBMs.
+Adding new starting scenario at refugee center.
+Perception stat now determines overmap visibility, and the Topographagnosia trait is now available.
 
 ## Interface:
 
@@ -431,6 +454,19 @@ Martial arts techniques description.
 Show activation and deactivation cost for all bionics that have them.
 Ask to ignore repeating distractions when performing an activity.
 Added filtering by skill to Read menu.
+Add scrolling the overview pane in the vehicle interaction window.
+Reduce clutter of [B]utcher UI by stacking identical salvage/disassemble targets.
+Adds (mushy) suffix to mushy food and highlights impact on joy in 'Eat' menu.
+Added feedback for contained fire's expected time left, before it goes out.
+Limb selection menu shows if limb is already bandaged or disinfected.
+NPC follower warns on sleeping and sleep when you do.
+Players can now save before sleeping and set an alarm at the same time.
+"New Note" UI has been upgraded with colors and a live preview.
+Migrate menu handling to uilist interface.
+Added looks_like for targeted tile fallback.
+Adds quality filtering to item search.
+Message window overhaul: filtering, page scrolling, and better interface.
+Show related craftable items for current recipe by hotkey.
 
 ## Mods:
 
@@ -486,6 +522,9 @@ Allow adding contents to existing monster groups in JSON.
 Safe autodoc mod, a dependency of Bright Nights.
 Makes Crazy Cataclysm a little crazier.
 Nested mapgen structures.
+Added Fuji's Struct mod.
+Salvaged Robots mod.
+Partially moved Folding Parts Mod to base game.
 
 ## Balance:
 
@@ -638,6 +677,9 @@ Make portals unavoidably teleport you.
 Removed ability of losing existing CBMs due installation fails.
 Vary horde speed based on monsters in horde.
 Obsolete impossible gunmods.
+Create LOUDMOVES flag, add to secubots.
+Lumber no longer made from / substitute for long stick.
+Fix OP throwing.
 
 ## Bugfixes:
 
@@ -714,6 +756,24 @@ Fixed stuck movement after holding numpad keys in SDL version.
 Fix crash when NPC tries to take off and drop items where he can't when asked to wear something.
 Fix display of isolated linear tiles.
 Fix for excessive overheating from fire sources.
+Fix creatures being able to see you through cameras and mirrors.
+Remove explosion effect from small arms ammo put into fire.
+Fix crash/weird behavior when handling items while over-encumbered/
+Fixes the autoattack range for HAS_REACH weapons when the gameworld is circular.
+Fix drinking from 'aluminum can' segfault.
+Fix crash with no audio device.
+Fixes creatures not setting off traps or falling z-levels after being flung.
+Fix crash when resizing window during character creation.
+Fix overmap special exhaustion when placing mandatory specials.
+Prevents players from inheriting each other's deafness.
+Fix for melee sound related crashes.
+Disable recharging vehicle batteries from handheld batteries.
+fix for crash to desktop when player tries to remove charcoal or food from smoking rack
+Fix throwing stacks of items.
+Fix wrong tripoint usage for temperature calculations.
+Make trying to sleep into an activity.
+Fix items going spoiled while crafting.
+Sort out of spilled liquid infinite loop fix.
 
 ## Performance:
 
@@ -753,6 +813,7 @@ Cache values in season_of_year and reuse on same turn.
 Remove unneeded SDL_RenderSetLogicalSize.
 Use map::points_in_radius instead of manual iterating.
 Reduce Submap constant memory requirements of Cosmetic strings.
+Reduce memory consumption for soundpacks.
 
 ## Infrastructure:
 
@@ -865,6 +926,14 @@ Added FRAGILE_MELEE flag to represent fragile melee weapons.
 Unicode support for SCT.
 Update vehicleDef.py to produce better vehicle templates.
 Move fuel and engine parameters to JSON.
+Added pull request template.
+Adds the Debug Bionic Power trait.
+Fix flaky explosion regression test.
+Detect unexpected mutation failure in the mutation unit test.
+Jsonize large swaths of NPC dialogue.
+Enhance generation of forest tiles with terrain-dependent furniture and forest composition attributes.
+Conversion of nutrition to calories (kcal).
+Implement proper vehicle part iterator and range.
 
 ## Build:
 

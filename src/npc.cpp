@@ -84,7 +84,7 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
 {
-    submap_coords = point( 0, 0 );
+    submap_coords = point_zero;
     position.x = -1;
     position.y = -1;
     position.z = 500;
@@ -119,7 +119,7 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    position = { 0, 0, 0 };
+    position = tripoint_zero;
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );
@@ -634,7 +634,7 @@ void npc::randomize_from_faction( faction *fac )
         dex_max += rng( 0, 3 );
         per_max += rng( 0, 2 );
         int_max += rng( 0, 2 );
-        for( auto const &skill : Skill::skills ) {
+        for( const auto &skill : Skill::skills ) {
             if( one_in( 3 ) ) {
                 mod_skill_level( skill.ident(), rng( 2, 4 ) );
             }
@@ -844,9 +844,9 @@ skill_id npc::best_skill() const
     int highest_level = std::numeric_limits<int>::min();
     skill_id highest_skill( skill_id::NULL_ID() );
 
-    for( auto const &p : *_skills ) {
+    for( const auto &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
-            int const level = p.second.level();
+            const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
                 highest_skill = p.first;

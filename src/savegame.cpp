@@ -859,11 +859,11 @@ void overmap::unserialize( std::istream &fin )
                     if( city_member_name == "name" ) {
                         jsin.read( new_city.name );
                     } else if( city_member_name == "x" ) {
-                        jsin.read( new_city.x );
+                        jsin.read( new_city.pos.x );
                     } else if( city_member_name == "y" ) {
-                        jsin.read( new_city.y );
+                        jsin.read( new_city.pos.y );
                     } else if( city_member_name == "size" ) {
-                        jsin.read( new_city.s );
+                        jsin.read( new_city.size );
                     }
                 }
                 cities.push_back( new_city );
@@ -876,9 +876,9 @@ void overmap::unserialize( std::istream &fin )
                 while( !jsin.end_object() ) {
                     std::string road_member_name = jsin.get_member_name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.x );
+                        jsin.read( new_road.pos.x );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.y );
+                        jsin.read( new_road.pos.y );
                     }
                 }
                 roads_out.push_back( new_road );
@@ -971,9 +971,45 @@ void overmap::unserialize( std::istream &fin )
                 }
                 npcs.push_back( new_npc );
             }
+        } else if( name == "overmap_special_placements" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                overmap_special_id s;
+                while( !jsin.end_object() ) {
+                    std::string name = jsin.get_member_name();
+                    if( name == "special" ) {
+                        jsin.read( s );
+                    } else if( name == "placements" ) {
+                        jsin.start_array();
+                        while( !jsin.end_array() ) {
+                            jsin.start_object();
+                            while( !jsin.end_object() ) {
+                                std::string name = jsin.get_member_name();
+                                if( name == "points" ) {
+                                    jsin.start_array();
+                                    while( !jsin.end_array() ) {
+                                        jsin.start_object();
+                                        tripoint p;
+                                        while( !jsin.end_object() ) {
+                                            std::string name = jsin.get_member_name();
+                                            if( name == "p" ) {
+                                                jsin.read( p );
+                                                overmap_special_placements[p] = s;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
+
 
 static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
 {
@@ -1241,9 +1277,9 @@ void overmap::serialize( std::ostream &fout ) const
     for( auto &i : cities ) {
         json.start_object();
         json.member( "name", i.name );
-        json.member( "x", i.x );
-        json.member( "y", i.y );
-        json.member( "size", i.s );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
+        json.member( "size", i.size );
         json.end_object();
     }
     json.end_array();
@@ -1253,8 +1289,8 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : roads_out ) {
         json.start_object();
-        json.member( "x", i.x );
-        json.member( "y", i.y );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
         json.end_object();
     }
     json.end_array();
@@ -1312,6 +1348,39 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
+    }
+    json.end_array();
+    fout << std::endl;
+
+    // Condense the overmap special placements so that all placements of a given special
+    // are grouped under a single key for that special.
+    std::map<overmap_special_id, std::vector<tripoint>> condensed_overmap_special_placements;
+    for( const auto &placement : overmap_special_placements ) {
+        condensed_overmap_special_placements[placement.second].emplace_back( placement.first );
+    }
+
+    json.member( "overmap_special_placements" );
+    json.start_array();
+    for( const auto &placement : condensed_overmap_special_placements ) {
+        json.start_object();
+        json.member( "special", placement.first );
+        json.member( "placements" );
+        json.start_array();
+        // When we have a discriminator for different instances of a given special,
+        // we'd use that that group them, but since that doesn't exist yet we'll
+        // dump all the points of a given special into a single entry.
+        json.start_object();
+        json.member( "points" );
+        json.start_array();
+        for( const tripoint &pos : placement.second ) {
+            json.start_object();
+            json.member( "p", pos );
+            json.end_object();
+        }
+        json.end_array();
+        json.end_object();
+        json.end_array();
+        json.end_object();
     }
     json.end_array();
     fout << std::endl;

@@ -967,7 +967,7 @@ void reveal_map_actor::load( JsonObject &obj )
     }
 }
 
-void reveal_map_actor::reveal_targets( tripoint const &center, const std::string &target,
+void reveal_map_actor::reveal_targets( const tripoint &center, const std::string &target,
                                        int reveal_distance ) const
 {
     const auto places = overmap_buffer.find_all( center, target, radius, false );
@@ -2375,7 +2375,7 @@ units::volume bandolier_actor::max_stored_volume() const
     } );
     // Figure out which has the greateset volume and calculate on that basis
     units::volume max_ammo_volume{};
-    for( auto const *ammo_type : ammo_types ) {
+    for( const auto *ammo_type : ammo_types ) {
         max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume );
     }
     return max_ammo_volume * capacity;

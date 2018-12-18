@@ -159,7 +159,8 @@ void start_fortifications( std::string &bldg_exp, npc &p );
 void start_combat_mission( const std::string &miss, npc &p );
 
 /// Called when a companion completes a chop shop @ref task mission
-bool camp_garage_chop_start( npc &p, const std::string &task );
+bool camp_garage_chop_start( npc &p, const std::string dir, const tripoint &omt_tgt );
+void camp_farm_start( npc &p, const std::string &dir, const tripoint &omt_tgt, farm_ops op );
 
 /**
  * spawn items or corpses based on search attempts
@@ -188,7 +189,7 @@ void camp_companion_return( npc &comp );
  * @param plant NPC will keep planting until they are out of dirt mounds or seeds in mission inventory
  * @param plow references the farm json and plows any dirt or grass tiles that are where dirt mounds should be
  */
-bool camp_farm_return( npc &p, const std::string &task, farm_ops op );
+bool camp_farm_return( npc &p, const std::string &task, const tripoint &omt_trg, farm_ops op );
 void camp_fortifications_return( npc &p );
 void combat_mission_return( const std::string &miss, npc &p );
 /// Returns the OM tiles surrounding the camp, @ref purge removes all tiles that aren't expansions
@@ -199,7 +200,7 @@ std::string om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 /// Converts a direction into a point offset
 point om_dir_to_offset( const std::string &dir );
 /// Returns a string for the number of plants that are harvestable, plots ready to plany, and ground that needs tilling
-std::string camp_farm_description( const tripoint &omt_pos, farm_ops operation );
+std::string camp_farm_description( const tripoint &omt_pos, size_t &plots, farm_ops operation );
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
 /// Takes a mission line and gets the camp's direction from it "[NW]"

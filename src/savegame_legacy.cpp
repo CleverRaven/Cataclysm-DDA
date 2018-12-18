@@ -169,7 +169,7 @@ std::string convert_talk_topic( talk_topic_enum const old_value )
         }
     };
 #undef WRAP
-    auto const iter = talk_topic_enum_mapping.find( old_value );
+    const auto iter = talk_topic_enum_mapping.find( old_value );
     if( iter == talk_topic_enum_mapping.end() ) {
         debugmsg( "could not convert %d to new talk topic string", static_cast<int>( old_value ) );
         return "TALK_NONE";
@@ -356,15 +356,15 @@ void overmap::unserialize_legacy( std::istream &fin )
                                                 std::move( new_monster ) ) );
         } else if( datatype == 't' ) { // City
             fin >> cx >> cy >> cs;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = cs;
+            tmp.pos.x = cx;
+            tmp.pos.y = cy;
+            tmp.size = cs;
             cities.push_back( tmp );
         } else if( datatype == 'R' ) { // Road leading out
             fin >> cx >> cy;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = -1;
+            tmp.pos.x = cx;
+            tmp.pos.y = cy;
+            tmp.size = -1;
             roads_out.push_back( tmp );
         } else if( datatype == 'T' ) { // Radio tower
             radio_tower tmp;
