@@ -3096,7 +3096,7 @@ units::volume item::base_volume() const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->volume );
+        return corpse->volume;
     }
 
     if( count_by_charges() ) {
