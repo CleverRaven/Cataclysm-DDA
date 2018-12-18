@@ -3471,11 +3471,14 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
     return drained;
 }
 
-void vehicle::consume_fuel( int load = 1000, const int t_seconds )
+void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 {
     double st = strain();
     for( auto &fuel_pr : fuel_usage() ) {
         auto &ft = fuel_pr.first;
+        if( skip_electric && ft == fuel_type_battery ) {
+            continue;
+        }
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
@@ -3556,7 +3559,11 @@ int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
                 alternators_power += part_vpower_w( alternators[p] );
             }
         }
-        alternator_load = 1000 * abs( alternators_power + extra_drag ) / engine_vpower;
+        if( engine_vpower ) {
+            alternator_load = 1000 * abs( alternators_power + extra_drag ) / engine_vpower;
+        } else {
+            alternator_load = 0;
+        }
         // could check if alternator_load > 1000 and then reduce alternator epower,
         // but that's a lot of work for a corner case.
         if( alternators_epower > 0 ) {
@@ -3825,7 +3832,7 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        consume_fuel( idle_rate, 6 * to_turns<int>( 1_turns ) );
+        consume_fuel( idle_rate, 6 * to_turns<int>( 1_turns ), true );
 
         if( on_map ) {
             noise_and_smoke( idle_rate, 1_turns );
