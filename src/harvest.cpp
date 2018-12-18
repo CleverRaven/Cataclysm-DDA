@@ -130,7 +130,7 @@ void harvest_list::check_consistency()
                 errorlist += entry.drop;
             }
             // non butchery harvests need to be excluded
-            if( std::string( hl_id.substr( 0, 14 ) ) != std::string( "harvest_inline" ) ) {
+            if( hl_id.substr( 0, 14 ) != "harvest_inline" ) {
                 if( entry.type == "null" ) {
                     errorlist += "null type";
                 } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
