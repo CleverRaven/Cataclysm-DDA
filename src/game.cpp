@@ -9042,8 +9042,9 @@ bool game::plfire()
     // @todo: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
         if( !gun->ammo_remaining() ) {
-            item::reload_option opt = gun->ammo_location ? item::reload_option( &u, args.relevant,
-                                      args.relevant, std::move( gun->ammo_location ) ) : u.select_ammo( *gun );
+            item::reload_option opt = u.ammo_location &&
+                                      gun->can_reload_with( u.ammo_location->typeId() ) ? item::reload_option( &u, args.relevant,
+                                              args.relevant, u.ammo_location.clone() ) : u.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
                 return false;
@@ -9640,15 +9641,15 @@ void game::reload( item_location &loc, bool prompt )
         use_loc = false;
     }
 
-    // bows etc do not need to reload.
+    // bows etc do not need to reload. select favorite ammo for them instead
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
         item::reload_option opt = u.select_ammo( *it, prompt );
         if( !opt ) {
             return;
-        } else if( it->ammo_location && opt.ammo == it->ammo_location ) {
-            it->ammo_location = item_location();
+        } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
+            u.ammo_location = item_location();
         } else {
-            it->ammo_location = opt.ammo.clone();
+            u.ammo_location = opt.ammo.clone();
         }
         return;
     }

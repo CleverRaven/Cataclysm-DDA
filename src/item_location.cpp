@@ -462,6 +462,11 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 };
 
+// use of std::unique_ptr<impl> forces these definitions within the implementation
+item_location::item_location( item_location && ) = default;
+item_location &item_location::operator=( item_location && ) = default;
+item_location::~item_location() = default;
+
 const item_location item_location::nowhere;
 
 item_location::item_location()

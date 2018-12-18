@@ -406,9 +406,6 @@ class item : public visitable<item>
                 const item *parent = nullptr;
         };
 
-        //Save favorite ammo location
-        item_location ammo_location;
-
         /**
          * Reload item using ammo from location returning true if successful
          * @param u Player doing the reloading
