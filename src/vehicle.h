@@ -1521,11 +1521,6 @@ class vehicle
         // leftover from previous turn
         float of_turn_carry;
 
-        // total power consumed by tracking devices (why would you use more than one?)
-        int tracking_epower     = 0;
-        int alarm_epower        = 0;
-        // power consumed by camera system
-        int camera_epower       = 0;
         int extra_drag          = 0;
         // TODO: change these to a bitset + enum?
         // cruise control on/off

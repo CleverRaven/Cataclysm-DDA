@@ -220,10 +220,9 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
         options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
         actions.push_back( [&] { control_doors(); refresh(); } );
     }
-
     if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-        options.emplace_back( camera_on ?
-                              get_tag_from_color( c_pink ) + _( "Turn off camera system" ) + "</color>" :
+        options.emplace_back( camera_on ?  get_tag_from_color( c_pink ) +
+                              _( "Turn off camera system" ) + "</color>" :
                               _( "Turn on camera system" ),
                               keybind( "TOGGLE_CAMERA" ) );
         actions.push_back( [&] {

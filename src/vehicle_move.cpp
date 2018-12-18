@@ -102,14 +102,6 @@ void vehicle::thrust( int thd )
         stop();
     }
 
-    if( has_part( "STEREO", true ) ) {
-        play_music();
-    }
-
-    if( has_part( "CHIMES", true ) ) {
-        play_chimes();
-    }
-
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels

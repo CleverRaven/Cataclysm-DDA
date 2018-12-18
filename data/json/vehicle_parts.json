@@ -1127,7 +1127,7 @@
     "damage_modifier": 10,
     "durability": 35,
     "description": "A bunch of electronics that make it difficult to start the vehicle without the proper key, and that will sound an alarm if you try.  The alarm can be disabled.",
-    "epower": -300,
+    "epower": -30,
     "bonus": 120,
     "folded_volume": 1,
     "item": "processor",
@@ -1141,7 +1141,7 @@
       },
       "removal": { "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ], "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
     },
-    "flags": [ "ON_CONTROLS", "SECURITY", "FOLDABLE" ],
+    "flags": [ "ON_CONTROLS", "SECURITY", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": "ig_vp_device"
   },
   {
