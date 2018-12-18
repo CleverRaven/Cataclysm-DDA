@@ -636,7 +636,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
-    harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate(mt) : mt.harvest;
+    harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate( mt ) : mt.harvest;
     const harvest_list &harvest = *hid;
 
     for( const auto &entry : harvest ) {
