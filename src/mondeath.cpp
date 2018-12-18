@@ -170,10 +170,10 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    int gibbed_weight = rng( 0, round( to_gram( z.type->weight ) / 100 *
+    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100 *
                                        ( overflow_damage / max_hp + 1 ) ) );
     // limit gibbing to 15%
-    gibbed_weight = std::min( gibbed_weight, to_gram( z.type->weight ) * 15 / 100 );
+    gibbed_weight = std::min( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
@@ -183,9 +183,9 @@ void mdeath::splatter( monster &z )
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
                 scatter_chunks( entry.drop, ( entry.mass_ratio / overflow_ratio / 10 * to_gram(
-                                                  z.type->weight ) ) / to_gram( ( item::find_type( entry.drop ) )->weight ), z, gib_distance,
+                                                  z.get_weight() ) ) / to_gram( ( item::find_type( entry.drop ) )->weight ), z, gib_distance,
                                 to_gram( ( item::find_type( entry.drop ) )->weight ) / ( gib_distance - 1 ) );
-                gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.type->weight );
+                gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
             }
         }
         if( gibbed_weight > 0 ) {
