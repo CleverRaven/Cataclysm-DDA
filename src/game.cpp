@@ -9697,7 +9697,9 @@ void game::reload( item_location &loc, bool prompt )
         return;
     }
 
-    item::reload_option opt = u.select_ammo( *it, prompt );
+    item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
+                              item::reload_option( &u, it, it, u.ammo_location.clone() ) :
+                              u.select_ammo( *it, prompt );
 
     if( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );

@@ -1566,7 +1566,18 @@ bool game::handle_action()
 
             case ACTION_SELECT_FIRE_MODE:
                 if( u.is_armed() ) {
-                    u.weapon.gun_cycle_mode();
+                    if( u.weapon.is_gun() && !u.weapon.is_gunmod() && u.weapon.gun_all_modes().size() > 1 ) {
+                        u.weapon.gun_cycle_mode();
+                    } else if( u.weapon.has_flag( "RELOAD_ONE" ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
+                        item::reload_option opt = u.select_ammo( u.weapon, false );
+                        if( !opt ) {
+                            break;
+                        } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
+                            u.ammo_location = item_location();
+                        } else {
+                            u.ammo_location = opt.ammo.clone();
+                        }
+                    }
                 }
                 break;
 
