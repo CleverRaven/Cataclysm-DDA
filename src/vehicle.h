@@ -1062,43 +1062,8 @@ class vehicle
 
         /**
          * Physical coefficients used for vehicle calculations.
-         * All coefficients have values ranging from 1.0 (ideal) to 0.0 (vehicle can't move).
          */
         /*@{*/
-        /**
-         * Combined coefficient of aerodynamic and wheel friction resistance of vehicle.
-         * Safe velocity and acceleration are multiplied by this value.
-         */
-        float k_dynamics() const;
-
-        /**
-         * Wheel friction coefficient of the vehicle.
-         * Inversely proportional to (wheel area + constant).
-         *
-         * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
-         */
-        float k_friction() const;
-
-        /**
-         * Air friction coefficient of the vehicle.
-         * Affected by vehicle's width and non-passable tiles.
-         * Calculated by projecting rays from front of the vehicle to its back.
-         * Each ray that contains only passable vehicle tiles causes a small penalty,
-         * and each ray that contains an unpassable vehicle tile causes a big penalty.
-         *
-         * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
-         */
-        float k_aerodynamics() const;
-
-        /**
-         * Mass coefficient of the vehicle.
-         * Roughly proportional to vehicle's mass divided by wheel area, times constant.
-         *
-         * Affects safe velocity (moderately), acceleration (heavily).
-         * Also affects braking (including hand-braking) and velocity drop during coasting.
-         */
-        float k_mass() const;
-
         /**
          * coefficient of air drag in kg/m
          * multiplied by the square of speed to calculate air drag force in N

@@ -3029,66 +3029,6 @@ float vehicle::wheel_area( bool boat ) const
     return total_area;
 }
 
-float vehicle::k_friction() const
-{
-    // calculate safe speed reduction due to wheel friction
-    constexpr float fr0 = 9000.0;
-    return fr0 / ( fr0 + wheel_area( false ) ) ;
-}
-
-float vehicle::k_aerodynamics() const
-{
-    const int max_obst = 13;
-    int obst[max_obst];
-    for( auto &elem : obst ) {
-        elem = 0;
-    }
-    std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
-    for( auto &structure_indice : structure_indices ) {
-        int p = structure_indice;
-        int frame_size = part_with_feature( p, VPFLAG_OBSTACLE, true ) ? 30 : 10;
-        int pos = parts[p].mount.y + max_obst / 2;
-        if( pos < 0 ) {
-            pos = 0;
-        }
-        if( pos >= max_obst ) {
-            pos = max_obst - 1;
-        }
-        if( obst[pos] < frame_size ) {
-            obst[pos] = frame_size;
-        }
-    }
-    int frame_obst = 0;
-    for( auto &elem : obst ) {
-        frame_obst += elem;
-    }
-    float ae0 = 200.0;
-
-    // calculate aerodynamic coefficient
-    float ka = ( ae0 / ( ae0 + frame_obst ) );
-    return ka;
-}
-
-float vehicle::k_dynamics() const
-{
-    return ( k_aerodynamics() * k_friction() );
-}
-
-float vehicle::k_mass() const
-{
-    // @todo: Remove this sum, apply only the relevant wheel type
-    float wa = wheel_area( false ) + wheel_area( true );
-    if( wa <= 0 ) {
-        return 0;
-    }
-
-    float ma0 = 50.0;
-    // calculate safe speed reduction due to mass
-    float km = ma0 / ( ma0 + to_kilogram( total_mass() ) / ( wa * 8.0f / 9.0f ) );
-
-    return km;
-}
-
 static double tile_to_width( int tiles )
 {
     if( tiles < 1 ) {
@@ -3412,19 +3352,16 @@ float vehicle::handling_difficulty() const
 {
     const float steer = std::max( 0.0f, steering_effectiveness() );
     const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
-    const float kmass = k_mass();
     const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).magnitude() );
 
     constexpr float tile_per_turn = 10 * 100;
 
-    // TestVehicle: perfect steering, kmass, moving on road at 100 mph (10 tiles per turn) = 0.0
+    // TestVehicle: perfect steering, moving on road at 100 mph (10 tiles per turn) = 0.0
     // TestVehicle but on grass (0.75 friction) = 2.5
-    // TestVehicle but overloaded (0.5 kmass) = 5
-    // TestVehicle but with bad steering (0.5 steer) and overloaded (0.5 kmass) = 10
-    // TestVehicle but on fungal bed (0.5 friction), bad steering and overloaded = 15
+    // TestVehicle but with bad steering (0.5 steer) = 5
+    // TestVehicle but on fungal bed (0.5 friction) and bad steering = 10
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
-    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - ktraction ) +
-                             ( 1.0f - aligned ) );
+    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
     return velocity * diff_mod / tile_per_turn;
 }
 
