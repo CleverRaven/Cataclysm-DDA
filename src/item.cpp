@@ -3117,7 +3117,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        return corpse->volume;
+        return corpse_volume( corpse->volume );
     }
 
     const int local_volume = get_var( "volume", -1 );
