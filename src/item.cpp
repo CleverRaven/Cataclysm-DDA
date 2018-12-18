@@ -3076,17 +3076,16 @@ units::mass item::weight( bool include_contents ) const
 
 units::volume item::corpse_volume( units::volume corpse_volume ) const
 {
-    int corpse_volume_ml = units::to_milliliter( corpse_volume );
     if( has_flag( "QUARTERED" ) ) {
-        corpse_volume_ml /= 4;
+        corpse_volume /= 4;
     }
     if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
-        corpse_volume_ml *= 0.75;
+        corpse_volume *= 0.75;
     }
-    if( corpse_volume_ml > 0 ) {
-        return units::from_milliliter( corpse_volume_ml );
+    if( corpse_volume > 0 ) {
+        return corpse_volume;
     }
-    debugmsg( "unknown monster size for corpse" );
+    debugmsg( "invalid monster volume for corpse" );
     return 0;
 }
 
@@ -3118,7 +3117,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->volume );
+        return corpse->volume;
     }
 
     const int local_volume = get_var( "volume", -1 );
