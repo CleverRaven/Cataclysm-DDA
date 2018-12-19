@@ -5336,7 +5336,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
         } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier )
             //checks for melee gunmod, points to gunmod
-                if( m.first == "REACH") {
+                if( m.first == "REACH" ) {
                     res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
                                                      m.second.qty(), m.second.flags() } );
             //otherwise points to the parent gun, not the gunmod
