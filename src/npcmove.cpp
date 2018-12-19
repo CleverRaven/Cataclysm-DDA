@@ -3214,6 +3214,10 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
     } else if( type == "kill_player" ) {
         snip = is_enemy() ? "<kill_player_h>" : "";
+    } else if( type == "combat_noise" ) {
+        snip = "<combat_noise_warning>";
+    } else if( type == "movement_noise" ) {
+        snip = "<movement_noise_warning>";
     } else {
         return;
     }

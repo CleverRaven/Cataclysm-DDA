@@ -1529,6 +1529,13 @@ bool game::do_turn()
 
     perhaps_add_random_npc();
 
+    // Process NPC sound events before they move or they hear themselves talking
+    for( npc &guy : all_npcs() ) {
+        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+            sounds::process_sound_markers( &guy );
+        }
+    }
+
     process_activity();
 
     // Process sound events into sound markers for display to the player.
