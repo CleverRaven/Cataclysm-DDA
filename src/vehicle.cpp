@@ -3311,7 +3311,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
     return std::max( 0.1f, traction );
 }
 
-int vehicle::drag() const
+int vehicle::static_drag() const
 {
     return extra_drag / 1000 + ( engine_on ? 0 : 300 );
 }
@@ -3471,11 +3471,14 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
     return drained;
 }
 
-void vehicle::consume_fuel( int load = 1000, const int t_seconds )
+void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 {
     double st = strain();
     for( auto &fuel_pr : fuel_usage() ) {
         auto &ft = fuel_pr.first;
+        if( skip_electric && ft == fuel_type_battery ) {
+            continue;
+        }
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
@@ -3531,13 +3534,6 @@ int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
         epower += vp.info().epower;
     }
 
-    // Consumers of epower
-    if( is_alarm_on ) {
-        epower += alarm_epower;
-    }
-    if( camera_on ) {
-        epower += camera_epower;
-    }
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
     // Electric motor consumption not included, see @ref vpart_info::energy_consumption
@@ -3563,7 +3559,13 @@ int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
                 alternators_power += part_vpower_w( alternators[p] );
             }
         }
-        alternator_load = 1000 * abs( alternators_power ) / engine_vpower;
+        if( engine_vpower ) {
+            alternator_load = 1000 * abs( alternators_power + extra_drag ) / engine_vpower;
+        } else {
+            alternator_load = 0;
+        }
+        // could check if alternator_load > 1000 and then reduce alternator epower,
+        // but that's a lot of work for a corner case.
         if( alternators_epower > 0 ) {
             epower += alternators_epower;
         }
@@ -3824,12 +3826,13 @@ void vehicle::do_engine_damage( size_t e, int strain )
 
 void vehicle::idle( bool on_map )
 {
+    power_parts();
     if( engine_on && total_power_w() > 0 ) {
         int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        consume_fuel( idle_rate, 6 * to_turns<int>( 1_turns ) );
+        consume_fuel( idle_rate, 6 * to_turns<int>( 1_turns ), true );
 
         if( on_map ) {
             noise_and_smoke( idle_rate, 1_turns );
@@ -3851,6 +3854,12 @@ void vehicle::idle( bool on_map )
         }
     }
 
+    if( !on_map ) {
+        return;
+    } else {
+        update_time( calendar::turn );
+    }
+
     if( has_part( "STEREO", true ) ) {
         play_music();
     }
@@ -3859,12 +3868,8 @@ void vehicle::idle( bool on_map )
         play_chimes();
     }
 
-    if( on_map && is_alarm_on ) {
+    if( is_alarm_on ) {
         alarm();
-    }
-
-    if( on_map ) {
-        update_time( calendar::turn );
     }
 }
 
@@ -4217,9 +4222,7 @@ void vehicle::refresh()
     steering.clear();
     speciality.clear();
     floating.clear();
-    tracking_epower = 0;
     alternator_load = 0;
-    camera_epower = 0;
     extra_drag = 0;
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -4278,14 +4281,16 @@ void vehicle::refresh()
         if( vpi.has_flag( "SECURITY" ) ) {
             speciality.push_back( p );
         }
-        if( vpi.has_flag( "CAMERA" ) ) {
-            camera_epower += vpi.epower;
-        }
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             floating.push_back( p );
         }
         if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
             extra_drag += vpi.power;
+        }
+        if( camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = true;
+        } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = false;
         }
     }
 
