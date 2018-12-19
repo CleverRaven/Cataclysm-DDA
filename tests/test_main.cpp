@@ -1,3 +1,13 @@
+#ifdef _GLIBCXX_DEBUG
+// Workaround to allow randomly ordered tests.  See
+// https://github.com/catchorg/Catch2/issues/1384
+// https://stackoverflow.com/questions/22915325/avoiding-self-assignment-in-stdshuffle/23691322
+// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85828
+#include <debug/macros.h>
+#undef __glibcxx_check_self_move_assign
+#define __glibcxx_check_self_move_assign(x)
+#endif
+
 #define CATCH_CONFIG_RUNNER
 #include "catch/catch.hpp"
 
