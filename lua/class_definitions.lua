@@ -1013,7 +1013,7 @@ classes = {
             { name = "flammable", rval = "bool", args = { } },
             { name = "get_chapters", rval = "int", args = { } },
             { name = "get_coverage", rval = "int", args = { } },
-            { name = "get_encumber", rval = "int", args = { } },
+            { name = "get_encumber", rval = "int", args = { "Character" } },
             { name = "get_env_resist", rval = "int", args = { } },
             { name = "get_free_mod_locations", rval = "int", args = { "string" } },
             { name = "get_gun_ups_drain", rval = "int", args = { } },

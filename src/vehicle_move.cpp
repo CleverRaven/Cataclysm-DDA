@@ -84,10 +84,10 @@ int vehicle::slowdown( int at_velocity ) const
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name.c_str(), slowdown );
     }
     add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
-             name, at_velocity, f_total_drag, slowdown, drag() );
+             name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( falling || is_floating ) ) {
-        slowdown += drag();
+        slowdown += static_drag();
     }
 
     return slowdown;
@@ -100,14 +100,6 @@ void vehicle::thrust( int thd )
     if( velocity == 0 ) {
         turn_dir = face.dir();
         stop();
-    }
-
-    if( has_part( "STEREO", true ) ) {
-        play_music();
-    }
-
-    if( has_part( "CHIMES", true ) ) {
-        play_chimes();
     }
 
     bool pl_ctrl = player_in_control( g->u );
