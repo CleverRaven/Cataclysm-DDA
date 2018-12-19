@@ -7949,7 +7949,7 @@
     "id": "t_junk_wall",
     "name": "junk metal wall",
     "looks_like": "t_scrap_wall",
-    "description": "A wall of rusty scrap metal bolted and wire-tied to a sturdy frame. Very fashionable in post-apocalyptic shantytowns. Can support a roof.",
+    "description": "A wall of rusty scrap metal bolted and wire-tied to a sturdy frame.  Very fashionable in post-apocalyptic shantytowns.  Can support a roof.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 0,
