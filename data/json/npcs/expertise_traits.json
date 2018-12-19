@@ -1671,7 +1671,7 @@
     ]
   },
   {
-    "//": "This trait group guarantees one randomly selected science expertise of level 1 or 2."
+    "//": "This trait group guarantees one randomly selected science expertise of level 1 or 2.",
     "type": "trait_group",
     "id": "Expertise_Science_Given",
     "subtype": "distribution",
@@ -1695,7 +1695,7 @@
     ]
   },
   {
-    "//": "This trait group guarantees one randomly selected medical expertise, with a chance that the person is inflating their credentials."
+    "//": "This trait group guarantees one randomly selected medical expertise, with a chance that the person is inflating their credentials.",
     "type": "trait_group",
     "id": "Expertise_Medical_Given",
     "subtype": "distribution",
