@@ -5333,8 +5333,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             }
 
             // non-auxiliary gunmods may provide additional modes for the base item
-        } else if( e->is_gunmod() )
-            {
+        } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier )
             //checks for melee gunmod, points to gunmod
                 if( m.first == "REACH") {
@@ -5347,10 +5346,8 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
                 }
             }
     }
-
 return res;
 }
-
 
 gun_mode item::gun_get_mode( const gun_mode_id &mode ) const
 {
