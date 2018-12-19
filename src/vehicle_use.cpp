@@ -85,7 +85,7 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
 
     auto msg = string_format( state ?
                               _( "Turn on %s" ) :
-                              get_tag_from_color( c_pink ) + _( "Turn off %s" ) + "</color>",
+                              colorize( _( "Turn off %s" ), c_pink ),
                               name );
     options.emplace_back( -1, allow, key, msg );
 
@@ -221,8 +221,8 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
         actions.push_back( [&] { control_doors(); refresh(); } );
     }
     if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-        options.emplace_back( camera_on ?  get_tag_from_color( c_pink ) +
-                              _( "Turn off camera system" ) + "</color>" :
+        options.emplace_back( camera_on ?
+                              colorize( _( "Turn off camera system" ), c_pink ) :
                               _( "Turn on camera system" ),
                               keybind( "TOGGLE_CAMERA" ) );
         actions.push_back( [&] {

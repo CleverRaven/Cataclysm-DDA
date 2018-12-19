@@ -566,7 +566,7 @@ std::string monster::extended_description() const
 {
     std::ostringstream ss;
     const auto att = get_attitude();
-    std::string att_colored = get_tag_from_color( att.second ) + att.first;
+    std::string att_colored = colorize( att.first, att.second );
 
     ss << string_format( _( "This is a %s. %s" ), name().c_str(), att_colored.c_str() ) << std::endl;
     if( !get_effect_status().empty() ) {
@@ -575,7 +575,7 @@ std::string monster::extended_description() const
 
     ss << "--" << std::endl;
     auto hp_bar = hp_description( hp, type->hp );
-    ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
+    ss << colorize( hp_bar.first, hp_bar.second ) << std::endl;
 
     ss << "--" << std::endl;
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
