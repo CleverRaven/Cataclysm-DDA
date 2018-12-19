@@ -9,6 +9,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
+#include "debug.h"
 
 namespace
 {
@@ -41,7 +42,6 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
     double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 70 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
-    double W;
 
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
@@ -77,11 +77,11 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max( 0, 1020 - static_cast<int>( P ) );
+    double W = std::max( 0, 1020 - static_cast<int>( P ) );
 
     // Acid rains
     const double acid_content = base_acid * A;
-    bool acid = acid_content >= 1.0;
+    const bool acid = acid_content >= 1.0;
 
     return w_point {T, H, P, W, acid};
 }
@@ -123,18 +123,21 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     if( w.temperature <= 32 ) {
         if( r == WEATHER_DRIZZLE ) {
             r = WEATHER_FLURRIES;
-        } else if( r > WEATHER_DRIZZLE ) {
+        } else if( r == WEATHER_RAINY ) {
             r = WEATHER_SNOW;
-        } else if( r > WEATHER_THUNDER ) { // @todo: that is always false!
+        } else if( r >= WEATHER_THUNDER ) {
             r = WEATHER_SNOWSTORM;
         }
-    }
-
-    if( r == WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_DRIZZLE;
-    }
-    if( r > WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_RAIN;
+    } else if( w.acidic ) {
+        if( r == WEATHER_DRIZZLE ) {
+            r = WEATHER_ACID_DRIZZLE;
+        } else if( r == WEATHER_RAINY ) {
+            r = WEATHER_ACID_RAIN;
+        } else if( r == WEATHER_THUNDER ) {
+            r = WEATHER_ACID_THUNDER;
+        } else if( r == WEATHER_LIGHTNING ) {
+            r = WEATHER_ACID_LIGHTNING;
+        }
     }
     return r;
 }
@@ -194,6 +197,6 @@ weather_generator weather_generator::load( JsonObject &jo )
     ret.base_temperature = jo.get_float( "base_temperature", 6.5 );
     ret.base_humidity = jo.get_float( "base_humidity", 66.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 1015.0 );
-    ret.base_acid = jo.get_float( "base_acid", 1015.0 );
+    ret.base_acid = jo.get_float( "base_acid", 0.0 );
     return ret;
 }

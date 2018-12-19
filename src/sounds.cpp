@@ -543,7 +543,7 @@ void sfx::do_ambient()
         play_ambient_variant_sound( "environment", "indoors", heard_volume, 3, 1000 );
     }
     // We are indoors and it is also raining
-    if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground
+    if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_LIGHTNING && !is_underground
         && !is_channel_playing( 4 ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
                                     1000 );
@@ -563,11 +563,13 @@ void sfx::do_ambient()
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume, 9,
                                             1000 );
                 break;
+            case WEATHER_ACID_RAIN:
             case WEATHER_RAINY:
                 play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume, 8,
                                             1000 );
                 break;
-            case WEATHER_ACID_RAIN:
+            case WEATHER_ACID_THUNDER:
+            case WEATHER_ACID_LIGHTNING:
             case WEATHER_THUNDER:
             case WEATHER_LIGHTNING:
                 play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume, 7,

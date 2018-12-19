@@ -26,7 +26,6 @@
 #include <vector>
 #include <utility>
 
-class time_duration;
 class time_point;
 class item;
 struct point;
@@ -51,6 +50,8 @@ enum weather_type : int {
     WEATHER_LIGHTNING,    //!< Rare lightning strikes!
     WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
     WEATHER_ACID_RAIN,    //!< Minor acid damage
+    WEATHER_ACID_THUNDER, //!< Moderate acid damage
+    WEATHER_ACID_LIGHTNING, //!< Severe acid damage
     WEATHER_FLURRIES,     //!< Light snow
     WEATHER_SNOW,         //!< Medium snow
     WEATHER_SNOWSTORM,    //!< Heavy snow
@@ -93,14 +94,29 @@ struct weather_printable {
  */
 namespace weather_effect
 {
+struct weather_acid_damage {
+    bool active_time;
+    int rain_protect;
+    int rainproof;
+    int power_armor;
+    int damage;
+    int get_pain;
+    int mod_pain;
+};
+
 void none();        //!< Fallback weather.
 void glare();
 void wet();
 void very_wet();
 void thunder();
+void generic_thunder();
 void lightning();
+void generic_lightning();
+void thunder_acid();
+void lightning_acid();
 void light_acid();
 void acid();
+void acid_damage( weather_acid_damage wa_dmg );
 void flurry();      //!< Currently flurries have no additional effects.
 void snow();        //!< Currently snow has no additional effects.
 void snowstorm();   //!< Currently snowstorms have no additional effects.

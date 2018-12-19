@@ -105,17 +105,27 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
 {
     switch( wtype ) {
         case WEATHER_DRIZZLE:
-            data.rain_amount += 4 * to_turns<int>( tick_size );
+            data.rain_amount += 2 * to_turns<int>( tick_size );
             break;
         case WEATHER_RAINY:
+            data.rain_amount += 4 * to_turns<int>( tick_size );
+            break;
         case WEATHER_THUNDER:
+            data.rain_amount += 6 * to_turns<int>( tick_size );
+            break;
         case WEATHER_LIGHTNING:
             data.rain_amount += 8 * to_turns<int>( tick_size );
             break;
         case WEATHER_ACID_DRIZZLE:
-            data.acid_amount += 4 * to_turns<int>( tick_size );
+            data.acid_amount += 2 * to_turns<int>( tick_size );
             break;
         case WEATHER_ACID_RAIN:
+            data.acid_amount += 4 * to_turns<int>( tick_size );
+            break;
+        case WEATHER_ACID_THUNDER:
+            data.acid_amount += 6 * to_turns<int>( tick_size );
+            break;
+        case WEATHER_ACID_LIGHTNING:
             data.acid_amount += 8 * to_turns<int>( tick_size );
             break;
         default:
@@ -423,6 +433,11 @@ void weather_effect::very_wet()
 void weather_effect::thunder()
 {
     very_wet();
+    generic_thunder();
+}
+
+void generic_thunder()
+{
     if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in( THUNDER_CHANCE ) ) {
         if( g->get_levz() >= 0 ) {
             add_msg( _( "You hear a distant rumble of thunder." ) );
@@ -448,6 +463,11 @@ void weather_effect::thunder()
 void weather_effect::lightning()
 {
     thunder();
+    generic_lightning();
+}
+
+void weather_effect::generic_lightning()
+{
     if( one_in( LIGHTNING_CHANCE ) ) {
         if( g->get_levz() >= 0 ) {
             add_msg( _( "A flash of lightning illuminates your surroundings!" ) );
@@ -466,25 +486,7 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     generic_wet( true );
-    if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname().c_str() );
-        } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
-                add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
-            } else {
-                bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
-                } else {
-                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now..." ) );
-                    if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
-                        g->u.mod_pain( 1 );
-                    }
-                }
-            }
-        }
-    }
+    acid_damage( { calendar::once_every( 1_minutes ), 12, 4, 4, 10, 10, 1 } );
 }
 
 /**
@@ -493,26 +495,54 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if( calendar::once_every( 2_turns ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
-            add_msg( _( "Your umbrella protects you from the acid rain." ) );
+    generic_very_wet( true );
+    acid_damage( { calendar::once_every( 7_turns ), 8, 2, 2, 2, 100, static_cast<int>( rng( 1, 5 ) ) } );
+}
+
+/**
+ * Acid rain.
+ * Causes major pain. Damages non acid-proof mobs. Very wet (acid).
+ */
+void weather_effect::thunder_acid()
+{
+    generic_very_wet( true );
+    generic_thunder();
+    acid_damage( { calendar::once_every( 4_turns ), 4, 4, 4, 10, 10, 1 } );
+}
+
+/**
+ * Acid rain.
+ * Causes major pain. Damages non acid-proof mobs. Very wet (acid).
+ */
+void weather_effect::lightning_acid()
+{
+    generic_very_wet( true );
+    generic_thunder();
+    generic_lightning();
+    acid_damage( { calendar::once_every( 2_turns ), 2, 4, 4, 10, 10, 1 } );
+}
+
+void weather_effect::acid_damage( weather_effect::weather_acid_damage wa_dmg )
+{
+    if( wa_dmg.active_time && is_player_outside() ) {
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( wa_dmg.rain_protect ) ) {
+            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname().c_str() );
         } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {
-                add_msg( _( "Your clothing protects you from the acid rain." ) );
+            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( wa_dmg.rainproof ) ) {
+                add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
             } else {
                 bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acid rain." ) );
+                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( wa_dmg.power_armor ) ) ) {
+                    add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
                 } else {
-                    add_msg( m_bad, _( "The acid rain burns!" ) );
-                    if( one_in( 2 ) && ( g->u.get_pain() < 100 ) ) {
-                        g->u.mod_pain( rng( 1, 5 ) );
+                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now..." ) );
+                    if( one_in( wa_dmg.damage ) && ( g->u.get_pain() < wa_dmg.get_pain ) ) {
+                        g->u.mod_pain( wa_dmg.mod_pain );
                     }
                 }
             }
         }
     }
-    generic_very_wet( true );
 }
 
 static std::string to_string( const weekdays &d )
