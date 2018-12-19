@@ -1586,6 +1586,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     }
     if( is_armor() ) {
+        body_part_set covered_parts = get_covered_body_parts();
+        bool covers_anything = covered_parts.any();
 
         if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
             temp1.str( "" );
@@ -1643,10 +1645,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 temp1 << _( "The <info>right foot</info>. " );
             }
 
+            if( !covers_anything ) {
+                temp1 << _( "<info>Nothing</info>." );
+            }
+
             info.push_back( iteminfo( "ARMOR", temp1.str() ) );
         }
 
-        if( parts->test( iteminfo_parts::ARMOR_LAYER ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
             temp1.str( "" );
             temp1 << _( "Layer: " );
             if( has_flag( "SKINTIGHT" ) ) {
@@ -1664,17 +1670,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "ARMOR", temp1.str() ) );
         }
 
-        if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
             info.push_back( iteminfo( "ARMOR", _( "Coverage: " ), "<num>%",
                                       iteminfo::no_newline, get_coverage() ) );
         }
-        if( parts->test( iteminfo_parts::ARMOR_WARMTH ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && covers_anything ) {
             info.push_back( iteminfo( "ARMOR", space + _( "Warmth: " ), get_warmth() ) );
         }
 
         insert_separation_line();
 
-        if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
             int encumbrance = get_encumber();
             std::string format;
             if( has_flag( "FIT" ) ) {
@@ -1706,7 +1712,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         // Whatever the last entry was, we want a newline at this point
         info.back().bNewLine = true;
 
-        if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) && covers_anything ) {
             info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
                                       iteminfo::no_newline, bash_resist() ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ),
@@ -3532,9 +3538,9 @@ int item::spoilage_sort_order()
     }
 
     if( subject->type->comestible ) {
-        if( subject->type->category->id() == "food" ) {
+        if( subject->get_category().id() == "food" ) {
             return bottom - 3;
-        } else if( subject->type->category->id() == "drugs" ) {
+        } else if( subject->get_category().id() == "drugs" ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -4400,7 +4406,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return type->category->id() == "maps";
+    return get_category().id() == "maps";
 }
 
 bool item::is_container() const
