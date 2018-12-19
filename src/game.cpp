@@ -9901,7 +9901,7 @@ bool game::unload( item &it )
         target->contents.end(), [&]( item & e ) {
             int mv = u.item_reload_cost( *target, e, e.charges ) / 2;
             //call the activity handler after setting up
-            player_activity new_activity(activity_id( "ACT_UNLOAD_MAGAZINE" ), 3000);
+            player_activity new_activity(activity_id( "ACT_UNLOAD_MAGAZINE" ), mv);
             new_activity.targets.push_back(item_location(u, target));
             u.assign_activity(new_activity);
             qty += e.charges;
