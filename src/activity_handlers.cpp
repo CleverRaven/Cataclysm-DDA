@@ -2972,9 +2972,12 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
 
 void activity_handlers::unload_magazine( player_activity *act, player *p )
 {
-    item* it = act->targets[0].get_item();
+    item* it = &p->i_at( act->values[0] );
+    int qty = act->values[1];
+
+    item link( *it->type->magazine->linkage, calendar::turn, qty );
     //TODO: use restructured function from the player class
-    p->add_or_drop_with_msg(*it, true);
+    p->add_or_drop_with_msg( link, true);
     act->set_to_null();
 }
 

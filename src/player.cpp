@@ -1,6 +1,7 @@
 #include "player.h"
 
 #include "action.h"
+#include "activity_handlers.h"
 #include "addiction.h"
 #include "ammo.h"
 #include "bionics.h"
@@ -8547,6 +8548,27 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &t
     if( is_npc() ) {
         activity.do_turn( *this );
     }
+}
+
+bool player::add_or_drop_with_msg( item &it, const bool unloading )
+{
+    if( it.made_of( LIQUID ) ) {
+        g->consume_liquid( it, 1 );
+        return it.charges <= 0;
+    }
+    it.charges = this->i_add_to_container( it, unloading );
+    if( it.is_ammo() && it.charges == 0 ) {
+        return true;
+    } else if( !this->can_pickVolume( it ) ) {
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
+    } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
+    } else {
+        auto &ni = this->i_add( it );
+        add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
+        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
+    }
+    return true;
 }
 
 void player::use_wielded() {

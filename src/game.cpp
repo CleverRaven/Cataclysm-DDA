@@ -9789,7 +9789,7 @@ void game::mend( int pos )
     }
 }
 
-bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
+/* bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
 {
     if( it.made_of( LIQUID ) ) {
         g->consume_liquid( it, 1 );
@@ -9808,7 +9808,7 @@ bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
         add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
     }
     return true;
-}
+} */
 
 bool game::unload( item &it )
 {
@@ -9827,7 +9827,7 @@ bool game::unload( item &it )
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
         &changed]( item & e ) {
             long old_charges = e.charges;
-            const bool consumed = add_or_drop_with_msg( u, e, true );
+            const bool consumed = u.add_or_drop_with_msg( e, true );
             changed = changed || consumed || e.charges != old_charges;
             if( consumed ) {
                 u.mod_moves( -u.item_handling_cost( e ) );
@@ -9897,30 +9897,36 @@ bool game::unload( item &it )
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine
         long qty = 0;
+        int mv;
         target->contents.erase( std::remove_if( target->contents.begin(),
         target->contents.end(), [&]( item & e ) {
-            int mv = u.item_reload_cost( *target, e, e.charges ) / 2;
-            //call the activity handler after setting up
-            player_activity new_activity(activity_id( "ACT_UNLOAD_MAGAZINE" ), mv);
-            new_activity.targets.push_back(item_location(u, target));
-            u.assign_activity(new_activity);
+            mv += u.item_reload_cost( *target, e, e.charges ) / 2;
+            if( !u.add_or_drop_with_msg( e, true ) ) {
+                return false;
+            }
             qty += e.charges;
             return true;
         } ), target->contents.end() );
 
         if( target->is_ammo_belt() ) {
             if( target->type->magazine->linkage ) {
-                item link( *target->type->magazine->linkage, calendar::turn, qty );
-                add_or_drop_with_msg( u, link, true );
+                //item link( *target->type->magazine->linkage, calendar::turn, qty );
+                //add_or_drop_with_msg( u, link, true );
+                //call the activity handler after setting up
+                player_activity unload_activity(activity_id( "ACT_UNLOAD_MAGAZINE" ), mv);
+                unload_activity.values.push_back( u.get_item_position( target ) );
+                unload_activity.values.push_back( qty );
+                u.assign_activity(unload_activity);
             }
             add_msg( _( "You disassemble your %s." ), target->tname().c_str() );
         } else {
+            u.moves -= mv;
             add_msg( _( "You unload your %s." ), target->tname().c_str() );
         }
         return true;
 
     } else if( target->magazine_current() ) {
-        if( !add_or_drop_with_msg( u, *target->magazine_current(), true ) ) {
+        if( !u.add_or_drop_with_msg( *target->magazine_current(), true ) ) {
             return false;
         }
         // Eject magazine consuming half as much time as required to insert it
@@ -9948,14 +9954,14 @@ bool game::unload( item &it )
         item ammo( target->ammo_current(), calendar::turn, qty );
 
         if( ammo.made_of_from_type( LIQUID ) ) {
-            if( !add_or_drop_with_msg( u, ammo ) ) {
+            if( !u.add_or_drop_with_msg( ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
             if( qty <= 0 ) {
                 return false; // no liquid was moved
             }
 
-        } else if( !add_or_drop_with_msg( u, ammo, qty > 1 ) ) {
+        } else if( !u.add_or_drop_with_msg( ammo, qty > 1 ) ) {
             return false;
         }
 
