@@ -9789,27 +9789,6 @@ void game::mend( int pos )
     }
 }
 
-/* bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
-{
-    if( it.made_of( LIQUID ) ) {
-        g->consume_liquid( it, 1 );
-        return it.charges <= 0;
-    }
-    it.charges = u.i_add_to_container( it, unloading );
-    if( it.is_ammo() && it.charges == 0 ) {
-        return true;
-    } else if( !u.can_pickVolume( it ) ) {
-        put_into_vehicle_or_drop( u, item_drop_reason::too_large, { it } );
-    } else if( !u.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        put_into_vehicle_or_drop( u, item_drop_reason::too_heavy, { it } );
-    } else {
-        auto &ni = u.i_add( it );
-        add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
-        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
-    }
-    return true;
-} */
-
 bool game::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed

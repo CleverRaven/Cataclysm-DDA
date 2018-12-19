@@ -2973,7 +2973,6 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
 void activity_handlers::unload_magazine( player_activity *act, player *p )
 {
     item* it = &p->i_at(act->values[0]);
-    //TODO: use restructured function from the player class
     p->add_or_drop_with_msg(*it, true);
     act->set_to_null();
 }

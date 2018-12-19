@@ -415,7 +415,7 @@
   {
     "id": "ACT_UNLOAD_MAGAZINE",
     "type": "activity_type",
-    "stop_phrase": "Stop unloading your magazin?",
+    "stop_phrase": "Stop unloading your magazine?",
     "based_on": "speed"
   }
 ]
