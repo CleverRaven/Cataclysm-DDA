@@ -7929,7 +7929,7 @@
     "id": "t_junk_palisade",
     "name": "junk metal barrier",
     "looks_like": "t_scrap_wall_halfway",
-    "description": "A simple wall of rusty scrap metal bolted and wire-tied to a makeshift frame. Very fashionable in post-apocalyptic shantytowns. This one isn't quite strong enough to support a roof, but could be reinforced.",
+    "description": "A simple wall of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  This one isn't quite strong enough to support a roof, but could be reinforced.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 0,
