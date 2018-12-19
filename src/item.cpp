@@ -3074,8 +3074,9 @@ units::mass item::weight( bool include_contents ) const
     return ret;
 }
 
-units::volume item::corpse_volume( units::volume corpse_volume ) const
+units::volume item::corpse_volume( const mtype *corpse ) const
 {
+    units::volume corpse_volume = corpse->volume;
     if( has_flag( "QUARTERED" ) ) {
         corpse_volume /= 4;
     }
@@ -3094,9 +3095,9 @@ units::volume item::base_volume() const
     if( is_null() ) {
         return 0;
     }
-
+    corpse;
     if( is_corpse() ) {
-        return corpse_volume( corpse->volume );
+        return corpse_volume( corpse );
     }
 
     if( count_by_charges() ) {
@@ -3117,7 +3118,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->volume );
+        return corpse_volume( corpse );
     }
 
     const int local_volume = get_var( "volume", -1 );
