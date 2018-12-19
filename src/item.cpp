@@ -3095,7 +3095,6 @@ units::volume item::base_volume() const
     if( is_null() ) {
         return 0;
     }
-    corpse;
     if( is_corpse() ) {
         return corpse_volume( corpse );
     }
