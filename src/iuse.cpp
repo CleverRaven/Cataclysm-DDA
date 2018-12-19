@@ -1572,13 +1572,13 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     bool enab = can_add_mod( "wooled", "felt_patch" );
     tmenu.addentry( 0, enab, MENU_AUTOASSIGN, _( "%s (Warmth: %d->%d, Encumbrance: %d->%d)" ),
                     mod.item_tags.count( "wooled" ) == 0 ? _( "Line it with wool" ) : _( "Destroy wool lining" ),
-                    mod.get_warmth(), temp_item.get_warmth(), mod.get_encumber(), temp_item.get_encumber() );
+                    mod.get_warmth(), temp_item.get_warmth(), mod.get_encumber( *p ), temp_item.get_encumber( *p ) );
 
     temp_item = modded_copy( mod, "furred" );
     enab = can_add_mod( "furred", "fur" );
     tmenu.addentry( 1, enab, MENU_AUTOASSIGN, _( "%s (Warmth: %d->%d, Encumbrance: %d->%d)" ),
                     mod.item_tags.count( "furred" ) == 0 ? _( "Line it with fur" ) : _( "Destroy fur lining" ),
-                    mod.get_warmth(), temp_item.get_warmth(), mod.get_encumber(), temp_item.get_encumber() );
+                    mod.get_warmth(), temp_item.get_warmth(), mod.get_encumber( *p ), temp_item.get_encumber( *p ) );
 
     temp_item = modded_copy( mod, "leather_padded" );
     enab = can_add_mod( "leather_padded", "leather" );
@@ -1586,7 +1586,7 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
                     mod.item_tags.count( "leather_padded" ) == 0 ? _( "Pad with leather" ) :
                     _( "Destroy leather padding" ),
                     mod.bash_resist(), mod.cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
-                    mod.get_encumber(), temp_item.get_encumber() );
+                    mod.get_encumber( *p ), temp_item.get_encumber( *p ) );
 
     temp_item = modded_copy( mod, "kevlar_padded" );
     enab = can_add_mod( "kevlar_padded", "kevlar_plate" );
@@ -1594,7 +1594,7 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
                     mod.item_tags.count( "kevlar_padded" ) == 0 ? _( "Pad with Kevlar" ) :
                     _( "Destroy Kevlar padding" ),
                     mod.bash_resist(), mod.cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
-                    mod.get_encumber(), temp_item.get_encumber() );
+                    mod.get_encumber( *p ), temp_item.get_encumber( *p ) );
 
     tmenu.query();
     const int choice = tmenu.ret;

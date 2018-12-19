@@ -938,7 +938,7 @@ bool npc::wear_if_wanted( const item &it )
         return !!wear_item( it, false );
     }
 
-    const int it_encumber = it.get_encumber();
+    const int it_encumber = it.get_encumber( *this );
     while( !worn.empty() ) {
         auto size_before = worn.size();
         bool encumb_ok = true;
