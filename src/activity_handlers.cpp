@@ -144,7 +144,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
-    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish },
+    { activity_id( "ACT_UNLOAD_MAGAZINE" ), unload_magazine }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -2966,6 +2967,14 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You give your hair a trim." ) );
     p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    act->set_to_null();
+}
+
+void activity_handlers::unload_magazine( player_activity *act, player *p )
+{
+    item* it = act->targets[0].get_item();
+    //TODO: use restructured function from the player class
+    p->add_or_drop_with_msg(*it, true);
     act->set_to_null();
 }
 
