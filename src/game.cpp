@@ -9915,8 +9915,8 @@ bool game::unload( item &it )
                 //call the activity handler after setting up
                 player_activity unload_activity(activity_id( "ACT_UNLOAD_MAGAZINE" ), mv);
                 unload_activity.values.push_back( u.get_item_position( target ) );
-                unload_activity.values.push_back( qty );
-                u.assign_activity(unload_activity);
+                //unload_activity.values.push_back( qty );
+                u.assign_activity(unload_activity, true);
             }
             add_msg( _( "You disassemble your %s." ), target->tname().c_str() );
         } else {
