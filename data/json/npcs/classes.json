@@ -50,6 +50,7 @@
     "type": "npc_class",
     "id": "NC_SHOPKEEP",
     "name": "Shopkeep",
+    "job_description" : "I'm a local shopkeeper.",
     "traits": [ { "group": "NPC_starting_traits" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false
