@@ -3146,7 +3146,7 @@
     "type": "ARMOR",
     "name": "monocle",
     "//": "DDA monocle is optical-grade.  Costume ones go for about $10.",
-    "description": "An essential article of the gentleman's apparel.  Also corrects near-sightedness.  You can use this to focus sunlight.",
+    "description": "An essential article of the gentleman's apparel.  Also corrects near-sightedness.  The concave lenses diffuse the sunlight, rendering them useless for starting fires.",
     "weight": 16,
     "volume": 0,
     "price": 4000,
@@ -3159,7 +3159,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "SUPER_FANCY", "FIRESTARTER", "FIX_NEARSIGHT" ]
+    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_reading",

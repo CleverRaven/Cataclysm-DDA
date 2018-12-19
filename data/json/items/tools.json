@@ -1859,7 +1859,7 @@
     "ammo": "battery",
     "initial_charges": 300,
     "max_charges": 300,
-    "qualities": [ [ "DRILL", 3 ] ]
+    "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ]
   },
   {
     "id": "cot",
@@ -2322,57 +2322,7 @@
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 250 }
     },
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
-    "id": "dynamite_radio",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "radio dynamite",
-    "description": "Dynamite with a radio detonator.  Activate it to arm, then plant or attach to a RC car, and use the remote detonator.",
-    "weight": 180,
-    "volume": 4,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "paper", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "max_charges": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 200 },
-    "use_action": {
-      "target": "dynamite_radio_act",
-      "msg": "You arm your radio-detonated dynamite.",
-      "target_charges": 1,
-      "active": true,
-      "menu_text": "Arm detonator",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "dynamite_radio_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "activated radio dynamite",
-    "description": "Dynamite with a radio detonator, armed.  Place it, get away and use the remote detonator.",
-    "weight": 1570,
-    "volume": 4,
-    "price": 0,
-    "to_hit": -4,
-    "material": [ "paper", "plastic" ],
-    "symbol": "*",
-    "color": "yellow",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 200 },
-    "use_action": {
-      "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away and use the remote control to detonate.",
-      "explosion": { "power": 250 }
-    },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "BOMB" ]
   },
   {
     "id": "e_handcuffs",
@@ -2654,7 +2604,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "PRY", 1 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
@@ -3548,7 +3498,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -4316,7 +4266,16 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "use_action": "PORTABLE_STRUCTURE"
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 2,
+      "broken_type": "largebroketent",
+      "wall": "f_large_canvas_wall",
+      "floor": "f_large_groundsheet",
+      "floor_center": "f_center_groundsheet",
+      "door_opened": "f_large_canvas_door_o",
+      "door_closed": "f_large_canvas_door"
+    }
   },
   {
     "id": "leather_funnel",
@@ -4480,6 +4439,7 @@
     "color": "dark_gray",
     "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
     "use_action": "CROWBAR",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -4741,26 +4701,6 @@
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
-  },
-  {
-    "id": "militarymap",
-    "type": "GENERIC",
-    "category": "books",
-    "name": "military operations map",
-    "description": "This is a printed topographical map of the local area.  Originally of military origin, it details the locations of evacuation centers and military facilities.  Using it will add points of interest to your map.",
-    "weight": 30,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -1,
-    "material": "paper",
-    "symbol": ";",
-    "color": "green",
-    "use_action": {
-      "type": "reveal_map",
-      "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "fema_entrance", "bunker", "outpost", "silo", "shelter", "police" ],
-      "message": "You add roads and facilities to your map."
-    }
   },
   {
     "id": "mininuke",
@@ -5457,7 +5397,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "pipe bomb",
-    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.  It is somewhat unreliable, and may fail to detonate.",
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
     "weight": 1298,
     "volume": 2,
     "price": 1500,
@@ -5475,7 +5415,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
   },
   {
     "id": "pipebomb_act",
@@ -5494,54 +5434,14 @@
     "initial_charges": 3,
     "max_charges": 3,
     "turns_per_charge": 1,
-    "use_action": "PIPEBOMB_ACT",
-    "flags": [ "DANGEROUS" ]
-  },
-  {
-    "id": "pipebomb_radio",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "radio pipe bomb",
-    "description": "A radio-detonated pipe bomb.  Activate it to arm the detonator, then place somewhere and press a button on the radio control.",
-    "weight": 180,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "max_charges": 1,
-    "use_action": {
-      "target": "pipebomb_radio_act",
-      "msg": "You arm your radio-detonated pipe bomb.",
-      "target_charges": 1,
-      "active": true,
-      "menu_text": "Arm detonator",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "pipebomb_radio_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "activated radio pipe bomb",
-    "description": "A radio-detonated pipe bomb, armed.  Place it or attach to a RC car, then get away and use the radio-control to detonate.",
-    "weight": 1570,
-    "volume": 4,
-    "price": 0,
-    "to_hit": -4,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "yellow",
-    "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away, and use the remote control to detonate.",
-      "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1.0 } }
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1 } }
     },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "plastic_chunk",
@@ -5951,46 +5851,6 @@
     "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
-    "id": "restaurantmap",
-    "type": "GENERIC",
-    "category": "books",
-    "name": "restaurant guide",
-    "description": "This is glossy printed pamphlet that details dining establishments in the local area.  Printed by the Chamber of Commerce, it lists the addresses of all the best diners and bars.  Using it will add points of interest to your map.",
-    "weight": 30,
-    "volume": 1,
-    "price": 500,
-    "to_hit": -1,
-    "material": "paper",
-    "symbol": ";",
-    "color": "pink",
-    "use_action": {
-      "type": "reveal_map",
-      "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "s_restaurant_coffee", "s_restaurant", "bar", "s_pizza_parlor", "s_restaurant_fast" ],
-      "message": "You add roads and restaurants to your map."
-    }
-  },
-  {
-    "id": "roadmap",
-    "type": "GENERIC",
-    "category": "books",
-    "name": "road map",
-    "description": "This is a road map for the local area.  Listing information on civic sites like hospitals and police stations, it can be used to add points of interest to your map.",
-    "weight": 30,
-    "volume": 1,
-    "price": 500,
-    "to_hit": -1,
-    "material": "paper",
-    "symbol": ";",
-    "color": "yellow",
-    "use_action": {
-      "type": "reveal_map",
-      "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "shelter", "hospital", "school", "police", "sub_station", "bank" ],
-      "message": "You add roads and points of interest to your map."
-    }
-  },
-  {
     "id": "rock_pot",
     "type": "GENERIC",
     "category": "tools",
@@ -6347,7 +6207,15 @@
     "material": [ "wood", "leather" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": "PORTABLE_STRUCTURE"
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 1,
+      "broken_type": "damaged_shelter_kit",
+      "wall": "f_skin_wall",
+      "floor": "f_skin_groundsheet",
+      "door_opened": "f_skin_door_o",
+      "door_closed": "f_skin_door"
+    }
   },
   {
     "id": "shishkebab_off",
@@ -6582,6 +6450,7 @@
       [ "HAMMER", 3 ],
       [ "SAW_M_FINE", 1 ],
       [ "SAW_M", 2 ],
+      [ "SAW_W", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
       [ "SCREW_FINE", 1 ],
@@ -6876,26 +6745,6 @@
     "use_action": "SHAVEKIT"
   },
   {
-    "id": "survivormap",
-    "type": "GENERIC",
-    "category": "books",
-    "name": "survivor's map",
-    "description": "This is a hand-drawn map of the local area.  Whomever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
-    "weight": 30,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -1,
-    "material": "paper",
-    "symbol": ";",
-    "color": "white",
-    "use_action": {
-      "type": "reveal_map",
-      "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "mil_surplus", "s_gas" ],
-      "message": "You add roads and possible supply points to your map."
-    }
-  },
-  {
     "id": "swage",
     "type": "TOOL",
     "name": "swage and die set",
@@ -6960,7 +6809,7 @@
     "name": "syringe",
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": 10,
-    "volume": 1,
+    "volume": "50ml",
     "price": 2500,
     "material": "plastic",
     "symbol": ",",
@@ -7184,7 +7033,15 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "use_action": "PORTABLE_STRUCTURE"
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 1,
+      "broken_type": "broketent",
+      "wall": "f_canvas_wall",
+      "floor": "f_groundsheet",
+      "door_opened": "f_canvas_door_o",
+      "door_closed": "f_canvas_door"
+    }
   },
   {
     "id": "testflames",
@@ -7622,6 +7479,7 @@
       [ "HAMMER", 3 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 2 ],
+      [ "AXE", 1 ],
       [ "WRENCH", 2 ],
       [ "SCREW", 1 ],
       [ "HAMMER_FINE", 1 ],
@@ -7680,26 +7538,6 @@
     "use_action": "TORCH_LIT",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
-  },
-  {
-    "id": "touristmap",
-    "type": "GENERIC",
-    "category": "books",
-    "name": "tourist guide",
-    "description": "This is glossy printed pamphlet for tourists that details local hotels and attractions.",
-    "weight": 30,
-    "volume": 1,
-    "price": 100,
-    "to_hit": -1,
-    "material": "paper",
-    "symbol": ";",
-    "color": "blue",
-    "use_action": {
-      "type": "reveal_map",
-      "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
-      "message": "You add roads and tourist attractions to your map."
-    }
   },
   {
     "id": "trimmer_off",

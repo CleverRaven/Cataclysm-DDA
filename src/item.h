@@ -5,6 +5,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "enums.h"
 #include "item_location.h"
 #include "string_id.h"
 #include "visitable.h"
@@ -79,7 +80,7 @@ class map;
 
 enum damage_type : int;
 
-std::string const &rad_badge_color( int rad );
+const std::string &rad_badge_color( int rad );
 
 struct light_emission {
     unsigned short luminance;
@@ -167,36 +168,6 @@ inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
 inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
 {
     return l = l | r;
-}
-
-/**
- *  Possible layers that a piece of clothing/armor can occupy
- *
- *  Every piece of clothing occupies one distinct layer on the body-part that
- *  it covers.  This is used for example by @ref Character to calculate
- *  encumbrance values, @ref player to calculate time to wear/remove the item,
- *  and by @ref profession to place the characters' clothing in a sane order
- *  when starting the game.
- */
-enum layer_level {
-    /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR = 0,
-    /* "Normal" layer, default if no flags set */
-    REGULAR_LAYER,
-    /* "Waist" layer, corresponds to WAIST flag. */
-    WAIST_LAYER,
-    /* "Outer" layer, corresponds to OUTER flag. */
-    OUTER_LAYER,
-    /* "Strapped" layer, corresponds to BELTED flag */
-    BELTED_LAYER,
-    /* Not a valid layer; used for C-style iteration through this enum */
-    MAX_CLOTHING_LAYER
-};
-
-inline layer_level &operator++( layer_level &l )
-{
-    l = static_cast<layer_level>( l + 1 );
-    return l;
 }
 
 class item : public visitable<item>
@@ -888,13 +859,15 @@ class item : public visitable<item>
          * compare them to. The values can be interpreted as chance (@ref one_in) of damaging the item
          * when exposed to the type of damage.
          * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
+         * @param base_env_resist Will override the base environmental
+         * resistance (to allow hypothetical calculations for gas masks).
          */
         /*@{*/
         int bash_resist( bool to_self = false ) const;
         int cut_resist( bool to_self = false )  const;
         int stab_resist( bool to_self = false ) const;
-        int acid_resist( bool to_self = false ) const;
-        int fire_resist( bool to_self = false ) const;
+        int acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
+        int fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
         /*@}*/
 
         /**
@@ -949,7 +922,7 @@ class item : public visitable<item>
         float get_relative_health() const;
 
         /**
-         * Apply damage to item constrained by @ref min_damage and @ref max_damage
+         * Apply damage to const itemrained by @ref min_damage and @ref max_damage
          * @param qty maximum amount by which to adjust damage (negative permissible)
          * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
@@ -1063,6 +1036,7 @@ class item : public visitable<item>
         bool is_ammo() const;
         bool is_armor() const;
         bool is_book() const;
+        bool is_map() const;
         bool is_salvageable() const;
 
         bool is_tool() const;
@@ -1268,6 +1242,8 @@ class item : public visitable<item>
         void set_var( const std::string &name, long value );
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
+        void set_var( const std::string &name, const tripoint &value );
+        tripoint get_var( const std::string &name, const tripoint &default_value ) const;
         void set_var( const std::string &name, const std::string &value );
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */
@@ -1441,16 +1417,18 @@ class item : public visitable<item>
          */
         int get_coverage() const;
         /**
-         * Returns the encumbrance value that this item has when worn, when
-         * containing a particular volume of contents.
-         * Returns 0 if this is can not be worn at all.
+         * Returns the encumbrance value that this item has when worn by given
+         * player, when containing a particular volume of contents.
+         * Returns 0 if this can not be worn at all.
          */
-        int get_encumber_when_containing( const units::volume &contents_volume ) const;
+        int get_encumber_when_containing(
+            const Character &, const units::volume &contents_volume ) const;
         /**
-         * Returns the encumbrance value that this item has when worn.
+         * Returns the encumbrance value that this item has when worn by given
+         * player.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber() const;
+        int get_encumber( const Character & ) const;
         /**
          * Returns the storage amount (@ref islot_armor::storage) that this item provides when worn.
          * For non-armor it returns 0. The storage amount increases the volume capacity of the
@@ -1461,15 +1439,20 @@ class item : public visitable<item>
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
          * For non-armor it returns 0.
+         *
+         * @param override_base_resist Pass this to artifically increase the
+         * base resistance, so that the function can take care of other
+         * modifications to resistance for you. Note that this parameter will
+         * never decrease base resistnace.
          */
-        int get_env_resist() const;
+        int get_env_resist( int override_base_resist = 0 ) const;
         /**
-         * Returns the resistance to environmental effects if an item (for example a gas mask)
+         * Returns the base resistance to environmental effects if an item (for example a gas mask)
          * requires a gas filter to operate and this filter is installed. Used in iuse::gasmask to
          * change protection of a gas mask if it has (or don't has) filters. For other applications
          * use get_env_resist() above.
          */
-        int get_env_resist_w_filter() const;
+        int get_base_env_resist_w_filter() const;
         /**
          * Whether this is a power armor item. Not necessarily the main armor, it could be a helmet
          * or similar.

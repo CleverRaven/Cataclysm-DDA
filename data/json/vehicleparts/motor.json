@@ -24,7 +24,7 @@
     "difficulty": 1,
     "durability": 80,
     "power": 1492,
-    "energy_consumption": 670,
+    "energy_consumption": 1750,
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [
@@ -44,7 +44,7 @@
     "difficulty": 1,
     "durability": 120,
     "power": 7460,
-    "energy_consumption": 2681,
+    "energy_consumption": 8500,
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [
@@ -65,7 +65,7 @@
     "difficulty": 2,
     "durability": 200,
     "power": 37300,
-    "energy_consumption": 13405,
+    "energy_consumption": 41500,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [
@@ -84,7 +84,7 @@
     "difficulty": 3,
     "durability": 400,
     "power": 149200,
-    "energy_consumption": 107239,
+    "energy_consumption": 166000,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
@@ -102,7 +102,7 @@
     "difficulty": 4,
     "durability": 200,
     "power": 186500,
-    "energy_consumption": 160858,
+    "energy_consumption": 207250,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },

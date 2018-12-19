@@ -324,6 +324,7 @@ struct overmap_special_connection {
         jo.read( "point", p );
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
+        jo.read( "connection", connection );
     }
 };
 

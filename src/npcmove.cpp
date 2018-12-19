@@ -238,6 +238,9 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
+            if( critter.type->difficulty > 10 && ( is_enemy() || !critter.friendly ) ) {
+                warn_about( "monster", 10_minutes, critter.type->nname() );
+            }
         }
     }
     assessment /= 10;
@@ -309,6 +312,7 @@ float npc::character_danger( const Character &uc ) const
 
 void npc::regen_ai_cache()
 {
+    float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
     ai_cache.danger = 0.0f;
@@ -316,7 +320,11 @@ void npc::regen_ai_cache()
     ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
     assess_danger();
-
+    if( old_assessment > NPC_DANGER_VERY_LOW && ai_cache.danger_assessment <= 0 ) {
+        warn_about( "relax", 30_minutes );
+    } else if( old_assessment <= 0.0f && ai_cache.danger_assessment > NPC_DANGER_VERY_LOW ) {
+        warn_about( "general_danger" );
+    }
     choose_target();
 }
 
@@ -384,9 +392,13 @@ void npc::move()
 
     if( action == npc_undecided ) {
         if( is_guarding() ) {
-            action = goal == global_omt_location() ?
-                     npc_pause :
-                     npc_goto_destination;
+            // if we're in a vehicle, stay in the vehicle
+            if( in_vehicle ) {
+                action = npc_pause;
+                goal = global_omt_location();
+            } else {
+                action = goal == global_omt_location() ?  npc_pause : npc_goto_destination;
+            }
         } else if( has_new_items && scan_new_items() ) {
             return;
         } else if( !fetching_item ) {
@@ -785,7 +797,7 @@ void npc::choose_target()
     const int max_range = std::max( weapon.reach_range( *this ),
                                     confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) );
 
-    constexpr static int def_radius = 6;
+    static constexpr int def_radius = 6;
 
     const auto ok_by_rules = [max_range, this]( const Creature & c, int dist, int scaled_dist ) {
         if( !is_following() ) {
@@ -895,6 +907,7 @@ void npc::choose_target()
         } else if( att == Creature::A_NEUTRAL ) {
             // Nothing
         } else if( sees( np ) && check_hostile_character( np ) ) {
+            warn_about( "kill_npc", 1_minutes, np.disp_name() );
             ai_cache.target = g->shared_from( np );
         }
     }
@@ -903,6 +916,7 @@ void npc::choose_target()
         ai_cache.friends.emplace_back( g->shared_from( g->u ) );
     } else if( is_enemy() ) {
         if( sees( g->u ) && check_hostile_character( g->u ) ) {
+            warn_about( "kill_player", 1_minutes );
             ai_cache.target = g->shared_from( g->u );
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
@@ -1365,13 +1379,17 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    int target_angle = g->m.coord_to_angle( posx(), posy(), tar.x, tar.y );
+    int target_angle = coord_to_angle( pos(), tar );
 
     // @todo: Base on dispersion
     int safe_angle = 30;
 
     for( const auto &fr : ai_cache.friends ) {
-        const Creature &ally = *fr.get();
+        const std::shared_ptr<Creature> ally_p = fr.lock();
+        if( !ally_p ) {
+            continue;
+        }
+        const Creature &ally = *ally_p;
 
         // @todo: Extract common functions with turret target selection
         int safe_angle_ally = safe_angle;
@@ -1380,7 +1398,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
             safe_angle_ally += ( 3 - ally_dist ) * 30;
         }
 
-        int ally_angle = g->m.coord_to_angle( posx(), posy(), ally.posx(), ally.posy() );
+        int ally_angle = coord_to_angle( pos(), ally.pos() );
         int angle_diff = abs( ally_angle - target_angle );
         angle_diff = std::min( 360 - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
@@ -1680,8 +1698,9 @@ void npc::avoid_friendly_fire()
     // Calculate center of weight of friends and move away from that
     tripoint center;
     for( const auto &fr : ai_cache.friends ) {
-        const Creature &ally = *fr.get();
-        center += ally.pos();
+        if( std::shared_ptr<Creature> fr_p = fr.lock() ) {
+            center += fr_p->pos();
+        }
     }
 
     float friend_count = ai_cache.friends.size();
@@ -1722,9 +1741,7 @@ void npc::escape_explosion()
         return;
     }
 
-    if( is_following() && one_in( 10 ) ) {
-        say( "<fire_in_the_hole>" );
-    }
+    warn_about( "explosion", 1_minutes );
 
     move_away_from( ai_cache.dangerous_explosives, true );
 }
@@ -2897,6 +2914,7 @@ void npc::mug_player( player &mark )
 
 void npc::look_for_player( player &sought )
 {
+    complain_about( "look_for_player", 5_minutes, "<wait>", false );
     update_path( sought.pos() );
     move_to_next();
     return;
@@ -3154,12 +3172,15 @@ void print_action( const char *prepend, npc_action action )
 
 const Creature *npc::current_target() const
 {
-    return ai_cache.target.get();
+    // TODO: Arguably we should return a shared_ptr to ensure that the returned
+    // object stays alive while the caller uses it.  Not doing that for now.
+    return ai_cache.target.lock().get();
 }
 
 Creature *npc::current_target()
 {
-    return const_cast<Creature *>( const_cast<const npc *>( this )->current_target() );
+    // TODO: As above.
+    return ai_cache.target.lock().get();
 }
 
 // Maybe TODO: Move to Character method and use map methods
@@ -3176,6 +3197,29 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
     }
 
     return ret;
+}
+
+void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
+{
+    std::string snip;
+    if( type == "monster" ) {
+        snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
+    } else if( type == "explosion" ) {
+        snip = is_enemy() ? "<fire_in_the_hole_h>" : "<fire_in_the_hole>";
+    } else if( type == "general_danger" ) {
+        snip = is_enemy() ? "<general_danger_h>" : "<general_danger>";
+    } else if( type == "relax" ) {
+        snip = is_enemy() ? "<its_safe_h>" : "<its_safe>";
+    } else if( type == "kill_npc" ) {
+        snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
+    } else if( type == "kill_player" ) {
+        snip = is_enemy() ? "<kill_player_h>" : "";
+    } else {
+        return;
+    }
+    const std::string warning_name = "warning_" + type + name;
+    const std::string speech = name == "" ? snip : string_format( _( "%s %s<punc>" ), snip, name );
+    complain_about( warning_name, d, speech, is_enemy() );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,

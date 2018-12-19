@@ -388,6 +388,11 @@ bool shrapnel_check( const fragment_cloud &cloud, const fragment_cloud &intensit
            intensity.density > MIN_FRAGMENT_DENSITY;
 }
 
+void update_fragment_cloud( fragment_cloud &update, const fragment_cloud &new_value, quadrant )
+{
+    update = std::max( update, new_value );
+}
+
 fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud,
         const fragment_cloud &current_cloud, const int &distance )
 {
@@ -454,8 +459,9 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     { fragment_velocity, static_cast<float>( fragment_count ) }, 1 );
     visited_cache[src.x][src.y] = initial_cloud;
 
-    castLightAll<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>
-    ( visited_cache, obstacle_cache, src.x, src.y, 0, initial_cloud );
+    castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
+                 update_fragment_cloud, accumulate_fragment_cloud>
+                 ( visited_cache, obstacle_cache, src.x, src.y, 0, initial_cloud );
 
     // Now visited_caches are populated with density and velocity of fragments.
     for( int x = start.x; x < end.x; x++ ) {

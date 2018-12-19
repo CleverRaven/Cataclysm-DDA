@@ -29,7 +29,7 @@ void live_view::init()
     hide();
 }
 
-int live_view::draw( const catacurses::window &win, int const max_height )
+int live_view::draw( const catacurses::window &win, const int max_height )
 {
     if( !enabled ) {
         return 0;

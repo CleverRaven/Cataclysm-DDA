@@ -500,7 +500,7 @@ player::player() : Character()
     active_mission = nullptr;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = {0, 0, 0};
+    grab_point = tripoint_zero;
     grab_type = OBJECT_NONE;
     hauling = false;
     move_mode = "walk";
@@ -1017,7 +1017,7 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
     int Ctemperature = int( 100 * temp_to_celsius( player_local_temp ) );
-    w_point const weather = *g->weather_precise;
+    const w_point weather = *g->weather_precise;
     int vehwindspeed = 0;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
         vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
@@ -5444,7 +5444,7 @@ void player::suffer()
                                                            _( "That %1$s doesn't deserve to live!" ) };
                         std::string talk_w = random_entry_ref( mon_near );
                         std::vector<std::string> seen_mons;
-                        for( auto n : mons ) {
+                        for( auto &n : mons ) {
                             if( sees( *n.lock() ) ) {
                                 seen_mons.emplace_back( n.lock()->get_name() );
                             }
@@ -5891,7 +5891,7 @@ void player::suffer()
 
             // Actual irradiation levels of badges and the player aren't precisely matched.
             // This is intentional.
-            int const before = it->irridation;
+            const int before = it->irridation;
 
             const int delta = rng( 0, rads_max );
             if (delta == 0) {
@@ -7417,9 +7417,14 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
         if( base.is_gun() || base.is_magazine() ) {
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.front().ammo_data() : sel.ammo->ammo_data();
             if( ammo ) {
-                const damage_instance &dam = ammo->ammo->damage;
-                row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
-                                      static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
+                if( ammo->ammo->prop_damage ) {
+                    row += string_format("| *%-6d | %-7d", static_cast<int>( *ammo->ammo->prop_damage ),
+                                         ammo->ammo->legacy_pierce );
+                } else {
+                    const damage_instance &dam = ammo->ammo->damage;
+                    row += string_format("| %-7d | %-7d", static_cast<int>( dam.total_damage()),
+                                         static_cast<int>( dam.empty() ? 0.0f : (*dam.begin()).res_pen ));
+                }
             } else {
                 row += "|         |         ";
             }
@@ -7563,7 +7568,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
             }
-            auto id = ( ammo->is_ammo_container() || ammo->is_watertight_container() )
+            auto id = ( ammo->is_ammo_container() || ammo->is_container() )
                 ? ammo->contents.front().typeId()
                 : ammo->typeId();
             if( e->can_reload_with( id ) ) {
@@ -7615,16 +7620,8 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     }
 
     if( !prompt && ammo_list.size() == 1 ) {
-        // Suppress display of reload prompt when...
-        if( !base.is_gun() ) {
-            return std::move( ammo_list[ 0 ]); // reloading tools
-
-        } else if( base.magazine_integral() && base.ammo_remaining() > 0 ) {
-            return std::move( ammo_list[ 0 ] ); // adding to partially filled integral magazines
-
-        } else if( base.has_flag( "RELOAD_AND_SHOOT" ) && has_item( *ammo_list[ 0 ].ammo ) ) {
-            return std::move( ammo_list[ 0 ] ); // using bows etc and ammo is already in player possession
-        }
+        // unconditionally suppress the prompt if there's only one option
+        return std::move( ammo_list[ 0 ] );
     }
 
     return select_ammo( base, std::move( ammo_list ) );
@@ -7710,7 +7707,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber() > 20 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 20 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name.c_str() ) ) );
     }
@@ -8189,7 +8186,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1L );
-    } else if( ammo.is_ammo_container() || ammo.is_watertight_container() || ammo.is_non_resealable_container() ) {
+    } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1L );
     } else if( ammo.is_magazine() ) {
         qty = 1;
@@ -8260,7 +8257,7 @@ int player::item_wear_cost( const item& it ) const
             break;
     }
 
-    mv *= std::max( it.get_encumber() / 10.0, 1.0 );
+    mv *= std::max( it.get_encumber( *this ) / 10.0, 1.0 );
 
     return mv;
 }
@@ -9493,7 +9490,7 @@ void player::do_read( item &book )
                 reading->time );
 
         std::vector<std::string> recipe_list;
-        for( auto const & elem : reading->recipes ) {
+        for( const auto & elem : reading->recipes ) {
             // If the player knows it, they recognize it even if it's not clearly stated.
             if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
                 continue;
@@ -9739,7 +9736,7 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
             continue;
         }
 
-        for( auto const &elem : candidate.type->book->recipes ) {
+        for( const auto &elem : candidate.type->book->recipes ) {
             if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 res.include( elem.recipe, elem.skill_level );
             }
@@ -10743,7 +10740,7 @@ int player::head_cloth_encumbrance() const
         const item *worn_item = &i;
         if( i.covers( bp_head ) && ( worn_item->has_flag( "HELMET_COMPAT" ) ||
                                      worn_item->has_flag( "SKINTIGHT" ) ) ) {
-            ret += worn_item->get_encumber();
+            ret += worn_item->get_encumber( *this );
         }
     }
     return ret;
@@ -11567,6 +11564,16 @@ void player::toggle_map_memory()
 bool player::should_show_map_memory()
 {
     return show_map_memory;
+}
+
+void player::serialize_map_memory( JsonOut &jsout ) const
+{
+    player_map_memory.store( jsout );
+}
+
+void player::deserialize_map_memory( JsonIn &jsin )
+{
+    player_map_memory.load( jsin );
 }
 
 memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const

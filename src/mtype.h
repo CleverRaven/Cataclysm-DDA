@@ -65,6 +65,8 @@ enum monster_trigger : int {
     MTRIG_FRIEND_DIED, // A monster of the same type died
     MTRIG_FRIEND_ATTACKED, // A monster of the same type attacked
     MTRIG_SOUND,  // Heard a sound
+    MTRIG_PLAYER_NEAR_BABY, // Player/npc is near a baby monster of this type
+    MTRIG_MATING_SEASON, // It's the monster's mating season (defined by baby_flags)
     N_MONSTER_TRIGGERS
 };
 
@@ -103,6 +105,7 @@ enum m_flag : int {
     MF_ELECTRIC,            // Shocks unarmed attackers
     MF_ACIDPROOF,           // Immune to acid
     MF_ACIDTRAIL,           // Leaves a trail of acid
+    MF_SHORTACIDTRAIL,       // Leaves an intermittent trail of acid
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving

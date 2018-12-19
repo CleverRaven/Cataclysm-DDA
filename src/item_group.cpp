@@ -49,7 +49,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         }
         rec.push_back( id );
         Item_spawn_data *isd = item_controller->get_group( id );
-        if( isd == NULL ) {
+        if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
         }
@@ -92,7 +92,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
             }
             rec.push_back( id );
             Item_spawn_data *isd = item_controller->get_group( id );
-            if( isd == NULL ) {
+            if( isd == nullptr ) {
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return result;
             }
@@ -144,7 +144,7 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
         }
     } else if( type == S_ITEM_GROUP ) {
         Item_spawn_data *isd = item_controller->get_group( id );
-        if( isd != NULL ) {
+        if( isd != nullptr ) {
             isd->remove_item( itemid );
         }
     }
@@ -244,7 +244,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( container.get() != NULL ) {
+    if( container.get() != nullptr ) {
         item cont = container->create_single( new_item.birthday() );
         if( !cont.is_null() ) {
             if( new_item.made_of( LIQUID ) ) {
@@ -260,7 +260,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( contents.get() != NULL ) {
+    if( contents.get() != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
         new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
     }
@@ -272,10 +272,10 @@ void Item_modifier::modify( item &new_item ) const
 
 void Item_modifier::check_consistency() const
 {
-    if( ammo.get() != NULL ) {
+    if( ammo.get() != nullptr ) {
         ammo->check_consistency();
     }
-    if( container.get() != NULL ) {
+    if( container.get() != nullptr ) {
         container->check_consistency();
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
@@ -288,12 +288,12 @@ void Item_modifier::check_consistency() const
 
 bool Item_modifier::remove_item( const Item_tag &itemid )
 {
-    if( ammo.get() != NULL ) {
+    if( ammo.get() != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
             ammo.reset();
         }
     }
-    if( container.get() != NULL ) {
+    if( container.get() != nullptr ) {
         if( container->remove_item( itemid ) ) {
             container.reset();
             return true;
@@ -336,7 +336,7 @@ void Item_group::add_group_entry( const Group_tag &groupid, int probability )
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
-    assert( ptr.get() != NULL );
+    assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
         return;
     }

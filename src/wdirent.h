@@ -99,16 +99,16 @@
 #   define _X86_
 #endif
 #include <cstdio>
-#include <stdarg.h>
+#include <cstdarg>
 #include <windef.h>
-#include <winbase.h>
-#include <wchar.h>
+#include <WinBase.h>
+#include <cwchar>
 #include <cstring>
-#include <stdlib.h>
+#include <cstdlib>
 #include <malloc.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <errno.h>
+#include <cerrno>
 
 #if defined(_WIN32) || defined(WINDOWS)
 // needed by MultiByteToWideChar

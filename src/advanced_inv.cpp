@@ -28,7 +28,7 @@
 #include "vpart_reference.h"
 
 #ifdef __ANDROID__
-#include "SDL_keyboard.h"
+#include <SDL_keyboard.h>
 #endif
 
 #include <algorithm>
@@ -1400,7 +1400,7 @@ static tripoint aim_vector( aim_location id )
         case AIM_NORTHEAST:
             return tripoint( 1, -1, 0 );
         default:
-            return tripoint( 0, 0, 0 );
+            return tripoint_zero;
     }
 }
 

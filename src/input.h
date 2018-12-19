@@ -211,7 +211,7 @@ class input_manager
          *                           keybinding is overridden by something else in the given context.
          */
         const std::vector<input_event> &get_input_for_action( const std::string &action_descriptor,
-                const std::string &context = "default", bool *overwrites_default = NULL );
+                const std::string &context = "default", bool *overwrites_default = nullptr );
 
         /**
          * Return first char associated with an action ID in a given context.
@@ -332,7 +332,7 @@ class input_manager
         const action_attributes &get_action_attributes(
             const std::string &action_id,
             const std::string &context = "default",
-            bool *overwrites_default = NULL );
+            bool *overwrites_default = nullptr );
 
         /**
          * Get a value to be used as the default name for a newly created action.
@@ -577,18 +577,13 @@ class input_context
         const std::string &handle_input( int timeout );
 
         /**
-         * Convert a direction action(UP, DOWN etc) to a delta x and y.
+         * Convert a direction action (UP, DOWN etc) to a delta vector.
          *
-         * @return True if the action is a movement action (UP, DOWN, ...),
-         * the delta values of associated with it have been stored in (dx,dy).
-         * False if the action is not a movement action (CONFIRM, QUIT, ...),
-         * (dx,dy) has been set to (-2,-2).
-         *
-         * @param action Action to convert.
-         * @param dx Output parameter for x delta.
-         * @param dy Output parameter for y delta.
+         * @return If the action is a movement action (UP, DOWN, ...),
+         * the delta vector associated with it. Otherwise returns an empty value.
+         * The returned vector will always have a z component of 0.
          */
-        bool get_direction( int &dx, int &dy, const std::string &action );
+        cata::optional<tripoint> get_direction( const std::string &action ) const;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).

@@ -873,16 +873,12 @@ action_id handle_main_menu()
     }
 }
 
-bool choose_direction( const std::string &message, int &x, int &y )
+cata::optional<tripoint> choose_direction( const std::string &message )
 {
-    tripoint temp( x, y, g->u.posz() );
-    bool ret = choose_direction( message, temp );
-    x = temp.x;
-    y = temp.y;
-    return ret;
+    return choose_direction( message, false );
 }
 
-bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical )
+cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
     ctxt.set_iso( true );
@@ -900,54 +896,39 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     popup( query_text, PF_NO_WAIT_ON_TOP );
 
     const std::string action = ctxt.handle_input();
-    if( ctxt.get_direction( offset.x, offset.y, action ) ) {
-        offset.z = 0;
-        return true;
+    if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        return vec;
     } else if( action == "pause" ) {
-        offset = tripoint( 0, 0, 0 );
-        return true;
+        return tripoint_zero;
     } else if( action == "LEVEL_UP" ) {
-        offset = tripoint( 0, 0, 1 );
-        return true;
+        return tripoint( 0, 0, 1 );
     } else if( action == "LEVEL_DOWN" ) {
-        offset = tripoint( 0, 0, -1 );
-        return true;
+        return tripoint( 0, 0, -1 );
     }
 
     add_msg( _( "Invalid direction." ) );
-    return false;
+    return cata::nullopt;
 }
 
-bool choose_adjacent( const std::string &message, int &x, int &y )
+cata::optional<tripoint> choose_adjacent( const std::string &message )
 {
-    tripoint temp( x, y, g->u.posz() );
-    bool ret = choose_adjacent( message, temp );
-    x = temp.x;
-    y = temp.y;
-    return ret;
+    return choose_adjacent( message, false );
 }
 
-bool choose_adjacent( const std::string &message, tripoint &p, bool allow_vertical )
+cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
-    if( !choose_direction( message, p, allow_vertical ) ) {
-        return false;
-    }
-    p += g->u.pos();
-    return true;
+    const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
+    return dir ? *dir + g->u.pos() : dir;
 }
 
-bool choose_adjacent_highlight( const std::string &message, int &x, int &y,
-                                action_id action_to_highlight )
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const action_id action_to_highlight )
 {
-    tripoint temp( x, y, g->u.posz() );
-    bool ret = choose_adjacent_highlight( message, temp, action_to_highlight );
-    x = temp.x;
-    y = temp.y;
-    return ret;
+    return choose_adjacent_highlight( message, action_to_highlight, false );
 }
 
-bool choose_adjacent_highlight( const std::string &message, tripoint &p,
-                                action_id action_to_highlight )
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const action_id action_to_highlight, const bool allow_vertical )
 {
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
@@ -962,5 +943,5 @@ bool choose_adjacent_highlight( const std::string &message, tripoint &p,
         wrefresh( g->w_terrain );
     }
 
-    return choose_adjacent( message, p );
+    return choose_adjacent( message, allow_vertical );
 }

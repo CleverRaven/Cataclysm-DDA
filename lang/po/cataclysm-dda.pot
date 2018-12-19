@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-16 22:24+0800\n"
+"POT-Creation-Date: 2018-12-14 18:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4473,19 +4473,6 @@ msgid "A large American flag made to fly in even the worst conditions."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "ANBC suit"
-msgid_plural "ANBC suits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for ANBC suit
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"An armored, impermeable full-body suit that functions as body armor, as well "
-"as protecting from nuclear, biological, and chemical hazards."
-msgstr ""
-
-#: lang/json/ARMOR_from_json.py
 msgid "leather apron"
 msgid_plural "leather aprons"
 msgstr[0] ""
@@ -6596,7 +6583,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "An essential article of the gentleman's apparel.  Also corrects near-"
-"sightedness.  You can use this to focus sunlight."
+"sightedness.  The concave lenses diffuse the sunlight, rendering them "
+"useless for starting fires."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -7265,20 +7253,6 @@ msgid ""
 "A felt orange sombrero with traditional white and yellow hand stitching.  "
 "The wide brim keeps the sun out of your eyes, and a thin strap hooks around "
 "your chin."
-msgstr ""
-
-#: lang/json/ARMOR_from_json.py
-msgid "hazmat suit"
-msgid_plural "hazmat suits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for hazmat suit
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"An impermeable whole-body garment worn as protection against hazardous "
-"materials.  Though very restrictive and fragile, wearing it will provide "
-"complete protection against ambient radiation."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -10914,6 +10888,12 @@ msgid ""
 "harm."
 msgstr ""
 
+#: lang/json/ARMOR_from_json.py
+msgid "hazmat suit"
+msgid_plural "hazmat suits"
+msgstr[0] ""
+msgstr[1] ""
+
 #. ~ Description for hazmat suit
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -10922,6 +10902,12 @@ msgid ""
 "complete protection against ambient radiation.  It requires a separate gas "
 "mask for full protection."
 msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "ANBC suit"
+msgid_plural "ANBC suits"
+msgstr[0] ""
+msgstr[1] ""
 
 #. ~ Description for ANBC suit
 #: lang/json/ARMOR_from_json.py
@@ -16932,6 +16918,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "ether"
+msgid_plural "ether"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for ether
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Diethyl ether largely supplanted the use of chloroform as a general "
+"anesthetic due to ether's more favorable therapeutic index, that is, a "
+"greater difference between an effective dose and a potentially toxic dose."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "diet pill"
 msgstr ""
 
@@ -17824,18 +17824,6 @@ msgstr[1] ""
 msgid ""
 "Low-sodium preserved fish.  It was boiled and canned.  Contains most of the "
 "nutrition, but little of the savor of cooked fish."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "salted fish slices"
-msgid_plural "salted fish slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for salted fish slices
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Fish fillets cured in brine and vacuum-packed.  Salty but tasty in a pinch."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -20952,64 +20940,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "irradiated beef course"
-msgstr ""
-
-#. ~ Description for irradiated beef course
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"The irradiated beef main course from an MRE.  Sterilized using radiation, so "
-"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "irradiated vegetarian course"
-msgstr ""
-
-#. ~ Description for irradiated vegetarian course
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"The irradiated vegetarian main course from an MRE.  Sterilized using "
-"radiation, so it's safe to eat.  Exposed to the atmosphere, it has started "
-"to go bad."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "irradiated chicken course"
-msgstr ""
-
-#. ~ Description for irradiated chicken course
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"The irradiated chicken main course from an MRE.  Sterilized using radiation, "
-"so it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "irradiated hot dog course"
-msgstr ""
-
-#. ~ Description for irradiated hot dog course
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Nicknamed the 'Four Fingers of Death' by troops, this is probably the most "
-"disgusting thing you've ever eaten.  Sterilized using radiation, so it's "
-"safe to eat.  Exposed to the atmosphere, it has started to go bad."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "irradiated ravioli course"
-msgstr ""
-
-#. ~ Description for irradiated ravioli course
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"The main course from a ravioli MRE, the sauce really helps with the taste.  "
-"Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, "
-"it has started to go bad."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "tea leaf"
 msgid_plural "tea leaves"
 msgstr[0] ""
@@ -21137,8 +21067,7 @@ msgstr ""
 
 #. ~ Description for salted meat slice
 #: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch."
+msgid "Meat slices cured in brine.  Salty but tasty in a pinch."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -22188,19 +22117,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "sweetbread"
-msgid_plural "sweetbreads"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for sweetbread
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Delicious and tender organ meats.  First boiled, then breaded and fried.  "
-"They have interesting flavor and unparalleled texture."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "haggis"
 msgid_plural "haggii"
 msgstr[0] ""
@@ -23057,6 +22973,17 @@ msgid "Spice"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "sourdough bread"
+msgstr ""
+
+#. ~ Description for sourdough bread
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Healthy and filling, with a sharper taste and thicker crust than yeast-only "
+"bread."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "whiskey wort"
 msgstr ""
 
@@ -23438,6 +23365,100 @@ msgstr ""
 msgid ""
 "A heavily smoked portion of human flesh.  Lasts for a very long time and "
 "tastes pretty good, if you like that sort of thing."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw lung"
+msgstr ""
+
+#. ~ Description for raw lung
+#: lang/json/COMESTIBLE_from_json.py
+msgid "The lung from an animal.  It's all spongy."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cooked lung"
+msgstr ""
+
+#. ~ Description for cooked lung
+#: lang/json/COMESTIBLE_from_json.py
+msgid "It doesn't look any tastier, but the parasites are all cooked out."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw liver"
+msgstr ""
+
+#. ~ Description for raw liver
+#: lang/json/COMESTIBLE_from_json.py
+msgid "The liver from an animal."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cooked liver"
+msgstr ""
+
+#. ~ Description for cooked liver
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Chock full of B-Vitamins!"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw brains"
+msgid_plural "raw brains"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for raw brains
+#: lang/json/COMESTIBLE_from_json.py
+msgid "The brain from an animal.  You wouldn't want to eat this raw..."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cooked brains"
+msgid_plural "cooked brains"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cooked brains
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Now you can emulate those zombies you love so much!"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw kidney"
+msgstr ""
+
+#. ~ Description for raw kidney
+#: lang/json/COMESTIBLE_from_json.py
+msgid "The kidney from an animal."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cooked kidney"
+msgstr ""
+
+#. ~ Description for cooked kidney
+#: lang/json/COMESTIBLE_from_json.py
+msgid "No, this is not beans."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw sweetbread"
+msgstr ""
+
+#. ~ Description for raw sweetbread
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Sweetbreads are the thymus or pancreas of an animal."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cooked sweetbread"
+msgstr ""
+
+#. ~ Description for cooked sweetbread
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Normally a delicacy, it needs a little... something."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24609,6 +24630,292 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "MRE entree"
+msgstr ""
+
+#. ~ Description for MRE entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A generic MRE entree, you shouldn't see this."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili & beans entree"
+msgstr ""
+
+#. ~ Description for chili & beans entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The chili & beans entree from an MRE.  Sterilized using radiation, so it's "
+"safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "BBQ beef entree"
+msgstr ""
+
+#. ~ Description for BBQ beef entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The BBQ beef entree from an MRE.  Sterilized using radiation, so it's safe "
+"to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chicken noodle entree"
+msgstr ""
+
+#. ~ Description for chicken noodle entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The chicken noodle entree from an MRE.  Sterilized using radiation, so it's "
+"safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "spaghetti entree"
+msgstr ""
+
+#. ~ Description for spaghetti entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The spaghetti entree from an MRE.  Sterilized using radiation, so it's safe "
+"to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chicken chunks entree"
+msgstr ""
+
+#. ~ Description for chicken chunks entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The chicken chunks entree from an MRE.  Sterilized using radiation, so it's "
+"safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "beef taco entree"
+msgstr ""
+
+#. ~ Description for beef taco entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The beef taco entree from an MRE.  Sterilized using radiation, so it's safe "
+"to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "beef brisket entree"
+msgstr ""
+
+#. ~ Description for beef brisket entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The beef brisket entree from an MRE.  Sterilized using radiation, so it's "
+"safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "meatballs & marinara entree"
+msgstr ""
+
+#. ~ Description for meatballs & marinara entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The meatballs & marinara entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "beef stew entree"
+msgstr ""
+
+#. ~ Description for beef stew entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The beef stew entree from an MRE.  Sterilized using radiation, so it's safe "
+"to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili & macaroni entree"
+msgstr ""
+
+#. ~ Description for chili & macaroni entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The chili & macaroni entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "vegetarian taco entree"
+msgstr ""
+
+#. ~ Description for vegetarian taco entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The vegetarian taco entree from an MRE.  Sterilized using radiation, so it's "
+"safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "macaroni & marinara entree"
+msgstr ""
+
+#. ~ Description for macaroni & marinara entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The macaroni & marinara entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cheese tortellini entree"
+msgstr ""
+
+#. ~ Description for cheese tortellini entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The cheese tortellini entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mushroom fettuccine entree"
+msgstr ""
+
+#. ~ Description for mushroom fettuccine entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The mushroom fettuccine entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Mexican chicken stew entree"
+msgstr ""
+
+#. ~ Description for Mexican chicken stew entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The Mexican chicken stew entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chicken burrito bowl entree"
+msgstr ""
+
+#. ~ Description for chicken burrito bowl entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The chicken burrito bowl entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "maple sausage entree"
+msgstr ""
+
+#. ~ Description for maple sausage entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The maple sausage entree from an MRE.  Sterilized using radiation, so it's "
+"safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "ravioli entree"
+msgstr ""
+
+#. ~ Description for ravioli entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The ravioli entree from an MRE.  Sterilized using radiation, so it's safe to "
+"eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "pepper jack beef entree"
+msgstr ""
+
+#. ~ Description for pepper jack beef entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The pepper jack beef entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "hash browns & bacon entree"
+msgstr ""
+
+#. ~ Description for hash browns & bacon entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The hash browns & bacon entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "lemon pepper tuna entree"
+msgstr ""
+
+#. ~ Description for lemon pepper tuna entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The lemon pepper tuna entree from an MRE.  Sterilized using radiation, so "
+"it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "asian beef & vegetables entree"
+msgstr ""
+
+#. ~ Description for asian beef & vegetables entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The asian beef & vegetables entree from an MRE.  Sterilized using radiation, "
+"so it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chicken pesto & pasta entree"
+msgstr ""
+
+#. ~ Description for chicken pesto & pasta entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The chicken pesto & pasta entree from an MRE.  Sterilized using radiation, "
+"so it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "southwest beef & beans entree"
+msgstr ""
+
+#. ~ Description for southwest beef & beans entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The southwest beef & beans entree entree from an MRE.  Sterilized using "
+"radiation, so it's safe to eat.  Exposed to the atmosphere, it has started "
+"to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "frankfurters & beans entree"
+msgstr ""
+
+#. ~ Description for frankfurters & beans entree
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The dreaded four fingers of death.  It seems to be several decades old.  "
+"Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, "
+"it has started to go bad."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "abstract mutagen flavor"
 msgstr ""
 
@@ -24934,6 +25241,102 @@ msgstr ""
 msgid ""
 "An experimental stem cell treatment, offering limited control over which "
 "mutations are purified.  The liquid sloshes strangely inside of this syringe."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "foie gras"
+msgid_plural "foie gras"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for foie gras
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Thought it's not technically foie gras, you don't have to think about that."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "liver & onions"
+msgid_plural "liver & onions"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for liver & onions
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A classic way to serve liver."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "fried liver"
+msgstr ""
+
+#. ~ Description for fried liver
+#. ~ Description for deep fried tripe
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Nothing tastier than something that's deep-fried!"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "humble pie"
+msgstr ""
+
+#. ~ Description for humble pie
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Also known as 'Umble' pie, made with chopped organ meats.  Not half bad, and "
+"really good for you!"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "deep fried tripe"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "leverpostej"
+msgid_plural "leverpostej"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for leverpostej
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A traditional Danish pate.  Probably better if you spread it on some bread."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "fried brain"
+msgstr ""
+
+#. ~ Description for fried brain
+#: lang/json/COMESTIBLE_from_json.py
+msgid "I don't know what you were expecting.  It's deep fried."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "deviled kidney"
+msgstr ""
+
+#. ~ Description for deviled kidney
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A delicious way to prepare kidneys."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "grilled sweetbread"
+msgstr ""
+
+#. ~ Description for grilled sweetbread
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Not sweet, like the name would suggest, but delicious all the same!"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "canned liver"
+msgstr ""
+
+#. ~ Description for canned liver
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Livers preserved in a can.  Chock full of B vitamins!"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -26656,6 +27059,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
+msgid "vacuum-packed bag"
+msgid_plural "vacuum-packed bags"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vacuum-packed bag
+#: lang/json/CONTAINER_from_json.py
+msgid "This is a bag of vacuum-packed food."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "tin can"
 msgid_plural "tin cans"
 msgstr[0] ""
@@ -27085,6 +27499,17 @@ msgstr[1] ""
 #. ~ Description for plastic tub
 #: lang/json/CONTAINER_from_json.py
 msgid "A big, square plastic bucket usually used for carrying ice cream."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "test tube"
+msgid_plural "test tubes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for test tube
+#: lang/json/CONTAINER_from_json.py
+msgid "A 50ml laboratory cylindrical test tube, with a rubber stopper."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
@@ -27603,78 +28028,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "MRE - Beef"
-msgid_plural "MREs - beef"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for MRE - Beef
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A 'Meal Ready to Eat' with an irradiated beef main course and everything a "
-"hungry soldier needs.  The contents will begin to rot once they're removed "
-"from this sealed bag.  Activate or disassemble it to get to its contents."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "MRE - Vegetarian"
-msgid_plural "MREs - vegetarian"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for MRE - Vegetarian
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and "
-"everything a hungry soldier needs.  The contents will begin to rot once "
-"they're removed from this sealed bag.  Activate or disassemble it to get to "
-"its contents."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "MRE - Chicken"
-msgid_plural "MREs - chicken"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for MRE - Chicken
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A 'Meal Ready to Eat' with an irradiated chicken course and everything a "
-"hungry soldier needs.  The contents will begin to rot once they're removed "
-"from this sealed bag.  Activate or disassemble it to get to its contents."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "MRE - Hotdogs"
-msgid_plural "MREs - hotdogs"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for MRE - Hotdogs
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A 'Meal Rejected by the Enemy' with a hotdog main course and everything a "
-"desperate survivor needs.  The contents will begin to rot once they're "
-"removed from this sealed bag.  Activate or disassemble it to get to its "
-"contents."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "MRE - Ravioli"
-msgid_plural "MREs - ravioli"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for MRE - Ravioli
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier "
-"needs.  The contents will begin to rot once they're removed from this sealed "
-"bag.  Activate or disassemble it to get to its contents."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "fake item"
 msgid_plural "fake items"
 msgstr[0] ""
@@ -27742,11 +28095,12 @@ msgstr ""
 #. ~ Description for nearby fire
 #. ~ Description for muscle
 #. ~ Description for a smoking device and a source of flame
+#. ~ Description for abstract map
 #. ~ Description for seeing this is a bug
 #. ~ Description for weapon
 #: lang/json/GENERIC_from_json.py
-#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
-#: lang/json/TOOL_from_json.py lang/json/skill_from_json.py
+#: lang/json/TOOL_from_json.py
+#: lang/json/skill_from_json.py
 msgid "seeing this is a bug"
 msgid_plural "seeing this is a bugs"
 msgstr[0] ""
@@ -31575,89 +31929,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed fruit slice"
-msgid_plural "vacuum-packed fruit slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action menu_text for vacuum-packed fruit slice.
-#. ~ Use action menu_text for vacuum-packed fish slice.
-#. ~ Use action menu_text for vacuum-packed salted simpleton slice.
-#. ~ Use action menu_text for vacuum-packed meat slice.
-#. ~ Use action menu_text for vacuum-packed veggy chunk.
-#: lang/json/GENERIC_from_json.py
-msgid "Open bag"
-msgstr ""
-
-#. ~ Use action msg for vacuum-packed fruit slice.
-#. ~ Use action msg for vacuum-packed fish slice.
-#. ~ Use action msg for vacuum-packed salted simpleton slice.
-#. ~ Use action msg for vacuum-packed meat slice.
-#. ~ Use action msg for vacuum-packed veggy chunk.
-#: lang/json/GENERIC_from_json.py
-msgid "You open the vacuum pack, exposing it to the atmosphere."
-msgstr ""
-
-#. ~ Description for vacuum-packed fruit slice
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed fruit slices in plastic packaging.  Use to "
-"open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed fish slice"
-msgid_plural "vacuum-packed fish slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vacuum-packed fish slice
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed fish slices in plastic packaging.  Use to "
-"open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed salted simpleton slice"
-msgid_plural "vacuum-packed salted simpleton slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vacuum-packed salted simpleton slice
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed human flesh slices in plastic packaging.  Use "
-"to open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed meat slice"
-msgid_plural "vacuum-packed meat slices"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vacuum-packed meat slice
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed meat slices in plastic packaging.  Use to "
-"open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "vacuum-packed veggy chunk"
-msgid_plural "vacuum-packed veggy chunks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vacuum-packed veggy chunk
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a bag of vacuum packed vegetable slices in plastic packaging.  Use "
-"to open and eat to enjoy."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "can sealer"
 msgid_plural "can sealers"
 msgstr[0] ""
@@ -31939,25 +32210,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "military operations map"
-msgid_plural "military operations maps"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for military operations map.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and facilities to your map."
-msgstr ""
-
-#. ~ Description for military operations map
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a printed topographical map of the local area.  Originally of "
-"military origin, it details the locations of evacuation centers and military "
-"facilities.  Using it will add points of interest to your map."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "frying pan"
 msgid_plural "frying pans"
 msgstr[0] ""
@@ -32054,45 +32306,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "restaurant guide"
-msgid_plural "restaurant guides"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for restaurant guide.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and restaurants to your map."
-msgstr ""
-
-#. ~ Description for restaurant guide
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is glossy printed pamphlet that details dining establishments in the "
-"local area.  Printed by the Chamber of Commerce, it lists the addresses of "
-"all the best diners and bars.  Using it will add points of interest to your "
-"map."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "road map"
-msgid_plural "road maps"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for road map.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and points of interest to your map."
-msgstr ""
-
-#. ~ Description for road map
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a road map for the local area.  Listing information on civic sites "
-"like hospitals and police stations, it can be used to add points of interest "
-"to your map."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "stone pot"
 msgid_plural "stone pots"
 msgstr[0] ""
@@ -32122,25 +32335,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "survivor's map"
-msgid_plural "survivor's maps"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for survivor's map.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and possible supply points to your map."
-msgstr ""
-
-#. ~ Description for survivor's map
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a hand-drawn map of the local area.  Whomever created it has marked "
-"down the locations of nearby supply sources including gun stores and gas "
-"stations.  Using it will add points of interest to your map."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "teapot"
 msgid_plural "teapots"
 msgstr[0] ""
@@ -32162,24 +32356,6 @@ msgstr[1] ""
 msgid ""
 "A telescoping umbrella which collapses down for easy storage, useful for "
 "keeping dry when wielded."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "tourist guide"
-msgid_plural "tourist guides"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action message for tourist guide.
-#: lang/json/GENERIC_from_json.py
-msgid "You add roads and tourist attractions to your map."
-msgstr ""
-
-#. ~ Description for tourist guide
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is glossy printed pamphlet for tourists that details local hotels and "
-"attractions."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -32883,10 +33059,10 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A Unified Power System recharging station designed to operate on vehicle "
-"power.  Once installed in a vehicle storage space and turned on from vehicle "
-"controls, it will slowly charge all tools with rechargeable batteries in "
-"that space.  The system can only be installed in existing storage "
-"compartments."
+"power.  Once installed in a vehicle storage space and turned on from a "
+"dashboard or electronics control unit, it will slowly charge all tools with "
+"rechargeable batteries in that space.  The system can only be installed in "
+"existing storage compartments."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -33114,6 +33290,123 @@ msgstr[1] ""
 #. ~ Description for turret mount
 #: lang/json/GENERIC_from_json.py
 msgid "A universal mount for weapons intended to be installed as turrets."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "abstract map"
+msgid_plural "abstract maps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "military operations map"
+msgid_plural "military operations maps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for military operations map.
+#. ~ Use action message for restaurant guide.
+#: lang/json/GENERIC_from_json.py
+msgid "You add roads and restaurants to your map."
+msgstr ""
+
+#. ~ Description for military operations map
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a printed topographical map of the local area.  Originally of "
+"military origin, it details the locations of evacuation centers and military "
+"facilities.  Using it will add points of interest to your map."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "survivor's map"
+msgid_plural "survivor's maps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for survivor's map.
+#: lang/json/GENERIC_from_json.py
+msgid "You add roads and possible supply points to your map."
+msgstr ""
+
+#. ~ Description for survivor's map
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a hand-drawn map of the local area.  Whomever created it has marked "
+"down the locations of nearby supply sources including gun stores and gas "
+"stations.  Using it will add points of interest to your map."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "road map"
+msgid_plural "road maps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for road map.
+#: lang/json/GENERIC_from_json.py
+msgid "You add roads and points of interest to your map."
+msgstr ""
+
+#. ~ Description for road map
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a road map for the local area.  Listing information on civic sites "
+"like hospitals and police stations, it can be used to add points of interest "
+"to your map."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "trail guide"
+msgid_plural "trail guides"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for trail guide.
+#: lang/json/GENERIC_from_json.py
+msgid "You add trails and trailheads to your map."
+msgstr ""
+
+#. ~ Description for trail guide
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a printed guide to the best local trails.  It has general details "
+"about the trails, trailhead amenities, suggestions for the best thru-hikes, "
+"and advice on interacting with local wildlife in a responsible and "
+"respectful manner."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "tourist guide"
+msgid_plural "tourist guides"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action message for tourist guide.
+#: lang/json/GENERIC_from_json.py
+msgid "You add roads and tourist attractions to your map."
+msgstr ""
+
+#. ~ Description for tourist guide
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is glossy printed pamphlet for tourists that details local hotels and "
+"attractions."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "restaurant guide"
+msgid_plural "restaurant guides"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for restaurant guide
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is glossy printed pamphlet that details dining establishments in the "
+"local area.  Printed by the Chamber of Commerce, it lists the addresses of "
+"all the best diners and bars.  Using it will add points of interest to your "
+"map."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -33400,6 +33693,70 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "juvenile sourdough starter"
+msgid_plural "juvenile sourdough starters"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for juvenile sourdough starter.
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"After feeding it and caring for it for weeks, your sourdough starter is "
+"finally ready for the big leagues."
+msgstr ""
+
+#. ~ Use action not_ready_msg for juvenile sourdough starter.
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"You've been caring for your starter for a while, but it's going to need "
+"longer before you can do anything tasty with it."
+msgstr ""
+
+#. ~ Description for juvenile sourdough starter
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This jar contains a floury paste that is slowly going bad.  Someday it will "
+"be sourdough."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "freshly fed sourdough starter"
+msgid_plural "freshly fed sourdough starters"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for freshly fed sourdough starter.
+#: lang/json/GENERIC_from_json.py
+msgid "The starter is now stinky and bubbly, and looks ready for cooking."
+msgstr ""
+
+#. ~ Use action not_ready_msg for freshly fed sourdough starter.
+#: lang/json/GENERIC_from_json.py
+msgid "The starter isn't quite ready to go."
+msgstr ""
+
+#. ~ Description for freshly fed sourdough starter
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This jar contains a floury paste with sourdough starter mixed in.  It needs "
+"a few hours to recover its strength before it can be used again."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "sourdough starter"
+msgid_plural "sourdough starters"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for sourdough starter
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This jar contains precious mix of flour, water, and molds and bacteria from "
+"the air.  When you add flour and water to it, after a few hours it froths "
+"and rises."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "first aid kit"
 msgid_plural "first aid kits"
 msgstr[0] ""
@@ -33411,6 +33768,404 @@ msgid ""
 "A full medical kit, with bandages, local anesthetics, and rapid healing "
 "agents.  Used for healing large amounts of damage.  Disassemble to get its "
 "content."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE"
+msgid_plural "MREs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE
+#: lang/json/GENERIC_from_json.py
+msgid "A generic MRE box, you shouldn't see this."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE small box"
+msgid_plural "MRE small boxs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE small box
+#: lang/json/GENERIC_from_json.py
+msgid "A generic small MRE box, you shouldn't see this"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Accessory Pack"
+msgid_plural "MREs - Accessory Packs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Accessory Pack
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"An MRE accessory pack containing a variety of utensils and drinks.  Activate "
+"or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Dessert Pack"
+msgid_plural "MREs - Dessert Packs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Dessert Pack
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A sealed plastic bag containing an array of desserts.  Activate or "
+"disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Chili & Beans"
+msgid_plural "MREs - Chili & Beans"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Chili & Beans
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a chili & beans entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - BBQ Beef"
+msgid_plural "MREs - BBQ Beef"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - BBQ Beef
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a BBQ beef entree and everything a hungry soldier "
+"needs.  The contents will begin to rot once they're removed from this sealed "
+"bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Chicken & Noodles"
+msgid_plural "MREs - Chicken & Noodles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Chicken & Noodles
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a chicken & noodles entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Spaghetti"
+msgid_plural "MREs - Spaghetti"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Spaghetti
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a spaghetti entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Chicken Chunks"
+msgid_plural "MREs - Chicken Chunks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Chicken Chunks
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a chicken chunk entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Beef Taco"
+msgid_plural "MREs - Beef Taco"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Beef Taco
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a beef taco entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Beef Brisket"
+msgid_plural "MREs - Beef Brisket"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Beef Brisket
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a beef brisket entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Meatballs & Marinara"
+msgid_plural "MREs - Meatballs & Marinara"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Meatballs & Marinara
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a meatball entree and everything a hungry soldier "
+"needs.  The contents will begin to rot once they're removed from this sealed "
+"bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Beef Stew"
+msgid_plural "MREs - Beef Stew"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Beef Stew
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a beef stew entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Chili & Macaroni"
+msgid_plural "MREs - Chili & Macaroni"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Chili & Macaroni
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a chili & macaroni entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Vegetarian Taco"
+msgid_plural "MREs - Vegetarian Taco"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Vegetarian Taco
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a vegetarian taco entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Macaroni Marinara"
+msgid_plural "MREs - Macaroni Marinara"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Macaroni Marinara
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a macaroni marinara entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Cheese Tortellini"
+msgid_plural "MREs - Cheese Tortellini"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Cheese Tortellini
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a cheese tortellini entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Mushroom Fettuccine"
+msgid_plural "MREs - Mushroom Fettuccine"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Mushroom Fettuccine
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a mushroom fettuccine entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Mexican Chicken Stew"
+msgid_plural "MREs - Mexican Chicken Stew"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Mexican Chicken Stew
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a Mexican chicken stew entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Chicken Burrito Bowl"
+msgid_plural "MREs - Chicken Burrito Bowl"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Chicken Burrito Bowl
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a chicken burrito bowl entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Maple Sausage"
+msgid_plural "MREs - Maple Sausage"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Maple Sausage
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a maple sausage entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Ravioli"
+msgid_plural "MREs - Ravioli"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Ravioli
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a ravioli entree and everything a hungry soldier "
+"needs.  The contents will begin to rot once they're removed from this sealed "
+"bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Pepper Jack Beef"
+msgid_plural "MREs - Pepper Jack Beef"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Pepper Jack Beef
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a pepper jack beef entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Hash Browns & Bacon"
+msgid_plural "MREs - Hash Browns & Bacon"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Hash Browns & Bacon
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a hash browns & bacon entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Lemon Pepper Tuna"
+msgid_plural "MREs - Lemon Pepper Tuna"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Lemon Pepper Tuna
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a lemon pepper tuna entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Asian Beef & Vegetables"
+msgid_plural "MREs - Asian Beef & Vegetables"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Asian Beef & Vegetables
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with an asian beef & vegetables entree and everything "
+"a hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Chicken Pesto & Pasta"
+msgid_plural "MREs - Chicken Pesto & Pasta"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Chicken Pesto & Pasta
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a chicken pesto entree and everything a hungry "
+"soldier needs.  The contents will begin to rot once they're removed from "
+"this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Southwest Beef & Beans"
+msgid_plural "MREs - Southwest Beef & Beans"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Southwest Beef & Beans
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A 'Meal Ready to Eat' with a southwest beef & beans entree and everything a "
+"hungry soldier needs.  The contents will begin to rot once they're removed "
+"from this sealed bag.  Activate or disassemble it to get to its contents."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MRE - Frankfurters & Beans"
+msgid_plural "MREs - Frankfurters & Beans"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for MRE - Frankfurters & Beans
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A vintage MRE, still perfectly preserved and edible.  The contents will "
+"begin to rot once they're removed from this sealed bag.  Activate or "
+"disassemble it to get to its contents."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -34038,6 +34793,17 @@ msgstr[1] ""
 msgid ""
 "A compact lightweight alternator used to power small vehicle electrical "
 "systems."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "bicycle alternator"
+msgid_plural "bicycle alternators"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bicycle alternator
+#: lang/json/GENERIC_from_json.py
+msgid "A very lightweight alternator used to power a bicycle's headlights."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -36414,6 +37180,10 @@ msgstr ""
 msgid "BOOKS"
 msgstr ""
 
+#: lang/json/ITEM_CATEGORY_from_json.py
+msgid "MAPS"
+msgstr ""
+
 #. ~ Crafting recipes subcategory of 'WEAPON' category
 #: lang/json/ITEM_CATEGORY_from_json.py
 #: lang/json/recipe_category_from_json.py
@@ -38061,6 +38831,34 @@ msgid "Want a little crazy in your Cataclysm?  Try this one."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "(DP_RP) Chesthole Indicators"
+msgstr ""
+
+#. ~ Description for (DP_RP) Chesthole Indicators
+#: lang/json/MOD_INFO_from_json.py
+msgid "Changes interface indicators to Chesthole version."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "(DP_RP) REMIX Indicators"
+msgstr ""
+
+#. ~ Description for (DP_RP) REMIX Indicators
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Changes interface indicators to remix of Xotto, Chesthole and DeadPeople."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "(DP_RP) Xotto Indicators"
+msgstr ""
+
+#. ~ Description for (DP_RP) Xotto Indicators
+#: lang/json/MOD_INFO_from_json.py
+msgid "Changes interface indicators to Xotto version."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Folding Parts pack"
 msgstr ""
 
@@ -39639,7 +40437,7 @@ msgid ""
 "scarred.  It shuffles as it walks."
 msgstr ""
 
-#: lang/json/MONSTER_from_json.py
+#: lang/json/MONSTER_from_json.py lang/json/snippet_from_json.py
 msgid "zombie"
 msgstr ""
 
@@ -41075,27 +41873,26 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "bear cub"
+msgid "black bear cub"
 msgstr ""
 
-#. ~ Description for bear cub
+#. ~ Description for black bear cub
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A juvenile American black bear.  A large omnivorous scavenger, it has "
-"powerful claws and jaws, and is an effective ambush hunter.  It can pose a "
-"considerable threat, although most individuals are shy around humans."
+"A juvenile American black bear.  This one isn't much of a threat, but be "
+"wary of its parent; black bears are known for their protectiveness."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "bear"
+msgid "black bear"
 msgstr ""
 
-#. ~ Description for bear
+#. ~ Description for black bear
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "The American black bear.  A large omnivorous scavenger, it has powerful "
-"claws and jaws, and is an effective ambush hunter.  It can pose a "
-"considerable threat, although most individuals are shy around humans."
+"claws and jaws, and is an effective ambush hunter.  Most individuals are shy "
+"around humans, but they're fiercely protective of their cubs."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41198,7 +41995,8 @@ msgstr ""
 msgid ""
 "The Eastern coyote, also called the tweed wolf, is a territorial canine "
 "descended from the offspring of gray wolves and true coyotes.  It is "
-"intimidated by humans and other predators, but will fight if threatened."
+"intimidated by humans and other predators, but it will still fight if "
+"threatened, and the Cataclysm has made it more fearless than usual."
 msgstr ""
 
 #. ~ Description for coyote
@@ -41206,7 +42004,7 @@ msgstr ""
 msgid ""
 "The Northeastern coyote, a widespread canine pack hunter.  More timid than a "
 "wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker "
-"prey."
+"prey, but is typically timid around humans."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41238,9 +42036,9 @@ msgstr ""
 #. ~ Description for Labrador mutt
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"This once average Labrador mixed breed dog has clearly gone feral.  You can "
-"almost imagine petting it until you see the look of hunger in its eyes.  You "
-"have no doubt it would bite you if given the chance."
+"This once-average Labrador mixed breed dog has clearly gone feral.  Though "
+"it likely still instinctually trusts humans, it's probably far from domestic "
+"by now."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41284,9 +42082,8 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "The oft-misunderstood pit bull is not actually a single breed but a label "
-"for several such as the American pit bull terrier and American Staffordshire "
-"terrier.  Average abilities and well-known for their 'lock jaw' which isn't "
-"real but their incredible determination is."
+"for several kinds of terrier.  It has average abilities, and is well-known "
+"for its 'lock jaw' - which isn't real, but their incredible determination is."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41397,7 +42194,8 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A weiner dog!  This awkward looking dog can be a useful watch dog, plus it "
-"looks adorable as it bumbles around, also making it hard to shoot."
+"looks adorable as it bumbles around.  Its tiny size also makes it hard to "
+"shoot (you monster.)"
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41463,8 +42261,8 @@ msgstr ""
 #. ~ Description for rottweiler
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"Terrifying breed to face feral, as the rottweiler breed is descended from "
-"Roman legion mastiffs.  Robust and vicious, quite capable of mauling a human "
+"A terrifying breed to face feral, Rottweilers are descended from Roman "
+"legion mastiffs.  It's robust, vicious, and quite capable of mauling a human "
 "to death."
 msgstr ""
 
@@ -41587,8 +42385,9 @@ msgstr ""
 #. ~ Description for moose
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"The Eastern moose, the largest living species of deer.  The bulls are quite "
-"ill-tempered, especially in the rutting season."
+"The Eastern moose, the largest living species of deer.  While they aren't "
+"aggressive unless angered, the mating season can make the bulls quite ill-"
+"tempered."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41767,7 +42566,7 @@ msgstr[1] ""
 msgid ""
 "A cunning pack predator, once extinct in the New England area, the wolf was "
 "successfully reintroduced and their numbers reached record highs in the "
-"decade before the cataclysm.  Lucky you."
+"decade before the Cataclysm.  Lucky you."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -47189,19 +47988,18 @@ msgstr[1] ""
 #. ~ Use action no_deactivate_msg for dynamite (lit).
 #. ~ Use action no_deactivate_msg for fertilizer bomb (lit).
 #. ~ Use action no_deactivate_msg for match head bomb (lit).
+#. ~ Use action no_deactivate_msg for active pipe bomb.
 #: lang/json/TOOL_from_json.py
-#: lang/json/TOOL_from_json.py src/iuse.cpp
 #: src/iuse.cpp
 #, c-format, no-python-format
 msgid "You've already lit the %s, try throwing it instead."
 msgstr ""
 
-#. ~ the sound of a lit fuse
 #. ~ Use action sound_msg for dynamite (lit).
 #. ~ Use action sound_msg for fertilizer bomb (lit).
 #. ~ Use action sound_msg for match head bomb (lit).
+#. ~ Use action sound_msg for active pipe bomb.
 #: lang/json/TOOL_from_json.py
-#: lang/json/TOOL_from_json.py src/iuse.cpp
 #: src/iuse.cpp
 msgid "ssss..."
 msgstr ""
@@ -47210,51 +48008,6 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The fuse on this dynamite is lit and hissing.  It'll explode any moment now."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "radio dynamite"
-msgid_plural "radio dynamites"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action menu_text for radio dynamite.
-#. ~ Use action menu_text for radio pipe bomb.
-#: lang/json/TOOL_from_json.py
-msgid "Arm detonator"
-msgstr ""
-
-#. ~ Use action msg for radio dynamite.
-#: lang/json/TOOL_from_json.py
-msgid "You arm your radio-detonated dynamite."
-msgstr ""
-
-#. ~ Description for radio dynamite
-#: lang/json/TOOL_from_json.py
-msgid ""
-"Dynamite with a radio detonator.  Activate it to arm, then plant or attach "
-"to a RC car, and use the remote detonator."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "activated radio dynamite"
-msgid_plural "activated radio dynamites"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action no_deactivate_msg for activated radio dynamite.
-#: lang/json/TOOL_from_json.py
-#, no-python-format
-msgid ""
-"You can't disarm your %s.  Place it, get away and use the remote control to "
-"detonate."
-msgstr ""
-
-#. ~ Description for activated radio dynamite
-#: lang/json/TOOL_from_json.py
-msgid ""
-"Dynamite with a radio detonator, armed.  Place it, get away and use the "
-"remote detonator."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -49315,8 +50068,7 @@ msgstr ""
 msgid ""
 "This is a section of a pipe filled with explosive materials.  Use this item "
 "to light the fuse, which gives you three turns to get away from it before it "
-"detonates.  You'll need a lighter or some matches to use it.  It is somewhat "
-"unreliable, and may fail to detonate."
+"detonates.  You'll need a lighter or some matches to use it."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -49330,45 +50082,6 @@ msgstr[1] ""
 msgid ""
 "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it "
 "immediately!"
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "radio pipe bomb"
-msgid_plural "radio pipe bombs"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action msg for radio pipe bomb.
-#: lang/json/TOOL_from_json.py
-msgid "You arm your radio-detonated pipe bomb."
-msgstr ""
-
-#. ~ Description for radio pipe bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"A radio-detonated pipe bomb.  Activate it to arm the detonator, then place "
-"somewhere and press a button on the radio control."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "activated radio pipe bomb"
-msgid_plural "activated radio pipe bombs"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action no_deactivate_msg for activated radio pipe bomb.
-#: lang/json/TOOL_from_json.py
-#, no-python-format
-msgid ""
-"You can't disarm your %s.  Place it, get away, and use the remote control to "
-"detonate."
-msgstr ""
-
-#. ~ Description for activated radio pipe bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"A radio-detonated pipe bomb, armed.  Place it or attach to a RC car, then "
-"get away and use the radio-control to detonate."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -55967,6 +56680,24 @@ msgid "Mark firewood source"
 msgstr ""
 
 #: lang/json/construction_from_json.py
+msgid ""
+"Firewood or other flammable materials on a nearby tile marked in this way "
+"may be used to automatically refuel fires.  This will be done to maintain "
+"light during long-running tasks that require it such as crafting or reading, "
+"but not (for example) if you are simply waiting nearby."
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Mark practice target"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid ""
+"Mark a spot for target practice.  Firing will automatically target the first "
+"practice target location found in gun range, if no enemies are around."
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Butchering Rack"
 msgstr ""
 
@@ -58749,6 +59480,29 @@ msgstr ""
 #. ~ Description of effect 'Supercharged'.
 #: lang/json/effects_from_json.py
 msgid "You've been struck by lightning, and feel... different."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Story Denied"
+msgstr ""
+
+#. ~ Description of effect 'Story Denied'.
+#: lang/json/effects_from_json.py
+msgid ""
+"AI tag used when you already asked an NPC for a detail in their survival "
+"story and they don't want to tell you again right now.  This is a bug if you "
+"have it."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Religious Offence"
+msgstr ""
+
+#. ~ Description of effect 'Religious Offence'.
+#: lang/json/effects_from_json.py
+msgid ""
+"AI tag used when you offended an NPC with a specific conversation option.  "
+"This is a bug if you have it."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -68504,7 +69258,7 @@ msgstr ""
 #: lang/json/item_action_from_json.py
 #: lang/json/item_action_from_json.py lang/json/talk_topic_from_json.py
 #: lang/json/talk_topic_from_json.py
-#: src/game_inventory.cpp
+#: lang/json/talk_topic_from_json.py src/game_inventory.cpp
 msgid "..."
 msgstr ""
 
@@ -69527,7 +70281,7 @@ msgid "Related recipes"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
-msgid "Center On Character"
+msgid "Toggle recipes to be shown in favorite tab"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -69631,6 +70385,10 @@ msgid "Toggle Hordes"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle Forest Trails"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle Explored"
 msgstr ""
 
@@ -69728,6 +70486,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle Snap to Target"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Center On Character"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -70076,6 +70838,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Throw Item"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Blind Throw Item"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -71225,6 +71991,11 @@ msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
+msgid "Get Apples n Ciders!"
+msgstr ""
+
+#. ~ Sign
+#: lang/json/mapgen_from_json.py
 msgid "Scoop the Poop!"
 msgstr ""
 
@@ -71470,7 +72241,22 @@ msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
+msgid "The Green Leaf Tea Shop"
+msgstr ""
+
+#. ~ Sign
+#: lang/json/mapgen_from_json.py
 msgid "Please don't litter, keep the trail nice!"
+msgstr ""
+
+#. ~ Sign
+#: lang/json/mapgen_from_json.py
+msgid "<family_name> Trail"
+msgstr ""
+
+#. ~ Sign
+#: lang/json/mapgen_from_json.py
+msgid "PLEASE  No fish cleaning or dishwashing."
 msgstr ""
 
 #. ~ Sign
@@ -81536,6 +82322,15 @@ msgid ""
 "it."
 msgstr ""
 
+#. ~ Description for Survivor
+#: lang/json/mutation_from_json.py
+msgid "This NPC could tell you about how they survived the cataclysm"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Survival Story:  Left_for_Dead_1"
+msgstr ""
+
 #. ~ Description for Martial Arts Training
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -83155,11 +83950,31 @@ msgid "mass grave"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "railroad"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "railroad bridge"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "railroad level crossing"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "railroad station"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "railroad station parking lot"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "forest trail"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "trailhead"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -88189,6 +89004,21 @@ msgid ""
 "You knew the day would come, the day it all went to shit. You prepared "
 "yourself, not by gear but sheer skill; all those days in the woods paid off. "
 "If your ancestors survived with no tech, you'll be damned if you dont't"
+msgstr ""
+
+#. ~ Crafting recipes category name
+#: lang/json/recipe_category_from_json.py
+msgid "*"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of '*' category
+#: lang/json/recipe_category_from_json.py
+msgid "FAVORITE"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of '*' category
+#: lang/json/recipe_category_from_json.py
+msgid "RECENT"
 msgstr ""
 
 #. ~ Crafting recipes category name
@@ -94429,6 +95259,62 @@ msgid "This should repeat the same city several times: <city>, <city>, <city>"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "Leave No Trace."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Plan Ahead and Prepare."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Travel and Camp on Durable Surfaces."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Dispose of Waste Properly."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Leave What You Find."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Minimize Campfire Impacts."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Respect Wildlife."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Be Considerate of Other Visitors."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "WARNING!  BEAR COUNTRY."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "For hiking, skiing, and enjoying nature."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Please stay on trail."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "No motorized vehicles."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "DANGER.  HIGH FIRE HAZARD AREA.  NO OPEN FIRE.  NO SMOKING."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "No Overnight Camping."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid ""
 "Squirrels are pretty yummy, but if you shoot them with a high-powered gun "
 "you'll probably be left with no meat!  Use a BB gun or maybe a .22 rifle."
@@ -95470,6 +96356,10 @@ msgid "son of an ass"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "Oh sugar!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "sad"
 msgstr ""
 
@@ -95731,6 +96621,10 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "my days are <really> numbered"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<name_g>, I'm sorry"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -96121,7 +97015,7 @@ msgstr ""
 msgid "you dig"
 msgstr ""
 
-#: lang/json/snippet_from_json.py src/monster.cpp
+#: lang/json/snippet_from_json.py
 msgid "dig"
 msgstr ""
 
@@ -96591,6 +97485,267 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "Fire in the hole, motherfuckers!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Fuck me!  A <swear>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Watch out for that"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Watch out!  I see a"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear!>, a"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear!>, I'm doomed!  There's a <swear> <swear>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear!>, here comes a <swear>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Look out for that"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Hey!  Over there!  I see a"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Incoming"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Are we fighting?  There's a"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Hey, <name_g>!  <monster_warning>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Look out!  A"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Tell me about how you survived the cataclysm."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "How did you survive the cataclysm?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "What was the cataclysm like for you?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Let's talk about something else."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Let's change the subject."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'd like to ask you about something else."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "We should probably get going."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "We'd better get moving."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Let's head out."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shitty"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "lame"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "crappy"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "unpleasant"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <shitty>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<very> <shitty>"
+msgstr ""
+
+#. ~ photo quality adjective
+#: lang/json/snippet_from_json.py src/iuse.cpp
+msgid "awful"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "terrible"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "horrible"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "miserable"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "fucked-up"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "stupid"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "idiotic"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "dumb"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "dumb-ass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "moronic"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "mickey mouse"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shit-for-brains"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Z"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shambler"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "goo-puker"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "walker"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "walking corpse"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <zombie>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "living dead"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "zombies"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Z's"
+msgstr ""
+
+#: lang/json/snippet_from_json.py src/artifact.cpp
+msgid "dead"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <zombies>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "monster"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "demon"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "horror"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "indescribable beast"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "creature made of nightmares"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "critter"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <monster>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "unbelievable <swear> thing"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "walking nightmare"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "thing right out of a scary movie"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "the cataclysm"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "the apocalypse"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "the end of the world"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Armageddon"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "the end of days"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -99589,6 +100744,1030 @@ msgid "Clothing Store"
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
+msgid "<BGSS_intro_question>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I don't even <swear> know anymore.  I have no <swear> idea what is going "
+"on.  I'm just doing what I can to stay alive.  The world ended and I bungled "
+"along not dying, until I met you."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Huh."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Before <the_cataclysm>? Who cares about that? This is a new world, and yeah, "
+"it's pretty <shitty>.  It's the one we've got though, so let's not dwell in "
+"the past when we should be making the best of what little we have left."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I can respect that."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"To be honest...  I don't really remember.  I remember vague details of my "
+"life before the world was like this, but <the_cataclysm> itself?  It's all a "
+"blur.  I don't know how I got where I am now, or how any of this happened.  "
+"I think something pretty bad must have happened to me.  Or maybe I was just "
+"hit in the head really hard.  Or both.  Both seems likely."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"My story.  Huh.  It's nothing special.  I had people, but they've risen to "
+"be with the Lord.  I don't understand why He didn't take me too, but I "
+"suppose it'll all be clear in time."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Do you mean in a religious sense, or...?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "<done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "<end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Of course.  It's clear enough, isn't it?  That...  that end, was the "
+"Rapture.  I'm still here, and I still don't understand why, but I will keep "
+"Jesus in my heart through the Tribulations to come.  When they're past, I'm "
+"sure He will welcome me into the Kingdom of Heaven.  Or...  or something "
+"along those lines.  It's not going exactly like I thought it would, but "
+"that's prophecy for you."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What if you're wrong?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What will you do then?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"What?  How could you say something like that?  I can't believe you'd look at "
+"all this and think it could be anything but the end-times.  The dead are "
+"walking, the gates of Hell itself have opened, the Beasts of the Devil walk "
+"the Earth, and the Righteous have all be drawn up into the Lord's Kingdom.  "
+"What more proof could you possibly ask for?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What will you do, then?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I will keep the faith, and keep praying, and strike down the agents of Hell "
+"where I see them.  That's all we few can do, isn't it?  I suppose perhaps "
+"we're the meek that shall inherit the Earth.  Although I don't love our odds."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Same as anyone.  I turned away from God, and now I'm paying the price.  The "
+"Rapture has come, and I was left behind.  So now, I guess I wander through "
+"Hell on Earth.  I wish I'd paid more attention in Sunday School."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I made it to one of those <swear> evac shelters, but it was almost worse "
+"than what I left behind.  Escaped from there, been on the run since."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How did you survive on the run?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I spent a lot of time rummaging for rhubarb and bits of vegetables in the "
+"forest before I found the courage to start picking off some of those dead "
+"monsters.  I guess I was getting desperate."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Same as most people who didn't get killed straight up during the riots.  I "
+"went to one of those <dumb> <swear> evacuation death traps.  I actually "
+"lived there for a while with three others.  One guy who I guess had watched "
+"a lot of movies kinda ran the show, because he seemed to really know what "
+"was going on.  Spoiler alert: he <swear> didn't."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened to your original crew?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Things went south when our fearless leader decided we had to put down one of "
+"the other survivors that had been bitten.  Her husband felt a bit strongly "
+"against that, and I wasn't too keen on it either; by this point, he'd "
+"already been wrong about a lot.  Well, he took matters into his own hands "
+"and killed her.  Then her husband decided one good turn deserves another, "
+"and killed the idiot.  And then she got back up and I killed her again, and "
+"pulped our former leader.  Unfortunately she'd given her husband a hell of a "
+"nip during the struggle, when he couldn't get his shit together enough to "
+"fight back.  Not that I fucking blame him.  We made it out of there "
+"together, but it was too much for him, he clearly wasn't in it anymore...  "
+"The bite got infected, but it was another <zombie> that finally killed him.  "
+"And then I was alone."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What do you think happened? You see them around anywhere?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"There's nothing too special about me, I'm not sure why I survived.  I got "
+"evacuated with a handful of others, but we were too late to make the second "
+"trip to a FEMA center.  We got attacked by the dead...  I was the only one "
+"to make it out.  I never looked back."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"They were shipping me with a bunch of evacuees over to a refugee center, "
+"when the bus got smashed in by the biggest zombie you ever saw.  It was busy "
+"with the other passengers, so I did what anyone would do and fucked right "
+"out of there."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"My Evac shelter got swarmed by some of those bees, the ones the size of "
+"dogs.  I took out a few with a two-by-four, but pretty quick I realized it "
+"was either head for the hills or get stuck like a pig.  The rest is history."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Giant bees? Tell me more."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "But bees aren't usually aggressive..."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah, I'm sure you've seen them, they're everywhere.  Like something out of "
+"an old sci-fi movie.  Some of the others in the evac shelter got stung, it "
+"was no joke.  I didn't stick around to see what the lasting effect was "
+"though.  I'm not ashamed to admit I ran like a <swear> chicken."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "But bees aren't usually aggressive...  Do you mean wasps?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well, excuse me if I didn't stop to <swear> ask what kind of killer bugs "
+"they were."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry.  Could you tell me more about them?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Right.  Sorry."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well, I was at home when the cell phone alert went off and told me to get to "
+"an evac shelter.  So I went to an evac shelter.  And then the shelter got "
+"too crowded, and people were waiting to get taken to the refugee center, but "
+"the buses never came.  You must already know about all that.  It turned into "
+"panic, and then fighting.  I didn't stick around to see what happened next; "
+"I headed into the woods with what tools I could snatch from the lockers.  I "
+"went back a few days later, but the place was totally abandoned.  No idea "
+"what happened to all those people."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That's a tall order.  I guess the short version is that I got evacuated to a "
+"FEMA camp for my so-called safety, but luckily I made it out."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Tell me more about that FEMA camp."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How did you get out?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"It was terrifying.  We were shipped there on a repurposed school bus, about "
+"thirty of us.  You can probably see the issues right away.  A few of the "
+"folks on board the bus had injuries, and some schmuck who had seen too many "
+"B-movies tried to insist that anyone who 'had been bitten' was going to "
+"'turn'.  Fucking idiot, right? I've been bitten a dozen times now and the "
+"worst I got was a gross infection."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened after that?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That guy started a frenzy.  People were already panicked.  There was an "
+"armed guy overseeing the transport, acting like a cop but really he was just "
+"some <dumb> kid they'd handed a rifle to.  He tried to calm things down, and "
+"I guess it actually worked for a bit, although the 'kill the infected' bunch "
+"were pretty <swear> freaked out and were clearly ready to jump the moment "
+"the granny with the cut on her arm started frothing at the mouth.  They "
+"started acting up again when we got to the camp.  That didn't go well for "
+"them.  A few heavily armed soldiers dragged them away, and I never saw them "
+"again."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That place was chaos.  I only stayed a few hours.  They had a big backhoe "
+"running, digging a huge pit in a cordoned section they wouldn't let us "
+"near.  Well, I managed to sneak over that way, and saw them dumping load "
+"after load of the dead in the pit, pouring dirt back over them even as they "
+"revived and tried to climb out.  Even with all the shit I've seen since, it "
+"haunts me.  I knew then I had to get out.  Luckily for me, we were attacked "
+"the next morning by some giant horror, a kind I haven't really seen since "
+"then.  While the guards were busy with that, I grabbed some supplies I'd "
+"stocked up over the night and I fucked right out of there.  A few others "
+"tried to fuck out with me, but as far as I know I was the only lucky one."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's a story for another day.  I don't really like thinking about it."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry.  Tell me more about that FEMA camp."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry for asking.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry for asking.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I was late to evacuate when the shit hit the fan.  Got stuck in town for a "
+"few days, survived by hiding in basements eating girl scout cookies and "
+"drinking warm root beer.  Eventually I managed to weasel my way out without "
+"getting caught by the <zombies>.  I spent a few days holed up in an "
+"abandoned mall, but I needed food so I headed out to fend for myself in the "
+"woods.  I wasn't doing a great job of it, so I'm kinda glad you showed up."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I was home with the flu when the world went to shit, and when I recovered "
+"enough to make a run to the store for groceries...  Well, I've been running "
+"ever since."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Come on, don't leave me hanging."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Okay, well, I was kinda out of it those first few days.  I knew there were "
+"storms, but I was having crazy fever dreams and stuff.  Honestly I probably "
+"should have gone to the hospital, except then I guess I'd be dead now.  I "
+"don't know what was a dream and what was the world ending.  I remember "
+"heading to the fridge for a drink and noticing the light was out and the "
+"water was warm, I think that was a bit before my fever broke.  I was still "
+"pretty groggy when I ran out of chicken soup, so it took me a while to "
+"really process how dark and dead my building was when I headed out."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened when you went out?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"You probably remember what the cities were like.  I think it was about day "
+"four.  Once I stepped outside I realized what was going on, or realized I "
+"didn't know what was going on at least.  I saw a bunch of rioters smashing a "
+"car, and then I noticed one of them was bashing a woman's head in.  I "
+"cancelled my grocery trip, ran back to my apartment before they saw me, and "
+"holed up there for as long as I could.  Things got comparatively quiet as "
+"the dead started to outnumber the living, so I started looting what I could "
+"from my neighbors, re-killing them when I had to.  Eventually the <zombies> "
+"overran my building and I had to climb out and head for the hills on an old "
+"bike."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me all that.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me all that.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Nothin' special before <the_cataclysm>.  When the dead started walking, I "
+"geared up and started puttin' them back down."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How did that go?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Cool.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Cool.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Almost got killed.  One <zombie> is easy pickins, but ten is a lot, and a "
+"hundred is a death trap.  I got myself in too deep, an' barely slipped out "
+"with my guts still inside me.  Holed up in an old motel for a while lickin' "
+"my wounds and thinkin' about what I wanted to do next.  That's when I "
+"figured it out."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Figured what out?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Never mind.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Never mind.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"This is it.  This is what I was made for.  There in the street, smashin' "
+"monster heads and prayin' I'd make it out? I've never felt like that.  "
+"Alive.  Important.  So after I got myself all stuck back together, I nutted "
+"up and went back to it.  Probly killed a thousand Z since then, and I'm "
+"still not tired of it."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "It's good you found your calling.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "It's good you found your calling.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Oh, you know.  Blah blah blah, had a job and a life, everyone died.  Boo "
+"hoo.  I gotta be straight with you though: I honestly think I like this "
+"better.  Fighting for survival every day? I've never felt so alive.  I've "
+"killed hundreds of those bastards.  Sooner or later one of them will take me "
+"out, but I'll go down knowing I did something actually important."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well y'see, I'm not from these parts at all.  I was driving up from the "
+"South to visit my son when it all happened.  I was staying at a motel when a "
+"military convoy passed through and told us to evacuate to a FEMA shelter."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Tell me about your son."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "So, you went to one of the FEMA camps?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"He lives up in Northern Canada, way in the middle of nowhere, with his crazy "
+"wife and my three grandkids.  He's an environmental engineer for some oil "
+"and gas company out there.  She's a bit of a hippy-dippy headcase.  I love "
+"em both though, and as far as I'm concerned they all made it out of this "
+"fucked up mess safe, out there in the boondocks.  I guess they think I'm "
+"dead, so they'll steer clear of this hellhole, and that's the best as could "
+"be."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What was it you said before?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Lord no.  I'll be fucked if I let a kid in a too-big uniform tell me what "
+"the hell to do.  I had my Hummer loaded out and ready to go offroading, I "
+"had a ton of gas, and I even had as many rifles as the border was gonna let "
+"me bring over.  I didn't know what I was supposed to be running from, but I "
+"sure as shit didn't run.  "
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Where did you go then?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"At first, I just kept going North, but I ran into a huge military blockade.  "
+"They even had those giant walking robots like on TV.  I started going up to "
+"check it out, and before I knew it they were opening fire! I coulda died, "
+"but I still have pretty good reactions.  I turned tail and rolled out of "
+"there.  My Hummer had taken some bad hits though, and I found out the hard "
+"way I was leaking gas all down the freeway.  Made it a few miles before I "
+"wound up stuck in the ass-end of nowhere.  I settled in to wander.  I guess "
+"I'm still kinda heading North, just by a pretty round-about way, you know?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's quite a story.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's quite a story.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Ooooh, boy.  I was ready for this.  The winds were blowing this way for "
+"years.  I had a full last man on earth shelter set up just out of town.  So, "
+"of course, just my luck: I was miles out of town for a work conference when "
+"China attacked and the world ended."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened to you?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What about your shelter?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Our conference was at a retreat by a lake.  We all got the emergency "
+"broadcast on our cells, but I was the only one to read between the lines and "
+"see it for what it was: large scale bio-terrorism.  I wasn't about to stay "
+"and find out who of my coworkers was a sleeper agent.  Although I'd bet "
+"fifty bucks it was Lee.  Anyway, I stole the co-ordinator's pickup and "
+"headed straight for my shelter."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Did you get there?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"No, I barely got two miles.  I crashed into some kind of hell-spawn chink "
+"bio-weapon, a crazy screeching <monster> made of arms and legs and heads "
+"from all sorts of creatures, humans too.  I think I killed it, but I know "
+"for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a "
+"couple bullets into it for good measure.  I hope I never see something like "
+"that again."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I still haven't made it there.  Every time I've tried I've been headed off "
+"by the <zombies>.  Who knows, maybe someday."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Could you tell me that story again?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Oh, man.  I thought I was ready.  I had it all planned out.  Bug out bags.  "
+"Loaded guns.  Maps of escape routes.  Bunker in the back yard."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sounds like it didn't work out."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Hey, I'd really be interested in seeing those maps."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Depends on your definition.  I'm alive, aren't I? When Hell itself came down "
+"from the skies and monsters started attacking the cities, I grabbed my stuff "
+"and crammed into the bunker.  My surface cameras stayed online for days; I "
+"could see everything happening up there.  I watched those things stride "
+"past.  I still have nightmares about the way their bodies moved, like they "
+"broke the world just to be here.  I had nothing better to do.  I watched "
+"them rip up the cops and the military, watched the dead rise back up and "
+"start fighting the living.  I watched the nice old lady down the street rip "
+"the head off my neighbor's dog.  I saw a soldier's body twitch and grow into "
+"some kind of electrified hulk beast.  I watched it all happen."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Why did you leave your bunker?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Honestly? I was planning to die.  After what I'd seen, I went a little "
+"crazy.  I thought it was over for sure, I figured there was no point in "
+"fighting it.  I thought I wouldn't last a minute out here, but I couldn't "
+"bring myself to end it down there.  I headed out, planning to let the "
+"<zombies> finish me off, but what can I say? Survival instinct is a funny "
+"thing, and I killed the ones outside the bunker.  I guess the adrenaline was "
+"what I needed.  It's kept me going since then."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me that.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me that.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah, I do.  I'd be willing to part with them for, say, $1000.  Straight "
+"from your ATM account, no cash cards."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "[$2000] You have a deal."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Whatever's in that map benefits both of us."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How 'bout you <swear> hand it over and I don't get <swear> pissed off?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Sorry for changing the subject.  What was it you were saying?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "All right.  Here they are."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks!  What was it you were saying before?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Nice try.  You want the maps, you pay up."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Fine.  What was it you were saying before?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I didn't even know about <the_cataclysm> right away.  I was way out, away "
+"from the worst of it.  My car broke down out on the highway, and I was "
+"waiting for a tow for hours.  I finally wound up camping in the bushes off "
+"the side of the road; good thing, too, because a semi truck whipped by - "
+"dead driver, you know - and turned my car into a skid mark.  I feel bad for "
+"the bastards that were in the cities when it hit."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "How did you survive outside?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What did you see in those first few days?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Ha, I don't fully understand it myself.  Those first few days were a tough "
+"time to be outside, that's for sure.  I got caught in one of those hellish "
+"rainstorms, it started to burn my skin right off.  I managed to take shelter "
+"under a car, lying on top of my tent.  Wrecked the damn thing, but better it "
+"than me.  From what I hear, though, I got lucky.  That was pretty much the "
+"worst I saw.  I didn't run into any of those demon-monsters that I hear "
+"attacked the cities, so I guess I got off lucky."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Besides the acid rain, I mostly saw people fleeing the cities.  I tried to "
+"stay away from the roads, but I didn't want to get lost in the woods either, "
+"so I stuck to the deep margins.  I saw cars, buses, trucks loaded down with "
+"evacuees.  Plenty went right on, but a lot stalled out of gas and other "
+"stuff.  Some were so full of gear and people there were folks hanging off "
+"them.  Stalling out was a death sentence, because the dead were coming along "
+"the roads picking off the survivors."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I was out on a fishing trip with my friend when it happened.  I don't know "
+"exactly how the days line up...  our first clue that Armageddon had come was "
+"when we got blasted by some kind of poison wind, with a sort of acid mist in "
+"it that burnt our eyes and skin.  We weren't sure what to make of it so we "
+"went inside to rest up, and while we were in there a weird dust settled over "
+"everything."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened after the acid mist?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"By morning, the area around the lake was covered in a pinkish mold, and "
+"there were walking mushrooms around shooting clouds of the dust in the air.  "
+"We didn't know what was going on, but neither of us wanted to stay and find "
+"out.  We packed up our shit, scraped off the boat, and took off upriver."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened to your friend?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"She took sick a few hours after we left the lake.  Puking, complaining about "
+"her joints hurting.  I took us to a little shop I knew about on the "
+"riverside, hoping they might have something to help or at least know what "
+"was going on."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I guess they didn't know."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"The shop was empty, actually.  She was desperate though, so I broke in.  I "
+"found out more about the chaos in towns from the store radio.  Got my friend "
+"some painkillers and gravol, but when I came out to the boat, well...  it "
+"was too late for her."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "She was dead?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I wish.  That would have been a mercy.  She was letting out an awful, "
+"choking scream, and her body was shredding itself apart.  Mushrooms were "
+"busting out of every part of her.  I...  I ran.  Now I wish that I'd put her "
+"out of her misery, but going back there now would be suicide."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's awful.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "That's awful.  <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"My wife made it out with me, but got eaten by one of those <swear> plant "
+"monsters a few days before I met you.  This hasn't been a great year for me."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"My husband made it out with me, but got eaten by one of those <swear> plant "
+"monsters a few days before I met you.  This hasn't been a great year for me."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I'm sorry to hear it."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Tell me about those plant monsters."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That's how it goes, you know?  These are the end times.  I don't really want "
+"to talk about it more than that.  And honestly, I never really felt like I "
+"belonged, in the old world.  In a weird way, I actually feel like I have a "
+"purpose now.  Do you ever get that?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "No, that's messed up."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah, I get that.  Sometimes I feel like my existence began shortly after "
+"the cataclysm."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I guess those of us who made it this far have to have made it for a reason, "
+"or something.  I don't mean like a religious reason, just...  we're "
+"survivors."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Haha, yeah, I can see why you'd think that.  I don't mean it's a good "
+"apocalypse.  I just mean that at least now I know what I'm doing every day.  "
+"I'd still kill a hundred zombies for an internet connection and a night "
+"watching crappy movies with...  sorry.  Let's change the subject."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah, have you seen them yet? They're these <shitty> walking flowers with a "
+"big <swear> stinger in the middle.  They travel in packs.  They hate the "
+"zombies, and we were using them for cover to clear a horde of the dead.  "
+"Unfortunately, turns out the plants are better trackers than the <zombies>.  "
+"They almost seemed intelligent...  I barely made it out, only because they "
+"were, uh, distracted."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I'm sorry you lost someone."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Just another <shitty> tale of love and loss.  Not something I like to tell."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "It might help to get it off your chest."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Suck it up.  If we're going to work together I need to know you."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Never mind.  Sorry I brought it up."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I appreciate the sentiment, but I don't think it would.  Drop it."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "OK."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Oh, <fuck_you>.  This doesn't have anything to do with you, or with us."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "All right, fine.  I had someone.  I lost her."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "All right, fine.  I had someone.  I lost him."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"She was at home when the bombs started dropping and the world went to hell.  "
+"I was at work.  I tried to make it to our house, but the city was a war "
+"zone.  Things I can't describe lurching through the streets, crushing people "
+"and cars.  Soldiers trying to stop them, but hitting people in the crossfire "
+"as much as anything.  And then the collateral damage would get right back up "
+"and join the enemy.  If it hadn't been for my wife, I would have just left, "
+"but I did what I could and I slipped through.  I actually <swear> made it "
+"alive."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"He was at home when the bombs started dropping and the world went to hell.  "
+"I was at work.  I tried to make it to our house, but the city was a war "
+"zone.  Things I can't describe lurching through the streets, crushing people "
+"and cars.  Soldiers trying to stop them, but hitting people in the crossfire "
+"as much as anything.  And then the collateral damage would get right back up "
+"and join the enemy.  If it hadn't been for my husband, I would have just "
+"left, but I did what I could and I slipped through.  I actually <swear> made "
+"it alive."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "You must have seen some shit."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I take it home was bad."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Yeah.  I really did.  It took me two days to make it across the city on "
+"foot, camping out in dumpsters and places like that.  I started moving more "
+"by night, and I learned right away to avoid the military.  They were a "
+"magnet for the <zombies>, and they were usually stationed where the monsters "
+"were coming.  Some parts of the city were pretty tame at first.  There were "
+"a few chunks where people had been evacuated or cleared out, and the "
+"<zombies> didn't really go there.  Later on, others like me started moving "
+"into those neighborhoods, so I switched and started running through the "
+"blasted out downtown.  I had to anyway, to get home.  By the time I made the "
+"switch though, the fighting was starting to die off, and I was mostly just "
+"avoiding attention from zombies and other things."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"The first warning was that I had to move from the preserved parts of the "
+"city to the burnt out ones to get home.  It only got worse.  There was a "
+"police barricade right outside my house, with a totally useless pair of "
+"automated turrets sitting in front just idly watching the zombies lurch by.  "
+"That was before someone switched them to kill everybody, back when it only "
+"killed trespassing humans.  Good times, you can always trust bureaucracy to "
+"fuck things up in the most spectacular way possible.  Anyway, the house "
+"itself was half collapsed, a SWAT van had plowed into it.  I think I knew "
+"what I was going to see in there, but I had made it that far and I wasn't "
+"going to turn back."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "You must have seen some shit on the way there."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Did you make it into the house?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I did.  Took a few hours to get an opening.  And you wanna know the fucked "
+"up part? Like, out of all this?  My wife was still alive.  She'd been in the "
+"basement the whole time, pinned under a collapsed piece of floor.  And she'd "
+"lost a ton of blood, she was delirius by the time I found her.  I couldn't "
+"get her out, so I gave her food and water and just stayed with her and held "
+"her hand until she passed.  And then...  well, then I did what you have to "
+"do to the dead now.  And then I packed up the last few fragments of my life, "
+"and I try to never look back."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I did.  Took a few hours to get an opening.  And you wanna know the fucked "
+"up part? Like, out of all this?  My husband was still alive.  He'd been in "
+"the basement the whole time, pinned under a collapsed piece of floor.  And "
+"he'd lost a ton of blood, he was delirius by the time I found him.  I "
+"couldn't get him out, so I gave him food and water and just stayed with him "
+"and held his hand until he passed.  And then...  well, then I did what you "
+"have to do to the dead now.  And then I packed up the last few fragments of "
+"my life, and I try to never look back."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I lived alone, on the old family property way out of town.  My wife passed "
+"away a bit over a month before this started... cancer.  If anything good has "
+"come out of all this, it's that I finally see a positive to losing her so "
+"young.  I'd been shut in for a while anyway.  When the news started talking "
+"about Chinese bio weapons and sleeper agents, and showing the rioting in "
+"Boston and such, I curled up with my canned soup and changed the channel."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I lived alone, on the old family property way out of town.  My husband "
+"passed away a bit over a month before this started... cancer.  If anything "
+"good has come out of all this, it's that I finally see a positive to losing "
+"him so young.  I'd been shut in for a while anyway.  When the news started "
+"talking about Chinese bio weapons and sleeper agents, and showing the "
+"rioting in Boston and such, I curled up with my canned soup and changed the "
+"channel."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What happened next?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well, it built up a bit.  There was that acid rain, it burnt up one of my "
+"tractors.  Not that I'd been working the fields since...  well, it'd been a "
+"<shitty> year and I hadn't done much worth doing.  There were explosions and "
+"things, and choppers overhead.  I was scared, kept the curtains drawn, kept "
+"changing the channels.  Then, one day, there were no channels to change to.  "
+"Just the emergency broadcast, over and over."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"That was the first thing to really shake me out of it.  I didn't really have "
+"any very close friends, but there were people back in town I cared about a "
+"bit.  I had sent some texts, but I hadn't really twigged that they hadn't "
+"replied for days.  I got in my truck and tried to get back to town.  Didn't "
+"get far before I hit a <zombie> infested pileup blocking the highway, and "
+"that's when I started to put it all together.  Never did get to town.  "
+"Unfortunately I led the <zombies> back to my farm, and had to bug out of "
+"there.  Might go back and clear it out, someday."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Thanks for telling me that. <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Well, I lived on the edge of a small town.  Corner store and a gas station "
+"and not much else.  We heard about the shit goin' down in the city, but we "
+"didn't see much of it until the military came blazing through and tried to "
+"set up a camp there.  They wanted to bottle us all up in town, and I wasn't "
+"having with that, so my dog Buck and I, we headed out while they were all "
+"sniffin' their own farts."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Buck and I slipped out and went East, headin' for my friend's ranch.  Cute "
+"little dope thought we were just goin' for a real long walk.  I couldn't "
+"take the truck without the army boys catchin' wind of it.  We made it out to "
+"the forest, camped out in a lean to.  Packed up and kept heading out.  At "
+"first we walked along the highway a little, but saw too many army trucks and "
+"buses full of evacuees, and that's when we found out about the <zombies>."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Where's Buck now?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I see where this is headed. <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I see where this is headed. <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"We got to my buddy's ranch, but the <swear> g-men had been there first.  It "
+"was all boarded up and there was a police barricade out front.  One of those "
+"<swear> turrets...  <swear> shot Buck.  Almost got me too.  I managed to get "
+"my pup...  get him outta there, that...  it wasn't easy, had to use a police "
+"car door as a shield, had to kill a cop-zombie first.  And then, well, while "
+"I was still cryin', Buck came back.  I had to ...  <swear!>.  I...  I can't "
+"say it.  You know."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I'm sorry about Buck.  <done_conversation_section>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I'm sorry about Buck. <end_talking>"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
 msgid "That sure is a shiny badge you got there!"
 msgstr ""
 
@@ -99627,8 +101806,8 @@ msgstr ""
 #: lang/json/talk_topic_from_json.py
 msgid ""
 "Guess that makes two of us.  Well, kind of.  I don't think we're open, "
-"though.  Full up as hell; it's almost a crowd downstairs.  See the trader "
-"over there?  There's the one to ask."
+"though.  Full up as hell; it's almost a crowd downstairs.  Did you see the "
+"trader at the enterance?  There's the one to ask."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -99836,20 +102015,19 @@ msgstr ""
 msgid "Never mind, I'm not interested."
 msgstr ""
 
-#: lang/json/talk_topic_from_json.py src/crafting.cpp src/game.cpp
+#: lang/json/talk_topic_from_json.py src/crafting.cpp
 #: src/game.cpp
-#: src/game.cpp src/handle_action.cpp
 #: src/handle_action.cpp
 #: src/handle_action.cpp src/iexamine.cpp
 #: src/iexamine.cpp
 #: src/iexamine.cpp src/iuse.cpp
 #: src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp
 #: src/iuse_actor.cpp
 #: src/iuse_actor.cpp src/npctalk.cpp
-#: src/npctalk.cpp
-#: src/pickup.cpp src/player.cpp
+#: src/npctalk.cpp src/pickup.cpp
 #: src/player.cpp
-#: src/veh_interact.cpp
+#: src/player.cpp src/veh_interact.cpp
 msgid "Never mind."
 msgstr ""
 
@@ -99963,7 +102141,7 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
-"We could look for one of those farms out here. They can provide plenty of "
+"We could look for one of those farms out here.  They can provide plenty of "
 "food and aren't close to the cities."
 msgstr ""
 
@@ -100834,25 +103012,21 @@ msgstr ""
 #: lang/json/talk_topic_from_json.py
 msgid ""
 "When you upgrade your first tent all the way you will unlock the ability to "
-"construct expansions. Expansions allow you to specialize each camp you build "
-"by focusing on the industries that you need.  A <color_light_green>[Farm]</"
-"color> is recommended for players that want to pursue a large faction while "
-"a <color_light_green>[Kitchen]</color> is better for players that just want "
-"the quality of life improvement of having an NPC do all of their cooking.  A "
-"<color_light_green>[Garage]</color> is useful for chop shop type missions "
-"that let you trade vehicles for large amounts of parts and resources.  All "
-"those resources can be turning into valuable eqiupment in the "
-"<color_light_green>[Blacksmith Shop]</color>. You can build an additional "
-"expansion every other level after the first is unlocked and when one camp is "
-"full you can just as easily build another."
+"construct expansions.  Expansions allow you to specialize each camp you "
+"build by focusing on the industries that you need.  A "
+"<color_light_green>[Farm]</color> is recommended for players that want to "
+"pursue a large faction while a <color_light_green>[Kitchen]</color> is "
+"better for players that just want the quality of life improvement of having "
+"an NPC do all of their cooking.  A <color_light_green>[Garage]</color> is "
+"useful for chop shop type missions that let you trade vehicles for large "
+"amounts of parts and resources.  All those resources can be turning into "
+"valuable equipment in the <color_light_green>[Blacksmith Shop]</color>. You "
+"can build an additional expansion every other level after the first is "
+"unlocked and when one camp is full you can just as easily build another."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
 msgid "Thanks, let's go back to talking about camps."
-msgstr ""
-
-#: lang/json/talk_topic_from_json.py
-msgid "Forget it. Let's go."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -101454,10 +103628,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
-msgid "OK."
-msgstr ""
-
-#: lang/json/talk_topic_from_json.py
 msgid ""
 "I keep getting sick!  At first I thought it was something I ate but now it "
 "seems like I can't keep anything down..."
@@ -101835,7 +104005,19 @@ msgid "This is a trait test response."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
+msgid "This is a short trait test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
 msgid "This is a wearing test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a npc trait test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a npc short trait test response."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -101868,6 +104050,10 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py
 msgid "This is a nearby role test response."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "This is a class test response."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -102455,7 +104641,6 @@ msgid "<npcname> disarms %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
-#: lang/json/technique_from_json.py src/monster.cpp
 msgid "grab"
 msgstr ""
 
@@ -106552,6 +108737,10 @@ msgid "firewood source"
 msgstr ""
 
 #: lang/json/trap_from_json.py
+msgid "practice target"
+msgstr ""
+
+#: lang/json/trap_from_json.py
 msgid "raincatcher"
 msgstr ""
 
@@ -107140,6 +109329,10 @@ msgstr ""
 
 #: lang/json/vehicle_from_json.py
 msgid "Solar test"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Passenger Car"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
@@ -108357,7 +110550,9 @@ msgid "A combustion engine.  Burns fuel from a tank in the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "A combustion engine.  Burns diesel fuel from a tank in the vehicle."
+msgid ""
+"A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can "
+"also burn methanol, ethanol, or lamp oil, though somewhat less efficiently."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -108366,8 +110561,8 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid ""
-"A closed cycle, external combustion steam engine.  Burns coal from a bunker "
-"in the vehicle to produce steam."
+"A closed cycle, external combustion steam engine.  Burns coal or charcoal "
+"from a bunker in the vehicle to produce steam."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -110977,6 +113172,13 @@ msgstr[1] ""
 
 #: src/activity_handlers.cpp
 #, c-format
+msgid "One of the %s's engines start up."
+msgid_plural "Some of the %s's engines start up."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/activity_handlers.cpp
+#, c-format
 msgid "The %s's engine fails to start."
 msgid_plural "The %s's engines fail to start."
 msgstr[0] ""
@@ -112391,10 +114593,6 @@ msgid "shrinks and grows very slightly with a regular pulse, as if breathing"
 msgstr ""
 
 #: src/artifact.cpp
-msgid "dead"
-msgstr ""
-
-#: src/artifact.cpp
 msgid "is icy cold to the touch"
 msgstr ""
 
@@ -113011,7 +115209,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/auto_pickup.cpp
-msgid "Won't display bottled and suffixes=(fits)"
+msgid "Won't display content or suffix matches"
 msgstr ""
 
 #: src/auto_pickup.cpp
@@ -113049,6 +115247,30 @@ msgstr ""
 #: src/basecamp.cpp
 #, c-format
 msgid "%s Board"
+msgstr ""
+
+#: src/basecamp.cpp src/mission_companion.cpp
+msgid "Base Missions"
+msgstr ""
+
+#: src/basecamp.cpp
+msgid "Garage Expansion"
+msgstr ""
+
+#: src/basecamp.cpp
+msgid "Kitchen Expansion"
+msgstr ""
+
+#: src/basecamp.cpp
+msgid "Blacksmith Expansion"
+msgstr ""
+
+#: src/basecamp.cpp
+msgid "Farm Expansion"
+msgstr ""
+
+#: src/basecamp.cpp
+msgid "Empty Expansion"
 msgstr ""
 
 #: src/bionics.cpp
@@ -114402,7 +116624,6 @@ msgid ""
 msgstr ""
 
 #: src/clzones.cpp
-msgctxt "perishable_food"
 msgid "Loot: P.Food"
 msgstr ""
 
@@ -114423,7 +116644,6 @@ msgid ""
 msgstr ""
 
 #: src/clzones.cpp
-msgctxt "perishable_drink"
 msgid "Loot: P.Drink"
 msgstr ""
 
@@ -114440,7 +116660,6 @@ msgid "Destination for guns, bows and similar weapons."
 msgstr ""
 
 #: src/clzones.cpp
-msgctxt "gun_magazines"
 msgid "Loot: Magazines"
 msgstr ""
 
@@ -114483,7 +116702,6 @@ msgid ""
 msgstr ""
 
 #: src/clzones.cpp
-msgctxt "filthy_clothing"
 msgid "Loot: F.Clothing"
 msgstr ""
 
@@ -114532,7 +116750,6 @@ msgid "Destination for Compact Bionics Modules aka CBMs."
 msgstr ""
 
 #: src/clzones.cpp
-msgctxt "vehicle_parts"
 msgid "Loot: V.Parts"
 msgstr ""
 
@@ -114575,7 +116792,6 @@ msgid "Destination for chemicals."
 msgstr ""
 
 #: src/clzones.cpp
-msgctxt "spare_parts"
 msgid "Loot: S.Parts"
 msgstr ""
 
@@ -114602,7 +116818,6 @@ msgid ""
 msgstr ""
 
 #: src/clzones.cpp
-msgctxt "filthy_armor"
 msgid "Loot: F.Armor"
 msgstr ""
 
@@ -114627,7 +116842,6 @@ msgid "Items inside of this zone are ignored by \"sort out loot\" zone-action."
 msgstr ""
 
 #: src/clzones.cpp
-msgctxt "plot_of_land"
 msgid "Farm: Plot"
 msgstr ""
 
@@ -116322,8 +118536,8 @@ msgstr ""
 #: src/crafting_gui.cpp
 #, c-format
 msgid ""
-"[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, %s [?] "
-"keybindings"
+"[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, "
+"%s [?] keybindings"
 msgstr ""
 
 #: src/crafting_gui.cpp
@@ -116337,19 +118551,20 @@ msgstr ""
 #: src/crafting_gui.cpp
 #, c-format
 msgid ""
-"[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings"
-msgstr ""
-
-#: src/crafting_gui.cpp
-msgid ""
-"[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] "
+"[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] "
 "keybindings"
 msgstr ""
 
 #: src/crafting_gui.cpp
 msgid ""
-"[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] "
-"keybindings"
+"[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, "
+"[b]atch [?] keybindings"
+msgstr ""
+
+#: src/crafting_gui.cpp
+msgid ""
+"[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch "
+"[?] keybindings"
 msgstr ""
 
 #: src/crafting_gui.cpp
@@ -116413,7 +118628,8 @@ msgid "Impossible"
 msgstr ""
 
 #: src/crafting_gui.cpp
-msgid "v (more)"
+#, c-format
+msgid "v (%s for more)"
 msgstr ""
 
 #: src/crafting_gui.cpp
@@ -117629,12 +119845,17 @@ msgstr ""
 
 #: src/editmap.cpp
 #, c-format
-msgid "apparent light: %.2f, light_at: %.2f"
+msgid "outside: %d obstructed: %d"
 msgstr ""
 
 #: src/editmap.cpp
 #, c-format
-msgid "outside: %d"
+msgid "light_at: %s"
+msgstr ""
+
+#: src/editmap.cpp
+#, c-format
+msgid "apparent light: %.5f (%d)"
 msgstr ""
 
 #: src/editmap.cpp
@@ -118198,7 +120419,7 @@ msgid "poor"
 msgstr ""
 
 #: src/effect.cpp
-msgid "decent"
+msgid "average"
 msgstr ""
 
 #: src/effect.cpp src/iuse.cpp
@@ -118207,10 +120428,6 @@ msgstr ""
 
 #: src/effect.cpp
 msgid "great"
-msgstr ""
-
-#: src/effect.cpp
-msgid "average"
 msgstr ""
 
 #: src/effect.cpp
@@ -119901,6 +122118,50 @@ msgid "Combat Ability:    %s"
 msgstr ""
 
 #: src/faction_camp.cpp
+msgid "food for companions"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "food for you"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "weapons"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "bionics"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "clothing"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "all kinds of tools"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "wood of various sorts"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "books"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "trash and rotting food"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "ammo"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "medication"
+msgstr ""
+
+#: src/faction_camp.cpp
 msgid " [DONE]\n"
 msgstr ""
 
@@ -119909,19 +122170,29 @@ msgid " left]\n"
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "Upgrade Camp"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "Working to expand your camp!\n"
-msgstr ""
-
-#: src/faction_camp.cpp
+#: src/faction_camp.cpp src/mission_companion.cpp
 #: src/mission_companion.cpp
 msgid ""
 "\n"
 " \n"
 "Do you wish to bring your allies back into your party?"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid "%s has become a camp manager."
+msgstr ""
+
+#: src/faction_camp.cpp src/npctalk.cpp
+msgid ", Camp Manager"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Upgrade Camp"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Working to expand your camp!\n"
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -119953,7 +122224,8 @@ msgstr ""
 msgid ""
 "Notes:\n"
 "Distribute food to your follower and fill you larders.  Place the food you "
-"wish to distribute opposite the tent door between the manager and wall.\n"
+"wish to distribute on the companion food sort point.  By default, that is "
+"opposite the tent door between the manager and wall.\n"
 " \n"
 "Effects:\n"
 "> Increases your faction's food supply value which in turn is used to pay "
@@ -120033,7 +122305,7 @@ msgid ""
 "front of the tent.\n"
 "Default, top to bottom:  Clothing, Food, Books/Bionics, and Tools.  Wood "
 "will be piled to the south.  Trash to the north.\n"
-" \n"
+"\n"
 "Risk: None\n"
 "Time: 3 Hours\n"
 "Positions: %d/1\n"
@@ -120048,13 +122320,6 @@ msgid "Performing menial labor...\n"
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid ""
-"\n"
-" \n"
-"Do you wish to bring your allies back into your party?\n"
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "Recover Menial Laborer"
 msgstr ""
 
@@ -120062,16 +122327,20 @@ msgstr ""
 #, c-format
 msgid ""
 "Notes:\n"
-"Your base has become large enough to support an expansion.  Expansions open "
-"up new opportunities but can be expensive and time consuming.  Pick them "
+"Your base has become large enough to support an expansion.Expansions open up "
+"new opportunities but can be expensive and time consuming.  Pick them "
 "carefully, only 8 can be built at each camp.\n"
 " \n"
-"Skill used: fabrication\n"
-"Difficulty: N/A \n"
+"Skill used: N/A \n"
 "Effects:\n"
-"> Choose any one of the available expansions.  Starting with a farm or "
-"lumberyard are always a solid choice since food is used to support companion "
-"missions and wood is your primary construction material.\n"
+"> Choose any one of the available expansions.  Starting with a farm is "
+"always a solid choice since food is used to support companion missions and "
+"little is needed to get it going.  With minimal investment, a mechanic can "
+"be useful as a chop-shop to rapidly dismantle large vehicles, and a forge "
+"provides the resources to make charcoal.  \n"
+" \n"
+"NOTE: Actions available through expansions are located in separate tabs of "
+"the Camp Manager window.  \n"
 " \n"
 "Risk: None\n"
 "Time: 3 Hours \n"
@@ -120102,7 +122371,7 @@ msgid ""
 "> 50%% of trees/trunks at the forest position will be cut down.\n"
 "> 100%% of total material will be brought back.\n"
 "> Repeatable with diminishing returns.\n"
-" \n"
+"> Will eventually turn forests into fields.\n"
 "Risk: None\n"
 "Time: 6 Hour Base + Travel Time + Cutting Time\n"
 "Positions: %d/1\n"
@@ -120118,6 +122387,37 @@ msgstr ""
 
 #: src/faction_camp.cpp
 msgid "Recover Log Cutter"
+msgstr ""
+
+#: src/faction_camp.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to a clear a nearby forest.\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: 1 \n"
+"Effects:\n"
+"> 95%% of trees/trunks at the forest position will be cut down.\n"
+"> 0%% of total material will be brought back.\n"
+"> Forest should become a field tile.\n"
+"> Useful for clearing land for another faction camp.\n"
+" \n"
+"Risk: None\n"
+"Time: 6 Hour Base + Travel Time + Cutting Time\n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Clear a forest"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Clearing a forest...\n"
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Recover Clear Cutter"
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -120174,7 +122474,7 @@ msgid "Relay Hide Site"
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "Transfering gear to a hide site...\n"
+msgid "Transferring gear to a hide site...\n"
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -120185,13 +122485,13 @@ msgstr ""
 #, c-format
 msgid ""
 "Notes:\n"
-"Send a companion to edible plans.\n"
+"Send a companion to forage for edible plants.\n"
 " \n"
 "Skill used: survival\n"
 "Difficulty: N/A \n"
 "Foraging Possibilities:\n"
 "> wild vegetables\n"
-"> fruits and nuts dependening on season\n"
+"> fruits and nuts depending on season\n"
 "May produce less food than consumed!\n"
 "Risk: Very Low\n"
 "Time: 4 Hours, Repeated\n"
@@ -120218,7 +122518,7 @@ msgid ""
 " \n"
 "Skill used: trapping\n"
 "Difficulty: N/A \n"
-"Trappinng Possibilities:\n"
+"Trapping Possibilities:\n"
 "> small and tiny animal corpses\n"
 "May produce less food than consumed!\n"
 "Risk: Low\n"
@@ -120385,7 +122685,7 @@ msgid ""
 "> Skill plays a huge role to determine what is salvaged.\n"
 " \n"
 "Risk: None\n"
-"Time: Skill Based \n"
+"Time: 5 days \n"
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -120527,10 +122827,6 @@ msgid "departs to search for materials..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "There are too many companions working on this mission!"
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "departs to search for firewood..."
 msgstr ""
 
@@ -120578,29 +122874,13 @@ msgid "departs to survey land..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You have already selected a surveyor!"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "begins to upgrade the expansion..."
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You already have a worker upgrading that expansion!"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You don't have the materials for the upgrade."
+#, c-format
+msgid "%s returns to you with something..."
 msgstr ""
 
 #: src/faction_camp.cpp
 #, c-format
 msgid "%s returns from your farm with something..."
-msgstr ""
-
-#: src/faction_camp.cpp
-#, c-format
-msgid "%s returns to you with something..."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -120618,10 +122898,6 @@ msgid "begins plowing the field..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You already have someone plowing that field."
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "You have no additional seeds to give your companions..."
 msgstr ""
 
@@ -120634,19 +122910,7 @@ msgid "Which seeds do you wish to have planted?"
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You already have someone planting that field."
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "begins to harvest the field..."
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You already have someone harvesting that field."
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "You already have someone working in that garage."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -120655,11 +122919,11 @@ msgid "%s returns from your garage..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You already have a companion upgrading the camp."
+msgid "begins to upgrade the camp..."
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "begins to upgrade the camp..."
+msgid "You don't have the materials for the upgrade."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -120675,6 +122939,14 @@ msgstr ""
 
 #: src/faction_camp.cpp
 msgid "departs to cut logs..."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "Forests are the only valid cutting locations."
+msgstr ""
+
+#: src/faction_camp.cpp
+msgid "departs to clear a forest..."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -120707,7 +122979,7 @@ msgstr ""
 
 #: src/faction_camp.cpp
 msgid ""
-"Select a start and end point.  Line must be straight. Fields, forests, and "
+"Select a start and end point.  Line must be straight.  Fields, forests, and "
 "swamps are valid fortification locations.  In addition to existing "
 "fortification constructions."
 msgstr ""
@@ -120752,10 +123024,6 @@ msgid "Your batch is too large!"
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "You already have someone working in that expansion."
-msgstr ""
-
-#: src/faction_camp.cpp
 msgid "begins to work..."
 msgstr ""
 
@@ -120782,10 +123050,6 @@ msgstr ""
 #: src/faction_camp.cpp
 #, c-format
 msgid "%s returns from doing the dirty work to keep the camp running..."
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "Sorting points have changed, forcing reset."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -121016,31 +123280,6 @@ msgid " [NW] "
 msgstr ""
 
 #: src/faction_camp.cpp
-#: src/mission_companion.cpp
-msgid "Base Missions"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "Farm Expansion"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "Garage Expansion"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "Kitchen Expansion"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "Blacksmith Expansion"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "Empty Expansion"
-msgstr ""
-
-#: src/faction_camp.cpp
 #, c-format
 msgid "Select a location between  %d and  %d tiles away."
 msgstr ""
@@ -121060,47 +123299,7 @@ msgid "Do you want to bounce off this location to extend range?"
 msgstr ""
 
 #: src/faction_camp.cpp
-msgid "food for you"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "food for companions"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "weapons"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "clothing"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "bionics"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "all kinds of tools"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "wood of various sorts"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "trash and rotting food"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "books"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "medication"
-msgstr ""
-
-#: src/faction_camp.cpp
-msgid "ammo"
+msgid "Sorting points have changed, forcing reset."
 msgstr ""
 
 #: src/faction_camp.cpp
@@ -122277,6 +124476,10 @@ msgid "player data"
 msgstr ""
 
 #: src/game.cpp
+msgid "player map memory"
+msgstr ""
+
+#: src/game.cpp
 msgid "weather state"
 msgstr ""
 
@@ -123405,6 +125608,11 @@ msgstr ""
 msgid "Press %s to list items and monsters"
 msgstr ""
 
+#: src/game.cpp
+#, c-format
+msgid "Press %s to blind throw"
+msgstr ""
+
 #. ~ "Fast Scroll" mark below the top right corner of the info window
 #: src/game.cpp
 msgid "F"
@@ -123680,62 +125888,6 @@ msgid "%s (%d)"
 msgstr ""
 
 #: src/game.cpp
-msgid "You can't butcher while driving!"
-msgstr ""
-
-#: src/game.cpp
-msgid "You don't have a butchering tool."
-msgstr ""
-
-#: src/game.cpp
-msgid "There are no corpses here to butcher."
-msgstr ""
-
-#: src/game.cpp
-msgid "You can't access the items here."
-msgstr ""
-
-#: src/game.cpp
-msgid "You don't have the necessary tools to disassemble any items here."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You see %s nearby! Start butchering anyway?"
-msgstr ""
-
-#: src/game.cpp
-msgid "Choose corpse to butcher / item to disassemble"
-msgstr ""
-
-#: src/game.cpp
-msgid "Quick butcher everything"
-msgstr ""
-
-#: src/game.cpp
-msgid "Disassemble everything once"
-msgstr ""
-
-#: src/game.cpp
-msgid "Disassemble everything"
-msgstr ""
-
-#: src/game.cpp
-msgid "Cut up everything"
-msgstr ""
-
-#: src/game.cpp
-msgid ""
-"You are not in the mood and the prospect of guts and blood on your hands "
-"convinces you to turn away."
-msgstr ""
-
-#: src/game.cpp
-msgid ""
-"You are not in the mood and the prospect of work stops you before you begin."
-msgstr ""
-
-#: src/game.cpp
 msgid "Choose type of butchery:"
 msgstr ""
 
@@ -123770,7 +125922,7 @@ msgstr ""
 #: src/game.cpp
 msgid ""
 "Technique that involves removing internal organs and viscera to protect the "
-"corpse from rotting from inside.  Yields internal organs.  Carcass will be "
+"corpse from rotting from inside. Yields internal organs. Carcass will be "
 "lighter and will stay fresh longer.  Can be combined with other methods for "
 "better effects."
 msgstr ""
@@ -123781,7 +125933,7 @@ msgstr ""
 
 #: src/game.cpp
 msgid ""
-"By quartering a previously field dressed corpse you will acquire four parts "
+"By quartering a previously field dressed corpse you will aquire four parts "
 "with reduced weight and volume.  It may help in transporting large game.  "
 "This action destroys skin, hide, pelt, etc., so don't use it if you want to "
 "harvest them later."
@@ -123797,6 +125949,62 @@ msgid ""
 "implants, and harvest them if possible.  Requires scalpel-grade cutting "
 "tools, ruins corpse, and consumes lot of time.  Your medical knowledge is "
 "most useful here."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't butcher while driving!"
+msgstr ""
+
+#: src/game.cpp
+msgid "You don't have a butchering tool."
+msgstr ""
+
+#: src/game.cpp
+msgid "There are no corpses here to butcher."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't access the items here."
+msgstr ""
+
+#: src/game.cpp
+msgid "You don't have the necessary tools to disassemble any items here."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You see %s nearby! Start butchering anyway?"
+msgstr ""
+
+#: src/game.cpp
+msgid "Choose corpse to butcher / item to disassemble"
+msgstr ""
+
+#: src/game.cpp
+msgid "Butcher everything"
+msgstr ""
+
+#: src/game.cpp
+msgid "Disassemble everything once"
+msgstr ""
+
+#: src/game.cpp
+msgid "Disassemble everything"
+msgstr ""
+
+#: src/game.cpp
+msgid "Cut up everything"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"You are not in the mood and the prospect of guts and blood on your hands "
+"convinces you to turn away."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"You are not in the mood and the prospect of work stops you before you begin."
 msgstr ""
 
 #: src/game.cpp
@@ -123929,27 +126137,6 @@ msgstr ""
 
 #: src/game.cpp
 msgid "You can't remove partially depleted plutonium!"
-msgstr ""
-
-#: src/game.cpp
-msgid "Who do you want to talk to or yell at?"
-msgstr ""
-
-#: src/game.cpp
-msgid "Yell"
-msgstr ""
-
-#: src/game.cpp
-msgid "Yell a sentence"
-msgstr ""
-
-#: src/game.cpp
-msgid "Enter a sentence to yell"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You yell, \"%s\""
 msgstr ""
 
 #: src/game.cpp
@@ -125924,6 +128111,16 @@ msgid "You take down the %s."
 msgstr ""
 
 #: src/iexamine.cpp
+#, c-format
+msgid "The %s is broken and can not be picked up."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "damaged %s"
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Place a plank over the pit?"
 msgstr ""
 
@@ -126665,7 +128862,7 @@ msgid "Do what with the curtains?"
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Peek through the curtains."
+msgid "Peek through the closed curtains."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -127875,6 +130072,10 @@ msgid "<bold>Damage</bold>: "
 msgstr ""
 
 #: src/item.cpp
+msgid "<bold>Damage multiplier</bold>: "
+msgstr ""
+
+#: src/item.cpp
 msgid "Armor-pierce: "
 msgstr ""
 
@@ -128171,11 +130372,15 @@ msgid "Warmth: "
 msgstr ""
 
 #: src/item.cpp
-msgid "<bold>Encumbrance</bold>: "
+msgid "<num> <info>(fits)</info>"
 msgstr ""
 
 #: src/item.cpp
-msgid "<num> <info>(fits)</info>"
+msgid "<num> <bad>(poor fit)</bad>"
+msgstr ""
+
+#: src/item.cpp
+msgid "<bold>Encumbrance</bold>: "
 msgstr ""
 
 #: src/item.cpp
@@ -128187,7 +130392,7 @@ msgid "Storage: "
 msgstr ""
 
 #: src/item.cpp
-msgid "Protection: Bash: "
+msgid "<bold>Protection</bold>: Bash: "
 msgstr ""
 
 #: src/item.cpp
@@ -128199,7 +130404,17 @@ msgid "Fire: "
 msgstr ""
 
 #: src/item.cpp
-msgid "Environmental protection: "
+msgid "Environmental: "
+msgstr ""
+
+#: src/item.cpp
+msgid "<bold>Protection when active</bold>: "
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"Protection values are <bad>reduced by damage</bad> and you may be able to "
+"<info>improve them by repairing this item</info>."
 msgstr ""
 
 #: src/item.cpp
@@ -128736,7 +130951,7 @@ msgid " (undersize)"
 msgstr ""
 
 #: src/item.cpp
-msgid " (fits)"
+msgid " (poor fit)"
 msgstr ""
 
 #: src/item.cpp
@@ -128786,7 +131001,7 @@ msgstr ""
 msgid "sawn-off "
 msgstr ""
 
-#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (fits)").
+#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
 #: src/item.cpp
 #, c-format
 msgid "%1$s%2$s%3$s%4$s%5$s%6$s"
@@ -129073,6 +131288,13 @@ msgstr ""
 
 #: src/item_action.cpp
 msgid "Execute which action?"
+msgstr ""
+
+#: src/item_factory.cpp
+msgid ""
+"Can be activated to <good>increase environmental protection</good>.  Will "
+"consume charges when active, but <info>only when environmental hazards are "
+"present</info>."
 msgstr ""
 
 #: src/item_factory.cpp
@@ -129836,10 +132058,6 @@ msgid "You can't fish there!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "That water does not contain any fish.  Try a river instead."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "There are no fish around.  Try another spot."
 msgstr ""
 
@@ -129853,10 +132071,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Put fish trap where?"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "That water does not contain any fish, try a river instead."
 msgstr ""
 
 #: src/iuse.cpp
@@ -130436,10 +132650,6 @@ msgid "A nearby splatter of goo forms into a goo pit."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "The pipe bomb fizzles out."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "You pull the pin on the Granade."
 msgstr ""
 
@@ -130887,24 +133097,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You're not even chained to a boiler."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "Put up the %s where (%dx%d clear area)?"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "There isn't enough space in that direction."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You set up the %s on the ground."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Examine the center square to pack it up again."
 msgstr ""
 
 #: src/iuse.cpp
@@ -131475,11 +133667,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "This memory card does not contain any new data."
-msgstr ""
-
-#. ~ photo quality adjective
-#: src/iuse.cpp
-msgid "awful"
 msgstr ""
 
 #: src/iuse.cpp
@@ -133156,19 +135343,19 @@ msgid "<bold>Chance to heal (percent):</bold> "
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "<bold>* Bleeding</bold>:"
+msgid "* Bleeding: "
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "<bold>* Bite</bold>:"
+msgid "* Bite: "
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "<bold>* Infection</bold>:"
+msgid "* Infection: "
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "<bold>Moves to use</bold>:"
+msgid "<bold>Moves to use</bold>: "
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -133291,6 +135478,35 @@ msgstr ""
 #: src/iuse_actor.cpp
 msgctxt "memorial_female"
 msgid "Injected mutagen."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "Put up the %s where (%dx%d clear area)?"
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "The %s is in the way."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "The %s in that direction is not passable."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "There is already furniture (%s) there."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You set up the %s on the ground."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Examine the center square to pack it up again."
 msgstr ""
 
 #: src/iuse_software.cpp
@@ -135987,19 +138203,19 @@ msgstr ""
 msgid ""
 "Cost: $1000\n"
 " \n"
-"\n"
-"              .........\n"
-"              .........\n"
-"              .........\n"
-"              .........\n"
-"              .........\n"
-"              .........\n"
-"              ..#....**\n"
-"              ..#Ov..**\n"
-"              ...O|....\n"
+" \n"
+"                .........\n"
+"                .........\n"
+"                .........\n"
+"                .........\n"
+"                .........\n"
+"                .........\n"
+"                ..#....**\n"
+"                ..#Ov..**\n"
+"                ...O|....\n"
 " \n"
 "We're willing to let you purchase a field at a substantial discount to use "
-"for your own agricultural enterprises.  We'll plow it for you so you know "
+"for your own agricultural enterprises.  We'll plow it for you  so you know "
 "exactly what is yours... after you have a field you can hire workers to "
 "plant or harvest crops for you.  If the crop is something we have a demand "
 "for, we'll be willing to liquidate it."
@@ -138298,6 +140514,11 @@ msgstr ""
 
 #: src/monmove.cpp
 #, c-format
+msgid "A %1$s flies over the %2$s!"
+msgstr ""
+
+#: src/monmove.cpp
+#, c-format
 msgid "A %1$s %2$s from the %3$s!"
 msgstr ""
 
@@ -138489,14 +140710,17 @@ msgid "It has the following senses: %s."
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Hearing as sense"
 msgid "hearing"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Sight as sense"
 msgid "sight"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Smell as sense"
 msgid "smell"
 msgstr ""
 
@@ -138510,14 +140734,22 @@ msgid "It can %s."
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Swim as an action"
 msgid "swim"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Fly as an action"
 msgid "fly"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Dig as an action"
+msgid "dig"
+msgstr ""
+
+#: src/monster.cpp
+msgctxt "Climb as an action"
 msgid "climb"
 msgstr ""
 
@@ -138527,10 +140759,17 @@ msgid "<bad>In fight it can %s.</bad>"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Grab as an action"
+msgid "grab"
+msgstr ""
+
+#: src/monster.cpp
+msgctxt "Poison as an action"
 msgid "poison"
 msgstr ""
 
 #: src/monster.cpp
+msgctxt "Paralyze as an action"
 msgid "paralyze"
 msgstr ""
 
@@ -139977,13 +142216,13 @@ msgstr ""
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_male"
-msgid "Killed an innocent, %s, in cold blood. They were weak."
+msgid "Killed an innocent, %s, in cold blood.  They were weak."
 msgstr ""
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_female"
-msgid "Killed an innocent, %s, in cold blood. They were weak."
+msgid "Killed an innocent, %s, in cold blood.  They were weak."
 msgstr ""
 
 #: src/npc.cpp
@@ -140098,6 +142337,11 @@ msgstr ""
 
 #: src/npc.cpp
 msgid "<npcname> is no longer afraid."
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
+msgid "%s %s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -140347,6 +142591,35 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "PERSUADE"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Who do you want to talk to or yell at?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Yell"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Yell a sentence"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Tell all your allies to guard"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Tell all your allies to follow"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Enter a sentence to yell"
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "You yell, \"%s\""
 msgstr ""
 
 #: src/npctalk.cpp
@@ -141064,15 +143337,6 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s has become a camp manager."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid ", Camp Manager"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
 msgid "%s has abandoned the camp."
 msgstr ""
 
@@ -141666,6 +143930,16 @@ msgstr ""
 msgid ""
 "Number of turns after which safe mode is reactivated. Will only reactivate "
 "if no hostiles are in 'Safe mode proximity distance.'"
+msgstr ""
+
+#: src/options.cpp
+msgid "Turns to remember ignored monsters"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"Number of turns an ignored monster stays ignored after it is no longer "
+"seen.  0 disables this option and monsters are permanently ignored."
 msgstr ""
 
 #: src/options.cpp
@@ -143672,6 +145946,10 @@ msgstr ""
 #: src/pickup.cpp
 #, c-format
 msgid "Wielding - %s"
+msgstr ""
+
+#: src/pickup.cpp
+msgid "Lost track of vehicle."
 msgstr ""
 
 #: src/pickup.cpp
@@ -147185,6 +149463,11 @@ msgid "Throwing %s"
 msgstr ""
 
 #: src/ranged.cpp
+#, c-format
+msgid "Blind throwing %s"
+msgstr ""
+
+#: src/ranged.cpp
 msgid "Set target"
 msgstr ""
 
@@ -147361,6 +149644,14 @@ msgstr ""
 
 #: src/ranged.cpp
 msgid "Fwoosh!"
+msgstr ""
+
+#: src/ranged.cpp
+msgid "whizz!"
+msgstr ""
+
+#: src/ranged.cpp
+msgid "thonk!"
 msgstr ""
 
 #: src/ranged.cpp
@@ -149140,6 +151431,10 @@ msgid "Remove what?"
 msgstr ""
 
 #: src/veh_interact.cpp
+msgid "The vehicle has no charged plutonium cells."
+msgstr ""
+
+#: src/veh_interact.cpp
 #, c-format
 msgid "You don't meet the requirements to install the %s."
 msgstr ""
@@ -149888,6 +152183,16 @@ msgstr ""
 #: src/vehicle_use.cpp
 #, c-format
 msgid "A folded %s."
+msgstr ""
+
+#: src/vehicle_use.cpp
+#, c-format
+msgid "You cannot use %s with a broken arm."
+msgstr ""
+
+#: src/vehicle_use.cpp
+#, c-format
+msgid "You cannot use %s with a broken leg."
 msgstr ""
 
 #: src/vehicle_use.cpp

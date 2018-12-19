@@ -1,3 +1,13 @@
+#ifdef _GLIBCXX_DEBUG
+// Workaround to allow randomly ordered tests.  See
+// https://github.com/catchorg/Catch2/issues/1384
+// https://stackoverflow.com/questions/22915325/avoiding-self-assignment-in-stdshuffle/23691322
+// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85828
+#include <debug/macros.h>
+#undef __glibcxx_check_self_move_assign
+#define __glibcxx_check_self_move_assign(x)
+#endif
+
 #define CATCH_CONFIG_RUNNER
 #include "catch/catch.hpp"
 
@@ -96,7 +106,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     }
     init_colors();
 
-    g = new game;
+    g.reset( new game );
     g->new_game = true;
     g->load_static_data();
 
@@ -194,9 +204,9 @@ struct CataReporter : Catch::ConsoleReporter {
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
         auto r = ConsoleReporter::assertionEnded( assertionStats );
+#ifdef BACKTRACE
         Catch::AssertionResult const &result = assertionStats.assertionResult;
 
-#ifdef BACKTRACE
         if( result.getResultType() == Catch::ResultWas::FatalErrorCondition ) {
             // We are in a signal handler for a fatal error condition, so print a
             // backtrace
@@ -209,7 +219,7 @@ struct CataReporter : Catch::ConsoleReporter {
     }
 };
 
-REGISTER_REPORTER( "cata", CataReporter )
+CATCH_REGISTER_REPORTER( "cata", CataReporter )
 
 int main( int argc, const char *argv[] )
 {
@@ -239,6 +249,8 @@ int main( int argc, const char *argv[] )
 
     test_mode = true;
 
+    setupDebug( DebugOutput::std_err );
+
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite );
@@ -251,7 +263,9 @@ int main( int argc, const char *argv[] )
 
     const auto start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
-    printf( "Starting the actual test at %s", std::ctime( &start_time ) );
+    // Leading newline in case there were debug messages during
+    // initialization.
+    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );

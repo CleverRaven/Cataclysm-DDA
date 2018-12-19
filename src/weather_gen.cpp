@@ -182,7 +182,7 @@ void weather_generator::test_weather() const
     const time_point end = begin + 2 * calendar::year_length();
     for( time_point i = begin; i < end; i += 200_turns ) {
         //@todo: a new random value for each call to get_weather? Is this really intended?
-        w_point w = get_weather( tripoint( 0, 0, 0 ), to_turn<int>( i ), rand() );
+        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), rand() );
         testfile << to_turn<int>( i ) << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
                  std::endl;
     }

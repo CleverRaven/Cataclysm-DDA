@@ -352,10 +352,10 @@ bool mattack::shriek_stun( monster *z )
         return false;
     }
 
-    int target_angle = g->m.coord_to_angle( z->posx(), z->posy(), target->posx(), target->posy() );
+    int target_angle = coord_to_angle( z->pos(), target->pos() );
     int cone_angle = 20;
     for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4 ) ) {
-        int tile_angle = g->m.coord_to_angle( z->posx(), z->posy(), cone.x, cone.y );
+        int tile_angle = coord_to_angle( z->pos(), cone );
         int diff = abs( target_angle - tile_angle );
         if( diff + cone_angle > 360 || diff > cone_angle || cone == z->pos() ) {
             continue; // skip the target, because it's outside cone or it's the source
@@ -921,8 +921,7 @@ bool mattack::smash( monster *z )
                                    _( "A blow from the %s sends <npcname> flying!" ),
                                    z->name().c_str(), target->disp_name().c_str() );
     // TODO: Make this parabolic
-    g->fling_creature( target, g->m.coord_to_angle( z->posx(), z->posy(), target->posx(),
-                       target->posy() ),
+    g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
 
     return true;
@@ -973,7 +972,7 @@ find_empty_neighbors( const tripoint &origin )
  */
 template <size_t N = 1>
 std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( Creature const &c )
+find_empty_neighbors( const Creature &c )
 {
     return find_empty_neighbors<N>( c.pos() );
 }
@@ -982,7 +981,7 @@ find_empty_neighbors( Creature const &c )
 /**
  * Get a size_t value in the closed interval [0, size]; a convenience to avoid messy casting.
   */
-size_t get_random_index( size_t const size )
+size_t get_random_index( const size_t size )
 {
     return static_cast<size_t>( rng( 0, static_cast<long>( size - 1 ) ) );
 }
@@ -992,7 +991,7 @@ size_t get_random_index( size_t const size )
  * Get a size_t value in the closed interval [0, c.size() - 1]; a convenience to avoid messy casting.
  */
 template <typename Container>
-size_t get_random_index( Container const &c )
+size_t get_random_index( const Container &c )
 {
     return get_random_index( c.size() );
 }
@@ -1032,7 +1031,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     constexpr int att_acid_density = 3;
 
     // flavor messages
-    static std::array<char const *, 4> const m_flavor = {{
+    static const std::array<const char *, 4> m_flavor = {{
             _( "The %s gesticulates wildly!" ),
             _( "The %s coughs up a strange dust." ),
             _( "The %s moans softly." ),
@@ -1080,8 +1079,8 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     }
 
     // need an open space for these attacks
-    auto const empty_neighbors = find_empty_neighbors( *z );
-    size_t const empty_neighbor_count = empty_neighbors.second;
+    const auto empty_neighbors = find_empty_neighbors( *z );
+    const size_t empty_neighbor_count = empty_neighbors.second;
 
     if( empty_neighbor_count ) {
         if( z->ammo["bot_manhack"] > 0 ) {
@@ -1125,9 +1124,9 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
                 break;
             }
 
-            int const  dodge_skill  = foe->get_dodge();
-            bool const critial_fail = one_in( dodge_skill );
-            bool const is_trivial   = dodge_skill > att_rad_dodge_diff;
+            const int  dodge_skill  = foe->get_dodge();
+            const bool critial_fail = one_in( dodge_skill );
+            const bool is_trivial   = dodge_skill > att_rad_dodge_diff;
 
             ///\EFFECT_DODGE increases chance to avoid science effect
             if( !critial_fail && ( is_trivial || dodge_skill > rng( 0, att_rad_dodge_diff ) ) ) {
@@ -1751,7 +1750,7 @@ bool mattack::fungus_sprout( monster *z )
     }
 
     if( push_player ) {
-        const int angle = g->m.coord_to_angle( z->posx(), z->posy(), g->u.posx(), g->u.posy() );
+        const int angle = coord_to_angle( z->pos(), g->u.pos() );
         add_msg( m_bad, _( "You're shoved away as a fungal wall grows!" ) );
         g->fling_creature( &g->u, angle, rng( 10, 50 ) );
     }
@@ -1819,8 +1818,7 @@ bool mattack::fungus_fortify( monster *z )
     }
     if( push_player ) {
         add_msg( m_bad, _( "You're shoved away as a fungal hedgerow grows!" ) );
-        g->fling_creature( &g->u, g->m.coord_to_angle( z->posx(), z->posy(), g->u.posx(),
-                           g->u.posy() ), rng( 10, 50 ) );
+        g->fling_creature( &g->u, coord_to_angle( z->pos(), g->u.pos() ), rng( 10, 50 ) );
     }
     if( fortified || mycus || peaceful ) {
         return true;
@@ -2420,7 +2418,7 @@ bool mattack::ranged_pull( monster *z )
         // Recalculate the ray each step
         // We can't depend on either the target position being constant (obviously),
         // but neither on z pos staying constant, because we may want to shift the map mid-pull
-        const int dir = g->m.coord_to_angle( target->posx(), target->posy(), z->posx(), z->posy() );
+        const int dir = coord_to_angle( target->pos(), z->pos() );
         tileray tdir( dir );
         tdir.advance();
         pt.x = target->posx() + tdir.dx();
@@ -3156,7 +3154,7 @@ bool mattack::flamethrower( monster *z )
         // Attacking monsters, not the player!
         int boo_hoo;
         Creature *target = z->auto_find_hostile_target( 5, boo_hoo );
-        if( target == NULL ) { // Couldn't find any targets!
+        if( target == nullptr ) { // Couldn't find any targets!
             if( boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
                 add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
@@ -4513,8 +4511,8 @@ int grenade_helper( monster *const z, Creature *const target, const int dist,
         return 0;
     }
     // We need an open space for these attacks
-    auto const empty_neighbors = find_empty_neighbors( *z );
-    size_t const empty_neighbor_count = empty_neighbors.second;
+    const auto empty_neighbors = find_empty_neighbors( *z );
+    const size_t empty_neighbor_count = empty_neighbors.second;
     if( !empty_neighbor_count ) {
         return 0;
     }

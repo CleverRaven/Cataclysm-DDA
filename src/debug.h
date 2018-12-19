@@ -115,8 +115,13 @@ enum DebugClass {
     DC_ALL    = ( 1 << 30 ) - 1
 };
 
+enum class DebugOutput {
+    std_err,
+    file,
+};
+
 /** Initializes the debugging system, called exactly once from main() */
-void setupDebug();
+void setupDebug( DebugOutput );
 /** Opposite of setupDebug, shuts the debugging system down. */
 void deinitDebug();
 

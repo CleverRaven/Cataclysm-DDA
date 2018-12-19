@@ -125,7 +125,7 @@ struct weather_sum {
 
 weather_datum const weather_data( weather_type const type );
 
-std::string weather_forecast( point const &abs_sm_pos );
+std::string weather_forecast( const point &abs_sm_pos );
 
 // Returns input value (in Fahrenheit) converted to whatever temperature scale set in options.
 //

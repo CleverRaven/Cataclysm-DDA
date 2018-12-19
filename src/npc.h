@@ -87,7 +87,8 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_3,
 
     NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
-    NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
+    NPC_MISSION_GUARD, // Assigns an non-allied NPC to guard a position
+    NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
 };
 
 struct npc_companion_mission {
@@ -218,11 +219,13 @@ struct npc_short_term_cache {
     float danger;
     float total_danger;
     float danger_assessment;
-    std::shared_ptr<Creature> target;
+    // Use weak_ptr to avoid circular references between Creatures
+    std::weak_ptr<Creature> target;
 
     double my_weapon_value;
 
-    std::vector<std::shared_ptr<Creature>> friends;
+    // Use weak_ptr to avoid circular references between Creatures
+    std::vector<std::weak_ptr<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
 };
 
@@ -600,8 +603,12 @@ class npc : public player
         // @param dur time duration between complaints
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
-        bool complain_about( const std::string &issue, const time_duration &dur, const std::string &speech,
-                             const bool force = false );
+        bool complain_about( const std::string &issue, const time_duration &dur,
+                             const std::string &speech, const bool force = false );
+        // wrapper for complain_about that warns about a specific type of threat, with
+        // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
+        void warn_about( const std::string &type, const time_duration &d = 10_minutes,
+                         const std::string &name = "" );
         bool complain(); // Finds something to complain about and complains. Returns if complained.
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by

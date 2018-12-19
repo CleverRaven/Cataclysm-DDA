@@ -93,14 +93,14 @@ bool string_id<bionic_data>::is_valid() const
 template<>
 const bionic_data &string_id<bionic_data>::obj() const
 {
-    auto const it = bionics.find( *this );
+    const auto it = bionics.find( *this );
     if( it != bionics.end() ) {
         return it->second;
     }
 
     debugmsg( "bad bionic id %s", c_str() );
 
-    static bionic_data const null_value;
+    static const bionic_data null_value;
     return null_value;
 }
 
@@ -166,7 +166,7 @@ bool player::activate_bionic( int b, bool eff_only )
     }
 
     item tmp_item;
-    w_point const weatherPoint = *g->weather_precise;
+    const w_point weatherPoint = *g->weather_precise;
 
     // On activation effects go here
     if( bionics[bio.id].gun_bionic ) {
@@ -351,7 +351,7 @@ bool player::activate_bionic( int b, bool eff_only )
         item water = item( "water_clean", 0 );
         water.reset_temp_check();
         int humidity = weatherPoint.humidity;
-        int water_charges = ( humidity * 3.0 ) / 100.0 + 0.5;
+        int water_charges = lround( humidity * 3.0 / 100.0 );
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
         water.charges = water_charges;
@@ -363,9 +363,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
-        tripoint dirp;
-        if( choose_adjacent( _( "Start a fire where?" ), dirp ) &&
-            g->m.add_field( dirp, fd_fire, 1 ) ) {
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
+        if( pnt && g->m.add_field( *pnt, fd_fire, 1 ) ) {
             mod_moves( -100 );
         } else {
             add_msg_if_player( m_info, _( "You can't light a fire there." ) );
@@ -390,9 +389,8 @@ bool player::activate_bionic( int b, bool eff_only )
 
     } else if( bio.id == "bio_emp" ) {
         g->refresh_all();
-        tripoint dirp;
-        if( choose_adjacent( _( "Create an EMP where?" ), dirp ) ) {
-            g->emp_blast( dirp );
+        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
+            g->emp_blast( *pnt );
             mod_moves( -100 );
         } else {
             charge_power( bionics[bionic_id( "bio_emp" )].power_activate );
@@ -643,7 +641,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
  */
 bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
 {
-    bionic_data const &info = bio.info();
+    const bionic_data &info = bio.info();
     const int armor_power_cost = 1;
     int power_cost = info.power_over_time * factor;
     bool recharged = false;
@@ -875,7 +873,7 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
     return chance_of_success;
 }
 
-bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool autodoc,
+bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
                                int skill_level )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
@@ -1151,7 +1149,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             add_msg( m_bad, _( "The installation is faulty!" ) );
             std::vector<bionic_id> valid;
             std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
-            [&]( bionic_id const & id ) {
+            [&]( const bionic_id & id ) {
                 return !has_bionic( id );
             } );
 
@@ -1270,7 +1268,7 @@ int player::get_free_bionics_slots( const body_part bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-void player::add_bionic( bionic_id const &b )
+void player::add_bionic( const bionic_id &b )
 {
     if( has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
@@ -1297,7 +1295,7 @@ void player::add_bionic( bionic_id const &b )
     recalc_sight_limits();
 }
 
-void player::remove_bionic( bionic_id const &b )
+void player::remove_bionic( const bionic_id &b )
 {
     bionic_collection new_my_bionics;
     for( auto &i : *my_bionics ) {
@@ -1447,7 +1445,7 @@ void load_bionic( JsonObject &jsobj )
                            new_bionic.power_activate > 0 ||
                            new_bionic.charge_time > 0;
 
-    auto const result = bionics.insert( std::make_pair( id, new_bionic ) );
+    const auto result = bionics.insert( std::make_pair( id, new_bionic ) );
 
     if( !result.second ) {
         debugmsg( "duplicate bionic id" );
@@ -1529,7 +1527,7 @@ void bionic::deserialize( JsonIn &jsin )
     charge = jo.get_int( "charge" );
 }
 
-void player::introduce_into_anesthesia( time_duration const &duration, player &installer,
+void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool anesthetic ) //used by the Autodoc
 {
     installer.add_msg_player_or_npc( m_info,

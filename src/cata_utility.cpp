@@ -246,7 +246,7 @@ double convert_volume( int volume, int *out_scale )
         ret *= 0.00105669;
         scale = 2;
     }
-    if( out_scale != NULL ) {
+    if( out_scale != nullptr ) {
         *out_scale = scale;
     }
     return ret;
@@ -269,7 +269,7 @@ double clamp_to_width( double value, int width, int &scale )
 
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
 {
-    if( out_truncated != NULL ) {
+    if( out_truncated != nullptr ) {
         *out_truncated = false;
     }
     if( value >= std::pow( 10.0, width ) ) {
@@ -278,7 +278,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
         // flag as truncated
         value = std::pow( 10.0, width ) - 1.0;
         scale = 0;
-        if( out_truncated != NULL ) {
+        if( out_truncated != nullptr ) {
             *out_truncated = true;
         }
     } else if( scale > 0 ) {

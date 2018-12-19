@@ -43,6 +43,8 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 #  make localization LANGUAGES=all
 #  (for every .po file in lang/po)
+# Enable sanitizer (address, undefined, etc.)
+#  make SANITIZE=address
 # Change mapsize (reality bubble size)
 #  make MAPSIZE=<size>
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
@@ -156,6 +158,15 @@ ifndef RUNTESTS
   RUNTESTS = 1
 endif
 
+# Enable backtrace by default
+ifndef BACKTRACE
+  # ...except not on native Windows builds, because the relevant headers are
+  # probably not available
+  ifneq ($(MSYS2), 1)
+    BACKTRACE = 1
+  endif
+endif
+
 ifeq ($(RUNTESTS), 1)
   TESTS = tests
 endif
@@ -169,7 +180,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -229,6 +240,11 @@ AR  = $(CROSS)ar
 # We don't need scientific precision for our math functions, this lets them run much faster.
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
+
+ifneq ($(SANITIZE),)
+  CXXFLAGS += -fsanitize=$(SANITIZE)
+  LDFLAGS += -fsanitize=$(SANITIZE)
+endif
 
 # enable optimizations. slow to build
 ifdef RELEASE
