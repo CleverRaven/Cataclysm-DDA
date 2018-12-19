@@ -77,7 +77,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Agriculture_Nofake" },
-      { "trait": "Exp_Agriculture_Any" }
+      { "group": "Exp_Agriculture_Any" }
     ]
   },
   {
@@ -158,7 +158,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Biochemistry_Nofake" },
-      { "trait": "Exp_Biochemistry_Any" }
+      { "group": "Exp_Biochemistry_Any" }
     ]
   },
   {
@@ -239,7 +239,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Bookkeeping_Nofake" },
-      { "trait": "Exp_Bookkeeping_Any" }
+      { "group": "Exp_Bookkeeping_Any" }
     ]
   },
   {
@@ -320,7 +320,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Botany_Nofake" },
-      { "trait": "Exp_Botany_Any" }
+      { "group": "Exp_Botany_Any" }
     ]
   },
 
@@ -402,7 +402,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Chemistry_Nofake" },
-      { "trait": "Exp_Chemistry_Any" }
+      { "group": "Exp_Chemistry_Any" }
     ]
   },
   {
@@ -483,88 +483,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Culinary_Nofake" },
-      { "trait": "Exp_Culinary_Any" }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Culinary1",
-    "name": "Culinary Training",
-    "points": 0,
-    "description": "This survivor has some formal training in culinary arts, but not much experience.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Culinary0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
-    "name": "Culinary Training",
-    "points": 0,
-    "description": "This survivor has some formal training in culinary arts, but not much experience.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Culinary2",
-    "name": "Culinary Expert",
-    "points": 0,
-    "description": "This survivor has extensive experience in culinary arts, a professional chef or equivalent.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Culinary1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
-    "name": "Culinary Expert",
-    "points": 0,
-    "description": "This survivor has extensive experience in culinary arts, a professional chef or equivalent.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Culinary0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
-    "name": "Culinary Expert",
-    "points": 0,
-    "description": "This survivor has extensive experience in culinary arts, a professional chef or equivalent.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_group",
-    "id": "Exp_Culinary_Any",
-    "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Culinary1" },
-      { "trait": "Exp_Culinary0Fake1" },
-      { "trait": "Exp_Culinary2" },
-      { "trait": "Exp_Culinary1Fake2" },
-      { "trait": "Exp_Culinary0Fake2" }
-    ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_group",
-    "id": "Exp_Culinary_Nofake",
-    "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Culinary1" },
-      { "trait": "Exp_Culinary2" }
-    ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Culinary_Group",
-    "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Culinary_Nofake" },
-      { "trait": "Exp_Culinary_Any" }
+      { "group": "Exp_Culinary_Any" }
     ]
   },
   {
@@ -645,7 +564,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Eng_Electrical_Nofake" },
-      { "trait": "Exp_Eng_Electrical_Any" }
+      { "group": "Exp_Eng_Electrical_Any" }
     ]
   },
   {
@@ -717,6 +636,16 @@
     "traits": [
       { "trait": "Exp_Eng_Mechanical1" },
       { "trait": "Exp_Eng_Mechanical2" }
+    ]
+  },
+  {
+    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "type": "trait_group",
+    "id": "Exp_Eng_Electrical_Group",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "Exp_Eng_Mechanical_Nofake" },
+      { "group": "Exp_Eng_Mechanical_Any" }
     ]
   },
   {
@@ -797,7 +726,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Eng_Software_Nofake" },
-      { "trait": "Exp_Eng_Software_Any" }
+      { "group": "Exp_Eng_Software_Any" }
     ]
   },
   {
@@ -878,17 +807,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Eng_Structural_Nofake" },
-      { "trait": "Exp_Eng_Structural_Any" }
-    ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Eng_Mechanical_Group",
-    "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Eng_Mechanical_Nofake" },
-      { "trait": "Exp_Eng_Mechanical_Any" }
+      { "group": "Exp_Eng_Structural_Any" }
     ]
   },
   {
@@ -969,7 +888,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Entomology_Nofake" },
-      { "trait": "Exp_Entomology_Any" }
+      { "group": "Exp_Entomology_Any" }
     ]
   },
   {
@@ -1050,7 +969,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Geology_Nofake" },
-      { "trait": "Exp_Geology_Any" }
+      { "group": "Exp_Geology_Any" }
     ]
   },
   {
@@ -1131,7 +1050,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Medicine_Nofake" },
-      { "trait": "Exp_Medicine_Any" }
+      { "group": "Exp_Medicine_Any" }
     ]
   },
   {
@@ -1212,7 +1131,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Mycology_Nofake" },
-      { "trait": "Exp_Mycology_Any" }
+      { "group": "Exp_Mycology_Any" }
     ]
   },
   {
@@ -1293,7 +1212,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Physics_Nofake" },
-      { "trait": "Exp_Physics_Any" }
+      { "group": "Exp_Physics_Any" }
     ]
   },
   {
@@ -1374,7 +1293,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Physiology_Nofake" },
-      { "trait": "Exp_Physiology_Any" }
+      { "group": "Exp_Physiology_Any" }
     ]
   },
   {
@@ -1455,7 +1374,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Psychology_Nofake" },
-      { "trait": "Exp_Psychology_Any" }
+      { "group": "Exp_Psychology_Any" }
     ]
   },
   {
@@ -1536,7 +1455,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Sanitation_Nofake" },
-      { "trait": "Exp_Sanitation_Any" }
+      { "group": "Exp_Sanitation_Any" }
     ]
   },
   {
@@ -1617,7 +1536,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Teaching_Nofake" },
-      { "trait": "Exp_Teaching_Any" }
+      { "group": "Exp_Teaching_Any" }
     ]
   },
   {
@@ -1698,7 +1617,7 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Veterinary_Nofake" },
-      { "trait": "Exp_Veterinary_Any" }
+      { "group": "Exp_Veterinary_Any" }
     ]
   },
   {
