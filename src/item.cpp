@@ -5346,7 +5346,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
                 }
             }
     }
-return res;
+     return res;
 }
 
 gun_mode item::gun_get_mode( const gun_mode_id &mode ) const
