@@ -5106,13 +5106,13 @@ double player::vomit_mod()
         mod *= .5;
     }
     if (has_trait( trait_WEAKSTOMACH )) {
-        mod *= 2;
+        mod *= 1.5;
     }
     if (has_trait( trait_NAUSEA )) {
-        mod *= 3;
+        mod *= 2.5;
     }
     if (has_trait( trait_VOMITOUS )) {
-        mod *= 3;
+        mod *= 2.5;
     }
     // If you're already nauseous, any food in your stomach greatly
     // increases chance of vomiting. Liquids don't provoke vomiting, though.
