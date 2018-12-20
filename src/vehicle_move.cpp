@@ -97,7 +97,7 @@ void vehicle::thrust( int thd )
 {
     //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
-    if( velocity == 0 ) {
+    if( !is_moving() ) {
         turn_dir = face.dir();
         stop();
     }
