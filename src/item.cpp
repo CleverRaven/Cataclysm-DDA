@@ -1586,6 +1586,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     }
     if( is_armor() ) {
+        body_part_set covered_parts = get_covered_body_parts();
+        bool covers_anything = covered_parts.any();
 
         if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
             temp1.str( "" );
@@ -1643,10 +1645,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 temp1 << _( "The <info>right foot</info>. " );
             }
 
+            if( !covers_anything ) {
+                temp1 << _( "<info>Nothing</info>." );
+            }
+
             info.push_back( iteminfo( "ARMOR", temp1.str() ) );
         }
 
-        if( parts->test( iteminfo_parts::ARMOR_LAYER ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
             temp1.str( "" );
             temp1 << _( "Layer: " );
             if( has_flag( "SKINTIGHT" ) ) {
@@ -1664,18 +1670,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "ARMOR", temp1.str() ) );
         }
 
-        if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
             info.push_back( iteminfo( "ARMOR", _( "Coverage: " ), "<num>%",
                                       iteminfo::no_newline, get_coverage() ) );
         }
-        if( parts->test( iteminfo_parts::ARMOR_WARMTH ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && covers_anything ) {
             info.push_back( iteminfo( "ARMOR", space + _( "Warmth: " ), get_warmth() ) );
         }
 
         insert_separation_line();
 
-        if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
-            int encumbrance = get_encumber();
+        if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
+            int encumbrance = get_encumber( g->u );
             std::string format;
             if( has_flag( "FIT" ) ) {
                 format = _( "<num> <info>(fits)</info>" );
@@ -1686,7 +1692,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                       encumbrance ) );
             if( !type->rigid ) {
-                const auto encumbrance_when_full = get_encumber_when_containing( get_total_capacity() );
+                const auto encumbrance_when_full =
+                    get_encumber_when_containing( g->u, get_total_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
                                           iteminfo::no_newline | iteminfo::lower_is_better,
                                           encumbrance_when_full ) );
@@ -1706,7 +1713,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         // Whatever the last entry was, we want a newline at this point
         info.back().bNewLine = true;
 
-        if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
+        if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) && covers_anything ) {
             info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
                                       iteminfo::no_newline, bash_resist() ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ),
@@ -2128,7 +2135,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>can be refitted</info>." ) ) );
             }
-            if( little && get_encumber() ) {
+            if( little && get_encumber( g->u ) ) {
                 if( !has_flag( "UNDERSIZE" ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "* These clothes are <bad>too large</bad> but <info>can be undersized</info>." ) ) );
@@ -2840,7 +2847,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                        g->u.has_trait( trait_id( "SMALL_OK" ) );
     const bool fits = has_flag( "FIT" );
     const bool undersize = has_flag( "UNDERSIZE" );
-    if( get_encumber() ) {
+    if( get_encumber( g->u ) ) {
         if( small && !undersize ) {
             ret << _( " (oversize)" );
         } else if( !small && undersize ) {
@@ -3529,9 +3536,9 @@ int item::spoilage_sort_order()
     }
 
     if( subject->type->comestible ) {
-        if( subject->type->category->id() == "food" ) {
+        if( subject->get_category().id() == "food" ) {
             return bottom - 3;
-        } else if( subject->type->category->id() == "drugs" ) {
+        } else if( subject->get_category().id() == "drugs" ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -3628,16 +3635,17 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber() const
+int item::get_encumber( const Character &p ) const
 {
     units::volume contents_volume( 0 );
     for( const auto &e : contents ) {
         contents_volume += e.volume();
     }
-    return get_encumber_when_containing( contents_volume );
+    return get_encumber_when_containing( p, contents_volume );
 }
 
-int item::get_encumber_when_containing( const units::volume &contents_volume ) const
+int item::get_encumber_when_containing(
+    const Character &p, const units::volume &contents_volume ) const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
@@ -3656,8 +3664,8 @@ int item::get_encumber_when_containing( const units::volume &contents_volume ) c
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
-    const bool tiniest = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                         g->u.has_trait( trait_id( "SMALL_OK" ) );
+    const bool tiniest = p.has_trait( trait_id( "SMALL2" ) ) ||
+                         p.has_trait( trait_id( "SMALL_OK" ) );
     if( !has_flag( "UNDERSIZE" ) && tiniest ) {
         encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
     } else if( !tiniest && has_flag( "UNDERSIZE" ) ) {
@@ -4397,7 +4405,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return type->category->id() == "maps";
+    return get_category().id() == "maps";
 }
 
 bool item::is_container() const

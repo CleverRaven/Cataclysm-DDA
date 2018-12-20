@@ -2042,6 +2042,13 @@
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
   },
   {
+    "result": "fluid_preserved_brain",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "chem_formaldehyde", 10 ] ], [ [ "human_brain_embalmed", 5 ] ], [ [ "jar_3l_glass", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "trailmap",
     "type": "uncraft",
     "time": 500,

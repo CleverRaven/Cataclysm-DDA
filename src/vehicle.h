@@ -971,7 +971,7 @@ class vehicle
         int basic_consumption( const itype_id &ftype ) const;
         int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( int load, const int t_seconds = 6 );
+        void consume_fuel( int load, const int t_seconds = 6, bool skip_battery = false );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -1489,11 +1489,6 @@ class vehicle
         // leftover from previous turn
         float of_turn_carry;
 
-        // total power consumed by tracking devices (why would you use more than one?)
-        int tracking_epower     = 0;
-        int alarm_epower        = 0;
-        // power consumed by camera system
-        int camera_epower       = 0;
         int extra_drag          = 0;
         // TODO: change these to a bitset + enum?
         // cruise control on/off

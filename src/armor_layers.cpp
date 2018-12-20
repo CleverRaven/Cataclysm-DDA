@@ -17,7 +17,8 @@
 namespace
 {
 std::string clothing_layer( const item &worn_item );
-std::vector<std::string> clothing_properties( const item &worn_item, int width );
+std::vector<std::string> clothing_properties(
+    const item &worn_item, int width, const Character & );
 std::vector<std::string> clothing_protection( const item &worn_item, int width );
 std::vector<std::string> clothing_flags_description( const item &worn_item );
 
@@ -136,7 +137,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
     size_t i = fold_and_print( w_sort_middle, 0, 1, win_width - 1, c_white,
                                worn_item_it->type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3 );
+    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3, c );
     nc_color color = c_light_gray;
     for( std::string &iter : props ) {
         print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter );
@@ -248,7 +249,8 @@ std::string clothing_layer( const item &worn_item )
     return layer;
 }
 
-std::vector<std::string> clothing_properties( const item &worn_item, const int width )
+std::vector<std::string> clothing_properties(
+    const item &worn_item, const int width, const Character &c )
 {
     std::vector<std::string> props;
     props.reserve( 5 );
@@ -258,7 +260,8 @@ std::vector<std::string> clothing_properties( const item &worn_item, const int w
     props.push_back( name_and_value( space + _( "Coverage:" ),
                                      string_format( "%3d", worn_item.get_coverage() ), width ) );
     props.push_back( name_and_value( space + _( "Encumbrance:" ),
-                                     string_format( "%3d", worn_item.get_encumber() ), width ) );
+                                     string_format( "%3d", worn_item.get_encumber( c ) ),
+                                     width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
     props.push_back( name_and_value( space + string_format( _( "Storage (%s):" ), volume_units_abbr() ),
@@ -349,7 +352,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
         if( elem_it->covers( static_cast<body_part>( bp ) ) ) {
             s.push_back( { get_item_penalties( elem_it, c, bp ),
-                           elem_it->get_encumber(),
+                           elem_it->get_encumber( c ),
                            elem_it->tname()
                          } );
         }

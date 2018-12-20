@@ -142,9 +142,10 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
 class armor_inventory_preset: public inventory_selector_preset
 {
     public:
-        armor_inventory_preset( const std::string &color_in ) : color( color_in ) {
+        armor_inventory_preset( const player &pl, const std::string &color_in ) :
+            p( pl ), color( color_in ) {
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->get_encumber() );
+                return get_number_string( loc->get_encumber( p ) );
             }, _( "ENCUMBRANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -181,6 +182,8 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "ENV" ) );
         }
 
+    protected:
+        const player &p;
     private:
         std::string get_number_string( int number ) const {
             return number ? string_format( "<%s>%d</color>", color, number ) : std::string();
@@ -192,8 +195,9 @@ class armor_inventory_preset: public inventory_selector_preset
 class wear_inventory_preset: public armor_inventory_preset
 {
     public:
-        wear_inventory_preset( const player &p,
-                               const std::string &color ) : armor_inventory_preset( color ), p( p ) {}
+        wear_inventory_preset( const player &p, const std::string &color ) :
+            armor_inventory_preset( p, color )
+        {}
 
         bool is_shown( const item_location &loc ) const override {
             return loc->is_armor() && !p.is_worn( *loc );
@@ -208,9 +212,6 @@ class wear_inventory_preset: public armor_inventory_preset
 
             return std::string();
         }
-
-    private:
-        const player &p;
 };
 
 item_location game_menus::inv::wear( player &p )
@@ -222,8 +223,9 @@ item_location game_menus::inv::wear( player &p )
 class take_off_inventory_preset: public armor_inventory_preset
 {
     public:
-        take_off_inventory_preset( const player &p,
-                                   const std::string &color ) : armor_inventory_preset( color ), p( p ) {}
+        take_off_inventory_preset( const player &p, const std::string &color ) :
+            armor_inventory_preset( p, color )
+        {}
 
         bool is_shown( const item_location &loc ) const override {
             return loc->is_armor() && p.is_worn( *loc );
@@ -238,9 +240,6 @@ class take_off_inventory_preset: public armor_inventory_preset
 
             return std::string();
         }
-
-    private:
-        const player &p;
 };
 
 item_location game_menus::inv::take_off( player &p )
