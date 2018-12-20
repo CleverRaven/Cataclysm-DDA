@@ -86,6 +86,9 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
+const trait_id trait_small2( "SMALL2" );
+const trait_id trait_small_ok( "SMALL_OK" );
+
 const std::string &rad_badge_color( const int rad )
 {
     using pair_t = std::pair<const int, const std::string>;
@@ -3620,11 +3623,12 @@ int item::get_encumber_when_containing(
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
-    const bool tiniest = p.has_trait( trait_id( "SMALL2" ) ) ||
-                         p.has_trait( trait_id( "SMALL_OK" ) );
-    if( !has_flag( "UNDERSIZE" ) && tiniest ) {
+    const bool tiniest = p.has_trait( trait_small2 ) ||
+                         p.has_trait( trait_small_ok );
+    const bool is_undersize = has_flag( "UNDERSIZE" );
+    if( !is_undersize && tiniest ) {
         encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
-    } else if( !tiniest && has_flag( "UNDERSIZE" ) ) {
+    } else if( is_undersize && !tiniest ) {
         encumber *= 3; // normal humans have a HARD time wearing undersized clothing
     }
 
