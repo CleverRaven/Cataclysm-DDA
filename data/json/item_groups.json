@@ -8883,7 +8883,8 @@
       [ "ceramic_bowl", 90 ],
       [ "clay_hydria", 50 ],
       [ "ceramic_cup", 90 ],
-      [ "crown_golden", 10 ]
+      [ "crown_golden", 10 ],
+      [ "fluid_preserved_brain", 20 ]
     ]
   },{
   "type" : "item_group",
