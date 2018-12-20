@@ -109,30 +109,40 @@ bool get_weather_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym 
             ter_color = c_white;
             ter_sym = 'C';
             break;
+        case WEATHER_ACID_CLOUDS:
+            ter_color = c_light_green;
+            ter_sym = 'C';
+            break;
         case WEATHER_DRIZZLE:
-        case WEATHER_FLURRIES:
             ter_color = c_light_blue;
-            ter_sym = '8';
+            ter_sym = '.';
+            break;
+        case WEATHER_FLURRIES:
+            ter_color = c_white;
+            ter_sym = '+';
             break;
         case WEATHER_ACID_DRIZZLE:
             ter_color = c_light_green;
-            ter_sym = 'a';
+            ter_sym = '.';
             break;
         case WEATHER_RAINY:
-        case WEATHER_SNOW:
             ter_color = c_blue;
-            ter_sym = '8';
+            ter_sym = ';';
+            break;
+        case WEATHER_SNOW:
+            ter_color = c_white;
+            ter_sym = '*';
             break;
         case WEATHER_ACID_RAIN:
             ter_color = c_light_green;
-            ter_sym = 'R';
+            ter_sym = ';';
             break;
         case WEATHER_ACID_THUNDER:
             ter_color = c_green;
             ter_sym = 'T';
             break;
         case WEATHER_ACID_LIGHTNING:
-            ter_color = c_green;
+            ter_color = c_green_yellow;
             ter_sym = 'L';
             break;
         case WEATHER_THUNDER:
@@ -140,11 +150,11 @@ bool get_weather_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym 
             ter_sym = 'T';
             break;
         case WEATHER_LIGHTNING:
-            ter_color = c_dark_gray;
+            ter_color = c_dark_gray_yellow;
             ter_sym = 'L';
             break;
         case WEATHER_SNOWSTORM:
-            ter_color = c_dark_gray;
+            ter_color = c_white;
             ter_sym = 'S';
             break;
     }

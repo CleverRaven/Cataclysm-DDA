@@ -436,7 +436,7 @@ void weather_effect::thunder()
     generic_thunder();
 }
 
-void generic_thunder()
+void weather_effect::generic_thunder()
 {
     if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in( THUNDER_CHANCE ) ) {
         if( g->get_levz() >= 0 ) {
@@ -491,7 +491,7 @@ void weather_effect::light_acid()
 
 /**
  * Acid rain.
- * Causes major pain. Damages non acid-proof mobs. Very wet (acid).
+ * Causes moderate pain.
  */
 void weather_effect::acid()
 {
@@ -500,8 +500,8 @@ void weather_effect::acid()
 }
 
 /**
- * Acid rain.
- * Causes major pain. Damages non acid-proof mobs. Very wet (acid).
+ * Acid thunder storm.
+ * Causes major pain.
  */
 void weather_effect::thunder_acid()
 {
@@ -511,8 +511,8 @@ void weather_effect::thunder_acid()
 }
 
 /**
- * Acid rain.
- * Causes major pain. Damages non acid-proof mobs. Very wet (acid).
+ * Acid lightning storm.
+ * Causes extreme pain.
  */
 void weather_effect::lightning_acid()
 {

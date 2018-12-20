@@ -350,6 +350,7 @@ class overmap_special
         numeric_interval<int> city_size{ 0, INT_MAX };
         numeric_interval<int> city_distance{ 0, INT_MAX };
         numeric_interval<int> occurrences;
+        numeric_interval<int> acidity{ 0, 0 }; //radius, strength
 
         bool rotatable = true;
         overmap_special_spawns spawns;

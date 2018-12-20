@@ -904,6 +904,7 @@
         "city_distance" : [15, -1],
         "city_sizes" : [0, 12],
         "occurrences" : [0, 5],
+        "acidity" : [5, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{

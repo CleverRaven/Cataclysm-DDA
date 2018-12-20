@@ -1037,8 +1037,9 @@ void player::hardcoded_effects( effect &it )
 
         // TODO: Move this to update_needs when NPCs can mutate
         bool compatible_weather_types = g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY
-                                        || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY || g->weather == WEATHER_FLURRIES
-                                        || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
+                                        || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY
+                                        || g->weather == WEATHER_FLURRIES || g->weather == WEATHER_CLOUDY
+                                        || g->weather == WEATHER_ACID_CLOUDS || g->weather == WEATHER_SNOW;
 
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
                 has_trait( trait_id( "M_SKIN3" ) ) || has_trait( trait_id( "WATERSLEEP" ) ) ) &&

@@ -26,6 +26,7 @@
 #include <vector>
 #include <utility>
 
+class time_duration;
 class time_point;
 class item;
 struct point;
@@ -44,6 +45,7 @@ enum weather_type : int {
     WEATHER_CLEAR,        //!< No effects
     WEATHER_SUNNY,        //!< Glare if no eye protection
     WEATHER_CLOUDY,       //!< No effects
+    WEATHER_ACID_CLOUDS,  //!< No effects
     WEATHER_DRIZZLE,      //!< Light rain
     WEATHER_RAINY,        //!< Lots of rain, sight penalties
     WEATHER_THUNDER,      //!< Warns of lightning to come

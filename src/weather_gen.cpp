@@ -5,11 +5,11 @@
 #include "json.h"
 #include "simplexnoise.h"
 #include "weather.h"
+#include "overmap.h"
 
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
-#include "debug.h"
 
 namespace
 {
@@ -83,6 +83,8 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const double acid_content = base_acid * A;
     const bool acid = acid_content >= 1.0;
 
+    overmap::overmap_acidity[location]
+
     return w_point {T, H, P, W, acid};
 }
 
@@ -129,7 +131,9 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
             r = WEATHER_SNOWSTORM;
         }
     } else if( w.acidic ) {
-        if( r == WEATHER_DRIZZLE ) {
+        if( r == WEATHER_CLOUDY ) {
+            r = WEATHER_ACID_CLOUDS;
+        } else if( r == WEATHER_DRIZZLE ) {
             r = WEATHER_ACID_DRIZZLE;
         } else if( r == WEATHER_RAINY ) {
             r = WEATHER_ACID_RAIN;

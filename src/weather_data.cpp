@@ -65,6 +65,10 @@ weather_datum const weather_data( weather_type const type )
                 &weather_effect::none
             },
             weather_datum {
+                translate_marker( "Acidic Clouds" ), c_light_green, 0, 1.0f, -20, 0, false,
+                &weather_effect::none
+            },
+            weather_datum {
                 translate_marker( "Drizzle" ), c_light_blue, 1, 1.03f, -20, 1, false,
                 &weather_effect::wet
             },
@@ -85,16 +89,16 @@ weather_datum const weather_data( weather_type const type )
                 &weather_effect::light_acid
             },
             weather_datum {
-                translate_marker( "Acid Rain" ), c_green, 4, 1.1f, -30, 4, true,
+                translate_marker( "Acidic Rain" ), c_light_green, 4, 1.1f, -30, 4, true,
                 &weather_effect::acid
             },
             weather_datum {
-                translate_marker( "Acidic Thunder" ), c_light_green, 2, 1.03f, -20, 1, true,
-                &weather_effect::light_acid
+                translate_marker( "Acidic Thunder Storm" ), c_green, 4, 1.2f, -40, 8, false,
+                &weather_effect::thunder_acid
             },
             weather_datum {
-                translate_marker( "Acidic Lighnung" ), c_light_green, 2, 1.03f, -20, 1, true,
-                &weather_effect::light_acid
+                translate_marker( "Acidic Lightning Storm" ), c_green, 4, 1.25f, -45, 8, false,
+                &weather_effect::lightning_acid
             },
             weather_datum {
                 translate_marker( "Flurries" ), c_white, 2, 1.12f, -15, 2, false,

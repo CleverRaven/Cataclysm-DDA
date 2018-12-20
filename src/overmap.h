@@ -270,6 +270,9 @@ class overmap
         // as part of a special.
         std::unordered_map<tripoint, overmap_special_id> overmap_special_placements;
 
+        // Records the locations where local acidity resides on the overmap
+        std::unordered_map<tripoint, int> overmap_acidity;
+
         regional_settings settings;
 
         oter_id get_default_terrain( int z ) const;

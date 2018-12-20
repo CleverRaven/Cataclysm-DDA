@@ -767,6 +767,8 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 
         optional( jo, was_loaded, "connections", connections );
 
+        optional( jo, was_loaded, "acidity", acidity );
+
         assign( jo, "city_sizes", city_size, strict );
         assign( jo, "city_distance", city_distance, strict );
     }
@@ -3300,6 +3302,13 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         const oter_id tid = elem.terrain->get_rotated( dir );
 
         overmap_special_placements[location] = special.id;
+        if( special.acidity.min ) {
+            points_in_range()
+            overmap_acidity
+
+        }
+        special.acidity.max; //strength
+
         ter( location.x, location.y, location.z ) = tid;
 
         if( blob ) {
