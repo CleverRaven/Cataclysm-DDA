@@ -228,6 +228,10 @@ static std::string print_gun_mode( const player &p )
     auto m = p.weapon.gun_current_mode();
     if( m ) {
         if( m.melee() || !m->is_gunmod() ) {
+            if( p.ammo_location && p.weapon.can_reload_with( p.ammo_location->typeId() ) ) {
+                return string_format( "%s (%d)", p.weapname().c_str(),
+                                      p.ammo_location->charges );
+            }
             return string_format( m.name().empty() ? "%s" : "%s (%s)",
                                   p.weapname().c_str(), m.name() );
         } else {
@@ -499,9 +503,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
                        int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
         }
 
-        const int vel_offset = 11 + ( veh->velocity != 0 ? 2 : 0 );
+        const int vel_offset = 11 + ( veh->is_moving() ? 2 : 0 );
         wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - vel_offset );
-        if( veh->velocity != 0 ) {
+        if( veh->is_moving() ) {
             nc_color col_indc = veh->skidding ? c_red : c_green;
             int dfm = veh->face.dir() - veh->move.dir();
 

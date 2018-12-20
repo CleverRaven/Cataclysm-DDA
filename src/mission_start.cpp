@@ -1733,8 +1733,21 @@ void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids
 
 void mission_start::reveal_refugee_center( mission *miss )
 {
+    const overmap_special_id os_evac_center( "evac_center" );
     const tripoint your_pos = g->u.global_omt_location();
-    const tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", 0, false );
+
+    // Try and find the special.
+    tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", OMAPX * 5, false,
+                          false, true, os_evac_center );
+
+    // We couldn't find the special, so let's try and place it.
+    if( center_pos == overmap::invalid_tripoint ) {
+        const bool placed = overmap_buffer.place_special( os_evac_center, your_pos, OMAPX * 5 );
+        if( placed ) {
+            center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", OMAPX * 5, false,
+                         false, true, os_evac_center );
+        }
+    }
 
     if( center_pos == overmap::invalid_tripoint ) {
         add_msg( _( "You don't know where the address could be..." ) );

@@ -938,7 +938,7 @@ bool npc::wear_if_wanted( const item &it )
         return !!wear_item( it, false );
     }
 
-    const int it_encumber = it.get_encumber();
+    const int it_encumber = it.get_encumber( *this );
     while( !worn.empty() ) {
         auto size_before = worn.size();
         bool encumb_ok = true;
@@ -1188,7 +1188,8 @@ float npc::vehicle_danger( int radius ) const
     // TODO: check for most dangerous vehicle?
     for( unsigned int i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
-        if( wrapped_veh.v->velocity > 0 ) {
+        if( wrapped_veh.v->is_moving() ) {
+            // #FIXME this can't be the right way to do this
             float facing = wrapped_veh.v->face.dir();
 
             int ax = wrapped_veh.v->global_pos3().x;
