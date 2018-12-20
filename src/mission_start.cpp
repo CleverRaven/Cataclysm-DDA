@@ -264,7 +264,7 @@ static cata::optional<tripoint> assign_mission_target( const mission_target_para
     // If we got here and this is still invalid, it means that we couldn't find it and (if
     // allowed by the parameters) we couldn't create it either.
     if( target_pos == overmap::invalid_tripoint ) {
-        debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain_subtype);
+        debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain_subtype );
         return cata::nullopt;
     }
 
@@ -1820,40 +1820,23 @@ void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids
 
 void mission_start::reveal_refugee_center( mission *miss )
 {
-    const overmap_special_id os_evac_center( "evac_center" );
-    const tripoint your_pos = g->u.global_omt_location();
+    mission_target_params t;
+    t.search_origin = g->u.global_omt_location();
+    t.overmap_terrain_subtype = "evac_center_18";
+    t.overmap_special = overmap_special_id( "evac_center" );
+    t.mission_pointer = miss;
+    t.search_range = OMAPX * 5;
+    t.reveal_radius = 3;
 
-    // Try and find the special.
-    tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", OMAPX * 5, false,
-                          false, true, os_evac_center );
+    const cata::optional<tripoint> target_pos = assign_mission_target( t );
 
-    // We couldn't find the special, so let's try and place it.
-    if( center_pos == overmap::invalid_tripoint ) {
-        const bool placed = overmap_buffer.place_special( os_evac_center, your_pos, OMAPX * 5 );
-        if( placed ) {
-            center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", OMAPX * 5, false,
-                         false, true, os_evac_center );
-        }
-    }
-
-    if( center_pos == overmap::invalid_tripoint ) {
+    if( !target_pos ) {
         add_msg( _( "You don't know where the address could be..." ) );
         return;
     }
 
-    miss->set_target( center_pos );
-
-    if( overmap_buffer.seen( center_pos.x, center_pos.y, center_pos.z ) ) {
-        add_msg( _( "You already know that address..." ) );
-        return;
-    }
-
-    add_msg( _( "It takes you forever to find the address on your map..." ) );
-
-    overmap_buffer.reveal( center_pos, 3 );
-
-    const tripoint source_road = overmap_buffer.find_closest( your_pos, "road", 3, false );
-    const tripoint dest_road = overmap_buffer.find_closest( center_pos, "road", 3, false );
+    const tripoint source_road = overmap_buffer.find_closest( *t.search_origin, "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
         add_msg( _( "You mark the refugee center and the road that leads to it..." ) );
