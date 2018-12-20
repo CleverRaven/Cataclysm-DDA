@@ -886,7 +886,6 @@
     "skill_used": "survival",
     "time": 3000,
     "autolearn": true,
-    "reversable": false,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "rag_bloody", 1 ] ] ]
   },
