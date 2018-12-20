@@ -2463,8 +2463,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 90,
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 2 ] ].
     "components": [
       [ [ "sheet_metal_small", 15 ], [ "scrap", 30 ] ],
       [
