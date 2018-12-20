@@ -1226,9 +1226,9 @@ void player::update_bodytemp()
                     break;
                 case bp_foot_l:
                 case bp_foot_r:
-                    if( furn_at_pos == f_armchair || furn_at_pos == f_chair || furn_at_pos == f_bench ) {
+                    if( furn_at_pos != f_null ) {
                         // Can sit on something to lift feet up to the fire
-                        bonus_fire_warmth = best_fire * 1000;
+                        bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
                     } else {
                         // Has to stand
                         bonus_fire_warmth = best_fire * 300;
@@ -1486,14 +1486,11 @@ int player::floor_bedding_warmth( const tripoint &pos )
 
     const optional_vpart_position vp = g->m.veh_at( pos );
     const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED", true ) );
-    const bool veh_seat =static_cast<bool>( vp.part_with_feature( "SEAT", true ) );
+    const bool veh_seat = static_cast<bool>( vp.part_with_feature( "SEAT", true ) );
 
     // Search the floor for bedding
-    if( furn_at_pos == f_bed ) {
-        floor_bedding_warmth += 1000;
-    } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
-               furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ) {
-        floor_bedding_warmth += 500;
+    if( furn_at_pos != f_null ) {
+        floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
     } else if( veh_bed && veh_seat ) {
         // BED+SEAT is intentionally worse than just BED
         floor_bedding_warmth += 250;
@@ -1501,17 +1498,12 @@ int player::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth += 300;
     } else if( veh_seat ) {
         floor_bedding_warmth += 200;
-    } else if( furn_at_pos == f_straw_bed ) {
-        floor_bedding_warmth += 200;
-    } else if( trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_hay ) {
+    } else if( trap_at_pos.loadid == tr_fur_rollmat ) {
         floor_bedding_warmth += 0;
-    } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ||
-               furn_at_pos == f_tatami ) {
+    } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ) {
         floor_bedding_warmth -= 500;
     } else if( trap_at_pos.loadid == tr_rollmat ) {
         floor_bedding_warmth -= 1000;
-    } else if( furn_at_pos == f_chair || furn_at_pos == f_bench ) {
-        floor_bedding_warmth -= 1500;
     } else {
         floor_bedding_warmth -= 2000;
     }
@@ -9859,14 +9851,13 @@ void player::try_to_sleep( const time_duration &dur )
             watersleep = true;
         }
     }
-    if(!plantsleep && (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
-         trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
-         trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
-         furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ||
-         furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
-         ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
-         vp.part_with_feature( "SEAT", true ) ||
-         vp.part_with_feature( "BED", true ) ) ) {
+    if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
+                         ter_at_pos == t_improvised_shelter ||
+                         trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
+                         trap_at_pos.loadid == tr_fur_rollmat ||
+                         in_shell || websleeping ||
+                         vp.part_with_feature( "SEAT", true ) ||
+                         vp.part_with_feature( "BED", true ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay && !watersleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
@@ -9920,11 +9911,10 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             }
         }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
-        else if( furn_at_pos == f_bed ) {
-            comfort += 0 + static_cast<int>( comfort_level::comfortable );
+        else if( furn_at_pos != f_null ) {
+            comfort += 0 + furn_at_pos.obj().comfort;
         }
-        else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
-                 furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ) {
+        else if( trap_at_pos.loadid == tr_cot ) {
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
         }
         // Web sleepers can use their webs if better furniture isn't available
@@ -9932,14 +9922,10 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
         }
         else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
-                 furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter ) {
+                 ter_at_pos == t_improvised_shelter ) {
             comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
         }
-        else if( furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami ) {
-            comfort += 2 + static_cast<int>( comfort_level::neutral );
-        }
-        else if( furn_at_pos == f_chair || furn_at_pos == f_bench ||
-                 ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
+        else if( ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
                  ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
                  ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
             comfort += 1 + static_cast<int>( comfort_level::neutral );
