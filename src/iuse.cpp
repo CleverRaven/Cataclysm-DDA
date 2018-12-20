@@ -7631,17 +7631,12 @@ washing_requirements washing_requirements_for_volume( units::volume vol )
     return { water, cleanser, time };
 }
 
-int iuse::washclothes( player *p, item *it, bool, const tripoint & )
+int iuse::washclothes( player *p, item *, bool, const tripoint & )
 {
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
     if( p->volume_capacity() < p->volume_carried() ) {
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
-        return 0;
-    }
-    /// @todo Is this necessary?
-    if( it->charges < it->type->charges_to_use() ) {
-        p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 
