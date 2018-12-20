@@ -228,6 +228,10 @@ static std::string print_gun_mode( const player &p )
     auto m = p.weapon.gun_current_mode();
     if( m ) {
         if( m.melee() || !m->is_gunmod() ) {
+            if( p.ammo_location && p.weapon.can_reload_with( p.ammo_location->typeId() ) ) {
+                return string_format( "%s (%d)", p.weapname().c_str(),
+                                      p.ammo_location->charges );
+            }
             return string_format( m.name().empty() ? "%s" : "%s (%s)",
                                   p.weapname().c_str(), m.name() );
         } else {

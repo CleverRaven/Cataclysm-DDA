@@ -7337,14 +7337,14 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     }
 
     uilist menu;
-    menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) : _( "Reload %s" ),
+    menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) : base.has_flag( "RELOAD_AND_SHOOT" ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
             base.tname() );
     menu.w_width = -1;
     menu.w_height = -1;
 
     // Construct item names
     std::vector<std::string> names;
-    std::transform( opts.begin(), opts.end(), std::back_inserter( names ), []( const reload_option& e ) {
+    std::transform( opts.begin(), opts.end(), std::back_inserter( names ), [&]( const reload_option& e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
@@ -7362,7 +7362,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
             return e.ammo->contents.front().display_name();
 
         } else {
-            return e.ammo->display_name();
+            return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
         }
     } );
 
