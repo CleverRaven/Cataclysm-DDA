@@ -4201,9 +4201,7 @@
     "difficulty": 5,
     "time": 45000,
     "autolearn": true,
-    "book_learn": [
-      [ "textbook_fabrication", 4 ]
-    ],
+    "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ] ]
