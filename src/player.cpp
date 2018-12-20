@@ -9865,7 +9865,7 @@ void player::try_to_sleep( const time_duration &dur )
          trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ||
-         furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
+         furn_at_pos == f_hay || furn_at_pos == f_straw_bed || furn_at_pos == f_pillow_fort ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
          vp.part_with_feature( "SEAT", true ) ||
          vp.part_with_feature( "BED", true ) ) ) {
