@@ -141,13 +141,13 @@ struct vehicle_part {
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
-        bool has_flag( int const flag ) const noexcept {
+        bool has_flag( const int flag ) const noexcept {
             return flag & flags;
         }
-        int  set_flag( int const flag )       noexcept {
+        int  set_flag( const int flag )       noexcept {
             return flags |= flag;
         }
-        int  remove_flag( int const flag )    noexcept {
+        int  remove_flag( const int flag )    noexcept {
             return flags &= ~flag;
         }
 
@@ -570,8 +570,8 @@ class vehicle
         bool has_structural_part( point dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
-        bool is_connected( vehicle_part const &to, vehicle_part const &from,
-                           vehicle_part const &excluded ) const;
+        bool is_connected( const vehicle_part &to, const vehicle_part &from,
+                           const vehicle_part &excluded ) const;
         void add_missing_frames();
         void add_steerable_wheels();
 
@@ -607,8 +607,13 @@ class vehicle
         units::volume total_folded_volume() const;
 
         // Vehicle fuel indicator (by fuel)
-        void print_fuel_indicator( const catacurses::window &w, int y, int x, const itype_id &fuelType,
-                                   bool verbose = false, bool desc = false ) const;
+        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+                                   const itype_id &fuelType,
+                                   bool verbose = false, bool desc = false );
+        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+                                   const itype_id &fuelType,
+                                   std::map<itype_id, int> fuel_usages,
+                                   bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
         int engine_start_time( const int e ) const;
@@ -659,16 +664,16 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( player const &p ) const;
+        bool player_in_control( const player &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( player const &p ) const;
+        bool remote_controlled( const player &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int veh_init_fuel, int veh_init_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point( 0, 0 ),
+                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero,
                     float damage_size = 0 );
 
         void serialize( JsonOut &jsout ) const;
@@ -911,7 +916,7 @@ class vehicle
 
         // Vehicle fuel indicators (all of them)
         void print_fuel_indicators( const catacurses::window &win, int y, int x, int startIndex = 0,
-                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
+                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, int dir, const point &pivot );
@@ -962,10 +967,11 @@ class vehicle
          */
         double drain_energy( const itype_id &ftype, double energy_w );
 
-        // fuel consumption of vehicle engines of given type, in one-hundredth of fuel
+        // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;
+        int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( int load, const int t_seconds = 6 );
+        void consume_fuel( int load, const int t_seconds = 6, bool skip_battery = false );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -978,6 +984,14 @@ class vehicle
          */
         std::vector<vehicle_part *> lights( bool active = false );
 
+        // Calculate vehicle's total drain or production of electrical power, including nominal
+        // solar power.
+        int total_epower_w();
+        // Calculate vehicle's total drain or production of electrical power, optionally
+        // including nominal solar power.  Return engine power as engine_power
+        int total_epower_w( int &engine_power, bool skip_solar = true );
+        // Produce and consume electrical power, with excess power stored or taken from
+        // batteries
         void power_parts();
 
         /**
@@ -1118,7 +1132,7 @@ class vehicle
         /*@}*/
 
         // Extra drag on the vehicle from components other than wheels.
-        int drag() const;
+        int static_drag() const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
@@ -1146,7 +1160,7 @@ class vehicle
         void thrust( int thd );
 
         //deceleration due to ground friction and air resistance
-        int slowdown() const;
+        int slowdown( int velocity ) const;
 
         // depending on skid vectors, chance to recover.
         void possibly_recover_from_skid();
@@ -1458,7 +1472,8 @@ class vehicle
         int smy;
         int smz;
 
-        float alternator_load;
+        // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
+        int alternator_load;
 
         /// Time occupied points were calculated.
         time_point occupied_cache_time = calendar::before_time_starts;
@@ -1506,11 +1521,6 @@ class vehicle
         // leftover from previous turn
         float of_turn_carry;
 
-        // total power consumed by tracking devices (why would you use more than one?)
-        int tracking_epower     = 0;
-        int alarm_epower        = 0;
-        // power consumed by camera system
-        int camera_epower       = 0;
         int extra_drag          = 0;
         // TODO: change these to a bitset + enum?
         // cruise control on/off

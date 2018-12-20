@@ -534,9 +534,9 @@ class JsonOut
         }
 
         template <typename T>
-        void write_as_array( T const &container ) {
+        void write_as_array( const T &container ) {
             start_array();
-            for( auto const &e : container ) {
+            for( const auto &e : container ) {
                 write( e );
             }
             end_array();
@@ -547,7 +547,7 @@ class JsonOut
         template < typename T, typename std::enable_if <
                        !std::is_same<void, typename T::value_type>::value >::type * = nullptr
                    >
-        auto write( T const &container ) -> decltype( container.front(), ( void )0 ) {
+        auto write( const T &container ) -> decltype( container.front(), ( void )0 ) {
             write_as_array( container );
         }
 
@@ -556,7 +556,7 @@ class JsonOut
         template <typename T, typename std::enable_if<
                       std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
                   >
-        void write( T const &container ) {
+        void write( const T &container ) {
             write_as_array( container );
         }
 
@@ -565,9 +565,9 @@ class JsonOut
         template < typename T, typename std::enable_if <
                        !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
                    >
-        void write( T const &map ) {
+        void write( const T &map ) {
             start_object();
-            for( auto const &it : map ) {
+            for( const auto &it : map ) {
                 write( it.first );
                 write_member_separator();
                 write( it.second );

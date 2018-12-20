@@ -49,6 +49,7 @@ struct map_bash_info {
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;

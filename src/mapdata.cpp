@@ -217,7 +217,10 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
     if( is_furniture ) {
         furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
     } else {
-        ter_set = ter_str_id( j.get_string( "ter_set" ) );
+        const std::string ter_set_string = j.get_string( "ter_set" );
+        ter_set = ter_str_id( ter_set_string );
+        ter_set_bashed_from_above = ter_str_id( j.get_string( "ter_set_bashed_from_above",
+                                                ter_set_string ) );
     }
 
     if( j.has_member( "items" ) ) {
@@ -396,7 +399,7 @@ void load_terrain( JsonObject &jo, const std::string &src )
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    auto const it = ter_bitflags_map.find( flag );
+    const auto it = ter_bitflags_map.find( flag );
     if( it != ter_bitflags_map.end() ) {
         bitflags.set( it->second );
         if( !transparent && it->second == TFLAG_TRANSPARENT ) {
@@ -411,7 +414,7 @@ void map_data_common_t::set_flag( const std::string &flag )
 
 void map_data_common_t::set_connects( const std::string &connect_group_string )
 {
-    auto const it = ter_connects_map.find( connect_group_string );
+    const auto it = ter_connects_map.find( connect_group_string );
     if( it != ter_connects_map.end() ) {
         connect_group = it->second;
     } else { // arbitrary connect groups are a bad idea for optimization reasons

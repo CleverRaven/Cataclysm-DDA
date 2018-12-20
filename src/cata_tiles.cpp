@@ -1416,7 +1416,7 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     main_minimap_tex.reset();
     main_minimap_tex = create_minimap_cache_texture( minimap_clip_rect.w, minimap_clip_rect.h );
 
-    previous_submap_view = tripoint( INT_MIN, INT_MIN, INT_MIN );
+    previous_submap_view = tripoint_min;
 
     //allocate the textures for the texture pool
     for( int i = 0; i < static_cast<int>( tex_pool.texture_pool.size() ); i++ ) {
@@ -1712,6 +1712,10 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
             looks_like = "vp_" + new_vpi.looks_like;
         } else if( category == C_ITEM ) {
             if( !item::type_is_defined( looks_like ) ) {
+                if( looks_like.substr( 0, 7 ) == "corpse_" ) {
+                    looks_like = "corpse";
+                    continue;
+                }
                 return nullptr;
             }
             const itype *new_it = item::find_type( looks_like );
@@ -1923,8 +1927,8 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     const tile_type &display_tile = *tt;
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
     if( subtile != -1 && display_tile.multitile ) {
-        auto const &display_subtiles = display_tile.available_subtiles;
-        auto const end = std::end( display_subtiles );
+        const auto &display_subtiles = display_tile.available_subtiles;
+        const auto end = std::end( display_subtiles );
         if( std::find( begin( display_subtiles ), end, multitile_keys[subtile] ) != end ) {
             // append subtile name to tile and re-find display_tile
             return draw_from_id_string(
@@ -2414,7 +2418,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
         // get the last item in the stack, it will be used for display
         const item &displayed_item = cur_maptile.get_uppermost_item();
         // get the item's name, as that is the key used to find it in the map
-        const std::string &it_name = displayed_item.typeId();
+        const std::string it_name = displayed_item.is_corpse() ? "corpse_" +
+                                    displayed_item.get_mtype()->id.str() : displayed_item.typeId();
+
         const std::string it_category = displayed_item.type->get_item_type_string();
         ret_draw_item = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
                                              nv_goggles_activated, height_3d );
@@ -3168,19 +3174,19 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, const std::stri
 }
 
 template <typename maptype>
-void cata_tiles::tile_loading_report( maptype const &tiletypemap, std::string const &label,
-                                      std::string const &prefix )
+void cata_tiles::tile_loading_report( const maptype &tiletypemap, const std::string &label,
+                                      const std::string &prefix )
 {
     lr_generic( tiletypemap.begin(), tiletypemap.end(),
-    []( decltype( tiletypemap.begin() ) const & v ) {
+    []( const decltype( tiletypemap.begin() ) & v ) {
         // c_str works for std::string and for string_id!
         return v->first.c_str();
     }, label, prefix );
 }
 
 template <typename base_type>
-void cata_tiles::tile_loading_report( size_t const count, std::string const &label,
-                                      std::string const &prefix )
+void cata_tiles::tile_loading_report( const size_t count, const std::string &label,
+                                      const std::string &prefix )
 {
     lr_generic( static_cast<size_t>( 0 ), count,
     []( const size_t i ) {
@@ -3189,8 +3195,8 @@ void cata_tiles::tile_loading_report( size_t const count, std::string const &lab
 }
 
 template <typename arraytype>
-void cata_tiles::tile_loading_report( arraytype const &array, int array_length,
-                                      std::string const &label, std::string const &prefix )
+void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
+                                      const std::string &label, const std::string &prefix )
 {
     const auto begin = &( array[0] );
     lr_generic( begin, begin + array_length,

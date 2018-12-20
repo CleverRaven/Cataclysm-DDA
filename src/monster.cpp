@@ -1946,7 +1946,7 @@ void monster::die( Creature *nkiller )
     }
 
     //Not a hallucination, go process the death effects.
-    for( auto const &deathfunction : type->dies ) {
+    for( const auto &deathfunction : type->dies ) {
         deathfunction( *this );
     }
 

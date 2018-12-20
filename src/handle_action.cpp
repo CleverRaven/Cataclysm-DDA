@@ -125,7 +125,7 @@ input_context game::get_player_input( std::string &action )
         }
 
         //x% of the Viewport, only shown on visible areas
-        auto const weather_info = get_weather_animation( weather );
+        const auto weather_info = get_weather_animation( weather );
         int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
         int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
@@ -735,7 +735,7 @@ static void sleep()
         }
     }
     for( int i = 0; i < g->u.num_bionics(); i++ ) {
-        bionic const &bio = u.bionic_at_index( i );
+        const bionic &bio = u.bionic_at_index( i );
         if( !bio.powered ) {
             continue;
         }
@@ -746,7 +746,7 @@ static void sleep()
             continue;
         }
 
-        auto const &info = bio.info();
+        const auto &info = bio.info();
         if( info.power_over_time > 0 ) {
             active.push_back( info.name );
         }

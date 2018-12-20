@@ -127,6 +127,11 @@
         "text": "<BGSS_intro_question>",
         "topic": "BGSS_RURAL_2_STORY1",
         "condition": { "npc_has_trait": "BGSS_Rural_2" }
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CODGER_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Codger" }
       }
     ]
   },
@@ -148,7 +153,7 @@
   {
     "id": "BGSS_NO_PAST_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Before <the_cataclysm>? Who cares about that? This is a new world, and yeah, it's pretty <shitty>.  It's the one we've got though, so let's not dwell in the past when we should be making the best of what little we have left.",
+    "dynamic_line": "Before <the_cataclysm>?  Who cares about that?  This is a new world, and yeah, it's pretty <shitty>.  It's the one we've got though, so let's not dwell in the past when we should be making the best of what little we have left.",
     "responses": [ { "text": "I can respect that.", "topic": "TALK_FRIEND" } ]
   },
   {
@@ -262,7 +267,7 @@
   {
     "id": "BGSS_EVACUEE_2_NOTYET",
     "type": "talk_topic",
-    "dynamic_line": "What do you think happened? You see them around anywhere?",
+    "dynamic_line": "What do you think happened?  You see them around anywhere?",
     "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000" },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
@@ -284,7 +289,7 @@
     "dynamic_line": "My Evac shelter got swarmed by some of those bees, the ones the size of dogs.  I took out a few with a two-by-four, but pretty quick I realized it was either head for the hills or get stuck like a pig.  The rest is history.",
     "//": "TK: In a future iteration, this evacuee might give you directions to a hive.",
     "responses": [
-      { "text": "Giant bees? Tell me more.", "topic": "BGSS_EVACUEE_5_BEES" },
+      { "text": "Giant bees?  Tell me more.", "topic": "BGSS_EVACUEE_5_BEES" },
       {
         "text": "But bees aren't usually aggressive...",
         "topic": "BGSS_EVACUEE_5_WASPS",
@@ -343,7 +348,7 @@
   {
     "id": "BGSS_FEMA_EVACUEE_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "It was terrifying.  We were shipped there on a repurposed school bus, about thirty of us.  You can probably see the issues right away.  A few of the folks on board the bus had injuries, and some schmuck who had seen too many B-movies tried to insist that anyone who 'had been bitten' was going to 'turn'.  Fucking idiot, right? I've been bitten a dozen times now and the worst I got was a gross infection.",
+    "dynamic_line": "It was terrifying.  We were shipped there on a repurposed school bus, about thirty of us.  You can probably see the issues right away.  A few of the folks on board the bus had injuries, and some schmuck who had seen too many B-movies tried to insist that anyone who 'had been bitten' was going to 'turn'.  Fucking idiot, right?  I've been bitten a dozen times now and the worst I got was a gross infection.",
     "responses": [
       { "text": "What happened after that?", "topic": "BGSS_FEMA_EVACUEE_1_STORY3" },
       {
@@ -453,7 +458,7 @@
   {
     "id": "BGSS_GUNG_HO_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "This is it.  This is what I was made for.  There in the street, smashin' monster heads and prayin' I'd make it out? I've never felt like that.  Alive.  Important.  So after I got myself all stuck back together, I nutted up and went back to it.  Probly killed a thousand Z since then, and I'm still not tired of it.",
+    "dynamic_line": "This is it.  This is what I was made for.  There in the street, smashin' monster heads and prayin' I'd make it out?  I've never felt like that.  Alive.  Important.  So after I got myself all stuck back together, I nutted up and went back to it.  Probly killed a thousand Z since then, and I'm still not tired of it.",
     "responses": [
       { "text": "It's good you found your calling.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "It's good you found your calling.  <end_talking>", "topic": "TALK_DONE" }
@@ -462,7 +467,7 @@
   {
     "id": "BGSS_GUNG_HO_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Oh, you know.  Blah blah blah, had a job and a life, everyone died.  Boo hoo.  I gotta be straight with you though: I honestly think I like this better.  Fighting for survival every day? I've never felt so alive.  I've killed hundreds of those bastards.  Sooner or later one of them will take me out, but I'll go down knowing I did something actually important.",
+    "dynamic_line": "Oh, you know.  Blah blah blah, had a job and a life, everyone died.  Boo hoo.  I gotta be straight with you though: I honestly think I like this better.  Fighting for survival every day?  I've never felt so alive.  I've killed hundreds of those bastards.  Sooner or later one of them will take me out, but I'll go down knowing I did something actually important.",
     "responses": [
       { "text": "It's good you found your calling.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "It's good you found your calling.  <end_talking>", "topic": "TALK_DONE" }
@@ -505,7 +510,7 @@
   {
     "id": "BGSS_GUNG_HO_3_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "At first, I just kept going North, but I ran into a huge military blockade.  They even had those giant walking robots like on TV.  I started going up to check it out, and before I knew it they were opening fire! I coulda died, but I still have pretty good reactions.  I turned tail and rolled out of there.  My Hummer had taken some bad hits though, and I found out the hard way I was leaking gas all down the freeway.  Made it a few miles before I wound up stuck in the ass-end of nowhere.  I settled in to wander.  I guess I'm still kinda heading North, just by a pretty round-about way, you know?",
+    "dynamic_line": "At first, I just kept going North, but I ran into a huge military blockade.  They even had those giant walking robots like on TV.  I started going up to check it out, and before I knew it they were opening fire!  I coulda died, but I still have pretty good reactions.  I turned tail and rolled out of there.  My Hummer had taken some bad hits though, and I found out the hard way I was leaking gas all down the freeway.  Made it a few miles before I wound up stuck in the ass-end of nowhere.  I settled in to wander.  I guess I'm still kinda heading North, just by a pretty round-about way, you know?",
     "responses": [
       { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
       { "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
@@ -574,7 +579,7 @@
   {
     "id": "BGSS_PREPPER_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Depends on your definition.  I'm alive, aren't I? When Hell itself came down from the skies and monsters started attacking the cities, I grabbed my stuff and crammed into the bunker.  My surface cameras stayed online for days; I could see everything happening up there.  I watched those things stride past.  I still have nightmares about the way their bodies moved, like they broke the world just to be here.  I had nothing better to do.  I watched them rip up the cops and the military, watched the dead rise back up and start fighting the living.  I watched the nice old lady down the street rip the head off my neighbor's dog.  I saw a soldier's body twitch and grow into some kind of electrified hulk beast.  I watched it all happen.",
+    "dynamic_line": "Depends on your definition.  I'm alive, aren't I?  When Hell itself came down from the skies and monsters started attacking the cities, I grabbed my stuff and crammed into the bunker.  My surface cameras stayed online for days; I could see everything happening up there.  I watched those things stride past.  I still have nightmares about the way their bodies moved, like they broke the world just to be here.  I had nothing better to do.  I watched them rip up the cops and the military, watched the dead rise back up and start fighting the living.  I watched the nice old lady down the street rip the head off my neighbor's dog.  I saw a soldier's body twitch and grow into some kind of electrified hulk beast.  I watched it all happen.",
     "responses": [
       { "text": "Why did you leave your bunker?", "topic": "BGSS_PREPPER_2_STORY3" },
       {
@@ -589,7 +594,7 @@
   {
     "id": "BGSS_PREPPER_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Honestly? I was planning to die.  After what I'd seen, I went a little crazy.  I thought it was over for sure, I figured there was no point in fighting it.  I thought I wouldn't last a minute out here, but I couldn't bring myself to end it down there.  I headed out, planning to let the <zombies> finish me off, but what can I say? Survival instinct is a funny thing, and I killed the ones outside the bunker.  I guess the adrenaline was what I needed.  It's kept me going since then.",
+    "dynamic_line": "Honestly?  I was planning to die.  After what I'd seen, I went a little crazy.  I thought it was over for sure, I figured there was no point in fighting it.  I thought I wouldn't last a minute out here, but I couldn't bring myself to end it down there.  I headed out, planning to let the <zombies> finish me off, but what can I say?  Survival instinct is a funny thing, and I killed the ones outside the bunker.  I guess the adrenaline was what I needed.  It's kept me going since then.",
     "responses": [
       {
         "text": "Hey, I'd really be interested in seeing those maps.",
@@ -787,7 +792,7 @@
   {
     "id": "BGSS_LOST_PARTNER_1_TRIFFIDS",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, have you seen them yet? They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent...  I barely made it out, only because they were, uh, distracted.",
+    "dynamic_line": "Yeah, have you seen them yet?  They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent...  I barely made it out, only because they were, uh, distracted.",
     "//": "In a future version this NPC might give you directions to a triffid grove.",
     "responses": [
       { "text": "I'm sorry you lost someone.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
@@ -888,8 +893,8 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "npc_female": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part? Like, out of all this?  My husband was still alive.  He'd been in the basement the whole time, pinned under a collapsed piece of floor.  And he'd lost a ton of blood, he was delirius by the time I found him.  I couldn't get him out, so I gave him food and water and just stayed with him and held his hand until he passed.  And then...  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back.",
-        "npc_male": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part? Like, out of all this?  My wife was still alive.  She'd been in the basement the whole time, pinned under a collapsed piece of floor.  And she'd lost a ton of blood, she was delirius by the time I found her.  I couldn't get her out, so I gave her food and water and just stayed with her and held her hand until she passed.  And then...  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back."
+        "npc_female": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part?  Like, out of all this?  My husband was still alive.  He'd been in the basement the whole time, pinned under a collapsed piece of floor.  And he'd lost a ton of blood, he was delirius by the time I found him.  I couldn't get him out, so I gave him food and water and just stayed with him and held his hand until he passed.  And then...  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back.",
+        "npc_male": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part?  Like, out of all this?  My wife was still alive.  She'd been in the basement the whole time, pinned under a collapsed piece of floor.  And she'd lost a ton of blood, she was delirius by the time I found her.  I couldn't get her out, so I gave her food and water and just stayed with her and held her hand until she passed.  And then...  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back."
       }
     ],
     "responses": [
@@ -902,8 +907,8 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "npc_female": "I lived alone, on the old family property way out of town.  My husband passed away a bit over a month before this started... cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
-        "npc_male": "I lived alone, on the old family property way out of town.  My wife passed away a bit over a month before this started... cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel."
+        "npc_female": "I lived alone, on the old family property way out of town.  My husband passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
+        "npc_male": "I lived alone, on the old family property way out of town.  My wife passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel."
       }
     ],
     "responses": [
@@ -928,7 +933,7 @@
     "dynamic_line": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday.",
     "//": "In the future this NPC should give you the map coordinates to the farm if you persuade.",
     "responses": [
-      { "text": "Thanks for telling me that. <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -949,8 +954,8 @@
     "//": "TK: In a future version this NPC might give you directions to the ranch.",
     "responses": [
       { "text": "Where's Buck now?", "topic": "BGSS_RURAL_2_STORY3" },
-      { "text": "I see where this is headed. <done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "I see where this is headed. <end_talking>", "topic": "TALK_DONE" }
+      { "text": "I see where this is headed.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I see where this is headed.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -959,7 +964,86 @@
     "dynamic_line": "We got to my buddy's ranch, but the <swear> g-men had been there first.  It was all boarded up and there was a police barricade out front.  One of those <swear> turrets...  <swear> shot Buck.  Almost got me too.  I managed to get my pup...  get him outta there, that...  it wasn't easy, had to use a police car door as a shield, had to kill a cop-zombie first.  And then, well, while I was still cryin', Buck came back.  I had to ...  <swear!>.  I...  I can't say it.  You know.",
     "responses": [
       { "text": "I'm sorry about Buck.  <done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "I'm sorry about Buck. <end_talking>", "topic": "TALK_DONE" }
+      { "text": "I'm sorry about Buck.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CODGER_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Well now, That's a hell of a story, so settle in.  It all goes back to about five years ago, after I retired from my job at the mill.  Times was tough, but we got by.",
+    "responses": [
+      { "text": "Okay, please continue.", "topic": "BGSS_CODGER_STORY2" },
+      { "text": "On second thought, let's talk about something else.", "topic": "BGSS_CODGER_STORY2" }
+    ]
+  },
+  {
+    "id": "BGSS_CODGER_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "That was when I had my old truck, the blue one.  We called 'er ol' yeller.  One time me an' Marty Gumps - or, as he were known to me, Rusty G - were drivin' ol' yeller up Mount Greenwood in the summertime, lookin' fer fireflies to catch.",
+    "responses": [
+      { "text": "Fireflies.  Got it.", "topic": "BGSS_CODGER_STORY3a" },
+      { "text": "How does this relate to what I asked you?", "topic": "BGSS_CODGER_STORY3b" },
+      { "text": "I need to get going.", "topic": "BGSS_CODGER_STORY3b" }
+    ]
+  },
+  {
+    "id": "BGSS_CODGER_STORY3a",
+    "type": "talk_topic",
+    "dynamic_line": "Rusty G - that's my ol' pal Marty Gumps - were in the passenger seat with his trusty 18 gauge lyin' on his lap.  That were his dog's name, only we all just called him 18 gauge for short.",
+    "responses": [
+      { "text": "18 gauge, the dog.  Got it.", "topic": "BGSS_CODGER_STORY4a" },
+      { "text": "I think I see some zombies coming.  We should cut this short.", "topic": "BGSS_CODGER_STORY4b" },
+      { "text": "Shut up, you old fart.", "topic": "BGSS_CODGER_STORY4b" }
+    ]
+  },
+  {
+    "id": "BGSS_CODGER_STORY3b",
+    "type": "talk_topic",
+    "dynamic_line": "Dammit I'm gettin' there, bite yer tongue.  As I was sayin', Rusty G - that's my ol' pal Marty Gumps - were in the passenger seat with his trusty 18 gauge lyin' on his lap.  That were his dog's name, only we all just called him 18 gauge for short.",
+    "responses": [
+      { "text": "18 gauge, the dog.  Got it.", "topic": "BGSS_CODGER_STORY4a" },
+      { "text": "I think I see some zombies coming.  We should cut this short.", "topic": "BGSS_CODGER_STORY4b" },
+      { "text": "Shut up, you old fart.", "topic": "BGSS_CODGER_STORY4b" }
+    ]
+  },
+  {
+    "id": "BGSS_CODGER_STORY4a",
+    "type": "talk_topic",
+    "dynamic_line": "Now up the top o' Mount Greenwood there used to be a ranger station, that woulda been before you were born.  It got burnt down that one year, they said it were lightnin' but you an' I both know it were college kids partyin'.  Rusty G an' I left ol' yeller behind and wen' in to check it out.  Burnt out ol' husk looked haunted, we figgered there were some o' them damn kids rummagin' around in it.  Rusty G brought his 18 gauge, and lucky thing cuz o' what we saw.",
+    "responses": [
+      { "text": "What did you see?", "topic": "BGSS_CODGER_STORY5" },
+      { "text": "We really, really have to go.", "topic": "BGSS_CODGER_STORY5" },
+      { "text": "For fuck's sake, shut UP!", "topic": "BGSS_CODGER_STORY5" }
+    ]
+  },
+  {
+    "id": "BGSS_CODGER_STORY4b",
+    "type": "talk_topic",
+    "dynamic_line": "Be patient!  I'm almost done.  Now up the top o' Mount Greenwood there used to be a ranger station, that woulda been before you were born.  It got burnt down that one year, they said it were lightnin' but you an' I both know it were college kids partyin'.  Rusty G an' I left ol' yeller behind and wen' in to check it out.  Burnt out ol' husk looked haunted, we figgered there were some o' them damn kids rummagin' around in it.  Rusty G brought his 18 gauge, and lucky thing cuz o' what we saw.",
+    "responses": [
+      { "text": "What did you see?", "topic": "BGSS_CODGER_STORY5" },
+      { "text": "We really, really have to go.", "topic": "BGSS_CODGER_STORY5" },
+      { "text": "For fuck's sake, shut UP!", "topic": "BGSS_CODGER_STORY5" }
+    ]
+  },
+  {
+    "id": "BGSS_CODGER_STORY5",
+    "type": "talk_topic",
+    "dynamic_line": "A gorram moose!  Livin' in the ol' ranger station!  It near gored Rusty, but he fired up that 18 gauge and blew a big hole in its hide.  Ol' 18 gauge went headin' for the hills but we tracked him down.  Moose went down like a bag o' potatoes, but a real big bag iff'n y'catch m'drift.",
+    "responses": [
+      { "text": "I catch your drift.", "topic": "BGSS_CODGER_STORY6" },
+      { "text": "Are you done yet?  Seriously!", "topic": "BGSS_CODGER_STORY6" },
+      { "text": "For the love of all that is holy, PLEASE shut the hell up!", "topic": "BGSS_CODGER_STORY6" }
+    ]
+  },
+  {
+    "id": "BGSS_CODGER_STORY6",
+    "type": "talk_topic",
+    "dynamic_line": "Anyway, long story short, I were headin' back up to Mount Greenwood to check on th'old ranger station again when I heard them bombs fallin and choppers flyin.  Decided to camp out there to see it all through, but it didn't ever end, now, did it?  So here I am.",
+    "responses": [
+      { "text": "Thanks for the story!", "topic": "TALK_FRIEND" },
+      { "text": "...", "topic": "TALK_FRIEND" },
+      { "text": "<name_b>.", "topic": "TALK_DONE" }
     ]
   }
 ]

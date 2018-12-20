@@ -9,6 +9,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapbuffer.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "messages.h"
@@ -183,17 +184,16 @@ bool overmap_special_id::is_valid() const
     return specials.is_valid( *this );
 }
 
-city::city( int const X, int const Y, int const S )
-    : x( X )
-    , y( Y )
-    , s( S )
+city::city( const point &P, int const S )
+    : pos( P )
+    , size( S )
     , name( Name::get( nameIsTownName ) )
 {
 }
 
 int city::get_distance_from( const tripoint &p ) const
 {
-    return std::max( int( trig_dist( p, { x, y, 0 } ) ) - s, 0 );
+    return std::max( int( trig_dist( p, { pos.x, pos.y, 0 } ) ) - size, 0 );
 }
 
 std::map<enum radio_type, std::string> radio_type_names =
@@ -747,7 +747,7 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
     if( !requires_city() ) {
         return true;
     }
-    if( !cit || !city_size.contains( cit.s ) ) {
+    if( !cit || !city_size.contains( cit.size ) ) {
         return false;
     }
     return city_distance.contains( cit.get_distance_from( p ) );
@@ -845,7 +845,7 @@ void overmap_special::check() const
 }
 
 // *** BEGIN overmap FUNCTIONS ***
-overmap::overmap( int const x, int const y ) : loc( x, y )
+overmap::overmap( const int x, const int y ) : loc( x, y )
 {
     const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
@@ -950,7 +950,7 @@ bool &overmap::explored( int x, int y, int z )
     return layer[z + OVERMAP_DEPTH].explored[x][y];
 }
 
-bool overmap::is_explored( int const x, int const y, int const z ) const
+bool overmap::is_explored( const int x, const int y, const int z ) const
 {
     if( !inbounds( x, y, z ) ) {
         return false;
@@ -1017,7 +1017,7 @@ std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( c
     return result;
 }
 
-bool overmap::has_note( int const x, int const y, int const z ) const
+bool overmap::has_note( const int x, const int y, const int z ) const
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         return false;
@@ -1031,23 +1031,23 @@ bool overmap::has_note( int const x, int const y, int const z ) const
     return false;
 }
 
-std::string const &overmap::note( int const x, int const y, int const z ) const
+const std::string &overmap::note( const int x, const int y, const int z ) const
 {
-    static std::string const fallback {};
+    static const std::string fallback {};
 
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         return fallback;
     }
 
-    auto const &notes = layer[z + OVERMAP_DEPTH].notes;
-    auto const it = std::find_if( begin( notes ), end( notes ), [&]( om_note const & n ) {
+    const auto &notes = layer[z + OVERMAP_DEPTH].notes;
+    const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
         return n.x == x && n.y == y;
     } );
 
     return ( it != std::end( notes ) ) ? it->text : fallback;
 }
 
-void overmap::add_note( int const x, int const y, int const z, std::string message )
+void overmap::add_note( const int x, const int y, const int z, std::string message )
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         debugmsg( "Attempting to add not to overmap for blank layer %d", z );
@@ -1055,7 +1055,7 @@ void overmap::add_note( int const x, int const y, int const z, std::string messa
     }
 
     auto &notes = layer[z + OVERMAP_DEPTH].notes;
-    auto const it = std::find_if( begin( notes ), end( notes ), [&]( om_note const & n ) {
+    const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
         return n.x == x && n.y == y;
     } );
 
@@ -1068,12 +1068,12 @@ void overmap::add_note( int const x, int const y, int const z, std::string messa
     }
 }
 
-void overmap::delete_note( int const x, int const y, int const z )
+void overmap::delete_note( const int x, const int y, const int z )
 {
     add_note( x, y, z, std::string {} );
 }
 
-std::vector<point> overmap::find_notes( int const z, std::string const &text )
+std::vector<point> overmap::find_notes( const int z, const std::string &text )
 {
     std::vector<point> note_locations;
     map_layer &this_layer = layer[z + OVERMAP_DEPTH];
@@ -1099,7 +1099,7 @@ bool overmap::inbounds( int x, int y, int z, int clearance )
 
 const scent_trace &overmap::scent_at( const tripoint &loc ) const
 {
-    const static scent_trace null_scent;
+    static const scent_trace null_scent;
     const auto &scent_found = scents.find( loc );
     if( scent_found != scents.end() ) {
         return scent_found->second;
@@ -1139,8 +1139,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
         for( auto &i : north->roads_out ) {
-            if( i.y == OMAPY - 1 ) {
-                roads_out.push_back( city( i.x, 0, 0 ) );
+            if( i.pos.y == OMAPY - 1 ) {
+                roads_out.push_back( city( i.pos.x, 0, 0 ) );
             }
         }
     }
@@ -1160,8 +1160,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
         for( auto &i : west->roads_out ) {
-            if( i.x == OMAPX - 1 ) {
-                roads_out.push_back( city( 0, i.y, 0 ) );
+            if( i.pos.x == OMAPX - 1 ) {
+                roads_out.push_back( city( 0, i.pos.y, 0 ) );
             }
         }
     }
@@ -1180,8 +1180,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
         for( auto &i : south->roads_out ) {
-            if( i.y == 0 ) {
-                roads_out.push_back( city( i.x, OMAPY - 1, 0 ) );
+            if( i.pos.y == 0 ) {
+                roads_out.push_back( city( i.pos.x, OMAPY - 1, 0 ) );
             }
         }
     }
@@ -1201,8 +1201,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
         for( auto &i : east->roads_out ) {
-            if( i.x == 0 ) {
-                roads_out.push_back( city( OMAPX - 1, i.y, 0 ) );
+            if( i.pos.x == 0 ) {
+                roads_out.push_back( city( OMAPX - 1, i.pos.y, 0 ) );
             }
         }
     }
@@ -1318,10 +1318,10 @@ void overmap::generate( const overmap *north, const overmap *east,
     // Compile our master list of roads; it's less messy if roads_out is first
     road_points.reserve( roads_out.size() + cities.size() );
     for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.x, elem.y );
+        road_points.emplace_back( elem.pos );
     }
     for( const auto &elem : cities ) {
-        road_points.emplace_back( elem.x, elem.y );
+        road_points.emplace_back( elem.pos.x, elem.pos.y );
     }
 
     // And finally connect them via roads.
@@ -1352,7 +1352,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     dbg( D_INFO ) << "overmap::generate done";
 }
 
-bool overmap::generate_sub( int const z )
+bool overmap::generate_sub( const int z )
 {
     bool requires_sub = false;
     std::vector<point> subway_points;
@@ -1469,13 +1469,13 @@ bool overmap::generate_sub( int const z )
     }
 
     for( auto &i : goo_points ) {
-        requires_sub |= build_slimepit( i.x, i.y, z, i.s );
+        requires_sub |= build_slimepit( i.pos.x, i.pos.y, z, i.size );
     }
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
     for( auto &i : ant_points ) {
-        build_anthill( i.x, i.y, z, i.s );
+        build_anthill( i.pos.x, i.pos.y, z, i.size );
     }
 
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
@@ -1489,25 +1489,25 @@ bool overmap::generate_sub( int const z )
     }
 
     for( auto &i : lab_points ) {
-        bool lab = build_lab( i.x, i.y, z, i.s, &lab_train_points, "", lab_train_odds );
+        bool lab = build_lab( i.pos.x, i.pos.y, z, i.size, &lab_train_points, "", lab_train_odds );
         requires_sub |= lab;
-        if( !lab && ter( i.x, i.y, z ) == "lab_core" ) {
-            ter( i.x, i.y, z ) = oter_id( "lab" );
+        if( !lab && ter( i.pos.x, i.pos.y, z ) == "lab_core" ) {
+            ter( i.pos.x, i.pos.y, z ) = oter_id( "lab" );
         }
     }
     for( auto &i : ice_lab_points ) {
-        bool ice_lab = build_lab( i.x, i.y, z, i.s, &lab_train_points, "ice_", lab_train_odds );
+        bool ice_lab = build_lab( i.pos.x, i.pos.y, z, i.size, &lab_train_points, "ice_", lab_train_odds );
         requires_sub |= ice_lab;
-        if( !ice_lab && ter( i.x, i.y, z ) == "ice_lab_core" ) {
-            ter( i.x, i.y, z ) = oter_id( "ice_lab" );
+        if( !ice_lab && ter( i.pos.x, i.pos.y, z ) == "ice_lab_core" ) {
+            ter( i.pos.x, i.pos.y, z ) = oter_id( "ice_lab" );
         }
     }
     for( auto &i : central_lab_points ) {
-        bool central_lab = build_lab( i.x, i.y, z, i.s, &central_lab_train_points, "central_",
+        bool central_lab = build_lab( i.pos.x, i.pos.y, z, i.size, &central_lab_train_points, "central_",
                                       lab_train_odds );
         requires_sub |= central_lab;
-        if( !central_lab && ter( i.x, i.y, z ) == "central_lab_core" ) {
-            ter( i.x, i.y, z ) = oter_id( "central_lab" );
+        if( !central_lab && ter( i.pos.x, i.pos.y, z ) == "central_lab_core" ) {
+            ter( i.pos.x, i.pos.y, z ) = oter_id( "central_lab" );
         }
     }
 
@@ -1555,11 +1555,11 @@ bool overmap::generate_sub( int const z )
     for( auto &i : cities ) {
         if( one_in( 3 ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_CHUD" ),
-                                     i.x * 2, i.y * 2, z, i.s, i.s * 20 ) );
+                                     i.pos.x * 2, i.pos.y * 2, z, i.size, i.size * 20 ) );
         }
         if( !one_in( 8 ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_SEWER" ),
-                                     i.x * 2, i.y * 2, z, ( i.s * 7 ) / 2, i.s * 70 ) );
+                                     i.pos.x * 2, i.pos.y * 2, z, ( i.size * 7 ) / 2, i.size * 70 ) );
         }
     }
 
@@ -1568,7 +1568,7 @@ bool overmap::generate_sub( int const z )
         place_rifts( z );
     }
     for( auto &i : mine_points ) {
-        build_mine( i.x, i.y, z, i.s );
+        build_mine( i.pos.x, i.pos.y, z, i.size );
     }
 
     for( auto &i : shaft_points ) {
@@ -1655,7 +1655,7 @@ void mongroup::wander( overmap &om )
         // Find a nearby city to return to..
         for( const city &check_city : om.cities ) {
             // Check if this is the nearest city so far.
-            int distance = rl_dist( check_city.x * 2, check_city.y * 2, pos.x, pos.y );
+            int distance = rl_dist( check_city.pos.x * 2, check_city.pos.y * 2, pos.x, pos.y );
             if( !target_city || distance < target_distance ) {
                 target_distance = distance;
                 target_city = &check_city;
@@ -1667,8 +1667,8 @@ void mongroup::wander( overmap &om )
         // @todo: somehow use the same algorithm that distributes zombie
         // density at world gen to spread the hordes over the actual
         // city, rather than the center city tile
-        target.x = target_city->x * 2 + rng( -5, 5 );
-        target.y = target_city->y * 2 + rng( -5, 5 );
+        target.x = target_city->pos.x * 2 + rng( -5, 5 );
+        target.y = target_city->pos.y * 2 + rng( -5, 5 );
         interest = 100;
     } else {
         target.x = pos.x + rng( -10, 10 );
@@ -1888,7 +1888,7 @@ void overmap::place_forest()
             [&]( const city & c ) {
                 return
                     // is this city too close?
-                    trig_dist( forx, fory, c.x, c.y ) - fors / 2 < c.s &&
+                    trig_dist( forx, fory, c.pos.x, c.pos.y ) - fors / 2 < c.size &&
                     // occasionally accept near a city if we've been failing
                     tries > rng( -1000 / ( i - forests_placed + 1 ), 2 );
             }
@@ -2124,7 +2124,7 @@ void overmap::place_forest_trailheads()
     // road network.
     std::vector<point> road_points;
     for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.x, elem.y );
+        road_points.emplace_back( elem.pos.x, elem.pos.y );
     }
 
     // Trailheads may be placed if all of the following are true:
@@ -2316,16 +2316,15 @@ void overmap::place_cities()
         if( ter( cx, cy, 0 ) == settings.default_oter ) {
             ter( cx, cy, 0 ) = oter_id( "road_nesw" ); // every city starts with an intersection
             city tmp;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = size;
+            tmp.pos = { cx, cy };
+            tmp.size = size;
             cities.push_back( tmp );
 
             const auto start_dir = om_direction::random();
             auto cur_dir = start_dir;
 
             do {
-                build_city_street( local_road, point( cx, cy ), size, cur_dir, tmp );
+                build_city_street( local_road, tmp.pos, size, cur_dir, tmp );
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
         }
     }
@@ -2347,14 +2346,14 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
     const tripoint building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
 
-    const int town_dist = trig_dist( building_pos.x, building_pos.y, town.x,
-                                     town.y ) / std::max( town.s, 1 );
+    const int town_dist = trig_dist( building_pos.x, building_pos.y, town.pos.x,
+                                     town.pos.y ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
 
-        if( can_place_special( *building_tid, building_pos, building_dir ) ) {
-            place_special( *building_tid, building_pos, building_dir, town );
+        if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
+            place_special( *building_tid, building_pos, building_dir, town, false, false );
             break;
         }
     }
@@ -2740,7 +2739,7 @@ void overmap::build_mine( int x, int y, int z, int s )
     ter( x, y, z ) = mine_finale_or_down;
 }
 
-void overmap::place_rifts( int const z )
+void overmap::place_rifts( const int z )
 {
     int num_rifts = rng( 0, 2 ) * rng( 0, 2 );
     std::vector<point> riftline;
@@ -2775,7 +2774,7 @@ void overmap::place_rifts( int const z )
 }
 
 pf::path overmap::lay_out_connection( const overmap_connection &connection, const point &source,
-                                      const point &dest, int z ) const
+                                      const point &dest, int z, const bool must_be_unexplored ) const
 {
     const auto estimate = [&]( const pf::node & cur, const pf::node * prev ) {
         const auto &id( get_ter( cur.x, cur.y, z ) );
@@ -2786,8 +2785,21 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
             return pf::rejected;  // No option for this terrain.
         }
 
-        const bool existing = connection.has( id );
-        if( existing && id->is_rotatable() &&
+        const bool existing_connection = connection.has( id );
+
+        // Only do this check if it needs to be unexplored and there isn't already a connection.
+        if( must_be_unexplored && !existing_connection ) {
+            // If this must be unexplored, check if we've already got a submap generated.
+            const bool existing_submap = is_omt_generated( tripoint( cur.x, cur.y, z ) );
+
+            // If there is an existing submap, this area has already been explored and this
+            // isn't a valid placement.
+            if( existing_submap ) {
+                return pf::rejected;
+            }
+        }
+
+        if( existing_connection && id->is_rotatable() &&
             !om_direction::are_parallel( id->get_dir(), static_cast<om_direction::type>( cur.dir ) ) ) {
             return pf::rejected; // Can't intersect.
         }
@@ -2805,7 +2817,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
         const int dy = dest.y - cur.y;
         const int dist = subtype->is_orthogonal() ? std::abs( dx ) + std::abs( dy ) : std::sqrt(
                              dx * dx + dy * dy );
-        const int existency_mult = existing ? 1 : 5; // Prefer existing connections.
+        const int existency_mult = existing_connection ? 1 : 5; // Prefer existing connections.
 
         return existency_mult * dist + subtype->basic_cost;
     };
@@ -2917,9 +2929,10 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
 }
 
 void overmap::build_connection( const point &source, const point &dest, int z,
-                                const overmap_connection &connection )
+                                const overmap_connection &connection, const bool must_be_unexplored )
 {
-    build_connection( connection, lay_out_connection( connection, source, dest, z ), z );
+    build_connection( connection, lay_out_connection( connection, source, dest, z, must_be_unexplored ),
+                      z );
 }
 
 void overmap::connect_closest_points( const std::vector<point> &points, int z,
@@ -2939,7 +2952,7 @@ void overmap::connect_closest_points( const std::vector<point> &points, int z,
             }
         }
         if( closest > 0 ) {
-            build_connection( points[i], points[k], z, connection );
+            build_connection( points[i], points[k], z, connection, false );
         }
     }
 }
@@ -2986,6 +2999,21 @@ bool overmap::check_ot_subtype( const std::string &otype, int x, int y, int z ) 
 {
     const oter_id oter = get_ter( x, y, z );
     return is_ot_subtype( otype.c_str(), oter );
+}
+
+bool overmap::check_overmap_special_type( const overmap_special_id &id,
+        const tripoint &location ) const
+{
+    // Try and find the special associated with this location.
+    auto found_id = overmap_special_placements.find( location );
+
+    // There was no special here, so bail.
+    if( found_id == overmap_special_placements.end() ) {
+        return false;
+    }
+
+    // Return whether the found special was a match with our requested id.
+    return found_id->second == id;
 }
 
 void overmap::good_river( int x, int y, int z )
@@ -3198,7 +3226,7 @@ bool om_direction::are_parallel( type dir1, type dir2 )
 }
 
 om_direction::type overmap::random_special_rotation( const overmap_special &special,
-        const tripoint &p ) const
+        const tripoint &p, const bool must_be_unexplored ) const
 {
     std::vector<om_direction::type> rotations( om_direction::size );
     const auto first = rotations.begin();
@@ -3238,14 +3266,14 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
     // Pick first valid rotation at random.
     std::random_shuffle( first, last );
     const auto rotation = std::find_if( first, last, [&]( om_direction::type elem ) {
-        return can_place_special( special, p, elem );
+        return can_place_special( special, p, elem, must_be_unexplored );
     } );
 
     return rotation != last ? *rotation : om_direction::type::invalid;
 }
 
 bool overmap::can_place_special( const overmap_special &special, const tripoint &p,
-                                 om_direction::type dir ) const
+                                 om_direction::type dir, const bool must_be_unexplored ) const
 {
     assert( p != invalid_tripoint );
     assert( dir != om_direction::type::invalid );
@@ -3262,6 +3290,17 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
             return false;
         }
 
+        if( must_be_unexplored ) {
+            // If this must be unexplored, check if we've already got a submap generated.
+            const bool existing_submap = is_omt_generated( rp );
+
+            // If there is an existing submap, this area has already been explored and this
+            // isn't a valid placement.
+            if( existing_submap ) {
+                return false;
+            }
+        }
+
         const oter_id tid = get_ter( rp );
 
         if( rp.z == 0 ) {
@@ -3274,11 +3313,13 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
 
 // checks around the selected point to see if the special can be placed there
 void overmap::place_special( const overmap_special &special, const tripoint &p,
-                             om_direction::type dir, const city &cit )
+                             om_direction::type dir, const city &cit, const bool must_be_unexplored, const bool force )
 {
     assert( p != invalid_tripoint );
     assert( dir != om_direction::type::invalid );
-    assert( can_place_special( special, p, dir ) );
+    if( !force ) {
+        assert( can_place_special( special, p, dir, must_be_unexplored ) );
+    }
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
 
@@ -3286,6 +3327,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         const tripoint location = p + om_direction::rotate( elem.p, dir );
         const oter_id tid = elem.terrain->get_rotated( dir );
 
+        overmap_special_placements[location] = special.id;
         ter( location.x, location.y, location.z ) = tid;
 
         if( blob ) {
@@ -3304,7 +3346,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         for( const auto &elem : special.connections ) {
             if( elem.connection ) {
                 const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
-                build_connection( point( cit.x, cit.y ), point( rp.x, rp.y ), elem.p.z, *elem.connection );
+                build_connection( cit.pos, point( rp.x, rp.y ), elem.p.z, *elem.connection, must_be_unexplored );
             }
         }
     }
@@ -3323,33 +3365,34 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         // This basement isn't part of the special that we asserted we could place at
         // the top of this function, so we need to make sure we can place the basement
         // special before doing so.
-        if( can_place_special( *basement_tid, basement_p, dir ) ) {
-            place_special( *basement_tid, basement_p, dir, cit );
+        if( can_place_special( *basement_tid, basement_p, dir, must_be_unexplored ) || force ) {
+            place_special( *basement_tid, basement_p, dir, cit, force, must_be_unexplored );
         }
     }
 }
 
-std::vector<point> overmap::get_sectors() const
+om_special_sectors get_sectors( const int sector_width )
 {
     std::vector<point> res;
 
-    res.reserve( ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) );
-    for( int x = 0; x < OMAPX; x += OMSPEC_FREQ ) {
-        for( int y = 0; y < OMAPY; y += OMSPEC_FREQ ) {
+    res.reserve( ( OMAPX / sector_width ) * ( OMAPY / sector_width ) );
+    for( int x = 0; x < OMAPX; x += sector_width ) {
+        for( int y = 0; y < OMAPY; y += sector_width ) {
             res.emplace_back( x, y );
         }
     }
     std::random_shuffle( res.begin(), res.end() );
-    return res;
+    return { res, sector_width };
 }
 
 bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
-                                     const point &sector, const bool place_optional )
+                                     const point &sector, const int sector_width, const bool place_optional,
+                                     const bool must_be_unexplored )
 {
     const int x = sector.x;
     const int y = sector.y;
 
-    const tripoint p( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
+    const tripoint p( rng( x, x + sector_width - 1 ), rng( y, y + sector_width - 1 ), 0 );
     const city &nearest_city = get_nearest_city( p );
 
     std::random_shuffle( enabled_specials.begin(), enabled_specials.end() );
@@ -3365,12 +3408,12 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
             continue;
         }
         // See if we can actually place the special there.
-        const auto rotation = random_special_rotation( special, p );
+        const auto rotation = random_special_rotation( special, p, must_be_unexplored );
         if( rotation == om_direction::type::invalid ) {
             continue;
         }
 
-        place_special( special, p, rotation, nearest_city );
+        place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
 
         if( ++iter->instances_placed >= special.occurrences.max ) {
             enabled_specials.erase( iter );
@@ -3383,17 +3426,18 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
 }
 
 void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
-                                   std::vector<point> &sectors, const bool place_optional )
+                                   om_special_sectors &sectors, const bool place_optional, const bool must_be_unexplored )
 {
     // Walk over sectors in random order, to minimize "clumping".
-    std::random_shuffle( sectors.begin(), sectors.end() );
-    for( auto it = sectors.begin(); it != sectors.end(); ) {
+    std::random_shuffle( sectors.sectors.begin(), sectors.sectors.end() );
+    for( auto it = sectors.sectors.begin(); it != sectors.sectors.end(); ) {
         const size_t attempts = 10;
         bool placed = false;
         for( size_t i = 0; i < attempts; ++i ) {
-            if( place_special_attempt( enabled_specials, *it, place_optional ) ) {
+            if( place_special_attempt( enabled_specials, *it, sectors.sector_width, place_optional,
+                                       must_be_unexplored ) ) {
                 placed = true;
-                it = sectors.erase( it );
+                it = sectors.sectors.erase( it );
                 if( enabled_specials.empty() ) {
                     return; // Job done. Bail out.
                 }
@@ -3433,11 +3477,11 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     if( enabled_specials.empty() ) {
         return;
     }
-    std::vector<point> sectors = get_sectors();
+    om_special_sectors sectors = get_sectors( OMSPEC_FREQ );
 
     // First, place the mandatory specials to ensure that all minimum instance
     // counts are met.
-    place_specials_pass( enabled_specials, sectors, false );
+    place_specials_pass( enabled_specials, sectors, false, false );
 
     // Snapshot remaining specials, which will be the optional specials and
     // any unplaced mandatory specials. By passing a copy into the creation of
@@ -3480,7 +3524,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         }
     }
     // Then fill in non-mandatory specials.
-    place_specials_pass( enabled_specials, sectors, true );
+    place_specials_pass( enabled_specials, sectors, true, false );
 
     // Clean up...
     // Because we passed a copy of the specials for placement in adjacent overmaps rather than
@@ -3527,9 +3571,10 @@ void overmap::place_mongroups()
     // Cities are full of zombies
     for( auto &elem : cities ) {
         if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-            if( !one_in( 16 ) || elem.s > 5 ) {
-                mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
-                            elem.s * 80 );
+            if( !one_in( 16 ) || elem.size > 5 ) {
+                mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.pos.x * 2 ), ( elem.pos.y * 2 ), 0,
+                            int( elem.size * 2.5 ),
+                            elem.size * 80 );
                 //                m.set_target( zg.back().posx, zg.back().posy );
                 m.horde = true;
                 m.wander( *this );
@@ -3633,8 +3678,8 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    std::string const plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
-    std::string const terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
+    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
 
     using namespace std::placeholders;
     if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
@@ -3658,8 +3703,8 @@ void overmap::open( overmap_special_batch &enabled_specials )
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    std::string const plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
-    std::string const terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
+    const std::string plrfilename = overmapbuffer::player_filename( loc.x, loc.y );
+    const std::string terfilename = overmapbuffer::terrain_filename( loc.x, loc.y );
 
     ofstream_wrapper fout_player( plrfilename );
     serialize_view( fout_player );
@@ -3761,6 +3806,22 @@ std::shared_ptr<npc> overmap::find_npc( const int id ) const
         }
     }
     return nullptr;
+}
+
+bool overmap::is_omt_generated( const tripoint &loc ) const
+{
+    if( !inbounds( loc ) ) {
+        return false;
+    }
+
+    // Location is local to this overmap, but we need global submap coordinates
+    // for the mapbuffer lookup.
+    tripoint global_sm_loc = omt_to_sm_copy( loc ) + om_to_sm_copy( tripoint( pos().x, pos().y,
+                             loc.z ) );
+
+    const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc ) != nullptr;
+
+    return is_generated;
 }
 
 overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )

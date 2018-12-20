@@ -3,8 +3,10 @@
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "field.h"
 #include "game.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -22,6 +24,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+
+#include <stdio.h>
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -49,7 +53,7 @@ const efftype_id effect_infection( "infection" );
 static tripoint random_house_in_city( const city_reference &cref )
 {
     const auto city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
-    const auto size = cref.city->s;
+    const auto size = cref.city->size;
     const int z = cref.abs_sm_pos.z;
     std::vector<tripoint> valid;
     int startx = city_center_omt.x - size;
@@ -165,7 +169,8 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
  * that fails, it will print a debug message.
  */
 static tripoint target_om_ter_random_or_create( const std::string &omter, int reveal_rad,
-        mission *miss, bool must_see, int range, const std::string &replace_omter )
+        mission *miss, bool must_see, int range, const std::string &om_spec,
+        const std::string &replace_omter )
 {
     tripoint site = target_om_ter_random( omter, reveal_rad, miss, must_see, range );
 
@@ -180,8 +185,8 @@ static tripoint target_om_ter_random_or_create( const std::string &omter, int re
             }
         }
         debugmsg( "Failed to find either an extant overmap tile of type %s, or an unvisited tile "
-                  "of type %s that could be replaced with one. (Search radius: %d)",
-                  omter, replace_omter, range );
+                  "of type %s that could be replaced with one as part of a %s. (Search radius: %d)",
+                  omter, replace_omter, om_spec, range );
     }
 
     return site;
@@ -201,7 +206,7 @@ void mission_start::infect_npc( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     if( p == nullptr ) {
-        debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
+        debugmsg( "couldn't find an NPC!" );
         return;
     }
     p->add_effect( effect_infection, 1_turns, num_bp, true, true );
@@ -217,7 +222,7 @@ void mission_start::need_drugs_npc( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     if( p == nullptr ) {
-        debugmsg( "mission_start::need_drugs_npc() couldn't find an NPC!" );
+        debugmsg( "couldn't find an NPC!" );
         return;
     }
     // make sure they don't have any item goal
@@ -237,7 +242,7 @@ void mission_start::place_dog( mission *miss )
         return;
     }
     g->u.i_add( item( "dog_whistle", 0 ) );
-    add_msg( _( "%s gave you a dog whistle." ), dev->name.c_str() );
+    add_msg( _( "%s gave you a dog whistle." ), dev->name );
 
     miss->target = house;
     overmap_buffer.reveal( house, 6 );
@@ -326,7 +331,8 @@ void mission_start::place_caravan_ambush( mission *miss )
 
 void mission_start::place_bandit_cabin( mission *miss )
 {
-    tripoint site = target_om_ter_random_or_create( "bandit_cabin", 1, miss, false, 50, "forest" );
+    tripoint site = target_om_ter_random_or_create( "bandit_cabin", 1, miss, false, 50, "bandit_cabin",
+                    "forest" );
 
     tinymap cabin;
     cabin.load( site.x * 2, site.y * 2, site.z, false );
@@ -372,13 +378,14 @@ void mission_start::place_bandit_camp( mission *miss )
     g->u.i_add( item( "44magnum", calendar::turn ) );
     g->u.i_add( item( "holster", calendar::turn ) );
     g->u.i_add( item( "badge_marshal", calendar::turn ) );
-    add_msg( m_good, _( "%s has instated you as a marshal!" ), p->name.c_str() );
+    add_msg( m_good, _( "%s has instated you as a marshal!" ), p->name );
     // Ideally this would happen at the end of the mission
     // (you're told that they entered your image into the databases, etc)
     // but better to get it working.
     g->u.set_mutation( trait_id( "PROF_FED" ) );
 
-    tripoint site = target_om_ter_random_or_create( "bandit_camp_1", 1, miss, false, 50, "forest" );
+    tripoint site = target_om_ter_random_or_create( "bandit_camp_1", 1, miss, false, 50, "bandit_camp",
+                    "forest" );
 
     tinymap bay1;
     bay1.load( site.x * 2, site.y * 2, site.z, false );
@@ -488,7 +495,7 @@ void mission_start::place_npc_software( mission *miss )
         return;
     }
     g->u.i_add( item( "usb_drive", 0 ) );
-    add_msg( _( "%s gave you a USB drive." ), dev->name.c_str() );
+    add_msg( _( "%s gave you a USB drive." ), dev->name );
 
     std::string type = "house";
 
@@ -594,41 +601,6 @@ void mission_start::place_deposit_box( mission *miss )
     compmap.save();
 }
 
-void mission_start::reveal_lab_black_box( mission *miss )
-{
-    npc *dev = g->find_npc( miss->npc_id );
-    if( dev != nullptr ) {
-        g->u.i_add( item( "black_box", 0 ) );
-        add_msg( _( "%s gave you back the black box." ), dev->name.c_str() );
-    }
-    target_om_ter( "lab", 3, miss, false );
-}
-
-void mission_start::open_sarcophagus( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    if( p != nullptr ) {
-        p->set_attitude( NPCATT_FOLLOW );
-        g->u.i_add( item( "sarcophagus_access_code", 0 ) );
-        add_msg( m_good, _( "%s gave you sarcophagus access code." ), p->name.c_str() );
-    } else {
-        DebugLog( D_ERROR, DC_ALL ) << "mission_start: open_sarcophagus() <= Can't find NPC";
-    }
-    target_om_ter( "haz_sar", 3, miss, false );
-}
-
-void mission_start::reveal_hospital( mission *miss )
-{
-    npc *dev = g->find_npc( miss->npc_id );
-    if( dev != nullptr ) {
-        g->u.i_add( item( "vacutainer", 0 ) );
-        add_msg( _( "%s gave you a blood draw kit." ), dev->name.c_str() );
-        g->u.i_add( item( "usb_drive", 0 ) );
-        add_msg( _( "%s gave you a USB drive." ), dev->name.c_str() );
-    }
-    target_om_ter( "hospital_2", 3, miss, false );
-}
-
 void mission_start::find_safety( mission *miss )
 {
     const tripoint place = g->u.global_omt_location();
@@ -679,16 +651,6 @@ void mission_start::find_safety( mission *miss )
     }
 }
 
-void mission_start::point_prison( mission *miss )
-{
-    target_om_ter( "prison_1_5", 3, miss, false );
-}
-
-void mission_start::point_cabin_strange( mission *miss )
-{
-    target_om_ter( "cabin_strange", 3, miss, false );
-}
-
 void mission_start::recruit_tracker( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
@@ -709,12 +671,6 @@ void mission_start::recruit_tracker( mission *miss )
     temp->op_of_u.owed = 10;
     temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ),
                            temp->getID() ) );
-}
-
-void mission_start::radio_repeater( mission *miss )
-{
-    target_om_ter( "necropolis_c_23", 3, miss, false, -2 );
-    g->u.i_add( item( "repeater_mod_guide", calendar::turn ) );
 }
 
 void mission_start::start_commune( mission *miss )
@@ -1737,7 +1693,7 @@ void reveal_route( mission *miss, const tripoint destination )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
     if( p == nullptr ) {
-        debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
+        debugmsg( "couldn't find an NPC!" );
         return;
     }
 
@@ -1747,8 +1703,7 @@ void reveal_route( mission *miss, const tripoint destination )
     const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it..." ),
-                 p->name.c_str() );
+        add_msg( _( "%s also marks the road that leads to it..." ), p->name );
     }
 }
 
@@ -1756,15 +1711,14 @@ void reveal_target( mission *miss, const std::string &omter_id )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
     if( p == nullptr ) {
-        debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
+        debugmsg( "couldn't find an NPC!" );
         return;
     }
 
     const tripoint destination = reveal_destination( omter_id );
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
-        add_msg( _( "%s has marked the only %s known to them on your map." ),
-                 p->name.c_str(), oter->get_name().c_str() );
+        add_msg( _( "%s has marked the only %s known to them on your map." ), p->name, oter->get_name() );
         miss->set_target( destination );
         if( one_in( 3 ) ) {
             reveal_route( miss, destination );
@@ -1777,30 +1731,23 @@ void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids
     reveal_target( miss, random_entry( omter_ids ) );
 }
 
-void mission_start::reveal_weather_station( mission *miss )
-{
-    reveal_target( miss, "station_radio" );
-}
-
-void mission_start::reveal_office_tower( mission *miss )
-{
-    reveal_target( miss, "office_tower_1" );
-}
-
-void mission_start::reveal_doctors_office( mission *miss )
-{
-    reveal_any_target( miss, { "office_doctor", "hospital_2" } );
-}
-
-void mission_start::reveal_cathedral( mission *miss )
-{
-    reveal_any_target( miss, { "cathedral_1", "museum" } );
-}
-
 void mission_start::reveal_refugee_center( mission *miss )
 {
+    const overmap_special_id os_evac_center( "evac_center" );
     const tripoint your_pos = g->u.global_omt_location();
-    const tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", 0, false );
+
+    // Try and find the special.
+    tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", OMAPX * 5, false,
+                          false, true, os_evac_center );
+
+    // We couldn't find the special, so let's try and place it.
+    if( center_pos == overmap::invalid_tripoint ) {
+        const bool placed = overmap_buffer.place_special( os_evac_center, your_pos, OMAPX * 5 );
+        if( placed ) {
+            center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", OMAPX * 5, false,
+                         false, true, os_evac_center );
+        }
+    }
 
     if( center_pos == overmap::invalid_tripoint ) {
         add_msg( _( "You don't know where the address could be..." ) );
@@ -1930,3 +1877,143 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     const tripoint target = target_closest_lab_entrance( place, 2, miss );
     reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
+
+void mission_start_t::set_reveal( const std::string &terrain )
+{
+    const auto start_func = [ terrain ]( mission * miss ) {
+        reveal_target( miss, terrain );
+    };
+    start_funcs.push_back( start_func );
+}
+
+void mission_start_t::set_reveal_any( JsonArray &ja )
+{
+    std::vector<std::string> terrains;
+    while( ja.has_more() ) {
+        std::string terrain = ja.next_string();
+        terrains.push_back( terrain );
+    }
+    const auto start_func = [ terrains ]( mission * miss ) {
+        reveal_any_target( miss, terrains );
+    };
+    start_funcs.push_back( start_func );
+}
+
+
+void mission_start_t::set_target_om( JsonObject &jo, bool random = false )
+{
+    int reveal_rad = 1;
+    bool must_see = false;
+    int target_z = 0;
+    int range = 5;
+    if( !jo.has_string( "om_ter" ) ) {
+        return;
+    }
+    std::string omter = jo.get_string( "om_ter" );
+    if( jo.has_int( "reveal_rad" ) ) {
+        reveal_rad = std::max( 1, jo.get_int( "reveal_rad" ) );
+    }
+    if( jo.has_bool( "must_see" ) ) {
+        must_see = jo.get_bool( "must_see" );
+    }
+    if( jo.has_int( "zlevel" ) ) {
+        target_z = jo.get_int( "zlevel" );
+    }
+    if( jo.has_int( "range" ) ) {
+        range = jo.get_int( "range" );
+    }
+    if( random ) {
+        const auto start_func = [ omter, reveal_rad, must_see, range ]( mission * miss ) {
+            target_om_ter_random( omter, reveal_rad, miss, must_see, range );
+        };
+        start_funcs.push_back( start_func );
+    } else {
+        const auto start_func = [ omter, reveal_rad, must_see, target_z ]( mission * miss ) {
+            target_om_ter( omter, reveal_rad, miss, must_see, target_z );
+        };
+        start_funcs.push_back( start_func );
+    }
+}
+
+void mission_start_t::set_target_om_or_create( JsonObject &jo )
+{
+    int reveal_rad = 1;
+    bool must_see = false;
+    int range = 5;
+    if( !( jo.has_string( "om_ter" ) && jo.has_string( "om_spec" ) &&
+           jo.has_string( "om_replace_ter" ) ) ) {
+        return;
+    }
+    std::string omter = jo.get_string( "om_ter" );
+    std::string om_spec = jo.get_string( "om_spec" );
+    std::string om_replace_ter = jo.get_string( "om_replace_ter" );
+    if( jo.has_int( "reveal_rad" ) ) {
+        reveal_rad = std::max( 1, jo.get_int( "reveal_rad" ) );
+    }
+    if( jo.has_bool( "must_see" ) ) {
+        must_see = jo.get_bool( "must_see" );
+    }
+    if( jo.has_int( "range" ) ) {
+        range = jo.get_int( "range" );
+    }
+    const auto start_func = [ omter, reveal_rad, must_see, range, om_spec,
+           om_replace_ter ]( mission * miss ) {
+        target_om_ter_random_or_create( omter, reveal_rad, miss, must_see, range,
+                                        om_spec, om_replace_ter );
+    };
+    start_funcs.push_back( start_func );
+}
+
+void mission_start_t::load( JsonObject &jo )
+{
+    if( jo.has_string( "reveal_om_ter" ) ) {
+        const std::string target_terrain = jo.get_string( "reveal_om_ter" );
+        set_reveal( target_terrain );
+    } else if( jo.has_array( "reveal_om_ter" ) ) {
+        JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
+        set_reveal_any( target_terrain );
+    } else if( jo.has_object( "target_om_ter" ) ) {
+        JsonObject target_terrain = jo.get_object( "target_om_ter" );
+        set_target_om( target_terrain );
+    } else if( jo.has_object( "target_om_ter_random" ) ) {
+        JsonObject target_terrain = jo.get_object( "target_om_ter_random" );
+        set_target_om( target_terrain, true );
+    } else if( jo.has_object( "target_om_ter_random_create" ) ) {
+        JsonObject target_terrain = jo.get_object( "target_om_ter_random_create" );
+        set_target_om_or_create( target_terrain );
+    }
+}
+
+void mission_start_t::apply( mission *miss ) const
+{
+    for( auto &start_func : start_funcs ) {
+        start_func( miss );
+    }
+}
+
+void mission_type::parse_start( JsonObject &jo )
+{
+    /* this is a kind of gross hijack of the dialogue responses effect system, but I don't want to
+     * write that code in two places so here it goes.
+     */
+    talk_effect_t talk_effects;
+    talk_effects.load_effect( jo );
+    mission_start_t mission_start_fun;
+    mission_start_fun.load( jo );
+    // BevapDin will probably tell me how to do this is a less baroque way, but in the meantime,
+    // I have no better idea on how satisfy the compiler.
+    start = [ mission_start_fun, talk_effects ]( mission * miss ) {
+        ::dialogue d;
+        d.beta = g->find_npc( miss->get_npc_id() );
+        if( d.beta == nullptr ) {
+            debugmsg( "couldn't find an NPC!" );
+            return;
+        }
+        d.alpha = &g->u;
+        for( const talk_effect_fun_t &effect : talk_effects.effects ) {
+            effect( d );
+        }
+        mission_start_fun.apply( miss );
+    };
+}
+
