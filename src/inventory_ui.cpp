@@ -1874,7 +1874,10 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
 
 inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 {
-    return get_stats( to_use );
+    if( get_stats ) {
+        return get_stats( to_use );
+    }
+    return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
 }
 
 inventory_drop_selector::inventory_drop_selector( const player &p,
