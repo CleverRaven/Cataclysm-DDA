@@ -7895,7 +7895,7 @@ bool player::pick_style() // Style selection menu
         std::string entry_text = _( style.name.c_str() );
         if( selected ) {
             kmenu.selected = i + STYLE_OFFSET;
-            entry_text = get_tag_from_color( c_pink ) + entry_text + "</color>";
+            entry_text = colorize( entry_text, c_pink );
         }
         kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, _( style.description.c_str() ) );
     }
