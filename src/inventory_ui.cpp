@@ -1779,12 +1779,16 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     on_change( *entry );
 }
 
-inventory_iuse_selector::inventory_iuse_selector( const player &p,
-        const std::string &selector_title,
-        const inventory_selector_preset &preset
-                                                ) :
+inventory_iuse_selector::inventory_iuse_selector(
+    const player &p,
+    const std::string &selector_title,
+    const inventory_selector_preset &preset,
+    const GetStats &get_st
+) :
     inventory_multiselector( p, preset, selector_title ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ) {}
+    get_stats( get_st ),
+    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
+{}
 
 std::list<std::pair<int, int>> inventory_iuse_selector::execute()
 {
@@ -1870,8 +1874,7 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
 
 inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 {
-    /// @todo Calculate required water and cleansing product
-    return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
+    return get_stats( to_use );
 }
 
 inventory_drop_selector::inventory_drop_selector( const player &p,

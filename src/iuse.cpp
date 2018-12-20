@@ -7652,12 +7652,32 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
     }
 
     p->inv.restack( *p );
+    const inventory &crafting_inv = p->crafting_inventory();
+    long available_water = std::max( crafting_inv.charges_of( "water" ),
+                                     crafting_inv.charges_of( "clean_water" ) );
+    long available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
+                                        crafting_inv.charges_of( "detergent" ) );
 
     const inventory_filter_preset preset( []( const item_location & location ) {
         return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
     } );
+    auto make_raw_stats = [available_water, available_cleanser](
+                              const std::map<const item *, int> &items
+    ) {
+        units::volume total_volume = 0;
+        for( const auto &p : items ) {
+            total_volume += p.first->volume() * p.second;
+        }
+        washing_requirements required = washing_requirements_for_volume( total_volume );
+        std::string( *to_string )( int ) = std::to_string;
+        using stats = inventory_selector::stats;
+        return stats{{
+                display_stat( _( "Water" ), required.water, available_water, to_string ),
+                display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
+            }};
+    };
     // TODO: this should also search surrounding area, not just player inventory.
-    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset );
+    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
     inv_s.add_character_items( *p );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
@@ -7683,7 +7703,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
-    const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", required.water ) &&
         !crafting_inv.has_charges( "water_clean", required.water ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
