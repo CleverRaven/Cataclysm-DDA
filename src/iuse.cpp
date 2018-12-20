@@ -7655,6 +7655,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
     const inventory &crafting_inv = p->crafting_inventory();
     long available_water = std::max( crafting_inv.charges_of( "water" ),
                                      crafting_inv.charges_of( "clean_water" ) );
+    available_water = std::min<long>( available_water, INT_MAX );
     long available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                         crafting_inv.charges_of( "detergent" ) );
 
@@ -7669,7 +7670,13 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
             total_volume += p.first->volume() * p.second;
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
-        std::string( *to_string )( int ) = std::to_string;
+        auto to_string = []( int val ) -> std::string {
+            if( val == INT_MAX )
+            {
+                return "inf";
+            }
+            return string_format( "%3d", val );
+        };
         using stats = inventory_selector::stats;
         return stats{{
                 display_stat( _( "Water" ), required.water, available_water, to_string ),
