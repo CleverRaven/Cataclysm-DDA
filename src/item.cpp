@@ -3046,33 +3046,7 @@ units::mass item::weight( bool include_contents ) const
         ret *= charges;
 
     } else if( is_corpse() ) {
-        switch( corpse->size ) {
-            case MS_TINY:
-                ret =   1000_gram;
-                break;
-            case MS_SMALL:
-                ret =  40750_gram;
-                break;
-            case MS_MEDIUM:
-                ret =  81500_gram;
-                break;
-            case MS_LARGE:
-                ret = 120000_gram;
-                break;
-            case MS_HUGE:
-                ret = 200000_gram;
-                break;
-        }
-        if( made_of( material_id( "veggy" ) ) ) {
-            ret /= 3;
-        }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) ||
-            made_of( material_id( "bone" ) ) ) {
-            ret /= 8;
-        } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ||
-                   made_of( material_id( "stone" ) ) ) {
-            ret *= 7;
-        }
+        ret = corpse->weight;
         if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
             ret *= 0.75;
         }
@@ -3113,36 +3087,19 @@ units::mass item::weight( bool include_contents ) const
     return ret;
 }
 
-units::volume item::corpse_volume( m_size corpse_size ) const
+units::volume item::corpse_volume( const mtype *corpse ) const
 {
-    if( !has_flag( "QUARTERED" ) ) {
-        switch( corpse_size ) {
-            case MS_TINY:
-                return    750_ml;
-            case MS_SMALL:
-                return  30000_ml;
-            case MS_MEDIUM:
-                return  62500_ml;
-            case MS_LARGE:
-                return  92500_ml;
-            case MS_HUGE:
-                return 875000_ml;
-        }
-    } else {
-        switch( corpse_size ) {
-            case MS_TINY:
-                return    750_ml; // no quartering
-            case MS_SMALL:
-                return   7500_ml;
-            case MS_MEDIUM:
-                return  15625_ml;
-            case MS_LARGE:
-                return  23125_ml;
-            case MS_HUGE:
-                return 218750_ml;
-        }
+    units::volume corpse_volume = corpse->volume;
+    if( has_flag( "QUARTERED" ) ) {
+        corpse_volume /= 4;
     }
-    debugmsg( "unknown monster size for corpse" );
+    if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
+        corpse_volume *= 0.75;
+    }
+    if( corpse_volume > 0 ) {
+        return corpse_volume;
+    }
+    debugmsg( "invalid monster volume for corpse" );
     return 0;
 }
 
@@ -3151,9 +3108,8 @@ units::volume item::base_volume() const
     if( is_null() ) {
         return 0;
     }
-
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return corpse_volume( corpse );
     }
 
     if( count_by_charges() ) {
@@ -3174,7 +3130,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return corpse_volume( corpse );
     }
 
     const int local_volume = get_var( "volume", -1 );
