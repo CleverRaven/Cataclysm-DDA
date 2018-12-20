@@ -192,6 +192,93 @@ static tripoint target_om_ter_random_or_create( const std::string &omter, int re
     return site;
 }
 
+struct mission_target_params {
+    std::string overmap_terrain_subtype;
+    mission *mission_pointer;
+
+    cata::optional<tripoint> search_origin;
+    cata::optional<std::string> replaceable_overmap_terrain_subtype;
+    cata::optional<overmap_special_id> overmap_special;
+    cata::optional<int> reveal_radius;
+
+    bool must_see = false;
+    bool random = false;
+    bool create_if_necessary = true;
+    int search_range = OMAPX;
+};
+
+static cata::optional<tripoint> assign_mission_target( const mission_target_params &params )
+{
+    // If a search origin is provided, then use that. Otherwise, use the player's current
+    // location.
+    const tripoint origin_pos = params.search_origin ? *params.search_origin :
+                                g->u.global_omt_location();
+
+    tripoint target_pos = overmap::invalid_tripoint;
+
+    // Either find a random or closest match, based on the criteria.
+    if( params.random ) {
+        target_pos = overmap_buffer.find_random( origin_pos, params.overmap_terrain_subtype,
+                     params.search_range, params.must_see, false, true, params.overmap_special );
+    } else {
+        target_pos = overmap_buffer.find_closest( origin_pos, params.overmap_terrain_subtype,
+                     params.search_range, params.must_see, false, true, params.overmap_special );
+    }
+
+    // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
+    // have to see the location beforehand, then we can attempt to create the new terrain.
+    if( target_pos == overmap::invalid_tripoint && params.create_if_necessary && !params.must_see ) {
+        // If this terrain is part of an overmap special...
+        if( params.overmap_special ) {
+            // ...then attempt to place the whole special.
+            const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
+                                params.search_range );
+            // If we succeeded in placing the special, then try and find the particular location
+            // we're interested in.
+            if( placed ) {
+                target_pos = overmap_buffer.find_closest( origin_pos, params.overmap_terrain_subtype,
+                             params.search_range, false, false, true, params.overmap_special );
+            }
+        } else if( params.replaceable_overmap_terrain_subtype ) {
+            // This terrain wasn't part of an overmap special, but we do have a replacement
+            // terrain specified. Find a random location of that replacement type.
+            target_pos = overmap_buffer.find_random( origin_pos,
+                         *params.replaceable_overmap_terrain_subtype,
+                         params.search_range, false, false, true );
+
+            // We didn't find it, so allow this search to create new overmaps and try again.
+            if( target_pos == overmap::invalid_tripoint ) {
+                target_pos = overmap_buffer.find_random( origin_pos,
+                             *params.replaceable_overmap_terrain_subtype,
+                             params.search_range, false, false, false );
+            }
+
+            // We found a match, so set this position (which was our replacement terrain)
+            // to our desired mission terrain.
+            if( target_pos != overmap::invalid_tripoint ) {
+                overmap_buffer.ter( target_pos ) = oter_id( params.overmap_terrain_subtype );
+            }
+        }
+    }
+
+    // If we got here and this is still invalid, it means that we couldn't find it and (if
+    // allowed by the parameters) we couldn't create it either.
+    if( target_pos == overmap::invalid_tripoint ) {
+        debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain_subtype);
+        return cata::nullopt;
+    }
+
+    // If we specified a reveal radius, then go ahead and reveal around our found position.
+    if( params.reveal_radius ) {
+        overmap_buffer.reveal( target_pos, *params.reveal_radius );
+    }
+
+    // Set the mission target to our found position.
+    params.mission_pointer->set_target( target_pos );
+
+    return target_pos;
+}
+
 void mission_start::standard( mission * )
 {
 }
