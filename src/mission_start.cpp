@@ -161,37 +161,6 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
     return place;
 }
 
-/**
- * Wraps target_om_ter_random() and takes an extra argument specifying the
- * type of tile it is permitted to replace. If it doesn't find an extant tile
- * of the specified type (e.g. bandit_camp_1) it will find a random unexplored
- * tile of the fallback type and replace it with the original type. If even
- * that fails, it will print a debug message.
- */
-static tripoint target_om_ter_random_or_create( const std::string &omter, int reveal_rad,
-        mission *miss, bool must_see, int range, const std::string &om_spec,
-        const std::string &replace_omter )
-{
-    tripoint site = target_om_ter_random( omter, reveal_rad, miss, must_see, range );
-
-    // If no suitable site is found nearby, make one in an unvisited tile of type `replace_omter`
-    if( site == g->u.global_omt_location() ) {
-        for( int tries = 10 * range; tries > 0; --tries ) {
-            site = target_om_ter_random( replace_omter, 1, miss, false, range );
-            if( !overmap_buffer.is_explored( site.x, site.y, site.z ) ) {
-                overmap_buffer.ter( site ) = oter_id( omter );
-                miss->set_target( site );
-                return site;
-            }
-        }
-        debugmsg( "Failed to find either an extant overmap tile of type %s, or an unvisited tile "
-                  "of type %s that could be replaced with one as part of a %s. (Search radius: %d)",
-                  omter, replace_omter, om_spec, range );
-    }
-
-    return site;
-}
-
 struct mission_target_params {
     std::string overmap_terrain_subtype;
     mission *mission_pointer;
@@ -418,9 +387,22 @@ void mission_start::place_caravan_ambush( mission *miss )
 
 void mission_start::place_bandit_cabin( mission *miss )
 {
-    tripoint site = target_om_ter_random_or_create( "bandit_cabin", 1, miss, false, 50, "bandit_cabin",
-                    "forest" );
+    mission_target_params t;
+    t.overmap_terrain_subtype = "bandit_cabin";
+    t.overmap_special = overmap_special_id( "bandit_cabin" );
+    t.mission_pointer = miss;
+    t.search_range = 50;
+    t.reveal_radius = 1;
 
+    const cata::optional<tripoint> target_pos = assign_mission_target( t );
+
+    if( !target_pos ) {
+        debugmsg( "Unable to find and assign mission target %s. Mission will fail.",
+                  t.overmap_terrain_subtype );
+        return;
+    }
+
+    const tripoint site = *target_pos;
     tinymap cabin;
     cabin.load( site.x * 2, site.y * 2, site.z, false );
     cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
@@ -460,6 +442,28 @@ void mission_start::place_grabber( mission *miss )
 
 void mission_start::place_bandit_camp( mission *miss )
 {
+    mission_target_params t;
+    t.overmap_terrain_subtype = "bandit_camp_1";
+    t.overmap_special = overmap_special_id( "bandit_camp" );
+    t.mission_pointer = miss;
+    t.search_range = 50;
+    t.reveal_radius = 1;
+
+    const cata::optional<tripoint> target_pos = assign_mission_target( t );
+
+    if( !target_pos ) {
+        debugmsg( "Unable to find and assign mission target %s. Mission will fail.",
+                  t.overmap_terrain_subtype );
+        return;
+    }
+
+    const tripoint site = *target_pos;
+
+    tinymap bay1;
+    bay1.load( site.x * 2, site.y * 2, site.z, false );
+    miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, string_id<npc_template>( "bandit" ) );
+    bay1.save();
+
     npc *p = g->find_npc( miss->npc_id );
     g->u.i_add( item( "ruger_redhawk", calendar::turn ) );
     g->u.i_add( item( "44magnum", calendar::turn ) );
@@ -470,14 +474,6 @@ void mission_start::place_bandit_camp( mission *miss )
     // (you're told that they entered your image into the databases, etc)
     // but better to get it working.
     g->u.set_mutation( trait_id( "PROF_FED" ) );
-
-    tripoint site = target_om_ter_random_or_create( "bandit_camp_1", 1, miss, false, 50, "bandit_camp",
-                    "forest" );
-
-    tinymap bay1;
-    bay1.load( site.x * 2, site.y * 2, site.z, false );
-    miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, string_id<npc_template>( "bandit" ) );
-    bay1.save();
 }
 
 void mission_start::place_jabberwock( mission *miss )
