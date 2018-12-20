@@ -1532,10 +1532,10 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
                  const item &it,
                  std::array<layer_level, num_bp>& highest_layer_so_far,
-                 bool power_armor )
+                 bool power_armor, const Character &c )
 {
     const auto item_layer = it.get_layer();
-    int encumber_val = it.get_encumber();
+    int encumber_val = it.get_encumber( c );
     // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
     int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
 
@@ -1644,13 +1644,13 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
         if( w_it == new_item_position ) {
-            layer_item( vals, new_item, highest_layer_so_far, power_armored );
+            layer_item( vals, new_item, highest_layer_so_far, power_armored, *this );
         }
-        layer_item( vals, *w_it, highest_layer_so_far, power_armored );
+        layer_item( vals, *w_it, highest_layer_so_far, power_armored, *this );
     }
 
     if( worn.end() == new_item_position && !new_item.is_null() ) {
-        layer_item( vals, new_item, highest_layer_so_far, power_armored );
+        layer_item( vals, new_item, highest_layer_so_far, power_armored, *this );
     }
 
     // make sure values are sane
