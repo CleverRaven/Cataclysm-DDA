@@ -20,7 +20,7 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "diesel",
-    "fuel_options": [ "diesel", "chem_ethanol", "denat_alcohol", "lamp_oil" ],
+    "fuel_options": [ "diesel", "chem_ethanol", "chem_methanol", "denat_alcohol", "lamp_oil" ],
     "cold_affects_start": true,
     "m2c": 65,
     "//": "40% energy efficiency",

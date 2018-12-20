@@ -1681,7 +1681,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         insert_separation_line();
 
         if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
-            int encumbrance = get_encumber();
+            int encumbrance = get_encumber( g->u );
             std::string format;
             if( has_flag( "FIT" ) ) {
                 format = _( "<num> <info>(fits)</info>" );
@@ -1692,7 +1692,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                       encumbrance ) );
             if( !type->rigid ) {
-                const auto encumbrance_when_full = get_encumber_when_containing( get_total_capacity() );
+                const auto encumbrance_when_full =
+                    get_encumber_when_containing( g->u, get_total_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
                                           iteminfo::no_newline | iteminfo::lower_is_better,
                                           encumbrance_when_full ) );
@@ -2134,7 +2135,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>can be refitted</info>." ) ) );
             }
-            if( little && get_encumber() ) {
+            if( little && get_encumber( g->u ) ) {
                 if( !has_flag( "UNDERSIZE" ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "* These clothes are <bad>too large</bad> but <info>can be undersized</info>." ) ) );
@@ -2846,7 +2847,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                        g->u.has_trait( trait_id( "SMALL_OK" ) );
     const bool fits = has_flag( "FIT" );
     const bool undersize = has_flag( "UNDERSIZE" );
-    if( get_encumber() ) {
+    if( get_encumber( g->u ) ) {
         if( small && !undersize ) {
             ret << _( " (oversize)" );
         } else if( !small && undersize ) {
@@ -3045,33 +3046,7 @@ units::mass item::weight( bool include_contents ) const
         ret *= charges;
 
     } else if( is_corpse() ) {
-        switch( corpse->size ) {
-            case MS_TINY:
-                ret =   1000_gram;
-                break;
-            case MS_SMALL:
-                ret =  40750_gram;
-                break;
-            case MS_MEDIUM:
-                ret =  81500_gram;
-                break;
-            case MS_LARGE:
-                ret = 120000_gram;
-                break;
-            case MS_HUGE:
-                ret = 200000_gram;
-                break;
-        }
-        if( made_of( material_id( "veggy" ) ) ) {
-            ret /= 3;
-        }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) ||
-            made_of( material_id( "bone" ) ) ) {
-            ret /= 8;
-        } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ||
-                   made_of( material_id( "stone" ) ) ) {
-            ret *= 7;
-        }
+        ret = corpse->weight;
         if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
             ret *= 0.75;
         }
@@ -3112,36 +3087,19 @@ units::mass item::weight( bool include_contents ) const
     return ret;
 }
 
-units::volume item::corpse_volume( m_size corpse_size ) const
+units::volume item::corpse_volume( const mtype *corpse ) const
 {
-    if( !has_flag( "QUARTERED" ) ) {
-        switch( corpse_size ) {
-            case MS_TINY:
-                return    750_ml;
-            case MS_SMALL:
-                return  30000_ml;
-            case MS_MEDIUM:
-                return  62500_ml;
-            case MS_LARGE:
-                return  92500_ml;
-            case MS_HUGE:
-                return 875000_ml;
-        }
-    } else {
-        switch( corpse_size ) {
-            case MS_TINY:
-                return    750_ml; // no quartering
-            case MS_SMALL:
-                return   7500_ml;
-            case MS_MEDIUM:
-                return  15625_ml;
-            case MS_LARGE:
-                return  23125_ml;
-            case MS_HUGE:
-                return 218750_ml;
-        }
+    units::volume corpse_volume = corpse->volume;
+    if( has_flag( "QUARTERED" ) ) {
+        corpse_volume /= 4;
     }
-    debugmsg( "unknown monster size for corpse" );
+    if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
+        corpse_volume *= 0.75;
+    }
+    if( corpse_volume > 0 ) {
+        return corpse_volume;
+    }
+    debugmsg( "invalid monster volume for corpse" );
     return 0;
 }
 
@@ -3150,9 +3108,8 @@ units::volume item::base_volume() const
     if( is_null() ) {
         return 0;
     }
-
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return corpse_volume( corpse );
     }
 
     if( count_by_charges() ) {
@@ -3173,7 +3130,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return corpse_volume( corpse );
     }
 
     const int local_volume = get_var( "volume", -1 );
@@ -3634,16 +3591,17 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber() const
+int item::get_encumber( const Character &p ) const
 {
     units::volume contents_volume( 0 );
     for( const auto &e : contents ) {
         contents_volume += e.volume();
     }
-    return get_encumber_when_containing( contents_volume );
+    return get_encumber_when_containing( p, contents_volume );
 }
 
-int item::get_encumber_when_containing( const units::volume &contents_volume ) const
+int item::get_encumber_when_containing(
+    const Character &p, const units::volume &contents_volume ) const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
@@ -3662,8 +3620,8 @@ int item::get_encumber_when_containing( const units::volume &contents_volume ) c
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
-    const bool tiniest = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                         g->u.has_trait( trait_id( "SMALL_OK" ) );
+    const bool tiniest = p.has_trait( trait_id( "SMALL2" ) ) ||
+                         p.has_trait( trait_id( "SMALL_OK" ) );
     if( !has_flag( "UNDERSIZE" ) && tiniest ) {
         encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
     } else if( !tiniest && has_flag( "UNDERSIZE" ) ) {
