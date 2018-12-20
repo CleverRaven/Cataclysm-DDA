@@ -1969,67 +1969,43 @@ void mission_start_t::set_reveal_any( JsonArray &ja )
     start_funcs.push_back( start_func );
 }
 
-
-void mission_start_t::set_target_om( JsonObject &jo, bool random = false )
+void mission_start_t::set_assign_mission_target( JsonObject &jo )
 {
-    int reveal_rad = 1;
-    bool must_see = false;
-    int target_z = 0;
-    int range = 5;
-    if( !jo.has_string( "om_ter" ) ) {
-        return;
+    if( !jo.has_string( "om_terrain" ) ) {
+        jo.throw_error( "'om_terrain' is required for assign_mission_target" );
     }
-    std::string omter = jo.get_string( "om_ter" );
-    if( jo.has_int( "reveal_rad" ) ) {
-        reveal_rad = std::max( 1, jo.get_int( "reveal_rad" ) );
+    mission_target_params p;
+    p.overmap_terrain_subtype = jo.get_string( "om_terrain" );
+    if( jo.has_string( "om_terrain_replace" ) ) {
+        p.replaceable_overmap_terrain_subtype = jo.get_string( "om_terrain_replace" );
+    }
+    if( jo.has_string( "om_special" ) ) {
+        p.overmap_special = overmap_special_id( jo.get_string( "om_special" ) );
+    }
+    if( jo.has_int( "reveal_radius" ) ) {
+        p.reveal_radius = std::max( 1, jo.get_int( "reveal_radius" ) );
     }
     if( jo.has_bool( "must_see" ) ) {
-        must_see = jo.get_bool( "must_see" );
+        p.must_see = jo.get_bool( "must_see" );
     }
-    if( jo.has_int( "zlevel" ) ) {
-        target_z = jo.get_int( "zlevel" );
+    if( jo.has_bool( "random" ) ) {
+        p.random = jo.get_bool( "random" );
     }
-    if( jo.has_int( "range" ) ) {
-        range = jo.get_int( "range" );
+    if( jo.has_int( "search_range" ) ) {
+        p.search_range = std::max( 1, jo.get_int( "search_range" ) );
     }
-    if( random ) {
-        const auto start_func = [ omter, reveal_rad, must_see, range ]( mission * miss ) {
-            target_om_ter_random( omter, reveal_rad, miss, must_see, range );
-        };
-        start_funcs.push_back( start_func );
-    } else {
-        const auto start_func = [ omter, reveal_rad, must_see, target_z ]( mission * miss ) {
-            target_om_ter( omter, reveal_rad, miss, must_see, target_z );
-        };
-        start_funcs.push_back( start_func );
+    cata::optional<int> z;
+    if( jo.has_int( "z" ) ) {
+        z = jo.get_int( "z" );
     }
-}
-
-void mission_start_t::set_target_om_or_create( JsonObject &jo )
-{
-    int reveal_rad = 1;
-    bool must_see = false;
-    int range = 5;
-    if( !( jo.has_string( "om_ter" ) && jo.has_string( "om_spec" ) &&
-           jo.has_string( "om_replace_ter" ) ) ) {
-        return;
-    }
-    std::string omter = jo.get_string( "om_ter" );
-    std::string om_spec = jo.get_string( "om_spec" );
-    std::string om_replace_ter = jo.get_string( "om_replace_ter" );
-    if( jo.has_int( "reveal_rad" ) ) {
-        reveal_rad = std::max( 1, jo.get_int( "reveal_rad" ) );
-    }
-    if( jo.has_bool( "must_see" ) ) {
-        must_see = jo.get_bool( "must_see" );
-    }
-    if( jo.has_int( "range" ) ) {
-        range = jo.get_int( "range" );
-    }
-    const auto start_func = [ omter, reveal_rad, must_see, range, om_spec,
-           om_replace_ter ]( mission * miss ) {
-        target_om_ter_random_or_create( omter, reveal_rad, miss, must_see, range,
-                                        om_spec, om_replace_ter );
+    const auto start_func = [p, z]( mission * miss ) {
+        mission_target_params mtp = p;
+        mtp.mission_pointer = miss;
+        if( z ) {
+            const tripoint loc = g->u.global_omt_location();
+            mtp.search_origin = tripoint( loc.x, loc.y, *z );
+        }
+        assign_mission_target( mtp );
     };
     start_funcs.push_back( start_func );
 }
@@ -2042,15 +2018,9 @@ void mission_start_t::load( JsonObject &jo )
     } else if( jo.has_array( "reveal_om_ter" ) ) {
         JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
         set_reveal_any( target_terrain );
-    } else if( jo.has_object( "target_om_ter" ) ) {
-        JsonObject target_terrain = jo.get_object( "target_om_ter" );
-        set_target_om( target_terrain );
-    } else if( jo.has_object( "target_om_ter_random" ) ) {
-        JsonObject target_terrain = jo.get_object( "target_om_ter_random" );
-        set_target_om( target_terrain, true );
-    } else if( jo.has_object( "target_om_ter_random_create" ) ) {
-        JsonObject target_terrain = jo.get_object( "target_om_ter_random_create" );
-        set_target_om_or_create( target_terrain );
+    } else if( jo.has_object( "assign_mission_target" ) ) {
+        JsonObject mission_target = jo.get_object( "assign_mission_target" );
+        set_assign_mission_target( mission_target );
     }
 }
 
