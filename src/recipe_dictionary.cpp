@@ -320,7 +320,7 @@ void recipe_dictionary::finalize()
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.reversible && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
+        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
             recipe_dict.uncraft[ recipe_id( r.result() ) ] = r;
         }
     }
