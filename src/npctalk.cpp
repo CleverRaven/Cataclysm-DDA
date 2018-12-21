@@ -106,7 +106,7 @@ void bulk_trade_accept( npc &, const itype_id &it );
 
 const std::string &talk_trial::name() const
 {
-    static std::array<std::string, NUM_TALK_TRIALS> const texts = { {
+    static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
             "", _( "LIE" ), _( "PERSUADE" ), _( "INTIMIDATE" )
         }
     };
@@ -236,11 +236,37 @@ void game::chat()
     refresh_all();
 }
 
+void npc::handle_sound( int priority, const std::string &description, int heard_volume,
+                        const tripoint &spos )
+{
+    if( priority == 7 || sees( spos ) ) {
+        return;
+    }
+    add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
+             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
+    switch( priority ) {
+    case 6: // combat noise is only worth comment if we're not fighting
+        // TODO: Brave NPCs should be less jumpy
+        if( ai_cache.total_danger < 1.0f ) {
+            warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
+        }
+        break;
+    case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
+        if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
+            // replace with warn_about when that merges
+            warn_about( "footsteps", rng( 1, 10 ) * 1_minutes, description );
+        }
+        break;
+    default:
+        break;
+    };
+}
+
 void npc_chatbin::check_missions()
 {
     // TODO: or simply fail them? Some missions might only need to be reported.
     auto &ma = missions_assigned;
-    auto const last = std::remove_if( ma.begin(), ma.end(), []( class mission const * m ) {
+    const auto last = std::remove_if( ma.begin(), ma.end(), []( class mission const * m ) {
         return !m->is_assigned();
     } );
     std::copy( last, ma.end(), std::back_inserter( missions ) );
@@ -384,7 +410,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 {
     // For compatibility
     const auto &topic = the_topic.id;
-    auto const iter = json_talk_topics.find( topic );
+    const auto iter = json_talk_topics.find( topic );
     if( iter != json_talk_topics.end() ) {
         const std::string line = iter->second.get_dynamic_line( *this );
         if( !line.empty() ) {
@@ -793,7 +819,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     const auto p = beta; // for compatibility, later replace it in the code below
     auto &ret = responses; // for compatibility, later replace it in the code below
     ret.clear();
-    auto const iter = json_talk_topics.find( topic );
+    const auto iter = json_talk_topics.find( topic );
     if( iter != json_talk_topics.end() ) {
         json_talk_topic &jtt = iter->second;
         if( jtt.gen_responses( *this ) ) {
@@ -1339,8 +1365,8 @@ bool talk_trial::roll( dialogue &d ) const
     if( type == TALK_TRIAL_NONE || u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return true;
     }
-    int const chance = calc_chance( d );
-    bool const success = rng( 0, 99 ) < chance;
+    const int chance = calc_chance( d );
+    const bool success = rng( 0, 99 ) < chance;
     if( success ) {
         u.practice( skill_speech, ( 100 - chance ) / 10 );
     } else {
@@ -1602,7 +1628,7 @@ void dialogue::add_topic( const talk_topic &topic )
     topic_stack.push_back( topic );
 }
 
-talk_data talk_response::create_option_line( const dialogue &d, char const letter )
+talk_data talk_response::create_option_line( const dialogue &d, const char letter )
 {
     std::string ftext;
     if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
@@ -1708,7 +1734,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     d_win.add_history_separator();
 
     // Number of lines to highlight
-    size_t const hilight_lines = d_win.add_to_history( challenge );
+    const size_t hilight_lines = d_win.add_to_history( challenge );
     std::vector<talk_data> response_lines;
     for( size_t i = 0; i < responses.size(); i++ ) {
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
@@ -1784,7 +1810,7 @@ talk_trial::talk_trial( JsonObject jo )
 #undef WRAP
         }
     };
-    auto const iter = types_map.find( jo.get_string( "type", "NONE" ) );
+    const auto iter = types_map.find( jo.get_string( "type", "NONE" ) );
     if( iter == types_map.end() ) {
         jo.throw_error( "invalid talk trial type", "type" );
     }

@@ -544,7 +544,7 @@ mission::mission()
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint( INT_MIN, INT_MIN, INT_MIN );
+    target = tripoint_min;
     item_id = "null";
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();

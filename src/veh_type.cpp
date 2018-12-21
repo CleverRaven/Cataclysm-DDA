@@ -201,8 +201,8 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     vpart_info def;
 
     if( jo.has_string( "copy-from" ) ) {
-        auto const base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
-        auto const ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        const auto base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        const auto ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
         if( base != vpart_info_all.end() ) {
             def = base->second;
             def.looks_like = base->second.id.str();

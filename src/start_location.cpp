@@ -203,7 +203,7 @@ tripoint start_location::find_player_initial_location() const
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 32;
-    for( const point &omp : closest_points_first( radius, point( 0, 0 ) ) ) {
+    for( const point &omp : closest_points_first( radius, point_zero ) ) {
         overmap &omap = overmap_buffer.get( omp.x, omp.y );
         const tripoint omtstart = omap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {
