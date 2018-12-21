@@ -3336,19 +3336,21 @@
     "description": "A comfy place to hide from the world.",
     "color": "white",
     "move_cost_mod": 3,
+    "comfort": 4,
+    "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": {
-      "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 2 } ]
+      "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ]
     },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "REDUCE_SCENT", "EASY_DECONSTRUCT", "BASHABLE", "COMFORTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "REDUCE_SCENT", "EASY_DECONSTRUCT", "BASHABLE" ],
     "bash": {
       "str_min": 1,
       "str_max": 1,
       "sound": "paf!",
       "sound_fail": "poof.",
       "ter_set": "t_floor",
-      "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 2 } ]
+      "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ]
     }
   }
 ]
