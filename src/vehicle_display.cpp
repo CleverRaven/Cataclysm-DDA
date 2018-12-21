@@ -20,7 +20,6 @@
 #include <sstream>
 
 static const std::string part_location_structure( "structure" );
-static const itype_id fuel_type_muscle( "muscle" );
 
 const std::string vehicle::disp_name() const
 {
@@ -45,7 +44,7 @@ char vehicle::part_sym( const int p, const bool exact ) const
 
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
 // vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
-vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
+vpart_id vehicle::part_id_string( int const p, char &part_mod ) const
 {
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
@@ -322,15 +321,12 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     }
     if( !fullsize ) {
         for( size_t e = 0; e < engines.size(); e++ ) {
-            // if only one display, print the first engine that's on and consumes power
-            if( is_engine_on( e ) &&
-                !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
+            if( is_engine_on( e ) ) {
                 print_fuel_indicator( win, y, x, parts[ engines [ e ] ].fuel_current(), verbose,
                                       desc );
                 return;
             }
         }
-        // or print the first fuel if no engines
         print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
         return;
     }

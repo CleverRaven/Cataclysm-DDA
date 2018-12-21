@@ -84,10 +84,10 @@ int vehicle::slowdown( int at_velocity ) const
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name.c_str(), slowdown );
     }
     add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
-             name, at_velocity, f_total_drag, slowdown, static_drag() );
+             name, at_velocity, f_total_drag, slowdown, drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( falling || is_floating ) ) {
-        slowdown += static_drag();
+        slowdown += drag();
     }
 
     return slowdown;
@@ -97,9 +97,17 @@ void vehicle::thrust( int thd )
 {
     //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
-    if( !is_moving() ) {
+    if( velocity == 0 ) {
         turn_dir = face.dir();
         stop();
+    }
+
+    if( has_part( "STEREO", true ) ) {
+        play_music();
+    }
+
+    if( has_part( "CHIMES", true ) ) {
+        play_chimes();
     }
 
     bool pl_ctrl = player_in_control( g->u );
@@ -312,7 +320,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     if( dp.z == -1 && !bash_floor ) {
         // First check current level, then the one below if current had no collisions
         // Bash floors on the current one, but not on the one below.
-        if( collision( colls, tripoint_zero, just_detect, true ) ) {
+        if( collision( colls, tripoint( 0, 0, 0 ), just_detect, true ) ) {
             return true;
         }
     }
@@ -526,7 +534,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     k = std::max( 10.0f, std::min( 90.0f, k ) );
 
     bool smashed = true;
-    std::string snd = "Smash!"; // NOTE: Unused!
+    std::string snd; // NOTE: Unused!
     float dmg = 0.0f;
     float part_dmg = 0.0f;
     // Calculate Impulse of car
@@ -686,7 +694,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( part_flag( ret.part, "SHARP" ) ) {
                 critter->bleed();
             } else {
-                sounds::sound( p, 20, sounds::sound_t::combat, snd );
+                sounds::sound( p, 20, snd );
             }
         }
     } else {
@@ -702,7 +710,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        sounds::sound( p, smashed ? 80 : 50, sounds::sound_t::combat, snd );
+        sounds::sound( p, smashed ? 80 : 50, snd );
     }
 
     if( smashed && !vert_coll ) {
@@ -818,7 +826,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         }
     }
     if( noise > 0 ) {
-        sounds::sound( p, noise, sounds::sound_t::combat, snd );
+        sounds::sound( p, noise, snd );
     }
     if( part_damage && chance >= rng( 1, 100 ) ) {
         // Hit the wheel directly since it ran right over the trap.
@@ -889,7 +897,7 @@ void vehicle::pldrive( int x, int y )
     }
 
     if( y != 0 ) {
-        int thr_amount = 5 * 100;
+        int thr_amount = 10 * 100;
         if( cruise_on ) {
             cruise_thrust( -y * thr_amount );
         } else {
@@ -983,7 +991,7 @@ rl_vec2d vehicle::dir_vec() const
     return degree_to_vec( turn_dir );
 }
 
-float get_collision_factor( const float delta_v )
+float get_collision_factor( float const delta_v )
 {
     if( std::abs( delta_v ) <= 31 ) {
         return ( 1 - ( 0.9 * std::abs( delta_v ) ) / 31 );
@@ -1062,7 +1070,7 @@ bool vehicle::act_on_map()
             }
         }
     }
-    const float turn_cost = vehicles::vmiph_per_tile / std::max<float>( 0.0001f, abs( velocity ) );
+    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( velocity ) );
 
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though

@@ -125,7 +125,7 @@ input_context game::get_player_input( std::string &action )
         }
 
         //x% of the Viewport, only shown on visible areas
-        const auto weather_info = get_weather_animation( weather );
+        auto const weather_info = get_weather_animation( weather );
         int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
         int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
@@ -340,12 +340,11 @@ static void rcdrive( int dx, int dy )
     tripoint dest( cx + dx, cy + dy, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
-        sounds::sound( dest, 7, sounds::sound_t::combat,
-                       _( "sound of a collision with an obstacle." ) );
+        sounds::sound( dest, 7, _( "sound of a collision with an obstacle." ) );
         return;
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
         //~ Sound of moving a remote controlled car
-        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ) );
+        sounds::sound( src, 6, _( "zzz..." ) );
         u.moves -= 50;
         m.i_rem( src, rc_car );
         car_location_string.clear();
@@ -595,7 +594,7 @@ static void smash()
 
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, sounds::sound_t::combat, "hsh!" );
+        sounds::sound( smashp, 2, "" );
         add_msg( m_info, _( "You brush aside some webs." ) );
         u.moves -= 100;
         return;
@@ -628,7 +627,7 @@ static void smash()
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.pos(), elem );
             }
-            sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!" );
+            sounds::sound( u.pos(), 24, "" );
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
@@ -736,7 +735,7 @@ static void sleep()
         }
     }
     for( int i = 0; i < g->u.num_bionics(); i++ ) {
-        const bionic &bio = u.bionic_at_index( i );
+        bionic const &bio = u.bionic_at_index( i );
         if( !bio.powered ) {
             continue;
         }
@@ -747,7 +746,7 @@ static void sleep()
             continue;
         }
 
-        const auto &info = bio.info();
+        auto const &info = bio.info();
         if( info.power_over_time > 0 ) {
             active.push_back( info.name );
         }
@@ -1567,18 +1566,7 @@ bool game::handle_action()
 
             case ACTION_SELECT_FIRE_MODE:
                 if( u.is_armed() ) {
-                    if( u.weapon.is_gun() && !u.weapon.is_gunmod() && u.weapon.gun_all_modes().size() > 1 ) {
-                        u.weapon.gun_cycle_mode();
-                    } else if( u.weapon.has_flag( "RELOAD_ONE" ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
-                        item::reload_option opt = u.select_ammo( u.weapon, false );
-                        if( !opt ) {
-                            break;
-                        } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
-                            u.ammo_location = item_location();
-                        } else {
-                            u.ammo_location = opt.ammo.clone();
-                        }
-                    }
+                    u.weapon.gun_cycle_mode();
                 }
                 break;
 
