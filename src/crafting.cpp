@@ -709,6 +709,10 @@ void player::complete_craft()
             // which would either loose this information or merge it somehow.
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
+        } else if( newits.front().is_food() && !newits.front().has_flag( "NUTRIENT_OVERRIDE" ) ) {
+            // store components for food recipes
+            set_components( newit.components, used, batch_size, newit_counter );
+            newit_counter++;
         }
 
         if( newit.goes_bad() ) {
