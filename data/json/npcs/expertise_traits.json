@@ -1757,19 +1757,27 @@
     "subtype": "distribution",
     "traits": [
       { "group": "Exp_Biochemistry_Nofake" },
+      { "group": "Exp_Biochemistry_Nofake" },
       { "trait": "Exp_Biochemistry1fake2" },
+      { "group": "Exp_Botany_Nofake" },
       { "group": "Exp_Botany_Nofake" },
       { "trait": "Exp_Botany1fake2" },
       { "group": "Exp_Chemistry_Nofake" },
+      { "group": "Exp_Chemistry_Nofake" },
       { "trait": "Exp_Chemistry1fake2" },
+      { "group": "Exp_Entomology_Nofake" },
       { "group": "Exp_Entomology_Nofake" },
       { "trait": "Exp_Entomology1fake2" },
       { "group": "Exp_Geology_Nofake" },
+      { "group": "Exp_Geology_Nofake" },
       { "trait": "Exp_Geology1fake2" },
+      { "group": "Exp_Mycology_Nofake" },
       { "group": "Exp_Mycology_Nofake" },
       { "trait": "Exp_Mycology1fake2" },
       { "group": "Exp_Physics_Nofake" },
+      { "group": "Exp_Physics_Nofake" },
       { "trait": "Exp_Physics1fake2" },
+      { "group": "Exp_Biology_Nofake" }
       { "group": "Exp_Biology_Nofake" }
       { "trait": "Exp_Biology 1fake2" },
     ]
