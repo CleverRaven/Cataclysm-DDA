@@ -172,7 +172,8 @@
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     }
-  },{
+  },
+  {
     "type": "profession",
     "ident": "bionic_prepper",
     "name": "Bionic Prepper",
