@@ -54,8 +54,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Agriculture1" },
+      { "trait": "Exp_Agriculture1" },
       { "trait": "Exp_Agriculture0Fake1" },
       { "trait": "Exp_Agriculture2" },
+      { "trait": "Exp_Agriculture2" },
+      { "trait": "Exp_Agriculture1Fake2" },
       { "trait": "Exp_Agriculture1Fake2" },
       { "trait": "Exp_Agriculture0Fake2" }
     ]
@@ -66,6 +69,7 @@
     "id": "Exp_Agriculture_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Agriculture1" },
       { "trait": "Exp_Agriculture1" },
       { "trait": "Exp_Agriculture2" }
     ]
@@ -135,8 +139,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Biochemistry1" },
+      { "trait": "Exp_Biochemistry1" },
       { "trait": "Exp_Biochemistry0Fake1" },
       { "trait": "Exp_Biochemistry2" },
+      { "trait": "Exp_Biochemistry2" },
+      { "trait": "Exp_Biochemistry1Fake2" },
       { "trait": "Exp_Biochemistry1Fake2" },
       { "trait": "Exp_Biochemistry0Fake2" }
     ]
@@ -147,6 +154,7 @@
     "id": "Exp_Biochemistry_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Biochemistry1" },
       { "trait": "Exp_Biochemistry1" },
       { "trait": "Exp_Biochemistry2" }
     ]
@@ -159,6 +167,91 @@
     "traits": [
       { "group": "Exp_Biochemistry_Nofake" },
       { "group": "Exp_Biochemistry_Any" }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Biology1",
+    "name": "Biology Training",
+    "points": 0,
+    "description": "This survivor has some formal training in general biology, but not much experience.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Biology0Fake1",
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
+    "name": "Biology Training",
+    "points": 0,
+    "description": "This survivor has some formal training in general biology, but not much experience.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Biology2",
+    "name": "Biology Expert",
+    "points": 0,
+    "description": "This survivor has extensive experience in general biology, a PhD or equivalent.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Biology1Fake2",
+    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
+    "name": "Biology Expert",
+    "points": 0,
+    "description": "This survivor has extensive experience in general biology, a PhD or equivalent.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Biology0Fake2",
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
+    "name": "Biology Expert",
+    "points": 0,
+    "description": "This survivor has extensive experience in general biology, a PhD or equivalent.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
+    "type": "trait_group",
+    "id": "Exp_Biology_Any",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "Exp_Biology1" },
+      { "trait": "Exp_Biology1" },
+      { "trait": "Exp_Biology0Fake1" },
+      { "trait": "Exp_Biology2" },
+      { "trait": "Exp_Biology2" },
+      { "trait": "Exp_Biology1Fake2" },
+      { "trait": "Exp_Biology1Fake2" },
+      { "trait": "Exp_Biology0Fake2" }
+    ]
+  },
+  {
+    "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
+    "type": "trait_group",
+    "id": "Exp_Biology_Nofake",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "Exp_Biology1" },
+      { "trait": "Exp_Biology1" },
+      { "trait": "Exp_Biology2" }
+    ]
+  },
+  {
+    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "type": "trait_group",
+    "id": "Exp_Biology_Group",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "Exp_Biology_Nofake" },
+      { "group": "Exp_Biology_Any" }
     ]
   },
   {
@@ -216,8 +309,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Bookkeeping1" },
+      { "trait": "Exp_Bookkeeping1" },
       { "trait": "Exp_Bookkeeping0Fake1" },
       { "trait": "Exp_Bookkeeping2" },
+      { "trait": "Exp_Bookkeeping2" },
+      { "trait": "Exp_Bookkeeping1Fake2" },
       { "trait": "Exp_Bookkeeping1Fake2" },
       { "trait": "Exp_Bookkeeping0Fake2" }
     ]
@@ -228,6 +324,7 @@
     "id": "Exp_Bookkeeping_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Bookkeeping1" },
       { "trait": "Exp_Bookkeeping1" },
       { "trait": "Exp_Bookkeeping2" }
     ]
@@ -297,8 +394,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Botany1" },
+      { "trait": "Exp_Botany1" },
       { "trait": "Exp_Botany0Fake1" },
       { "trait": "Exp_Botany2" },
+      { "trait": "Exp_Botany2" },
+      { "trait": "Exp_Botany1Fake2" },
       { "trait": "Exp_Botany1Fake2" },
       { "trait": "Exp_Botany0Fake2" }
     ]
@@ -309,6 +409,7 @@
     "id": "Exp_Botany_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Botany1" },
       { "trait": "Exp_Botany1" },
       { "trait": "Exp_Botany2" }
     ]
@@ -379,8 +480,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Chemistry1" },
+      { "trait": "Exp_Chemistry1" },
       { "trait": "Exp_Chemistry0Fake1" },
       { "trait": "Exp_Chemistry2" },
+      { "trait": "Exp_Chemistry2" },
+      { "trait": "Exp_Chemistry1Fake2" },
       { "trait": "Exp_Chemistry1Fake2" },
       { "trait": "Exp_Chemistry0Fake2" }
     ]
@@ -391,6 +495,7 @@
     "id": "Exp_Chemistry_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Chemistry1" },
       { "trait": "Exp_Chemistry1" },
       { "trait": "Exp_Chemistry2" }
     ]
@@ -460,8 +565,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Culinary1" },
+      { "trait": "Exp_Culinary1" },
       { "trait": "Exp_Culinary0Fake1" },
       { "trait": "Exp_Culinary2" },
+      { "trait": "Exp_Culinary2" },
+      { "trait": "Exp_Culinary1Fake2" },
       { "trait": "Exp_Culinary1Fake2" },
       { "trait": "Exp_Culinary0Fake2" }
     ]
@@ -472,6 +580,7 @@
     "id": "Exp_Culinary_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Culinary1" },
       { "trait": "Exp_Culinary1" },
       { "trait": "Exp_Culinary2" }
     ]
@@ -541,8 +650,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Eng_Electrical1" },
+      { "trait": "Exp_Eng_Electrical1" },
       { "trait": "Exp_Eng_Electrical0Fake1" },
       { "trait": "Exp_Eng_Electrical2" },
+      { "trait": "Exp_Eng_Electrical2" },
+      { "trait": "Exp_Eng_Electrical1Fake2" },
       { "trait": "Exp_Eng_Electrical1Fake2" },
       { "trait": "Exp_Eng_Electrical0Fake2" }
     ]
@@ -553,6 +665,7 @@
     "id": "Exp_Eng_Electrical_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Eng_Electrical1" },
       { "trait": "Exp_Eng_Electrical1" },
       { "trait": "Exp_Eng_Electrical2" }
     ]
@@ -622,8 +735,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Eng_Mechanical1" },
+      { "trait": "Exp_Eng_Mechanical1" },
       { "trait": "Exp_Eng_Mechanical0Fake1" },
       { "trait": "Exp_Eng_Mechanical2" },
+      { "trait": "Exp_Eng_Mechanical2" },
+      { "trait": "Exp_Eng_Mechanical1Fake2" },
       { "trait": "Exp_Eng_Mechanical1Fake2" },
       { "trait": "Exp_Eng_Mechanical0Fake2" }
     ]
@@ -634,6 +750,7 @@
     "id": "Exp_Eng_Mechanical_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Eng_Mechanical1" },
       { "trait": "Exp_Eng_Mechanical1" },
       { "trait": "Exp_Eng_Mechanical2" }
     ]
@@ -703,8 +820,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Eng_Software1" },
+      { "trait": "Exp_Eng_Software1" },
       { "trait": "Exp_Eng_Software0Fake1" },
       { "trait": "Exp_Eng_Software2" },
+      { "trait": "Exp_Eng_Software2" },
+      { "trait": "Exp_Eng_Software1Fake2" },
       { "trait": "Exp_Eng_Software1Fake2" },
       { "trait": "Exp_Eng_Software0Fake2" }
     ]
@@ -715,6 +835,7 @@
     "id": "Exp_Eng_Software_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Eng_Software1" },
       { "trait": "Exp_Eng_Software1" },
       { "trait": "Exp_Eng_Software2" }
     ]
@@ -784,8 +905,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Eng_Structural1" },
+      { "trait": "Exp_Eng_Structural1" },
       { "trait": "Exp_Eng_Structural0Fake1" },
       { "trait": "Exp_Eng_Structural2" },
+      { "trait": "Exp_Eng_Structural2" },
+      { "trait": "Exp_Eng_Structural1Fake2" },
       { "trait": "Exp_Eng_Structural1Fake2" },
       { "trait": "Exp_Eng_Structural0Fake2" }
     ]
@@ -796,6 +920,7 @@
     "id": "Exp_Eng_Structural_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Eng_Structural1" },
       { "trait": "Exp_Eng_Structural1" },
       { "trait": "Exp_Eng_Structural2" }
     ]
@@ -865,8 +990,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Entomology1" },
+      { "trait": "Exp_Entomology1" },
       { "trait": "Exp_Entomology0Fake1" },
       { "trait": "Exp_Entomology2" },
+      { "trait": "Exp_Entomology2" },
+      { "trait": "Exp_Entomology1Fake2" },
       { "trait": "Exp_Entomology1Fake2" },
       { "trait": "Exp_Entomology0Fake2" }
     ]
@@ -877,6 +1005,7 @@
     "id": "Exp_Entomology_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Entomology1" },
       { "trait": "Exp_Entomology1" },
       { "trait": "Exp_Entomology2" }
     ]
@@ -946,8 +1075,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Geology1" },
+      { "trait": "Exp_Geology1" },
       { "trait": "Exp_Geology0Fake1" },
       { "trait": "Exp_Geology2" },
+      { "trait": "Exp_Geology2" },
+      { "trait": "Exp_Geology1Fake2" },
       { "trait": "Exp_Geology1Fake2" },
       { "trait": "Exp_Geology0Fake2" }
     ]
@@ -958,6 +1090,7 @@
     "id": "Exp_Geology_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Geology1" },
       { "trait": "Exp_Geology1" },
       { "trait": "Exp_Geology2" }
     ]
@@ -1027,8 +1160,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Medicine1" },
+      { "trait": "Exp_Medicine1" },
       { "trait": "Exp_Medicine0Fake1" },
       { "trait": "Exp_Medicine2" },
+      { "trait": "Exp_Medicine2" },
+      { "trait": "Exp_Medicine1Fake2" },
       { "trait": "Exp_Medicine1Fake2" },
       { "trait": "Exp_Medicine0Fake2" }
     ]
@@ -1039,6 +1175,7 @@
     "id": "Exp_Medicine_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Medicine1" },
       { "trait": "Exp_Medicine1" },
       { "trait": "Exp_Medicine2" }
     ]
@@ -1108,8 +1245,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Mycology1" },
+      { "trait": "Exp_Mycology1" },
       { "trait": "Exp_Mycology0Fake1" },
       { "trait": "Exp_Mycology2" },
+      { "trait": "Exp_Mycology2" },
+      { "trait": "Exp_Mycology1Fake2" },
       { "trait": "Exp_Mycology1Fake2" },
       { "trait": "Exp_Mycology0Fake2" }
     ]
@@ -1120,6 +1260,7 @@
     "id": "Exp_Mycology_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Mycology1" },
       { "trait": "Exp_Mycology1" },
       { "trait": "Exp_Mycology2" }
     ]
@@ -1189,8 +1330,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Physics1" },
+      { "trait": "Exp_Physics1" },
       { "trait": "Exp_Physics0Fake1" },
       { "trait": "Exp_Physics2" },
+      { "trait": "Exp_Physics2" },
+      { "trait": "Exp_Physics1Fake2" },
       { "trait": "Exp_Physics1Fake2" },
       { "trait": "Exp_Physics0Fake2" }
     ]
@@ -1201,6 +1345,7 @@
     "id": "Exp_Physics_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Physics1" },
       { "trait": "Exp_Physics1" },
       { "trait": "Exp_Physics2" }
     ]
@@ -1213,87 +1358,6 @@
     "traits": [
       { "group": "Exp_Physics_Nofake" },
       { "group": "Exp_Physics_Any" }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Physiology1",
-    "name": "Physiology Training",
-    "points": 0,
-    "description": "This survivor has some formal training in physiology, but not much experience.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Physiology0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
-    "name": "Physiology Training",
-    "points": 0,
-    "description": "This survivor has some formal training in physiology, but not much experience.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Physiology2",
-    "name": "Physiology Expert",
-    "points": 0,
-    "description": "This survivor has extensive experience in physiology, a PhD or equivalent.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Physiology1Fake2",
-    "//": "A fake! This survivor will pretend to know more about this subject than they do.",
-    "name": "Physiology Expert",
-    "points": 0,
-    "description": "This survivor has extensive experience in physiology, a PhD or equivalent.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Physiology0Fake2",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
-    "name": "Physiology Expert",
-    "points": 0,
-    "description": "This survivor has extensive experience in physiology, a PhD or equivalent.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_group",
-    "id": "Exp_Physiology_Any",
-    "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Physiology1" },
-      { "trait": "Exp_Physiology0Fake1" },
-      { "trait": "Exp_Physiology2" },
-      { "trait": "Exp_Physiology1Fake2" },
-      { "trait": "Exp_Physiology0Fake2" }
-    ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_group",
-    "id": "Exp_Physiology_Nofake",
-    "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Physiology1" },
-      { "trait": "Exp_Physiology2" }
-    ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Physiology_Group",
-    "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Physiology_Nofake" },
-      { "group": "Exp_Physiology_Any" }
     ]
   },
   {
@@ -1351,8 +1415,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Psychology1" },
+      { "trait": "Exp_Psychology1" },
       { "trait": "Exp_Psychology0Fake1" },
       { "trait": "Exp_Psychology2" },
+      { "trait": "Exp_Psychology2" },
+      { "trait": "Exp_Psychology1Fake2" },
       { "trait": "Exp_Psychology1Fake2" },
       { "trait": "Exp_Psychology0Fake2" }
     ]
@@ -1363,6 +1430,7 @@
     "id": "Exp_Psychology_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Psychology1" },
       { "trait": "Exp_Psychology1" },
       { "trait": "Exp_Psychology2" }
     ]
@@ -1432,8 +1500,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Sanitation1" },
+      { "trait": "Exp_Sanitation1" },
       { "trait": "Exp_Sanitation0Fake1" },
       { "trait": "Exp_Sanitation2" },
+      { "trait": "Exp_Sanitation2" },
+      { "trait": "Exp_Sanitation1Fake2" },
       { "trait": "Exp_Sanitation1Fake2" },
       { "trait": "Exp_Sanitation0Fake2" }
     ]
@@ -1444,6 +1515,7 @@
     "id": "Exp_Sanitation_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Sanitation1" },
       { "trait": "Exp_Sanitation1" },
       { "trait": "Exp_Sanitation2" }
     ]
@@ -1513,8 +1585,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Teaching1" },
+      { "trait": "Exp_Teaching1" },
       { "trait": "Exp_Teaching0Fake1" },
       { "trait": "Exp_Teaching2" },
+      { "trait": "Exp_Teaching2" },
+      { "trait": "Exp_Teaching1Fake2" },
       { "trait": "Exp_Teaching1Fake2" },
       { "trait": "Exp_Teaching0Fake2" }
     ]
@@ -1525,6 +1600,7 @@
     "id": "Exp_Teaching_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Teaching1" },
       { "trait": "Exp_Teaching1" },
       { "trait": "Exp_Teaching2" }
     ]
@@ -1594,8 +1670,11 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Veterinary1" },
+      { "trait": "Exp_Veterinary1" },
       { "trait": "Exp_Veterinary0Fake1" },
       { "trait": "Exp_Veterinary2" },
+      { "trait": "Exp_Veterinary2" },
+      { "trait": "Exp_Veterinary1Fake2" },
       { "trait": "Exp_Veterinary1Fake2" },
       { "trait": "Exp_Veterinary0Fake2" }
     ]
@@ -1606,6 +1685,7 @@
     "id": "Exp_Veterinary_Nofake",
     "subtype": "distribution",
     "traits": [
+      { "trait": "Exp_Veterinary1" },
       { "trait": "Exp_Veterinary1" },
       { "trait": "Exp_Veterinary2" }
     ]
@@ -1646,6 +1726,7 @@
     "subtype": "collection",
     "traits": [
       { "group": "Exp_Biochemistry_Group", "prob": 10 },
+      { "group": "Exp_Biology_Group", "prob": 10 },
       { "group": "Exp_Botany_Group", "prob": 5 },
       { "group": "Exp_Chemistry_Group", "prob": 10 },
       { "group": "Exp_Entomology_Group", "prob": 3 },
@@ -1654,7 +1735,6 @@
       { "group": "Exp_Medicine_Any", "prob": 10 },
       { "group": "Exp_Mycology_Group", "prob": 5 },
       { "group": "Exp_Physics_Group", "prob": 10 },
-      { "group": "Exp_Physiology_Group", "prob": 10 },
       { "group": "Exp_Teaching_Any", "prob": 15 }
     ]
   },
@@ -1690,8 +1770,8 @@
       { "trait": "Exp_Mycology1fake2" },
       { "group": "Exp_Physics_Nofake" },
       { "trait": "Exp_Physics1fake2" },
-      { "group": "Exp_Physiology_Nofake" }
-      { "trait": "Exp_Physiology1fake2" },
+      { "group": "Exp_Biology_Nofake" }
+      { "trait": "Exp_Biology 1fake2" },
     ]
   },
   {
@@ -1701,6 +1781,8 @@
     "subtype": "distribution",
     "traits": [
       { "trait": "Exp_Medicine1Fake2" },
+      { "trait": "Exp_Medicine1Fake2" },
+      { "trait": "Exp_Medicine1" },
       { "trait": "Exp_Medicine1" },
       { "trait": "Exp_Medicine2" }
     ]
