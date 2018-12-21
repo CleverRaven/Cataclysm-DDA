@@ -1,0 +1,9 @@
+[
+  {
+    "id": "BGSS_CRIMINAL_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was <very> lucky for <the_cataclysm>.  I was squatting in a warehouse out on the edge of town.  I was in a real <shitty> place, and my crew had mostly just been arrested in a big drug bust, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
+    "//": "TK, this story not done.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]
