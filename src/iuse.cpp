@@ -7630,7 +7630,15 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
     return 1;
 }
 
-int iuse::washclothes( player *p, item *it, bool, const tripoint & )
+washing_requirements washing_requirements_for_volume( units::volume vol )
+{
+    int water = divide_round_up( vol, 125_ml );
+    int cleanser = divide_round_up( vol, 1000_ml );
+    int time = 1000 * vol / 250_ml;
+    return { water, cleanser, time };
+}
+
+int iuse::washclothes( player *p, item *, bool, const tripoint & )
 {
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
@@ -7638,19 +7646,41 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
         return 0;
     }
-    /// @todo Is this necessary?
-    if( it->charges < it->type->charges_to_use() ) {
-        p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
-        return 0;
-    }
 
     p->inv.restack( *p );
+    const inventory &crafting_inv = p->crafting_inventory();
+    long available_water = std::max( crafting_inv.charges_of( "water" ),
+                                     crafting_inv.charges_of( "clean_water" ) );
+    available_water = std::min<long>( available_water, INT_MAX );
+    long available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
+                                        crafting_inv.charges_of( "detergent" ) );
 
     const inventory_filter_preset preset( []( const item_location & location ) {
         return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
     } );
+    auto make_raw_stats = [available_water, available_cleanser](
+                              const std::map<const item *, int> &items
+    ) {
+        units::volume total_volume = 0;
+        for( const auto &p : items ) {
+            total_volume += p.first->volume() * p.second;
+        }
+        washing_requirements required = washing_requirements_for_volume( total_volume );
+        auto to_string = []( int val ) -> std::string {
+            if( val == INT_MAX )
+            {
+                return "inf";
+            }
+            return string_format( "%3d", val );
+        };
+        using stats = inventory_selector::stats;
+        return stats{{
+                display_stat( _( "Water" ), required.water, available_water, to_string ),
+                display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
+            }};
+    };
     // TODO: this should also search surrounding area, not just player inventory.
-    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset );
+    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
     inv_s.add_character_items( *p );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
@@ -7662,42 +7692,33 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
     if( to_clean.empty() ) {
         return 0;
     }
-    int required_water = 0;
-    int time = 0;
-    int required_cleanser = 0;
 
     // Determine if we have enough water and cleanser for all the items.
+    units::volume total_volume = 0;
     for( std::pair<int, int> pair : to_clean ) {
-        item mod = p->i_at( pair.first );
+        item i = p->i_at( pair.first );
         if( pair.first == INT_MIN ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
         }
-        required_water += ( mod.volume() / 125_ml ) * pair.second;
-        time += ( 1000 * mod.volume() / 250_ml ) * pair.second;
-        required_cleanser += ( mod.volume() / 1000_ml ) * pair.second;
-    }
-    if( required_water < 1 ) {
-        required_water = 1;
-    }
-    if( required_cleanser < 1 ) {
-        required_cleanser = 1;
+        total_volume += i.volume() * pair.second;
     }
 
-    const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required_water ) &&
-        !crafting_inv.has_charges( "water_clean", required_water ) ) {
+    washing_requirements required = washing_requirements_for_volume( total_volume );
+
+    if( !crafting_inv.has_charges( "water", required.water ) &&
+        !crafting_inv.has_charges( "water_clean", required.water ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
-                              required_water );
+                              required.water );
         return 0;
-    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) &&
-               !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+    } else if( !crafting_inv.has_charges( "soap", required.cleanser ) &&
+               !crafting_inv.has_charges( "detergent", required.cleanser ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
-                              required_cleanser );
+                              required.cleanser );
         return 0;
     }
     // Assign the activity values.
-    p->assign_activity( activity_id( "ACT_WASH" ), time );
+    p->assign_activity( activity_id( "ACT_WASH" ), required.time );
 
     for( std::pair<int, int> pair : to_clean ) {
         p->activity.values.push_back( pair.first );
