@@ -88,6 +88,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
+    { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
@@ -2999,6 +3000,12 @@ static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
             tiles.erase( current );
         }
     }
+}
+
+void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
+{
+    p->activity = player_activity();
+    add_msg( m_info, _( "Harvesting is just a placeholder for now." ) );
 }
 
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )

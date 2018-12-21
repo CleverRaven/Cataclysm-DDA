@@ -817,7 +817,8 @@ static void loot()
         None = 1,
         SortLoot = 2,
         TillPlots = 4,
-        PlantPlots = 8
+        PlantPlots = 8,
+        HarvestPlots = 16
     };
 
     auto just_one = []( int flags ) {
@@ -836,6 +837,7 @@ static void loot()
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
         flags |= TillPlots;
         flags |= PlantPlots;
+        flags |= HarvestPlots;
     }
 
     if( flags == 0 ) {
@@ -869,6 +871,11 @@ static void loot()
                                 _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
 
+        if( flags & HarvestPlots ) {
+            menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
+                                _( "Harvest any full-grown plants from nearby Farm: Plot zones" ) );
+        }
+
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
     }
@@ -895,6 +902,9 @@ static void loot()
             } else {
                 u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
             }
+            break;
+        case HarvestPlots:
+            u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );

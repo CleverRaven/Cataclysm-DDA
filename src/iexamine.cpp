@@ -1801,8 +1801,20 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 /**
  * Actual harvesting of selected plant
  */
-void iexamine::harvest_plant(player &p, const tripoint &examp, const item &seed )
+void iexamine::harvest_plant(player &p, const tripoint &examp)
 {
+    if( g->m.i_at( examp ).empty() ) {
+        g->m.i_clear( examp );
+        g->m.furn_set( examp, f_null );
+        debugmsg( "Missing seed in plant furniture!" );
+        return;
+    }
+    const item &seed = g->m.i_at( examp ).front();
+    if( !seed.is_seed() ) {
+        debugmsg( "The seed item %s is not a seed!", seed.tname().c_str() );
+        return;
+    }
+
     const std::string &seedType = seed.typeId();
     if (seedType == "fungal_seeds") {
         fungus(p, examp);
@@ -1862,7 +1874,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
     const std::string pname = seed.get_plant_name();
 
     if (g->m.furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
-        harvest_plant(p, examp, seed);
+        harvest_plant(p, examp);
     } else if (g->m.furn(examp) != f_plant_harvest) {
         if (g->m.i_at(examp).size() > 1) {
             add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
