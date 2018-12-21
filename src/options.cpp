@@ -1805,7 +1805,7 @@ void options_manager::add_options_android()
     add( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW", "android",
          translate_marker( "Virtual joystick follows finger" ),
          translate_marker( "If true, the virtual joystick will follow when sliding beyond its range." ),
-         true
+         false
        );
 
     add( "ANDROID_REPEAT_DELAY_MAX", "android",
