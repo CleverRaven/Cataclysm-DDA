@@ -3331,7 +3331,7 @@
   {
     "type": "furniture",
     "id": "f_pillow_fort",
-    "name": "pillow Fort",
+    "name": "pillow fort",
     "symbol": "^",
     "description": "A comfy place to hide from the world.",
     "color": "white",
