@@ -6,6 +6,7 @@
 #include "simplexnoise.h"
 #include "weather.h"
 #include "overmap.h"
+#include "coordinate_conversions.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -81,9 +82,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     // Acid rains
     const double acid_content = base_acid * A;
-    const bool acid = acid_content >= 1.0;
-
-    overmap::overmap_acidity[location]
+    const bool acid = acid_content >= 1.0 || weather_local_acid.find( ms_to_omt_copy( location ) ) != weather_local_acid.end();
 
     return w_point {T, H, P, W, acid};
 }

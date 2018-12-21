@@ -31,6 +31,8 @@ static const trait_id trait_FEATHERS( "FEATHERS" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
 
+std::unordered_map<tripoint, int> weather_local_acid;
+
 /**
  * \defgroup Weather "Weather and its implications."
  * @{

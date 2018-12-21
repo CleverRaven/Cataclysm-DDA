@@ -624,6 +624,6 @@
         "s_petstore": 1
       }
     },
-    "weather": { "base_temperature": 6.5, "base_humidity": 66.0, "base_pressure": 1015.0, "base_acid": 0.15 }
+    "weather": { "base_temperature": 6.5, "base_humidity": 66.0, "base_pressure": 1015.0, "base_acid": 0.0 }
   }
 ]

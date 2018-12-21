@@ -27,6 +27,7 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "translations.h"
+#include "weather.h"
 
 #include <algorithm>
 #include <cassert>
@@ -56,6 +57,7 @@ using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
 #include "omdata.h"
+
 ////////////////
 oter_id  ot_null,
          ot_crater,
@@ -3302,12 +3304,21 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         const oter_id tid = elem.terrain->get_rotated( dir );
 
         overmap_special_placements[location] = special.id;
-        if( special.acidity.min ) {
-            points_in_range()
-            overmap_acidity
 
+        if( special.acidity.min ) {
+            auto loc = location + global_base_point();
+            int rad = special.acidity.min;
+            for( int x = loc.x - rad; x <= loc.x + rad; x++ ) {
+                for( int y = loc.y - rad; y <= loc.y + rad; y++ ) {
+                    if( trig_dist( loc.x, loc.y, x, y ) <= rad ) {
+                        const auto pt = tripoint( x, y, 0 );
+                        if( weather_local_acid[pt] < special.acidity.max ) {
+                            weather_local_acid[pt] = special.acidity.max;
+                        }
+                    }
+                }
+            }
         }
-        special.acidity.max; //strength
 
         ter( location.x, location.y, location.z ) = tid;
 

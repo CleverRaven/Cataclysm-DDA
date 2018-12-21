@@ -37,6 +37,9 @@ class int_id;
 struct oter_t;
 using oter_id = int_id<oter_t>;
 
+// Records the locations where local acidity resides on the map
+extern std::unordered_map<tripoint, int> weather_local_acid;
+
 /**
  * Weather type enum.
  */
