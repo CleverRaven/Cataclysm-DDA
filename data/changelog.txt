@@ -1,4 +1,4 @@
-# 0.D (2018-10-01)
+# 0.D (2018-12-01)
 
 ## Features:
 
@@ -138,11 +138,11 @@ Carrion can now eat adjacent crops or food.
 Allow place_monster to optionally place a randomized monster using a weighted list.
 Adds firewood source that automatically adds fuel to fire when it is 2/3s consumed.
 Make chickens and other small domestic birds tamable (Chickenfeed)
-Vehicles: Open all doors
+Vehicles: Open all doors.
 Implement player faction base.
 Artifact dreams.
 Horde improvements: Better displays & zombie lurkers.
-Schizophrenic Overhaul,
+Schizophrenic Overhaul.
 Option to spawn starting npc.
 Field dressing corpses aka Butchery overhaul.
 Smoking rack interactions expansion.
@@ -165,15 +165,11 @@ Allow hauling items along the ground.
 Added auto foraging of bushes and trees.
 Added autopickup rules based on material types.
 Artifacts can consume Portals.
-Updating the fireman belt to allow attachments from fire axes, war hammers, and maces
-Added railroad station overmap special
-Allow constructions to spawn byproduct items
-Adds stealth modifier as JSON-ized mutation property
-npctalk: add support for NPC backstories
-npctalk: NPC group commands to guard and follow
-Adds favorite recipes tab
-Adds recently crafted recipes tab
-npc: warn the player about dangerous monsters
+Update the fireman belt to allow attachments from fire axes, war hammers, and maces.
+Adds stealth modifier as JSON-ized mutation property.
+npctalk: add support for NPC backstories.
+npctalk: NPC group commands to guard and follow.
+npc: Warn the player about dangerous monsters.
 
 ## Content:
 
@@ -285,31 +281,12 @@ The Fish mutation tree now has unique, post-threshold mutations.
 Labs can have funagloid portals, lab escape allows crowbar.
 Many options for using miscelaneous items as improvised tools.
 Perception stat now determines overmap visibility, and the Topographagnosia trait is now available.
-Expanded wine must recipe.
-Adds more layouts to buildings
-Adds Fridges and Stoves to Home Improvement Superstore
-New snippets for tips of the day and NPC hints.
-Adds and modifies 3L, regular, red sauce, and kompot canning recipes.
-Adds new faux fur clothes, such as hats, trenchcoats...
-Added Magic 8-Ball and coin
-Bondage masks can now be zipped up
+Added railroad station overmap special.
 Re-implements old start location options to the Challenge-Lab scenario.
-Implementation to support use of JSON snippets for procedural music descriptions
-Simplify music genre snippet definitions
-Fixed the amount of food produced by 3L jar canning
-vehicle parts: add recipe for fuel bunker
+Implementation to support use of JSON snippets for procedural music descriptions.
 Adds LivePeople Tileset.
-Adds even more layouts to buildings
-Moved the Arsonist to another room in the shelter
-Renaming livepeople to deadpeople tileset
-Modernized MREs
-Updating deadpeople tileset
 Add forest trails.
-Updated military and police professions
-Butchery changes, in preparation for new offal types
-Added common missing graphics to MshockXotto+ tileset
-Add new pond map extra
-Updates faction camp description of expansions
+Add new pond map extra.
 
 ## Interface:
 
@@ -520,33 +497,22 @@ npctalk: create a big dialogue window.
 Even when only capital inputs are allowed, using lowercase inputs should still set the dialog cursor.
 Enhanced limb menu (body window) and textified healing related effects.
 B menu show butcher, disassemble and salvage times.
-Clarify crafting skills requirements text
-Gray out redundant tool quality requirements
-Migrate more menus to uilist
-Standardized capitalization of dog breeds
-Show what will result from vehicle part removal
-Take down the Halloween decorations
-Clearer crafting search help window
-Migrate more menus to uilist
-Overmap UI tweaks: more colours
-Improved martial arts descriptions
-Adds 'toggle fast scroll' option to overmap UI that allows to pan multiple tiles (configurable) with one keypress
+Adds favorite recipes and recently crafted tabs to crafting menu.
+Clarify crafting skills requirements text.
+Gray out redundant tool quality requirements.
+Show what will result from vehicle part removal.
+Clearer crafting search help window.
+Adds 'toggle fast scroll' option to overmap UI.
 Adaptively stack perishables based on remaining time before rot.
-Use more meaningful vehicle part names in messages
-Highlight 'on' toggle-able parts in vehicle use menus
-Highlight selected martial arts style in menu
-Display cargo capacity in the correct volume units when installing vehicle part
-Crafting searches for primary skill and result description
-Interpret higher aim speed as better
-Tag clothes that do not fit, rather than clothes that do
-Improved gas mask descriptions
-Document Mark firewood source
-Prevent seeing light through walls
-Make walls sensibly visible at night
-Have vehicles become dark inside when that makes sense
-Improvements to the description of item protection stats
-Enables recipe search from Favorites/Recent tab
-Allow toggling display of forest trails on the overmap
+Use more meaningful vehicle part names in messages.
+Highlight 'on' toggle-able parts in vehicle use menus.
+Highlight selected martial arts style in menu.
+Crafting searches for primary skill and result description.
+Tag clothes that do not fit, rather than clothes that do.
+Prevent seeing light through walls.
+Make walls sensibly visible at night.
+Have vehicles become dark inside when that makes sense.
+Allow toggling display of forest trails on the overmap.
 
 ## Mods:
 
@@ -606,11 +572,6 @@ Added Fuji's Struct mod.
 Salvaged Robots mod.
 Partially moved Folding Parts Mod to base game.
 Convert Bright Nights region_settings to region_overlay.
-Assorted changes to more professions and scenarios mod
-Fix author visibility for [Fuji's More Buildings] mod
-Fix structure of modinfo.json for fujistruct
-Fix typo in mod description
-Changes a couple of professions to match ones in vanilla.'
 
 ## Balance:
 
@@ -773,15 +734,10 @@ Removes the vac_sealer requirement from sealed glass jar recipes, adds canning p
 Allow crafting a fur rollmat with tanned pelts.
 Wearing clothing out of natural layer order now imposes additional encumbrance.
 Added deconstruct recipe for vehicle controls, reduced component requirements for crafting controls.
-Make riot helmet face shield adjustable.
-Added Wood-sawing quality to mine upstairs, mine downstairs, and dig downstairs.
-Made heroin easier to craft.
-Adjusted weights of mammals from the category defaults to averages of real values
-Change to capacity and charge usage of electric lighting tools.
-Increased accuracy of Rivtech guns
+Adjusted weights of mammals from the category defaults to averages of real values.
 Let one screwdriver recipes produce screwdriver set.
-Flowers won't collide with vehicles no more
-Increase HP of paper-thin palisades
+Flowers won't collide with vehicles no more.
+Increase HP of paper-thin palisades.
 Many animals such as coyotes and dogs are now less aggressive across the board.
 
 ## Bugfixes:
@@ -888,76 +844,18 @@ Use maps on all zlevels so they actually reveal things.
 Fix crash when talking to ranch foreman about prospectus; Fix agricultural investment option not functioning.
 Consistent fireproof / firey monsters immunity to fire-related fields.
 Type cast for prevention of integer overflow with large volume containers like cargo containers.
-bionics: connect cable charger systems to vehicles
-Changed the recipe for sour whiskey
+Bionics: connect cable charger systems to vehicles.
 Unloading plutonium from vehicles now gives the correct amount.
-NPC missions: clear the mission during the failure talk topic
-Map memory no longer reversed through save/load cycle
-Fixed crash related to unbound direction action
-Fixed handjacks
-Fix assigned letter disappearing when taking weapon out of holster
-Implements functionality for existing Advanced Electronic Cigarette
-Fix weird item categorization part 2
-Adds dairy tag to several food items.
-Fixes colors in note UI
-awl pikes now have realistic weight and appropriate to-hit value
-Fixes reach attacks with gun bayonets
-Fixing Leadworks attachments description
-Changes nicotine liquid volume to 1 from 0.
-Rotten food canned from crafting turns food fresh
-Make fencing's move buff apply when armed
-Reduce quarter-corpse butchering times to 1/4th of full corpse
-Changed air jack part location
-Adding Translation-Markup
-Fixed power consumption on engine start
-Add missing underscores
-Fix cows spawns on dairy farms.
-Fix for issue #26617
+NPC missions: clear the mission during the failure talk topic.
+Fixed crash related to unbound direction action.
+Reduce quarter-corpse butchering times to 1/4th of full corpse.
 Set max for item stack charges, container volume and cargo volume.
-Enables dissection without extra butchering tools
-Prevent heat induced vomiting until dead
-Smokey bear and Mr skeltal spawns updated, fixed bionic problem.
-Fix for #26631
-Fixes wrong id suffix for Soup_Meat 3L
-fix faction mission skill check
-Fixed planter message spam due to low temperature
-Minireactors now leak the correct amount of plutonium slurry
-Fix bugs with bikeracks by making racked parts unavailable
-Fix unintended use of clear on stringstreams
-vehicle power test: use weather_override in weather.cpp
-Cannot repair batteries in vehicle repair menu
-Add missing keybindings
-Removed duplicate bionic id
-folding vehicles: improve collision test when unfolding
-Fix item category names not updated when switching the language
-Fixed reliance on use of copy-from in recipes via removal and replacement with intended fields.
-vehicles: align turn directions in increments of 15 degrees
-Add translation markup
-Fix final animation in Robot finds kitten (tiles)
-Changing vacuum-packed food to work the same as canned foods
-faction camps: don't delete non-food items when distributing food
-Fix for executing one action in remote vehicle controller menu
-equalize crowbar melee-techniques
-Convert boat oars power to watts
-Fix multiple bike racks on same axis
-Fixes activation messages for radio-triggered grenades
-vehicles: convert a few more values to watts and fix loud backfires
-Birds and other flying creatures will fly over the deep water.
-Fixed lightmap-related crashes in MinGW 64-bit executables
-Support reloading from an opened tin can.
-player_display: fix crash in player_display with many traits
-Fix zone translation
-npc: allied NPCs set to guard actually guard
-Fix folded vehicles being processed in their folded state
-Fixes errors in engine starting and idling
-Fix cutting up items on ground won't remove the item.
-Removes Radio Pipe Bombs, Radio Activated Dynamite and Fixes Pipe bombs
-Fix salvage issue.
-Fix filtering of translated construction names.
-Allows for memorising visible but not displayed tiles.
-Fix map extra terrain iteration
-npc: NPCs on guard duty in a vehicle stay in the vehicle
-Fixes isometric tile rendering
+Prevent heat induced vomiting until dead.
+Folding vehicles: improve collision test when unfolding.
+Fix item category names not updated when switching the language.
+Fixed lightmap-related crashes in MinGW 64-bit executables.
+npc: NPCs on guard duty in a vehicle stay in the vehicle.
+Fixes isometric tile rendering.
 
 ## Performance:
 
@@ -1000,16 +898,6 @@ Reduce Submap constant memory requirements of Cosmetic strings.
 Reduce memory consumption for soundpacks.
 Fix lag due to copying player objects.
 Encode mapbuffer terrain data using RLE scheme for smaller save files.
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-Overhauled monster tracking class to stop using a vector.
-Make tall grass transparent until draw/LOS code is optimized
-Code optimizations reported by static code analysis
 
 ## Infrastructure:
 
@@ -1129,6 +1017,7 @@ Detect unexpected mutation failure in the mutation unit test.
 Jsonize large swaths of NPC dialogue.
 Enhance generation of forest tiles with terrain-dependent furniture and forest composition attributes.
 Conversion of nutrition to calories (kcal).
+Allow constructions to spawn byproduct items.
 Implement proper vehicle part iterator and range.
 Add script to generate Changelog from SUMMARY lines in Pull Requests.
 Make input timeout context-specific.
@@ -1153,19 +1042,14 @@ Do not ask for retarget when opening projects in Visual Studio
 Print the Cataclysm version number in the debug log
 Fix foldstring ignoring multiple linebreaks
 Make point and tripoint literal so they can be used in constexpr contexts.
-POSIX backtraces now work for installed binaries and position-independent executables
-Improved support code for unit tests
-Improved CI infrastructure error handling
-Allow explicit specification of overmap special connection type
-refugee ranch: use a palette
-Minor linting of json files
-Fix Memcheck uninitialized memory warnings in tests
-Fix memory leaks
-Change choose_adjacent to return an optional value
-Save map_memory in its own file <name>.mm
-Move deploying tents into an iuse_actor
-Lint regional_map_settings.json and test_regions.json
-Added proportional damage field to ammo type
+Move most NPC dialogue into JSON.
+Clean up handling of vehicle power to always use watts.
+Replace usage of raw managed pointers with values / managed pointers.
+Do not ask for retarget when opening projects in Visual Studio.
+Print the Cataclysm version number in the debug log.
+POSIX backtraces now work for installed binaries and position-independent executables.
+Improved CI infrastructure error handling.
+Allow explicit specification of overmap special connection type.
 
 ## Build:
 
@@ -1236,19 +1120,10 @@ Add unit test for NPC movement fixes.
 Fixed Android build regression.
 Change MSVC configs to build test executable.
 Faster builds with CMake.
-Disable optimizations for macOS builds
-vehicle power test: make it more consistent
-Visual Studio solution with vcpkg support
-Arbitrary number of spaces between summary parts
-Use travis build stages
-Added x86 platforms to vcpkg solution
-Updated Appveyor configuration with vcpkg solution
-Fixed CMake curses build
-Updated SDL include paths
-Build tests in CMake build
-Make it easy to build with a sanitizer
-Fix build in CygWin
-Run tests under AddressSanitizer in Travis CI
+Vehicle power test: make it more consistent.
+Visual Studio solution with vcpkg support.
+Use travis build stages.
+Run tests under AddressSanitizer in Travis CI.
 
 ## I18N and A11Y:
 
@@ -1282,17 +1157,6 @@ Display l10nized tab names when creating new world.
 Link against ncursesw if L10N enabled.
 Make user-facing error messages translatable.
 Many, Many new strings and menus are translatable.
-Routine i18n updates as of Nov 2, 2018
-Routine i18n updates as of Nov 9, 2018
-Fix blank string in ngettext call
-Deferred translation class with optional context for option/effect/item-action names
-Translator-friendly money formatting
-Allow translations of 'yes' and 'no' in crafting search
-Routine i18n updates as of Nov 17, 2018
-Routine i18n updates as of Nov 23, 2018
-Translate help texts
-Fixed some MRE typos
-Fix construction annotation translation.
 
 ## Statistics:
 
