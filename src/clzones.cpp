@@ -615,7 +615,7 @@ zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
                 start ) ).part_with_feature( "CARGO", false ) ) {
         //TODO:Allow for loot zones on vehicles to be larger than 1x1
-        if( start == end && query_yn( "Bind this zone to the cargo part here?" ) ) {
+        if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
             //create a vehicle loot zone
             new_zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
