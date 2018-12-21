@@ -136,7 +136,8 @@
       { "item": "cookbook_human", "bonus": [ [ "CANNIBAL" ] ] },
       { "item": "teleumbrella", "bonus": [ [ "ALBINO" ] ] }
     ]
-  },{
+  },
+  {
     "type": "profession",
     "ident": "vagabond",
     "name": "Vagabond",
