@@ -3578,7 +3578,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
 
 std::string get_music_description()
 {
-    static const std::string no_description;
+    static const std::string no_description = "music";
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
     static const std::array<std::string, 5> descriptions = {{
             _( "a sweet guitar solo!" ),
@@ -3620,7 +3620,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
     const bool do_effects = p.can_hear( source, volume );
-    std::string sound;
+    std::string sound = "music";
     if( calendar::once_every( 5_minutes ) ) {
         // Every 5 minutes, describe the music
         const std::string music = get_music_description();
