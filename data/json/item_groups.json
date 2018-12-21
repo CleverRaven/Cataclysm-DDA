@@ -3785,11 +3785,11 @@
       ["magnifying_glass", 5],
       ["chem_hydrogen_peroxide", 5],
       ["weak_antibiotic", 15],
-      ["analytical_set_basic", 25],
-      ["pH_meter", 35],
-      ["spectrophotometer", 25],
-      ["burettes", 50],
-      ["balance_small", 30]
+      ["analytical_set_basic", 5],
+      ["pH_meter", 10],
+      ["spectrophotometer", 10],
+      ["burettes", 10],
+      ["balance_small", 15]
     ]
   },{
     "type" : "item_group",
