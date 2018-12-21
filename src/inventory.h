@@ -6,6 +6,7 @@
 #include "item.h"
 #include "visitable.h"
 
+#include <array>
 #include <list>
 #include <string>
 #include <unordered_map>
