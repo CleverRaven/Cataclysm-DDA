@@ -611,21 +611,22 @@ zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
 {
     zone_data new_zone = zone_data( name, type, invert, enabled, start,
                                     end, options );
-    //A 1x1 zone on a cargo part can be bound to that part
-    //TODO:Allow for loot zones on vehicles to be larger than 1x1
+    //the start is a vehicle tile with cargo space
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
-                start ) ).part_with_feature( "CARGO", false ) && start == end &&
-            query_yn( "Bind this zone to the cargo part here?" ) ) {
-        //create a vehicle loot zone
-        new_zone.set_is_vehicle( true );
-        vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
-        g->m.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
-        cache_vzones();
-    } else {
-        //Create a regular zone
-        zones.push_back( new_zone );
-        cache_data();
+                start ) ).part_with_feature( "CARGO", false ) ) {
+        //TODO:Allow for loot zones on vehicles to be larger than 1x1
+        if( start == end && query_yn( "Bind this zone to the cargo part here?" ) ) {
+            //create a vehicle loot zone
+            new_zone.set_is_vehicle( true );
+            vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
+            g->m.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
+            cache_vzones();
+            return zones.back();
+        }
     }
+    //Create a regular zone
+    zones.push_back( new_zone );
+    cache_data();
     return zones.back();
 }
 
