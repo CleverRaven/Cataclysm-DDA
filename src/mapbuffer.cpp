@@ -166,7 +166,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 {
     std::vector<point> offsets;
     std::vector<tripoint> submap_addrs;
-    offsets.push_back( point_zero );
+    offsets.push_back( point( 0, 0 ) );
     offsets.push_back( point( 0, 1 ) );
     offsets.push_back( point( 1, 0 ) );
     offsets.push_back( point( 1, 1 ) );
@@ -274,9 +274,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         int count = 0;
         for( int j = 0; j < SEEY; j++ ) {
             for( int i = 0; i < SEEX; i++ ) {
-                const point p( i, j );
                 // Save radiation, re-examine this because it doesn't look like it works right
-                int r = sm->get_radiation( p );
+                int r = sm->get_radiation( i, j );
                 if( r == lastrad ) {
                     count++;
                 } else {
@@ -296,13 +295,12 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.start_array();
         for( int j = 0; j < SEEY; j++ ) {
             for( int i = 0; i < SEEX; i++ ) {
-                const point p( i, j );
                 // Save furniture
-                if( sm->get_furn( p ) != f_null ) {
+                if( sm->get_furn( i, j ) != f_null ) {
                     jsout.start_array();
-                    jsout.write( p.x );
-                    jsout.write( p.y );
-                    jsout.write( sm->get_furn( p ).obj().id );
+                    jsout.write( i );
+                    jsout.write( j );
+                    jsout.write( sm->get_furn( i, j ).obj().id );
                     jsout.end_array();
                 }
             }
@@ -327,14 +325,13 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.start_array();
         for( int j = 0; j < SEEY; j++ ) {
             for( int i = 0; i < SEEX; i++ ) {
-                const point p( i, j );
                 // Save traps
-                if( sm->get_trap( p ) != tr_null ) {
+                if( sm->get_trap( i, j ) != tr_null ) {
                     jsout.start_array();
-                    jsout.write( p.x );
-                    jsout.write( p.y );
+                    jsout.write( i );
+                    jsout.write( j );
                     // TODO: jsout should support writing an id like jsout.write( trap_id )
-                    jsout.write( sm->get_trap( p ).id().str() );
+                    jsout.write( sm->get_trap( i, j ).id().str() );
                     jsout.end_array();
                 }
             }
@@ -368,8 +365,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.start_array();
         for( const auto &cosm : sm->cosmetics ) {
             jsout.start_array();
-            jsout.write( cosm.pos.x );
-            jsout.write( cosm.pos.y );
+            jsout.write( cosm.p.x );
+            jsout.write( cosm.p.y );
             jsout.write( cosm.type );
             jsout.write( cosm.str );
             jsout.end_array();
@@ -383,8 +380,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
             jsout.start_array();
             jsout.write( elem.type.str() ); // TODO: json should know how to write string_ids
             jsout.write( elem.count );
-            jsout.write( elem.pos.x );
-            jsout.write( elem.pos.y );
+            jsout.write( elem.posx );
+            jsout.write( elem.posy );
             jsout.write( elem.faction_id );
             jsout.write( elem.mission_id );
             jsout.write( elem.friendly );
@@ -544,7 +541,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     for( int i = 0; i < rad_num; ++i ) {
                         // A little array trick here, assign to it as a 1D array.
                         // If it's not in bounds we're kinda hosed anyway.
-                        sm->set_radiation( { 0, rad_cell }, rad_strength );
+                        sm->set_radiation( 0, rad_cell, rad_strength );
                         rad_cell++;
                     }
                 }
@@ -562,26 +559,25 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 while( !jsin.end_array() ) {
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    const point p( i, j );
                     jsin.start_array();
                     while( !jsin.end_array() ) {
                         item tmp;
                         jsin.read( tmp );
 
                         if( tmp.is_emissive() ) {
-                            sm->update_lum_add( p, tmp );
+                            sm->update_lum_add( tmp, i, j );
                         }
 
-                        tmp.visit_items( [ &sm, &p ]( item * it ) {
+                        tmp.visit_items( [ &sm, i, j ]( item * it ) {
                             for( auto &e : it->magazine_convert() ) {
-                                sm->itm[p.x][p.y].push_back( e );
+                                sm->itm[i][j].push_back( e );
                             }
                             return VisitResponse::NEXT;
                         } );
 
-                        sm->itm[p.x][p.y].push_back( tmp );
+                        sm->itm[i][j].push_back( tmp );
                         if( tmp.needs_processing() ) {
-                            sm->active_items.add( std::prev( sm->itm[p.x][p.y].end() ), p );
+                            sm->active_items.add( std::prev( sm->itm[i][j].end() ), point( i, j ) );
                         }
                     }
                 }
@@ -591,13 +587,12 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    const point p( i, j );
                     // TODO: jsin should support returning an id like jsin.get_id<trap>()
                     const trap_str_id trid( jsin.get_string() );
                     if( trid == "tr_brazier" ) {
-                        sm->frn[p.x][p.y] = furn_id( "f_brazier" );
+                        sm->frn[i][j] = furn_id( "f_brazier" );
                     } else {
-                        sm->trp[p.x][p.y] = trid.id();
+                        sm->trp[i][j] = trid.id();
                     }
                     // @todo: remove brazier trap-to-furniture conversion after 0.D
                     jsin.end_array();
@@ -625,8 +620,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    const point p( i, j );
-                    sm->set_graffiti( p, jsin.get_string() );
+                    sm->set_graffiti( i, j, jsin.get_string() );
                     jsin.end_array();
                 }
             } else if( submap_member_name == "cosmetics" ) {
@@ -637,18 +631,18 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    const point p( i, j );
+
                     std::string type, str;
                     // Try to read as current format
                     if( jsin.test_string() ) {
                         type = jsin.get_string();
                         str = jsin.get_string();
-                        sm->insert_cosmetic( p, type, str );
+                        sm->insert_cosmetic( i, j, type, str );
                     } else {
                         // Otherwise read as most recent old format
                         jsin.read( tcosmetics );
                         for( auto &cosm : tcosmetics ) {
-                            sm->insert_cosmetic( p, cosm.first, cosm.second );
+                            sm->insert_cosmetic( i, j, cosm.first, cosm.second );
                         }
                         tcosmetics.clear();
                     }
@@ -664,13 +658,12 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     int count = jsin.get_int();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    const point p( i, j );
                     int faction_id = jsin.get_int();
                     int mission_id = jsin.get_int();
                     bool friendly = jsin.get_bool();
                     std::string name = jsin.get_string();
                     jsin.end_array();
-                    spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
+                    spawn_point tmp( type, count, i, j, faction_id, mission_id, friendly, name );
                     sm->spawns.push_back( tmp );
                 }
             } else if( submap_member_name == "vehicles" ) {
