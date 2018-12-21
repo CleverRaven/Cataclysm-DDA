@@ -3523,6 +3523,15 @@ int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
     return epower;
 }
 
+int vehicle::total_reactor_epower_w() const
+{
+    int epower_w = 0;
+    for( int elem : reactors ) {
+        epower_w += is_part_on( elem ) ? part_epower_w( elem ) : 0;
+    }
+    return epower_w;
+}
+
 void vehicle::power_parts()
 {
     int engine_epower = 0;
