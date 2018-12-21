@@ -3595,7 +3595,7 @@
       ["cheeseburgerhuman", 5],
       ["survnote", 5],
       ["thermos", 25],
-      ["analytical_set_basic", 3],
+      ["analytical_set_basic", 3]
     ]
   },{
     "type" : "item_group",
@@ -5460,7 +5460,7 @@
       ["chem_nitric_acid", 10],
       ["chem_hydrogen_peroxide_conc", 10],
       ["denat_alcohol", 10],
-      [ "analytical_set_basic", 2 ]
+      [ "analytical_set_basic", 2 ],
       [ "balance_small", 5 ]
     ]
   },{
