@@ -399,7 +399,7 @@ void load_terrain( JsonObject &jo, const std::string &src )
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    auto const it = ter_bitflags_map.find( flag );
+    const auto it = ter_bitflags_map.find( flag );
     if( it != ter_bitflags_map.end() ) {
         bitflags.set( it->second );
         if( !transparent && it->second == TFLAG_TRANSPARENT ) {
@@ -414,7 +414,7 @@ void map_data_common_t::set_flag( const std::string &flag )
 
 void map_data_common_t::set_connects( const std::string &connect_group_string )
 {
-    auto const it = ter_connects_map.find( connect_group_string );
+    const auto it = ter_connects_map.find( connect_group_string );
     if( it != ter_connects_map.end() ) {
         connect_group = it->second;
     } else { // arbitrary connect groups are a bad idea for optimization reasons
@@ -1160,6 +1160,9 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );

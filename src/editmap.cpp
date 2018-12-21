@@ -710,7 +710,7 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
  * @return Whether an overflow happened.
  */
 template<typename T>
-bool increment( int_id<T> &id, int const delta, int const count )
+bool increment( int_id<T> &id, const int delta, const int count )
 {
     const int new_id = id.to_i() + delta;
     if( new_id < 0 ) {
@@ -725,7 +725,7 @@ bool increment( int_id<T> &id, int const delta, int const count )
     }
 }
 template<typename T>
-bool would_overflow( const int_id<T> &id, int const delta, int const count )
+bool would_overflow( const int_id<T> &id, const int delta, const int count )
 {
     const int new_id = id.to_i() + delta;
     return new_id < 0 || new_id >= count;
@@ -1131,7 +1131,7 @@ int editmap::edit_fld()
             }
             if( fdens != fsel_dens || target_list.size() > 1 ) {
                 for( auto &elem : target_list ) {
-                    auto const fid = static_cast<field_id>( idx );
+                    const auto fid = static_cast<field_id>( idx );
                     field &t_field = g->m.get_field( elem );
                     field_entry *t_fld = t_field.findField( fid );
                     int t_dens = 0;
@@ -1159,7 +1159,7 @@ int editmap::edit_fld()
             for( auto &elem : target_list ) {
                 field &t_field = g->m.get_field( elem );
                 while( t_field.fieldCount() > 0 ) {
-                    auto const rmid = t_field.begin()->first;
+                    const auto rmid = t_field.begin()->first;
                     g->m.remove_field( elem, rmid );
                     if( elem == target ) {
                         update_fmenu_entry( fmenu, t_field, rmid );
@@ -1715,8 +1715,8 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
                     for( int y = 0; y < 2; y++ ) {
                         // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                         // functions that would alter the results
-                        submap *destsm = g->m.get_submap_at_grid( target_sub.x + x, target_sub.y + y, target.z );
-                        submap *srcsm = tmpmap.get_submap_at_grid( x, y, target.z );
+                        submap *destsm = g->m.get_submap_at_grid( { target_sub.x + x, target_sub.y + y, target.z } );
+                        submap *srcsm = tmpmap.get_submap_at_grid( { x, y, target.z } );
                         destsm->is_uniform = false;
                         srcsm->is_uniform = false;
 
@@ -1740,8 +1740,8 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
 
                         int spawns_todo = 0;
                         for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                            int mx = srcsm->spawns[i].posx;
-                            int my = srcsm->spawns[i].posy;
+                            int mx = srcsm->spawns[i].pos.x;
+                            int my = srcsm->spawns[i].pos.y;
                             s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
                             destsm->spawns.push_back( srcsm->spawns[i] );
                             spawns_todo++;
@@ -1856,8 +1856,8 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
     g->m.clear_vehicle_cache( target.z );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( x, y, target.z );
-            submap *srcsm = tmpmap.get_submap_at_grid( x, y, target.z );
+            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
+            submap *srcsm = tmpmap.get_submap_at_grid( { x, y, target.z } );
             destsm->is_uniform = false;
             srcsm->is_uniform = false;
 
@@ -1949,7 +1949,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( x, y, target.z );
+            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
             for( size_t z = 0; z < destsm->vehicles.size(); z++ ) {
                 possible_vehicles.push_back( destsm->vehicles[z] );
             }
@@ -1980,7 +1980,7 @@ bool editmap::mapgen_veh_has( const tripoint &omt_tgt )
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( x, y, omt_tgt.z );
+            submap *destsm = target_bay.get_submap_at_grid( { x, y, omt_tgt.z } );
             if( !destsm->vehicles.empty() ) {
                 return true;
             }
@@ -1995,7 +1995,7 @@ bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( x, y, target.z );
+            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
             for( size_t z = 0; z < destsm->vehicles.size(); z++ ) {
                 if( destsm->vehicles[z] == car_target ) {
                     auto veh = destsm->vehicles[z];

@@ -80,7 +80,7 @@ class map;
 
 enum damage_type : int;
 
-std::string const &rad_badge_color( int rad );
+const std::string &rad_badge_color( int rad );
 
 struct light_emission {
     unsigned short luminance;
@@ -458,7 +458,7 @@ class item : public visitable<item>
         units::volume base_volume() const;
 
         /** Volume check for corpses, helper for base_volume(). */
-        units::volume corpse_volume( m_size corpse_size ) const;
+        units::volume corpse_volume( const mtype *corpse ) const;
 
         /** Required strength to be able to successfully lift the item unaided by equipment */
         int lift_strength() const;
@@ -922,7 +922,7 @@ class item : public visitable<item>
         float get_relative_health() const;
 
         /**
-         * Apply damage to item constrained by @ref min_damage and @ref max_damage
+         * Apply damage to const itemrained by @ref min_damage and @ref max_damage
          * @param qty maximum amount by which to adjust damage (negative permissible)
          * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
@@ -1417,16 +1417,18 @@ class item : public visitable<item>
          */
         int get_coverage() const;
         /**
-         * Returns the encumbrance value that this item has when worn, when
-         * containing a particular volume of contents.
-         * Returns 0 if this is can not be worn at all.
+         * Returns the encumbrance value that this item has when worn by given
+         * player, when containing a particular volume of contents.
+         * Returns 0 if this can not be worn at all.
          */
-        int get_encumber_when_containing( const units::volume &contents_volume ) const;
+        int get_encumber_when_containing(
+            const Character &, const units::volume &contents_volume ) const;
         /**
-         * Returns the encumbrance value that this item has when worn.
+         * Returns the encumbrance value that this item has when worn by given
+         * player.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber() const;
+        int get_encumber( const Character & ) const;
         /**
          * Returns the storage amount (@ref islot_armor::storage) that this item provides when worn.
          * For non-armor it returns 0. The storage amount increases the volume capacity of the

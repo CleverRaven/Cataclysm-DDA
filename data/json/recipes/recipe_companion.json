@@ -952,6 +952,7 @@
         [ "lead", 50 ],
         [ "gold_small", 50 ],
         [ "silver_small", 50 ],
+        [ "platinum_small", 50 ],
         [ "tin", 50 ],
         [ "bismuth", 50 ],
         [ "solder_wire", 50 ]
