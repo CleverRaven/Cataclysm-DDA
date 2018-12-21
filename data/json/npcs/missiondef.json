@@ -28,8 +28,8 @@
     "difficulty": 2,
     "value": 50000,
     "start": {
-       "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
-       "target_om_ter": { "om_ter": "haz_sar", "reveal_rad": 3 }
+      "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
+      "assign_mission_target": { "om_terrain": "haz_sar", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "haz_sar_b1",
@@ -219,8 +219,8 @@
     "value": 150000,
     "item": "black_box_transcript",
     "start": {
-       "effect": { "u_buy_item": "black_box" },
-       "target_om_ter": { "om_ter": "lab", "reveal_rad": 3 }
+      "effect": { "u_buy_item": "black_box" },
+      "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
@@ -425,8 +425,8 @@
     "value": 250000,
     "item": "software_blood_data",
     "start": {
-       "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-       "target_om_ter": { "om_ter": "hospital_2", "reveal_rad": 3 }
+      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "Hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -449,7 +449,9 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": { "target_om_ter": { "om_ter": "cabin_strange", "reveal_rad": 3 } },
+    "start": { 
+      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
@@ -472,7 +474,9 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": { "target_om_ter": { "om_ter": "prison_1_5", "reveal_rad": 3 } },
+    "start": { 
+      "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
@@ -656,7 +660,9 @@
     "difficulty": 5,
     "value": 250000,
     "monster_type": "mon_charred_nightmare",
-    "start": { "target_om_ter": { "om_ter": "necropolis_c_44", "zlevel": -2 } },
+    "start": { 
+      "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2 }
+    },
     "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -681,7 +687,7 @@
     "item": "radio_repeater_mod",
     "start": {
        "effect": { "u_buy_item": "repeater_mod_guide" },
-       "target_om_ter": { "om_ter": "necropolis_c_23", "reveal_rad": 3, "zlevel": -2 }
+       "assign_mission_target": { "om_terrain": "necropolis_c_23", "om_special": "Necropolis", "reveal_radius": 3, "z": -2 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_NEC_COMMO_2",
@@ -1880,8 +1886,8 @@
     "value": 50000,
     "item": "software_blood_data",
     "start": {
-       "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-       "target_om_ter": { "om_ter": "hospital_2", "reveal_rad": 3 }
+      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "Hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_2",
