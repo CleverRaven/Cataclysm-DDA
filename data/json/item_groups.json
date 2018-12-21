@@ -3594,7 +3594,8 @@
       ["bobburger", 5],
       ["cheeseburgerhuman", 5],
       ["survnote", 5],
-      ["thermos", 25]
+      ["thermos", 25],
+      ["analytical_set_basic", 3],
     ]
   },{
     "type" : "item_group",
@@ -3783,7 +3784,12 @@
       ["jar_3l_glass", 15],
       ["magnifying_glass", 5],
       ["chem_hydrogen_peroxide", 5],
-      ["weak_antibiotic", 15]
+      ["weak_antibiotic", 15],
+      ["analytical_set_basic", 25],
+      ["pH_meter", 35],
+      ["spectrophotometer", 25],
+      ["burettes", 50],
+      ["balance_small", 30]
     ]
   },{
     "type" : "item_group",
@@ -4856,7 +4862,12 @@
       ["tourist_table", 10],
       ["thermos", 25],
       ["magic_8_ball", 2],
-      ["coin_quarter", 2]
+      ["coin_quarter", 2],
+      ["pH_meter", 1],
+      ["spectrophotometer", 1],
+      ["burettes", 2],
+      ["melting_point", 1],
+      ["balance_small", 10]
     ]
   },{
     "type" : "item_group",
@@ -5194,7 +5205,13 @@
       ["chem_zinc_powder", 10],
       ["chem_saltpetre", 10],
       ["chem_carbide", 10],
-      ["denat_alcohol", 10]
+      ["denat_alcohol", 10],    
+      [ "analytical_set_basic", 5 ],
+      [ "pH_meter", 10 ],
+      [ "spectrophotometer", 5 ],
+      [ "burettes", 10 ],
+      [ "melting_point", 10 ],      
+      [ "balance_small", 20 ]
     ]
   },{
     "type" : "item_group",
@@ -5289,7 +5306,13 @@
       ["chem_nitric_acid", 15],
       ["chem_chromium_oxide", 10],
       ["chem_zinc_powder", 10],
-      ["denat_alcohol", 10]
+      ["denat_alcohol", 10],
+      [ "analytical_set_basic", 5 ],
+      [ "pH_meter", 10 ],
+      [ "spectrophotometer", 5 ],
+      [ "burettes", 10 ],
+      [ "melting_point", 10 ],      
+      [ "balance_small", 20 ]
     ]
   },{
     "type" : "item_group",
@@ -5436,7 +5459,9 @@
       ["rag_bloody", 1],
       ["chem_nitric_acid", 10],
       ["chem_hydrogen_peroxide_conc", 10],
-      ["denat_alcohol", 10]
+      ["denat_alcohol", 10],
+      [ "analytical_set_basic", 2 ]
+      [ "balance_small", 5 ]
     ]
   },{
     "type" : "item_group",
@@ -6483,7 +6508,11 @@
       ["toolbox", 5],
       ["apron_leather", 10],
       ["bio_meteorologist", 10],
-      ["chem_aluminium_sulphate", 20]
+      ["chem_aluminium_sulphate", 20],
+      [ "pH_meter", 10 ],
+      [ "spectrophotometer", 5 ],
+      [ "burettes", 10 ],  
+      [ "balance_small", 10 ]
     ]
   },{
     "type" : "item_group",
@@ -6696,7 +6725,11 @@
       ["thermometer", 3],
       ["hygrometer", 3],
       ["barometer", 3],
-      ["remotevehcontrol", 10]
+      ["remotevehcontrol", 10],
+      [ "pH_meter", 10 ],
+      [ "spectrophotometer", 5 ],
+      [ "burettes", 10 ],
+      [ "balance_small", 20 ]
     ]
   },{
     "type" : "item_group",
@@ -7580,7 +7613,13 @@
       ["chem_sulphuric_acid", 1],
       ["chem_hexamine", 2],
       ["denat_alcohol", 1],
-      ["remotevehcontrol", 5]
+      ["remotevehcontrol", 5],
+      [ "analytical_set_basic", 2 ],
+      [ "pH_meter", 5 ],
+      [ "spectrophotometer", 3 ],
+      [ "burettes", 5 ],
+      [ "melting_point", 3 ],      
+      [ "balance_small", 5 ]
     ]
   },{
     "type" : "item_group",
@@ -7811,7 +7850,13 @@
       ["battery", 70],
       ["flashlight", 40],
       ["chem_acetone", 40],
-      ["chem_hexamine", 15]
+      ["chem_hexamine", 15],  
+      [ "analytical_set_basic", 5 ],
+      [ "pH_meter", 10 ],
+      [ "spectrophotometer", 5 ],
+      [ "burettes", 10 ],
+      [ "melting_point", 10 ],      
+      [ "balance_small", 20 ]
       ]
   },{
     "type" : "item_group",
