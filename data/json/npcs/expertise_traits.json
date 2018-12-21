@@ -68,21 +68,14 @@
     "type": "trait_group",
     "id": "Exp_Agriculture_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Agriculture1" },
-      { "trait": "Exp_Agriculture1" },
-      { "trait": "Exp_Agriculture2" }
-    ]
+    "traits": [ { "trait": "Exp_Agriculture1" }, { "trait": "Exp_Agriculture1" }, { "trait": "Exp_Agriculture2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Agriculture_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Agriculture_Nofake" },
-      { "group": "Exp_Agriculture_Any" }
-    ]
+    "traits": [ { "group": "Exp_Agriculture_Nofake" }, { "group": "Exp_Agriculture_Any" } ]
   },
   {
     "type": "mutation",
@@ -153,21 +146,14 @@
     "type": "trait_group",
     "id": "Exp_Biochemistry_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Biochemistry1" },
-      { "trait": "Exp_Biochemistry1" },
-      { "trait": "Exp_Biochemistry2" }
-    ]
+    "traits": [ { "trait": "Exp_Biochemistry1" }, { "trait": "Exp_Biochemistry1" }, { "trait": "Exp_Biochemistry2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Biochemistry_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Biochemistry_Nofake" },
-      { "group": "Exp_Biochemistry_Any" }
-    ]
+    "traits": [ { "group": "Exp_Biochemistry_Nofake" }, { "group": "Exp_Biochemistry_Any" } ]
   },
   {
     "type": "mutation",
@@ -238,21 +224,14 @@
     "type": "trait_group",
     "id": "Exp_Biology_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Biology1" },
-      { "trait": "Exp_Biology1" },
-      { "trait": "Exp_Biology2" }
-    ]
+    "traits": [ { "trait": "Exp_Biology1" }, { "trait": "Exp_Biology1" }, { "trait": "Exp_Biology2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Biology_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Biology_Nofake" },
-      { "group": "Exp_Biology_Any" }
-    ]
+    "traits": [ { "group": "Exp_Biology_Nofake" }, { "group": "Exp_Biology_Any" } ]
   },
   {
     "type": "mutation",
@@ -323,21 +302,14 @@
     "type": "trait_group",
     "id": "Exp_Bookkeeping_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Bookkeeping1" },
-      { "trait": "Exp_Bookkeeping1" },
-      { "trait": "Exp_Bookkeeping2" }
-    ]
+    "traits": [ { "trait": "Exp_Bookkeeping1" }, { "trait": "Exp_Bookkeeping1" }, { "trait": "Exp_Bookkeeping2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Bookkeeping_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Bookkeeping_Nofake" },
-      { "group": "Exp_Bookkeeping_Any" }
-    ]
+    "traits": [ { "group": "Exp_Bookkeeping_Nofake" }, { "group": "Exp_Bookkeeping_Any" } ]
   },
   {
     "type": "mutation",
@@ -408,23 +380,15 @@
     "type": "trait_group",
     "id": "Exp_Botany_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Botany1" },
-      { "trait": "Exp_Botany1" },
-      { "trait": "Exp_Botany2" }
-    ]
+    "traits": [ { "trait": "Exp_Botany1" }, { "trait": "Exp_Botany1" }, { "trait": "Exp_Botany2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Botany_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Botany_Nofake" },
-      { "group": "Exp_Botany_Any" }
-    ]
+    "traits": [ { "group": "Exp_Botany_Nofake" }, { "group": "Exp_Botany_Any" } ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Chemistry1",
@@ -494,21 +458,14 @@
     "type": "trait_group",
     "id": "Exp_Chemistry_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Chemistry1" },
-      { "trait": "Exp_Chemistry1" },
-      { "trait": "Exp_Chemistry2" }
-    ]
+    "traits": [ { "trait": "Exp_Chemistry1" }, { "trait": "Exp_Chemistry1" }, { "trait": "Exp_Chemistry2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Chemistry_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Chemistry_Nofake" },
-      { "group": "Exp_Chemistry_Any" }
-    ]
+    "traits": [ { "group": "Exp_Chemistry_Nofake" }, { "group": "Exp_Chemistry_Any" } ]
   },
   {
     "type": "mutation",
@@ -579,21 +536,14 @@
     "type": "trait_group",
     "id": "Exp_Culinary_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Culinary1" },
-      { "trait": "Exp_Culinary1" },
-      { "trait": "Exp_Culinary2" }
-    ]
+    "traits": [ { "trait": "Exp_Culinary1" }, { "trait": "Exp_Culinary1" }, { "trait": "Exp_Culinary2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Culinary_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Culinary_Nofake" },
-      { "group": "Exp_Culinary_Any" }
-    ]
+    "traits": [ { "group": "Exp_Culinary_Nofake" }, { "group": "Exp_Culinary_Any" } ]
   },
   {
     "type": "mutation",
@@ -637,7 +587,7 @@
     "type": "mutation",
     "id": "Exp_Eng_Electrical0Fake2",
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
-    "name": "Electrical Engineering Expert"
+    "name": "Electrical Engineering Expert",
     "points": 0,
     "description": "This survivor has extensive experience in electrical engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
@@ -664,21 +614,14 @@
     "type": "trait_group",
     "id": "Exp_Eng_Electrical_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Eng_Electrical1" },
-      { "trait": "Exp_Eng_Electrical1" },
-      { "trait": "Exp_Eng_Electrical2" }
-    ]
+    "traits": [ { "trait": "Exp_Eng_Electrical1" }, { "trait": "Exp_Eng_Electrical1" }, { "trait": "Exp_Eng_Electrical2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Electrical_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Eng_Electrical_Nofake" },
-      { "group": "Exp_Eng_Electrical_Any" }
-    ]
+    "traits": [ { "group": "Exp_Eng_Electrical_Nofake" }, { "group": "Exp_Eng_Electrical_Any" } ]
   },
   {
     "type": "mutation",
@@ -749,21 +692,14 @@
     "type": "trait_group",
     "id": "Exp_Eng_Mechanical_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Eng_Mechanical1" },
-      { "trait": "Exp_Eng_Mechanical1" },
-      { "trait": "Exp_Eng_Mechanical2" }
-    ]
+    "traits": [ { "trait": "Exp_Eng_Mechanical1" }, { "trait": "Exp_Eng_Mechanical1" }, { "trait": "Exp_Eng_Mechanical2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Electrical_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Eng_Mechanical_Nofake" },
-      { "group": "Exp_Eng_Mechanical_Any" }
-    ]
+    "traits": [ { "group": "Exp_Eng_Mechanical_Nofake" }, { "group": "Exp_Eng_Mechanical_Any" } ]
   },
   {
     "type": "mutation",
@@ -834,21 +770,14 @@
     "type": "trait_group",
     "id": "Exp_Eng_Software_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Eng_Software1" },
-      { "trait": "Exp_Eng_Software1" },
-      { "trait": "Exp_Eng_Software2" }
-    ]
+    "traits": [ { "trait": "Exp_Eng_Software1" }, { "trait": "Exp_Eng_Software1" }, { "trait": "Exp_Eng_Software2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Software_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Eng_Software_Nofake" },
-      { "group": "Exp_Eng_Software_Any" }
-    ]
+    "traits": [ { "group": "Exp_Eng_Software_Nofake" }, { "group": "Exp_Eng_Software_Any" } ]
   },
   {
     "type": "mutation",
@@ -919,21 +848,14 @@
     "type": "trait_group",
     "id": "Exp_Eng_Structural_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Eng_Structural1" },
-      { "trait": "Exp_Eng_Structural1" },
-      { "trait": "Exp_Eng_Structural2" }
-    ]
+    "traits": [ { "trait": "Exp_Eng_Structural1" }, { "trait": "Exp_Eng_Structural1" }, { "trait": "Exp_Eng_Structural2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Structural_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Eng_Structural_Nofake" },
-      { "group": "Exp_Eng_Structural_Any" }
-    ]
+    "traits": [ { "group": "Exp_Eng_Structural_Nofake" }, { "group": "Exp_Eng_Structural_Any" } ]
   },
   {
     "type": "mutation",
@@ -1004,21 +926,14 @@
     "type": "trait_group",
     "id": "Exp_Entomology_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Entomology1" },
-      { "trait": "Exp_Entomology1" },
-      { "trait": "Exp_Entomology2" }
-    ]
+    "traits": [ { "trait": "Exp_Entomology1" }, { "trait": "Exp_Entomology1" }, { "trait": "Exp_Entomology2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Entomology_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Entomology_Nofake" },
-      { "group": "Exp_Entomology_Any" }
-    ]
+    "traits": [ { "group": "Exp_Entomology_Nofake" }, { "group": "Exp_Entomology_Any" } ]
   },
   {
     "type": "mutation",
@@ -1089,21 +1004,14 @@
     "type": "trait_group",
     "id": "Exp_Geology_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Geology1" },
-      { "trait": "Exp_Geology1" },
-      { "trait": "Exp_Geology2" }
-    ]
+    "traits": [ { "trait": "Exp_Geology1" }, { "trait": "Exp_Geology1" }, { "trait": "Exp_Geology2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Geology_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Geology_Nofake" },
-      { "group": "Exp_Geology_Any" }
-    ]
+    "traits": [ { "group": "Exp_Geology_Nofake" }, { "group": "Exp_Geology_Any" } ]
   },
   {
     "type": "mutation",
@@ -1174,21 +1082,14 @@
     "type": "trait_group",
     "id": "Exp_Medicine_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Medicine1" },
-      { "trait": "Exp_Medicine1" },
-      { "trait": "Exp_Medicine2" }
-    ]
+    "traits": [ { "trait": "Exp_Medicine1" }, { "trait": "Exp_Medicine1" }, { "trait": "Exp_Medicine2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Medicine_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Medicine_Nofake" },
-      { "group": "Exp_Medicine_Any" }
-    ]
+    "traits": [ { "group": "Exp_Medicine_Nofake" }, { "group": "Exp_Medicine_Any" } ]
   },
   {
     "type": "mutation",
@@ -1259,21 +1160,14 @@
     "type": "trait_group",
     "id": "Exp_Mycology_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Mycology1" },
-      { "trait": "Exp_Mycology1" },
-      { "trait": "Exp_Mycology2" }
-    ]
+    "traits": [ { "trait": "Exp_Mycology1" }, { "trait": "Exp_Mycology1" }, { "trait": "Exp_Mycology2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Mycology_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Mycology_Nofake" },
-      { "group": "Exp_Mycology_Any" }
-    ]
+    "traits": [ { "group": "Exp_Mycology_Nofake" }, { "group": "Exp_Mycology_Any" } ]
   },
   {
     "type": "mutation",
@@ -1344,21 +1238,14 @@
     "type": "trait_group",
     "id": "Exp_Physics_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Physics1" },
-      { "trait": "Exp_Physics1" },
-      { "trait": "Exp_Physics2" }
-    ]
+    "traits": [ { "trait": "Exp_Physics1" }, { "trait": "Exp_Physics1" }, { "trait": "Exp_Physics2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Physics_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Physics_Nofake" },
-      { "group": "Exp_Physics_Any" }
-    ]
+    "traits": [ { "group": "Exp_Physics_Nofake" }, { "group": "Exp_Physics_Any" } ]
   },
   {
     "type": "mutation",
@@ -1429,21 +1316,14 @@
     "type": "trait_group",
     "id": "Exp_Psychology_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Psychology1" },
-      { "trait": "Exp_Psychology1" },
-      { "trait": "Exp_Psychology2" }
-    ]
+    "traits": [ { "trait": "Exp_Psychology1" }, { "trait": "Exp_Psychology1" }, { "trait": "Exp_Psychology2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Psychology_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Psychology_Nofake" },
-      { "group": "Exp_Psychology_Any" }
-    ]
+    "traits": [ { "group": "Exp_Psychology_Nofake" }, { "group": "Exp_Psychology_Any" } ]
   },
   {
     "type": "mutation",
@@ -1514,21 +1394,14 @@
     "type": "trait_group",
     "id": "Exp_Sanitation_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Sanitation1" },
-      { "trait": "Exp_Sanitation1" },
-      { "trait": "Exp_Sanitation2" }
-    ]
+    "traits": [ { "trait": "Exp_Sanitation1" }, { "trait": "Exp_Sanitation1" }, { "trait": "Exp_Sanitation2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Sanitation_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Sanitation_Nofake" },
-      { "group": "Exp_Sanitation_Any" }
-    ]
+    "traits": [ { "group": "Exp_Sanitation_Nofake" }, { "group": "Exp_Sanitation_Any" } ]
   },
   {
     "type": "mutation",
@@ -1599,21 +1472,14 @@
     "type": "trait_group",
     "id": "Exp_Teaching_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Teaching1" },
-      { "trait": "Exp_Teaching1" },
-      { "trait": "Exp_Teaching2" }
-    ]
+    "traits": [ { "trait": "Exp_Teaching1" }, { "trait": "Exp_Teaching1" }, { "trait": "Exp_Teaching2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Teaching_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Teaching_Nofake" },
-      { "group": "Exp_Teaching_Any" }
-    ]
+    "traits": [ { "group": "Exp_Teaching_Nofake" }, { "group": "Exp_Teaching_Any" } ]
   },
   {
     "type": "mutation",
@@ -1684,21 +1550,14 @@
     "type": "trait_group",
     "id": "Exp_Veterinary_Nofake",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "Exp_Veterinary1" },
-      { "trait": "Exp_Veterinary1" },
-      { "trait": "Exp_Veterinary2" }
-    ]
+    "traits": [ { "trait": "Exp_Veterinary1" }, { "trait": "Exp_Veterinary1" }, { "trait": "Exp_Veterinary2" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Veterinary_Group",
     "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Veterinary_Nofake" },
-      { "group": "Exp_Veterinary_Any" }
-    ]
+    "traits": [ { "group": "Exp_Veterinary_Nofake" }, { "group": "Exp_Veterinary_Any" } ]
   },
   {
     "//": "This group holds all the general non-science, non-engineering traits that professionals might have.",
@@ -1777,9 +1636,9 @@
       { "group": "Exp_Physics_Nofake" },
       { "group": "Exp_Physics_Nofake" },
       { "trait": "Exp_Physics1fake2" },
-      { "group": "Exp_Biology_Nofake" }
-      { "group": "Exp_Biology_Nofake" }
-      { "trait": "Exp_Biology 1fake2" },
+      { "group": "Exp_Biology_Nofake" },
+      { "group": "Exp_Biology_Nofake" },
+      { "trait": "Exp_Biology 1fake2" }
     ]
   },
   {
