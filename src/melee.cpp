@@ -962,13 +962,13 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // skip normal techniques if looking for a dodge counter
-        if( dodge_counter && !tec.dodge_counter ) {
+        // skip dodge counter techniques
+        if( ( dodge_counter && !tec.dodge_counter ) || ( !dodge_counter && tec.dodge_counter ) ) {
             continue;
         }
 
-        // skip normal techniques if looking for a block counter
-        if( block_counter && !tec.block_counter ) {
+        // skip block counter techniques
+        if( ( block_counter && !tec.block_counter ) || ( !block_counter && tec.block_counter ) ) {
             continue;
         }
 
