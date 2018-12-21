@@ -1798,6 +1798,53 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     return result;
 }
 
+/**
+ * Actual harvesting of selected plant
+ */
+void iexamine::harvest_plant(player &p, const tripoint &examp, const item &seed )
+{
+    const std::string &seedType = seed.typeId();
+    if (seedType == "fungal_seeds") {
+        fungus(p, examp);
+        g->m.i_clear(examp);
+    } else if (seedType == "marloss_seed") {
+        fungus(p, examp);
+        g->m.i_clear(examp);
+        if(p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() + p.get_starvation() > 500) || p.get_thirst() > 300 )) {
+            g->m.ter_set(examp, t_marloss);
+            add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
+        } else if( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
+                    one_in(2)) ) {
+            g->summon_mon( mon_fungal_blossom, examp );
+            add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
+        } else if ( (p.has_trait(trait_THRESH_MYCUS)) || one_in(4)) {
+            g->m.furn_set(examp, f_flower_marloss);
+            add_msg(m_info, _("The seed blossoms rather rapidly..."));
+        } else {
+            g->m.furn_set(examp, f_flower_fungal);
+            add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
+        }
+    } else { // Generic seed, use the seed item data
+        const itype &type = *seed.type;
+        g->m.i_clear(examp);
+        g->m.furn_set(examp, f_null);
+
+        int skillLevel = p.get_skill_level( skill_survival );
+        ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+        int plantCount = rng(skillLevel / 2, skillLevel);
+        if (plantCount >= 12) {
+            plantCount = 12;
+        } else if( plantCount <= 0 ) {
+            plantCount = 1;
+        }
+        const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+        for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
+            g->m.add_item_or_charges( examp, i );
+        }
+        p.moves -= 500;
+    }
+}
+
 void iexamine::aggie_plant(player &p, const tripoint &examp)
 {
     if( g->m.i_at( examp ).empty() ) {
@@ -1815,46 +1862,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
     const std::string pname = seed.get_plant_name();
 
     if (g->m.furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
-        const std::string &seedType = seed.typeId();
-        if (seedType == "fungal_seeds") {
-            fungus(p, examp);
-            g->m.i_clear(examp);
-        } else if (seedType == "marloss_seed") {
-            fungus(p, examp);
-            g->m.i_clear(examp);
-            if(p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() + p.get_starvation() > 500) || p.get_thirst() > 300 )) {
-                g->m.ter_set(examp, t_marloss);
-                add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
-            } else if( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
-                one_in(2)) ) {
-                g->summon_mon( mon_fungal_blossom, examp );
-                add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
-            } else if ( (p.has_trait(trait_THRESH_MYCUS)) || one_in(4)) {
-                g->m.furn_set(examp, f_flower_marloss);
-                add_msg(m_info, _("The seed blossoms rather rapidly..."));
-            } else {
-                g->m.furn_set(examp, f_flower_fungal);
-                add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
-            }
-        } else { // Generic seed, use the seed item data
-            const itype &type = *seed.type;
-            g->m.i_clear(examp);
-            g->m.furn_set(examp, f_null);
-
-            int skillLevel = p.get_skill_level( skill_survival );
-            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-            int plantCount = rng(skillLevel / 2, skillLevel);
-            if (plantCount >= 12) {
-                plantCount = 12;
-            } else if( plantCount <= 0 ) {
-                plantCount = 1;
-            }
-            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
-            for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
-                g->m.add_item_or_charges( examp, i );
-            }
-            p.moves -= 500;
-        }
+        harvest_plant(p, examp, seed);
     } else if (g->m.furn(examp) != f_plant_harvest) {
         if (g->m.i_at(examp).size() > 1) {
             add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
