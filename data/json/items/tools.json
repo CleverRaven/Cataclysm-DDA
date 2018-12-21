@@ -1511,7 +1511,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "basic laboratory analysis kit",
-    "description": "This hefty kit contains some basic things you should probably not try to do precise chemistry without: namely, a small balance scale, a spectrophotometer, a melting point apparatus, a pH meter, and a set of paper for thin layer chromatography. This makes it a lot easier to feel confident that the chemical you've made is what you think you've made.",
+    "description": "This hefty kit contains some basic things you should probably not try to do precise chemistry without: namely, a small balance scale, a spectrophotometer, a melting point apparatus, a pH meter, and a set of paper for thin layer chromatography.  This makes it a lot easier to feel confident that the chemical you've made is what you think you've made.",
     "weight": 12500,
     "volume": 20,
     "price": 25000,
