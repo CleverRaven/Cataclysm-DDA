@@ -374,7 +374,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     // and record the bounds to optimize lookups below
     std::unordered_map<point, std::pair<long, nc_color>> special_cache;
 
-    point s_begin, s_end = point( 0, 0 );
+    point s_begin, s_end = point_zero;
     if( blink && uistate.place_special ) {
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
@@ -1151,10 +1151,9 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                             overmap_buffer.ter( curs ) = uistate.place_terrain->id.id();
                             overmap_buffer.set_seen( curs.x, curs.y, curs.z, true );
                         } else {
+                            overmap_buffer.place_special( *uistate.place_special, curs, uistate.omedit_rotation, false, true );
                             for( const auto &s_ter : uistate.place_special->terrains ) {
                                 const tripoint pos = curs + om_direction::rotate( s_ter.p, uistate.omedit_rotation );
-
-                                overmap_buffer.ter( pos ) = s_ter.terrain->get_rotated( uistate.omedit_rotation );
                                 overmap_buffer.set_seen( pos.x, pos.y, pos.z, true );
                             }
                         }

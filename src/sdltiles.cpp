@@ -752,6 +752,10 @@ void refresh_display()
     needupdate = false;
     lastupdate = SDL_GetTicks();
 
+    if( test_mode ) {
+        return;
+    }
+
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, NULL );

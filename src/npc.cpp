@@ -84,7 +84,7 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
 {
-    submap_coords = point( 0, 0 );
+    submap_coords = point_zero;
     position.x = -1;
     position.y = -1;
     position.z = 500;
@@ -938,7 +938,7 @@ bool npc::wear_if_wanted( const item &it )
         return !!wear_item( it, false );
     }
 
-    const int it_encumber = it.get_encumber();
+    const int it_encumber = it.get_encumber( *this );
     while( !worn.empty() ) {
         auto size_before = worn.size();
         bool encumb_ok = true;
@@ -1188,7 +1188,8 @@ float npc::vehicle_danger( int radius ) const
     // TODO: check for most dangerous vehicle?
     for( unsigned int i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
-        if( wrapped_veh.v->velocity > 0 ) {
+        if( wrapped_veh.v->is_moving() ) {
+            // #FIXME this can't be the right way to do this
             float facing = wrapped_veh.v->face.dir();
 
             int ax = wrapped_veh.v->global_pos3().x;
@@ -1359,19 +1360,12 @@ void npc::say( const std::string &line ) const
         return;
     }
 
-    const bool sees = g->u.sees( *this );
-    const bool deaf = g->u.is_deaf();
-    if( sees && !deaf ) {
-        add_msg( _( "%1$s says: \"%2$s\"" ), name.c_str(), formatted_line.c_str() );
-        sounds::sound( pos(), 16, "" );
-    } else if( !sees ) {
-        std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name.c_str(),
-                                           formatted_line.c_str() );
-        sounds::sound( pos(), 16, sound );
-    } else {
-        add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name.c_str() );
-        sounds::sound( pos(), 16, "" );
+    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
+    if( g->u.sees( *this ) && g->u.is_deaf() ) {
+        add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
+    // Sound happens even if we can't hear it
+    sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
 }
 
 bool npc::wants_to_sell( const item &it ) const

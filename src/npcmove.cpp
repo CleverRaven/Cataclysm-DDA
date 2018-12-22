@@ -239,11 +239,7 @@ void npc::assess_danger()
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
             if( critter.type->difficulty > 10 && ( is_enemy() || !critter.friendly ) ) {
-                const std::string snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
-                const std::string speech = string_format( _( "%s %s." ), snip,
-                                           critter.type->nname() );
-                complain_about( "warning_" + critter.type->nname(), 10_minutes, speech,
-                                is_enemy() );
+                warn_about( "monster", 10_minutes, critter.type->nname() );
             }
         }
     }
@@ -316,6 +312,7 @@ float npc::character_danger( const Character &uc ) const
 
 void npc::regen_ai_cache()
 {
+    float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
     ai_cache.danger = 0.0f;
@@ -323,7 +320,11 @@ void npc::regen_ai_cache()
     ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
     assess_danger();
-
+    if( old_assessment > NPC_DANGER_VERY_LOW && ai_cache.danger_assessment <= 0 ) {
+        warn_about( "relax", 30_minutes );
+    } else if( old_assessment <= 0.0f && ai_cache.danger_assessment > NPC_DANGER_VERY_LOW ) {
+        warn_about( "general_danger" );
+    }
     choose_target();
 }
 
@@ -906,6 +907,7 @@ void npc::choose_target()
         } else if( att == Creature::A_NEUTRAL ) {
             // Nothing
         } else if( sees( np ) && check_hostile_character( np ) ) {
+            warn_about( "kill_npc", 1_minutes, np.disp_name() );
             ai_cache.target = g->shared_from( np );
         }
     }
@@ -914,6 +916,7 @@ void npc::choose_target()
         ai_cache.friends.emplace_back( g->shared_from( g->u ) );
     } else if( is_enemy() ) {
         if( sees( g->u ) && check_hostile_character( g->u ) ) {
+            warn_about( "kill_player", 1_minutes );
             ai_cache.target = g->shared_from( g->u );
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
@@ -1594,7 +1597,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     bool moved = false;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
         const optional_vpart_position ovp = g->m.veh_at( p );
-        if( abs( vp->vehicle().velocity ) > 0 &&
+        if( vp->vehicle().is_moving() &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
               !ovp.part_with_feature( VPFLAG_BOARDABLE, true ) ) ) {
             move_pause();
@@ -1738,9 +1741,7 @@ void npc::escape_explosion()
         return;
     }
 
-    if( is_following() && one_in( 10 ) ) {
-        say( "<fire_in_the_hole>" );
-    }
+    warn_about( "explosion", 1_minutes );
 
     move_away_from( ai_cache.dangerous_explosives, true );
 }
@@ -1966,7 +1967,7 @@ void npc::find_item()
         consider_terrain( p );
 
         const optional_vpart_position vp = g->m.veh_at( p );
-        if( !vp || vp->vehicle().velocity != 0 || !sees( p ) ) {
+        if( !vp || vp->vehicle().is_moving() || !sees( p ) ) {
             continue;
         }
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
@@ -2913,6 +2914,7 @@ void npc::mug_player( player &mark )
 
 void npc::look_for_player( player &sought )
 {
+    complain_about( "look_for_player", 5_minutes, "<wait>", false );
     update_path( sought.pos() );
     move_to_next();
     return;
@@ -3195,6 +3197,33 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
     }
 
     return ret;
+}
+
+void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
+{
+    std::string snip;
+    if( type == "monster" ) {
+        snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
+    } else if( type == "explosion" ) {
+        snip = is_enemy() ? "<fire_in_the_hole_h>" : "<fire_in_the_hole>";
+    } else if( type == "general_danger" ) {
+        snip = is_enemy() ? "<general_danger_h>" : "<general_danger>";
+    } else if( type == "relax" ) {
+        snip = is_enemy() ? "<its_safe_h>" : "<its_safe>";
+    } else if( type == "kill_npc" ) {
+        snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
+    } else if( type == "kill_player" ) {
+        snip = is_enemy() ? "<kill_player_h>" : "";
+    } else if( type == "combat_noise" ) {
+        snip = "<combat_noise_warning>";
+    } else if( type == "movement_noise" ) {
+        snip = "<movement_noise_warning>";
+    } else {
+        return;
+    }
+    const std::string warning_name = "warning_" + type + name;
+    const std::string speech = name == "" ? snip : string_format( _( "%s %s<punc>" ), snip, name );
+    complain_about( warning_name, d, speech, is_enemy() );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,

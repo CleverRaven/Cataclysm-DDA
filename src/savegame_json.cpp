@@ -548,6 +548,7 @@ void player::load( JsonObject &data )
     data.read( "last_target", tmptar );
     data.read( "last_target_type", tmptartyp );
     data.read( "last_target_pos", last_target_pos );
+    data.read( "ammo_location", ammo_location );
 
     // Fixes savefile with invalid last_target_pos.
     if( last_target_pos && *last_target_pos == tripoint_min ) {
@@ -652,6 +653,8 @@ void player::store( JsonOut &json ) const
     } else {
         json.member( "last_target_pos", last_target_pos );
     }
+
+    json.member( "ammo_location", ammo_location );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -20,6 +20,7 @@
 #include <sstream>
 
 static const std::string part_location_structure( "structure" );
+static const itype_id fuel_type_muscle( "muscle" );
 
 const std::string vehicle::disp_name() const
 {
@@ -321,12 +322,15 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     }
     if( !fullsize ) {
         for( size_t e = 0; e < engines.size(); e++ ) {
-            if( is_engine_on( e ) ) {
+            // if only one display, print the first engine that's on and consumes power
+            if( is_engine_on( e ) &&
+                !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
                 print_fuel_indicator( win, y, x, parts[ engines [ e ] ].fuel_current(), verbose,
                                       desc );
                 return;
             }
         }
+        // or print the first fuel if no engines
         print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
         return;
     }

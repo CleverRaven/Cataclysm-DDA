@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "common_types.h"
+#include "faction.h"
 #include "field.h"
 #include "game.h"
 #include "map.h"
@@ -408,4 +409,50 @@ TEST_CASE( "npc-movement" )
 
         check_npc_movement( origin );
     }
+}
+
+TEST_CASE( "npc_can_target_player" )
+{
+    // Set to daytime for visibiliity
+    calendar::turn = HOURS( 12 );
+
+    g->faction_manager_ptr->create_if_needed();
+
+    g->place_player( tripoint( 10, 10, 0 ) );
+
+    // kill npcs before removing vehicles so they are correctly unboarded
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            const tripoint p = g->u.pos() + point( x, y );
+            Creature *cre = g->critter_at( p );
+            if( cre != nullptr && cre != &g->u ) {
+                npc *guy = dynamic_cast<npc *>( cre );
+                cre->die( nullptr );
+                if( guy ) {
+                    overmap_buffer.remove_npc( guy->getID() );
+                }
+            }
+        }
+    }
+    g->unload_npcs();
+
+    const auto spawn_npc = []( int x, int y, const std::string & npc_class ) {
+        const string_id<npc_template> test_guy( npc_class );
+        int model_id = g->m.place_npc( 10, 10, test_guy, true );
+        g->load_npcs();
+
+        npc *guy = g->find_npc( model_id );
+        REQUIRE( guy != nullptr );
+        guy->setpos( g->u.pos() + point( x, y ) );
+        return guy;
+    };
+
+    npc *hostile = spawn_npc( 0, 1, "thug" );
+    REQUIRE( rl_dist( g->u.pos(), hostile->pos() ) <= 1 );
+    hostile->set_attitude( NPCATT_KILL );
+    hostile->name = "Enemy NPC";
+
+    hostile->regen_ai_cache();
+    REQUIRE( hostile->current_target() != nullptr );
+    CHECK( hostile->current_target() == static_cast<Creature *>( &g->u ) );
 }
