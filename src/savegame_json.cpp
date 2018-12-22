@@ -2160,7 +2160,8 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "moveDir", mdir );
     data.read( "turn_dir", turn_dir );
     data.read( "velocity", velocity );
-    data.read( "falling", falling );
+    data.read( "falling", is_falling );
+    data.read( "floating", is_floating );
     data.read( "cruise_velocity", cruise_velocity );
     data.read( "vertical_velocity", vertical_velocity );
     data.read( "cruise_on", cruise_on );
@@ -2276,7 +2277,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "moveDir", move.dir() );
     json.member( "turn_dir", turn_dir );
     json.member( "velocity", velocity );
-    json.member( "falling", falling );
+    json.member( "falling", is_falling );
+    json.member( "floating", is_floating );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
     json.member( "cruise_on", cruise_on );

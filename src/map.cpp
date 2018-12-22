@@ -372,7 +372,7 @@ bool map::vehproceed()
     if( cur_veh == nullptr ) {
         for( auto &vehs_v : vehs ) {
             vehicle &cveh = *vehs_v.v;
-            if( cveh.falling ) {
+            if( cveh.is_falling ) {
                 cur_veh = vehs_v.v;
                 break;
             }
@@ -384,29 +384,6 @@ bool map::vehproceed()
     }
 
     return cur_veh->act_on_map();
-}
-
-float map::vehicle_buoyancy( const vehicle &veh ) const
-{
-    const auto &float_indices = veh.floating;
-    const int num = float_indices.size();
-    int moored = 0;
-    float total_wheel_area = 0.0f;
-    for( int w = 0; w < num; w++ ) {
-        const int p = float_indices[w];
-        const tripoint pp = veh.global_part_pos3( p );
-        total_wheel_area += veh.parts[ p ].wheel_width() * veh.parts[ p ].wheel_diameter();
-
-        if( !has_flag( "SWIMMABLE", pp ) ) {
-            moored++;
-        }
-    }
-
-    if( moored > num - 1 ) {
-        return 0.0f;
-    }
-
-    return total_wheel_area;
 }
 
 static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
@@ -517,7 +494,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !vertical && !veh.valid_wheel_config( veh.is_in_water() ) ) {
+    if( !vertical && !veh.valid_wheel_config() && !veh.is_in_water() ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
         for( const auto &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
@@ -1076,9 +1053,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         g->setremoteveh( veh );
     }
 
-    if( !veh->falling ) {
-        veh->falling = vehicle_falling( *veh );
-    }
+    veh->check_falling_or_floating();
 
     //global positions of vehicle loot zones have changed.
     veh->zones_dirty = true;
@@ -2018,7 +1993,7 @@ void map::drop_vehicle( const tripoint &p )
         return;
     }
 
-    vp->vehicle().falling = true;
+    vp->vehicle().is_falling = true;
 }
 
 void map::drop_fields( const tripoint &p )

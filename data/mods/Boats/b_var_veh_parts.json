@@ -1,6 +1,6 @@
 [
   {
-    "type":"WHEEL",
+    "type": "GENERIC",
     "id": "inflatable_section",
     "symbol": "o",
     "color": "green",
@@ -13,8 +13,6 @@
     "volume": 50,
     "bashing": 8,
     "to_hit": -1,
-    "diameter": 30,
-    "width": 4,
     "category": "veh_parts"
 },{
     "type":"GENERIC",
@@ -32,7 +30,7 @@
     "category" : "veh_parts",
     "price" : 9000
 },{
-    "type":"WHEEL",
+    "type": "GENERIC",
     "id": "inflatable_airbag",
     "symbol": "o",
     "color": "dark_gray",
@@ -45,8 +43,6 @@
     "volume": 50,
     "bashing": 8,
     "to_hit": -1,
-    "diameter": 30,
-    "width": 4,
     "category": "veh_parts"
   }
 ]

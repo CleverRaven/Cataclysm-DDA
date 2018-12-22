@@ -1077,9 +1077,8 @@ class vehicle
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
-         * @param boat If true, calculates the area under "wheels" that allow swimming.
          */
-        float wheel_area( bool boat ) const;
+        float wheel_area() const;
 
         /**
          * Physical coefficients used for vehicle calculations.
@@ -1143,10 +1142,10 @@ class vehicle
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
 
-        // Calculate if it can move using its wheels or boat parts configuration
-        bool sufficient_wheel_config( bool floating ) const;
-        bool balanced_wheel_config( bool floating ) const;
-        bool valid_wheel_config( bool floating ) const;
+        // Calculate if it can move using its wheels
+        bool sufficient_wheel_config() const;
+        bool balanced_wheel_config() const;
+        bool valid_wheel_config() const;
 
         // return the relative effectiveness of the steering (1.0 is normal)
         // <0 means there is no steering installed at all.
@@ -1414,6 +1413,8 @@ class vehicle
         void on_move();
         // move the vehicle on the map
         bool act_on_map();
+        // check if the vehicle should be falling or is in water
+        void check_falling_or_floating();
 
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap
@@ -1552,7 +1553,7 @@ class vehicle
         // "inside" flags are outdated and need refreshing
         bool insides_dirty              = true;
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
-        bool falling                    = false;
+        bool is_falling                 = false;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::time_of_cataclysm;
         // zone_data positions are outdated and need refreshing
@@ -1600,13 +1601,13 @@ class vehicle
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true;
 
-        mutable double coefficient_air_resistance;
-        mutable double coefficient_rolling_resistance;
-        mutable double coefficient_water_resistance;
-        mutable double draft_m;
-        mutable double hull_height;
+        mutable double coefficient_air_resistance = 1;
+        mutable double coefficient_rolling_resistance = 1;
+        mutable double coefficient_water_resistance = 1;
+        mutable double draft_m = 1;
+        mutable double hull_height = 0.3;
         // is the vehicle currently mostly in water
-        mutable bool is_floating;
+        mutable bool is_floating = false;
 };
 
 #endif
