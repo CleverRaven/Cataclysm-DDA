@@ -501,7 +501,8 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
         const int volume = std::min<int>( 100, sqrtf( impulse ) );
         // TODO: Center the sound at weighted (by impulse) average of collisions
-        sounds::sound( veh.global_pos3(), volume, _( "crash!" ), false, "smash_success", "hit_vehicle" );
+        sounds::sound( veh.global_pos3(), volume, sounds::sound_t::combat, _( "crash!" ),
+                       false, "smash_success", "hit_vehicle" );
     }
 
     if( veh_veh_coll_flag ) {
@@ -526,7 +527,8 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
-                sounds::sound( wheel_p, 4, _( "splash!" ), false, "environment", "splash" );
+                sounds::sound( wheel_p, 4,  sounds::sound_t::movement, _( "splash!" ), false,
+                               "environment", "splash" );
             }
 
             veh.handle_trap( wheel_p, w );
@@ -2896,7 +2898,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     // TODO: what if silent is true?
     if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
-        sounds::sound( p, 40, _( "an alarm go off!" ), false, "environment", "alarm" );
+        sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
+                       false, "environment", "alarm" );
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
@@ -2910,7 +2913,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Nothing bashable here
         if( impassable( p ) ) {
             if( !params.silent ) {
-                sounds::sound( p, 18, _( "thump!" ), false, "smash_thump", "smash_success" );
+                sounds::sound( p, 18, sounds::sound_t::combat, _( "thump!" ),
+                               false, "smash_thump", "smash_success" );
             }
 
             params.did_bash = true;
@@ -2967,10 +2971,11 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             sound_volume = sound_fail_vol;
         }
 
-        sound = _( bash->sound_fail.c_str() );
+        sound = bash->sound_fail.empty() ? _( "Thnk!" ) : _( bash->sound_fail.c_str() );
         params.did_bash = true;
         if( !params.silent ) {
-            sounds::sound( p, sound_volume, sound, false, "smash_fail", soundfxvariant );
+            sounds::sound( p, sound_volume, sounds::sound_t::combat, sound, false,
+                           "smash_fail", soundfxvariant );
         }
 
         return;
@@ -3129,7 +3134,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     params.success |= success; // Not always true, so that we can tell when to stop destroying
     params.bashed_solid = true;
     if( !sound.empty() && !params.silent ) {
-        sounds::sound( p, sound_volume, sound, false, soundfxid, soundfxvariant );
+        sounds::sound( p, sound_volume, sounds::sound_t::combat, sound, false,
+                       soundfxid, soundfxvariant );
     }
 }
 
@@ -3187,7 +3193,8 @@ void map::bash_items( const tripoint &p, bash_params &params )
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !params.silent ) {
-        sounds::sound( p, 12, _( "glass shattering" ), false, "smash_success", "smash_glass_contents" );
+        sounds::sound( p, 12, sounds::sound_t::combat, _( "glass shattering" ), false,
+                       "smash_success", "smash_glass_contents" );
     }
 }
 
@@ -3197,7 +3204,8 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
     if( const optional_vpart_position vp = veh_at( p ) ) {
         vp->vehicle().damage( vp->part_index(), params.strength, DT_BASH );
         if( !params.silent ) {
-            sounds::sound( p, 18, _( "crash!" ), false, "smash_success", "hit_vehicle" );
+            sounds::sound( p, 18, sounds::sound_t::combat, _( "crash!" ), false,
+                           "smash_success", "hit_vehicle" );
         }
 
         params.did_bash = true;
@@ -3300,7 +3308,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     const auto &ammo_effects = proj.proj_effects;
 
     if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
-        sounds::sound( p, 30, _( "an alarm sound!" ) );
+        sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ) );
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
         g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
@@ -3309,6 +3317,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
+    const auto break_glass = []( const tripoint & p, int vol ) {
+        sounds::sound( p, vol, sounds::sound_t::combat, _( "glass breaking!" ), false,
+                       "smash", "glass" );
+    };
 
     ter_id terrain = ter( p );
     if( terrain == t_wall_wood_broken ||
@@ -3317,7 +3329,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
             dam -= rng( 20, 40 );
             if( dam > 0 ) {
-                sounds::sound( p, 10, _( "crash!" ), false, "smash", "wall" );
+                sounds::sound( p, 10, sounds::sound_t::combat, _( "crash!" ), false,
+                               "smash", "wall" );
                 ter_set( p, t_dirt );
             }
         } else {
@@ -3329,7 +3342,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                terrain == t_door_locked_alarm ) {
         dam -= rng( 15, 30 );
         if( dam > 0 ) {
-            sounds::sound( p, 10, _( "smash!" ), false, "smash", "door" );
+            sounds::sound( p, 10, sounds::sound_t::combat, _( "smash!" ), false, "smash", "door" );
             ter_set( p, t_door_b );
         }
     } else if( terrain == t_door_boarded ||
@@ -3338,7 +3351,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                terrain == t_rdoor_boarded_damaged ) {
         dam -= rng( 15, 35 );
         if( dam > 0 ) {
-            sounds::sound( p, 10, _( "crash!" ), false, "smash", "door_boarded" );
+            sounds::sound( p, 10, sounds::sound_t::combat, _( "crash!" ), false,
+                           "smash", "door_boarded" );
             ter_set( p, t_door_b );
         }
     } else if( terrain == t_window_domestic_taped ||
@@ -3353,7 +3367,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             dam -= rng( 1, 3 );
             if( dam > 0 ) {
-                sounds::sound( p, 16, _( "glass breaking!" ), false, "smash", "glass" );
+                break_glass( p, 16 );
                 ter_set( p, t_window_frame );
                 spawn_item( p, "sheet", 1 );
                 spawn_item( p, "stick" );
@@ -3376,21 +3390,21 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             dam -= rng( 1, 3 );
             if( dam > 0 ) {
-                sounds::sound( p, 16, _( "glass breaking!" ), false, "smash", "glass" );
+                break_glass( p, 16 );
                 ter_set( p, t_window_frame );
             }
         }
     } else if( terrain == t_window_bars_alarm ) {
         dam -= rng( 1, 3 );
         if( dam > 0 ) {
-            sounds::sound( p, 16, _( "glass breaking!" ), false, "smash", "glass" );
+            break_glass( p, 16 );
             ter_set( p, t_window_bars );
             spawn_item( p, "glass_shard", 5 );
         }
     } else if( terrain == t_window_boarded ) {
         dam -= rng( 10, 30 );
         if( dam > 0 ) {
-            sounds::sound( p, 16, _( "glass breaking!" ), false, "smash", "glass" );
+            break_glass( p, 16 );
             ter_set( p, t_window_frame );
         }
     } else if( terrain == t_wall_glass  ||
@@ -3401,7 +3415,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             dam -= rng( 1, 8 );
             if( dam > 0 ) {
-                sounds::sound( p, 16, _( "glass breaking!" ), false, "smash", "glass" );
+                break_glass( p, 16 );
                 ter_set( p, t_floor );
             }
         }
@@ -3422,14 +3436,14 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             } else if( dam >= 40 ) {
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.
-                sounds::sound( p, 16, _( "glass breaking!" ), false, "smash", "glass" );
+                break_glass( p, 16 );
                 ter_set( p, t_floor );
             }
         }
     } else if( terrain == t_paper ) {
         dam -= rng( 4, 16 );
         if( dam > 0 ) {
-            sounds::sound( p, 8, _( "rrrrip!" ) );
+            sounds::sound( p, 8, sounds::sound_t::combat, _( "rrrrip!" ) );
             ter_set( p, t_dirt );
         }
         if( inc ) {
@@ -3450,7 +3464,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                         }
                     }
 
-                    sounds::sound( p, 10, _( "smash!" ) );
+                    sounds::sound( p, 10, sounds::sound_t::combat, _( "smash!" ) );
                 }
                 ter_set( p, t_gas_pump_smashed );
             }
@@ -3458,7 +3472,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         }
     } else if( terrain == t_vat ) {
         if( dam >= 10 ) {
-            sounds::sound( p, 20, _( "ke-rash!" ) );
+            sounds::sound( p, 20, sounds::sound_t::combat, _( "ke-rash!" ) );
             ter_set( p, t_floor );
         } else {
             dam = 0;
@@ -3587,7 +3601,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if( !check_only ) {
-            sounds::sound( p, 6, "", true, "open_door", ter.id.str() );
+            sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
+                           "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
             if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
@@ -3604,7 +3619,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if( !check_only ) {
-            sounds::sound( p, 6, "", true, "open_door", furn.id.str() );
+            sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
+                           "open_door", furn.id.str() );
             furn_set( p, furn.open );
         }
 
@@ -3686,13 +3702,15 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     const auto &furn = this->furn( p ).obj();
     if( ter.close && !furn.id ) {
         if( !check_only ) {
-            sounds::sound( p, 10, "", true, "close_door", ter.id.str() );
+            sounds::sound( p, 10, sounds::sound_t::movement, _( "swish" ), true,
+                           "close_door", ter.id.str() );
             ter_set( p, ter.close );
         }
         return true;
     } else if( furn.close ) {
         if( !check_only ) {
-            sounds::sound( p, 10, "", true, "close_door", furn.id.str() );
+            sounds::sound( p, 10, sounds::sound_t::movement, _( "swish" ), true,
+                           "close_door", furn.id.str() );
             furn_set( p, furn.close );
         }
         return true;
@@ -4885,7 +4903,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
 {
     bool trigger_item = false;
     if( n->has_flag( "RADIO_ACTIVATION" ) && n->has_flag( signal ) ) {
-        sounds::sound( pos, 6, _( "beep." ) );
+        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "beep." ) );
         if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
             // Invoke twice: first to transform, then later to proc
             // Can't use process_item here - invalidates our iterator

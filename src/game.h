@@ -653,6 +653,7 @@ class game
         std::vector<npc *> allies();
 
     private:
+        std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
         int ter_view_x;

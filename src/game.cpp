@@ -237,6 +237,7 @@ game::game() :
     events( *event_manager_ptr ),
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
+    u_shared_ptr( &u, null_deleter{} ),
     pixel_minimap_option( 0 ),
     safe_mode( SAFE_MODE_ON ),
     safe_mode_warning_logged( false ),
@@ -1528,6 +1529,13 @@ bool game::do_turn()
     reset_light_level();
 
     perhaps_add_random_npc();
+
+    // Process NPC sound events before they move or they hear themselves talking
+    for( npc &guy : all_npcs() ) {
+        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+            sounds::process_sound_markers( &guy );
+        }
+    }
 
     process_activity();
 
@@ -4787,7 +4795,7 @@ void game::flashbang( const tripoint &p, bool player_immune )
             }
         }
     }
-    sounds::sound( p, 12, _( "a huge boom!" ) );
+    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ) );
     // TODO: Blind/deafen NPC
 }
 
@@ -4796,7 +4804,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
 {
     draw_explosion( p, radius, c_blue );
 
-    sounds::sound( p, force * force * dam_mult / 2, _( "Crack!" ) );
+    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ) );
 
     for( monster &critter : all_monsters() ) {
         if( rl_dist( critter.pos(), p ) <= radius ) {
@@ -5348,8 +5356,7 @@ std::shared_ptr<T> game::shared_from( const T &critter )
     }
     if( static_cast<const Creature *>( &critter ) == static_cast<const Creature *>( &u ) ) {
         // u is not stored in a shared_ptr, but it won't go out of scope anyway
-        const std::shared_ptr<player> player_ptr( &u, []( player * ) { } );
-        return std::dynamic_pointer_cast<T>( player_ptr );
+        return std::dynamic_pointer_cast<T>( u_shared_ptr );
     }
     for( auto &cur_npc : active_npc ) {
         if( static_cast<const Creature *>( cur_npc.get() ) == static_cast<const Creature *>( &critter ) ) {
@@ -10656,24 +10663,21 @@ bool game::walk_move( const tripoint &dest_loc )
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
         if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) && !u.has_trait( trait_id( "SMALL2" ) ) &&
             !u.has_trait( trait_id( "SMALL_OK" ) ) ) {
+            int volume = 6;
             if( u.has_trait( trait_id( "LIGHTSTEP" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
-                sounds::sound( dest_loc, 2, "", true, "none",
-                               "none" );    // Sound of footsteps may awaken nearby monsters
-                sfx::do_footstep();
+                volume = 2;
             } else if( u.has_trait( trait_id( "CLUMSY" ) ) ) {
-                sounds::sound( dest_loc, 10, "", true, "none", "none" );
-                sfx::do_footstep();
+                volume = 10;
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
-                sounds::sound( dest_loc, 12, "", true, "none", "none" );
-                sfx::do_footstep();
-            } else {
-                sounds::sound( dest_loc, 6, "", true, "none" );
-                sfx::do_footstep();
+                volume = 12;
             }
+            sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
+                           "none", "none" );    // Sound of footsteps may awaken nearby monsters
+            sfx::do_footstep();
         }
 
         if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
-            sounds::sound( u.pos(), 40, _( "You emit a rattling sound." ) );
+            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ) );
         }
     }
 
@@ -11158,7 +11162,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
             }
         }
     }
-    sounds::sound( fdest, furntype.move_str_req * 2, _( "a scraping noise." ) );
+    sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
+                   _( "a scraping noise." ) );
 
     // Actually move the furniture
     m.furn_set( fdest, m.furn( fpos ) );
@@ -11842,6 +11847,10 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     }
 
     if( movez > 0 ) {
+        if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
+            popup( _( "Halfway up, the way up becomes blocked off." ) );
+            return cata::nullopt;
+        }
         // Manhole covers need this to work
         // Maybe require manhole cover here and fail otherwise?
         return stairs;
@@ -12195,7 +12204,8 @@ void game::update_stair_monsters()
 
             add_msg( m_warning, dump.str().c_str() );
         } else {
-            sounds::sound( dest, 5, _( "a sound nearby from the stairs!" ) );
+            sounds::sound( dest, 5, sounds::sound_t::movement,
+                           _( "a sound nearby from the stairs!" ) );
         }
 
         if( critter.staircount > 0 ) {

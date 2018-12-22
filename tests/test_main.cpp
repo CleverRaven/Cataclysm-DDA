@@ -3,10 +3,13 @@
 // https://github.com/catchorg/Catch2/issues/1384
 // https://stackoverflow.com/questions/22915325/avoiding-self-assignment-in-stdshuffle/23691322
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85828
+#include <iosfwd> // Any cheap-to-include stdlib header
+#ifdef __GLIBCXX__
 #include <debug/macros.h>
 #undef __glibcxx_check_self_move_assign
 #define __glibcxx_check_self_move_assign(x)
-#endif
+#endif // __GLIBCXX__
+#endif // _GLIBCXX_DEBUG
 
 #define CATCH_CONFIG_RUNNER
 #include "catch/catch.hpp"
