@@ -323,25 +323,21 @@
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
-      "both": [
-        "slingpack",
-        "tank_top",
-        "jeans",
-        "socks",
-        "boots_steel",
-        "tool_belt",
-        "wrench",
-        "duct_tape",
-        "screwdriver",
-        "welder",
-        "battery",
-        "battery",
-        "battery",
-        "battery",
-        "battery",
-        "goggles_welding",
-        "mag_cars"
-      ],
+      "both": {
+        "items": [
+          "slingpack",
+          "tank_top",
+          "jeans",
+          "socks",
+          "boots_steel",
+          "tool_belt",
+          "wrench",
+          "duct_tape",
+          "screwdriver",
+          "mag_cars"
+        ],
+        "entries": [ { "item": "welder", "charges": 500 }, { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
