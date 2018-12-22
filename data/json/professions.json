@@ -2284,7 +2284,7 @@
         ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "XL_holster", "contents-group": [ "shotgun_d_roadwarrior" ] },
+          { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
           { "item": "reloaded_shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "reloaded_shot_00", "charges": 6 }
         ]
