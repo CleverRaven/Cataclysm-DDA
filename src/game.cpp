@@ -6456,7 +6456,8 @@ cata::optional<tripoint> game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, std::string area_name, int column,
+void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+                                std::string area_name, int column,
                                 int &line,
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
@@ -6547,13 +6548,14 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
     line += 2;
 }
 
-void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look, std::string area_name, int column,
+void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
+                               std::string area_name, int column,
                                int &line )
 {
     const int max_width = getmaxx( w_look ) - column - 1;
     int lines;
     std::string tile = m.tername( lp );
-     tile = "( "+ area_name + " )  " + tile;
+    tile = "( " + area_name + " )  " + tile;
     if( m.has_furn( lp ) ) {
         tile += "; " + m.furnname( lp );
     }
@@ -7363,10 +7365,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     do {
         if( redraw ) {
             // get global area info according to look_around caret position
-            const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy(g->m.getabs(lp)));
+            const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
             // we only need the area name and then pass it to print_all_tile_info() function below
             std::string area_name = cur_ter_m->get_name();
-            
+
             if( bNewWindow ) {
                 werase( w_info );
                 draw_border( w_info );
@@ -7391,7 +7393,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
                 int first_line = 1;
                 const int last_line = getmaxy( w_messages ) - 2;
-                print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
+                print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, !is_draw_tiles_mode(),
+                                     cache );
 
                 if( fast_scroll ) {
                     //~ "Fast Scroll" mark below the top right corner of the info window
