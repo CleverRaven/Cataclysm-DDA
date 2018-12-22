@@ -248,9 +248,9 @@ class zone_manager
         }
 
         void add( const std::string &name, const zone_type_id &type,
-                        const bool invert, const bool enabled,
-                        const tripoint &start, const tripoint &end,
-                        std::shared_ptr<zone_options> options = nullptr );
+                  const bool invert, const bool enabled,
+                  const tripoint &start, const tripoint &end,
+                  std::shared_ptr<zone_options> options = nullptr );
 
         bool remove( zone_data &zone );
 
