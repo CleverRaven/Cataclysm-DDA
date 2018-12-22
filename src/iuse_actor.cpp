@@ -336,7 +336,8 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
 {
     if( t ) {
         if( sound_volume >= 0 ) {
-            sounds::sound( pos, sound_volume, sound_msg.empty() ? "" : _( sound_msg.c_str() ) );
+            sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
+                           sound_msg.empty() ? _( "Tick." ) : _( sound_msg.c_str() ) );
         }
         return 0;
     }
@@ -898,7 +899,7 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p.pos(), 40, _( "an alarm sound!" ) );
+        sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
         if( !g->events.queued( EVENT_WANTED ) ) {
             g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
         }
@@ -1765,9 +1766,9 @@ ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const
 void fireweapon_off_actor::load( JsonObject &obj )
 {
     target_id           = obj.get_string( "target_id" );
-    success_message     = obj.get_string( "success_message" );
+    success_message     = obj.get_string( "success_message", "hsss" );
     lacks_fuel_message  = obj.get_string( "lacks_fuel_message" );
-    failure_message     = obj.get_string( "failure_message", "" );
+    failure_message     = obj.get_string( "failure_message", "hsss" );
     noise               = obj.get_int( "noise", 0 );
     moves               = obj.get_int( "moves", 0 );
     success_chance      = obj.get_int( "success_chance", INT_MIN );
@@ -1792,7 +1793,7 @@ long fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) 
     p.moves -= moves;
     if( rng( 0, 10 ) - it.damage_level( 4 ) > success_chance && !p.is_underwater() ) {
         if( noise > 0 ) {
-            sounds::sound( p.pos(), noise, _( success_message.c_str() ) );
+            sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( success_message.c_str() ) );
         } else {
             p.add_msg_if_player( _( success_message.c_str() ) );
         }
@@ -1822,7 +1823,7 @@ ret_val<bool> fireweapon_off_actor::can_use( const player &p, const item &it, bo
 
 void fireweapon_on_actor::load( JsonObject &obj )
 {
-    noise_message                   = obj.get_string( "noise_message" );
+    noise_message                   = obj.get_string( "noise_message", "hsss" );
     voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message" );
     charges_extinguish_message      = obj.get_string( "charges_extinguish_message" );
     water_extinguish_message        = obj.get_string( "water_extinguish_message" );
@@ -1859,7 +1860,7 @@ long fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) c
 
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
-            sounds::sound( p.pos(), noise, _( noise_message.c_str() ) );
+            sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( noise_message.c_str() ) );
         } else {
             p.add_msg_if_player( _( noise_message.c_str() ) );
         }
@@ -1872,7 +1873,7 @@ void manualnoise_actor::load( JsonObject &obj )
 {
     no_charges_message  = obj.get_string( "no_charges_message" );
     use_message         = obj.get_string( "use_message" );
-    noise_message       = obj.get_string( "noise_message", "" );
+    noise_message       = obj.get_string( "noise_message", "hsss" );
     noise               = obj.get_int( "noise", 0 );
     moves               = obj.get_int( "moves", 0 );
 }
@@ -1894,7 +1895,8 @@ long manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) con
     {
         p.moves -= moves;
         if( noise > 0 ) {
-            sounds::sound( p.pos(), noise, noise_message.empty() ? "" : _( noise_message.c_str() ) );
+            sounds::sound( p.pos(), noise, sounds::sound_t::activity,
+                           noise_message.empty() ? _( "Hsss" ) : _( noise_message.c_str() ) );
         }
         p.add_msg_if_player( _( use_message.c_str() ) );
     }
@@ -1995,7 +1997,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         p.add_effect( effect_playing_instrument, 2_turns, num_bp, false, speed_penalty );
     }
 
-    std::string desc;
+    std::string desc = "music";
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
     if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
@@ -3800,7 +3802,8 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, m_category.iv_sound_message() );
+        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::speech,
+                       m_category.iv_sound_message() );
     }
 
     int mut_count = m_category.iv_min_mutations;

@@ -1160,6 +1160,9 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );

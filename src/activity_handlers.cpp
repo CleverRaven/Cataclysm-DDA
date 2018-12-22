@@ -171,7 +171,8 @@ void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Rat mutant burrowing!
-        sounds::sound( act->placement, 10, _( "ScratchCrunchScrabbleScurry." ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::movement,
+                       _( "ScratchCrunchScrabbleScurry." ) );
         messages_in_process( *act, *p );
     }
 }
@@ -1576,7 +1577,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
     const tripoint &pos = act->placement;
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, _( "CHNK! CHNK! CHNK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::combat, _( "CHNK! CHNK! CHNK!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -1969,7 +1970,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     act->values[0] -= int( charges_used );
 
     if( calendar::once_every( 2_turns ) ) {
-        sounds::sound( act->placement, 10, _( "hissssssssss!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hissssssssss!" ) );
     }
 }
 
@@ -2542,7 +2543,7 @@ void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
-        sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "grnd grnd grnd" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2607,7 +2608,7 @@ void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( act->placement, 15, _( "CHK!" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "CHK!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2668,7 +2669,7 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
-        sounds::sound( act->placement, 15, _( "TATATATATATATAT!" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "TATATATATATATAT!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2691,7 +2692,7 @@ void activity_handlers::dig_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2718,7 +2719,7 @@ void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }

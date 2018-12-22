@@ -1245,6 +1245,10 @@ bool overmapbuffer::place_special( const overmap_special_id special_id, const tr
         return false;
     }
 
+    // Force our special to occur just once when we're spawning it here.
+    special.occurrences.min = 1;
+    special.occurrences.max = 1;
+
     // Figure out the longest side of the special for purposes of determining our sector size
     // when attempting placements.
     const auto calculate_longest_side = [&special]() {

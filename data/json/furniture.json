@@ -7,6 +7,8 @@
     "symbol": "#",
     "bgcolor": "brown",
     "move_cost_mod": 3,
+    "comfort": 2,
+    "floor_bedding_warmth": 100,
     "required_str": 6,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "bash": {
@@ -327,6 +329,8 @@
     "description": "Quite comfortable to sleep in.",
     "color": "magenta",
     "move_cost_mod": 3,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "blanket", "count": 2 }, { "item": "nail", "charges": [ 8, 10 ] } ]
@@ -373,6 +377,8 @@
     "description": "Not as comfortable as a real bed, but it will suffice.",
     "color": "magenta",
     "move_cost_mod": 3,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
     "required_str": 10,
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": [ 30, 35 ] }, { "item": "nail", "charges": [ 4, 6 ] } ]
@@ -400,6 +406,8 @@
     "description": "Kinda itches when you lay on it.",
     "color": "magenta",
     "move_cost_mod": 3,
+    "comfort": 2,
+    "floor_bedding_warmth": 200,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
     "max_volume": 4000,
@@ -571,6 +579,7 @@
     "description": "Sit down, have a drink.",
     "color": "brown",
     "move_cost_mod": 1,
+    "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 6 ] } ] },
@@ -591,6 +600,9 @@
     "description": "Sit down, have a drink.",
     "color": "brown",
     "move_cost_mod": 1,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
@@ -611,6 +623,9 @@
     "description": "A more comfortable way of sitting down.",
     "color": "green",
     "move_cost_mod": 1,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
@@ -638,6 +653,8 @@
     "description": "Lay down OR sit down!  Perfect!",
     "bgcolor": "red",
     "move_cost_mod": 1,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
     "required_str": 10,
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 8, 10 ] } ]
@@ -792,6 +809,9 @@
     "description": "Hobo bed.  Use at your own risk.",
     "color": "brown",
     "move_cost_mod": 1,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "max_volume": 4000,
@@ -3188,6 +3208,8 @@
     "description": "A plush red sofa made less comfortable by the medical machinery directly above it.  It has a single leather strap on the right armrest.",
     "bgcolor": "red",
     "move_cost_mod": 2,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
     "required_str": 10,
     "deconstruct": {
       "items": [

@@ -580,6 +580,9 @@ class inventory_selector
         bool layout_is_valid = false;
 };
 
+inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
+                                       const std::function<std::string( int )> &disp_func );
+
 class inventory_pick_selector : public inventory_selector
 {
     public:
@@ -620,9 +623,11 @@ class inventory_compare_selector : public inventory_multiselector
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
+        using GetStats = std::function<stats( const std::map<const item *, int> & )>;
         inventory_iuse_selector( const player &p,
                                  const std::string &selector_title,
-                                 const inventory_selector_preset &preset = default_preset );
+                                 const inventory_selector_preset &preset = default_preset,
+                                 const GetStats & = {} );
         std::list<std::pair<int, int>> execute();
 
     protected:
@@ -630,6 +635,7 @@ class inventory_iuse_selector : public inventory_multiselector
         void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
+        GetStats get_stats;
         std::map<const item *, int> to_use;
         size_t max_chosen_count;
 };

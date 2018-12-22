@@ -610,6 +610,10 @@ class npc : public player
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
                          const std::string &name = "" );
         bool complain(); // Finds something to complain about and complains. Returns if complained.
+
+        void handle_sound( int priority, const std::string &description, int heard_volume,
+                           const tripoint &spos );
+
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
