@@ -284,6 +284,7 @@ bool zone_data::set_name()
             new_name = _( "<no name>" );
         }
         if( name != new_name ) {
+            zone_manager::get_manager().zone_edited( *this );
             name = new_name;
             return true;
         }
@@ -297,6 +298,7 @@ bool zone_data::set_type()
     if( maybe_type.has_value() && maybe_type.value() != type ) {
         auto new_options = zone_options::create( maybe_type.value() );
         if( new_options->query_at_creation() ) {
+            zone_manager::get_manager().zone_edited( *this );
             type = maybe_type.value();
             options = new_options;
             zone_manager::get_manager().cache_data();
@@ -321,6 +323,7 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> position,
 
 void zone_data::set_enabled( const bool _enabled )
 {
+    zone_manager::get_manager().zone_edited( *this );
     enabled = _enabled;
 }
 
@@ -605,9 +608,9 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
     return nullptr;
 }
 
-zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
-                              const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
-                              std::shared_ptr<zone_options> options )
+void zone_manager::add( const std::string &name, const zone_type_id &type,
+                        const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
+                        std::shared_ptr<zone_options> options )
 {
     zone_data new_zone = zone_data( name, type, invert, enabled, start,
                                     end, options );
@@ -616,18 +619,24 @@ zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
                 start ) ).part_with_feature( "CARGO", false ) ) {
         //TODO:Allow for loot zones on vehicles to be larger than 1x1
         if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
+            //TODO: refactor zone options for proper validation code
+            if( type == zone_type_id( "FARM_PLOT" ) ) {
+                popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
+                return;
+            }
             //create a vehicle loot zone
             new_zone.set_is_vehicle( true );
-            vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
+            auto nz = vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
             g->m.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
+            vp->vehicle().zones_dirty = false;
+            added_vzones.push_back( &nz->second );
             cache_vzones();
-            return zones.back();
+            return;
         }
     }
     //Create a regular zone
     zones.push_back( new_zone );
     cache_data();
-    return zones.back();
 }
 
 bool zone_manager::remove( zone_data &zone )
@@ -638,6 +647,30 @@ bool zone_manager::remove( zone_data &zone )
             return true;
         }
     }
+    zone_data old_zone = zone_data( zone );
+    //If the zone was previously edited this session
+    //Move original data out of changed
+    for( auto it = changed_vzones.begin(); it != changed_vzones.end(); ++it ) {
+        if( it->second == &zone ) {
+            old_zone = zone_data( it->first );
+            changed_vzones.erase( it );
+            break;
+        }
+    }   
+    bool added = false;
+    //If the zone was added this session
+    //remove from added, and don't add to removed
+    for( auto it = added_vzones.begin(); it != added_vzones.end(); ++it ) {
+        if( ( *it ) == &zone ) {
+            added = true;
+            added_vzones.erase( it );
+            break;
+        }
+    }
+    if( !added ) {
+        removed_vzones.push_back( old_zone );
+    }
+
     if( !g->m.deregister_vehicle_zone( zone ) ) {
         debugmsg( "Tried to remove a zone from an unloaded vehicle" );
         return false;
@@ -648,8 +681,11 @@ bool zone_manager::remove( zone_data &zone )
 
 void zone_manager::swap( zone_data &a, zone_data &b )
 {
-    if( a.get_is_vehicle() != b.get_is_vehicle() ) {
-        debugmsg( "Cannot swap a vehicle zone with a terrain zone" );
+    if( a.get_is_vehicle() || b.get_is_vehicle() ) {
+        //Current swap mechanic will change which vehicle the zone is on
+        //TODO: track and update vehicle zone priorities?
+        popup( _( "You cannot change the order of vehicle loot zones." ), PF_NONE );
+        return;
     }
     std::swap( a, b );
 }
@@ -757,6 +793,9 @@ bool zone_manager::save_zones()
 {
     std::string savefile = g->get_player_base_save_path() + ".zones.json";
 
+    added_vzones.clear();
+    changed_vzones.clear();
+    removed_vzones.clear();
     return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
@@ -771,6 +810,45 @@ void zone_manager::load_zones()
         JsonIn jsin( fin );
         deserialize( jsin );
     } );
+    revert_vzones();
+    added_vzones.clear();
+    changed_vzones.clear();
+    removed_vzones.clear();
 
     cache_data();
+}
+
+void zone_manager::zone_edited( zone_data &zone )
+{
+    if( zone.get_is_vehicle() ) {
+        //Check if this zone has already been stored
+        for( auto it = changed_vzones.begin(); it != changed_vzones.end(); ++it ) {
+            if( &zone == it->second ) {
+                return;
+            }
+        }
+        //Add it to the list of changed zones
+        changed_vzones.push_back( std::make_pair( zone_data( zone ), &zone ) );
+    }
+}
+
+void zone_manager::revert_vzones()
+{
+    for( auto zone : removed_vzones ) {
+        //Code is copied from add() to avoid yn query
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
+                    zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
+            zone.set_is_vehicle( true );
+            vp->vehicle().loot_zones.emplace( vp->mount(), zone );
+            vp->vehicle().zones_dirty = false;
+            g->m.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
+            cache_vzones();
+        }
+    }
+    for( auto zpair : changed_vzones ) {
+        *( zpair.second ) = zpair.first;
+    }
+    for( auto zone : added_vzones ) {
+        remove( *zone );
+    }
 }

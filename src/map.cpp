@@ -789,10 +789,12 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 
 bool map::deregister_vehicle_zone( zone_data &zone )
 {
-    for( auto veh : get_cache( zone.get_start_point().z ).zone_vehicles ) {
-        for( auto it = veh->loot_zones.begin(); it != veh->loot_zones.end(); it++ ) {
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
+                zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
+        auto bounds = vp->vehicle().loot_zones.equal_range( vp->mount() );
+        for( auto it = bounds.first; it != bounds.second; it++ ) {
             if( &zone == &( it->second ) ) {
-                veh->loot_zones.erase( it );
+                vp->vehicle().loot_zones.erase( it );
                 return true;
             }
         }

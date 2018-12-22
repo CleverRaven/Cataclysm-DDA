@@ -1442,7 +1442,7 @@ class vehicle
         std::map<point, std::vector<int> >
         relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
-        std::map<point, zone_data> loot_zones;
+        std::unordered_multimap<point, zone_data> loot_zones;
         // relative loot zone positions
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices

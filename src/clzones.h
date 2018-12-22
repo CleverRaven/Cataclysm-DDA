@@ -220,6 +220,14 @@ class zone_manager
     private:
         const int MAX_DISTANCE = 10;
         std::vector<zone_data> zones;
+        //Containers for Revert functionality for Vehicle Zones
+        //Pointer to added zone to be removed
+        std::vector<zone_data *> added_vzones;
+        //Copy of original data, pointer to the zone
+        std::vector<std::pair<zone_data, zone_data *>> changed_vzones;
+        //copy of original data to be re-added
+        std::vector<zone_data> removed_vzones;
+
         std::map<zone_type_id, zone_type> types;
         std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
         std::unordered_map<zone_type_id, std::unordered_set<tripoint>> vzone_cache;
@@ -239,7 +247,7 @@ class zone_manager
             return manager;
         }
 
-        zone_data &add( const std::string &name, const zone_type_id &type,
+        void add( const std::string &name, const zone_type_id &type,
                         const bool invert, const bool enabled,
                         const tripoint &start, const tripoint &end,
                         std::shared_ptr<zone_options> options = nullptr );
@@ -272,6 +280,8 @@ class zone_manager
 
         bool save_zones();
         void load_zones();
+        void zone_edited( zone_data &zone );
+        void revert_vzones();
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };
