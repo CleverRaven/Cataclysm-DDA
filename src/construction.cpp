@@ -317,6 +317,7 @@ void construction_menu()
                 filter = uistate.construction_filter;
             }
         }
+        isnew = false;
         // Erase existing tab selection & list of constructions
         mvwhline( w_con, 1, 1, ' ', w_list_width );
         werase( w_list );
