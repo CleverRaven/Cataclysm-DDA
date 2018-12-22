@@ -62,7 +62,7 @@
     "to_hit": -5,
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "light_gray",
+    "color": "light_gray"
   },
   {
     "id": "spectrophotometer",
@@ -78,7 +78,7 @@
     "to_hit": -5,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
-    "color": "light_gray",
+    "color": "light_gray"
   },
   {
     "id": "cuvettes",
@@ -93,7 +93,7 @@
     "to_hit": -5,
     "material": [ "plastic" ],
     "symbol": ";",
-    "color": "light_gray",
+    "color": "light_gray"
   },
   {
     "id": "ph_meter",
@@ -109,7 +109,7 @@
     "to_hit": -5,
     "material": [ "plastic", "glass" ],
     "symbol": ";",
-    "color": "light_gray",
+    "color": "light_gray"
   },
   {
     "id": "melting_point",
@@ -126,7 +126,7 @@
     "to_hit": -5,
     "material": [ "plastic", "glass" ],
     "symbol": ";",
-    "color": "light_gray",
+    "color": "light_gray"
   },
   {
     "id": "light_detector",
@@ -141,7 +141,7 @@
 	"looks_like": "e_scrap",
     "material": [ "plastic" ],
     "symbol": "#",
-    "color": "light_gray",
+    "color": "light_gray"
   },
   {
     "id": "glass_prism",
@@ -155,6 +155,6 @@
     "to_hit": -5,
     "material": [ "glass" ],
     "symbol": "^",
-    "color": "white",
+    "color": "white"
   }
 ]
