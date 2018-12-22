@@ -28,7 +28,7 @@ static const std::map< std::string, nameFlags > gender_flags {
     { "unisex", nameIsUnisexName }
 };
 
-static nameFlags usage_flag( std::string const &usage )
+static nameFlags usage_flag( const std::string &usage )
 {
     auto it = usage_flags.find( usage );
     if( it != usage_flags.end() ) {
@@ -37,7 +37,7 @@ static nameFlags usage_flag( std::string const &usage )
     return static_cast< nameFlags >( 0 );
 }
 
-static nameFlags gender_flag( std::string const &gender )
+static nameFlags gender_flag( const std::string &gender )
 {
     auto it = gender_flags.find( gender );
     if( it != gender_flags.end() ) {
@@ -71,7 +71,7 @@ static void load( JsonIn &jsin )
     }
 }
 
-void load_from_file( std::string const &filename )
+void load_from_file( const std::string &filename )
 {
     read_from_file_json( filename, load );
 }
@@ -100,15 +100,15 @@ std::string get( nameFlags searchFlags )
     if( ! matching_groups.empty() ) {
         // get number of choices
         size_t nChoices = 0;
-        for( auto const &i : matching_groups ) {
-            auto const &group = i->second;
+        for( const auto &i : matching_groups ) {
+            const auto &group = i->second;
             nChoices += group.size();
         }
 
         // make random selection and return result.
         size_t choice = rng( 0, nChoices - 1 );
-        for( auto const &i : matching_groups ) {
-            auto const &group = i->second;
+        for( const auto &i : matching_groups ) {
+            const auto &group = i->second;
             if( choice < group.size() ) {
                 return group[choice];
             }

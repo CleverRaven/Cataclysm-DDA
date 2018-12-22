@@ -122,6 +122,6 @@ void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player &, const tripoint & );
-iexamine_function iexamine_function_from_string( std::string const &function_name );
+iexamine_function iexamine_function_from_string( const std::string &function_name );
 
 #endif

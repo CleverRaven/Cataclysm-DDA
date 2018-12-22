@@ -309,6 +309,9 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
+    int comfort = 0;
+    int floor_bedding_warmth = 0;
+    int bonus_fire_warmth_feet = 300;
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.

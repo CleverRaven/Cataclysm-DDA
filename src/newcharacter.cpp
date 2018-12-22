@@ -702,8 +702,8 @@ template <class Compare>
 void draw_sorting_indicator( const catacurses::window &w_sorting, const input_context &ctxt,
                              Compare sorter )
 {
-    auto const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
-    auto const sort_help = string_format( _( "(Press <color_light_green>%s</color> to change)" ),
+    const auto sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
+    const auto sort_help = string_format( _( "(Press <color_light_green>%s</color> to change)" ),
                                           ctxt.get_desc( "SORT" ).c_str() );
     wprintz( w_sorting, COL_HEADER, _( "Sort by:" ) );
     wprintz( w_sorting, c_light_gray, " %s", sort_order );
@@ -1492,7 +1492,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
 
         // Profession bionics, active bionics shown first
         auto prof_CBMs = sorted_profs[cur_id]->CBMs();
-        std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( bionic_id const & a, bionic_id const & b ) {
+        std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
             return a->activated && !b->activated;
         } );
         buffer << "<color_light_blue>" << _( "Profession bionics:" ) << "</color>\n";
@@ -1500,7 +1500,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
             buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
         } else {
             for( const auto &b : prof_CBMs ) {
-                auto const &cbm = b.obj();
+                const auto &cbm = b.obj();
 
                 if( cbm.activated && cbm.toggled ) {
                     buffer << cbm.name << " (" << _( "toggled" ) << ")\n";
@@ -1622,7 +1622,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
     catacurses::window w_description = catacurses::newwin( iContentHeight, TERMX - 35,
                                        5 + getbegy( w ), 31 + getbegx( w ) );
 
-    auto sorted_skills = Skill::get_skills_sorted_by( []( Skill const & a, Skill const & b ) {
+    auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
         return a.name() < b.name();
     } );
 
@@ -2231,9 +2231,9 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
 
             mvwprintz( w_skills, 0, 0, COL_HEADER, _( "Skills:" ) );
 
-            auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
-                int const level_a = u.get_skill_level_object( a.ident() ).exercised_level();
-                int const level_b = u.get_skill_level_object( b.ident() ).exercised_level();
+            auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
+                const int level_a = u.get_skill_level_object( a.ident() ).exercised_level();
+                const int level_b = u.get_skill_level_object( b.ident() ).exercised_level();
                 return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
             } );
 

@@ -50,6 +50,24 @@
     "ammo_type": "components"
   },
   {
+    "id": "platinum_small",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "platinum",
+    "name_plural": "platinum",
+    "description": "A soft shiny metal.  Before the apocalypse this would've been worth a small fortune but now its value is greatly diminished.",
+    "weight": 5, "//": "Density 21.45g/cm³ ~ 5.4kg/250ml @ stack 1000 = 5g/unit",
+    "volume": "50ml",
+    "price": 100000,
+    "price_postapoc": 100,
+    "count": 100,
+    "stack_size": 200,
+    "material": [ "platinum" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
     "id": "lead",
     "type": "AMMO",
     "category": "spare_parts",

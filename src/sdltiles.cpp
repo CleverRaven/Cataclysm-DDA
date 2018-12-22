@@ -176,7 +176,7 @@ protected:
         unsigned char color;
 
         // Operator overload required to use in std::map.
-        bool operator<(key_t const &rhs) const noexcept {
+        bool operator<(const key_t &rhs) const noexcept {
             return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
         }
     };
@@ -614,7 +614,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     return CreateTextureFromSurface( renderer, sglyph );
 }
 
-void CachedTTFFont::OutputChar(const std::string &ch, int const x, int const y, unsigned char const color)
+void CachedTTFFont::OutputChar(const std::string &ch, const int x, const int y, const unsigned char color)
 {
     key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
 
@@ -751,6 +751,10 @@ void refresh_display()
 {
     needupdate = false;
     lastupdate = SDL_GetTicks();
+
+    if( test_mode ) {
+        return;
+    }
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.

@@ -86,7 +86,7 @@ void mdeath::normal( monster &z )
     }
     // if mdeath::splatter was set along normal makes sure it is not called twice
     bool splatt = false;
-    for( auto const &deathfunction : z.type->dies ) {
+    for( const auto &deathfunction : z.type->dies ) {
         if( deathfunction == mdeath::splatter ) {
             splatt = true;
         }
@@ -115,7 +115,7 @@ void mdeath::splatter( monster &z )
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
     bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
     // make sure that full splatter happens when this is a set death function, not part of normal
-    for( auto const &deathfunction : z.type->dies ) {
+    for( const auto &deathfunction : z.type->dies ) {
         if( deathfunction == mdeath::splatter ) {
             pulverized = true;
         }
@@ -196,7 +196,7 @@ void mdeath::acid( monster &z )
 void mdeath::boomer( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
-    sounds::sound( z.pos(), 24, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
     for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
         if( monster *const z = g->critter_at<monster>( dest ) ) {
@@ -215,7 +215,7 @@ void mdeath::boomer( monster &z )
 void mdeath::boomer_glow( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
-    sounds::sound( z.pos(), 24, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
 
     for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
@@ -316,7 +316,7 @@ void mdeath::fungus( monster &z )
     }
 
     //~ the sound of a fungus dying
-    sounds::sound( z.pos(), 10, _( "Pouf!" ) );
+    sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ) );
 
     fungal_effects fe( *g, g->m );
     for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
@@ -633,14 +633,14 @@ void mdeath::darkman( monster &z )
 void mdeath::gas( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
-    sounds::sound( z.pos(), 24, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
     g->m.emit_field( z.pos(), emit_id( "emit_toxic_blast" ) );
 }
 
 void mdeath::smokeburst( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
-    sounds::sound( z.pos(), 24, explode );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
     g->m.emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
 
@@ -810,7 +810,7 @@ void mdeath::fireball( monster &z )
         g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
         std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
                                              z.name().c_str() );
-        sounds::sound( z.pos(), 24, explode );
+        sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
         add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
     } else {
         normal( z );
