@@ -8378,12 +8378,12 @@
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
       [ [ "milk", 24 ] ],
       [
-        [ "sugar", 100 ],
-        [ "syrup", 1 ],
-        [ "beet_syrup", 1 ],
-        [ "molasses", 1 ],
-        [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
+        [ "sugar", 1200 ],
+        [ "syrup", 12 ],
+        [ "beet_syrup", 12 ],
+        [ "molasses", 12 ],
+        [ "honey_bottled", 12 ],
+        [ "honey_glassed", 12 ]
       ]
     ]
   },
@@ -8408,12 +8408,12 @@
       [ [ "jar_glass", 1 ] ],
       [ [ "milk", 4 ] ],
       [
-        [ "sugar", 100 ],
-        [ "syrup", 1 ],
-        [ "beet_syrup", 1 ],
-        [ "molasses", 1 ],
-        [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
+        [ "sugar", 200 ],
+        [ "syrup", 2 ],
+        [ "beet_syrup", 2 ],
+        [ "molasses", 2 ],
+        [ "honey_bottled", 2 ],
+        [ "honey_glassed", 2 ]
       ]
     ]
   },
