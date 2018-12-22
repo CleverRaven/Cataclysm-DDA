@@ -151,10 +151,24 @@
     "description": "This is a high quality crystal glass prism for separating and redirecting light.",
     "weight": 50,
     "volume": 1,
-    "price": 400,
+    "price": 50,
     "to_hit": -5,
     "material": [ "glass" ],
     "symbol": "^",
+    "color": "white"
+  },
+  {
+    "id": "glass_tube_small",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "small glass tube",
+    "description": "This is a small glass tube. What more could you possibly want to know about it?",
+    "weight": 1,
+    "volume": 0.1,
+    "price": 10,
+    "to_hit": -5,
+    "material": [ "glass" ],
+    "symbol": "|",
     "color": "white"
   }
 ]
