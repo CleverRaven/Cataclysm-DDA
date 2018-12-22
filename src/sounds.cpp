@@ -235,6 +235,15 @@ void sounds::process_sounds()
     recent_sounds.clear();
 }
 
+// skip most movement sounds
+bool describe_sound( sounds::sound_t category )
+{
+    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ) {
+        return true;
+    }
+    return one_in( 5 );
+}
+
 void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
@@ -328,7 +337,8 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
-        if( pos != p->pos() ) {
+        // skip most movement sounds and our own sounds
+        if( pos != p->pos() && describe_sound( sound.category ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;
