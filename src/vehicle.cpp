@@ -4251,7 +4251,7 @@ void vehicle::gain_moves()
             velocity -= vslowdown;
         }
     } else {
-        of_turn = 0;
+        of_turn = .001;
     }
     of_turn_carry = 0;
 
