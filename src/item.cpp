@@ -201,6 +201,12 @@ item::item( const itype *type, time_point turn, solitary_tag )
 item::item( const itype_id &id, time_point turn, solitary_tag tag )
     : item( find_type( id ), turn, tag ) {}
 
+float const item::get_nutr() {
+    if (!(this->is_comestible)) {
+        return 0;
+    }
+}
+
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
 {
     if( !mt.is_valid() ) {

@@ -241,6 +241,9 @@ class item : public visitable<item>
          * @return new instance containing exactly qty charges or null item if splitting failed
          */
         item split( long qty );
+        
+        // gets the base nutrition of the item, before modifiers
+        const float get_nutr();
 
         /**
          * Make a corpse of the given monster type.
