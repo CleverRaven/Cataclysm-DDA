@@ -44,18 +44,20 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string &str, const std::string &qry )
+bool lcmatch( std::wstring haystack, std::wstring needle )
 {
     std::locale::global( std::locale( "ru_RU.utf8" ) );
     auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
 
-    std::wstring whaystack = utf8_to_wstr( str );
-    std::wstring wneedle = utf8_to_wstr( qry );
+    f.tolower( &haystack[0], &haystack[0] + haystack.size() );
+    f.tolower( &needle[0], &needle[0] + needle.size() );
 
-    f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
-    f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
+    return haystack.find( needle ) != std::wstring::npos;
+}
 
-    return whaystack.find( wneedle ) != std::wstring::npos;
+bool lcmatch( const std::string &str, const std::string &qry )
+{
+    return lcmatch( utf8_to_wstr( str ), utf8_to_wstr( qry ) );
 }
 
 bool match_include_exclude( const std::string &text, std::string filter )
