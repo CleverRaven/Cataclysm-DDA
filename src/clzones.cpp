@@ -656,7 +656,7 @@ bool zone_manager::remove( zone_data &zone )
             changed_vzones.erase( it );
             break;
         }
-    }   
+    }
     bool added = false;
     //If the zone was added this session
     //remove from added, and don't add to removed
