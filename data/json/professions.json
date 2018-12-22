@@ -56,7 +56,7 @@
       { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 }
     ]
   },
-{
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "shotgun_d_roadwarrior",
