@@ -32,7 +32,7 @@ When you have a comestible you want to add to the files, just go down this list,
 `irradiated_fruit.json` -- comestible that is an irradiated fruit. has an indefinite shelf life.
 `veggy_dishes.json` -- comestible made of vegetables.
 `bread.json` -- comestible that is either a bread starter, or a cooked bread.
-`wheat.json` -- either raw wheat, or made of meat
+`wheat.json` -- either raw wheat, or made of wheat
 `egg.json` -- either an egg, or made of egg
 `dairy.json` -- made of milk
 `mushroom.json` -- a mushroom or made of mushrooms
