@@ -1,0 +1,9 @@
+[
+  {
+    "id": "BGSS_PRISONER_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was in jail for <the_cataclysm>, but I escaped.  Hell of a story.",
+    "//": "TK, this story not done.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

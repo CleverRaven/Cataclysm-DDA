@@ -73,6 +73,12 @@ jobs:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: [*apt_sources, llvm-toolchain-trusty-6.0]
 
+    # macOS Tiles
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 LUA=1
+      os: osx
+      osx_image: xcode10.1
+      compiler: clang
+
     # Finally check the compiler variants
     - stage: compilers
       env: COMPILER=g++-4.8

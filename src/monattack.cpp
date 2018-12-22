@@ -304,7 +304,7 @@ bool mattack::shriek( monster *z )
     }
 
     z->moves -= 240;   // It takes a while
-    sounds::sound( z->pos(), 50, _( "a terrible shriek!" ) );
+    sounds::sound( z->pos(), 50, sounds::sound_t::speech, _( "a terrible shriek!" ) );
     return true;
 }
 
@@ -327,7 +327,7 @@ bool mattack::shriek_alert( monster *z )
     }
 
     z->moves -= 150;
-    sounds::sound( z->pos(), 120, _( "a piercing wail!" ) );
+    sounds::sound( z->pos(), 120, sounds::sound_t::speech, _( "a piercing wail!" ) );
     z->add_effect( effect_shrieking, 1_minutes );
 
     return true;
@@ -387,7 +387,7 @@ bool mattack::howl( monster *z )
     }
 
     z->moves -= 200;   // It takes a while
-    sounds::sound( z->pos(), 35, _( "an ear-piercing howl!" ) );
+    sounds::sound( z->pos(), 35, sounds::sound_t::speech, _( "an ear-piercing howl!" ) );
 
     if( z->friendly != 0 ) { // TODO: Make this use mon's faction when those are in
         for( monster &other : g->all_monsters() ) {
@@ -418,7 +418,7 @@ bool mattack::rattle( monster *z )
     }
 
     z->moves -= 20;   // It takes a very short while
-    sounds::sound( z->pos(), 10, _( "a sibilant rattling sound!" ) );
+    sounds::sound( z->pos(), 10, sounds::sound_t::alarm, _( "a sibilant rattling sound!" ) );
 
     return true;
 }
@@ -439,7 +439,7 @@ bool mattack::acid( monster *z )
         return false; // Can't see/reach target, no attack
     }
     z->moves -= 300;   // It takes a while
-    sounds::sound( z->pos(), 4, _( "a spitting noise." ) );
+    sounds::sound( z->pos(), 4, sounds::sound_t::combat, _( "a spitting noise." ) );
 
     projectile proj;
     proj.speed = 10;
@@ -610,8 +610,9 @@ bool mattack::shocking_reveal( monster *z )
 {
     shockstorm( z );
     std::string WHAT_A_SCOOP = SNIPPET.random_from_category( "clickbait" );
-    sounds::sound( z->pos(), 10, string_format( _( "the %s obnoxiously yelling \"%s!!!\"" ),
-                   z->name().c_str(), WHAT_A_SCOOP ) );
+    sounds::sound( z->pos(), 10, sounds::sound_t::speech,
+                   string_format( _( "the %s obnoxiously yelling \"%s!!!\"" ),
+                                  z->name().c_str(), WHAT_A_SCOOP ) );
     return true;
 }
 
@@ -1415,7 +1416,7 @@ bool mattack::spit_sap( monster *z )
 
 bool mattack::triffid_heartbeat( monster *z )
 {
-    sounds::sound( z->pos(), 14, _( "thu-THUMP." ) );
+    sounds::sound( z->pos(), 14, sounds::sound_t::movement, _( "thu-THUMP." ) );
     z->moves -= 300;
     if( z->friendly != 0 ) {
         return true;
@@ -1481,7 +1482,7 @@ bool mattack::fungus( monster *z )
         z->friendly = 100;
     }
     //~ the sound of a fungus releasing spores
-    sounds::sound( z->pos(), 10, _( "Pouf!" ) );
+    sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "Pouf!" ) );
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "Spores are released from the %s!" ), z->name().c_str() );
     }
@@ -1531,7 +1532,7 @@ bool mattack::fungus( monster *z )
 bool mattack::fungus_corporate( monster *z )
 {
     if( x_in_y( 1, 20 ) ) {
-        sounds::sound( z->pos(), 10, _( "\"Buy SpOreos(tm) now!\"" ) );
+        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos(tm) now!\"" ) );
         if( g->u.sees( *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name().c_str() );
             g->m.add_item( z->pos(), item( "sporeos" ) );
@@ -1545,7 +1546,7 @@ bool mattack::fungus_corporate( monster *z )
 bool mattack::fungus_haze( monster *z )
 {
     //~ That spore sound again
-    sounds::sound( z->pos(), 10, _( "Pouf!" ) );
+    sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "Pouf!" ) );
     if( g->u.sees( *z ) ) {
         add_msg( m_info, _( "The %s pulses, and fresh fungal material bursts forth." ), z->name().c_str() );
     }
@@ -1579,18 +1580,18 @@ bool mattack::fungus_big_blossom( monster *z )
             add_msg( m_warning, _( "The %s suddenly inhales!" ), z->name().c_str() );
         }
         //~Sound of a giant fungal blossom inhaling
-        sounds::sound( z->pos(), 20, _( "WOOOSH!" ) );
+        sounds::sound( z->pos(), 20, sounds::sound_t::combat, _( "WOOOSH!" ) );
         if( u_see ) {
             add_msg( m_bad, _( "The %s discharges an immense flow of spores, smothering the flames!" ),
                      z->name().c_str() );
         }
         //~Sound of a giant fungal blossom blowing out the dangerous fire!
-        sounds::sound( z->pos(), 20, _( "POUFF!" ) );
+        sounds::sound( z->pos(), 20, sounds::sound_t::combat, _( "POUFF!" ) );
         return true;
     } else {
         // No fire detected, routine haze-emission
         //~ That spore sound, much louder
-        sounds::sound( z->pos(), 15, _( "POUF." ) );
+        sounds::sound( z->pos(), 15, sounds::sound_t::combat, _( "POUF." ) );
         if( u_see ) {
             add_msg( m_info, _( "The %s pulses, and fresh fungal material bursts forth!" ), z->name().c_str() );
         }
@@ -2817,7 +2818,7 @@ void mattack::rifle( monster *z, Creature *target )
 
     if( target == &g->u ) {
         if( !z->has_effect( effect_targeted ) ) {
-            sounds::sound( z->pos(), 8, _( "beep-beep." ) );
+            sounds::sound( z->pos(), 8, sounds::sound_t::alarm, _( "beep-beep." ) );
             z->add_effect( effect_targeted, 8_turns );
             z->moves -= 100;
             return;
@@ -2827,9 +2828,9 @@ void mattack::rifle( monster *z, Creature *target )
 
     if( z->ammo[ammo_type] <= 0 ) {
         if( one_in( 3 ) ) {
-            sounds::sound( z->pos(), 2, _( "a chk!" ) );
+            sounds::sound( z->pos(), 2, sounds::sound_t::combat, _( "a chk!" ) );
         } else if( one_in( 4 ) ) {
-            sounds::sound( z->pos(), 6, _( "boop!" ) );
+            sounds::sound( z->pos(), 6, sounds::sound_t::combat,  _( "boop!" ) );
         }
         return;
     }
@@ -2863,7 +2864,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
             add_msg( m_warning, _( "Those laser dots don't seem very friendly..." ) );
             g->u.add_effect( effect_laserlocked,
                              3_turns ); // Effect removed in game.cpp, duration doesn't much matter
-            sounds::sound( z->pos(), 10, _( "Targeting." ) );
+            sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "Targeting." ) );
             z->add_effect( effect_targeted, 5_turns );
             z->moves -= 150;
             // Should give some ability to get behind cover,
@@ -2879,9 +2880,9 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 
     if( z->ammo[ammo_type] <= 0 ) {
         if( one_in( 3 ) ) {
-            sounds::sound( z->pos(), 2, _( "a chk!" ) );
+            sounds::sound( z->pos(), 2, sounds::sound_t::combat, _( "a chk!" ) );
         } else if( one_in( 4 ) ) {
-            sounds::sound( z->pos(), 6, _( "boop!" ) );
+            sounds::sound( z->pos(), 6, sounds::sound_t::combat, _( "boop!" ) );
         }
         return;
     }
@@ -2919,7 +2920,7 @@ void mattack::tankgun( monster *z, Creature *target )
         //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
         target->add_msg_if_player( m_warning, _( "You're not sure why you've got a laser dot on you..." ) );
         //~ Sound of a tank turret swiveling into place
-        sounds::sound( z->pos(), 10, _( "whirrrrrclick." ) );
+        sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "whirrrrrclick." ) );
         z->add_effect( effect_targeted, 1_minutes );
         target->add_effect( effect_laserlocked, 1_minutes );
         z->moves -= 200;
@@ -2941,9 +2942,9 @@ void mattack::tankgun( monster *z, Creature *target )
 
     if( z->ammo[ammo_type] <= 0 ) {
         if( one_in( 3 ) ) {
-            sounds::sound( z->pos(), 2, _( "a chk!" ) );
+            sounds::sound( z->pos(), 2, sounds::sound_t::combat, _( "a chk!" ) );
         } else if( one_in( 4 ) ) {
-            sounds::sound( z->pos(), 6, _( "clank!" ) );
+            sounds::sound( z->pos(), 6, sounds::sound_t::combat, _( "clank!" ) );
         }
         return;
     }
@@ -3248,16 +3249,19 @@ bool mattack::copbot( monster *z )
         if( one_in( 3 ) ) {
             if( sees_u ) {
                 if( foe->unarmed_attack() ) {
-                    sounds::sound( z->pos(), 18, _( "a robotic voice boom, \"Citizen, Halt!\"" ) );
+                    sounds::sound( z->pos(), 18, sounds::sound_t::speech,
+                                   _( "a robotic voice boom, \"Citizen, Halt!\"" ) );
                 } else if( !cuffed ) {
-                    sounds::sound( z->pos(), 18, _( "a robotic voice boom, \"\
+                    sounds::sound( z->pos(), 18, sounds::sound_t::speech,
+                                   _( "a robotic voice boom, \"\
 Please put down your weapon.\"" ) );
                 }
             } else
-                sounds::sound( z->pos(), 18,
+                sounds::sound( z->pos(), 18, sounds::sound_t::speech,
                                _( "a robotic voice boom, \"Come out with your hands up!\"" ) );
         } else {
-            sounds::sound( z->pos(), 18, _( "a police siren, whoop WHOOP" ) );
+            sounds::sound( z->pos(), 18, sounds::sound_t::alarm,
+                           _( "a police siren, whoop WHOOP" ) );
         }
         return true;
     }
@@ -3464,7 +3468,7 @@ bool mattack::ratking( monster *z )
 
 bool mattack::generator( monster *z )
 {
-    sounds::sound( z->pos(), 100, "" );
+    sounds::sound( z->pos(), 100, sounds::sound_t::activity, "hmmmm" );
     if( calendar::once_every( 1_minutes ) && z->get_hp() < z->get_hp_max() ) {
         z->heal( 1 );
     }
@@ -3672,7 +3676,7 @@ bool mattack::flesh_golem( monster *z )
         if( one_in( 12 ) ) {
             z->moves -= 200;
             // It doesn't "nearly deafen you" when it roars from the other side of bubble
-            sounds::sound( z->pos(), 80, _( "a terrifying roar!" ) );
+            sounds::sound( z->pos(), 80, sounds::sound_t::speech, _( "a terrifying roar!" ) );
             return true;
         }
         return false;
@@ -3891,13 +3895,13 @@ bool mattack::longswipe( monster *z )
 bool mattack::parrot( monster *z )
 {
     if( z->has_effect( effect_shrieking ) ) {
-        sounds::sound( z->pos(), 120, _( "a piercing wail!" ), true );
+        sounds::sound( z->pos(), 120, sounds::sound_t::speech, _( "a piercing wail!" ), true );
         z->moves -= 40;
         return false;
     } else if( one_in( 20 ) ) {
         z->moves -= 100;  // It takes a while
         const SpeechBubble speech = get_speech( z->type->id.str() );
-        sounds::sound( z->pos(), speech.volume, speech.text );
+        sounds::sound( z->pos(), speech.volume, sounds::sound_t::speech, speech.text );
         return true;
     }
 
@@ -4089,7 +4093,7 @@ bool mattack::riotbot( monster *z )
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
-            sounds::sound( z->pos(), 10,
+            sounds::sound( z->pos(), 10, sounds::sound_t::speech,
                            _( "Halt and submit to arrest, citizen! The police will be here any moment." ) );
         }
 
@@ -4106,7 +4110,8 @@ bool mattack::riotbot( monster *z )
     //we need empty hands to arrest
     if( foe == &g->u && !foe->is_armed() ) {
 
-        sounds::sound( z->pos(), 15, _( "Please stay in place, citizen, do not make any movements!" ) );
+        sounds::sound( z->pos(), 15, sounds::sound_t::speech,
+                       _( "Please stay in place, citizen, do not make any movements!" ) );
 
         //we need to come closer and arrest
         if( !is_adjacent( z, foe, false ) ) {
@@ -4168,13 +4173,13 @@ bool mattack::riotbot( monster *z )
                 add_msg( _( "The robot puts handcuffs on you." ) );
             }
 
-            sounds::sound( z->pos(), 5,
+            sounds::sound( z->pos(), 5, sounds::sound_t::speech,
                            _( "You are under arrest, citizen.  You have the right to remain silent.  If you do not remain silent, anything you say may be used against you in a court of law." ) );
-            sounds::sound( z->pos(), 5,
+            sounds::sound( z->pos(), 5, sounds::sound_t::speech,
                            _( "You have the right to an attorney.  If you cannot afford an attorney, one will be provided at no cost to you.  You may have your attorney present during any questioning." ) );
-            sounds::sound( z->pos(), 5,
+            sounds::sound( z->pos(), 5, sounds::sound_t::speech,
                            _( "If you do not understand these rights, an officer will explain them in greater detail when taking you into custody." ) );
-            sounds::sound( z->pos(), 5,
+            sounds::sound( z->pos(), 5, sounds::sound_t::speech,
                            _( "Do not attempt to flee or to remove the handcuffs, citizen.  That can be dangerous to your health." ) );
 
             z->moves -= 300;
@@ -4221,7 +4226,8 @@ bool mattack::riotbot( monster *z )
     }
 
     if( calendar::once_every( 5_turns ) ) {
-        sounds::sound( z->pos(), 25, _( "Empty your hands and hold your position, citizen!" ) );
+        sounds::sound( z->pos(), 25, sounds::sound_t::speech,
+                       _( "Empty your hands and hold your position, citizen!" ) );
     }
 
     if( dist > 5 && dist < 18 && one_in( 10 ) ) {
@@ -4238,7 +4244,7 @@ bool mattack::riotbot( monster *z )
                        target->posz() );
 
         //~ Sound of a riotbot using its blinding flash
-        sounds::sound( z->pos(), 3, _( "fzzzzzt" ) );
+        sounds::sound( z->pos(), 3, sounds::sound_t::combat, _( "fzzzzzt" ) );
 
         std::vector<tripoint> traj = line_to( z->pos(), dest, 0, 0 );
         for( auto &elem : traj ) {
@@ -4738,7 +4744,7 @@ bool mattack::doot( monster *z )
             continue;
         }
     }
-    sounds::sound( z->pos(), 200, _( "DOOT." ) );
+    sounds::sound( z->pos(), 200, sounds::sound_t::music, _( "DOOT." ) );
     return true;
 }
 

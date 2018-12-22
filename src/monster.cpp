@@ -566,7 +566,7 @@ std::string monster::extended_description() const
 {
     std::ostringstream ss;
     const auto att = get_attitude();
-    std::string att_colored = get_tag_from_color( att.second ) + att.first;
+    std::string att_colored = colorize( att.first, att.second );
 
     ss << string_format( _( "This is a %s. %s" ), name().c_str(), att_colored.c_str() ) << std::endl;
     if( !get_effect_status().empty() ) {
@@ -575,7 +575,7 @@ std::string monster::extended_description() const
 
     ss << "--" << std::endl;
     auto hp_bar = hp_description( hp, type->hp );
-    ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
+    ss << colorize( hp_bar.first, hp_bar.second ) << std::endl;
 
     ss << "--" << std::endl;
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
@@ -1809,7 +1809,7 @@ void monster::process_turn()
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
-                sounds::sound( pos(), 5, _( "hummmmm." ) );
+                sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ) );
             }
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
@@ -1818,7 +1818,7 @@ void monster::process_turn()
                 for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
                     if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
-                        sounds::sound( pos(), 30, _( "fwoosh!" ) );
+                        sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
                         break;
                     }
                 }
@@ -1843,8 +1843,8 @@ void monster::process_turn()
             }
             if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
                 g->lightning_active = false; // only one supercharge per strike
-                sounds::sound( pos(), 300, _( "BOOOOOOOM!!!" ) );
-                sounds::sound( pos(), 20, _( "vrrrRRRUUMMMMMMMM!" ) );
+                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ) );
                 if( g->u.sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name().c_str() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
@@ -1852,7 +1852,7 @@ void monster::process_turn()
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 20, _( "VMMMMMMMMM!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ) );
             }
         }
     }

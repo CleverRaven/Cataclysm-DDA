@@ -406,7 +406,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             vpart_position part_pos( cur.veh, cur.part );
             std::string res;
             if( auto label = part_pos.get_label() ) {
-                res = tag_colored_string( *label, c_light_blue ) + " ";
+                res = colorize( *label, c_light_blue ) + " ";
             }
             if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
                 res += cargo_part->part().name();

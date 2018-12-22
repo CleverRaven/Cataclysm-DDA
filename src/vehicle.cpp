@@ -2948,8 +2948,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
 {
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
     const std::array<std::string, 8> sound_msgs = {{
-            "", _( "hummm!" ), _( "whirrr!" ), _( "vroom!" ), _( "roarrr!" ), _( "ROARRR!" ),
-            _( "BRRROARRR!" ), _( "BRUMBRUMBRUMBRUM!" )
+            _( "hmm" ), _( "hummm!" ), _( "whirrr!" ), _( "vroom!" ), _( "roarrr!" ),
+            _( "ROARRR!" ), _( "BRRROARRR!" ), _( "BRUMBRUMBRUMBRUM!" )
         }
     };
     double noise = 0.0;
@@ -3354,15 +3354,13 @@ float vehicle::handling_difficulty() const
     const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).magnitude() );
 
-    constexpr float tile_per_turn = 10 * 100;
-
-    // TestVehicle: perfect steering, moving on road at 100 mph (10 tiles per turn) = 0.0
+    // TestVehicle: perfect steering, moving on road at 100 mph (25 tiles per turn) = 0.0
     // TestVehicle but on grass (0.75 friction) = 2.5
     // TestVehicle but with bad steering (0.5 steer) = 5
     // TestVehicle but on fungal bed (0.5 friction) and bad steering = 10
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
     const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
-    return velocity * diff_mod / tile_per_turn;
+    return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 
 std::map<itype_id, int> vehicle::fuel_usage() const

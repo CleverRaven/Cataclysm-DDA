@@ -9,6 +9,7 @@
 #include "fire.h"
 #include "game.h"
 #include "item.h"
+#include "iuse.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -503,28 +504,24 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap
-    int required_water = 0;
-    int required_cleanser = 0;
+    units::volume total_volume = 0;
 
     for( const act_item &filthy_item : items ) {
-        required_water += filthy_item.it->volume() / 125_ml;
-        required_cleanser += filthy_item.it->volume() / 1000_ml;
+        total_volume += filthy_item.it->volume();
     }
-    if( required_cleanser < 1 ) {
-        required_cleanser = 1;
-    }
+    washing_requirements required = washing_requirements_for_volume( total_volume );
 
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required_water ) &&
-        !crafting_inv.has_charges( "water_clean", required_water ) ) {
+    if( !crafting_inv.has_charges( "water", required.water ) &&
+        !crafting_inv.has_charges( "water_clean", required.water ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
-                              required_water );
+                              required.water );
         act->set_to_null();
         return;
-    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) &&
-               !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+    } else if( !crafting_inv.has_charges( "soap", required.cleanser ) &&
+               !crafting_inv.has_charges( "detergent", required.cleanser ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
-                              required_cleanser );
+                              required.cleanser );
         act->set_to_null();
         return;
     }
@@ -536,13 +533,13 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", required_water ) );
-    comps.push_back( item_comp( "water_clean", required_water ) );
+    comps.push_back( item_comp( "water", required.water ) );
+    comps.push_back( item_comp( "water_clean", required.water ) );
     p->consume_items( comps );
 
     std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( "soap", required_cleanser ) );
-    comps1.push_back( item_comp( "detergent", required_cleanser ) );
+    comps1.push_back( item_comp( "soap", required.cleanser ) );
+    comps1.push_back( item_comp( "detergent", required.cleanser ) );
     p->consume_items( comps1 );
 
     p->add_msg_if_player( m_good, _( "You washed your clothing." ) );

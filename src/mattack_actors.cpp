@@ -358,6 +358,8 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
     }
     if( obj.read( "no_ammo_sound", no_ammo_sound ) ) {
         no_ammo_sound = _( no_ammo_sound.c_str() );
+    } else {
+        no_ammo_sound = _( "Click." );
     }
 
     obj.read( "targeting_cost", targeting_cost );
@@ -371,7 +373,10 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
 
     if( obj.read( "targeting_sound", targeting_sound ) ) {
         targeting_sound = _( targeting_sound.c_str() );
+    } else {
+        targeting_sound = _( "Beep." );
     }
+
     obj.read( "targeting_volume", targeting_volume );
 
     obj.get_bool( "laser_lock", laser_lock );
@@ -441,7 +446,8 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
 
     if( not_targeted || not_laser_locked ) {
         if( targeting_volume > 0 && !targeting_sound.empty() ) {
-            sounds::sound( z.pos(), targeting_volume, _( targeting_sound.c_str() ) );
+            sounds::sound( z.pos(), targeting_volume, sounds::sound_t::alarm,
+                           _( targeting_sound.c_str() ) );
         }
         if( not_targeted ) {
             z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout ) );
@@ -469,7 +475,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
 
     if( !gun.ammo_sufficient() ) {
         if( !no_ammo_sound.empty() ) {
-            sounds::sound( z.pos(), 10, _( no_ammo_sound.c_str() ) );
+            sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( no_ammo_sound.c_str() ) );
         }
         return;
     }
