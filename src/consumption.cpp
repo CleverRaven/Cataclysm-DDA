@@ -91,9 +91,23 @@ int player::nutrition_for( const item &comest ) const
     static const trait_id trait_GIZZARD( "GIZZARD" );
     static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
     static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
+    if( !comest.is_comestible() ) {
+        return 0;
+    }
 
     // As float to avoid rounding too many times
-    float nutr = comest.get_nutr();
+    float nutr = 0;
+
+    // if item has components, will derive calories from that instead.
+    if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        for( item component : comest.components ) {
+            nutr += component.type->comestible->nutr;
+        }
+        // @TODO: catch when recipes make less or more than the portions defined in the json
+        nutr /= comest.charges;
+    } else {
+        nutr = comest.type->comestible->nutr;
+    }
 
     if( has_trait( trait_GIZZARD ) ) {
         nutr *= 0.6f;
