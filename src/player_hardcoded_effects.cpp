@@ -933,9 +933,9 @@ void player::hardcoded_effects( effect &it )
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 if( calendar::once_every( 2_turns ) ) {
                     it.mod_duration( 1_turns ); //weak antibiotic slows down by half
-                } else {
-                    it.mod_duration( 1_turns );
                 }
+            } else {
+                it.mod_duration( 1_turns );
             }
         }
     } else if( id == effect_infected ) {
