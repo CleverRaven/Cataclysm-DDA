@@ -6307,7 +6307,7 @@
     "spoils_in": 420,
     "use_action": "WEED_BROWNIE",
     "flags": [ "EATEN_HOT" ]
-  }
+  },
   {
     "type": "COMESTIBLE",
     "id": "human_brain_embalmed",
