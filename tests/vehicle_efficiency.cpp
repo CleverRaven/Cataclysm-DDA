@@ -160,7 +160,7 @@ const int cycle_limit = 100;
 long test_efficiency( const vproto_id &veh_id, int &expected_mass,
                       const ter_id &terrain,
                       int reset_velocity_turn, long target_distance,
-                      bool smooth_stops = false, bool test_mass = false )
+                      bool smooth_stops = false, bool test_mass = true )
 {
     long min_dist = target_distance * 0.99;
     long max_dist = target_distance * 1.01;
@@ -181,6 +181,12 @@ long test_efficiency( const vproto_id &veh_id, int &expected_mass,
         while( veh.remove_item( vp.part_index(), 0 ) );
         vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
     }
+    for( const vpart_reference vp : veh.get_avail_parts( "OPENABLE" ) ) {
+        veh.close( vp.part_index() );
+    }
+
+    veh_ptr->refresh_insides();
+
     if( test_mass ) {
         CHECK( to_gram( veh.total_mass() ) == expected_mass );
     }
@@ -213,6 +219,9 @@ long test_efficiency( const vproto_id &veh_id, int &expected_mass,
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
+        for( const tripoint &pos : veh.get_points() ) {
+            REQUIRE( g->m.ter( pos ) );
+        }
         // How much it moved
         tiles_travelled += square_dist( starting_point, veh.global_pos3() );
         // Bring it back to starting point to prevent it from leaving the map
@@ -304,13 +313,13 @@ void print_test_strings( const std::string &type )
     int expected_mass = 0;
     ss << "    test_vehicle( \"" << type << "\", ";
     long d_pave = average_from_stat( find_inner( type, expected_mass, "t_pavement", -1,
-                                     false, true ) );
+                                     false, false ) );
     ss << expected_mass << ", " << d_pave << ", ";
     ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", -1,
-                                         false, true ) ) << ", ";
+                                         false, false ) ) << ", ";
     ss << average_from_stat( find_inner( type, expected_mass, "t_pavement", 5,
-                                         false, true ) ) << ", ";
-    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false, true ) );
+                                         false, false ) ) << ", ";
+    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false, false ) );
     //ss << average_from_stat( find_inner( type, "t_pavement", 5, true ) ) << ", ";
     //ss << average_from_stat( find_inner( type, "t_dirt", 5, true ) );
     ss << " );" << std::endl;
