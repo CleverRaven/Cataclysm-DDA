@@ -216,11 +216,6 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // food to which the player is allergic to never contains any vitamins
-    if( allergy_type( it ) != MORALE_NULL ) {
-        return res;
-    }
-
     // @todo: bionics and mutations can affect vitamin absorption
     if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         for( const auto &comp : it.components ) {
@@ -231,6 +226,10 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
             }
         }
     } else {
+        // food to which the player is allergic to never contains any vitamins
+        if (allergy_type(it) != MORALE_NULL) {
+            return res;
+        }
         for( const auto &e : it.type->comestible->vitamins ) {
             res.emplace( e );
         }
