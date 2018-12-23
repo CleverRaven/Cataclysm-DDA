@@ -1,0 +1,18 @@
+[
+  {
+    "id": "BGSS_EVACUEE_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I made it to one of those <swear> evac shelters, but it was almost worse than what I left behind.  Escaped from there, been on the run since.",
+    "responses": [
+      { "text": "How did you survive on the run?", "topic": "BGSS_EVACUEE_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_EVACUEE_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I spent a lot of time rummaging for rhubarb and bits of vegetables in the forest before I found the courage to start picking off some of those dead monsters.  I guess I was getting desperate.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

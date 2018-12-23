@@ -1,0 +1,8 @@
+[
+  {
+    "id": "BGSS_EVACUEE_6_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Well, I was at home when the cell phone alert went off and told me to get to an evac shelter.  So I went to an evac shelter.  And then the shelter got too crowded, and people were waiting to get taken to the refugee center, but the buses never came.  You must already know about all that.  It turned into panic, and then fighting.  I didn't stick around to see what happened next; I headed into the woods with what tools I could snatch from the lockers.  I went back a few days later, but the place was totally abandoned.  No idea what happened to all those people.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]
