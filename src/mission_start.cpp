@@ -391,7 +391,6 @@ void mission_start::place_bandit_cabin( mission *miss )
     t.overmap_terrain_subtype = "bandit_cabin";
     t.overmap_special = overmap_special_id( "bandit_cabin" );
     t.mission_pointer = miss;
-    t.search_range = 50;
     t.reveal_radius = 1;
 
     const cata::optional<tripoint> target_pos = assign_mission_target( t );
@@ -446,7 +445,6 @@ void mission_start::place_bandit_camp( mission *miss )
     t.overmap_terrain_subtype = "bandit_camp_1";
     t.overmap_special = overmap_special_id( "bandit_camp" );
     t.mission_pointer = miss;
-    t.search_range = 50;
     t.reveal_radius = 1;
 
     const cata::optional<tripoint> target_pos = assign_mission_target( t );
