@@ -101,7 +101,7 @@ int player::nutrition_for( const item &comest ) const
     // if item has components, will derive calories from that instead.
     if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         for( item component : comest.components ) {
-            nutr += this->nutrition_for( component );
+            nutr += this->nutrition_for( component ) * component.charges;
         }
         // @TODO: catch when recipes make less or more than the portions defined in the json
         nutr /= comest.type->charges_default();
