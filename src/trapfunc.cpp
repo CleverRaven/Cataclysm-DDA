@@ -66,7 +66,7 @@ void trapfunc::bubble( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on bubble wrap." ),
                              pgettext( "memorial_female", "Stepped on bubble wrap." ) );
     }
-    sounds::sound( p, 18, _( "Pop!" ) );
+    sounds::sound( p, 18, sounds::sound_t::alarm, _( "Pop!" ) );
     g->m.remove_trap( p );
 }
 
@@ -86,7 +86,7 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
     if( c != nullptr && c->get_size() == MS_TINY ) {
         return;
     }
-    sounds::sound( p, 8, _( "SNAP!" ) );
+    sounds::sound( p, 8, sounds::sound_t::combat, _( "SNAP!" ) );
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // What got hit?
@@ -309,7 +309,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
 
 void trapfunc::shotgun( Creature *c, const tripoint &p )
 {
-    sounds::sound( p, 60, _( "Kerblam!" ) );
+    sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ) );
     int shots = 1;
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_neutral, _( "You trigger a shotgun trap!" ),
@@ -416,7 +416,7 @@ void trapfunc::blade( Creature *c, const tripoint & )
 
 void trapfunc::snare_light( Creature *c, const tripoint &p )
 {
-    sounds::sound( p, 2, _( "Snap!" ) );
+    sounds::sound( p, 2, sounds::sound_t::combat, _( "Snap!" ) );
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // Determine what gets hit
@@ -439,7 +439,7 @@ void trapfunc::snare_light( Creature *c, const tripoint &p )
 
 void trapfunc::snare_heavy( Creature *c, const tripoint &p )
 {
-    sounds::sound( p, 4, _( "Snap!" ) );
+    sounds::sound( p, 4, sounds::sound_t::combat, _( "Snap!" ) );
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // Determine what got hit
@@ -510,7 +510,7 @@ void trapfunc::boobytrap( Creature *c, const tripoint &p )
 void trapfunc::telepad( Creature *c, const tripoint &p )
 {
     //~ the sound of a telepad functioning
-    sounds::sound( p, 6, _( "vvrrrRRMM*POP!*" ) );
+    sounds::sound( p, 6, sounds::sound_t::movement, _( "vvrrrRRMM*POP!*" ) );
     if( c != nullptr ) {
         monster *z = dynamic_cast<monster *>( c );
         // TODO: NPC don't teleport?
@@ -593,14 +593,15 @@ void trapfunc::dissector( Creature *c, const tripoint &p )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr && z->type->in_species( ROBOT ) ) {
         //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
-        sounds::sound( p, 4, _( "BEEPBOOP! Please remove non-organic object." ) ); //Dissector error sound.
+        sounds::sound( p, 4, sounds::sound_t::speech,
+                       _( "BEEPBOOP! Please remove non-organic object." ) ); //Dissector error sound.
         c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
                                   _( "The dissector lights up, and shuts down." ) );
         return;
     }
 
     //~ the sound of a dissector dissecting
-    sounds::sound( p, 10, _( "BRZZZAP!" ) );
+    sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ) );
     c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
                               _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
     c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
@@ -1153,7 +1154,7 @@ void trapfunc::hum( Creature * /*c*/, const tripoint &p )
         //~ a very loud humming sound
         sfx = _( "VRMMMMMM" );
     }
-    sounds::sound( p, volume, sfx );
+    sounds::sound( p, volume, sounds::sound_t::activity, sfx );
 }
 
 void trapfunc::shadow( Creature *c, const tripoint &p )
@@ -1206,7 +1207,7 @@ void trapfunc::drain( Creature *c, const tripoint & )
 void trapfunc::snake( Creature *c, const tripoint &p )
 {
     //~ the sound a snake makes
-    sounds::sound( p, 10, _( "ssssssss" ) );
+    sounds::sound( p, 10, sounds::sound_t::movement, _( "ssssssss" ) );
     if( one_in( 6 ) ) {
         g->m.remove_trap( p );
     }

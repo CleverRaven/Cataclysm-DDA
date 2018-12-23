@@ -280,7 +280,36 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     for( auto &m : targets ) {
         if( !sees( *m ) ) {
             // can't see nor sense it
-            continue;
+            if( is_fake() && in_veh ) {
+                // If turret in the vehicle then
+                // Hack: trying yo avoid turret LOS blocking by frames bug by trying to see target from vehicle boundary
+                // Or turret wallhack for turret's car
+                // TODO: to visibility checking another way, probably using 3D FOV
+                std::vector<tripoint> path_to_target = line_to( pos(), m->pos() );
+                path_to_target.insert( path_to_target.begin(), pos() );
+
+                // Getting point on vehicle boundaries and on line between target and turret
+                bool continueFlag = true;
+                do {
+                    const optional_vpart_position vp = g->m.veh_at( path_to_target.back() );
+                    vehicle *const veh = vp ? &vp->vehicle() : nullptr;
+                    if( in_veh == veh ) {
+                        continueFlag = false;
+                    } else {
+                        path_to_target.pop_back();
+                    }
+                } while( continueFlag );
+
+                tripoint oldPos = pos();
+                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary postion
+                bool seesFromVehBound = sees( *m ); // And look from there
+                setpos( oldPos );
+                if( !seesFromVehBound ) {
+                    continue;
+                }
+            } else {
+                continue;
+            }
         }
         int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
         if( dist > range + 1 || dist < area ) {

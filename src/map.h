@@ -1244,6 +1244,7 @@ class map
         }
         tripoint getlocal( const tripoint &p ) const;
         bool inbounds( const int x, const int y ) const;
+        bool inbounds( const point &x ) const;
         bool inbounds( const int x, const int y, const int z ) const;
         bool inbounds( const tripoint &p ) const;
 
@@ -1400,36 +1401,30 @@ class map
         submap *getsubmap( size_t grididx ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
-         * (x,y) must be a valid coordinate, check with @ref inbounds.
+         * (p) must be a valid coordinate, check with @ref inbounds.
          */
-        submap *get_submap_at( int x, int y ) const;
-        submap *get_submap_at( int x, int y, int z ) const;
+        submap *get_submap_at( const point &p ) const;
         submap *get_submap_at( const tripoint &p ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
-         * The same as other get_submap_at, (x,y,z) must be valid (@ref inbounds).
-         * Also writes the position within the submap to offset_x, offset_y
-         * offset_z would always be 0, so it is not used here
+         * The same as other get_submap_at, (p) must be valid (@ref inbounds).
+         * Also writes the position within the submap to offset_p
          */
-        submap *get_submap_at( const int x, const int y, int &offset_x, int &offset_y ) const;
-        submap *get_submap_at( const int x, const int y, const int z,
-                               int &offset_x, int &offset_y ) const;
-        submap *get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const;
+        submap *get_submap_at( const point &p, point &offset_p ) const;
+        submap *get_submap_at( const tripoint &p, point &offset_p ) const;
         /**
          * Get submap pointer in the grid at given grid coordinates. Grid coordinates must
          * be valid: 0 <= x < my_MAPSIZE, same for y.
          * z must be between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        submap *get_submap_at_grid( int gridx, int gridy ) const;
-        submap *get_submap_at_grid( int gridx, int gridy, int gridz ) const;
+        submap *get_submap_at_grid( const point &gridp ) const;
         submap *get_submap_at_grid( const tripoint &gridp ) const;
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
          * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        size_t get_nonant( int gridx, int gridy ) const;
-        size_t get_nonant( const int gridx, const int gridy, const int gridz ) const;
+        size_t get_nonant( const point &gridp ) const;
         size_t get_nonant( const tripoint &gridp ) const;
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of

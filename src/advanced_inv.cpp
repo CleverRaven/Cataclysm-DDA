@@ -1400,7 +1400,7 @@ static tripoint aim_vector( aim_location id )
         case AIM_NORTHEAST:
             return tripoint( 1, -1, 0 );
         default:
-            return tripoint( 0, 0, 0 );
+            return tripoint_zero;
     }
 }
 

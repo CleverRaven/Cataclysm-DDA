@@ -64,7 +64,7 @@ const int bat_energy_j = 1000;
 inline int modulo( int v, int m );
 //
 // Point dxs for the adjacent cardinal tiles.
-point vehicles::cardinal_d[5] = { point( -1, 0 ), point( 1, 0 ), point( 0, -1 ), point( 0, 1 ), point( 0, 0 ) };
+point vehicles::cardinal_d[5] = { point( -1, 0 ), point( 1, 0 ), point( 0, -1 ), point( 0, 1 ), point_zero };
 
 // Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
@@ -1298,7 +1298,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
     bool found_all_parts = true;
-    const point mount_zero = point( 0, 0 );
+    const point mount_zero = point_zero;
     std::string axis;
     if( carry_veh_structs.size() == 1 ) {
         axis = "X";
@@ -1715,7 +1715,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
         bool success = split_vehicles( all_vehicles );
         if( success ) {
             // update the active cache
-            shift_parts( point( 0, 0 ) );
+            shift_parts( point_zero );
             return true;
         }
     }
@@ -1839,7 +1839,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
 
         if( !split_mounts.empty() ) {
             // include refresh
-            new_vehicle->shift_parts( point( 0, 0 ) - mnt_offset );
+            new_vehicle->shift_parts( point_zero - mnt_offset );
         } else {
             new_vehicle->refresh();
         }
@@ -2634,7 +2634,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if( vp && &vp->vehicle() == this && player_controlling ) {
             const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
-            if( p >= 0 && part_info( p ).fuel_type == fuel_type_muscle ) {
+            if( p >= 0 && is_part_on( p ) && part_info( p ).fuel_type == fuel_type_muscle ) {
                 //Broken limbs prevent muscle engines from working
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && g->u.hp_cur[hp_leg_l] > 0 &&
                       g->u.hp_cur[hp_leg_r] > 0 ) || ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
@@ -2755,7 +2755,7 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
 
     // calculate fuel consumption for the lower of safe speed or 70 mph
     // or 0 if the vehicle is idling
-    if( velocity > 0 ) {
+    if( is_moving() ) {
         int target_v = std::min( safe_velocity(), 70 * 100 );
         int vslowdown = slowdown( target_v );
         // add 3600 seconds worth of fuel consumption for the engine
@@ -2797,6 +2797,11 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
         pwr = pwr * 4 / ( 4 + cnt - 1 );
     }
     return pwr;
+}
+
+bool vehicle::is_moving() const
+{
+    return velocity != 0;
 }
 
 int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
@@ -2943,8 +2948,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
 {
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
     const std::array<std::string, 8> sound_msgs = {{
-            "", _( "hummm!" ), _( "whirrr!" ), _( "vroom!" ), _( "roarrr!" ), _( "ROARRR!" ),
-            _( "BRRROARRR!" ), _( "BRUMBRUMBRUMBRUM!" )
+            _( "hmm" ), _( "hummm!" ), _( "whirrr!" ), _( "vroom!" ), _( "roarrr!" ),
+            _( "ROARRR!" ), _( "BRRROARRR!" ), _( "BRUMBRUMBRUMBRUM!" )
         }
     };
     double noise = 0.0;
@@ -3022,66 +3027,6 @@ float vehicle::wheel_area( bool boat ) const
     }
 
     return total_area;
-}
-
-float vehicle::k_friction() const
-{
-    // calculate safe speed reduction due to wheel friction
-    constexpr float fr0 = 9000.0;
-    return fr0 / ( fr0 + wheel_area( false ) ) ;
-}
-
-float vehicle::k_aerodynamics() const
-{
-    const int max_obst = 13;
-    int obst[max_obst];
-    for( auto &elem : obst ) {
-        elem = 0;
-    }
-    std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
-    for( auto &structure_indice : structure_indices ) {
-        int p = structure_indice;
-        int frame_size = part_with_feature( p, VPFLAG_OBSTACLE, true ) ? 30 : 10;
-        int pos = parts[p].mount.y + max_obst / 2;
-        if( pos < 0 ) {
-            pos = 0;
-        }
-        if( pos >= max_obst ) {
-            pos = max_obst - 1;
-        }
-        if( obst[pos] < frame_size ) {
-            obst[pos] = frame_size;
-        }
-    }
-    int frame_obst = 0;
-    for( auto &elem : obst ) {
-        frame_obst += elem;
-    }
-    float ae0 = 200.0;
-
-    // calculate aerodynamic coefficient
-    float ka = ( ae0 / ( ae0 + frame_obst ) );
-    return ka;
-}
-
-float vehicle::k_dynamics() const
-{
-    return ( k_aerodynamics() * k_friction() );
-}
-
-float vehicle::k_mass() const
-{
-    // @todo: Remove this sum, apply only the relevant wheel type
-    float wa = wheel_area( false ) + wheel_area( true );
-    if( wa <= 0 ) {
-        return 0;
-    }
-
-    float ma0 = 50.0;
-    // calculate safe speed reduction due to mass
-    float km = ma0 / ( ma0 + to_kilogram( total_mass() ) / ( wa * 8.0f / 9.0f ) );
-
-    return km;
 }
 
 static double tile_to_width( int tiles )
@@ -3311,9 +3256,9 @@ float vehicle::k_traction( float wheel_traction_area ) const
     return std::max( 0.1f, traction );
 }
 
-int vehicle::drag() const
+int vehicle::static_drag( bool actual ) const
 {
-    return extra_drag / 1000 + ( engine_on ? 0 : 300 );
+    return extra_drag / 1000 + ( actual && !engine_on ? 300 : 0 );
 }
 
 float vehicle::strain() const
@@ -3407,20 +3352,15 @@ float vehicle::handling_difficulty() const
 {
     const float steer = std::max( 0.0f, steering_effectiveness() );
     const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
-    const float kmass = k_mass();
     const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).magnitude() );
 
-    constexpr float tile_per_turn = 10 * 100;
-
-    // TestVehicle: perfect steering, kmass, moving on road at 100 mph (10 tiles per turn) = 0.0
+    // TestVehicle: perfect steering, moving on road at 100 mph (25 tiles per turn) = 0.0
     // TestVehicle but on grass (0.75 friction) = 2.5
-    // TestVehicle but overloaded (0.5 kmass) = 5
-    // TestVehicle but with bad steering (0.5 steer) and overloaded (0.5 kmass) = 10
-    // TestVehicle but on fungal bed (0.5 friction), bad steering and overloaded = 15
+    // TestVehicle but with bad steering (0.5 steer) = 5
+    // TestVehicle but on fungal bed (0.5 friction) and bad steering = 10
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
-    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - ktraction ) +
-                             ( 1.0f - aligned ) );
-    return velocity * diff_mod / tile_per_turn;
+    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
+    return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 
 std::map<itype_id, int> vehicle::fuel_usage() const
@@ -3471,11 +3411,14 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
     return drained;
 }
 
-void vehicle::consume_fuel( int load = 1000, const int t_seconds )
+void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 {
     double st = strain();
     for( auto &fuel_pr : fuel_usage() ) {
         auto &ft = fuel_pr.first;
+        if( skip_electric && ft == fuel_type_battery ) {
+            continue;
+        }
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
@@ -3531,13 +3474,6 @@ int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
         epower += vp.info().epower;
     }
 
-    // Consumers of epower
-    if( is_alarm_on ) {
-        epower += alarm_epower;
-    }
-    if( camera_on ) {
-        epower += camera_epower;
-    }
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
     // Electric motor consumption not included, see @ref vpart_info::energy_consumption
@@ -3563,7 +3499,13 @@ int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
                 alternators_power += part_vpower_w( alternators[p] );
             }
         }
-        alternator_load = 1000 * abs( alternators_power ) / engine_vpower;
+        if( engine_vpower ) {
+            alternator_load = 1000 * abs( alternators_power + extra_drag ) / engine_vpower;
+        } else {
+            alternator_load = 0;
+        }
+        // could check if alternator_load > 1000 and then reduce alternator epower,
+        // but that's a lot of work for a corner case.
         if( alternators_epower > 0 ) {
             epower += alternators_epower;
         }
@@ -3824,12 +3766,13 @@ void vehicle::do_engine_damage( size_t e, int strain )
 
 void vehicle::idle( bool on_map )
 {
+    power_parts();
     if( engine_on && total_power_w() > 0 ) {
         int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        consume_fuel( idle_rate, 6 * to_turns<int>( 1_turns ) );
+        consume_fuel( idle_rate, 6 * to_turns<int>( 1_turns ), true );
 
         if( on_map ) {
             noise_and_smoke( idle_rate, 1_turns );
@@ -3851,6 +3794,12 @@ void vehicle::idle( bool on_map )
         }
     }
 
+    if( !on_map ) {
+        return;
+    } else {
+        update_time( calendar::turn );
+    }
+
     if( has_part( "STEREO", true ) ) {
         play_music();
     }
@@ -3859,12 +3808,8 @@ void vehicle::idle( bool on_map )
         play_chimes();
     }
 
-    if( on_map && is_alarm_on ) {
+    if( is_alarm_on ) {
         alarm();
-    }
-
-    if( on_map ) {
-        update_time( calendar::turn );
     }
 }
 
@@ -4152,7 +4097,7 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
-    if( velocity != 0 || falling ) {
+    if( is_moving() || falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
         }
@@ -4217,9 +4162,7 @@ void vehicle::refresh()
     steering.clear();
     speciality.clear();
     floating.clear();
-    tracking_epower = 0;
     alternator_load = 0;
-    camera_epower = 0;
     extra_drag = 0;
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -4278,14 +4221,16 @@ void vehicle::refresh()
         if( vpi.has_flag( "SECURITY" ) ) {
             speciality.push_back( p );
         }
-        if( vpi.has_flag( "CAMERA" ) ) {
-            camera_epower += vpi.epower;
-        }
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             floating.push_back( p );
         }
         if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
             extra_drag += vpi.power;
+        }
+        if( camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = true;
+        } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = false;
         }
     }
 
@@ -4640,7 +4585,7 @@ void vehicle::shift_parts( const point delta )
  */
 bool vehicle::shift_if_needed()
 {
-    std::vector<int> vehicle_origin = parts_at_relative( point( 0, 0 ), true );
+    std::vector<int> vehicle_origin = parts_at_relative( point_zero, true );
     if( !vehicle_origin.empty() && !parts[ vehicle_origin[ 0 ] ].removed ) {
         // Shifting is not needed.
         return false;
@@ -4950,7 +4895,7 @@ bool is_sm_tile_outside( const tripoint &real_global_pos )
     }
 
     return !( sm->ter[px][py].obj().has_flag( TFLAG_INDOORS ) ||
-              sm->get_furn( px, py ).obj().has_flag( TFLAG_INDOORS ) );
+              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )

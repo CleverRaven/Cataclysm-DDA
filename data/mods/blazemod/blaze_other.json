@@ -7,6 +7,9 @@
     "description": "A large steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condensor recaptures the water, making this a closed cycle system.",
     "weight": 280000,
     "volume": 380,
+    "epower": 0,
+    "power": 242450,
+    "energy_consumption": 484890,
     "price": 1400000,
     "price_postapoc": 2800000
   },
@@ -18,6 +21,9 @@
     "description": "A huge steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condensor recaptures the water, making this a closed cycle system.",
     "weight": 835000,
     "volume": 700,
+    "epower": 0,
+    "power": 447600,
+    "energy_consumption": 895200,
     "price": 2565000,
     "price_postapoc": 5130000
   },
@@ -29,6 +35,9 @@
     "description": "A small steam turbine.  An integrated boiler burns coal to heat water into steam, driving a spinning turbine.  A condensor recaptures the water, making this a closed cycle system.",
     "weight": 80000,
     "volume": 75,
+    "//": "Steam turbine efficiency sucks - ideally 47% efficient with reheat cycles, versus 55% for a modern gas engine.  Going with 33% efficieny for easy math",
+    "power": 93250,
+    "energy_consumption": 279750,
     "price": 255000,
     "price_postapoc": 510000
   },
@@ -40,6 +49,8 @@
     "description": "A medium sized steam turbine.  An integrated boiler burns coal to heat water into steam, driving a spinning turbine.  A condensor recaptures the water, making this a closed cycle system.",
     "weight": 120000,
     "volume": 110,
+    "power": 149200,
+    "energy_consumption": 347700,
     "price": 380000,
     "price_postapoc": 760000
   },
@@ -51,6 +62,8 @@
     "description": "A large steam turbine.  An integrated boiler burns coal to heat water into steam, driving a spinning turbine.  A condensor recaptures the water, making this a closed cycle system.",
     "weight": 190000,
     "volume": 180,
+    "power": 242450,
+    "energy_consumption": 727350,
     "price": 595000,
     "price_postapoc": 1190000
   },
@@ -62,6 +75,8 @@
     "description": "A huge steam turbine.  An integrated boiler burns coal to heat water into steam, driving a spinning turbine.  A condensor recaptures the water, making this a closed cycle system.",
     "weight": 345000,
     "volume": 325,
+    "power": 447600,
+    "energy_consumption": 1342800,
     "price": 1060000,
     "price_postapoc": 2120000
   },

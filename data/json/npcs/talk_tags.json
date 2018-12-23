@@ -523,21 +523,39 @@
             "<name_b>",
             "<swear> <name_b>"
         ]
-    },{
-        "type" : "snippet",
-        "category" : "<fire_in_the_hole>",
-        "text" : [
-            "Fire in the hole!",
-            "Get cover!",
-            "Get down!",
-            "Hit the dirt!",
-            "This <swear> shit is gonna blow!",
-            "I'm standing way too close to this <swear> firecracker.",
-            "I <really> need to get some distance.",
-            "I'm getting my ass out of here!  You'd better do the same, <name_g>!",
-            "Fire in the hole, motherfuckers!"
-        ]
-    },{
+    },
+    {
+      "type" : "snippet",
+      "category" : "<fire_in_the_hole_h>",
+      "text" : [
+        "<swear!> Fire in the hole!",
+        "<swear!> Get cover!",
+        "Marines!  We are <swear> leaving!",
+        "Hit the <swear> dirt!",
+        "This <swear> shit is gonna blow!",
+        "I'm standing way too close to this <swear> firecracker.",
+        "I <really> need to get some distance.",
+        "I <really> need to get some <swear> distance.",
+        "<swear!> I'm getting my ass out of here!",
+        "Fire in the <swear> hole, motherfuckers!"
+      ]
+    },
+    {
+      "type" : "snippet",
+      "category" : "<fire_in_the_hole>",
+      "text" : [
+        "Fire in the hole!",
+        "Get cover!",
+        "Get down!",
+        "Hit the dirt!",
+        "This <swear> shit is gonna blow!",
+        "I'm standing way too close to this <swear> firecracker.",
+        "I <really> need to get some distance.",
+        "I'm getting my ass out of here!  You'd better do the same, <name_g>!",
+        "Fire in the hole, motherfuckers!"
+      ]
+    },
+    {
         "type": "snippet",
         "category": "<monster_warning_h>",
         "//": "Hostile NPCs are foul-mouthed",
@@ -549,8 +567,8 @@
           "<swear!>, I'm doomed!  There's a <swear> <swear>",
           "<swear!>, here comes a <swear>"
         ]
-    },{
-
+    },
+    {
         "type": "snippet",
         "category": "<monster_warning>",
         "text": [
@@ -565,7 +583,153 @@
           "Look out!  A",
           "<swear!>, here comes a <swear>"
         ]
-    },{
+    },
+    {
+      "type": "snippet",
+      "category": "<general_danger>",
+      "text": [
+        "Look sharp!  Things are heating up.",
+        "Hostiles inbound.",
+        "Are we fighting or leaving?",
+        "Hey, <name_g>!  <general_danger>",
+        "Uh, <name_g>?  <general_danger>",
+        "Naptime is over.",
+        "Who's there?",
+        "Hello?",
+        "Look alive!",
+        "<general_danger_h>"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<general_danger_h>",
+      "//": "Some lines deliberately copied from mi-go text",
+      "text": [
+        "<swear> look sharp!  Things are <swear> heating up.",
+        "<swear!>  Hostiles <swear> inbound.",
+        "You're gonna rot in hell, you pieces of shit!",
+        "You're gonna rot in hell for this!",
+        "Kill them all and let God sort them out!",
+        "I love the smell of napalm in the morning.",
+        "This is the way the fuckin' world ends.",
+        "Look at this fuckin' shit we're in, man.",
+        "Is everything all right?",
+        "Look out!",
+        "Run!",
+        "Be quiet.",
+        "Please, I don't want to die.",
+        "We have a serious situation here.",
+        "Where did you come from?",
+        "Help!",
+        "Be careful out there.",
+        "Who's there?",
+        "It's heading right for us!",
+        "You hear that?",
+        "Time to die!"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<its_safe>",
+      "text": [
+        "Looks like that's over.",
+        "<name_g>, <its_safe>",
+        "I think we won.",
+        "Hey, <name_g>, <its_safe>",
+        "Are you wounded?  Am I wounded?",
+        "Another day, another victory.",
+        "I think I need to see a doctor.",
+        "At least we know they can die.",
+        "Anyone else want to die?",
+        "How do we get out of here?",
+        "Is that the last of them?",
+        "I'd kill for a coke.",
+        "<greet>"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<its_safe_h>",
+      "text": [
+        "<swear!>  What a <shitty> day.",
+        "<swear!>  I win again!",
+        "Anyone else want to die?",
+        "Don't worry about it.",
+        "Don't worry.",
+        "At least we know they can die.",
+        "I've seen horrors, horrors that you've seen.",
+        "Every man has got a breaking point.",
+        "Only a few more days 'til the weekend.",
+        "Anything else?",
+        "I think I need to see a doctor.",
+        "I'm fine.",
+        "There you are.",
+        "Please, I don't want to die.",
+        "How do we get out of here?"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<kill_npc>",
+      "text": [
+        "Time for you to die,",
+        "This bullet is for you,",
+        "I can take on",
+        "Hey, <name_g>!  I've got",
+        "<name_g>!  Watch my back while I kill",
+        "I'm your huckleberry,",
+        "Sorry, but you have to do down,"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<kill_npc_h>",
+      "text": [
+        "<swear!>!  I'm gonna <swear> kill you,",
+        "Watch you bleed out,",
+        "Hey <name_b>!  I'm gonna <swear> murder",
+        "<swear!>!  This is the end,",
+        "I can <swear> take on",
+        "Time to die,"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<kill_player_h>",
+      "text": [
+        "<ill_kill_you>!",
+        "I'ma cut those fuckin' tentacles off, bitch!",
+        "Watch you bleed out!",
+        "Time to die!",
+        "Is this Reno?  Because I need to watch you die!",
+        "You're going to pay for that, <name_b>!",
+        "You're gonna rot in hell, you pieces of shit!",
+        "You're gonna rot in hell for this!"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<combat_noise_warning>",
+      "text": [
+        "That sounds bad.",
+        "Be alert, something is up!",
+        "Did you hear that?",
+        "What's that noise?",
+        "Who's there?"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<movement_noise_warning>",
+      "text": [
+        "I hear something moving - sounded like",
+        "What's that sound?  I heard",
+        "Who's there?  I heard",
+        "Did you hear that?  Sounded like",
+        "Who is making that sound?  I can hear the"
+      ]
+    },
+    {
         "type": "snippet",
         "category": "<BGSS_intro_question>",
         "text": [

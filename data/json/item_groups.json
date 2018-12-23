@@ -402,6 +402,7 @@
       ["pot", 25],
       ["pot_copper", 15],
       ["pot_canning", 15],
+      ["pressure_cooker", 5],
       ["bowl_pewter", 25],
       ["teapot", 15],
       ["pan", 25],
@@ -782,7 +783,8 @@
       ["teapot", 25],
       ["pot", 80],
       ["pot_copper", 20],
-      ["pot_canning", 15]
+      ["pot_canning", 15],
+      ["pressure_cooker", 5]
     ]
   },{
     "type" : "item_group",
@@ -4340,6 +4342,7 @@
       ["canister_goo", 8],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
+      ["platinum_small", 10],
       ["gold_small", 10],
       ["silver_small", 30],
       ["bio_time_freeze", 10],
@@ -4505,6 +4508,7 @@
       ["pastaextruder", 8],
       ["can_sealer", 5],
       ["knuckle_brass", 15],
+      ["platinum_small", 10],
       ["gold_small", 10],
       ["silver_small", 20],
       ["cane", 10],
@@ -8581,6 +8585,7 @@
       [ "solder_wire", 60 ],
       [ "hammer", 60 ],
       [ "chisel", 60 ],
+      [ "platinum_small", 20 ],
       [ "gold_small", 20 ],
       [ "silver_small", 30 ],
       [ "diamond", 5 ]
@@ -8589,6 +8594,7 @@
 "type" : "item_group",
 "id" : "jewelry_safe",
 "items":[
+      ["platinum_small", 80],
       ["gold_small", 80],
       ["silver_small", 85],
       ["diamond", 75]
@@ -8883,7 +8889,8 @@
       [ "ceramic_bowl", 90 ],
       [ "clay_hydria", 50 ],
       [ "ceramic_cup", 90 ],
-      [ "crown_golden", 10 ]
+      [ "crown_golden", 10 ],
+      [ "fluid_preserved_brain", 20 ]
     ]
   },{
   "type" : "item_group",
