@@ -1486,8 +1486,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             temp1.str( "" );
             temp1 << _( "<bold>Mods:</bold> " );
+
+            std::map<gunmod_location, int> mod_locations = get_mod_locations();
+
             int iternum = 0;
-            for( auto &elem : gun.valid_mod_locations ) {
+            for( auto &elem : mod_locations ) {
                 if( iternum != 0 ) {
                     temp1 << "; ";
                 }
@@ -1569,7 +1572,27 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "GUNMOD", _( "Minimum strength required modifier: " ),
                                       mod.min_str_required_mod ) );
         }
+        if( !mod.add_mod.empty() && parts->test( iteminfo_parts::GUNMOD_ADD_MOD ) ) {
+            insert_separation_line();
 
+            temp1.str( "" );
+            temp1 << _( "<bold>Adds mod locations: </bold> " );
+
+            std::map<gunmod_location, int> mod_locations = mod.add_mod;
+
+            int iternum = 0;
+            for( auto &elem : mod_locations ) {
+                if( iternum != 0 ) {
+                    temp1 << "; ";
+                }
+                temp1 << "<bold>" << elem.second << "</bold> " << elem.first.name();
+                iternum++;
+            }
+            temp1 << ".";
+            info.push_back( iteminfo( "GUNMOD", temp1.str() ) );
+        }
+
+        insert_separation_line();
         temp1.str( "" );
         temp1 << _( "Used on: " ) << enumerate_as_string( mod.usable.begin(),
         mod.usable.end(), []( const gun_type_type & used_on ) {
@@ -1585,6 +1608,20 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::GUNMOD_LOCATION ) ) {
             info.push_back( iteminfo( "GUNMOD", temp2.str() ) );
+        }
+        if( !mod.blacklist_mod.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_MOD ) ) {
+            temp1.str( "" );
+            temp1 << _( "<bold>Incompatible with mod location: </bold> " );
+            int iternum = 0;
+            for( auto black : mod.blacklist_mod ) {
+                if( iternum != 0 ) {
+                    temp1 << ", ";
+                }
+                temp1 << black.name();
+                iternum++;
+            }
+            temp1 << ".";
+            info.push_back( iteminfo( "GUNMOD", temp1.str() ) );
         }
 
     }
@@ -2431,14 +2468,32 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     return format_item_info( info, {} );
 }
 
+std::map<gunmod_location, int> item::get_mod_locations() const {
+    std::map<gunmod_location, int> mod_locations = type->gun->valid_mod_locations;
+
+    for( const auto mod : gunmods() ) {
+        if( !mod->type->gunmod->add_mod.empty() ) {
+            std::map<gunmod_location, int> add_locations = mod->type->gunmod->add_mod;
+
+            for( auto it = add_locations.begin(); it != add_locations.end(); ++it ) {
+                mod_locations[it->first] += it->second;
+            }
+        }
+    }
+
+    return mod_locations;
+}
+
 int item::get_free_mod_locations( const gunmod_location &location ) const
 {
     if( !is_gun() ) {
         return 0;
     }
-    const islot_gun &gt = *type->gun;
-    const auto loc = gt.valid_mod_locations.find( location );
-    if( loc == gt.valid_mod_locations.end() ) {
+
+    std::map<gunmod_location, int> mod_locations = get_mod_locations();
+
+    const auto loc = mod_locations.find( location );
+    if( loc == mod_locations.end() ) {
         return 0;
     }
     int result = loc->second;
@@ -5239,7 +5294,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( gunmod_find( mod.typeId() ) ) {
         return ret_val<bool>::make_failure( _( "already has a %s" ), mod.tname( 1 ).c_str() );
 
-    } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
+    } else if( !get_mod_locations().count( mod.type->gunmod->location ) ) {
         return ret_val<bool>::make_failure( _( "doesn't have a slot for this mod" ) );
 
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
@@ -5274,6 +5329,12 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( ( mod.type->mod->ammo_modifier || !mod.type->mod->magazine_adaptor.empty() )
                && ( ammo_remaining() > 0 || magazine_current() ) ) {
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
+    }
+
+    for( auto slot : mod.type->gunmod->blacklist_mod ) {
+        if( get_mod_locations().count( slot ) ) {
+            return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ), slot.name().c_str() );
+        }
     }
 
     return ret_val<bool>::make_success();
