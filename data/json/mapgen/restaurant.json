@@ -372,5 +372,127 @@
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
       ]
     }
+  },
+  {
+    "id": "salad_bar",
+    "type": "item_group",
+    "items": [
+      [ "bowl_plastic", 80 ],
+      [ "veggy_salad", 6 ],
+      { "item": "tomato", "prob": 8, "container-item": "bowl_plastic" },
+      { "item": "onion", "prob": 6, "container-item": "bowl_plastic" },
+      { "item": "broccoli", "prob": 6, "container-item": "bowl_plastic" },
+      { "item": "celery", "prob": 6, "container-item": "bowl_plastic" },
+      { "item": "cabbage", "prob": 12, "container-item": "bowl_plastic" },
+      { "item": "carrot", "prob": 8, "charges": 2, "container-item": "bowl_plastic" }
+    ]
+  },
+  {
+    "id": "soup_bar",
+    "type": "item_group",
+    "items": [
+      [ "pot", 90 ],
+      { "item": "soup_chicken", "prob": 12, "charges": 1, "container-item": "pot" },
+      { "item": "soup_chicken", "prob": 6, "charges": 2, "container-item": "pot" },
+      { "item": "soup_fish", "prob": 9, "charges": 1, "container-item": "pot" },
+      { "item": "soup_fish", "prob": 4, "charges": 2, "container-item": "pot" },
+      { "item": "soup_tomato", "prob": 10, "charges": 1, "container-item": "pot" },
+      { "item": "soup_tomato", "prob": 5, "charges": 2, "container-item": "pot" },
+      { "item": "soup_veggy", "prob": 10, "charges": 1, "container-item": "pot" },
+      { "item": "soup_veggy", "prob": 5, "charges": 2, "container-item": "pot" }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_restaurant" ],
+    "//": "Buffet or family-style restaurant with a soup and salad bar.",
+    "weight": 550,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "========================",
+        "=|OO---OO---OO---OO+OO|=",
+        "=OHtHHtHHtHHtHHtHY   YO=",
+        "=OHtHHtHHtHHtHHtH     O=",
+        "=|                    |=",
+        "=|                  HH|=",
+        "=|HH   ##########   tt|=",
+        "=Ott                HHO=",
+        "=OHH                HHO=",
+        "=|         HtHHtH   tt|=",
+        "=|         HtHHtH   HH|=",
+        "=|-+--  --------------|=",
+        "=|   |     ###ffff|xxx|=",
+        "=|   |            c  7|=",
+        "=|S T|     ##GGGxx|xxx|=",
+        "=|--------+-----------|=",
+        "========================",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_linoleum_gray",
+        "+": "t_door_c",
+        ",": "t_pavement_y",
+        "-": "t_wall",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "=": "t_sidewalk",
+        "G": "t_linoleum_white",
+        "H": "t_linoleum_white",
+        "O": "t_window",
+        "S": "t_linoleum_white",
+        "Y": "t_linoleum_white",
+        " ": "t_linoleum_white",
+        "T": "t_linoleum_white",
+        "7": "t_linoleum_white",
+        "c": "t_rdoor_b",
+        "x": "t_linoleum_white",
+        "_": "t_pavement",
+        "f": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "G": "f_oven",
+        "x": "f_rack",
+        "H": "f_sofa",
+        "S": "f_sink",
+        "Y": "f_rack_coat",
+        "f": "f_fridge",
+        "t": "f_table"
+      },
+      "toilets": { "T": {  } },
+      "items": { "Y": { "item": "coat_rack", "chance": 35 } },
+      "monster": { "7": { "monster": "mon_zombie" } },
+      "place_loot": [
+        { "item": "ceramic_bowl", "x": 7, "y": 10, "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "ceramic_plate", "x": 16, "y": 10, "chance": 100, "repeat": [ 1, 2 ] }
+      ],
+      "place_items": [
+        { "item": "salad_bar", "x": 12, "y": 10, "chance": 85 },
+        { "item": "salad_bar", "x": 13, "y": 10, "chance": 85 },
+        { "item": "salad_bar", "x": 14, "y": 10, "chance": 75 },
+        { "item": "salad_bar", "x": 15, "y": 10, "chance": 75 },
+        { "item": "salad_bar", "x": [ 18, 20 ], "y": 16, "chance": 80 },
+        { "item": "salad_bar", "x": [ 18, 20 ], "y": 18, "chance": 80 },
+        { "item": "soup_bar", "x": 8, "y": 10, "chance": 85 },
+        { "item": "soup_bar", "x": 9, "y": 10, "chance": 85 },
+        { "item": "soup_bar", "x": 10, "y": 10, "chance": 75 },
+        { "item": "soup_bar", "x": 11, "y": 10, "chance": 75 },
+        { "item": "restaur_fridge", "x": [ 14, 17 ], "y": 16, "chance": 60 },
+        { "item": "restaur_kitchen", "x": [ 16, 17 ], "y": 18, "chance": 60, "repeat": [ 1, 2 ] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_GROCERY", "x": [ 9, 11 ], "y": [ 9, 12 ], "chance": 2, "density": 0.1 },
+        { "monster": "GROUP_ROACH", "x": [ 13, 15 ], "y": 17, "chance": 15, "density": 0.1 }
+      ]
+    }
   }
 ]
