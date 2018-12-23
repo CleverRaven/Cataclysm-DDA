@@ -3016,6 +3016,7 @@
     "spoils_in": "1 day",
     "flags": [ "EATEN_HOT" ]
   },
+  {
     "type": "COMESTIBLE",
     "id": "human_brain_embalmed",
     "name": "embalmed human brain",
