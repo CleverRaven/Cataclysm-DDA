@@ -569,6 +569,16 @@ bool item::stacks_with( const item &rhs ) const
     if( item_vars != rhs.item_vars ) {
         return false;
     }
+    // check if components are the same, otherwise don't stack
+    if( components.size() != rhs.components.size() ) {
+        return false;
+    } else {
+        for( int i = 0; components.size(); i++ ) {
+            if( components.operator[]( i ).type != rhs.components.operator[]( i ).type ) {
+                return false;
+            }
+        }
+    }
     if( goes_bad() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
         // Stack items that fall into the same "bucket" of freshness.
