@@ -2468,7 +2468,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     return format_item_info( info, {} );
 }
 
-std::map<gunmod_location, int> item::get_mod_locations() const {
+std::map<gunmod_location, int> item::get_mod_locations() const 
+{
     std::map<gunmod_location, int> mod_locations = type->gun->valid_mod_locations;
 
     for( const auto mod : gunmods() ) {
@@ -5333,7 +5334,8 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
 
     for( auto slot : mod.type->gunmod->blacklist_mod ) {
         if( get_mod_locations().count( slot ) ) {
-            return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ), slot.name().c_str() );
+            return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ), 
+                                                slot.name().c_str() );
         }
     }
 
