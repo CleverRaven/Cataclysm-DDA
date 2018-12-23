@@ -8890,8 +8890,30 @@ bool player::gunmod_remove( item &gun, item& mod )
         } );
     }
 
+    const itype *modtype = mod.type;
+
     i_add_or_drop( mod );
     gun.contents.erase( iter );
+
+    //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
+    if( !modtype->gunmod->add_mod.empty() ) {
+        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
+        for( auto slot : mod_locations ) {
+            int free_slots = gun.get_free_mod_locations( slot.first );
+
+            for( auto the_mod : gun.gunmods() ) {
+                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
+                    gunmod_remove( gun, *the_mod );
+                    free_slots++;
+                } else if( mod_locations.find( the_mod->type->gunmod->location ) == mod_locations.end() ) {
+                    gunmod_remove( gun, *the_mod );
+                }
+            }
+        }
+    }
+
+    //~ %1$s - gunmod, %2$s - gun.
+    add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ).c_str(), gun.tname().c_str() );
 
     return true;
 }
