@@ -227,7 +227,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         }
     } else {
         // food to which the player is allergic to never contains any vitamins
-        if (allergy_type(it) != MORALE_NULL) {
+        if( allergy_type( it ) != MORALE_NULL ) {
             return res;
         }
         for( const auto &e : it.type->comestible->vitamins ) {
