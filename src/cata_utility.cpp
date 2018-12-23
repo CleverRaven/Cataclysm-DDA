@@ -56,7 +56,9 @@ bool lcmatch( std::wstring haystack, std::wstring needle, std::locale &loc )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    std::locale current_locale = std::locale( "" ); // TODO: set the locale when changing the game language
+    // TODO: set the locale when changing the game language
+    std::locale current_locale = std::locale( "" );
+
     if( current_locale.name().substr( 0, 5 ) != "en_US" ) {
         return lcmatch( utf8_to_wstr( str ), utf8_to_wstr( qry ), current_locale );
     } else {
