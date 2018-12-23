@@ -3051,13 +3051,13 @@ static void perform_zone_activity_turn( player *p,
 
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
-    auto tile_filter = [p]( const tripoint & tile ) {
+    auto reject_tile = [p]( const tripoint & tile ) {
         return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
     };
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 activity_id( "ACT_HARVEST_PLOT" ),
-                                tile_filter,
+                                reject_tile,
                                 iexamine::harvest_plant,
                                 _( "You harvested all the plots you could." ) );
 
@@ -3065,60 +3065,28 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
-    const auto &mgr = zone_manager::get_manager();
-    const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
-
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
-    // cleanup unwanted tiles
-    auto cleanup = [p]( const tripoint & tile ) {
+    auto reject_tile = [p]( const tripoint & tile ) {
         return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
                g->m.ter( tile ) == t_dirtmound;
     };
-    cleanup_tiles( unsorted_tiles, cleanup );
 
-    // sort remaining tiles by distance
-    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+    auto dig = []( player & p, const tripoint & tile_loc ) {
+        p.add_msg_if_player( _( "You churn up the earth here." ) );
+        p.mod_moves( -300 );
+        g->m.ter_set( tile_loc, t_dirtmound );
+    };
 
-    for( auto &tile : tiles ) {
-        const auto &tile_loc = g->m.getlocal( tile );
-
-        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
-        if( route.size() > 1 ) {
-            route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
-            }
-            return;
-        } else { // we are at destination already
-            p->add_msg_if_player( _( "You churn up the earth here." ) );
-            p->mod_moves( -300 );
-            g->m.ter_set( tile_loc, t_dirtmound );
-
-            if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_TILL_PLOT" ) );
-                return;
-            }
-        }
-    }
-
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You tilled every tile you could." ) );
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                activity_id( "ACT_TILL_PLOT" ),
+                                reject_tile,
+                                dig,
+                                _( "You tilled every tile you could." ) );
 }
 
 void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 {
     const auto &mgr = zone_manager::get_manager();
-    const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
-
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
     std::vector<item *> seed_inv = p->items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
@@ -3140,7 +3108,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
     };
 
     // cleanup unwanted tiles (local coords)
-    auto cleanup = [&]( const tripoint & tile ) {
+    auto reject_tiles = [&]( const tripoint & tile ) {
         if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
             return true;
         }
@@ -3153,42 +3121,25 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
             } );
         } );
     };
-    cleanup_tiles( unsorted_tiles, cleanup );
 
-    // sort remaining tiles by distance
-    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
-
-    for( auto &tile : tiles ) {
-        const auto &tile_loc = g->m.getlocal( tile );
-
-        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
-        if( route.size() > 1 ) {
-            route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_PLANT_PLOT" ) ) );
-            }
-            return;
-        } else { // we are at destination already
-            const auto seeds = get_seeds( tile_loc );
-            std::vector<item *> seed_inv = p->items_with( [seeds]( const item & itm ) {
-                return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
-                    return itm.typeId() == itype_id( seed );
-                } );
+    auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
+        const auto seeds = get_seeds( tile_loc );
+        std::vector<item *> seed_inv = p.items_with( [seeds]( const item & itm ) {
+            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
+                return itm.typeId() == itype_id( seed );
             } );
-            if( !seed_inv.empty() ) {
-                auto it = seed_inv.front();
-                iexamine::plant_seed( *p, tile_loc, it->typeId() );
-            }
-
-            if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
-                return;
-            }
+        } );
+        if( !seed_inv.empty() ) {
+            auto it = seed_inv.front();
+            iexamine::plant_seed( p, tile_loc, it->typeId() );
         }
-    }
+    };
 
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You planted all seeds you could." ) );
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                activity_id( "ACT_PLANT_PLOT" ),
+                                reject_tiles,
+                                plant_appropriate_seed,
+                                _( "You planted all seeds you could." ) );
 }
