@@ -3002,20 +3002,21 @@ static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
     }
 }
 
-void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
+static void perform_zone_activity_turn( player *p,
+                                        const zone_type_id &ztype,
+                                        const activity_id &atype,
+                                        const std::function<bool( const tripoint & )> &tile_filter,
+                                        const std::function<void ( player &p, const tripoint & )> &tile_action,
+                                        const std::string &finished_msg )
 {
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+    auto unsorted_tiles = mgr.get_near( ztype, abspos );
 
     // Nuke the current activity, leaving the backlog alone.
     p->activity = player_activity();
 
-    // cleanup unwanted tiles
-    auto cleanup = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
-    };
-    cleanup_tiles( unsorted_tiles, cleanup );
+    cleanup_tiles( unsorted_tiles, tile_filter );
 
     // sort remaining tiles by distance
     const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
@@ -3028,23 +3029,37 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
             route.pop_back();
             // check for safe mode, we don't want to trigger moving if it is activated
             if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_HARVEST_PLOT" ) ) );
+                p->set_destination( route, player_activity( atype ) );
             }
             return;
         } else { // we are at destination already
-            /* Do harvest here */
-            iexamine::harvest_plant( *p, tile_loc );
+            /* Perform action */
+            tile_action( *p, tile_loc );
 
             if( p->moves <= 0 ) {
                 // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
+                p->assign_activity( activity_id( atype ) );
                 return;
             }
         }
     }
 
     // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You harvested all the plots you could." ) );
+    add_msg( m_info, finished_msg );
+}
+
+
+void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
+{
+    auto tile_filter = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
+    };
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                activity_id( "ACT_HARVEST_PLOT" ),
+                                tile_filter,
+                                iexamine::harvest_plant,
+                                _( "You harvested all the plots you could." ) );
 
 }
 
