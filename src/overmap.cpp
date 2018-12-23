@@ -2431,7 +2431,8 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
         const auto rnd_dir = om_direction::turn_random( dir );
         build_city_street( connection, last_node.pos(), cs, rnd_dir, town );
         if( one_in( 5 ) ) {
-            build_city_street( connection, last_node.pos(), cs, om_direction::opposite( rnd_dir ), town, new_width );
+            build_city_street( connection, last_node.pos(), cs, om_direction::opposite( rnd_dir ),
+                               town, new_width );
         }
     }
 }
