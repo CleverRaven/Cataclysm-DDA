@@ -847,12 +847,13 @@ void building_bin::finalize()
         const overmap_special &cur_special = current_id.obj();
         for( const overmap_special_terrain &ter : cur_special.terrains ) {
             const tripoint &p = ter.p;
+            /*
             if( p.x != 0 || p.y != 0 ) {
                 debugmsg( "Tried to add city building %s, but it has a part with non-zero X or Y coordinates (not supported yet)",
                           current_id.c_str() );
                 skip = true;
                 break;
-            }
+            }*/
         }
         if( skip ) {
             continue;
