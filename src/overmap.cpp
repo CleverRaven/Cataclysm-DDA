@@ -2393,8 +2393,12 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
             int right = cs - rng( 1, 3 );
 
             //Remove 1 length road nubs
-            left = left == 1 ? left++ : left;
-            right = right == 1 ? right++ : right;
+            if( left == 1 ) {
+                left++;
+            }
+            if( right == 1 ) {
+                right++;
+            }
 
             build_city_street( connection, iter->pos(), left, om_direction::turn_left( dir ),
                                town, new_width );
