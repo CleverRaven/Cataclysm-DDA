@@ -830,7 +830,6 @@ void building_bin::finalize()
     }
 
     for( const std::pair<overmap_special_id, int> &pr : unfinalized_buildings ) {
-        bool skip = false;
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special
@@ -844,7 +843,6 @@ void building_bin::finalize()
             }
             current_id = overmap_specials::create_building_from( converted_id );
         }
-        const overmap_special &cur_special = current_id.obj();
         buildings.add( current_id, pr.second );
     }
 
