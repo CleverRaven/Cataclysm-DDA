@@ -38,7 +38,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
-  }
+  },
   {
     "type": "COMESTIBLE",
     "id": "blueberries_cooked",
