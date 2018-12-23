@@ -711,7 +711,7 @@ void player::complete_craft()
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
-            // store components for food recipes
+            // store components for food recipes that do not have the override flag
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         }
