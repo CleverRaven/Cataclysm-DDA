@@ -243,10 +243,10 @@
   {
     "type": "effect_type",
     "id": "player_BGSS_SAIDNO",
-    "//": "Defined here in the conversation section because this should be the only time this effect is referenced: it's specifically for survival stories only.",
+    "//": "Defined here because this should be the only time this effect is referenced.",
     "name": [ "Story Denied" ],
     "desc": [
-      "AI tag used when you already asked an NPC for a detail in their survival story and they don't want to tell you again right now.  This is a bug if you have it."
+      "AI tag: you already asked an NPC for a detail and they don't want to tell you again.  This is a bug if you have it."
     ]
   }
 ]
