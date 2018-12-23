@@ -706,7 +706,7 @@ void player::complete_craft()
         if( recipe_dictionary::get_uncraft( making->result() ) && !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
-            // which would either loose this information or merge it somehow.
+            // which would either lose this information or merge it somehow.
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {

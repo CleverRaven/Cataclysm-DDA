@@ -222,8 +222,18 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
     }
 
     // @todo: bionics and mutations can affect vitamin absorption
-    for( const auto &e : it.type->comestible->vitamins ) {
-        res.emplace( e.first, e.second );
+    if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        for( const auto &comp : it.components ) {
+            std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
+            for( const auto &vit : component_map ) {
+                res.operator[]( vit.first ) += ceil( static_cast<float>( vit.second ) / static_cast<float>
+                                                     ( it.type->charges_default() ) );
+            }
+        }
+    } else {
+        for( const auto &e : it.type->comestible->vitamins ) {
+            res.emplace( e );
+        }
     }
 
     return res;
