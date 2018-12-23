@@ -3,7 +3,7 @@
     "id": "TALK_FRIEND",
     "type": "talk_topic",
     "responses": [
-	  {
+      {
         "text": "<BGSS_intro_question>",
         "topic": "BGSS_CONFUSED_1_STORY1",
         "condition": { "npc_has_trait": "BGSS_Confused_1" }
