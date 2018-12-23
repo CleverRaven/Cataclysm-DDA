@@ -6056,7 +6056,7 @@
     "price": 500,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 16,
     "fun": -5
   },
