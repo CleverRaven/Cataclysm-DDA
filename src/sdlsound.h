@@ -20,9 +20,15 @@ void load_soundset( void );
 
 #else
 
-inline bool init_sound( void ){ return false; }
+inline bool init_sound( void )
+{
+    return false;
+}
 inline void shutdown_sound( void ) { }
-inline void play_music( std::string playlist ){ (void)playlist; }
+inline void play_music( std::string playlist )
+{
+    ( void )playlist;
+}
 inline void update_music_volume( void ) { }
 inline void load_soundset( void ) { }
 

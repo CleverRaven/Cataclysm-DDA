@@ -23,7 +23,7 @@ struct sound_effect {
 
     struct deleter {
         // Operator overloaded to leverage deletion API.
-        void operator()( Mix_Chunk* const c ) const {
+        void operator()( Mix_Chunk *const c ) const {
             Mix_FreeChunk( c );
         }
     };
@@ -39,7 +39,7 @@ struct music_playlist {
     std::vector<entry> entries;
     bool shuffle;
 
-    music_playlist() : shuffle(false) {
+    music_playlist() : shuffle( false ) {
     }
 };
 /** The music we're currently playing. */
@@ -52,7 +52,7 @@ static bool sound_init_success = false;
 static std::map<id_and_variant, std::vector<sound_effect>> sound_effects_p;
 static std::map<std::string, music_playlist> playlists;
 static std::string current_soundpack_path;
-static std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
+static std::unordered_map<std::string, Mix_Chunk *> unique_chunks;
 
 bool sounds::sound_enabled = false;
 
@@ -74,9 +74,9 @@ bool init_sound( void )
     // We should only need to init once
     if( !sound_init_success ) {
         // Mix_OpenAudio returns non-zero if something went wrong trying to open the device
-        if( !Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) ) {
-            Mix_AllocateChannels(128);
-            Mix_ReserveChannels(20);
+        if( !Mix_OpenAudio( audio_rate, audio_format, audio_channels, audio_buffers ) ) {
+            Mix_AllocateChannels( 128 );
+            Mix_ReserveChannels( 20 );
 
             // For the sound effects system.
             Mix_GroupChannels( 2, 9, 1 );
@@ -92,7 +92,8 @@ bool init_sound( void )
 
     return sound_init_success;
 }
-void shutdown_sound( void ) {
+void shutdown_sound( void )
+{
     // De-allocate all loaded sound.
     sound_effects_p.clear();
     playlists.clear();
@@ -101,13 +102,14 @@ void shutdown_sound( void ) {
 
 void musicFinished();
 
-void play_music_file( const std::string &filename, int volume ) {
+void play_music_file( const std::string &filename, int volume )
+{
     if( !check_sound( volume ) ) {
         return;
     }
 
     const std::string path = ( current_soundpack_path + "/" + filename );
-    current_music = Mix_LoadMUS(path.c_str());
+    current_music = Mix_LoadMUS( path.c_str() );
     if( current_music == nullptr ) {
         dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
         return;
@@ -117,13 +119,14 @@ void play_music_file( const std::string &filename, int volume ) {
         dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
         return;
     }
-    Mix_HookMusicFinished(musicFinished);
+    Mix_HookMusicFinished( musicFinished );
 }
 
 /** Callback called when we finish playing music. */
-void musicFinished() {
+void musicFinished()
+{
     Mix_HaltMusic();
-    Mix_FreeMusic(current_music);
+    Mix_FreeMusic( current_music );
     current_music = NULL;
 
     const auto iter = playlists.find( current_playlist );
@@ -149,7 +152,8 @@ void musicFinished() {
     play_music_file( next.file, next.volume );
 }
 
-void play_music(std::string playlist) {
+void play_music( std::string playlist )
+{
     const auto iter = playlists.find( playlist );
     if( iter == playlists.end() ) {
         return;
@@ -160,7 +164,7 @@ void play_music(std::string playlist) {
     }
 
     // Don't interrupt playlist that's already playing.
-    if(playlist == current_playlist) {
+    if( playlist == current_playlist ) {
         return;
     }
 
@@ -178,25 +182,27 @@ void play_music(std::string playlist) {
     play_music_file( next.file, next.volume );
 }
 
-void update_music_volume() {
+void update_music_volume()
+{
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
-    if ( !check_sound() ) {
+    if( !check_sound() ) {
         return;
     }
 
     Mix_VolumeMusic( get_option<int>( "MUSIC_VOLUME" ) );
 }
 
-// Allocate new Mix_Chunk as copy of input, sets ::allocated to 0 so copy's 
+// Allocate new Mix_Chunk as copy of input, sets ::allocated to 0 so copy's
 // ::abuf is not freed during Mix_FreeChunk at EOL of struct sound_effect
-static Mix_Chunk* copy_chunk(const Mix_Chunk* ref){
+static Mix_Chunk *copy_chunk( const Mix_Chunk *ref )
+{
     // SDL_malloc to match up with Mix_FreeChunk's SDL_free call
     // to free the Mix_Chunk object memory
-    Mix_Chunk *nchunk = static_cast<Mix_Chunk*>( SDL_malloc( sizeof( Mix_Chunk ) ) );
+    Mix_Chunk *nchunk = static_cast<Mix_Chunk *>( SDL_malloc( sizeof( Mix_Chunk ) ) );
 
     // Assign as copy of ref
-    (*nchunk) = *ref;
+    ( *nchunk ) = *ref;
     // nchunk does not own ::abuf memory, set ::allocated to 0 to prevent
     // deallocation
     nchunk->allocated = 0;
@@ -206,16 +212,17 @@ static Mix_Chunk* copy_chunk(const Mix_Chunk* ref){
 // Searches for path in loaded sfx resources.
 // - Found: Returns a copy of the Mix_Chunk loaded from path
 // - Not Found: Loads Resource and stores path and resource Mix_Chunk pointer
-static Mix_Chunk* load_chunk(const std::string& path){
+static Mix_Chunk *load_chunk( const std::string &path )
+{
     Mix_Chunk *result = nullptr;
 
     auto find_result = unique_chunks.find( path );
-    if ( find_result != unique_chunks.end() ){
+    if( find_result != unique_chunks.end() ) {
         result = copy_chunk( find_result->second );
-    } else{
+    } else {
         result = Mix_LoadWAV( path.c_str() );
         // Store only if valid
-        if ( result != nullptr ){
+        if( result != nullptr ) {
             unique_chunks[path] = result;
         }
     }
@@ -223,8 +230,9 @@ static Mix_Chunk* load_chunk(const std::string& path){
     return result;
 }
 
-void sfx::load_sound_effects( JsonObject &jsobj ) {
-    if ( !sound_init_success ) {
+void sfx::load_sound_effects( JsonObject &jsobj )
+{
+    if( !sound_init_success ) {
         return;
     }
     const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant", "default" ) );
@@ -252,7 +260,7 @@ void sfx::load_playlist( JsonObject &jsobj )
     if( !sound_init_success ) {
         return;
     }
-    
+
     JsonArray jarr = jsobj.get_array( "playlists" );
     while( jarr.has_more() ) {
         JsonObject playlist = jarr.next_object();
@@ -274,7 +282,7 @@ void sfx::load_playlist( JsonObject &jsobj )
 
 // Returns a random sound effect matching given id and variant or `nullptr` if there is no
 // matching sound effect.
-const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
+const sound_effect *find_random_effect( const id_and_variant &id_variants_pair )
 {
     const auto iter = sound_effects_p.find( id_variants_pair );
     if( iter == sound_effects_p.end() ) {
@@ -284,7 +292,7 @@ const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
 }
 
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
-const sound_effect* find_random_effect( const std::string &id, const std::string& variant )
+const sound_effect *find_random_effect( const std::string &id, const std::string &variant )
 {
     const auto eff = find_random_effect( id_and_variant( id, variant ) );
     if( eff != nullptr ) {
@@ -340,8 +348,10 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
             lt_avg += lt;
             rt_avg += rt;
         }
-        lt_out = static_cast<Sint16>( static_cast<float>( lt_avg ) / static_cast<float>( end - begin + 1 ) );
-        rt_out = static_cast<Sint16>( static_cast<float>( rt_avg ) / static_cast<float>( end - begin + 1 ) );
+        lt_out = static_cast<Sint16>( static_cast<float>( lt_avg ) / static_cast<float>
+                                      ( end - begin + 1 ) );
+        rt_out = static_cast<Sint16>( static_cast<float>( rt_avg ) / static_cast<float>
+                                      ( end - begin + 1 ) );
         result->abuf[( 4 * i ) + 1] = static_cast<Uint8>( ( lt_out >> 8 ) & 0xFF );
         result->abuf[( 4 * i ) + 0] = static_cast<Uint8>( lt_out & 0xFF );
         result->abuf[( 4 * i ) + 3] = static_cast<Uint8>( ( rt_out >> 8 ) & 0xFF );
@@ -395,17 +405,19 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_SetPosition( channel, angle, 1 );
 }
 
-void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume, int channel,
-                                      int duration ) {
+void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
+                                      int channel,
+                                      int duration )
+{
     if( !check_sound( volume ) ) {
         return;
     }
 
-    const sound_effect* eff = find_random_effect( id, variant );
+    const sound_effect *eff = find_random_effect( id, variant );
     if( eff == nullptr ) {
         return;
     }
-    const sound_effect& selected_sound_effect = *eff;
+    const sound_effect &selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     Mix_VolumeChunk( effect_to_play,
@@ -415,14 +427,15 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     }
 }
 
-void load_soundset() {
+void load_soundset()
+{
     const std::string default_path = FILENAMES["defaultsounddir"];
     const std::string default_soundpack = "basic";
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;
 
     // Get current soundpack and it's directory path.
-    if (current_soundpack.empty()) {
+    if( current_soundpack.empty() ) {
         dbg( D_ERROR ) << "Soundpack not set in options or empty.";
         soundpack_path = default_path;
         current_soundpack = default_soundpack;
@@ -431,7 +444,7 @@ void load_soundset() {
         soundpack_path = SOUNDPACKS[current_soundpack];
     }
 
-    if (soundpack_path.empty()) {
+    if( soundpack_path.empty() ) {
         dbg( D_ERROR ) << "Soundpack with name " << current_soundpack << " can't be found or empty string";
         soundpack_path = default_path;
         current_soundpack = default_soundpack;
@@ -450,8 +463,8 @@ void load_soundset() {
     unique_chunks.clear();
     // Memory of unique_chunks no longer required, swap with locally scoped unordered_map
     // to force deallocation of resources.
-    std::unordered_map<std::string, Mix_Chunk*> t_swap;
-    unique_chunks.swap(t_swap);
+    std::unordered_map<std::string, Mix_Chunk *> t_swap;
+    unique_chunks.swap( t_swap );
 }
 
 #endif
