@@ -5334,7 +5334,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
 
     for( auto slot : mod.type->gunmod->blacklist_mod ) {
         if( get_mod_locations().count( slot ) ) {
-            return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ), 
+            return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
                                                 slot.name().c_str() );
         }
     }
