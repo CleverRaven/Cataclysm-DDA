@@ -2397,10 +2397,10 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
             right = right == 1 ? right++ : right;
 
             build_city_street( connection, iter->pos(), left, om_direction::turn_left( dir ),
-                    town, new_width );
+                               town, new_width );
 
             build_city_street( connection, iter->pos(), right, om_direction::turn_right( dir ),
-                    town, new_width );
+                               town, new_width );
 
             auto &oter = ter( iter->x, iter->y, 0 );
             // @todo Get rid of the hardcoded terrain ids.
@@ -2408,7 +2408,6 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
                 oter = oter_id( "road_nesw_manhole" );
             }
         }
-
         const tripoint rp( iter->x, iter->y, 0 );
 
         if( !one_in( BUILDINGCHANCE ) ) {
@@ -2417,7 +2416,6 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
         if( !one_in( BUILDINGCHANCE ) ) {
             place_building( rp, om_direction::turn_right( dir ), town );
         }
-        
     }
 
     // If we're big, make a right turn at the edge of town.
@@ -2871,7 +2869,7 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
             }
             for( int j = -1; j <= 1; j++ ) {
                 const tripoint checkp = pos + tripoint( i, j, 0 );
-                
+
                 if( checkp != pos + om_direction::displace( dir, 1 ) &&
                     checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
                     checkp != pos ) {
