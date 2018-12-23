@@ -44,10 +44,9 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( std::wstring haystack, std::wstring needle )
+bool lcmatch( std::wstring haystack, std::wstring needle, std::locale &loc )
 {
-    std::locale::global( std::locale( "ru_RU.utf8" ) );
-    auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    auto &f = std::use_facet<std::ctype<wchar_t>>( loc );
 
     f.tolower( &haystack[0], &haystack[0] + haystack.size() );
     f.tolower( &needle[0], &needle[0] + needle.size() );
@@ -57,7 +56,20 @@ bool lcmatch( std::wstring haystack, std::wstring needle )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    return lcmatch( utf8_to_wstr( str ), utf8_to_wstr( qry ) );
+    std::locale current_locale = std::locale( "" ); // TODO: set the locale when changing the game language
+    if( current_locale.name().substr( 0, 5 ) != "en_US" ) {
+        return lcmatch( utf8_to_wstr( str ), utf8_to_wstr( qry ), current_locale );
+    } else {
+        std::string needle;
+        needle.reserve( qry.size() );
+        std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
+
+        std::string haystack;
+        haystack.reserve( str.size() );
+        std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
+
+        return haystack.find( needle ) != std::string::npos;
+    }
 }
 
 bool match_include_exclude( const std::string &text, std::string filter )

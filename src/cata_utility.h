@@ -85,7 +85,7 @@ bool isBetween( int test, int down, int up );
  */
 bool lcmatch( const std::string &str, const std::string &qry );
 
-bool lcmatch( std::wstring haystack, std::wstring needle );
+bool lcmatch( std::wstring haystack, std::wstring needle, std::locale &loc );
 
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
