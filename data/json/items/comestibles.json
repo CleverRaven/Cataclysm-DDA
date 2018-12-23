@@ -4172,29 +4172,6 @@
     "spoils_in": "1 day",
     "flags": [ "EATEN_HOT" ]
   },
-  {
-<<<<<<< HEAD
-=======
-    "id": "brownie_weed",
-    "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
-    "name": "'special' brownie",
-    "description": "This is definitely not how grandma used to bake them.",
-    "weight": 56,
-    "volume": 3,
-    "price": 5000,
-    "charges": 8,
-    "material": "wheat",
-    "symbol": "%",
-    "color": "brown",
-    "calories": 174,
-    "fun": 15,
-    "spoils_in": 420,
-    "use_action": "WEED_BROWNIE",
-    "flags": [ "EATEN_HOT" ]
-  },
-  {
->>>>>>> comestibles.json-split-8
     "type": "COMESTIBLE",
     "id": "human_brain_embalmed",
     "name": "embalmed human brain",
