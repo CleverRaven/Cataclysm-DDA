@@ -1785,9 +1785,9 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     if( tec.id != tec_none ) {
         std::string message;
         if( p.is_npc() ) {
-            message = tec.npc_message;
+            message = _( tec.npc_message.c_str() );
         } else {
-            message = tec.player_message;
+            message = _( tec.player_message.c_str() );
         }
         if( !message.empty() ) {
             return message;
