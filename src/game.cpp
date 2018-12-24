@@ -6555,16 +6555,16 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     const int max_width = getmaxx( w_look ) - column - 1;
     int lines;
     std::string tile = m.tername( lp );
-    tile = "( " + area_name + " )  " + tile;
+    tile = "(" + area_name + ")  " + tile;
     if( m.has_furn( lp ) ) {
         tile += "; " + m.furnname( lp );
     }
 
     if( m.impassable( lp ) ) {
-        lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Impassable" ),
+        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Impassable" ),
                                 tile.c_str() );
     } else {
-        lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Movement cost %d" ),
+        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Movement cost %d" ),
                                 tile.c_str(), m.move_cost( lp ) * 50 );
 
         const auto ll = get_light_level( std::max( 1.0,
@@ -6575,7 +6575,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, ++lines, column, max_width, c_light_gray,
+        trim_and_print( w_look, ++lines, column, max_width, c_dark_gray,
                         u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
     }
 
@@ -6596,7 +6596,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
     }
 
-    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_light_gray,
+    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_dark_gray,
                                        m.features( lp ) );
     if( line < lines ) {
         line = lines + map_features - 1;
@@ -7388,6 +7388,15 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             if( bNewWindow ) {
                 werase( w_info );
                 draw_border( w_info );
+
+                static const char *title_prefix = "< ";
+                static const char *title = _( "Look Around" );
+                static const char *title_suffix = " >";
+                static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
+                const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w_info ) - 1 );
+                mvwprintz( w_info, 0, start_pos, c_white, title_prefix );
+                wprintz( w_info, c_green, title );
+                wprintz( w_info, c_white, title_suffix );
 
                 nc_color clr = c_white;
                 std::string colored_key = string_format( "<color_light_green>%s</color>",
