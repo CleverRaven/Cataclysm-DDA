@@ -6549,7 +6549,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 }
 
 void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
-                               std::string area_name, int column,
+                               const std::string &area_name, int column,
                                int &line )
 {
     const int max_width = getmaxx( w_look ) - column - 1;
