@@ -6457,7 +6457,7 @@ cata::optional<tripoint> game::look_debug()
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
-                                std::string area_name, int column,
+                                const std::string &area_name, int column,
                                 int &line,
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
