@@ -7289,7 +7289,7 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
         column = 0;
     }
     if( !draw_terrain_indicators ) {
-        draw_terrain_indicators = 0;
+        draw_terrain_indicators = false;
     }
 
     // get global area info according to look_around caret position
