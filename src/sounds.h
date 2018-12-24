@@ -15,6 +15,17 @@ class JsonObject;
 
 namespace sounds
 {
+enum class sound_t : int {
+    background = 0,
+    weather,
+    music,
+    activity,
+    movement,
+    alarm,
+    combat, // any violent sounding activity, including construction
+    speech
+};
+
 // Methods for recording sound events.
 /**
  * Sound at (p) of intensity (vol)
@@ -24,14 +35,16 @@ namespace sounds
  *
  * @param p position of sound.
  * @param vol Volume of sound.
+ * @param category general type of sound for faster parsing
  * @param description Description of the sound for the player
  * @param ambient Sound does not interrupt player activity if this is true
  * @param id Id of sound effect
  * @param variant Variant of sound effect given in id
  * @returns true if the player could hear the sound.
  */
-void sound( const tripoint &p, int vol, std::string description, bool ambient = false,
-            const std::string &id = "", const std::string &variant = "default" );
+void sound( const tripoint &p, int vol, sound_t category, std::string description,
+            bool ambient = false, const std::string &id = "",
+            const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */
 void ambient_sound( const tripoint &p, int vol, const std::string &description );
 /** Creates a list of coordinates at which to draw footsteps. */

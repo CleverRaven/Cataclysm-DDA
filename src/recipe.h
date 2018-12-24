@@ -99,6 +99,10 @@ class recipe
 
         bool has_flag( const std::string &flag_name ) const;
 
+        bool is_reversible() const {
+            return reversible;
+        }
+
         void load( JsonObject &jo, const std::string &src );
         void finalize();
 

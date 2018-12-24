@@ -24,7 +24,7 @@
       "type": "reveal_map",
       "radius": 180,
       "terrain": [ "hiway", "road", "bridge", "fema_entrance", "bunker", "outpost", "silo", "shelter", "police" ],
-      "message": "You add roads and restaurants to your map."
+      "message": "You add roads and facilities to your map."
     }
   },
   {

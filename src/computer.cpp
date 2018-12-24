@@ -387,7 +387,8 @@ void computer::activate_function( computer_action action )
         //Toll is required for the church computer/mechanism to function
         case COMPACT_TOLL:
             //~ the sound of a church bell ringing
-            sounds::sound( g->u.pos(), 120, _( "Bohm... Bohm... Bohm..." ) );
+            sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
+                           _( "Bohm... Bohm... Bohm..." ) );
             break;
 
         case COMPACT_SAMPLE:
@@ -432,7 +433,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_RELEASE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Released subspace specimens." ),
                                    pgettext( "memorial_female", "Released subspace specimens." ) );
-            sounds::sound( g->u.pos(), 40, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -442,7 +443,7 @@ void computer::activate_function( computer_action action )
             remove_submap_turrets();
         /* fallthrough */
         case COMPACT_RELEASE_BIONICS:
-            sounds::sound( g->u.pos(), 40, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -1277,7 +1278,7 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_ALARM:
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                    pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( g->u.pos(), 60, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ) );
             if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
             }

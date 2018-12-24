@@ -609,8 +609,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     int lines_used = getmaxy( w_target ) - 1 - text_y;
     mvwprintz( w_target, text_y++, 1, c_white, _( "Move cursor to target with directional keys" ) );
 
-    auto const front_or = [&]( std::string const & s, char const fallback ) {
-        auto const keys = ctxt.keys_bound_to( s );
+    const auto front_or = [&]( const std::string & s, const char fallback ) {
+        const auto keys = ctxt.keys_bound_to( s );
         return keys.empty() ? fallback : keys.front();
     };
 
@@ -1495,7 +1495,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         int reduction; // the reduction in time given per skill level.
     };
 
-    static std::map<skill_id, time_info_t> const map {
+    static const std::map<skill_id, time_info_t> map {
         {skill_id {"pistol"},   {10, 80,  10}},
         {skill_id {"shotgun"},  {70, 150, 25}},
         {skill_id {"smg"},      {20, 80,  10}},
@@ -1507,11 +1507,11 @@ int time_to_fire( const Character &p, const itype &firingt )
     };
 
     const skill_id &skill_used = firingt.gun->skill_used;
-    auto const it = map.find( skill_used );
+    const auto it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };
 
-    time_info_t const &info = ( it == map.end() ) ? default_info : it->second;
+    const time_info_t &info = ( it == map.end() ) ? default_info : it->second;
     return std::max( info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ) );
 }
 
@@ -1567,11 +1567,12 @@ void make_gun_sound_effect( player &p, bool burst, item *weapon )
 {
     const auto data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
-        sounds::sound( p.pos(), data.volume, data.sound );
+        sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
+                       data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
 }
 
-item::sound_data item::gun_noise( bool const burst ) const
+item::sound_data item::gun_noise( const bool burst ) const
 {
     if( !is_gun() ) {
         return { 0, "" };
@@ -1650,7 +1651,7 @@ item::sound_data item::gun_noise( bool const burst ) const
 static bool is_driving( const player &p )
 {
     const optional_vpart_position vp = g->m.veh_at( p.pos() );
-    return vp && vp->vehicle().velocity != 0 && vp->vehicle().player_in_control( p );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( p );
 }
 
 static double dispersion_from_skill( double skill, double weapon_dispersion )

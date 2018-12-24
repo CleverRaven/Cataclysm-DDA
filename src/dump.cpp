@@ -91,7 +91,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.get_encumber() ) );
+            r.push_back( to_string( obj.get_encumber( g->u ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.get_storage() / units::legacy_volume_factor ) );
@@ -260,8 +260,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         header = {
             "Name", "Weight (empty)", "Weight (fueled)",
             "Max velocity (mph)", "Safe velocity (mph)", "Acceleration (mph/turn)",
-            "Mass coeff %", "Aerodynamics coeff %", "Friction coeff %",
-            "Traction coeff % (grass)"
+            "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
         auto dump = [&rows]( const vproto_id & obj ) {
             auto veh_empty = vehicle( obj, 0, 0 );
@@ -274,11 +273,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
-            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_mass() ) ) );
-            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_aerodynamics() ) ) );
-            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_friction() ) ) );
-            r.push_back( to_string( static_cast<int>( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
-                                        false ) / 2.0f ) ) ) );
+            r.push_back( to_string( veh_fueled.coeff_air_drag() ) );
+            r.push_back( to_string( veh_fueled.coeff_rolling_drag() ) );
+            r.push_back( to_string( veh_fueled.static_drag( false ) ) );
+            r.push_back( to_string( static_cast<int>( 50 *
+                                    veh_fueled.k_traction( veh_fueled.wheel_area( false ) ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {

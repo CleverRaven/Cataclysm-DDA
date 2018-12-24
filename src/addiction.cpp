@@ -231,7 +231,7 @@ const std::string &addiction_type_name( add_type const cur )
     return error_string;
 }
 
-const std::string &addiction_name( addiction const &cur )
+const std::string &addiction_name( const addiction &cur )
 {
     static const std::map<add_type, std::string> type_map = {{
             { ADD_CIG, _( "Nicotine Withdrawal" ) },
@@ -285,7 +285,7 @@ morale_type addiction_craving( add_type const cur )
     return MORALE_NULL;
 }
 
-add_type addiction_type( std::string const &name )
+add_type addiction_type( const std::string &name )
 {
     static const std::map<std::string, add_type> type_map = {{
             { "nicotine", ADD_CIG },
@@ -313,7 +313,7 @@ add_type addiction_type( std::string const &name )
     return ADD_NULL;
 }
 
-const std::string &addiction_text( addiction const &cur )
+const std::string &addiction_text( const addiction &cur )
 {
     static const std::map<add_type, std::string> addiction_msg = {{
             { ADD_CIG, _( "Intelligence - 1;   Occasional cravings" ) },

@@ -6,6 +6,7 @@
 #include "input.h"
 #include "output.h"
 #include "player.h"
+#include "npc.h"
 
 #include <map>
 #include <string>
@@ -102,7 +103,16 @@ void game::list_missions()
         if( selection < umissions.size() ) {
             const auto miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
-            int lines = fold_and_print( w_missions, 3, 31, getmaxx( w_missions ) - 33, col, miss->name() );
+            std::string for_npc = "";
+            if( miss->get_npc_id() >= 0 ) {
+                npc *guy = g->find_npc( miss->get_npc_id() );
+                if( guy ) {
+                    for_npc = string_format( _( " for %s" ), guy->disp_name() );
+                }
+            }
+
+            int lines = fold_and_print( w_missions, 3, 31, getmaxx( w_missions ) - 33, col,
+                                        miss->name() + for_npc );
 
             int y = 3 + lines;
             if( !miss->get_description().empty() ) {

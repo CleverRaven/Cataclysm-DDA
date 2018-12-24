@@ -293,14 +293,14 @@ class player : public Character
         bool in_climate_control();
 
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
-        void introduce_into_anesthesia( time_duration const &duration, player &installer,
+        void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
-        void add_bionic( bionic_id const &b );
+        void add_bionic( const bionic_id &b );
         /** Removes a bionic from my_bionics[] */
-        void remove_bionic( bionic_id const &b );
+        void remove_bionic( const bionic_id &b );
         /** Calculate skill for (un)installing bionics */
         float bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
@@ -312,7 +312,7 @@ class player : public Character
         void bionics_install_failure( player &installer, int difficulty, int success,
                                       float adjusted_skill );
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic( bionic_id const &b_id, player &installer, bool autodoc = false,
+        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
         void bionics_uninstall_failure( player &installer );
         /** Adds the entered amount to the player's bionic power_level */
@@ -1455,6 +1455,7 @@ class player : public Character
         double recoil = MAX_RECOIL;
         std::weak_ptr<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
+        item_location ammo_location; //Save favorite ammo location
         int scent;
         int dodges_left;
         int blocks_left;

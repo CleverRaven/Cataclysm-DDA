@@ -33,6 +33,15 @@ struct pair_greater_cmp_first {
 };
 
 /**
+ * For use with smart pointers when you don't actually want the deleter to do
+ * anything.
+ */
+struct null_deleter {
+    template<typename T>
+    void operator()( T * ) const {}
+};
+
+/**
  * Type of object that a measurement is taken on.  Used, for example, to display wind speed in m/s
  * while displaying vehicle speed in km/h.
  */
@@ -59,6 +68,26 @@ inline int fast_floor( double v )
  * @return Rounded value.
  */
 double round_up( double val, unsigned int dp );
+
+/** Divide @p num by @p den, rounding up
+*
+* @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+*/
+template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+T divide_round_up( T num, T den )
+{
+    return ( num + den - 1 ) / den;
+}
+
+/** Divide @p num by @p den, rounding up
+ *
+ * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+ */
+template<typename T, typename U>
+T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
+{
+    return divide_round_up( num.value(), den.value() );
+}
 
 /**
  * Determine whether a value is between two given boundaries.

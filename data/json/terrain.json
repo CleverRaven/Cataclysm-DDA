@@ -7926,5 +7926,69 @@
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_junk_palisade",
+    "name": "junk metal barrier",
+    "looks_like": "t_scrap_wall_halfway",
+    "description": "A simple wall of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  This one isn't quite strong enough to support a roof, but could be reinforced.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 30,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_junk_wall",
+    "name": "junk metal wall",
+    "looks_like": "t_scrap_wall",
+    "description": "A wall of rusty scrap metal bolted and wire-tied to a sturdy frame.  Very fashionable in post-apocalyptic shantytowns.  Can support a roof.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "WALL", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 60,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pit_shallow",
+      "items": [
+        { "item": "pipe", "count": [ 1, 6 ] },
+        { "item": "scrap", "count": [ 1, 40 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 30 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_junk_floor",
+    "name": "junk metal floor",
+    "looks_like": "t_scrap_floor",
+    "description": "A simple roof and floor of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  Hope you like the sound of rain on corrugated metal.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
+    }
   }
 ]

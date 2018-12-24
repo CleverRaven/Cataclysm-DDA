@@ -628,6 +628,23 @@
    },
    {
     "type" : "AMMO",
+    "id" : "chem_formaldehyde",
+    "category" : "chems",
+    "price" : 200,
+    "name" : "formaldehyde",
+    "name_plural" : "formaldehyde",
+    "symbol" : "~",
+    "color" : "white",
+    "description" : "Formaldehyde, here dissolved in water, was widely used before the Cataclysm as a precursor to production of many chemicals and materials and as an embalming agent.  Easily identifiable by its pungent odor.  Terribly toxic, carcinogenic, and volatile.",
+    "volume" : 1,
+    "weight" : 300,
+    "bashing" : 1,
+    "ammo_type" : "components",
+    "phase" : "liquid",
+    "container" : "bottle_glass"
+   },
+   {
+    "type" : "AMMO",
     "id" : "chem_thermite",
     "category" : "chems",
     "price" : 2500,
@@ -965,5 +982,22 @@
     "description": "Diethyl ether largely supplanted the use of chloroform as a general anesthetic due to ether's more favorable therapeutic index, that is, a greater difference between an effective dose and a potentially toxic dose.",
     "volume": "1 ml",
     "phase": "liquid"
+  },
+  {
+    "id": "steel_grille",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "steel grille",
+    "description": "This is a metal grille.  It can be used as a framework for making a chemical catalyst.",
+    "weight": 600,
+    "volume": 1,
+    "price": 500,
+    "to_hit": 1,
+    "bashing": 2,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "link_sheet",
+    "flags": [ "FRAGILE_MELEE" ]
   }
 ]
