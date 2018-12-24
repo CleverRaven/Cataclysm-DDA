@@ -3622,7 +3622,8 @@ void game::draw_sidebar()
     u.disp_status( w_status, w_status2 );
 
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
-    wmove( time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41 );
+    // mytest: try other sidebar style too .. and see how it goes
+    wmove( time_window, sideStyle ? 1 : 0, sideStyle ? 15 : 41 );
     if( u.has_watch() ) {
         wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
     } else if( get_levz() >= 0 ) {
@@ -3673,18 +3674,18 @@ void game::draw_sidebar()
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
 
     werase( w_location );
-    mvwprintz( w_location, 0, 0, cur_ter->get_color(), utf8_truncate( cur_ter->get_name(),
-               getmaxx( w_location ) ) );
+    mvwprintz( w_location, 0, 0, c_light_gray, "Location: " );
+    wprintz( w_location, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w_location ) ) );
 
     if( get_levz() < 0 ) {
         mvwprintz( w_location, 1, 0, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w_location, 1, 0, c_light_gray, _( "Weather:" ) );
+        mvwprintz( w_location, 1, 0, c_light_gray, _( "Weather :" ) );
         wprintz( w_location, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        mvwprintz( w_location, 1, 19, c_light_gray, _( "Temperature:" ) );
+        mvwprintz( w_location, 1, 32, c_light_gray, _( "Temp :" ) );
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str() );
     }
 
@@ -3700,17 +3701,18 @@ void game::draw_sidebar()
                        "<color_" + string_from_color( i_black ) + ">" );
     }
 
-    trim_and_print( w_location, 2, 0, 10, c_white, _( "Moon %s" ), sPhase.c_str() );
+    mvwprintz( w_location, 2, 32, c_light_gray, "Moon : " );
+    trim_and_print( w_location, 2, 39, 11, c_white, sPhase.c_str() );
 
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w_location, 2, 22, c_light_gray, "%s ", _( "Lighting:" ) );
+    mvwprintz( w_location, 2, 0, c_light_gray, "%s ", _( "Lighting:" ) );
     wprintz( w_location, ll.second, ll.first.c_str() );
 
     wrefresh( w_location );
 
     //Safemode coloring
     catacurses::window day_window = sideStyle ? w_status2 : w_status;
-    mvwprintz( day_window, 0, sideStyle ? 0 : 41, c_white, _( "%s, day %d" ),
+    mvwprintz( day_window, 1, sideStyle ? 0 : 41, c_white, _( "%s, day %d" ),
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
     if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {

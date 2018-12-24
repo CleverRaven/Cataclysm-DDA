@@ -285,8 +285,10 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     const catacurses::window &weapwin = sideStyle ? w2 : w;
 
     {
-        const int y = sideStyle ? 1 : 0;
+        // mytest
+        const int y = 0; // sideStyle ? 1 : 0;
         const int wn = getmaxx( weapwin );
+        // mytest
         trim_and_print( weapwin, y, 0, wn, c_light_gray, print_gun_mode( *this ) );
     }
 
@@ -389,7 +391,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     if( is_deaf() ) {
         mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ) );
     } else {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound %d" ), volume );
+        mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound: %d" ), volume );
     }
     volume = 0;
 
