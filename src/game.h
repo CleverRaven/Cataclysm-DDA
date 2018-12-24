@@ -986,7 +986,7 @@ class game
         void print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
                                 int &line );
         void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
-                                 std::string area_name, int column,
+                                 const std::string &area_name, int column,
                                  int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                               int &line );
