@@ -1909,12 +1909,12 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
         }
         std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
         if( f_inv.empty() ) {
-        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
-        return;
+            add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
+            return;
         }
         if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
-        std::vector<itype_id> f_types;
-        std::vector<std::string> f_names;
+            std::vector<itype_id> f_types;
+            std::vector<std::string> f_names;
             for( auto &f : f_inv ) {
                 if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
                     f_types.push_back( f->typeId() );
