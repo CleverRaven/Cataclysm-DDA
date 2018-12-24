@@ -1567,7 +1567,8 @@ void make_gun_sound_effect( player &p, bool burst, item *weapon )
 {
     const auto data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
-        sounds::sound( p.pos(), data.volume, data.sound );
+        sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
+                       data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
 }
 
@@ -1650,7 +1651,7 @@ item::sound_data item::gun_noise( const bool burst ) const
 static bool is_driving( const player &p )
 {
     const optional_vpart_position vp = g->m.veh_at( p.pos() );
-    return vp && vp->vehicle().velocity != 0 && vp->vehicle().player_in_control( p );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( p );
 }
 
 static double dispersion_from_skill( double skill, double weapon_dispersion )

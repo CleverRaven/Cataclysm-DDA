@@ -46,6 +46,15 @@
   },
   {
     "type": "mutation",
+    "id": "BGSS_Dreamer",
+    "name": "Survivor",
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the cataclysm",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "BGSS_Evacuee_1",
     "name": "Survivor",
     "points": 0,

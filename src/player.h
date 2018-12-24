@@ -1455,6 +1455,7 @@ class player : public Character
         double recoil = MAX_RECOIL;
         std::weak_ptr<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
+        item_location ammo_location; //Save favorite ammo location
         int scent;
         int dodges_left;
         int blocks_left;

@@ -13,7 +13,7 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
     "item": "black_box_transcript",
     "start": {
        "effect": { "u_buy_item": "black_box" },
-       "target_om_ter": { "om_ter": "lab", "reveal_rad": 3 }
+       "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
@@ -79,27 +79,60 @@ selected overmap terrain tile with that id - or one of the ids from list, random
 will be revealed, and there is a 1 in 3 chance that the road route to the map tile will also
 be revealed.
 
-#### target_om_ter or target_om_ter_random or target_om_ter_random_or_create
-Each of these is an object, with a mandatory field of "om_ter" that must be an overmap terrain
-id.  "target_om_ter_random_or_create" also has mandatory fields of "om_spec" and "om_replace_ter",
-which must be an overmap special id and an overmap terrain id, respectively.
+#### assign_mission_target
 
-All three also have the optional fields of "reveal_rad" which is an number, and "must_see"
-which is a boolean.  "target_om_ter" has a third optional field of "zlevel", which again is a
-number, while the other two have "range", which is also a number.
+The **assign_mission_target** object specifies the criteria for finding (or creating if 
+necessary) a particular overmap terrain and designating it as the mission target. Its parameters
+allow control over how it is picked and how some effects (such as revealing the surrounding area)
+are applied afterwards. The `om_terrain` is the only required field.
 
-"target_om_ter" sets the mission target to be the closet terrain of om_ter, optionally the closest
-that the player has already seen if "must_see" is true.  If "reveal_rad" is 1 or more, it also
-reveals the overmap around the target for reveal_rad tiles.  The terrain can be at a different
-z-level by passing a non-zero value into "zlevel".
+|      Identifier      |                                  Description                                  |
+| -------------------- | ----------------------------------------------------------------------------- |
+| `om_terrain`         | ID of overmap terrain which will be selected as the target. Mandatory.        |
+| `om_special`         | ID of overmap special containing the overmap terrain.                         |
+| `om_terrain_replace` | ID of overmap terrain to be found and replaced if om_terrain cannot be found. |
+| `reveal_radius`      | Radius in overmap terrain coordinates to reveal.                              |
+| `must_see`           | If true, the `om_terrain` must have been seen already.                        |
+| `random`             | If true, a random matching om_terrain is used. If false, the closest is used. |
+| `search_range`       | Range in overmap terrain coordinates to look for a matching `om_terrain`.     |
+| `z`                  | If specified, will be used rather than the player's z when searching.         |
 
-"target_om_ter_random" finds all om_ter terrains in "range", defaulting to 5, and sets and
-reveals the target to a randomly chosen terrain.  "must_see" and "reveal_rad" have the same
-meaning.
+**example**
+```json
+{
+	"assign_mission_target": {
+		"om_terrain": "necropolis_c_44",
+		"om_special": "Necropolis",
+		"reveal_radius": 1,
+		"must_see": false,
+		"random": true,
+		"search_range": 180,
+		"z": -2
+	}
+}
+```
 
-"target_om_ter_random_or_create" works like "target_om_ter_random", except that if there are
-no instances of "om_ter" in range, it creates an instance of "om_spec" on some unseen territory
-of type "om_replace_ter" and then reveals and targets that.  "om_spec" must include "om_ter".
+If the `om_terrain` is part of an overmap special, it's essential to specify the `om_special`
+value as well--otherwise, the game will not know how to spawn the entire special.
+
+If an `om_special` must be placed, it will follow the same placement rules as defined in its
+overmap special definition, respecting allowed terrains, distance from cities, road connections,
+and so on. Consequently, the more restrictive the rules, the less likely this placement will
+succeed (as it is competing for space with already-spawned specials).
+
+`om_terrain_replace` is only relevent if the `om_terrain` is not part of an overmap special.
+This value is used if the `om_terrain` cannot be found, and will be used as an alternative target
+which will then be replaced with the `om_terrain` value. 
+
+If `must_see` is set to true, the game will not create the terrain if it can't be found. It tries 
+to avoid having new terrains magically appear in areas where the player has already been, and this
+is a consequence.
+
+`reveal_radius` and `search_range` are both in overmap terrain coordinates (an overmap is currently
+180 x 180 OMT units). The search is centered on the player, gives preference to existing overmaps
+(and will only spawn new overmaps if the terrain can't be found on existing overmaps), and only
+executes on the player's current z-level. The `z` attribute can be used to override this and search
+on a different z-level than the player--this is an absolute value rather than relative.
 
 ### monster_species
 For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.

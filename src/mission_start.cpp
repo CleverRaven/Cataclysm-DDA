@@ -161,35 +161,91 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
     return place;
 }
 
-/**
- * Wraps target_om_ter_random() and takes an extra argument specifying the
- * type of tile it is permitted to replace. If it doesn't find an extant tile
- * of the specified type (e.g. bandit_camp_1) it will find a random unexplored
- * tile of the fallback type and replace it with the original type. If even
- * that fails, it will print a debug message.
- */
-static tripoint target_om_ter_random_or_create( const std::string &omter, int reveal_rad,
-        mission *miss, bool must_see, int range, const std::string &om_spec,
-        const std::string &replace_omter )
-{
-    tripoint site = target_om_ter_random( omter, reveal_rad, miss, must_see, range );
+struct mission_target_params {
+    std::string overmap_terrain_subtype;
+    mission *mission_pointer;
 
-    // If no suitable site is found nearby, make one in an unvisited tile of type `replace_omter`
-    if( site == g->u.global_omt_location() ) {
-        for( int tries = 10 * range; tries > 0; --tries ) {
-            site = target_om_ter_random( replace_omter, 1, miss, false, range );
-            if( !overmap_buffer.is_explored( site.x, site.y, site.z ) ) {
-                overmap_buffer.ter( site ) = oter_id( omter );
-                miss->set_target( site );
-                return site;
-            }
-        }
-        debugmsg( "Failed to find either an extant overmap tile of type %s, or an unvisited tile "
-                  "of type %s that could be replaced with one as part of a %s. (Search radius: %d)",
-                  omter, replace_omter, om_spec, range );
+    cata::optional<tripoint> search_origin;
+    cata::optional<std::string> replaceable_overmap_terrain_subtype;
+    cata::optional<overmap_special_id> overmap_special;
+    cata::optional<int> reveal_radius;
+
+    bool must_see = false;
+    bool random = false;
+    bool create_if_necessary = true;
+    int search_range = OMAPX;
+};
+
+static cata::optional<tripoint> assign_mission_target( const mission_target_params &params )
+{
+    // If a search origin is provided, then use that. Otherwise, use the player's current
+    // location.
+    const tripoint origin_pos = params.search_origin ? *params.search_origin :
+                                g->u.global_omt_location();
+
+    tripoint target_pos = overmap::invalid_tripoint;
+
+    // Either find a random or closest match, based on the criteria.
+    if( params.random ) {
+        target_pos = overmap_buffer.find_random( origin_pos, params.overmap_terrain_subtype,
+                     params.search_range, params.must_see, false, true, params.overmap_special );
+    } else {
+        target_pos = overmap_buffer.find_closest( origin_pos, params.overmap_terrain_subtype,
+                     params.search_range, params.must_see, false, true, params.overmap_special );
     }
 
-    return site;
+    // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
+    // have to see the location beforehand, then we can attempt to create the new terrain.
+    if( target_pos == overmap::invalid_tripoint && params.create_if_necessary && !params.must_see ) {
+        // If this terrain is part of an overmap special...
+        if( params.overmap_special ) {
+            // ...then attempt to place the whole special.
+            const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
+                                params.search_range );
+            // If we succeeded in placing the special, then try and find the particular location
+            // we're interested in.
+            if( placed ) {
+                target_pos = overmap_buffer.find_closest( origin_pos, params.overmap_terrain_subtype,
+                             params.search_range, false, false, true, params.overmap_special );
+            }
+        } else if( params.replaceable_overmap_terrain_subtype ) {
+            // This terrain wasn't part of an overmap special, but we do have a replacement
+            // terrain specified. Find a random location of that replacement type.
+            target_pos = overmap_buffer.find_random( origin_pos,
+                         *params.replaceable_overmap_terrain_subtype,
+                         params.search_range, false, false, true );
+
+            // We didn't find it, so allow this search to create new overmaps and try again.
+            if( target_pos == overmap::invalid_tripoint ) {
+                target_pos = overmap_buffer.find_random( origin_pos,
+                             *params.replaceable_overmap_terrain_subtype,
+                             params.search_range, false, false, false );
+            }
+
+            // We found a match, so set this position (which was our replacement terrain)
+            // to our desired mission terrain.
+            if( target_pos != overmap::invalid_tripoint ) {
+                overmap_buffer.ter( target_pos ) = oter_id( params.overmap_terrain_subtype );
+            }
+        }
+    }
+
+    // If we got here and this is still invalid, it means that we couldn't find it and (if
+    // allowed by the parameters) we couldn't create it either.
+    if( target_pos == overmap::invalid_tripoint ) {
+        debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain_subtype );
+        return cata::nullopt;
+    }
+
+    // If we specified a reveal radius, then go ahead and reveal around our found position.
+    if( params.reveal_radius ) {
+        overmap_buffer.reveal( target_pos, *params.reveal_radius );
+    }
+
+    // Set the mission target to our found position.
+    params.mission_pointer->set_target( target_pos );
+
+    return target_pos;
 }
 
 void mission_start::standard( mission * )
@@ -331,9 +387,21 @@ void mission_start::place_caravan_ambush( mission *miss )
 
 void mission_start::place_bandit_cabin( mission *miss )
 {
-    tripoint site = target_om_ter_random_or_create( "bandit_cabin", 1, miss, false, 50, "bandit_cabin",
-                    "forest" );
+    mission_target_params t;
+    t.overmap_terrain_subtype = "bandit_cabin";
+    t.overmap_special = overmap_special_id( "bandit_cabin" );
+    t.mission_pointer = miss;
+    t.reveal_radius = 1;
 
+    const cata::optional<tripoint> target_pos = assign_mission_target( t );
+
+    if( !target_pos ) {
+        debugmsg( "Unable to find and assign mission target %s. Mission will fail.",
+                  t.overmap_terrain_subtype );
+        return;
+    }
+
+    const tripoint site = *target_pos;
     tinymap cabin;
     cabin.load( site.x * 2, site.y * 2, site.z, false );
     cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
@@ -373,6 +441,27 @@ void mission_start::place_grabber( mission *miss )
 
 void mission_start::place_bandit_camp( mission *miss )
 {
+    mission_target_params t;
+    t.overmap_terrain_subtype = "bandit_camp_1";
+    t.overmap_special = overmap_special_id( "bandit_camp" );
+    t.mission_pointer = miss;
+    t.reveal_radius = 1;
+
+    const cata::optional<tripoint> target_pos = assign_mission_target( t );
+
+    if( !target_pos ) {
+        debugmsg( "Unable to find and assign mission target %s. Mission will fail.",
+                  t.overmap_terrain_subtype );
+        return;
+    }
+
+    const tripoint site = *target_pos;
+
+    tinymap bay1;
+    bay1.load( site.x * 2, site.y * 2, site.z, false );
+    miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, string_id<npc_template>( "bandit" ) );
+    bay1.save();
+
     npc *p = g->find_npc( miss->npc_id );
     g->u.i_add( item( "ruger_redhawk", calendar::turn ) );
     g->u.i_add( item( "44magnum", calendar::turn ) );
@@ -383,14 +472,6 @@ void mission_start::place_bandit_camp( mission *miss )
     // (you're told that they entered your image into the databases, etc)
     // but better to get it working.
     g->u.set_mutation( trait_id( "PROF_FED" ) );
-
-    tripoint site = target_om_ter_random_or_create( "bandit_camp_1", 1, miss, false, 50, "bandit_camp",
-                    "forest" );
-
-    tinymap bay1;
-    bay1.load( site.x * 2, site.y * 2, site.z, false );
-    miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, string_id<npc_template>( "bandit" ) );
-    bay1.save();
 }
 
 void mission_start::place_jabberwock( mission *miss )
@@ -1733,40 +1814,23 @@ void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids
 
 void mission_start::reveal_refugee_center( mission *miss )
 {
-    const overmap_special_id os_evac_center( "evac_center" );
-    const tripoint your_pos = g->u.global_omt_location();
+    mission_target_params t;
+    t.search_origin = g->u.global_omt_location();
+    t.overmap_terrain_subtype = "evac_center_18";
+    t.overmap_special = overmap_special_id( "evac_center" );
+    t.mission_pointer = miss;
+    t.search_range = OMAPX * 5;
+    t.reveal_radius = 3;
 
-    // Try and find the special.
-    tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", OMAPX * 5, false,
-                          false, true, os_evac_center );
+    const cata::optional<tripoint> target_pos = assign_mission_target( t );
 
-    // We couldn't find the special, so let's try and place it.
-    if( center_pos == overmap::invalid_tripoint ) {
-        const bool placed = overmap_buffer.place_special( os_evac_center, your_pos, OMAPX * 5 );
-        if( placed ) {
-            center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", OMAPX * 5, false,
-                         false, true, os_evac_center );
-        }
-    }
-
-    if( center_pos == overmap::invalid_tripoint ) {
+    if( !target_pos ) {
         add_msg( _( "You don't know where the address could be..." ) );
         return;
     }
 
-    miss->set_target( center_pos );
-
-    if( overmap_buffer.seen( center_pos.x, center_pos.y, center_pos.z ) ) {
-        add_msg( _( "You already know that address..." ) );
-        return;
-    }
-
-    add_msg( _( "It takes you forever to find the address on your map..." ) );
-
-    overmap_buffer.reveal( center_pos, 3 );
-
-    const tripoint source_road = overmap_buffer.find_closest( your_pos, "road", 3, false );
-    const tripoint dest_road = overmap_buffer.find_closest( center_pos, "road", 3, false );
+    const tripoint source_road = overmap_buffer.find_closest( *t.search_origin, "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
         add_msg( _( "You mark the refugee center and the road that leads to it..." ) );
@@ -1899,67 +1963,43 @@ void mission_start_t::set_reveal_any( JsonArray &ja )
     start_funcs.push_back( start_func );
 }
 
-
-void mission_start_t::set_target_om( JsonObject &jo, bool random = false )
+void mission_start_t::set_assign_mission_target( JsonObject &jo )
 {
-    int reveal_rad = 1;
-    bool must_see = false;
-    int target_z = 0;
-    int range = 5;
-    if( !jo.has_string( "om_ter" ) ) {
-        return;
+    if( !jo.has_string( "om_terrain" ) ) {
+        jo.throw_error( "'om_terrain' is required for assign_mission_target" );
     }
-    std::string omter = jo.get_string( "om_ter" );
-    if( jo.has_int( "reveal_rad" ) ) {
-        reveal_rad = std::max( 1, jo.get_int( "reveal_rad" ) );
+    mission_target_params p;
+    p.overmap_terrain_subtype = jo.get_string( "om_terrain" );
+    if( jo.has_string( "om_terrain_replace" ) ) {
+        p.replaceable_overmap_terrain_subtype = jo.get_string( "om_terrain_replace" );
+    }
+    if( jo.has_string( "om_special" ) ) {
+        p.overmap_special = overmap_special_id( jo.get_string( "om_special" ) );
+    }
+    if( jo.has_int( "reveal_radius" ) ) {
+        p.reveal_radius = std::max( 1, jo.get_int( "reveal_radius" ) );
     }
     if( jo.has_bool( "must_see" ) ) {
-        must_see = jo.get_bool( "must_see" );
+        p.must_see = jo.get_bool( "must_see" );
     }
-    if( jo.has_int( "zlevel" ) ) {
-        target_z = jo.get_int( "zlevel" );
+    if( jo.has_bool( "random" ) ) {
+        p.random = jo.get_bool( "random" );
     }
-    if( jo.has_int( "range" ) ) {
-        range = jo.get_int( "range" );
+    if( jo.has_int( "search_range" ) ) {
+        p.search_range = std::max( 1, jo.get_int( "search_range" ) );
     }
-    if( random ) {
-        const auto start_func = [ omter, reveal_rad, must_see, range ]( mission * miss ) {
-            target_om_ter_random( omter, reveal_rad, miss, must_see, range );
-        };
-        start_funcs.push_back( start_func );
-    } else {
-        const auto start_func = [ omter, reveal_rad, must_see, target_z ]( mission * miss ) {
-            target_om_ter( omter, reveal_rad, miss, must_see, target_z );
-        };
-        start_funcs.push_back( start_func );
+    cata::optional<int> z;
+    if( jo.has_int( "z" ) ) {
+        z = jo.get_int( "z" );
     }
-}
-
-void mission_start_t::set_target_om_or_create( JsonObject &jo )
-{
-    int reveal_rad = 1;
-    bool must_see = false;
-    int range = 5;
-    if( !( jo.has_string( "om_ter" ) && jo.has_string( "om_spec" ) &&
-           jo.has_string( "om_replace_ter" ) ) ) {
-        return;
-    }
-    std::string omter = jo.get_string( "om_ter" );
-    std::string om_spec = jo.get_string( "om_spec" );
-    std::string om_replace_ter = jo.get_string( "om_replace_ter" );
-    if( jo.has_int( "reveal_rad" ) ) {
-        reveal_rad = std::max( 1, jo.get_int( "reveal_rad" ) );
-    }
-    if( jo.has_bool( "must_see" ) ) {
-        must_see = jo.get_bool( "must_see" );
-    }
-    if( jo.has_int( "range" ) ) {
-        range = jo.get_int( "range" );
-    }
-    const auto start_func = [ omter, reveal_rad, must_see, range, om_spec,
-           om_replace_ter ]( mission * miss ) {
-        target_om_ter_random_or_create( omter, reveal_rad, miss, must_see, range,
-                                        om_spec, om_replace_ter );
+    const auto start_func = [p, z]( mission * miss ) {
+        mission_target_params mtp = p;
+        mtp.mission_pointer = miss;
+        if( z ) {
+            const tripoint loc = g->u.global_omt_location();
+            mtp.search_origin = tripoint( loc.x, loc.y, *z );
+        }
+        assign_mission_target( mtp );
     };
     start_funcs.push_back( start_func );
 }
@@ -1972,15 +2012,9 @@ void mission_start_t::load( JsonObject &jo )
     } else if( jo.has_array( "reveal_om_ter" ) ) {
         JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
         set_reveal_any( target_terrain );
-    } else if( jo.has_object( "target_om_ter" ) ) {
-        JsonObject target_terrain = jo.get_object( "target_om_ter" );
-        set_target_om( target_terrain );
-    } else if( jo.has_object( "target_om_ter_random" ) ) {
-        JsonObject target_terrain = jo.get_object( "target_om_ter_random" );
-        set_target_om( target_terrain, true );
-    } else if( jo.has_object( "target_om_ter_random_create" ) ) {
-        JsonObject target_terrain = jo.get_object( "target_om_ter_random_create" );
-        set_target_om_or_create( target_terrain );
+    } else if( jo.has_object( "assign_mission_target" ) ) {
+        JsonObject mission_target = jo.get_object( "assign_mission_target" );
+        set_assign_mission_target( mission_target );
     }
 }
 

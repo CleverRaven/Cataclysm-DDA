@@ -8233,5 +8233,41 @@
       ]
     ],
     "magazine_well": 0
+  },
+  {
+    "id": "platinum_grille",
+    "type": "TOOL",
+    "name": "platinum grille",
+    "description": "This is a metal grille with a layer of platinum plating, suitable for use as a catalyst for some chemical reactions.",
+    "weight": 660,
+    "volume": 1,
+    "price": 3000,
+    "to_hit": 1,
+    "bashing": 2,
+    "material": "platinum",
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "link_sheet",
+    "flags": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "pressure_cooker",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "pressure cooker",
+    "description": "Useful for boiling water when cooking spaghetti and more.  This sealed pot is designed to cook food at higher pressures and temperatures.  Can also be used for pressure sensitive chemical reactions.",
+    "weight": 2200,
+    "volume": 10,
+    "price": 6500,
+    "to_hit": 1,
+    "bashing": 6,
+    "material": "steel",
+    "symbol": ")",
+    "color": "light_gray",
+    "looks_like": "pot_canning",
+    "container_data": { "contains": 8, "seals": true, "watertight": true },
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

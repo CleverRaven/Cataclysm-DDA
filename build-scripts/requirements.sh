@@ -31,3 +31,9 @@ if [ -n "${MXE_TARGET}" ]; then
   export CXX="$COMPILER"
   export CCACHE=1
 fi
+
+if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+  brew update
+  brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses lua coreutils
+  brew link --force gettext ncurses
+fi

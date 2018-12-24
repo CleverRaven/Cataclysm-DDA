@@ -1425,7 +1425,7 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
-         build_tilesets_list(), "ChestHole", COPT_CURSES_HIDE
+         build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
@@ -1805,7 +1805,7 @@ void options_manager::add_options_android()
     add( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW", "android",
          translate_marker( "Virtual joystick follows finger" ),
          translate_marker( "If true, the virtual joystick will follow when sliding beyond its range." ),
-         true
+         false
        );
 
     add( "ANDROID_REPEAT_DELAY_MAX", "android",
