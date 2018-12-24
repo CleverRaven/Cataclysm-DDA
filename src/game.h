@@ -583,7 +583,7 @@ class game
 
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
-                                  std::string area_name, int column,
+                                  const std::string &area_name, int column,
                                   int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
 
         /** Long description of (visible) things at tile. */
