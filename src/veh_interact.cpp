@@ -682,8 +682,7 @@ bool veh_interact::can_install_part() {
                           colorize( aid_string, aid_color),
                           colorize( str_string, str_color) ) << "\n";
 
-    std::string install_color = string_format( "%s",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
-    sel_vpart_info->format_description( msg, install_color, getmaxx( w_msg ) - 4 );
+    sel_vpart_info->format_description( msg, "<color_light_gray>", getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
