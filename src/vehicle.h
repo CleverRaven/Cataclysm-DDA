@@ -991,6 +991,8 @@ class vehicle
         // Calculate vehicle's total drain or production of electrical power, optionally
         // including nominal solar power.  Return engine power as engine_power
         int total_epower_w( int &engine_power, bool skip_solar = true );
+        // Calculate the total available power rating of all reactors
+        int total_reactor_epower_w() const;
         // Produce and consume electrical power, with excess power stored or taken from
         // batteries
         void power_parts();

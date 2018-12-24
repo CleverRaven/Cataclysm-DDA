@@ -1132,6 +1132,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     std::map<std::string, std::function<void( const catacurses::window &, int )>> headers;
 
+    int epower_w = veh->total_epower_w();
     headers["ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray,
         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
@@ -1143,23 +1144,34 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Tanks" ) );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    headers["BATTERY"] = [this]( const catacurses::window & w, int y ) {
-        int epower_w = veh->total_epower_w();
+    headers["BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
         if( abs( epower_w ) < 10000 ) {
-            batt = string_format( _( "Batteries: %s%s%4d W</color>" ),
-                                  health_color( epower_w >= 0 ),
-                                  epower_w > 0 ? "+" : "", epower_w );
+            batt = string_format( _( "Batteries: %s%+4d W</color>" ),
+                                  health_color( epower_w >= 0 ), epower_w );
         } else {
-            batt = string_format( _( "Batteries: %s%s%4.1f kW</color>" ),
-                                  health_color( epower_w >= 0 ),
-                                  epower_w > 0 ? "+" : "", epower_w / 1000.0 );
+            batt = string_format( _( "Batteries: %s%+4.1f kW</color>" ),
+                                  health_color( epower_w >= 0 ), epower_w / 1000.0 );
         }
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    headers["REACTOR"] = []( const catacurses::window & w, int y ) {
-        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Reactors" ) );
+    headers["REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+        int reactor_epower_w = veh->total_reactor_epower_w();
+        if( reactor_epower_w > 0 && epower_w < 0 ) {
+             reactor_epower_w += epower_w;
+        }
+        std::string reactor;
+        if( reactor_epower_w == 0 ) {
+            reactor = _( "Reactors" );
+        } else if( reactor_epower_w < 10000 ) {
+            reactor = string_format( _( "Reactors: Up to %s%+4d W</color>" ),
+                                     health_color( reactor_epower_w ), reactor_epower_w );
+        } else {
+            reactor = string_format( _( "Reactors: Up to %s%+4.1f kW</color>" ),
+                                     health_color( reactor_epower_w ), reactor_epower_w / 1000.0 );
+        }
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, reactor );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
     headers["TURRET"] = []( const catacurses::window & w, int y ) {
