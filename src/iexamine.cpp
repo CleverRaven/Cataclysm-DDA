@@ -1861,6 +1861,11 @@ void iexamine::harvest_plant(player &p, const tripoint &examp)
 void iexamine::fertilize_plant(player &p, const tripoint &tile, const itype_id &fertilizer)
 {
     std::list<item> planted = p.use_charges( fertilizer, 1 );
+
+    // I don't think this is actually needed, since use_charges should
+    // check the weapon via the implementation of visitable<Character>. In
+    // testing, charges are used from weapon-wielded fertilizer without this code.
+    /*
     if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
         if (p.weapon.charges > 1) {
             p.weapon.charges--;
@@ -1868,6 +1873,8 @@ void iexamine::fertilize_plant(player &p, const tripoint &tile, const itype_id &
             p.remove_weapon();
         }
     }
+    */
+
     // Reduce the amount of time it takes until the next stage of the plant by
     // 20% of a seasons length. (default 2.8 days).
     const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
