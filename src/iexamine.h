@@ -119,6 +119,7 @@ std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
 void harvest_plant( player &p, const tripoint &examp );
+void fertilize_plant(player &p, const tripoint &tile, const itype_id &fertilizer);
 
 } //namespace iexamine
 

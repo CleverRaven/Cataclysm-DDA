@@ -1857,6 +1857,33 @@ void iexamine::harvest_plant(player &p, const tripoint &examp)
     }
 }
 
+
+void iexamine::fertilize_plant(player &p, const tripoint &tile, const itype_id &fertilizer)
+{
+    std::list<item> planted = p.use_charges( fertilizer, 1 );
+    if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
+        if (p.weapon.charges > 1) {
+            p.weapon.charges--;
+        } else {
+            p.remove_weapon();
+        }
+    }
+    // Reduce the amount of time it takes until the next stage of the plant by
+    // 20% of a seasons length. (default 2.8 days).
+    const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
+
+    item &seed = g->m.i_at( tile ).front();
+    //@todo: item should probably clamp the value on its own
+    seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
+    // The plant furniture has the NOITEM token which prevents adding items on that square,
+    // spawned items are moved to an adjacent field instead, but the fertilizer token
+    // must be on the square of the plant, therefore this hack:
+    const auto old_furn = g->m.furn( tile );
+    g->m.furn_set( tile, f_null );
+    g->m.spawn_item( tile, "fertilizer", 1, 1, calendar::turn );
+    g->m.furn_set( tile, old_furn );
+}
+
 void iexamine::aggie_plant(player &p, const tripoint &examp)
 {
     if( g->m.i_at( examp ).empty() ) {
@@ -1902,28 +1929,8 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             if (f_index < 0) {
                 return;
             }
-            std::list<item> planted = p.use_charges( f_types[f_index], 1 );
-            if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
-                if (p.weapon.charges > 1) {
-                    p.weapon.charges--;
-                } else {
-                    p.remove_weapon();
-                }
-            }
-            // Reduce the amount of time it takes until the next stage of the plant by
-            // 20% of a seasons length. (default 2.8 days).
-            const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
-            item &seed = g->m.i_at( examp ).front();
-            //@todo: item should probably clamp the value on its own
-            seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
-            // The plant furniture has the NOITEM token which prevents adding items on that square,
-            // spawned items are moved to an adjacent field instead, but the fertilizer token
-            // must be on the square of the plant, therefore this hack:
-            const auto old_furn = g->m.furn( examp );
-            g->m.furn_set( examp, f_null );
-            g->m.spawn_item( examp, "fertilizer", 1, 1, calendar::turn );
-            g->m.furn_set( examp, old_furn );
+            fertilize_plant( p, examp, f_types[f_index] );
         }
     }
 }
