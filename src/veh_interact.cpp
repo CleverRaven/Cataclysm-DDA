@@ -670,13 +670,19 @@ bool veh_interact::can_install_part() {
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
-    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, %3$i is skill level, %4$s represents the internal color name which shouldn't be translated, and %5$i is the strength number
-    msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                          status_color( use_aid ), qual.obj().name.c_str(), lvl,
-                          status_color( use_str ), str ) << "\n";
 
-    std::string install_color = string_format( "%s",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
-    sel_vpart_info->format_description( msg, install_color, getmaxx( w_msg ) - 4 );
+    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
+    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
+
+    //~ %1$s is quality name, %2$d is quality level
+    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+                                            qual.obj().name.c_str(), lvl );
+    std::string str_string = string_format( _( "strength %d" ), str );
+    msg << string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                          colorize( aid_string, aid_color),
+                          colorize( str_string, str_color) ) << "\n";
+
+    sel_vpart_info->format_description( msg, "<color_light_gray>", getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
