@@ -2468,7 +2468,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     return format_item_info( info, {} );
 }
 
-std::map<gunmod_location, int> item::get_mod_locations() const 
+std::map<gunmod_location, int> item::get_mod_locations() const
 {
     std::map<gunmod_location, int> mod_locations = type->gun->valid_mod_locations;
 
