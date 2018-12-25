@@ -67,10 +67,6 @@ bool assure_dir_exist( const std::string &path )
         closedir( dir );
         return true;
     }
-    const size_t slash_idx = path.find_last_of( "\\/" );
-    if( slash_idx != std::string::npos ) {
-        assure_dir_exist( path.substr( 0, slash_idx ) );
-    }
     return do_mkdir( path, 0777 );
 }
 
