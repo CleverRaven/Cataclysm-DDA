@@ -3005,7 +3005,6 @@ static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
 
 static void perform_zone_activity_turn( player *p,
                                         const zone_type_id &ztype,
-                                        const activity_id &atype,
                                         const std::function<bool( const tripoint & )> &tile_filter,
                                         const std::function<void ( player &p, const tripoint & )> &tile_action,
                                         const std::string &finished_msg )
@@ -3013,9 +3012,6 @@ static void perform_zone_activity_turn( player *p,
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p->pos() );
     auto unsorted_tiles = mgr.get_near( ztype, abspos );
-
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
 
     cleanup_tiles( unsorted_tiles, tile_filter );
 
@@ -3028,25 +3024,22 @@ static void perform_zone_activity_turn( player *p,
         auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( atype ) );
-            }
+
+            p->set_destination( route, p->activity );
+            p->activity.set_to_null();
             return;
         } else { // we are at destination already
             /* Perform action */
             tile_action( *p, tile_loc );
 
             if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( atype ) );
                 return;
             }
         }
     }
 
-    // If we got here without restarting the activity, it means we're done
     add_msg( m_info, finished_msg );
+    p->activity.set_to_null();
 }
 
 
@@ -3057,7 +3050,6 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
     };
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
-                                activity_id( "ACT_HARVEST_PLOT" ),
                                 reject_tile,
                                 iexamine::harvest_plant,
                                 _( "You harvested all the plots you could." ) );
@@ -3079,39 +3071,62 @@ void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
-                                activity_id( "ACT_TILL_PLOT" ),
                                 reject_tile,
                                 dig,
                                 _( "You tilled every tile you could." ) );
 }
 
-void activity_handlers::fertilize_plot_do_turn( player_activity *, player *p )
+void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p )
 {
-    itype_id fertilizer = iexamine::choose_fertilizer( *p, "plant",
-                          false /* Don't confirm action with player */ );
+    itype_id fertilizer;
+    auto check_fertilizer = [&]( bool ask_user = true ) -> void {
+        if( act->str_values.empty() )
+        {
+            act->str_values.push_back( "" );
+        }
+        fertilizer = act->str_values[0];
 
-    if (!fertilizer.empty()) {
-        auto reject_tile = [&]( const tripoint & tile ) {
-            std::string failure = iexamine::fertilize_failure_reason(*p, tile, fertilizer);
-            return !p->sees( tile ) || !failure.empty();
-        };
+        /* If unspecified, or if we're out of what we used before, ask */
+        if( ask_user && ( fertilizer.empty() || !p->has_charges( fertilizer, 1 ) ) )
+        {
+            fertilizer = iexamine::choose_fertilizer( *p, "plant",
+                    false /* Don't confirm action with player */ );
+            act->str_values[0] = fertilizer;
+        }
+    };
 
-        auto fertilize = [&]( player & p, const tripoint & tile ) {
-            if( p.has_charges( fertilizer, 1 ) ) {
-                iexamine::fertilize_plant( p, tile, fertilizer );
+    auto have_fertilizer = [&]( void ) {
+        return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
+    };
+
+
+    auto reject_tile = [&]( const tripoint & tile ) {
+        check_fertilizer();
+        std::string failure = iexamine::fertilize_failure_reason( *p, tile, fertilizer );
+        return !p->sees( tile ) || !failure.empty();
+    };
+
+    auto fertilize = [&]( player & p, const tripoint & tile ) {
+        check_fertilizer();
+        if( have_fertilizer() ) {
+            iexamine::fertilize_plant( p, tile, fertilizer );
+            if( !have_fertilizer() ) {
+                add_msg( m_info, _( "You have run out of %s" ), fertilizer );
             }
-        };
+        }
+    };
 
-        perform_zone_activity_turn( p,
-                zone_type_id( "FARM_PLOT" ),
-                activity_id( "ACT_FERTILIZE_PLOT" ),
-                reject_tile,
-                fertilize,
-                _( "You fertilized every plot you could." ) );
+    check_fertilizer();
+    if( !have_fertilizer() ) {
+        act->set_to_null();
+        return;
     }
-    if( fertilizer.empty() || !p->has_charges( fertilizer, 1 ) ) {
-        add_msg( m_info, _( "You have run out of fertilizer." ) );
-    }
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                fertilize,
+                                _( "You fertilized every plot you could." ) );
 }
 
 void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
@@ -3168,7 +3183,6 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
-                                activity_id( "ACT_PLANT_PLOT" ),
                                 reject_tiles,
                                 plant_appropriate_seed,
                                 _( "You planted all seeds you could." ) );

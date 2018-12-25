@@ -1896,6 +1896,9 @@ void iexamine::fertilize_plant(player &p, const tripoint &tile, const itype_id &
     g->m.furn_set( tile, f_null );
     g->m.spawn_item( tile, "fertilizer", 1, 1, calendar::turn );
     g->m.furn_set( tile, old_furn );
+    p.mod_moves( -500 );
+
+    add_msg( m_info, _("You fertilize the %s with the %s."), seed.get_plant_name().c_str(), planted.front().tname().c_str());
 }
 
 itype_id iexamine::choose_fertilizer(player &p, const std::string &pname, bool ask_player)
