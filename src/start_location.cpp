@@ -235,7 +235,7 @@ void start_location::prepare_map( const tripoint &omtstart ) const
  */
 int rate_location( map &m, const tripoint &p, const bool must_be_inside,
                    const int bash_str, const int attempt,
-                   int ( &checked )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+                   int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
@@ -245,7 +245,7 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // Vector that will be used as a stack
     std::vector<tripoint> st;
-    st.reserve( MAPSIZE * SEEX * MAPSIZE * SEEY );
+    st.reserve( MAPSIZE_X * MAPSIZE_Y );
     st.push_back( p );
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
@@ -270,8 +270,8 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         st.pop_back();
 
         checked[cur.x][cur.y] = attempt;
-        if( cur.x == 0 || cur.x == SEEX * MAPSIZE - 1 ||
-            cur.y == 0 || cur.y == SEEY * MAPSIZE - 1 ||
+        if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
+            cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
             m.has_flag( "GOES_UP", cur ) ) {
             return INT_MAX;
         }
@@ -308,8 +308,8 @@ void start_location::place_player( player &u ) const
     int best_rate = 0;
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
-    int checked[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    std::fill_n( &checked[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
+    int checked[MAPSIZE_X][MAPSIZE_Y];
+    std::fill_n( &checked[0][0], MAPSIZE_X * MAPSIZE_Y, 0 );
 
     bool found_good_spot = false;
     // Try some random points at start
@@ -339,8 +339,8 @@ void start_location::place_player( player &u ) const
         tripoint tmp = u.pos();
         int &x = tmp.x;
         int &y = tmp.y;
-        for( x = 0; x < SEEX * MAPSIZE; x++ ) {
-            for( y = 0; y < SEEY * MAPSIZE; y++ ) {
+        for( x = 0; x < MAPSIZE_X; x++ ) {
+            for( y = 0; y < MAPSIZE_Y; y++ ) {
                 check_spot( tmp );
             }
         }
