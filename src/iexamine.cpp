@@ -1891,6 +1891,39 @@ void iexamine::fertilize_plant(player &p, const tripoint &tile, const itype_id &
     g->m.furn_set( tile, old_furn );
 }
 
+itype_id iexamine::choose_fertilizer(player &p, const std::string &pname, bool ask_player)
+{
+    std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
+    if( f_inv.empty() ) {
+        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
+        return itype_id();
+    }
+
+    std::vector<itype_id> f_types;
+    std::vector<std::string> f_names;
+    for( auto &f : f_inv ) {
+        if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
+            f_types.push_back( f->typeId() );
+            f_names.push_back( f->tname() );
+        }
+    }
+
+    if (ask_player && !query_yn(_("Fertilize the %s"), pname.c_str() )) {
+        return itype_id();
+    }
+
+    // Choose fertilizer from list
+    int f_index = 0;
+    if (f_types.size() > 1) {
+        f_index = uilist( _( "Use which fertilizer?" ), f_names );
+    }
+    if (f_index < 0) {
+        return itype_id();
+    }
+
+    return f_types[f_index];
+
+}
 void iexamine::aggie_plant(player &p, const tripoint &examp)
 {
     if( g->m.i_at( examp ).empty() ) {
@@ -1914,30 +1947,10 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
             return;
         }
-        std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
-        if( f_inv.empty() ) {
-            add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
-            return;
-        }
-        if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
-            std::vector<itype_id> f_types;
-            std::vector<std::string> f_names;
-            for( auto &f : f_inv ) {
-                if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
-                    f_types.push_back( f->typeId() );
-                    f_names.push_back( f->tname() );
-                }
-            }
-            // Choose fertilizer from list
-            int f_index = 0;
-            if (f_types.size() > 1) {
-                f_index = uilist( _( "Use which fertilizer?" ), f_names );
-            }
-            if (f_index < 0) {
-                return;
-            }
+        itype_id fertilizer = choose_fertilizer(p, pname, true /*ask player for confirmation */);
 
-            fertilize_plant( p, examp, f_types[f_index] );
+        if (!fertilizer.empty()) {
+            fertilize_plant( p, examp, fertilizer );
         }
     }
 }
