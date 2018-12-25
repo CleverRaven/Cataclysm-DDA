@@ -3075,7 +3075,7 @@ static cata::optional<tripoint> getNearFilledGasTank(const tripoint &center, lon
     int distance = INT_MAX;
     gas_units = 0;
 
-    for( const tripoint &tmp : g->m.points_in_radius( center, 24 ) ) {
+    for( const tripoint &tmp : g->m.points_in_radius( center, SEEX * 2 ) ) {
         if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
             continue;
         }

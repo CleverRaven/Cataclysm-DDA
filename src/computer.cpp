@@ -1412,8 +1412,8 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_DESTROY_DATA:
             print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     if( g->m.ter( x, y ) == t_floor_blue ) {
                         if( g->m.i_at( x, y ).empty() ) {
                             print_error( _( "ERROR: Please place memory bank in scan area." ) );
