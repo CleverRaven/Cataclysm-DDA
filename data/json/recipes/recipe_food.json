@@ -3309,6 +3309,7 @@
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "sausage", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "jerky", 3 ],
         [ "salted_fish", 2 ],
         [ "meat_pickled", 1 ],
