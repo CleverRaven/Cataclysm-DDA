@@ -298,6 +298,9 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     // Cap
     recoil = std::min( MAX_RECOIL, recoil );
 
+    // Reset last target pos
+    last_target_pos = cata::nullopt;
+
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
 
@@ -524,6 +527,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         // Pure grindy practice - cap gain at lvl 2
         practice( skill_used, 5, 2 );
     }
+    // Reset last target pos
+    last_target_pos = cata::nullopt;
 
     return dealt_attack;
 }
