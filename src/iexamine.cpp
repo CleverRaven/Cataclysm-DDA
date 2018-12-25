@@ -1857,23 +1857,30 @@ void iexamine::harvest_plant(player &p, const tripoint &examp)
     }
 }
 
+std::string iexamine::fertilize_failure_reason(player &p, const tripoint &tile, const itype_id &fertilizer)
+{
+    if (!g->m.has_flag_furn( "PLANT", tile)) {
+        return _("Tile isn't a plant");
+    }
+    if (g->m.i_at(tile).size() > 1) {
+        return _("Tile is already fertilized");
+    }
+    if (!p.has_charges( fertilizer, 1)) {
+        return string_format(_("Tried to fertilize with %s, but player doesn't have any."), fertilizer.c_str());
+    }
+
+    return std::string();
+}
 
 void iexamine::fertilize_plant(player &p, const tripoint &tile, const itype_id &fertilizer)
 {
-    std::list<item> planted = p.use_charges( fertilizer, 1 );
-
-    // I don't think this is actually needed, since use_charges should
-    // check the weapon via the implementation of visitable<Character>. In
-    // testing, charges are used from weapon-wielded fertilizer without this code.
-    /*
-    if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
-        if (p.weapon.charges > 1) {
-            p.weapon.charges--;
-        } else {
-            p.remove_weapon();
-        }
+    std::string reason = fertilize_failure_reason(p, tile, fertilizer);
+    if (!reason.empty()) {
+        debugmsg(reason);
+        return;
     }
-    */
+
+    std::list<item> planted = p.use_charges( fertilizer, 1 );
 
     // Reduce the amount of time it takes until the next stage of the plant by
     // 20% of a seasons length. (default 2.8 days).

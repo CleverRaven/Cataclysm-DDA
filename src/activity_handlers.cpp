@@ -90,6 +90,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
     { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
+    { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
 
@@ -3082,6 +3083,35 @@ void activity_handlers::till_plot_do_turn( player_activity *, player *p )
                                 reject_tile,
                                 dig,
                                 _( "You tilled every tile you could." ) );
+}
+
+void activity_handlers::fertilize_plot_do_turn( player_activity *, player *p )
+{
+    itype_id fertilizer = iexamine::choose_fertilizer( *p, "plant",
+                          false /* Don't confirm action with player */ );
+
+    if (!fertilizer.empty()) {
+        auto reject_tile = [&]( const tripoint & tile ) {
+            std::string failure = iexamine::fertilize_failure_reason(*p, tile, fertilizer);
+            return !p->sees( tile ) || !failure.empty();
+        };
+
+        auto fertilize = [&]( player & p, const tripoint & tile ) {
+            if( p.has_charges( fertilizer, 1 ) ) {
+                iexamine::fertilize_plant( p, tile, fertilizer );
+            }
+        };
+
+        perform_zone_activity_turn( p,
+                zone_type_id( "FARM_PLOT" ),
+                activity_id( "ACT_FERTILIZE_PLOT" ),
+                reject_tile,
+                fertilize,
+                _( "You fertilized every plot you could." ) );
+    }
+    if( fertilizer.empty() || !p->has_charges( fertilizer, 1 ) ) {
+        add_msg( m_info, _( "You have run out of fertilizer." ) );
+    }
 }
 
 void activity_handlers::plant_plot_do_turn( player_activity *, player *p )

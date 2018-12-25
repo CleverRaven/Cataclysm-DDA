@@ -120,7 +120,8 @@ int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
 void harvest_plant( player &p, const tripoint &examp );
 void fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer );
-itype_id choose_fertilizer(player &p, const std::string &pname, bool ask_player);
+itype_id choose_fertilizer( player &p, const std::string &pname, bool ask_player );
+std::string fertilize_failure_reason(player &p, const tripoint &tile, const itype_id &fertilizer);
 
 } //namespace iexamine
 
