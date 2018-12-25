@@ -33,10 +33,10 @@ constexpr int flat_index( const int x, const int y )
 // Flattened 2D array representing a single z-level worth of pathfinding data
 struct path_data_layer {
     // State is accessed way more often than all other values here
-    std::array< astar_state, MAPSIZE_X * MAPSIZE_Y > state;
-    std::array< int, MAPSIZE_X * MAPSIZE_Y > score;
-    std::array< int, MAPSIZE_X * MAPSIZE_Y > gscore;
-    std::array< tripoint, MAPSIZE_X * MAPSIZE_Y > parent;
+    std::array< astar_state, MAPSIZE_X *MAPSIZE_Y > state;
+    std::array< int, MAPSIZE_X *MAPSIZE_Y > score;
+    std::array< int, MAPSIZE_X *MAPSIZE_Y > gscore;
+    std::array< tripoint, MAPSIZE_X *MAPSIZE_Y > parent;
 
     void init( const int minx, const int miny, const int maxx, const int maxy ) {
         for( int x = minx; x <= maxx; x++ ) {

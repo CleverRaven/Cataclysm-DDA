@@ -2037,7 +2037,8 @@ int editmap::mapgen_retarget()
         action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ), target.z );
+            tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
+                                         target.z );
             if( pinbounds( ptarget ) && inbounds( ptarget.x + SEEX * 2, ptarget.y + SEEY * 2, ptarget.z ) ) {
                 target = ptarget;
 
