@@ -5131,6 +5131,8 @@
         [ "rehydrated_hflesh", 2 ],
         [ "human_pickled", 2 ],
         [ "mannwurst", 1 ]
+        [ "mannwurst_cooked", 1 ]
+        [ "mann_bratwurst", 1 ]
       ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2 ] ],
@@ -5486,7 +5488,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "mannwurst", 1 ], [ "human_flesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "dry_hflesh", 1 ], [ "human_canned", 1 ] ],
+      [ [ "mannwurst", 1 ], [ "mannwurst_cooked", 1 ], [ "mann_bratwurst", 1 ], [ "human_flesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "dry_hflesh", 1 ], [ "human_canned", 1 ] ],
       [ [ "tallow", 1 ], [ "lard", 1 ] ],
       [ [ "flour", 1 ], [ "cornmeal", 1 ] ],
       [ [ "mushroom", 2 ], [ "dry_mushroom", 2 ] ]
@@ -5534,7 +5536,7 @@
     "book_learn": [ [ "cookbook_human", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "mannwurst", 2 ] ], [ [ "curry_powder", 20 ] ], [ [ "ketchup", 4 ] ] ]
+    "components": [ [ [ "mannwurst", 2 ] ], [ "mannwurst_cooked", 2 ], [ "mann_bratwurst", 2 ], [ [ "curry_powder", 20 ] ], [ [ "ketchup", 4 ] ] ]
   },
   {
     "type": "recipe",
