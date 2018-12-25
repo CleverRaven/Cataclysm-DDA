@@ -22,11 +22,12 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 4,
+    "harvest": "bird_tiny",
     "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 5 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT", "BIRDFOOD" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BIRDFOOD" ]
   },
   {
     "id": "mon_grouse",
@@ -63,12 +64,13 @@
     "melee_dice_sides": 1,
     "melee_cut": 0,
     "dodge": 4,
+    "harvest": "bird_tiny",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_crow", "baby_count": 3, "baby_timer": 8 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
     "id": "mon_duck",
@@ -92,12 +94,13 @@
     "melee_dice_sides": 1,
     "melee_cut": 0,
     "dodge": 4,
+    "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
     "id": "mon_goose_canadian",
@@ -133,13 +136,14 @@
     "melee_dice_sides": 1,
     "melee_cut": 0,
     "dodge": 3,
+    "harvest": "bird_small",
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
     "id": "mon_pheasant",
@@ -179,11 +183,12 @@
     "melee_dice_sides": 1,
     "melee_cut": 3,
     "dodge": 6,
+    "harvest": "bird_tiny",
     "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
     "id": "mon_chicken_chick",
@@ -209,6 +214,7 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 1,
+    "harvest": "bird_tiny",
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD" ]

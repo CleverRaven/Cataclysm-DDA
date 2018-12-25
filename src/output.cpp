@@ -2144,14 +2144,6 @@ bool is_draw_tiles_mode()
     return false;
 }
 
-void play_music( std::string )
-{
-}
-
-void update_music_volume()
-{
-}
-
 void refresh_display()
 {
 }

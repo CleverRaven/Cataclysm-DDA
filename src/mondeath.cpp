@@ -4,6 +4,7 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "harvest.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "line.h"
@@ -96,19 +97,49 @@ void mdeath::normal( monster &z )
     }
 }
 
+void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int distance,
+                     int pile_size = 1 )
+{
+    // can't have less than one item in a pile or it would cause an infinite loop
+    pile_size = std::max( pile_size, 1 );
+    distance = abs( distance );
+    const item chunk( chunk_name, calendar::turn, pile_size );
+    for( int i = 0; i < chunk_amt; i += pile_size ) {
+        bool drop_chunks = true;
+        tripoint tarp( z.pos() + point( rng( -distance, distance ), rng( -distance, distance ) ) );
+        const auto traj = line_to( z.pos(), tarp );
+
+        for( size_t j = 0; j < traj.size(); j++ ) {
+            tarp = traj[j];
+            if( one_in( 2 ) && z.bloodType() != fd_null ) {
+                g->m.add_splatter( z.bloodType(), tarp );
+            } else {
+                g->m.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );
+            }
+            if( g->m.impassable( tarp ) ) {
+                g->m.bash( tarp, distance );
+                if( g->m.impassable( tarp ) ) {
+                    // Target is obstacle, not destroyed by bashing,
+                    // stop trajectory in front of it, if this is the first
+                    // point (e.g. wall adjacent to monster), don't drop anything on it
+                    if( j > 0 ) {
+                        tarp = traj[j - 1];
+                    } else {
+                        drop_chunks = false;
+                    }
+                    break;
+                }
+            }
+        }
+        if( drop_chunks ) {
+            g->m.add_item_or_charges( tarp, chunk );
+        }
+    }
+}
+
 void mdeath::splatter( monster &z )
 {
-    // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
-    const std::vector<material_id> gib_mats = {{
-            material_id( "flesh" ), material_id( "hflesh" ),
-            material_id( "veggy" ), material_id( "iflesh" ),
-            material_id( "bone" )
-        }
-    };
-    const bool gibbable = !z.type->has_flag( MF_NOGIB ) &&
-    std::any_of( gib_mats.begin(), gib_mats.end(), [&z]( const material_id & gm ) {
-        return z.made_of( gm );
-    } );
+    const bool gibbable = !z.type->has_flag( MF_NOGIB );
 
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -138,45 +169,39 @@ void mdeath::splatter( monster &z )
             g->m.add_splatter( type_blood, random_entry( area ) );
         }
     }
-
-    int num_chunks = rng( 0, z.type->get_meat_chunks_count() / 4 );
-    num_chunks = std::min( num_chunks, 10 );
+    // 1% of the weight of the monster is the base, with overflow damage as a multiplier
+    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100 *
+                                       ( overflow_damage / max_hp + 1 ) ) );
+    // limit gibbing to 15%
+    gibbed_weight = std::min( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
 
     if( pulverized && gibbable ) {
-        const itype_id meat = z.type->get_meat_itype();
-        const item chunk( meat );
-        for( int i = 0; i < num_chunks; i++ ) {
-            bool drop_chunks = true;
-            tripoint tarp( z.pos() + point( rng( -3, 3 ), rng( -3, 3 ) ) );
-            const auto traj = line_to( z.pos(), tarp );
-
-            for( size_t j = 0; j < traj.size(); j++ ) {
-                tarp = traj[j];
-                if( one_in( 2 ) && type_blood != fd_null ) {
-                    g->m.add_splatter( type_blood, tarp );
-                } else {
-                    g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
-                }
-                if( g->m.impassable( tarp ) ) {
-                    g->m.bash( tarp, 3 );
-                    if( g->m.impassable( tarp ) ) {
-                        // Target is obstacle, not destroyed by bashing,
-                        // stop trajectory in front of it, if this is the first
-                        // point (e.g. wall adjacent to monster), don't drop anything on it
-                        if( j > 0 ) {
-                            tarp = traj[j - 1];
-                        } else {
-                            drop_chunks = false;
-                        }
-                        break;
-                    }
-                }
-            }
-
-            if( drop_chunks ) {
-                g->m.add_item_or_charges( tarp, chunk );
+        float overflow_ratio = overflow_damage / max_hp + 1;
+        int gib_distance = round( rng( 2, 4 ) );
+        for( const auto entry : *z.type->harvest ) {
+            // only flesh and bones survive.
+            if( entry.type == "flesh" || entry.type == "bone" ) {
+                // the larger the overflow damage, the less you get
+                scatter_chunks( entry.drop, ( entry.mass_ratio / overflow_ratio / 10 * to_gram(
+                                                  z.get_weight() ) ) / to_gram( ( item::find_type( entry.drop ) )->weight ), z, gib_distance,
+                                to_gram( ( item::find_type( entry.drop ) )->weight ) / ( gib_distance - 1 ) );
+                gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
             }
         }
+        if( gibbed_weight > 0 ) {
+            scatter_chunks( "ruined_chunks",
+                            gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) ) ->weight ), z, gib_distance,
+                            gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) / ( gib_distance + 1 ) );
+        }
+        // add corpse with gib flag
+        item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+        // Set corpse to damage that aligns with being pulped
+        corpse.set_damage( 4000 );
+        corpse.set_flag( "GIBBED" );
+        if( z.has_effect( effect_no_ammo ) ) {
+            corpse.set_var( "no_ammo", "no_ammo" );
+        }
+        g->m.add_item_or_charges( z.pos(), corpse );
     }
 }
 

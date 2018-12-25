@@ -44,6 +44,7 @@ void atm( player &p, const tripoint &examp );
 void vending( player &p, const tripoint &examp );
 void toilet( player &p, const tripoint &examp );
 void elevator( player &p, const tripoint &examp );
+void nanofab( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
 void cvdmachine( player &p, const tripoint &examp );
