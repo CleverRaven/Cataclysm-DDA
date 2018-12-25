@@ -191,7 +191,15 @@
     "id": "mannwurst_raw",
     "copy-from": "sausage_raw",
     "name": "raw Mannwurst",
-    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.  Needs to be loaded into a smoking rack to cook it.",
+    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking or cooking.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurst_cooked",
+    "copy-from": "sausage_cooked",
+    "name": "cooked Mannwurst",
+    "description": "A hefty raw 'long-pork' sausage that has been cooked.  It smells as delicious as humanly possible.",
     "material": "hflesh"
   },
   {
