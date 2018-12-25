@@ -437,7 +437,7 @@ int vehicle::turrets_aim_and_fire( bool manual, bool automatic, vehicle_part *tu
 
     if( turrets_aim( manual, automatic, tur_part ) ) {
         // turrets_aim already set the targets for any available turrets that can reach the target.
-        const auto &turs = turrets();
+        auto const &turs = turrets();
         std::for_each( turs.begin(), turs.end(), fire_if_able );
     }
 
@@ -542,22 +542,15 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         int boo_hoo;
 
         // @todo: calculate chance to hit and cap range based upon this
-        int max_range = 20;
+        int max_range = 12;
         int range = std::min( gun.range(), max_range );
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
-            if( boo_hoo ) {
-                if( u_see ) {
-                    add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
-                                                  "%s points in your direction and emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
-                             cpu.name.c_str(), boo_hoo );
-                } else {
-                    add_msg( m_warning, ngettext( "%s emits an IFF warning beep.",
-                                                  "%s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
-                             cpu.name.c_str(), boo_hoo );
-                }
+            if( u_see && boo_hoo ) {
+                add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
+                                              "%s points in your direction and emits %d annoyed sounding beeps.",
+                                              boo_hoo ),
+                         cpu.name.c_str(), boo_hoo );
             }
             return shots;
         }

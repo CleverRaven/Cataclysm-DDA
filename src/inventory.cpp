@@ -525,7 +525,7 @@ item inventory::remove_item( const item *it )
         binned = false;
         return tmp.front();
     }
-    debugmsg( "Tried to remove a item not in inventory." );
+    debugmsg( "Tried to remove a item not in inventory (name: %s)", it->tname().c_str() );
     return item();
 }
 

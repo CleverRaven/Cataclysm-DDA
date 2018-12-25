@@ -31,118 +31,124 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 
 struct spawn_point {
-    point pos;
+    int posx;
+    int posy;
     int count;
     mtype_id type;
     int faction_id;
     int mission_id;
     bool friendly;
     std::string name;
-    spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
+    spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, int X = -1, int Y = -1,
                  int FAC = -1, int MIS = -1, bool F = false,
                  std::string N = "NONE" ) :
-        pos( P ), count( C ), type( T ), faction_id( FAC ),
+        posx( X ), posy( Y ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ) {}
 };
 
 struct submap {
-    trap_id get_trap( const point &p ) const {
-        return trp[p.x][p.y];
+    trap_id get_trap( const int x, const int y ) const {
+        return trp[x][y];
     }
 
-    void set_trap( const point &p, trap_id trap ) {
+    void set_trap( const int x, const int y, trap_id trap ) {
         is_uniform = false;
-        trp[p.x][p.y] = trap;
+        trp[x][y] = trap;
     }
 
-    furn_id get_furn( const point &p ) const {
-        return frn[p.x][p.y];
+    furn_id get_furn( const int x, const int y ) const {
+        return frn[x][y];
     }
 
-    void set_furn( const point &p, furn_id furn ) {
+    void set_furn( const int x, const int y, furn_id furn ) {
         is_uniform = false;
-        frn[p.x][p.y] = furn;
+        frn[x][y] = furn;
     }
 
-    ter_id get_ter( const point &p ) const {
-        return ter[p.x][p.y];
+    ter_id get_ter( const int x, const int y ) const {
+        return ter[x][y];
     }
 
-    void set_ter( const point &p, ter_id terr ) {
+    void set_ter( const int x, const int y, ter_id terr ) {
         is_uniform = false;
-        ter[p.x][p.y] = terr;
+        ter[x][y] = terr;
     }
 
-    int get_radiation( const point &p ) const {
-        return rad[p.x][p.y];
+    int get_radiation( const int x, const int y ) const {
+        return rad[x][y];
     }
 
-    void set_radiation( const point &p, const int radiation ) {
+    void set_radiation( const int x, const int y, const int radiation ) {
         is_uniform = false;
-        rad[p.x][p.y] = radiation;
+        rad[x][y] = radiation;
     }
 
-    void update_lum_add( const point &p, const item &i ) {
+    void update_lum_add( item const &i, int const x, int const y ) {
         is_uniform = false;
-        if( i.is_emissive() && lum[p.x][p.y] < 255 ) {
-            lum[p.x][p.y]++;
+        if( i.is_emissive() && lum[x][y] < 255 ) {
+            lum[x][y]++;
         }
     }
 
-    void update_lum_rem( const point &p, const item &i ) {
+    void update_lum_rem( item const &i, int const x, int const y ) {
         is_uniform = false;
         if( !i.is_emissive() ) {
             return;
-        } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
-            lum[p.x][p.y]--;
+        } else if( lum[x][y] && lum[x][y] < 255 ) {
+            lum[x][y]--;
             return;
         }
 
         // Have to scan through all items to be sure removing i will actually lower
         // the count below 255.
         int count = 0;
-        for( const auto &it : itm[p.x][p.y] ) {
+        for( auto const &it : itm[x][y] ) {
             if( it.is_emissive() ) {
                 count++;
             }
         }
 
         if( count <= 256 ) {
-            lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
+            lum[x][y] = static_cast<uint8_t>( count - 1 );
         }
     }
 
     struct cosmetic_t {
-        point pos;
+        point p;
         std::string type;
         std::string str;
     };
 
-    void insert_cosmetic( const point &p, const std::string &type, const std::string &str ) {
+    void insert_cosmetic( const point p, const std::string &type, const std::string &str ) {
         cosmetic_t ins;
 
-        ins.pos = p;
+        ins.p = p;
         ins.type = type;
         ins.str = str;
 
         cosmetics.push_back( ins );
     }
 
-    bool has_graffiti( const point &p ) const;
-    const std::string &get_graffiti( const point &p ) const;
-    void set_graffiti( const point &p, const std::string &new_graffiti );
-    void delete_graffiti( const point &p );
+    void insert_cosmetic( const int x, const int y, const std::string &type, const std::string &str ) {
+        point p( x, y );
+        insert_cosmetic( p, type, str );
+    }
+
+    bool has_graffiti( int x, int y ) const;
+    const std::string &get_graffiti( int x, int y ) const;
+    void set_graffiti( int x, int y, const std::string &new_graffiti );
+    void delete_graffiti( int x, int y );
 
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
-    bool has_signage( const point &p ) const;
+    bool has_signage( const int x, const int y ) const;
     // Dependent on furniture + cosmetics.
-    const std::string get_signage( const point &p ) const;
+    const std::string get_signage( const int x, const int y ) const;
     // Can be used anytime (prevents code from needing to place sign first.)
-    void set_signage( const point &p, const std::string &s );
+    void set_signage( const int x, const int y, const std::string &s );
     // Can be used anytime (prevents code from needing to place sign first.)
-    void delete_signage( const point &p );
+    void delete_signage( const int x, const int y );
 
     // TODO: make trp private once the horrible hack known as editmap is resolved
     ter_id          ter[SEEX][SEEY];  // Terrain on each square
@@ -193,36 +199,31 @@ struct maptile {
         submap *const sm;
         size_t x;
         size_t y;
-        point pos() const {
-            return point( x, y );
-        };
 
         maptile( submap *sub, const size_t nx, const size_t ny ) :
             sm( sub ), x( nx ), y( ny ) { }
-        maptile( submap *sub, const point &p ) :
-            sm( sub ), x( p.x ), y( p.y ) { }
     public:
         trap_id get_trap() const {
-            return sm->get_trap( pos() );
+            return sm->get_trap( x, y );
         }
 
         furn_id get_furn() const {
-            return sm->get_furn( pos() );
+            return sm->get_furn( x, y );
         }
 
         ter_id get_ter() const {
-            return sm->get_ter( pos() );
+            return sm->get_ter( x, y );
         }
 
         const trap &get_trap_t() const {
-            return sm->get_trap( pos() ).obj();
+            return sm->get_trap( x, y ).obj();
         }
 
         const furn_t &get_furn_t() const {
-            return sm->get_furn( pos() ).obj();
+            return sm->get_furn( x, y ).obj();
         }
         const ter_t &get_ter_t() const {
-            return sm->get_ter( pos() ).obj();
+            return sm->get_ter( x, y ).obj();
         }
 
         const field &get_field() const {
@@ -243,23 +244,23 @@ struct maptile {
         }
 
         int get_radiation() const {
-            return sm->get_radiation( pos() );
+            return sm->get_radiation( x, y );
         }
 
         bool has_graffiti() const {
-            return sm->has_graffiti( pos() );
+            return sm->has_graffiti( x, y );
         }
 
         const std::string &get_graffiti() const {
-            return sm->get_graffiti( pos() );
+            return sm->get_graffiti( x, y );
         }
 
         bool has_signage() const {
-            return sm->has_signage( pos() );
+            return sm->has_signage( x, y );
         }
 
         const std::string get_signage() const {
-            return sm->get_signage( pos() );
+            return sm->get_signage( x, y );
         }
 
         // For map::draw_maptile

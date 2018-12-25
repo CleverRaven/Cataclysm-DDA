@@ -820,7 +820,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     bool recalc_tabs = true;
 
     // Helper function for determining the currently selected mod
-    const auto get_selected_mod = [&]() -> const MOD_INFORMATION* {
+    auto const get_selected_mod = [&]() -> const MOD_INFORMATION* {
         if( current_tab_mods.empty() )
         {
             return nullptr;
@@ -835,7 +835,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     };
 
     // Helper function to trigger full redraw on mod selection screen
-    const auto redraw_all = [&]() {
+    auto const redraw_all = [&]() {
         redraw_headers = true;
         redraw_list = true;
         redraw_active = true;

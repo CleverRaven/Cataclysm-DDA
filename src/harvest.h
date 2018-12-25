@@ -23,8 +23,6 @@ struct harvest_entry {
     std::pair<float, float> scale_num = { 0.0f, 0.0f };
 
     int max = 1000;
-    std::string type = "null";
-    float mass_ratio = 0.00f;
 
     static harvest_entry load( JsonObject &jo, const std::string &src );
 };

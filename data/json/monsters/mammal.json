@@ -17,7 +17,6 @@
     "melee_dice_sides": 3,
     "melee_cut": 2,
     "dodge": 2,
-    "harvest": "mammal_fur",
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "upgrades": { "age_grow": 42, "into": "mon_bear" }
   },
@@ -52,7 +51,7 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mammal_large_fur",
+    "harvest": "animal_large",
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 13 },
     "baby_flags": [ "SPRING" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
@@ -79,11 +78,10 @@
     "melee_dice_sides": 6,
     "melee_cut": 6,
     "dodge": 2,
-    "harvest": "mammal_small_fur",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_black_rat",
@@ -110,13 +108,12 @@
     "dodge": 2,
     "vision_day": 30,
     "vision_night": 10,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES" ]
   },
   {
     "id": "mon_bobcat",
@@ -144,8 +141,19 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mammal_small_fur",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "FUR",
+      "HIT_AND_RUN",
+      "BONES",
+      "FAT"
+    ]
   },
   {
     "id": "mon_cat",
@@ -174,8 +182,20 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mammal_tiny",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "ANIMAL",
+      "CATFOOD",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "FUR",
+      "HIT_AND_RUN",
+      "BONES",
+      "FAT"
+    ]
   },
   {
     "id": "mon_chipmunk",
@@ -200,10 +220,9 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 4,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "BONES" ]
   },
   {
     "id": "mon_cougar",
@@ -235,7 +254,6 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mammal_fur",
     "flags": [
       "SEES",
       "HEARS",
@@ -244,9 +262,12 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
+      "FUR",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "BLEED"
+      "BLEED",
+      "BONES",
+      "FAT"
     ]
   },
   {
@@ -280,7 +301,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "death_function": [ "NORMAL" ],
-    "harvest": "mammal_large_leather",
+    "harvest": "animal_large",
     "upgrades": { "age_grow": 28, "into": "mon_cow" },
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
@@ -317,12 +338,25 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "death_function": [ "NORMAL" ],
-    "harvest": "mammal_large_leather",
+    "harvest": "animal_large",
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "MILKABLE",
+      "BONES",
+      "FAT",
+      "LEATHER"
+    ]
   },
   {
     "id": "mon_coyote",
@@ -353,8 +387,19 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mammal_fur",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "FUR",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "BLEED",
+      "BONES"
+    ]
   },
   {
     "id": "mon_coyote_wolf",
@@ -380,13 +425,12 @@
     "dodge": 3,
     "armor_bash": 1,
     "vision_night": 5,
-    "harvest": "mammal_small_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_deer_fawn",
@@ -413,12 +457,11 @@
     "melee_cut": 0,
     "dodge": 3,
     "vision_night": 12,
-    "harvest": "mammal_small_leather",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_deer" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_deer",
@@ -444,7 +487,6 @@
     "melee_cut": 0,
     "dodge": 3,
     "vision_night": 12,
-    "harvest": "mammal_large_leather",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -452,7 +494,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_dog",
@@ -465,7 +507,6 @@
     "diff": 10,
     "volume": "30000 ml",
     "weight": 30000,
-    "harvest": "mammal_small_fur",
     "hp": 30,
     "speed": 150,
     "material": [ "flesh" ],
@@ -490,7 +531,10 @@
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [
       "ANIMAL",
+      "BONES",
       "DOGFOOD",
+      "FAT",
+      "FUR",
       "GROUP_MORALE",
       "HEARS",
       "HIT_AND_RUN",
@@ -521,7 +565,6 @@
     "melee_cut": 1,
     "dodge": 1,
     "vision_night": 4,
-    "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 42, "into": "mon_dog" },
     "extend": { "flags": [ "NO_BREED" ] }
   },
@@ -539,10 +582,22 @@
     "melee_dice_sides": 2,
     "melee_cut": 6,
     "vision_night": 4,
-    "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "7 puppies and 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bull_pup",
@@ -567,12 +622,11 @@
     "melee_dice_sides": 1,
     "melee_cut": 3,
     "vision_night": 3,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_pitbullmix",
@@ -589,10 +643,22 @@
     "melee_dice_sides": 2,
     "melee_cut": 5,
     "special_attacks": [ [ "LUNGE", 5 ] ],
-    "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_pitbullmix_pup",
@@ -605,7 +671,6 @@
     "diff": 3,
     "volume": "750 ml",
     "weight": 1000,
-    "harvest": "mammal_tiny",
     "hp": 7,
     "speed": 88,
     "material": [ "flesh" ],
@@ -625,7 +690,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_beagle",
@@ -635,7 +700,6 @@
     "description": "An adorable beagle that has managed to survive the apocalypse.  Being agile and small, they are difficult to shoot at.  Generally attacks in packs.",
     "diff": 5,
     "weight": 10000,
-    "harvest": "mammal_small_leather",
     "hp": 13,
     "speed": 135,
     "melee_skill": 2,
@@ -647,7 +711,10 @@
     "//": "1-4 puppies & 270 days per-litter for size tiny canines",
     "flags": [
       "ANIMAL",
+      "BONES",
       "DOGFOOD",
+      "FAT",
+      "FUR",
       "GROUP_MORALE",
       "HARDTOSHOOT",
       "HEARS",
@@ -684,14 +751,26 @@
     "melee_cut": 1,
     "dodge": 1,
     "vision_night": 4,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_beagle" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "GROUP_MORALE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bcollie",
@@ -709,7 +788,21 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [ "ANIMAL", "CLIMBS", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "CLIMBS",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bcollie_pup",
@@ -735,14 +828,13 @@
     "melee_cut": 2,
     "dodge": 2,
     "vision_night": 4,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_bcollie" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_boxer",
@@ -757,7 +849,6 @@
     "melee_dice_sides": 2,
     "melee_cut": 4,
     "vision_night": 4,
-    "harvest": "mammal_small_leather",
     "fear_triggers": [ "HURT" ],
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_boxer_pup", "baby_count": 4, "baby_timer": 270 },
@@ -787,14 +878,26 @@
     "melee_cut": 2,
     "dodge": 1,
     "vision_night": 3,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_boxer" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "GROUP_MORALE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_chihuahua",
@@ -813,13 +916,15 @@
     "melee_dice_sides": 2,
     "melee_cut": 2,
     "vision_night": 6,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 3, "baby_timer": 240 },
     "//": "1-3 puppies & 240 days per-litter for size tiny canines",
     "flags": [
       "ANIMAL",
+      "BONES",
       "DOGFOOD",
+      "FAT",
+      "FUR",
       "HARDTOSHOOT",
       "HEARS",
       "HIT_AND_RUN",
@@ -854,14 +959,25 @@
     "melee_cut": 1,
     "dodge": 1,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_chihuahua" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "HARDTOSHOOT",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_dachshund",
@@ -879,12 +995,14 @@
     "melee_dice_sides": 2,
     "vision_night": 6,
     "fear_triggers": [ "HURT" ],
-    "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "flags": [
       "ANIMAL",
+      "BONES",
       "DOGFOOD",
+      "FAT",
+      "FUR",
       "HARDTOSHOOT",
       "HEARS",
       "HIT_AND_RUN",
@@ -920,14 +1038,26 @@
     "melee_cut": 1,
     "dodge": 1,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_dachshund" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "STUMBLES", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "HARDTOSHOOT",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "STUMBLES",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gshepherd",
@@ -945,7 +1075,7 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_gshepherd_pup",
@@ -971,14 +1101,13 @@
     "melee_cut": 3,
     "dodge": 1,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_gshepherd" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_gpyrenees",
@@ -998,10 +1127,22 @@
     "melee_cut": 5,
     "dodge": 2,
     "vision_night": 6,
-    "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gpyrenees_pup",
@@ -1027,14 +1168,13 @@
     "melee_cut": 3,
     "dodge": 1,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_gpyrenees" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_rottweiler",
@@ -1054,11 +1194,23 @@
     "melee_dice_sides": 2,
     "melee_cut": 6,
     "vision_night": 6,
-    "harvest": "mammal_leather",
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_rottweiler_pup",
@@ -1084,14 +1236,13 @@
     "melee_cut": 3,
     "dodge": 1,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_rottweiler" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_auscattle",
@@ -1111,7 +1262,21 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [ "ANIMAL", "CLIMBS", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "CLIMBS",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_auscattle_pup",
@@ -1137,14 +1302,13 @@
     "melee_cut": 3,
     "dodge": 2,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_auscattle" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_fox_gray",
@@ -1171,12 +1335,23 @@
     "melee_cut": 2,
     "dodge": 6,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "FUR",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "BLEED",
+      "BONES"
+    ]
   },
   {
     "id": "mon_fox_red",
@@ -1203,12 +1378,24 @@
     "melee_cut": 2,
     "dodge": 6,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "FUR",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "BLEED",
+      "BONES",
+      "FAT"
+    ]
   },
   {
     "id": "mon_groundhog",
@@ -1231,10 +1418,9 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 4,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_hare",
@@ -1255,10 +1441,9 @@
     "morale": -5,
     "melee_cut": 0,
     "dodge": 6,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES" ]
   },
   {
     "id": "mon_horse",
@@ -1287,10 +1472,22 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mammal_large_leather",
+    "harvest": "animal_large",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CATTLEFODDER", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "BONES",
+      "FAT",
+      "LEATHER"
+    ]
   },
   {
     "id": "mon_lemming",
@@ -1313,7 +1510,6 @@
     "melee_skill": 4,
     "melee_cut": 0,
     "dodge": 2,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
@@ -1341,12 +1537,24 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 6,
-    "harvest": "mammal_tiny",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "FUR",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "BLEED",
+      "BONES",
+      "FAT"
+    ]
   },
   {
     "id": "mon_moose",
@@ -1379,7 +1587,7 @@
     "death_function": [ "NORMAL" ],
     "baby_flags": [ "AUTUMN" ],
     "//": "Baby moose don't actually exist (yet), but autumn is their mating season so baby_flags is defined so that they get angry then",
-    "harvest": "mammal_large_leather",
+    "harvest": "animal_large",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "ATTACKMON" ]
@@ -1407,10 +1615,9 @@
     "melee_dice_sides": 6,
     "melee_cut": 2,
     "dodge": 2,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_nakedmolerat_giant",
@@ -1439,7 +1646,6 @@
     "armor_cut": 2,
     "vision_day": 0,
     "vision_night": 0,
-    "harvest": "mammal_large_leather",
     "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 1 ], { "type": "bite", "cooldown": 6 }, [ "impale", 10 ] ],
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
@@ -1447,10 +1653,13 @@
     "flags": [
       "ATTACKMON",
       "BLEED",
+      "BONES",
       "BORES",
       "CAN_DIG",
+      "FAT",
       "HEARS",
       "KEENNOSE",
+      "LEATHER",
       "PATH_AVOID_DANGER_1",
       "REGENERATES_10",
       "REGEN_MORALE",
@@ -1482,11 +1691,10 @@
     "melee_cut": 1,
     "dodge": 2,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_otter",
@@ -1509,10 +1717,9 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 4,
-    "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_pig_piglet",
@@ -1538,7 +1745,6 @@
     "melee_dice_sides": 2,
     "melee_cut": 1,
     "dodge": 4,
-    "harvest": "mammal_small_leather",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
@@ -1546,7 +1752,7 @@
     "upgrades": { "age_grow": 20, "into": "mon_pig" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_pig",
@@ -1571,7 +1777,6 @@
     "melee_dice_sides": 8,
     "melee_cut": 4,
     "dodge": 2,
-    "harvest": "mammal_large_leather",
     "reproduction": { "baby_monster": "mon_pig_piglet", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
@@ -1581,7 +1786,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_rabbit",
@@ -1602,10 +1807,9 @@
     "morale": -7,
     "melee_cut": 0,
     "dodge": 6,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES" ]
   },
   {
     "id": "mon_raccoon",
@@ -1630,11 +1834,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 1,
     "dodge": 3,
-    "harvest": "mammal_tiny",
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_rat_king",
@@ -1657,7 +1860,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_cut": 1,
-    "harvest": "mammal_tiny",
     "special_attacks": [ [ "RATKING", 3 ] ],
     "death_function": [ "RATKING" ]
   },
@@ -1686,11 +1888,10 @@
     "dodge": 2,
     "vision_day": 1,
     "vision_night": 30,
-    "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES" ]
   },
   {
     "id": "mon_sheep_lamb",
@@ -1716,13 +1917,12 @@
     "melee_cut": 1,
     "dodge": 2,
     "anger_triggers": [  ],
-    "harvest": "mammal_small_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 20, "into": "mon_sheep" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BONES", "FAT" ]
   },
   {
     "id": "mon_sheep",
@@ -1748,7 +1948,6 @@
     "dodge": 2,
     "starting_ammo": { "milk": 2 },
     "anger_triggers": [  ],
-    "harvest": "mammal_large_wool",
     "reproduction": { "baby_monster": "mon_sheep_lamb", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
@@ -1756,7 +1955,20 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "WOOL",
+      "BONES",
+      "FAT",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "MILKABLE"
+    ]
   },
   {
     "id": "mon_squirrel",
@@ -1779,10 +1991,9 @@
     "melee_dice_sides": 1,
     "melee_cut": 0,
     "dodge": 4,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES" ]
   },
   {
     "id": "mon_squirrel_red",
@@ -1805,10 +2016,9 @@
     "melee_dice_sides": 1,
     "melee_cut": 0,
     "dodge": 3,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES" ]
   },
   {
     "id": "mon_weasel",
@@ -1831,10 +2041,9 @@
     "melee_cut": 2,
     "dodge": 4,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_wolf",
@@ -1861,11 +2070,10 @@
     "dodge": 4,
     "armor_bash": 1,
     "vision_night": 5,
-    "harvest": "mammal_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   }
 ]
