@@ -548,6 +548,7 @@ void player::load( JsonObject &data )
     data.read( "last_target", tmptar );
     data.read( "last_target_type", tmptartyp );
     data.read( "last_target_pos", last_target_pos );
+    data.read( "ammo_location", ammo_location );
 
     // Fixes savefile with invalid last_target_pos.
     if( last_target_pos && *last_target_pos == tripoint_min ) {
@@ -652,6 +653,8 @@ void player::store( JsonOut &json ) const
     } else {
         json.member( "last_target_pos", last_target_pos );
     }
+
+    json.member( "ammo_location", ammo_location );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -872,7 +875,7 @@ void player::deserialize( JsonIn &jsin )
     // another character (not the current one) fails, the other character(s) are not informed.
     // We must inform them when they get loaded the next time.
     // Only active missions need checking, failed/complete will not change anymore.
-    auto const last = std::remove_if( active_missions.begin(),
+    const auto last = std::remove_if( active_missions.begin(),
     active_missions.end(), []( mission const * m ) {
         return m->has_failed();
     } );
@@ -2218,6 +2221,16 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "tags", tags );
     data.read( "labels", labels );
 
+    point p;
+    zone_data zd;
+    JsonArray ja = data.get_array( "zones" );
+    while( ja.has_more() ) {
+        JsonObject sdata = ja.next_object();
+        sdata.read( "point", p );
+        sdata.read( "zone", zd );
+        loot_zones.emplace( p, zd );
+    }
+
     // Note that it's possible for a vehicle to be loaded midway
     // through a turn if the player is driving REALLY fast and their
     // own vehicle motion takes them in range. An undefined value for
@@ -2275,6 +2288,15 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "parts", parts );
     json.member( "tags", tags );
     json.member( "labels", labels );
+    json.member( "zones" );
+    json.start_array();
+    for( auto const &z : loot_zones ) {
+        json.start_object();
+        json.member( "point", z.first );
+        json.member( "zone", z.second );
+        json.end_object();
+    }
+    json.end_array();
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );

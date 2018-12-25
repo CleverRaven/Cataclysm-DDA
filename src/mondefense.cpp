@@ -33,7 +33,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    player const *const foe = dynamic_cast<player *>( source );
+    const player *const foe = dynamic_cast<player *>( source );
 
     // Players/NPCs can avoid the shock by using non-conductive weapons
     if( foe != nullptr && foe->is_armed() && !foe->weapon.conductive() ) {
@@ -45,7 +45,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     if( g->u.sees( source->pos() ) ) {
-        auto const msg_type = ( source == &g->u ) ? m_bad : m_info;
+        const auto msg_type = ( source == &g->u ) ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name().c_str(), source->disp_name().c_str() );
     }
@@ -72,7 +72,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     size_t num_drops = rng( 4, 6 );
-    player const *const foe = dynamic_cast<player *>( source );
+    const player *const foe = dynamic_cast<player *>( source );
     if( proj == nullptr && foe != nullptr ) {
         if( foe->weapon.is_melee( DT_CUT ) || foe->weapon.is_melee( DT_STAB ) ) {
             num_drops += rng( 3, 4 );

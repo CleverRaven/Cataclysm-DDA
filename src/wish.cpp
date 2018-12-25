@@ -554,7 +554,7 @@ void debug_menu::wishskill( player *p )
     std::vector<int> origskills;
     origskills.reserve( Skill::skills.size() );
 
-    for( auto const &s : Skill::skills ) {
+    for( const auto &s : Skill::skills ) {
         const int level = p->get_skill_level( s.ident() );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
                          s.name().c_str() );

@@ -603,9 +603,17 @@ class npc : public player
         // @param dur time duration between complaints
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
-        bool complain_about( const std::string &issue, const time_duration &dur, const std::string &speech,
-                             const bool force = false );
+        bool complain_about( const std::string &issue, const time_duration &dur,
+                             const std::string &speech, const bool force = false );
+        // wrapper for complain_about that warns about a specific type of threat, with
+        // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
+        void warn_about( const std::string &type, const time_duration &d = 10_minutes,
+                         const std::string &name = "" );
         bool complain(); // Finds something to complain about and complains. Returns if complained.
+
+        void handle_sound( int priority, const std::string &description, int heard_volume,
+                           const tripoint &spos );
+
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.

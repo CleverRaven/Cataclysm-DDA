@@ -1,0 +1,19 @@
+[
+  {
+    "id": "BGSS_CRIMINAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was just sittin' in lockup.  They took me in the night before, for a bullshit parole violation.  Assholes.  I was stuck in my cell when the cops all started yelling about an emergency, geared up, and left me in there with just this <dumb> robot for a guard.  I was stuck in there for two god-damn days, with no food and only a little water.  Then this big-ass zombie busted in, and started fighting the robot.  I didn't know what the fuck to think, but in the fighting they smashed open my cell door, and I managed to slip out.",
+    "responses": [
+      { "text": "Lucky you.  How did you get away?", "topic": "BGSS_CRIMINAL_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "It was just <swear> chaos on the streets, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  It was the fuckin' police robots.  They knew I was in violation, and they kept trying to arrest me.",
+    "//": "TK, this story not done.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

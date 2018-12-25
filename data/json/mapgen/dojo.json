@@ -51,6 +51,8 @@
     "symbol": "#",
     "color": [ "brown" ],
     "move_cost_mod": 0,
+    "comfort": 2,
+    "floor_bedding_warmth": -1500,
     "max_volume": 4000,
     "required_str": 7,
     "bash": {

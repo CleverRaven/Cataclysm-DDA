@@ -171,7 +171,8 @@ void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Rat mutant burrowing!
-        sounds::sound( act->placement, 10, _( "ScratchCrunchScrabbleScurry." ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::movement,
+                       _( "ScratchCrunchScrabbleScurry." ) );
         messages_in_process( *act, *p );
     }
 }
@@ -481,417 +482,193 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
 
     return time_to_cut;
 }
-
-void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p,
-                               const time_point &age, const std::function<int()> &roll_butchery, butcher_type action )
+// The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
+harvest_id butchery_flags_deprecate( const mtype &mt )
 {
-    itype_id meat = corpse->get_meat_itype();
-
-    int pieces = corpse->get_meat_chunks_count();
-    int skins = 0;
-    int bones = 0;
-    int fats = pieces / 5;
-    int sinews = 0;
-    int feathers = 0;
-    int wool = 0;
-    bool stomach = false;
-
-    int max_practice = 4;
-    switch( corpse->size ) {
-        case MS_TINY:
-            skins = 1;
-            bones = 1;
-            fats = 1;
-            sinews = 1;
-            feathers = 4;
-            wool = 1;
-            break;
-        case MS_SMALL:
-            skins = 2;
-            bones = 8;
-            sinews = 4;
-            feathers = 12;
-            wool = 4;
-            break;
-        case MS_MEDIUM:
-            skins = 5;
-            bones = 18;
-            sinews = 9;
-            feathers = 22;
-            wool = 8;
-            break;
-        case MS_LARGE:
-            skins = 10;
-            bones = 28;
-            sinews = 14;
-            feathers = 36;
-            wool = 16;
-            max_practice = 5;
-            break;
-        case MS_HUGE:
-            skins = 20;
-            bones = 42;
-            sinews = 21;
-            feathers = 48;
-            wool = 32;
-            max_practice = 6;
-            break;
-    }
-
-    if( corpse->made_of( material_id( "bone" ) ) ) {
-        //For butchering yield purposes, we treat it as bones, not meat
-        meat = "null";
-        bones += pieces / 4;
-        pieces = 0;
-    }
-
-    // Lose some meat, skins, etc if the rolls are low
-    pieces +=   std::min( 0, roll_butchery() );
-    skins +=    std::min( 0, roll_butchery() - 4 );
-    bones +=    std::min( 0, roll_butchery() - 2 );
-    fats +=     std::min( 0, roll_butchery() - 4 );
-    sinews +=   std::min( 0, roll_butchery() - 8 );
-    feathers += std::min( 0, roll_butchery() - 1 );
-    wool +=     std::min( 0, roll_butchery() );
-    stomach = roll_butchery() >= 0;
-
-    // (QUICK) BUTCHERY
-    if( action == BUTCHER && ( !corpse_item->has_flag( "FIELD_DRESS" ) ||
-                               !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
-        pieces /= 4;
-        if( corpse->size >= MS_MEDIUM ) {
-            skins /= 2;
-        }
-        bones /= 2;
-        fats /= 4;
-        sinews /= 4;
-        // feathers unchanged
-        wool /= 4;
-        stomach = false;
-    } else if( action == BUTCHER ) {
-        stomach = roll_butchery() >= 0;
-    }
-
-    //FIELD DRESSING
-    if( action == F_DRESS ) {
-        // "pieces" left unchanged because they are 'converted' to offal and don't yield meat
-        skins = 0;
-        bones =  rng( 0, bones / 2 );
-        fats = 0;
-        sinews = 0;
-        feathers = 0;
-        wool = 0;
-        stomach = roll_butchery() >= 0;
-    }
-
-    // field dressing removed innards and bones from meatless limbs
-    if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-        stomach = false;
-        bones = ( bones / 2 ) + rng( bones / 2, bones );
-    }
-    // unskillfull field dressing damaged the skin, meat, and other parts
-    if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
-        pieces = rng( 0, pieces );
-        skins = rng( 0, skins );
-        bones = ( bones / 2 ) + rng( bones / 2, bones );
-        fats = rng( 0, fats );
-        feathers = rng( 0, feathers );
-        wool = rng( 0, wool );
-        stomach = false;
-    }
-    if( corpse_item->has_flag( "QUARTERED" ) ) {
-        pieces /= 4;
-        skins = 0; //quartering ruins skin
-        bones /= 4;
-        fats /= 4;
-        sinews /= 4;
-        feathers /= 4;
-        wool /= 4;
-    }
-    if( action == DISSECT ) {
-        pieces = 0;
-        skins = 0;
-        bones = 0;
-        fats = 0;
-        sinews = 0;
-        feathers = 0;
-        wool = 0;
-        stomach = false;
-    }
-
-    int practice = std::max( 0, 4 + pieces + roll_butchery() );
-    if( action == DISSECT ) {
-        p->practice( skill_firstaid, practice, max_practice );
-    } else {
-        p->practice( skill_survival, practice, max_practice );
-    }
-
-    if( bones > 0 ) {
-        if( corpse->made_of( material_id( "veggy" ) ) ) {
-            g->m.spawn_item( p->pos(), "plant_sac", bones, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some fluid bladders!" ) );
-        } else if( corpse->has_flag( MF_BONES ) && corpse->has_flag( MF_POISON ) ) {
-            g->m.spawn_item( p->pos(), "bone_tainted", bones / 2, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some salvageable bones!" ) );
-        } else if( corpse->has_flag( MF_BONES ) && corpse->has_flag( MF_HUMAN ) ) {
-            g->m.spawn_item( p->pos(), "bone_human", bones, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some salvageable bones!" ) );
-        } else if( corpse->has_flag( MF_BONES ) ) {
-            g->m.spawn_item( p->pos(), "bone", bones, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some usable bones!" ) );
-        }
-    } else if( meat == "null" && corpse->has_flag( MF_BONES ) ) {
-        //print a failure message only if the corpse doesn't have meat and has bones
-        p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the bones!" ) );
-    }
-
-    if( sinews > 0 ) {
-        if( corpse->has_flag( MF_BONES ) && !corpse->has_flag( MF_POISON ) ) {
-            g->m.spawn_item( p->pos(), "sinew", sinews, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some usable sinews!" ) );
-        } else if( corpse->made_of( material_id( "veggy" ) ) ) {
-            g->m.spawn_item( p->pos(), "plant_fibre", sinews, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some plant fibers!" ) );
-        }
-    }
-
-    if( stomach ) {
-        const itype_id meat = corpse->get_meat_itype();
-        if( meat == "meat" ) {
-            if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
-                g->m.spawn_item( p->pos(), "stomach", 1, 0, age );
-                p->add_msg_if_player( m_good, _( "You harvest the stomach!" ) );
-            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
-                g->m.spawn_item( p->pos(), "stomach_large", 1, 0, age );
-                p->add_msg_if_player( m_good, _( "You harvest the stomach!" ) );
-            }
-        } else if( meat == "human_flesh" ) {
-            if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
-                g->m.spawn_item( p->pos(), "hstomach", 1, 0, age );
-                p->add_msg_if_player( m_good, _( "You harvest the stomach!" ) );
-            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
-                g->m.spawn_item( p->pos(), "hstomach_large", 1, 0, age );
-                p->add_msg_if_player( m_good, _( "You harvest the stomach!" ) );
-            }
-        }
-    }
-
-    if( ( corpse->has_flag( MF_FUR ) || corpse->has_flag( MF_LEATHER ) ||
-          corpse->has_flag( MF_CHITIN ) ) && skins > 0 ) {
-        p->add_msg_if_player( m_good, _( "You manage to skin the %s!" ), corpse->nname().c_str() );
-        int fur = 0;
-        int tainted_fur = 0;
-        int leather = 0;
-        int tainted_leather = 0;
-        int human_leather = 0;
-        int chitin = 0;
-
-        while( skins > 0 ) {
-            if( corpse->has_flag( MF_CHITIN ) ) {
-                chitin = rng( 0, skins );
-                skins -= chitin;
-                skins = std::max( skins, 0 );
-            }
-            if( corpse->has_flag( MF_FUR ) ) {
-                if( corpse->has_flag( MF_POISON ) ) {
-                    tainted_fur = rng( 0, skins );
-                    skins -= tainted_fur;
-                } else {
-                    fur = rng( 0, skins );
-                    skins -= fur;
-                }
-                skins = std::max( skins, 0 );
-            }
-            if( corpse->has_flag( MF_LEATHER ) ) {
-                if( corpse->has_flag( MF_POISON ) ) {
-                    tainted_leather = rng( 0, skins );
-                    skins -= tainted_leather;
-                } else if( corpse->has_flag( MF_HUMAN ) ) {
-                    human_leather = rng( 0, skins );
-                    skins -= human_leather;
-                } else {
-                    leather = rng( 0, skins );
-                    skins -= leather;
-                }
-                skins = std::max( skins, 0 );
-            }
-        }
-
-        if( chitin > 0 ) {
-            g->m.spawn_item( p->pos(), "chitin_piece", chitin, 0, age );
-        }
-        if( fur > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_fur", fur, 0, age );
-        }
-        if( tainted_fur > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_tainted_fur", fur, 0, age );
-        }
-        if( leather > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_leather", leather, 0, age );
-        }
-        if( human_leather > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_hleather", leather, 0, age );
-        }
-        if( tainted_leather > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_tainted_leather", leather, 0, age );
-        }
-    }
-
-    if( feathers > 0 ) {
-        if( corpse->has_flag( MF_FEATHER ) ) {
-            g->m.spawn_item( p->pos(), "feather", feathers, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some feathers!" ) );
-        }
-    }
-
-    if( wool > 0 ) {
-        if( corpse->has_flag( MF_WOOL ) ) {
-            g->m.spawn_item( p->pos(), "wool_staple", wool, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some wool staples!" ) );
-        }
-    }
-
-    if( fats > 0 ) {
-        if( corpse->has_flag( MF_FAT ) && corpse->has_flag( MF_POISON ) ) {
-            g->m.spawn_item( p->pos(), "fat_tainted", fats, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some gooey fat!" ) );
-        } else if( corpse->has_flag( MF_FAT ) ) {
-            g->m.spawn_item( p->pos(), "fat", fats, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some fat!" ) );
-        }
-    }
-
-    //Add a chance of CBM recovery.
-    //As long as the factor is above -4 (the sinew cutoff), you will be able to extract CBMs
-    if( action == DISSECT ) {
-
-        if( corpse->has_flag( MF_CBM_CIV ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_common", p->pos(), age, roll_butchery() );
-        }
-
-        // Zombie scientist bionics
-        if( corpse->has_flag( MF_CBM_SCI ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_sci", p->pos(), age, roll_butchery() );
-        }
-
-        // Zombie technician bionics
-        if( corpse->has_flag( MF_CBM_TECH ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_tech", p->pos(), age, roll_butchery() );
-        }
-
-        // Substation mini-boss bionics
-        if( corpse->has_flag( MF_CBM_SUBS ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_subs", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_subs", p->pos(), age, roll_butchery() );
-        }
-
-        // Payoff for butchering the zombie bio-op
-        if( corpse->has_flag( MF_CBM_OP ) ) {
-            butcher_cbm_item( "bio_power_storage_mkII", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_op", p->pos(), age, roll_butchery() );
-        }
-
-        //Add a chance of CBM power storage recovery.
-        if( corpse->has_flag( MF_CBM_POWER ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-        }
-    }
-
-    // feedback that this type of corpse has implants that can be potentialy removed
-    if( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) ||
-        corpse->has_flag( MF_CBM_TECH ) ||
-        corpse->has_flag( MF_CBM_SUBS ) || corpse->has_flag( MF_CBM_OP ) ||
-        corpse->has_flag( MF_CBM_POWER ) ) {
-        if( action == F_DRESS ) {
-            p->add_msg_if_player( m_bad,
-                                  _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
-        }
-        if( action == BUTCHER || action == BUTCHER_FULL ) {
-            switch( rng( 1, 3 ) ) {
-                case 1:
-                    p->add_msg_if_player( m_bad,
-                                          _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
-                    break;
-                case 2:
-                    p->add_msg_if_player( m_bad,
-                                          _( "You find traces of implants in the body, but you care only for the flesh." ) );
-                    break;
-                case 3:
-                    p->add_msg_if_player( m_bad,
-                                          _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
-                    break;
-            }
-        }
-    }
-
-    //now handle the meat, if there is any
-    if( meat != "null" ) {
-        if( pieces <= 0 ) {
-            if( action == BUTCHER || action == BUTCHER_FULL ) {
-                p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the flesh!" ) );
-            }
+    std::string harvest_id_name = "null";
+    if( mt.has_flag( MF_CBM_CIV ) ) {
+        harvest_id_name = "CBM_CIV";
+    } else if( mt.has_flag( MF_CBM_SCI ) ) {
+        harvest_id_name = "CBM_SCI";
+    } else if( mt.has_flag( MF_CBM_TECH ) ) {
+        harvest_id_name = "CBM_TECH";
+    } else if( mt.has_flag( MF_CBM_SUBS ) ) {
+        harvest_id_name = "CBM_SUBS";
+    } else if( mt.has_flag( MF_CBM_OP ) ) {
+        harvest_id_name = "CBM_OP";
+    } else if( mt.has_flag( MF_POISON ) ) { // POISON tag means tainted meat
+        if( mt.made_of( material_id( "veggy" ) ) ) {
+            harvest_id_name = "fungaloid";
+        } else if( mt.made_of( material_id( "bone" ) ) ) {
+            harvest_id_name = "mr_bones";
+        } else if( mt.has_flag( MF_CHITIN ) ) { // only arachnids drop chitin
+            harvest_id_name = "arachnid_tainted";
+            // acid ants have ACIDPROOF and do not have the CHITIN flag
+        } else if( mt.has_flag( MF_ACIDPROOF ) ) {
+            harvest_id_name = "arachnid_acid";
+        } else if( mt.has_flag( MF_LEATHER ) ) {
+            harvest_id_name = "zombie_leather";
+        } else if( mt.has_flag( MF_FUR ) ) {
+            harvest_id_name = "zombie_fur";
+        } else if( mt.has_flag( MF_BONES ) ) {
+            harvest_id_name = "zombie";
         } else {
-            if( action == BUTCHER || action == BUTCHER_FULL ) {
-                p->add_msg_if_player( m_good, _( "You harvest some flesh." ) );
-            }
-
-            item chunk( meat, age, 1 );
-            chunk.set_mtype( corpse );
-
-            item parts( "offal", age, 0 );
-            parts.set_mtype( corpse );
-
-            // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
-            // also field dressing removed innards so no offal
-            bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
-                              !( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
-                              !chunk.made_of( material_id( "veggy" ) );
-            if( action == F_DRESS ) {
-                for( int i = 1; i < pieces; ++i ) {
-                    if( make_offal && one_in( 3 ) ) {
-                        parts.charges++;
-                    }
-                }
-                chunk.charges = 0;
+            harvest_id_name = "zombie_meatslug";
+        }
+    } else { // drops regular edible meat
+        if( mt.made_of( material_id( "veggy" ) ) ) {
+            harvest_id_name = "triffid_small";
+        } else if( mt.size == MS_TINY ) {
+            if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_tiny";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_small";
             } else {
-                for( int i = 1; i < pieces; ++i ) {
-                    if( make_offal && one_in( 6 ) ) {
-                        parts.charges++;
-                    } else {
-                        chunk.charges++;
-                    }
-                }
+                harvest_id_name = "mammal_tiny";
             }
-            if( chunk.charges > 0 ) {
-                g->m.add_item_or_charges( p->pos(), chunk );
+        } else if( mt.has_flag( MF_HUMAN ) ) {
+            harvest_id_name = "human";
+        } else if( mt.size >= MS_SMALL && mt.size <= MS_MEDIUM ) {
+            if( mt.has_flag( MF_LEATHER ) ) {
+                harvest_id_name = "mammal_leather";
+            } else if( mt.has_flag( MF_FUR ) ) {
+                harvest_id_name = "mammal_fur";
+            } else if( mt.has_flag( MF_WOOL ) ) {
+                harvest_id_name = "mammal_wool";
+            } else if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_small";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_large";
+            } else if( mt.has_flag( MF_CHITIN ) ) {
+                harvest_id_name = "arachnid";
+            } else if( mt.has_flag( MF_BONES ) ) {
+                harvest_id_name = "animal_noskin";
+            } else {
+                harvest_id_name = "meatslug";
             }
-            if( parts.charges > 0 ) {
-                g->m.add_item_or_charges( p->pos(), parts );
+        } else if( mt.size >= MS_LARGE ) {
+            if( mt.has_flag( MF_LEATHER ) ) {
+                harvest_id_name = "mammal_large_leather";
+            } else if( mt.has_flag( MF_FUR ) ) {
+                harvest_id_name = "mammal_large_fur";
+            } else if( mt.has_flag( MF_WOOL ) ) {
+                harvest_id_name = "mammal_large_wool";
+            } else if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_large";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_large";
+            } else if( mt.has_flag( MF_CHITIN ) ) {
+                harvest_id_name = "arachnid";
+            } else if( mt.has_flag( MF_BONES ) ) {
+                harvest_id_name = "animal_large_noskin";
+            } else {
+                harvest_id_name = "meatslug";
             }
         }
     }
+
+    return harvest_id( harvest_id_name );
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &age,
-                             const std::function<int()> &roll_butchery, butcher_type action )
+// this function modifies the input weight by its damage level, depending on the bodypart
+int corpse_damage_effect( int weight, std::string entry_type, int damage_level )
+{
+    float slight_damage = 0.9;
+    float damage = 0.75;
+    float high_damage = 0.5;
+    int destroyed = 0;
+
+    switch( damage_level ) {
+        case 2: // "damaged"
+            if( entry_type == "offal" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "skin" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * slight_damage );
+            }
+            break;
+        case 3: // "mangled"
+            if( entry_type == "offal" ) {
+                return destroyed;
+            }
+            if( entry_type == "skin" ) {
+                return round( weight * high_damage );
+            }
+            if( entry_type == "bone" ) {
+                return round( weight * slight_damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * damage );
+            }
+            break;
+        case 4: // "pulped"
+            if( entry_type == "offal" ) {
+                return destroyed;
+            }
+            if( entry_type == "skin" ) {
+                return destroyed;
+            }
+            if( entry_type == "bone" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * high_damage );
+            }
+            break;
+        default: // "bruised" modifier is almost impossible to avoid; also includes no modifier (zero damage)
+            break;
+    }
+    return weight;
+}
+
+void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
+                             const std::function<int()> &roll_butchery, butcher_type action,
+                             const std::function<double()> &roll_drops )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
-
+    int monster_weight = to_gram( mt.weight );
+    monster_weight += round( monster_weight * rng_float( -0.1, 0.1 ) );
+    if( corpse_item->has_flag( "QUARTERED" ) ) {
+        monster_weight /= 4;
+    }
+    if( corpse_item->has_flag( "GIBBED" ) ) {
+        monster_weight = round( 0.85 * monster_weight );
+        if( action != F_DRESS ) {
+            p.add_msg_if_player( m_bad,
+                                 _( "You salvage what you can from the corpse, but it is badly damaged." ) );
+        }
+    }
+    int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
-    for( const auto &entry : *mt.harvest ) {
+
+    harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate( mt ) : mt.harvest;
+    const harvest_list &harvest = *hid;
+
+    for( const auto &entry : harvest ) {
         int butchery = roll_butchery();
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
-
-        const itype *drop = item::find_type( entry.drop );
+        int roll = 0;
+        // mass_ratio will override the use of base_num, scale_num, and max
+        if( entry.mass_ratio != 0.00f ) {
+            roll = static_cast<int>( round( entry.mass_ratio * monster_weight ) );
+            roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) );
+        } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
+            roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+            // will not give less than min_num defined in the JSON
+            roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
+                                  entry.base_num.first );
+        }
+        const itype *drop = NULL;
+        if( entry.type != "bionic_group" ) {
+            drop = item::find_type( entry.drop );
+        }
 
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
-        if( drop->bionic.has_value() ) {
+        if( entry.type == "bionic" || entry.type == "bionic_group" ) {
             if( action == F_DRESS ) {
                 p.add_msg_if_player( m_bad,
                                      _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
@@ -914,110 +691,135 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 }
                 continue;
             }
-        } else if( action == DISSECT ) {
+        }
+        if( action == DISSECT ) {
+            if( entry.type == "bionic" ) {
+                butcher_cbm_item( entry.drop, p.pos(), bday, roll_butchery() );
+            } else if( entry.type == "bionic_group" ) {
+                butcher_cbm_group( entry.drop, p.pos(), bday, roll_butchery() );
+            }
             continue;
+        }
+
+        // Check if monster was gibbed, and handle accordingly
+        if( corpse_item->has_flag( "GIBBED" ) && ( entry.type == "flesh" || entry.type == "bone" ) ) {
+            roll /= 2;
         }
 
         // QUICK BUTCHERY
         if( action == BUTCHER ) {
-            if( entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ||
-                entry.drop == "wool_staple" || entry.drop == "fat" || entry.drop == "fat_tainted" ) {
+            if( entry.type == "flesh" ) {
                 roll = roll / 4;
-            } else if( entry.drop != "bone" ) {
-                roll = roll / 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.drop == "raw_fur" ||
-                       entry.drop == "raw_leather" ||
-                       entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                       entry.drop == "raw_hleather" || entry.drop == "chitin_piece" ||
-                       entry.drop == "acidchitin_piece" ) ) {
-                roll /= 2 ;
+            } else if( entry.type == "bone" ) {
+                roll /= 2;
+            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
+                roll /= 2;
+            } else if( entry.type == "offal" ) {
+                roll /= 5;
             } else {
                 continue;
             }
         }
         // field dressing ignores everything outside below list
         if( action == F_DRESS ) {
-            if( entry.drop != "bone" ) {
+            if( entry.type == "bone" ) {
                 roll = rng( 0, roll / 2 );
             }
-            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" ||
-                entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ||
-                entry.drop == "brain" ) {
+            if( entry.type == "flesh" ) {
+                continue;
+            }
+            if( entry.type == "skin" ) {
                 continue;
             }
         }
 
         // field dressing removed innards and bones from meatless limbs
-        if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-            if( entry.drop == "stomach" || entry.drop == "stomach_large" ||
-                entry.drop == "hstomach" || entry.drop == "hstomach_large" ||
-                entry.drop == "offal" || entry.drop == "plant_sac" ||
-                entry.drop == "liver" || entry.drop == "kidney" ||
-                entry.drop == "lung" || entry.drop == "sweetbread" ) {
+        if( ( action == BUTCHER_FULL || action == BUTCHER ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
+            if( entry.type == "offal" ) {
                 continue;
             }
-            if( entry.drop == "bone" ) {
+            if( entry.type == "bone" ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
         }
         // unskillfull field dressing may damage the skin, meat, and other parts
-        if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
-            if( entry.drop == "stomach" || entry.drop == "stomach_large" ||
-                entry.drop == "hstomach" || entry.drop == "hstomach_large" ||
-                entry.drop == "offal" ) {
+        if( ( action == BUTCHER_FULL || action == BUTCHER ) &&
+            corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
+            if( entry.type == "offal" ) {
                 continue;
             }
-            if( entry.drop == "bone" || entry.drop == "bone_human" ) {
+            if( entry.type == "bone" ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
-            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" ||
-                entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
+            if( entry.type == "flesh" || entry.type == "skin" ) {
                 roll = rng( 0, roll );
             }
         }
         // quartering ruins skin
         if( corpse_item->has_flag( "QUARTERED" ) ) {
-            if( entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" ||
-                entry.drop == "raw_tainted_leather" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" ) {
+            if( entry.type == "skin" ) {
                 roll = 0; //not continue to show fail effect
             } else {
                 roll /= 4;
             }
         }
 
-        if( roll <= 0 ) {
-            p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
-            continue;
-        }
-
-        if( drop->phase == LIQUID ) {
-            g->handle_all_liquid( item( drop, age, roll ), 1 );
-
-        } else if( drop->stackable ) {
-            g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
-
-        } else {
-            item obj( drop, age );
-            obj.set_mtype( &mt );
-            for( int i = 0; i != roll; ++i ) {
-                g->m.add_item_or_charges( p.pos(), obj );
+        if( action != DISSECT && entry.type != "bionic_group" ) {
+            // divide total dropped weight by drop's weight to get amount
+            if( entry.mass_ratio != 0.00f ) {
+                // apply skill before converting to items, but only if mass_ratio is defined
+                roll *= roll_drops();
+                monster_weight_remaining -= roll;
+                roll = ceil( roll / to_gram( ( item::find_type( entry.drop ) )->weight ) );
+            } else {
+                monster_weight_remaining -= roll * to_gram( ( item::find_type( entry.drop ) )->weight );
             }
-        }
 
-        p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+            if( roll <= 0 ) {
+                p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
+                continue;
+            }
+
+            if( drop->phase == LIQUID ) {
+                g->handle_all_liquid( item( drop, bday, roll ), 1 );
+
+            } else if( drop->stackable ) {
+                g->m.add_item_or_charges( p.pos(), item( drop, bday, roll ) );
+
+            } else {
+                item obj( drop, bday );
+                obj.set_mtype( &mt );
+                for( int i = 0; i != roll; ++i ) {
+                    g->m.add_item_or_charges( p.pos(), obj );
+                }
+            }
+
+            p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
+        }
         practice++;
     }
+    // 20% of the original corpse weight is not an item, but liquid gore
+    monster_weight_remaining -= monster_weight / 5;
+    // add the remaining unusable weight as rotting garbage
+    if( monster_weight_remaining > 0 ) {
+        if( action == F_DRESS ) {
+            // 25% of the corpse weight is what's removed during field dressing
+            monster_weight_remaining -= monster_weight * 3 / 4;
+        } else {
+            // a carcass is 75% of the weight of the unmodified creature's weight
+            if( ( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
+                !corpse_item->has_flag( "QUARTERED" ) ) {
+                monster_weight_remaining -= monster_weight / 4;
+            } else if( corpse_item->has_flag( "QUARTERED" ) ) {
+                monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
+            }
+        }
+        item ruined_parts( "ruined_chunks", bday,
+                           monster_weight_remaining / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) );
+        ruined_parts.set_mtype( &mt );
+        g->m.add_item_or_charges( p.pos(), ruined_parts );
+    }
+
     if( action == DISSECT ) {
         p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
     } else {
@@ -1142,13 +944,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         act->index = -1;
         return;
     }
-
+    // function just for drop yields
+    auto roll_drops = [&]() {
+        factor = std::max( factor, -50 );
+        return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
+    };
     // all action types - yields
-    if( corpse->harvest.is_null() ) {
-        butchery_drops_hardcoded( &corpse_item, corpse, p, bday, roll_butchery, action );
-    } else {
-        butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action );
-    }
+    butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
 
     // reveal hidden items / hidden content
     if( action != F_DRESS ) {
@@ -1683,7 +1485,7 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
-    const static std::string salvage_string = "salvage";
+    static const std::string salvage_string = "salvage";
     item &main_tool = p->i_at( act->index );
     auto items = g->m.i_at( p->pos() );
     item *salvage_tool = main_tool.get_usable_item( salvage_string );
@@ -1787,7 +1589,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
     const tripoint &pos = act->placement;
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, _( "CHNK! CHNK! CHNK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::combat, _( "CHNK! CHNK! CHNK!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2180,7 +1982,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     act->values[0] -= int( charges_used );
 
     if( calendar::once_every( 2_turns ) ) {
-        sounds::sound( act->placement, 10, _( "hissssssssss!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hissssssssss!" ) );
     }
 }
 
@@ -2753,7 +2555,7 @@ void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
-        sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "grnd grnd grnd" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2818,7 +2620,7 @@ void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( act->placement, 15, _( "CHK!" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "CHK!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2879,7 +2681,7 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
-        sounds::sound( act->placement, 15, _( "TATATATATATATAT!" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "TATATATATATATAT!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2902,7 +2704,7 @@ void activity_handlers::dig_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2929,7 +2731,7 @@ void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }

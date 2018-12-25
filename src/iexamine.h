@@ -44,6 +44,7 @@ void atm( player &p, const tripoint &examp );
 void vending( player &p, const tripoint &examp );
 void toilet( player &p, const tripoint &examp );
 void elevator( player &p, const tripoint &examp );
+void nanofab( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
 void cvdmachine( player &p, const tripoint &examp );
@@ -122,6 +123,6 @@ void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player &, const tripoint & );
-iexamine_function iexamine_function_from_string( std::string const &function_name );
+iexamine_function iexamine_function_from_string( const std::string &function_name );
 
 #endif

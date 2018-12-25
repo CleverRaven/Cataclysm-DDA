@@ -255,7 +255,7 @@ static void eff_fun_hallu( player &u, effect &it )
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, npc_text );
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text );
         }
     } else if( dur == peakTime ) {
         // Visuals start
@@ -933,9 +933,9 @@ void player::hardcoded_effects( effect &it )
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 if( calendar::once_every( 2_turns ) ) {
                     it.mod_duration( 1_turns ); //weak antibiotic slows down by half
-                } else {
-                    it.mod_duration( 1_turns );
                 }
+            } else {
+                it.mod_duration( 1_turns );
             }
         }
     } else if( id == effect_infected ) {
@@ -1265,7 +1265,7 @@ void player::hardcoded_effects( effect &it )
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
                     // let the sound code handle the wake-up part
-                    sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
+                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ) );
                 }
             }
         }

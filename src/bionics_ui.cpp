@@ -72,7 +72,7 @@ void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_
 }
 
 //builds the power usage string of a given bionic
-std::string build_bionic_poweronly_string( bionic const &bio )
+std::string build_bionic_poweronly_string( const bionic &bio )
 {
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
@@ -97,7 +97,7 @@ std::string build_bionic_poweronly_string( bionic const &bio )
 }
 
 //generates the string that show how much power a bionic uses
-std::string build_bionic_powerdesc_string( bionic const &bio )
+std::string build_bionic_powerdesc_string( const bionic &bio )
 {
     std::ostringstream power_desc;
     const std::string power_string = build_bionic_poweronly_string( bio );
@@ -127,7 +127,7 @@ void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,
     wrefresh( win );
 }
 
-void draw_description( const catacurses::window &win, bionic const &bio )
+void draw_description( const catacurses::window &win, const bionic &bio )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -230,7 +230,7 @@ void draw_connectors( const catacurses::window &win, const int start_y, const in
 }
 
 //get a text color depending on the power/powering state of the bionic
-nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBionic )
+nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
     if( bio.id->activated ) {
