@@ -3066,6 +3066,9 @@ units::mass item::weight( bool include_contents ) const
         if( has_flag( "QUARTERED" ) ) {
             ret /= 4;
         }
+        if( has_flag( "GIBBED" ) ) {
+            ret *= 0.85;
+        }
 
     } else if( magazine_integral() && !is_magazine() ) {
         if( ammo_type() == ammotype( "plutonium" ) ) {
@@ -3108,6 +3111,9 @@ units::volume item::corpse_volume( const mtype *corpse ) const
     }
     if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
         corpse_volume *= 0.75;
+    }
+    if( has_flag( "GIBBED" ) ) {
+        corpse_volume *= 0.85;
     }
     if( corpse_volume > 0 ) {
         return corpse_volume;

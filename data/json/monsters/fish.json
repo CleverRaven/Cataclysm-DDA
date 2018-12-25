@@ -138,7 +138,8 @@
     "baby_flags": [ "SPRING" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
+    "harvest": "fish_large",
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_carp",
@@ -344,7 +345,8 @@
     "baby_flags": [ "SPRING" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
+    "harvest": "fish_large",
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_salmon",
@@ -490,8 +492,9 @@
     "armor_bash": 6,
     "armor_cut": 2,
     "luminance": 0,
+    "harvest": "zombie_leather",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_mutant_carp",
@@ -516,10 +519,11 @@
     "melee_cut": 2,
     "dodge": 5,
     "luminance": 0,
+    "harvest": "fish_large",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_mutant_salmon",
@@ -544,10 +548,11 @@
     "melee_cut": 2,
     "dodge": 5,
     "luminance": 0,
+    "harvest": "fish_large",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
     "baby_flags": [ "AUTUMN" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_fish_lobster",
@@ -571,6 +576,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 1,
     "luminance": 0,
+    "harvest": "shellfish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 180 },
     "baby_flags": [ "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
@@ -599,6 +605,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 1,
     "luminance": 0,
+    "harvest": "shellfish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 21 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
@@ -629,10 +636,11 @@
     "dodge": 6,
     "vision_day": 1,
     "vision_night": 30,
+    "harvest": "fish_large",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 19 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "path_settings": { "max_dist": 5 },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "AQUATIC", "BONES", "FAT" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "AQUATIC" ]
   }
 ]
