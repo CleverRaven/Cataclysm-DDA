@@ -89,7 +89,7 @@ bool string_id<gun_mode>::is_valid() const
 
 #if LUA_VERSION_NUM < 502
 // Compatibility, for before Lua 5.2, which does not have luaL_setfuncs
-static void luaL_setfuncs( lua_State *const L, const luaL_Reg arrary[], int const nup )
+static void luaL_setfuncs( lua_State *const L, const luaL_Reg arrary[], const int nup )
 {
     for( ; arrary->name != nullptr; arrary++ ) {
         lua_pushstring( L, arrary->name );
@@ -142,7 +142,7 @@ void luah_setglobal( lua_State *L, const char *name, int index )
 }
 
 /** Safe wrapper to get a Lua string as std::string. Handles nullptr and binary data. */
-std::string lua_tostring_wrapper( lua_State *const L, int const stack_position )
+std::string lua_tostring_wrapper( lua_State *const L, const int stack_position )
 {
     size_t length = 0;
     const char *const result = lua_tolstring( L, stack_position, &length );
@@ -366,7 +366,7 @@ class LuaValue
          * Checks the metatable that of value at stack_index against the metatable of this
          * object (matching type T). Returns the stack in the same state as it was when called.
          */
-        static bool has_matching_metatable( lua_State *const L, int const stack_index ) {
+        static bool has_matching_metatable( lua_State *const L, const int stack_index ) {
             if( lua_getmetatable( L, stack_index ) == 0 ) {
                 // value does not have a metatable, can not be valid at all.
                 return false;
@@ -414,7 +414,7 @@ class LuaValue
             push( L, value );
             return luah_store_in_registry( L, -1 );
         }
-        static Type &get( lua_State *const L, int const stack_index ) {
+        static Type &get( lua_State *const L, const int stack_index ) {
             luaL_checktype( L, stack_index, LUA_TUSERDATA );
             T *user_data = static_cast<T *>( lua_touserdata( L, stack_index ) );
             if( user_data == nullptr ) {
@@ -432,7 +432,7 @@ class LuaValue
             return *subobject;
         }
         /** Checks whether the value at stack_index is of the type T. If so, @ref get can be used to get it. */
-        static bool has( lua_State *const L, int const stack_index ) {
+        static bool has( lua_State *const L, const int stack_index ) {
             if( !lua_isuserdata( L, stack_index ) ) {
                 return false;
             }
@@ -442,7 +442,7 @@ class LuaValue
             return get_subclass( L, stack_index ) != nullptr;
         }
         /** Raises a Lua error if the type of the value at stack_index is not compatible with T. */
-        static void check( lua_State *const L, int const stack_index ) {
+        static void check( lua_State *const L, const int stack_index ) {
             luaL_checktype( L, stack_index, LUA_TUSERDATA );
             if( !has( L, stack_index ) ) {
                 // METATABLE_NAME is used here as the name of the type we expect.
@@ -555,7 +555,7 @@ class LuaReference : private LuaValue<T *>
             }
         };
         /** Same as calling @ref get, but returns a @ref proxy containing the reference. */
-        static proxy get( lua_State *const L, int const stack_position ) {
+        static proxy get( lua_State *const L, const int stack_position ) {
             return proxy{ &LuaValue<T *>::get( L, stack_position ) };
         }
         using LuaValue<T *>::has;
@@ -580,48 +580,48 @@ struct LuaType;
 
 template<>
 struct LuaType<int> {
-    static bool has( lua_State *const L, int const stack_index ) {
+    static bool has( lua_State *const L, const int stack_index ) {
         return lua_isnumber( L, stack_index );
     }
-    static void check( lua_State *const L, int const stack_index ) {
+    static void check( lua_State *const L, const int stack_index ) {
         luaL_checktype( L, stack_index, LUA_TNUMBER );
     }
-    static int get( lua_State *const L, int const stack_index ) {
+    static int get( lua_State *const L, const int stack_index ) {
         return lua_tonumber( L, stack_index );
     }
-    static void push( lua_State *const L, int const value ) {
+    static void push( lua_State *const L, const int value ) {
         lua_pushnumber( L, value );
     }
 };
 template<>
 struct LuaType<bool> {
-    static bool has( lua_State *const L, int const stack_index ) {
+    static bool has( lua_State *const L, const int stack_index ) {
         return lua_isboolean( L, stack_index );
     }
-    static void check( lua_State *const L, int const stack_index ) {
+    static void check( lua_State *const L, const int stack_index ) {
         luaL_checktype( L, stack_index, LUA_TBOOLEAN );
     }
-    static bool get( lua_State *const L, int const stack_index ) {
+    static bool get( lua_State *const L, const int stack_index ) {
         return lua_toboolean( L, stack_index );
     }
-    static void push( lua_State *const L, bool const value ) {
+    static void push( lua_State *const L, const bool value ) {
         lua_pushboolean( L, value );
     }
     // It is helpful to be able to treat optionals as bools when passing to lua
     template<typename T>
-    static void push( lua_State *const L, cata::optional<T> const &value ) {
+    static void push( lua_State *const L, const cata::optional<T> &value ) {
         push( L, !!value );
     }
 };
 template<>
 struct LuaType<std::string> {
-    static bool has( lua_State *const L, int const stack_index ) {
+    static bool has( lua_State *const L, const int stack_index ) {
         return lua_isstring( L, stack_index );
     }
-    static void check( lua_State *const L, int const stack_index ) {
+    static void check( lua_State *const L, const int stack_index ) {
         luaL_checktype( L, stack_index, LUA_TSTRING );
     }
-    static std::string get( lua_State *const L, int const stack_index ) {
+    static std::string get( lua_State *const L, const int stack_index ) {
         return lua_tostring_wrapper( L, stack_index );
     }
     static void push( lua_State *const L, const std::string &value ) {
@@ -635,10 +635,10 @@ struct LuaType<std::string> {
 };
 template<>
 struct LuaType<float> : public LuaType<int> { // inherit checking because it's all the same to Lua
-    static float get( lua_State *const L, int const stack_index ) {
+    static float get( lua_State *const L, const int stack_index ) {
         return lua_tonumber( L, stack_index );
     }
-    static void push( lua_State *const L, float const value ) {
+    static void push( lua_State *const L, const float value ) {
         lua_pushnumber( L, value );
     }
 };
@@ -696,16 +696,16 @@ class LuaEnum : private LuaType<std::string>
             return 1;
         }
     public:
-        static bool has( lua_State *const L, int const stack_index ) {
+        static bool has( lua_State *const L, const int stack_index ) {
             return Parent::has( L, stack_index ) && has( Parent::get( L, stack_index ) );
         }
-        static void check( lua_State *const L, int const stack_index ) {
+        static void check( lua_State *const L, const int stack_index ) {
             Parent::check( L, stack_index );
             if( !has( Parent::get( L, stack_index ) ) ) {
                 luaL_argerror( L, stack_index, "invalid value for enum" );
             }
         }
-        static E get( lua_State *const L, int const stack_index ) {
+        static E get( lua_State *const L, const int stack_index ) {
             return from_string( Parent::get( L, stack_index ) );
         }
         static void push( lua_State *const L, E const value ) {
@@ -742,19 +742,19 @@ class LuaValueOrReference
 {
     public:
         using proxy = typename LuaReference<T>::proxy;
-        static proxy get( lua_State *const L, int const stack_index ) {
+        static proxy get( lua_State *const L, const int stack_index ) {
             if( LuaValue<T>::has( L, stack_index ) ) {
                 return proxy{ &LuaValue<T>::get( L, stack_index ) };
             }
             return LuaReference<T>::get( L, stack_index );
         }
-        static void check( lua_State *const L, int const stack_index ) {
+        static void check( lua_State *const L, const int stack_index ) {
             if( LuaValue<T>::has( L, stack_index ) ) {
                 return;
             }
             LuaValue<T *>::check( L, stack_index );
         }
-        static bool has( lua_State *const L, int const stack_index ) {
+        static bool has( lua_State *const L, const int stack_index ) {
             return LuaValue<T>::has( L, stack_index ) || LuaValue<T *>::has( L, stack_index );
         }
 };

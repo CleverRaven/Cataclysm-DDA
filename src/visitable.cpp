@@ -635,22 +635,22 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     }
 
     // fetch the appropriate item stack
-    int x = 0;
-    int y = 0;
-    submap *sub = g->m.get_submap_at( *cur, x, y );
+    point offset;
+    submap *sub = g->m.get_submap_at( *cur, offset );
 
-    for( auto iter = sub->itm[ x ][ y ].begin(); iter != sub->itm[ x ][ y ].end(); ) {
+    for( auto iter = sub->itm[ offset.x ][ offset.y ].begin();
+         iter != sub->itm[ offset.x ][ offset.y ].end(); ) {
         if( filter( *iter ) ) {
             // check for presence in the active items cache
-            if( sub->active_items.has( iter, point( x, y ) ) ) {
-                sub->active_items.remove( iter, point( x, y ) );
+            if( sub->active_items.has( iter, offset ) ) {
+                sub->active_items.remove( iter, offset );
             }
 
             // if necessary remove item from the luminosity map
-            sub->update_lum_rem( *iter, x, y );
+            sub->update_lum_rem( offset, *iter );
 
             // finally remove the item
-            res.splice( res.end(), sub->itm[ x ][ y ], iter++ );
+            res.splice( res.end(), sub->itm[ offset.x ][ offset.y ], iter++ );
 
             if( --count == 0 ) {
                 return res;

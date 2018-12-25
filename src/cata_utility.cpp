@@ -209,7 +209,7 @@ double convert_velocity( int velocity, const units_type vel_units )
                 break;
         }
     } else if( type == "t/t" ) {
-        ret /= 10;
+        ret /= 4;
     }
 
     return ret;

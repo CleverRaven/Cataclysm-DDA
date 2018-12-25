@@ -16,7 +16,7 @@
 
 weather_animation_t get_weather_animation( weather_type const type )
 {
-    static std::map<weather_type, weather_animation_t> const map {
+    static const std::map<weather_type, weather_animation_t> map {
         {WEATHER_ACID_DRIZZLE, weather_animation_t {0.01f, c_light_green, '.'}},
         {WEATHER_ACID_RAIN,    weather_animation_t {0.02f, c_light_green, ','}},
         {WEATHER_DRIZZLE,      weather_animation_t {0.01f, c_light_blue,  '.'}},
@@ -28,7 +28,7 @@ weather_animation_t get_weather_animation( weather_type const type )
         {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}}
     };
 
-    auto const it = map.find( type );
+    const auto it = map.find( type );
     if( it != std::end( map ) ) {
         return it->second;
     }
@@ -44,7 +44,7 @@ weather_datum const weather_data( weather_type const type )
      * light modifier, sound attenuation, warn player?
      * Note light modifier assumes baseline of DAYLIGHT_LEVEL at 60
      */
-    static std::array<weather_datum, NUM_WEATHER_TYPES> const data {{
+    static const std::array<weather_datum, NUM_WEATHER_TYPES> data {{
             weather_datum {
                 "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta,
                 0, 0.0f, 0, 0, false,
@@ -100,7 +100,7 @@ weather_datum const weather_data( weather_type const type )
             }
         }};
 
-    auto const i = static_cast<size_t>( type );
+    const auto i = static_cast<size_t>( type );
     if( i < NUM_WEATHER_TYPES ) {
         weather_datum localized = data[i];
         localized.name = _( localized.name.c_str() );
@@ -147,7 +147,7 @@ int calc_hourly_rotpoints_at_temp( const int temp )
  * Initialize the rot table.
  * @see rot_chart
  */
-std::vector<int> calc_rot_array( size_t const cap )
+std::vector<int> calc_rot_array( const size_t cap )
 {
     std::vector<int> ret;
     ret.reserve( cap );
@@ -166,7 +166,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
     /**
      * Precomputed rot lookup table.
      */
-    static std::vector<int> const rot_chart = calc_rot_array( 200 );
+    static const std::vector<int> rot_chart = calc_rot_array( 200 );
 
     if( temp < 0 ) {
         return 0;

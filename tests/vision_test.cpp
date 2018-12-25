@@ -96,7 +96,7 @@ void full_map_test( const std::vector<std::string> &setup,
         }
     }
 
-    // We have to run thw whole thing twice, because the first time through the
+    // We have to run the whole thing twice, because the first time through the
     // player's vision_threshold is based on the previous lighting level (so
     // they might, for example, have poor nightvision due to having just been
     // in daylight)

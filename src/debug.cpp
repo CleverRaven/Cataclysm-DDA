@@ -187,12 +187,12 @@ void limitDebugClass( int class_bitmask )
 
 #ifdef BACKTRACE
 #if defined _WIN32 || defined _WIN64
-int constexpr module_path_len = 512;
+constexpr int module_path_len = 512;
 // on some systems the number of frames to capture have to be less than 63 according to the documentation
-int constexpr bt_cnt = 62;
-int constexpr max_name_len = 512;
+constexpr int bt_cnt = 62;
+constexpr int max_name_len = 512;
 // ( max_name_len - 1 ) because SYMBOL_INFO already contains a TCHAR
-int constexpr sym_size = sizeof( SYMBOL_INFO ) + ( max_name_len - 1 ) * sizeof( TCHAR );
+constexpr int sym_size = sizeof( SYMBOL_INFO ) + ( max_name_len - 1 ) * sizeof( TCHAR );
 static char mod_path[module_path_len];
 static PVOID bt[bt_cnt];
 static struct {
@@ -229,7 +229,7 @@ struct time_info {
     int mseconds;
 
     template <typename Stream>
-    friend Stream &operator<<( Stream &out, time_info const &t ) {
+    friend Stream &operator<<( Stream &out, const time_info &t ) {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
@@ -260,8 +260,8 @@ time_info get_time() noexcept
     timeval tv;
     gettimeofday( &tv, nullptr );
 
-    auto const tt      = time_t {tv.tv_sec};
-    auto const current = localtime( &tt );
+    const auto tt      = time_t {tv.tv_sec};
+    const auto current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
                        static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
@@ -312,9 +312,6 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 {
     switch( output_mode ) {
         case DebugOutput::std_err:
-            struct null_deleter {
-                void operator()( std::ostream * ) const {}
-            };
             file = std::shared_ptr<std::ostream>( &std::cerr, null_deleter() );
             return;
         case DebugOutput::file: {
@@ -574,7 +571,7 @@ void debug_write_backtrace( std::ostream &out )
             DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
             // mod_len == module_path_len means insufficient buffer
             if( mod_len > 0 && mod_len < module_path_len ) {
-                char const *mod_name = mod_path + mod_len;
+                const char *mod_name = mod_path + mod_len;
                 for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
                 }
                 out << mod_name;

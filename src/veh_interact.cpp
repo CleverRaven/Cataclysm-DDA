@@ -670,13 +670,19 @@ bool veh_interact::can_install_part() {
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
-    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, %3$i is skill level, %4$s represents the internal color name which shouldn't be translated, and %5$i is the strength number
-    msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                          status_color( use_aid ), qual.obj().name.c_str(), lvl,
-                          status_color( use_str ), str ) << "\n";
 
-    std::string install_color = string_format( "%s",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
-    sel_vpart_info->format_description( msg, install_color, getmaxx( w_msg ) - 4 );
+    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
+    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
+
+    //~ %1$s is quality name, %2$d is quality level
+    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+                                            qual.obj().name.c_str(), lvl );
+    std::string str_string = string_format( _( "strength %d" ), str );
+    msg << string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                          colorize( aid_string, aid_color),
+                          colorize( str_string, str_color) ) << "\n";
+
+    sel_vpart_info->format_description( msg, "<color_light_gray>", getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
@@ -1126,6 +1132,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     std::map<std::string, std::function<void( const catacurses::window &, int )>> headers;
 
+    int epower_w = veh->total_epower_w();
     headers["ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray,
         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
@@ -1137,23 +1144,34 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Tanks" ) );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    headers["BATTERY"] = [this]( const catacurses::window & w, int y ) {
-        int epower_w = veh->total_epower_w();
+    headers["BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
         if( abs( epower_w ) < 10000 ) {
-            batt = string_format( _( "Batteries: %s%s%4d W</color>" ),
-                                  health_color( epower_w >= 0 ),
-                                  epower_w > 0 ? "+" : "", epower_w );
+            batt = string_format( _( "Batteries: %s%+4d W</color>" ),
+                                  health_color( epower_w >= 0 ), epower_w );
         } else {
-            batt = string_format( _( "Batteries: %s%s%4.1f kW</color>" ),
-                                  health_color( epower_w >= 0 ),
-                                  epower_w > 0 ? "+" : "", epower_w / 1000.0 );
+            batt = string_format( _( "Batteries: %s%+4.1f kW</color>" ),
+                                  health_color( epower_w >= 0 ), epower_w / 1000.0 );
         }
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    headers["REACTOR"] = []( const catacurses::window & w, int y ) {
-        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Reactors" ) );
+    headers["REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+        int reactor_epower_w = veh->total_reactor_epower_w();
+        if( reactor_epower_w > 0 && epower_w < 0 ) {
+             reactor_epower_w += epower_w;
+        }
+        std::string reactor;
+        if( reactor_epower_w == 0 ) {
+            reactor = _( "Reactors" );
+        } else if( reactor_epower_w < 10000 ) {
+            reactor = string_format( _( "Reactors: Up to %s%+4d W</color>" ),
+                                     health_color( reactor_epower_w ), reactor_epower_w );
+        } else {
+            reactor = string_format( _( "Reactors: Up to %s%+4.1f kW</color>" ),
+                                     health_color( reactor_epower_w ), reactor_epower_w / 1000.0 );
+        }
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, reactor );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
     headers["TURRET"] = []( const catacurses::window & w, int y ) {
@@ -2081,29 +2099,35 @@ void veh_interact::display_stats()
 
     // Write the most damaged part
     if( mostDamagedPart ) {
-        char const *damaged_header = mostDamagedPart == most_repairable ?
+        const char *damaged_header = mostDamagedPart == most_repairable ?
                                             _( "Most damaged:" ) : _( "Most damaged (can't repair):" );
         print_part( damaged_header, 6, mostDamagedPart );
     }
     // Write the part that needs repair the most.
     if( most_repairable && most_repairable != mostDamagedPart ) {
-        char const * needsRepair = _( "Needs repair:" );
+        const char * needsRepair = _( "Needs repair:" );
         print_part( needsRepair, 7, most_repairable );
     }
 
     bool is_boat = !veh->floating.empty();
 
-    fold_and_print(w_stats, y[8], x[8], w[8], c_light_gray,
-                   _("K aerodynamics: <color_light_blue>%3d</color>%%"),
-                   int(veh->k_aerodynamics() * 100));
-    fold_and_print(w_stats, y[9], x[9], w[9], c_light_gray,
-                   _("K friction:     <color_light_blue>%3d</color>%%"),
-                   int(veh->k_friction() * 100));
-    fold_and_print(w_stats, y[10], x[10], w[10], c_light_gray,
-                   _("K mass:         <color_light_blue>%3d</color>%%"),
-                   int(veh->k_mass() * 100));
+    fold_and_print( w_stats, y[8], x[8], w[8], c_light_gray,
+                   _( "Air drag:       <color_light_blue>%5.2f</color>" ),
+                   veh->coeff_air_drag() );
+    if( is_boat ) {
+        fold_and_print( w_stats, y[9], x[9], w[9], c_light_gray,
+                       _( "Water drag:     <color_light_blue>%5.2f</color>"),
+                       veh->coeff_water_drag() );
+    } else {
+        fold_and_print( w_stats, y[9], x[9], w[9], c_light_gray,
+                       _( "Rolling drag:   <color_light_blue>%5.2f</color>"),
+                       veh->coeff_rolling_drag() );
+    }
+    fold_and_print( w_stats, y[10], x[10], w[10], c_light_gray,
+                   _( "Static drag:    <color_light_blue>%5d</color>"),
+                   veh->static_drag( false ) );
     fold_and_print( w_stats, y[11], x[11], w[11], c_light_gray,
-                    _("Offroad:        <color_light_blue>%3d</color>%%"),
+                    _( "Offroad:        <color_light_blue>%4d</color>%%" ),
                     int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
@@ -2257,34 +2281,35 @@ void veh_interact::display_details( const vpart_info *part )
     fold_and_print( w_details, line, col_1, details_w, c_light_green, part->name() );
 
     // line 1: (column 1) durability   (column 2) damage mod
-    fold_and_print(w_details, line+1, col_1, column_width, c_white,
-                   "%s: <color_light_gray>%d</color>",
-                   small_mode ? _("Dur") : _("Durability"),
-                   part->durability);
-    fold_and_print(w_details, line+1, col_2, column_width, c_white,
-                   "%s: <color_light_gray>%d%%</color>",
-                   small_mode ? _("Dmg") : _("Damage"),
-                   part->dmg_mod);
+    fold_and_print( w_details, line + 1, col_1, column_width, c_white,
+                    "%s: <color_light_gray>%d</color>",
+                    small_mode ? _("Dur") : _("Durability"),
+                    part->durability);
+    fold_and_print( w_details, line + 1, col_2, column_width, c_white,
+                    "%s: <color_light_gray>%d%%</color>",
+                    small_mode ? _("Dmg") : _("Damage"),
+                    part->dmg_mod);
 
     // line 2: (column 1) weight   (column 2) folded volume (if applicable)
-    fold_and_print(w_details, line+2, col_1, column_width, c_white,
-                   "%s: <color_light_gray>%.1f%s</color>",
-                   small_mode ? _("Wgt") : _("Weight"),
-                   convert_weight( item::find_type( part->item )->weight ),
-                   weight_units());
+    fold_and_print( w_details, line + 2, col_1, column_width, c_white,
+                    "%s: <color_light_gray>%.1f%s</color>",
+                    small_mode ? _("Wgt") : _("Weight"),
+                    convert_weight( item::find_type( part->item )->weight ),
+                    weight_units() );
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
                        "%s: <color_light_gray>%s %s</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
-                       format_volume( part->folded_volume ).c_str(),
+                       format_volume( part->folded_volume ),
                        volume_units_abbr() );
     }
 
     // line 3: (column 1) size, bonus, wheel diameter (if applicable)    (column 2) epower, wheel width (if applicable)
     if( part->size > 0 && part->has_flag( VPFLAG_CARGO ) ) {
-        fold_and_print( w_details, line+3, col_1, column_width, c_white,
-                       "%s: <color_light_gray>%s %s</color>", small_mode ? _( "Cap" ) : _( "Capacity" ),
-                       format_volume( part->size ).c_str(), volume_units_abbr() );
+        fold_and_print( w_details, line + 3, col_1, column_width, c_white,
+                       "%s: <color_light_gray>%s %s</color>",
+                       small_mode ? _( "Cap" ) : _( "Capacity" ),
+                       format_volume( part->size ), volume_units_abbr() );
     }
 
     if( part->bonus > 0 ) {
@@ -2306,43 +2331,42 @@ void veh_interact::display_details( const vpart_info *part )
 
         if( !label.empty() ) {
             fold_and_print( w_details, line+3, col_1, column_width, c_white,
-                            "%s: <color_light_gray>%d</color>", label.c_str(),
+                            "%s: <color_light_gray>%d</color>", label,
                             part->bonus );
         }
     }
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
         cata::optional<islot_wheel> whl = item::find_type( part->item )->wheel;
-        fold_and_print( w_details, line+3, col_1, column_width, c_white,
-                            "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
-                            whl->diameter );
-        fold_and_print( w_details, line+3, col_2, column_width, c_white,
-                            "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
-                            whl->width );
+        fold_and_print( w_details, line + 3, col_1, column_width, c_white,
+                        "%s: <color_light_gray>%d\"</color>",
+                        small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
+                        whl->diameter );
+        fold_and_print( w_details, line + 3, col_2, column_width, c_white,
+                        "%s: <color_light_gray>%d\"</color>",
+                        small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
+                        whl->width );
     }
 
     if ( part->epower != 0 ) {
-        fold_and_print(w_details, line+3, col_2, column_width, c_white,
-                       "%s: %c<color_light_gray>%d</color>",
-                       small_mode ? _("Bat") : _("Battery"),
-                       part->epower < 0 ? '-' : '+',
-                       abs(part->epower));
+        fold_and_print( w_details, line + 3, col_2, column_width, c_white,
+                        "%s: <color_light_gray>%+4d</color>",
+                        small_mode ? _( "Epwr" ) : _("Electric Power" ),
+                        part->epower );
     }
 
     // line 4 [horizontal]: fuel_type (if applicable)
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     // line 5 [horizontal]: power (if applicable)
     if ( part->fuel_type != "null" ) {
-        fold_and_print( w_details, line+4, col_1, column_width,
-                        c_white, _("Charge: <color_light_gray>%s</color>"),
-                        item::nname( part->fuel_type ).c_str() );
+        fold_and_print( w_details, line + 4, col_1, column_width,
+                        c_white, _( "Charge: <color_light_gray>%s</color>" ),
+                        item::nname( part->fuel_type ) );
     }
-    int part_power = part->power;
-    if( part_power == 0 ) {
-        part_power = item( part->item ).engine_displacement();
-    }
-    if ( part_power != 0 ) {
-        fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_light_gray>%d</color>" ), part_power );
+    int part_consumption = part->energy_consumption;
+    if ( part_consumption != 0 ) {
+        fold_and_print( w_details, line + 4, col_2, column_width, c_white,
+                        _( "Drain: <color_light_gray>%+8d</color>" ), -part_consumption );
     }
 
     // line 5 [vertical/hybrid] flags
@@ -2350,18 +2374,29 @@ void veh_interact::display_details( const vpart_info *part )
     std::vector<std::string> flag_labels = { { _("opaque"), _("openable"), _("boardable") } };
     std::string label;
     for ( size_t i = 0; i < flags.size(); i++ ) {
-        if ( part->has_flag(flags[i]) ) {
+        if ( part->has_flag( flags[i] ) ) {
             label += ( label.empty() ? "" : " " ) + flag_labels[i];
         }
     }
     // 6 [horizontal]: (column 1) flags    (column 2) battery capacity (if applicable)
     fold_and_print(w_details, line + 5, col_1, details_w, c_yellow, label);
 
-    if( part->fuel_type == "battery" && !part->has_flag( VPFLAG_ENGINE ) && !part->has_flag( VPFLAG_ALTERNATOR ) ) {
+    if( part->fuel_type == "battery" && !part->has_flag( VPFLAG_ENGINE ) &&
+        !part->has_flag( VPFLAG_ALTERNATOR ) ) {
         cata::optional<islot_magazine> battery = item::find_type( part->item )->magazine;
         fold_and_print( w_details, line + 5, col_2, column_width, c_white,
-                        "%s: <color_light_gray>%d</color>", small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
+                        "%s: <color_light_gray>%8d</color>",
+                        small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
                         battery->capacity );
+    } else {
+        int part_power = part->power;
+        if( part_power == 0 ) {
+            part_power = item( part->item ).engine_displacement();
+        }
+        if ( part_power != 0 ) {
+            fold_and_print( w_details, line + 5, col_2, column_width, c_white,
+                            _( "Power: <color_light_gray>%+8d</color>" ), part_power );
+        }
     }
 
     wrefresh(w_details);

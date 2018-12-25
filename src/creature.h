@@ -130,7 +130,7 @@ class Creature
         /**
          * Creature Attitude as String and color
          */
-        static std::pair<std::string, nc_color> const &get_attitude_ui_data( Attitude att );
+        static const std::pair<std::string, nc_color> &get_attitude_ui_data( Attitude att );
 
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.

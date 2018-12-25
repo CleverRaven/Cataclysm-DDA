@@ -313,7 +313,7 @@ class game
         template<typename T = Creature>
         T * critter_at( const tripoint &p, bool allow_hallucination = false );
         template<typename T = Creature>
-        T const * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        const T * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
         /**
          * Returns a shared pointer to the given critter (which can be of any of the subclasses of
          * @ref Creature). The function may return an empty pointer if the given critter
@@ -653,6 +653,7 @@ class game
         std::vector<npc *> allies();
 
     private:
+        std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
         int ter_view_x;
@@ -820,10 +821,10 @@ class game
         void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false );
-        void draw_hit_player( player const &p, int dam );
-        void draw_line( const tripoint &p, const tripoint &center_point, std::vector<tripoint> const &ret );
-        void draw_line( const tripoint &p, std::vector<tripoint> const &ret );
-        void draw_weather( weather_printable const &wPrint );
+        void draw_hit_player( const player &p, int dam );
+        void draw_line( const tripoint &p, const tripoint &center_point, const std::vector<tripoint> &ret );
+        void draw_line( const tripoint &p, const std::vector<tripoint> &ret );
+        void draw_weather( const weather_printable &wPrint );
         void draw_sct();
         void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
         // Draw critter (if visible!) on its current position into w_terrain.

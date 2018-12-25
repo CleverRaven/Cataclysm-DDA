@@ -899,7 +899,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
         return vec;
     } else if( action == "pause" ) {
-        return tripoint( 0, 0, 0 );
+        return tripoint_zero;
     } else if( action == "LEVEL_UP" ) {
         return tripoint( 0, 0, 1 );
     } else if( action == "LEVEL_DOWN" ) {

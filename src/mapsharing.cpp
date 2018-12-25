@@ -88,19 +88,19 @@ void MAP_SHARING::setDefaults()
 
 #ifndef __linux__ // make non-Linux operating systems happy
 
-int getLock( char const * )
+int getLock( const char * )
 {
     return 0;
 }
 
-void releaseLock( int, char const * )
+void releaseLock( int, const char * )
 {
     // Nothing to do.
 }
 
 #else
 
-int getLock( char const *lockName )
+int getLock( const char *lockName )
 {
     mode_t m = umask( 0 );
     int fd = open( lockName, O_RDWR | O_CREAT, 0666 );
@@ -112,7 +112,7 @@ int getLock( char const *lockName )
     return fd;
 }
 
-void releaseLock( int fd, char const *lockName )
+void releaseLock( int fd, const char *lockName )
 {
     if( fd < 0 ) {
         return;

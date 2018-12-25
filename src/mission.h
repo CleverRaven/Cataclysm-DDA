@@ -81,8 +81,7 @@ struct mission_place {
 struct mission_start_t {
     void set_reveal( const std::string &terrain );
     void set_reveal_any( JsonArray &ja );
-    void set_target_om( JsonObject &jo, bool random );
-    void set_target_om_or_create( JsonObject &jo );
+    void set_assign_mission_target( JsonObject &jo );
     void load( JsonObject &jo );
     void apply( mission *miss ) const;
     std::vector<std::function<void( mission *miss )>> start_funcs;

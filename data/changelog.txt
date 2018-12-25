@@ -1,4 +1,4 @@
-# 0.D (806a38a87f5169ab9aa00b708cbe7a3e59c3d108)
+# 0.D (2018-12-01)
 
 ## Features:
 
@@ -138,16 +138,38 @@ Carrion can now eat adjacent crops or food.
 Allow place_monster to optionally place a randomized monster using a weighted list.
 Adds firewood source that automatically adds fuel to fire when it is 2/3s consumed.
 Make chickens and other small domestic birds tamable (Chickenfeed)
-Vehicles: Open all doors
+Vehicles: Open all doors.
 Implement player faction base.
 Artifact dreams.
 Horde improvements: Better displays & zombie lurkers.
-Schizophrenic Overhaul,
+Schizophrenic Overhaul.
 Option to spawn starting npc.
 Field dressing corpses aka Butchery overhaul.
 Smoking rack interactions expansion.
 Freezer & freeze mechanics overhaul.
 Add reminder effects for some medicine.
+Added infrastructure for setting a farm plot zone and triggering actions across the entire zone.
+Hot air and direct heat radiation from fires affect local temperature and can heat nearby area including interiors.
+Add support for solid fuels like coal for vehicle engines.
+Zone manager hides distant zones, shortcut for showing all zones.
+New lua feature: Lua-coded monster attack.
+Copy World Settings to a new world.
+New MOD feature: Add graphical tiles.
+Introduces 'Tip of the day' in main menu.
+Save pooltype and remaining skill-, trait- and statpoints in character template.
+Item infos for medication. (Quench, Fun, Stimulation, Portions, Addicting)
+Added map memory.
+Added a button to hide recipes in the crafting menu.
+Adds loadable bike racks.
+Allow hauling items along the ground.
+Added auto foraging of bushes and trees.
+Added autopickup rules based on material types.
+Artifacts can consume Portals.
+Update the fireman belt to allow attachments from fire axes, war hammers, and maces.
+Adds stealth modifier as JSON-ized mutation property.
+npctalk: add support for NPC backstories.
+npctalk: NPC group commands to guard and follow.
+npc: Warn the player about dangerous monsters.
 
 ## Content:
 
@@ -246,6 +268,25 @@ New mutation category: Mouse 🐁
 Injectable mutagen finales, targetable purifier smart shots.
 Overhauling tank drone.
 Add refugee center start (costs 1 point).
+Adds vehicle wreckages (of crashed helicopters) to helicopter crash-sites.
+Adds ant-infested labs.
+Adds the incandescent husk, an evolution of the shocker zombie that moves slowly and emits a lightning cloud
+Removed CBM crafting.
+Adds new location 'Mass Grave'.
+Added extensive new lab-based scenarios, areas and monsters.
+Added camping scenario and additional camp related start_locations.
+Adds the Intravenous Needletip and Titanium Skeletal Bracing CBMs.
+Adding new starting scenario at refugee center.
+The Fish mutation tree now has unique, post-threshold mutations.
+Labs can have funagloid portals, lab escape allows crowbar.
+Many options for using miscelaneous items as improvised tools.
+Perception stat now determines overmap visibility, and the Topographagnosia trait is now available.
+Added railroad station overmap special.
+Re-implements old start location options to the Challenge-Lab scenario.
+Implementation to support use of JSON snippets for procedural music descriptions.
+Adds LivePeople Tileset.
+Add forest trails.
+Add new pond map extra.
 
 ## Interface:
 
@@ -431,6 +472,47 @@ Martial arts techniques description.
 Show activation and deactivation cost for all bionics that have them.
 Ask to ignore repeating distractions when performing an activity.
 Added filtering by skill to Read menu.
+Add scrolling the overview pane in the vehicle interaction window.
+Reduce clutter of [B]utcher UI by stacking identical salvage/disassemble targets.
+Adds (mushy) suffix to mushy food and highlights impact on joy in 'Eat' menu.
+Added feedback for contained fire's expected time left, before it goes out.
+Limb selection menu shows if limb is already bandaged or disinfected.
+NPC follower warns on sleeping and sleep when you do.
+Players can now save before sleeping and set an alarm at the same time.
+"New Note" UI has been upgraded with colors and a live preview.
+Migrate menu handling to uilist interface.
+Added looks_like for targeted tile fallback.
+Adds quality filtering to item search.
+Android on-screen keyboard now automatically appears for menu filters, advanced inventory filter, inventory filter, and creating map notes.
+Message window overhaul: filtering, page scrolling, and better interface.
+Show related craftable items for current recipe by hotkey.
+Adds descriptions for zone types.
+Worn clothing placed into a sane layer by default.
+Scrollable MOTD and Credits.
+Allow viewing long mod descriptions.
+Amount of mods of an item is now displayed as an integer following its name.
+Android quick shortcut dimensions now account for screen density, defaulting to a sensible size on all devices.
+Many options for selecting units to display.
+npctalk: create a big dialogue window.
+Even when only capital inputs are allowed, using lowercase inputs should still set the dialog cursor.
+Enhanced limb menu (body window) and textified healing related effects.
+B menu show butcher, disassemble and salvage times.
+Adds favorite recipes and recently crafted tabs to crafting menu.
+Clarify crafting skills requirements text.
+Gray out redundant tool quality requirements.
+Show what will result from vehicle part removal.
+Clearer crafting search help window.
+Adds 'toggle fast scroll' option to overmap UI.
+Adaptively stack perishables based on remaining time before rot.
+Use more meaningful vehicle part names in messages.
+Highlight 'on' toggle-able parts in vehicle use menus.
+Highlight selected martial arts style in menu.
+Crafting searches for primary skill and result description.
+Tag clothes that do not fit, rather than clothes that do.
+Prevent seeing light through walls.
+Make walls sensibly visible at night.
+Have vehicles become dark inside when that makes sense.
+Allow toggling display of forest trails on the overmap.
 
 ## Mods:
 
@@ -486,6 +568,10 @@ Allow adding contents to existing monster groups in JSON.
 Safe autodoc mod, a dependency of Bright Nights.
 Makes Crazy Cataclysm a little crazier.
 Nested mapgen structures.
+Added Fuji's Struct mod.
+Salvaged Robots mod.
+Partially moved Folding Parts Mod to base game.
+Convert Bright Nights region_settings to region_overlay.
 
 ## Balance:
 
@@ -638,6 +724,21 @@ Make portals unavoidably teleport you.
 Removed ability of losing existing CBMs due installation fails.
 Vary horde speed based on monsters in horde.
 Obsolete impossible gunmods.
+Create LOUDMOVES flag, add to secubots.
+Lumber no longer made from / substitute for long stick.
+Fix OP throwing.
+Perception stat now determines overmap visibility, and the Topographagnosia trait is now available.
+Added FILTHY tag, monsters with the tag now drop dirty clothing.
+Portable sleeping bags.
+Removes the vac_sealer requirement from sealed glass jar recipes, adds canning pot, updates recipes.
+Allow crafting a fur rollmat with tanned pelts.
+Wearing clothing out of natural layer order now imposes additional encumbrance.
+Added deconstruct recipe for vehicle controls, reduced component requirements for crafting controls.
+Adjusted weights of mammals from the category defaults to averages of real values.
+Let one screwdriver recipes produce screwdriver set.
+Flowers won't collide with vehicles no more.
+Increase HP of paper-thin palisades.
+Many animals such as coyotes and dogs are now less aggressive across the board.
 
 ## Bugfixes:
 
@@ -714,6 +815,47 @@ Fixed stuck movement after holding numpad keys in SDL version.
 Fix crash when NPC tries to take off and drop items where he can't when asked to wear something.
 Fix display of isolated linear tiles.
 Fix for excessive overheating from fire sources.
+Fix creatures being able to see you through cameras and mirrors.
+Remove explosion effect from small arms ammo put into fire.
+Fix crash/weird behavior when handling items while over-encumbered/
+Fixes the autoattack range for HAS_REACH weapons when the gameworld is circular.
+Fix drinking from 'aluminum can' segfault.
+Fix crash with no audio device.
+Fixes creatures not setting off traps or falling z-levels after being flung.
+Fix crash when resizing window during character creation.
+Fix overmap special exhaustion when placing mandatory specials.
+Prevents players from inheriting each other's deafness.
+Fix for melee sound related crashes.
+Disable recharging vehicle batteries from handheld batteries.
+fix for crash to desktop when player tries to remove charcoal or food from smoking rack
+Fix throwing stacks of items.
+Fix wrong tripoint usage for temperature calculations.
+Make trying to sleep into an activity.
+Fix items going spoiled while crafting.
+Sort out of spilled liquid infinite loop fix.
+The internal furnace can only consume itens up to a maximum mass and volume.
+Fix vehicle part install CTD.
+Recalculate morale after washing filthy worn items.
+Avoid invlet clashes on worn items.
+Prefer dropping items into vehicle cargo spaces where available in more situations.
+Fix traps ignoring monster armor.
+Vehicles: make the vehicle split code more robust and stop game crashes.
+Use maps on all zlevels so they actually reveal things.
+Fix crash when talking to ranch foreman about prospectus; Fix agricultural investment option not functioning.
+Consistent fireproof / firey monsters immunity to fire-related fields.
+Type cast for prevention of integer overflow with large volume containers like cargo containers.
+Bionics: connect cable charger systems to vehicles.
+Unloading plutonium from vehicles now gives the correct amount.
+NPC missions: clear the mission during the failure talk topic.
+Fixed crash related to unbound direction action.
+Reduce quarter-corpse butchering times to 1/4th of full corpse.
+Set max for item stack charges, container volume and cargo volume.
+Prevent heat induced vomiting until dead.
+Folding vehicles: improve collision test when unfolding.
+Fix item category names not updated when switching the language.
+Fixed lightmap-related crashes in MinGW 64-bit executables.
+npc: NPCs on guard duty in a vehicle stay in the vehicle.
+Fixes isometric tile rendering.
 
 ## Performance:
 
@@ -753,6 +895,9 @@ Cache values in season_of_year and reuse on same turn.
 Remove unneeded SDL_RenderSetLogicalSize.
 Use map::points_in_radius instead of manual iterating.
 Reduce Submap constant memory requirements of Cosmetic strings.
+Reduce memory consumption for soundpacks.
+Fix lag due to copying player objects.
+Encode mapbuffer terrain data using RLE scheme for smaller save files.
 
 ## Infrastructure:
 
@@ -865,6 +1010,46 @@ Added FRAGILE_MELEE flag to represent fragile melee weapons.
 Unicode support for SCT.
 Update vehicleDef.py to produce better vehicle templates.
 Move fuel and engine parameters to JSON.
+Added pull request template.
+Adds the Debug Bionic Power trait.
+Fix flaky explosion regression test.
+Detect unexpected mutation failure in the mutation unit test.
+Jsonize large swaths of NPC dialogue.
+Enhance generation of forest tiles with terrain-dependent furniture and forest composition attributes.
+Conversion of nutrition to calories (kcal).
+Allow constructions to spawn byproduct items.
+Implement proper vehicle part iterator and range.
+Add script to generate Changelog from SUMMARY lines in Pull Requests.
+Make input timeout context-specific.
+Npctalk to JSON: Move most NPC dialog to JSON.
+Properly implement time duration string alignment.
+made_of_any(materials) for creature.
+Add the option to create Changelogs grouped by Build to generate_changelog.py
+POSIX crash handling and backtrace improvements.
+Add support for deferral of player movement, use it to fix two bugs.
+Load time duration from string (containing units).
+Converts monster size to weight and volume.
+Replace usage of sentinel tripoint_min with cata::optional.
+Add more functions to vpart_position and vpart_reference
+Move most NPC dialogue into JSON
+Better clarity in item description code
+clean up handling of vehicle power to always use watts
+Add error reporting to many calls of SDL function
+Final cleanup of uimenu -> uilist migration
+Changes various functions in `vehicle` to take arguments as a single `point` instead of x,y values.
+Replace usage of raw managed pointers with values / managed pointers
+Do not ask for retarget when opening projects in Visual Studio
+Print the Cataclysm version number in the debug log
+Fix foldstring ignoring multiple linebreaks
+Make point and tripoint literal so they can be used in constexpr contexts.
+Move most NPC dialogue into JSON.
+Clean up handling of vehicle power to always use watts.
+Replace usage of raw managed pointers with values / managed pointers.
+Do not ask for retarget when opening projects in Visual Studio.
+Print the Cataclysm version number in the debug log.
+POSIX backtraces now work for installed binaries and position-independent executables.
+Improved CI infrastructure error handling.
+Allow explicit specification of overmap special connection type.
 
 ## Build:
 
@@ -932,6 +1117,13 @@ Debug stack trace & crash handler for Windows.
 Add PR validator to ensure use of a summary line.
 Android build standup.
 Add unit test for NPC movement fixes.
+Fixed Android build regression.
+Change MSVC configs to build test executable.
+Faster builds with CMake.
+Vehicle power test: make it more consistent.
+Visual Studio solution with vcpkg support.
+Use travis build stages.
+Run tests under AddressSanitizer in Travis CI.
 
 ## I18N and A11Y:
 

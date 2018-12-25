@@ -4,6 +4,7 @@
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "clzones.h"
 #include "damage.h"
 #include "item.h"
 #include "item_group.h"
@@ -42,6 +43,7 @@ namespace vehicles
 extern point cardinal_d[5];
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
+constexpr float vmiph_per_tile = 400.0f;
 }
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor( float delta_v );
@@ -141,13 +143,13 @@ struct vehicle_part {
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
-        bool has_flag( int const flag ) const noexcept {
+        bool has_flag( const int flag ) const noexcept {
             return flag & flags;
         }
-        int  set_flag( int const flag )       noexcept {
+        int  set_flag( const int flag )       noexcept {
             return flags |= flag;
         }
-        int  remove_flag( int const flag )    noexcept {
+        int  remove_flag( const int flag )    noexcept {
             return flags &= ~flag;
         }
 
@@ -570,8 +572,8 @@ class vehicle
         bool has_structural_part( point dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
-        bool is_connected( vehicle_part const &to, vehicle_part const &from,
-                           vehicle_part const &excluded ) const;
+        bool is_connected( const vehicle_part &to, const vehicle_part &from,
+                           const vehicle_part &excluded ) const;
         void add_missing_frames();
         void add_steerable_wheels();
 
@@ -664,16 +666,16 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( player const &p ) const;
+        bool player_in_control( const player &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( player const &p ) const;
+        bool remote_controlled( const player &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int veh_init_fuel, int veh_init_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point( 0, 0 ),
+                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero,
                     float damage_size = 0 );
 
         void serialize( JsonOut &jsout ) const;
@@ -971,7 +973,7 @@ class vehicle
         int basic_consumption( const itype_id &ftype ) const;
         int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( int load, const int t_seconds = 6 );
+        void consume_fuel( int load, const int t_seconds = 6, bool skip_battery = false );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -990,6 +992,8 @@ class vehicle
         // Calculate vehicle's total drain or production of electrical power, optionally
         // including nominal solar power.  Return engine power as engine_power
         int total_epower_w( int &engine_power, bool skip_solar = true );
+        // Calculate the total available power rating of all reactors
+        int total_reactor_epower_w() const;
         // Produce and consume electrical power, with excess power stored or taken from
         // batteries
         void power_parts();
@@ -1038,6 +1042,8 @@ class vehicle
         int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
         int current_acceleration( bool fueled = true ) const;
 
+        // is the vehicle currently moving?
+        bool is_moving() const;
         // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted
         int max_velocity( bool fueled = true ) const;
@@ -1060,43 +1066,8 @@ class vehicle
 
         /**
          * Physical coefficients used for vehicle calculations.
-         * All coefficients have values ranging from 1.0 (ideal) to 0.0 (vehicle can't move).
          */
         /*@{*/
-        /**
-         * Combined coefficient of aerodynamic and wheel friction resistance of vehicle.
-         * Safe velocity and acceleration are multiplied by this value.
-         */
-        float k_dynamics() const;
-
-        /**
-         * Wheel friction coefficient of the vehicle.
-         * Inversely proportional to (wheel area + constant).
-         *
-         * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
-         */
-        float k_friction() const;
-
-        /**
-         * Air friction coefficient of the vehicle.
-         * Affected by vehicle's width and non-passable tiles.
-         * Calculated by projecting rays from front of the vehicle to its back.
-         * Each ray that contains only passable vehicle tiles causes a small penalty,
-         * and each ray that contains an unpassable vehicle tile causes a big penalty.
-         *
-         * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
-         */
-        float k_aerodynamics() const;
-
-        /**
-         * Mass coefficient of the vehicle.
-         * Roughly proportional to vehicle's mass divided by wheel area, times constant.
-         *
-         * Affects safe velocity (moderately), acceleration (heavily).
-         * Also affects braking (including hand-braking) and velocity drop during coasting.
-         */
-        float k_mass() const;
-
         /**
          * coefficient of air drag in kg/m
          * multiplied by the square of speed to calculate air drag force in N
@@ -1132,7 +1103,8 @@ class vehicle
         /*@}*/
 
         // Extra drag on the vehicle from components other than wheels.
-        int drag() const;
+        // @param actual is current drag if true or nominal drag otherwise
+        int static_drag( bool actual = true ) const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
@@ -1425,6 +1397,9 @@ class vehicle
         /** Required strength to be able to successfully lift the vehicle unaided by equipment */
         int lift_strength() const;
 
+        // Called by map.cpp to make sure the real position of each zone_data is accurate
+        bool refresh_zones();
+
         // config values
         std::string name;   // vehicle name
         /**
@@ -1438,6 +1413,8 @@ class vehicle
         std::map<point, std::vector<int> >
         relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
+        std::unordered_multimap<point, zone_data> loot_zones;
+        // relative loot zone positions
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
@@ -1521,11 +1498,6 @@ class vehicle
         // leftover from previous turn
         float of_turn_carry;
 
-        // total power consumed by tracking devices (why would you use more than one?)
-        int tracking_epower     = 0;
-        int alarm_epower        = 0;
-        // power consumed by camera system
-        int camera_epower       = 0;
         int extra_drag          = 0;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
@@ -1549,6 +1521,8 @@ class vehicle
         bool falling                    = false;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::time_of_cataclysm;
+        // zone_data positions are outdated and need refreshing
+        bool zones_dirty = true;
 
     private:
         // refresh pivot_cache, clear pivot_dirty

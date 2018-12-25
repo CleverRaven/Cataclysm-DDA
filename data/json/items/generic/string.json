@@ -91,5 +91,18 @@
       "price": 5
     },
     "extend": { "flags": [ "BELTED" ] }
+  },
+  {
+    "id": "stick_fiber",
+    "type": "COMESTIBLE",
+    "category": "spare_parts",
+    "name": "fibrous stalk",
+    "symbol": "=",
+    "description": "A rather green stick.  Very fibrous.",
+    "fun": -100,
+    "health": -20,
+    "volume": 4,
+    "stack_size": 10,
+    "weight": 80
   }
 ]

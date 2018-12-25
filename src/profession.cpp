@@ -257,7 +257,7 @@ void profession::check_definition() const
         debugmsg( "_starting_items_female group is undefined" );
     }
 
-    for( auto const &a : _starting_CBMs ) {
+    for( const auto &a : _starting_CBMs ) {
         if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
         }

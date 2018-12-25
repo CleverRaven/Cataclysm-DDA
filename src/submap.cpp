@@ -52,66 +52,60 @@ static cosmetic_find_result find_cosmetic(
     const std::vector<submap::cosmetic_t> &cosmetics, const point p, const std::string &type )
 {
     for( size_t i = 0; i < cosmetics.size(); ++i ) {
-        if( cosmetics[i].p == p && cosmetics[i].type == type ) {
+        if( cosmetics[i].pos == p && cosmetics[i].type == type ) {
             return make_result( true, i );
         }
     }
     return make_result( false, -1 );
 }
 
-bool submap::has_graffiti( int x, int y ) const
+bool submap::has_graffiti( const point &p ) const
 {
-    point tp( x, y );
-    return find_cosmetic( cosmetics, tp, COSMETICS_GRAFFITI ).result;
+    return find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI ).result;
 }
 
-const std::string &submap::get_graffiti( int x, int y ) const
+const std::string &submap::get_graffiti( const point &p ) const
 {
-    point tp( x, y );
-    auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_GRAFFITI );
+    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         return cosmetics[ fresult.ndx ].str;
     }
     return STRING_EMPTY;
 }
 
-void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
+void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 {
     is_uniform = false;
-    point tp( x, y );
-    // Find signage at tp if available
-    auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_GRAFFITI );
+    // Find signage at p if available
+    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = new_graffiti;
     } else {
-        insert_cosmetic( tp, COSMETICS_GRAFFITI, new_graffiti );
+        insert_cosmetic( p, COSMETICS_GRAFFITI, new_graffiti );
     }
 }
 
-void submap::delete_graffiti( int x, int y )
+void submap::delete_graffiti( const point &p )
 {
     is_uniform = false;
-    point tp( x, y );
-    auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_GRAFFITI );
+    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
     }
 }
-bool submap::has_signage( const int x, const int y ) const
+bool submap::has_signage( const point &p ) const
 {
-    if( frn[x][y] == furn_id( "f_sign" ) ) {
-        point tp( x, y );
-        return find_cosmetic( cosmetics, tp, COSMETICS_SIGNAGE ).result;
+    if( frn[p.x][p.y] == furn_id( "f_sign" ) ) {
+        return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
     }
 
     return false;
 }
-const std::string submap::get_signage( const int x, const int y ) const
+const std::string submap::get_signage( const point &p ) const
 {
-    if( frn[x][y] == furn_id( "f_sign" ) ) {
-        point tp( x, y );
-        const auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_SIGNAGE );
+    if( frn[p.x][p.y] == furn_id( "f_sign" ) ) {
+        const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;
         }
@@ -119,23 +113,21 @@ const std::string submap::get_signage( const int x, const int y ) const
 
     return STRING_EMPTY;
 }
-void submap::set_signage( const int x, const int y, const std::string &s )
+void submap::set_signage( const point &p, const std::string &s )
 {
     is_uniform = false;
-    point tp( x, y );
-    // Find signage at tp if available
-    auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_SIGNAGE );
+    // Find signage at p if available
+    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = s;
     } else {
-        insert_cosmetic( tp, COSMETICS_SIGNAGE, s );
+        insert_cosmetic( p, COSMETICS_SIGNAGE, s );
     }
 }
-void submap::delete_signage( const int x, const int y )
+void submap::delete_signage( const point &p )
 {
     is_uniform = false;
-    point tp( x, y );
-    auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_SIGNAGE );
+    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();

@@ -1532,18 +1532,19 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
                  const item &it,
                  std::array<layer_level, num_bp>& highest_layer_so_far,
-                 bool power_armor )
+                 bool power_armor, const Character &c )
 {
     const auto item_layer = it.get_layer();
-    int encumber_val = it.get_encumber();
+    int encumber_val = it.get_encumber( c );
     // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
     int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
 
     const int armorenc = !power_armor || !it.is_power_armor() ?
                          encumber_val : std::max( 0, encumber_val - 40 );
 
+    body_part_set covered_parts = it.get_covered_body_parts();
     for( const body_part bp : all_body_parts ) {
-        if( !it.covers( bp ) ) {
+        if( !covered_parts.test( bp ) ) {
             continue;
         }
         highest_layer_so_far[bp] =
@@ -1644,13 +1645,13 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
         if( w_it == new_item_position ) {
-            layer_item( vals, new_item, highest_layer_so_far, power_armored );
+            layer_item( vals, new_item, highest_layer_so_far, power_armored, *this );
         }
-        layer_item( vals, *w_it, highest_layer_so_far, power_armored );
+        layer_item( vals, *w_it, highest_layer_so_far, power_armored, *this );
     }
 
     if( worn.end() == new_item_position && !new_item.is_null() ) {
-        layer_item( vals, new_item, highest_layer_so_far, power_armored );
+        layer_item( vals, new_item, highest_layer_so_far, power_armored, *this );
     }
 
     // make sure values are sane
@@ -2124,7 +2125,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
             nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return tag_colored_string( h_bar, h_bar_col ) + tag_colored_string( std::string( 5 - h_bar.size(),
+            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - h_bar.size(),
                     '.' ), c_white );
         }
     };
@@ -2189,18 +2190,18 @@ hp_part Character::body_window( const std::string &menu_header,
                               hp_str( current_hp, maximal_hp ) );
 
         if( limb_is_broken ) {
-            desc << tag_colored_string( _( "It is broken. It needs a splint or surgical attention." ), c_red ) << "\n";
+            desc << colorize( _( "It is broken. It needs a splint or surgical attention." ), c_red ) << "\n";
         }
 
         // BLEEDING block
         if( bleeding ) {
-            desc << tag_colored_string( string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
+            desc << colorize( string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
                                                     get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) << "\n";
             if( bleed > 0.0f ) {
-                desc << tag_colored_string( string_format( _( "Chance to stop: %d %%" ),
+                desc << colorize( string_format( _( "Chance to stop: %d %%" ),
                                                      int( bleed * 100 ) ), c_light_green ) << "\n";
             } else {
-                desc << tag_colored_string( _( "This will not stop the bleeding." ),
+                desc << colorize( _( "This will not stop the bleeding." ),
                                                      c_yellow ) << "\n";
             }
         }
@@ -2208,40 +2209,40 @@ hp_part Character::body_window( const std::string &menu_header,
         if( bandaged ) {
             desc << string_format( _( "Bandaged [%s]" ), texitify_healing_power( b_power ) ) << "\n";
             if( new_b_power > b_power ) {
-                desc << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
+                desc << colorize( string_format( _( "Expected quality improvement: %s" ),
                                                      texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
             } else if( new_b_power > 0 ) {
-                desc << tag_colored_string( _( "You don't expect any improvement from using this." ), c_yellow ) << "\n";
+                desc << colorize( _( "You don't expect any improvement from using this." ), c_yellow ) << "\n";
             }
         } else if( new_b_power > 0 && e.allowed ) {
-            desc << tag_colored_string( string_format( _( "Expected bandage quality: %s" ),
+            desc << colorize( string_format( _( "Expected bandage quality: %s" ),
                     texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
         }
         // BITTEN block
         if( bitten ) {
-            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_bite,
+            desc << colorize( string_format( "%s: ", get_effect( effect_bite,
                                         e.bp ).get_speed_name() ), c_red );
-            desc << tag_colored_string( string_format( _( "It has a deep bite wound that needs cleaning." ) ),
+            desc << colorize( string_format( _( "It has a deep bite wound that needs cleaning." ) ),
                                         c_red ) << "\n";
             if( bite > 0 ) {
-                desc << tag_colored_string( string_format( _( "Chance to clean and disinfect: %d %%" ),
+                desc << colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
                                                      int( bite * 100 ) ), c_light_green ) << "\n";
             } else {
-                desc << tag_colored_string( _( "This will not help in cleaning this wound." ), c_yellow ) << "\n";
+                desc << colorize( _( "This will not help in cleaning this wound." ), c_yellow ) << "\n";
             }
         }
         // INFECTED block
         if( infected ) {
-            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_infected,
+            desc << colorize( string_format( "%s: ", get_effect( effect_infected,
                                         e.bp ).get_speed_name() ), c_red );
-            desc << tag_colored_string( string_format(
+            desc << colorize( string_format(
                                             _( "It has a deep wound that looks infected. Antibiotics might be required." ) ),
                                         c_red ) << "\n";
             if( infect > 0 ) {
-                desc << tag_colored_string( string_format( _( "Chance to heal infection: %d %%" ),
+                desc << colorize( string_format( _( "Chance to heal infection: %d %%" ),
                                                      int( infect * 100 ) ), c_light_green ) << "\n";
             } else {
-                desc << tag_colored_string( _( "This will not help in healing infection." ), c_yellow ) << "\n";
+                desc << colorize( _( "This will not help in healing infection." ), c_yellow ) << "\n";
             }
         }
         // DISINFECTANT (general) block
@@ -2249,14 +2250,14 @@ hp_part Character::body_window( const std::string &menu_header,
             desc << string_format( _( "Disinfected [%s]" ),
                                    texitify_healing_power( d_power ) ) << "\n";
             if( new_d_power > d_power ) {
-                desc << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
+                desc << colorize( string_format( _( "Expected quality improvement: %s" ),
                                                      texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
             } else if( new_d_power > 0 ) {
-                desc << tag_colored_string( _( "You don't expect any improvement from using this." ),
+                desc << colorize( _( "You don't expect any improvement from using this." ),
                                                      c_yellow ) << "\n";
             }
         } else if( new_d_power > 0 && e.allowed ) {
-            desc << tag_colored_string( string_format(
+            desc << colorize( string_format(
                         _( "Expected disinfection quality: %s" ),
                         texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
         }
@@ -2264,10 +2265,10 @@ hp_part Character::body_window( const std::string &menu_header,
 
         if( ( !e.allowed && !limb_is_broken ) || ( show_all && current_hp == maximal_hp &&
                 !limb_is_broken && !bitten && !infected && !bleeding ) ) {
-            desc << tag_colored_string( string_format( _( "Healthy." ) ), c_green ) << "\n";
+            desc << colorize( string_format( _( "Healthy." ) ), c_green ) << "\n";
         }
         if( !e.allowed ) {
-            desc << tag_colored_string( _( "You don't expect any effect from using this." ), c_yellow );
+            desc << colorize( _( "You don't expect any effect from using this." ), c_yellow );
         } else {
             is_valid_choice = true;
         }
