@@ -191,7 +191,15 @@
     "id": "mannwurst_raw",
     "copy-from": "sausage_raw",
     "name": "raw Mannwurst",
-    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.",
+    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.  Needs to be loaded into a smoking rack to cook it.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mann_bratwurst",
+    "copy-from": "bratwurst_sausage",
+    "name": "Mannbrat",
+    "description": "A type of German sausage made of finely chopped humans and meant to be pan fried or roasted.  Better eat it hot and fresh.  By the way, use any human available. Germans are not mandatory.",
     "material": "hflesh"
   },
   {
@@ -202,4 +210,4 @@
     "description": "This is a serving of crisply brined and canned human flesh.  Tasty and nutritious if you're into that sort of thing.",
     "material": "hflesh"
   }
-]
+] 
