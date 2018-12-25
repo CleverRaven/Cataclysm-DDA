@@ -285,14 +285,14 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     const catacurses::window &weapwin = sideStyle ? w2 : w;
 
     {
-        // mytest
+        // mytest print in sidebar currently used weapon mode.
         const int y = 0; // sideStyle ? 1 : 0;
         const int wn = getmaxx( weapwin );
-        // mytest
+        // mytest test sidebar 2nd style
         trim_and_print( weapwin, y, 0, wn, c_light_gray, print_gun_mode( *this ) );
     }
 
-    // Print currently used style or weapon mode.
+    // Print in sidebar currently used style.
     std::string style;
     const auto &cur_style = style_selected.obj();
     if( !weapon.is_gun() ) {
@@ -308,7 +308,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     if( !style.empty() ) {
         const auto style_color = is_armed() ? c_red : c_blue;
         const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
-        mvwprintz( weapwin, 1, x, style_color, style );
+        mvwprintz( weapwin, 0, x, style_color, style );
     }
 
     wmove( w, sideStyle ? 1 : 2, 0 );
@@ -386,14 +386,20 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_blue,  _( "Freezing!%s" ), temp_message );
     }
 
-    const int x = 32;
-    const int y = sideStyle ?  0 :  1;
-    if( is_deaf() ) {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ) );
-    } else {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound: %d" ), volume );
-    }
-    volume = 0;
+    // const int x = 32;
+    // const int y = 0; // sideStyle ?  0 :  1;
+    // wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 9 );
+    // wmove( w, 15, 15 );
+    // if( is_deaf() ) {
+    // mvwprintz( w, y, x, c_red, _( "Deaf!" ) );
+    // } else {
+    // mvwprintz( w, y, x, c_light_gray, _( "Sound: " ) );
+    // mytest caAalculate length of text, place value after text length
+    // mvwprintz( w, y, x + 7, c_yellow,  std::to_string( volume ) );
+    // wprintz( w, c_light_red,  _( "Parched" ) );
+    // g->bleh();
+    // }
+    // volume = 0;
 
     wmove( w, 2, sideStyle ? 0 : 15 );
     if( get_thirst() > 520 ) {

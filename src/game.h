@@ -1049,6 +1049,7 @@ class game
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
     public:
+        void bleh();
         void draw_sidebar_messages();
     private:
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location

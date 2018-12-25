@@ -2712,6 +2712,7 @@ void item::on_damage( int, damage_type )
 
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
+
     std::stringstream ret;
 
     // MATERIALS-TODO: put this in json
