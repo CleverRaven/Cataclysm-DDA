@@ -2117,8 +2117,8 @@ int editmap::edit_mapgen()
         target_list.clear();
         for( int x = target.x - SEEX + 1; x < target.x + SEEX + 1; x++ ) {
             for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
-                if( x == target.x - SEEX + 1 || x == target.x + SEEX + 1 ||
-                    y == target.y - SEEY + 1 || y == target.y + SEEY + 1 ) {
+                if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
+                    y == target.y - SEEY + 1 || y == target.y + SEEY ) {
                     target_list.push_back( tripoint( x, y, target.z ) );
                 }
             }

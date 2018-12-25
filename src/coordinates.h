@@ -11,7 +11,7 @@
  * This is less obvious than one might think, for negative coordinates, so this
  * was created to give a definitive answer.
  *
- * 'absolute' is defined as the -actual- submap x,y * SEEX/SEEY + position in submap, and
+ * 'absolute' is defined as the -actual- submap x,y * SEEX + position in submap, and
  * can be obtained from map.getabs(x, y);
  *   usage:
  *    real_coords rc( g->m.getabs(g->u.posx(), g->u.posy() ) );
@@ -23,10 +23,10 @@ struct real_coords {
     static const int subs_in_om_n = subs_in_om - 1;
 
     point abs_pos;     // 1 per tile, starting from tile 0,0 of submap 0,0 of overmap 0,0
-    point abs_sub;     // submap: SEEX tiles.
+    point abs_sub;     // submap: 12 tiles.
     point abs_om;      // overmap: 360 submaps.
 
-    point sub_pos;     // coordinate (0-SEEX) in submap / abs_pos constrained to % SEEX.
+    point sub_pos;     // coordinate (0-11) in submap / abs_pos constrained to % 12.
 
     point om_pos;      // overmap tile: 2x2 submaps.
     point om_sub;      // submap (0-359) in overmap / abs_sub constrained to % 360. equivalent to g->levx
