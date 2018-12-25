@@ -121,6 +121,14 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
     return lines;
 }
 
+std::string tag_colored_string( const std::string &s, nc_color color )
+{
+    // @todo: Make this tag generation a function, put it in good place
+    std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
+    std::string color_tag_close = "</color>";
+    return color_tag_open + s + color_tag_close;
+}
+
 std::vector<std::string> split_by_color( const std::string &s )
 {
     std::vector<std::string> ret;
@@ -506,7 +514,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
     std::vector<std::string> labels;
     va_list ap;
     va_start( ap, active_tab );
-    while( const char *const tmp = va_arg( ap, char * ) ) {
+    while( char const *const tmp = va_arg( ap, char * ) ) {
         labels.push_back( tmp );
     }
     va_end( ap );
@@ -570,7 +578,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
 
 bool query_yn( const std::string &text )
 {
-    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    bool const force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
     const auto allow_key = [force_uc]( const input_event & evt ) {
         return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
@@ -1341,14 +1349,14 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
 }
 
 #if defined(_MSC_VER)
-std::string cata::string_formatter::raw_string_format( const char *const format, ... )
+std::string cata::string_formatter::raw_string_format( char const *const format, ... )
 {
     va_list args;
     va_start( args, format );
 
     va_list args_copy;
     va_copy( args_copy, args );
-    const int result = _vscprintf_p( format, args_copy );
+    int const result = _vscprintf_p( format, args_copy );
     va_end( args_copy );
     if( result == -1 ) {
         throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
@@ -1465,7 +1473,7 @@ std::string rewrite_vsnprintf( const char *msg )
     return rewritten_msg.str();
 }
 
-std::string cata::string_formatter::raw_string_format( const char *format, ... )
+std::string cata::string_formatter::raw_string_format( char const *format, ... )
 {
     va_list args;
     va_start( args, format );
@@ -1479,11 +1487,11 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 #endif
 
     for( ;; ) {
-        const size_t buffer_size = buffer.size();
+        size_t const buffer_size = buffer.size();
 
         va_list args_copy;
         va_copy( args_copy, args );
-        const int result = vsnprintf( &buffer[0], buffer_size, format, args_copy );
+        int const result = vsnprintf( &buffer[0], buffer_size, format, args_copy );
         va_end( args_copy );
 
         // No error, and the buffer is big enough; we're done.
@@ -1607,11 +1615,11 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
     return fmt;
 }
 
-const std::pair<std::string, nc_color> &
+std::pair<std::string, nc_color> const &
 get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    static const std::array<pair_t, 12> strings {
+    static std::array<pair_t, 12> const strings {
         {
             //~ creature health bars
             pair_t { R"(|||||)", c_green },
@@ -1629,7 +1637,7 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
         }
     };
 
-    const double ratio = static_cast<double>( cur_hp ) / ( max_hp ? max_hp : 1 );
+    double const ratio = static_cast<double>( cur_hp ) / ( max_hp ? max_hp : 1 );
     return ( ratio >= 1.0 )            ? strings[0]  :
            ( ratio >= 0.9 && !is_mon ) ? strings[1]  :
            ( ratio >= 0.8 )            ? strings[2]  :
@@ -1646,7 +1654,7 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
 std::pair<std::string, nc_color> get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    static const std::array<pair_t, 6> strings {
+    static std::array<pair_t, 6> const strings {
         {
             pair_t {translate_marker( "unknown" ), c_pink},
             pair_t {translate_marker( "bright" ), c_yellow},
@@ -1828,7 +1836,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
     }
 }
 
-std::string scrollingcombattext::cSCT::getText( const std::string &type ) const
+std::string scrollingcombattext::cSCT::getText( std::string const &type ) const
 {
     if( !sText2.empty() ) {
         if( oDir == oUpLeft || oDir == oDownLeft || oDir == oLeft ) {
@@ -1852,7 +1860,7 @@ std::string scrollingcombattext::cSCT::getText( const std::string &type ) const
     return sText;
 }
 
-game_message_type scrollingcombattext::cSCT::getMsgType( const std::string &type ) const
+game_message_type scrollingcombattext::cSCT::getMsgType( std::string const &type ) const
 {
     if( !sText2.empty() ) {
         if( oDir == oUpLeft || oDir == oDownLeft || oDir == oLeft ) {
@@ -1949,7 +1957,7 @@ void scrollingcombattext::removeCreatureHP()
 
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
 {
-    static const std::map<game_message_type, std::pair<nc_color, nc_color>> colors {
+    static std::map<game_message_type, std::pair<nc_color, nc_color>> const colors {
         {m_good,     {c_light_green, c_green}},
         {m_bad,      {c_light_red,   c_red}},
         {m_mixed,    {c_pink,    c_magenta}},
@@ -1962,7 +1970,7 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
         {m_grazing,  {c_light_blue,  c_blue}}
     };
 
-    const auto it = colors.find( type );
+    auto const it = colors.find( type );
     if( it == std::end( colors ) ) {
         return bOldMsg ? c_light_gray : c_white;
     }
@@ -2142,6 +2150,14 @@ int get_terminal_height()
 bool is_draw_tiles_mode()
 {
     return false;
+}
+
+void play_music( std::string )
+{
+}
+
+void update_music_volume()
+{
 }
 
 void refresh_display()

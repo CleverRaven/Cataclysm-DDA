@@ -448,7 +448,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
-                sounds::sound( pos(), 8, sounds::sound_t::combat, "whack!" );
+                sounds::sound( pos(), 8, "" );
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -962,13 +962,13 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // skip dodge counter techniques
-        if( ( dodge_counter && !tec.dodge_counter ) || ( !dodge_counter && tec.dodge_counter ) ) {
+        // skip normal techniques if looking for a dodge counter
+        if( dodge_counter && !tec.dodge_counter ) {
             continue;
         }
 
-        // skip block counter techniques
-        if( ( block_counter && !tec.block_counter ) || ( !block_counter && tec.block_counter ) ) {
+        // skip normal techniques if looking for a block counter
+        if( block_counter && !tec.block_counter ) {
             continue;
         }
 
@@ -1579,7 +1579,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
                                    weap.tname().c_str() );
         }
 
-        sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!" );
+        sounds::sound( pos(), 16, "" );
         // Dump its contents on the ground
         for( auto &elem : weap.contents ) {
             g->m.add_item_or_charges( pos(), elem );
@@ -1785,9 +1785,9 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     if( tec.id != tec_none ) {
         std::string message;
         if( p.is_npc() ) {
-            message = _( tec.npc_message.c_str() );
+            message = tec.npc_message;
         } else {
-            message = _( tec.player_message.c_str() );
+            message = tec.player_message;
         }
         if( !message.empty() ) {
             return message;

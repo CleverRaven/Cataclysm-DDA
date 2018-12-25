@@ -57,7 +57,6 @@ static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 
 struct sound_event {
     int volume;
-    sounds::sound_t category;
     std::string description;
     bool ambient;
     bool footstep;
@@ -84,31 +83,26 @@ static std::unordered_map<tripoint, sound_event> sound_markers;
 
 void sounds::ambient_sound( const tripoint &p, int vol, const std::string &description )
 {
-    sound( p, vol, sounds::sound_t::background, description, true );
+    sound( p, vol, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, sound_t category, std::string description,
-                    bool ambient, const std::string &id, const std::string &variant )
+void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient,
+                    const std::string &id, const std::string &variant )
 {
     if( vol < 0 ) {
         // Bail out if no volume.
         debugmsg( "negative sound volume %d", vol );
         return;
     }
-    // Description is not an optional parameter
-    if( description.empty() ) {
-        debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
-    }
     recent_sounds.emplace_back( std::make_pair( p, vol ) );
-    sounds_since_last_turn.emplace_back( std::make_pair( p,
-                                         sound_event {vol, category, description, ambient,
-                                                 false, id, variant} ) );
+    sounds_since_last_turn.emplace_back(
+        std::make_pair( p, sound_event {vol, description, ambient, false, id, variant} ) );
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
-    sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, "footsteps", false, true, "", ""} ) );
+    sounds_since_last_turn.emplace_back(
+        std::make_pair( p, sound_event {volume, "", false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -235,15 +229,6 @@ void sounds::process_sounds()
     recent_sounds.clear();
 }
 
-// skip most movement sounds
-bool describe_sound( sounds::sound_t category )
-{
-    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ) {
-        return true;
-    }
-    return one_in( 5 );
-}
-
 void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
@@ -287,13 +272,14 @@ void sounds::process_sound_markers( player *p )
             p->add_effect( effect_deaf, deafness_duration );
             if( p->is_deaf() && !is_deaf ) {
                 is_deaf = true;
+                sfx::do_hearing_loss( to_turns<int>( deafness_duration ) );
                 continue;
             }
         }
 
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
-        const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
-                                 volume_multiplier ) - distance_to_sound;
+        const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) * volume_multiplier ) -
+                                 distance_to_sound;
 
         if( heard_volume <= 0 && pos != p->pos() ) {
             continue;
@@ -322,33 +308,25 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
-        const std::string &description = sound.description.empty() ? "a noise" : sound.description;
-        if( p->is_npc() ) {
-            npc *guy = dynamic_cast<npc *>( p );
-            guy->handle_sound( static_cast<int>( sound.category ), description, heard_volume, pos );
-            continue;
-        }
-
-        // don't print our own noise or things without descriptions
+        const std::string &description = sound.description;
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
             if( !p->activity.is_distraction_ignored( distraction_type::noise ) ) {
-                const std::string query = string_format( _( "Heard %s!" ), description );
+                const std::string query = description.empty()
+                                          ? _( "Heard a noise!" )
+                                          : string_format( _( "Heard %s!" ), description.c_str() );
+
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }
         }
 
-        // skip most movement sounds and our own sounds
-        if( pos != p->pos() && describe_sound( sound.category ) ) {
-            game_message_type severity = m_info;
-            if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
-                severity = m_warning;
-            }
-            // if we can see it, don't print a direction
-            if( p->sees( pos ) ) {
-                add_msg( severity, _( "You hear %1$s" ), description );
+        if( !description.empty() ) {
+            // If it came from us, don't print a direction
+            if( pos == p->pos() ) {
+                add_msg( _( "You hear %s" ), description.c_str() );
             } else {
+                // Else print a direction as well
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
-                add_msg( severity, _( "From the %1$s you hear %2$s" ), direction, description );
+                add_msg( m_warning, _( "From the %1$s you hear %2$s" ), direction.c_str(), description.c_str() );
             }
         }
 
@@ -360,14 +338,14 @@ void sounds::process_sound_markers( player *p )
             const bool trying_to_sleep = p->in_sleep_state();
             if( p->get_effect( effect_alarm_clock ).get_duration() == 1_turns ) {
                 if( slept_through ) {
-                    add_msg( _( "Your alarm clock finally wakes you up." ) );
+                    p->add_msg_if_player( _( "Your alarm clock finally wakes you up." ) );
                 } else if( !trying_to_sleep ) {
-                    add_msg( _( "Your alarm clock wakes you up." ) );
+                    p->add_msg_if_player( _( "Your alarm clock wakes you up." ) );
                 } else {
-                    add_msg( _( "Your alarm clock goes off and you haven't slept a wink." ) );
+                    p->add_msg_if_player( _( "Your alarm clock goes off and you haven't slept a wink." ) );
                     p->activity.set_to_null();
                 }
-                add_msg( _( "You turn off your alarm-clock." ) );
+                p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
             }
             p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
         }
@@ -410,9 +388,7 @@ void sounds::process_sound_markers( player *p )
             sound_markers.emplace( random_entry( unseen_points ), sound );
         }
     }
-    if( p->is_player() ) {
-        sounds_since_last_turn.clear();
-    }
+    sounds_since_last_turn.clear();
 }
 
 void sounds::reset_sounds()
@@ -782,7 +758,7 @@ void sfx::do_projectile_hit( const Creature &target )
     const int angle = get_heard_angle( target.pos() );
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
-        static const std::set<material_id> fleshy = {
+        static std::set<material_id> const fleshy = {
             material_id( "flesh" ),
             material_id( "hflesh" ),
             material_id( "iflesh" ),
@@ -953,7 +929,7 @@ void sfx::do_footstep()
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         int heard_volume = sfx::get_heard_volume( g->u.pos() );
         const auto terrain = g->m.ter( g->u.pos() ).id();
-        static const std::set<ter_str_id> grass = {
+        static std::set<ter_str_id> const grass = {
             ter_str_id( "t_grass" ),
             ter_str_id( "t_shrub" ),
             ter_str_id( "t_shrub_peanut" ),
@@ -991,7 +967,7 @@ void sfx::do_footstep()
             ter_str_id( "t_trunk" ),
             ter_str_id( "t_stump" ),
         };
-        static const std::set<ter_str_id> dirt = {
+        static std::set<ter_str_id> const dirt = {
             ter_str_id( "t_dirt" ),
             ter_str_id( "t_dirtmound" ),
             ter_str_id( "t_dirtmoundfloor" ),
@@ -1026,7 +1002,7 @@ void sfx::do_footstep()
             ter_str_id( "t_railroad_tie_d1" ),
             ter_str_id( "t_railroad_tie_d2" ),
         };
-        static const std::set<ter_str_id> metal = {
+        static std::set<ter_str_id> const metal = {
             ter_str_id( "t_ov_smreb_cage" ),
             ter_str_id( "t_metal_floor" ),
             ter_str_id( "t_grate" ),
@@ -1040,7 +1016,7 @@ void sfx::do_footstep()
             ter_str_id( "t_machinery_old" ),
             ter_str_id( "t_machinery_electronic" ),
         };
-        static const std::set<ter_str_id> water = {
+        static std::set<ter_str_id> const water = {
             ter_str_id( "t_water_sh" ),
             ter_str_id( "t_water_dp" ),
             ter_str_id( "t_swater_sh" ),
@@ -1048,7 +1024,7 @@ void sfx::do_footstep()
             ter_str_id( "t_water_pool" ),
             ter_str_id( "t_sewage" ),
         };
-        static const std::set<ter_str_id> chain_fence = {
+        static std::set<ter_str_id> const chain_fence = {
             ter_str_id( "t_chainfence" ),
         };
         if( !g->u.wearing_something_on( bp_foot_l ) ) {
@@ -1087,7 +1063,7 @@ void sfx::do_obstacle()
 {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
     const auto terrain = g->m.ter( g->u.pos() ).id();
-    static const std::set<ter_str_id> water = {
+    static std::set<ter_str_id> const water = {
         ter_str_id( "t_water_sh" ),
         ter_str_id( "t_water_dp" ),
         ter_str_id( "t_swater_sh" ),

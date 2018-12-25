@@ -38,20 +38,20 @@ class Skill
         // clear skill vector, every skill pointer becomes invalid!
         static void reset();
 
-        static std::vector<const Skill *> get_skills_sorted_by(
-            std::function<bool ( const Skill &, const Skill & )> pred );
+        static std::vector<Skill const *> get_skills_sorted_by(
+            std::function<bool ( Skill const &, Skill const & )> pred );
 
         Skill();
         Skill( skill_id ident, std::string name, std::string description,
                std::set<std::string> tags );
 
-        const skill_id &ident() const {
+        skill_id const &ident() const {
             return _ident;
         }
-        const std::string &name() const {
+        std::string const &name() const {
             return _name;
         }
-        const std::string &description() const {
+        std::string const &description() const {
             return _description;
         }
 

@@ -107,7 +107,7 @@ struct bionic {
     bionic( bionic_id pid, char pinvlet )
         : id( std::move( pid ) ), invlet( pinvlet ) { }
 
-    const bionic_data &info() const {
+    bionic_data const &info() const {
         return *id;
     }
 

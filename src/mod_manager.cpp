@@ -419,13 +419,11 @@ void mod_manager::load_mods_list( WORLDPTR world ) const
             }
             const auto iter = mod_replacements.find( mod );
             if( iter != mod_replacements.end() ) {
-                if( !iter->second.is_empty() ) {
-                    amo.push_back( iter->second );
-                }
+                amo.push_back( iter->second );
                 obsolete_mod_found = true;
-                continue;
+            } else {
+                amo.push_back( mod );
             }
-            amo.push_back( mod );
         }
     } );
     if( obsolete_mod_found ) {
