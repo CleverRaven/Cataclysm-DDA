@@ -146,6 +146,7 @@
     "items": [
       [ "bologna", 50 ],
       [ "sausage", 50 ],
+      [ "bratwurst_sausage", 35 ],
       [ "sweet_sausage", 10 ],
       [ "hotdogs_frozen", 50 ],
       [ "lunchmeat", 60 ],
