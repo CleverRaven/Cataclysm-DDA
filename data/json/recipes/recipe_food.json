@@ -729,7 +729,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "sausage_raw", 1 ] ] ]
+    "components": [ [ [ "sausage_raw", 6 ] ] ]
   },
   {
     "type": "recipe",
