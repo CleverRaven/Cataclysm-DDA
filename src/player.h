@@ -771,7 +771,7 @@ class player : public Character
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
         /** Handles mitigation and application of radiation */
-        bool irradiate( float rads );
+        bool irradiate( float rads, bool bypass = false );
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
         void mend( int rate_multiplier );
         /** Handles player vomiting effects */
