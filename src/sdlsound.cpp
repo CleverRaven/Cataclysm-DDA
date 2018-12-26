@@ -60,6 +60,7 @@ static std::string current_soundpack_path;
 
 static std::unordered_map<std::string, int> unique_paths;
 static sfx_resources_t sfx_resources;
+static std::vector<id_and_variant> sfx_preload;
 
 bool sounds::sound_enabled = false;
 
@@ -278,6 +279,19 @@ void sfx::load_sound_effects( JsonObject &jsobj )
         effects.push_back( new_sound_effect );
     }
 }
+void sfx::load_sound_effect_preload( JsonObject &jsobj )
+{
+    if( !sound_init_success ) {
+        return;
+    }
+
+    JsonArray jsarr = jsobj.get_array( "preload" );
+    while( jsarr.has_more() ) {
+        JsonObject aobj = jsarr.next_object();
+        const id_and_variant preload_key( aobj.get_string( "id" ), aobj.get_string( "variant", "default" ) );
+        sfx_preload.push_back( preload_key );
+    }
+}
 
 void sfx::load_playlist( JsonObject &jsobj )
 {
@@ -484,11 +498,30 @@ void load_soundset()
         dbg( D_ERROR ) << "failed to load sounds: " << err.what();
     }
 
+    // Preload sound effects
+    for( const auto &preload : sfx_preload ) {
+        const auto find_result = sfx_resources.sound_effects.find( preload );
+        if( find_result != sfx_resources.sound_effects.end() ) {
+            for( const auto &sfx : find_result->second ) {
+                get_sfx_resource( sfx.resource_id );
+            }
+        }
+    }
+
     // Memory of unique_paths no longer required, swap with locally scoped unordered_map
     // to force deallocation of resources.
-    unique_paths.clear();
-    std::unordered_map<std::string, int> t_swap;
-    unique_paths.swap( t_swap );
+    {
+        unique_paths.clear();
+        std::unordered_map<std::string, int> t_swap;
+        unique_paths.swap( t_swap );
+    }
+    // Memory of sfx_preload no longer required, swap with locally scoped vector
+    // to force deallocation of resources.
+    {
+        sfx_preload.clear();
+        std::vector<id_and_variant> t_swap;
+        sfx_preload.swap( t_swap );
+    }
 }
 
 #endif
