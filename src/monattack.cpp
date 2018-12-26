@@ -134,31 +134,33 @@ bool within_target_range( const monster *const z, const Creature *const target, 
     return true;
 }
 
-Creature* sting_get_target(monster* z, float range = 5.0f)
+Creature *sting_get_target( monster *z, float range = 5.0f )
 {
-    Creature* target = z->attack_target();
+    Creature *target = z->attack_target();
 
-    if(target == nullptr) {
+    if( target == nullptr ) {
         return nullptr;
     }
 
-    return trig_dist(z->pos(), target->pos()) <= range ? target : nullptr;
+    return trig_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
-bool sting_shoot(monster* z, Creature* target, damage_instance& dam)
+bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
 {
-    if (target->uncanny_dodge()) {
-        target->add_msg_if_player(m_bad, _("The %s shoots a dart but you dodge it."), z->name().c_str());
+    if( target->uncanny_dodge() ) {
+        target->add_msg_if_player( m_bad, _( "The %s shoots a dart but you dodge it." ),
+                                   z->name().c_str() );
         return false;
     }
 
     body_part bp = target->get_random_body_part();
-    target->absorb_hit(bp, dam);
-    if (dam.total_damage() > 0) {
-        target->add_msg_if_player(m_bad, _("The %s shoots a dart into you!"), z->name().c_str());
+    target->absorb_hit( bp, dam );
+    if( dam.total_damage() > 0 ) {
+        target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name().c_str() );
         return true;
     } else {
-        target->add_msg_if_player(m_bad, _("The %s shoots a dart but it bounces off your armor."), z->name().c_str());
+        target->add_msg_if_player( m_bad, _( "The %s shoots a dart but it bounces off your armor." ),
+                                   z->name().c_str() );
         return false;
     }
 }
@@ -2594,19 +2596,19 @@ bool mattack::grab_drag( monster *z )
 
 bool mattack::gene_sting( monster *z )
 {
-    Creature* target = sting_get_target(z, 7.0f);
-    if(target == nullptr || !(target->is_player() || target->is_npc()) ) {
+    Creature *target = sting_get_target( z, 7.0f );
+    if( target == nullptr || !( target->is_player() || target->is_npc() ) ) {
         return false;
     }
 
     z->moves -= 150;
 
     damage_instance dam = damage_instance();
-    dam.add_damage(DT_STAB, 6, 10, 0.6, 1);
-    bool hit = sting_shoot(z, target, dam);
-    if(hit) {
+    dam.add_damage( DT_STAB, 6, 10, 0.6, 1 );
+    bool hit = sting_shoot( z, target, dam );
+    if( hit ) {
         //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<player*>(target)->mutate();
+        dynamic_cast<player *>( target )->mutate();
     }
 
     return true;
@@ -2614,19 +2616,19 @@ bool mattack::gene_sting( monster *z )
 
 bool mattack::para_sting( monster *z )
 {
-    Creature* target = sting_get_target(z, 4.0f);
-    if (target == nullptr) {
+    Creature *target = sting_get_target( z, 4.0f );
+    if( target == nullptr ) {
         return false;
     }
 
     z->moves -= 150;
 
     damage_instance dam = damage_instance();
-    dam.add_damage(DT_STAB, 6, 8, 0.8, 1);
-    bool hit = sting_shoot(z, target, dam);
-    if (hit) {
-        target->add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-        target->add_effect(effect_paralyzepoison, 5_minutes);
+    dam.add_damage( DT_STAB, 6, 8, 0.8, 1 );
+    bool hit = sting_shoot( z, target, dam );
+    if( hit ) {
+        target->add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
+        target->add_effect( effect_paralyzepoison, 5_minutes );
     }
 
     return true;
