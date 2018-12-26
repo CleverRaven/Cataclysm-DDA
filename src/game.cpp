@@ -3748,13 +3748,14 @@ void game::draw_sidebar()
         const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
         for( int i = 0; i < 4; i++ ) {
             nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
-            wprintz( w_status, c, letters[i].c_str() );
+            wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
         }
     }
     wrefresh( w_status );
     if( sideStyle ) {
         wrefresh( w_status2 );
     }
+    wrefresh( w_HP );
     wrefresh( s_window );
     draw_minimap();
     draw_pixel_minimap();
