@@ -5849,6 +5849,11 @@ void player::suffer()
     // Used to control vomiting from radiation to make it not-annoying
     bool radiation_increasing = irradiate( rads );
 
+    if( radiation_increasing && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
+        add_msg_if_player( m_warning,
+                           _( "You feel an anomalous sensation coming from your radiation sensors." ) );
+    }
+
     if( calendar::once_every( 15_minutes ) ) {
         if (radiation < 0) {
             radiation = 0;
@@ -6217,11 +6222,6 @@ bool player::irradiate( float rads, bool bypass )
         if( has_effect( effect_iodine ) ) {
             // Radioactive mutation makes iodine less efficient (but more useful)
             rads *= 0.3f + 0.1f * rad_mut;
-        }
-
-        if( rads > 0.0f && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
-            add_msg_if_player( m_warning,
-                               _( "You feel an anomalous sensation coming from your radiation sensors." ) );
         }
 
         int rads_max = roll_remainder( rads );
