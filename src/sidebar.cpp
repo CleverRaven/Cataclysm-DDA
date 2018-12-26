@@ -292,7 +292,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         trim_and_print( weapwin, y, 0, wn, c_light_gray, print_gun_mode( *this ) );
     }
 
-    // Print in sidebar currently used style.
+    // Print in sidebar currently used martial style.
     std::string style;
     const auto &cur_style = style_selected.obj();
     if( !weapon.is_gun() ) {
@@ -307,7 +307,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     if( !style.empty() ) {
         const auto style_color = is_armed() ? c_red : c_blue;
-        const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
+        const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : ( getmaxx( weapwin ) - 12 );
         mvwprintz( weapwin, 0, x, style_color, style );
     }
 
@@ -368,7 +368,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
-    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 9 );
+    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 25 );
     if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
         wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
@@ -386,6 +386,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_blue,  _( "Freezing!%s" ), temp_message );
     }
 
+    // mytest
     // const int x = 32;
     // const int y = 0; // sideStyle ?  0 :  1;
     // wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 9 );
@@ -427,7 +428,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_yellow, _( "Tired" ) );
     }
 
-    wmove( w, sideStyle ? 4 : 2, sideStyle ? 0 : 41 );
+    wmove( w, sideStyle ? 4 : 2, sideStyle ? 0 : 43 );
     wprintz( w, c_white, _( "Focus" ) );
     nc_color col_xp = c_dark_gray;
     if( focus_pool >= 100 ) {
