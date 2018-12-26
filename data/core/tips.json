@@ -87,7 +87,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Always have an escape plan." ]
+    "text": [ "If you're breaking in, be sure you also know how to get back out." ]
   },
   {
     "type": "snippet",
@@ -167,7 +167,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Why walk when you can grab a car?" ]
+    "text": [ "Why walk when you can use a car?  Or a tank?" ]
   },
   {
     "type": "snippet",
@@ -257,7 +257,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Storage conditions can affect the shelf life of foods.  The colder, the better." ]
+    "text": [ "Temperature affects the shelf life of foods.  The colder, the better." ]
   },
   {
     "type": "snippet",
@@ -343,11 +343,6 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Put a funnel over a jug or barrel to collect rainwater over time." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "The dead have a nasty habit of getting back up.  Smash their corpses to make them stop." ]
   },
   {
     "type": "snippet",
