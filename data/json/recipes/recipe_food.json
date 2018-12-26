@@ -681,8 +681,8 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-      [ [ "meat", 3 ], [ "rehydrated_meat", 6 ], [ "meat_canned", 6 ], [ "can_chicken", 6 ] ],
-      [ [ "fat", 3 ], [ "tallow", 3 ], [ "lard", 3 ] ],
+      [ [ "meat", 2 ], [ "rehydrated_meat", 4 ], [ "meat_canned", 4 ], [ "can_chicken", 4 ] ],
+      [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
       [
         [ "salt", 10 ],
         [ "soysauce", 1 ],
