@@ -89,7 +89,7 @@ std::vector<construction> constructions;
 static const deferred_color color_title = def_c_light_red; //color for titles
 static const deferred_color color_data = def_c_cyan; //color for data parts
 
-void standardize_construction_times( int const time )
+void standardize_construction_times( const int time )
 {
     for( auto &c : constructions ) {
         c.time = time;
@@ -317,6 +317,7 @@ void construction_menu()
                 filter = uistate.construction_filter;
             }
         }
+        isnew = false;
         // Erase existing tab selection & list of constructions
         mvwhline( w_con, 1, 1, ' ', w_list_width );
         werase( w_list );
@@ -970,7 +971,7 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( point( 0, 0 ), vpart_from_item( g->u.lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( g->u.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1021,7 +1022,7 @@ void construct::done_deconstruct( const tripoint &p )
     }
 }
 
-void unroll_digging( int const numer_of_2x4s )
+void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
     item rope( "rope_30" );
@@ -1032,11 +1033,11 @@ void unroll_digging( int const numer_of_2x4s )
 
 void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
-    tripoint const abs_pos = g->m.getabs( p );
-    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
+    const tripoint abs_pos = g->m.getabs( p );
+    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
-    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
@@ -1087,8 +1088,8 @@ void construct::done_mine_downstair( const tripoint &p )
 
 void construct::done_mine_upstair( const tripoint &p )
 {
-    tripoint const abs_pos = p;
-    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
+    const tripoint abs_pos = p;
+    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );

@@ -88,7 +88,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         str_req++;
         //if vehicle has no wheels str_req make a noise.
         if( str_req <= u.get_str() ) {
-            sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2,
+            sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
                            _( "a scraping noise." ) );
         }
     }

@@ -399,7 +399,7 @@ void load_terrain( JsonObject &jo, const std::string &src )
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    auto const it = ter_bitflags_map.find( flag );
+    const auto it = ter_bitflags_map.find( flag );
     if( it != ter_bitflags_map.end() ) {
         bitflags.set( it->second );
         if( !transparent && it->second == TFLAG_TRANSPARENT ) {
@@ -414,7 +414,7 @@ void map_data_common_t::set_flag( const std::string &flag )
 
 void map_data_common_t::set_connects( const std::string &connect_group_string )
 {
-    auto const it = ter_connects_map.find( connect_group_string );
+    const auto it = ter_connects_map.find( connect_group_string );
     if( it != ter_connects_map.end() ) {
         connect_group = it->second;
     } else { // arbitrary connect groups are a bad idea for optimization reasons
@@ -521,6 +521,7 @@ ter_id t_null,
        t_vat,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
+       t_nanofab, t_nanofab_body,
        t_water_pump,
        t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
        t_improvised_shelter,
@@ -772,6 +773,8 @@ void set_ter_ids()
     t_rootcellar = ter_id( "t_rootcellar" );
     t_cvdbody = ter_id( "t_cvdbody" );
     t_cvdmachine = ter_id( "t_cvdmachine" );
+    t_nanofab = ter_id( "t_nanofab" );
+    t_nanofab_body = ter_id( "t_nanofab_body" );
     t_stairs_down = ter_id( "t_stairs_down" );
     t_stairs_up = ter_id( "t_stairs_up" );
     t_manhole = ter_id( "t_manhole" );
@@ -1160,6 +1163,9 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );

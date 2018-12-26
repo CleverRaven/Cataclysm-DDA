@@ -1532,6 +1532,13 @@
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
+    "result": "stick_fiber",
+    "type": "uncraft",
+    "time": 60000,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plant_fibre", 80 ] ] ]
+  },
+  {
     "result": "ref_lighter",
     "type": "uncraft",
     "time": 100,
@@ -2040,6 +2047,22 @@
     "time": 4000,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "result": "muffler",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 800,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 7 ] ], [ [ "steel_chunk", 1 ] ], [ [ "platinum_small", 8 ] ], [ [ "pipe", 2 ] ] ]
+  },
+  {
+    "result": "fluid_preserved_brain",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "chem_formaldehyde", 10 ] ], [ [ "human_brain_embalmed", 5 ] ], [ [ "jar_3l_glass", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "trailmap",

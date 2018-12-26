@@ -9,7 +9,7 @@
 
 std::map<std::string, std::vector<SpeechBubble> > speech;
 
-SpeechBubble nullSpeech = { "", 0 };
+SpeechBubble nullSpeech = { "hsss", 0 };
 
 void load_speech( JsonObject &jo )
 {

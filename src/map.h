@@ -64,6 +64,7 @@ struct mapgendata;
 class map_cursor;
 class Character;
 class item_location;
+class zone_data;
 struct trap;
 struct oter_t;
 enum direction : unsigned;
@@ -191,6 +192,7 @@ struct level_cache {
     bool veh_exists_at[SEEX * MAPSIZE][SEEY * MAPSIZE];
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
+    std::set<vehicle *> zone_vehicles;
 };
 
 /**
@@ -490,6 +492,11 @@ class map
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( submap *const to, const int zlev );
+        //Returns true if vehicle zones are dirty and need to be recached
+        bool check_vehicle_zones( const int zlev );
+        std::vector<zone_data *> get_vehicle_zones( const int zlev );
+        void register_vehicle_zone( vehicle *, const int zlev );
+        bool deregister_vehicle_zone( zone_data &zone );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
@@ -1244,6 +1251,7 @@ class map
         }
         tripoint getlocal( const tripoint &p ) const;
         bool inbounds( const int x, const int y ) const;
+        bool inbounds( const point &x ) const;
         bool inbounds( const int x, const int y, const int z ) const;
         bool inbounds( const tripoint &p ) const;
 
@@ -1400,36 +1408,30 @@ class map
         submap *getsubmap( size_t grididx ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
-         * (x,y) must be a valid coordinate, check with @ref inbounds.
+         * (p) must be a valid coordinate, check with @ref inbounds.
          */
-        submap *get_submap_at( int x, int y ) const;
-        submap *get_submap_at( int x, int y, int z ) const;
+        submap *get_submap_at( const point &p ) const;
         submap *get_submap_at( const tripoint &p ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
-         * The same as other get_submap_at, (x,y,z) must be valid (@ref inbounds).
-         * Also writes the position within the submap to offset_x, offset_y
-         * offset_z would always be 0, so it is not used here
+         * The same as other get_submap_at, (p) must be valid (@ref inbounds).
+         * Also writes the position within the submap to offset_p
          */
-        submap *get_submap_at( const int x, const int y, int &offset_x, int &offset_y ) const;
-        submap *get_submap_at( const int x, const int y, const int z,
-                               int &offset_x, int &offset_y ) const;
-        submap *get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const;
+        submap *get_submap_at( const point &p, point &offset_p ) const;
+        submap *get_submap_at( const tripoint &p, point &offset_p ) const;
         /**
          * Get submap pointer in the grid at given grid coordinates. Grid coordinates must
          * be valid: 0 <= x < my_MAPSIZE, same for y.
          * z must be between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        submap *get_submap_at_grid( int gridx, int gridy ) const;
-        submap *get_submap_at_grid( int gridx, int gridy, int gridz ) const;
+        submap *get_submap_at_grid( const point &gridp ) const;
         submap *get_submap_at_grid( const tripoint &gridp ) const;
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
          * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        size_t get_nonant( int gridx, int gridy ) const;
-        size_t get_nonant( const int gridx, const int gridy, const int gridz ) const;
+        size_t get_nonant( const point &gridp ) const;
         size_t get_nonant( const tripoint &gridp ) const;
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of
@@ -1509,13 +1511,13 @@ class map
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
-        void process_items( bool active, map_process_func processor, std::string const &signal );
+        void process_items( bool active, map_process_func processor, const std::string &signal );
         void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      map::map_process_func processor, std::string const &signal );
+                                      map::map_process_func processor, const std::string &signal );
         void process_items_in_vehicles( submap &current_submap, const int gridz,
-                                        map_process_func processor, std::string const &signal );
+                                        map_process_func processor, const std::string &signal );
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
-                                       map::map_process_func processor, std::string const &signal );
+                                       map::map_process_func processor, const std::string &signal );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {

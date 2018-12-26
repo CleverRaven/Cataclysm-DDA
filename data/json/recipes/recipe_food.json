@@ -80,6 +80,14 @@
   },
   {
     "type": "recipe",
+    "result": "meat_scrap_cooked",
+    "copy-from": "meat_cooked",
+    "time": 750,
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "meat_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "sweetbread_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -1242,7 +1250,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "coffee_bean", 1 ], [ "coffee_pod", 2 ] ] ]
+    "components": [ [ [ "coffee_bean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8330,6 +8338,125 @@
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ] ],
       [ [ "sugar", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "con_milk",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 40000,
+    "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 120, "LIST" ] ] ],
+    "components": [
+      [ [ "milk", 2 ] ],
+      [
+        [ "sugar", 100 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ],
+        [ "molasses", 1 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "con_milk",
+    "id_suffix": "jarred_3l",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_3l_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 3,
+    "time": 120000,
+    "result_mult": 12,
+    "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "water", 22 ], [ "water_clean", 22 ] ],
+      [ [ "milk", 24 ] ],
+      [
+        [ "sugar", 1200 ],
+        [ "syrup", 12 ],
+        [ "beet_syrup", 12 ],
+        [ "molasses", 12 ],
+        [ "honey_bottled", 12 ],
+        [ "honey_glassed", 12 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "con_milk",
+    "id_suffix": "jarred",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 3,
+    "time": 45000,
+    "result_mult": 2,
+    "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [
+      [ [ "jar_glass", 1 ] ],
+      [ [ "milk", 4 ] ],
+      [
+        [ "sugar", 200 ],
+        [ "syrup", 2 ],
+        [ "beet_syrup", 2 ],
+        [ "molasses", 2 ],
+        [ "honey_bottled", 2 ],
+        [ "honey_glassed", 2 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "con_milk",
+    "id_suffix": "canned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 3,
+    "time": 45000,
+    "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
+    "contained": true,
+    "batch_time_factors": [ 83, 5 ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "components": [
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "milk", 2 ] ],
+      [
+        [ "sugar", 100 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ],
+        [ "molasses", 1 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ]
+      ]
     ]
   },
   {

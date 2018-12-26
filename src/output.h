@@ -139,8 +139,6 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = fa
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
 
-std::string tag_colored_string( const std::string &s, nc_color color );
-
 /*@{*/
 /**
  * Removes the color tags from the input string. This might be required when the string is to
@@ -480,7 +478,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 // cTile is a UTF-8 strings, and must be a single cell wide!
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
-std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
+const std::pair<std::string, nc_color> &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
 std::pair<std::string, nc_color> get_light_level( const float light );
 
@@ -706,8 +704,8 @@ class scrollingcombattext
                 std::string getType() const {
                     return sType;
                 }
-                std::string getText( std::string const &type = "full" ) const;
-                game_message_type getMsgType( std::string const &type = "first" ) const;
+                std::string getText( const std::string &type = "full" ) const;
+                game_message_type getMsgType( const std::string &type = "first" ) const;
         };
 
         std::vector<cSCT> vSCT;
@@ -761,10 +759,6 @@ int get_terminal_height();
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();
-
-void play_music( std::string playlist );
-
-void update_music_volume();
 
 /**
  * Make changes made to the display visible to the user immediately.
