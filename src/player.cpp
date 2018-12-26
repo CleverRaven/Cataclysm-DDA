@@ -11002,8 +11002,8 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 std::string player::weapname() const
 {
     if( weapon.is_gun() ) {
-        std::stringstream str;
-        str << weapon.type_name();
+        std::string str;
+        str = weapon.type_name();
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
@@ -11014,28 +11014,31 @@ std::string player::weapname() const
         } );
 
         if( base || aux ) {
-            str << " (";
+            str += " (";
             if( base ) {
-                str << weapon.ammo_remaining();
+                str += std::to_string( weapon.ammo_remaining() );
                 if( weapon.magazine_integral() ) {
-                    str << "/" << weapon.ammo_capacity();
+                    str += "/" + std::to_string( weapon.ammo_capacity() );
                 }
             } else {
-                str << "---";
+                str += "---";
             }
-            str << ")";
+            str += ")";
 
             for( auto e : mods ) {
                 if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                    str << " (" << e->ammo_remaining();
+                    str += " (" + std::to_string( e->ammo_remaining() );
                     if( e->magazine_integral() ) {
-                        str << "/" << e->ammo_capacity();
+                        str += "/" + std::to_string( e->ammo_capacity() );
                     }
-                    str << ")";
+                    str += ")";
                 }
             }
         }
-        return str.str();
+        // std::cout << "weapon = " << str << " length = " << str.size() << "\n";
+        //if ( str.size() >= 10 )
+        //    str.resize ( 10 );
+        return "Weapon  : " + str;
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
         return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
@@ -11044,7 +11047,8 @@ std::string player::weapname() const
         return _( "Weapon  : fists" );
 
     } else {
-        return "Weapon  : " + weapon.tname(false);
+        bool with_prefix = true;
+        return "Weapon  : " + weapon.tname( with_prefix = true );
     }
 }
 

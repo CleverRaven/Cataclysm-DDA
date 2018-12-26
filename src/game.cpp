@@ -661,6 +661,10 @@ void game::init_ui( const bool resized )
         w_messages = w_messages_long;
     }
 
+    w_location_wider = w_location_wider_ptr = catacurses::newwin( locH, locW, _y + locY,
+                       _x + locX - 7 );
+    werase( w_location_wider );
+
     w_location = w_location_ptr = catacurses::newwin( locH, locW, _y + locY, _x + locX );
     werase( w_location );
 
@@ -3622,8 +3626,10 @@ void game::draw_sidebar()
         werase( w_status2 );
     }
     u.disp_status( w_status, w_status2 );
+    // sidestyle ? wider : narrow
+    const catacurses::window &time_window = w_status;
+    const catacurses::window &s_window = sideStyle ? w_location : w_status;
 
-    const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     // mytest: try other sidebar style too .. and see how it goes
     wmove( time_window, sideStyle ? 1 : 0, sideStyle ? 15 : 41 );
     if( u.has_watch() ) {
@@ -3646,44 +3652,46 @@ void game::draw_sidebar()
         vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
 
         const int iHour = hour_of_day<int> ( calendar::turn );
-        wprintz( time_window, c_white, "[" );
+        wprintz( w_location_wider, c_white, "[" );
         bool bAddTrail = false;
 
         for( int i = 0; i < 14; i += 2 ) {
             if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) {
-                wputch( time_window, hilite( c_white ), ' ' );
+                wputch( w_location_wider, hilite( c_white ), ' ' );
 
             } else if( iHour >= 6 + i && iHour <= 7 + i ) {
-                wputch( time_window, hilite( vGlyphs[i].second ), vGlyphs[i].first );
+                wputch( w_location_wider, hilite( vGlyphs[i].second ), vGlyphs[i].first );
                 bAddTrail = true;
 
             } else if( iHour >= ( 18 + i ) % 24 && iHour <= ( 19 + i ) % 24 ) {
-                wputch( time_window, vGlyphs[i + 1].second, vGlyphs[i + 1].first );
+                wputch( w_location_wider, vGlyphs[i + 1].second, vGlyphs[i + 1].first );
 
             } else if( bAddTrail && iHour >= 6 + ( i / 2 ) ) {
-                wputch( time_window, hilite( c_white ), ' ' );
+                wputch( w_location_wider, hilite( c_white ), ' ' );
 
             } else {
-                wputch( time_window, c_white, ' ' );
+                wputch( w_location_wider, c_white, ' ' );
             }
         }
 
-        wprintz( time_window, c_white, "]" );
+        wprintz( w_location_wider, c_white, "]" );
     } else {
         wprintz( time_window, c_white, _( "Time: ???" ) );
     }
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
-
+    // mytest
     werase( w_location );
-    mvwprintz( w_location, 0, 0, c_light_gray, "Location: " );
-    wprintz( w_location, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w_location ) ) );
+    wrefresh( w_location );
+    wrefresh( w_location_wider );
+    mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
+    wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
 
     if( get_levz() < 0 ) {
-        mvwprintz( w_location, 1, 0, c_light_gray, _( "Underground" ) );
+        mvwprintz( s_window, 1, 0, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w_location, 1, 0, c_light_gray, _( "Weather :" ) );
-        wprintz( w_location, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
+        mvwprintz( s_window, 1, 0, c_light_gray, _( "Weather :" ) );
+        wprintz( s_window, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
@@ -3703,32 +3711,33 @@ void game::draw_sidebar()
                        "<color_" + string_from_color( i_black ) + ">" );
     }
 
-    mvwprintz( w_location, 1, 32, c_light_gray, "Moon : " );
-    trim_and_print( w_location, 1, 39, 11, c_white, sPhase.c_str() );
+    mvwprintz( s_window, 1, 32, c_light_gray, "Moon : " );
+    trim_and_print( s_window, 1, 39, 11, c_white, sPhase.c_str() );
 
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w_location, 2, 0, c_light_gray, "%s ", _( "Lighting:" ) );
-    wprintz( w_location, ll.second, ll.first.c_str() );
+    mvwprintz( s_window, 2, 0, c_light_gray, "%s ", _( "Lighting:" ) );
+    wprintz( s_window, ll.second, ll.first.c_str() );
 
 
     // display player noise in sidebar
     const int x = 32;
     const int y = sideStyle ?  2 :  1;
     if( u.is_deaf() ) {
-        mvwprintz( w_location, y, x, c_red, _( "Deaf!" ) );
+        mvwprintz( s_window, y, x, c_red, _( "Deaf!" ) );
     } else {
-        mvwprintz( w_location, y, x, c_light_gray, "%s ", _( "Sound: " ) );
-        mvwprintz( w_location, y, x + 7, c_yellow,  std::to_string( u.volume ) );
+        mvwprintz( s_window, y, x, c_light_gray, "%s ", _( "Sound: " ) );
+        mvwprintz( s_window, y, x + 7, c_yellow,  std::to_string( u.volume ) );
         // + std::to_string( u.volume ) );
-        wrefresh( w_location );
+        wrefresh( s_window );
     }
     u.volume = 0;
 
     //Safemode coloring
     catacurses::window day_window = sideStyle ? w_status2 : w_status;
-    mvwprintz( day_window, 1, sideStyle ? 0 : 41, c_white, _( "%s, day %d" ),
+    mvwprintz( w_location_wider, 0, 0, c_white, _( "%s, day %d" ),
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int> ( calendar::turn ) + 1 );
+
     if( safe_mode != SAFE_MODE_OFF || get_option<bool> ( "AUTOSAFEMODE" ) ) {
         int iPercent = turnssincelastmon * 100 / get_option<int> ( "AUTOSAFEMODETURNS" );
         wmove( w_status, sideStyle ? 4 : 1, getmaxx( w_status ) - 4 );
@@ -3742,7 +3751,7 @@ void game::draw_sidebar()
     if( sideStyle ) {
         wrefresh( w_status2 );
     }
-
+    wrefresh( w_location_wider );
     draw_minimap();
     draw_pixel_minimap();
     draw_sidebar_messages();
