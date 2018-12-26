@@ -3371,7 +3371,8 @@ void game::disp_kills()
     for( const auto &entry : kill_counts ) {
         std::ostringstream buffer;
         buffer << "<color_" << std::get<2>( entry.first ) << ">";
-        buffer << std::get<1>( entry.first ) << "</color>" << " " << "<color_dark_gray>" << std::get<0>( entry.first ) << "</color>";
+        buffer << std::get<1>( entry.first ) << "</color>" << " " << "<color_light_gray>" << std::get<0>( entry.first );
+        buffer << "</color>";
         const int w = colum_width - utf8_width( std::get<0>( entry.first ) );
         buffer.width( w - 3 ); // gap between cols, monster sym, space
         buffer.fill( ' ' );
