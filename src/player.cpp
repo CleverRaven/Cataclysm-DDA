@@ -6265,8 +6265,8 @@ bool player::irradiate( float rads )
         if( rads > 0.0f ) {
             return true;
         }
-        return false;
     }
+    return false;
 }
 
 // At minimum level, return at_min, at maximum at_max
