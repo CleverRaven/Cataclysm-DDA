@@ -184,8 +184,8 @@ void mdeath::splatter( monster &z )
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
-                const int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * to_gram( z.get_weight() ) / to_gram( (
-                                    item::find_type( entry.drop ) )->weight );
+                const int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * to_gram(
+                                          z.get_weight() ) / to_gram( ( item::find_type( entry.drop ) )->weight );
                 scatter_chunks( entry.drop, chunk_amt, z, gib_distance, chunk_amt / ( gib_distance - 1 ) );
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
             }
