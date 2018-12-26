@@ -775,35 +775,33 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     for( const auto &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
-        bool pl = false;
-        bool mp = false;
+        bool found = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
             if( has_charges( type, count ) ) {
                 player_has.push_back( component );
-                pl = true;
+                found = true;
             }
             if( map_inv.has_charges( type, count ) ) {
                 map_has.push_back( component );
-                mp = true;
+                found = true;
             }
-            if( !pl && !mp && charges_of( type ) + map_inv.charges_of( type ) >= count ) {
+            if( !found && charges_of( type ) + map_inv.charges_of( type ) >= count ) {
                 mixed.push_back( component );
             }
         } else { // Counting by units, not charges
 
             if( has_amount( type, count ) ) {
                 player_has.push_back( component );
-                pl = true;
+                found = true;
             }
             if( map_inv.has_components( type, count ) ) {
                 map_has.push_back( component );
-                mp = true;
+                found = true;
             }
-            if( !pl && !mp && amount_of( type ) + map_inv.amount_of( type ) >= count ) {
+            if( !found && amount_of( type ) + map_inv.amount_of( type ) >= count ) {
                 mixed.push_back( component );
             }
-
         }
     }
 
