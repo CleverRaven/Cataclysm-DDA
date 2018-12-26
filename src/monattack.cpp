@@ -1133,13 +1133,15 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             if( !critial_fail && ( is_trivial || dodge_skill > rng( 0, att_rad_dodge_diff ) ) ) {
                 target->add_msg_player_or_npc( _( "You dodge the beam!" ),
                                                _( "<npcname> dodges the beam!" ) );
-            } else if( g->u.is_rad_immune() ) {
-                target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
-            } else if( one_in( att_rad_mutate_chance ) ) {
-                foe->mutate();
             } else {
-                target->add_msg_if_player( m_bad, _( "You get pins and needles all over." ) );
-                foe->radiation += rng( att_rad_dose_min, att_rad_dose_max );
+                bool rad_proof = !foe->irradiate( rng( att_rad_dose_min, att_rad_dose_max ) );
+                if( rad_proof ) {
+                    target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
+                } else if( one_in( att_rad_mutate_chance ) ) {
+                    foe->mutate();
+                } else {
+                    target->add_msg_if_player( m_bad, _( "You get pins and needles all over." ) );
+                }
             }
         }
         break;
