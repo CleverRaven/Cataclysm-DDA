@@ -93,7 +93,7 @@
     "id": "bratwurst_sausage",
     "name": "bratwurst",
     "name_plural": "bratwursts",
-    "weight": 220,
+    "weight": 100,
     "color": "brown",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
