@@ -3,6 +3,7 @@
 #include "assign.h"
 #include "debug.h"
 #include "item.h"
+#include "item_group.h"
 #include "output.h"
 
 #include <algorithm>
@@ -59,6 +60,8 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     assign( jo, "base_num", ret.base_num, strict, -1000.0f );
     assign( jo, "scale_num", ret.scale_num, strict, -1000.0f );
     assign( jo, "max", ret.max, strict, 1 );
+    assign( jo, "type", ret.type, strict );
+    assign( jo, "mass_ratio", ret.mass_ratio, strict, 0.00f );
 
     return ret;
 }
@@ -119,13 +122,38 @@ void harvest_list::check_consistency()
 {
     for( const auto &pr : harvest_all ) {
         const auto &hl = pr.second;
+        const std::string hl_id = hl.id().c_str();
+        auto error_func = [&]( const harvest_entry & entry ) {
+            std::string errorlist;
+            bool item_valid = true;
+            if( !( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
+                    item_group::group_is_defined( entry.drop ) ) ) ) {
+                item_valid = false;
+                errorlist += entry.drop;
+            }
+            // non butchery harvests need to be excluded
+            if( hl_id.substr( 0, 14 ) != "harvest_inline" ) {
+                if( entry.type == "null" ) {
+                    if( !item_valid ) {
+                        errorlist += ", ";
+                    }
+                    errorlist += "null type";
+                } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
+                              entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
+                    if( !item_valid ) {
+                        errorlist += ", ";
+                    }
+                    errorlist += entry.type;
+                }
+            }
+            return errorlist;
+        };
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
-        []( const harvest_entry & entry ) {
-            return item::type_is_defined( entry.drop ) ? "" : entry.drop;
-        } );
+                                   error_func );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid drop(s): %s", hl.id_.c_str(), errors.c_str() );
+            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors.c_str() );
         }
+
     }
 }
 

@@ -387,7 +387,7 @@ std::string ma_requirements::get_description( bool buff ) const
         dump << string_format( _( "<bold>Requires:</bold> " ) );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
-            return bid->name;
+            return _( bid->name.c_str() );
         }, enumeration_conjunction::none ) << std::endl;
     }
 
@@ -520,7 +520,7 @@ bool ma_buff::can_melee() const
 std::string ma_buff::get_description( bool passive ) const
 {
     std::stringstream dump;
-    dump << string_format( _( "<bold>Buff technique:</bold> %s" ), name ) << std::endl;
+    dump << string_format( _( "<bold>Buff technique:</bold> %s" ), _( name.c_str() ) ) << std::endl;
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
@@ -1040,7 +1040,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         buff_desc( _( "Get hit" ), ma.ongethit_buffs );
 
         for( const auto &tech : ma.techniques ) {
-            buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ), tech.obj().name );
+            buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
+                                     _( tech.obj().name.c_str() ) ) << std::endl;
             buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
         }
 
@@ -1079,7 +1080,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             werase( w );
             fold_and_print_from( w, 1, 2, width, selected, c_light_gray, text );
-            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
+            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name.c_str() ) ) );
             draw_scrollbar( w, selected, height, iLines, 1, 0, BORDER_COLOR, true );
             wrefresh( w );
             catacurses::refresh();

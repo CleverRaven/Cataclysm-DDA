@@ -4,6 +4,7 @@
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "clzones.h"
 #include "damage.h"
 #include "item.h"
 #include "item_group.h"
@@ -991,6 +992,8 @@ class vehicle
         // Calculate vehicle's total drain or production of electrical power, optionally
         // including nominal solar power.  Return engine power as engine_power
         int total_epower_w( int &engine_power, bool skip_solar = true );
+        // Calculate the total available power rating of all reactors
+        int total_reactor_epower_w() const;
         // Produce and consume electrical power, with excess power stored or taken from
         // batteries
         void power_parts();
@@ -1394,6 +1397,9 @@ class vehicle
         /** Required strength to be able to successfully lift the vehicle unaided by equipment */
         int lift_strength() const;
 
+        // Called by map.cpp to make sure the real position of each zone_data is accurate
+        bool refresh_zones();
+
         // config values
         std::string name;   // vehicle name
         /**
@@ -1407,6 +1413,8 @@ class vehicle
         std::map<point, std::vector<int> >
         relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
+        std::unordered_multimap<point, zone_data> loot_zones;
+        // relative loot zone positions
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
@@ -1513,6 +1521,8 @@ class vehicle
         bool falling                    = false;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::time_of_cataclysm;
+        // zone_data positions are outdated and need refreshing
+        bool zones_dirty = true;
 
     private:
         // refresh pivot_cache, clear pivot_dirty
