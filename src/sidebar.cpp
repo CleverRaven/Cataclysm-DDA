@@ -368,7 +368,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
-    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 25 );
+    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 20 );
     if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
         wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
@@ -458,18 +458,19 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     } else if( morale_cur <= -10 ) {
         col_morale = c_red;
     }
+    // mytest
+    //     face_type fc = face_human;
+    //     if( has_trait( trait_THRESH_FELINE ) ) {
+    //         fc = face_cat;
+    //     } else if( has_trait( trait_THRESH_URSINE ) ) {
+    //         fc = face_bear;
+    //     } else if( has_trait( trait_THRESH_BIRD ) ) {
+    //         fc = face_bird;
+    //     }
 
-    face_type fc = face_human;
-    if( has_trait( trait_THRESH_FELINE ) ) {
-        fc = face_cat;
-    } else if( has_trait( trait_THRESH_URSINE ) ) {
-        fc = face_bear;
-    } else if( has_trait( trait_THRESH_BIRD ) ) {
-        fc = face_bird;
-    }
-
-    mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 9, col_morale,
-               morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
+    // mytest
+    //     mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 9, col_morale,
+    //                morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
@@ -538,7 +539,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             print_stamina_bar( *this, w );
         }
     } else {  // Not in vehicle
-        const int wx = sideStyle ? 18 : 12;
+        const int wx = sideStyle ? 18 :  0;
         const int wy = sideStyle ?  0 :  3;
         const int dx = sideStyle ?  0 :  7;
         const int dy = sideStyle ?  1 :  0;
@@ -547,7 +548,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         mvwprintz( w, wy + dy * 2, wx + dx * 2, stat_color( get_int_bonus() ), _( "Int %d" ), int_cur );
         mvwprintz( w, wy + dy * 3, wx + dx * 3, stat_color( get_per_bonus() ), _( "Per %d" ), per_cur );
 
-        const int spdx = sideStyle ?  0 : wx + dx * 4 + 1;
+        const int spdx = sideStyle ?  0 : getmaxx( w ) - 12;
         const int spdy = sideStyle ?  5 : wy + dy * 4;
         mvwprintz( w, spdy, spdx, stat_color( get_speed_bonus() ), _( "Spd %d" ), get_speed() );
 
