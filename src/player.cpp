@@ -6191,7 +6191,7 @@ void player::suffer()
     }
 }
 
-bool player::irradiate( float rads )
+bool player::irradiate( float rads, bool bypass )
 {
     int rad_mut = 0;
     if( has_trait( trait_RADIOACTIVE3 ) ) {
@@ -6207,13 +6207,11 @@ bool player::irradiate( float rads )
         const bool power_armored = is_wearing_power_armor( &has_helmet );
         const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
 
-        if( is_rad_immune() ) {
+        if( is_rad_immune() && !bypass ) {
             // Power armor and some high-tech gear protects completely from radiation
             rads = 0.0f;
-        } else if( rad_resist ) {
+        } else if( rad_resist && !bypass ) {
             rads /= 4.0f;
-        } else {
-
         }
 
         if( has_effect( effect_iodine ) ) {

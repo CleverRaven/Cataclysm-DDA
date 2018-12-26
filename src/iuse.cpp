@@ -293,7 +293,7 @@ int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good, _( "Wow!  This %s has a kick." ), it->tname().c_str() );
     p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 12 );
-    p->radiation += 8;
+    p->irradiate( 8, true );
     return it->type->charges_to_use();
 }
 
