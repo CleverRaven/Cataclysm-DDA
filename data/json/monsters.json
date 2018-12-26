@@ -862,7 +862,7 @@
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL", "SPLATTER" ],
+    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
   {
@@ -2361,7 +2361,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
-    "death_function": [ "NORMAL", "SPLATTER" ],
+    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
@@ -4961,7 +4961,7 @@
     "special_attacks": [ [ "SMASH", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ],
     { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] } ],
     "death_drops": "mon_zombie_hulk_death_drops",
-    "death_function": [ "NORMAL", "SPLATTER" ],
+    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
