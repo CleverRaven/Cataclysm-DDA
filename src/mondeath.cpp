@@ -102,6 +102,8 @@ void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int dist
 {
     // can't have less than one item in a pile or it would cause an infinite loop
     pile_size = std::max( pile_size, 1 );
+    // can't have more items in a pile than total items
+    pile_size = std::min( chunk_amt, pile_size );
     distance = abs( distance );
     const item chunk( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
@@ -182,9 +184,9 @@ void mdeath::splatter( monster &z )
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
-                scatter_chunks( entry.drop, ( entry.mass_ratio / overflow_ratio / 10 * to_gram(
-                                                  z.get_weight() ) ) / to_gram( ( item::find_type( entry.drop ) )->weight ), z, gib_distance,
-                                to_gram( ( item::find_type( entry.drop ) )->weight ) / ( gib_distance - 1 ) );
+                int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * to_gram( z.get_weight() ) / to_gram( (
+                                    item::find_type( entry.drop ) )->weight );
+                scatter_chunks( entry.drop, chunk_amt, z, gib_distance, chunk_amt / ( gib_distance - 1 ) );
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
             }
         }
