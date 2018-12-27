@@ -342,8 +342,9 @@
     "type": "COMESTIBLE",
     "copy-from": "flesh",
     "looks_like": "offal",
-    "name": "raw lung",
-    "description": "The lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavourless connective tissue.",
+    "name": "piece of raw lung",
+    "name_plural": "pieces of raw lung",
+    "description": "A portion of lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavourless connective tissue.",
     "weight": 56,
     "volume": 1,
     "color": "pink",
@@ -360,8 +361,9 @@
     "type": "COMESTIBLE",
     "copy-from": "lung",
     "looks_like": "offal_cooked",
-    "name": "cooked lung",
-    "description": "It doesn't look any tastier, but the parasites are all cooked out.  Prepared in this way, it's a chewy lump of flavourless connective tissue",
+    "name": "cooked piece of lung",
+    "name_plural": "cooked pieces of lung",
+    "description": " Prepared in this way, it's a chewy grayish lump of flavourless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0
   },
   {
