@@ -121,7 +121,9 @@
         "color" : "brown",
         "covers" : ["HEAD"],
         "use_action": {
-            "type": "consume_drug",
+            "menu_text": "Tip",
+            "type": "transform",
+            "target": "fedora",
             "activation_message": "You tip your fedora."
         },
         "symbol" : "[",
@@ -1548,7 +1550,9 @@
         "color" : "light_gray",
         "covers" : ["HEAD"],
         "use_action": {
-            "type": "consume_drug",
+            "menu_text": "Tip",
+            "type": "transform",
+            "target": "straw_fedora",
             "activation_message": "You tip your fedora."
         },
         "symbol" : "[",
