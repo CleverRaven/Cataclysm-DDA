@@ -340,7 +340,7 @@
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["steel"],
-        "volume" : 1,
+        "volume" : 2,
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 2000
@@ -354,7 +354,7 @@
         "color": "light_cyan",
         "symbol": ",",
         "material": [ "steel", "plastic"],
-        "volume": 2,
+        "volume": 1,
         "category": "veh_parts",
         "price": 2000
     },
