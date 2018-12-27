@@ -683,7 +683,6 @@
     "components": [
       [ [ "meat", 2 ], [ "rehydrated_meat", 4 ], [ "meat_canned", 4 ], [ "can_chicken", 4 ] ],
       [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
-      [ [ "ketchup", 1 ], [ "mustard", 1 ], [ "mayonnaise", 1 ] ],
       [
         [ "salt", 10 ],
         [ "soysauce", 1 ],
