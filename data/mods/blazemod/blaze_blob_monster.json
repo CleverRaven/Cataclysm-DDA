@@ -44,6 +44,7 @@
     "revert_to_itype": "gloople",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
+    "harvest": "exempt",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -73,6 +74,7 @@
     "revert_to_itype": "gray",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
+    "harvest": "exempt",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -102,6 +104,7 @@
     "revert_to_itype": "oozle",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
+    "harvest": "exempt",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   }
 ]
