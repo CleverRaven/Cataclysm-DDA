@@ -545,6 +545,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
 
+    if( debug_mode ) {
+        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+    }
+
     std::string effects = get_effect_status();
     long long used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
@@ -567,8 +571,27 @@ std::string monster::extended_description() const
     std::ostringstream ss;
     const auto att = get_attitude();
     std::string att_colored = colorize( att.first, att.second );
+    std::string difficulty_str;
+    if( debug_mode ) {
+        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+    } else {
+        if( type->difficulty < 3 ) {
+            difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
+        } else if( type->difficulty < 10 ) {
+            difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
+        } else if( type->difficulty < 20 ) {
+            difficulty_str = _( "<color_light_red>Dangerous.</color>" );
+        } else if( type->difficulty < 30 ) {
+            difficulty_str = _( "<color_red>Very dangerous.</color>" );
+        } else if( type->difficulty < 50 ) {
+            difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
+        } else {
+            difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
+        }
+    }
 
-    ss << string_format( _( "This is a %s. %s" ), name().c_str(), att_colored.c_str() ) << std::endl;
+    ss << string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
+                         difficulty_str ) << std::endl;
     if( !get_effect_status().empty() ) {
         ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status().c_str() ) << std::endl;
     }
