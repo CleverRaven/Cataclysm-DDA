@@ -674,7 +674,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
-    "difficulty": 2,
+    "difficulty": 4,
     "time": 60000,
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
