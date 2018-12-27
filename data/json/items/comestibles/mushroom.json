@@ -82,8 +82,7 @@
     "id": "dry_mushroom_magic",
     "name": "dried hallucinogenic mushroom",
     "copy-from": "dry_mushroom",
-    "description": "A hallucinogenic mushroom which has been dehydrated for storage.  Will still cause hallucinations if eaten.",
-    "charges": 4
+    "description": "A hallucinogenic mushroom which has been dehydrated for storage.  Will still cause hallucinations if eaten."
   },
   {
     "type": "COMESTIBLE",
