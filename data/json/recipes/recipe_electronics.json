@@ -1400,7 +1400,7 @@
   ],
   "components": [
     [ [ "e_scrap", 1 ] ],
-    [ [ "scrap", 3 ] ],
+    [ [ "scrap", 1 ] ],
     [ [ "cable", 3 ] ]
   ]
 },{
@@ -1422,7 +1422,7 @@
   ],
   "components": [
     [ [ "plastic_chunk", 1 ] ],
-    [ [ "scrap", 1 ] ],
+    [ [ "scrap", 3 ] ],
     [ [ "cable", 3 ] ]
   ]
 },{
