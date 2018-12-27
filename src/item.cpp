@@ -153,6 +153,11 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         }
     }
 
+    if( has_flag( "NANOFAB_TEMPLATE" ) ) {
+        itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
+        set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
+    }
+
     if( type->gun ) {
         for( const auto &mod : type->gun->built_in_mods ) {
             emplace_back( mod, turn, qty ).item_tags.insert( "IRREMOVABLE" );
@@ -2867,6 +2872,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
     }
+
+    if( has_var( "NANOFAB_ITEM_ID" ) ) {
+        ret << string_format( " (%s)", nname( get_var( "NANOFAB_ITEM_ID" ) ) );
+    }
+
     if( has_flag( "RADIO_MOD" ) ) {
         ret << _( " (radio:" );
         if( has_flag( "RADIOSIGNAL_1" ) ) {
@@ -3056,6 +3066,9 @@ units::mass item::weight( bool include_contents ) const
         if( has_flag( "QUARTERED" ) ) {
             ret /= 4;
         }
+        if( has_flag( "GIBBED" ) ) {
+            ret *= 0.85;
+        }
 
     } else if( magazine_integral() && !is_magazine() ) {
         if( ammo_type() == ammotype( "plutonium" ) ) {
@@ -3098,6 +3111,9 @@ units::volume item::corpse_volume( const mtype *corpse ) const
     }
     if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
         corpse_volume *= 0.75;
+    }
+    if( has_flag( "GIBBED" ) ) {
+        corpse_volume *= 0.85;
     }
     if( corpse_volume > 0 ) {
         return corpse_volume;
@@ -6939,6 +6955,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
             ++it;
         }
     }
+
     if( activate ) {
         return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
     }

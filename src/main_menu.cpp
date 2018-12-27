@@ -17,6 +17,7 @@
 #include "path_info.h"
 #include "player.h"
 #include "safemode_ui.h"
+#include "sdlsound.h"
 #include "sounds.h"
 #include "text_snippets.h"
 #include "translations.h"

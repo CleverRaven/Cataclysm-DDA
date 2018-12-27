@@ -92,6 +92,38 @@
     "flags": [ "SMOKABLE" ]
   },
   {
+    "id": "meat_scrap",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "scrap of meat",
+    "name_plural": "scraps of meat",
+    "description": "It's not much, but it'll do in a pinch.",
+    "weight": 10,
+    "volume": "12 ml",
+    "price": 24,
+    "calories": 12
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "ruined_chunks",
+    "//": "This item should not get any use whatsoever, it is merely conservation of mass and an attractor for carrion.",
+    "symbol": "¨",
+    "name": "butchery refuse",
+    "name_plural": "butchery refuse",
+    "charges": 15,
+    "volume": 10,
+    "weight": 250,
+    "color": "black",
+    "looks-like": "meat_tainted",
+    "description": "Eugh.",
+    "material": [ "flesh" ],
+    "spoils_in": "8 hours",
+    "vitamins": [  ],
+    "rot_spawn": "GROUP_CARRION",
+    "rot_spawn_chance": 101
+  },
+  {
     "id": "meat_cooked",
     "copy-from": "meat",
     "type": "COMESTIBLE",
@@ -103,6 +135,17 @@
     "healthy": 0,
     "fun": 0,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "meat_scrap_cooked",
+    "copy-from": "meat_scrap",
+    "type": "COMESTIBLE",
+    "name": "cooked scrap of meat",
+    "name_plural": "cooked scraps of meat",
+    "parasites": 0,
+    "fun": 0,
+    "healthy": 0,
+    "calories": 51
   },
   {
     "id": "offal",
