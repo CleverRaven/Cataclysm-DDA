@@ -35,7 +35,7 @@
     "stim": -5,
     "addiction_potential": 6,
     "container": "test_tube",
-    "tool": "syringe"
+    "tools_needed": "syringe"
   },
   {
     "id": "iv_mutagen",
