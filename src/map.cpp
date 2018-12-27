@@ -4758,6 +4758,9 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                                   const itype_id type, long &quantity )
 {
     std::list<item> ret;
+
+    // We prefer infinite map sources where available, so search for those
+    // first
     for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
         // can not reach this -> can not access its contents
         if( origin != p && !clear_path( origin, p, range, 1, 100 ) ) {
@@ -4770,6 +4773,13 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             ret.push_back( water );
             quantity = 0;
             return ret;
+        }
+    }
+
+    for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
+        // can not reach this -> can not access its contents
+        if( origin != p && !clear_path( origin, p, range, 1, 100 ) ) {
+            continue;
         }
 
         if( has_furn( p ) ) {
