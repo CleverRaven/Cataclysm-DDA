@@ -138,7 +138,7 @@
     "volume": 1,
     "price": 400,
     "to_hit": -5,
-	"looks_like": "e_scrap",
+    "looks_like": "e_scrap",
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray"
