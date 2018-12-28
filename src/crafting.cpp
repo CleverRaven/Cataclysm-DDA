@@ -220,17 +220,17 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
         std::sort( conts.begin(), conts.end(), item_ptr_compare_by_charges );
 
         long charges_to_store = prod.charges;
-        for( const item *elem : conts ) {
+        for( const item *cont : conts ) {
             if( charges_to_store <= 0 ) {
                 break;
             }
 
-            if( !elem->is_container_empty() ) {
-                if( elem->contents.front().typeId() == prod.typeId() ) {
-                    charges_to_store -= elem->get_remaining_capacity_for_liquid( elem->contents.front(), true );
+            if( !cont->is_container_empty() ) {
+                if( cont->contents.front().typeId() == prod.typeId() ) {
+                    charges_to_store -= cont->get_remaining_capacity_for_liquid( cont->contents.front(), true );
                 }
             } else {
-                charges_to_store -= elem->get_remaining_capacity_for_liquid( prod, true );
+                charges_to_store -= cont->get_remaining_capacity_for_liquid( prod, true );
             }
         }
 
