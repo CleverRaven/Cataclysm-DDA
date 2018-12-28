@@ -5,17 +5,10 @@
     "name": "canoe",
     "blueprint": [ [ "<OO>" ] ],
     "parts": [
-      { "x": 0, "y": 0, "part": "frame_wood_horizontal" },
-      { "x": 0, "y": 0, "part": "seat" },
-      { "x": 0, "y": 0, "part": "hand_paddles" },
-      { "x": 0, "y": 0, "part": "boat_board" },
-      { "x": 1, "y": 0, "part": "frame_wood_horizontal" },
-      { "x": 1, "y": 0, "part": "boat_board" },
-      { "x": 1, "y": 0, "part": "seat" },
-      { "x": 2, "y": 0, "part": "frame_wood_horizontal" },
-      { "x": 2, "y": 0, "part": "boat_board" },
-      { "x": -1, "y": 0, "part": "frame_wood_horizontal" },
-      { "x": -1, "y": 0, "part": "boat_board" }
+      { "x": 0, "y": 0, "parts": [ "frame_wood_horizontal", "seat", "hand_paddles", "boat_board" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board", "seat" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board" ] }
     ]
   },
   {
@@ -24,16 +17,10 @@
     "name": "raft",
     "blueprint": [ [ "OO" ], [ "OO" ] ],
     "parts": [
-      { "x": 0, "y": 0, "part": "frame_wood_cross" },
-      { "x": 0, "y": 0, "part": "seat" },
-      { "x": 0, "y": 0, "part": "hand_paddles" },
-      { "x": 0, "y": 0, "part": "boat_board" },
-      { "x": 1, "y": 0, "part": "frame_wood_cross" },
-      { "x": 1, "y": 0, "part": "boat_board" },
-      { "x": 1, "y": 1, "part": "frame_wood_cross" },
-      { "x": 1, "y": 1, "part": "boat_board" },
-      { "x": 0, "y": 1, "part": "frame_wood_cross" },
-      { "x": 0, "y": 1, "part": "boat_board" }
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "seat", "hand_paddles", "boat_board" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "boat_board" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "boat_board" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "boat_board" ] }
     ]
   },
   {
@@ -42,16 +29,10 @@
     "name": "inflatable boat",
     "blueprint": [ [ "OO" ], [ "OO" ] ],
     "parts": [
-      { "x": 0, "y": 0, "part": "inflatable_section" },
-      { "x": 0, "y": 0, "part": "folding_seat" },
-      { "x": 0, "y": 0, "part": "inflatable_airbag" },
-      { "x": 0, "y": 0, "part": "hand_paddles" },
-      { "x": 1, "y": 0, "part": "inflatable_section" },
-      { "x": 1, "y": 0, "part": "inflatable_airbag" },
-      { "x": 1, "y": 1, "part": "inflatable_section" },
-      { "x": 1, "y": 1, "part": "inflatable_airbag" },
-      { "x": 0, "y": 1, "part": "inflatable_section" },
-      { "x": 0, "y": 1, "part": "inflatable_airbag" }
+      { "x": 0, "y": 0, "parts": [ "inflatable_section", "folding_seat", "inflatable_airbag", "hand_paddles" ] },
+      { "x": 1, "y": 0, "parts": [ "inflatable_section", "inflatable_airbag" ] },
+      { "x": 1, "y": 1, "parts": [ "inflatable_section", "inflatable_airbag" ] },
+      { "x": 0, "y": 1, "parts": [ "inflatable_section", "inflatable_airbag" ] }
     ]
   }
 ]
