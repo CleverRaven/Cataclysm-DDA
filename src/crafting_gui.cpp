@@ -508,7 +508,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 []( itype_id type_id ) {
                     return item::find_type( type_id )->nname( 1 );
                 } );
-                const std::string text = string_format( 
+                const std::string text = string_format(
                                              _( "Written in: <color_cyan>%s</color>" ), enumerated_books.c_str() );
                 std::vector<std::string> folded_lines = foldstring( text, pane );
                 component_print_buffer.insert(
