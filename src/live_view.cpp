@@ -19,7 +19,7 @@ namespace
 {
 
 constexpr int START_LINE = 1;
-constexpr int START_COLUMN = 1;
+// constexpr int START_COLUMN = 1;
 constexpr int MIN_BOX_HEIGHT = 11;
 
 } //namespace
