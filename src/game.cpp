@@ -7282,16 +7282,9 @@ void game::zones_manager()
 }
 
 void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
-                                    int column, int &first_line, const int last_line,
-                                    bool draw_terrain_indicators, const visibility_variables &cache )
+                                    int &first_line, const int last_line,
+                                    const visibility_variables &cache )
 {
-    if( !column ) {
-        column = 0;
-    }
-    if( !draw_terrain_indicators ) {
-        draw_terrain_indicators = false;
-    }
-
     // get global area info according to look_around caret position
     const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
     // we only need the area name and then pass it to print_all_tile_info() function below
@@ -7419,8 +7412,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 int first_line = 1;
                 const int last_line = getmaxy( w_messages ) - 2;
 
-                pre_print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(),
-                                         cache );
+                pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 
                 if( fast_scroll ) {
                     //~ "Fast Scroll" mark below the top right corner of the info window
