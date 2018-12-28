@@ -210,12 +210,19 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // @todo: bionics and mutations can affect vitamin absorption
+    // @todo: bionics can affect vitamin absorption
     for( const auto &e : it.type->comestible->vitamins ) {
         res.emplace( e.first, e.second );
     }
 
     return res;
+}
+
+// list of traits the player has that modifies vitamin absorption
+std::list<trait_id> mut_vitamin_absorb_modify( player &p ) 
+{
+    std::list<trait_id> traits;
+
 }
 
 time_duration player::vitamin_rate( const vitamin_id &vit ) const
