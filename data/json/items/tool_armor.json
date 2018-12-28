@@ -124,7 +124,7 @@
             "menu_text": "Tip",
             "type": "transform",
             "target": "fedora",
-            "activation_message": "You tip your fedora."
+            "msg": "You tip your %s."
         },
         "symbol" : "[",
         "description" : "A high-crowned, wide-brimmed, sable colored fedora.  Its brim helps keep the sun out of your eyes.  The perfect hat for treasure hunting.",
@@ -1553,7 +1553,7 @@
             "menu_text": "Tip",
             "type": "transform",
             "target": "straw_fedora",
-            "activation_message": "You tip your fedora."
+            "msg": "You tip your %s."
         },
         "symbol" : "[",
         "description" : "Straw fedora hat, comfortable and stylish.  Its brim helps keep the sun out of your eyes.",
