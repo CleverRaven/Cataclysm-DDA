@@ -7376,8 +7376,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     look_around_result result;
     do {
         if( redraw ) {
-
-
             if( bNewWindow ) {
                 werase( w_info );
                 draw_border( w_info );
@@ -7411,9 +7409,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
                 int first_line = 1;
                 const int last_line = getmaxy( w_messages ) - 2;
-
                 pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
-
                 if( fast_scroll ) {
                     //~ "Fast Scroll" mark below the top right corner of the info window
                     right_print( w_info, 1, 0, c_light_green, _( "F" ) );
