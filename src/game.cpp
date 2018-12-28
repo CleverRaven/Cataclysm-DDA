@@ -237,7 +237,7 @@ game::game() :
     events( *event_manager_ptr ),
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
-    u_shared_ptr( &u, null_deleter {} ),
+    u_shared_ptr( &u, null_deleter{} ),
     pixel_minimap_option( 0 ),
     safe_mode( SAFE_MODE_ON ),
     safe_mode_warning_logged( false ),
@@ -894,7 +894,7 @@ bool game::start_game()
         start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );
     }
 
-    m.spawn_monsters( !spawn_near );  // Static monsters
+    m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
     // This can happen in lab starts
