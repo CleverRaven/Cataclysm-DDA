@@ -575,7 +575,6 @@ void player::complete_craft()
                 add_msg( m_info, _( "%s watches you craft..." ), helper->name );
             }
         }
-
     }
 
     // Messed up badly; waste some components.
