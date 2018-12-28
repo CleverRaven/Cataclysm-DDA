@@ -11035,20 +11035,17 @@ std::string player::weapname() const
                 }
             }
         }
-        // std::cout << "weapon = " << str << " length = " << str.size() << "\n";
-        //if ( str.size() >= 10 )
-        //    str.resize ( 10 );
         return "Weapon  : " + str;
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
-        return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
+        return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(),
+                              weapon.contents.front().charges );
 
     } else if( !is_armed() ) {
         return _( "Weapon  : fists" );
 
     } else {
-        bool with_prefix = true;
-        return "Weapon  : " + weapon.tname( with_prefix = true );
+        return "Weapon  : " + weapon.tname();
     }
 }
 

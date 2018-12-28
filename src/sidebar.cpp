@@ -313,28 +313,28 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     nc_color hunger_color = c_yellow;
     if( get_hunger() >= 300 && get_starvation() > 2500 ) {
         hunger_color = c_red;
-        hunger_string = "Starving!";
+        hunger_string = _( "Starving!" );
     } else if( get_hunger() >= 300 && get_starvation() > 1100 ) {
         hunger_color = c_light_red;
-        hunger_string = "Near starving";
+        hunger_string = _( "Near starving" );
     } else if( get_hunger() > 250 ) {
         hunger_color = c_light_red;
-        hunger_string = "Famished";
+        hunger_string = _( "Famished" );
     } else if( get_hunger() > 100 ) {
         hunger_color = c_yellow;
-        hunger_string = "Very hungry";
+        hunger_string = _( "Very hungry" );
     } else if( get_hunger() > 40 ) {
         hunger_color = c_yellow;
-        hunger_string = "Hungry";
+        hunger_string = _( "Hungry" );
     } else if( get_hunger() < -60 ) {
         hunger_color = c_green;
-        hunger_string = "Engorged";
+        hunger_string = _( "Engorged" );
     } else if( get_hunger() < -20 ) {
         hunger_color = c_green;
-        hunger_string = "Sated";
+        hunger_string = _( "Sated" );
     } else if( get_hunger() < 0 ) {
         hunger_color = c_green;
-        hunger_string = "Full";
+        hunger_string = _( "Full" );
     }
     mvwprintz( sideStyle ? w : g->w_location_wider,
                sideStyle ? 1 : 2, sideStyle ? 0 : 22, hunger_color, hunger_string );
@@ -399,31 +399,31 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     nc_color hydration_color = c_yellow;
     if( get_thirst() > 520 ) {
         hydration_color = c_light_red;
-        hydration_string = "Parched";
+        hydration_string = _( "Parched" );
     } else if( get_thirst() > 240 ) {
         hydration_color = c_light_red;
-        hydration_string = "Dehydrated";
+        hydration_string = _( "Dehydrated" );
     } else if( get_thirst() > 80 ) {
         hydration_color = c_yellow;
-        hydration_string = "Very Thirsty";
+        hydration_string = _( "Very Thirsty" );
     } else if( get_thirst() > 40 ) {
         hydration_color = c_yellow;
-        hydration_string = "Thirsty";
+        hydration_string = _( "Thirsty" );
     } else if( get_thirst() < -60 ) {
         hydration_color = c_green;
-        hydration_string = "Turgid";
+        hydration_string = _( "Turgid" );
     } else if( get_thirst() < -20 ) {
         hydration_color = c_green;
-        hydration_string = "Hydrated";
+        hydration_string = _( "Hydrated" );
     } else if( get_thirst() < 0 ) {
         hydration_color = c_green;
-        hydration_string = "Slaked";
+        hydration_string = _( "Slaked" );
     }
     mvwprintz( sideStyle ? w : g->w_location_wider,
                sideStyle ? 2 : 1, sideStyle ? 0 : 22, hydration_color, hydration_string );
     wrefresh( sideStyle ? w : g->w_location_wider );
 
-    wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 0 );
+    wmove( w, sideStyle ? 3 : 2, 0 );
     if( get_fatigue() > EXHAUSTED ) {
         wprintz( w, c_red,    _( "Exhausted" ) );
     } else if( get_fatigue() > DEAD_TIRED ) {
@@ -546,8 +546,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         const int wy = 0;
         const int dx = 0;
         const int dy = sideStyle ?  1 :  8;
-        // werase( w );
-        //
+
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 0 ) : 17,
                    wx + dx * 0, stat_color( get_str_bonus() ),
                    _( "Str %d" ), str_cur );
