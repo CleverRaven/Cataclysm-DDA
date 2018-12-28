@@ -688,13 +688,13 @@ void player::complete_craft()
                 }
             }
 
-            for( auto &elem : used ) {
-                if( elem.has_flag( "HIDDEN_HALLU" ) ) {
+            for( auto &component : used ) {
+                if( component.has_flag( "HIDDEN_HALLU" ) ) {
                     newit.item_tags.insert( "HIDDEN_HALLU" );
                 }
-                if( elem.has_flag( "HIDDEN_POISON" ) ) {
+                if( component.has_flag( "HIDDEN_POISON" ) ) {
                     newit.item_tags.insert( "HIDDEN_POISON" );
-                    newit.poison = elem.poison;
+                    newit.poison = component.poison;
                 }
             }
         }
@@ -845,13 +845,14 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                     player_ha.type ) );
             cmenu.addentry( tmpStr );
         }
-        for( auto &elem :
-             mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
+        for( auto &component : mixed ) {
+            // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
-                                                item::nname( elem.type ),
-                                                ( elem.count * batch ),
-                                                item::count_by_charges( elem.type ) ? map_inv.charges_of( elem.type ) + charges_of( elem.type ) :
-                                                map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
+                                                item::nname( component.type ),
+                                                ( component.count * batch ),
+                                                item::count_by_charges( component.type ) ? map_inv.charges_of( component.type ) + charges_of(
+                                                    component.type ) :
+                                                map_inv.amount_of( component.type ) + amount_of( component.type ) );
             cmenu.addentry( tmpStr );
         }
 
@@ -1198,8 +1199,8 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         const auto components( r.disassembly_requirements().get_components() );
         std::ostringstream list;
-        for( const auto &elem : components ) {
-            list << "- " << elem.front().to_string() << std::endl;
+        for( const auto &component : components ) {
+            list << "- " << component.front().to_string() << std::endl;
         }
 
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
