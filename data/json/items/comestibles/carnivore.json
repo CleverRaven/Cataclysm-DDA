@@ -97,7 +97,7 @@
     "type": "COMESTIBLE",
     "name": "scrap of meat",
     "name_plural": "scraps of meat",
-    "description": "This is a tiny scrap of edible meat. It's not much, but it'll do in a pinch.",
+    "description": "This is a tiny scrap of edible meat.  It's not much, but it'll do in a pinch.",
     "weight": 10,
     "volume": "12 ml",
     "price": 24,
