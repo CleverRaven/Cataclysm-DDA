@@ -847,12 +847,13 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
+            long available = item::count_by_charges( component.type ) ?
+                             map_inv.charges_of( component.type ) + charges_of( component.type ) :
+                             map_inv.amount_of( component.type ) + amount_of( component.type );
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( component.type ),
                                                 ( component.count * batch ),
-                                                item::count_by_charges( component.type ) ? map_inv.charges_of( component.type ) + charges_of(
-                                                    component.type ) :
-                                                map_inv.amount_of( component.type ) + amount_of( component.type ) );
+                                                available );
             cmenu.addentry( tmpStr );
         }
 
