@@ -852,7 +852,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                              map_inv.amount_of( component.type ) + amount_of( component.type );
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( component.type ),
-                                                ( component.count * batch ),
+                                                component.count * batch,
                                                 available );
             cmenu.addentry( tmpStr );
         }
