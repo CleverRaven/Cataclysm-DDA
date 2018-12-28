@@ -555,24 +555,24 @@ void player::complete_craft()
                   static_cast<int>( making.difficulty ) * 1.25 );
 
         //NPCs assisting or watching should gain experience...
-        for( auto &elem : helpers ) {
+        for( auto &helper : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
-            if( elem->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                elem->practice( making.skill_used,
-                                static_cast<int>( ( making.difficulty * 15 + 10 ) * batch_mult *
-                                                  .50 ), static_cast<int>( making.difficulty ) * 1.25 );
+            if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
+                helper->practice( making.skill_used,
+                                  static_cast<int>( ( making.difficulty * 15 + 10 ) * batch_mult *
+                                                    .50 ), static_cast<int>( making.difficulty ) * 1.25 );
                 if( batch_size > 1 ) {
-                    add_msg( m_info, _( "%s assists with crafting..." ), elem->name.c_str() );
+                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
                 }
                 if( batch_size == 1 ) {
-                    add_msg( m_info, _( "%s could assist you with a batch..." ), elem->name.c_str() );
+                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
                 }
                 //NPCs around you understand the skill used better
             } else {
-                elem->practice( making.skill_used,
-                                static_cast<int>( ( making.difficulty * 15 + 10 ) * batch_mult * .15 ),
-                                static_cast<int>( making.difficulty ) * 1.25 );
-                add_msg( m_info, _( "%s watches you craft..." ), elem->name.c_str() );
+                helper->practice( making.skill_used,
+                                  static_cast<int>( ( making.difficulty * 15 + 10 ) * batch_mult * .15 ),
+                                  static_cast<int>( making.difficulty ) * 1.25 );
+                add_msg( m_info, _( "%s watches you craft..." ), helper->name );
             }
         }
 
