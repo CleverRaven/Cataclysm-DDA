@@ -96,7 +96,18 @@ int player::nutrition_for( const item &comest ) const
     }
 
     // As float to avoid rounding too many times
-    float nutr = comest.type->comestible->nutr;
+    float nutr = 0;
+
+    // if item has components, will derive calories from that instead.
+    if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        for( item component : comest.components ) {
+            nutr += this->nutrition_for( component ) * component.charges;
+        }
+        // @TODO: catch when recipes make less or more than the portions defined in the json
+        nutr /= comest.type->charges_default();
+    } else {
+        nutr = comest.type->comestible->nutr;
+    }
 
     if( has_trait( trait_GIZZARD ) ) {
         nutr *= 0.6f;
@@ -205,21 +216,30 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // food to which the player is allergic to never contains any vitamins
-    if( allergy_type( it ) != MORALE_NULL ) {
-        return res;
-    }
-
     // @todo: bionics can affect vitamin absorption
-    for( const auto &e : it.type->comestible->vitamins ) {
-        res.emplace( e.first, e.second );
+    if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        for( const auto &comp : it.components ) {
+            std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
+            for( const auto &vit : component_map ) {
+                res.operator[]( vit.first ) += ceil( static_cast<float>( vit.second ) / static_cast<float>
+                                                     ( it.type->charges_default() ) );
+            }
+        }
+    } else {
+        // food to which the player is allergic to never contains any vitamins
+        if( allergy_type( it ) != MORALE_NULL ) {
+            return res;
+        }
+        for( const auto &e : it.type->comestible->vitamins ) {
+            res.emplace( e );
+        }
     }
 
     return res;
 }
 
 // list of traits the player has that modifies vitamin absorption
-std::list<trait_id> mut_vitamin_absorb_modify( player &p ) 
+std::list<trait_id> mut_vitamin_absorb_modify( player &p )
 {
     std::list<trait_id> traits;
 
