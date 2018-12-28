@@ -4949,7 +4949,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name.c_str() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].x, traj[i].y ) ) {   // oops, we hit a wall!
+            if( m.impassable( traj[i].x, traj[i].y ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -5017,7 +5017,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                      stun );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i] ) ) {   // oops, we hit a wall!
+            if( m.impassable( traj[i] ) ) { // oops, we hit a wall!
                 u.setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -5109,7 +5109,7 @@ void game::use_computer( const tripoint &p )
     computer *used = m.computer_at( p );
 
     if( used == nullptr ) {
-        if( m.has_flag( "CONSOLE", p ) ) {   //Console without map data
+        if( m.has_flag( "CONSOLE", p ) ) { //Console without map data
             add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
         } else {
             dbg( D_ERROR ) << "game:use_computer: Tried to use computer at (" <<
@@ -8517,7 +8517,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 std::vector<vehicle *> nearby_vehicles_for( const itype_id &ft )
 {
     std::vector<vehicle *> result;
-    for( auto &&p : g->m.points_in_radius( g->u.pos(), 1 ) ) {   // *NOPAD*
+    for( auto &&p : g->m.points_in_radius( g->u.pos(), 1 ) ) { // *NOPAD*
         vehicle *const veh = veh_pointer_or_null( g->m.veh_at( p ) );
         // TODO: constify fuel_left and fuel_capacity
         // TODO: add a fuel_capacity_left function
@@ -11183,7 +11183,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
             add_msg( _( "Moving the heavy %s is taking a lot of time!" ),
                      furntype.name().c_str() );
         } else if( move_penalty > 200 ) {
-            if( one_in( 3 ) ) {   // Nag only occasionally.
+            if( one_in( 3 ) ) { // Nag only occasionally.
                 add_msg( _( "It takes some time to move the heavy %s." ),
                          furntype.name().c_str() );
             }
@@ -11196,7 +11196,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
-    if( src_items > 0 ) {   // and the stuff inside.
+    if( src_items > 0 ) { // and the stuff inside.
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
             std::list<item> temp;
@@ -12431,7 +12431,7 @@ void game::perhaps_add_random_npc()
     // so it does not became active immediately.
     int msx = get_levx();
     int msy = get_levy();
-    switch( rng( 0, 4 ) ) {   // on which side of the map to spawn
+    switch( rng( 0, 4 ) ) { // on which side of the map to spawn
         case 0:
             msy += rng( 0, MAPSIZE - 1 );
             break;
@@ -12483,7 +12483,7 @@ void game::teleport( player *p, bool add_teleglow )
     }
     p->setx( new_pos.x );
     p->sety( new_pos.y );
-    if( m.impassable( new_pos ) ) {   //Teleported into a wall
+    if( m.impassable( new_pos ) ) { //Teleported into a wall
         if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),
@@ -12814,7 +12814,7 @@ void game::process_artifact( item &it, player &p )
                 break;
 
             case AEP_EVIL:
-                if( one_in( 150 ) ) {   // Once every 15 minutes, on average
+                if( one_in( 150 ) ) { // Once every 15 minutes, on average
                     p.add_effect( effect_evil, 30_minutes );
                     if( it.is_armor() ) {
                         if( !worn ) {
@@ -12917,7 +12917,7 @@ bool check_art_charge_req( item &it )
         case( ACR_RAD ):
             reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
             break;
-        case( ACR_WET ) :
+        case( ACR_WET ):
             reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
             []( const int w ) {
                 return w != 0;
@@ -13217,7 +13217,7 @@ std::vector<npc *> game::allies()
     } );
 }
 
-std::vector<Creature *> game::get_creatures_if( const std::function<bool ( const Creature & )>
+std::vector<Creature *> game::get_creatures_if( const std::function<bool( const Creature & )>
         &pred )
 {
     std::vector<Creature *> result;
@@ -13229,7 +13229,7 @@ std::vector<Creature *> game::get_creatures_if( const std::function<bool ( const
     return result;
 }
 
-std::vector<npc *> game::get_npcs_if( const std::function<bool ( const npc & )> &pred )
+std::vector<npc *> game::get_npcs_if( const std::function<bool( const npc & )> &pred )
 {
     std::vector<npc *> result;
     for( npc &guy : all_npcs() ) {
@@ -13306,7 +13306,7 @@ game::npc_range game::all_npcs()
     return npc_range( *this );
 }
 
-Creature *game::get_creature_if( const std::function<bool ( const Creature & ) > &pred )
+Creature *game::get_creature_if( const std::function<bool( const Creature & )> &pred )
 {
     for( Creature &critter : all_creatures() ) {
         if( pred( critter ) ) {
