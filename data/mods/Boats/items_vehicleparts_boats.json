@@ -1,20 +1,21 @@
 [
   {
     "type": "GENERIC",
-    "id": "inflatable_section",
+    "id": "boat_board",
     "symbol": "o",
-    "color": "green",
-    "name": "inflatable section",
-    "name_plural": "inflatable section",
-    "description": "An inflatable boat section.",
+    "color": "brown",
+    "name": "wood boat hull",
+    "name_plural": "wood boat hulls",
+    "description": "A wooden board that keeps the boat afloat.  Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
     "price": 8000,
-    "material": ["plastic"],
+    "material": [ "wood" ],
     "weight": 3000,
     "volume": 50,
     "bashing": 8,
     "to_hit": -1,
     "category": "veh_parts"
-},{
+  },
+  {
     "type":"GENERIC",
     "id" : "hand_paddles",
     "name" : "oars",
@@ -29,7 +30,24 @@
     "bashing" : 10,
     "category" : "veh_parts",
     "price" : 9000
-},{
+  },
+  {
+    "type": "GENERIC",
+    "id": "inflatable_section",
+    "symbol": "o",
+    "color": "green",
+    "name": "inflatable section",
+    "name_plural": "inflatable section",
+    "description": "An inflatable boat section.",
+    "price": 8000,
+    "material": ["plastic"],
+    "weight": 3000,
+    "volume": 50,
+    "bashing": 8,
+    "to_hit": -1,
+    "category": "veh_parts"
+  },
+  {
     "type": "GENERIC",
     "id": "inflatable_airbag",
     "symbol": "o",

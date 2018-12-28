@@ -1,0 +1,7 @@
+[
+  {
+    "type": "vehicle_group",
+    "id": "boatrent",
+    "vehicles": [ [ "canoe", 2000 ], [ "raft", 2000 ] ]
+  }
+]
