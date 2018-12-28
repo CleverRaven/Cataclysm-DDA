@@ -216,7 +216,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
             continue;
         }
 
-        // we go trough half-filled containers first, then go through empty containers if we need
+        // we go through half-filled containers first, then go through empty containers if we need
         std::sort( conts.begin(), conts.end(), item_ptr_compare_by_charges );
 
         long charges_to_store = prod.charges;
