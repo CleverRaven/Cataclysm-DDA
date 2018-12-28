@@ -220,7 +220,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         wmove( w_HP, 15, hpx );
         print_stamina_bar( p, w_HP );
     }
-    // wrefresh( w_HP );
+    wrefresh( w_HP );
 }
 
 static std::string print_gun_mode( const player &p )
@@ -312,24 +312,44 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         mvwprintz( weapwin, 0, x, style_color, style );
     }
 
-    wmove( w, sideStyle ? 1 : 3, sideStyle ? 0 : 15 );
+    // wmove( w, sideStyle ? 1 : 3, sideStyle ? 0 : 15 );
+    std::string hunger_string = "";
+    nc_color hunger_color = c_yellow;
     if( get_hunger() >= 300 && get_starvation() > 2500 ) {
-        wprintz( w, c_red,    _( "Starving!" ) );
+        // wprintz( w, c_red,    _( "Starving!" ) );
+        hunger_color = c_red;
+        hunger_string = "Starving!";
     } else if( get_hunger() >= 300 && get_starvation() > 1100 ) {
-        wprintz( w, c_light_red,  _( "Near starving" ) );
+        // wprintz( w, c_light_red,  _( "Near starving" ) );
+        hunger_color = c_light_red;
+        hunger_string = "Near starving";
     } else if( get_hunger() > 250 ) {
-        wprintz( w, c_light_red,  _( "Famished" ) );
+        // wprintz( w, c_light_red,  _( "Famished" ) );
+        hunger_color = c_light_red;
+        hunger_string = "Famished";
     } else if( get_hunger() > 100 ) {
-        wprintz( w, c_yellow, _( "Very hungry" ) );
+        // wprintz( w, c_yellow, _( "Very hungry" ) );
+        hunger_color = c_yellow;
+        hunger_string = "Very hungry";
     } else if( get_hunger() > 40 ) {
-        wprintz( w, c_yellow, _( "Hungry" ) );
+        // wprintz( w, c_yellow, _( "Hungry" ) );
+        hunger_color = c_yellow;
+        hunger_string = "Hungry";
     } else if( get_hunger() < -60 ) {
-        wprintz( w, c_green,  _( "Engorged" ) );
+        // wprintz( w, c_green,  _( "Engorged" ) );
+        hunger_color = c_green;
+        hunger_string = "Engorged";
     } else if( get_hunger() < -20 ) {
-        wprintz( w, c_green,  _( "Sated" ) );
+        // wprintz( w, c_green,  _( "Sated" ) );
+        hunger_color = c_green;
+        hunger_string = "Sated";
     } else if( get_hunger() < 0 ) {
-        wprintz( w, c_green,  _( "Full" ) );
+        // wprintz( w, c_green,  _( "Full" ) );
+        hunger_color = c_green;
+        hunger_string = "Full";
     }
+    mvwprintz( sideStyle ? w : g->w_location_wider,
+               sideStyle ? 1 : 2, sideStyle ? 0 : 22, hunger_color, hunger_string );
 
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -369,7 +389,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
-    wmove( w, sideStyle ? 6 : 3, sideStyle ? 0 : 43 );
+    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 22 );
     if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
         wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
@@ -403,25 +423,43 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     // }
     // volume = 0;
 
-    wmove( w, sideStyle ? 2 : 2, sideStyle ? 0 : 15 );
+    // wmove( sideStyle ? w : g->w_location_wider, sideStyle ? 0 : 0, sideStyle ? 0 : 15 );
+    std::string hydration_string = "";
+    nc_color hydration_color = c_yellow;
     if( get_thirst() > 520 ) {
-        wprintz( w, c_light_red,  _( "Parched" ) );
+        // wprintz( w, c_light_red,  _( "Parched" ) );
+        hydration_color = c_light_red;
+        hydration_string = "Parched";
     } else if( get_thirst() > 240 ) {
-        wprintz( w, c_light_red,  _( "Dehydrated" ) );
+        // wprintz( w, c_light_red,  _( "Dehydrated" ) );
+        hydration_color = c_light_red;
+        hydration_string = "Dehydrated";
     } else if( get_thirst() > 80 ) {
-        wprintz( w, c_yellow, _( "Very thirsty" ) );
+        // wprintz( w, c_yellow, _( "Very thirsty" ) );
+        hydration_color = c_yellow;
+        hydration_string = "Very Thirsty";
     } else if( get_thirst() > 40 ) {
-        wprintz( w, c_yellow, _( "Thirsty" ) );
+        // wprintz( w, c_yellow, _( "Thirsty" ) );
+        hydration_color = c_yellow;
+        hydration_string = "Thirsty";
     } else if( get_thirst() < -60 ) {
-        wprintz( w, c_green,  _( "Turgid" ) );
+        // wprintz( w, c_green,  _( "Turgid" ) );
+        hydration_color = c_green;
+        hydration_string = "Turgid";
     } else if( get_thirst() < -20 ) {
-        wprintz( w, c_green,  _( "Hydrated" ) );
+        // wprintz( w, c_green,  _( "Hydrated" ) );
+        hydration_color = c_green;
+        hydration_string = "Hydrated";
     } else if( get_thirst() < 0 ) {
-        wprintz( w, c_green,  _( "Slaked" ) );
+        // wprintz( w, c_green,  _( "Slaked" ) );
+        hydration_color = c_green;
+        hydration_string = "Slaked";
     }
-    wrefresh( w );
+    mvwprintz( sideStyle ? w : g->w_location_wider,
+               sideStyle ? 2 : 1, sideStyle ? 0 : 22, hydration_color, hydration_string );
+    wrefresh( sideStyle ? w : g->w_location_wider );
 
-    wmove( w, sideStyle ? 3 : 3, sideStyle ? 0 : 0 );
+    wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 0 );
     if( get_fatigue() > EXHAUSTED ) {
         wprintz( w, c_red,    _( "Exhausted" ) );
     } else if( get_fatigue() > DEAD_TIRED ) {
@@ -460,19 +498,20 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     } else if( morale_cur <= -10 ) {
         col_morale = c_red;
     }
-    // mytest
-    //     face_type fc = face_human;
-    //     if( has_trait( trait_THRESH_FELINE ) ) {
-    //         fc = face_cat;
-    //     } else if( has_trait( trait_THRESH_URSINE ) ) {
-    //         fc = face_bear;
-    //     } else if( has_trait( trait_THRESH_BIRD ) ) {
-    //         fc = face_bird;
-    //     }
 
     // mytest
-    //     mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 9, col_morale,
-    //                morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
+    face_type fc = face_human;
+    if( has_trait( trait_THRESH_FELINE ) ) {
+        fc = face_cat;
+    } else if( has_trait( trait_THRESH_URSINE ) ) {
+        fc = face_bear;
+    } else if( has_trait( trait_THRESH_BIRD ) ) {
+        fc = face_bird;
+    }
+
+    // mytest
+    mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 0, col_morale,
+               morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
@@ -562,7 +601,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         const int spdx = sideStyle ?  0 : getmaxx( w ) - 12;
         const int spdy = sideStyle ?  5 : wy + dy * 4;
-        mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? spdy : 21, sideStyle ? spdx : 0,
+        mvwprintz( sideStyle ? w : w, sideStyle ? spdy : 3, sideStyle ? spdx : 43,
                    stat_color( get_speed_bonus() ), _( "Spd %d" ), get_speed() );
 
         nc_color col_time = c_white;
@@ -576,18 +615,18 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
                 col_time = c_dark_gray_red;
             }
         }
-        wprintz( sideStyle ? w : g->w_HP, col_time, " %d", movecounter );
+        wprintz( sideStyle ? w : w, col_time, " %d", movecounter );
 
         //~ Movement type: "walking". Max string length: one letter.
         const auto str_walk = pgettext( "movement-type", "W" );
         //~ Movement type: "running". Max string length: one letter.
         const auto str_run = pgettext( "movement-type", "R" );
-        wprintz( sideStyle ? w : g->w_HP, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
+        wprintz( sideStyle ? w : w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
         if( sideStyle ) {
             mvwprintz( w, spdy, wx + dx * 4 - 3, c_white, _( "Stm " ) );
             print_stamina_bar( *this, w );
         }
-        wrefresh( g->w_HP );
+        wrefresh( sideStyle ? w : g->w_HP );
     }
 }
 

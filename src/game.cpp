@@ -3625,12 +3625,14 @@ void game::draw_sidebar()
     if( sideStyle ) {
         werase( w_status2 );
     }
-    u.disp_status( w_status, w_status2 );
+
     // sidestyle ? narrow_1 : wider_0
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     const catacurses::window &s_window = sideStyle ?  w_location : w_location_wider;
     // const catacurses::window &sb2_window = sideStyle ? w_status : w_location_wider;
 
+    werase( s_window );
+    u.disp_status( w_status, w_status2 );
     // mytest: try other sidebar style too .. and see how it goes
     wmove( time_window, sideStyle ? 1 : 1, sideStyle ? 15 : 43 );
     if( u.has_watch() ) {
@@ -3682,8 +3684,8 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     // mytest
-    werase( w_location );
-    wrefresh( w_location );
+    // werase( s_window );
+    // wrefresh( w_location );
     wrefresh( s_window );
     mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
     wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
@@ -3744,11 +3746,13 @@ void game::draw_sidebar()
 
     if( safe_mode != SAFE_MODE_OFF || get_option<bool> ( "AUTOSAFEMODE" ) ) {
         int iPercent = turnssincelastmon * 100 / get_option<int> ( "AUTOSAFEMODETURNS" );
-        wmove( w_status, sideStyle ? 4 : 3, getmaxx( w_status ) - 4 );
+        wmove( sideStyle ? w_status : w_HP, sideStyle ? 4 : 21, sideStyle ? getmaxx( w_status ) - 4 : 0 );
         const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
         for( int i = 0; i < 4; i++ ) {
             nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
             wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
+            // mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 4 : 22,
+            //            sideStyle ? getmaxx( w_status ) - 4 : 1, c, letters[i].c_str() );
         }
     }
     wrefresh( w_status );
