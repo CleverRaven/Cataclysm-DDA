@@ -3629,12 +3629,9 @@ void game::draw_sidebar()
     // sidestyle ? narrow_1 : wider_0
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     const catacurses::window &s_window = sideStyle ?  w_location : w_location_wider;
-    // const catacurses::window &sb2_window = sideStyle ? w_status : w_location_wider;
-
     werase( s_window );
     u.disp_status( w_status, w_status2 );
-    // mytest: try other sidebar style too .. and see how it goes
-    wmove( time_window, sideStyle ? 1 : 1, sideStyle ? 15 : 43 );
+    wmove( time_window, 1, sideStyle ? 15 : 43 );
     if( u.has_watch() ) {
         wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
     } else if( get_levz() >= 0 ) {
@@ -3683,9 +3680,6 @@ void game::draw_sidebar()
     }
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
-    // mytest
-    // werase( s_window );
-    // wrefresh( w_location );
     wrefresh( s_window );
     mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
     wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
@@ -3724,7 +3718,6 @@ void game::draw_sidebar()
     mvwprintz( s_window, 2, 0, c_light_gray, "%s ", _( "Lighting:" ) );
     wprintz( s_window, ll.second, ll.first.c_str() );
 
-
     // display player noise in sidebar
     x = sideStyle ?  32 : 43;
     y = sideStyle ?  2 : 1;
@@ -3733,7 +3726,6 @@ void game::draw_sidebar()
     } else {
         mvwprintz( s_window, y, x, c_light_gray, "%s ", _( "Sound: " ) );
         mvwprintz( s_window, y, x + 7, c_yellow,  std::to_string( u.volume ) );
-        // + std::to_string( u.volume ) );
         wrefresh( s_window );
     }
     u.volume = 0;
@@ -3751,8 +3743,6 @@ void game::draw_sidebar()
         for( int i = 0; i < 4; i++ ) {
             nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
             wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
-            // mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 4 : 22,
-            //            sideStyle ? getmaxx( w_status ) - 4 : 1, c, letters[i].c_str() );
         }
     }
     wrefresh( w_status );
