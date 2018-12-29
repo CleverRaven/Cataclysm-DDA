@@ -11773,6 +11773,23 @@ float player::hearing_ability() const
     return volume_multiplier;
 }
 
+std::string player::short_description() const
+{
+    std::stringstream ret;
+
+    if( is_armed() ) {
+        ret << _( "Wielding: " ) << weapon.tname() << ";   ";
+    }
+    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
+    []( const item & it ) {
+        return it.tname();
+    } );
+    if( !worn_str.empty() ) {
+        ret << _( "Wearing: " ) << worn_str << ";";
+    }
+    return ret.str();
+}
+
 int player::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
     mvwprintw( w, vStart++, column, _( "You (%s)" ), name.c_str() );
