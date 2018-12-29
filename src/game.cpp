@@ -2981,7 +2981,7 @@ void game::debug()
         _( "Teleport - Adjacent overmap" ),     // 31
         _( "Test trait group" ),                // 32
         _( "Show debug message" ),              // 33
-        _( "Crash game (test crash handling)" ),  // 34
+        _( "Crash game (test crash handling)" ),// 34
         _( "Quit to Main Menu" ),               // 35
     } );
     refresh_all();
@@ -4062,7 +4062,7 @@ void game::draw_minimap()
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( cursx != targ.x ) ? double( targ.y - cursy ) / double ( targ.x - cursx ) : 4;
+        double slope = ( cursx != targ.x ) ? double( targ.y - cursy ) / double( targ.x - cursx ) : 4;
 
         if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
             if( targ.y > cursy ) {
