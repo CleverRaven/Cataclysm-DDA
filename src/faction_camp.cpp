@@ -1403,7 +1403,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, npc &p )
                                       _( "begins constructing fortifications..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( making, ( fortify_om.size() * 2 ) - 2, true );
+            g->u.consume_components_for_craft( making, fortify_om.size() * 2 - 2, true );
             g->u.invalidate_crafting_inventory();
             comp->companion_mission_role_id = bldg_exp;
             for( auto pt : fortify_om ) {
