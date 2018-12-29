@@ -532,11 +532,11 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO", "ARMS", "LEGS" ],
-    "coverage": 75,
+    "coverage": 80,
     "encumbrance": 16,
     "storage": 50,
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
   },
