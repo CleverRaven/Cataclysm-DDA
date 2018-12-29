@@ -1557,36 +1557,29 @@
     "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
   {
-    "type": "recipe",
-    "result": "dias",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "rifle", 3 ] ],
-    "difficulty": 5,
-    "time": 120000,
-     "//" : "Pipe/sheet metal is to add trip to non M16-style carriers, since both types are in civilian AR's.",
-    "book_learn": [ [ "manual_rifle", 5 ], [ "textbook_anarch", 5 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "DRILL", "level": 1 }
-    ],
-    "tools": [ [ [ "ar15", -1 ],  [ "h&k416a5", -1 ], [ "m27iar", -1 ], [ "m4a1", -1 ] ],
-      [
-       [ "oxy_torch", 2 ],
-       [ "welder", 10 ],
-       [ "welder_crude", 20 ],
-       [ "toolset", 20 ],
-       [ "small_repairkit", 10 ],
-       [ "large_repairkit", 10 ]
-      ]
-    ],
-    "components": [
-      [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ],
-      [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ],
-      [ [ "scrap", 1 ] ]
-    ]
+      "type": "recipe",
+      "result": "dias",
+      "category": "CC_WEAPON",
+      "subcategory": "CSC_WEAPON_MODS",
+      "skill_used": "fabrication",
+      "skills_required": [ [ "rifle", 3 ] ],
+      "difficulty": 5,
+      "time": 120000,
+      "//": "Pipe/sheet metal is to add trip to non M16-style carriers, since both types are in civilian AR's.",
+      "book_learn": [ [ "manual_rifle", 5 ], [ "textbook_anarch", 5 ] ],
+      "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+      "tools": [
+        [ [ "ar15", -1 ], [ "h&k416a5", -1 ], [ "m27iar", -1 ], [ "m4a1", -1 ] ],
+        [
+          [ "oxy_torch", 2 ],
+          [ "welder", 10 ],
+          [ "welder_crude", 20 ],
+          [ "toolset", 20 ],
+          [ "small_repairkit", 10 ],
+          [ "large_repairkit", 10 ]
+        ]
+      ],
+      "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
