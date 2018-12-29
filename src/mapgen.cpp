@@ -5562,6 +5562,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     }
                     place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                     place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                    if( one_in( 40 ) ) {
+                        spawn_item( i, j, "nanomaterial", 1, 5 );
+                    }
                     if( one_in( 5 ) ) {
                         if( one_in( 10 ) ) {
                             add_spawn( mon_zombie_child, 1, i, j );
@@ -5653,6 +5656,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 40 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5737,6 +5743,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 20 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5830,6 +5839,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 40 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );

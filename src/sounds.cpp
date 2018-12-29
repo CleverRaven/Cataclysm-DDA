@@ -1107,6 +1107,7 @@ void sfx::do_obstacle()
 /** Dummy implementations for builds without sound */
 /*@{*/
 void sfx::load_sound_effects( JsonObject & ) { }
+void sfx::load_sound_effect_preload( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }

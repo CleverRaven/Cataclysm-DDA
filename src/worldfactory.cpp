@@ -361,8 +361,14 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     else if( world_names.empty() ) {
         return make_new_world( show_prompt );
     }
-    // If we're skipping prompts, just return the first one.
+    // If we're skipping prompts, return the world with 0 save if there is one
     else if( !show_prompt ) {
+        for( const auto &name : world_names ) {
+            if( get_world( name )->world_saves.empty() ) {
+                return get_world( name );
+            }
+        }
+        // if there isn't any, adhere to old logic: return the alphabetically first one
         return get_world( world_names[0] );
     }
 

@@ -204,7 +204,7 @@ void game::chat()
     if( nmenu.ret < 0 ) {
         return;
     } else if( nmenu.ret == yell ) {
-        u.shout();
+        u.shout( _( "yourself shouting loudly!" ) );
     } else if( nmenu.ret == yell_sentence ) {
         std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
         string_input_popup popup;
@@ -216,16 +216,18 @@ void game::chat()
         .query();
 
         std::string sentence = popup.text();
-        add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
-        u.shout();
+        add_msg( _( "You yell, \"%s\"" ), sentence );
+        u.shout( string_format( _( "%s yelling \"%s\"" ), u.disp_name(), sentence ) );
     } else if( nmenu.ret == yell_guard ) {
         for( npc *p: followers ) {
            talk_function::assign_guard( *p );
         }
+        u.shout( _( "Guard here!" ) );
     } else if( nmenu.ret == yell_follow ) {
         for( npc *p: guards ) {
            talk_function::stop_guard( *p );
         }
+        u.shout( _( "Follow me!" ) );
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
         available[nmenu.ret]->talk_to_u();
     } else {

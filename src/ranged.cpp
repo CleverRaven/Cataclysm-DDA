@@ -539,13 +539,13 @@ static std::string print_recoil( const player &p )
         const int recoil_range = MAX_RECOIL - min_recoil;
         std::string level;
         if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
-            level = _( "High" );
+            level = pgettext( "amount of backward momentum", "High" );
         } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
-            level = _( "Medium" );
+            level = pgettext( "amount of backward momentum", "Medium" );
         } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
-            level = _( "Low" );
+            level = pgettext( "amount of backward momentum", "Low" );
         } else {
-            level = _( "None" );
+            level = pgettext( "amount of backward momentum", "None" );
         }
         return string_format( _( "Recoil: %s" ), level );
     }
