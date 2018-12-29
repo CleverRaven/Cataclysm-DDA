@@ -551,16 +551,17 @@ void player::complete_craft()
     if( making.skill_used ) {
         // normalize experience gain to crafting time, giving a bonus for longer crafting
         const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
-        practice( making.skill_used, static_cast<int>( ( making.difficulty * 15 + 10 ) * batch_mult ),
-                  static_cast<int>( making.difficulty ) * 1.25 );
+        const int base_practice = ( making.difficulty * 15 + 10 ) * batch_mult;
+        const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
+        practice( making.skill_used, base_practice, skill_cap );
 
         //NPCs assisting or watching should gain experience...
         for( auto &helper : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
             if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
                 helper->practice( making.skill_used,
-                                  static_cast<int>( ( making.difficulty * 15 + 10 ) * batch_mult *
-                                                    .50 ), static_cast<int>( making.difficulty ) * 1.25 );
+                                  static_cast<int>( base_practice * 0.50 ),
+                                  skill_cap );
                 if( batch_size > 1 ) {
                     add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
                 }
@@ -570,8 +571,8 @@ void player::complete_craft()
                 //NPCs around you understand the skill used better
             } else {
                 helper->practice( making.skill_used,
-                                  static_cast<int>( ( making.difficulty * 15 + 10 ) * batch_mult * .15 ),
-                                  static_cast<int>( making.difficulty ) * 1.25 );
+                                  static_cast<int>( base_practice * 0.15 ),
+                                  skill_cap );
                 add_msg( m_info, _( "%s watches you craft..." ), helper->name );
             }
         }
