@@ -3626,7 +3626,7 @@ void game::draw_sidebar()
         werase( w_status2 );
     }
 
-    // sidestyle ? narrow_1 : wider_0
+    // sidestyle ? narrow = 1 : wider = 0
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     const catacurses::window &s_window = sideStyle ?  w_location : w_location_wider;
     werase( s_window );
