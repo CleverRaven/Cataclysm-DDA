@@ -290,7 +290,7 @@ void mutation_branch::load( JsonObject &jsobj )
                                        time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
-    auto vam = jsobj.get_array( "vitamin_absorb_mult" );
+    auto vam = jsobj.get_array( "vitamin_absorb_multi" );
     while( vam.has_more() ) {
         auto pair = vam.next_array();
         std::map<vitamin_id, float> vit;
