@@ -7,9 +7,9 @@ set -ex
 function run_tests
 {
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        $WINE "$@" -r cata --rng-seed `gshuf -i 0-1000000000 -n 1`
+        $WINE "$@" -d yes -r cata --rng-seed `gshuf -i 0-1000000000 -n 1`
     else
-        $WINE "$@" -r cata --rng-seed `shuf -i 0-1000000000 -n 1`
+        $WINE "$@" -d yes -r cata --rng-seed `shuf -i 0-1000000000 -n 1`
     fi
 }
 

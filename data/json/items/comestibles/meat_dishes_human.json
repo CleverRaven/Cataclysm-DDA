@@ -191,7 +191,23 @@
     "id": "mannwurst_raw",
     "copy-from": "sausage_raw",
     "name": "raw Mannwurst",
-    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.",
+    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking or cooking.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurst_cooked",
+    "copy-from": "sausage_cooked",
+    "name": "cooked Mannwurst",
+    "description": "A hefty raw 'long-pork' sausage that has been cooked.  It smells as delicious as humanly possible.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mann_bratwurst",
+    "copy-from": "bratwurst_sausage",
+    "name": "Mannbrat",
+    "description": "A type of German sausage made of finely chopped humans and meant to be pan fried or roasted.  Better eat it hot and fresh.  By the way, use any human available. Germans are not mandatory.",
     "material": "hflesh"
   },
   {

@@ -83,7 +83,7 @@ std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, 
 static std::array<firing_statistics, 5> firing_test( const dispersion_sources &dispersion,
         int range, const std::array<double, 5> &thresholds )
 {
-    std::array<firing_statistics, 5> firing_stats;
+    std::array<firing_statistics, 5> firing_stats = {{ Z99_99, Z99_99, Z99_99, Z99_99, Z99_99 }};
     bool threshold_within_confidence_interval = false;
     do {
         // On each trip through the loop, grab a sample attack roll and add its results to
