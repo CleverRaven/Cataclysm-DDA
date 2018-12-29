@@ -194,6 +194,7 @@ class player : public Character
         /** Outputs a serialized json string for saving */
         virtual std::string save_info() const;
 
+        std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object

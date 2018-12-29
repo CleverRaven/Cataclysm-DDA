@@ -1800,23 +1800,6 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     return line;
 }
 
-std::string npc::short_description() const
-{
-    std::stringstream ret;
-
-    if( is_armed() ) {
-        ret << _( "Wielding: " ) << weapon.tname() << ";   ";
-    }
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
-    []( const item & it ) {
-        return it.tname();
-    } );
-    if( !worn_str.empty() ) {
-        ret << _( "Wearing: " ) << worn_str << ";";
-    }
-    return ret.str();
-}
-
 std::string npc::opinion_text() const
 {
     std::stringstream ret;
