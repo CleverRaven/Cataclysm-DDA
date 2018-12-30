@@ -1868,7 +1868,7 @@
     "type": "TOOL",
     "name": "cordless drill (on)",
     "name_plural": "cordless drills (on)",
-    "description": "This is a cordless battery-powered drill with a selection of drill bits.",
+    "description": "This is a cordless battery-powered drill with a selection of drill bits. The drill is turned on and continuously draining power. Use it to turn it off.",
     "weight": 2721,
     "volume": 3,
     "price": 2000,
