@@ -1860,7 +1860,7 @@
     "initial_charges": 300,
     "charges_per_use": 1,
     "max_charges": 300,
-    "use_action": { "target": "cordless_drill_on", "msg": "You turn on the cordless drill.", "active": true, "type": "transform" },
+    "use_action": { "target": "cordless_drill_on", "msg": "You turn on the cordless drill.", "active": true, "type": "transform" }
   },
   {
     "id": "cordless_drill_on",
