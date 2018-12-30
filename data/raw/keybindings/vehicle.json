@@ -119,6 +119,13 @@
     "bindings":[ { "input_method": "keyboard", "key": "h" } ]
   },
   {
+    "id": "TOGGLE_WIDE_HEADLIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle wide angle headlights",
+    "bindings":[ { "input_method": "keyboard", "key": "O" } ]
+  },
+  {
     "id": "TOGGLE_OVERHEAD_LIGHT",
     "type": "keybinding",
     "category": "VEHICLE",

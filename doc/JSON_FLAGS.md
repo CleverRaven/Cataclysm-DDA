@@ -483,6 +483,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
 - ```CONE_LIGHT``` Projects a cone of light when turned on.
+- ```WIDE_CONE_LIGHT``` Projects a wide cone of light when turned on.
 - ```CONTROLS``` Can be used to control the vehicle.
 - ```COVERED``` Prevents items in cargo parts from emitting any light.
 - ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.
