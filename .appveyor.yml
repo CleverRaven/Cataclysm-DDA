@@ -26,5 +26,5 @@ install:
     - cmd: lua.exe -v
 build:
   parallel: true
-  project: /msvc-full-features/Cataclysm-vcpkg-static.sln
+  project: /msvc-full-features/Cataclysm.sln
   verbosity: minimal
