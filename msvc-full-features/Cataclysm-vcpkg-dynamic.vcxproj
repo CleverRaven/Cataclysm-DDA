@@ -23,7 +23,7 @@
     <ProjectGuid>{2586F32C-9F3B-4410-88D1-4543C38511D7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Cataclysm</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows</VcpkgTriplet>
     <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows</VcpkgTriplet>
   </PropertyGroup>
@@ -76,25 +76,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\..\</OutDir>
     <TargetName>Cataclysm-</TargetName>
-    <IntDir>vcpkg\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>vcpkg-dynamic\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\..\</OutDir>
     <TargetName>Cataclysm</TargetName>
-    <IntDir>vcpkg\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>vcpkg-dynamic\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\..\</OutDir>
     <TargetName>Cataclysm-</TargetName>
-    <IntDir>vcpkg\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>vcpkg-dynamic\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\..\</OutDir>
     <TargetName>Cataclysm</TargetName>
-    <IntDir>vcpkg\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>vcpkg-dynamic\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

@@ -7,7 +7,7 @@ pull_requests:
 environment:
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-          PROJECT: /msvc-full-features/Cataclysm-vcpkg-static.sln
+          PROJECT: /msvc-full-features/Cataclysm.sln
           COMPILER: msvc2017
           TOOLCHAIN: msvc15
           PLATFORM: x64

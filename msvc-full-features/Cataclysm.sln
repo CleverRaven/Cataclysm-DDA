@@ -1,18 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm", "Cataclysm.vcxproj", "{18A6550D-1A53-478B-B615-20A2AF25A2CB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8309953A-3C97-45C4-A674-BCC7FAA49283}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F95AB660-996E-46F9-B704-DAFA4489DEA7}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		AStyleExtension-Cataclysm-DDA.cfg = AStyleExtension-Cataclysm-DDA.cfg
+		WINDEPEND.props = WINDEPEND.props
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm_lib", "Cataclysm_lib.vcxproj", "{6F6EACFC-B178-4E71-ABE2-805C1F4BF3D8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{152E192E-70BA-4EBA-B45B-C87C08485318}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests.vcxproj", "{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vcpkg", "vcpkg", "{BAA3DBE1-A71D-4E7F-9CD5-B0F961CACC25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "windepend", "windepend", "{C9068281-294A-46DE-B6DF-3A1E6C94A0DE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-vcpkg-dynamic", "Cataclysm-vcpkg-dynamic.vcxproj", "{2586F32C-9F3B-4410-88D1-4543C38511D7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-vcpkg", "Cataclysm-vcpkg-static.vcxproj", "{19F0BE17-3DAF-40E8-A9D2-904A56382E54}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-windepend", "Cataclysm-windepend.vcxproj", "{18A6550D-1A53-478B-B615-20A2AF25A2CB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-windepend-lib", "Cataclysm-windepend-lib.vcxproj", "{6F6EACFC-B178-4E71-ABE2-805C1F4BF3D8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-windepend-tests", "Cataclysm-windepend-tests.vcxproj", "{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +34,22 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Debug|x64.ActiveCfg = Debug|x64
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Debug|x64.Build.0 = Debug|x64
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Debug|x86.ActiveCfg = Debug|Win32
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Debug|x86.Build.0 = Debug|Win32
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x64.ActiveCfg = Release|x64
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x64.Build.0 = Release|x64
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x86.ActiveCfg = Release|Win32
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x86.Build.0 = Release|Win32
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Debug|x64.ActiveCfg = Debug|x64
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Debug|x64.Build.0 = Debug|x64
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Debug|x86.ActiveCfg = Debug|Win32
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Debug|x86.Build.0 = Debug|Win32
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Release|x64.ActiveCfg = Release|x64
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Release|x64.Build.0 = Release|x64
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Release|x86.ActiveCfg = Release|Win32
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Release|x86.Build.0 = Release|Win32
 		{18A6550D-1A53-478B-B615-20A2AF25A2CB}.Debug|x64.ActiveCfg = Debug|x64
 		{18A6550D-1A53-478B-B615-20A2AF25A2CB}.Debug|x64.Build.0 = Debug|x64
 		{18A6550D-1A53-478B-B615-20A2AF25A2CB}.Debug|x86.ActiveCfg = Debug|Win32
@@ -49,5 +77,17 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BAA3DBE1-A71D-4E7F-9CD5-B0F961CACC25} = {152E192E-70BA-4EBA-B45B-C87C08485318}
+		{C9068281-294A-46DE-B6DF-3A1E6C94A0DE} = {152E192E-70BA-4EBA-B45B-C87C08485318}
+		{2586F32C-9F3B-4410-88D1-4543C38511D7} = {BAA3DBE1-A71D-4E7F-9CD5-B0F961CACC25}
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54} = {BAA3DBE1-A71D-4E7F-9CD5-B0F961CACC25}
+		{18A6550D-1A53-478B-B615-20A2AF25A2CB} = {C9068281-294A-46DE-B6DF-3A1E6C94A0DE}
+		{6F6EACFC-B178-4E71-ABE2-805C1F4BF3D8} = {C9068281-294A-46DE-B6DF-3A1E6C94A0DE}
+		{0005F1C3-0BCC-4980-8C62-4A8B91C116BA} = {C9068281-294A-46DE-B6DF-3A1E6C94A0DE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34A5C4CF-9573-474A-A908-9F99A80C19EE}
 	EndGlobalSection
 EndGlobal
