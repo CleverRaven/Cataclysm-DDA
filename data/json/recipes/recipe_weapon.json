@@ -1571,12 +1571,14 @@
       "tools": [
         [ [ "ar15", -1 ], [ "h&k416a5", -1 ], [ "m27iar", -1 ], [ "m4a1", -1 ] ],
         [
-          [ "oxy_torch", 2 ],
-          [ "welder", 10 ],
-          [ "welder_crude", 20 ],
-          [ "toolset", 20 ],
-          [ "small_repairkit", 10 ],
-          [ "large_repairkit", 10 ]
+          [ "oxy_torch", 4 ],
+          [ "welder", 20 ],
+          [ "welder_crude", 40 ],
+          [ "toolset", 40 ]
+        ],
+        [
+          [ "small_repairkit", 20 ],
+          [ "large_repairkit", 20 ]
         ]
       ],
       "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
