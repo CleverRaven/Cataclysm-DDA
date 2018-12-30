@@ -2800,7 +2800,7 @@ int iuse::cordless_drill_on( player *p, item *it, bool t, const tripoint & )
 {
     return toolweapon_on( *p, *it, t, _( "cordless drill" ),
                           true,
-                          15, 7, _( "Your cordless drill saw buzzes." ) );
+                          15, 7, _( "Your cordless drill buzzes." ) );
 }
 
 int iuse::jackhammer( player *p, item *it, bool, const tripoint & )
