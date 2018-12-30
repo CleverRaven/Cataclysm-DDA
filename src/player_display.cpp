@@ -752,6 +752,23 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     if( has_bionic( bionic_id( "bio_speed" ) ) ) {
         mvwprintz( w_speed, line, 1, c_green, _( "Bionic Speed        +%s%d%%" ),
                    ( bio_speed_bonus < 10 ? " " : "" ), bio_speed_bonus );
+        line++;
+    }
+
+    if( has_trait( trait_id( "THRILLSEEKER" ) ) ) {
+        int hostiles = 0;
+        for( auto &critter : g->u.get_visible_creatures( 40 ) ) {
+            if( g->u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+                hostiles++;
+            }
+        }
+        if( hostiles < 5 ) {
+            mvwprintz( w_speed, line, 1, c_red, _( "Thrillseeker        - %d%%" ),
+                       ( 5 - hostiles ) );
+        } else {
+            mvwprintz( w_speed, line, 1, c_green, _( "Thrillseeker        +%s%d%%" ),
+                       ( int ( ( hostiles - 5 ) / 2.5 ) < 10 ? " " : "" ), int ( ( hostiles - 5 ) / 2.5 ) );
+        }
     }
 
     int runcost = run_cost( 100 );

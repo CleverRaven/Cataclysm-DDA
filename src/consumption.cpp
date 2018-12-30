@@ -858,6 +858,8 @@ void player::consume_effects( const item &food )
           sgn( stim ) != sgn( comest.stim ) ) ) {
         if( comest.stim < 0 ) {
             stim = std::max( comest.stim * 3, stim + comest.stim );
+        } else if( has_trait( trait_id( "STIMBOOST" ) ) ) {
+            stim = std::min( comest.stim * 3, int( stim + ( comest.stim * 1.25 ) ) );
         } else {
             stim = std::min( comest.stim * 3, stim + comest.stim );
         }

@@ -435,6 +435,7 @@
         "points" : 3,
         "description" : "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
         "starting_trait" : true,
+		"cancels" : ["CHAOTIC_BAD"],
         "category" : ["FISH", "SLIME", "ALPHA", "MEDICAL"]
     },{
         "type" : "mutation",
@@ -1054,6 +1055,40 @@
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "prereqs" : ["FLIMSY2"],
         "hp_modifier" : -0.75
+    },{
+        "type" : "mutation",
+        "id" : "HEALTHY",
+        "name" : "Healthy",
+        "points" : 2,
+        "description" : "You are naturally healthy! Positive modifiers to your healthiness are increased, and negatives are decreased.",
+        "starting_trait" : true
+    },{
+        "type" : "mutation",
+        "id" : "STIMBOOST",
+        "name": "Stimulant Affinity",
+        "cancels": ["NONADDICTIVE"],
+        "points" : 3,
+        "mixed_effect" : true,
+        "description" : "Stimulants like coffee or amphetamines are more effective for you, and you have increased tolerance for overdoses. However, they're also more addictive, and excessive consumption might still be bad for your health...",
+        "starting_trait" : true
+    },{
+        "type" : "mutation",
+        "id" : "THRILLSEEKER",
+        "name" : "Thrillseeker",
+        "points" : 1,
+        "mixed_effect" : true,
+        "description" : "You like to live dangerously. You get a speed boost when surrounded by many enemies, but slow down when only few are around.",
+        "starting_trait" : true
+    },{
+        "type" : "mutation",
+        "id" : "CHAOTIC_BAD",
+        "name" : "Genetic Downward Spiral",
+        "points" : -12,
+        "purifiable" : false,
+        "description" : "The events of the Cataclysm have damaged your DNA beyond repair. You mutate frequently, and all mutations you receive (from any source) are negative.",
+        "starting_trait" : true,
+		"cancels" : ["ROBUST"],
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",

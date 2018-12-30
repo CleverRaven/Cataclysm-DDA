@@ -248,6 +248,7 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
+static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
@@ -396,6 +397,7 @@ static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
@@ -403,6 +405,7 @@ static const trait_id trait_TAIL_FIN( "TAIL_FIN" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_THRILLSEEKER( "THRILLSEEKER" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -664,7 +667,11 @@ void player::reset_stats()
     // Stimulants
     set_fake_effect_dur( effect_stim, 1_turns * stim );
     set_fake_effect_dur( effect_depressants, 1_turns * -stim );
-    set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
+    if ( has_trait( trait_STIMBOOST ) ) {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * (stim - 45) );
+    } else {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * (stim - 30) );
+    }
     // Starvation
     if( get_starvation() >= 200 ) {
         // We die at 6000
@@ -1706,6 +1713,20 @@ void player::recalc_speed_bonus()
     }
     if( has_artifact_with( AEP_SPEED_DOWN ) ) {
         mod_speed_bonus( -20 );
+    }
+
+    if( has_trait( trait_THRILLSEEKER ) ) {
+        int hostiles = 0;
+        for( auto &critter : g->u.get_visible_creatures( 40 ) ) {
+            if( g->u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+                hostiles++;
+            }
+        }
+        if( hostiles < 5 ) {
+            mod_speed_bonus( -5 + hostiles );
+        } else {
+            mod_speed_bonus( int( ( hostiles - 5 ) / 2.5 ) );
+        }
     }
 
     if( has_trait( trait_QUICK ) ) { // multiply by 1.1
@@ -4626,6 +4647,10 @@ void player::add_addiction(add_type type, int strength)
         return;
     }
     time_duration timer = 2_hours;
+    if( has_trait( trait_STIMBOOST ) &&
+        ( type == ADD_CIG ) ||  ( type == ADD_CAFFEINE ) || ( type == ADD_SPEED ) || ( type == ADD_COKE ) || ( type == ADD_CRACK ) ) {
+        strength *= 1.5;
+    }
     if( has_trait( trait_ADDICTIVE ) ) {
         strength *= 2;
         timer = 1_hours;
@@ -5780,10 +5805,10 @@ void player::suffer()
         g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
     }
 
-    if (has_trait( trait_UNSTABLE ) && one_in(28800)) { // Average once per 2 days
+    if (has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) && one_in(28800)) { // Average once per 2 days
         mutate();
     }
-    if (has_trait( trait_CHAOTIC ) && one_in(7200)) { // Should be once every 12 hours
+    if (( has_trait( trait_CHAOTIC ) || has_trait ( trait_CHAOTIC_BAD )) && one_in(7200)) { // Should be once every 12 hours
         mutate();
     }
     if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800)) {
