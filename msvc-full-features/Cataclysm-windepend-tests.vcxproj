@@ -235,7 +235,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Cataclysm_lib.vcxproj">
+    <ProjectReference Include="Cataclysm-windepend-lib.vcxproj">
       <Project>{6f6eacfc-b178-4e71-abe2-805c1f4bf3d8}</Project>
     </ProjectReference>
   </ItemGroup>
