@@ -18,7 +18,15 @@ matrix:
 cache:
   - 'c:\tools\vcpkg\installed'
 install:
-    # Install dependency packages
+    # Install dependency packages (WINDEPEND)
+    - cmd: mkdir "%TEMP_FOLDER%"
+    - cmd: set TEMP_FOLDER=C:\Temp
+    - cmd: mkdir "%APPVEYOR_BUILD_FOLDER%\WinDepend"
+    - ps : |
+         [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
+         Start-FileDownload "http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z" -FileName "$($env:TEMP_FOLDER)\WinDepend-MSVC.7z"
+    - cmd: 7z x -y "%TEMP_FOLDER%\WinDepend-MSVC.7z" -o"%APPVEYOR_BUILD_FOLDER%"
+    # Install dependency packages (vcpkg)
     - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
     # Add LUA binary folder to PATH
     - cmd: set PATH=c:\tools\vcpkg\installed\%PLATFORM%-windows-static\tools\lua;%PATH%
