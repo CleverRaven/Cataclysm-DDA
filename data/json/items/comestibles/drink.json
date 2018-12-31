@@ -43,7 +43,7 @@
     "material": "water",
     "volume": 1,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 10
   },
   {
@@ -110,7 +110,7 @@
     "material": [ "milk", "water" ],
     "volume": 1,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 14
   },
   {
@@ -154,7 +154,7 @@
     "material": "water",
     "volume": 1,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 6
   },
   {
@@ -313,7 +313,7 @@
     "volume": 1,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
@@ -407,7 +407,7 @@
     "volume": 1,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4
   },
   {
@@ -667,7 +667,7 @@
     "volume": 1,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
     "vitamins": [ [ "vitC", 10 ] ]
   },
@@ -793,7 +793,7 @@
     "volume": 1,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 6
   },
   {
@@ -812,7 +812,7 @@
     "volume": 2,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": -5
   },
   {
