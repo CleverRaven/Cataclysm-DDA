@@ -4648,7 +4648,7 @@ void player::add_addiction(add_type type, int strength)
     }
     time_duration timer = 2_hours;
     if( has_trait( trait_STIMBOOST ) &&
-        ( type == ADD_CIG ) ||  ( type == ADD_CAFFEINE ) || ( type == ADD_SPEED ) || ( type == ADD_COKE ) || ( type == ADD_CRACK ) ) {
+        ( ( type == ADD_CIG ) ||  ( type == ADD_CAFFEINE ) || ( type == ADD_SPEED ) || ( type == ADD_COKE ) || ( type == ADD_CRACK ) ) ) {
         strength *= 1.5;
     }
     if( has_trait( trait_ADDICTIVE ) ) {
