@@ -6062,15 +6062,6 @@ void item::fill_with( item &liquid, long amount )
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
     } else if( !is_container_empty() ) {
         // if container already has liquid we need to sum the energy
-		//item &cts = contents.front();
-        //const int lhs_counters = cts.get_static_temp_counter() * cts.charges;
-        //const int rhs_counters = liquid.get_static_temp_counter() * amount;
-        //const int avg_counters = ( lhs_counters + rhs_counters ) /
-        //                         ( cts.charges + amount );
-		//cts.set_temp_from_static( avg_counters );
-		
-		//add_msg( m_warning, _( "count " ), avg_counters );
-
         item &cts = contents.front();
         const float lhs_energy = cts.get_item_thermal_energy();
         const float rhs_energy = liquid.get_item_thermal_energy();
