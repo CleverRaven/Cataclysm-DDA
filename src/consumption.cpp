@@ -184,7 +184,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
             fun_max = fun;
             fun /= 2;
         } else if( fun > 0 ) {
-            fun_max *= 3;
+            fun_max *= 1.5;
             fun = fun * 3 / 2;
         }
     }
