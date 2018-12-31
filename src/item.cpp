@@ -6401,7 +6401,7 @@ void item::update_temp( const int temp, const float insulation )
 
     // only process temperature at most every 10_turns, note we're also gated
     // by item::processing_speed
-    if( dur > 50_turns ) {
+    if( dur > 50_turns || thermal_energy < 0) {
         calc_temp( temp, insulation, dur );
         last_temp_check = now;
     }
@@ -6499,6 +6499,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     
     if ( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
+		if ( freeze_percentage > 0.5 ) {
+			// Item melts and becomes mushy
+			apply_freezerburn();
+		}
     }
     else if ( item_tags.count( "COLD" ) ) {
         item_tags.erase( "COLD" );
