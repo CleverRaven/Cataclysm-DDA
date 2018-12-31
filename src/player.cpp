@@ -5802,9 +5802,11 @@ void player::suffer()
     }
 
     // checking for radioactive items in inventory
-    const int item_radiation = leak_level("RADIOACTIVE");
+    const int item_radiation = leak_level( "RADIOACTIVE" );
 
     const int map_radiation = g->m.get_radiation( pos() );
+
+    float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
     if( has_trait( trait_RADIOACTIVE3 ) ) {
@@ -5817,94 +5819,39 @@ void player::suffer()
 
     // Spread less radiation when sleeping (slower metabolism etc.)
     // Otherwise it can quickly get to the point where you simply can't sleep at all
-    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, in_sleep_state() ? HOURS(3) : MINUTES(30) );
+    const bool rad_mut_proc = rad_mut > 0 &&
+                              x_in_y( rad_mut, in_sleep_state() ? HOURS( 3 ) : MINUTES( 30 ) );
+
+    bool has_helmet = false;
+    const bool power_armored = is_wearing_power_armor( &has_helmet );
+    const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
+
+    if( rad_mut > 0 ) {
+        const bool kept_in = is_rad_immune() || ( rad_resist && !one_in( 4 ) );
+        if( kept_in ) {
+            // As if standing on a map tile with radiation level equal to rad_mut
+            rads += rad_mut / 100.0f;
+        }
+
+        if( rad_mut_proc && !kept_in ) {
+            // Irradiate a random nearby point
+            // If you can't, irradiate the player instead
+            tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
+            // TODO: Radioactive vehicles?
+            if( g->m.get_radiation( rad_point ) < rad_mut ) {
+                g->m.adjust_radiation( rad_point, 1 );
+            } else {
+                rads += rad_mut;
+            }
+        }
+    }
 
     // Used to control vomiting from radiation to make it not-annoying
-    bool radiation_increasing = false;
+    bool radiation_increasing = irradiate( rads );
 
-    if( item_radiation > 0 || map_radiation > 0 || rad_mut > 0 ) {
-        bool has_helmet = false;
-        const bool power_armored = is_wearing_power_armor(&has_helmet);
-        const bool rad_resist = is_rad_immune() || power_armored || worn_with_flag( "RAD_RESIST" );
-
-        float rads;
-        if( is_rad_immune() ) {
-            // Power armor and some high-tech gear protects completely from radiation
-            rads = 0.0f;
-        } else if( rad_resist ) {
-            rads = map_radiation / 400.0f + item_radiation / 40.0f;
-        } else {
-            rads = map_radiation / 100.0f + item_radiation / 10.0f;
-        }
-
-        if( rad_mut > 0 ) {
-            const bool kept_in = is_rad_immune() || ( rad_resist && !one_in( 4 ) );
-            if( kept_in ) {
-                // As if standing on a map tile with radiation level equal to rad_mut
-                rads += rad_mut / 100.0f;
-            }
-
-            if( rad_mut_proc && !kept_in ) {
-                // Irradiate a random nearby point
-                // If you can't, irradiate the player instead
-                tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
-                // TODO: Radioactive vehicles?
-                if( g->m.get_radiation( rad_point ) < rad_mut ) {
-                    g->m.adjust_radiation( rad_point, 1 );
-                } else {
-                    rads += rad_mut;
-                }
-            }
-        }
-
-        if( has_effect( effect_iodine ) ) {
-            // Radioactive mutation makes iodine less efficient (but more useful)
-            rads *= 0.3f + 0.1f * rad_mut;
-        }
-
-        if( rads > 0.0f && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
-            add_msg_if_player(m_warning, _("You feel an anomalous sensation coming from your radiation sensors."));
-        }
-
-        int rads_max = roll_remainder( rads );
-        radiation += rng( 0, rads_max );
-
-        if( rads > 0.0f ) {
-            radiation_increasing = true;
-        }
-
-        // Apply rads to any radiation badges.
-        for (item *const it : inv_dump()) {
-            if (it->typeId() != "rad_badge") {
-                continue;
-            }
-
-            // Actual irradiation levels of badges and the player aren't precisely matched.
-            // This is intentional.
-            const int before = it->irridation;
-
-            const int delta = rng( 0, rads_max );
-            if (delta == 0) {
-                continue;
-            }
-
-            it->irridation += delta;
-
-            // If in inventory (not worn), don't print anything.
-            if( inv.has_item( *it ) ) {
-                continue;
-            }
-
-            // If the color hasn't changed, don't print anything.
-            const std::string &col_before = rad_badge_color(before);
-            const std::string &col_after  = rad_badge_color(it->irridation);
-            if (col_before == col_after) {
-                continue;
-            }
-
-            add_msg_if_player( m_warning, _("Your radiation badge changes from %1$s to %2$s!"),
-                               col_before.c_str(), col_after.c_str() );
-        }
+    if( radiation_increasing && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
+        add_msg_if_player( m_warning,
+                           _( "You feel an anomalous sensation coming from your radiation sensors." ) );
     }
 
     if( calendar::once_every( 15_minutes ) ) {
@@ -6247,6 +6194,77 @@ void player::suffer()
             }
         }
     }
+}
+
+bool player::irradiate( float rads, bool bypass )
+{
+    int rad_mut = 0;
+    if( has_trait( trait_RADIOACTIVE3 ) ) {
+        rad_mut = 3;
+    } else if( has_trait( trait_RADIOACTIVE2 ) ) {
+        rad_mut = 2;
+    } else if( has_trait( trait_RADIOACTIVE1 ) ) {
+        rad_mut = 1;
+    }
+
+    if( rads > 0 ) {
+        bool has_helmet = false;
+        const bool power_armored = is_wearing_power_armor( &has_helmet );
+        const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
+
+        if( is_rad_immune() && !bypass ) {
+            // Power armor and some high-tech gear protects completely from radiation
+            rads = 0.0f;
+        } else if( rad_resist && !bypass ) {
+            rads /= 4.0f;
+        }
+
+        if( has_effect( effect_iodine ) ) {
+            // Radioactive mutation makes iodine less efficient (but more useful)
+            rads *= 0.3f + 0.1f * rad_mut;
+        }
+
+        int rads_max = roll_remainder( rads );
+        radiation += rng( 0, rads_max );
+
+        // Apply rads to any radiation badges.
+        for( item *const it : inv_dump() ) {
+            if( it->typeId() != "rad_badge" ) {
+                continue;
+            }
+
+            // Actual irradiation levels of badges and the player aren't precisely matched.
+            // This is intentional.
+            const int before = it->irridation;
+
+            const int delta = rng( 0, rads_max );
+            if( delta == 0 ) {
+                continue;
+            }
+
+            it->irridation += delta;
+
+            // If in inventory (not worn), don't print anything.
+            if( inv.has_item( *it ) ) {
+                continue;
+            }
+
+            // If the color hasn't changed, don't print anything.
+            const std::string &col_before = rad_badge_color( before );
+            const std::string &col_after = rad_badge_color( it->irridation );
+            if( col_before == col_after ) {
+                continue;
+            }
+
+            add_msg_if_player( m_warning, _( "Your radiation badge changes from %1$s to %2$s!" ),
+                               col_before.c_str(), col_after.c_str() );
+        }
+
+        if( rads > 0.0f ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // At minimum level, return at_min, at maximum at_max
