@@ -6401,7 +6401,7 @@ void item::update_temp( const int temp, const float insulation )
 
     // only process temperature at most every 10_turns, note we're also gated
     // by item::processing_speed
-    if( dur > 50_turns || thermal_energy < 0) {
+    if( dur > 50_turns || thermal_energy < 0 ) {
         calc_temp( temp, insulation, dur );
         last_temp_check = now;
     }
