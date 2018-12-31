@@ -194,6 +194,9 @@ class player : public Character
         /** Outputs a serialized json string for saving */
         virtual std::string save_info() const;
 
+        /** Returns an enumeration of visible mutations with colors */
+        std::string visible_mutations( const int visibility_cap ) const;
+        std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object
@@ -1330,7 +1333,7 @@ class player : public Character
         void long_craft();
         void make_craft( const recipe_id &id, int batch_size );
         void make_all_craft( const recipe_id &id, int batch_size );
-        std::list<item> consume_components_for_craft( const recipe *making, int batch_size,
+        std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
                 bool ignore_last = false );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */

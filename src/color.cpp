@@ -104,13 +104,7 @@ color_id color_manager::name_to_id( const std::string &name ) const
 
 std::string color_manager::id_to_name( const color_id id ) const
 {
-    for( const auto &pr : name_map ) {
-        if( pr.second == id ) {
-            return pr.first;
-        }
-    }
-
-    return "c_unset";
+    return color_array[id].name;
 }
 
 color_id color_manager::color_to_id( const nc_color color ) const
@@ -148,13 +142,7 @@ nc_color color_manager::get( const color_id col ) const
 std::string color_manager::get_name( const nc_color color ) const
 {
     color_id id = color_to_id( color );
-    for( const auto &iter : name_map ) {
-        if( iter.second == id ) {
-            return iter.first;
-        }
-    }
-
-    return "c_unset";
+    return id_to_name( id );
 }
 
 nc_color color_manager::get_invert( const nc_color col ) const
@@ -176,7 +164,7 @@ nc_color color_manager::get_random() const
 void color_manager::add_color( const color_id col, const std::string &name,
                                const nc_color color_pair, const color_id inv_id )
 {
-    color_struct st = {color_pair, nc_color(), nc_color(), nc_color(), {{nc_color(), nc_color(), nc_color(), nc_color(), nc_color(), nc_color(), nc_color()}}, col, inv_id, "", "" };
+    color_struct st = {color_pair, nc_color(), nc_color(), nc_color(), {{nc_color(), nc_color(), nc_color(), nc_color(), nc_color(), nc_color(), nc_color()}}, col, inv_id, name, "", "" };
     color_array[col] = st;
     inverted_map[color_pair] = col;
     name_map[name] = col;
@@ -677,6 +665,7 @@ void color_manager::clear()
     name_map.clear();
     inverted_map.clear();
     for( auto &entry : color_array ) {
+        entry.name.clear();
         entry.name_custom.clear();
         entry.name_invert_custom.clear();
     }
