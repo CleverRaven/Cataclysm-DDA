@@ -1535,18 +1535,34 @@ The format also support snippet ids like above.
 
 ```JSON
 {
-  "id": "mon_broken_cyborg",
+    "id": "jabberwock",
+    "type": "harvest",
+    "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "flesh" }
+    ],
+},
+{
+  "id": "mammal_large_fur",
+  "//": "drops large stomach",
   "type": "harvest",
-  "message": "You search for any salvagable bionic hardware in what's left of this failed experiment",
   "entries": [
-    { "drop": "bio_power_storage", "base_num": [ 0, 0 ], "scale_num": [ 0.05, 0.2 ], "max": 1 },
-    { "drop": "burnt_out_bionic", "scale_num": [ 0.1, 0.3 ], "max": 1 },
-    { "drop": "sinew", "base_num": [ 5, 15 ], "scale_num": [ 0.6, 0.9 ], "max": 20 },
-    { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8 },
-    { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10 },
-    { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12 }
+    { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
+    { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+    { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+    { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+    { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+    { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+    { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+    { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+    { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+    { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+    { "drop": "fur", "type": "skin", "mass_ratio": 0.02 },
+    { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
   ]
-}
+},
 ```
 
 #### `id`
@@ -1563,7 +1579,23 @@ Optional message to be printed when a creature using the harvest definition is b
 
 #### `entries`
 
-Array of dictionaries defining possible items produced on butchering and their likelihood of being produced. `drop` value should be the `id` string of the item to be produced. `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number. `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
+Array of dictionaries defining possible items produced on butchering and their likelihood of being produced. 
+`drop` value should be the `id` string of the item to be produced. 
+Acceptable values are as follows:
+`flesh`: the "meat" of the creature.
+`offal`: the "organs" of the creature. these are removed when field dressing.
+`skin`: the "skin" of the creature. this is what is ruined while quartering.
+`bone`: the "bones" of the creature. you will get some amount of these from field dressing, and the rest of them from butchering the carcass.
+`bionic`: an item gained by dissecting the creature. not restricted to CBMs.
+`bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
+
+`type` value should be a string with the associated body part the item comes from.
+
+`base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number. 
+
+`scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
+
+`mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops.
 
 ### Furniture
 

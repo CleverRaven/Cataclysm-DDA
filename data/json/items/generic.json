@@ -1173,6 +1173,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "standard_template_construct",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "nanofabricator template",
+    "category": "spare_parts",
+    "description": "A state-of-the-art optical storage system.  This small slate of transparent glass holds, inscribed as a miniature pattern, the instructions required to create an item through a nanofabricator.",
+    "price": 150000,
+    "price_postapoc": 15000,
+    "material": [ "steel", "plastic" ],
+    "weight": 317,
+    "volume": 1,
+    "to_hit": -1,
+    "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "antenna",
     "symbol": ",",
     "color": "light_gray",

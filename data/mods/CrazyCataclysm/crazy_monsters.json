@@ -43,7 +43,8 @@
     "vision_night": 3,
     "death_drops": "skeltal_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "FILTHY" ],
+    "harvest": "mr_bones",
     "special_attacks": [ [ "DOOT", 50 ] ]
   },
   {
@@ -71,6 +72,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "death_function": [ "MELT" ],
+    "harvest": "mr_bones",
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
   },
   {
@@ -103,6 +105,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "SMOKEBURST" ],
+    "harvest": "zombie_fur",
     "flags": [
       "SEES",
       "HEARS",
@@ -110,15 +113,11 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "FUR",
       "BLEED",
       "BASHES",
       "ATTACKMON",
-      "BONES",
-      "FAT",
       "FIREPROOF",
       "NO_BREATHE",
-      "POISON",
       "FILTHY"
     ]
   }

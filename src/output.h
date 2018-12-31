@@ -760,10 +760,6 @@ int get_terminal_height();
  */
 bool is_draw_tiles_mode();
 
-void play_music( std::string playlist );
-
-void update_music_volume();
-
 /**
  * Make changes made to the display visible to the user immediately.
  *

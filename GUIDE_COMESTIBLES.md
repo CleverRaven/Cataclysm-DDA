@@ -17,7 +17,7 @@ When you have a comestible you want to add to the files, just go down this list,
 
 `alcohol.json` -- "Drink" comestible with alcohol addiction
 `soup.json` -- "Drink" comestible which is a soup. This is more of a "food" than a drink - you primarily want the calories from this
-`drinks.json` -- "Drink" comestible. This is your drink of choice when you're thirsty! examples: tea, juice, water
+`drink.json` -- "Drink" comestible. This is your drink of choice when you're thirsty! examples: tea, juice, water
 `drink_other.json` -- "Drink" comestible that does not fit any other criteria. example: vinegar, mustard
 
 `junkfood.json` -- comestible with the "junk" material. examples: cake, sugary cereal, nachos
@@ -36,5 +36,5 @@ When you have a comestible you want to add to the files, just go down this list,
 `egg.json` -- either an egg, or made of egg
 `dairy.json` -- made of milk
 `mushroom.json` -- a mushroom or made of mushrooms
-`nut.json` -- a nut or made of nuts
+`nuts.json` -- a nut or made of nuts
 `other.json` -- if you made it here, your comestible doesn't fit any other category!

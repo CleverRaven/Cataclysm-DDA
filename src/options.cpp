@@ -12,6 +12,7 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "sdlsound.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"

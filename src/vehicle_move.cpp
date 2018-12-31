@@ -889,7 +889,7 @@ void vehicle::pldrive( int x, int y )
     }
 
     if( y != 0 ) {
-        int thr_amount = 5 * 100;
+        int thr_amount = 100 * ( abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
             cruise_thrust( -y * thr_amount );
         } else {

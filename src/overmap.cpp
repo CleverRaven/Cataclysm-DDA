@@ -43,7 +43,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-#define STREETCHANCE 2
+#define BUILDINGCHANCE 4
 #define MIN_ANT_SIZE 8
 #define MAX_ANT_SIZE 20
 #define MIN_GOO_SIZE 1
@@ -2360,7 +2360,7 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
 }
 
 void overmap::build_city_street( const overmap_connection &connection, const point &p, int cs,
-                                 om_direction::type dir, const city &town )
+                                 om_direction::type dir, const city &town, int block_width )
 {
     int c = cs;
     int croad = cs;
@@ -2381,24 +2381,30 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
     const auto from = std::next( street_path.nodes.begin() );
     const auto to = street_path.nodes.end();
 
+    //Alternate wide and thin blocks
+    int new_width = block_width == 2 ? rng( 3, 5 ) : 2;
+
     for( auto iter = from; iter != to; ++iter ) {
-        const tripoint rp( iter->x, iter->y, 0 );
-
-        if( !one_in( STREETCHANCE ) ) {
-            place_building( rp, om_direction::turn_left( dir ), town );
-        }
-        if( !one_in( STREETCHANCE ) ) {
-            place_building( rp, om_direction::turn_right( dir ), town );
-        }
-
         --c;
 
-        if( c >= 2 && c < croad - 1 ) {
+        if( c >= 2 && c < croad - block_width ) {
             croad = c;
-            build_city_street( connection, iter->pos(), cs - rng( 1, 3 ), om_direction::turn_left( dir ),
-                               town );
-            build_city_street( connection, iter->pos(), cs - rng( 1, 3 ), om_direction::turn_right( dir ),
-                               town );
+            int left = cs - rng( 1, 3 );
+            int right = cs - rng( 1, 3 );
+
+            //Remove 1 length road nubs
+            if( left == 1 ) {
+                left++;
+            }
+            if( right == 1 ) {
+                right++;
+            }
+
+            build_city_street( connection, iter->pos(), left, om_direction::turn_left( dir ),
+                               town, new_width );
+
+            build_city_street( connection, iter->pos(), right, om_direction::turn_right( dir ),
+                               town, new_width );
 
             auto &oter = ter( iter->x, iter->y, 0 );
             // @todo Get rid of the hardcoded terrain ids.
@@ -2406,17 +2412,27 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
                 oter = oter_id( "road_nesw_manhole" );
             }
         }
+        const tripoint rp( iter->x, iter->y, 0 );
+
+        if( !one_in( BUILDINGCHANCE ) ) {
+            place_building( rp, om_direction::turn_left( dir ), town );
+        }
+        if( !one_in( BUILDINGCHANCE ) ) {
+            place_building( rp, om_direction::turn_right( dir ), town );
+        }
     }
 
     // If we're big, make a right turn at the edge of town.
     // Seems to make little neighborhoods.
     cs -= rng( 1, 3 );
+
     if( cs >= 2 && c == 0 ) {
         const auto &last_node = street_path.nodes.back();
         const auto rnd_dir = om_direction::turn_random( dir );
         build_city_street( connection, last_node.pos(), cs, rnd_dir, town );
         if( one_in( 5 ) ) {
-            build_city_street( connection, last_node.pos(), cs, om_direction::opposite( rnd_dir ), town );
+            build_city_street( connection, last_node.pos(), cs, om_direction::opposite( rnd_dir ),
+                               town, new_width );
         }
     }
 }
@@ -2847,6 +2863,34 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
         const auto &ter_id( get_ter( pos ) );
 
         if( ter_id->is_river() || !connection.pick_subtype_for( ter_id ) ) {
+            break;
+        }
+
+        bool collided = false;
+        int collisions = 0;
+        for( int i = -1; i <= 1; i++ ) {
+            if( collided ) {
+                break;
+            }
+            for( int j = -1; j <= 1; j++ ) {
+                const tripoint checkp = pos + tripoint( i, j, 0 );
+
+                if( checkp != pos + om_direction::displace( dir, 1 ) &&
+                    checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
+                    checkp != pos ) {
+                    if( is_ot_type( "road", get_ter( checkp ) ) ) {
+                        collisions++;
+                    }
+                }
+            }
+
+            //Stop roads from running right next to eachother
+            if( collisions >= 3 ) {
+                collided = true;
+                break;
+            }
+        }
+        if( collided ) {
             break;
         }
 
