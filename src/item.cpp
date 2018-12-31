@@ -6425,7 +6425,8 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         // This can cause incorrect freezing/unfreezing when the temperature is close to freezing temperature as the freezing/unfreezing would normally take longer than two days
         true_energy = 2 * get_energy_from_temperature( env_temperature ) + 0.5;
         temperature = static_cast<int>(temp);
-        thermal_energy = static_cast<int>(true_energy);
+        temperature = static_cast<int>( temp );
+        thermal_energy = static_cast<int>( true_energy );
         return;
     }
     
