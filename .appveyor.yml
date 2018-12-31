@@ -19,8 +19,8 @@ cache:
   - 'c:\tools\vcpkg\installed'
 install:
     # Install dependency packages (WINDEPEND)
-    - cmd: mkdir "%TEMP_FOLDER%"
     - cmd: set TEMP_FOLDER=C:\Temp
+    - cmd: mkdir "%TEMP_FOLDER%"
     - cmd: mkdir "%APPVEYOR_BUILD_FOLDER%\WinDepend"
     - ps : |
          [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
