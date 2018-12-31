@@ -89,10 +89,10 @@ namespace morale_mults
 {
 // Optimistic characters focus on the good things in life,
 // and downplay the bad things.
-static const morale_mult optimist( 1.25, 0.75 );
+static const morale_mult optimist( 1.2, 0.8 );
 // Again, those grouchy Bad-Tempered folks always focus on the negative.
 // They can't handle positive things as well.  They're No Fun.  D:
-static const morale_mult badtemper( 0.75, 1.25 );
+static const morale_mult badtemper( 0.8, 1.2 );
 // Prozac reduces overall negative morale by 75%.
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
@@ -220,10 +220,10 @@ player_morale::player_morale() :
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
     mutations[trait_id( "OPTIMISTIC" )]    = mutation_data(
-                std::bind( set_optimist, _1, 4 ),
+                std::bind( set_optimist, _1, 9 ),
                 std::bind( set_optimist, _1, 0 ) );
     mutations[trait_id( "BADTEMPER" )]     = mutation_data(
-                std::bind( set_badtemper, _1, -4 ),
+                std::bind( set_badtemper, _1, -9 ),
                 std::bind( set_badtemper, _1, 0 ) );
     mutations[trait_id( "STYLISH" )]       = mutation_data(
                 std::bind( set_stylish, _1, true ),
