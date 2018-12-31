@@ -235,7 +235,7 @@
     "price": 1120,
     "material": [ "powder", "egg" ],
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 100,
     "fun": -4
   },
