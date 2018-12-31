@@ -6411,7 +6411,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 {
     // If no temperature difference then no need to do math
     // In practice difference this happens when the real difference is smaller than 0.5 F due to rounding when the item temperature is saved as integer. This is not a problem and is good behavior
-    if (temp == temperature) {
+    if( temp == temperature ) {
         return;
     }
     
