@@ -6416,7 +6416,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     }
     
     // Enviroment temperatures above 500 C are handled as if they are 500 C. 200 liter tank energy may overflow at temperatures higher.
-    const float env_temperature = std::min( (temp - 32) * 0.556 + 273.15, 773.15);
+    const float env_temperature = std::min( ( temp - 32 ) * 0.556 + 273.15, 773.15 );
     float true_energy = 0.5 * thermal_energy;
     
     if ( to_turns<int>( time ) > 28800 || thermal_energy < 0 ){
