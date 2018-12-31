@@ -670,13 +670,19 @@ bool veh_interact::can_install_part() {
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
-    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, %3$i is skill level, %4$s represents the internal color name which shouldn't be translated, and %5$i is the strength number
-    msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                          status_color( use_aid ), qual.obj().name.c_str(), lvl,
-                          status_color( use_str ), str ) << "\n";
 
-    std::string install_color = string_format( "%s",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
-    sel_vpart_info->format_description( msg, install_color, getmaxx( w_msg ) - 4 );
+    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
+    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
+
+    //~ %1$s is quality name, %2$d is quality level
+    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+                                            qual.obj().name.c_str(), lvl );
+    std::string str_string = string_format( _( "strength %d" ), str );
+    msg << string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                          colorize( aid_string, aid_color),
+                          colorize( str_string, str_color) ) << "\n";
+
+    sel_vpart_info->format_description( msg, "<color_light_gray>", getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
@@ -1126,6 +1132,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     std::map<std::string, std::function<void( const catacurses::window &, int )>> headers;
 
+    int epower_w = veh->total_epower_w();
     headers["ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray,
         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
@@ -1137,23 +1144,34 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Tanks" ) );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    headers["BATTERY"] = [this]( const catacurses::window & w, int y ) {
-        int epower_w = veh->total_epower_w();
+    headers["BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
         if( abs( epower_w ) < 10000 ) {
-            batt = string_format( _( "Batteries: %s%s%4d W</color>" ),
-                                  health_color( epower_w >= 0 ),
-                                  epower_w > 0 ? "+" : "", epower_w );
+            batt = string_format( _( "Batteries: %s%+4d W</color>" ),
+                                  health_color( epower_w >= 0 ), epower_w );
         } else {
-            batt = string_format( _( "Batteries: %s%s%4.1f kW</color>" ),
-                                  health_color( epower_w >= 0 ),
-                                  epower_w > 0 ? "+" : "", epower_w / 1000.0 );
+            batt = string_format( _( "Batteries: %s%+4.1f kW</color>" ),
+                                  health_color( epower_w >= 0 ), epower_w / 1000.0 );
         }
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    headers["REACTOR"] = []( const catacurses::window & w, int y ) {
-        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Reactors" ) );
+    headers["REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+        int reactor_epower_w = veh->total_reactor_epower_w();
+        if( reactor_epower_w > 0 && epower_w < 0 ) {
+             reactor_epower_w += epower_w;
+        }
+        std::string reactor;
+        if( reactor_epower_w == 0 ) {
+            reactor = _( "Reactors" );
+        } else if( reactor_epower_w < 10000 ) {
+            reactor = string_format( _( "Reactors: Up to %s%+4d W</color>" ),
+                                     health_color( reactor_epower_w ), reactor_epower_w );
+        } else {
+            reactor = string_format( _( "Reactors: Up to %s%+4.1f kW</color>" ),
+                                     health_color( reactor_epower_w ), reactor_epower_w / 1000.0 );
+        }
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, reactor );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
     headers["TURRET"] = []( const catacurses::window & w, int y ) {

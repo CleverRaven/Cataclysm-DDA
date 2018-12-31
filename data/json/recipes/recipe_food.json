@@ -80,6 +80,14 @@
   },
   {
     "type": "recipe",
+    "result": "meat_scrap_cooked",
+    "copy-from": "meat_cooked",
+    "time": 750,
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "meat_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "sweetbread_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",

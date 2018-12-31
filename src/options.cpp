@@ -12,6 +12,7 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "sdlsound.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -1425,7 +1426,7 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
-         build_tilesets_list(), "ChestHole", COPT_CURSES_HIDE
+         build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );

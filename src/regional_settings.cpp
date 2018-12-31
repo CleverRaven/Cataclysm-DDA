@@ -830,7 +830,6 @@ void building_bin::finalize()
     }
 
     for( const std::pair<overmap_special_id, int> &pr : unfinalized_buildings ) {
-        bool skip = false;
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special
@@ -843,19 +842,6 @@ void building_bin::finalize()
                 all.emplace_back( pr.first.str() );
             }
             current_id = overmap_specials::create_building_from( converted_id );
-        }
-        const overmap_special &cur_special = current_id.obj();
-        for( const overmap_special_terrain &ter : cur_special.terrains ) {
-            const tripoint &p = ter.p;
-            if( p.x != 0 || p.y != 0 ) {
-                debugmsg( "Tried to add city building %s, but it has a part with non-zero X or Y coordinates (not supported yet)",
-                          current_id.c_str() );
-                skip = true;
-                break;
-            }
-        }
-        if( skip ) {
-            continue;
         }
         buildings.add( current_id, pr.second );
     }

@@ -1723,6 +1723,7 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
                         for( auto &v : destsm->vehicles ) {
                             auto &ch = g->m.access_cache( v->smz );
                             ch.vehicle_list.erase( v );
+                            ch.zone_vehicles.erase( v );
                         }
                         destsm->delete_vehicles();
                         for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
@@ -2147,4 +2148,5 @@ void editmap::cleartmpmap( tinymap &tmpmap )
     std::memset( ch.veh_exists_at, 0, sizeof( ch.veh_exists_at ) );
     ch.veh_cached_parts.clear();
     ch.vehicle_list.clear();
+    ch.zone_vehicles.clear();
 }

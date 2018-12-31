@@ -16,6 +16,7 @@
     "color": "brown",
     "melee_cut": 0,
     "dodge": 1,
+    "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN" ]
   },
@@ -39,6 +40,7 @@
     "melee_skill": 3,
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "VERMIN" ]
@@ -63,6 +65,7 @@
     "melee_cut": 0,
     "dodge": 6,
     "armor_cut": 6,
+    "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -85,6 +88,7 @@
     "color": "green",
     "melee_cut": 0,
     "dodge": 6,
+    "harvest": "mammal_tiny",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -107,6 +111,7 @@
     "color": "brown",
     "melee_cut": 0,
     "dodge": 6,
+    "harvest": "mammal_tiny",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "STUMBLES", "VERMIN", "FLIES" ]
   },
@@ -129,6 +134,7 @@
     "morale": -70,
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "VERMIN" ]
@@ -150,6 +156,7 @@
     "color": "brown",
     "melee_cut": 0,
     "dodge": 6,
+    "harvest": "mammal_tiny",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "VERMIN", "ACIDPROOF", "ARTHROPOD_BLOOD" ]
@@ -172,6 +179,7 @@
     "aggression": -99,
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "mammal_tiny",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "CLIMBS" ]
   },
@@ -192,6 +200,7 @@
     "color": "dark_gray",
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "mammal_tiny",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "WEBWALK", "CLIMBS" ]
   },
@@ -212,6 +221,7 @@
     "color": "dark_gray",
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "BADVENOM", "CLIMBS" ]
   },
@@ -232,8 +242,9 @@
     "color": "brown",
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "mammal_tiny",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "VERMIN", "CHITIN", "CLIMBS" ]
+    "flags": [ "SMELLS", "HEARS", "VERMIN", "CLIMBS" ]
   },
   {
     "id": "mon_wasp_small",
@@ -254,6 +265,7 @@
     "dodge": 3,
     "vision_day": 10,
     "vision_night": 5,
+    "harvest": "mammal_tiny",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "VERMIN", "HIT_AND_RUN" ],
     "//": "id mon_wasp is already used, so changing would break tilests and other things"

@@ -45,6 +45,7 @@
     "aggression": 100,
     "morale": 100,
     "melee_cut": 0,
+    "harvest": "biollante",
     "special_attacks": [ [ "SPIT_SAP", 2 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "biollante", 8 ] ], "//": "80% chance of an item from group biollante" },
     "death_function": [ "NORMAL" ],
@@ -69,6 +70,7 @@
     "morale": 100,
     "melee_cut": 0,
     "armor_bash": 8,
+    "harvest": "exempt",
     "special_attacks": [ [ "GROW_VINE", 2 ] ],
     "death_function": [ "KILL_VINES" ],
     "flags": [ "NOHEAD", "IMMOBILE" ]
@@ -92,6 +94,7 @@
     "morale": 100,
     "melee_cut": 0,
     "armor_bash": 2,
+    "harvest": "exempt",
     "special_attacks": [ [ "VINE", 5 ] ],
     "death_function": [ "VINE_CUT" ],
     "flags": [ "NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE" ]
@@ -117,6 +120,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_cut": 1,
+    "harvest": "triffid_small",
     "upgrades": { "age_grow": 14, "into": "mon_triffid_young" },
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ]
@@ -141,6 +145,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_cut": 4,
+    "harvest": "triffid_small",
     "upgrades": { "age_grow": 14, "into": "mon_triffid" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
     "death_function": [ "NORMAL" ],
@@ -169,6 +174,7 @@
     "melee_cut": 6,
     "armor_bash": 10,
     "armor_cut": 4,
+    "harvest": "triffid_large",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
   },
@@ -195,6 +201,7 @@
     "melee_cut": 8,
     "armor_bash": 12,
     "armor_cut": 8,
+    "harvest": "triffid_queen",
     "special_attacks": [ [ "GROWPLANTS", 2 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]
@@ -222,6 +229,7 @@
     "melee_cut": 0,
     "dodge": 4,
     "armor_bash": 18,
+    "harvest": "triffid_small",
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC" ]
   },
@@ -248,6 +256,7 @@
     "melee_cut": 4,
     "armor_bash": 4,
     "armor_cut": 6,
+    "harvest": "triffid_large",
     "attack_effs": [
       { "id": "paralyzepoison", "//": "applying this multiple times makes intensity go up by 3 instead of 1", "duration": 33 },
       { "id": "paralyzepoison", "duration": 33 },
@@ -278,6 +287,7 @@
     "melee_cut": 0,
     "armor_bash": 12,
     "armor_cut": 16,
+    "harvest": "triffid_small",
     "special_attacks": [ [ "TRIFFID_HEARTBEAT", 5 ] ],
     "death_function": [ "TRIFFID_HEART" ],
     "flags": [ "NOHEAD", "IMMOBILE", "QUEEN" ]

@@ -57,6 +57,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "shotgun_d_roadwarrior",
+    "entries": [ { "item": "shotgun_d", "ammo-item": "reloaded_shot_00", "contents-item": [ "barrel_small" ] } ]
+  },
+  {
     "type": "profession_item_substitutions",
     "substitutions": [
       {
@@ -323,25 +329,21 @@
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
-      "both": [
-        "slingpack",
-        "tank_top",
-        "jeans",
-        "socks",
-        "boots_steel",
-        "tool_belt",
-        "wrench",
-        "duct_tape",
-        "screwdriver",
-        "welder",
-        "battery",
-        "battery",
-        "battery",
-        "battery",
-        "battery",
-        "goggles_welding",
-        "mag_cars"
-      ],
+      "both": {
+        "items": [
+          "slingpack",
+          "tank_top",
+          "jeans",
+          "socks",
+          "boots_steel",
+          "tool_belt",
+          "wrench",
+          "duct_tape",
+          "screwdriver",
+          "mag_cars"
+        ],
+        "entries": [ { "item": "welder", "charges": 500 }, { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
@@ -2276,7 +2278,7 @@
         ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "shotgun_d", "ammo-item": "reloaded_shot_00", "container-item": "back_holster" },
+          { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
           { "item": "reloaded_shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "reloaded_shot_00", "charges": 6 }
         ]
