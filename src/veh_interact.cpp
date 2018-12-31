@@ -2661,13 +2661,16 @@ void veh_interact::complete_vehicle()
         const point q = veh->coord_translate( point( dx, dy ) );
 
         if ( vpinfo.has_flag( VPFLAG_CONE_LIGHT ) ||
-             vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
+             vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
+             vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;
             g->u.view_offset.x = veh->global_pos3().x + q.x - g->u.posx();
             g->u.view_offset.y = veh->global_pos3().y + q.y - g->u.posy();
-            popup(_("Choose a facing direction for the new headlight.  Press space to continue."));
+
+            bool is_overheadlight = vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT );
+            popup(_("Choose a facing direction for the new %s.  Press space to continue."), is_overheadlight ? "overhead light" : "headlight");
             const cata::optional<tripoint> headlight_target = g->look_around();
             // Restore previous view offsets.
             g->u.view_offset.x = px;
