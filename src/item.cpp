@@ -5983,55 +5983,66 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-int item::get_static_temp_counter() const
-{
-    int counters = item_counter;
-    if( item_tags.count( "FROZEN" ) ) {
-        counters = -1200 - counters;
-    } else if( item_tags.count( "COLD" ) ) {
-        counters = -600 - counters;
-    } else if( item_tags.count( "HOT" ) ) {
-        counters += 600;
-    } else if( !item_tags.count( "WARM" ) ) { // if not warm, then ticking for cold
-        counters = -counters;
+
+float item::get_temp_from_energy( const float true_energy )
+{    
+    const int specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
+    const int specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
+    const int latent_heat = type->comestible->lat_heat; // J/kg
+    const float mass = to_gram( weight() ); // g
+    const float freezing_temperature = ( type->comestible->freeze_point - 32) * 0.556 + 273.15;  // F converted to K
+    
+    const float completely_frozen_energy = mass * specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
+    const float completely_liquid_energy = completely_frozen_energy + mass * latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
+    
+    float new_item_temperature;
+    
+    if (true_energy > completely_liquid_energy) {
+        // Item is liquid
+        add_msg( _( "Is liquid" ));
+        new_item_temperature = freezing_temperature + ( true_energy - completely_liquid_energy ) / ( specific_heat_liquid * mass );
     }
-    return counters;
+    else if (true_energy < completely_frozen_energy) {
+        // Item is solid
+        add_msg( _( "Is solid" ));
+        new_item_temperature =  true_energy / ( specific_heat_solid * mass);
+    }
+    else {
+        // Item is partially solid
+        add_msg( _( "Is partial" ));
+        new_item_temperature = freezing_temperature;
+    }
+    
+    return new_item_temperature;
 }
 
-void item::set_temp_from_static( const int counters )
-{
-    item_tags.erase( "COLD" );
-    item_tags.erase( "HOT" );
-
-    if( counters < -1200 ) {
-        item_tags.insert( "FROZEN" );
-        item_counter = -counters - 1200;
-        if( current_phase == LIQUID ) {
-            current_phase = SOLID;
+float item::get_energy_from_temperature( const float new_temperature )
+{    
+    const int specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
+    const int specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
+    const int latent_heat = type->comestible->lat_heat; // J/kg
+    const float mass = to_gram( weight() ); // g
+    const float freezing_temperature = ( type->comestible->freeze_point - 32) * 0.556 + 273.15;  // F converted to K
+    
+    const float completely_frozen_energy = mass * specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
+    const float completely_liquid_energy = completely_frozen_energy + mass * latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
+    
+    float true_energy;
+    
+    if (new_temperature <= freezing_temperature) {
+            true_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - new_temperature );
         }
-    } else if( counters < -600 ) {
-        item_tags.insert( "COLD" );
-        item_counter = -counters - 600;
-        apply_freezerburn();
-    } else if( counters < 0 ) {
-        item_counter = -counters;
-        apply_freezerburn();
-    } else if( counters > 600 ) {
-        item_counter = counters - 600;
-        item_tags.insert( "HOT" );
-        // item is limited to how much heat it can retain by its mass
-        const int limit = clamp( to_gram( weight() ), 100, 600 );
-        item_counter = std::min( limit, item_counter );
-        apply_freezerburn();
-        return;
-    } else {
-        item_tags.insert( "WARM" );
-        item_counter = counters;
-        apply_freezerburn();
-    }
-    // it shouldn't be possible to be outside these bounds, but just as a
-    // safety precaution in case the math goes weird
-    item_counter = clamp( item_counter, 0, 600 );
+        else {
+            true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( new_temperature - freezing_temperature );
+        } 
+    
+    return true_energy;
+}
+
+void item::set_temperature(float new_temperature)
+{
+    new_temperature = ( new_temperature - 273.15 ) * 1.8 + 32.5;
+    temperature = static_cast<int>(new_temperature);
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -6050,13 +6061,13 @@ void item::fill_with( item &liquid, long amount )
         }
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
     } else if( !is_container_empty() ) {
-        // if container already has liquid we need to average temperature
+        // if container already has liquid we need to sum the energy
         item &cts = contents.front();
-        const int lhs_counters = cts.get_static_temp_counter() * cts.charges;
-        const int rhs_counters = liquid.get_static_temp_counter() * amount;
-        const int avg_counters = ( lhs_counters + rhs_counters ) /
-                                 ( cts.charges + amount );
-        cts.set_temp_from_static( avg_counters );
+        const float lhs_energy = cts.get_item_thermal_energy();
+        const float rhs_energy = liquid.get_item_thermal_energy();
+        const float total_energy = lhs_energy + rhs_energy;
+        float new_temperature = get_temp_from_energy( total_energy );
+        cts.set_temperature( new_temperature );
         // use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),
                                         liquid.get_relative_rot() ) );
@@ -6375,11 +6386,6 @@ void item::apply_freezerburn()
     }
 }
 
-static int temp_difference_ratio( const int temp_one, const int temp_two )
-{
-    // increments of 10F (~5.5C), clamped to 1-4F (~0.55-2.22C)
-    return clamp( abs( temp_one - temp_two ) / 10,  1, 4 );
-}
 
 void item::update_temp( const int temp, const float insulation )
 {
@@ -6395,7 +6401,7 @@ void item::update_temp( const int temp, const float insulation )
 
     // only process temperature at most every 10_turns, note we're also gated
     // by item::processing_speed
-    if( dur > 10_turns ) {
+    if( dur > 50_turns ) {
         calc_temp( temp, insulation, dur );
         last_temp_check = now;
     }
@@ -6403,166 +6409,146 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
-    // we simulate the maximum temperature an item can retain by its mass
-    // TODO: Limit max frozen by this as well (don't forget to fix deep freeze
-    // parasites if you do).
-    const int max_heat = clamp( to_gram( weight() ), 100, 600 );
-    const int freeze_point = type->comestible->freeze_point;
-    bool is_hot = item_tags.count( "HOT" );
-    bool is_warm = item_tags.count( "WARM" );
-    bool is_cold = item_tags.count( "COLD" );
-    bool is_frozen = item_tags.count( "FROZEN" );
-    int loop_diff = 0;
-    int diff = is_frozen ? temp_difference_ratio( temp, freeze_point ) :
-               is_cold ? temp_difference_ratio( temp, temperatures::cold ) :
-               is_hot || is_warm ? temp_difference_ratio( temp, temperatures::hot ) :
-               temp_difference_ratio( temp, temperatures::normal );
-    diff *= to_turns<int>( time );
-    diff /= std::max( insulation, static_cast<float>( 0.1 ) );
-    // no matter how much insulation temperature will shift at least a 1 degree
-    // every ten turns if less than cold
-    diff = std::max( diff, 1 );
-
-    // process diff in chunks of 600 because that's the barrier at which a
-    // something can become frozen or cold, we do this once here and at the end
-    // of the loop to avoid looping twice if possible
-    loop_diff = std::min( 600, diff );
-    if( diff >= 600 ) {
-        diff -= 600;
-    } else  {
-        diff = 0;
+    // If no temperature difference then no need to do math
+    // In practice difference this happens when the real difference is smaller than 0.5 F due to rounding when the item temperature is saved as integer. This is not a problem and is good behavior
+    if (temp == temperature) {
+        return;
     }
-
-    do {
-        if( is_hot ) {
-            if( temp >= temperatures::hot ) {
-                item_counter += loop_diff;
-            } else {
-                item_counter -= loop_diff;
-            }
-            if( item_counter <= 0 ) {
-                item_tags.erase( "HOT" );
-                item_tags.insert( "WARM" );
-                item_counter = 600;
-                is_warm = true;
-                is_hot = false;
-            } else if( item_counter > max_heat ) {
-                // item cannot heat any further
-                item_counter = max_heat;
-                return;
-            }
-        } else if( is_warm ) {
-            if( temp >= temperatures::hot ) {
-                item_counter += loop_diff;
-            } else {
-                item_counter -= loop_diff;
-            }
-
-            if( item_counter <= 0 ) {
-                item_tags.erase( "WARM" );
-                item_counter = 0;
-                if( temp > temperatures::cold ) {
-                    // item cannot cool any further, we're done
-                    return;
-                }
-                is_warm = false;
-            } else if( item_counter > 600 ) {
-                item_tags.erase( "WARM" );
-                item_tags.insert( "HOT" );
-                is_warm = false;
-                is_hot = true;
-            }
-        } else if( is_cold ) {
-            if( temp <= temperatures::cold ) {
-                item_counter += loop_diff;
-                if( item_counter > 600 ) {
-                    if( temp <= freeze_point ) {
-                        // if temp is colder than freeze point start ticking frozen
-                        item_tags.erase( "COLD" );
-                        item_tags.insert( "FROZEN" );
-                        current_phase = SOLID;
-                        item_counter = 1;
-                        is_cold = false;
-                        is_frozen = true;
-                    } else {
-                        // if temp is warmer than freezing, cold counter cannot
-                        // exceed 600 and we're done here because item cannot cool
-                        // off any further
-                        item_counter = 600;
-                        return;
-                    }
-                }
-            } else {
-                item_counter -= loop_diff;
-                // if item is cold and counter is decreasing, we can only be in a
-                // warmer temp, so we're done if it's less than zero, if it's
-                // greater than 600 that means we're still cooling off and need to
-                // transition to frozen.
-                if( item_counter <= 0 ) {
-                    item_tags.erase( "COLD" );
-                    item_counter = 0;
-                    return;
-                }
-            }
-        } else if( is_frozen ) {
-            if( temp <= freeze_point ) {
-                item_counter += loop_diff;
-                if( item_counter > 500 && type->comestible->parasites > 0 ) {
-                    item_tags.insert( "NO_PARASITES" );
-                }
-
-                // counter cannot exceed 600 as frozen, if it does we know
-                // we're done because item is cooling down and cannot cool any
-                // further
-                if( item_counter > 600 ) {
-                    item_counter = 600;
-                    return;
-                }
-            } else {
-                item_counter -= loop_diff;
-                // item is defrosting
-                if( item_counter < 0 ) {
-                    apply_freezerburn(); // removes frozen tag and applies mushy/rot if needed
-                    item_tags.insert( "COLD" );
-                    item_counter = 600;
-                    is_frozen = false;
-                    is_cold = true;
-                }
-            }
-        } else if( temp <= temperatures::cold ) {
-            // see if we need to add a cold tag
-            item_counter += loop_diff;
-            if( item_counter > 600 ) {
-                item_tags.insert( "COLD" );
-                item_counter = 1;
-                is_cold = true;
-            }
-        } else if( temp >= temperatures::hot ) {
-            // if we have item_counters without a tag we were starting to
-            // increment toward cold, remove counters until we don't have any,
-            // then add warm tag and start to increment with WARM tag
-            item_counter -= loop_diff;
-            if( item_counter < 0 ) {
-                item_tags.insert( "WARM" );
-                item_counter = std::max( 600, -item_counter );
-                is_warm = true;
-            }
-        } else {
-            // no tags yet and not heating or cooling
-            item_counter -= loop_diff;
-            if( item_counter < 0 ) {
-                item_counter = 0;
-                return;
+    
+    // Enviroment temperatures above 500 C are handled as if they are 500 C. 200 liter tank energy may overflow at temperatures higher.
+    const float env_temperature = std::min( (temp - 32) * 0.556 + 273.15, 773.15);
+    float true_energy = 0.5 * thermal_energy;
+    
+    if ( to_turns<int>( time ) > 28800 || thermal_energy < 0 ){
+        // If item has not been processed for two days just set it to enviroment temperature
+        // Or if the item has negative energy (has not been processed ever)
+        // This can cause incorrect freezing/unfreezing when the temperature is close to freezing temperature as the freezing/unfreezing would normally take longer than two days
+        true_energy = 2 * get_energy_from_temperature( env_temperature ) + 0.5;
+        temperature = static_cast<int>(temp);
+        thermal_energy = static_cast<int>(true_energy);
+        return;
+    }
+    
+    // thermal_energy = item thermal energy (J)
+    // temperature = item temperature (F)
+    const float conductivity_term = 20 / insulation; // Constant chosen to "feel good". Insulation is also applied here
+    const float item_volume = 0.000001 * to_milliliter( volume()); // ml converted to m3
+    const float freezing_temperature = ( type->comestible->freeze_point - 32) * 0.556 + 273.15;  // F converted to K
+    const int specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
+    const int specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
+    const int latent_heat = type->comestible->lat_heat; // J/kg
+    const float mass = to_gram( weight() ); // g
+    
+    const float old_temperature = (temperature - 32) * 0.556 + 273.15;
+    const float surface_area = pow(item_volume, 0.66);
+    const float temperature_difference =  env_temperature - old_temperature;
+    
+    float freeze_percentage = 0;
+    
+    float energy_change = temperature_difference * conductivity_term * surface_area * 6 *to_turns<int>( time );
+    true_energy += energy_change;
+    
+    const float completely_frozen_energy = mass * specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
+    const float completely_liquid_energy = completely_frozen_energy + mass * latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
+    
+    float new_item_temperature;
+    
+    if (true_energy > completely_liquid_energy) {
+        // Item is liquid
+        new_item_temperature = freezing_temperature + ( true_energy - completely_liquid_energy ) / ( specific_heat_liquid * mass );
+    }
+    else if (true_energy < completely_frozen_energy) {
+        // Item is solid
+        freeze_percentage = 1;
+        new_item_temperature =  true_energy / ( specific_heat_solid * mass);
+    }
+    else {
+        // Item is partially solid
+        new_item_temperature = freezing_temperature;
+        freeze_percentage = ( completely_liquid_energy - true_energy ) / ( completely_liquid_energy - completely_frozen_energy );
+    }
+    
+    
+    // Stop over cooling below enviroment
+    if (energy_change < 0 && new_item_temperature < env_temperature) {
+        new_item_temperature = env_temperature;
+        if (env_temperature >= freezing_temperature) {
+            
+            freeze_percentage = 0;
+            true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( env_temperature - freezing_temperature );
+        }
+        else {
+            freeze_percentage = 0;
+            true_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - env_temperature );
+        }
+    }
+    // Stop over heating above enviroment
+    else if (energy_change > 0 && new_item_temperature > env_temperature) {
+        new_item_temperature = env_temperature;
+        if (env_temperature <= freezing_temperature) {
+            true_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - env_temperature );
+            freeze_percentage = 1;
+        }
+        else {
+            freeze_percentage = 0;
+            true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( env_temperature - freezing_temperature );
+            
+        } 
+    }
+    
+    
+    if ( item_tags.count( "FROZEN" ) ) {
+        item_tags.erase( "FROZEN" );
+    }
+    else if ( item_tags.count( "COLD" ) ) {
+        item_tags.erase( "COLD" );
+    }
+    else if ( item_tags.count( "WARM" ) ) {
+        item_tags.erase( "WARM" );
+    }
+    else if ( item_tags.count( "HOT" ) ) {
+        item_tags.erase( "HOT" );
+    }
+    
+    // Temperature tags
+    // Hot = over 50 C (323.15 K)
+    // Warm = over 30 C (303.15 K)
+    // Cold = below 5 C (278.15 K)
+    // Frozen = Over 50% frozen
+    if ( new_item_temperature > 323.15 ) {
+        item_tags.insert( "HOT" );
+    }
+    else if ( new_item_temperature > 303.15 ) {
+        item_tags.insert( "WARM" );
+    }
+    else if ( freeze_percentage > 0.5 ) {
+        item_tags.insert( "FROZEN" );
+        // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
+        if ( new_item_temperature < freezing_temperature && type->comestible->parasites > 0) {
+            if ( !(item_tags.count( "NO_PARASITES" )) ) {
+                item_tags.insert( "NO_PARASITES" );
             }
         }
+    }
+    else if ( new_item_temperature < 268.15 ) {
+        item_tags.insert( "COLD" );
+    }
+    
+    // There are extra 0.5 in here for rounding
+    new_item_temperature = ( new_item_temperature - 273.15 ) * 1.8 + 32.5;
+    true_energy = 2*(true_energy)+0.5;
+    
+    if (true_energy > 2147483647) {
+        debugmsg( "Item energy overflowed. The item has mass of %f", mass );
+    }
+    temperature = static_cast<int>(new_item_temperature); //The extra 0.5 is there to make rounding go better
+    thermal_energy = static_cast<int>(true_energy);
+}
 
-        loop_diff = std::min( 600, diff );
-        if( diff >= 600 ) {
-            diff -= 600;
-        } else  {
-            diff = 0;
-        }
-    } while( loop_diff > 0 || item_counter < 0 || item_counter > 600 );
+float item::get_item_thermal_energy()
+{
+    float true_energy = 0.5 * thermal_energy;
+    return true_energy;
 }
 
 void item::heat_up()
@@ -6571,8 +6557,14 @@ void item::heat_up()
     item_tags.erase( "FROZEN" );
     item_tags.erase( "WARM" );
     item_tags.insert( "HOT" );
-    // links the amount of heat an item can retain to its mass
-    item_counter = clamp( to_gram( weight() ), 100, 600 );
+    // Set item temperature to 50 C (323.15 K, 122 F)
+    // Also set the energy to match
+    temperature = 122;
+    
+    float true_energy = get_energy_from_temperature( 323.15 );
+    true_energy = 2*(true_energy)+0.5;
+    thermal_energy = static_cast<int>(true_energy);
+    
     reset_temp_check();
 }
 

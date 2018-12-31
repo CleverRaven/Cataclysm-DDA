@@ -162,6 +162,15 @@ struct islot_comestible {
 
     /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
     int freeze_point = temperatures::freezing;
+    
+    /** Specific heat of a liquid J/g K. Default value is that of water. */
+    float spec_heat_liquid = 4.186;
+    
+    /** Specific heat of a solid J/g K. Default value is that of water. */
+    float spec_heat_solid = 2.108;
+    
+    /** latent heat J/g. Default value is that of water. */
+    int lat_heat = 334;
 
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;

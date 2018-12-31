@@ -1564,6 +1564,9 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "freezing_point", slot.freeze_point, strict );
+    assign( jo, "specific_heat_liquid", slot.spec_heat_liquid, strict );
+    assign( jo, "specific_heat_solid", slot.spec_heat_solid, strict );
+    assign( jo, "latent_heat", slot.lat_heat, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
 
     if( jo.has_string( "addiction_type" ) ) {

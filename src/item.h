@@ -664,7 +664,7 @@ class item : public visitable<item>
         void calc_rot( const tripoint &p );
 
         /**
-         * Update temperature item_counters for things like food
+         * Update temperature for things like food
          * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
          */
@@ -730,18 +730,26 @@ class item : public visitable<item>
         time_point last_rot_check = calendar::time_of_cataclysm;
 
         /**
-         * Calculate temperature differential and handle FROZEN/COLD/HOT states
+         * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
          * @param insulation Amount of insulation item has
          * @param time Duration of time at which to process at temperature
          */
         void calc_temp( const int temp, const float insulation, const time_duration &time );
+        
+        /**
+         * Get the thermal energy of the item in Joules.
+         */
+        float get_item_thermal_energy();
 
-        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
-        int get_static_temp_counter() const;
-
-        /** Set temperature tags and counter according to a static counter */
-        void set_temp_from_static( const int counter );
+        /** Calculates item temperature (K) from energy (J)*/
+        float get_temp_from_energy( const float true_energy );
+        
+        /** Calculates item energy (J) from temperature (K)*/
+        float get_energy_from_temperature( const float new_temperature );
+        
+        /** Sets the item temperature (int F) from new temperature (float K)*/
+        void set_temperature(float new_temperature);
 
         /** the last time the temperature was updated for this item */
         time_point last_temp_check = calendar::time_of_cataclysm;
@@ -1850,6 +1858,8 @@ class item : public visitable<item>
 
         std::set<std::string> item_tags; // generic item specific flags
         int item_counter = 0; // generic counter to be used with item flags
+        int thermal_energy = -10; // Thermal energy in the item (in J). Default negative value means that the item has not been processed ever.
+        int temperature = 0; // Temperature of the item (in F).
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!
         typedef std::vector<item> t_item_vector;
