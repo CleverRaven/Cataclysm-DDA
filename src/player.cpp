@@ -9166,11 +9166,11 @@ bool player::fun_to_read( const item &book ) const
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
     } else {
-        return book_fun_for( book , *this ) > 0;
+        return book_fun_for( book, *this ) > 0;
     }
 }
 
-int player::book_fun_for(const item &book, const player &p) const
+int player::book_fun_for( const item &book, const player &p ) const
 {
     int fun_bonus = book.type->book->fun;
     if( !book.is_book() ) {
@@ -9180,7 +9180,7 @@ int player::book_fun_for(const item &book, const player &p) const
 
     if( has_trait( trait_LOVES_BOOKS ) ) {
         fun_bonus++;
-    } else if ( has_trait( trait_HATES_BOOKS ) ) {
+    } else if( has_trait( trait_HATES_BOOKS ) ) {
         if( ( book.type->book->fun > 0 ) ) {
             fun_bonus = 0;
         } else {
@@ -9189,11 +9189,11 @@ int player::book_fun_for(const item &book, const player &p) const
     }
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
-            p.has_trait( trait_SAPIOVORE ) ) &&
+          p.has_trait( trait_SAPIOVORE ) ) &&
         book.typeId() == "cookbook_human" ) {
         fun_bonus = abs( fun_bonus );
     } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = abs(fun_bonus * 3);
+        fun_bonus = abs( fun_bonus * 3 );
     }
 
 
@@ -9444,7 +9444,8 @@ bool player::read( int inventory_position, const bool continuous )
     }
     for( player *elem : apply_morale ) {
         //Fun bonuses for spritual and To Serve Man are no longer calculated here.
-        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it , *elem ) * 15, decay_start + 3_minutes, decay_start, false, it.type );
+        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 3_minutes,
+                          decay_start, false, it.type );
     }
 
     return true;
@@ -9477,8 +9478,9 @@ void player::do_read( item &book )
             add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
         }
         //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
-        if (book_fun_for( book , *this ) != 0) {
-            add_msg(m_info, _("Reading this book affects your morale by %d"), book_fun_for( book , *this ) );
+        if( book_fun_for( book, *this ) != 0 )
+        {
+            add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
         }
         add_msg(m_info, ngettext("A chapter of this book takes %d minute to read.",
                          "A chapter of this book takes %d minutes to read.", reading->time),
@@ -9526,9 +9528,10 @@ void player::do_read( item &book )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if( book_fun_for( book , *learner ) != 0 ) {
+        if ( book_fun_for( book, *learner ) != 0 ) {
             //Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK, 0, book_fun_for( book, *learner ) * 5, 6_minutes, 3_minutes, true, book.type );
+            learner->add_morale( MORALE_BOOK, 0, book_fun_for( book, *learner ) * 5, 6_minutes, 3_minutes, true,
+                book.type );
         }
 
         book.mark_chapter_as_read( *learner );
