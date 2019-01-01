@@ -6568,7 +6568,7 @@ void item::cold_up()
     // Also set the energy to match
     temperature = 2762;
     float true_energy = get_energy_from_temperature( 276.2 );
-    true_energy = 2 * ( true_energy ) + 0.5;
+    const float true_energy = 2 * ( get_energy_from_temperature( 323.15 ) ) + 0.5;
     thermal_energy = static_cast<int>( true_energy );
     
     reset_temp_check();
