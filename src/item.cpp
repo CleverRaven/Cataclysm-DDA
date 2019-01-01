@@ -6003,7 +6003,6 @@ float item::get_temp_from_energy( const float true_energy )
         new_item_temperature = true_energy / ( specific_heat_solid * mass );
     } else {
         // Item is partially solid
-        add_msg( _( "Is partial" ) );
         new_item_temperature = freezing_temperature;
     }
     return new_item_temperature;
