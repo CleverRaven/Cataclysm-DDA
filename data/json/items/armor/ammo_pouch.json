@@ -298,7 +298,7 @@
     "name": "MBR vest (steel plating)",
     "name_plural": "MBR vests (steel plating)",
     "description": "A Modular Bullet Resistant Vest.  Its armor pouches have steel plates in them; this improves protection, but makes the vest much heavier and encumbering.  It has four pouches capable of carrying magazines.",
-    "weight": 10250,
+    "weight": 10860,
     "volume": 24,
     "price": 120000,
     "to_hit": -3,
