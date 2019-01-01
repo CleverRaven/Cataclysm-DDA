@@ -293,7 +293,7 @@ int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good, _( "Wow!  This %s has a kick." ), it->tname().c_str() );
     p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 12 );
-    p->irradiate( 8, true );
+    p->radiation += 8;
     return it->type->charges_to_use();
 }
 
@@ -4778,14 +4778,7 @@ static bool heat_item( player &p )
         if( target.has_flag( "EATEN_COLD" ) &&
             !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ), target.tname() ) ) {
 
-            // assume environment is warm; heat less to keep COLD longer
-            int counter_mod = 550;
-            target.item_tags.insert( "COLD" );
-            if( g->get_temperature( p.pos() ) <= temperatures::cold ) {
-                // environment is cold; heat more to prevent re-freeze
-                counter_mod = 50;
-            }
-            target.item_counter = counter_mod;
+            target.cold_up()
             add_msg( _( "You defrost the food." ) );
         } else {
             add_msg( _( "You defrost and heat up the food." ) );
@@ -6061,8 +6054,14 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             return 0;
         }
         const tripoint aim_point = *aim_point_;
+
+        if( aim_point == p->pos() ) {
+            p->add_msg_if_player( _( "You decide not to flash yourself." ) );
+            return 0;
+        }
+
         const monster *const sel_mon = g->critter_at<monster>( aim_point, true );
-        const player *const sel_npc = g->critter_at<player>( aim_point );
+        const npc *const sel_npc = g->critter_at<npc>( aim_point );
 
         if( !g->critter_at( aim_point ) ) {
             p->add_msg_if_player( _( "There's nothing particularly interesting there." ) );
@@ -6078,7 +6077,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         for( auto &i : trajectory ) {
 
             monster *const mon = g->critter_at<monster>( i, true );
-            player *const guy = g->critter_at<player>( i );
+            npc *const guy = g->critter_at<npc>( i );
             if( mon || guy ) {
                 int dist = rl_dist( p->pos(), i );
 
@@ -6168,16 +6167,13 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     return it->type->charges_to_use();
 
                 } else if( guy ) {
-                    const bool selfie = guy == p;
-                    if( !selfie && dist < 4 && one_in( dist + 2 ) ) {
+                    if( dist < 4 && one_in( dist + 2 ) ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), guy->name.c_str() );
                         guy->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                     }
 
                     if( sel_npc == guy ) {
-                        if( selfie ) {
-                            p->add_msg_if_player( _( "You took a selfie." ) );
-                        } else if( p->is_blind() ) {
+                        if( p->is_blind() ) {
                             p->add_msg_if_player( _( "You took a photo of %s." ), guy->name.c_str() );
                         } else {
                             //~ 1s - thing being photographed, 2s - photo quality (adjective).
@@ -6204,8 +6200,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     std::string timestamp = to_string( time_point( calendar::turn ) );
                     //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
                     npc_photo.description = string_format( _( "This is a photo of %1$s. It was taken on %2$s." ),
-                                                           "<color_light_blue>" + npc_photo.name + "</color>",
-                                                           "<color_light_blue>" + timestamp + "</color>" );
+                                                           npc_photo.name, timestamp );
                     npc_photo.description += "\n\n" + guy->short_description();
 
                     npc_photos.push_back( npc_photo );
@@ -6279,12 +6274,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             debugmsg( "Error NPC photos: %s", e.c_str() );
         }
         for( auto npc_photo : npc_photos ) {
-            std::string menu_str;
-            if( npc_photo.name == p->name ) {
-                menu_str = _( "You" );
-            } else {
-                menu_str = npc_photo.name;
-            }
+            std::string menu_str = npc_photo.name;
             descriptions.push_back( npc_photo.description );
 
             menu_str += " [" + photo_quality_name( npc_photo.quality ) + "]";

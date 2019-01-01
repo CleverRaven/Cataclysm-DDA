@@ -670,8 +670,11 @@ class item : public visitable<item>
          */
         void update_temp( const int temp, const float insulation );
 
-        /** Apply heat to this item, amount of heat will be based on item weight  */
+        /** Set the item to HOT */
         void heat_up();
+        
+        /** Set the item to COLD */
+        void cold_up();
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -1858,7 +1861,7 @@ class item : public visitable<item>
 
         std::set<std::string> item_tags; // generic item specific flags
         int item_counter = 0; // generic counter to be used with item flags
-        int thermal_energy = -10; // Thermal energy in the item (in J). Default negative value means that the item has not been processed ever.
+        int thermal_energy = -10; // Thermal energy in the item (in 0.5 joules). Default negative value means that the item has not been processed ever.
         int temperature = 0; // Temperature of the item (in F).
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!

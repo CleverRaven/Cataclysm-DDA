@@ -6405,13 +6405,13 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
-	// Enviroment temperatures above 500 C are handled as if they are 500 C. 200 liter tank energy may overflow at higher temperatures.
-	const float env_temperature = std::min( ( temp - 32 ) * 0.556 + 273.15, 773.15 );
-	const float old_temperature = 0.1 * temperature;
-	
+    // Enviroment temperatures above 500 C are handled as if they are 500 C. 200 liter tank energy may overflow at higher temperatures.
+    const float env_temperature = std::min( ( temp - 32 ) * 0.556 + 273.15, 773.15 );
+    const float old_temperature = 0.1 * temperature;
+    
     // If no temperature difference then no need to do math.
     // In practice difference this happens when the real difference is smaller than 0.05 K due to rounding when the item temperature is saved as integer.
-	// This is not a problem and it is good to stop doing pointless calculations at some point.
+    // This is not a problem and it is good to stop doing pointless calculations at some point.
     if( env_temperature == old_temperature ) {
         return;
     }
@@ -6467,7 +6467,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     
     
     // Stop over cooling below enviroment
-	// Stop over heating above enviroment
+    // Stop over heating above enviroment
     if( energy_change < 0 && new_item_temperature < env_temperature ) {
         new_item_temperature = env_temperature;
         if( env_temperature >= freezing_temperature ) {
@@ -6493,10 +6493,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
-		if ( freeze_percentage > 0.5 ) {
-			// Item melts and becomes mushy
-			apply_freezerburn();
-		}
+        if ( freeze_percentage > 0.5 ) {
+            // Item melts and becomes mushy
+            apply_freezerburn();
+        }
     } else if( item_tags.count( "COLD" ) ) {
         item_tags.erase( "COLD" );
     } else if( item_tags.count( "WARM" ) ) {
@@ -6552,6 +6552,22 @@ void item::heat_up()
     // Also set the energy to match
     temperature = 3232;
     float true_energy = get_energy_from_temperature( 323.2 );
+    true_energy = 2 * ( true_energy ) + 0.5;
+    thermal_energy = static_cast<int>( true_energy );
+    
+    reset_temp_check();
+}
+
+void item::cold_up()
+{
+    item_tags.erase( "HOT" );
+    item_tags.erase( "FROZEN" );
+    item_tags.erase( "WARM" );
+    item_tags.insert( "COLD" );
+    // Set item temperature to 3 C (276.15 K, 37.4 F)
+    // Also set the energy to match
+    temperature = 2762;
+    float true_energy = get_energy_from_temperature( 276.2 );
     true_energy = 2 * ( true_energy ) + 0.5;
     thermal_energy = static_cast<int>( true_energy );
     
