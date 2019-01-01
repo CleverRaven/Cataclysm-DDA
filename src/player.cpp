@@ -8558,12 +8558,16 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     }
     it.charges = this->i_add_to_container( it, unloading );
     if( it.is_ammo() && it.charges == 0 ) {
+        add_msg("charges not zero");/*  */
         return true;
     } else if( !this->can_pickVolume( it ) ) {
+        add_msg("!can_pickVolume");/*  */
         put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+        add_msg("!can_pickWeight"); /*  */
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
+        add_msg("last condition"); /*  */
         auto &ni = this->i_add( it );
         add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
         add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
@@ -8661,13 +8665,17 @@ bool player::unload(item &it) {
         target->contents.erase( std::remove_if( target->contents.begin(),
         target->contents.end(), [&]( item & e ) {
             mv += this->item_reload_cost( *target, e, e.charges ) / 2;
+            add_msg("remove_if of unload ran");/*  */
             if( !this->add_or_drop_with_msg( e, true ) ) {
+                add_msg("false is about to return");/* only possible if item is liquid, but ammo belt is not liquid */
                 return false;
             }
+            add_msg("remove_if past false");/*  */
             qty += e.charges;
             return true;
         } ), target->contents.end() );
 
+        add_msg("remove_if DONE");/*  */
         if( target->is_ammo_belt() ) {
             if( target->type->magazine->linkage ) {
                 item link( *target->type->magazine->linkage, calendar::turn, qty );
