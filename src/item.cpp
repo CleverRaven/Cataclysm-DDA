@@ -6405,7 +6405,7 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
-    // Enviroment temperatures above 500 C are handled as if they are 500 C. 200 liter tank energy may overflow at higher temperatures.
+    // Environment temperatures above 500 C are handled as if they are 500 C. 200 liter tank energy may overflow at higher temperatures.
     const float env_temperature = std::min( ( temp - 32 ) * 0.556 + 273.15, 773.15 );
     const float old_temperature = 0.1 * temperature;
     
@@ -6464,14 +6464,11 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         new_item_temperature = freezing_temperature;
         freeze_percentage = ( completely_liquid_energy - true_energy ) / ( completely_liquid_energy - completely_frozen_energy );
     }
-    
-    
     // Stop over cooling below environment
     // Stop over heating above enviroment
     if( energy_change < 0 && new_item_temperature < env_temperature ) {
         new_item_temperature = env_temperature;
         if( env_temperature >= freezing_temperature ) {
-            
             freeze_percentage = 0;
             true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( env_temperature - freezing_temperature );
         } else {
@@ -6486,11 +6483,8 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         } else {
             freeze_percentage = 0;
             true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( env_temperature - freezing_temperature );
-            
         } 
     }
-    
-    
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
         if ( freeze_percentage > 0.5 ) {
@@ -6504,7 +6498,6 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     } else if( item_tags.count( "HOT" ) ) {
         item_tags.erase( "HOT" );
     }
-    
     // Temperature tags
     // Hot = over 50 C (323.15 K)
     // Warm = over 30 C (303.15 K)
