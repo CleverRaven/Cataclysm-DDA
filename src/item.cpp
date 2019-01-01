@@ -6419,7 +6419,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     float true_energy = 0.5 * thermal_energy;
     
     if ( to_turns<int>( time ) > 28800 || thermal_energy < 0 ){
-        // If item has not been processed for two days just set it to enviroment temperature
+        // If item has not been processed for two days just set it to environment temperature
         // Or if the item has negative energy (has not been processed ever)
         // This can cause incorrect freezing/unfreezing when the temperature is close to freezing temperature as the freezing/unfreezing would normally take longer than two days
         true_energy = 2 * get_energy_from_temperature( env_temperature ) + 0.5;
