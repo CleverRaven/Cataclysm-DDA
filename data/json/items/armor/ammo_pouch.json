@@ -232,7 +232,7 @@
     "name": "MBR vest (hard plates)",
     "name_plural": "MBR vests (hard plates)",
     "description": "A Modular Bullet Resistant Vest.  Hardened steel plates have been inserted, greatly increasing its protection at the cost of a great deal of weight and loss of flexibility.  It has four pouches capable of carrying magazines.",
-    "weight": 20850,
+    "weight": 14860,
     "volume": 24,
     "price": 120000,
     "to_hit": -3,

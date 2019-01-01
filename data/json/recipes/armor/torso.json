@@ -453,7 +453,7 @@
     "autolearn": true,
     "components": [
       [ [ "modularvest", 1 ] ],
-      [ [ "hard_plate", 2 ] ]
+      [ [ "hard_steel_armor", 8 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
