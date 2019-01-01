@@ -6529,7 +6529,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // There are extra 0.5 in here for rounding
     true_energy = 2 * true_energy + 0.5;
     
-    if( true_energy > 2147483647 ) {
+    if( true_energy > INT_MAX ) {
         debugmsg( "Item energy overflowed. The item has mass of %f", mass );
     }
     temperature = static_cast<int>( 10 * new_item_temperature + 0.5 ); //The extra 0.5 is there to make rounding go better
