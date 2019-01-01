@@ -9181,7 +9181,7 @@ int player::book_fun_for( const item &book, const player &p ) const
     if( has_trait( trait_LOVES_BOOKS ) ) {
         fun_bonus++;
     } else if( has_trait( trait_HATES_BOOKS ) ) {
-        if( ( book.type->book->fun > 0 ) ) {
+        if( book.type->book->fun > 0 ) {
             fun_bonus = 0;
         } else {
             fun_bonus--;
