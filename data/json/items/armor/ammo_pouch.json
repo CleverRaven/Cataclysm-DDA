@@ -331,7 +331,7 @@
     "name": "MBR vest (superalloy)",
     "name_plural": "MBR vests (superalloy)",
     "description": "A Modular Bullet Resistant Vest.  Its armor pouches have superalloy plating in them, giving it extra protection with marginal flexibility loss and additional weight.  It has four pouches capable of carrying magazines.",
-    "weight": 8525,
+    "weight": 6460,
     "volume": 24,
     "price": 180000,
     "to_hit": -3,

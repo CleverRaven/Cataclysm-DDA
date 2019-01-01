@@ -501,7 +501,7 @@
     "autolearn": true,
     "components": [
       [ [ "modularvest", 1 ] ],
-      [ [ "alloy_plate", 2 ], [ "alloy_sheet", 8 ] ]
+      [ [ "alloy_sheet", 8 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
