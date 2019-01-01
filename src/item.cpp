@@ -6037,8 +6037,8 @@ float item::get_energy_from_temperature( const float new_temperature )
 
 void item::set_temperature(float new_temperature)
 {
-    new_temperature = ( new_temperature - 273.15 ) * 1.8 + 32.5;
-    temperature = static_cast<int>( new_temperature );
+    //new_temperature = ( new_temperature - 273.15 ) * 1.8 + 32.5;
+    temperature = static_cast<int>( 10 * new_temperature + 0.5 );
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -6405,14 +6405,17 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
-    // If no temperature difference then no need to do math
-    // In practice difference this happens when the real difference is smaller than 0.5 F due to rounding when the item temperature is saved as integer. This is not a problem and is good behavior
-    if( temp == temperature ) {
+	// Enviroment temperatures above 500 C are handled as if they are 500 C. 200 liter tank energy may overflow at higher temperatures.
+	const float env_temperature = std::min( ( temp - 32 ) * 0.556 + 273.15, 773.15 );
+	const float old_temperature = 0.1 * temperature;
+	
+    // If no temperature difference then no need to do math.
+    // In practice difference this happens when the real difference is smaller than 0.05 K due to rounding when the item temperature is saved as integer.
+	// This is not a problem and it is good to stop doing pointless calculations at some point.
+    if( env_temperature == old_temperature ) {
         return;
     }
     
-    // Enviroment temperatures above 500 C are handled as if they are 500 C. 200 liter tank energy may overflow at temperatures higher.
-    const float env_temperature = std::min( ( temp - 32 ) * 0.556 + 273.15, 773.15 );
     float true_energy = 0.5 * thermal_energy;
     
     if ( to_turns<int>( time ) > 28800 || thermal_energy < 0 ){
@@ -6420,14 +6423,13 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         // Or if the item has negative energy (has not been processed ever)
         // This can cause incorrect freezing/unfreezing when the temperature is close to freezing temperature as the freezing/unfreezing would normally take longer than two days
         true_energy = 2 * get_energy_from_temperature( env_temperature ) + 0.5;
-        temperature = static_cast<int>( temp );
-        temperature = static_cast<int>( temp );
+        temperature = static_cast<int>( 10 * temp );
         thermal_energy = static_cast<int>( true_energy );
         return;
     }
     
     // thermal_energy = item thermal energy (J)
-    // temperature = item temperature (F)
+    // temperature = item temperature (dK deci (=0.1) kelvins)
     const float conductivity_term = 20 / insulation; // Constant chosen to "feel good". Insulation is also applied here
     const float item_volume = 0.000001 * to_milliliter( volume() ); // ml converted to m3
     const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
@@ -6436,7 +6438,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const int latent_heat = type->comestible->lat_heat; // J/kg
     const float mass = to_gram( weight() ); // g
     
-    const float old_temperature = ( temperature - 32 ) * 0.556 + 273.15;
+    
     const float surface_area = pow( item_volume, 0.66 );
     const float temperature_difference =  env_temperature - old_temperature;
     
@@ -6525,13 +6527,12 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     }
     
     // There are extra 0.5 in here for rounding
-    new_item_temperature = ( new_item_temperature - 273.15 ) * 1.8 + 32.5;
-    true_energy = 2 * ( true_energy ) + 0.5;
+    true_energy = 2 * true_energy + 0.5;
     
     if( true_energy > 2147483647 ) {
         debugmsg( "Item energy overflowed. The item has mass of %f", mass );
     }
-    temperature = static_cast<int>( new_item_temperature ); //The extra 0.5 is there to make rounding go better
+    temperature = static_cast<int>( 10 * new_item_temperature + 0.5 ); //The extra 0.5 is there to make rounding go better
     thermal_energy = static_cast<int>( true_energy );
 }
 
@@ -6549,9 +6550,8 @@ void item::heat_up()
     item_tags.insert( "HOT" );
     // Set item temperature to 50 C (323.15 K, 122 F)
     // Also set the energy to match
-    temperature = 122;
-    
-    float true_energy = get_energy_from_temperature( 323.15 );
+    temperature = 3232;
+    float true_energy = get_energy_from_temperature( 323.2 );
     true_energy = 2 * ( true_energy ) + 0.5;
     thermal_energy = static_cast<int>( true_energy );
     
