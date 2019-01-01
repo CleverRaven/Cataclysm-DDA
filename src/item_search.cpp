@@ -44,8 +44,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                        && item_filter_from_string( pair.second )( i );
             };
         case 'd'://disassembled components
-            return [filter]( const item &i )
-            {
+            return [filter]( const item & i ) {
                 if( i.components.empty() ) {
                     //If item wasn't crafted use default recipe components
                     const auto &req = recipe_dictionary::get_uncraft( i.typeId() ).disassembly_requirements();
