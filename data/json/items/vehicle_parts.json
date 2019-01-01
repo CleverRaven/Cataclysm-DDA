@@ -917,7 +917,8 @@
         "volume": 8,
         "bashing": 5,
         "category" : "veh_parts",
-        "price": 90000
+        "price": 90000,
+        "looks_like": "floodlight"
     },
     {
         "type":"GENERIC",
@@ -1225,6 +1226,7 @@
         "color": "white",
         "material": "plastic",
         "category": "veh_parts",
+        "looks_like": "car_headlight",
         "weight": 2000,
         "volume": 5,
         "price": 4000
