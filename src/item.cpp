@@ -6000,12 +6000,10 @@ float item::get_temp_from_energy( const float true_energy )
     if ( true_energy > completely_liquid_energy ) {
         // Item is liquid
         new_item_temperature = freezing_temperature + ( true_energy - completely_liquid_energy ) / ( specific_heat_liquid * mass );
-    }
-    else if ( true_energy < completely_frozen_energy ) {
+    } else if ( true_energy < completely_frozen_energy ) {
         // Item is solid
         new_item_temperature =  true_energy / ( specific_heat_solid * mass );
-    }
-    else {
+    } else {
         // Item is partially solid
         add_msg( _( "Is partial" ) );
         new_item_temperature = freezing_temperature;
@@ -6455,13 +6453,11 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     if( true_energy > completely_liquid_energy ) {
         // Item is liquid
         new_item_temperature = freezing_temperature + ( true_energy - completely_liquid_energy ) / ( specific_heat_liquid * mass );
-    }
-    else if( true_energy < completely_frozen_energy ) {
+    } else if( true_energy < completely_frozen_energy ) {
         // Item is solid
         freeze_percentage = 1;
         new_item_temperature =  true_energy / ( specific_heat_solid * mass );
-    }
-    else {
+    } else {
         // Item is partially solid
         new_item_temperature = freezing_temperature;
         freeze_percentage = ( completely_liquid_energy - true_energy ) / ( completely_liquid_energy - completely_frozen_energy );
@@ -6469,26 +6465,23 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     
     
     // Stop over cooling below enviroment
+	// Stop over heating above enviroment
     if( energy_change < 0 && new_item_temperature < env_temperature ) {
         new_item_temperature = env_temperature;
         if( env_temperature >= freezing_temperature ) {
             
             freeze_percentage = 0;
             true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( env_temperature - freezing_temperature );
-        }
-        else {
+        } else {
             freeze_percentage = 0;
             true_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - env_temperature );
         }
-    }
-    // Stop over heating above enviroment
-    else if( energy_change > 0 && new_item_temperature > env_temperature ) {
+    } else if( energy_change > 0 && new_item_temperature > env_temperature ) {
         new_item_temperature = env_temperature;
         if( env_temperature <= freezing_temperature ) {
             true_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - env_temperature );
             freeze_percentage = 1;
-        }
-        else {
+        } else {
             freeze_percentage = 0;
             true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( env_temperature - freezing_temperature );
             
@@ -6502,14 +6495,11 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 			// Item melts and becomes mushy
 			apply_freezerburn();
 		}
-    }
-    else if( item_tags.count( "COLD" ) ) {
+    } else if( item_tags.count( "COLD" ) ) {
         item_tags.erase( "COLD" );
-    }
-    else if( item_tags.count( "WARM" ) ) {
+    } else if( item_tags.count( "WARM" ) ) {
         item_tags.erase( "WARM" );
-    }
-    else if( item_tags.count( "HOT" ) ) {
+    } else if( item_tags.count( "HOT" ) ) {
         item_tags.erase( "HOT" );
     }
     
@@ -6520,11 +6510,9 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Frozen = Over 50% frozen
     if( new_item_temperature > 323.15 ) {
         item_tags.insert( "HOT" );
-    }
-    else if( new_item_temperature > 303.15 ) {
+    } else if( new_item_temperature > 303.15 ) {
         item_tags.insert( "WARM" );
-    }
-    else if( freeze_percentage > 0.5 ) {
+    } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_item_temperature < freezing_temperature && type->comestible->parasites > 0) {
@@ -6532,8 +6520,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 item_tags.insert( "NO_PARASITES" );
             }
         }
-    }
-    else if( new_item_temperature < 268.15 ) {
+    } else if( new_item_temperature < 268.15 ) {
         item_tags.insert( "COLD" );
     }
     
