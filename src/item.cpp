@@ -539,7 +539,7 @@ long item::charges_per_volume( const units::volume &vol ) const
            : vol / volume();
 }
 
-bool item::stacks_with( const item &rhs ) const
+bool item::stacks_with( const item &rhs, bool check_components ) const
 {
     if( type != rhs.type ) {
         return false;
@@ -599,6 +599,39 @@ bool item::stacks_with( const item &rhs ) const
     }
     if( contents.size() != rhs.contents.size() ) {
         return false;
+    }
+    if( check_components ) {
+        //Only check if items aren't using the default recipe
+        if( !components.empty() || !rhs.components.empty() ) {
+
+            requirement_data::alter_item_comp_vector lhs_recipe, rhs_recipe;
+            int lhs_size = components.size(), rhs_size = rhs.components.size();
+            if( components.empty() ) {
+                lhs_recipe = recipe_dictionary::get_uncraft( typeId() ).disassembly_requirements().get_components();
+                lhs_size = lhs_recipe.size();
+            }
+            if( rhs.components.empty() ) {
+                rhs_recipe = recipe_dictionary::get_uncraft(
+                                 rhs.typeId() ).disassembly_requirements().get_components();
+                rhs_size = rhs_recipe.size();
+            }
+
+            if( lhs_size != rhs_size ) {
+                return false;
+            }
+
+            for( int i = 0; i < lhs_size; i++ ) {
+                const auto lhs_type = components.empty() ? lhs_recipe[i].front().type : components[i].typeId();
+                const auto rhs_type = rhs.components.empty() ? rhs_recipe[i].front().type :
+                                      rhs.components[i].typeId();
+                const auto lhs_count = components.empty() ? lhs_recipe[i].front().count : components[i].count();
+                const auto rhs_count = rhs.components.empty() ? rhs_recipe[i].front().count :
+                                       rhs.components[i].count();
+                if( lhs_type != rhs_type || lhs_count != rhs_count ) {
+                    return false;
+                }
+            }
+        }
     }
     return std::equal( contents.begin(), contents.end(), rhs.contents.begin(), []( const item & a,
     const item & b ) {
