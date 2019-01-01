@@ -9525,7 +9525,7 @@ void player::do_read( item &book )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if ( book_fun_for( book, *learner ) != 0 ) {
+        if( book_fun_for( book, *learner ) != 0 ) {
             //Fun bonus is no longer calculated here.
             learner->add_morale( MORALE_BOOK, 0, book_fun_for( book, *learner ) * 5, 6_minutes, 3_minutes, true,
                 book.type );
