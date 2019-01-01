@@ -199,7 +199,7 @@
     "name": "MBR vest (ceramic plates)",
     "name_plural": "MBR vests (ceramic plates)",
     "description": "A Modular Bullet Resistant Vest.  Ceramic plates have been inserted to improve its protection.  The ceramic plates cannot be repaired, only replaced.  It has four pouches capable of carrying magazines.",
-    "weight": 5721,
+    "weight": 4308,
     "volume": 24,
     "price": 120000,
     "to_hit": -3,
