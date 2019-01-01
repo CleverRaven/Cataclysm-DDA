@@ -6466,7 +6466,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     }
     
     
-    // Stop over cooling below enviroment
+    // Stop over cooling below environment
     // Stop over heating above enviroment
     if( energy_change < 0 && new_item_temperature < env_temperature ) {
         new_item_temperature = env_temperature;
