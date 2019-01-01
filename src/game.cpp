@@ -1357,7 +1357,7 @@ static int veh_lumi( vehicle &veh )
 
     for( const auto pt : lights ) {
         const auto &vp = pt->info();
-        if( vp.has_flag( VPFLAG_CONE_LIGHT ) || 
+        if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
             vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
             veh_luminance += vp.bonus / iteration;
             iteration = iteration * 1.1;
