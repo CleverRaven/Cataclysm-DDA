@@ -9812,7 +9812,13 @@ void game::mend( int pos )
 
 bool game::unload( item &it )
 {
-    // Unload a container consuming moves per item successfully removed
+    /* player_activity unload_activity( activity_id( "ACT_UNLOAD" ) );
+    unload_activity.values.push_back( u.get_item_position( &it ) );
+    u.assign_activity(unload_activity, true); */
+
+    return u.unload(it);
+
+    /* // Unload a container consuming moves per item successfully removed
     if( it.is_container() || it.is_bandolier() ) {
         if( it.contents.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
@@ -9824,8 +9830,7 @@ bool game::unload( item &it )
         }
 
         bool changed = false;
-        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
-        &changed]( item & e ) {
+        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this, &changed]( item & e ) {
             long old_charges = e.charges;
             const bool consumed = u.add_or_drop_with_msg( e, true );
             changed = changed || consumed || e.charges != old_charges;
@@ -9910,13 +9915,13 @@ bool game::unload( item &it )
 
         if( target->is_ammo_belt() ) {
             if( target->type->magazine->linkage ) {
-                //item link( *target->type->magazine->linkage, calendar::turn, qty );
-                //add_or_drop_with_msg( u, link, true );
+                item link( *target->type->magazine->linkage, calendar::turn, qty );
+                u.add_or_drop_with_msg( link, true );
                 //call the activity handler after setting up
-                player_activity unload_activity(activity_id( "ACT_UNLOAD_MAGAZINE" ), mv);
-                unload_activity.values.push_back( u.get_item_position( target ) );
+                //player_activity unload_activity(activity_id( "ACT_UNLOAD_MAGAZINE" ), mv);
+                //unload_activity.values.push_back( u.get_item_position( target ) );
                 //unload_activity.values.push_back( qty );
-                u.assign_activity(unload_activity, true);
+                //u.assign_activity(unload_activity, true);
             }
             add_msg( _( "You disassemble your %s." ), target->tname().c_str() );
         } else {
@@ -9981,7 +9986,7 @@ bool game::unload( item &it )
     }
 
     add_msg( _( "You unload your %s." ), target->tname().c_str() );
-    return true;
+    return true; */
 }
 
 void game::wield( int pos )
