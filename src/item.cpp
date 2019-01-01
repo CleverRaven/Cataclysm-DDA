@@ -6513,8 +6513,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 float item::get_item_thermal_energy()
 {
     const float mass = to_gram( weight() ); // g
-    float true_energy = 0.001 * thermal_energy * mass;
-    return true_energy;
+    return 0.001 * thermal_energy * mass;
 }
 
 void item::heat_up()
