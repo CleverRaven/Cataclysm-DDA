@@ -2068,7 +2068,7 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
     rmenu.text = title;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
-    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
+    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat until reinforced" ) );
     rmenu.addentry( REPEAT_FULL, true, '3', _( "Repeat until fully repaired, but don't reinforce" ) );
     rmenu.addentry( REPEAT_EVENT, true, '4', _( "Repeat until success/failure/level up" ) );
     rmenu.addentry( REPEAT_INIT, true, '5', _( "Back to item selection" ) );
@@ -2257,8 +2257,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const std::string title = string_format(
-                                      _( "%s\nSuccess chance: %.1f%%\nDamage chance: %.1f%%" ),
+                                      _( "%s %s\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
+                                         "Damage chance: <color_light_blue>%.1f</color>%%" ),
                                       repair_item_actor::action_description( action_type ).c_str(),
+                                      fix.tname().c_str(),
                                       100.0f * chance.first, 100.0f * chance.second );
 
         if( act->values.empty() ) {
