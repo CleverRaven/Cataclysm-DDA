@@ -4778,7 +4778,7 @@ static bool heat_item( player &p )
         if( target.has_flag( "EATEN_COLD" ) &&
             !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ), target.tname() ) ) {
 
-            target.cold_up()
+            target.cold_up();
             add_msg( _( "You defrost the food." ) );
         } else {
             add_msg( _( "You defrost and heat up the food." ) );
