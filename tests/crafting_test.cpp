@@ -213,9 +213,9 @@ static void test_craft( const recipe_id &rid, const std::vector<item> tools,
         g->u.i_add( gear );
     }
 
-    const recipe *r = &rid.obj();
+    const recipe &r = rid.obj();
 
-    requirement_data reqs = r->requirements();
+    requirement_data reqs = r.requirements();
     inventory crafting_inv = g->u.crafting_inventory();
     bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory() );
     CHECK( can_craft == expect_craftable );

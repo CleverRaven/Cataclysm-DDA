@@ -134,6 +134,37 @@ bool within_target_range( const monster *const z, const Creature *const target, 
     return true;
 }
 
+Creature *sting_get_target( monster *z, float range = 5.0f )
+{
+    Creature *target = z->attack_target();
+
+    if( target == nullptr ) {
+        return nullptr;
+    }
+
+    return trig_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
+}
+
+bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
+{
+    if( target->uncanny_dodge() ) {
+        target->add_msg_if_player( m_bad, _( "The %s shoots a dart but you dodge it." ),
+                                   z->name().c_str() );
+        return false;
+    }
+
+    body_part bp = target->get_random_body_part();
+    target->absorb_hit( bp, dam );
+    if( dam.total_damage() > 0 ) {
+        target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name().c_str() );
+        return true;
+    } else {
+        target->add_msg_if_player( m_bad, _( "The %s shoots a dart but it bounces off your armor." ),
+                                   z->name().c_str() );
+        return false;
+    }
+}
+
 // Distance == 1 and on the same z-level or with a clear shot up/down.
 // If allow_zlev is false, don't allow attacking up/down at all.
 // If allow_zlev is true, also allow distance == 1 and on different z-level
@@ -1133,13 +1164,15 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             if( !critial_fail && ( is_trivial || dodge_skill > rng( 0, att_rad_dodge_diff ) ) ) {
                 target->add_msg_player_or_npc( _( "You dodge the beam!" ),
                                                _( "<npcname> dodges the beam!" ) );
-            } else if( g->u.is_rad_immune() ) {
-                target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
-            } else if( one_in( att_rad_mutate_chance ) ) {
-                foe->mutate();
             } else {
-                target->add_msg_if_player( m_bad, _( "You get pins and needles all over." ) );
-                foe->radiation += rng( att_rad_dose_min, att_rad_dose_max );
+                bool rad_proof = !foe->irradiate( rng( att_rad_dose_min, att_rad_dose_max ) );
+                if( rad_proof ) {
+                    target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
+                } else if( one_in( att_rad_mutate_chance ) ) {
+                    foe->mutate();
+                } else {
+                    target->add_msg_if_player( m_bad, _( "You get pins and needles all over." ) );
+                }
             }
         }
         break;
@@ -2565,42 +2598,40 @@ bool mattack::grab_drag( monster *z )
 
 bool mattack::gene_sting( monster *z )
 {
-    if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
-    }
-    if( within_visual_range( z, 7 ) < 0 ) {
+    Creature *target = sting_get_target( z, 7.0f );
+    if( target == nullptr || !( target->is_player() || target->is_npc() ) ) {
         return false;
     }
 
     z->moves -= 150;
 
-    if( g->u.uncanny_dodge() ) {
-        return true;
+    damage_instance dam = damage_instance();
+    dam.add_damage( DT_STAB, 6, 10, 0.6, 1 );
+    bool hit = sting_shoot( z, target, dam );
+    if( hit ) {
+        //Add checks if previous NPC/player conditions are removed
+        dynamic_cast<player *>( target )->mutate();
     }
-    add_msg( m_bad, _( "The %s shoots a dart into you!" ), z->name().c_str() );
-    g->u.mutate();
 
     return true;
 }
 
 bool mattack::para_sting( monster *z )
 {
-    Creature *target = z->attack_target();
+    Creature *target = sting_get_target( z, 4.0f );
     if( target == nullptr ) {
-        return false;
-    }
-    if( rl_dist( z->pos(), target->pos() ) > 4 ) {
         return false;
     }
 
     z->moves -= 150;
 
-    if( target->uncanny_dodge() ) {
-        return true;
+    damage_instance dam = damage_instance();
+    dam.add_damage( DT_STAB, 6, 8, 0.8, 1 );
+    bool hit = sting_shoot( z, target, dam );
+    if( hit ) {
+        target->add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
+        target->add_effect( effect_paralyzepoison, 5_minutes );
     }
-    target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name().c_str() );
-    target->add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
-    target->add_effect( effect_paralyzepoison, 5_minutes );
 
     return true;
 }

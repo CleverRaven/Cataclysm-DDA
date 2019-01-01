@@ -1961,16 +1961,19 @@ void map::player_in_field( player &u )
             }
             break;
 
-            case fd_nuke_gas:
+            case fd_nuke_gas: {
                 // Get irradiated by the nuclear fallout.
                 // Changed to min of density, not 0.
-                u.radiation += rng( cur.getFieldDensity(),
-                                    cur.getFieldDensity() * ( cur.getFieldDensity() + 1 ) );
-                if( cur.getFieldDensity() == 3 ) {
+                float rads = rng( cur.getFieldDensity(),
+                                  cur.getFieldDensity() * ( cur.getFieldDensity() + 1 ) );
+                bool rad_proof = !u.irradiate( rads );
+                //TODO: Reduce damage for rad resistant?
+                if( cur.getFieldDensity() == 3 && !rad_proof ) {
                     u.add_msg_if_player( m_bad, _( "This radioactive gas burns!" ) );
                     u.hurtall( rng( 1, 3 ), nullptr );
                 }
-                break;
+            }
+            break;
 
             case fd_flame_burst:
                 //A burst of flame? Only hits the legs and torso.

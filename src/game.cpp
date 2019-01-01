@@ -12832,7 +12832,7 @@ void game::process_artifact( item &it, player &p )
 
             case AEP_RADIOACTIVE:
                 if( one_in( 4 ) ) {
-                    p.radiation++;
+                    p.irradiate( 1.0f );
                 }
                 break;
 

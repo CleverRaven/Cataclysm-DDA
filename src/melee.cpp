@@ -513,6 +513,8 @@ void player::reach_attack( const tripoint &p )
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? critter->get_size() : 2;
+    // Reset last target pos
+    last_target_pos = cata::nullopt;
 
     int move_cost = attack_speed( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );

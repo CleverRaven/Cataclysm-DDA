@@ -1122,7 +1122,7 @@ void trapfunc::glow( Creature *c, const tripoint &p )
         if( n != nullptr ) {
             if( one_in( 3 ) ) {
                 n->add_msg_if_player( m_bad, _( "You're bathed in radiation!" ) );
-                n->radiation += rng( 10, 30 );
+                n->irradiate( rng( 10, 30 ) );
             } else if( one_in( 4 ) ) {
                 n->add_msg_if_player( m_bad, _( "A blinding flash strikes you!" ) );
                 g->flashbang( p );
