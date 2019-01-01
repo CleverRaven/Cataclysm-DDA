@@ -2153,9 +2153,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                       ploc ?
                       **ploc : p->i_at( act->index ) : w_hack.get_item();
 
-    p->add_msg_if_player( m_info, _( "repair_item_finish()" ) );
-    g->draw_sidebar_messages();  //GY: ** To remove
-
     item *used_tool = main_tool.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for long repair" );
@@ -2186,7 +2183,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                 p->consume_charges( *used_tool, used_tool->ammo_required() );
             }
         }
-        p->add_msg_if_player( m_info, _( "Repair attempt ." ) );
 
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
@@ -2465,8 +2461,6 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
-    p->add_msg_if_player( m_info, string_format( _( "Repair one turn, moves: %d." ),
-                          act->moves_left ) );
     const int effective_moves = p->moves / p->fine_detail_vision_mod();
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
