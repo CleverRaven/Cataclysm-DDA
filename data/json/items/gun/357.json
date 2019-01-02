@@ -1,7 +1,7 @@
 [
   {
     "id": "p226_357sig",
-    "copy-from": "pistol_base",
+    "copy-from": "tac_pistol_base",
     "type": "GUN",
     "name": "SIG P226",
     "description": "A SIG Sauer P226 chambered for .357 SIG.  The P226 is a DA/SA, short-recoil operated semi-automatic pistol.",

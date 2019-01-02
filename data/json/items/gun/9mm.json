@@ -58,7 +58,7 @@
     "dispersion": 280,
     "durability": 6,
     "burst": 13,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "9mm", [ "calicomag" ] ],
@@ -88,7 +88,7 @@
     "dispersion": 180,
     "durability": 10,
     "barrel_length": 1,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "9mm", [ "m9bigmag", "m9mag" ] ],
@@ -100,7 +100,7 @@
   },
   {
     "id": "glock_19",
-    "copy-from": "pistol_base",
+    "copy-from": "mil_pistol_base",
     "type": "GUN",
     "name": "Glock 19",
     "description": "Possibly the most popular pistol in existence.  The Glock 19 is often derided for its plastic construction, but it is easy to shoot.",
@@ -149,7 +149,7 @@
       [ "BURST", "3 rd.", 3 ],
       [ "AUTO", "auto", 13 ]
     ],
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -181,7 +181,7 @@
     "durability": 7,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "underbarrel", 1 ], [ "sights", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "9mm", [ "glockmag", "glockbigmag" , "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ],
@@ -209,6 +209,7 @@
     "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
     "description": "A selective-firing 9x19mm handgun introduced by Leadworks LLC's, L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Comes with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "price": 95000,
+    "valid_mod_locations": [ [ "accessories", 2 ],  [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ],
     "burst": 3,
     "relative": {
       "weight": 130,
@@ -245,9 +246,9 @@
   },
   {
     "id": "m9",
-    "copy-from": "pistol_base",
+    "copy-from": "tac_pistol_base",
     "type": "GUN",
-    "name": "Beretta M9",
+    "name": "Beretta M9A1",
     "description": "A very popular 9x19mm pistol, the M9 has been the standard issue sidearm of the US army since 1985.",
     "weight": 590,
     "volume": 2,
@@ -295,7 +296,7 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 3,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -317,7 +318,7 @@
     "dispersion": 360,
     "durability": 5,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ],
     "magazines": [
       [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
       [ "22", [ "a180mag" ] ],
@@ -328,8 +329,8 @@
   },
   {
     "id": "tec9",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "TEC-9",
     "name_plural": "TEC-9",
     "description": "The TEC-9 is a machine pistol made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks and low cost.",
@@ -342,11 +343,10 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "9mm",
-    "skill": "smg",
     "dispersion": 520,
     "durability": 6,
     "modes": [ [ "DEFAULT", "auto", 8 ] ],
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "9mm", [ "tec9mag" ] ],
@@ -358,7 +358,7 @@
   },
   {
     "id": "usp_9mm",
-    "copy-from": "pistol_base",
+    "copy-from": "mil_pistol_base",
     "type": "GUN",
     "name": "USP 9mm",
     "name_plural": "USP 9mm",
@@ -405,7 +405,6 @@
     "durability": 7,
     "burst": 10,
     "built_in_mods": [ "folding_stock" ],
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "9mm", [ "uzimag" ] ],
@@ -417,7 +416,7 @@
   },
   {
     "id": "glock_17",
-    "copy-from": "pistol_base",
+    "copy-from": "tac_pistol_base",
     "type": "GUN",
     "name": "Glock 17",
     "description": "Designed for all shooters, the Glock 17 is marketed towards law-enforcement and military.",

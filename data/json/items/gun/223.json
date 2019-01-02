@@ -1,7 +1,7 @@
 [
   {
     "id": "acr",
-    "copy-from": "rifle_auto",
+    "copy-from": "mil_rifle_base",
     "type": "GUN",
     "name": "Remington ACR",
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines.",
@@ -28,7 +28,7 @@
   },
   {
     "id": "ar15",
-    "copy-from": "rifle_semi",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "AR-15",
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16.",
@@ -52,7 +52,7 @@
   },
   {
     "id": "h&k416a5",
-    "copy-from": "rifle_auto",
+    "copy-from": "mil_rifle_base",
     "type": "GUN",
     "name": "H&K 416A5",
     "//": "*Current* milspec gear is now ridiculously overpriced, as seen with the M2010 IRL.",
@@ -78,7 +78,7 @@
   },
   {
     "id": "hk_g36",
-    "copy-from": "rifle_auto",
+    "copy-from": "mil_rifle_base",
     "type": "GUN",
     "name": "H&K G36",
     "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
@@ -127,7 +127,7 @@
   },
   {
     "id": "l_base_223",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "L523 platform",
     "//": "Current milspec, so Expensive.",
@@ -227,7 +227,7 @@
   },
   {
     "id": "m249",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "M249",
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
@@ -245,7 +245,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 12 ] ],
     "built_in_mods": [ "bipod" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], ["underbarrel", 1], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "223", [ "belt223", "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "308", [ "belt308" ] ]
@@ -271,7 +271,7 @@
   },
   {
     "id": "m4a1",
-    "copy-from": "rifle_auto",
+    "copy-from": "mil_rifle_base",
     "type": "GUN",
     "name": "M4A1",
     "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
@@ -296,7 +296,7 @@
   },
   {
     "id": "ruger_mini",
-    "copy-from": "rifle_semi",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "Ruger Mini-14",
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
@@ -313,7 +313,6 @@
     "dispersion": 100,
     "durability": 8,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "magazines": [
       [ "223", [ "stanag10", "stanag30", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -322,7 +321,7 @@
   },
   {
     "id": "scar_l",
-    "copy-from": "rifle_auto",
+    "copy-from": "mil_rifle_base",
     "type": "GUN",
     "name": "FN SCAR-L",
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
@@ -347,7 +346,7 @@
   },
   {
     "id": "sig552",
-    "copy-from": "rifle_auto",
+    "copy-from": "mil_rifle_base",
     "type": "GUN",
     "name": "SIG 552",
     "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
@@ -374,7 +373,7 @@
   },
   {
     "id": "steyr_aug",
-    "copy-from": "rifle_auto",
+    "copy-from": "mil_rifle_base",
     "type": "GUN",
     "name": "Steyr AUG",
     "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
@@ -391,7 +390,6 @@
     "durability": 8,
     "burst": 12,
     "built_in_mods": [ "grip" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -400,7 +398,7 @@
   },
   {
     "id": "surv_carbine_223",
-    "copy-from": "rifle_semi",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "handmade carbine",
     "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
@@ -419,7 +417,7 @@
     "durability": 6,
     "loudness": 25,
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "223", [ "survivor223mag" ] ] ]
   }
 ]

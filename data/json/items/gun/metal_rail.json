@@ -48,7 +48,7 @@
     "clip_size": 1,
     "ups_charges": 40,
     "reload": 200,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "stock", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "stock", 1 ] ],
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
     "flags": [ "RELOAD_ONE" ]
   }

@@ -1,8 +1,8 @@
 [
   {
     "id": "american_180",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "American-180",
     "name_plural": "American-180",
     "description": "The American-180 is a submachine gun developed in the 1960's that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
@@ -15,13 +15,11 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "22",
-    "skill": "smg",
     "ranged_damage": 4,
     "dispersion": 280,
     "durability": 6,
     "burst": 20,
     "barrel_length": 1,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "22", [ "a180mag" ] ],
       [ "57", [ "fnp90mag" ] ]
@@ -29,8 +27,8 @@
   },
   {
     "id": "marlin_9a",
+    "copy-from": "rifle_manual",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "Marlin 39A",
     "name_plural": "Marlin 39A",
     "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
@@ -43,12 +41,10 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "22",
-    "skill": "rifle",
     "ranged_damage": 5,
     "dispersion": 90,
     "durability": 8,
     "clip_size": 19,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -70,7 +66,6 @@
     "dispersion": 520,
     "durability": 6,
     "clip_size": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -97,7 +92,7 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -127,8 +122,8 @@
   },
   {
     "id": "ruger_1022",
+    "copy-from": "rifle_manual",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "Ruger 10/22",
     "name_plural": "Ruger 10/22",
     "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
@@ -141,12 +136,10 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "22",
-    "skill": "rifle",
     "ranged_damage": 4,
     "dispersion": 110,
     "durability": 8,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ],
@@ -165,8 +158,8 @@
   },
   {
     "id": "sig_mosquito",
+    "copy-from": "tac_pistol_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "SIG Mosquito",
     "name_plural": "SIG Mosquito",
     "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the latter 20th-early 21st centuries; it has an underbarrel rail.",
@@ -179,11 +172,9 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "22",
-    "skill": "pistol",
     "ranged_damage": -1,
     "dispersion": 480,
     "durability": 8,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [ [ "22", [ "mosquitomag" ] ] ]
   },

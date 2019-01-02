@@ -1,8 +1,8 @@
 [
   {
     "id": "browning_blr",
+    "copy-from": "rifle_manual",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "Browning BLR",
     "name_plural": "Browning BLR",
     "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube.",
@@ -15,12 +15,10 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "3006",
-    "skill": "rifle",
     "ranged_damage": -1,
     "dispersion": 90,
     "durability": 7,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "3006", [ "blrmag" ] ],
@@ -29,8 +27,8 @@
   },
   {
     "id": "garand",
+    "copy-from": "rifle_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "M1 Garand",
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
     "weight": 4280,
@@ -42,11 +40,9 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "3006",
-    "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
     "reload": 150,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "3006", [ "garandclip" ] ],
@@ -71,14 +67,13 @@
     "durability": 8,
     "clip_size": 5,
     "barrel_length": 1,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "magazines": [ [ "3006", [ "3006_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "m1918",
+    "copy-from": "rifle_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "Browning Automatic Rifle",
     "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
     "weight": 7050,
@@ -90,12 +85,10 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "3006",
-    "skill": "rifle",
     "dispersion": 180,
     "durability": 8,
     "burst": 8,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "3006", [ "m1918mag", "m1918bigmag" ] ],
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
@@ -147,7 +140,7 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -159,7 +152,7 @@
     "description": "A rusty receiver, a R700 pattern barrel and half a broken crutch; all held together in the shape of a rifle with nothing more than glue, duct tape, and generous amounts of faith.",
     "price": 100000,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ] ],
     "relative": { "durability": -3 },
     "proportional": { "reload": 4 }
   }

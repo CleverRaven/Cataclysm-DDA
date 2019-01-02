@@ -22,7 +22,7 @@
     "durability": 3,
     "clip_size": 2,
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -43,7 +43,6 @@
     "dispersion": 520,
     "durability": 6,
     "clip_size": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -65,8 +64,7 @@
     "ranged_damage": -2,
     "dispersion": 480,
     "durability": 10,
-    "clip_size": 5,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "clip_size": 5
   },
   {
     "id": "sw_619",
@@ -87,13 +85,12 @@
     "dispersion": 320,
     "durability": 10,
     "clip_size": 7,
-    "magazines": [ [ "38", [ "38_speedloader" ] ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "magazines": [ [ "38", [ "38_speedloader" ] ] ]
   },
   {
     "id": "taurus_38",
+    "copy-from": "tac_pistol_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "Taurus Pro .38",
     "name_plural": "Taurus Pro .38",
     "description": "A popular .38 pistol.  Designed with numerous safety features and built from high-quality, durable materials.",
@@ -106,10 +103,8 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "38",
-    "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "38", [ "taurus38mag" ] ],

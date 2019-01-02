@@ -1,7 +1,7 @@
 [
   {
     "id": "fn_fal",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "FN FAL",
     "name_plural": "FN FAL",
@@ -27,7 +27,7 @@
   },
   {
     "id": "hk_g3",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "H&K G3",
     "name_plural": "H&K G3",
@@ -97,7 +97,7 @@
   },
   {
     "id": "m1a",
-    "copy-from": "rifle_semi",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "M1A",
     "name_plural": "M1A",
@@ -123,7 +123,7 @@
   },
   {
     "id": "m240",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "M240",
     "description": "The M240 is a medium machine gun used by the US military, replacing the older M60.  Quite inaccurate and difficult to control, the M240 is designed to fire many rounds very quickly.",
@@ -149,7 +149,7 @@
   },
   {
     "id": "m60",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "M60",
     "description": "The M60 is a general-purpose machine gun developed to replace the .30-caliber M1918 and M1919.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes.",
@@ -197,7 +197,7 @@
     "clip_size": 6,
     "reload": 200,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "stock", 1 ], [ "mechanism", 4 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
