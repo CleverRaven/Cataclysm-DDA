@@ -22,7 +22,7 @@ Each topic consists of:
 One can specify new topics in json. It is currently not possible to define the starting topic, so you have to add a response to some of the default topics (e.g. "TALK_STRANGER_FRIENDLY" or "TALK_STRANGER_NEUTRAL") or to topics that can be reached somehow.
 
 Format:
-```JSON
+```C++
 {
     "type": "talk_topic",
     "id": "TALK_ARSONIST",
@@ -37,7 +37,7 @@ Format:
 }
 ```
 ### type
-Must always be there and must always be "talk_topic".
+Must always be there and must always be `"talk_topic"`.
 
 ### id
 The topic id can be one of the built-in topics or a new id. However, if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
@@ -45,7 +45,7 @@ The topic id can be one of the built-in topics or a new id. However, if several 
 The topic id can also be an array of strings. This is loaded as if several topics with the exact same content have been given in json, each associated with an id from the `id`, array. Note that loading from json will append responses and, if defined in json, override the `dynamic_line` and the `replace_built_in_responses` setting. This allows adding responses to several topics at once.
 
 This example adds the "I'm going now!" response to all the listed topics.
-```JSON
+```C++
 {
     "type": "talk_topic",
     "id": [ "TALK_ARSONIST", "TALK_STRANGER_FRIENDLY", "TALK_STRANGER_NEUTRAL" ],
@@ -60,10 +60,10 @@ This example adds the "I'm going now!" response to all the listed topics.
 ```
 
 ### dynamic_line
-The `dynamic_line` is the line spoken by the NPC. It is optional. If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used. Otherwise the NPC will say nothing. See the chapter about dynamic_line below for more details.
+The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  See the chapter about dynamic_line below for more details.
 
 ### response
-The `responses` entry is an array with possible responses. It must not be empty. Each entry must be a response object. See the chapter about Responses below for more details.
+The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. See the chapter about Responses below for more details.
 
 ### replace_built_in_responses
 `replace_built_in_responses` is an optional boolean that defines whether to dismiss the built-in responses for that topic (default is `false`). If there are no built-in responses, this won't do anything. If `true`, the built-in responses are ignored and only those from this definition in the current json are used. If `false`, the responses from the current json are used along with the built-in responses (if any).
@@ -71,10 +71,10 @@ The `responses` entry is an array with possible responses. It must not be empty.
 ---
 
 ## dynamic_line
-A dynamic line can either be a simple string, or an complex object, or an array with `dynamic_line` entries. If it's an array, an entry will be chosen randomly every time the NPC needs it. Each entry has the same probability.
+A dynamic line can either be a simple string, or an complex object, or an array with `dynamic_line` entries.  If it's an array, an entry will be chosen randomly every time the NPC needs it.  Each entry has the same probability.
 
 Example:
-```JSON
+```C++
 "dynamic_line": [
     "generic text",
     {
@@ -84,12 +84,14 @@ Example:
 ]
 ```
 
-A complex `dynamic_line` usually contains several `dynamic_line` entry and some condition that determines which is used.  If dynamic lines are not nested, they are processed in the order of the entries below.  The lines can be defined like this:
+A complex `dynamic_line` usually contains several `dynamic_line` entry and some condition that determines which is used.  If dynamic lines are not nested, they are processed in the order of the entries below.  The possible types of lines follow.
+
+In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional lines do not have to be defined, but the NPC should always have something to say.  Entries are always parsed as `dynamic_line` and can be nested.
 
 ### Based on the gender of the NPC / NPC
-The dynamic line is chosen based on the gender of the NPC, both entries must exists. Both entries are parsed as `dynamic_line`.
+The dynamic line is chosen based on the gender of the NPC.  Both entries must exist.
 
-```JSON
+```C++
 {
     "npc_male": "I'm a man.",
     "npc_female": "I'm a woman."
@@ -97,9 +99,9 @@ The dynamic line is chosen based on the gender of the NPC, both entries must exi
 ```
 
 ### Based on the gender of the player character
-The dynamic line is chosen based on the gender of the player character, both entries must exists. Both entries are parsed as `dynamic_line`. `u` is the player character.
+The dynamic line is chosen based on the gender of the player character.  Both entries must exist.
 
-```JSON
+```C++
 {
     "u_male": "You're a man.",
     "u_female": "You're a woman."
@@ -107,9 +109,9 @@ The dynamic line is chosen based on the gender of the player character, both ent
 ```
 
 ### Based on whether the player character is armed or unarmed
-The dynamic line is chosen based on whether the character has a weapon in hand or not.  Both entries must exit.  Both entries are parsed as `dynamic_line`.  `u` is the player character.
+The dynamic line is chosen based on whether the character has a weapon in hand or not.  Both entries must exist.
 
-```JSON
+```C++
 {
     "u_has_weapon": "Drop your weapon!",
     "u_unarmed": "Put your hands in air!"
@@ -117,9 +119,9 @@ The dynamic line is chosen based on whether the character has a weapon in hand o
 ```
 
 ### Based on items worn by the player character
-The dynamic line is chosen based on whether the player character wears a specific item, both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. `u` is the player character. The `u_is_wearing` string should be a valid item id. The line from `yes` will be shown if the character wears the item, otherwise the line from `no`.
+The dynamic line is chosen based on whether the player character wears a specific item.  Both entries are optional.  The `u_is_wearing` string should be a valid item id.  The line from `yes` will be shown if the character is wearing the item, otherwise the line from `no`.
 
-```JSON
+```C++
 {
     "u_is_wearing": "fur_cat_ears",
     "yes": "Hello, I like your ears.",
@@ -127,10 +129,21 @@ The dynamic line is chosen based on whether the player character wears a specifi
 }
 ```
 
-### Based on mutation (trait) possessed by the player character
-The dynamic line is chosen based on whether the player character has any of an array of traits. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. `u` is the player character. The `u_has_any_trait` string should be one or more valid mutation IDs. The line from `yes` will be shown if the character has one of the traits, otherwise the line from `no`.
+### Based on items owned by the player character
+The dynamic line is chosen based on whether the player character has a specific item somewhere in their inventory.  Both entries are optional.  The `u_has_item` string should be a valid item id.  The line from `yes` will be shown if the character has the item, otherwise the line from `no`.
 
-```JSON
+```C++
+{
+    "u_has_item": "beer",
+    "yes": "C'mon, give me a drink.",
+    "no": "You're not much of a bartender."
+}
+```
+
+### Based on mutation (trait) possessed by the player character
+The dynamic line is chosen based on whether the player character has any of an array of traits.  Both entries are optional.  The `u_has_any_trait` string should be one or more valid mutation IDs.  The line from `yes` will be shown if the character has one of the traits, otherwise the line from `no`.
+
+```C++
 {
     "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
     "yes": "Hello, I like your ears.",
@@ -139,9 +152,9 @@ The dynamic line is chosen based on whether the player character has any of an a
 ```
 
 ### Based on mutation (trait) possessed by the NPC
-The dynamic line is chosen based on whether the NPC has any of an array of traits. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. The `npc_has_any_trait` string should be one or more valid mutation IDs. The line from `yes` will be shown if the character has one of the traits, otherwise the line from `no`.
+The dynamic line is chosen based on whether the NPC has any of an array of traits.  Both entries are optional.  The `npc_has_any_trait` string should be one or more valid mutation IDs.  The line from `yes` will be shown if the NPC has one of the traits, otherwise the line from `no`.
 
-```JSON
+```C++
 {
     "npc_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
     "yes": "I was subjected to strange experiments in a lab.",
@@ -149,10 +162,10 @@ The dynamic line is chosen based on whether the NPC has any of an array of trait
 }
 ```
 
-### Based on mutation (trait) possessed by the player character
-The dynamic line is chosen based on whether the player character has a specific trait. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. `u` is the player character. The `u_has_trait` string should be a valid mutation ID. The line from `yes` will be shown if the character has the trait, otherwise the line from `no`.
+### Based on trait or mutation possessed by the player character
+The dynamic line is chosen based on whether the player character has a specific trait.  Both entries are optional.  The `u_has_trait` string should be a valid mutation ID.  The line from `yes` will be shown if the character has the trait, otherwise the line from `no`.
 
-```JSON
+```C++
 {
     "u_has_trait": "ELFA_EARS",
     "yes": "A forest protector! You must help us.",
@@ -160,10 +173,10 @@ The dynamic line is chosen based on whether the player character has a specific 
 }
 ```
 
-### Based on mutation (trait) possessed by the NPC
-The dynamic line is chosen based on whether the NPC has a specific trait. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. The `npc_has_trait` string should be a valid mutation ID. The line from `yes` will be shown if the character has the trait, otherwise the line from `no`.
+### Based on trait or mutation possessed by the NPC
+The dynamic line is chosen based on whether the NPC has a specific trait.  Both entries are optional. The `npc_has_trait` string should be a valid mutation ID. The line from `yes` will be shown if the NPC has the trait, otherwise the line from `no`.
 
-```JSON
+```C++
 {
     "npc_has_trait": "ELFA_EARS",
     "yes": "I am a forest protector, and do not speak to outsiders.",
@@ -171,10 +184,32 @@ The dynamic line is chosen based on whether the NPC has a specific trait. Both e
 }
 ```
 
-### Based on the NPC's class
-The dynamic line is chosen based on whether the NPC is part of a specific clss. Both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. The `npc_has_class` string should be a valid NPC class ID. The line from `yes` will be shown if the NPC is part of the clss, otherwise the line from `no`.
+### Based on trait or mutation flag possessed by the player character
+The dynamic line is chosen based on whether the player character has a trait with a specific flag.  Both entries are optional. The `u_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the character has any traits with the flag, otherwise the line from `no`.
 
-```JSON
+```C++
+{
+    "u_has_trait_flag": "CANNIBAL",
+    "yes": "You monster!  Get away from me!",
+    "no": "Hello."
+}
+```
+
+### Based on trait or mutation flag possessed by the NPC
+The dynamic line is chosen based on whether the NPC has a trait with a specific flag.  Both entries are optional. The `npc_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the NPC has any traits with the flag, otherwise the line from `no`.
+
+```C++
+{
+    "npc_has_trait": "CANNIBAL",
+    "yes": "Meat is meat, so sure, I'll have some.",
+    "no": "You are disgusting!"
+}
+```
+
+### Based on the NPC's class
+The dynamic line is chosen based on whether the NPC is part of a specific class.  Both entries are optional. The `npc_has_class` string should be a valid NPC class ID.  The line from `yes` will be shown if the NPC is part of the class, otherwise the line from `no`.
+
+```C++
 {
     "npc_has_class": "NC_ARSONIST",
     "yes": "I like setting fires.",
@@ -183,9 +218,9 @@ The dynamic line is chosen based on whether the NPC is part of a specific clss. 
 ```
 
 ### Based on effect possessed by the player character
-The dynamic line is chosen based on whether the player character is currently is under the effect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown if the player character has the effect, otherwise the line from `no`.
+The dynamic line is chosen based on whether the player character is currently is under the effect.  Both entries are optional.  The line from `yes` will be shown if the player character has the effect, otherwise the line from `no`.
 
-```JSON
+```C++
 {
     "u_has_effect": "infected",
     "yes": "You look sick.  You should get some antibiotics.",
@@ -194,9 +229,9 @@ The dynamic line is chosen based on whether the player character is currently is
 ```
 
 ### Based on effect possessed by the NPC
-The dynamic line is chosen based on whether the NPC is currently is under the effect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown if the NPC has the effect, otherwise the line from `no`.
+The dynamic line is chosen based on whether the NPC is currently is under the effect.  Both entries are optional.  The line from `yes` will be shown if the NPC has the effect, otherwise the line from `no`.
 
-```JSON
+```C++
 {
     "npc_has_effect": "infected",
     "yes": "I need antibiotics.",
@@ -205,9 +240,9 @@ The dynamic line is chosen based on whether the NPC is currently is under the ef
 ```
 
 ### Based on whether the NPC has missions available
-The dynamic line is chosen based on whether the NPC has any missions to give out.  All three entries are mandatory.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
+The dynamic line is chosen based on whether the NPC has any missions to give out.  All entries are optional.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
 
-```JSON
+```C++
 {
     "npc_has_mission": true,
     "many": "There are lots of things you could do to help.",
@@ -217,9 +252,9 @@ The dynamic line is chosen based on whether the NPC has any missions to give out
 ```
 
 ### Based on whether the player character is performing missions for the NPC
-The dynamic line is chosen based on whether the player character is performing any missions for the NPC.  All entries are mandatory.  The line from `many` if the player character is performing two or more missions for the NPC, the line from `one` will be shown if the player is performing one mission, and otherwise the line from `none` will be shown.
+The dynamic line is chosen based on whether the player character is performing any missions for the NPC.  All entries are optional.  The line from `many` if the player character is performing two or more missions for the NPC, the line from `one` will be shown if the player is performing one mission, and otherwise the line from `none` will be shown.
 
-```JSON
+```C++
 {
     "u_has_mission": true,
     "many": "You're doing so much for this town!",
@@ -228,21 +263,53 @@ The dynamic line is chosen based on whether the player character is performing a
 }
 ```
 
+### Based on the days since the Cataclysm
+The dynamic line is chosen based on the specified number of days have elapsed since the start of the Catacylsm.  Both entries are optional.  The line from `yes` will be shown if at least that many days have passed, otherwise the line from `no`.
+
+```C++
+{
+    "days_since_cataclysm": "30",
+    "yes": "Things are really getting bad!",
+    "no": "I'm sure the government will restore services soon."
+}
+```
+
+### Based on the season
+The dynamic line is chosen is the current season matches `is_season`.  Valid seasons are "spring", "summer", "autumn", or "winter". The line from `yes` will be shown if the current season matches `is_season`, otherwise the line from `no`.
+```C++
+{
+    "is_season": "summer",
+    "yes": "At least it's a dry heat.",
+    "no": "What's going on?"
+}
+```
+
+### Based on the day/night cycle
+The dynamic line is chosen based whether it is currently daytime or nighttime.  Both entries must exist.
+
+```C++
+{
+    "is_day": "Sure is bright out.",
+    "is_night": "Look at the moon."
+}
+```
+
 ### A randomly selected hint
 The dynamic line will be randomly chosen from the hints snippets.
 
-```JSON
+```C++
 {
     "give_hint": true
 }
+```
 
 ---
 
 ## Responses
-A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, see `npctalk.cpp` for details. There can be different results, used either when the trial succeeds and when it fails.
+A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, see below for details. There can be different results, used either when the trial succeeds and when it fails.
 
 Format:
-```JSON
+```C++
 {
     "text": "I, the player, say to you...",
     "condition": "...something...",
@@ -269,7 +336,7 @@ Format:
 ```
 
 Alternatively a short format:
-```JSON
+```C++
 {
     "text": "I, the player, say to you...",
     "effect": "...",
@@ -277,7 +344,7 @@ Alternatively a short format:
 }
 ```
 The short format is equivalent to (an unconditional switching of the topic, `effect` is optional):
-```JSON
+```C++
 {
     "text": "I, the player, say to you...",
     "trial": {
@@ -319,7 +386,7 @@ The `failure` object is used if the trial fails, the `success` object is used ot
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 
 `topic` can also be a single topic object (the `type` member is not required here):
-```JSON
+```C++
 "success": {
     "topic": {
         "id": "TALK_NEXT",
@@ -363,7 +430,7 @@ Assigns the NPC to a base camp at the player's current position.
 Makes the NPC into a guard, which will defend the current location.
 
 ### stop_guard
-Releases the NPC from their guard duty (also see "assign_guard").
+Releases the NPC from their guard duty (also see `assign_guard`).
 
 ### start_camp
 Makes the NPC the overseer of a new faction camp.
@@ -429,7 +496,7 @@ Makes the NPC follow your character.
 ### deny_lead
 ### deny_train
 ### deny_personal_info
-Sets the appropriate effect on the NPC for a few hours.
+Sets the appropriate effect on the NPC for a few hours.  These are deprecated in favor of the more flexible `npc_add_effect` described below.
 
 ### drop_weapon
 Make the NPC drop their weapon.
@@ -457,25 +524,23 @@ The NPC will offer you a list of missions for your allied NPCs, depending on the
 
 ### u_add_effect: effect_string, (optional duration: duration_string)
 ### npc_add_effect: effect_string, (optional duration: duration_string)
-Your character or the NPC will gain the effect for duration_string turns.
-
+Your character or the NPC will gain the effect for `duration_string` turns.
 
 ### u_add_trait: trait_string
 ### npc_add_trait: trait_string
 Your character or the NPC will gain the trait.
 
-
 ### u_buy_item: item_string, (optional cost: cost_num, optional count: count_num, optional container: container_string)
-The NPC will give your character the item or count_num copies of the item, contained in container, and will remove cost_num from your character's cash if specified.  If cost isn't present, the NPC gives your character the item at no charge.
+The NPC will give your character the item or count_num copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.  If cost isn't present, the NPC gives your character the item at no charge.
 
 ### u_spend_cash: cost_num
-Remove cost_num from your character's cash.
+Remove `cost_num` from your character's cash.
 
 ### npc_faction_change: faction_string
-Change the NPC's faction membership to faction_string.
+Change the NPC's faction membership to `faction_string`.
 
 ### u_faction_rep: rep_num
-Increase's your reputation with the NPC's current faction, or decreases it if rep_num is negative.
+Increase's your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
 
 ### Sample effects
 { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "u_faction_rep": -15 }, { "npc_change_faction": "hells_raiders" } ] }
@@ -496,19 +561,19 @@ trust, value, fear, and anger are optional keywords inside the opinion object. E
 ---
 
 ## response conditions
-Conditions can be a simple string, a key and an int, a key and a string, a key and an array, or a key and an object. Arrays and objects can nest with each other and can contain any other condition.
+Conditions can be a simple string with no other values, a key and an int, a key and a string, a key and an array, or a key and an object. Arrays and objects can nest with each other and can contain any other condition.
 
 The following keys and simple strings are available:
 
 ### "and" (array)
-`true` if every condition in the array is true. Can be used to create complex condition tests, like "[INTELLIGENCE 10+][PERCEPTION 12+] Your jacket is torn. Did you leave that scrap of fabric behind?"
+`true` if every condition in the array is true. Can be used to create complex condition tests, like `"[INTELLIGENCE 10+][PERCEPTION 12+] Your jacket is torn. Did you leave that scrap of fabric behind?"`
 
 ### "or" (array)
 `true` if every condition in the array is true. Can be used to create complex condition tests, like
-"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."
+`"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."`
 
 ### "not" (object)
-`true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as "[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"
+`true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as `"[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"`
 
 ### "u_has_any_trait" (array)
 `true` if the player character has any trait or mutation in the array. Used to check multiple traits.
@@ -516,54 +581,70 @@ The following keys and simple strings are available:
 ### "npc_has_any_trait" (array)
 `true` if the NPC has any trait or mutation in the array. Used to check multiple traits.
 
-### "u_any_trait" (array)
-`true` if the player character has a specific trait.  A simpler version of u_has_any_trait.
+### "u_any_trait" (string)
+`true` if the player character has a specific trait.  A simpler version of `u_has_any_trait` that only checks for one trait.
 
-### "npc_has_trait" (array)
-`true` if the NPC has a specific trait. A simpler version of npc_has_any_trait.
+### "npc_has_trait" (string)
+`true` if the NPC has a specific trait. A simpler version of `npc_has_any_trait` that only checks for one trait.
+
+### "u_any_trait_flag" (string)
+`true` if the player character has any traits with the specific trait flag.  A more robust version of `u_has_any_trait`.
+
+### "npc_has_trait_flag" (string)
+`true` if the NPC has any traits with the specific trait flag. A more robust version of `npc_has_any_trait`.
 
 ### "npc_has_class" (array)
 `true` if the NPC is a member of an NPC class.
 
 ### "u_has_strength" (int)
-`true` if the player character's strength is at least the value of u_has_strength.
+`true` if the player character's strength is at least the value of `u_has_strength`.
 
 ### "u_has_dexterity" (int)
-`true` if the player character's dexterity is at least the value of u_has_dexterity.
+`true` if the player character's dexterity is at least the value of `u_has_dexterity`.
 
 ### "u_has_intelligence" (int)
-`true` if the player character's intelligence is at least the value of u_has_intelligence.
+`true` if the player character's intelligence is at least the value of `u_has_intelligence`.
 
 ### "u_has_perception" (int)
-`true` if the player character's perception is at least the value of u_has_perception.
+`true` if the player character's perception is at least the value of `u_has_perception`.
 
-### "u_is_wearing" (string)
-`true` if the player character is wearing something with u_is_wearing's item_id.
+### "u_has_item" (string)
+`true` if the player character has something with `u_has_item`'s `item_id` in their inventory.
+
+### "u_has_items" (dictionary)
+`u_has_items` must be a dictionary with an `item` string and a `count` int.
+`true` if the player character has at least `count` charges or counts of `item` in their inventory.
 
 ### "u_at_om_location" (string)
 `true` if the player character is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player is standing on a faction camp overmap tile.
 
 ### "npc_has_effect" (string)
-`true` if the NPC is under the effect with npc_has_effect's effect_id.
+`true` if the NPC is under the effect with npc_has_effect's `effect_id`.
 
 ### "u_has_effect" (string)
-`true` if the player character is under the effect with u_has_effect's effect_id.
+`true` if the player character is under the effect with u_has_effect's `effect_id`.
 
 ### "u_has_mission" (string)
 `true` if the mission is assigned to the player character.
 
 ### "npc_allies" (int)
-`true` if the player character has at least npc_allies number of NPC allies.
+`true` if the player character has at least `npc_allies` number of NPC allies.
 
 ### "npc_service" (int)
 `true` if the NPC does not have the "currently_busy" effect and the player character has at least
-npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to "and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]
+npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 
 ### "u_has_cash" (int)
-`true` if the player character has at least u_has_cash cash available.  Used to check if the PC can buy something.
+`true` if the player character has at least `u_has_cash` cash available.  Used to check if the PC can buy something.
 
 ### "npc_role_nearby" (string)
-`true` if there is an NPC with the same companion mission role as npc_role_nearby within 100 tiles.
+`true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
+
+### "days_since_cataclysm" (int)
+`true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
+
+### "is_season" (string)
+`true` if the current season matches `is_season`, which must be one of "spring", "summer", "autumn", or "winter".
 
 ### "has_assigned_mission" (simple string)
 `true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job..."
@@ -598,8 +679,14 @@ npc_service cash available.  Useful to check if the player character can hire an
 ### "npc_has_weapon" (simple string)
 `true` if the NPC is wielding a weapon.
 
+### "is_day" (simple string)
+`true` if it is currently daytime.
+
+### "is_outside (simple string)
+`true` if the NPC is on a tile without a roof.
+
 #### Sample responses with conditions
-```JSON
+```C++
 {
   "text": "Understood.  I'll get those antibiotics.",
   "topic": "TALK_NONE",

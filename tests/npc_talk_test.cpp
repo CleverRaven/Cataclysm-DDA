@@ -131,6 +131,18 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[3].text == "This is a wearing test response." );
     CHECK( d.responses[4].text == "This is a npc trait test response." );
     CHECK( d.responses[5].text == "This is a npc short trait test response." );
+    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
+    talker_npc.toggle_trait( trait_id( "ELFA_EARS" ) );
+    g->u.toggle_trait( trait_id( "PSYCHOPATH" ) );
+    talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a wearing test response." );
+    CHECK( d.responses[2].text == "This is a trait flags test response." );
+    CHECK( d.responses[3].text == "This is a npc trait flags test response." );
+    g->u.toggle_trait( trait_id( "PSYCHOPATH" ) );
+    talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
 
     d.add_topic( "TALK_TEST_EFFECT" );
     d.gen_responses( d.topic_stack.back() );
@@ -215,9 +227,60 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
 
+    calendar old_calendar = calendar::turn;
+    calendar::turn = calendar::start;
+    d.add_topic( "TALK_TEST_SEASON" );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a season spring test response." );
+    calendar::turn += to_turns<int>( calendar::season_length() );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
+    CHECK( d.responses[2].text == "This is a season summer test response." );
+    calendar::turn += to_turns<int>( calendar::season_length() );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
+    CHECK( d.responses[2].text == "This is a days since cataclysm 120 test response." );
+    CHECK( d.responses[3].text == "This is a season autumn test response." );
+    calendar::turn += to_turns<int>( calendar::season_length() );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 5 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
+    CHECK( d.responses[2].text == "This is a days since cataclysm 120 test response." );
+    CHECK( d.responses[3].text == "This is a days since cataclysm 210 test response." );
+    CHECK( d.responses[4].text == "This is a season winter test response." );
+    calendar::turn += to_turns<int>( calendar::season_length() );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 6 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a season spring test response." );
+    CHECK( d.responses[2].text == "This is a days since cataclysm 30 test response." );
+    CHECK( d.responses[3].text == "This is a days since cataclysm 120 test response." );
+    CHECK( d.responses[4].text == "This is a days since cataclysm 210 test response." );
+    CHECK( d.responses[5].text == "This is a days since cataclysm 300 test response." );
+
+    calendar::turn = calendar::turn.sunrise() + HOURS( 4 );
+    d.add_topic( "TALK_TEST_TIME" );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a is day test response." );
+    calendar::turn = calendar::turn.sunset() + HOURS( 2 );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a is night test response." );
+    calendar::turn = old_calendar;
+
+
     d.add_topic( "TALK_TEST_OR" );
     g->u.cash = 0;
-    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
     d.gen_responses( d.topic_stack.back() );
     REQUIRE( d.responses.size() == 1 );
@@ -252,6 +315,11 @@ TEST_CASE( "npc_talk_test" )
     REQUIRE( d.responses.size() == 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a complex nested test response." );
+
+    d.add_topic( "TALK_TEST_HAS_ITEM" );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
 
     const auto has_beer_bottle = [&]() {
         int bottle_pos = g->u.inv.position_by_type( itype_id( "bottle_glass" ) );
@@ -320,4 +388,12 @@ TEST_CASE( "npc_talk_test" )
     CHECK( talker_npc.has_trait( trait_PROF_SWAT ) );
     CHECK( g->u.cash == 0 );
     CHECK( talker_npc.get_attitude() == NPCATT_KILL );
+
+    d.add_topic( "TALK_TEST_HAS_ITEM" );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_has_item beer test response." );
+    CHECK( d.responses[2].text == "This is a u_has_item bottle_glass test response." );
+    CHECK( d.responses[3].text == "This is a u_has_items beer test response." );
 }
