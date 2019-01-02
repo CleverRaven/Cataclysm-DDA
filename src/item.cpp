@@ -6030,8 +6030,9 @@ float item::get_energy_from_temperature( const float new_temperature )
 
 void item::set_temperature(float new_temperature)
 {
-    //new_temperature = ( new_temperature - 273.15 ) * 1.8 + 32.5;
+    const float mass = to_gram( weight() ); // g
     temperature = static_cast<int>( 10 * new_temperature + 0.5 );
+    thermal_energy = static_cast<int>( 1000 * get_energy_from_temperature( new_temperature ) / mass + 0.5 );
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -6390,7 +6391,7 @@ void item::update_temp( const int temp, const float insulation )
 
     // only process temperature at most every 50_turns, note we're also gated
     // by item::processing_speed
-	// If the item has negative energy process it now. It is a new item.
+    // If the item has negative energy process it now. It is a new item.
     if( dur > 50_turns || thermal_energy < 0 ) {
         calc_temp( temp, insulation, dur );
         last_temp_check = now;
@@ -6452,7 +6453,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         freeze_percentage = ( completely_liquid_energy - true_energy ) / ( completely_liquid_energy - completely_frozen_energy );
     }
     // Stop over cooling below environment
-    // Stop over heating above environment
+    // Stop over heating above enviroment
     if( energy_change < 0 && new_item_temperature < env_temperature ) {
         new_item_temperature = env_temperature;
         if( env_temperature >= freezing_temperature ) {

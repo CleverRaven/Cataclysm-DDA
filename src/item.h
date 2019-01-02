@@ -675,6 +675,9 @@ class item : public visitable<item>
         
         /** Set the item to COLD */
         void cold_up();
+        
+        /** Sets the item temperature and item energy from new temperature (K)*/
+        void set_temperature(float new_temperature);
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -750,9 +753,6 @@ class item : public visitable<item>
         
         /** Calculates item energy (J) from temperature (K)*/
         float get_energy_from_temperature( const float new_temperature );
-        
-        /** Sets the item temperature (int F) from new temperature (float K)*/
-        void set_temperature(float new_temperature);
 
         /** the last time the temperature was updated for this item */
         time_point last_temp_check = calendar::time_of_cataclysm;
