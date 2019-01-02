@@ -710,7 +710,7 @@
     "price": 50,
     "material": "flesh",
     "flags": "TRADER_AVOID",
-    "volume": 1,
+    "volume": "25ml",
     "stack_size": 1,
     "fun": -12,
     "rot_spawn": "GROUP_CARRION"
@@ -751,7 +751,7 @@
     "price": 50,
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "volume": 1,
+    "volume": "25ml",
     "stack_size": 1,
     "fun": -24,
     "rot_spawn": "GROUP_CARRION"
@@ -759,6 +759,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_tainted_fur",
+    "name": "tainted pelt",
     "copy-from": "raw_fur",
     "spoils_in": "6 hours",
     "use_action": "POISON",
