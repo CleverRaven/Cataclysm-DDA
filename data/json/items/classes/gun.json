@@ -46,6 +46,41 @@
     ]
   },
   {
+    "abstract": "tac_pistol_base",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "base tactical pistol",
+    "skill": "pistol",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock", 1 ]
+    ]
+  },
+  {
+    "abstract": "mil_pistol_base",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "base military pistol",
+    "skill": "pistol",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "underbarrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "stock", 1 ]
+    ]
+  },
+  {
     "abstract": "pistol_revolver",
     "copy-from": "pistol_base",
     "type": "GUN",
@@ -101,10 +136,62 @@
     "name": "semi-automatic rifle"
   },
   {
+    "abstract": "rifle_semi_tac",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": "semi-automatic tactical rifle"
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "underbarrel", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ]
+    ]
+  },
+  {
     "abstract": "rifle_auto",
     "copy-from": "rifle_base",
     "type": "GUN",
     "name": "fully automatic rifle"
+  },
+  {
+    "abstract": "rifle_auto_tac",
+    "copy-from": "rifle_auto",
+    "type": "GUN",
+    "name": "fully automatic tactical rifle",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "underbarrel", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ]
+    ]
+  },
+  {
+    "abstract": "rifle_auto_mil",
+    "copy-from": "rifle_auto",
+    "type": "GUN",
+    "name": "fully automatic military rifle",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "underbarrel", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "muzzle", 1],
+      [ "stock", 1 ]
+    ]
   },
   {
     "abstract": "shotgun_base",
@@ -136,5 +223,24 @@
     "type": "GUN",
     "name": "base SMG",
     "skill": "smg"
+  },
+  {
+    "abstract": "mil_smg_base",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "name": "base military SMG",
+    "skill": "smg",
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "underbarrel", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "muzzle", 1],
+      [ "stock", 1 ]
+    ]
   }
 ]
