@@ -130,16 +130,10 @@
     ]
   },
   {
-    "abstract": "rifle_semi",
+    "abstract": "tac_rifle_base",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "semi-automatic rifle"
-  },
-  {
-    "abstract": "rifle_semi_tac",
-    "copy-from": "rifle_semi",
-    "type": "GUN",
-    "name": "semi-automatic tactical rifle"
+    "name": "tactical rifle",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -153,33 +147,10 @@
     ]
   },
   {
-    "abstract": "rifle_auto",
+    "abstract": "mil_rifle_base",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "fully automatic rifle"
-  },
-  {
-    "abstract": "rifle_auto_tac",
-    "copy-from": "rifle_auto",
-    "type": "GUN",
-    "name": "fully automatic tactical rifle",
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "underbarrel", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ]
-    ]
-  },
-  {
-    "abstract": "rifle_auto_mil",
-    "copy-from": "rifle_auto",
-    "type": "GUN",
-    "name": "fully automatic military rifle",
+    "name": "military rifle",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
