@@ -5984,7 +5984,7 @@ bool item::allow_crafting_component() const
 }
 
 
-float item::get_temp_from_energy( const float true_energy )
+float item::get_temp_from_energy( const float thermal_energy )
 {    
     const int specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
     const int specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
@@ -5995,12 +5995,12 @@ float item::get_temp_from_energy( const float true_energy )
     const float completely_liquid_energy = completely_frozen_energy + mass * latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
     float new_item_temperature;
     
-    if ( true_energy > completely_liquid_energy ) {
+    if ( thermal_energy > completely_liquid_energy ) {
         // Item is liquid
-        new_item_temperature = freezing_temperature + ( true_energy - completely_liquid_energy ) / ( specific_heat_liquid * mass );
-    } else if ( true_energy < completely_frozen_energy ) {
+        new_item_temperature = freezing_temperature + ( thermal_energy - completely_liquid_energy ) / ( specific_heat_liquid * mass );
+    } else if ( thermal_energy < completely_frozen_energy ) {
         // Item is solid
-        new_item_temperature = true_energy / ( specific_heat_solid * mass );
+        new_item_temperature = thermal_energy / ( specific_heat_solid * mass );
     } else {
         // Item is partially solid
         new_item_temperature = freezing_temperature;
@@ -6017,15 +6017,15 @@ float item::get_energy_from_temperature( const float new_temperature )
     const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
     const float completely_frozen_energy = mass * specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_energy = completely_frozen_energy + mass * latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-    float true_energy;
+    float thermal_energy;
     
     if( new_temperature <= freezing_temperature ) {
-            true_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - new_temperature );
+            thermal_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - new_temperature );
         }
         else {
-            true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( new_temperature - freezing_temperature );
+            thermal_energy = completely_liquid_energy + mass * specific_heat_liquid * ( new_temperature - freezing_temperature );
         }
-    return true_energy;
+    return thermal_energy;
 }
 
 void item::set_temperature(float new_temperature)
