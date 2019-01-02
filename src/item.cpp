@@ -605,7 +605,7 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
             if( lhs_components.size() != rhs_components.size() ) {
                 return false;
             }
-            for( int i = 0; i < lhs_components.size(); i++ ) {
+            for( unsigned int i = 0; i < lhs_components.size(); i++ ) {
                 if( lhs_components[i].front().type != rhs_components[i].front().type ||
                     lhs_components[i].front().count != rhs_components[i].front().count ) {
                     return false;
