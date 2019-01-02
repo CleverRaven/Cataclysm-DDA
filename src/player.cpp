@@ -8671,6 +8671,7 @@ bool player::unload(item &it) {
                 return false;
             }
             qty += e.charges;
+            this->moves -= mv;
             add_msg("remove_if past false qty: %d, e.charge: %d mv: %d", qty, e.charges, mv);/*  */
             return true;
         } ), target->contents.end() );
