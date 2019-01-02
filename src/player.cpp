@@ -8670,8 +8670,8 @@ bool player::unload(item &it) {
                 add_msg("false is about to return");/* only possible if item is liquid, but ammo belt is not liquid */
                 return false;
             }
-            add_msg("remove_if past false");/*  */
             qty += e.charges;
+            add_msg("remove_if past false qty: %d, e.charge: %d mv: %d", qty, e.charges, mv);/*  */
             return true;
         } ), target->contents.end() );
 
