@@ -45,28 +45,13 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
             };
         case 'd'://disassembled components
             return [filter]( const item & i ) {
-                if( i.components.empty() ) {
-                    //If item wasn't crafted use default recipe components
-                    const auto &req = recipe_dictionary::get_uncraft( i.typeId() ).disassembly_requirements();
-                    if( req.is_empty() ) {
-                        return false;
+                const auto &components = i.get_uncraft_components();
+                for( auto component : components ) {
+                    if( lcmatch( component.front().to_string(), filter ) ) {
+                        return true;
                     }
-                    const auto &components = req.get_components();
-                    for( auto component : components ) {
-                        if( lcmatch( component.front().to_string(), filter ) ) {
-                            return true;
-                        }
-                    }
-                    return false;
-                } else {
-                    //If item was crafted use registered components
-                    for( auto component : i.components ) {
-                        if( lcmatch( component.tname(), filter ) ) {
-                            return true;
-                        }
-                    }
-                    return false;
                 }
+                return false;
             };
         default://by name
             return [filter]( const item & a ) {
