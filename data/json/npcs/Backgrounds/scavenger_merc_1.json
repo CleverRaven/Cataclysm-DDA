@@ -10,7 +10,9 @@
     "responses": [
       {
         "text": "I'm not looking for a friend, but I've paid my dues and earned my way. You gotta pony up too. We're stuck with each other for a bit.",
-        "condition": { "or": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ] },
+        "condition": {
+          "or": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+        },
         "//": "This guy is very unlikely to respond to nice words, unless you're a really smooth operator and have earned it.",
         "trial": { "type": "PERSUADE", "difficulty": 80, "VALUE": -2, "TRUST": -2 },
         "success": { "topic": "BGSS_SCAVENGER_MERC_1_STORY2_BADGERME" },
@@ -18,7 +20,9 @@
       },
       {
         "text": "Don't mouth off to me. I know where everyone else working for me comes from. If I'm going to let you stand behind me with a loaded gun, you're going to toe the <swear> line too.",
-        "condition": { "or": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ] },
+        "condition": {
+          "or": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+        },
         "//": "This guy is more likely to respond to a show of strength.",
         "trial": { "type": "INTIMIDATE", "difficulty": 50, "TRUST": -1, "FEAR": -1 },
         "success": { "topic": "BGSS_SCAVENGER_MERC_1_STORY2_OKAY" },
