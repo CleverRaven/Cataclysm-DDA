@@ -597,41 +597,24 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
     }
-    if( contents.size() != rhs.contents.size() ) {
-        return false;
-    }
     if( check_components ) {
-        //Only check if items aren't using the default recipe
+        //Only check if at least one item isn't using the default recipe
         if( !components.empty() || !rhs.components.empty() ) {
-
-            requirement_data::alter_item_comp_vector lhs_recipe, rhs_recipe;
-            int lhs_size = components.size(), rhs_size = rhs.components.size();
-            if( components.empty() ) {
-                lhs_recipe = recipe_dictionary::get_uncraft( typeId() ).disassembly_requirements().get_components();
-                lhs_size = lhs_recipe.size();
-            }
-            if( rhs.components.empty() ) {
-                rhs_recipe = recipe_dictionary::get_uncraft(
-                                 rhs.typeId() ).disassembly_requirements().get_components();
-                rhs_size = rhs_recipe.size();
-            }
-
-            if( lhs_size != rhs_size ) {
+            auto lhs_components = get_uncraft_components();
+            auto rhs_components = rhs.get_uncraft_components();
+            if( lhs_components.size() != rhs_components.size() ) {
                 return false;
             }
-
-            for( int i = 0; i < lhs_size; i++ ) {
-                const auto lhs_type = components.empty() ? lhs_recipe[i].front().type : components[i].typeId();
-                const auto rhs_type = rhs.components.empty() ? rhs_recipe[i].front().type :
-                                      rhs.components[i].typeId();
-                const auto lhs_count = components.empty() ? lhs_recipe[i].front().count : components[i].count();
-                const auto rhs_count = rhs.components.empty() ? rhs_recipe[i].front().count :
-                                       rhs.components[i].count();
-                if( lhs_type != rhs_type || lhs_count != rhs_count ) {
+            for( int i = 0; i < lhs_components.size(); i++ ) {
+                if( lhs_components[i].front().type != rhs_components[i].front().type ||
+                    lhs_components[i].front().count != rhs_components[i].front().count ) {
                     return false;
                 }
             }
         }
+    }
+    if( contents.size() != rhs.contents.size() ) {
+        return false;
     }
     return std::equal( contents.begin(), contents.end(), rhs.contents.begin(), []( const item & a,
     const item & b ) {
@@ -7362,4 +7345,18 @@ int item::get_min_str() const
     } else {
         return type->min_str;
     }
+}
+
+requirement_data::alter_item_comp_vector item::get_uncraft_components() const
+{
+    //If item wasn't crafted with specific components use default recipe
+    if( components.empty() ) {
+        return recipe_dictionary::get_uncraft( typeId() ).disassembly_requirements().get_components();
+    }
+    //Make a new vector of components from the registered components
+    requirement_data::alter_item_comp_vector ret;
+    for( auto &component : components ) {
+        ret.push_back( std::vector<item_comp> {item_comp( component.typeId(), component.count() )} );
+    }
+    return ret;
 }

@@ -1200,17 +1200,10 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         std::ostringstream list;
-        if( obj.components.empty() ) {
-            const auto components( r.disassembly_requirements().get_components() );
-            for( const auto &component : components ) {
-                list << "- " << component.front().to_string() << std::endl;
-            }
-        } else {
-            for( const auto &component : obj.components ) {
-                list << "- " << item_comp( component.typeId(), component.count() ).to_string() << std::endl;
-            }
+        const auto components = obj.get_uncraft_components();
+        for( const auto &component : components ) {
+            list << "- " << component.front().to_string() << std::endl;
         }
-
 
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(

@@ -314,18 +314,11 @@ class disassemble_inventory_preset : public pickup_inventory_preset
                     return std::string();
                 }
                 const item *i = loc.get_item();
-                if( i->components.empty() ) {
-                    const auto components = req.get_components();
-                    return enumerate_as_string( components.begin(), components.end(),
-                    []( const decltype( components )::value_type & comps ) {
-                        return comps.front().to_string();
-                    } );
-                } else {
-                    return enumerate_as_string( i->components.begin(), i->components.end(),
-                    []( const decltype( i->components )::value_type & comps ) {
-                        return item_comp( comps.typeId(), comps.count() ).to_string();
-                    } );
-                }
+                const auto components = i->get_uncraft_components();
+                return enumerate_as_string( components.begin(), components.end(),
+                []( const decltype( components )::value_type & comps ) {
+                    return comps.front().to_string();
+                } );
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {

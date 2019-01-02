@@ -9,6 +9,7 @@
 #include "item_location.h"
 #include "string_id.h"
 #include "visitable.h"
+#include "requirements.h"
 
 #include <climits>
 #include <list>
@@ -841,6 +842,11 @@ class item : public visitable<item>
          */
         bool made_of( phase_id phase ) const;
         bool made_of_from_type( phase_id phase ) const;
+        /**
+         * Returns a list of components used to craft this item or the default
+         * components if it wasn't player-crafted.
+         */
+        requirement_data::alter_item_comp_vector get_uncraft_components() const;
         /**
          * Whether the items is conductive.
          */
