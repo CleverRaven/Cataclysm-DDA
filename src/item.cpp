@@ -6032,7 +6032,7 @@ void item::set_temperature(float new_temperature)
 {
     const float mass = to_gram( weight() ); // g
     temperature = static_cast<int>( 10 * new_temperature + 0.5 );
-    thermal_energy = static_cast<int>( 1000 * get_energy_from_temperature( new_temperature ) / mass + 0.5 );
+    thermal_energy_density = static_cast<int>( 1000 * get_energy_from_temperature( new_temperature ) / mass + 0.5 );
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -6392,7 +6392,7 @@ void item::update_temp( const int temp, const float insulation )
     // only process temperature at most every 50_turns, note we're also gated
     // by item::processing_speed
     // If the item has negative energy process it now. It is a new item.
-    if( dur > 50_turns || thermal_energy < 0 ) {
+    if( dur > 50_turns || thermal_energy_density < 0 ) {
         calc_temp( temp, insulation, dur );
         last_temp_check = now;
     }
@@ -6410,20 +6410,18 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         return;
     }
     const float mass = to_gram( weight() ); // g
-    float true_energy = mass * thermal_energy * 0.001;
     
     // If item has not been processed for two days just set it to environment temperature
     // Or if the item has negative energy (has not been processed ever)
     // This can cause incorrect freezing/unfreezing when the temperature is close to freezing temperature and the freezing/unfreezing would take longer than two days
-    if ( to_turns<int>( time ) > 28800 || thermal_energy < 0 ){
-        add_msg( _( "New or very old item" ));
-        true_energy = 1000 * get_energy_from_temperature( env_temperature ) / mass + 0.5;
+    if ( to_turns<int>( time ) > 28800 || thermal_energy_density < 0 ){
+        float thermal_energy = 1000 * get_energy_from_temperature( env_temperature ) / mass + 0.5;
         temperature = static_cast<int>( 10 * env_temperature );
-        thermal_energy = static_cast<int>( true_energy );
+        thermal_energy_density = static_cast<int>( thermal_energy );
         return;
     }
     
-    // thermal_energy = item thermal energy (mJ/g). Stored in the item
+    // thermal_energy_density = item thermal energy (mJ/g). Stored in the item
     // temperature = item temperature (dK deci (=0.1) kelvins). Stored in the item
     const float conductivity_term = 20 / insulation; // Constant chosen to "feel good". Insulation is also applied here
     const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
@@ -6434,43 +6432,44 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const float temperature_difference =  env_temperature - old_temperature;
     float freeze_percentage = 0;
     
-    float energy_change = temperature_difference * conductivity_term * surface_area * 6 *to_turns<int>( time );
-    true_energy += energy_change;
-    const float completely_frozen_energy = mass * specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_energy = completely_frozen_energy + mass * latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature    
+    float energy_density_change = temperature_difference * conductivity_term * surface_area * 6 * to_turns<int>( time ) / mass;
+	float new_thermal_energy_density = 0.001 * thermal_energy_density + energy_density_change;
+	
+    const float completely_frozen_energy_density = specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
+    const float completely_liquid_energy_density = completely_frozen_energy_density + latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature    
     float new_item_temperature;
     
-    if( true_energy > completely_liquid_energy ) {
+    if( new_thermal_energy_density > completely_liquid_energy_density ) {
         // Item is liquid
-        new_item_temperature = freezing_temperature + ( true_energy - completely_liquid_energy ) / ( specific_heat_liquid * mass );
-    } else if( true_energy < completely_frozen_energy ) {
+        new_item_temperature = freezing_temperature + ( new_thermal_energy_density - completely_liquid_energy_density ) / ( specific_heat_liquid );
+    } else if( new_thermal_energy_density < completely_frozen_energy_density ) {
         // Item is solid
         freeze_percentage = 1;
-        new_item_temperature =  true_energy / ( specific_heat_solid * mass );
+        new_item_temperature =  new_thermal_energy_density / ( specific_heat_solid );
     } else {
         // Item is partially solid
         new_item_temperature = freezing_temperature;
-        freeze_percentage = ( completely_liquid_energy - true_energy ) / ( completely_liquid_energy - completely_frozen_energy );
+        freeze_percentage = ( completely_liquid_energy_density - new_thermal_energy_density ) / ( completely_liquid_energy_density - completely_frozen_energy_density );
     }
     // Stop over cooling below environment
-    // Stop over heating above enviroment
-    if( energy_change < 0 && new_item_temperature < env_temperature ) {
+    // Stop over heating above environment
+    if( energy_density_change < 0 && new_item_temperature < env_temperature ) {
         new_item_temperature = env_temperature;
         if( env_temperature >= freezing_temperature ) {
             freeze_percentage = 0;
-            true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( env_temperature - freezing_temperature );
+            new_thermal_energy_density = completely_liquid_energy_density + specific_heat_liquid * ( env_temperature - freezing_temperature );
         } else {
             freeze_percentage = 0;
-            true_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - env_temperature );
+            new_thermal_energy_density = completely_frozen_energy_density - specific_heat_solid * ( freezing_temperature - env_temperature );
         }
-    } else if( energy_change > 0 && new_item_temperature > env_temperature ) {
+    } else if( energy_density_change > 0 && new_item_temperature > env_temperature ) {
         new_item_temperature = env_temperature;
         if( env_temperature <= freezing_temperature ) {
-            true_energy = completely_frozen_energy - mass * specific_heat_solid * ( freezing_temperature - env_temperature );
+            new_thermal_energy_density = completely_frozen_energy_density - specific_heat_solid * ( freezing_temperature - env_temperature );
             freeze_percentage = 1;
         } else {
             freeze_percentage = 0;
-            true_energy = completely_liquid_energy + mass * specific_heat_liquid * ( env_temperature - freezing_temperature );
+            new_thermal_energy_density = completely_liquid_energy_density + specific_heat_liquid * ( env_temperature - freezing_temperature );
         } 
     }
     if( item_tags.count( "FROZEN" ) ) {
@@ -6508,13 +6507,13 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     }
     //The extra 0.5 are there to make rounding go better
     temperature = static_cast<int>( 10 * new_item_temperature + 0.5 ); 
-    thermal_energy = static_cast<int>( 1000 * true_energy / mass + 0.5);
+    thermal_energy_density = static_cast<int>( 1000 * new_thermal_energy_density + 0.5);
 }
 
 float item::get_item_thermal_energy()
 {
     const float mass = to_gram( weight() ); // g
-    return 0.001 * thermal_energy * mass;
+    return 0.001 * thermal_energy_density * mass;
 }
 
 void item::heat_up()
@@ -6527,7 +6526,7 @@ void item::heat_up()
     // Set item temperature to 50 C (323.15 K, 122 F)
     // Also set the energy to match
     temperature = 3232;
-    thermal_energy = static_cast<int>( 1000 * get_energy_from_temperature( 323.2 ) / mass + 0.5 );
+    thermal_energy_density = static_cast<int>( 1000 * get_energy_from_temperature( 323.2 ) / mass + 0.5 );
     
     reset_temp_check();
 }
@@ -6542,7 +6541,7 @@ void item::cold_up()
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 2762;
-    thermal_energy = static_cast<int>( 1000 * get_energy_from_temperature( 276.2 ) / mass + 0.5 );
+    thermal_energy_density = static_cast<int>( 1000 * get_energy_from_temperature( 276.2 ) / mass + 0.5 );
     
     reset_temp_check();
 }
