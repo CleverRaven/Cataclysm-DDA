@@ -421,5 +421,15 @@
     "description": "This NPC could tell you about how they survived the cataclysm",
     "valid": false,
     "purifiable": false
+  },
+  {
+    "type": "mutation",
+	"//": "This is a unique background story trait that should not be given out randomly."
+    "id": "BGSS_Scavenger_Merc_1",
+    "name": "Survivor",
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the cataclysm",
+    "valid": false,
+    "purifiable": false
   }
 ]

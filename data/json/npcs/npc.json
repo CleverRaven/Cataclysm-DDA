@@ -314,7 +314,7 @@
     "id" : "scavenger_merc",
     "//" : "Appears in the refugee center as a partner for hire.",
     "name_suffix" : "Merc",
-    "class" : "NC_COWBOY",
+    "class" : "NC_SCAVENGER_MERC",
     "attitude" : 0,
     "mission" : 7,
     "chat" : "TALK_SCAVENGER_MERC",
