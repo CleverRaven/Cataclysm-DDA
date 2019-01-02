@@ -6452,7 +6452,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         freeze_percentage = ( completely_liquid_energy - true_energy ) / ( completely_liquid_energy - completely_frozen_energy );
     }
     // Stop over cooling below environment
-    // Stop over heating above enviroment
+    // Stop over heating above environment
     if( energy_change < 0 && new_item_temperature < env_temperature ) {
         new_item_temperature = env_temperature;
         if( env_temperature >= freezing_temperature ) {
