@@ -68,6 +68,8 @@ class veh_interact
         int cpart = -1;
         int page_size;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
+        // height of the stats window
+        const int stats_h = 8;
         catacurses::window w_grid;
         catacurses::window w_mode;
         catacurses::window w_msg;
@@ -136,7 +138,7 @@ class veh_interact
 
         void display_grid();
         void display_veh();
-        void display_stats();
+        void display_stats() const;
         void display_name();
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
@@ -156,10 +158,10 @@ class veh_interact
                        std::function<bool( vehicle_part &pt )> action = {} );
         void move_overview_line( int );
 
-        void countDurability();
+        void count_durability();
 
-        std::string totalDurabilityText;
-        nc_color totalDurabilityColor;
+        std::string total_durability_text;
+        nc_color total_durability_color;
 
         /** Returns the most damaged part's index, or -1 if they're all healthy. */
         vehicle_part *get_most_damaged_part() const;

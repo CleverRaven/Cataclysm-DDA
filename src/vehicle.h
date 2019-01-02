@@ -1037,19 +1037,36 @@ class vehicle
         // their safe power.
         int total_power_w( bool fueled = true, bool safe = false ) const;
 
-        // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
+        // Get ground acceleration gained by combined power of all engines. If fueled == true,
+        // then only engines which the vehicle has fuel for are included
+        int ground_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        // Get water acceleration gained by combined power of all engines. If fueled == true,
+        // then only engines which the vehicle has fuel for are included
+        int water_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        // Get acceleration for the current movement mode
         int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+
+        // Get the vehicle's actual current acceleration
         int current_acceleration( bool fueled = true ) const;
 
         // is the vehicle currently moving?
         bool is_moving() const;
-        // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
+        // Get maximum ground velocity gained by combined power of all engines.
+        // If fueled == true, then only the engines which the vehicle has fuel for are included
+        int max_ground_velocity( bool fueled = true ) const;
+        // Get maximum water velocity gained by combined power of all engines.
+        // If fueled == true, then only the engines which the vehicle has fuel for are included
+        int max_water_velocity( bool fueled = true ) const;
+        // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
 
-        // Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
+        // Get safe ground velocity gained by combined power of all engines.
+        // If fueled == true, then only the engines which the vehicle has fuel for are included
+        int safe_ground_velocity( bool fueled = true ) const;
+        // Get safe water velocity gained by combined power of all engines.
+        // If fueled == true, then only the engines which the vehicle has fuel for are included
+        int safe_water_velocity( bool fueled = true ) const;
+        // Get maximum velocity for the current movement mode
         int safe_velocity( bool fueled = true ) const;
 
         // Generate smoke from a part, either at front or back of vehicle depending on velocity.
@@ -1091,6 +1108,23 @@ class vehicle
          * times a dimensional constant based on the vehicle's shape
          */
         double coeff_water_drag() const;
+
+        /**
+         * water draft in meters - how much of the vehicle's body is under water
+         * must be less than the hull height or the boat will sink
+         * at some point, also add boats with deep draft running around
+         */
+        double water_draft() const;
+
+        /**
+         * can_float
+         * does the vehicle have freeboard or does it overflow with whater?
+         */
+        bool can_float() const;
+        /**
+         * is the vehicle mostly in water or mostly on fairly dry land?
+         */
+        bool is_in_water() const;
 
         /**
          * Traction coefficient of the vehicle.
@@ -1560,16 +1594,19 @@ class vehicle
         mutable bool coeff_rolling_dirty = true;
         mutable bool coeff_air_dirty = true;
         mutable bool coeff_water_dirty = true;
-        // air and water use a two stage dirty check: one dirty bit gets set on part install,
+        // air uses a two stage dirty check: one dirty bit gets set on part install,
         // removal, or breakage. The other dirty bit only gets set during part_removal_cleanup,
         // and that's the bit that controls recalculation.  The intent is to only recalculate
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true;
-        mutable bool coeff_water_changed = true;
 
         mutable double coefficient_air_resistance;
         mutable double coefficient_rolling_resistance;
         mutable double coefficient_water_resistance;
+        mutable double draft_m;
+        mutable double hull_height;
+        // is the vehicle currently mostly in water
+        mutable bool is_floating;
 };
 
 #endif

@@ -198,7 +198,7 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     main_context.register_action( "HELP_KEYBINDINGS" );
     main_context.register_action( "FILTER" );
 
-    countDurability();
+    count_durability();
     cache_tool_availability();
     allocate_windows();
 }
@@ -214,7 +214,6 @@ void veh_interact::allocate_windows()
 
     int mode_h  = 1;
     int name_h  = 1;
-    int stats_h = 6;
 
     page_size = grid_h - ( mode_h + stats_h + name_h ) - 2;
 
@@ -2015,12 +2014,13 @@ static std::string wheel_state_description( const vehicle &veh )
 /**
  * Displays the vehicle's stats at the bottom of the window.
  */
-void veh_interact::display_stats()
+void veh_interact::display_stats() const
 {
     werase(w_stats);
 
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
-    int x[18], y[18], w[18]; // 3 columns * 6 rows = 18 slots max
+    const int slots = 24; // 3 * stats_h
+    int x[slots], y[slots], w[slots];
 
     units::volume total_cargo = 0;
     units::volume free_cargo = 0;
@@ -2032,66 +2032,91 @@ void veh_interact::display_stats()
 
     const int second_column = 33 + (extraw / 4);
     const int third_column = 65 + (extraw / 2);
-    for (int i = 0; i < 18; i++) {
-        if (i < 6) { // First column
+    for( int i = 0; i < slots; i++ ) {
+        if (i < stats_h ) { // First column
             x[i] = 1;
             y[i] = i;
             w[i] = second_column - 2;
-        } else if (i < 13) { // Second column
+        } else if( i < ( 2 * stats_h ) ) { // Second column
             x[i] = second_column;
-            y[i] = i - 6;
+            y[i] = i - stats_h;
             w[i] = third_column - second_column - 1;
         } else { // Third column
             x[i] = third_column;
-            y[i] = i - 13;
+            y[i] = i - 2 * stats_h;
             w[i] = extraw - third_column - 2;
         }
     }
 
-    fold_and_print( w_stats, y[0], x[0], w[0], c_light_gray,
-                    _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                    int( convert_velocity( veh->safe_velocity( false ), VU_VEHICLE ) ),
-                    int( convert_velocity( veh->max_velocity( false ), VU_VEHICLE ) ),
-                    velocity_units( VU_VEHICLE ) );
-    //TODO: extract accelerations units to its own function
+    bool is_boat = !veh->floating.empty();
 
-    fold_and_print( w_stats, y[1], x[1], w[1], c_light_gray,
-                    //~ /t means per turn
-                    _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
-                    int( convert_velocity( veh->acceleration( false ), VU_VEHICLE ) ),
-                    velocity_units( VU_VEHICLE ) );
-    fold_and_print( w_stats, y[2], x[2], w[2], c_light_gray,
+    const auto vel_to_int = []( const double vel ) {
+        return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
+    };
+
+    int i = 0;
+    if( !is_boat ) {
+        fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
+                        _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                        vel_to_int( veh->safe_ground_velocity( false ) ),
+                        vel_to_int( veh->max_ground_velocity( false ) ),
+                        velocity_units( VU_VEHICLE ) );
+        i += 1;
+        //TODO: extract accelerations units to its own function
+        fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
+                        //~ /t means per turn
+                        _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
+                        vel_to_int( veh->ground_acceleration( false ) ),
+                        velocity_units( VU_VEHICLE ) );
+        i += 1;
+    } else {
+        i += 2;
+    }
+    if( is_boat ) {
+        fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
+                        _( "Water Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                        vel_to_int( veh->safe_water_velocity( false ) ),
+                        vel_to_int( veh->max_water_velocity( false ) ),
+                        velocity_units( VU_VEHICLE ) );
+        i += 1;
+        //TODO: extract accelerations units to its own function
+        fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
+                        //~ /t means per turn
+                        _( "Water Acceleration: <color_light_blue>%3d</color> %s/t" ),
+                        vel_to_int( veh->water_acceleration( false ) ),
+                        velocity_units( VU_VEHICLE ) );
+        i += 1;
+    } else {
+        i += 2;
+    }
+    fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                     _( "Mass: <color_light_blue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() ), weight_units() );
-    fold_and_print( w_stats, y[3], x[3], w[3], c_light_gray,
+    i += 1;
+    fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                     _( "Cargo Volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
-                    format_volume( total_cargo - free_cargo ).c_str(),
-                    format_volume( total_cargo ).c_str(),
-                    volume_units_abbr() );
+                    format_volume( total_cargo - free_cargo ),
+                    format_volume( total_cargo ), volume_units_abbr() );
+    i += 1;
     // Write the overall damage
-    mvwprintz(w_stats, y[4], x[4], c_light_gray, _("Status:"));
-    x[4] += utf8_width(_("Status:")) + 1;
-    fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
+    mvwprintz( w_stats, y[i], x[i], c_light_gray, _( "Status:") );
+    x[i] += utf8_width( _("Status:") ) + 1;
+    fold_and_print( w_stats, y[i], x[i], w[i], total_durability_color, total_durability_text );
+    i += 1;
 
-    fold_and_print( w_stats, y[5], x[5], w[5], c_light_gray, wheel_state_description( *veh ).c_str() );
+    fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
+                    wheel_state_description( *veh ) );
+    i += 1;
 
     //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
     //for the veh_interact ui
-    auto print_part = [&]( const char * str, int slot, vehicle_part *pt )
+    const auto print_part = [&]( const std::string &str, int slot, vehicle_part *pt )
     {
         mvwprintz( w_stats, y[slot], x[slot], c_light_gray, str);
-        auto iw = utf8_width( str ) + 1;
-        x[slot] += iw;
-        w[slot] -= iw;
-
-        const auto hoff = fold_and_print( w_stats, y[slot], x[slot], w[slot],
-                                          pt->is_broken() ? c_dark_gray : pt->base.damage_color(), pt->name() );
-
-        // If fold_and_print did write on the next line(s), shift the following entries,
-        // hoff == 1 is already implied and expected - one line is consumed at least.
-        for( size_t i = slot + 1; i < sizeof( y ) / sizeof( y[0] ); ++i ) {
-            y[i] += hoff - 1;
-        }
+        int iw = utf8_width( str ) + 1;
+        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot],
+                               pt->is_broken() ? c_dark_gray : pt->base.damage_color(),
+                               pt->name() );
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
@@ -2099,41 +2124,65 @@ void veh_interact::display_stats()
 
     // Write the most damaged part
     if( mostDamagedPart ) {
-        const char *damaged_header = mostDamagedPart == most_repairable ?
-                                            _( "Most damaged:" ) : _( "Most damaged (can't repair):" );
-        print_part( damaged_header, 6, mostDamagedPart );
+        const std::string damaged_header = mostDamagedPart == most_repairable ?
+                                           _( "Most damaged:" ) :
+                                           _( "Most damaged (can't repair):" );
+        i += print_part( damaged_header, i, mostDamagedPart );
+    } else {
+        i += 1;
     }
+
     // Write the part that needs repair the most.
     if( most_repairable && most_repairable != mostDamagedPart ) {
-        const char * needsRepair = _( "Needs repair:" );
-        print_part( needsRepair, 7, most_repairable );
+        const std::string needsRepair = _( "Needs repair:" );
+        i += print_part( needsRepair, i, most_repairable );
+    } else {
+        i += 1;
     }
 
-    bool is_boat = !veh->floating.empty();
-
-    fold_and_print( w_stats, y[8], x[8], w[8], c_light_gray,
+    fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                    _( "Air drag:       <color_light_blue>%5.2f</color>" ),
                    veh->coeff_air_drag() );
+    i += 1;
+
     if( is_boat ) {
-        fold_and_print( w_stats, y[9], x[9], w[9], c_light_gray,
+        fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                        _( "Water drag:     <color_light_blue>%5.2f</color>"),
                        veh->coeff_water_drag() );
-    } else {
-        fold_and_print( w_stats, y[9], x[9], w[9], c_light_gray,
+    }
+    i += 1;
+
+    if( !is_boat ) {
+        fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                        _( "Rolling drag:   <color_light_blue>%5.2f</color>"),
                        veh->coeff_rolling_drag() );
     }
-    fold_and_print( w_stats, y[10], x[10], w[10], c_light_gray,
+    i += 1;
+
+    fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                    _( "Static drag:    <color_light_blue>%5d</color>"),
                    veh->static_drag( false ) );
-    fold_and_print( w_stats, y[11], x[11], w[11], c_light_gray,
+    i += 1;
+
+    fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
-                    int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
+                    static_cast<int>( veh->k_traction( veh->wheel_area( is_boat ) *
+                    0.5f ) * 100 ) );
+    i += 1;
+
+    if( is_boat ) {
+        fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
+                        _( "Draft:          <color_light_blue>%4.2f</color>m" ),
+                        veh->water_draft() );
+        i += 1;
+    }
+
+    i = std::max( i, 2 * stats_h );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
-    veh->print_fuel_indicators (w_stats, y[13], x[13], fuel_index, true,
-                               ( x[ 13 ] + 10 < getmaxx( w_stats ) ),
-                               ( x[ 13 ] + 10 < getmaxx( w_stats ) ) );
+    veh->print_fuel_indicators( w_stats, y[i], x[i], fuel_index, true,
+                                ( x[ i ] + 10 < getmaxx( w_stats ) ),
+                                ( x[ i ] + 10 < getmaxx( w_stats ) ) );
 
     wrefresh(w_stats);
 }
@@ -2402,7 +2451,7 @@ void veh_interact::display_details( const vpart_info *part )
     wrefresh(w_details);
 }
 
-void veh_interact::countDurability()
+void veh_interact::count_durability()
 {
     int qty = std::accumulate( veh->parts.begin(), veh->parts.end(), 0,
         []( int lhs, const vehicle_part &rhs ) {
@@ -2414,27 +2463,27 @@ void veh_interact::countDurability()
             return lhs + rhs.base.max_damage();
     } );
 
-    double pct = double( qty ) / double( total );
+    int pct = 100 * qty / total;
 
-    if( pct < 0.05 ) {
-        totalDurabilityText = _( "like new" );
-        totalDurabilityColor = c_light_green;
+    if( pct < 5 ) {
+        total_durability_text = _( "like new" );
+        total_durability_color = c_light_green;
 
-    } else if( pct < 0.33 ) {
-        totalDurabilityText = _( "dented" );
-        totalDurabilityColor = c_yellow;
+    } else if( pct < 33 ) {
+        total_durability_text = _( "dented" );
+        total_durability_color = c_yellow;
 
-    } else if( pct < 0.66 ) {
-        totalDurabilityText = _( "battered" );
-        totalDurabilityColor = c_magenta;
+    } else if( pct < 66 ) {
+        total_durability_text = _( "battered" );
+        total_durability_color = c_magenta;
 
-    } else if( pct < 1.00 ) {
-        totalDurabilityText = _( "wrecked" );
-        totalDurabilityColor = c_red;
+    } else if( pct < 100 ) {
+        total_durability_text = _( "wrecked" );
+        total_durability_color = c_red;
 
     } else {
-        totalDurabilityText = _( "destroyed" );
-        totalDurabilityColor = c_dark_gray;
+        total_durability_text = _( "destroyed" );
+        total_durability_color = c_dark_gray;
     }
 }
 
