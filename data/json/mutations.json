@@ -1056,6 +1056,13 @@
         "hp_modifier" : -0.75
     },{
         "type" : "mutation",
+        "id" : "HEALTHY",
+        "name" : "Healthy",
+        "points" : 2,
+        "description" : "You are naturally healthy! Positive modifiers to your healthiness are increased, and negatives are decreased.",
+        "starting_trait" : true
+    },{
+        "type" : "mutation",
         "id" : "SKIN_ROUGH",
         "name" : "Rough Skin",
         "points" : 0,

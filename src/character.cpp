@@ -71,6 +71,7 @@ static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
+static const trait_id trait_HEALTHY( "HEALTHY" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
@@ -1884,7 +1885,15 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
         low_cap = -200;
         high_cap = cap;
     }
-
+    
+    if( has_trait( trait_HEALTHY ) ) {
+        if( nhealthy_mod < 0 ) {
+            nhealthy_mod *= 0.75;
+        } else {
+            nhealthy_mod *= 1.25;
+        }
+    }
+    
     // If we're already out-of-bounds, we don't need to do anything.
     if( ( healthy_mod <= low_cap && nhealthy_mod < 0 ) ||
         ( healthy_mod >= high_cap && nhealthy_mod > 0 ) ) {
