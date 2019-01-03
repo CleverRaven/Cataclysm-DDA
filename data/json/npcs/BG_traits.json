@@ -424,7 +424,7 @@
   },
   {
     "type": "mutation",
-	"//": "This is a unique background story trait that should not be given out randomly.",
+    "//": "This is a unique background story trait that should not be given out randomly.",
     "id": "BGSS_Scavenger_Merc_1",
     "name": "Survivor",
     "points": 0,
