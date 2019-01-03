@@ -516,7 +516,7 @@
     "warmth": 40,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "armor_nomad_light",
@@ -538,7 +538,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "armor_plarmor",
