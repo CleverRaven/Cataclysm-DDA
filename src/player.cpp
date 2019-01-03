@@ -8572,7 +8572,8 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     return true;
 }
 
-bool player::unload(item &it) {
+bool player::unload(item &it) 
+{
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() || it.is_bandolier() ) {
         if( it.contents.empty() ) {
