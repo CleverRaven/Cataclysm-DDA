@@ -1966,13 +1966,13 @@ void veh_interact::display_veh ()
 static std::string wheel_state_description( const vehicle &veh )
 {
     bool is_boat = !veh.floating.empty();
-    bool is_land = !veh.wheelcache.empty();
+    bool is_land = !veh.wheelcache.empty() || !is_boat;
 
-    bool suf_land = veh.sufficient_wheel_config( false );
-    bool bal_land = veh.balanced_wheel_config( false );
+    bool suf_land = veh.sufficient_wheel_config();
+    bool bal_land = veh.balanced_wheel_config();
 
-    bool suf_boat = veh.sufficient_wheel_config( true );
-    bool bal_boat = veh.balanced_wheel_config( true );
+    bool suf_boat = veh.can_float();
+
     float steer = veh.steering_effectiveness();
 
     std::string wheel_status;
@@ -1995,21 +1995,19 @@ static std::string wheel_state_description( const vehicle &veh )
     std::string boat_status;
     if( !suf_boat ) {
         boat_status = _( "<color_light_red>leaks</color>" );
-    } else if( !bal_boat ) {
-        boat_status = _( "<color_light_red>unbalanced</color>" );
     } else {
         boat_status = _( "<color_blue>swims</color>" );
     }
 
     if( is_boat && is_land ) {
-        return string_format( _( "Wheels/boat: %s/%s" ), wheel_status.c_str(), boat_status.c_str() );
+        return string_format( _( "Wheels/boat: %s/%s" ), wheel_status, boat_status );
     }
 
     if( is_boat ) {
-        return string_format( _( "Boat: %s" ), boat_status.c_str() );
+        return string_format( _( "Boat: %s" ), boat_status );
     }
 
-    return string_format( _( "Wheels: %s" ), wheel_status.c_str() );
+    return string_format( _( "Wheels: %s" ), wheel_status );
 }
 
 /**
@@ -2050,13 +2048,14 @@ void veh_interact::display_stats() const
     }
 
     bool is_boat = !veh->floating.empty();
+    bool is_ground = !veh->wheelcache.empty() || !is_boat;
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
     };
 
     int i = 0;
-    if( !is_boat ) {
+    if( is_ground ) {
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                         _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                         vel_to_int( veh->safe_ground_velocity( false ) ),
@@ -2153,7 +2152,7 @@ void veh_interact::display_stats() const
     }
     i += 1;
 
-    if( !is_boat ) {
+    if( is_ground ) {
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                        _( "Rolling drag:   <color_light_blue>%5.2f</color>"),
                        veh->coeff_rolling_drag() );
@@ -2167,8 +2166,7 @@ void veh_interact::display_stats() const
 
     fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
-                    static_cast<int>( veh->k_traction( veh->wheel_area( is_boat ) *
-                    0.5f ) * 100 ) );
+                    static_cast<int>( veh->k_traction( veh->wheel_area() * 0.5f ) * 100 ) );
     i += 1;
 
     if( is_boat ) {

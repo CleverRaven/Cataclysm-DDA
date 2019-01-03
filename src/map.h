@@ -531,14 +531,6 @@ class map
         // TODO: Remove the ugly sinking vehicle hack
         float vehicle_wheel_traction( const vehicle &veh ) const;
 
-        // Like traction, except for water
-        // TODO: Actually implement (this is a stub)
-        // TODO: Test for it when the vehicle sinks rather than when it has VP_FLOATS
-        float vehicle_buoyancy( const vehicle &veh ) const;
-
-        // Returns if the vehicle should fall down a z-level
-        bool vehicle_falling( vehicle &veh );
-
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
         // If vector contains collisions with vehicles other than veh2, they will be ignored
