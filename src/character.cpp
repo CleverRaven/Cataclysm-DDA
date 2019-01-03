@@ -98,6 +98,7 @@ static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_UNHEALTHY( "UNHEALTHY" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
@@ -1887,11 +1888,9 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     }
     
     if( has_trait( trait_HEALTHY ) ) {
-        if( nhealthy_mod < 0 ) {
-            nhealthy_mod *= 0.75;
-        } else {
-            nhealthy_mod *= 1.25;
-        }
+        nhealthy_mod *= ( nhealthy_mod > 0 ) ? 1.25 : 0.75;
+    } else if ( has_trait ( trait_UNHEALTHY ) ) {
+        nhealthy_mod *= ( nhealthy_mod > 0 ) ? 0.75 : 1.25;
     }
     
     // If we're already out-of-bounds, we don't need to do anything.
