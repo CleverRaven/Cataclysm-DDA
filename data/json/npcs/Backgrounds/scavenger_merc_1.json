@@ -30,7 +30,7 @@
       },
       {
         "text": "Is this enough whisky for you?",
-        "condition": { "u_has_item": [ "whiskey", 16 ] },
+        "condition": { "and": [ { "u_has_item": [ "whiskey", 16 ] }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] },
         "topic": "TALK_SCAVENGER_MERC_1_STORY2"
       },
       { "text": "Fine.  Let's talk business, then.", "topic": "TALK_NONE" },
