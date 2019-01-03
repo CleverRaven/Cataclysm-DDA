@@ -6459,8 +6459,6 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     
     // If no or only small temperature difference then no need to do math.
     if( abs(temperature_difference) < 0.9 ) {
-		add_msg( _( "it T %f, env T %f" ), old_temperature, env_temperature );
-		add_msg( _( "diff %f" ), temperature_difference );
         return;
     }
     const float mass = to_gram( weight() ); // g
@@ -6501,20 +6499,17 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 		new_specific_energy = new_item_temperature * specific_heat_solid;
 	} else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
 		// Was liquid.
-		add_msg( _( "Was liquid" ) );
 		new_item_temperature = ( (old_temperature - env_temperature)
 							   * exp( - 6 * to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_liquid ) )
                                + env_temperature );
 		new_specific_energy = ( new_item_temperature - freezing_temperature ) / specific_heat_liquid + completely_liquid_specific_energy;
 	} else {
 		// Was melting or freezing
-		add_msg( _( "Melting/freezing" ) );
 		new_specific_energy = 0.00001 * specific_energy + surface_area * conductivity_term * temperature_difference * 6 * to_turns<int>( time ) / mass;
 		new_item_temperature = freezing_temperature;
 		if( new_specific_energy > completely_liquid_specific_energy ) {
 			// The item can heat up too much when it goes from partially liquid to 100% liquid
 			// Set the energy to slightly above melting energy
-			add_msg( _( "Finish melting" ) );
 			new_specific_energy = completely_liquid_specific_energy + 0.0001;
 		}
 	}
@@ -6563,19 +6558,8 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         item_tags.insert( "COLD" );
     }
     //The extra 0.5 are there to make rounding go better
-	add_msg( _( "Loaded T %i, E %i" ), temperature, specific_energy );
-	int temp_old = specific_energy;
-	
     temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 ); 
     specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5);
-	
-	add_msg( _( "A %f, I %f, cs %f, cl %f, e %f, dt %i" ), surface_area, conductivity_term, specific_heat_liquid, specific_heat_solid, latent_heat, 6 * to_turns<int>( time ) );
-	
-	add_msg( _( "Env T %f, it T %f, dT %f" ), env_temperature, old_temperature, temperature_difference );
-	add_msg( _( "El %f, Ef %f" ), completely_liquid_specific_energy, completely_frozen_specific_energy );
-	add_msg( _( "E1 %f, dE %f, E2 %f" ), 0.00001 * temp_old ,new_specific_energy - 0.00001 * temp_old,  new_specific_energy );
-	add_msg( _( "T2 %f, frozen %f" ), new_item_temperature, freeze_percentage );
-	add_msg( _( "Saved T %i, E %i" ), temperature, specific_energy );
 }
 
 float item::get_item_thermal_energy()
