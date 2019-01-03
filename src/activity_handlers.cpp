@@ -2187,7 +2187,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
         if( !used_tool->ammo_sufficient() ) {
-            p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname().c_str() );
+            p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
             act->set_to_null();
             return;
         }
@@ -2228,7 +2228,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
                    &itm != &main_tool;
         }, string_format( _( "You have no items that could be repaired with a %s." ),
-                          main_tool.type_name( 1 ).c_str() ) );
+                          main_tool.type_name( 1 ) ) );
 
         if( pos == INT_MIN ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
@@ -2259,8 +2259,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const std::string title = string_format(
                                       _( "%s %s\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
                                          "Damage chance: <color_light_blue>%.1f</color>%%" ),
-                                      repair_item_actor::action_description( action_type ).c_str(),
-                                      fix.tname().c_str(),
+                                      repair_item_actor::action_description( action_type ),
+                                      fix.tname(),
                                       100.0f * chance.first, 100.0f * chance.second );
 
         if( act->values.empty() ) {
@@ -2280,7 +2280,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                 return;
             }
             if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
-                p->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname().c_str() );
+                p->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
                 repeat = REPEAT_INIT;
             }
         } while( repeat == REPEAT_INIT );
