@@ -56,6 +56,12 @@ struct component {
     component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
         type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
     void check_consistency( const std::string &display_name ) const;
+    int operator==( const component &rhs ) const {
+        return type == rhs.type && count == rhs.count;
+    }
+    int operator!=( const component &rhs ) const {
+        return !( *this == rhs );
+    }
 };
 
 struct tool_comp : public component {

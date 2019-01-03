@@ -600,16 +600,8 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( check_components ) {
         //Only check if at least one item isn't using the default recipe
         if( !components.empty() || !rhs.components.empty() ) {
-            auto lhs_components = get_uncraft_components();
-            auto rhs_components = rhs.get_uncraft_components();
-            if( lhs_components.size() != rhs_components.size() ) {
+            if( get_uncraft_components() != rhs.get_uncraft_components() ) {
                 return false;
-            }
-            for( unsigned int i = 0; i < lhs_components.size(); i++ ) {
-                if( lhs_components[i].front().type != rhs_components[i].front().type ||
-                    lhs_components[i].front().count != rhs_components[i].front().count ) {
-                    return false;
-                }
             }
         }
     }
@@ -7347,16 +7339,21 @@ int item::get_min_str() const
     }
 }
 
-requirement_data::alter_item_comp_vector item::get_uncraft_components() const
+std::vector<item_comp> item::get_uncraft_components() const
 {
-    //If item wasn't crafted with specific components use default recipe
+    std::vector<item_comp> ret;
     if( components.empty() ) {
-        return recipe_dictionary::get_uncraft( typeId() ).disassembly_requirements().get_components();
-    }
-    //Make a new vector of components from the registered components
-    requirement_data::alter_item_comp_vector ret;
-    for( auto &component : components ) {
-        ret.push_back( std::vector<item_comp> {item_comp( component.typeId(), component.count() )} );
+        //If item wasn't crafted with specific components use default recipe
+        auto recipe = recipe_dictionary::get_uncraft(
+                          typeId() ).disassembly_requirements().get_components();
+        for( auto &component : recipe ) {
+            ret.push_back( component.front() );
+        }
+    } else {
+        //Make a new vector of components from the registered components
+        for( auto &component : components ) {
+            ret.push_back( item_comp( component.typeId(), component.count() ) );
+        }
     }
     return ret;
 }

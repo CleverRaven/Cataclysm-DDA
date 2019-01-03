@@ -846,7 +846,7 @@ class item : public visitable<item>
          * Returns a list of components used to craft this item or the default
          * components if it wasn't player-crafted.
          */
-        requirement_data::alter_item_comp_vector get_uncraft_components() const;
+        std::vector<item_comp> get_uncraft_components() const;
         /**
          * Whether the items is conductive.
          */

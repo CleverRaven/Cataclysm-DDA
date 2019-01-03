@@ -317,7 +317,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
                 const auto components = i->get_uncraft_components();
                 return enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {
-                    return comps.front().to_string();
+                    return comps.to_string();
                 } );
             }, _( "YIELD" ) );
 

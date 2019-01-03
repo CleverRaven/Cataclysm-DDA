@@ -1202,7 +1202,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         std::ostringstream list;
         const auto components = obj.get_uncraft_components();
         for( const auto &component : components ) {
-            list << "- " << component.front().to_string() << std::endl;
+            list << "- " << component.to_string() << std::endl;
         }
 
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
