@@ -6165,6 +6165,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     return it->type->charges_to_use();
 
                 } else if( guy ) {
+                    std::string description_extra;
                     const bool selfie = guy == p;
                     if( !selfie && dist < 4 && one_in( dist + 2 ) ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), guy->name.c_str() );
@@ -6174,6 +6175,26 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     if( sel_npc == guy ) {
                         if( selfie ) {
                             p->add_msg_if_player( _( "You took a selfie." ) );
+                            // look for big items on top of stacks in the background for the selfie description
+                            units::volume min_visible_volume = 490_ml;
+                            std::vector<item> visible_items_nearby;
+                            for( const tripoint &current : g->m.points_in_radius( p->pos(), 2 ) ) {
+                                if( !g->m.has_items( current ) ) {
+                                    continue;
+                                }
+                                map_stack items = g->m.i_at( current );
+                                // iterate from topmost item down to ground
+                                for( auto it = items.rbegin(); it != items.rend(); ++it ) {
+                                    if( it->volume() > min_visible_volume ) {
+                                        // add top (or first big enough) item to the list
+                                        visible_items_nearby.push_back( *it );
+                                        break;
+                                    }
+                                }
+                            }
+                            if( !visible_items_nearby.empty() ) {
+                                description_extra = random_entry( visible_items_nearby ).display_name();
+                            }
                         } else if( p->is_blind() ) {
                             p->add_msg_if_player( _( "You took a photo of %s." ), guy->name.c_str() );
                         } else {
@@ -6204,6 +6225,9 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                                                            "<color_light_blue>" + npc_photo.name + "</color>",
                                                            "<color_light_blue>" + timestamp + "</color>" );
                     npc_photo.description += "\n\n" + guy->short_description();
+                    if( !description_extra.empty() ) {
+                        npc_photo.description += string_format( _( "\nAlso in the picture: %1$s." ), description_extra );
+                    }
 
                     npc_photos.push_back( npc_photo );
                     try {
