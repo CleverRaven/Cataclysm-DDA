@@ -310,17 +310,23 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         auto light_head  = one_in( 20 );
+        auto light_whead  = one_in( 20 ); // wide-angle headlight
         auto light_dome  = one_in( 16 );
         auto light_aisle = one_in( 8 );
+        auto light_hoverh = one_in( 4 ); // half circle overhead light
         auto light_overh = one_in( 4 );
         auto light_atom  = one_in( 2 );
         for( auto &pt : parts ) {
             if( pt.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 pt.enabled = light_head;
+            } else if( pt.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
+                pt.enabled = light_whead;
             } else if( pt.has_flag( VPFLAG_DOME_LIGHT ) ) {
                 pt.enabled = light_dome;
             } else if( pt.has_flag( VPFLAG_AISLE_LIGHT ) ) {
                 pt.enabled = light_aisle;
+            } else if( pt.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
+                pt.enabled = light_hoverh;
             } else if( pt.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 pt.enabled = light_overh;
             } else if( pt.has_flag( VPFLAG_ATOMIC_LIGHT ) ) {

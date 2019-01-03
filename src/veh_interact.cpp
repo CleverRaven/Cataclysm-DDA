@@ -755,6 +755,7 @@ bool veh_interact::do_install( std::string &msg )
     tab_filters[2] = [&](const vpart_info *p) { auto &part = *p;
                                                    return part.has_flag(VPFLAG_LIGHT) || // Light
                                                    part.has_flag(VPFLAG_CONE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_WIDE_CONE_LIGHT) ||
                                                    part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
                                                    part.has_flag(VPFLAG_DOME_LIGHT) ||
                                                    part.has_flag(VPFLAG_AISLE_LIGHT) ||
@@ -2371,7 +2372,8 @@ void veh_interact::display_details( const vpart_info *part )
             label = small_mode ? _( "NoisRed" ) : _( "Noise Reduction" );
         } else if( part->has_flag( VPFLAG_EXTENDS_VISION ) ) {
             label = _( "Range" );
-        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) ||
+        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) || 
+                   part->has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
                    part->has_flag( VPFLAG_CIRCLE_LIGHT ) || part->has_flag( VPFLAG_DOME_LIGHT ) ||
                    part->has_flag( VPFLAG_AISLE_LIGHT ) || part->has_flag( VPFLAG_EVENTURN ) ||
                    part->has_flag( VPFLAG_ODDTURN ) || part->has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
@@ -2707,13 +2709,17 @@ void veh_interact::complete_vehicle()
         // Need to call coord_translate() directly since it's a new part.
         const point q = veh->coord_translate( point( dx, dy ) );
 
-        if ( vpinfo.has_flag("CONE_LIGHT") ) {
+        if ( vpinfo.has_flag( VPFLAG_CONE_LIGHT ) ||
+             vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
+             vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;
             g->u.view_offset.x = veh->global_pos3().x + q.x - g->u.posx();
             g->u.view_offset.y = veh->global_pos3().y + q.y - g->u.posy();
-            popup(_("Choose a facing direction for the new headlight.  Press space to continue."));
+
+            bool is_overheadlight = vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT );
+            popup( _("Choose a facing direction for the new %s.  Press space to continue."), is_overheadlight ? "overhead light" : "headlight");
             const cata::optional<tripoint> headlight_target = g->look_around();
             // Restore previous view offsets.
             g->u.view_offset.x = px;
