@@ -517,7 +517,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !vertical && !veh.valid_wheel_config( !veh.floating.empty() ) ) {
+    if( !vertical && !veh.valid_wheel_config( veh.is_in_water() ) ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
         for( const auto &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
