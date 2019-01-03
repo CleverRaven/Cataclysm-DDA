@@ -1577,11 +1577,26 @@
           [ "toolset", 40 ]
         ],
         [
-          [ "small_repairkit", 20 ],
-          [ "large_repairkit", 20 ]
+          [ "small_repairkit", 40 ],
+          [ "large_repairkit", 40 ]
         ]
       ],
       "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "llink",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "rifle", 3 ] ],
+    "difficulty": 4,
+    "time": 20000,
+    "//": "Simple to manufacture, hence it's not gonna be in published in too much detail in gun-mags.",
+    "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "ar15", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {
     "type": "recipe",
