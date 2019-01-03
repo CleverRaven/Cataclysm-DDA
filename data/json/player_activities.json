@@ -413,9 +413,10 @@
     "suspendable": false
   },
   {
-    "id": "ACT_UNLOAD_MAGAZINE",
+    "id": "ACT_UNLOAD_MAG",
     "type": "activity_type",
-    "stop_phrase": "Stop unloading your magazine?",
+    "stop_phrase": "Stop unloading?",
+    "suspendable": false,
     "based_on": "speed"
   }
 ]

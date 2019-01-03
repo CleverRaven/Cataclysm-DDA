@@ -145,7 +145,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
-    { activity_id( "ACT_UNLOAD" ), unload }
+    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -2970,12 +2970,70 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::unload( player_activity *act, player *p )
+/* void unload_mag_do_turn( player_activity *act, player *p ) {
+    item &it = *act->targets[ 0 ];
+
+    // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
+    int mv = 0;
+    add_msg("mag content size: %d", it.contents.size());  //
+    for( auto iter = it.contents.begin(); iter != it.contents.end(); ++iter ) {
+        mv += p->item_reload_cost( it, *iter, iter->charges ) / 2; 
+    }
+    //act->moves_left += mv;
+
+    
+    // I think this means if unload is not done on ammo-belt, it takes as long as it takes to reload a mag.
+    add_msg("remove_if DONE"); //
+    if( !it.is_ammo_belt() ) {
+        //act->moves_left += mv;
+    }
+
+} */
+
+void activity_handlers::unload_mag_finish( player_activity *act, player *p )    
 {
     /* item* it = &p->i_at(act->values[0]);
     //TODO: use restructured function from the player class
     p->add_or_drop_with_msg(*it, true);
     act->set_to_null(); */
+
+    // actually delete the items
+    long qty = 0;
+    
+    item &it = *act->targets[ 0 ];
+    // remove the ammo leads in the belt
+    it.contents.erase( std::remove_if( it.contents.begin(),
+    it.contents.end(), [&]( item & e ) {
+        //mv += p->item_reload_cost( it, e, e.charges ) / 2;
+        add_msg("remove_if of unload ran"); //
+        if( !p->add_or_drop_with_msg( e, true ) ) {
+            add_msg("false is about to return");    // only possible if item is liquid, but ammo belt is not liquid 
+            return false;
+        }
+        qty += e.charges;
+        //p->moves -= mv;
+        add_msg("remove_if past false qty: %d, e.charge: %d", qty, e.charges);  //
+        return true;
+    } ), it.contents.end() );
+
+    // remove the belt linkage
+    add_msg("remove_if DONE"); //
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            p->add_or_drop_with_msg( link, true );
+        }
+        add_msg( _( "You disassemble your %s." ), it.tname().c_str() );
+    } else {
+        //p->moves -= mv;
+        add_msg( _( "You unload your %s." ), it.tname().c_str() );
+    }
+
+    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+        act->targets[ 0 ].remove_item();
+    }
+
+    act->set_to_null();
 
 }
 
