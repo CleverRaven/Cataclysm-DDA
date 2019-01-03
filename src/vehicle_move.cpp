@@ -66,7 +66,6 @@ int vehicle::slowdown( int at_velocity ) const
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
-    bool is_floating = !floating.empty();
     if( is_floating ) {
         // same with water resistance
         f_total_drag += coeff_water_drag() * mps * mps;
@@ -105,9 +104,9 @@ void vehicle::thrust( int thd )
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( !valid_wheel_config( !floating.empty() ) && velocity == 0 ) {
+    if( !valid_wheel_config( is_floating ) && velocity == 0 ) {
         if( pl_ctrl ) {
-            if( floating.empty() ) {
+            if( !is_floating ) {
                 add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
             } else {
                 add_msg( _( "The %s is too leaky!" ), name );
@@ -132,7 +131,7 @@ void vehicle::thrust( int thd )
         }
         return;
     }
-    int max_vel = max_velocity() * traction;
+    int max_vel = traction * max_velocity();
 
     // Get braking power
     int brk = std::max( 1000, abs( max_vel ) * 3 / 10 );
@@ -188,7 +187,7 @@ void vehicle::thrust( int thd )
         consume_fuel( load, 1 );
 
         //break the engines a bit, if going too fast.
-        int strn = static_cast<int>( ( strain() * strain() * 100 ) );
+        int strn = static_cast<int>( strain() * strain() * 100 );
         for( size_t e = 0; e < engines.size(); e++ ) {
             do_engine_damage( e, strn );
         }
@@ -1034,7 +1033,7 @@ bool vehicle::act_on_map()
     }
 
     const float wheel_traction_area = g->m.vehicle_wheel_traction( *this );
-    const float traction = k_traction( wheel_traction_area );
+    const float traction = is_floating ? 1.0f :  k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( wheel_traction_area < 0 ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
@@ -1055,7 +1054,7 @@ bool vehicle::act_on_map()
             stop();
             // TODO: Remove this hack
             // TODO: Amphibious vehicles
-            if( floating.empty() ) {
+            if( !is_floating ) {
                 add_msg( m_info, _( "Your %s can't move on this terrain." ), name );
             } else {
                 add_msg( m_info, _( "Your %s is beached." ), name );
@@ -1180,7 +1179,7 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
     // TODO: Remove this and allow amphibious vehicles
-    if( !veh.floating.empty() ) {
+    if( veh.is_in_water() ) {
         return vehicle_buoyancy( veh );
     }
 

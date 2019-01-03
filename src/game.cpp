@@ -10441,8 +10441,8 @@ bool game::plmove( int dx, int dy, int dz )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( "SWIMMABLE", u.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, u.pos() );
-    bool fromBoat = veh0 != nullptr && !veh0->floating.empty();
-    bool toBoat = veh1 != nullptr && !veh1->floating.empty();
+    bool fromBoat = veh0 != nullptr && veh0->is_in_water();
+    bool toBoat = veh1 != nullptr && veh1->is_in_water();
 
     if( toSwimmable && toDeepWater && !toBoat ) { // Dive into water!
         // Requires confirmation if we were on dry land previously
@@ -12832,7 +12832,7 @@ void game::process_artifact( item &it, player &p )
 
             case AEP_RADIOACTIVE:
                 if( one_in( 4 ) ) {
-                    p.radiation++;
+                    p.irradiate( 1.0f );
                 }
                 break;
 

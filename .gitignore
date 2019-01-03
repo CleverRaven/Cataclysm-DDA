@@ -26,6 +26,7 @@
 /save/
 /src/lua/catabindings.cpp
 /src/version.h
+/sound/
 /templates/
 /tools/format/json_formatter.cgi
 CataclysmWin.cscope_file_list
