@@ -1056,6 +1056,15 @@
         "hp_modifier" : -0.75
     },{
         "type" : "mutation",
+        "id" : "STIMBOOST",
+        "name": "Stimulant Affinity",
+        "cancels": ["NONADDICTIVE"],
+        "points" : 3,
+        "mixed_effect" : true,
+        "description" : "Stimulants like coffee or amphetamines are more effective for you, and you have increased tolerance for overdoses. However, they're also more addictive, and excessive consumption might still be bad for your health...",
+        "starting_trait" : true
+    },{
+        "type" : "mutation",
         "id" : "SKIN_ROUGH",
         "name" : "Rough Skin",
         "points" : 0,
