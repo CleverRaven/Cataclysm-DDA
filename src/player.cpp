@@ -248,6 +248,7 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
+static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
@@ -5780,10 +5781,10 @@ void player::suffer()
         g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
     }
 
-    if (has_trait( trait_UNSTABLE ) && one_in(28800)) { // Average once per 2 days
+    if (has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) && one_in(28800)) { // Average once per 2 days
         mutate();
     }
-    if (has_trait( trait_CHAOTIC ) && one_in(7200)) { // Should be once every 12 hours
+    if (( has_trait( trait_CHAOTIC ) || has_trait ( trait_CHAOTIC_BAD )) && one_in(7200)) { // Should be once every 12 hours
         mutate();
     }
     if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800)) {

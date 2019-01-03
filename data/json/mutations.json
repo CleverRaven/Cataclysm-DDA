@@ -435,6 +435,7 @@
         "points" : 3,
         "description" : "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
         "starting_trait" : true,
+		"cancels" : ["CHAOTIC_BAD"],
         "category" : ["FISH", "SLIME", "ALPHA", "MEDICAL"]
     },{
         "type" : "mutation",
@@ -1054,6 +1055,16 @@
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "prereqs" : ["FLIMSY2"],
         "hp_modifier" : -0.75
+    },{
+        "type" : "mutation",
+        "id" : "CHAOTIC_BAD",
+        "name" : "Genetic Downward Spiral",
+        "points" : -12,
+        "purifiable" : false,
+        "description" : "The events of the Cataclysm have damaged your DNA beyond repair. You mutate frequently, and all mutations you receive (from any source) are negative.",
+        "starting_trait" : true,
+		"cancels" : ["ROBUST"],
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",
