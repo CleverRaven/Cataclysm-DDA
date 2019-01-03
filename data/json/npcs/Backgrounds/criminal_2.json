@@ -24,6 +24,16 @@
     "type": "talk_topic",
     "dynamic_line": "Yeah.  <zombies>.  A bunch of them, led by this big creepy-ass jet-black bastard with glowing red eyes, I shit you not.  I dunno what brought them way out my way but they saw me takin' a piss outside and that was that.  I took a few shots at them but that creepy-ass motherfucker waves his hands and brings 'em back up, so I ran.  Once I got my shit together again I realized it wasn't so bad, I was running out of stuff anyway.  Been livin' on what I can loot ever since, until I fell in with you.",
     "responses": [
+      { "text": "Got any tips about the boss zombie?", "topic": "BGSS_CRIMINAL_2_NECROMANCER" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_2_NECROMANCER
+    "type": "talk_topic",
+    "dynamic_line": "Well, I mean, if he's surrounded by buddies like that and he can just bring 'em back, I think he's a scary bastard.  If I got him on his own I think maybe I could have taken him.  Also when I was running I managed to get a zombie on its own, and I smashed it to shit with a stick before the rest showed up.  He tried to raise that one and it didn't get back up.",
+    "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
