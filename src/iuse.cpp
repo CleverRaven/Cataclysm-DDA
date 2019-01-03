@@ -6635,12 +6635,21 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         choice_str << choice;
         signal += choice_str.str();
 
+        int bombCount = 0;
+        std::string bombName = "";
         auto item_list = p->get_radio_items();
         for( auto &elem : item_list ) {
             if( ( elem )->has_flag( "BOMB" ) && ( elem )->has_flag( signal ) ) {
-                p->add_msg_if_player( m_warning,
-                                      _( "The %s in you inventory would explode on this signal.  Place it down before sending the signal." ),
-                                      ( elem )->display_name().c_str() );
+                bombCount++;
+                bombName = ( elem )->display_name().c_str();
+            }
+        }
+        if (bombCount == 1) {
+            if( !p->query_yn( _( "The %s in you inventory would explode. Are you sure you want to press the button?" ), bombName ) ) {
+                return 0;
+            }
+        } else if (bombCount > 1) {
+            if( !p->query_yn( _( "The %s and %d other item(s) in you inventory would explode. Are you sure you want to press the button?" ), bombName, --bombCount ) ) {
                 return 0;
             }
         }
