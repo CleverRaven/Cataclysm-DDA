@@ -1277,10 +1277,6 @@ data/mods/Urban_Development/mapgen_palettes/acidia_commercial_palette.json
 data/mods/Urban_Development/mapgen_palettes/acidia_residential_commercial_palette.json
 data/mods/Urban_Development/modinfo.json
 data/mods/Urban_Development/overmap_specials.json
-data/mods/Z-Level_Buildings/2fmotel.json
-data/mods/Z-Level_Buildings/office_tower.json
-data/mods/Z-Level_Buildings/overmap_specials.json
-data/mods/Z-Level_Buildings/overmap_terrain.json
 data/names/en.json
 data/names/ja.json
 data/names/ko.json
