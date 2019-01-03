@@ -862,6 +862,10 @@ void player::consume_effects( const item &food )
             stim = std::min( comest.stim * 3, stim + comest.stim );
         }
     }
+    if( has_trait( trait_id( "STIMBOOST" ) ) && ( (comest.add == ADD_CAFFEINE)
+        || (comest.add == ADD_SPEED) || (comest.add == ADD_COKE) || (comest.add == ADD_CRACK) ) ) {
+        add_effect ( effect_hallu, (comest.stim / 5) * 1_hours );
+    }
     add_addiction( comest.add, comest.addict );
     if( addiction_craving( comest.add ) != MORALE_NULL ) {
         rem_morale( addiction_craving( comest.add ) );

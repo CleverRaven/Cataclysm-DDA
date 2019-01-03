@@ -396,6 +396,7 @@ static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
@@ -664,7 +665,12 @@ void player::reset_stats()
     // Stimulants
     set_fake_effect_dur( effect_stim, 1_turns * stim );
     set_fake_effect_dur( effect_depressants, 1_turns * -stim );
-    set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
+    if (has_trait ( trait_STIMBOOST )) {
+        set_fake_effect_dur ( effect_stim_overdose, 1_turns * (stim - 50) );
+    }
+    else {
+        set_fake_effect_dur ( effect_stim_overdose, 1_turns * (stim - 30) );
+    }
     // Starvation
     if( get_starvation() >= 200 ) {
         // We die at 6000

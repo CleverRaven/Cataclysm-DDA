@@ -413,6 +413,16 @@
         "changes_to" : ["MASOCHIST_MED", "CENOBITE"]
     },{
         "type" : "mutation",
+        "id" : "STIMBOOST",
+        "name": "Stimulant Psychosis",
+        "cancels": ["NONADDICTIVE"],
+        "points" : 3,
+        "mixed_effect" : true,
+        "description" : "You have a unique history with stimulants (like amphetamines or cocaine). You can tolerate a lot more of them without overdosing. However, whenever you take some, you start seeing things...",
+        "starting_trait" : true,
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "STYLISH",
         "name" : "Stylish",
         "points" : 2,
@@ -1054,15 +1064,6 @@
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "prereqs" : ["FLIMSY2"],
         "hp_modifier" : -0.75
-    },{
-        "type" : "mutation",
-        "id" : "STIMBOOST",
-        "name": "Stimulant Affinity",
-        "cancels": ["NONADDICTIVE"],
-        "points" : 3,
-        "mixed_effect" : true,
-        "description" : "Stimulants like coffee or amphetamines are more effective for you, and you have increased tolerance for overdoses. However, they're also more addictive, and excessive consumption might still be bad for your health...",
-        "starting_trait" : true
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",
