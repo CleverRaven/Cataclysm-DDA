@@ -749,7 +749,7 @@ class item : public visitable<item>
         float get_item_thermal_energy();
 
         /** Calculates item temperature (K) from energy (J)*/
-        float get_temp_from_energy( const float true_energy );
+        float get_temp_from_energy( const float thermal_energy );
         
         /** Calculates item energy (J) from temperature (K)*/
         float get_energy_from_temperature( const float new_temperature );
@@ -1861,7 +1861,7 @@ class item : public visitable<item>
 
         std::set<std::string> item_tags; // generic item specific flags
         int item_counter = 0; // generic counter to be used with item flags
-        int thermal_energy = -10; // Thermal energy in the item per mass (mJ/g). Default negative value means that the item has not been processed ever.
+        int specific_energy = -10; // Thermal energy in the item per mass (mJ/g). Default negative value means that the item has not been processed ever.
         int temperature = 0; // Temperature of the item (in dK, 0.1 K).
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!

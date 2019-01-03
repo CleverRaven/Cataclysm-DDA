@@ -1778,7 +1778,7 @@ void item::io( Archive &archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
-    archive.io( "thermal_energy", thermal_energy, -10 );
+    archive.io( "specific_energy", specific_energy, -10 );
     archive.io( "temperature", temperature, 0 );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
     []( const itype & i ) {
