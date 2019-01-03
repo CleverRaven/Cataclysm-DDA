@@ -331,6 +331,8 @@ class player : public Character
         void process_bionic( int b );
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
+        /** Remove all bionics */
+        void clear_bionics();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
         /** Returns amount of Storage CBMs in the corpse **/
