@@ -1591,7 +1591,7 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "rifle", 3 ] ],
     "difficulty": 4,
-    "time": 20000,
+    "time": 60000,
     "//": "Simple to manufacture, hence it's not gonna be in published in too much detail in gun-mags.",
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
