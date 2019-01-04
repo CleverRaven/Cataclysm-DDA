@@ -6505,7 +6505,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         new_specific_energy = ( new_item_temperature - freezing_temperature ) / specific_heat_liquid + completely_liquid_specific_energy;
     } else {
         // Was melting or freezing
-        new_specific_energy = 0.00001 * specific_energy + surface_area * conductivity_term * temperature_difference * 6 * to_turns<int>( time ) / mass;
+        new_specific_energy = 0.00001 * specific_energy + surface_area * conductivity_term * temperature_difference * to_turns<int>( time ) / mass;
         new_item_temperature = freezing_temperature;
         if( new_specific_energy > completely_liquid_specific_energy ) {
             // The item can heat up too much when it goes from partially liquid to 100% liquid
