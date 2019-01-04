@@ -2440,10 +2440,11 @@ bool npc::wield_better_weapon()
 bool npc::scan_new_items()
 {
     add_msg( m_debug, "%s scanning new items", name.c_str() );
-    if( !wield_better_weapon() ) {
+    if( wield_better_weapon() ) {
+        return true;
+    } else {
         // Stop "having new items" when you no longer do anything with them
         has_new_items = false;
-        return true;
     }
 
     return false;
