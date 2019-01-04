@@ -5,6 +5,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -14,6 +15,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -23,6 +25,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -32,6 +35,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -41,6 +45,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -50,6 +55,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -59,6 +65,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -68,6 +75,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -77,6 +85,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -86,6 +95,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -95,6 +105,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -104,6 +115,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -113,6 +125,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -122,6 +135,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -131,6 +145,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -140,6 +155,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -149,6 +165,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -158,6 +175,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -167,6 +185,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -176,6 +195,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -185,6 +205,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -194,6 +215,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -203,6 +225,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -212,6 +235,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -221,6 +245,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -230,6 +255,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -239,6 +265,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -248,6 +275,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -257,6 +285,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -266,6 +295,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -275,6 +305,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -284,6 +315,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -293,6 +325,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -302,6 +335,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -311,6 +345,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -320,6 +355,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -329,6 +365,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -338,6 +375,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -347,6 +385,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -356,6 +395,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -365,6 +405,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -374,6 +415,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -383,6 +425,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -392,6 +435,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -401,6 +445,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -410,6 +455,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   },
@@ -419,6 +465,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
     "valid": false,
     "purifiable": false
   }

@@ -5538,6 +5538,7 @@
         "name" : "Carries Brandy",
         "points" : 0,
         "description" : "This Bartender now carries brandy!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5546,6 +5547,7 @@
         "name" : "Carries Rum",
         "points" : 0,
         "description" : "This Bartender now carries rum!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5554,6 +5556,7 @@
         "name" : "Carries Whiskey",
         "points" : 0,
         "description" : "This Bartender now carries whiskey!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5562,6 +5565,7 @@
         "name" : "Has Level 1 Companion Missions",
         "points" : 0,
         "description" : "New mission options have become available!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5570,6 +5574,7 @@
         "name" : "Has Level 1 Construction Built",
         "points" : 0,
         "description" : "New options may have become available!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5578,6 +5583,7 @@
         "name" : "Has Level 2 Construction Built",
         "points" : 0,
         "description" : "New options may have become available!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5699,6 +5705,7 @@
         "points" : 0,
         "valid" : false,
         "description" : "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
+        "player_display": false,
         "threshold" : true
     },{
         "type" : "mutation",
@@ -5707,6 +5714,7 @@
         "points" : 0,
         "valid" : false,
         "description" : "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
+        "player_display": false,
         "threshold" : true
     }
 ]
