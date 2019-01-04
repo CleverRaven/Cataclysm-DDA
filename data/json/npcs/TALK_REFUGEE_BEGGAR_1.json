@@ -2,7 +2,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Please, help me.  I need food.  Aren't you their sheriff?  Can't you help me?", "no": "Please, help me.  I need food." },
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Please, help me.  I need food.  Aren't you their sheriff?  Can't you help me?",
+      "no": "Please, help me.  I need food."
+    },
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_1_INTRO" },
       { "text": "Get away from me.", "topic": "TALK_DONE" },
