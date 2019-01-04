@@ -34,7 +34,7 @@ const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_visuals ( "visuals" );
+const efftype_id effect_visuals( "visuals" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
