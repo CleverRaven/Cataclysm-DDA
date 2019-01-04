@@ -104,11 +104,11 @@
   },
   {
     "type": "npc_class",
-    "id": "NC_BEGGAR_4",
+    "id": "NC_BEGGAR_5",
     "name": "Beggar",
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "This is the only beggar with some skills, he's sort of the leader.",
+    "//": "This is the only beggar with some skills, sort of the leader.",
     "bonus_str": { "rng": [ -2, 4 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 2 ] },
