@@ -6549,12 +6549,12 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                                    + env_temperature );
         }
     }
-    
     if( ( new_item_temperature < old_temperature ) == ( new_item_temperature > env_temperature ) ) {
         // The new temperature is not in between old temperature and enviroment temperature
         // This should never happen but may happen rarely with very small items
         // Just set the item to enviroment temperature
         set_temperature(env_temperature);
+        return;
     }
     
     // Check freeze status now based on energies.
