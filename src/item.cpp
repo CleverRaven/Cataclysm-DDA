@@ -6484,15 +6484,15 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Calculations are done assuming that the item stays in its phase.
     // This assumption can cause over heating when transitioning from meltiong to liquid.
     // In other transitions the item may cool/heat too little but that won't be a problem.
-    
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
         new_item_temperature = ( (old_temperature - env_temperature)
                                * exp( - to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_solid ) )
                                + env_temperature );
         new_specific_energy = new_item_temperature * specific_heat_solid;        
-        if( new_item_temperature > freezing_temperature ){
+        if( new_item_temperature > freezing_temperature + 0.5 ){
             // Started melting before temp was calculated.
+            // 0.5 is here because we don't care if it heats up a bit too high
             // Calculate how long the item was solid
             // and apply rest of the time as melting
             extra_time = to_turns<int>( time ) 
@@ -6509,8 +6509,9 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                                * exp( - to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_liquid ) )
                                + env_temperature );
         new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid + completely_liquid_specific_energy;
-        if( new_item_temperature < freezing_temperature ) {
+        if( new_item_temperature < freezing_temperature - 0.5 ) {
             // Started freezing before temp was calculated.
+            // 0.5 is here because we don't care if it cools down a bit too low
             // Calculate how long the item was liquid
             // and apply rest of the time as freezing
             extra_time = to_turns<int>( time ) 
@@ -6548,6 +6549,14 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                                    + env_temperature );
         }
     }
+    
+    if( ( new_item_temperature < old_temperature ) == ( new_item_temperature > env_temperature ) ) {
+        // The new temperature is not in between old temperature and enviroment temperature
+        // This should never happen but may happen rarely with very small items
+        // Just set the item to enviroment temperature
+        set_temperature(env_temperature);
+    }
+    
     // Check freeze status now based on energies.
     if ( new_specific_energy > completely_liquid_specific_energy ) {
         freeze_percentage = 0;
