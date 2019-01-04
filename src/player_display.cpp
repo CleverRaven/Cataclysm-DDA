@@ -317,7 +317,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
 
-    std::vector<trait_id> traitslist = get_mutations();
+    std::vector<trait_id> traitslist = get_mutations( false );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
 
     std::vector<bionic> bionicslist = *my_bionics;
