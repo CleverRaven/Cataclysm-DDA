@@ -22,7 +22,7 @@
       { "trait": "FLIMSY3" },
       { "trait": "MYOPIC" },
       { "trait": "PACIFIST" },
-      ( "trait": "Exp_Teaching2" }
+      { "trait": "Exp_Teaching2" }
     ],
     "skills": [ { "skill": "speaking", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
   },
@@ -113,12 +113,7 @@
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 2 ] },
     "bonus_per": { "rng": [ 0, 4 ] },
-    "traits": [
-      { "trait": "FUR" },
-      { "trait": "OPTIMISTIC" },
-      { "trait": "LIGHTSTEP" },
-      { "trait": "WEAKSCENT" }
-    ],
+    "traits": [ { "trait": "FUR" }, { "trait": "OPTIMISTIC" }, { "trait": "LIGHTSTEP" }, { "trait": "WEAKSCENT" } ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
       { "skill": "melee", "bonus": { "rng": [ 0, 5 ] } },
