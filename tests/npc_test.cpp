@@ -255,6 +255,7 @@ static void check_npc_movement( const tripoint &origin )
             switch( setup[y][x] ) {
                 case 'W':
                 case 'M':
+                    CAPTURE( setup[y][x] );
                     tripoint p = origin + point( x, y );
                     npc *guy = g->critter_at<npc>( p );
                     CHECK( guy != nullptr );
