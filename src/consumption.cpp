@@ -863,9 +863,10 @@ void player::consume_effects( const item &food )
             stim = std::min( comest.stim * 3, stim + comest.stim );
         }
     }
-    if( has_trait( trait_id( "STIMBOOST" ) ) && ( (comest.add == ADD_CAFFEINE)
+    if( has_trait( trait_id( "STIMBOOST" ) ) && ( stim > 30 ) && ( (comest.add == ADD_CAFFEINE)
         || (comest.add == ADD_SPEED) || (comest.add == ADD_COKE) || (comest.add == ADD_CRACK) ) ) {
-        add_effect ( effect_visuals, comest.stim * 30_minutes );
+        int hallu_duration = ( stim - comest.stim < 30 ) ? stim - 30 : comest.stim;
+        add_effect( effect_visuals, hallu_duration * 30_minutes );
         std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
                                                 _( "You have a bad feeling about this." ),
                                                 _( "A powerful sense of dread comes over you." ),

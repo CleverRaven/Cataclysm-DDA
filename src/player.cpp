@@ -665,10 +665,9 @@ void player::reset_stats()
     // Stimulants
     set_fake_effect_dur( effect_stim, 1_turns * stim );
     set_fake_effect_dur( effect_depressants, 1_turns * -stim );
-    if (has_trait ( trait_STIMBOOST )) {
+    if( has_trait ( trait_STIMBOOST ) ) {
         set_fake_effect_dur ( effect_stim_overdose, 1_turns * (stim - 60) );
-    }
-    else {
+    } else {
         set_fake_effect_dur ( effect_stim_overdose, 1_turns * (stim - 30) );
     }
     // Starvation
