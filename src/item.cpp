@@ -6478,31 +6478,74 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     
     float new_specific_energy;
     float new_item_temperature;
+    int extra_time;
     
     // Temperature calculations based on Newton's law of cooling.
     // Calculations are done assuming that the item stays in its phase.
     // This assumption can cause over heating when transitioning from meltiong to liquid.
     // In other transitions the item may cool/heat too little but that won't be a problem.
+    
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
         new_item_temperature = ( (old_temperature - env_temperature)
                                * exp( - to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_solid ) )
                                + env_temperature );
-        new_specific_energy = new_item_temperature * specific_heat_solid;
+        new_specific_energy = new_item_temperature * specific_heat_solid;        
+        if( new_item_temperature > freezing_temperature ){
+            // Started melting before temp was calculated.
+            // Calculate how long the item was solid
+            // and apply rest of the time as melting
+            extra_time = to_turns<int>( time ) 
+                         - log( (old_temperature - env_temperature) / ( freezing_temperature - env_temperature ) ) 
+                         * ( mass * specific_heat_solid / ( surface_area * conductivity_term ) );
+            new_specific_energy = completely_frozen_specific_energy 
+                                  + surface_area * conductivity_term 
+                                  * ( env_temperature - freezing_temperature ) * extra_time / mass;
+            new_item_temperature = freezing_temperature;
+        }
     } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
         // Was liquid.
         new_item_temperature = ( (old_temperature - env_temperature)
                                * exp( - to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_liquid ) )
                                + env_temperature );
-        new_specific_energy = ( new_item_temperature - freezing_temperature ) / specific_heat_liquid + completely_liquid_specific_energy;
+        new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid + completely_liquid_specific_energy;
+        if( new_item_temperature < freezing_temperature ) {
+            // Started freezing before temp was calculated.
+            // Calculate how long the item was liquid
+            // and apply rest of the time as freezing
+            extra_time = to_turns<int>( time ) 
+                         - log( (old_temperature - env_temperature) / ( freezing_temperature - env_temperature ) )
+                         * ( mass * specific_heat_liquid / ( surface_area * conductivity_term ) );
+            new_specific_energy = completely_liquid_specific_energy 
+                                  + surface_area * conductivity_term 
+                                  * ( env_temperature - freezing_temperature ) * to_turns<int>( time ) / mass;
+            new_item_temperature = freezing_temperature;
+        }
     } else {
         // Was melting or freezing
         new_specific_energy = 0.00001 * specific_energy + surface_area * conductivity_term * temperature_difference * to_turns<int>( time ) / mass;
         new_item_temperature = freezing_temperature;
         if( new_specific_energy > completely_liquid_specific_energy ) {
-            // The item can heat up too much when it goes from partially liquid to 100% liquid
-            // Set the energy to slightly above melting energy
-            new_specific_energy = completely_liquid_specific_energy + 0.0001;
+            // Item melted before temp was calculated
+            // Calculate how long the item was melting
+            // and apply rest of the time as liquid
+            extra_time = to_turns<int>( time ) 
+                         - (surface_area * conductivity_term * temperature_difference * to_turns<int>( time ) / mass )
+                         / ( completely_liquid_specific_energy - 0.00001 * specific_energy );
+            new_item_temperature = ( (freezing_temperature - env_temperature)
+                                   * exp( - to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_liquid ) )
+                                   + env_temperature );
+            new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid + completely_liquid_specific_energy;
+        } else if ( new_specific_energy < completely_frozen_specific_energy ) {
+            // Item froze before temp was calculated
+            // Calculate how long the item was freezing
+            // and apply rest of the time as solid
+            extra_time = to_turns<int>( time ) 
+                         - (surface_area * conductivity_term * temperature_difference * to_turns<int>( time ) / mass )
+                         / ( completely_frozen_specific_energy - 0.00001 * specific_energy );
+            new_item_temperature = ( (freezing_temperature - env_temperature)
+                                   * exp( -  to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_solid ) )
+                                   + env_temperature );
         }
     }
     // Check freeze status now based on energies.
@@ -6546,7 +6589,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 item_tags.insert( "NO_PARASITES" );
             }
         }
-    } else if( new_item_temperature < 268.15 ) {
+    } else if( new_item_temperature < 278.15 ) {
         item_tags.insert( "COLD" );
     }
     //The extra 0.5 are there to make rounding go better
