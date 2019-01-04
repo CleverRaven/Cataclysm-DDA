@@ -1,3 +1,9 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
+
 [
   {
     "id": "BGSS_CRIMINAL_2_STORY1",
@@ -5,7 +11,8 @@
     "dynamic_line": "I was <very> lucky for <the_cataclysm>.  I was squatting in a warehouse out on the edge of town.  I was in a real <shitty> place, and my crew had mostly just been arrested in a big drug bust, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
     "responses": [
       { "text": "Woah, lucky for you.  How did you find out about <the_cataclysm>?", "topic": "BGSS_CRIMINAL_2_STORY2" },
-     { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -33,9 +40,6 @@
     "id": "BGSS_CRIMINAL_2_NECROMANCER",
     "type": "talk_topic",
     "dynamic_line": "Well, I mean, if he's surrounded by buddies like that and he can just bring 'em back, I think he's a scary bastard.  If I got him on his own I think maybe I could have taken him.  Also when I was running I managed to get a zombie on its own, and I smashed it to shit with a stick before the rest showed up.  He tried to raise that one and it didn't get back up.",
-    "responses": [
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]
