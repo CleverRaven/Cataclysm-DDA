@@ -703,11 +703,9 @@ void draw_sorting_indicator( const catacurses::window &w_sorting, const input_co
                              Compare sorter )
 {
     const auto sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
-    const auto sort_help = string_format( _( "(Press <color_light_green>%s</color> to change)" ),
-                                          ctxt.get_desc( "SORT" ).c_str() );
-    wprintz( w_sorting, COL_HEADER, _( "Sort by:" ) );
-    wprintz( w_sorting, c_light_gray, " %s", sort_order );
-    fold_and_print( w_sorting, 0, 16, ( TERMX / 2 ), c_light_gray, sort_help );
+    const auto sort_text = string_format( _( "<color_white>Sort by: </color>%1$s (Press <color_light_green>%2$s</color> to change)" ),
+                                          sort_order, ctxt.get_desc( "SORT" ).c_str() );
+    fold_and_print( w_sorting, 0, 0, ( TERMX / 2 ), c_light_gray, sort_text );
 }
 
 tab_direction set_points( const catacurses::window &w, player &, points_left &points )
