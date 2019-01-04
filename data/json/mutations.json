@@ -416,7 +416,7 @@
         "id" : "STIMBOOST",
         "name": "Stimulant Psychosis",
         "cancels": ["NONADDICTIVE"],
-        "points" : 3,
+        "points" : 2,
         "mixed_effect" : true,
         "description" : "You have a unique history with stimulants (like coffee or amphetamines). You can tolerate a lot more of them without overdosing. However, whenever you take some, you start seeing things...",
         "starting_trait" : true,
