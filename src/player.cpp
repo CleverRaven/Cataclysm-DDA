@@ -3083,25 +3083,6 @@ int player::talk_skill() const
 
     /** @EFFECT_SPEECH increases talking skill */
     int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
-    if (has_trait( trait_SAPIOVORE )) {
-        ret -= 20; // Friendly conversation with your prey? unlikely
-    } else if (has_trait( trait_UGLY )) {
-        ret -= 3;
-    } else if (has_trait( trait_DEFORMED )) {
-        ret -= 6;
-    } else if (has_trait( trait_DEFORMED2 )) {
-        ret -= 12;
-    } else if (has_trait( trait_DEFORMED3 )) {
-        ret -= 18;
-    } else if (has_trait( trait_PRETTY )) {
-        ret += 1;
-    } else if (has_trait( trait_BEAUTIFUL )) {
-        ret += 2;
-    } else if (has_trait( trait_BEAUTIFUL2 )) {
-        ret += 4;
-    } else if (has_trait( trait_BEAUTIFUL3 )) {
-        ret += 6;
-    }
     return ret;
 }
 
@@ -3117,17 +3098,7 @@ int player::intimidation() const
         weapon.damage_melee( DT_STAB ) >= 12 ) {
         ret += 5;
     }
-    if (has_trait( trait_SAPIOVORE )) {
-        ret += 5; // Scaring one's prey, on the other claw...
-    } else if (has_trait( trait_DEFORMED2 )) {
-        ret += 3;
-    } else if (has_trait( trait_DEFORMED3 )) {
-        ret += 6;
-    } else if (has_trait( trait_PRETTY )) {
-        ret -= 1;
-    } else if (has_trait( trait_BEAUTIFUL ) || has_trait( trait_BEAUTIFUL2 ) || has_trait( trait_BEAUTIFUL3 )) {
-        ret -= 4;
-    }
+
     if (stim > 20) {
         ret += 2;
     }
