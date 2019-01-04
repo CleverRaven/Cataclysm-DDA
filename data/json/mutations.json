@@ -1058,7 +1058,7 @@
         "type" : "mutation",
         "id" : "HEALTHY",
         "name" : "Healthy",
-        "points" : 2,
+        "points" : 1,
         "description" : "You are naturally healthy! Positive modifiers to your healthiness are increased, and negatives are decreased.",
         "starting_trait" : true,
         "cancels" : ["UNHEALTHY"]
@@ -1066,7 +1066,7 @@
         "type" : "mutation",
         "id" : "UNHEALTHY",
         "name" : "Unhealthy",
-        "points" : -2,
+        "points" : -1,
         "description" : "Whether it's from a compromised immune system or a generally weak constitution, you always seem to be less healthy than others.",
         "starting_trait" : true,
         "cancels" : ["HEALTHY"]
