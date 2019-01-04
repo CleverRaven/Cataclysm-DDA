@@ -2970,7 +2970,7 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::unload_mag_finish( player_activity *act, player *p )    
+void activity_handlers::unload_mag_finish( player_activity *act, player *p )
 {
     long qty = 0;
     item &it = *act->targets[ 0 ];

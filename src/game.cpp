@@ -9791,7 +9791,7 @@ void game::mend( int pos )
 
 bool game::unload( item &it )
 {
-    return u.unload(it);
+    return u.unload( it );
 }
 
 void game::wield( int pos )
