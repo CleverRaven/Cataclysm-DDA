@@ -12,7 +12,6 @@ Paste some JSON into the field below and click "Lint" to run an autoformatter ag
     "responses": [
       { "text": "Woah, lucky for you.  How did you find out about <the_cataclysm>?", "topic": "BGSS_CRIMINAL_2_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
