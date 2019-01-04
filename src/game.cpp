@@ -9791,10 +9791,6 @@ void game::mend( int pos )
 
 bool game::unload( item &it )
 {
-    /* player_activity unload_activity( activity_id( "ACT_UNLOAD" ) );
-    unload_activity.values.push_back( u.get_item_position( &it ) );
-    u.assign_activity(unload_activity, true); */
-
     return u.unload(it);
 }
 
