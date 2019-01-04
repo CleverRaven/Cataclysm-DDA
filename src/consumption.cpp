@@ -103,8 +103,7 @@ int player::nutrition_for( const item &comest ) const
         for( item component : comest.components ) {
             nutr += this->nutrition_for( component ) * component.charges;
         }
-        // @TODO: catch when recipes make less or more than the portions defined in the json
-        nutr /= comest.type->charges_default();
+        nutr /= comest.recipe_charges;
     } else {
         nutr = comest.type->comestible->nutr;
     }
