@@ -58,7 +58,7 @@ void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_
 
     const int pwr_str_pos = right_print( window, 0, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
-                                         p->power_level, p->max_power_level ) );
+                                                 p->power_level, p->max_power_level ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
