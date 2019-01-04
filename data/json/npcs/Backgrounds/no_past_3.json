@@ -2,7 +2,7 @@
   {
     "id": "BGSS_NO_PAST_3_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "This is gonna sound crazy, but I woke up in the forest in the middle of nowhere, freezing cold, about a week ago.  I had on what I'm wearing now, a splitting headache, and absolutely no memory of anything.  Like, I know stuff. I can talk, I have skills and understanding... but I don't remember where any of it comes from.  I had a driver's license in my pocket and that's the only way I even know my name.",
+    "dynamic_line": "This is gonna sound crazy, but I woke up in the forest in the middle of nowhere, freezing cold, about a week before I met you.  I had my clothes, a splitting headache, and absolutely no memory of anything.  Like, I know stuff. I can talk, I have skills and understanding... but I don't remember where any of it comes from.  I had a driver's license in my pocket and that's the only way I even know my name.",
     "responses": [
       { "text": "What do you think happened?", "topic": "BGSS_NO_PAST_3_STORY2" },
       { "text": "That does sound a little crazy...", "topic": "BGSS_NO_PAST_3_CRAZY" },
