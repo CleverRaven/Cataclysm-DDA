@@ -2244,7 +2244,7 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     } else {
         memorial_file << string_format( _( "Total bionics: %d" ), total_bionics ) << eol;
     }
-    memorial_file << string_format( _( "Power: %d/%d" ), power_level,  max_power_level ) << eol;
+    memorial_file << string_format( _( "Bionic Power: <color_light_blue>%d</color>/<color_light_blue>%d</color>" ), power_level,  max_power_level ) << eol;
     memorial_file << eol;
 
     //Equipment
@@ -8923,7 +8923,7 @@ bool player::gunmod_remove( item &gun, item& mod )
                 if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
                     gunmod_remove( gun, *the_mod );
                     free_slots++;
-                } else if( mod_locations.find( the_mod->type->gunmod->location ) == 
+                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
                            mod_locations.end() ) {
                     gunmod_remove( gun, *the_mod );
                 }
