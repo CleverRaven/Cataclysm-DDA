@@ -34,6 +34,7 @@ const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_visuals ( "visuals" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -864,7 +865,17 @@ void player::consume_effects( const item &food )
     }
     if( has_trait( trait_id( "STIMBOOST" ) ) && ( (comest.add == ADD_CAFFEINE)
         || (comest.add == ADD_SPEED) || (comest.add == ADD_COKE) || (comest.add == ADD_CRACK) ) ) {
-        add_effect ( effect_hallu, (comest.stim / 5) * 1_hours );
+        add_effect ( effect_visuals, comest.stim * 30_minutes );
+        std::vector<std::string> stimboost_msg{ _( "The shadows are starting to close in." ),
+                                                _( "You have a bad feeling about this." ),
+                                                _( "A powerful sense of dread comes over you." ),
+                                                _( "Your skin starts crawling." ),
+                                                _( "They're coming to get you." ),
+                                                _( "This might've been a bad idea..." ),
+                                                _( "You've really done it this time, haven't you?" ),
+                                                _( "You have to stay vigilant. They're always watching..." ),
+                                                _( "You're starting to feel even more paranoid than usual." ) };
+        add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
     }
     add_addiction( comest.add, comest.addict );
     if( addiction_craving( comest.add ) != MORALE_NULL ) {
