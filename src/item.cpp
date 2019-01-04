@@ -6030,29 +6030,29 @@ float item::get_energy_from_temperature( const float new_temperature )
 
 void item::set_temperature(float new_temperature)
 {
-	const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
+    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
     const float specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
     const float latent_heat = type->comestible->lat_heat; // J/kg
     const float mass = to_gram( weight() ); // g
-	
-	float new_specific_energy = get_energy_from_temperature( new_temperature );
-	float freeze_percentage = 0;
-	
+    
+    float new_specific_energy = get_energy_from_temperature( new_temperature );
+    float freeze_percentage = 0;
+    
     temperature = static_cast<int>( 100000 * new_temperature + 0.5 );
     specific_energy = static_cast<int>( 100000 * new_specific_energy / mass + 0.5 );
-	
-	const float completely_frozen_specific_energy = specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
+    
+    const float completely_frozen_specific_energy = specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy + latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-	
-	if( new_specific_energy < completely_frozen_specific_energy ) {
+    
+    if( new_specific_energy < completely_frozen_specific_energy ) {
         // Item is solid
         freeze_percentage = 1;
     } else {
         // Item is partially solid
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) / ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
-	
-	// Apply temperature tags tags
+    
+    // Apply temperature tags tags
     // Hot = over 50 C (323.15 K)
     // Warm = over 30 C (303.15 K)
     // Cold = below 5 C (278.15 K)
@@ -6444,7 +6444,7 @@ void item::update_temp( const int temp, const float insulation )
     // only process temperature at most every 50_turns, note we're also gated
     // by item::processing_speed
     // If the item has negative energy process it now. It is a new item.
-    if( dur > 50_turns || specific_energy < 0 ) {
+    if( dur > 100_turns || specific_energy < 0 ) {
         calc_temp( temp, insulation, dur );
         last_temp_check = now;
     }
@@ -6452,10 +6452,10 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
-	// Limit calculations to max 4000 C to avoid specific energy from overflowing
+    // Limit calculations to max 4000 C to avoid specific energy from overflowing
     const float env_temperature = std::min( ( temp - 32 ) * 0.556 + 273.15, 4273.15 );
     const float old_temperature = 0.00001 * temperature;
-	const float temperature_difference =  env_temperature - old_temperature;
+    const float temperature_difference =  env_temperature - old_temperature;
     
     // If no or only small temperature difference then no need to do math.
     if( abs(temperature_difference) < 0.9 ) {
@@ -6467,64 +6467,64 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Or if the item has negative energy (has not been processed ever)
     // This can cause incorrect freezing/unfreezing when the temperature is close to freezing temperature and the freezing/unfreezing would take longer than two days
     if ( to_turns<int>( time ) > 28800 || specific_energy < 0 ){
-		set_temperature(env_temperature);
+        set_temperature(env_temperature);
         return;
     }
     
     // specific_energy = item thermal energy (mJ/g). Stored in the item
     // temperature = item temperature (dK deci (=0.1) kelvins). Stored in the item
-    const float conductivity_term = 75 / insulation; // Constant chosen to "feel good". Insulation is also applied here
+    const float conductivity_term = 460 / insulation; // Constant chosen to "feel good". Insulation is also applied here
     const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
     const float specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
     const float specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
     const float latent_heat = type->comestible->lat_heat; // J/kg
     const float surface_area = pow( 0.000001 * to_milliliter( volume() ), 0.66 ); // Volume (m3)^2/3
     float freeze_percentage = 0;
-	
+    
     const float completely_frozen_specific_energy = specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy + latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-	
-	float new_specific_energy;
-	float new_item_temperature;
-	
-	// Temperature calculations based on Newton's law of cooling.
-	// Calculations are done assuming that the item stays in its phase.
-	// This assumption can cause over heating when transitioning from meltiong to liquid.
-	// In other transitions the item may cool/heat too little but that won't be a problem.
-	if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
-		// Was solid.
-		new_item_temperature = ( (old_temperature - env_temperature)
-							   * exp( - 6 * to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_solid ) )
+    
+    float new_specific_energy;
+    float new_item_temperature;
+    
+    // Temperature calculations based on Newton's law of cooling.
+    // Calculations are done assuming that the item stays in its phase.
+    // This assumption can cause over heating when transitioning from meltiong to liquid.
+    // In other transitions the item may cool/heat too little but that won't be a problem.
+    if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
+        // Was solid.
+        new_item_temperature = ( (old_temperature - env_temperature)
+                               * exp( - to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_solid ) )
                                + env_temperature );
-		new_specific_energy = new_item_temperature * specific_heat_solid;
-	} else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
-		// Was liquid.
-		new_item_temperature = ( (old_temperature - env_temperature)
-							   * exp( - 6 * to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_liquid ) )
+        new_specific_energy = new_item_temperature * specific_heat_solid;
+    } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
+        // Was liquid.
+        new_item_temperature = ( (old_temperature - env_temperature)
+                               * exp( - to_turns<int>( time ) * surface_area * conductivity_term / ( mass * specific_heat_liquid ) )
                                + env_temperature );
-		new_specific_energy = ( new_item_temperature - freezing_temperature ) / specific_heat_liquid + completely_liquid_specific_energy;
-	} else {
-		// Was melting or freezing
-		new_specific_energy = 0.00001 * specific_energy + surface_area * conductivity_term * temperature_difference * 6 * to_turns<int>( time ) / mass;
-		new_item_temperature = freezing_temperature;
-		if( new_specific_energy > completely_liquid_specific_energy ) {
-			// The item can heat up too much when it goes from partially liquid to 100% liquid
-			// Set the energy to slightly above melting energy
-			new_specific_energy = completely_liquid_specific_energy + 0.0001;
-		}
-	}
-	// Check freeze status now based on energies.
+        new_specific_energy = ( new_item_temperature - freezing_temperature ) / specific_heat_liquid + completely_liquid_specific_energy;
+    } else {
+        // Was melting or freezing
+        new_specific_energy = 0.00001 * specific_energy + surface_area * conductivity_term * temperature_difference * 6 * to_turns<int>( time ) / mass;
+        new_item_temperature = freezing_temperature;
+        if( new_specific_energy > completely_liquid_specific_energy ) {
+            // The item can heat up too much when it goes from partially liquid to 100% liquid
+            // Set the energy to slightly above melting energy
+            new_specific_energy = completely_liquid_specific_energy + 0.0001;
+        }
+    }
+    // Check freeze status now based on energies.
     if ( new_specific_energy > completely_liquid_specific_energy ) {
-		freeze_percentage = 0;
-	} else if( new_specific_energy < completely_frozen_specific_energy ) {
+        freeze_percentage = 0;
+    } else if( new_specific_energy < completely_frozen_specific_energy ) {
         // Item is solid
         freeze_percentage = 1;
     } else {
         // Item is partially solid
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) / ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
-	
-	// Apply temperature tags tags
+    
+    // Apply temperature tags tags
     // Hot = over 50 C (323.15 K)
     // Warm = over 30 C (303.15 K)
     // Cold = below 5 C (278.15 K)
