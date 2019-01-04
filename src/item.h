@@ -1704,6 +1704,8 @@ class item : public visitable<item>
         /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
         gun_type_type gun_type() const;
 
+        /** Get mod locations, including those added by other mods */
+        std::map<gunmod_location, int> get_mod_locations() const;
         /**
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.

@@ -277,7 +277,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( veh_fueled.coeff_rolling_drag() ) );
             r.push_back( to_string( veh_fueled.static_drag( false ) ) );
             r.push_back( to_string( static_cast<int>( 50 *
-                                    veh_fueled.k_traction( veh_fueled.wheel_area( false ) ) ) ) );
+                                    veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {

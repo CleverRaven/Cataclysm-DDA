@@ -427,6 +427,8 @@ bool vehicle_part::is_light() const
 {
     const auto &vp = info();
     return vp.has_flag( VPFLAG_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_AISLE_LIGHT ) ||
            vp.has_flag( VPFLAG_DOME_LIGHT ) ||
