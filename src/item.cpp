@@ -6400,7 +6400,9 @@ std::string item::components_to_string() const
     t_count_map counts;
     for( const auto &elem : components ) {
         const std::string name = elem.display_name();
-        counts[name]++;
+        if( !elem.has_flag( "BYPRODUCT" ) ) {
+            counts[name]++;
+        }
     }
     return enumerate_as_string( counts.begin(), counts.end(),
     []( const std::pair<std::string, int> &entry ) -> std::string {

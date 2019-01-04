@@ -100,8 +100,10 @@ int player::nutrition_for( const item &comest ) const
 
     // if item has components, will derive calories from that instead.
     if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        int byproduct_multiplier;
         for( item component : comest.components ) {
-            nutr += this->nutrition_for( component ) * component.charges;
+            component.has_flag("BYPRODUCT") ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
+            nutr += this->nutrition_for( component ) * component.charges * byproduct_multiplier;
         }
         nutr /= comest.recipe_charges;
     } else {
@@ -217,10 +219,13 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
 
     // @todo: bionics and mutations can affect vitamin absorption
     if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        // if an item is a byproduct, it should subtract the calories and vitamins instead of add
+        int byproduct_multiplier = 1;
         for( const auto &comp : it.components ) {
+            comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
             std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
             for( const auto &vit : component_map ) {
-                res.operator[]( vit.first ) += ceil( static_cast<float>( vit.second ) / static_cast<float>
+                res.operator[]( vit.first ) += byproduct_multiplier * ceil( static_cast<float>( vit.second ) / static_cast<float>
                                                      ( it.type->charges_default() ) );
             }
         }

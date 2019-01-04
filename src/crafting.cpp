@@ -710,6 +710,13 @@ void player::complete_craft()
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+            // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
+            if( making.has_byproducts() ) {
+                for( item &byproduct : making.create_byproducts( batch_size ) ) {
+                    byproduct.set_flag( "BYPRODUCT" );
+                    used.push_back( byproduct );
+                }
+            }
             // store components for food recipes that do not have the override flag
             set_components( newit.components, used, batch_size, newit_counter );
             // store the number of charges the recipe creates
