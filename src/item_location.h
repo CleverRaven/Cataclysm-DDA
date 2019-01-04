@@ -98,6 +98,8 @@ class item_location
          */
         item_location clone() const;
 
+        void set_should_stack( bool should_stack ) const;
+
     private:
         class impl;
         std::shared_ptr<impl> ptr;

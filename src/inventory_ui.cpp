@@ -1048,11 +1048,9 @@ void inventory_selector::add_map_items( const tripoint &target )
         const std::string name = to_upper_case( g->m.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
 
-        const auto check_components = this->preset.get_checking_components();
-
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
-        }, restack_items( items.begin(), items.end(), check_components ), &map_cat );
+        }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
     }
 }
 

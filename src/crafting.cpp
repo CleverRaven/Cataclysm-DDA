@@ -1177,6 +1177,8 @@ bool player::disassemble()
         return false;
     }
 
+    loc.set_should_stack( false );
+
     return disassemble( loc.obtain( *this ) );
 }
 
