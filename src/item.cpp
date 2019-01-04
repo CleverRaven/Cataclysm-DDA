@@ -1001,20 +1001,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
+                } if( food ){
+                    info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
+                                              food->temperature ) );
+                    info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "", iteminfo::lower_is_better,
+                                              food->specific_energy ) );
                 }
-                if( food->item_tags.count( "HOT" ) ) {
-                    info.push_back( iteminfo( "BASE", _( "HOT: " ), "", iteminfo::lower_is_better,
-                                              food->item_counter ) );
-                }
-                if( food->item_tags.count( "COLD" ) ) {
-                    info.push_back( iteminfo( "BASE", _( "COLD: " ), "",
-                                              iteminfo::lower_is_better, food->item_counter ) );
-                }
-                if( food->item_tags.count( "FROZEN" ) ) {
-                    info.push_back( iteminfo( "BASE", _( "FROZEN: " ), "",
-                                              iteminfo::lower_is_better, food->item_counter ) );
-                }
-
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
