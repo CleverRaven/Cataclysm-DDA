@@ -75,8 +75,11 @@
 /** Temperature constants */
 namespace temperatures
 {
-/** temperature at which something starts warming and can become HOT */
-constexpr int hot = 100; // ~ 38 Celsius
+/** temperature at which something starts is considered HOT */
+constexpr int hot = 122; // ~ 50 Celsius
+
+/** temperature at which something is considered WARM */
+constexpr int warm = 86; // ~ 30 Celsius
 
 /** the "normal" temperature midpoint between cold and hot */
 constexpr int normal = 70; // ~ 21 Celsius
@@ -85,7 +88,7 @@ constexpr int normal = 70; // ~ 21 Celsius
 constexpr int fridge = 37; // ~ 2.7 Celsius
 
 /** Temperature at which things are considered "cold" */
-constexpr int cold = 40;
+constexpr int cold = 40; // ~4.4 C
 
 /** Temperature inside an active freezer in Fahrenheit  */
 constexpr int freezer = 23; // -5 Celsius

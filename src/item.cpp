@@ -6043,12 +6043,6 @@ void item::set_temperature(float new_temperature)
         // Item is partially solid
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) / ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
-    
-    // Apply temperature tags tags
-    // Hot = over 50 C (323.15 K)
-    // Warm = over 30 C (303.15 K)
-    // Cold = below 5 C (278.15 K)
-    // Frozen = Over 50% frozen
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
         if ( freeze_percentage > 0.5 ) {
@@ -6062,9 +6056,9 @@ void item::set_temperature(float new_temperature)
     } else if( item_tags.count( "HOT" ) ) {
         item_tags.erase( "HOT" );
     }
-    if( new_temperature > 323.15 ) {
+    if( new_temperature > temperatures::hot ) {
         item_tags.insert( "HOT" );
-    } else if( new_temperature > 303.15 ) {
+    } else if( new_temperature > temperatures::warm ) {
         item_tags.insert( "WARM" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
@@ -6074,7 +6068,7 @@ void item::set_temperature(float new_temperature)
                 item_tags.insert( "NO_PARASITES" );
             }
         }
-    } else if( new_temperature < 268.15 ) {
+    } else if( new_temperature < temperatures::cold ) {
         item_tags.insert( "COLD" );
     }
 }
@@ -6574,10 +6568,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) / ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
     
-    // Apply temperature tags tags
-    // Hot = over 50 C (323.15 K)
-    // Warm = over 30 C (303.15 K)
-    // Cold = below 5 C (278.15 K)
+    // Apply temperature tags tags 
+    // Hot = over 50 C temperatures::hot
+    // Warm = over 30 C temperatures::warm
+    // Cold = below 4.4 C temperatures::cold
     // Frozen = Over 50% frozen
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
@@ -6592,9 +6586,9 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     } else if( item_tags.count( "HOT" ) ) {
         item_tags.erase( "HOT" );
     }
-    if( new_item_temperature > 323.15 ) {
+    if( new_item_temperature > temperatures::hot ) {
         item_tags.insert( "HOT" );
-    } else if( new_item_temperature > 303.15 ) {
+    } else if( new_item_temperature > temperatures::warm ) {
         item_tags.insert( "WARM" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
@@ -6604,7 +6598,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 item_tags.insert( "NO_PARASITES" );
             }
         }
-    } else if( new_item_temperature < 278.15 ) {
+    } else if( new_item_temperature < temperatures::cold ) {
         item_tags.insert( "COLD" );
     }
     //The extra 0.5 are there to make rounding go better
