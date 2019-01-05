@@ -5982,7 +5982,7 @@ float item::get_temp_from_energy( const float thermal_energy )
     const int specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
     const int latent_heat = type->comestible->lat_heat; // J/kg
     const float mass = to_gram( weight() ); // g
-    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
+    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 5 / 9 + 273.15;  // F converted to K
     const float completely_frozen_energy = mass * specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_energy = completely_frozen_energy + mass * latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
     float new_item_temperature;
@@ -6006,7 +6006,7 @@ float item::get_energy_from_temperature( const float new_temperature )
     const int specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
     const int latent_heat = type->comestible->lat_heat; // J/kg
     const float mass = to_gram( weight() ); // g
-    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
+    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 5 / 9 + 273.15;  // F converted to K
     const float completely_frozen_energy = mass * specific_heat_solid * freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_energy = completely_frozen_energy + mass * latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
     float thermal_energy;
@@ -6022,7 +6022,7 @@ float item::get_energy_from_temperature( const float new_temperature )
 
 void item::set_temperature(float new_temperature)
 {
-    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
+    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 5 / 9 + 273.15;  // F converted to K
     const float specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
     const float latent_heat = type->comestible->lat_heat; // J/kg
     const float mass = to_gram( weight() ); // g
@@ -6056,9 +6056,9 @@ void item::set_temperature(float new_temperature)
     } else if( item_tags.count( "HOT" ) ) {
         item_tags.erase( "HOT" );
     }
-    if( new_temperature > temperatures::hot ) {
+    if( new_temperature > ( temperatures::hot - 32 ) * 5 / 9 + 273.15 ) {
         item_tags.insert( "HOT" );
-    } else if( new_temperature > temperatures::warm ) {
+    } else if( new_temperature > ( temperatures::warm - 32 ) * 5 / 9 + 273.15 ) {
         item_tags.insert( "WARM" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
@@ -6068,7 +6068,7 @@ void item::set_temperature(float new_temperature)
                 item_tags.insert( "NO_PARASITES" );
             }
         }
-    } else if( new_temperature < temperatures::cold ) {
+    } else if( new_temperature < ( temperatures::cold - 32 ) * 5 / 9 + 273.15 ) {
         item_tags.insert( "COLD" );
     }
 }
@@ -6439,7 +6439,7 @@ void item::update_temp( const int temp, const float insulation )
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
     // Limit calculations to max 4000 C to avoid specific energy from overflowing
-    const float env_temperature = std::min( ( temp - 32 ) * 0.556 + 273.15, 4273.15 );
+    const float env_temperature = std::min( ( temp - 32 ) * 5 / 9 + 273.15, 4273.15 );
     const float old_temperature = 0.00001 * temperature;
     const float temperature_difference =  env_temperature - old_temperature;
     
@@ -6460,7 +6460,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // specific_energy = item thermal energy (mJ/g). Stored in the item
     // temperature = item temperature (dK deci (=0.1) kelvins). Stored in the item
     const float conductivity_term = 460 / insulation; // Constant chosen to "feel good". Insulation is also applied here
-    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 0.556 + 273.15;  // F converted to K
+    const float freezing_temperature = ( type->comestible->freeze_point - 32 ) * 5 / 9 + 273.15;  // F converted to K
     const float specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
     const float specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
     const float latent_heat = type->comestible->lat_heat; // J/kg
@@ -6586,9 +6586,9 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     } else if( item_tags.count( "HOT" ) ) {
         item_tags.erase( "HOT" );
     }
-    if( new_item_temperature > temperatures::hot ) {
+    if( new_item_temperature > ( temperatures::hot - 32 ) * 5 / 9 + 273.15 ) {
         item_tags.insert( "HOT" );
-    } else if( new_item_temperature > temperatures::warm ) {
+    } else if( new_item_temperature > ( temperatures::warm - 32 ) * 5 / 9 + 273.15 ) {
         item_tags.insert( "WARM" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
@@ -6598,7 +6598,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 item_tags.insert( "NO_PARASITES" );
             }
         }
-    } else if( new_item_temperature < temperatures::cold ) {
+    } else if( new_item_temperature < ( temperatures::cold - 32 ) * 5 / 9 + 273.15 ) {
         item_tags.insert( "COLD" );
     }
     //The extra 0.5 are there to make rounding go better
