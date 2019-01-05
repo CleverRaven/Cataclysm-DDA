@@ -423,6 +423,13 @@
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
+    "id": "bio_glowy",
+    "type": "bionic",
+    "name": "Glowy Thing",
+    "description": "Something is glowing under your skin, it makes you quite visible and it doesn't want to turn off.",
+    "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
     "id": "bio_furnace",
     "type": "bionic",
     "name": "Internal Furnace",
