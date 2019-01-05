@@ -6502,6 +6502,13 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                                   + surface_area * conductivity_term 
                                   * ( env_temperature - freezing_temperature ) * extra_time / mass;
             new_item_temperature = freezing_temperature;
+            if( new_specific_energy > completely_liquid_specific_energy ) {
+                // The item then also finished melting.
+                // This may happen rarely with very small items
+                // Just set the item to enviroment temperature
+                set_temperature(env_temperature);
+                return;
+            }
         }
     } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
         // Was liquid.
@@ -6521,6 +6528,13 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                                   + surface_area * conductivity_term 
                                   * ( env_temperature - freezing_temperature ) * to_turns<int>( time ) / mass;
             new_item_temperature = freezing_temperature;
+            if(  new_specific_energy < completely_frozen_specific_energy ) {
+                // The item then also finished freezing.
+                // This may happen rarely with very small items
+                // Just set the item to enviroment temperature
+                set_temperature(env_temperature);
+                return;
+            }
         }
     } else {
         // Was melting or freezing
@@ -6549,14 +6563,6 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                                    + env_temperature );
         }
     }
-    if( ( new_item_temperature < old_temperature ) == ( new_item_temperature > env_temperature ) ) {
-        // The new temperature is not in between old temperature and enviroment temperature
-        // This should never happen but may happen rarely with very small items
-        // Just set the item to enviroment temperature
-        set_temperature(env_temperature);
-        return;
-    }
-    
     // Check freeze status now based on energies.
     if ( new_specific_energy > completely_liquid_specific_energy ) {
         freeze_percentage = 0;
