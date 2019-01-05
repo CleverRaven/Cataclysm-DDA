@@ -1,5 +1,13 @@
 #include "item.h"
 
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <iomanip>
+#include <iterator>
+#include <set>
+#include <sstream>
+
 #include "advanced_inv.h"
 #include "ammo.h"
 #include "bionics.h"
@@ -51,14 +59,6 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <iomanip>
-#include <iterator>
-#include <set>
-#include <sstream>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 

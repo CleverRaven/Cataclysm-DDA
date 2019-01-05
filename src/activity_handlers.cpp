@@ -1,5 +1,8 @@
 #include "activity_handlers.h"
 
+#include <algorithm>
+#include <cmath>
+
 #include "action.h"
 #include "catalua.h"
 #include "clzones.h"
@@ -35,9 +38,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "map_selector.h"
-
-#include <algorithm>
-#include <cmath>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

@@ -2,12 +2,12 @@
 #ifndef BASECAMP_H
 #define BASECAMP_H
 
-#include "enums.h"
-
 #include <memory>
 #include <vector>
 #include <map>
 #include <string>
+
+#include "enums.h"
 
 class JsonIn;
 class JsonOut;

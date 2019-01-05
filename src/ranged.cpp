@@ -1,5 +1,10 @@
 #include "ranged.h"
 
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -26,11 +31,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <cmath>
-#include <string>
-#include <vector>
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );

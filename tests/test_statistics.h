@@ -2,11 +2,11 @@
 #ifndef TEST_STATISTICS_H
 #define TEST_STATISTICS_H
 
-#include "catch/catch.hpp"
-
 #include <cmath>
 #include <limits>
 #include <vector>
+
+#include "catch/catch.hpp"
 
 // Z-value for confidence interval
 constexpr double Z95 = 1.96;

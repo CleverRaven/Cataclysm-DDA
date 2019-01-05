@@ -1,5 +1,7 @@
 #include "start_location.h"
 
+#include <algorithm>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"
@@ -14,8 +16,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-
-#include <algorithm>
 
 const efftype_id effect_bleed( "bleed" );
 

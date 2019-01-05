@@ -1,5 +1,9 @@
 #include "sidebar.h"
 
+#include <cmath>
+#include <cstdlib>
+#include <string>
+
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -17,10 +21,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <cmath>
-#include <cstdlib>
-#include <string>
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );

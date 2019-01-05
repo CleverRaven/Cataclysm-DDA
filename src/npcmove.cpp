@@ -1,4 +1,9 @@
-#include "npc.h"
+#include "npc.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <memory>
+#include <numeric>
+#include <sstream>
 
 #include "ammo.h"
 #include "cata_algo.h"
@@ -31,11 +36,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <memory>
-#include <numeric>
-#include <sstream>
 
 // @todo: Get rid of this include
 

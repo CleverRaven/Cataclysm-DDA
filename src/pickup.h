@@ -2,9 +2,9 @@
 #ifndef PICKUP_H
 #define PICKUP_H
 
-#include "enums.h"
-
 #include <list>
+
+#include "enums.h"
 
 class vehicle;
 class item;

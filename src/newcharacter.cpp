@@ -1,3 +1,5 @@
+#include "player.h" // IWYU pragma: associated
+
 #include "addiction.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -14,7 +16,6 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
 #include "rng.h"

@@ -1,5 +1,9 @@
 #include "iexamine.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "ammo.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -41,10 +45,6 @@
 #include "units.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );

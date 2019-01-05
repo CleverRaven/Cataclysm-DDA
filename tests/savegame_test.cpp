@@ -1,13 +1,12 @@
-#include "catch/catch.hpp"
+#include <fstream>
+#include <memory>
+#include <ostream>
 
+#include "catch/catch.hpp"
 #include "filesystem.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "overmap.h"
-
-#include <fstream>
-#include <memory>
-#include <ostream>
 
 // Intentionally ignoring the name member.
 bool operator==( const city &a, const city &b )

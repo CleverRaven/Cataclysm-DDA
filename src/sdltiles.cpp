@@ -1,10 +1,27 @@
 #if (defined TILES)
+
+#include "cursesdef.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <cstring>
+#include <fstream>
+#include <limits>
+#include <memory>
+#include <stdexcept>
+#include <vector>
+
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#   include <SDL2/SDL_image.h>
+#else
+#   include <SDL_image.h>
+#endif
+
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
-#include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -25,27 +42,14 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-#if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_image.h>
-#else
-#   include <SDL_image.h>
-#endif
-
-#include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <fstream>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <vector>
-
 #ifdef __linux__
 #   include <cstdlib> // getenv()/setenv()
 #endif
 
 #if (defined _WIN32 || defined WINDOWS)
-#   include "platform_win.h"
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#endif
 #   include <shlwapi.h>
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
@@ -53,13 +57,14 @@
 #endif
 
 #ifdef __ANDROID__
+#include <jni.h>
+
 #include "worldfactory.h"
 #include "action.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "inventory.h"
-#include <jni.h>
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "

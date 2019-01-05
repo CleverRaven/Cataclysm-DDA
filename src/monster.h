@@ -2,17 +2,17 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include "calendar.h"
-#include "creature.h"
-#include "enums.h"
-#include "int_id.h"
-
 #include <bitset>
 #include <map>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "int_id.h"
 
 class JsonObject;
 class JsonIn;

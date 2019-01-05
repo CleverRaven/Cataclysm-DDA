@@ -1,5 +1,7 @@
 #include "inventory.h"
 
+#include <algorithm>
+
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -16,7 +18,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-#include <algorithm>
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );

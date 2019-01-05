@@ -1,5 +1,7 @@
 #include "game_inventory.h"
 
+#include <functional>
+
 #include "game.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -12,8 +14,6 @@
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "string_formatter.h"
-
-#include <functional>
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;

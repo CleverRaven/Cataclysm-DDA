@@ -2,6 +2,14 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
+
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -10,14 +18,6 @@
 #include "lightmap.h"
 #include "shadowcasting.h"
 #include "string_id.h"
-
-#include <array>
-#include <list>
-#include <map>
-#include <memory>
-#include <set>
-#include <utility>
-#include <vector>
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1

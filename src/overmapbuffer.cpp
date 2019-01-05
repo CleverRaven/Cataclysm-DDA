@@ -1,5 +1,10 @@
 #include "overmapbuffer.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cstdlib>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -16,11 +21,6 @@
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
 #include "vehicle.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
-#include <sstream>
 
 overmapbuffer overmap_buffer;
 

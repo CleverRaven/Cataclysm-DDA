@@ -1,12 +1,12 @@
 #include "player_helpers.h"
 
+#include <list>
+
 #include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
 #include "player.h"
-
-#include <list>
 
 int get_remaining_charges( std::string tool_id )
 {

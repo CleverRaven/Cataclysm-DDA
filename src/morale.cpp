@@ -1,5 +1,8 @@
 #include "morale.h"
 
+#include <algorithm>
+#include <set>
+
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -12,9 +15,6 @@
 #include "options.h"
 #include "output.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <set>
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );

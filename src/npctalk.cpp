@@ -1,4 +1,9 @@
-#include "npctrade.h"
+#include "dialogue.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <sstream>
+#include <string>
+#include <vector>
 
 #include "ammo.h"
 #include "auto_pickup.h"
@@ -8,7 +13,6 @@
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "editmap.h"
 #include "faction_camp.h"
 #include "game.h"
@@ -28,6 +32,7 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "npctalk.h"
+#include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -42,11 +47,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <sstream>
-#include <string>
-#include <vector>
 
 const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );

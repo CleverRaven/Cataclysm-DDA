@@ -1,12 +1,11 @@
-#include "catch/catch.hpp"
-
-#include "line.h" // For rl_dist.
-#include "map.h"
-#include "shadowcasting.h"
-
 #include <chrono>
 #include <cstdio>
 #include <random>
+
+#include "catch/catch.hpp"
+#include "line.h" // For rl_dist.
+#include "map.h"
+#include "shadowcasting.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;

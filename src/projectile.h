@@ -2,13 +2,13 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "damage.h"
-#include "enums.h"
-#include "explosion.h"
-
 #include <memory>
 #include <set>
 #include <string>
+
+#include "damage.h"
+#include "enums.h"
+#include "explosion.h"
 
 class Creature;
 class dispersion_sources;

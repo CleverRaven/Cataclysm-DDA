@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "ballistics.h"
 #include "dispersion.h"
 #include "game.h"
@@ -8,8 +9,6 @@
 #include "npc.h"
 #include "test_statistics.h"
 #include "units.h"
-
-#include <vector>
 
 typedef statistics<bool> firing_statistics;
 

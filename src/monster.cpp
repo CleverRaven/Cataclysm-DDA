@@ -1,5 +1,9 @@
 #include "monster.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -29,10 +33,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.

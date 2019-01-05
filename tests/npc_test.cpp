@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <string>
 
+#include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
@@ -14,8 +15,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <string>
 
 void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {

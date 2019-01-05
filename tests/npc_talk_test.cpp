@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <string>
 
+#include "catch/catch.hpp"
 #include "calendar.h"
 #include "coordinate_conversions.h"
 #include "dialogue.h"
@@ -10,8 +11,6 @@
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player.h"
-
-#include <string>
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );

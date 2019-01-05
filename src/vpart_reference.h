@@ -2,9 +2,9 @@
 #ifndef VPART_REFERENCE_H
 #define VPART_REFERENCE_H
 
-#include "vpart_position.h"
-
 #include <string>
+
+#include "vpart_position.h"
 
 class vehicle;
 struct vehicle_part;

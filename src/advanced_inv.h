@@ -2,16 +2,16 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include "cursesdef.h"
-#include "enums.h"
-#include "units.h"
-
 #include <array>
 #include <functional>
 #include <list>
 #include <map>
 #include <string>
 #include <vector>
+
+#include "cursesdef.h"
+#include "enums.h"
+#include "units.h"
 
 class uilist;
 class vehicle;
