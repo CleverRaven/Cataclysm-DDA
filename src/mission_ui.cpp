@@ -1,16 +1,16 @@
-#include "mission.h"
-
-#include "calendar.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "game.h"
-#include "input.h"
-#include "output.h"
-#include "player.h"
-#include "npc.h"
+#include "game.h" // IWYU pragma: associated
 
 #include <map>
 #include <string>
 #include <vector>
+
+#include "mission.h"
+#include "calendar.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "input.h"
+#include "output.h"
+#include "player.h"
+#include "npc.h"
 
 void game::list_missions()
 {

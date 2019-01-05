@@ -1,4 +1,6 @@
-#include "mission.h"
+#include "mission.h" // IWYU pragma: associated
+
+#include <stdio.h>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -24,8 +26,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <stdio.h>
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );

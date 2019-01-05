@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "ammo.h"
 #include "game.h"
 #include "itype.h"

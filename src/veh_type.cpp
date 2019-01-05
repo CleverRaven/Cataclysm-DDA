@@ -1,5 +1,10 @@
 #include "veh_type.h"
 
+#include <numeric>
+#include <sstream>
+#include <unordered_map>
+#include <unordered_set>
+
 #include "ammo.h"
 #include "character.h"
 #include "color.h"
@@ -16,11 +21,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
-
-#include <numeric>
-#include <sstream>
-#include <unordered_map>
-#include <unordered_set>
 
 const skill_id skill_mechanics( "mechanics" );
 

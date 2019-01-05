@@ -2,6 +2,10 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
+#include <map>
+#include <sstream>
+#include <vector>
+
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
@@ -9,10 +13,6 @@
 #include "player_activity.h"
 #include "requirements.h"
 #include "string_id.h"
-
-#include <map>
-#include <sstream>
-#include <vector>
 
 class vpart_info;
 using vpart_id = string_id<vpart_info>;

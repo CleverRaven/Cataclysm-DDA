@@ -2,11 +2,11 @@
 #ifndef PROFESSION_H
 #define PROFESSION_H
 
-#include "string_id.h"
-
 #include <list>
 #include <set>
 #include <vector>
+
+#include "string_id.h"
 
 template<typename T>
 class generic_factory;

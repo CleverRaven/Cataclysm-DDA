@@ -1,3 +1,15 @@
+// Associated headers here are the ones for which their only non-inline
+// functions are serialization functions.  This allows IWYU to check the
+// includes in such headers.
+#include "enums.h" // IWYU pragma: associated
+#include "npc_favor.h" // IWYU pragma: associated
+#include "pldata.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <limits>
+#include <numeric>
+#include <sstream>
+
 #include "ammo.h"
 #include "auto_pickup.h"
 #include "basecamp.h"
@@ -35,11 +47,6 @@
 #include "vpart_reference.h"
 #include "creature_tracker.h"
 #include "overmapbuffer.h"
-
-#include <algorithm>
-#include <limits>
-#include <numeric>
-#include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

@@ -1,6 +1,12 @@
 #if (defined TILES)
 #include "cata_tiles.h"
 
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <cstdlib>
+#include <fstream>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
@@ -36,12 +42,6 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weighted_list.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <cstdlib>
-#include <fstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

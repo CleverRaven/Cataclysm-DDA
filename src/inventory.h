@@ -2,16 +2,16 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "enums.h"
-#include "item.h"
-#include "visitable.h"
-
 #include <array>
 #include <list>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+#include "enums.h"
+#include "item.h"
+#include "visitable.h"
 
 class map;
 class npc;

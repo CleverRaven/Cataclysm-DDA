@@ -1,15 +1,15 @@
 #include "damage.h"
 
+#include <algorithm>
+#include <map>
+#include <numeric>
+
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <map>
-#include <numeric>
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {

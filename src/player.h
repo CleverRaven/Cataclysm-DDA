@@ -2,6 +2,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <array>
+#include <memory>
+#include <unordered_set>
+
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -14,10 +18,6 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
-
-#include <array>
-#include <memory>
-#include <unordered_set>
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 

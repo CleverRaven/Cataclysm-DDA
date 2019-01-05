@@ -2,11 +2,11 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include "calendar.h"
-#include "enums.h"
-
 #include <climits>
 #include <list>
+
+#include "calendar.h"
+#include "enums.h"
 
 enum event_type : int {
     EVENT_NULL,

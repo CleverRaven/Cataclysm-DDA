@@ -1,14 +1,14 @@
 #include "bonuses.h"
 
+#include <sstream>
+#include <string>
+#include <utility>
+
 #include "character.h"
 #include "damage.h"
 #include "json.h"
 #include "output.h"
 #include "translations.h"
-
-#include <sstream>
-#include <string>
-#include <utility>
 
 bool needs_damage_type( affected_stat as )
 {

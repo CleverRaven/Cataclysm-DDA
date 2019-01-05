@@ -2,13 +2,13 @@
 #ifndef DIALOGUE_H
 #define DIALOGUE_H
 
-#include "dialogue_win.h"
-#include "npc.h"
-#include "npc_class.h"
-
 #include <functional>
 #include <string>
 #include <vector>
+
+#include "dialogue_win.h"
+#include "npc.h"
+#include "npc_class.h"
 
 class JsonObject;
 class mission;

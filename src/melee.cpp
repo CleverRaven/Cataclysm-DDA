@@ -1,5 +1,9 @@
 #include "melee.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "field.h"
@@ -21,10 +25,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 static const bionic_id bio_cqb( "bio_cqb" );
 

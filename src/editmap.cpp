@@ -1,5 +1,13 @@
 #include "editmap.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <cstring>
+#include <fstream>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "artifact.h"
 #include "auto_pickup.h"
 #include "calendar.h"
@@ -31,14 +39,6 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <cstring>
-#include <fstream>
-#include <map>
-#include <string>
-#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 #define maplim 132

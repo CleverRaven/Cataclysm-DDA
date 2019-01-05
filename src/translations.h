@@ -2,9 +2,9 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
-#include "optional.h"
-
 #include <string>
+
+#include "optional.h"
 
 #ifndef translate_marker
 /**

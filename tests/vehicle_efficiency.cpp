@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <sstream>
 
+#include "catch/catch.hpp"
 #include "cata_utility.h"
 #include "game.h"
 #include "itype.h"
@@ -11,8 +12,6 @@
 #include "vehicle.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include <sstream>
 
 typedef statistics<long> efficiency_stat;
 

@@ -1,5 +1,9 @@
 #include "npctrade.h"
 
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -15,10 +19,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 const skill_id skill_barter( "barter" );
 

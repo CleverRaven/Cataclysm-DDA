@@ -2,6 +2,12 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -9,12 +15,6 @@
 #include "enums.h" // tripoint
 #include "string_id.h"
 #include "tuple_hash.h"
-
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <utility>
-#include <vector>
 
 class nc_color;
 class JsonObject;

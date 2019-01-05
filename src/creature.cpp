@@ -1,5 +1,9 @@
 #include "creature.h"
 
+#include <algorithm>
+#include <cmath>
+#include <map>
+
 #include "item.h"
 #include "anatomy.h"
 #include "debug.h"
@@ -18,10 +22,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <cmath>
-#include <map>
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );

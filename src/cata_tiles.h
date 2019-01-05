@@ -2,6 +2,13 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
+#include <memory>
+#include <map>
+#include <set>
+#include <vector>
+#include <string>
+#include <unordered_map>
+
 #include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
@@ -10,13 +17,6 @@
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
-
-#include <memory>
-#include <map>
-#include <set>
-#include <vector>
-#include <string>
-#include <unordered_map>
 
 class cata_tiles;
 class Creature;

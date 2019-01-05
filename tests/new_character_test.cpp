@@ -1,5 +1,10 @@
-#include "catch/catch.hpp"
+#include <set>
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -8,12 +13,6 @@
 #include "profession.h"
 #include "scenario.h"
 #include "string_id.h"
-
-#include <set>
-#include <sstream>
-#include <string>
-#include <unordered_map>
-#include <vector>
 
 std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {

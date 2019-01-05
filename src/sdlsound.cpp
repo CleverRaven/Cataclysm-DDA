@@ -1,12 +1,5 @@
 #ifdef SDL_SOUND
 
-#include "debug.h"
-#include "init.h"
-#include "json.h"
-#include "loading_ui.h"
-#include "options.h"
-#include "path_info.h"
-#include "rng.h"
 #include "sdlsound.h"
 
 #include <algorithm>
@@ -14,6 +7,14 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "debug.h"
+#include "init.h"
+#include "json.h"
+#include "loading_ui.h"
+#include "options.h"
+#include "path_info.h"
+#include "rng.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

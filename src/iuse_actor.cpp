@@ -1,5 +1,8 @@
 #include "iuse_actor.h"
 
+#include <algorithm>
+#include <sstream>
+
 #include "action.h"
 #include "ammo.h"
 #include "assign.h"
@@ -47,9 +50,6 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <sstream>
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );

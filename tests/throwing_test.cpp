@@ -1,5 +1,7 @@
-#include "catch/catch.hpp"
+#include <ostream>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "dispersion.h"
 #include "game.h"
 #include "item.h"
@@ -11,9 +13,6 @@
 #include "player.h"
 #include "projectile.h"
 #include "test_statistics.h"
-
-#include <ostream>
-#include <vector>
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {

@@ -2,12 +2,12 @@
 #ifndef ACTIVITY_HANDLERS_H
 #define ACTIVITY_HANDLERS_H
 
-#include "player_activity.h"
-
 #include <functional>
 #include <map>
 #include <unordered_set>
 #include <vector>
+
+#include "player_activity.h"
 
 class player;
 

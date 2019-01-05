@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <sstream>
 
+#include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -12,8 +13,6 @@
 #include "cata_utility.h"
 #include "options.h"
 #include "test_statistics.h"
-
-#include <sstream>
 
 typedef statistics<long> efficiency_stat;
 

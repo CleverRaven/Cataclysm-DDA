@@ -1,5 +1,9 @@
-#include "catch/catch.hpp"
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "creature.h"
 #include "game.h"
 #include "map.h"
@@ -9,11 +13,6 @@
 #include "player.h"
 #include "test_statistics.h"
 #include "vehicle.h"
-
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
 
 typedef statistics<int> move_statistics;
 

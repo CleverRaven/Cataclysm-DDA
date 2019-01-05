@@ -1,10 +1,8 @@
 #include "catch/catch.hpp"
-
 #include "calendar.h"
 #include "itype.h"
 #include "ret_val.h"
 #include "units.h"
-
 #include "item.h"
 
 TEST_CASE( "item_volume", "[item]" )
