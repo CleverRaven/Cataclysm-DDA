@@ -5318,7 +5318,8 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name().c_str() );
 
-    } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
+    } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
+               !mod.type->gunmod->usable.count( typeId() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname().c_str() );
 
     } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
