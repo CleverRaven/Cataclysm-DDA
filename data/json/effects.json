@@ -513,7 +513,6 @@
         "desc": ["You are emitting a LED glow"],
         "apply_message": "You are emitting a LED glow",
         "rating": "mixed"
-        }
     },
     {
         "type": "effect_type",
