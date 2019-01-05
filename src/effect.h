@@ -2,6 +2,10 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
+#include <unordered_map>
+#include <tuple>
+#include <vector>
+
 #include "bodypart.h"
 #include "calendar.h"
 #include "enums.h"
@@ -9,10 +13,6 @@
 #include "string_id.h"
 #include "translations.h"
 #include "tuple_hash.h"
-
-#include <unordered_map>
-#include <tuple>
-#include <vector>
 
 class effect_type;
 class Creature;

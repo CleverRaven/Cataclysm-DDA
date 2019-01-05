@@ -2,9 +2,9 @@
 #ifndef MAP_HELPERS_H
 #define MAP_HELPERS_H
 
-#include "enums.h"
-
 #include <string>
+
+#include "enums.h"
 
 class monster;
 

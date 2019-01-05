@@ -1,5 +1,9 @@
 #include "mondeath.h"
 
+#include <algorithm>
+#include <cmath>
+#include <vector>
+
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -20,10 +24,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cmath>
-#include <vector>
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );

@@ -1,3 +1,7 @@
+#include "game.h" // IWYU pragma: associated
+
+#include <chrono>
+
 #include "action.h"
 #include "auto_pickup.h"
 #include "bionics.h"
@@ -8,7 +12,6 @@
 #include "debug.h"
 #include "faction.h"
 #include "field.h"
-#include "game.h"
 #include "game_inventory.h"
 #include "gamemode.h"
 #include "gates.h"
@@ -39,8 +42,6 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "worldfactory.h"
-
-#include <chrono>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

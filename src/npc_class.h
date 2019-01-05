@@ -2,11 +2,11 @@
 #ifndef NPC_CLASS_H
 #define NPC_CLASS_H
 
-#include "string_id.h"
-
 #include <functional>
 #include <map>
 #include <vector>
+
+#include "string_id.h"
 
 class JsonObject;
 

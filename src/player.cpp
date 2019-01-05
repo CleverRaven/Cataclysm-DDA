@@ -1,5 +1,8 @@
 #include "player.h"
 
+#include <iterator>
+#include <map>
+
 #include "action.h"
 #include "addiction.h"
 #include "ammo.h"
@@ -64,9 +67,6 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weather_gen.h"
-
-#include <iterator>
-#include <map>
 
 #ifdef TILES
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

@@ -1,4 +1,8 @@
-#include "lightmap.h"
+#include "lightmap.h" // IWYU pragma: associated
+#include "shadowcasting.h" // IWYU pragma: associated
+
+#include <cmath>
+#include <cstring>
 
 #include "fragment_cloud.h"
 #include "game.h"
@@ -8,7 +12,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "shadowcasting.h"
 #include "submap.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -16,9 +19,6 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
-
-#include <cmath>
-#include <cstring>
 
 #define INBOUNDS(x, y) \
     (x >= 0 && x < SEEX * MAPSIZE && y >= 0 && y < SEEY * MAPSIZE)

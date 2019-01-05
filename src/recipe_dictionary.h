@@ -2,15 +2,15 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
-#include "recipe.h"
-#include "string_id.h"
-
 #include <algorithm>
 #include <functional>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
+
+#include "recipe.h"
+#include "string_id.h"
 
 class JsonIn;
 class JsonOut;

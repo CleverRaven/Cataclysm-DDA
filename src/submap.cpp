@@ -1,10 +1,10 @@
 #include "submap.h"
 
+#include <memory>
+
 #include "mapdata.h"
 #include "trap.h"
 #include "vehicle.h"
-
-#include <memory>
 
 submap::submap()
 {

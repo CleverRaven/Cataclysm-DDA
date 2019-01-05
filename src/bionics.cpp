@@ -1,5 +1,8 @@
 #include "bionics.h"
 
+#include <algorithm> //std::min
+#include <sstream>
+
 #include "action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
@@ -30,9 +33,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm> //std::min
-#include <sstream>
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );

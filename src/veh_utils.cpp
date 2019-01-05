@@ -1,5 +1,8 @@
 #include "veh_utils.h"
 
+#include <algorithm>
+#include <map>
+
 #include "calendar.h"
 #include "craft_command.h"
 #include "game.h"
@@ -9,9 +12,6 @@
 #include "player.h"
 #include "veh_type.h"
 #include "vehicle.h"
-
-#include <algorithm>
-#include <map>
 
 namespace veh_utils
 {

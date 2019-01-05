@@ -2,6 +2,11 @@
 #ifndef MTYPE_H
 #define MTYPE_H
 
+#include <bitset>
+#include <map>
+#include <set>
+#include <vector>
+
 #include "color.h"
 #include "damage.h"
 #include "enums.h"
@@ -10,11 +15,6 @@
 #include "pathfinding.h"
 #include "string_id.h"
 #include "units.h"
-
-#include <bitset>
-#include <map>
-#include <set>
-#include <vector>
 
 class Creature;
 class monster;

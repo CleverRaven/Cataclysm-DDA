@@ -1,5 +1,20 @@
 #include "game.h"
 
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <csignal>
+#include <ctime>
+#include <iterator>
+#include <locale>
+#include <map>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "action.h"
 #include "activity_handlers.h"
 #include "artifact.h"
@@ -100,21 +115,6 @@
 #include "worldfactory.h"
 #include "map_selector.h"
 
-#include <algorithm>
-#include <cassert>
-#include <chrono>
-#include <cmath>
-#include <csignal>
-#include <ctime>
-#include <iterator>
-#include <locale>
-#include <map>
-#include <queue>
-#include <set>
-#include <sstream>
-#include <string>
-#include <vector>
-
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
@@ -124,12 +124,14 @@
 #endif
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
-#include <cstring>
 #include <langinfo.h>
+#include <cstring>
 #endif
 
 #if (defined _WIN32 || defined __WIN32__)
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #   include "platform_win.h"
+#endif
 #   include <tchar.h>
 #endif
 

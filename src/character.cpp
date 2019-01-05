@@ -1,5 +1,9 @@
 #include "character.h"
 
+#include <algorithm>
+#include <numeric>
+#include <sstream>
+
 #include "activity_handlers.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -26,10 +30,6 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-
-#include <algorithm>
-#include <numeric>
-#include <sstream>
 
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );

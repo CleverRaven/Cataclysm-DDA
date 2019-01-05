@@ -2,11 +2,11 @@
 #ifndef DAMAGE_H
 #define DAMAGE_H
 
-#include "enums.h"
-#include "string_id.h"
-
 #include <array>
 #include <vector>
+
+#include "enums.h"
+#include "string_id.h"
 
 class item;
 class monster;

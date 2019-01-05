@@ -2,16 +2,16 @@
 #ifndef REGIONAL_SETTINGS_H
 #define REGIONAL_SETTINGS_H
 
-#include "mapdata.h"
-#include "omdata.h"
-#include "weather_gen.h"
-#include "weighted_list.h"
-
 #include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "mapdata.h"
+#include "omdata.h"
+#include "weather_gen.h"
+#include "weighted_list.h"
 
 class JsonObject;
 

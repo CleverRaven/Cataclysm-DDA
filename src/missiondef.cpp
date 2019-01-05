@@ -1,12 +1,12 @@
-#include "mission.h"
+#include "mission.h" // IWYU pragma: associated
+
+#include <algorithm>
 
 #include "assign.h"
 #include "calendar.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "rng.h"
-
-#include <algorithm>
 
 enum legacy_mission_type_id {
     MISSION_NULL,

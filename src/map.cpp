@@ -1,5 +1,11 @@
 #include "map.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+
 #include "ammo.h"
 #include "artifact.h"
 #include "calendar.h"
@@ -45,12 +51,6 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
 
 const mtype_id mon_zombie( "mon_zombie" );
 

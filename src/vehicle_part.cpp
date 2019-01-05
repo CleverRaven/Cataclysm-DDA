@@ -1,4 +1,9 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <set>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -14,11 +19,6 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <set>
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );

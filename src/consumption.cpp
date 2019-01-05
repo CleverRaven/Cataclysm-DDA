@@ -1,3 +1,8 @@
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -12,14 +17,10 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <string>
 
 namespace
 {

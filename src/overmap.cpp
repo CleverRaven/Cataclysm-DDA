@@ -1,4 +1,17 @@
-#include "overmap.h"
+#include "omdata.h" // IWYU pragma: associated
+#include "overmap.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <numeric>
+#include <ostream>
+#include <queue>
+#include <random>
+#include <vector>
 
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -29,18 +42,6 @@
 #include "simple_pathfinding.h"
 #include "translations.h"
 
-#include <algorithm>
-#include <cassert>
-#include <chrono>
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
-#include <numeric>
-#include <ostream>
-#include <queue>
-#include <random>
-#include <vector>
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define BUILDINGCHANCE 4
@@ -56,7 +57,6 @@ const efftype_id effect_pet( "pet" );
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
-#include "omdata.h"
 ////////////////
 oter_id  ot_null,
          ot_crater,
