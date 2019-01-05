@@ -16,8 +16,8 @@
     "install_time": 30000,
     "dispersion_modifier": -1,
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ], [ "gun", 2 ] ]
-    },
-    {
+  },
+  {
     "id": "dias",
     "type": "GUNMOD",
     "name": "drop-in auto sear",
