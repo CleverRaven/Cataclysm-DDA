@@ -426,7 +426,7 @@
     "id": "bio_glowy",
     "type": "bionic",
     "name": "Glowy Thing",
-    "description": "Something is glowing under your skin, it makes you quite visible and it doesn't want to turn off.",
+    "description": "Something is glowing under your skin, it turns on and off on its own and makes you quite visible.",
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
