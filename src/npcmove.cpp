@@ -238,7 +238,8 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
-            if( critter.type->difficulty > 10 && ( is_enemy() || !critter.friendly ) ) {
+            if( critter.type->difficulty > ( 8 + personality.bravery + rng( 0, 5 ) ) &&
+                ( is_enemy() || !critter.friendly ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname() );
             }
         }
@@ -2440,10 +2441,11 @@ bool npc::wield_better_weapon()
 bool npc::scan_new_items()
 {
     add_msg( m_debug, "%s scanning new items", name.c_str() );
-    if( !wield_better_weapon() ) {
+    if( wield_better_weapon() ) {
+        return true;
+    } else {
         // Stop "having new items" when you no longer do anything with them
         has_new_items = false;
-        return true;
     }
 
     return false;

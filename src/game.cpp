@@ -3286,8 +3286,9 @@ void game::debug()
             }
 
             auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
-            u.set_destination( rt );
-            if( !u.has_destination() ) {
+            if( rt.size() > 0 ) {
+                u.set_destination( rt );
+            } else {
                 popup( "Couldn't find path" );
             }
         }
@@ -10457,6 +10458,20 @@ bool game::plmove( int dx, int dy, int dz )
         }
 
         on_move_effects();
+        return true;
+    }
+
+    //Wooden Fence Gate (or equivalently walkable doors):
+    // open it if we are walking
+    // vault over it if we are running
+    if( m.passable_ter_furn( dest_loc )
+        && u.move_mode == "walk"
+        && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
+        u.moves -= 100;
+        // if auto-move is on, continue moving next turn
+        if( u.has_destination() ) {
+            u.defer_move( dest_loc );
+        }
         return true;
     }
 

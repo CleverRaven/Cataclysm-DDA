@@ -95,6 +95,8 @@ struct mutation_branch {
         bool profession;
         //True if the mutation is obtained through the debug menu
         bool debug;
+        // True if the mutation should be displayed in the `@` menu
+        bool player_display = true;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;

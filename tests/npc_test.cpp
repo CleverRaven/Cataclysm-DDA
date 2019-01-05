@@ -255,6 +255,7 @@ static void check_npc_movement( const tripoint &origin )
             switch( setup[y][x] ) {
                 case 'W':
                 case 'M':
+                    CAPTURE( setup[y][x] );
                     tripoint p = origin + point( x, y );
                     npc *guy = g->critter_at<npc>( p );
                     CHECK( guy != nullptr );
@@ -352,6 +353,10 @@ TEST_CASE( "npc-movement" )
                 guy->normalize();
                 guy->randomize();
                 guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
+                // Set the shopkeep mission; this means that
+                // the NPC deems themselves to be guarding and stops them
+                // wandering off in search of distant ammo caches, etc.
+                guy->mission = NPC_MISSION_SHOPKEEP;
                 overmap_buffer.insert_npc( guy );
                 g->load_npcs();
                 guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );

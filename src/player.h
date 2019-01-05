@@ -331,6 +331,8 @@ class player : public Character
         void process_bionic( int b );
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
+        /** Remove all bionics */
+        void clear_bionics();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
         /** Returns amount of Storage CBMs in the corpse **/
@@ -823,7 +825,7 @@ class player : public Character
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
-        int book_fun_for( const item &book ) const;
+        int book_fun_for( const item &book, const player &p ) const;
         /**
          * Returns a reference to the item itself (if it's comestible),
          * the first of its contents (if it's comestible) or null item otherwise.

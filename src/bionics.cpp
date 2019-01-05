@@ -1373,6 +1373,11 @@ bool player::remove_random_bionic()
     return numb;
 }
 
+void player::clear_bionics()
+{
+    my_bionics->clear();
+}
+
 void reset_bionics()
 {
     bionics.clear();
