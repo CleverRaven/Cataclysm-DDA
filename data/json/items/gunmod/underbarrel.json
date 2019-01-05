@@ -385,5 +385,39 @@
     "price": 0,
     "dispersion_modifier": 0,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
+  },
+  {
+    "id": "pistol_sight_rail",
+    "type": "GUNMOD",
+    "name": "pistol sight rail",
+    "description": "A sight rail for attaching to underbarrel rails on a pistol.  Fits most pistols.",
+    "weight": 340,
+    "volume": "180ml",
+    "price": 7000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "underbarrel",
+    "mod_targets": [ "pistol" ],
+    "min_skills": [ [ "gun", 1 ] ],
+    "add_mod": [ [ "sights", 1 ], [ "underbarrel", 1 ] ],
+    "blacklist_mod": [ "sights" ]
+  },
+  {
+    "id": "pistol_bayonet_lug",
+    "type": "GUNMOD",
+    "name": "pistol bayonet lug",
+    "description": "An underbarrel rail mounted bayonet lug, made for pistols.",
+    "weight": 36,
+    "volume": "100ml",
+    "price": 2000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "underbarrel",
+    "mod_targets": [ "pistol" ],
+    "min_skills": [ [ "gun", 1 ] ],
+    "add_mod": [ [ "bayonet", 1 ] ],
+    "blacklist_mod": [ "bayonet" ]
   }
 ]

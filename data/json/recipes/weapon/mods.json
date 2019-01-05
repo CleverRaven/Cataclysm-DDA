@@ -194,5 +194,23 @@
         [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ],
         [ [ "superglue", 1 ], [ "bone_glue", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "add_rail",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "autolearn": true,
+    "components": [ [ [ "add_rail_underbarrel", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "recipe",
+    "result": "add_rail_underbarrel",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "autolearn": true,
+    "components": [ [ [ "add_rail", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

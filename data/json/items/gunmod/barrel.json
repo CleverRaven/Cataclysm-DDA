@@ -72,5 +72,19 @@
     "description": "A Leadworks built in heavy duty barrel especially designed for prolonged shooting.  Increases damage output and weapon range.",
     "dispersion_modifier": 0,
     "flags": [ "IRREMOVABLE" ]
+  },
+  {
+    "id": "threaded_barrel",
+    "type": "GUNMOD",
+    "name": "threaded barrel",
+    "description": "A threaded barrel, allowing the attachment of muzzle devices.",
+    "volume": 0,
+    "price": 20000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "barrel",
+    "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
+    "flags": [ "IRREMOVABLE" ]
   }
 ]
