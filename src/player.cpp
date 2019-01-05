@@ -6045,7 +6045,8 @@ void player::suffer()
         add_effect( effect_formication, 10_minutes, bp );
     }
     if (has_bionic ( bio_glowy ) && one_in(500) !has_effect( effect_glowing )) {
-        add_msg_if_player(m_bad, _("Your malfunctioning bionic starts to glow!"));
+    if( has_bionic( bio_glowy ) && !has_effect( effect_glowing ) && one_in( 500 ) ) {
+        add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowing, 5_minutes );
     }
 
