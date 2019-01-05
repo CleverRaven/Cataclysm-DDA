@@ -9472,7 +9472,7 @@ void game::butcher()
         if( disassembles.size() > 1 ) {
             int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
-            for( const auto stack : disassembly_stacks ) {
+            for( const auto &stack : disassembly_stacks ) {
                 const item &it = items[ stack.first ];
                 const int time = recipe_dictionary::get_uncraft( it.typeId() ).time;
                 time_to_disassemble += time;
@@ -9486,7 +9486,7 @@ void game::butcher()
         }
         if( salvageables.size() > 1 ) {
             int time_to_salvage = 0;
-            for( const auto stack : salvage_stacks ) {
+            for( const auto &stack : salvage_stacks ) {
                 const item &it = items[ stack.first ];
                 time_to_salvage += salvage_iuse->time_to_cut_up( it ) * stack.second;
             }
