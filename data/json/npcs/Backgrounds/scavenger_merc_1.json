@@ -5,7 +5,7 @@
     "dynamic_line": {
       "npc_has_effect": "player_BGSS_SAIDYES",
       "yes": "Like I said, you want me to tell you a story, you gotta pony up the whisky.  A full bottle, mind you.",
-      "no": "Listen.  I'm gonna cut this off short.  I work for you, okay? I'm not interested in getting attached.  You didn't pay me to be your friend."
+      "no": "Listen.  I'm gonna cut this off short.  I work for you, okay?  I'm not interested in getting attached.  You didn't pay me to be your friend."
     },
     "responses": [
       {
