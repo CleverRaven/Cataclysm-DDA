@@ -3285,7 +3285,6 @@ void game::debug()
             }
 
             auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
-            
             if( rt.size() > 0 ) {
                 u.set_destination( rt );
             } else {
