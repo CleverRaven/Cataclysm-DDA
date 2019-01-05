@@ -11602,14 +11602,22 @@ long player::get_memorized_symbol( const tripoint &p ) const
 
 size_t player::max_memorized_tiles() const
 {
-    if( has_active_bionic( bio_memory ) ) {
-        return SEEX * SEEY * 20000; // 5000 overmap tiles
-    } else if( has_trait( trait_FORGETFUL ) ) {
-        return SEEX * SEEY * 200; // 50 overmap tiles
-    } else if( has_trait( trait_GOODMEMORY ) ) {
-        return SEEX * SEEY * 800; // 200 overmap tiles
+    // Only check traits once a turn since this is called a huge number of times.
+    static time_point current_turn = calendar::before_time_starts;
+    static size_t current_max = 0;
+    if( current_turn != calendar::turn ) {
+        current_turn = calendar::turn;
+        if( has_active_bionic( bio_memory ) ) {
+            current_max = SEEX * SEEY * 20000; // 5000 overmap tiles
+        } else if( has_trait( trait_FORGETFUL ) ) {
+            current_max = SEEX * SEEY * 200; // 50 overmap tiles
+        } else if( has_trait( trait_GOODMEMORY ) ) {
+            current_max = SEEX * SEEY * 800; // 200 overmap tiles
+        } else {
+            current_max = SEEX * SEEY * 400; // 100 overmap tiles
+        }
     }
-    return SEEX * SEEY * 400; // 100 overmap tiles
+    return current_max;
 }
 
 bool player::sees( const tripoint &t, bool ) const
