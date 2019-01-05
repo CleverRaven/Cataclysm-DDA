@@ -231,6 +231,8 @@ struct mtype {
         std::vector<mon_effect_data> atk_effs;
 
         int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
+        // difficulty from special attacks instead of from melee attacks, defenses, HP, etc.
+        int difficulty_base = 0;
         int hp = 0;
         int speed = 0;          /** e.g. human = 100 */
         int agro = 0;           /** chance will attack [-100,100] */
