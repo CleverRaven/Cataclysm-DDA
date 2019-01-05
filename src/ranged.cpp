@@ -1278,13 +1278,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // by a direction key, or by the previous value.
         if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
             targ = *mouse_pos;
-            if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
-                // Snap to target doesn't currently work with tiles.
-                targ.x += dst.x - src.x;
-                targ.y += dst.y - src.y;
-            }
             targ.x -= dst.x;
             targ.y -= dst.y;
+            targ.z -= dst.z;
         } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             targ.x = vec->x;
             targ.y = vec->y;
