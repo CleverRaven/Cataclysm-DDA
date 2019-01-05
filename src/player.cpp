@@ -6045,9 +6045,10 @@ void player::suffer()
         body_part bp = random_body_part(true);
         add_effect( effect_formication, 10_minutes, bp );
     }
-    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_in( 500 ) ) {
+    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_in( 500 ) && power_level > 1 ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led , 5_minutes );
+        charge_power(-1);
     }
 
     // Artifact effects
