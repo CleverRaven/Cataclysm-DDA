@@ -6444,7 +6444,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const float temperature_difference =  env_temperature - old_temperature;
     
     // If no or only small temperature difference then no need to do math.
-    if( abs(temperature_difference) < 0.9 ) {
+    if( std::abs(temperature_difference) < 0.9 ) {
         return;
     }
     const float mass = to_gram( weight() ); // g
