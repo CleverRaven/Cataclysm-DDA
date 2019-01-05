@@ -1118,7 +1118,7 @@ void basecamp::start_upgrade( npc &p, const std::string &bldg, const std::string
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( &making, 1, true );
+            g->u.consume_components_for_craft( making, 1, true );
             g->u.invalidate_crafting_inventory();
         }
     } else {
@@ -1403,7 +1403,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, npc &p )
                                       _( "begins constructing fortifications..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( &making, ( fortify_om.size() * 2 ) - 2, true );
+            g->u.consume_components_for_craft( making, fortify_om.size() * 2 - 2, true );
             g->u.invalidate_crafting_inventory();
             comp->companion_mission_role_id = bldg_exp;
             for( auto pt : fortify_om ) {
@@ -1473,7 +1473,7 @@ void basecamp::craft_construction( npc &p, const std::string &cur_id, const std:
                                       _( "begins to work..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( &making, batch_size, true );
+            g->u.consume_components_for_craft( making, batch_size, true );
             g->u.invalidate_crafting_inventory();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );

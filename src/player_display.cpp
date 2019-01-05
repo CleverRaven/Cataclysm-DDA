@@ -580,7 +580,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     const std::string title_BIONICS = _( "BIONICS" );
     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
         trim_and_print( w_bionics, int( i ) + 2, 1, getmaxx( w_bionics ) - 1, c_white,
                         bionicslist[i].info().name );
@@ -985,7 +985,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_bionics, 0, 0, h_light_gray, header_spaces );
                 center_print( w_bionics, 0, h_light_gray, title_BIONICS );
                 trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                                string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                                string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
 
                 if( line <= ( ( bionics_useful_size_y - 1 ) / 2 ) ) {
                     min = 0;
@@ -1024,7 +1024,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_bionics, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
                     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                                    string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
                     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
                         mvwprintz( w_bionics, int( i + 2 ), 1, c_black, "                         " );
                         trim_and_print( w_bionics, int( i + 2 ), 1, getmaxx( w_bionics ) - 1,

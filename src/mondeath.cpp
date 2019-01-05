@@ -200,6 +200,7 @@ void mdeath::splatter( monster &z )
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( "GIBBED" );
+        corpse.active = false;
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }

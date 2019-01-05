@@ -1020,6 +1020,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             return;
                         }
                         move_item( *it, it->count(), src_loc, dest_loc, src_veh, src_part );
+                        break;
                     }
                 }
                 if( p.moves <= 0 ) {

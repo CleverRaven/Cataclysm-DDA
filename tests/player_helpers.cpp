@@ -39,6 +39,8 @@ void clear_player()
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
+    dummy.clear_bionics();
+
     // Make stats nominal.
     dummy.str_cur = 8;
     dummy.dex_cur = 8;

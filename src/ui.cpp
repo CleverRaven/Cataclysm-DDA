@@ -517,6 +517,10 @@ void uilist::setup()
         scrollbar_auto = false;
     }
     window = catacurses::newwin( w_height, w_width, w_y, w_x );
+    if( !window ) {
+        debugmsg( "Window not created; probably trying to use uilist in test mode." );
+        abort();
+    }
 
     fselected = selected;
     if(fselected < 0) {
