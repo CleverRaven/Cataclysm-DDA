@@ -1852,6 +1852,142 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     return result;
 }
 
+/**
+ * Actual harvesting of selected plant
+ */
+void iexamine::harvest_plant(player &p, const tripoint &examp)
+{
+    if( g->m.i_at( examp ).empty() ) {
+        g->m.i_clear( examp );
+        g->m.furn_set( examp, f_null );
+        debugmsg( "Missing seed in plant furniture!" );
+        return;
+    }
+    const item &seed = g->m.i_at( examp ).front();
+    if( !seed.is_seed() ) {
+        debugmsg( "The seed item %s is not a seed!", seed.tname().c_str() );
+        return;
+    }
+
+    const std::string &seedType = seed.typeId();
+    if (seedType == "fungal_seeds") {
+        fungus(p, examp);
+        g->m.i_clear(examp);
+    } else if (seedType == "marloss_seed") {
+        fungus(p, examp);
+        g->m.i_clear(examp);
+        if(p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() + p.get_starvation() > 500) || p.get_thirst() > 300 )) {
+            g->m.ter_set(examp, t_marloss);
+            add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
+        } else if( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
+                    one_in(2)) ) {
+            g->summon_mon( mon_fungal_blossom, examp );
+            add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
+        } else if ( (p.has_trait(trait_THRESH_MYCUS)) || one_in(4)) {
+            g->m.furn_set(examp, f_flower_marloss);
+            add_msg(m_info, _("The seed blossoms rather rapidly..."));
+        } else {
+            g->m.furn_set(examp, f_flower_fungal);
+            add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
+        }
+    } else { // Generic seed, use the seed item data
+        const itype &type = *seed.type;
+        g->m.i_clear(examp);
+        g->m.furn_set(examp, f_null);
+
+        int skillLevel = p.get_skill_level( skill_survival );
+        ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+        int plantCount = rng(skillLevel / 2, skillLevel);
+        if (plantCount >= 12) {
+            plantCount = 12;
+        } else if( plantCount <= 0 ) {
+            plantCount = 1;
+        }
+        const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+        for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
+            g->m.add_item_or_charges( examp, i );
+        }
+        p.moves -= 500;
+    }
+}
+
+std::string iexamine::fertilize_failure_reason(player &p, const tripoint &tile, const itype_id &fertilizer)
+{
+    if (!g->m.has_flag_furn( "PLANT", tile)) {
+        return _("Tile isn't a plant");
+    }
+    if (g->m.i_at(tile).size() > 1) {
+        return _("Tile is already fertilized");
+    }
+    if (!p.has_charges( fertilizer, 1)) {
+        return string_format(_("Tried to fertilize with %s, but player doesn't have any."), fertilizer.c_str());
+    }
+
+    return std::string();
+}
+
+void iexamine::fertilize_plant(player &p, const tripoint &tile, const itype_id &fertilizer)
+{
+    std::string reason = fertilize_failure_reason(p, tile, fertilizer);
+    if (!reason.empty()) {
+        debugmsg(reason);
+        return;
+    }
+
+    std::list<item> planted = p.use_charges( fertilizer, 1 );
+
+    // Reduce the amount of time it takes until the next stage of the plant by
+    // 20% of a seasons length. (default 2.8 days).
+    const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
+
+    item &seed = g->m.i_at( tile ).front();
+    //@todo: item should probably clamp the value on its own
+    seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
+    // The plant furniture has the NOITEM token which prevents adding items on that square,
+    // spawned items are moved to an adjacent field instead, but the fertilizer token
+    // must be on the square of the plant, therefore this hack:
+    const auto old_furn = g->m.furn( tile );
+    g->m.furn_set( tile, f_null );
+    g->m.spawn_item( tile, "fertilizer", 1, 1, calendar::turn );
+    g->m.furn_set( tile, old_furn );
+    p.mod_moves( -500 );
+
+    add_msg( m_info, _("You fertilize the %s with the %s."), seed.get_plant_name().c_str(), planted.front().tname().c_str());
+}
+
+itype_id iexamine::choose_fertilizer(player &p, const std::string &pname, bool ask_player)
+{
+    std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
+    if( f_inv.empty() ) {
+        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
+        return itype_id();
+    }
+
+    std::vector<itype_id> f_types;
+    std::vector<std::string> f_names;
+    for( auto &f : f_inv ) {
+        if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
+            f_types.push_back( f->typeId() );
+            f_names.push_back( f->tname() );
+        }
+    }
+
+    if (ask_player && !query_yn(_("Fertilize the %s"), pname.c_str() )) {
+        return itype_id();
+    }
+
+    // Choose fertilizer from list
+    int f_index = 0;
+    if (f_types.size() > 1) {
+        f_index = uilist( _( "Use which fertilizer?" ), f_names );
+    }
+    if (f_index < 0) {
+        return itype_id();
+    }
+
+    return f_types[f_index];
+
+}
 void iexamine::aggie_plant(player &p, const tripoint &examp)
 {
     if( g->m.i_at( examp ).empty() ) {
@@ -1869,95 +2005,16 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
     const std::string pname = seed.get_plant_name();
 
     if (g->m.furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
-        const std::string &seedType = seed.typeId();
-        if (seedType == "fungal_seeds") {
-            fungus(p, examp);
-            g->m.i_clear(examp);
-        } else if (seedType == "marloss_seed") {
-            fungus(p, examp);
-            g->m.i_clear(examp);
-            if(p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() + p.get_starvation() > 500) || p.get_thirst() > 300 )) {
-                g->m.ter_set(examp, t_marloss);
-                add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
-            } else if( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
-                one_in(2)) ) {
-                g->summon_mon( mon_fungal_blossom, examp );
-                add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
-            } else if ( (p.has_trait(trait_THRESH_MYCUS)) || one_in(4)) {
-                g->m.furn_set(examp, f_flower_marloss);
-                add_msg(m_info, _("The seed blossoms rather rapidly..."));
-            } else {
-                g->m.furn_set(examp, f_flower_fungal);
-                add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
-            }
-        } else { // Generic seed, use the seed item data
-            const itype &type = *seed.type;
-            g->m.i_clear(examp);
-            g->m.furn_set(examp, f_null);
-
-            int skillLevel = p.get_skill_level( skill_survival );
-            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-            int plantCount = rng(skillLevel / 2, skillLevel);
-            if (plantCount >= 12) {
-                plantCount = 12;
-            } else if( plantCount <= 0 ) {
-                plantCount = 1;
-            }
-            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
-            for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
-                g->m.add_item_or_charges( examp, i );
-            }
-            p.moves -= 500;
-        }
+        harvest_plant(p, examp);
     } else if (g->m.furn(examp) != f_plant_harvest) {
         if (g->m.i_at(examp).size() > 1) {
             add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
             return;
         }
-        std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
-        if( f_inv.empty() ) {
-        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
-        return;
-        }
-        if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
-        std::vector<itype_id> f_types;
-        std::vector<std::string> f_names;
-            for( auto &f : f_inv ) {
-                if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
-                    f_types.push_back( f->typeId() );
-                    f_names.push_back( f->tname() );
-                }
-            }
-            // Choose fertilizer from list
-            int f_index = 0;
-            if (f_types.size() > 1) {
-                f_index = uilist( _( "Use which fertilizer?" ), f_names );
-            }
-            if (f_index < 0) {
-                return;
-            }
-            std::list<item> planted = p.use_charges( f_types[f_index], 1 );
-            if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
-                if (p.weapon.charges > 1) {
-                    p.weapon.charges--;
-                } else {
-                    p.remove_weapon();
-                }
-            }
-            // Reduce the amount of time it takes until the next stage of the plant by
-            // 20% of a seasons length. (default 2.8 days).
-            const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
+        itype_id fertilizer = choose_fertilizer(p, pname, true /*ask player for confirmation */);
 
-            item &seed = g->m.i_at( examp ).front();
-            //@todo: item should probably clamp the value on its own
-            seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
-            // The plant furniture has the NOITEM token which prevents adding items on that square,
-            // spawned items are moved to an adjacent field instead, but the fertilizer token
-            // must be on the square of the plant, therefore this hack:
-            const auto old_furn = g->m.furn( examp );
-            g->m.furn_set( examp, f_null );
-            g->m.spawn_item( examp, "fertilizer", 1, 1, calendar::turn );
-            g->m.furn_set( examp, old_furn );
+        if (!fertilizer.empty()) {
+            fertilize_plant( p, examp, fertilizer );
         }
     }
 }
