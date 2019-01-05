@@ -2,12 +2,12 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-#include "int_id.h"
-
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "int_id.h"
 
 class time_point;
 struct ter_t;

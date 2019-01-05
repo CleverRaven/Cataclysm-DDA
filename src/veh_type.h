@@ -2,14 +2,6 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "calendar.h"
-#include "color.h"
-#include "damage.h"
-#include "enums.h"
-#include "optional.h"
-#include "string_id.h"
-#include "units.h"
-
 #include <array>
 #include <bitset>
 #include <map>
@@ -18,6 +10,14 @@
 #include <set>
 #include <utility>
 #include <vector>
+
+#include "calendar.h"
+#include "color.h"
+#include "damage.h"
+#include "enums.h"
+#include "optional.h"
+#include "string_id.h"
+#include "units.h"
 
 using itype_id = std::string;
 

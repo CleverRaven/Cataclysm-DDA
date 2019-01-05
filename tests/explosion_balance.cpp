@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <sstream>
 
+#include "catch/catch.hpp"
 #include "enums.h"
 #include "game.h"
 #include "item.h"
@@ -11,8 +12,6 @@
 #include "test_statistics.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <sstream>
 
 void check_lethality( std::string explosive_id, int range, float lethality,
                       float margin )

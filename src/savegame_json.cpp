@@ -1,3 +1,15 @@
+// Associated headers here are the ones for which their only non-inline
+// functions are serialization functions.  This allows IWYU to check the
+// includes in such headers.
+#include "enums.h" // IWYU pragma: associated
+#include "npc_favor.h" // IWYU pragma: associated
+#include "pldata.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <limits>
+#include <numeric>
+#include <sstream>
+
 #include "ammo.h"
 #include "auto_pickup.h"
 #include "basecamp.h"
@@ -35,11 +47,6 @@
 #include "vpart_reference.h"
 #include "creature_tracker.h"
 #include "overmapbuffer.h"
-
-#include <algorithm>
-#include <limits>
-#include <numeric>
-#include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1369,7 +1376,7 @@ void npc::store( JsonOut &json ) const
 void inventory::json_save_invcache( JsonOut &json ) const
 {
     json.start_array();
-    for( const auto &elem : invlet_cache ) {
+    for( const auto &elem : invlet_cache.get_invlets_by_id() ) {
         json.start_object();
         json.member( elem.first );
         json.start_array();
@@ -1388,19 +1395,21 @@ void inventory::json_save_invcache( JsonOut &json ) const
 void inventory::json_load_invcache( JsonIn &jsin )
 {
     try {
+        std::unordered_map<itype_id, std::string> map;
         JsonArray ja = jsin.get_array();
         while( ja.has_more() ) {
             JsonObject jo = ja.next_object();
             std::set<std::string> members = jo.get_member_names();
             for( const auto &member : members ) {
-                std::vector<char> vect;
+                std::string invlets;
                 JsonArray pvect = jo.get_array( member );
                 while( pvect.has_more() ) {
-                    vect.push_back( pvect.next_int() );
+                    invlets.push_back( pvect.next_int() );
                 }
-                invlet_cache[member] = vect;
+                map[member] = invlets;
             }
         }
+        invlet_cache = { map };
     } catch( const JsonError &jsonerr ) {
         debugmsg( "bad invcache json:\n%s", jsonerr.c_str() );
     }

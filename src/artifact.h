@@ -2,10 +2,10 @@
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
+#include <string>
+
 #include "enums.h"
 #include "itype.h"
-
-#include <string>
 
 class JsonObject;
 class JsonOut;

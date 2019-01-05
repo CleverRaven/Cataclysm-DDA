@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <string>
 
+#include "catch/catch.hpp"
 #include "bodypart.h"
 #include "effect.h"
 #include "game.h"
@@ -7,8 +8,6 @@
 #include "itype.h"
 #include "morale.h"
 #include "morale_types.h"
-
-#include <string>
 
 TEST_CASE( "player_morale" )
 {

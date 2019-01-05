@@ -2,12 +2,12 @@
 #ifndef SHADOWCASTING_H
 #define SHADOWCASTING_H
 
-#include "enums.h"
-#include "game_constants.h"
-
 #include <array>
 #include <algorithm>
 #include <cmath>
+
+#include "enums.h"
+#include "game_constants.h"
 
 // For light we store four values, depending on the direction that the light
 // comes from.  This allows us to determine whether the side of the wall the

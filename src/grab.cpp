@@ -1,4 +1,5 @@
-#include "game.h"
+#include "game.h" // IWYU pragma: associated
+
 #include "map.h"
 #include "messages.h"
 #include "output.h"

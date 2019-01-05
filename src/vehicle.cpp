@@ -1,4 +1,19 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+#include "vpart_position.h" // IWYU pragma: associated
+#include "vpart_range.h" // IWYU pragma: associated
+#include "vpart_reference.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <complex>
+#include <cmath>
+#include <cstdlib>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <unordered_map>
 
 #include "ammo.h"
 #include "cata_utility.h"
@@ -23,22 +38,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "vpart_range.h"
-#include "vpart_reference.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <complex>
-#include <cmath>
-#include <cstdlib>
-#include <numeric>
-#include <queue>
-#include <set>
-#include <sstream>
-#include <unordered_map>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;

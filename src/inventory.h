@@ -2,15 +2,16 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "enums.h"
-#include "item.h"
-#include "visitable.h"
-
+#include <array>
 #include <list>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+#include "enums.h"
+#include "item.h"
+#include "visitable.h"
 
 class map;
 class npc;
@@ -49,6 +50,27 @@ class invlet_wrapper : private std::string
 };
 
 const extern invlet_wrapper inv_chars;
+
+// For each item id, store a set of "favorite" inventory letters.
+// This class maintains a bidirectional mapping between invlet letters and item ids.
+// Each invlet has at most one id and each id has any number of invlets.
+class invlet_favorites
+{
+    public:
+        invlet_favorites() = default;
+        invlet_favorites( const std::unordered_map<itype_id, std::string> & );
+
+        void set( char invlet, const itype_id & );
+        void erase( char invlet );
+        bool contains( char invlet, const itype_id & ) const;
+        std::string invlets_for( const itype_id & ) const;
+
+        // For serialization only
+        const std::unordered_map<itype_id, std::string> &get_invlets_by_id() const;
+    private:
+        std::unordered_map<itype_id, std::string> invlets_by_id;
+        std::array<itype_id, 256> ids_by_invlet;
+};
 
 class inventory : public visitable<inventory>
 {
@@ -180,8 +202,7 @@ class inventory : public visitable<inventory>
         void copy_invlet_of( const inventory &other );
 
     private:
-        // For each item ID, store a set of "favorite" inventory letters.
-        std::map<std::string, std::vector<char> > invlet_cache;
+        invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const std::string &item_type );
 
         invstack items;

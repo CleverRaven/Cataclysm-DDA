@@ -1,5 +1,9 @@
 #include "sounds.h"
 
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -19,10 +23,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <chrono>
-#include <cmath>
 
 #ifdef SDL_SOUND
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

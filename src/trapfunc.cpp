@@ -1,4 +1,4 @@
-#include "trap.h"
+#include "trap.h" // IWYU pragma: associated
 
 #include "debug.h"
 #include "event.h"

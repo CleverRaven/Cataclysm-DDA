@@ -1,5 +1,6 @@
+#include "debug_menu.h" // IWYU pragma: associated
+
 #include "debug.h"
-#include "debug_menu.h"
 #include "game.h"
 #include "input.h"
 #include "item_factory.h"

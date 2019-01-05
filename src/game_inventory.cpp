@@ -1,5 +1,7 @@
 #include "game_inventory.h"
 
+#include <functional>
+
 #include "game.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -12,8 +14,6 @@
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "string_formatter.h"
-
-#include <functional>
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
@@ -731,7 +731,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                return good_bad_none( p.book_fun_for( *loc ) );
+                return good_bad_none( p.book_fun_for( *loc, p ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {

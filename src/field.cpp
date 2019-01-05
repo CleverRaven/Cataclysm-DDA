@@ -1,5 +1,8 @@
 #include "field.h"
 
+#include <algorithm>
+#include <queue>
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -24,9 +27,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <queue>
 
 const species_id FUNGUS( "FUNGUS" );
 

@@ -1,5 +1,9 @@
 #include "weather.h"
 
+#include <cmath>
+#include <sstream>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -17,10 +21,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "weather_gen.h"
-
-#include <cmath>
-#include <sstream>
-#include <vector>
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );

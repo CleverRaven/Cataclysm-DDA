@@ -4,12 +4,12 @@
 
 class player;
 
+#include <string>
+#include <vector>
+
 #include "cursesdef.h"
 #include "input.h"
 #include "worldfactory.h"
-
-#include <string>
-#include <vector>
 
 class main_menu
 {

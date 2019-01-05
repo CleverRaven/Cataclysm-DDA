@@ -1,5 +1,9 @@
 #include "pickup.h"
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "auto_pickup.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -22,10 +26,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <map>
-#include <string>
-#include <vector>
 
 typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;

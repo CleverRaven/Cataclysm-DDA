@@ -1,5 +1,13 @@
 #include "iuse.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <set>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
+
 #include "action.h"
 #include "artifact.h"
 #include "calendar.h"
@@ -50,14 +58,6 @@
 #include "vpart_range.h"
 #include "veh_type.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <cmath>
-#include <cstdlib>
-#include <set>
-#include <sstream>
-#include <stdexcept>
-#include <vector>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
