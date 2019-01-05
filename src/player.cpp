@@ -192,6 +192,7 @@ static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
+static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
@@ -2646,7 +2647,7 @@ float player::active_light() const
         lumination = 60;
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
-    } else if( lumination < 5 && has_effect( effect_glowing ) ) {
+    } else if( lumination < 5 && ( has_effect( effect_glowing ) || has_active_bionic( bio_tattoo_led ) ) ) {
         lumination = 5;
     }
     return lumination;
