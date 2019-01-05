@@ -254,6 +254,13 @@ int main( int argc, const char *argv[] )
 
     setupDebug( DebugOutput::std_err );
 
+    // Set the seed for mapgen (the seed will also be reset before each test)
+    unsigned int seed = session.config().rngSeed();
+    if( seed ) {
+        srand( seed );
+        rng_set_engine_seed( seed );
+    }
+
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite );
