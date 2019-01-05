@@ -687,3 +687,49 @@ TEST_CASE( "Inventory letter test", "[invlet]" )
                                       WIELDED_OR_WORN );
     merge_invlet_test_autoletter_off( "Merging worn item into an inventory stack", dummy, WORN );
 }
+
+void verify_invlet_consistency( const invlet_favorites &fav )
+{
+    for( const auto &p : fav.get_invlets_by_id() ) {
+        for( const char invlet : p.second ) {
+            CHECK( fav.contains( invlet, p.first ) );
+        }
+    }
+}
+
+TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
+{
+    invlet_favorites fav;
+    fav.set( 'a', "a" );
+    verify_invlet_consistency( fav );
+    CHECK( fav.invlets_for( "a" ) == "a" );
+    fav.erase( 'a' );
+    verify_invlet_consistency( fav );
+    CHECK( fav.invlets_for( "a" ) == "" );
+}
+
+TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
+{
+    invlet_favorites fav;
+    fav.set( 'a', "a" );
+    verify_invlet_consistency( fav );
+    CHECK( fav.invlets_for( "a" ) == "a" );
+    CHECK( fav.invlets_for( "b" ) == "" );
+    fav.set( 'a', "b" );
+    verify_invlet_consistency( fav );
+    CHECK( fav.invlets_for( "a" ) == "" );
+    CHECK( fav.invlets_for( "b" ) == "a" );
+}
+
+TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[invlet]" )
+{
+    invlet_favorites fav;
+    fav.set( 'a', "a" );
+    fav.set( 'b', "a" );
+    fav.set( 'c', "a" );
+    verify_invlet_consistency( fav );
+    CHECK( fav.invlets_for( "a" ) == "abc" );
+    fav.set( 'b', "a" );
+    verify_invlet_consistency( fav );
+    CHECK( fav.invlets_for( "a" ) == "abc" );
+}
