@@ -2556,6 +2556,8 @@ conditional_t::conditional_t( const std::string &type )
 
 void json_talk_response::load_condition( JsonObject &jo )
 {
+    is_switch = jo.get_bool( "switch", false );
+    is_default = jo.get_bool( "default", false );
     static const std::string member_name( "condition" );
     if( !jo.has_member( member_name ) ) {
         // Leave condition unset, defaults to true.
@@ -2585,11 +2587,15 @@ bool json_talk_response::test_condition( const dialogue &d ) const
     return true;
 }
 
-void json_talk_response::gen_responses( dialogue &d ) const
+bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
 {
     if( test_condition( d ) ) {
-        d.responses.emplace_back( actual_response );
+        if( !is_switch || ( is_switch && !switch_done ) ) {
+             d.responses.emplace_back( actual_response );
+        }
+        return is_switch && !is_default;
     }
+    return false;
 }
 
 dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
@@ -2848,8 +2854,9 @@ void json_talk_topic::load( JsonObject &jo )
 bool json_talk_topic::gen_responses( dialogue &d ) const
 {
     d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
+    bool switch_done = false;
     for( auto &r : responses ) {
-        r.gen_responses( d );
+        switch_done |= r.gen_responses( d, switch_done );
     }
     return replace_built_in_responses;
 }

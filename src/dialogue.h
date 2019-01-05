@@ -330,6 +330,8 @@ class json_talk_response
     private:
         talk_response actual_response;
         std::function<bool( const dialogue & )> condition;
+        bool is_switch = false;
+        bool is_default = false;
 
         void load_condition( JsonObject &jo );
         bool test_condition( const dialogue &d ) const;
@@ -340,7 +342,7 @@ class json_talk_response
         /**
          * Callback from @ref json_talk_topic::gen_responses, see there.
          */
-        void gen_responses( dialogue &d ) const;
+        bool gen_responses( dialogue &d, bool switch_done ) const;
 };
 
 /**
