@@ -1888,9 +1888,9 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     }
     
     if( has_trait( trait_HEALTHY ) ) {
-        nhealthy_mod *= ( nhealthy_mod > 0 ) ? 1.25 : 0.75;
-    } else if ( has_trait ( trait_UNHEALTHY ) ) {
-        nhealthy_mod *= ( nhealthy_mod > 0 ) ? 0.75 : 1.25;
+        nhealthy_mod = roll_remainder( nhealthy_mod * ( ( nhealthy_mod > 0 ) ? 1.25 : 0.75 ) );
+    } else if( has_trait ( trait_UNHEALTHY ) ) {
+        nhealthy_mod = roll_remainder( nhealthy_mod * ( ( nhealthy_mod > 0 ) ? 0.75 : 1.25 ) );
     }
     
     // If we're already out-of-bounds, we don't need to do anything.
