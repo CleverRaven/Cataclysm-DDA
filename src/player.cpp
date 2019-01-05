@@ -9207,26 +9207,36 @@ bool player::fun_to_read( const item &book ) const
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
     } else {
-        return book_fun_for( book ) > 0;
+        return book_fun_for( book, *this ) > 0;
     }
 }
 
-int player::book_fun_for(const item &book) const
+int player::book_fun_for( const item &book, const player &p ) const
 {
+    int fun_bonus = book.type->book->fun;
     if( !book.is_book() ) {
         debugmsg( "called player::book_fun_for with non-book" );
         return 0;
     }
+
     if( has_trait( trait_LOVES_BOOKS ) ) {
-        return ( book.type->book->fun + 1 );
-    } else if ( has_trait( trait_HATES_BOOKS ) ) {
-        if( ( book.type->book->fun > 0 ) ) {
-            return 0;
+        fun_bonus++;
+    } else if( has_trait( trait_HATES_BOOKS ) ) {
+        if( book.type->book->fun > 0 ) {
+            fun_bonus = 0;
         } else {
-            return ( book.type->book->fun - 1 );
+            fun_bonus--;
         }
     }
-    return book.type->book->fun;
+    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+    if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
+          p.has_trait( trait_SAPIOVORE ) ) &&
+        book.typeId() == "cookbook_human" ) {
+        fun_bonus = abs( fun_bonus );
+    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        fun_bonus = abs( fun_bonus * 3 );
+    }
+    return fun_bonus;
 }
 
 /**
@@ -9472,16 +9482,9 @@ bool player::read( int inventory_position, const bool continuous )
         apply_morale.insert( elem.first );
     }
     for( player *elem : apply_morale ) {
-        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-        if( ( elem->has_trait( trait_CANNIBAL ) || elem->has_trait( trait_PSYCHOPATH ) ||
-              elem->has_trait( trait_SAPIOVORE ) ) &&
-            it.typeId() == "cookbook_human" ) {
-            elem->add_morale( MORALE_BOOK, 0, 75, decay_start + 3_minutes, decay_start, false, it.type );
-        } else if( elem->has_trait( trait_SPIRITUAL ) && it.has_flag( "INSPIRATIONAL" ) ) {
-            elem->add_morale( MORALE_BOOK, 0, 90, decay_start + 6_minutes, decay_start, false, it.type );
-        } else {
-            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, decay_start + 3_minutes, decay_start, false, it.type );
-        }
+        //Fun bonuses for spritual and To Serve Man are no longer calculated here.
+        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 3_minutes,
+                          decay_start, false, it.type );
     }
 
     return true;
@@ -9513,8 +9516,9 @@ void player::do_read( item &book )
         if (reading->intel != 0) {
             add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
         }
-        if (book_fun_for( book ) != 0) {
-            add_msg(m_info, _("Reading this book affects your morale by %d"), book_fun_for( book ) );
+        //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
+        if( book_fun_for( book, *this ) != 0 ) {
+            add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
         }
         add_msg(m_info, ngettext("A chapter of this book takes %d minute to read.",
                          "A chapter of this book takes %d minutes to read.", reading->time),
@@ -9562,36 +9566,10 @@ void player::do_read( item &book )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if( book_fun_for( book ) != 0 ) {
-            int fun_bonus = 0;
-            const int chapters = book.get_chapters();
-            const int remain = book.get_remaining_chapters( *this );
-            if( chapters > 0 && remain == 0 ) {
-                //Book is out of chapters -> re-reading old book, less fun
-                if( learner->is_player() ) {
-                    // This goes in the front because "It isn't as much fun for Jim and you"
-                    // sounds weird compared to "It isn't as much fun for you and Jim"
-                    out_of_chapters.push_front( learner->disp_name() );
-                } else {
-                    out_of_chapters.push_back( learner->disp_name() );
-                }
-                //50% penalty
-                fun_bonus = ( book_fun_for( book ) * 5 ) / 2;
-            } else {
-                fun_bonus = book_fun_for( book ) * 5;
-            }
-            // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-            if( ( learner->has_trait( trait_CANNIBAL ) || learner->has_trait( trait_PSYCHOPATH ) ||
-                  learner->has_trait( trait_SAPIOVORE ) ) &&
-                book.typeId() == "cookbook_human" ) {
-                fun_bonus = 25;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 6_minutes, 3_minutes, true, book.type );
-            } else if( learner->has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-                fun_bonus = 15;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 9_minutes, 9_minutes, true, book.type );
-            } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, book_fun_for( book ) * 15, 6_minutes, 3_minutes, true, book.type );
-            }
+        if( book_fun_for( book, *learner ) != 0 ) {
+            //Fun bonus is no longer calculated here.
+            learner->add_morale( MORALE_BOOK, 0, book_fun_for( book, *learner ) * 5, 6_minutes, 3_minutes, true,
+                book.type );
         }
 
         book.mark_chapter_as_read( *learner );

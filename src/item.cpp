@@ -1830,10 +1830,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           _( "Requires <info>intelligence of</info> <num> to easily read." ),
                                           iteminfo::lower_is_better, book.intel ) );
             }
-            if( g->u.book_fun_for( *this ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
+            if( g->u.book_fun_for( *this, g->u ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          iteminfo::show_plus, g->u.book_fun_for( *this ) ) );
+                                          iteminfo::show_plus, g->u.book_fun_for( *this, g->u ) ) );
             }
             if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
                 auto fmt = ngettext(
