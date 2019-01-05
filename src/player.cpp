@@ -193,6 +193,7 @@ static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
+static const bionic_id bio_glowy( "bio_glowy" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
@@ -6042,6 +6043,10 @@ void player::suffer()
         add_msg_if_player(m_bad, _("Your malfunctioning bionic itches!"));
         body_part bp = random_body_part(true);
         add_effect( effect_formication, 10_minutes, bp );
+    }
+    if (has_bionic ( bio_glowy ) && one_in(500) !has_effect( effect_glowing )) {
+        add_msg_if_player(m_bad, _("Your malfunctioning bionic starts to glow!"));
+        add_effect( effect_glowing, 5_minutes );
     }
 
     // Artifact effects
