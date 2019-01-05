@@ -2432,11 +2432,13 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations() const
+std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
     for( auto &t : my_mutations ) {
-        result.push_back( t.first );
+        if( include_hidden || t.first.obj().player_display ) {
+            result.push_back( t.first );
+        }
     }
     return result;
 }

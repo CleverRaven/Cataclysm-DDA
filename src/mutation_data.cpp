@@ -282,6 +282,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.threshold = jsobj.get_bool( "threshold", false );
     new_mut.profession = jsobj.get_bool( "profession", false );
     new_mut.debug = jsobj.get_bool( "debug", false );
+    new_mut.player_display = jsobj.get_bool( "player_display", true );
 
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
