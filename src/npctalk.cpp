@@ -2300,6 +2300,16 @@ conditional_t::conditional_t( JsonObject jo )
         condition = [trait_to_check]( const dialogue & d ) {
             return d.beta->has_trait( trait_id( trait_to_check ) );
         };
+    } else if( jo.has_member( "u_has_trait_flag" ) ) {
+        std::string trait_flag_to_check = jo.get_string( "u_has_trait_flag" );
+        condition = [trait_flag_to_check]( const dialogue & d ) {
+            return d.beta->has_trait_flag( trait_flag_to_check );
+        };
+    } else if( jo.has_member( "npc_has_trait_flag" ) ) {
+        std::string trait_flag_to_check = jo.get_string( "npc_has_trait_flag" );
+        condition = [trait_flag_to_check]( const dialogue & d ) {
+            return d.beta->has_trait_flag( trait_flag_to_check );
+        };
     } else if( jo.has_member( "npc_has_class" ) ) {
         std::string class_to_check = jo.get_string( "npc_has_class" );
         condition = [class_to_check]( const dialogue & d ) {
@@ -2340,6 +2350,33 @@ conditional_t::conditional_t( JsonObject jo )
         condition = [item_id]( const dialogue & d ) {
             return d.alpha->is_wearing( item_id );
         };
+    } else if( jo.has_string( "u_has_item" ) ) {
+        const std::string item_id = jo.get_string( "u_has_item" );
+        condition = [item_id]( const dialogue & d ) {
+            return d.alpha->inv.position_by_type( item_id ) != INT_MIN ||
+                   d.alpha->inv.has_charges( item_id, 1 );
+        };
+    } else if( jo.has_member( "u_has_items" ) ) {
+        JsonObject has_items = jo.get_object( "u_has_items" );
+        if( !has_items.has_string( "item" ) || !has_items.has_int( "count" ) ) {
+            condition = []( const dialogue & ) {
+                return false;
+            };
+        } else {
+            const std::string item_id = has_items.get_string( "item" );
+            int count = has_items.get_int( "count" );
+            condition = [item_id, count]( const dialogue & d ) {
+                if( d.alpha->inv.has_charges( item_id, count ) ) {
+                    return true;
+                }
+                int item_at = d.alpha->inv.position_by_type( item_id );
+                if( item_at == INT_MIN ) {
+                    return false;
+                }
+                const item &actual_item = d.alpha->i_at( item_at );
+                return actual_item.count() >= count;
+            };
+        }
     } else if( jo.has_string( "npc_has_effect" ) ) {
         const std::string &effect = jo.get_string( "npc_has_effect" );
         condition = [effect]( const dialogue & d ) {
@@ -2371,7 +2408,8 @@ conditional_t::conditional_t( JsonObject jo )
         const std::string &role = jo.get_string( "npc_role_nearby" );
         condition = [role]( const dialogue &d ) {
             const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
-                return d.alpha->posz() == guy.posz() && ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 ) && guy.companion_mission_role_id == role;
+                return d.alpha->posz() == guy.posz() && guy.companion_mission_role_id == role &&
+                       ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 );
             } );
             return !available.empty();
         };
@@ -2390,11 +2428,27 @@ conditional_t::conditional_t( JsonObject jo )
         condition = [min_cash]( const dialogue & d ) {
             return d.alpha->cash >= min_cash;
         };
+    } else if( jo.has_int( "days_since_cataclysm" ) ) {
+        const unsigned long days = jo.get_int( "days_since_cataclysm" );
+        condition = [days]( const dialogue & ) {
+            return to_turn<int>( calendar::turn ) >= DAYS( days );
+        };
+    } else if( jo.has_string( "is_season" ) ) {
+        std::string season_name = jo.get_string( "is_season" );
+        condition = [season_name]( const dialogue & ) {
+            const auto season = season_of_year( calendar::turn );
+            return ( season == SPRING && season_name == "spring" ) ||
+                   ( season == SUMMER && season_name == "summer" ) ||
+                   ( season == AUTUMN && season_name == "autumn" ) ||
+                   ( season == WINTER && season_name == "winter" );
+        };
     } else {
         static const std::unordered_set<std::string> sub_condition_strs = { {
                 "has_assigned_mission", "has_many_assigned_missions", "has_no_available_mission",
-                "has_available_mission", "has_many_available_missions", "npc_available", "npc_following",
-                "at_safe_space", "u_can_stow_weapon", "u_has_weapon", "npc_has_weapon"
+                "has_available_mission", "has_many_available_missions",
+                "npc_available", "npc_following",
+                "at_safe_space", "u_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
+                "is_day", "is_outside"
             }
         };
         bool found_sub_member = false;
@@ -2456,7 +2510,8 @@ conditional_t::conditional_t( const std::string &type )
         };
     } else if( type == "u_can_stow_weapon" ) {
         condition = []( const dialogue & d ) {
-            return !d.alpha->unarmed_attack() && ( d.alpha->volume_carried() + d.alpha->weapon.volume() <= d.alpha->volume_capacity() );
+            return !d.alpha->unarmed_attack() && ( d.alpha->volume_carried() +
+                   d.alpha->weapon.volume() <= d.alpha->volume_capacity() );
         };
     } else if( type == "u_has_weapon" ) {
         condition = []( const dialogue & d ) {
@@ -2465,6 +2520,15 @@ conditional_t::conditional_t( const std::string &type )
     } else if( type == "npc_has_weapon" ) {
         condition = []( const dialogue & d ) {
             return !d.beta->unarmed_attack();
+        };
+    } else if( type == "is_day" ) {
+        condition = []( const dialogue & ) {
+            return !calendar::turn.is_night();
+        };
+    } else if( type == "is_outside" ) {
+        condition = []( const dialogue &d ) {
+            const tripoint pos = g->m.getabs( d.beta->pos() );
+            return !g->m.has_flag( TFLAG_INDOORS, pos );
         };
     } else {
         condition = []( const dialogue & ) {
@@ -2527,7 +2591,7 @@ dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &m
 dynamic_line_t::dynamic_line_t( const std::string &line )
 {
     function = [line]( const dialogue & ) {
-        return _( line.c_str() );
+        return _( line );
     };
 }
 
@@ -2558,6 +2622,15 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         function = [item_id, yes, no]( const dialogue & d ) {
             const bool wearing = d.alpha->is_wearing( item_id );
             return ( wearing ? yes : no )( d );
+        };
+    } else if( jo.has_member( "u_has_item" ) ) {
+        const std::string item_id = jo.get_string( "u_has_item" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [item_id, yes, no]( const dialogue & d ) {
+            const bool has_it = d.alpha->inv.position_by_type( item_id ) != INT_MIN ||
+                                d.alpha->inv.has_charges( item_id, 1 );
+            return ( has_it ? yes : no )( d );
         };
     } else if( jo.has_member( "npc_has_effect" ) ) {
         const std::string effect_id = jo.get_string( "npc_has_effect" );
@@ -2625,6 +2698,26 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             }
             return no( d );
         };
+    } else if( jo.has_member( "u_has_trait_flag" ) ) {
+        std::string trait_flag_to_check = jo.get_string( "u_has_trait_flag" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
+            if( d.alpha->has_trait_flag( trait_flag_to_check ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "npc_has_trait_flag" ) ) {
+        std::string trait_flag_to_check = jo.get_string( "npc_has_trait_flag" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
+            if( d.beta->has_trait_flag( trait_flag_to_check ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
     } else if( jo.has_member( "npc_has_class" ) ) {
         std::string class_to_check = jo.get_string( "npc_has_class" );
         const dynamic_line_t yes = from_member( jo, "yes" );
@@ -2658,6 +2751,36 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
                 return one( d );
             }
             return many( d );
+        };
+    } else if( jo.has_member( "days_since_cataclysm" ) ) {
+        const unsigned long days = jo.get_int( "days_since_cataclysm" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [days, yes, no]( const dialogue &d ) {
+            if( to_turn<int>( calendar::turn ) >= DAYS( days ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "is_season" ) ) {
+        std::string season_name = jo.get_string( "is_season" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [season_name, yes, no]( const dialogue & d ) {
+            const auto season = season_of_year( calendar::turn );
+            if( ( season == SPRING && season_name == "spring" ) ||
+                ( season == SUMMER && season_name == "summer" ) ||
+                ( season == AUTUMN && season_name == "autumn" ) ||
+                ( season == WINTER && season_name == "winter" ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_member( "is_day" ) && jo.has_member( "is_night" ) ) {
+        const dynamic_line_t is_day = from_member( jo, "is_day" );
+        const dynamic_line_t is_night = from_member( jo, "is_night" );
+        function = [is_day, is_night]( const dialogue & d ) {
+            return ( calendar::turn.is_night() ? is_night : is_day )( d );
         };
     } else if( jo.has_member( "give_hint" ) ) {
         function = [&]( const dialogue & ) {
