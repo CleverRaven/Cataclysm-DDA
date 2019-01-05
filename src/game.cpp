@@ -10461,6 +10461,20 @@ bool game::plmove( int dx, int dy, int dz )
         return true;
     }
 
+    //Wooden Fence Gate (or equivalently walkable doors):
+    // open it if we are walking
+    // vault over it if we are running
+    if( m.passable_ter_furn( dest_loc )
+        && u.move_mode == "walk"
+        && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
+        u.moves -= 100;
+        // if auto-move is on, continue moving next turn
+        if( u.has_destination() ) {
+            u.defer_move( dest_loc );
+        }
+        return true;
+    }
+
     if( walk_move( dest_loc ) ) {
         return true;
     }
