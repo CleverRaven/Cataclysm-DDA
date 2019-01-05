@@ -1005,7 +1005,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                               food->temperature ) );
                     info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "", iteminfo::lower_is_better,
-                                              food->specific_energy ) );
+                                              1000*food->specific_energy ) );
+                    info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "", iteminfo::lower_is_better,
+                                              1000*food->type->comestible->spec_heat_liquid ) );
+                    info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "", iteminfo::lower_is_better,
+                                              1000*food->type->comestible->spec_heat_solid ) );
+                    info.push_back( iteminfo( "BASE", _( "latent heat: " ), "", iteminfo::lower_is_better,
+                                              food->type->comestible->lat_heat ) );
                 }
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
