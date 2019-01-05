@@ -163,7 +163,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     float fun_max = fun < 0 ? fun * 6 : fun * 3;
     if( comest.has_flag( flag_EATEN_COLD ) && comest.has_flag( flag_COLD ) ) {
         if( fun > 0 ) {
-            fun *= 3;
+            fun *= 2;
         } else {
             fun = 1;
             fun_max = 5;
