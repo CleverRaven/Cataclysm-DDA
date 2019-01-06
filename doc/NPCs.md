@@ -185,7 +185,7 @@ The dynamic line is chosen based on whether the NPC has a specific trait.  Both 
 ```
 
 #### Based on trait or mutation flag possessed by the player character
-The dynamic line is chosen based on whether the player character has a trait with a specific flag.  Both entries are optional. The `u_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the character has any traits with the flag, otherwise the line from `no`.
+The dynamic line is chosen based on whether the player character has a trait with a specific flag.  Both entries are optional.  The `u_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the character has any traits with the flag, otherwise the line from `no`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player has crossed a mutation threshold.
 
 ```C++
 {
@@ -196,7 +196,7 @@ The dynamic line is chosen based on whether the player character has a trait wit
 ```
 
 #### Based on trait or mutation flag possessed by the NPC
-The dynamic line is chosen based on whether the NPC has a trait with a specific flag.  Both entries are optional. The `npc_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the NPC has any traits with the flag, otherwise the line from `no`.
+The dynamic line is chosen based on whether the NPC has a trait with a specific flag.  Both entries are optional.  The `npc_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the NPC has any traits with the flag, otherwise the line from `no`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the NPC has crossed a mutation threshold.
 
 ```C++
 {
@@ -616,10 +616,10 @@ The following keys and simple strings are available:
 `true` if the NPC has a specific trait. A simpler version of `npc_has_any_trait` that only checks for one trait.
 
 #### "u_any_trait_flag" (string)
-`true` if the player character has any traits with the specific trait flag.  A more robust version of `u_has_any_trait`.
+`true` if the player character has any traits with the specific trait flag.  A more robust version of `u_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player has crossed a mutation threshold.
 
 #### "npc_has_trait_flag" (string)
-`true` if the NPC has any traits with the specific trait flag. A more robust version of `npc_has_any_trait`.
+`true` if the NPC has any traits with the specific trait flag. A more robust version of `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the NPC has crossed a mutation threshold.
 
 #### "npc_has_class" (array)
 `true` if the NPC is a member of an NPC class.

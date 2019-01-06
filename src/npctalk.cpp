@@ -2359,11 +2359,17 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_member( "u_has_trait_flag" ) ) {
         std::string trait_flag_to_check = jo.get_string( "u_has_trait_flag" );
         condition = [trait_flag_to_check]( const dialogue & d ) {
-            return d.beta->has_trait_flag( trait_flag_to_check );
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+                return d.alpha->crossed_threshold();
+            }
+            return d.alpha->has_trait_flag( trait_flag_to_check );
         };
     } else if( jo.has_member( "npc_has_trait_flag" ) ) {
         std::string trait_flag_to_check = jo.get_string( "npc_has_trait_flag" );
         condition = [trait_flag_to_check]( const dialogue & d ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+                return d.beta->crossed_threshold();
+            }
             return d.beta->has_trait_flag( trait_flag_to_check );
         };
     } else if( jo.has_member( "npc_has_class" ) ) {
@@ -2765,7 +2771,9 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
-            if( d.alpha->has_trait_flag( trait_flag_to_check ) ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" && d.alpha->crossed_threshold() ) {
+                return yes( d );
+            } else if( d.alpha->has_trait_flag( trait_flag_to_check ) ) {
                 return yes( d );
             }
             return no( d );
@@ -2775,7 +2783,9 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
-            if( d.beta->has_trait_flag( trait_flag_to_check ) ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" && d.beta->crossed_threshold() ) {
+                return yes( d );
+            } else if( d.beta->has_trait_flag( trait_flag_to_check ) ) {
                 return yes( d );
             }
             return no( d );
