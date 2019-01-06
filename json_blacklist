@@ -78,16 +78,13 @@ data/json/mapgen/basement/basement_chem.json
 data/json/mapgen/basement/basement_game.json
 data/json/mapgen/basement/basement_lab_stairs.json
 data/json/mapgen/basement/basement_survival.json
-data/json/mapgen/bowling_alley.json
 data/json/mapgen/campsite.json
 data/json/mapgen/cemetery_4square.json
 data/json/mapgen/debug_ramps.json
 data/json/mapgen/diner.json
-data/json/mapgen/dojo.json
 data/json/mapgen/evac_center.json
 data/json/mapgen/farm.json
 data/json/mapgen/field_football.json
-data/json/mapgen/fire_station.json
 data/json/mapgen/garage_gas.json
 data/json/mapgen/garage.json
 data/json/mapgen/homeimprovement_superstore.json
