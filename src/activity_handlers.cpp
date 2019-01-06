@@ -301,6 +301,10 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             case 3:
                 u.add_msg_if_player( m_info, _( "You dissect the corpse with a trusty scalpel." ) );
                 break;
+            case 5:
+                u.add_msg_if_player( m_info,
+                                     _( "You dissect the corpse with a sophisticated system of surgical grade scalpels." ) );
+                break;
         }
     }
 

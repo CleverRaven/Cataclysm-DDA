@@ -310,17 +310,23 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         auto light_head  = one_in( 20 );
+        auto light_whead  = one_in( 20 ); // wide-angle headlight
         auto light_dome  = one_in( 16 );
         auto light_aisle = one_in( 8 );
+        auto light_hoverh = one_in( 4 ); // half circle overhead light
         auto light_overh = one_in( 4 );
         auto light_atom  = one_in( 2 );
         for( auto &pt : parts ) {
             if( pt.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 pt.enabled = light_head;
+            } else if( pt.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
+                pt.enabled = light_whead;
             } else if( pt.has_flag( VPFLAG_DOME_LIGHT ) ) {
                 pt.enabled = light_dome;
             } else if( pt.has_flag( VPFLAG_AISLE_LIGHT ) ) {
                 pt.enabled = light_aisle;
+            } else if( pt.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
+                pt.enabled = light_hoverh;
             } else if( pt.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 pt.enabled = light_overh;
             } else if( pt.has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
@@ -480,7 +486,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // destroy tires until the vehicle is not drivable
     if( destroyTires && !wheelcache.empty() ) {
         int tries = 0;
-        while( valid_wheel_config( false ) && tries < 100 ) {
+        while( valid_wheel_config() && tries < 100 ) {
             // wheel config is still valid, destroy the tire.
             set_hp( parts[random_entry( wheelcache )], 0 );
             tries++;
@@ -3096,11 +3102,10 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
 }
 
-float vehicle::wheel_area( bool boat ) const
+float vehicle::wheel_area() const
 {
     float total_area = 0.0f;
-    const auto &wheel_indices = boat ? floating : wheelcache;
-    for( auto &wheel_index : wheel_indices ) {
+    for( auto &wheel_index : wheelcache ) {
         total_area += parts[ wheel_index ].base.wheel_area();
     }
 
@@ -3329,7 +3334,7 @@ double vehicle::coeff_water_drag() const
         draft_m = 1.0;
         return 1250.0;
     }
-    double hull_coverage = floating.size() / structure_indices.size();
+    double hull_coverage = static_cast<double>( floating.size() ) / structure_indices.size();
 
     int min_x = 0;
     int max_x = 0;
@@ -3372,13 +3377,14 @@ double vehicle::coeff_water_drag() const
     coeff_water_dirty = false;
     return coefficient_water_resistance;
 }
+
 float vehicle::k_traction( float wheel_traction_area ) const
 {
-    if( wheel_traction_area <= 0.01f ) {
-        return 0.0f;
+    if( is_floating ) {
+        return can_float() ? 1.0f : -1.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) *
+    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area() ) *
                                to_kilogram( total_mass() );
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
@@ -3406,12 +3412,8 @@ float vehicle::strain() const
     }
 }
 
-bool vehicle::sufficient_wheel_config( bool boat ) const
+bool vehicle::sufficient_wheel_config() const
 {
-    // @todo: Remove the limitations that boats can't move on land
-    if( boat || is_floating ) {
-        return boat && floating.size() > 2;
-    }
     if( wheelcache.empty() ) {
         // No wheels!
         return false;
@@ -3425,16 +3427,14 @@ bool vehicle::sufficient_wheel_config( bool boat ) const
     return true;
 }
 
-bool vehicle::balanced_wheel_config( bool boat ) const
+bool vehicle::balanced_wheel_config() const
 {
     int xmin = INT_MAX;
     int ymin = INT_MAX;
     int xmax = INT_MIN;
     int ymax = INT_MIN;
     // find the bounding box of the wheels
-    // TODO: find convex hull instead
-    const auto &indices = boat ? floating : wheelcache;
-    for( auto &w : indices ) {
+    for( auto &w : wheelcache ) {
         const auto &pt = parts[ w ].mount;
         xmin = std::min( xmin, pt.x );
         ymin = std::min( ymin, pt.y );
@@ -3449,16 +3449,16 @@ bool vehicle::balanced_wheel_config( bool boat ) const
     return true;
 }
 
-bool vehicle::valid_wheel_config( bool boat ) const
+bool vehicle::valid_wheel_config() const
 {
-    return sufficient_wheel_config( boat ) && balanced_wheel_config( boat );
+    return sufficient_wheel_config() && balanced_wheel_config();
 }
 
 float vehicle::steering_effectiveness() const
 {
     if( is_floating ) {
         // I'M ON A BOAT
-        return 1.0;
+        return can_float() ? 1.0 : 0.0;
     }
 
     if( steering.empty() ) {
@@ -4237,7 +4237,8 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
-    if( is_moving() || falling ) {
+    check_falling_or_floating();
+    if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
         }
@@ -4251,7 +4252,7 @@ void vehicle::gain_moves()
             velocity -= vslowdown;
         }
     } else {
-        of_turn = 0;
+        of_turn = .001;
     }
     of_turn_carry = 0;
 
@@ -4380,7 +4381,6 @@ void vehicle::refresh()
     insides_dirty = true;
     zones_dirty = true;
     invalidate_mass();
-    is_floating = !floating.empty();
 }
 
 const point &vehicle::pivot_point() const
@@ -4397,7 +4397,7 @@ void vehicle::refresh_pivot() const
     // Const method, but messes with mutable fields
     pivot_dirty = false;
 
-    if( wheelcache.empty() || !valid_wheel_config( false ) ) {
+    if( wheelcache.empty() || !valid_wheel_config() ) {
         // No usable wheels, use CoM (dragging)
         pivot_cache = local_center_of_mass();
         return;
