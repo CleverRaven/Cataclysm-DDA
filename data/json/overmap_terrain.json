@@ -9909,6 +9909,45 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "veterinarian",
+    "name": "veterinarian clinic",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "museum",
+    "name": "museum",
+    "copy-from": "generic_city_building",
+    "sym": 77,
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary",
+    "name": "mortuary",
+    "copy-from": "generic_city_building",
+    "sym": 77,
+    "color": "i_blue",
+    "mondensity": 6
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_laundromat",
+    "name": "laundromat",
+    "copy-from": "generic_city_building",
+    "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_jewelry",
+    "name": "jewelry store",
+    "copy-from": "generic_city_building",
+    "sym": 74,
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_motel",
     "name": "2-story motel",
     "copy-from": "generic_city_building",
@@ -9977,6 +10016,13 @@
     "copy-from": "generic_city_building_no_rotate",
     "sym": 84,
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "home_improvement",
+    "name": "home improvement store",
+    "copy-from": "generic_city_building",
+    "color": "c_yellow_green"
   },
   {
     "type": "overmap_terrain",
