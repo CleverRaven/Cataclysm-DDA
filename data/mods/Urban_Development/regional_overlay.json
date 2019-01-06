@@ -4,7 +4,7 @@
     "id": "urban_buildings_overlay",
     "regions": [ "all" ],
     "city": {
-      "houses": { 
+      "houses": {
         "urban_1": 30,
         "urban_2": 30,
         "urban_3": 30,
