@@ -4867,6 +4867,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
         return dmg;
     }
+    g->m.set_memory_seen_cache_dirty( global_part_pos3( p ) );
     if( parts[p].is_broken() ) {
         return break_off( p, dmg );
     }

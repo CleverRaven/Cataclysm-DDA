@@ -3,6 +3,7 @@
 #define MAP_H
 
 #include <array>
+#include <bitset>
 #include <list>
 #include <map>
 #include <memory>
@@ -187,6 +188,7 @@ struct level_cache {
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
 
     bool veh_in_active_range;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
@@ -257,6 +259,20 @@ class map
 
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
+
+        void set_memory_seen_cache_dirty( const tripoint p ) {
+            get_cache( p.z ).map_memory_seen_cache[ p.x + p.y * MAPSIZE_Y ] = false;
+        }
+
+        bool check_and_set_seen_cache( const tripoint &p ) const {
+            std::bitset<SEEX *MAPSIZE *SEEY *MAPSIZE> &memory_seen_cache =
+                get_cache( p.z ).map_memory_seen_cache;
+            if( !memory_seen_cache[ static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) ] ) {
+                memory_seen_cache.set( static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) );
+                return true;
+            }
+            return false;
+        }
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -1562,7 +1578,7 @@ class map
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
 
         // Note: no bounds check
-        level_cache &get_cache( int zlev ) {
+        level_cache &get_cache( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
         }
 

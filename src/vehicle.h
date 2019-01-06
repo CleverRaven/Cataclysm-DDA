@@ -1243,7 +1243,7 @@ class vehicle
         void gain_moves();
 
         // reduces velocity to 0
-        void stop();
+        void stop( bool update_cache = true );
 
         void refresh_insides();
 
