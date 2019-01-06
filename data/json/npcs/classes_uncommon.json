@@ -24,7 +24,7 @@
       { "trait": "PACIFIST" },
       { "trait": "Exp_Teaching2" }
     ],
-    "skills": [ { "skill": "speaking", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
+    "skills": [ { "skill": "speech", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
   },
   {
     "type": "npc_class",
