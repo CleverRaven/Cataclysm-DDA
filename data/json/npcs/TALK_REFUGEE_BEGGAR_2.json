@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2",
-    "dynamic_line": { "Have I told you about cardboard, friend?  Do you have any?" },
+    "dynamic_line": "Have I told you about cardboard, friend?  Do you have any?",
     "//": "STUB FILE: not all text implemented yet. TK: topics WEARING, CARDBOARD3, GIVECARDBOARD, and SANDMAN",
     "responses": [
       { "text": "Cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
@@ -14,7 +14,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_CARDBOARD",
-    "dynamic_line": { "I'm building a house out of cardboard.  The sandman doesn't want me to, but I told him to go fuck himself." },
+    "dynamic_line": "I'm building a house out of cardboard.  The sandman doesn't want me to, but I told him to go fuck himself.",
     "responses": [
       { "text": "Why cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
@@ -24,7 +24,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2",
-    "dynamic_line": { "There's so much of it now, and the zombies are afraid of it.  That's why I'm wearing these cardboard clothes.  It's kept me safe so far.  The beta rays come from the center point of the zombie, so it hits the cardboard and can't penetrate.  The reflection can stop any further damage." },
+    "dynamic_line": "There's so much of it now, and the zombies are afraid of it.  That's why I'm wearing these cardboard clothes.  It's kept me safe so far.  The beta rays come from the center point of the zombie, so it hits the cardboard and can't penetrate.  The reflection can stop any further damage.",
     "responses": [
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
@@ -33,7 +33,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_REFUGEE",
-    "dynamic_line": { "These cowards are afraid of my armor.  They won't let me into their base.  I'm going to build my new house and I won't let them in." },
+    "dynamic_line": "These cowards are afraid of my armor.  They won't let me into their base.  I'm going to build my new house and I won't let them in.",
     "responses": [
       { "text": "Building a house?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
