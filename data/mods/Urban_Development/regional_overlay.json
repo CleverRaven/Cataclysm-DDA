@@ -30,23 +30,23 @@
         "urban_40": 30
       },
       "shops": { 
-        "urban_23": 2,
-        "urban_24": 3,
-        "urban_25": 4,
-        "urban_26": 3,
+        "urban_23": 1,
+        "urban_24": 2,
+        "urban_25": 2,
+        "urban_26": 2,
         "urban_27": 1,
-        "urban_28": 4,
-        "urban_29": 10,
-        "urban_30": 5,
+        "urban_28": 2,
+        "urban_29": 5,
+        "urban_30": 3,
         "urban_31": 1,
-        "urban_32": 2,
-        "urban_33": 3,
-        "urban_34": 2,
-        "urban_35": 2,
-        "urban_36": 8,
+        "urban_32": 1,
+        "urban_33": 2,
+        "urban_34": 1,
+        "urban_35": 1,
+        "urban_36": 4,
         "urban_37": 1,
-        "urban_38": 5,
-        "urban_39": 8
+        "urban_38": 3,
+        "urban_39": 4
       }
     }
   }
