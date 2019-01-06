@@ -2,16 +2,16 @@
 #ifndef CLZONES_H
 #define CLZONES_H
 
-#include "enums.h"
-#include "string_id.h"
-#include "item.h"
-
-#include <vector>
-#include <string>
-#include <unordered_map>
 #include <map>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <vector>
+
+#include "enums.h"
+#include "item.h"
+#include "optional.h"
+#include "string_id.h"
 
 class JsonIn;
 class JsonOut;
@@ -20,9 +20,12 @@ class zone_type
 {
     private:
         std::string name_;
+        std::string desc_;
     public:
-        explicit zone_type( const std::string &name ) : name_( name ) {}
+        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
+            desc_( desc ) {}
         std::string name() const;
+        std::string desc() const;
 };
 using zone_type_id = string_id<zone_type>;
 
@@ -40,33 +43,39 @@ class zone_options
         /* derived classes must always return true */
         virtual bool has_options() const {
             return false;
-        };
+        }
 
-        /* query only necessary options at zone creation, one by one */
-        virtual void query_at_creation() {};
+        /* query only necessary options at zone creation, one by one
+         * returns true if successful, returns false if fails or canceled */
+        virtual bool query_at_creation() {
+            return true;
+        }
 
-        /* query options, first uimenu should allow to pick an option to edit (if more than one) */
-        virtual void query() {};
+        /* query options, first uilist should allow to pick an option to edit (if more than one)
+         * returns true if something is changed, otherwise returns false */
+        virtual bool query() {
+            return false;
+        }
 
         /* suggest a name for the zone, depending on options */
         virtual std::string get_zone_name_suggestion() const {
             return "";
-        };
+        }
 
         /* vector of pairs of each option's description and value */
         virtual std::vector<std::pair<std::string, std::string>> get_descriptions() const {
             return std::vector<std::pair<std::string, std::string>>();
-        };
+        }
 
-        virtual void serialize( JsonOut & ) const {};
-        virtual void deserialize( JsonObject & ) {};
+        virtual void serialize( JsonOut & ) const {}
+        virtual void deserialize( JsonObject & ) {}
 };
 
 // mark option interface
 class mark_option
 {
     public:
-        virtual ~mark_option() {}
+        virtual ~mark_option() = default;
 
         virtual std::string get_mark() const = 0;
 };
@@ -77,22 +86,28 @@ class plot_options : public zone_options, public mark_option
         std::string mark;
         std::string seed;
 
-        void query_seed();
+        enum query_seed_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_seed_result query_seed();
 
     public:
         std::string get_mark() const override {
             return mark;
-        };
+        }
         std::string get_seed() const {
             return seed;
-        };
+        }
 
         bool has_options() const override {
             return true;
-        };
+        }
 
-        void query_at_creation() override;
-        void query() override;
+        bool query_at_creation() override;
+        bool query() override;
 
         std::string get_zone_name_suggestion() const override;
 
@@ -102,92 +117,34 @@ class plot_options : public zone_options, public mark_option
         void deserialize( JsonObject &jo_zone ) override;
 };
 
+
 /**
  * These are zones the player can designate.
  */
-class zone_manager
-{
-    public:
-        class zone_data;
-        using ref_zone_data = std::reference_wrapper<zone_manager::zone_data>;
-        using ref_const_zone_data = std::reference_wrapper<const zone_manager::zone_data>;
-
-    private:
-        const int MAX_DISTANCE = 10;
-        std::vector<zone_data> zones;
-        std::map<zone_type_id, zone_type> types;
-        std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
-        std::unordered_set<tripoint> get_point_set( const zone_type_id &type ) const;
-
-    public:
-        zone_manager();
-        ~zone_manager() = default;
-        zone_manager( zone_manager && ) = default;
-        zone_manager( const zone_manager & ) = default;
-        zone_manager &operator=( zone_manager && ) = default;
-        zone_manager &operator=( const zone_manager & ) = default;
-
-        static zone_manager &get_manager() {
-            static zone_manager manager;
-            return manager;
-        }
-
-        zone_data &add( const std::string &name, const zone_type_id &type,
-                        const bool invert, const bool enabled,
-                        const tripoint &start, const tripoint &end,
-                        std::shared_ptr<zone_options> options = nullptr );
-
-        bool remove( const size_t index ) {
-            if( index < zones.size() ) {
-                zones.erase( zones.begin() + index );
-                return true;
-            }
-
-            return false;
-        }
-
-        unsigned int size() const {
-            return zones.size();
-        }
-        const std::map<zone_type_id, zone_type> &get_types() const {
-            return types;
-        }
-        std::string get_name_from_type( const zone_type_id &type ) const;
-        bool has_type( const zone_type_id &type ) const;
-        void cache_data();
-        bool has( const zone_type_id &type, const tripoint &where ) const;
-        bool has_near( const zone_type_id &type, const tripoint &where ) const;
-        std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
-        zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
-        std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
-        const zone_data *get_top_zone( const tripoint &where ) const;
-        const zone_data *get_bottom_zone( const tripoint &where ) const;
-        std::string query_name( std::string default_name = "" ) const;
-        zone_type_id query_type() const;
-        void swap( zone_data &a, zone_data &b );
-
-        // 'direct' access to zone_manager::zones, giving direct access was nono
-        std::vector<ref_zone_data> get_zones();
-        std::vector<ref_const_zone_data> get_zones() const;
-
-        bool save_zones();
-        void load_zones();
-        void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
-};
-
-class zone_manager::zone_data
+class zone_data
 {
     private:
         std::string name;
         zone_type_id type;
         bool invert;
         bool enabled;
+        bool is_vehicle;
         tripoint start;
         tripoint end;
         std::shared_ptr<zone_options> options;
 
     public:
+        zone_data() {
+            name = "";
+            type = zone_type_id( "" );
+            invert = false;
+            enabled = false;
+            is_vehicle = false;
+            start = tripoint( 0, 0, 0 );
+            end = tripoint( 0, 0, 0 );
+            options = nullptr;
+        }
+
         zone_data( const std::string &_name, const zone_type_id &_type,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
@@ -196,6 +153,7 @@ class zone_manager::zone_data
             type = _type;
             invert = _invert;
             enabled = _enabled;
+            is_vehicle = false;
             start = _start;
             end = _end;
 
@@ -207,10 +165,11 @@ class zone_manager::zone_data
             }
         }
 
-        void set_name();
-        void set_type();
-        void set_position( const std::pair<tripoint, tripoint> position );
+        bool set_name(); // returns true if name is changed
+        bool set_type(); // returns true if type is changed
+        void set_position( const std::pair<tripoint, tripoint> position, const bool manual = true );
         void set_enabled( const bool enabled );
+        void set_is_vehicle( const bool is_vehicle );
 
         std::string get_name() const {
             return name;
@@ -223,6 +182,9 @@ class zone_manager::zone_data
         }
         bool get_enabled() const {
             return enabled;
+        }
+        bool get_is_vehicle() const {
+            return is_vehicle;
         }
         tripoint get_start_point() const {
             return start;
@@ -245,7 +207,83 @@ class zone_manager::zone_data
                    p.y >= start.y && p.y <= end.y &&
                    p.z >= start.z && p.z <= end.z;
         }
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
+class zone_manager
+{
+    public:
+        using ref_zone_data = std::reference_wrapper<zone_data>;
+        using ref_const_zone_data = std::reference_wrapper<const zone_data>;
+
+    private:
+        const int MAX_DISTANCE = 10;
+        std::vector<zone_data> zones;
+        //Containers for Revert functionality for Vehicle Zones
+        //Pointer to added zone to be removed
+        std::vector<zone_data *> added_vzones;
+        //Copy of original data, pointer to the zone
+        std::vector<std::pair<zone_data, zone_data *>> changed_vzones;
+        //copy of original data to be re-added
+        std::vector<zone_data> removed_vzones;
+
+        std::map<zone_type_id, zone_type> types;
+        std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
+        std::unordered_map<zone_type_id, std::unordered_set<tripoint>> vzone_cache;
+        std::unordered_set<tripoint> get_point_set( const zone_type_id &type ) const;
+        std::unordered_set<tripoint> get_vzone_set( const zone_type_id &type ) const;
+
+    public:
+        zone_manager();
+        ~zone_manager() = default;
+        zone_manager( zone_manager && ) = default;
+        zone_manager( const zone_manager & ) = default;
+        zone_manager &operator=( zone_manager && ) = default;
+        zone_manager &operator=( const zone_manager & ) = default;
+
+        static zone_manager &get_manager() {
+            static zone_manager manager;
+            return manager;
+        }
+
+        void add( const std::string &name, const zone_type_id &type,
+                  const bool invert, const bool enabled,
+                  const tripoint &start, const tripoint &end,
+                  std::shared_ptr<zone_options> options = nullptr );
+
+        bool remove( zone_data &zone );
+
+        unsigned int size() const {
+            return zones.size();
+        }
+        const std::map<zone_type_id, zone_type> &get_types() const {
+            return types;
+        }
+        std::string get_name_from_type( const zone_type_id &type ) const;
+        bool has_type( const zone_type_id &type ) const;
+        void cache_data();
+        void cache_vzones();
+        bool has( const zone_type_id &type, const tripoint &where ) const;
+        bool has_near( const zone_type_id &type, const tripoint &where ) const;
+        std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
+        zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
+        std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
+        const zone_data *get_bottom_zone( const tripoint &where ) const;
+        cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
+        cata::optional<zone_type_id> query_type() const;
+        void swap( zone_data &a, zone_data &b );
+
+        // 'direct' access to zone_manager::zones, giving direct access was nono
+        std::vector<ref_zone_data> get_zones();
+        std::vector<ref_const_zone_data> get_zones() const;
+
+        bool save_zones();
+        void load_zones();
+        void zone_edited( zone_data &zone );
+        void revert_vzones();
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
 
 #endif

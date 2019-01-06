@@ -1,7 +1,8 @@
-#include "mission.h"
+#include "mission.h" // IWYU pragma: associated
+
 #include "game.h"
-#include "overmapbuffer.h"
 #include "npc.h"
+#include "overmapbuffer.h"
 
 void mission_fail::kill_npc( mission *miss )
 {

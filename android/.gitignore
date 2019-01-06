@@ -10,8 +10,8 @@
 !config/
 /app/jni/libintl-lite
 /app/jni/lua
+/app/jni/mpg-123
 /app/jni/SDL2
 /app/jni/SDL2_image
 /app/jni/SDL2_mixer
 /app/jni/SDL2_ttf
-

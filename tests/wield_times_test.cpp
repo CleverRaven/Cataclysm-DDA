@@ -1,13 +1,11 @@
+#include <string>
+
 #include "catch/catch.hpp"
-
-#include "map_helpers.h"
-#include "player_helpers.h"
-
-#include "player.h"
 #include "game.h"
 #include "map.h"
-
-#include <string>
+#include "map_helpers.h"
+#include "player.h"
+#include "player_helpers.h"
 
 void wield_check_internal( player &dummy, item &the_item, const char *section_text,
                            const std::string &var_name, int expected_cost )

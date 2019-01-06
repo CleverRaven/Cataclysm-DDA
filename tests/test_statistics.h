@@ -1,8 +1,12 @@
+#pragma once
 #ifndef TEST_STATISTICS_H
 #define TEST_STATISTICS_H
 
+#include <cmath>
 #include <limits>
 #include <vector>
+
+#include "catch/catch.hpp"
 
 // Z-value for confidence interval
 constexpr double Z95 = 1.96;
@@ -81,7 +85,7 @@ class statistics
             double adj_proportion = adj_numerator / adj_denominator;
             double a = adj_proportion * ( 1.0 - adj_proportion );
             double b = a / adj_denominator;
-            double c = sqrt( b );
+            double c = std::sqrt( b );
             _error = c * _Z;
             return _error;
         }
@@ -102,6 +106,20 @@ class statistics
             return _error;
         }
 
+        /** Use to continue testing until we are sure whether the result is
+         * inside or outside the target.
+         *
+         * Returns true if the confidence interval partially overlaps the target region.
+         */
+        bool uncertain_about( const epsilon_threshold &t ) {
+            if( test_threshold( t ) || // Inside target
+                ( t.midpoint - t.epsilon ) > upper() || // Below target
+                ( t.midpoint + t.epsilon ) < lower() ) { // Above target
+                return false;
+            }
+            return true;
+        }
+
         bool test_threshold( const epsilon_threshold &t ) {
             return ( ( t.midpoint - t.epsilon ) < lower() &&
                      ( t.midpoint + t.epsilon ) > upper() );
@@ -110,10 +128,18 @@ class statistics
             return ( t.lower_thresh < lower() && t.upper_thresh > upper() );
         }
         double upper() {
-            return avg() + margin_of_error();
+            double result = avg() + margin_of_error();
+            if( std::is_same<T, bool>::value ) {
+                result = std::min( result, 1.0 );
+            }
+            return result;
         }
         double lower() {
-            return avg() - margin_of_error();
+            double result = avg() - margin_of_error();
+            if( std::is_same<T, bool>::value ) {
+                result = std::max( result, 0.0 );
+            }
+            return result;
         }
         // Test if some value is a member of the confidence interval of the
         // sample
@@ -175,5 +201,28 @@ class statistics
             return samples;
         }
 };
+
+class BinomialMatcher : public Catch::MatcherBase<int>
+{
+    public:
+        BinomialMatcher( int num_samples, double p, double max_deviation );
+        bool match( const int &obs ) const override;
+        std::string describe() const override;
+    private:
+        int num_samples_;
+        double p_;
+        double max_deviation_;
+        double expected_;
+        double margin_;
+};
+
+// Can be used to test that a value is a plausible observation from a binomial
+// distribution.  Uses a normal approximation to the binomial, and permits a
+// deviation up to max_deviation (measured in standard deviations).
+inline BinomialMatcher IsBinomialObservation(
+    int num_samples, double p, double max_deviation = Z99_99 )
+{
+    return BinomialMatcher( num_samples, p, max_deviation );
+}
 
 #endif

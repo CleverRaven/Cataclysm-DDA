@@ -175,33 +175,12 @@
             {"item": "scrap", "count": [4, 6]}
         ]
     },{
-        "id": "aisle_lights",
-        "copy-from": "aisle_lights",
-        "type": "vehicle_part",
-        "name" : "aisle lights",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 2
-    },{
-        "id": "tank_little",
-        "copy-from": "tank_little",
-        "type": "vehicle_part",
-        "name" : "vehicle tank (2L)",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 5
-    },{
         "id": "storage_battery_mount",
         "copy-from": "storage_battery_mount",
         "type": "vehicle_part",
         "name" : "swappable storage battery case",
         "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 9
-    },{
-        "id": "vehicle_alarm",
-        "copy-from": "vehicle_alarm",
-        "type": "vehicle_part",
-        "name" : "security system",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 1
     },{
         "id": "solar_panel",
         "copy-from": "solar_panel",
@@ -266,110 +245,11 @@
         "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 8
     },{
-        "id": "atomic_lamp",
-        "copy-from": "atomic_lamp",
-        "type": "vehicle_part",
-        "name" : "atomic lamp",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 4
-    },{
-        "id": "atomic_light",
-        "copy-from": "atomic_light",
-        "type": "vehicle_part",
-        "name" : "atomic nightlight",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 2
-    },{
-        "id": "vehicle_clock",
-        "copy-from": "vehicle_clock",
-        "type": "vehicle_part",
-        "name" : "clock",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 1
-    },{
-        "id": "water_faucet",
-        "copy-from": "water_faucet",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 1
-    },{
-        "id": "controls_electronic",
-        "copy-from": "controls_electronic",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 6
-    },{
-        "id": "engine_1cyl",
-        "copy-from": "engine_1cyl",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 16
-    },{
-        "id": "engine_1cyl_small",
-        "copy-from": "engine_1cyl_small",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 8
-    },{
-        "id": "engine_vtwin",
-        "copy-from": "engine_vtwin",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 26
-    },{
         "id": "minireactor",
         "copy-from": "minireactor",
         "type": "vehicle_part",
         "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 6
-    },{
-        "id": "blade_horizontal",
-        "copy-from": "blade_horizontal",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 3
-    },{
-        "id": "blade_vertical",
-        "copy-from": "blade_vertical",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 3
-    },{
-        "id": "spike",
-        "copy-from": "spike",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 1
-    },{
-        "id": "spike_wood",
-        "copy-from": "spike_wood",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 5
-    },{
-        "id": "beeper",
-        "copy-from": "beeper",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 1
-    },{
-        "id": "wheel_barrow",
-        "copy-from": "wheel_barrow",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 9
-    },{
-        "id": "wheel_small",
-        "copy-from": "wheel_small",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 9
-    },{
-        "id": "wheel_small_steerable",
-        "copy-from": "wheel_small_steerable",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 9
     },{
         "id": "tank_small",
         "copy-from": "tank_small",

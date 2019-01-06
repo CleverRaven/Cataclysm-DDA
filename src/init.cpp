@@ -1,77 +1,68 @@
 #include "init.h"
 
-#include "json.h"
-#include "filesystem.h"
-
-// can load from json
-#include "activity_type.h"
-#include "flag.h"
-#include "effect.h"
-#include "emit.h"
-#include "vitamin.h"
-#include "fault.h"
-#include "material.h"
-#include "bionics.h"
-#include "profession.h"
-#include "skill.h"
-#include "mutation.h"
-#include "text_snippets.h"
-#include "item_factory.h"
-#include "vehicle_group.h"
-#include "string_formatter.h"
-#include "crafting.h"
-#include "crafting_gui.h"
-#include "mapdata.h"
-#include "color.h"
-#include "trap.h"
-#include "mission.h"
-#include "monstergenerator.h"
-#include "inventory.h"
-#include "tutorial.h"
-#include "overmap.h"
-#include "overmap_connection.h"
-#include "artifact.h"
-#include "overmap_location.h"
-#include "mapgen.h"
-#include "speech.h"
-#include "construction.h"
-#include "ammo.h"
-#include "debug.h"
-#include "path_info.h"
-#include "requirements.h"
-#include "start_location.h"
-#include "scenario.h"
-#include "omdata.h"
-#include "options.h"
-#include "faction.h"
-#include "npc.h"
-#include "item_action.h"
-#include "dialogue.h"
-#include "mongroup.h"
-#include "monfaction.h"
-#include "martialarts.h"
-#include "veh_type.h"
-#include "clzones.h"
-#include "sounds.h"
-#include "gates.h"
-#include "overlay_ordering.h"
-#include "worldfactory.h"
-#include "weather_gen.h"
-#include "npc_class.h"
-#include "recipe_dictionary.h"
-#include "rotatable_symbols.h"
-#include "harvest.h"
-#include "morale_types.h"
-#include "anatomy.h"
-#include "loading_ui.h"
-#include "recipe_groups.h"
-
-#include <assert.h>
-#include <string>
-#include <vector>
+#include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
-#include <locale> // for loading names
+#include <string>
+#include <vector>
+
+#include "activity_type.h"
+#include "ammo.h"
+#include "anatomy.h"
+#include "bionics.h"
+#include "clzones.h"
+#include "construction.h"
+#include "crafting_gui.h"
+#include "debug.h"
+#include "dialogue.h"
+#include "effect.h"
+#include "emit.h"
+#include "faction.h"
+#include "fault.h"
+#include "filesystem.h"
+#include "flag.h"
+#include "gates.h"
+#include "harvest.h"
+#include "item_action.h"
+#include "item_factory.h"
+#include "json.h"
+#include "loading_ui.h"
+#include "mapdata.h"
+#include "mapgen.h"
+#include "martialarts.h"
+#include "material.h"
+#include "mission.h"
+#include "mod_tileset.h"
+#include "monfaction.h"
+#include "mongroup.h"
+#include "monstergenerator.h"
+#include "morale_types.h"
+#include "mutation.h"
+#include "npc.h"
+#include "npc_class.h"
+#include "omdata.h"
+#include "overlay_ordering.h"
+#include "overmap_connection.h"
+#include "overmap_location.h"
+#include "profession.h"
+#include "recipe_dictionary.h"
+#include "recipe_groups.h"
+#include "regional_settings.h"
+#include "requirements.h"
+#include "rotatable_symbols.h"
+#include "scenario.h"
+#include "skill.h"
+#include "sounds.h"
+#include "speech.h"
+#include "start_location.h"
+#include "string_formatter.h"
+#include "text_snippets.h"
+#include "trap.h"
+#include "tutorial.h"
+#include "veh_type.h"
+#include "vehicle_group.h"
+#include "vitamin.h"
+#include "worldfactory.h"
 
 #if defined(TILES)
 void load_tileset();
@@ -90,14 +81,16 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
-void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src )
+void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src,
+                                     const std::string &base_path,
+                                     const std::string &full_path )
 {
     std::string type = jo.get_string( "type" );
     t_type_function_map::iterator it = type_function_map.find( type );
     if( it == type_function_map.end() ) {
         jo.throw_error( "unrecognized JSON object", "type" );
     }
-    it->second( jo, src );
+    it->second( jo, src, base_path, full_path );
 }
 
 void DynamicDataLoader::load_deferred( deferred_json &data )
@@ -139,7 +132,8 @@ void load_ignored_type( JsonObject &jo )
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             std::function<void( JsonObject &, const std::string & )> f )
+                             std::function<void( JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             f )
 {
     const auto pair = type_function_map.emplace( type, f );
     if( !pair.second ) {
@@ -147,9 +141,22 @@ void DynamicDataLoader::add( const std::string &type,
     }
 }
 
+void DynamicDataLoader::add( const std::string &type,
+                             std::function<void( JsonObject &, const std::string & )> f )
+{
+    const auto pair = type_function_map.emplace( type, [f]( JsonObject & obj, const std::string & src,
+    const std::string &, const std::string & ) {
+        f( obj, src );
+    } );
+    if( !pair.second ) {
+        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
+    }
+}
+
 void DynamicDataLoader::add( const std::string &type, std::function<void( JsonObject & )> f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( JsonObject & obj, const std::string & ) {
+    const auto pair = type_function_map.emplace( type, [f]( JsonObject & obj, const std::string &,
+    const std::string &, const std::string & ) {
         f( obj );
     } );
     if( !pair.second ) {
@@ -174,8 +181,8 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
-    add( "dream", &load_dream );
-    add( "mutation_category", &load_mutation_category );
+    add( "dream", &dream::load );
+    add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
     add( "mutation", &mutation_branch::load );
     add( "furniture", &load_furniture );
@@ -318,6 +325,7 @@ void DynamicDataLoader::initialize()
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
 
     add( "sound_effect", &sfx::load_sound_effects );
+    add( "sound_effect_preload", &sfx::load_sound_effect_preload );
     add( "playlist", &sfx::load_playlist );
 
     add( "gate", &gates::load );
@@ -337,6 +345,12 @@ void DynamicDataLoader::initialize()
     add( "body_part", &body_part_struct::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
+#if defined(TILES)
+    add( "mod_tileset", &load_mod_tileset );
+#else
+    // Dummy function
+    add( "mod_tileset", []( JsonObject &, const std::string & ) { } );
+#endif
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
@@ -374,19 +388,20 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         try {
             // parse it
             JsonIn jsin( iss );
-            load_all_from_json( jsin, src, ui );
+            load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
             throw std::runtime_error( file + ": " + err.what() );
         }
     }
 }
 
-void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui & )
+void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &,
+        const std::string &base_path, const std::string &full_path )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
-        load_object( jo, src );
+        load_object( jo, src, base_path, full_path );
         jo.finish();
         // if there's anything else in the file, it's an error.
         jsin.eat_whitespace();
@@ -398,7 +413,7 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         // find type and dispatch each object until array close
         while( !jsin.end_array() ) {
             JsonObject jo = jsin.get_object();
-            load_object( jo, src );
+            load_object( jo, src, base_path, full_path );
             jo.finish();
         }
     } else {
@@ -411,6 +426,7 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
+    harvest_list::reset();
     json_flag::reset();
     requirement_data::reset();
     vitamin::reset();
@@ -464,6 +480,7 @@ void DynamicDataLoader::unload_data()
     body_part_struct::reset();
     npc_template::reset();
     anatomy::reset();
+    reset_mod_tileset();
 
     // TODO:
     //    Name::clear();

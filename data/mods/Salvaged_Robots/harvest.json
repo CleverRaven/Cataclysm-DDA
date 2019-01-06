@@ -1,0 +1,13 @@
+[
+  {
+    "id": "mon_zombie_necro",
+    "type": "harvest",
+    "message": "You butcher the fallen zombie and hack off its head",
+    "entries": [
+      { "drop": "necro_head", "base_num": 1, "type": "flesh" },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  }
+]

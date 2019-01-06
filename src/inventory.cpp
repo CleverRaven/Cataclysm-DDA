@@ -1,23 +1,23 @@
 #include "inventory.h"
-#include <sstream>
-#include "game.h"
-#include "map.h"
-#include "iexamine.h"
-#include "debug.h"
-#include "iuse.h"
-#include "vpart_reference.h"
-#include "iuse_actor.h"
-#include "options.h"
-#include "vpart_position.h"
-#include "npc.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
-#include "map_iterator.h"
+
 #include <algorithm>
+
+#include "debug.h"
+#include "game.h"
+#include "iexamine.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 #include "messages.h" //for rust message
+#include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );
@@ -30,11 +30,71 @@ bool invlet_wrapper::valid( const long invlet ) const
     return find( static_cast<char>( invlet ) ) != std::string::npos;
 }
 
-inventory::inventory()
-    : invlet_cache()
-    , items()
+invlet_favorites::invlet_favorites( const std::unordered_map<itype_id, std::string> &map )
 {
+    for( const auto &p : map ) {
+        if( p.second.empty() ) {
+            // The map gradually accumulates empty lists; remove those here
+            continue;
+        }
+        invlets_by_id.insert( p );
+        for( char invlet : p.second ) {
+            uint8_t invlet_u = invlet;
+            if( !ids_by_invlet[invlet_u].empty() ) {
+                debugmsg( "Duplicate invlet: %s and %s both mapped to %c",
+                          ids_by_invlet[invlet_u], p.first, invlet );
+            }
+            ids_by_invlet[invlet_u] = p.first;
+        }
+    }
 }
+
+void invlet_favorites::set( char invlet, const itype_id &id )
+{
+    if( contains( invlet, id ) ) {
+        return;
+    }
+    erase( invlet );
+    uint8_t invlet_u = invlet;
+    ids_by_invlet[invlet_u] = id;
+    invlets_by_id[id].push_back( invlet );
+}
+
+void invlet_favorites::erase( char invlet )
+{
+    uint8_t invlet_u = invlet;
+    const std::string &id = ids_by_invlet[invlet_u];
+    if( id.empty() ) {
+        return;
+    }
+    std::string &invlets = invlets_by_id[id];
+    std::string::iterator it = std::find( invlets.begin(), invlets.end(), invlet );
+    invlets.erase( it );
+    ids_by_invlet[invlet_u].clear();
+}
+
+bool invlet_favorites::contains( char invlet, const itype_id &id ) const
+{
+    uint8_t invlet_u = invlet;
+    return ids_by_invlet[invlet_u] == id;
+}
+
+std::string invlet_favorites::invlets_for( const itype_id &id ) const
+{
+    auto map_iterator = invlets_by_id.find( id );
+    if( map_iterator == invlets_by_id.end() ) {
+        return {};
+    }
+    return map_iterator->second;
+}
+
+const std::unordered_map<itype_id, std::string> &
+invlet_favorites::get_invlets_by_id() const
+{
+    return invlets_by_id;
+}
+
+inventory::inventory() = default;
 
 invslice inventory::slice()
 {
@@ -154,44 +214,20 @@ void inventory::update_cache_with_item( item &newit )
     if( newit.invlet == 0 ) {
         return;
     }
-    // Iterator over all the keys of the map.
-    std::map<std::string, std::vector<char> >::iterator i;
-    for( i = invlet_cache.begin(); i != invlet_cache.end(); i++ ) {
-        std::string type = i->first;
-        std::vector<char> &preferred_invlets = i->second;
 
-        if( newit.typeId() != type ) {
-            // Erase the used invlet from all caches.
-            for( size_t ind = 0; ind < preferred_invlets.size(); ++ind ) {
-                if( preferred_invlets[ind] == newit.invlet ) {
-                    preferred_invlets.erase( preferred_invlets.begin() + ind );
-                    ind--;
-                }
-            }
-        }
-    }
-
-    // Append the selected invlet to the list of preferred invlets of this item type.
-    std::vector<char> &pref = invlet_cache[newit.typeId()];
-    if( std::find( pref.begin(), pref.end(), newit.invlet ) == pref.end() ) {
-        pref.push_back( newit.invlet );
-    }
+    invlet_cache.set( newit.invlet, newit.typeId() );
 }
 
 char inventory::find_usable_cached_invlet( const std::string &item_type )
 {
-    if( ! invlet_cache.count( item_type ) ) {
-        return 0;
-    }
-
     // Some of our preferred letters might already be used.
-    for( auto invlet : invlet_cache[item_type] ) {
+    for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
         if( assigned_invlet.count( invlet ) ) {
             continue;
         }
         // Check if anything is using this invlet.
-        if( invlet_to_position( invlet ) != INT_MIN ) {
+        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
             continue;
         }
         return invlet;
@@ -339,7 +375,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         if( g->m.has_furn( p ) ) {
             const furn_t &f = g->m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
-            if( type != NULL ) {
+            if( type != nullptr ) {
                 const itype *ammo = f.crafting_ammo_item_type();
                 item furn_item( type, calendar::turn, 0 );
                 furn_item.item_tags.insert( "PSEUDO" );
@@ -404,14 +440,14 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN" );
-        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET" );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
+        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
+        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
+        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( cargo ) {
             const auto items = veh->get_items( cargo->part_index() );
@@ -530,7 +566,7 @@ item inventory::remove_item( const item *it )
         binned = false;
         return tmp.front();
     }
-    debugmsg( "Tried to remove a item not in inventory (name: %s)", it->tname().c_str() );
+    debugmsg( "Tried to remove a item not in inventory." );
     return item();
 }
 
@@ -819,7 +855,7 @@ void inventory::rust_iron_items()
                 one_in( 500 ) &&
                 //Scale with volume, bigger = slower (see #24204)
                 one_in( static_cast<int>( 14 * std::cbrt( 0.5 * std::max( 0.05,
-                                          ( double )( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
+                                          static_cast<double>( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/3.14 (from volume of sphere)
                 g->m.water_from( g->u.pos() ).typeId() ==
                 "salt_water" ) { //Freshwater without oxygen rusts slower than air
@@ -841,6 +877,58 @@ units::mass inventory::weight() const
     return ret;
 }
 
+// Helper function to iterate over the intersection of the inventory and a list
+// of items given
+template<typename F>
+void for_each_item_in_both(
+    const invstack &items, const std::map<const item *, int> &other, const F &f )
+{
+    // Shortcut the logic in the common case where other is empty
+    if( other.empty() ) {
+        return;
+    }
+
+    for( const auto &elem : items ) {
+        const item &representative = elem.front();
+        auto other_it = other.find( &representative );
+        if( other_it == other.end() ) {
+            continue;
+        }
+
+        long num_to_count = other_it->second;
+        if( representative.count_by_charges() ) {
+            item copy = representative;
+            copy.charges = std::min( copy.charges, num_to_count );
+            f( copy );
+        } else {
+            for( const auto &elem_stack_iter : elem ) {
+                f( elem_stack_iter );
+                if( --num_to_count <= 0 ) {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+units::mass inventory::weight_without( const std::map<const item *, int> &without ) const
+{
+    units::mass ret = weight();
+
+    for_each_item_in_both( items, without,
+    [&]( const item & i ) {
+        ret -= i.weight();
+    }
+                         );
+
+    if( ret < 0_gram ) {
+        debugmsg( "Negative mass after removing some of inventory" );
+        ret = {};
+    }
+
+    return ret;
+}
+
 units::volume inventory::volume() const
 {
     units::volume ret = 0;
@@ -849,6 +937,24 @@ units::volume inventory::volume() const
             ret += elem_stack_iter.volume();
         }
     }
+    return ret;
+}
+
+units::volume inventory::volume_without( const std::map<const item *, int> &without ) const
+{
+    units::volume ret = volume();
+
+    for_each_item_in_both( items, without,
+    [&]( const item & i ) {
+        ret -= i.volume();
+    }
+                         );
+
+    if( ret < 0_ml ) {
+        debugmsg( "Negative volume after removing some of inventory" );
+        ret = 0_ml;
+    }
+
     return ret;
 }
 
@@ -916,14 +1022,7 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
         return;
     }
     if( remove_old && it.invlet ) {
-        auto invlet_list_iter = invlet_cache.find( it.typeId() );
-        if( invlet_list_iter != invlet_cache.end() ) {
-            auto &invlet_list = invlet_list_iter->second;
-            invlet_list.erase( std::remove_if( invlet_list.begin(),
-            invlet_list.end(), [&it]( char cached_invlet ) {
-                return cached_invlet == it.invlet;
-            } ), invlet_list.end() );
-        }
+        invlet_cache.erase( it.invlet );
     }
     it.invlet = invlet;
     update_cache_with_item( it );
@@ -939,13 +1038,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 
     // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
-        auto invlet_list_iter = invlet_cache.find( newit.typeId() );
-        bool found = false;
-        if( invlet_list_iter != invlet_cache.end() ) {
-            auto &invlet_list = invlet_list_iter->second;
-            found = std::find( invlet_list.begin(), invlet_list.end(), newit.invlet ) != invlet_list.end();
-        }
-        if( !found ) {
+        if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
             newit.invlet = '\0';
         }
     }

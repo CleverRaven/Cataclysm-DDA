@@ -1,10 +1,9 @@
-#include "catch/catch.hpp"
+#include <chrono>
+#include <cstdio>
 
+#include "catch/catch.hpp"
 #include "line.h"
 #include "rng.h"
-
-#include "stdio.h"
-#include <chrono>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.

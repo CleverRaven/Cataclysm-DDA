@@ -1,33 +1,33 @@
 #include "npc.h"
 
+#include "ammo.h"
 #include "auto_pickup.h"
 #include "coordinate_conversions.h"
-#include "map.h"
 #include "game.h"
 #include "item_group.h"
-#include "string_formatter.h"
 #include "itype.h"
+#include "iuse_actor.h"
+#include "json.h"
+#include "map.h"
 #include "mapdata.h"
-#include "overmapbuffer.h"
 #include "messages.h"
-#include "skill.h"
 #include "mission.h"
-#include "output.h"
 #include "monfaction.h"
+#include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
-#include "ammo.h"
-#include "sounds.h"
-#include "morale_types.h"
+#include "output.h"
 #include "overmap.h"
-#include "vehicle.h"
+#include "overmapbuffer.h"
+#include "skill.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "trait_group.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-#include "mtype.h"
-#include "iuse_actor.h"
-#include "trait_group.h"
-#include "json.h"
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -84,11 +84,11 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
 {
-    submap_coords = point( 0, 0 );
+    submap_coords = point_zero;
     position.x = -1;
     position.y = -1;
     position.z = 500;
-    last_player_seen_pos = no_goal_point;
+    last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = no_goal_point;
     guard_pos = no_goal_point;
@@ -100,7 +100,7 @@ npc::npc()
     dex_max = 0;
     int_max = 0;
     per_max = 0;
-    my_fac = NULL;
+    my_fac = nullptr;
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     death_drops = true;
@@ -112,14 +112,14 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    position = { 0, 0, 0 };
+    position = tripoint_zero;
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );
@@ -149,9 +149,7 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     }
 }
 
-npc::npc( const npc & ) = default;
 npc::npc( npc && ) = default;
-npc &npc::operator=( const npc & ) = default;
 npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
@@ -162,11 +160,10 @@ void npc_template::load( JsonObject &jsobj )
     guy.idz = jsobj.get_string( "id" );
     guy.name.clear();
     if( jsobj.has_string( "name_unique" ) ) {
-        guy.name = ( std::string )_( jsobj.get_string( "name_unique" ).c_str() );
+        guy.name = static_cast<std::string>( _( jsobj.get_string( "name_unique" ).c_str() ) );
     }
     if( jsobj.has_string( "name_suffix" ) ) {
-        guy.name += ", " + ( std::string )
-                    _( jsobj.get_string( "name_suffix" ).c_str() );
+        guy.name += ", " + static_cast<std::string>( _( jsobj.get_string( "name_suffix" ).c_str() ) );
     }
     if( jsobj.has_string( "gender" ) ) {
         if( jsobj.get_string( "gender" ) == "male" ) {
@@ -303,7 +300,6 @@ void npc::randomize( const npc_class_id &type )
         debugmsg( "Invalid NPC class %s", type.c_str() );
         myclass = npc_class_id::NULL_ID();
     } else if( type.is_null() && !one_in( 5 ) ) {
-        npc_class_id typetmp;
         myclass = npc_class::random_common();
     } else {
         myclass = type;
@@ -638,7 +634,7 @@ void npc::randomize_from_faction( faction *fac )
         dex_max += rng( 0, 3 );
         per_max += rng( 0, 2 );
         int_max += rng( 0, 2 );
-        for( auto const &skill : Skill::skills ) {
+        for( const auto &skill : Skill::skills ) {
             if( one_in( 3 ) ) {
                 mod_skill_level( skill.ident(), rng( 2, 4 ) );
             }
@@ -848,9 +844,9 @@ skill_id npc::best_skill() const
     int highest_level = std::numeric_limits<int>::min();
     skill_id highest_skill( skill_id::NULL_ID() );
 
-    for( auto const &p : *_skills ) {
+    for( const auto &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
-            int const level = p.second.level();
+            const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
                 highest_skill = p.first;
@@ -939,10 +935,10 @@ bool npc::wear_if_wanted( const item &it )
     }
 
     if( splint ) {
-        return wear_item( it, false );
+        return !!wear_item( it, false );
     }
 
-    const int it_encumber = it.get_encumber();
+    const int it_encumber = it.get_encumber( *this );
     while( !worn.empty() ) {
         auto size_before = worn.size();
         bool encumb_ok = true;
@@ -967,7 +963,7 @@ bool npc::wear_if_wanted( const item &it )
 
         if( encumb_ok && can_wear( it ).success() ) {
             // @todo: Hazmat/power armor makes this not work due to 1 boots/headgear limit
-            return wear_item( it, false );
+            return !!wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
@@ -1071,28 +1067,16 @@ void npc::form_opinion( const player &u )
     if( u.has_trait( trait_SAPIOVORE ) ) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
-
-    if( u.has_trait( trait_PRETTY ) ) {
-        op_of_u.fear += 1;
-    } else if( u.has_trait( trait_BEAUTIFUL ) ) {
-        op_of_u.fear += 2;
-    } else if( u.has_trait( trait_BEAUTIFUL2 ) ) {
-        op_of_u.fear += 3;
-    } else if( u.has_trait( trait_BEAUTIFUL3 ) ) {
-        op_of_u.fear += 4;
-    } else if( u.has_trait( trait_UGLY ) ) {
-        op_of_u.fear -= 1;
-    } else if( u.has_trait( trait_DEFORMED ) ) {
-        op_of_u.fear += 3;
-    } else if( u.has_trait( trait_DEFORMED2 ) ) {
-        op_of_u.fear += 6;
-    } else if( u.has_trait( trait_DEFORMED3 ) ) {
-        op_of_u.fear += 9;
-    }
-
     if( u.has_trait( trait_TERRIFYING ) ) {
         op_of_u.fear += 6;
     }
+
+    int u_ugly = 0;
+    for( trait_id &mut : u.get_mutations() ) {
+        u_ugly += mut.obj().ugliness;
+    }
+    op_of_u.fear += u_ugly / 2;
+    op_of_u.trust -= u_ugly / 3;
 
     if( u.stim > 20 ) {
         op_of_u.fear++;
@@ -1127,24 +1111,6 @@ void npc::form_opinion( const player &u )
     }
     if( u.get_painkiller() > 30 ) {
         op_of_u.trust -= 1;
-    }
-
-    if( u.has_trait( trait_PRETTY ) ) {
-        op_of_u.trust += 1;
-    } else if( u.has_trait( trait_BEAUTIFUL ) ) {
-        op_of_u.trust += 3;
-    } else if( u.has_trait( trait_BEAUTIFUL2 ) ) {
-        op_of_u.trust += 5;
-    } else if( u.has_trait( trait_BEAUTIFUL3 ) ) {
-        op_of_u.trust += 7;
-    } else if( u.has_trait( trait_UGLY ) ) {
-        op_of_u.trust -= 1;
-    } else if( u.has_trait( trait_DEFORMED ) ) {
-        op_of_u.trust -= 3;
-    } else if( u.has_trait( trait_DEFORMED2 ) ) {
-        op_of_u.trust -= 6;
-    } else if( u.has_trait( trait_DEFORMED3 ) ) {
-        op_of_u.trust -= 9;
     }
 
     if( op_of_u.trust > 0 ) {
@@ -1190,12 +1156,14 @@ float npc::vehicle_danger( int radius ) const
     int danger = 0;
 
     // TODO: check for most dangerous vehicle?
-    for( unsigned int i = 0; i < vehicles.size(); ++i )
-        if( vehicles[i].v->velocity > 0 ) {
-            float facing = vehicles[i].v->face.dir();
+    for( unsigned int i = 0; i < vehicles.size(); ++i ) {
+        const wrapped_vehicle &wrapped_veh = vehicles[i];
+        if( wrapped_veh.v->is_moving() ) {
+            // #FIXME this can't be the right way to do this
+            float facing = wrapped_veh.v->face.dir();
 
-            int ax = vehicles[i].v->global_x();
-            int ay = vehicles[i].v->global_y();
+            int ax = wrapped_veh.v->global_pos3().x;
+            int ay = wrapped_veh.v->global_pos3().y;
             int bx = int( ax + cos( facing * M_PI / 180.0 ) * radius );
             int by = int( ay + sin( facing * M_PI / 180.0 ) * radius );
 
@@ -1203,17 +1171,17 @@ float npc::vehicle_danger( int radius ) const
             /* This will almost certainly give the wrong size/location on customized
              * vehicles. This should just count frames instead. Or actually find the
              * size. */
-            vehicle_part last_part = vehicles[i].v->parts.back();
+            vehicle_part last_part = wrapped_veh.v->parts.back();
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
-            double normal = sqrt( ( float )( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
+            double normal = sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
             int closest = int( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) * ( bx - ax ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
             }
         }
-
+    }
     return danger;
 }
 
@@ -1362,19 +1330,12 @@ void npc::say( const std::string &line ) const
         return;
     }
 
-    const bool sees = g->u.sees( *this );
-    const bool deaf = g->u.is_deaf();
-    if( sees && !deaf ) {
-        add_msg( _( "%1$s says: \"%2$s\"" ), name.c_str(), formatted_line.c_str() );
-        sounds::sound( pos(), 16, "" );
-    } else if( !sees ) {
-        std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name.c_str(),
-                                           formatted_line.c_str() );
-        sounds::sound( pos(), 16, sound );
-    } else {
-        add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name.c_str() );
-        sounds::sound( pos(), 16, "" );
+    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
+    if( g->u.sees( *this ) && g->u.is_deaf() ) {
+        add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
+    // Sound happens even if we can't hear it
+    sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
 }
 
 bool npc::wants_to_sell( const item &it ) const
@@ -1634,6 +1595,7 @@ bool npc::is_guarding() const
 {
     return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
            mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+           mission == NPC_MISSION_GUARD_ALLY ||
            has_effect( effect_infection );
 }
 
@@ -1787,42 +1749,16 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         enumerate_print( wearing, c_blue );
     }
 
+    // @todo: Balance this formula
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
-    const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-    [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
-        const auto &mut_branch = pr.first.obj();
-        // Finally some use for visibility trait of mutations
-        // @todo: Balance this formula
-        if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
-        {
-            return mut_branch.name;
-        }
 
-        return std::string();
-    } );
+    const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
         std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
         enumerate_print( mutations, c_green );
     }
 
     return line;
-}
-
-std::string npc::short_description() const
-{
-    std::stringstream ret;
-
-    if( is_armed() ) {
-        ret << _( "Wielding: " ) << weapon.tname() << ";   ";
-    }
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
-    []( const item & it ) {
-        return it.tname();
-    } );
-    if( !worn_str.empty() ) {
-        ret << _( "Wearing: " ) << worn_str << ";";
-    }
-    return ret.str();
 }
 
 std::string npc::opinion_text() const
@@ -1923,6 +1859,14 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
+void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+{
+    if( pos ) {
+        pos->x += dx;
+        pos->y += dy;
+    }
+}
+
 void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {
@@ -1956,11 +1900,14 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    dead = true;
-    Character::die( nkiller );
+    // Need to unboard from vehicle before dying, otherwise
+    // the vehicle code cannot find us
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos() );
     }
+
+    dead = true;
+    Character::die( nkiller );
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%s dies!" ), name.c_str() );
@@ -1981,8 +1928,8 @@ void npc::die( Creature *nkiller )
                                    name.c_str() );
         } else if( psycho ) {
             g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed an innocent, %s, in cold blood. They were weak." ),
-                                   pgettext( "memorial_female", "Killed an innocent, %s, in cold blood. They were weak." ),
+                                             "Killed an innocent, %s, in cold blood.  They were weak." ),
+                                   pgettext( "memorial_female", "Killed an innocent, %s, in cold blood.  They were weak." ),
                                    name.c_str() );
         } else if( cannibal ) {
             g->u.add_memorial_log( pgettext( "memorial_male", "Killed an innocent, %s." ),
@@ -2123,7 +2070,7 @@ void npc::on_load()
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
-    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE ) && !in_vehicle ) {
+    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
     }
 }
@@ -2184,7 +2131,7 @@ void epilogue::random_by_group( std::string group )
     text = epi.text;
 }
 
-const tripoint npc::no_goal_point( INT_MIN, INT_MIN, INT_MIN );
+constexpr tripoint npc::no_goal_point;
 
 bool npc::query_yn( const std::string &/*msg*/ ) const
 {
@@ -2289,7 +2236,7 @@ std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs>
 std::string npc::get_need_str_id( const npc_need &need )
 {
     return need_data[static_cast<size_t>( need )].first;
-};
+}
 
 overmap_location_str_id npc::get_location_for( const npc_need &need )
 {

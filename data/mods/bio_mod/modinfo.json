@@ -9,6 +9,7 @@
     "description": "Adds and rebalances bionics and CBMs.",
     "category": "items",
     "dependencies": [ "dda" ],
-    "path": ""
+    "path": "",
+    "obsolete": true
   }
 ]

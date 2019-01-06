@@ -2,14 +2,13 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include <string>
-#include <memory>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <memory>
-#include <list>
 #include <functional>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "itype.h"
 
@@ -331,7 +330,6 @@ class Item_factory
         void add_entry( Item_group &sg, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
-        void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
         void set_qualities_from_json( JsonObject &jo, const std::string &member, itype &def );
         void set_properties_from_json( JsonObject &jo, const std::string &member, itype &def );
 
@@ -351,6 +349,8 @@ class Item_factory
         std::map<Item_tag, use_function> iuse_function_list;
 
         void add_iuse( const std::string &type, const use_function_pointer f );
+        void add_iuse( const std::string &type, const use_function_pointer f,
+                       const std::string &info );
         void add_actor( iuse_actor *ptr );
 
         std::map<itype_id, migration> migrations;

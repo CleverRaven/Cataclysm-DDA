@@ -2,13 +2,12 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include "string_id.h"
-#include "requirements.h"
-
 #include <map>
 #include <set>
-#include <string>
 #include <vector>
+
+#include "requirements.h"
+#include "string_id.h"
 
 class recipe_dictionary;
 class Skill;
@@ -18,6 +17,7 @@ using itype_id = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
 class recipe;
 using recipe_id = string_id<recipe>;
+class Character;
 
 class recipe
 {
@@ -36,6 +36,8 @@ class recipe
         const itype_id &result() const {
             return result_;
         }
+
+        bool obsolete = false;
 
         std::string category;
         std::string subcategory;
@@ -80,7 +82,8 @@ class recipe
 
         //Create a string list to describe the skill requirements fir this recipe
         // Format: skill_name(amount), skill_name(amount)
-        std::string required_skills_string() const;
+        // Character object (if provided) used to color levels
+        std::string required_skills_string( const Character * ) const;
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
@@ -95,6 +98,10 @@ class recipe
         int batch_time( int batch, float multiplier, size_t assistants ) const;
 
         bool has_flag( const std::string &flag_name ) const;
+
+        bool is_reversible() const {
+            return reversible;
+        }
 
         void load( JsonObject &jo, const std::string &src );
         void finalize();

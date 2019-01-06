@@ -1,18 +1,17 @@
 #include "trap.h"
-#include "string_id.h"
-#include "int_id.h"
-#include "generic_factory.h"
-#include "debug.h"
-#include "line.h"
-#include "json.h"
-#include "map_iterator.h"
-#include "map.h"
-#include "debug.h"
-#include "translations.h"
-#include "player.h"
 
 #include <vector>
-#include <memory>
+
+#include "debug.h"
+#include "generic_factory.h"
+#include "int_id.h"
+#include "json.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "player.h"
+#include "string_id.h"
+#include "translations.h"
 
 namespace
 {

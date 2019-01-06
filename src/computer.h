@@ -2,10 +2,11 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "cursesdef.h"
-#include <vector>
-#include <string>
 
 class game;
 class player;
@@ -55,6 +56,9 @@ enum computer_action {
     COMPACT_SRCF_SEAL_ORDER,
     COMPACT_SRCF_SEAL,
     COMPACT_SRCF_ELEVATOR,
+    COMPACT_OPEN_DISARM,
+    COMPACT_UNLOCK_DISARM,
+    COMPACT_RELEASE_DISARM,
     NUM_COMPUTER_ACTIONS
 };
 

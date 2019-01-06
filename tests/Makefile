@@ -5,7 +5,7 @@
 # We're using the fairly typical convention that any file ending in _test.cpp
 # is a test executable.
 SOURCES = $(wildcard *.cpp)
-OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
+OBJS = $(sort $(SOURCES:%.cpp=$(ODIR)/%.o))
 
 CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 
@@ -32,7 +32,7 @@ $(BUILD_PREFIX)cata_test: $(OBJS) $(CATA_LIB)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) -d yes
+	cd .. && tests/$(TEST_TARGET) -d yes -r cata --rng-seed time
 
 clean:
 	rm -rf *obj

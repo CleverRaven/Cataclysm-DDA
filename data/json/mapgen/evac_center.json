@@ -694,7 +694,25 @@
         { "item": "homebooks", "x": [ 14, 16 ], "y": 19, "chance": 80, "repeat": [ 1, 2 ] },
         { "item": "textbooks", "x": [ 14, 16 ], "y": 19, "chance": 20 }
       ],
-      "place_npcs": [ { "class": "scavenger_merc", "x": 8, "y": 5 }, { "class": "old_guard_rep", "x": 19, "y": 7 } ]
+      "place_npcs": [
+        {
+          "class": "scavenger_merc",
+          "x": 8,
+          "y": 5
+        },
+
+        {
+          "class": "old_guard_rep",
+          "x": 19,
+          "y": 7
+        },
+        {
+          "class": "arsonist",
+          "x": 11,
+          "y": 7
+
+        }
+      ]
     }
   },
   {
@@ -731,7 +749,10 @@
         ".........ssssss........."
       ],
       "palettes": [ "evac_center" ],
-      "place_npcs": [ { "class": "arsonist", "x": 5, "y": 0 }, { "class": "evac_merchant", "x": 23, "y": 0 } ]
+      "place_npcs": [
+        { "class": "evac_merchant", "x": 23, "y": 0 },
+        { "class": "science_rep", "x": 0, "y": 0 }
+      ]
     }
   },
   {

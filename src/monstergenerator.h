@@ -1,16 +1,15 @@
 #pragma once
-#ifndef MONSTER_GENERATOR_H
-#define MONSTER_GENERATOR_H
-
-#include "enums.h"
-#include "string_id.h"
-#include "mattack_common.h"
-#include "pimpl.h"
+#ifndef MONSTERGENERATOR_H
+#define MONSTERGENERATOR_H
 
 #include <map>
-#include <memory>
-#include <vector>
 #include <set>
+#include <vector>
+
+#include "enums.h"
+#include "mattack_common.h"
+#include "pimpl.h"
+#include "string_id.h"
 
 class JsonObject;
 class Creature;
@@ -93,7 +92,6 @@ class MonsterGenerator
         void init_defense();
         void init_trigger();
         void init_flags();
-        void init_mf_attitude();
 
         void add_hardcoded_attack( const std::string &type, const mon_action_attack f );
         void add_attack( mattack_actor *ptr );

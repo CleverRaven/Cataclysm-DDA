@@ -1,3 +1,6 @@
+# Die maximale Zeilenlänge beträgt 78 Zeichen. Die folgende Linie dient als Referenz.
+# Zu lange Zeilen werden automatisch umgebrochen.
+##############################################################################
 Hauptfunktionen in v0.C Cooper:
 * Monster kämpfen gegeneinander.
 * Überarbeitetes Zielen.

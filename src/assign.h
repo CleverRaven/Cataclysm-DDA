@@ -2,17 +2,38 @@
 #ifndef ASSIGN_H
 #define ASSIGN_H
 
-#include <string>
-#include <vector>
+#include <algorithm>
 #include <map>
 #include <set>
-#include <algorithm>
 #include <sstream>
+#include <string>
+#include <vector>
 
-#include "json.h"
-#include "debug.h"
-#include "units.h"
 #include "color.h"
+#include "debug.h"
+#include "json.h"
+#include "units.h"
+
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+namespace detail
+{
+template<typename ...T>
+class is_optional_helper : public std::false_type
+{
+};
+template<typename T>
+class is_optional_helper<cata::optional<T>> : public std::true_type
+{
+};
+} // namespace detail
+template<typename T>
+class is_optional : public detail::is_optional_helper<typename std::decay<T>::type>
+{
+};
 
 inline void report_strict_violation( JsonObject &jo, const std::string &message,
                                      const std::string &name )
@@ -126,7 +147,10 @@ bool assign( JsonObject &jo, const std::string &name, std::pair<T, T> &val,
     return true;
 }
 
-template <typename T, typename std::enable_if<std::is_class<T>::value, int>::type = 0>
+// Note: is_optional excludes any types based on cata::optional, which is
+// handled below in a separate function.
+template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
+           int >::type = 0 >
 bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
     T out;
@@ -193,6 +217,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
             units::volume::value_type tmp;
             std::string suffix;
             std::istringstream str( obj.get_string( name ) );
+            str.imbue( std::locale::classic() );
             str >> tmp >> suffix;
             if( str.peek() != std::istringstream::traits_type::eof() ) {
                 obj.throw_error( "syntax error when specifying volume", name );
@@ -283,6 +308,25 @@ inline bool assign( JsonObject &jo, const std::string &name, nc_color &val,
 }
 
 class time_duration;
+
+template<typename T>
+inline typename
+std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
+read_with_factor( JsonObject jo, const std::string &name, T &val, const T &factor )
+{
+    int tmp;
+    if( jo.read( name, tmp ) ) {
+        // JSON contained a raw number -> apply factor
+        val = tmp * factor;
+        return true;
+    } else if( jo.has_string( name ) ) {
+        // JSON contained a time duration string -> no factor
+        val = T::read_from_json_string( *jo.get_raw( name ) );
+        return true;
+    }
+    return false;
+}
+
 // This is a function template not a real function as that allows it to be defined
 // even when time_duration is *not* defined yet. When called with anything else but
 // time_duration as `val`, SFINAE (the enable_if) will disable this function and it
@@ -295,17 +339,16 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 {
     T out = 0;
     double scalar;
-    int tmp;
 
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).read( name, tmp ) ) {
+    if( read_with_factor( jo.get_object( "relative" ), name, out, factor ) ) {
         err = jo.get_object( "relative" );
         strict = false;
-        out = tmp * factor + val;
+        out = out + val;
 
     } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
         err = jo.get_object( "proportional" );
@@ -315,8 +358,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
         strict = false;
         out = val * scalar;
 
-    } else if( jo.read( name, tmp ) ) {
-        out = tmp * factor;
+    } else if( read_with_factor( jo, name, out, factor ) ) {
 
     } else {
         return false;
@@ -329,6 +371,23 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
     val = out;
 
     return true;
+}
+
+template<typename T>
+inline bool assign( JsonObject &jo, const std::string &name, cata::optional<T> &val,
+                    const bool strict = false )
+{
+    if( !jo.has_member( name ) ) {
+        return false;
+    }
+    if( jo.has_null( name ) ) {
+        val.reset();
+        return true;
+    }
+    if( !val ) {
+        val.emplace();
+    }
+    return assign( jo, name, *val, strict );
 }
 
 #endif

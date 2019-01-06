@@ -2,11 +2,9 @@
 #ifndef NPC_CLASS_H
 #define NPC_CLASS_H
 
-#include <vector>
-#include <map>
-#include <array>
-#include <random>
 #include <functional>
+#include <map>
+#include <vector>
 
 #include "string_id.h"
 

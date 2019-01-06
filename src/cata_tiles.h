@@ -2,9 +2,14 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <memory>
+#include <map>
+#include <set>
+#include <vector>
+#include <string>
+#include <unordered_map>
 
+#include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
 #include "line.h"
@@ -13,14 +18,7 @@
 #include "enums.h"
 #include "weighted_list.h"
 
-#include <memory>
-#include <list>
-#include <map>
-#include <set>
-#include <vector>
-#include <string>
-#include <unordered_map>
-
+class cata_tiles;
 class Creature;
 class player;
 class JsonObject;
@@ -35,7 +33,7 @@ struct tile_type {
     bool multitile = false;
     bool rotates = false;
     int height_3d = 0;
-    point offset = {0, 0};
+    point offset = point_zero;
 
     std::vector<std::string> available_subtiles;
 };
@@ -68,13 +66,6 @@ enum TILE_CATEGORY {
     C_WEATHER,
 };
 
-/** Typedefs */
-struct SDL_Texture_deleter {
-    // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Texture *const ptr );
-};
-using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
-
 class texture
 {
     private:
@@ -93,17 +84,13 @@ class texture
         /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
         /// null as source rectangle (render the whole texture). Other parameters
         /// are simply passed through.
-        int render_copy_ex( SDL_Renderer *const renderer, const SDL_Rect *const dstrect, const double angle,
+        int render_copy_ex( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const dstrect,
+                            const double angle,
                             const SDL_Point *const center, const SDL_RendererFlip flip ) const {
-            return SDL_RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
+            return SDL_RenderCopyEx( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect, angle, center,
+                                     flip );
         }
 };
-
-struct SDL_Surface_deleter {
-    // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Surface *const ptr );
-};
-using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
 
 struct pixel {
     int r;
@@ -246,6 +233,7 @@ class tileset
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
+        std::vector<texture> memory_tile_values;
 
         std::unordered_map<std::string, tile_type> tile_ids;
 
@@ -282,6 +270,9 @@ class tileset
         const texture *get_overexposed_tile( const size_t index ) const {
             return get_if_available( index, overexposed_tile_values );
         }
+        const texture *get_memory_tile( const size_t index ) const {
+            return get_if_available( index, memory_tile_values );
+        }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
@@ -291,7 +282,7 @@ class tileset_loader
 {
     private:
         tileset &ts;
-        SDL_Renderer *const renderer;
+        const SDL_Renderer_Ptr &renderer;
 
         int sprite_offset_x;
         int sprite_offset_y;
@@ -300,6 +291,7 @@ class tileset_loader
         int sprite_height;
 
         int offset = 0;
+        int sprite_id_offset = 0;
         int size = 0;
 
         struct {
@@ -351,12 +343,19 @@ class tileset_loader
          * @throw std::exception On any error.
          */
         void load_tilejson_from_file( JsonObject &config );
+        /**
+         * Helper function called by load.
+         * @throw std::exception On any error.
+         */
+        void load_internal( JsonObject &config, const std::string &tileset_root,
+                            const std::string &img_path );
     public:
-        tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
+        tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
         }
         /**
          * @throw std::exception On any error.
-         * @param tileset_name Ident of the tileset, as it appears in the options.
+         * @param tileset_id Ident of the tileset, as it appears in the options.
+         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
          */
         void load( const std::string &tileset_id, bool precheck );
 };
@@ -382,7 +381,7 @@ struct formatted_text {
 class cata_tiles
 {
     public:
-        cata_tiles( SDL_Renderer *render );
+        cata_tiles( const SDL_Renderer_Ptr &render );
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -404,6 +403,7 @@ class cata_tiles
 
         const tile_type *find_tile_with_season( std::string &id );
         const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
+        bool find_overlay_looks_like( const bool male, const std::string &overlay, std::string &draw_id );
 
         bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
@@ -432,13 +432,12 @@ class cata_tiles
         void get_tile_values( const int t, const int *tn, int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtype );
-        void get_rotation_and_subtile( const char val, const int num_connects, int &rota, int &subtype );
+        void get_rotation_and_subtile( const char val, int &rota, int &subtype );
 
         /** Drawing Layers */
-        void draw_single_tile( const tripoint &p, const lit_level ll,
-                               const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
@@ -454,8 +453,6 @@ class cata_tiles
 
     public:
         // Animation layers
-        bool draw_hit( const tripoint &p );
-
         void init_explosion( const tripoint &p, int radius );
         void draw_explosion_frame();
         void void_explosion();
@@ -480,6 +477,10 @@ class cata_tiles
         void draw_line();
         void void_line();
 
+        void init_draw_cursor( const tripoint &p );
+        void draw_cursor();
+        void void_cursor();
+
         void init_draw_weather( weather_printable weather, std::string name );
         void draw_weather_frame();
         void void_weather();
@@ -492,17 +493,16 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
-        /** Overmap Layer : Not used for now, do later*/
-        bool draw_omap();
-
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
-         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param tileset_id Ident of the tileset, as it appears in the options.
+         * @param precheck If true, only loads the meta data of the tileset (tile dimensions).
+         * @param force If true, forces loading the tileset even if it is already loaded.
          * @throw std::exception On any error.
          */
-        void load_tileset( const std::string &tileset_id, bool precheck = false );
+        void load_tileset( const std::string &tileset_id, bool precheck = false, bool force = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
@@ -527,13 +527,13 @@ class cata_tiles
         point player_to_screen( int x, int y ) const;
     protected:
         template <typename maptype>
-        void tile_loading_report( maptype const &tiletypemap, std::string const &label,
-                                  std::string const &prefix = "" );
+        void tile_loading_report( const maptype &tiletypemap, const std::string &label,
+                                  const std::string &prefix = "" );
         template <typename arraytype>
-        void tile_loading_report( arraytype const &array, int array_length, std::string const &label,
-                                  std::string const &prefix = "" );
+        void tile_loading_report( const arraytype &array, int array_length, const std::string &label,
+                                  const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, std::string const &label, std::string const &prefix );
+        void tile_loading_report( size_t count, const std::string &label, const std::string &prefix );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
@@ -545,7 +545,7 @@ class cata_tiles
         void init_light();
 
         /** Variables */
-        SDL_Renderer *renderer;
+        const SDL_Renderer_Ptr &renderer;
         std::unique_ptr<tileset> tileset_ptr;
 
         int tile_height = 0;
@@ -564,6 +564,7 @@ class cata_tiles
         bool do_draw_bullet;
         bool do_draw_hit;
         bool do_draw_line;
+        bool do_draw_cursor;
         bool do_draw_weather;
         bool do_draw_sct;
         bool do_draw_zones;
@@ -583,6 +584,8 @@ class cata_tiles
         bool is_target_line;
         std::vector<tripoint> line_trajectory;
         std::string line_endpoint_id;
+
+        std::vector<tripoint> cursors;
 
         weather_printable anim_weather;
         std::string weather_name;

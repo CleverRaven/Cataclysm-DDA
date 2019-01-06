@@ -1,13 +1,13 @@
 #include "calendar.h"
+
+#include <array>
 #include <cmath>
 #include <limits>
-#include <array>
 
-#include "output.h"
 #include "options.h"
-#include "translations.h"
-#include "string_formatter.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
@@ -115,14 +115,6 @@ bool calendar::operator ==( const calendar &rhs ) const
 {
     return turn_number == rhs.turn_number;
 }
-
-/*
-calendar& calendar::operator ++()
-{
- *this += 1;
- return *this;
-}
-*/
 
 calendar calendar::operator -( const calendar &rhs ) const
 {
@@ -292,46 +284,112 @@ float calendar::sunlight() const
     }
 }
 
-std::string to_string_clipped( const time_duration &d )
+static std::string to_string_clipped( const int num, const clipped_unit type,
+                                      const clipped_align align )
+{
+    switch( align ) {
+        default:
+        case clipped_align::none:
+            switch( type ) {
+                default:
+                case clipped_unit::forever:
+                    return _( "forever" );
+                case clipped_unit::second:
+                    return string_format( ngettext( "%d second", "%d seconds", num ), num );
+                case clipped_unit::minute:
+                    return string_format( ngettext( "%d minute", "%d minutes", num ), num );
+                case clipped_unit::hour:
+                    return string_format( ngettext( "%d hour", "%d hours", num ), num );
+                case clipped_unit::day:
+                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                case clipped_unit::week:
+                    return string_format( ngettext( "%d week", "%d weeks", num ), num );
+                case clipped_unit::season:
+                    return string_format( ngettext( "%d season", "%d seasons", num ), num );
+                case clipped_unit::year:
+                    return string_format( ngettext( "%d year", "%d years", num ), num );
+            }
+        case clipped_align::right:
+            switch( type ) {
+                default:
+                case clipped_unit::forever:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return _( "    forever" );
+                case clipped_unit::second:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return string_format( ngettext( "%3d  second", "%3d seconds", num ), num );
+                case clipped_unit::minute:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return string_format( ngettext( "%3d  minute", "%3d minutes", num ), num );
+                case clipped_unit::hour:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return string_format( ngettext( "%3d    hour", "%3d   hours", num ), num );
+                case clipped_unit::day:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return string_format( ngettext( "%3d     day", "%3d    days", num ), num );
+                case clipped_unit::week:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return string_format( ngettext( "%3d    week", "%3d   weeks", num ), num );
+                case clipped_unit::season:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return string_format( ngettext( "%3d  season", "%3d seasons", num ), num );
+                case clipped_unit::year:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return string_format( ngettext( "%3d    year", "%3d   years", num ), num );
+            }
+    }
+}
+
+std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 {
     //@todo: change INDEFINITELY_LONG to time_duration
     if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
-        return _( "forever" );
+        return { 0, clipped_unit::forever };
     }
 
     if( d < 1_minutes ) {
         //@todo: add to_seconds,from_seconds, operator ""_seconds, but currently
         // this could be misleading as we only store turns, which are 6 whole seconds
         const int sec = to_turns<int>( d ) * 6;
-        return string_format( ngettext( "%d second", "%d seconds", sec ), sec );
+        return { sec, clipped_unit::second };
     } else if( d < 1_hours ) {
         const int min = to_minutes<int>( d );
-        return string_format( ngettext( "%d minute", "%d minutes", min ), min );
+        return { min, clipped_unit::minute };
     } else if( d < 1_days ) {
         const int hour = to_hours<int>( d );
-        return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
+        return { hour, clipped_unit::hour };
+    } else if( d < 7_days ) {
+        const int day = to_days<int>( d );
+        return { day, clipped_unit::day };
     } else if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
         // therefore no way to count them
-        const int day = to_days<int>( d );
-        return string_format( ngettext( "%d day", "%d days", day ), day );
+        const int week = to_weeks<int>( d );
+        return { week, clipped_unit::week };
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
         //@todo: consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
-        return string_format( ngettext( "%d season", "%d seasons", season ), season );
+        return { season, clipped_unit::season };
     } else {
         //@todo: consider a to_year function, but year length is variable, so
         // this might be misleading
         const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
-        return string_format( ngettext( "%d year", "%d years", year ), year );
+        return { year, clipped_unit::year };
     }
+}
+
+std::string to_string_clipped( const time_duration &d,
+                               const clipped_align align )
+{
+    std::pair<int, clipped_unit> time = clipped_time( d );
+    return to_string_clipped( time.first, time.second, align );
 }
 
 std::string to_string( const time_duration &d )
 {
     if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
-        return _( "for ever" );
+        return _( "forever" );
     }
 
     if( d <= 1_minutes ) {

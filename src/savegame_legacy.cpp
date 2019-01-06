@@ -1,19 +1,19 @@
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
+#include "calendar.h"
 #include "itype.h"
+#include "json.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
 #include "overmap.h"
-#include "json.h"
 #include "player_activity.h"
-#include "calendar.h"
-
-#include <unordered_map>
-#include <string>
-#include <sstream>
-#include <vector>
 
 namespace std
 {
@@ -169,7 +169,7 @@ std::string convert_talk_topic( talk_topic_enum const old_value )
         }
     };
 #undef WRAP
-    auto const iter = talk_topic_enum_mapping.find( old_value );
+    const auto iter = talk_topic_enum_mapping.find( old_value );
     if( iter == talk_topic_enum_mapping.end() ) {
         debugmsg( "could not convert %d to new talk topic string", static_cast<int>( old_value ) );
         return "TALK_NONE";
@@ -222,7 +222,7 @@ void item::load_info( const std::string &data )
     dump >> burnt >> poison >> ammotmp >> owned >> bday_ >>
          mode >> acttmp >> corp >> mission_id >> player_id;
     bday = time_point::from_turn( bday_ );
-    corpse = NULL;
+    corpse = nullptr;
     getline( dump, corpse_name );
     if( corpse_name == " ''" ) {
         corpse_name.clear();
@@ -356,21 +356,21 @@ void overmap::unserialize_legacy( std::istream &fin )
                                                 std::move( new_monster ) ) );
         } else if( datatype == 't' ) { // City
             fin >> cx >> cy >> cs;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = cs;
+            tmp.pos.x = cx;
+            tmp.pos.y = cy;
+            tmp.size = cs;
             cities.push_back( tmp );
         } else if( datatype == 'R' ) { // Road leading out
             fin >> cx >> cy;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = -1;
+            tmp.pos.x = cx;
+            tmp.pos.y = cy;
+            tmp.size = -1;
             roads_out.push_back( tmp );
         } else if( datatype == 'T' ) { // Radio tower
             radio_tower tmp;
             int tmp_type;
             fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
-            tmp.type = ( radio_type )tmp_type;
+            tmp.type = static_cast<radio_type>( tmp_type );
             getline( fin, tmp.message ); // Chomp endl
             getline( fin, tmp.message );
             radios.push_back( tmp );
@@ -581,7 +581,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID() // NUM_ACTIVITIES
     };
 
-    if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
+    if( legacy_type < 0 || static_cast<size_t>( legacy_type ) >= legacy_map.size() ) {
         debugmsg( "Bad legacy activity data. Got %d, expected something from 0 to %d", legacy_type,
                   legacy_map.size() );
         dest = activity_id::NULL_ID();

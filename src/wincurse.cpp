@@ -2,17 +2,18 @@
 #define UNICODE 1
 #define _UNICODE 1
 
-#include "cursesport.h"
+#include "cursesport.h" // IWYU pragma: associated
+
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
+
 #include "cursesdef.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
 #include "get_version.h"
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
-#include "catacharset.h"
 #include "init.h"
 #include "input.h"
 #include "path_info.h"
@@ -191,6 +192,7 @@ bool handle_resize( int, int )
 static char alt_buffer[ALT_BUFFER_SIZE] = {};
 static int alt_buffer_len = 0;
 static bool alt_down = false;
+static bool shift_down = false;
 
 static void begin_alt_code()
 {
@@ -226,6 +228,9 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
         case WM_CHAR:
             lastchar = static_cast<int>( wParam );
             switch( lastchar ) {
+                case VK_TAB:
+                    lastchar = ( shift_down ) ? KEY_BTAB : '\t';
+                    break;
                 case VK_RETURN: //Reroute ENTER key for compatibility purposes
                     lastchar = 10;
                     break;
@@ -237,6 +242,9 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
 
         case WM_KEYDOWN:                //Here we handle non-character input
             switch( wParam ) {
+                case VK_SHIFT:
+                    shift_down = true;
+                    break;
                 case VK_LEFT:
                     lastchar = KEY_LEFT;
                     break;
@@ -303,6 +311,11 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
             return 0;
 
         case WM_KEYUP:
+            if( wParam == VK_SHIFT ) {
+                shift_down = false;
+                return 0;
+            }
+
             if( !GetAsyncKeyState( VK_LMENU ) && alt_down ) { // LeftAlt hack
                 if( int code = end_alt_code() ) {
                     lastchar = code;
@@ -666,10 +679,10 @@ bool gamepad_available()
     return false;
 }
 
-bool input_context::get_coordinates( const catacurses::window &, int &, int & )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window & )
 {
     // TODO: implement this properly
-    return false;
+    return cata::nullopt;
 }
 
 //Ends the terminal, destroy everything

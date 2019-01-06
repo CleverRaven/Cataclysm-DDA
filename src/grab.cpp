@@ -1,19 +1,19 @@
-#include "game.h"
+#include "game.h" // IWYU pragma: associated
+
 #include "map.h"
-#include "output.h"
-#include "vpart_position.h"
-#include "player.h"
-#include "vehicle.h"
 #include "messages.h"
+#include "output.h"
+#include "player.h"
 #include "sounds.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
     const optional_vpart_position grabbed_vehicle_vp = m.veh_at( u.pos() + u.grab_point );
     if( !grabbed_vehicle_vp ) {
         add_msg( m_info, _( "No vehicle at grabbed point." ) );
-        u.grab_point = tripoint_zero;
-        u.grab_type = OBJECT_NONE;
+        u.grab( OBJECT_NONE );
         return false;
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
@@ -65,12 +65,12 @@ bool game::grabbed_veh_move( const tripoint &dp )
     // (Roughly 1.1K kg = danger zone; cube vans are about the max)
     if( str_req > 45 ) {
         add_msg( m_info, _( "The %s is too bulky for you to move by hand." ),
-                 grabbed_vehicle->name.c_str() );
+                 grabbed_vehicle->name );
         return true; // No shoving around an RV.
     }
 
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
-    if( grabbed_vehicle->valid_wheel_config( false ) ) {
+    if( grabbed_vehicle->valid_wheel_config() ) {
         //determine movecost for terrain touching wheels
         const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {
@@ -89,7 +89,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         str_req++;
         //if vehicle has no wheels str_req make a noise.
         if( str_req <= u.get_str() ) {
-            sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2,
+            sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
                            _( "a scraping noise." ) );
         }
     }

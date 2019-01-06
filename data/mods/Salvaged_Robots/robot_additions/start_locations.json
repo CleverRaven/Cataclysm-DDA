@@ -1,0 +1,8 @@
+[
+  {
+    "type": "start_location",
+    "ident": "robot_dispatch",
+    "name": "Robot Dispatch Center",
+    "target": "robot_dispatch_second"
+  }
+]

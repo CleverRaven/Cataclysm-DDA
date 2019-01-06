@@ -4,26 +4,24 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "item_group.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
-#include "mongroup.h"
-#include "mtype.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "trap.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
-#include "veh_type.h"
+#include "vpart_range.h"
 
 namespace MapExtras
 {
 
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
+static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_blank( "mon_blank" );
@@ -44,6 +42,9 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
+static const mtype_id mon_shia( "mon_shia" );
+static const mtype_id mon_spider_web( "mon_spider_web" );
+static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
 void mx_null( map &, const tripoint & )
 {
@@ -116,7 +117,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     int y_min = abs( bbox.p1.y ) + 0;
 
     int x_max = ( SEEX * 2 ) - ( bbox.p2.x + 1 );
-    int y_max = ( SEEX * 2 ) - ( bbox.p2.y + 1 );
+    int y_max = ( SEEY * 2 ) - ( bbox.p2.y + 1 );
 
     int x1 = clamp( cx + x_offset, x_min,
                     x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
@@ -125,6 +126,11 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
                                        1 );
 
+    const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
+        return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
+               !wreckage->get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
+    };
+
     if( wreckage != nullptr ) {
         const int clowncar_factor = dice( 1, 8 );
 
@@ -132,11 +138,10 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 1:
             case 2:
             case 3: // Full clown car
-                for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
-                    const auto pos = wreckage->global_part_pos3( *p );
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                    const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
-                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0 ||
-                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                    if( controls_at( wreckage, pos ) ) {
                         m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( one_in( 5 ) ) {
@@ -149,7 +154,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -160,11 +165,10 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 break;
             case 4:
             case 5: // 2/3rds clown car
-                for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
-                    auto pos = wreckage->global_part_pos3( *p );
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                    const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.
-                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
-                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                    if( controls_at( wreckage, pos ) ) {
                         m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( !one_in( 3 ) ) {
@@ -173,7 +177,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -183,12 +187,12 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 }
                 break;
             case 6: // Just pilots
-                for( auto p : wreckage->get_parts( VPFLAG_CONTROLS, false, true ) ) {
-                    auto pos = wreckage->global_part_pos3( *p );
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
+                    const tripoint pos = vp.pos();
                     m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -673,6 +677,244 @@ void mx_anomaly( map &m, const tripoint &abs_sub )
     m.spawn_natural_artifact( center, prop );
 }
 
+void mx_shia( map &m, const tripoint & )
+{
+    // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
+    // and moved into a map extra, but it still has a one_in chance of spawning because
+    // otherwise the extreme rarity of this event wildly skewed the values for all of the
+    // other extras.
+    if( one_in( 5000 ) ) {
+        m.add_spawn( mon_shia, 1, SEEX, SEEY );
+    }
+}
+
+void mx_spider( map &m, const tripoint &abs_sub )
+{
+    // This was extracted from the hardcoded forest mapgen and slightly altered so
+    // that it used flags rather than specific terrain types in determining where to
+    // place webs.
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+
+            bool should_web_flat = m.has_flag_ter( "FLAT", location ) && !one_in( 3 );
+            bool should_web_shrub = m.has_flag_ter( "SHRUB", location ) && !one_in( 4 );
+            bool should_web_tree = m.has_flag_ter( "TREE", location ) && !one_in( 4 );
+
+            if( should_web_flat || should_web_shrub || should_web_tree ) {
+                m.add_field( location, fd_web, rng( 1, 3 ), 0 );
+            }
+        }
+    }
+
+    m.ter_set( 12, 12, t_dirt );
+    m.furn_set( 12, 12, f_egg_sackws );
+    m.remove_field( { 12, 12, m.get_abs_sub().z }, fd_web );
+    m.add_spawn( mon_spider_web, rng( 1, 2 ), SEEX, SEEY );
+}
+
+void mx_jabberwock( map &m, const tripoint & )
+{
+    // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
+    // and moved into a map extra. It still has a one_in chance of spawning because otherwise
+    // the rarity skewed the values for all the other extras too much. I considered moving it
+    // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
+    // not easily replicated there.
+    if( one_in( 50 ) ) {
+        m.add_spawn( mon_jabberwock, 1, SEEX, SEEY );
+    }
+}
+
+void mx_grove( map &m, const tripoint &abs_sub )
+{
+    // From wikipedia - The main meaning of "grove" is a group of trees that grow close together,
+    // generally without many bushes or other plants underneath.
+
+    // This map extra finds the first tree in the area, and then converts all trees, young trees,
+    // and shrubs in the area into that type of tree.
+
+    ter_id tree;
+    bool found_tree = false;
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "TREE", location ) ) {
+                tree = m.ter( location );
+                found_tree = true;
+            }
+        }
+    }
+
+    if( !found_tree ) {
+        return;
+    }
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
+                m.has_flag_ter( "YOUNG", location ) ) {
+                m.ter_set( location, tree );
+            }
+        }
+    }
+}
+
+void mx_shrubbery( map &m, const tripoint &abs_sub )
+{
+    // This map extra finds the first shrub in the area, and then converts all trees, young trees,
+    // and shrubs in the area into that type of shrub.
+
+    ter_id shrubbery;
+    bool found_shrubbery = false;
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "SHRUB", location ) ) {
+                shrubbery = m.ter( location );
+                found_shrubbery = true;
+            }
+        }
+    }
+
+    if( !found_shrubbery ) {
+        return;
+    }
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
+                m.has_flag_ter( "YOUNG", location ) ) {
+                m.ter_set( location, shrubbery );
+            }
+        }
+    }
+}
+
+void mx_clearcut( map &m, const tripoint &abs_sub )
+{
+    // From wikipedia - Clearcutting, clearfelling or clearcut logging is a forestry/logging
+    // practice in which most or all trees in an area are uniformly cut down.
+
+    // This map extra converts all trees and young trees in the area to stumps.
+
+    ter_id stump( "t_stump" );
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "TREE", location ) || m.has_flag_ter( "YOUNG", location ) ) {
+                m.ter_set( location, stump );
+            }
+        }
+    }
+}
+
+void mx_pond( map &m, const tripoint &abs_sub )
+{
+    // This map extra creates small ponds using a simple cellular automata.
+
+    // Basic rules are as follows:
+    // - 55% of cells start alive
+    // - 5 iterations
+    // - Dead cells with > 4 neighbors become alive
+    // - Alive cells with > 3 neighbors stay alive
+    // - The rest die
+    constexpr int width = SEEX * 2;
+    constexpr int height = SEEY * 2;
+    std::vector<std::vector<int>> current( width, std::vector<int>( height, 0 ) );
+    std::vector<std::vector<int>> next( width, std::vector<int>( height, 0 ) );
+
+    const auto neighbor_count = []( const std::vector<std::vector<int>> &cells, const int x,
+    const int y ) {
+        // Calculate the number of alive neighbors by looking at the Moore neighborhood (9 adjacent cells).
+        int neighbors = 0;
+        for( int ni = -1; ni <= 1; ni++ ) {
+            for( int nj = -1; nj <= 1; nj++ ) {
+                neighbors += cells[x + ni][y + nj];
+            }
+        }
+        // Because we included ourself in the loop above, subtract ourselves back out.
+        neighbors -= cells[x][y];
+
+        return neighbors;
+    };
+
+    // Initialize our initial set of cells.
+    for( int i = 0; i < width; i++ ) {
+        for( int j = 0; j < height; j++ ) {
+            current[i][j] = x_in_y( 55, 100 );
+        }
+    }
+
+    for( int iteration = 0; iteration < 5; iteration++ ) {
+        for( int i = 0; i < width; i++ ) {
+            for( int j = 0; j < height; j++ ) {
+                // Skip the edges--no need to complicate this with more complex neighbor
+                // calculations, just keep them constant.
+                if( i == 0 || i == width - 1 || j == 0 || j == height - 1 ) {
+                    next[i][j] = 0;
+                    continue;
+                }
+
+                // Count our neighors.
+                const int neighbors = neighbor_count( current, i, j );
+
+                // Dead and > 4 neighbors, so become alive.
+                if( ( current[i][j] == 0 ) && ( neighbors > 4 ) ) {
+                    next[i][j] = 1;
+                }
+                // Alive and > 3 neighbors, so stay alive.
+                else if( ( current[i][j] == 1 ) && ( neighbors > 3 ) ) {
+                    next[i][j] = 1;
+                }
+                // Else, die.
+                else {
+                    next[i][j] = 0;
+                }
+            }
+        }
+
+        // Swap our current and next vectors and repeat.
+        std::swap( current, next );
+    }
+
+    // Loop through and turn every live cell into water.
+    // Do a roll for our three possible lake types:
+    // - all deep water
+    // - all shallow water
+    // - shallow water on the shore, deep water in the middle
+    const int lake_type = rng( 1, 3 );
+    for( int i = 0; i < width; i++ ) {
+        for( int j = 0; j < height; j++ ) {
+            if( current[i][j] == 1 ) {
+                const tripoint location( i, j, abs_sub.z );
+                m.furn_set( location, f_null );
+
+                switch( lake_type ) {
+                    case 1:
+                        m.ter_set( location, t_water_sh );
+                        break;
+                    case 2:
+                        m.ter_set( location, t_water_dp );
+                        break;
+                    case 3:
+                        const int neighbors = neighbor_count( current, i, j );
+                        if( neighbors == 8 ) {
+                            m.ter_set( location, t_water_dp );
+                        } else {
+                            m.ter_set( location, t_water_sh );
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    m.place_spawns( GROUP_FISH, 1, 0, 0, width, height, 0.15f );
+}
+
 typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
@@ -688,7 +930,14 @@ FunctionMap builtin_functions = {
     { "mx_crater", mx_crater },
     { "mx_fumarole", mx_fumarole },
     { "mx_portal_in", mx_portal_in },
-    { "mx_anomaly", mx_anomaly }
+    { "mx_anomaly", mx_anomaly },
+    { "mx_shia", mx_shia },
+    { "mx_spider", mx_spider },
+    { "mx_jabberwock", mx_jabberwock },
+    { "mx_grove", mx_grove },
+    { "mx_shrubbery", mx_shrubbery },
+    { "mx_clearcut", mx_clearcut },
+    { "mx_pond", mx_pond },
 };
 
 map_special_pointer get_function( const std::string &name )
@@ -696,9 +945,9 @@ map_special_pointer get_function( const std::string &name )
     const auto iter = builtin_functions.find( name );
     if( iter == builtin_functions.end() ) {
         debugmsg( "no map special with name %s", name.c_str() );
-        return NULL;
+        return nullptr;
     }
     return iter->second;
 }
 
-};
+}

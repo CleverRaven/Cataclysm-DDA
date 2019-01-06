@@ -1,18 +1,17 @@
-#include "catch/catch.hpp"
+#include <fstream>
+#include <memory>
+#include <ostream>
 
+#include "catch/catch.hpp"
 #include "filesystem.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "overmap.h"
 
-#include <fstream>
-#include <memory>
-#include <ostream>
-
 // Intentionally ignoring the name member.
 bool operator==( const city &a, const city &b )
 {
-    return a.x == b.x && a.y == b.y && a.s == b.s;
+    return a.pos == b.pos && a.size == b.size;
 }
 bool operator==( const radio_tower &a, const radio_tower &b )
 {
@@ -236,5 +235,5 @@ TEST_CASE( "Reading a legacy overmap save." )
     check_test_overmap_data( *test_map_2 );
 
     // Now clean up.
-    remove_file( new_save_name.c_str() );
+    remove_file( new_save_name );
 }

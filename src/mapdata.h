@@ -2,16 +2,15 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include <array>
+#include <bitset>
+#include <set>
+#include <vector>
+
+#include "color.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "units.h"
-#include "color.h"
-
-#include <bitset>
-#include <vector>
-#include <set>
-#include <string>
-#include <array>
 
 class JsonObject;
 struct itype;
@@ -50,6 +49,7 @@ struct map_bash_info {
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
@@ -309,6 +309,9 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
+    int comfort = 0;
+    int floor_bedding_warmth = 0;
+    int bonus_fire_warmth_feet = 300;
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
@@ -494,7 +497,8 @@ extern furn_id f_null,
        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
        f_smoking_rack, f_smoking_rack_active,
        f_robotic_arm, f_vending_reinforced,
-       f_brazier;
+       f_brazier,
+       f_autodoc_couch;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

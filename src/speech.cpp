@@ -1,13 +1,15 @@
 #include "speech.h"
-#include "json.h"
-#include "translations.h"
-#include "rng.h"
+
 #include <map>
 #include <vector>
 
+#include "json.h"
+#include "rng.h"
+#include "translations.h"
+
 std::map<std::string, std::vector<SpeechBubble> > speech;
 
-SpeechBubble nullSpeech = { "", 0 };
+SpeechBubble nullSpeech = { "hsss", 0 };
 
 void load_speech( JsonObject &jo )
 {

@@ -2,14 +2,13 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
-#include "string_id.h"
-#include "pimpl.h"
-
-#include <string>
-#include <vector>
 #include <map>
 #include <set>
-#include <memory>
+#include <string>
+#include <vector>
+
+#include "pimpl.h"
+#include "string_id.h"
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 
@@ -58,7 +57,7 @@ struct MOD_INFORMATION {
         std::string version;
 
         /** What other mods must be loaded prior to this one? */
-        std::set<mod_id> dependencies;
+        std::vector<mod_id> dependencies;
 
         /** Core mods are loaded before any other mods */
         bool core = false;
@@ -124,7 +123,6 @@ class mod_manager
             return usable_mods;
         }
 
-    protected:
     private:
         // Make this accessible for now
         friend class mod_ui;

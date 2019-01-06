@@ -9,6 +9,7 @@
         "-": "f_null",
         ".": "f_null",
         "4": "f_null",
+        "A": "f_mailbox",
         "B": "f_bed",
         "C": "f_null",
         "D": "f_null",
@@ -43,6 +44,7 @@
         "{": "f_dumpster",
         "|": "f_null"
       },
+      "items": { "A": { "item": "mail", "chance": 10, "repeat": [ 0, 3 ] } },
       "place_items": [
         { "chance": 35, "item": "bedroom", "x": 7, "y": 5 },
         { "chance": 35, "item": "harddrugs", "x": 9, "y": 6 },
@@ -65,7 +67,7 @@
       ],
       "place_toilets": [ { "x": 12, "y": 10 } ],
       "rows": [
-        "..........s....._____...",
+        "..........s...A._____...",
         "..........s....._____...",
         "._.._..##PPP.#.._____.p.",
         "...|||a|||g|a||._____...",
@@ -97,6 +99,7 @@
         "-": "t_chainfence_h",
         ".": "t_grass",
         "4": "t_tree_deadpine",
+        "A": "t_grass",
         "B": "t_floor",
         "C": "t_chainfence_v",
         "D": "t_door_o",
@@ -151,6 +154,7 @@
         "-": "f_null",
         ".": "f_null",
         "4": "f_null",
+        "A": "f_mailbox",
         "B": "f_bench",
         "C": "f_null",
         "D": "f_null",
@@ -188,6 +192,7 @@
         "{": "f_dumpster",
         "|": "f_null"
       },
+      "items": { "A": { "item": "mail", "chance": 10, "repeat": [ 0, 3 ] } },
       "place_items": [
         { "chance": 15, "item": "bedroom", "x": 7, "y": 5 },
         { "chance": 25, "item": "harddrugs", "x": 9, "y": 6 },
@@ -210,7 +215,7 @@
       ],
       "place_toilets": [ { "x": 12, "y": 10 } ],
       "rows": [
-        "..........s....._____...",
+        "..........s....._____A..",
         "..........s....._____...",
         "._.._..##PPP.#.._____.p.",
         "...|||w|||h|w||._____...",
@@ -242,6 +247,7 @@
         "-": "t_chainfence_h",
         ".": "t_grass",
         "4": "t_tree_deadpine",
+        "A": "t_grass",
         "B": "t_dirt",
         "C": "t_chainfence_v",
         "D": "t_door_c",
@@ -300,6 +306,7 @@
         "F": "f_fridge",
         "H": "f_sofa",
         "L": "f_null",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_trashcan",
         "W": "f_null",
@@ -326,6 +333,7 @@
         "{": "f_dumpster",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 10, "repeat": [ 0, 3 ] } },
       "place_items": [
         { "chance": 15, "item": "child_items", "x": 15, "y": 18 },
         { "chance": 15, "item": "child_items", "x": 6, "y": 16 },
@@ -355,7 +363,7 @@
       ],
       "place_toilets": [ { "x": 19, "y": 13 } ],
       "rows": [
-        "__.._......SS........___",
+        "__.._...P..SS........___",
         "_._........SS........_..",
         "._.__..|ff|ff|ff|||||.._",
         "_._____fffffffff|ffb|___",
@@ -393,6 +401,7 @@
         "F": "t_linoleum_gray",
         "H": "t_floor",
         "L": "t_linoleum_white",
+        "P": "t_dirt",
         "S": "t_sidewalk",
         "T": "t_linoleum_gray",
         "W": "t_window_boarded_noglass",

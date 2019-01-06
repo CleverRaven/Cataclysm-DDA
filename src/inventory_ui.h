@@ -2,9 +2,9 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <functional>
 #include <limits>
 #include <memory>
-#include <functional>
 
 #include "color.h"
 #include "cursesdef.h"
@@ -12,6 +12,7 @@
 #include "input.h"
 #include "item_location.h"
 #include "pimpl.h"
+#include "units.h"
 
 class Character;
 
@@ -436,6 +437,10 @@ class inventory_selector
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
 
+        // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
+        using stat = std::array<std::string, 4>;
+        using stats = std::array<stat, 2>;
+
     protected:
         const player &u;
         const inventory_selector_preset &preset;
@@ -484,10 +489,15 @@ class inventory_selector
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
-        /** Returns player for volume/weight numbers */
-        virtual const player &get_player_for_stats() const {
-            return u;
-        }
+
+        static stats get_weight_and_volume_stats(
+            units::mass weight_carried, units::mass weight_capacity,
+            const units::volume &volume_carried, const units::volume &volume_capacity );
+
+        /** Get stats to display in top right.
+         *
+         * By default, computes volume/weight numbers for @c u */
+        virtual stats get_raw_stats() const;
 
         std::vector<std::string> get_stats() const;
         std::pair<std::string, nc_color> get_footer( navigation_mode m ) const;
@@ -541,7 +551,6 @@ class inventory_selector
             }
         }
         void toggle_navigation_mode();
-        void reassign_custom_invlets();
 
         /** Entry has been added */
         virtual void on_entry_add( const inventory_entry & ) {}
@@ -570,6 +579,9 @@ class inventory_selector
         bool display_stats = true;
         bool layout_is_valid = false;
 };
+
+inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
+                                       const std::function<std::string( int )> &disp_func );
 
 class inventory_pick_selector : public inventory_selector
 {
@@ -611,19 +623,21 @@ class inventory_compare_selector : public inventory_multiselector
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
+        using GetStats = std::function<stats( const std::map<const item *, int> & )>;
         inventory_iuse_selector( const player &p,
                                  const std::string &selector_title,
-                                 const inventory_selector_preset &preset = default_preset );
+                                 const inventory_selector_preset &preset = default_preset,
+                                 const GetStats & = {} );
         std::list<std::pair<int, int>> execute();
 
     protected:
-        const player &get_player_for_stats() const;
+        stats get_raw_stats() const override;
         void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
+        GetStats get_stats;
         std::map<const item *, int> to_use;
         size_t max_chosen_count;
-        mutable std::unique_ptr<player> dummy;
 };
 
 class inventory_drop_selector : public inventory_multiselector
@@ -634,14 +648,13 @@ class inventory_drop_selector : public inventory_multiselector
         std::list<std::pair<int, int>> execute();
 
     protected:
-        const player &get_player_for_stats() const;
+        stats get_raw_stats() const override;
         /** Toggle item dropping */
         void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
         std::map<const item *, int> dropping;
         size_t max_chosen_count;
-        mutable std::unique_ptr<player> dummy;
 };
 
 #endif

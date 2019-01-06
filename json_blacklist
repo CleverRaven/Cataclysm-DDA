@@ -19,7 +19,6 @@ data/json/itemgroups/locations.json
 data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
 data/json/itemgroups/map_extras.json
-data/json/itemgroups/mansion.json
 data/json/itemgroups/misc.json
 data/json/itemgroups/monster_drops.json
 data/json/itemgroups/supplies.json
@@ -27,7 +26,6 @@ data/json/itemgroups/tools.json
 data/json/itemgroups/vending_machines.json
 data/json/items/ammo.json
 data/json/items/ammo_types.json
-data/json/items/archery.json
 data/json/items/armor/bandolier.json
 data/json/items/armor/boots.json
 data/json/items/armor/holster.json
@@ -38,7 +36,6 @@ data/json/items/comestibles/med.json
 data/json/items/comestibles/mutagen.json
 data/json/items/comestibles/protein.json
 data/json/items/containers.json
-data/json/items/crossbows.json
 data/json/items/fake.json
 data/json/items/generic/ammolink.json
 data/json/items/generic/string.json
@@ -93,7 +90,6 @@ data/json/mapgen/field_football.json
 data/json/mapgen/fire_station.json
 data/json/mapgen/garage_gas.json
 data/json/mapgen/garage.json
-data/json/mapgen/gardening_store.json
 data/json/mapgen/homeimprovement_superstore.json
 data/json/mapgen/hotel_tower.json
 data/json/mapgen/house/house_2story.json
@@ -111,18 +107,18 @@ data/json/mapgen/house/house11.json
 data/json/mapgen/house/house14.json
 data/json/mapgen/lab/lab_central.json
 data/json/mapgen/lab/lab_common.json
+data/json/mapgen/lab/lab_escape.json
 data/json/mapgen/lab/lab_floorplan_cross.json
 data/json/mapgen/lab/lab_floorplans_1side.json
+data/json/mapgen/lab/lab_floorplans_escape.json
 data/json/mapgen/lab/lab_floorplans_finale1level.json
 data/json/mapgen/lab/lab_floorplans.json
 data/json/mapgen/lab/lab_rooms.json
+data/json/mapgen/lab/lab_rooms_wall.json
 data/json/mapgen/lab/lab_trains.json
-data/json/mapgen/laundromat.json
 data/json/mapgen/mall.json
 data/json/mapgen/mapgen-test.json
-data/json/mapgen/mortuary.json
 data/json/mapgen/motel.json
-data/json/mapgen/museum.json
 data/json/mapgen/musicstore.json
 data/json/mapgen/necropolis/necropolisB1.json
 data/json/mapgen/necropolis/necropolisB2.json
@@ -158,7 +154,6 @@ data/json/mapgen/subway_tunnels.json
 data/json/mapgen/swamp_shack.json
 data/json/mapgen/teashop.json
 data/json/mapgen/triffid_grove.json
-data/json/mapgen/veterinarian.json
 data/json/martialarts.json
 data/json/materials.json
 data/json/monster_attacks.json
@@ -213,7 +208,6 @@ data/json/overmap/multitile_city_buildings.json
 data/json/overmap/specials.json
 data/json/overmap_connections.json
 data/json/overmap_locations.json
-data/json/overmap_terrain.json
 data/json/recipes/ammo/pistol.json
 data/json/recipes/ammo/rifle.json
 data/json/recipes/armor/arms.json
@@ -247,14 +241,12 @@ data/json/recipes/weapon/magazines.json
 data/json/recipes/weapon/mods.json
 data/json/recipes/weapon/piercing.json
 data/json/recipes/weapon/ranged.json
-data/json/regional_map_settings.json
 data/json/requirements/ammo.json
 data/json/road_vehicles.json
 data/json/snippets.json
 data/json/species.json
 data/json/speech.json
 data/json/techniques.json
-data/json/test_regions.json
 data/json/traps.json
 data/json/tutorial.json
 data/json/uncraft/ammo/38.json
@@ -1281,10 +1273,6 @@ data/mods/Urban_Development/mapgen_palettes/acidia_commercial_palette.json
 data/mods/Urban_Development/mapgen_palettes/acidia_residential_commercial_palette.json
 data/mods/Urban_Development/modinfo.json
 data/mods/Urban_Development/overmap_specials.json
-data/mods/Z-Level_Buildings/2fmotel.json
-data/mods/Z-Level_Buildings/office_tower.json
-data/mods/Z-Level_Buildings/overmap_specials.json
-data/mods/Z-Level_Buildings/overmap_terrain.json
 data/names/en.json
 data/names/ja.json
 data/names/ko.json

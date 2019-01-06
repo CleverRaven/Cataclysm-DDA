@@ -1,15 +1,13 @@
+#include <string>
+
 #include "catch/catch.hpp"
-
-#include "morale.h"
-#include "morale_types.h"
-
 #include "bodypart.h"
 #include "effect.h"
 #include "game.h"
-#include "itype.h"
 #include "item.h"
-
-#include <string>
+#include "itype.h"
+#include "morale.h"
+#include "morale_types.h"
 
 TEST_CASE( "player_morale" )
 {

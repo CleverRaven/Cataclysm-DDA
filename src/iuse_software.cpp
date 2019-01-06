@@ -1,17 +1,17 @@
 #include "iuse_software.h"
 
+#include <map>
+#include <string>
+
+#include "cursesdef.h"
 #include "iuse_software_kitten.h"
+#include "iuse_software_lightson.h"
+#include "iuse_software_minesweeper.h"
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
-#include "iuse_software_minesweeper.h"
-#include "iuse_software_lightson.h"
-#include "string_formatter.h"
-#include "cursesdef.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "translations.h"
-
-#include <string>
-#include <map>
 
 bool play_videogame( const std::string &function_name,
                      std::map<std::string, std::string> &game_data,
@@ -35,8 +35,6 @@ bool play_videogame( const std::string &function_name,
         }
 
         return foundkitten;
-
-        return true;
     } else if( function_name == "snake_game" ) {
         snake_game sg;
         int iScore = sg.start_game();

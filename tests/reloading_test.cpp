@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
@@ -115,5 +114,6 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 
     bool gun_success = gun.reload( dummy, item_location( dummy, &magazine ), 1 );
 
+    CHECK( gun_success );
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
 }

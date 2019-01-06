@@ -141,7 +141,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```shrub_marloss``` Pick a marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
-- ```tent``` Take down the tent.
+- ```portable_structure``` Take down a tent or similar portable structure.
 - ```toilet``` Either drink or get water out of the toilet.
 - ```trap``` Interact with a trap.
 - ```water_source``` Drink or get water from a water source.
@@ -241,6 +241,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FAT``` May produce fat when butchered.
 - ```FEATHER``` May produce feathers when butchered.
 - ```FLIES``` Can fly (over water, etc.)
+- ```FILTHY``` Any clothing it drops will be filthy.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
@@ -251,7 +252,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT``` You feel guilty for killing it.
-- ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less then MS_TINY 
+- ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less then MS_TINY
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
@@ -260,6 +261,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
+- ```LOUDMOVES``` Mkes move noises as if ~2 sizes louder, even if flying.
 - ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!
@@ -470,6 +472,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BED``` A bed where the player can sleep.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
 - ```BELTABLE``` Seatbelt can be attached to this part.
+- ```BIKE_RACK_VEH``` Can be used to merge an adjacent single tile wide vehicle, or split a single tile wide vehicle off into its own vehicle.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA```
 - ```CAMERA_CONTROL```
@@ -489,6 +492,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DOME_LIGHT```
 - ```DOOR_MOTOR```
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
+- ```E_HEATER``` Is an engine and has a heater to warm internal vehicle items when on.
 - ```E_ALTERNATOR``` Is an engine that can power an alternator.
 - ```E_COLD_START``` Is an engine that starts much slower in cold weather.
 - ```E_COMBUSTION``` Is an engine that burns its fuel and can backfire or explode when damaged.
@@ -502,6 +506,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FRIDGE``` Can refrigerate items.
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FUNNEL```
+- ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Must be mounted inside a cargo area.
@@ -553,6 +558,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```
 - ```WELDRIG``` Acts as a welder for crafting.
+- ```WIDE_CONE_LIGHT``` Projects a wide cone of light when turned on.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
 - ```WINDOW``` Can see through this part and can install curtains over it.
@@ -815,7 +821,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
-- ```NO_FREEZE``` It spoils instantly when frozen.
+- ```FREEZERBURN``` First thaw is MUSHY, second is rotten
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
@@ -921,6 +927,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 ### Flags that apply to items, not to item types.
@@ -929,10 +936,12 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```COLD``` Item is cold (see EATEN_COLD).
 - ```FROZEN``` Item is frozen solid (used by freezer).
-- ```MUSHY``` NO_FREEZE item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
+- ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
@@ -1018,8 +1027,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
 - ```PHEROMONE``` Makes zombies love you.
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
-- ```PIPEBOMB``` Light a pipebomb.
-- ```PIPEBOMB_ACT``` Let's hope it doesn't fizzle out.
 - ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 - ```PORTABLE_GAME``` Play games.
 - ```PORTAL``` Create portal traps.
@@ -1042,7 +1049,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
 - ```TAZER``` Shock someone or something.
 - ```TELEPORT``` Teleport.
-- ```TENT``` Pitch a tent.
 - ```TORCH``` Light a torch.
 - ```TORCH_LIT``` Extinguish the torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
@@ -1153,3 +1159,10 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
 - ```mx_science``` ... Corpses and some scientist items.
 - ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
+- ```mx_spider``` ... A big spider web, complete with spiders and eggs.
+- ```mx_jabberwock``` ... A *chance* of a jabberwock.
+- ```mx_grove``` ... All trees and shrubs become a single species of tree.
+- ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
+- ```mx_clearcut``` ... All trees become stumps.
+- ```mx_pond``` ... A small pond.

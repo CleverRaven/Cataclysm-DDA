@@ -16,7 +16,7 @@
         "   |--|-+-|-+-|....Q|-ww",
         "   RssX.............|^..",
         "   Rssw..F..........D...",
-        "   Rssw..F.......|+-|p..",
+        "   Rssw..F.......|+-|...",
         "   Rss|..F...FFF^|.Y|...",
         "   |------|-|-|--|--|...",
         "   |.dBBd.+r|u+..eSc|...",
@@ -26,7 +26,7 @@
         "   |--|-+-|-+-|...QQ|...",
         "   RssX.............|...",
         "   Rssw.............D...",
-        "   Rssw..A.....F.|+-|p..",
+        "   Rssw..A.....F.|+-|...",
         "   Rss|.....FFFF^|.Y|...",
         "   |------------||--|...",
         "   |############|EEE=...",
@@ -62,7 +62,6 @@
         "^": "f_indoor_plant",
         "b": "f_bathtub",
         "c": "f_counter",
-        "p": "f_mailbox",
         "Y": "f_rack_coat",
         "d": "f_dresser",
         "e": "f_fridge",
@@ -84,8 +83,7 @@
         "o": [ { "item": "magazines", "chance": 30 }, { "item": "novels", "chance": 40 }, { "item": "alcohol", "chance": 30 }, { "item": "manuals", "chance": 20 } ],
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
         "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
-        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] } ]
     }
@@ -107,7 +105,7 @@
         "-D-|.QQ..|-+-|-+-|--|   ",
         "...|.............XssR   ",
         "...D.............wssR   ",
-        "..p|-+|..........wssR   ",
+        "...|-+|..........wssR   ",
         "...|Y.|oo.FFFF..^|ssR   ",
         "...|--|--|-|-|------|   ",
         "...|cSe..+u|r+.dBBd.|   ",
@@ -117,7 +115,7 @@
         "..^|Q.Q..|-+-|-+-|--|   ",
         "...|.............XssR   ",
         "...D......A......wssR   ",
-        "..p|-+|..........wssR   ",
+        "...|-+|..........wssR   ",
         "...|Y.|^....FFF.o|ssR   ",
         "...|--||------------|   ",
         "...=xEE|############|   ",
@@ -152,7 +150,6 @@
         "Q": "f_stool",
         "^": "f_indoor_plant",
         "b": "f_bathtub",
-        "p": "f_mailbox",
         "Y": "f_rack_coat",
         "c": "f_counter",
         "d": "f_dresser",
@@ -177,7 +174,7 @@
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
         "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
@@ -199,7 +196,7 @@
         "   w......|STb|....O|...",
         "   |oo....+..b|..ccc|^..",
         "   |--|-+-|-+-|..QQQ|...",
-        "   RssX.............|p..",
+        "   RssX.............|...",
         "   Rssw.............D...",
         "   Rssw..A....A..|+-|...",
         "   Rss|...FFF...^|.Y|...",
@@ -209,13 +206,13 @@
         "   w......|STb|....O|...",
         "   |.d....+..b|..ccc|...",
         "   |--|-+-|-+-|....^|...",
-        "   RssX...A.........|p..",
+        "   RssX...A.........|...",
         "   Rssw.............D...",
         "   Rssw.........o|+-|...",
         "   Rss|..A.FFF..o|.Y|...",
         "   |--|--ww---ww-|--|w-G",
         "                      ss",
-        "                      ss",
+        "                  ppppss",
         "                      ss"
       ],
       "terrain": {
@@ -232,6 +229,7 @@
         "G": "t_door_glass_c",
         "R": "t_railing_v",
         "X": "t_door_locked",
+        "p": "t_grass",
         "s": "t_sidewalk",
         "w": "t_window",
         "x": "t_console_broken",
@@ -269,7 +267,7 @@
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
         "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ] },
@@ -291,7 +289,7 @@
         "...|O....|bTS|......w   ",
         "...|ccc..|bf.+....d.|   ",
         "...|.Q...|-+-|-+-|--|   ",
-        "..p|.............+ssR   ",
+        "...|.............+ssR   ",
         "...D.............wssR   ",
         "...|-+|...htth...wssR   ",
         "...|Y.|^..htth.oo|ssR   ",
@@ -301,13 +299,13 @@
         "...|O....|bTS|......w   ",
         "...|ccc..|bf.+....d.|   ",
         "...|.....|-+-|-+-|--|   ",
-        "..p|.............+ssR   ",
+        "...|.............+ssR   ",
         "...D...........A.wssR   ",
         "...|-+|..A...h...wssR   ",
         "...|Y.|o....cxc.^|ssR   ",
         "G-w|--|-ww---ww--|--|   ",
         "ss                      ",
-        "ss                      ",
+        "sspppp                  ",
         "ss                      "
       ],
       "terrain": {
@@ -324,6 +322,7 @@
         "G": "t_door_glass_c",
         "R": "t_railing_v",
         "X": "t_door_locked",
+        "p": "t_grass",
         "s": "t_sidewalk",
         "w": "t_window",
         "x": "t_console_broken",
@@ -363,7 +362,7 @@
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
         "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ] },

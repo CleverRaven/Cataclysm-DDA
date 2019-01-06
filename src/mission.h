@@ -2,14 +2,14 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include <vector>
-#include <string>
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <string>
+#include <vector>
 
-#include "enums.h"
 #include "calendar.h"
+#include "enums.h"
 #include "npc_favor.h"
 
 class player;
@@ -19,17 +19,20 @@ class npc;
 class Creature;
 class npc_class;
 class JsonObject;
+class JsonArray;
 class JsonIn;
 class JsonOut;
 struct mission_type;
 struct oter_type_t;
 struct species_type;
+struct mtype;
 
 enum npc_mission : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using species_id = string_id<species_type>;
+using mtype_id = string_id<mtype>;
 
 namespace debug_menu
 {
@@ -75,11 +78,17 @@ struct mission_place {
     static bool near_town( const tripoint & );
 };
 
+struct mission_start_t {
+    void set_reveal( const std::string &terrain );
+    void set_reveal_any( JsonArray &ja );
+    void set_assign_mission_target( JsonObject &jo );
+    void load( JsonObject &jo );
+    void apply( mission *miss ) const;
+    std::vector<std::function<void( mission *miss )>> start_funcs;
+};
+
 /* mission_start functions are first run when a mission is accepted; this
  * initializes the mission's key values, like the target and description.
- * These functions are also run once a turn for each active mission, to check
- * if the current goal has been reached.  At that point they either start the
- * goal, or run the appropriate mission_end function.
  */
 struct mission_start {
     static void standard( mission * );           // Standard for its goal type
@@ -96,7 +105,6 @@ struct mission_start {
     static void place_grabber( mission * );      // For Old Guard mission
     static void place_bandit_camp( mission * );  // For Old Guard mission
     static void place_jabberwock( mission * );   // Put a jabberwok in the woods nearby
-    static void kill_100_z( mission * );         // Kill 100 more regular zombies
     static void kill_20_nightmares( mission * ); // Kill 20 more regular nightmares
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
@@ -152,10 +160,14 @@ struct mission_start {
     static void reveal_doctors_office( mission * ); // Find patient records
     static void reveal_cathedral( mission * );   // Find relic
     static void reveal_refugee_center( mission * ); // Find refugee center
+    static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
+    static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
+    static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
+    static void reveal_lab_train_depot( mission * );  // Find lab train depot
 };
 
 struct mission_end { // These functions are run when a mission ends
-    static void standard( mission * ) {};       // Nothing special happens
+    static void standard( mission * ) {}     // Nothing special happens
     static void leave( mission * );          // NPC leaves after the mission is complete
     static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
@@ -163,7 +175,7 @@ struct mission_end { // These functions are run when a mission ends
 };
 
 struct mission_fail {
-    static void standard( mission * ) {};   // Nothing special happens
+    static void standard( mission * ) {} // Nothing special happens
     static void kill_npc( mission * );   // Kill the NPC who assigned it!
 };
 
@@ -183,7 +195,7 @@ struct mission_type {
     int item_count = 1;
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
-    std::string monster_type = "mon_null";
+    mtype_id monster_type = mtype_id::NULL_ID();
     species_id monster_species;
     int monster_kill_goal = -1;
     string_id<oter_type_t> target_id;
@@ -230,6 +242,7 @@ struct mission_type {
 
     static void check_consistency();
 
+    void parse_start( JsonObject &jo );
     void load( JsonObject &jo, const std::string &src );
 };
 
@@ -261,7 +274,7 @@ class mission
         string_id<oter_type_t> target_id;      // Destination type to be reached
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
-        std::string monster_type;    // Monster ID that are to be killed
+        mtype_id monster_type;    // Monster ID that are to be killed
         species_id monster_species;  // Monster species that are to be killed
         int monster_kill_goal;  // The number of monsters you need to kill
         int kill_count_to_reach; // The kill count you need to reach to complete mission
@@ -359,8 +372,6 @@ class mission
         static void on_creature_death( Creature &poor_dead_dude );
         /*@}*/
 
-        // Don't use this, it's only for loading legacy saves.
-        static void unserialize_legacy( std::istream &fin );
         // Serializes and unserializes all missions
         static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );

@@ -2,15 +2,15 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
+#include <algorithm>
+#include <functional>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "recipe.h"
 #include "string_id.h"
-
-#include <string>
-#include <map>
-#include <functional>
-#include <set>
-#include <vector>
-#include <algorithm>
 
 class JsonIn;
 class JsonOut;
@@ -116,15 +116,25 @@ class recipe_subset
         enum class search_type {
             name,
             skill,
+            primary_skill,
             component,
             tool,
             quality,
-            quality_result
+            quality_result,
+            description_result
         };
+
+        /** Find marked favorite recipes */
+        std::vector<const recipe *> favorite() const;
+
+        /** Find recently used recipes */
+        std::vector<const recipe *> recent() const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt,
                                             const search_type key = search_type::name ) const;
+        /** Find recipes producing the item */
+        std::vector<const recipe *> search_result( const itype_id &item ) const;
 
         size_t size() const {
             return recipes.size();

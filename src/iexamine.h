@@ -9,11 +9,10 @@
 #ifndef IEXAMINE_H
 #define IEXAMINE_H
 
-#include <string>
 #include <list>
 
-#include "string_id.h"
 #include "itype.h"
+#include "string_id.h"
 
 class game;
 class item;
@@ -45,6 +44,7 @@ void atm( player &p, const tripoint &examp );
 void vending( player &p, const tripoint &examp );
 void toilet( player &p, const tripoint &examp );
 void elevator( player &p, const tripoint &examp );
+void nanofab( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
 void cvdmachine( player &p, const tripoint &examp );
@@ -72,6 +72,8 @@ void pedestal_wyrm( player &p, const tripoint &examp );
 void pedestal_temple( player &p, const tripoint &examp );
 void door_peephole( player &p, const tripoint &examp );
 void fswitch( player &p, const tripoint &examp );
+void flower_tulip( player &p, const tripoint &examp );
+void flower_spurge( player &p, const tripoint &examp );
 void flower_poppy( player &p, const tripoint &examp );
 void flower_bluebell( player &p, const tripoint &examp );
 void flower_dahlia( player &p, const tripoint &examp );
@@ -117,10 +119,14 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
+void harvest_plant( player &p, const tripoint &examp );
+void fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer );
+itype_id choose_fertilizer( player &p, const std::string &pname, bool ask_player );
+std::string fertilize_failure_reason( player &p, const tripoint &tile, const itype_id &fertilizer );
 
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player &, const tripoint & );
-iexamine_function iexamine_function_from_string( std::string const &function_name );
+iexamine_function iexamine_function_from_string( const std::string &function_name );
 
 #endif

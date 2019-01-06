@@ -1,36 +1,40 @@
 #include "computer.h"
-#include "game.h"
-#include "map.h"
+
+#include <algorithm>
+#include <sstream>
+#include <string>
+
+#include "coordinate_conversions.h"
 #include "debug.h"
+#include "event.h"
+#include "field.h"
+#include "game.h"
+#include "input.h"
+#include "json.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mission.h"
 #include "monster.h"
+#include "mtype.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
-#include "output.h"
-#include "json.h"
 #include "overmapbuffer.h"
-#include "messages.h"
-#include "sounds.h"
-#include "rng.h"
-#include "mission.h"
-#include "translations.h"
-#include "monster.h"
-#include "event.h"
-#include "trap.h"
-#include "mapdata.h"
-#include "mtype.h"
-#include "string_formatter.h"
-#include "field.h"
 #include "player.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
-#include "input.h"
-#include "map_iterator.h"
-
-#include <string>
-#include <sstream>
-#include <algorithm>
+#include "translations.h"
+#include "trap.h"
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
+const mtype_id mon_turret( "mon_turret" );
+const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 const skill_id skill_computer( "computer" );
 
@@ -197,7 +201,7 @@ void computer::use()
         do {
             // TODO: use input context
             ch = inp_mngr.get_input_event().get_first_input();
-        } while( ch != 'q' && ch != 'Q' && ( ch < '1' || ch - '1' >= ( char )options_size ) );
+        } while( ch != 'q' && ch != 'Q' && ( ch < '1' || ch - '1' >= static_cast<char>( options_size ) ) );
         if( ch == 'q' || ch == 'Q' ) {
             break; // Exit from main computer loop
         } else { // We selected an option other than quit.
@@ -329,6 +333,19 @@ static item *pick_usb()
     return nullptr;
 }
 
+static void remove_submap_turrets()
+{
+    for( monster &critter : g->all_monsters() ) {
+        // Check 1) same overmap coords, 2) turret, 3) hostile
+        if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( g->u.pos() ) ) &&
+            ( critter.type->id == mon_turret ||
+              critter.type->id == mon_turret_rifle ) &&
+            critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
+            g->remove_zombie( critter );
+        }
+    }
+}
+
 void computer::activate_function( computer_action action )
 {
     // Token move cost for any action, if an action takes longer decrement moves further.
@@ -339,6 +356,10 @@ void computer::activate_function( computer_action action )
         case NUM_COMPUTER_ACTIONS: // Suppress compiler warning [-Wswitch]
             break;
 
+        // OPEN_DISARM falls through to just OPEN
+        case COMPACT_OPEN_DISARM:
+            remove_submap_turrets();
+        /* fallthrough */
         case COMPACT_OPEN:
             g->m.translate_radius( t_door_metal_locked, t_floor, 25.0, g->u.pos(), true );
             query_any( _( "Doors opened.  Press any key..." ) );
@@ -354,6 +375,10 @@ void computer::activate_function( computer_action action )
             query_any( _( "Lock enabled.  Press any key..." ) );
             break;
 
+        // UNLOCK_DISARM falls through to just UNLOCK
+        case COMPACT_UNLOCK_DISARM:
+            remove_submap_turrets();
+        /* fallthrough */
         case COMPACT_UNLOCK:
             g->m.translate_radius( t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos(), true );
             query_any( _( "Lock disabled.  Press any key..." ) );
@@ -362,7 +387,8 @@ void computer::activate_function( computer_action action )
         //Toll is required for the church computer/mechanism to function
         case COMPACT_TOLL:
             //~ the sound of a church bell ringing
-            sounds::sound( g->u.pos(), 120, _( "Bohm... Bohm... Bohm..." ) );
+            sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
+                           _( "Bohm... Bohm... Bohm..." ) );
             break;
 
         case COMPACT_SAMPLE:
@@ -407,13 +433,17 @@ void computer::activate_function( computer_action action )
         case COMPACT_RELEASE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Released subspace specimens." ),
                                    pgettext( "memorial_female", "Released subspace specimens." ) );
-            sounds::sound( g->u.pos(), 40, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
 
+        // COMPACT_RELEASE_DISARM falls through to just COMPACT_RELEASE_BIONICS
+        case COMPACT_RELEASE_DISARM:
+            remove_submap_turrets();
+        /* fallthrough */
         case COMPACT_RELEASE_BIONICS:
-            sounds::sound( g->u.pos(), 40, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -542,7 +572,7 @@ void computer::activate_function( computer_action action )
             for( int i = -60; i <= 60; i++ ) {
                 for( int j = -60; j <= 60; j++ ) {
                     const oter_id &oter = overmap_buffer.ter( center.x + i, center.y + j, center.z );
-                    if( is_ot_type( "subway", oter ) || is_ot_type( "lab_train_depot", oter ) ) {
+                    if( is_ot_type( "subway", oter ) || is_ot_subtype( "lab_train_depot", oter ) ) {
                         overmap_buffer.set_seen( center.x + i, center.y + j, center.z, true );
                     }
                 }
@@ -833,7 +863,7 @@ of pureed bone & LSD." ) );
         case COMPACT_DOWNLOAD_SOFTWARE:
             if( item *const usb = pick_usb() ) {
                 mission *miss = mission::find( mission_id );
-                if( miss == NULL ) {
+                if( miss == nullptr ) {
                     debugmsg( _( "Computer couldn't find its mission!" ) );
                     return;
                 }
@@ -1248,7 +1278,7 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_ALARM:
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                    pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( g->u.pos(), 60, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ) );
             if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
             }
@@ -1418,24 +1448,40 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
+    print_line( _( "\
+SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
+
+    const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
+    const std::vector<mission *> missions = g->u.get_active_missions();
+    tripoint mission_target;
+
+    const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type,
+    &mission_target ]( mission * mission ) {
+        if( mission->get_type().id == mission_type ) {
+            mission_target = mission->get_target();
+            return true;
+        }
+
+        return false;
+    } );
+
+    if( !has_mission ) {
+        const auto mission = mission::reserve_new( mission_type, -1 );
+        mission->assign( g->u );
+        mission_target = mission->get_target();
+    }
+
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
     print_line( _( "\
+\nREFUGEE CENTER FOUND! LOCATION: %d %s\n\n\
 IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
 THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n\
 THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n\
 4PM AT 555-0164.                                              \n\
 \n\
 IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
-TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
-
-    const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
-    const std::vector<mission *> missions = g->u.get_active_missions();
-    if( !std::any_of( missions.begin(), missions.end(), [ &mission_type ]( mission * mission ) {
-    return mission->get_type().id == mission_type;
-    } ) ) {
-        const auto mission = mission::reserve_new( mission_type, -1 );
-        mission->assign( g->u );
-    }
+TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_target ),
+                direction_name_short( direction_from( g->u.pos(), mission_target ) ) );
 
     query_any( _( "Press any key to continue..." ) );
 }
@@ -1574,12 +1620,15 @@ computer_action computer_action_from_string( const std::string &str )
     static const std::map<std::string, computer_action> actions = {{
             { "null", COMPACT_NULL },
             { "open", COMPACT_OPEN },
+            { "open_disarm", COMPACT_OPEN_DISARM },
             { "lock", COMPACT_LOCK },
             { "unlock", COMPACT_UNLOCK },
+            { "unlock_disarm", COMPACT_UNLOCK_DISARM },
             { "toll", COMPACT_TOLL },
             { "sample", COMPACT_SAMPLE },
             { "release", COMPACT_RELEASE },
             { "release_bionics", COMPACT_RELEASE_BIONICS },
+            { "release_disarm", COMPACT_RELEASE_DISARM },
             { "terminate", COMPACT_TERMINATE },
             { "portal", COMPACT_PORTAL },
             { "cascade", COMPACT_CASCADE },

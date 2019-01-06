@@ -1,9 +1,11 @@
-#include "player.h"
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
 
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
-#include "output.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -11,19 +13,19 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "string_formatter.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
+#include "output.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
 
-#include <string>
-#include <algorithm>
-
 namespace
 {
+const skill_id skill_survival( "survival" );
+const skill_id skill_cooking( "cooking" );
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
@@ -51,6 +53,9 @@ const std::vector<std::string> carnivore_blacklist {{
 // std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
 const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
+
+// Defines the maximum volume that a internal furnace can consume
+const units::volume furnace_max_volume( 3000_ml ) ;
 
 // @todo: JSONize.
 const std::map<itype_id, int> plut_charges = {
@@ -118,7 +123,7 @@ int player::nutrition_for( const item &comest ) const
         nutr *= 1.5f;
     }
 
-    return ( int )nutr;
+    return static_cast<int>( nutr );
 }
 
 std::pair<int, int> player::fun_for( const item &comest ) const
@@ -159,7 +164,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     float fun_max = fun < 0 ? fun * 6 : fun * 3;
     if( comest.has_flag( flag_EATEN_COLD ) && comest.has_flag( flag_COLD ) ) {
         if( fun > 0 ) {
-            fun *= 3;
+            fun *= 2;
         } else {
             fun = 1;
             fun_max = 5;
@@ -185,7 +190,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
         }
     }
 
-    return std::pair<int, int>( fun, fun_max );
+    return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
 }
 
 std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
@@ -327,19 +332,26 @@ morale_type player::allergy_type( const item &food ) const
 
 ret_val<edible_rating> player::can_eat( const item &food ) const
 {
-    // @todo: This condition occurs way too often. Unify it.
-    if( is_underwater() ) {
-        return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
-    }
 
     const auto &comest = food.type->comestible;
     if( !comest ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     }
 
+    if( food.item_tags.count( "DIRTY" ) ) {
+        return ret_val<edible_rating>::make_failure(
+                   _( "This is full of dirt after being on the ground." ) );
+    }
+
     const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
     const bool edible    = eat_verb ||  comest->comesttype == "FOOD";
     const bool drinkable = !eat_verb && comest->comesttype == "DRINK";
+
+    // @todo: This condition occurs way too often. Unify it.
+    // update Sep. 26 2018: this apparently still occurs way too often. yay!
+    if( is_underwater() && !has_trait( trait_id( "WATERSLEEP" ) ) ) {
+        return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
+    }
 
     if( edible || drinkable ) {
         for( const auto &elem : food.type->materials ) {
@@ -376,7 +388,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
                 _( "We can't eat that.  It's not right for us." ) );
     }
     // Here's why PROBOSCIS is such a negative trait.
-    if( has_trait( trait_id( "PROBOSCIS" ) ) && !drinkable ) {
+    if( has_trait( trait_id( "PROBOSCIS" ) ) && !( drinkable || food.is_medication() ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
     }
 
@@ -494,8 +506,7 @@ bool player::eat( item &food, bool force )
     if( !food.is_food() ) {
         return false;
     }
-    // Check if it's rotten before eating!
-    food.calc_rot( global_square_location() );
+
     const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
     if( !ret.success() ) {
         return false;
@@ -557,6 +568,9 @@ bool player::eat( item &food, bool force )
         if( has_trait( trait_id( "MOUTH_TENTACLES" ) )  || has_trait( trait_id( "MANDIBLES" ) ) ||
             has_trait( trait_id( "FANGS_SPIDER" ) ) ) {
             mealtime /= 2;
+        } else if( has_trait( trait_id( "SHARKTEETH" ) ) ) {
+            //SHARKBAIT! HOO HA HA!
+            mealtime /= 3;
         } else if( has_trait( trait_id( "GOURMAND" ) ) ) {
             // Don't stack those two - that would be 25 moves per item
             mealtime -= 100;
@@ -1064,6 +1078,10 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
+    if( it.volume() >= furnace_max_volume ) {
+        return false;
+    }
+
     return it.typeId() != "corpse"; // @todo: Eliminate the hard-coded special case.
 }
 
@@ -1162,6 +1180,11 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
 int player::get_acquirable_energy( const item &it ) const
 {
     return get_acquirable_energy( it, get_cbm_rechargeable_with( it ) );
+}
+
+bool player::can_estimate_rot() const
+{
+    return get_skill_level( skill_cooking ) >= 3 || get_skill_level( skill_survival ) >= 4;
 }
 
 bool player::can_consume_as_is( const item &it ) const

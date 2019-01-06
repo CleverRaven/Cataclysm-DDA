@@ -2,17 +2,17 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include <bitset>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "calendar.h"
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include "calendar.h"
-
-#include <vector>
-#include <map>
-#include <set>
-#include <utility>
-#include <bitset>
-#include <string>
 
 class JsonObject;
 class JsonIn;
@@ -96,6 +96,8 @@ class monster : public Creature
         void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
+        units::mass get_weight() const;
+        units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part ) const override;
@@ -133,6 +135,7 @@ class monster : public Creature
         bool can_act() const;
         int sight_range( int light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
+        bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
@@ -273,7 +276,8 @@ class monster : public Creature
                                      bool print_messages = true ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int amount ) override;
+        void apply_damage( Creature *source, body_part bp, int amount,
+                           const bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs
@@ -365,7 +369,8 @@ class monster : public Creature
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
-        void add_item( item it );   // Add an item to inventory
+        // Add an item to inventory
+        void add_item( const item &it );
 
         /**
          * Makes monster react to heard sound
@@ -424,6 +429,7 @@ class monster : public Creature
         }
 
         short ignoring;
+        cata::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount;

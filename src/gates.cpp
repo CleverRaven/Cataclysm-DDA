@@ -1,19 +1,20 @@
 #include "gates.h"
+
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "game.h" // TODO: This is a circular dependency
+#include "generic_factory.h"
+#include "iexamine.h"
+#include "json.h"
 #include "map.h"
 #include "mapdata.h"
-#include "iexamine.h"
-#include "vpart_position.h"
-#include "generic_factory.h"
-#include "player.h"
-#include "output.h"
 #include "messages.h"
-#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "vehicle.h"
-
-#include <string>
-#include <algorithm>
-#include <vector>
+#include "vpart_position.h"
 
 // Gates namespace
 
@@ -28,7 +29,7 @@ struct gate_data {
     gate_data() :
         moves( 0 ),
         bash_dmg( 0 ),
-        was_loaded( false ) {};
+        was_loaded( false ) {}
 
     gate_id id;
 
@@ -159,7 +160,9 @@ void gates::open_gate( const tripoint &pos )
     bool fail = false;
 
     for( int i = 0; i < 4; ++i ) {
-        static const tripoint dir[4] = { { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 } };
+        static constexpr tripoint dir[4] = {
+            { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 }
+        };
         const tripoint wall_pos = pos + dir[i];
 
         if( !gate.is_suitable_wall( wall_pos ) ) {

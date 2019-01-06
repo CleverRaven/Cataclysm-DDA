@@ -1,12 +1,13 @@
 #include "rng.h"
-#include "output.h"
-#include "game_constants.h"
-#include <stdlib.h>
-#include <random>
+
 #include <chrono>
+
+#include "output.h"
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <cstdlib>
+#include <random>
 
 long rng( long val1, long val2 )
 {
@@ -35,7 +36,7 @@ bool one_in_improved( double chance )
 
 bool x_in_y( double x, double y )
 {
-    return ( ( double )rand() / RAND_MAX ) <= ( ( double )x / y );
+    return ( static_cast<double>( rand() ) / RAND_MAX ) <= ( static_cast<double>( x ) / y );
 }
 
 int dice( int number, int sides )
@@ -92,9 +93,21 @@ double rng_normal( double lo, double hi )
     return std::max( std::min( val, hi ), lo );
 }
 
-double normal_roll( double mean, double stddev )
+std::default_random_engine &get_engine()
 {
     static std::default_random_engine eng(
         std::chrono::system_clock::now().time_since_epoch().count() );
-    return std::normal_distribution<double>( mean, stddev )( eng );
+    return eng;
+}
+
+void rng_set_engine_seed( uintmax_t seed )
+{
+    if( seed != 0 ) {
+        get_engine().seed( seed );
+    }
+}
+
+double normal_roll( double mean, double stddev )
+{
+    return std::normal_distribution<double>( mean, stddev )( get_engine() );
 }

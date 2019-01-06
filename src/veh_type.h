@@ -2,21 +2,22 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "string_id.h"
-#include "enums.h"
+#include <array>
+#include <bitset>
+#include <map>
+#include <memory>
+#include <string>
+#include <set>
+#include <utility>
+#include <vector>
+
+#include "calendar.h"
 #include "color.h"
 #include "damage.h"
-#include "calendar.h"
-#include "units.h"
+#include "enums.h"
 #include "optional.h"
-
-#include <vector>
-#include <bitset>
-#include <string>
-#include <memory>
-#include <map>
-#include <utility>
-#include <array>
+#include "string_id.h"
+#include "units.h"
 
 using itype_id = std::string;
 
@@ -44,6 +45,8 @@ enum vpart_bitflags : int {
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,
+    VPFLAG_WIDE_CONE_LIGHT,
+    VPFLAG_HALF_CIRCLE_LIGHT,
     VPFLAG_CIRCLE_LIGHT,
     VPFLAG_BOARDABLE,
     VPFLAG_AISLE,
@@ -96,6 +99,11 @@ struct vpslot_engine {
     int noise_factor = 0;
     int m2c = 1;
     std::vector<std::string> exclusions;
+    std::vector<itype_id> fuel_opts;
+};
+
+struct vpslot_wheel {
+    float rolling_resistance = 1;
 };
 
 class vpart_info
@@ -105,6 +113,7 @@ class vpart_info
         vpart_id id;
 
         cata::optional<vpslot_engine> engine_info;
+        cata::optional<vpslot_wheel> wheel_info;
 
     public:
         /** Translated name of a part */
@@ -144,13 +153,21 @@ class vpart_info
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
 
-        // Electrical power (watts). Is positive for generation, negative for consumption
+        /**
+         * Electrical power, flat rate (watts); positive for generation, negative for consumption
+         * For motor consumption scaled with powertrain demand see @ref energy_consumption instead
+         */
         int epower = 0;
 
-        /*
-         * For engines this is maximum output
+        /**
+         * Energy consumed by engines and motors (TODO: units?) when delivering max @ref power
+         * Includes waste. Gets scaled based on powertrain demand.
+         */
+        int energy_consumption = 0;
+
+        /**
+         * For engines and motors this is maximum output (TODO: units?)
          * For alternators is engine power consumed (negative value)
-         * For solar panel/powered components (% of 1 fuel per turn, can be > 100)
          */
         int power = 0;
 
@@ -173,7 +190,7 @@ class vpart_info
         bool legacy = true;
 
         /** Format the description for display */
-        int format_description( std::ostringstream &msg, std::string format_color, int width ) const;
+        int format_description( std::ostringstream &msg, const std::string &format_color, int width ) const;
 
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
@@ -237,6 +254,13 @@ class vpart_info
         int engine_muscle_power_factor() const;
         float engine_damaged_power_factor() const;
         int engine_noise_factor() const;
+        std::vector<itype_id> engine_fuel_opts() const;
+        /**
+         * @name Wheel specific functions
+         *
+         */
+        float wheel_rolling_resistance() const;
+
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;
@@ -262,7 +286,9 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo );
+        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+                                 const itype_id &fuel_type );
+        static void load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo );
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

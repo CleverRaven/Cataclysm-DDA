@@ -1,12 +1,11 @@
-#include "catch/catch.hpp"
-
-#include "npc.h"
-#include "monster.h"
-#include "monattack.h"
-#include "game.h"
-
-#include <string>
 #include <sstream>
+#include <string>
+
+#include "catch/catch.hpp"
+#include "game.h"
+#include "monattack.h"
+#include "monster.h"
+#include "npc.h"
 
 static float brute_probability( Creature &attacker, Creature &target, size_t iters )
 {
@@ -19,7 +18,7 @@ static float brute_probability( Creature &attacker, Creature &target, size_t ite
         }
     }
 
-    return ( float )hits / iters;
+    return static_cast<float>( hits ) / iters;
 }
 
 static float brute_special_probability( monster &attacker, Creature &target, size_t iters )
@@ -31,7 +30,7 @@ static float brute_special_probability( monster &attacker, Creature &target, siz
         }
     }
 
-    return ( float )hits / iters;
+    return static_cast<float>( hits ) / iters;
 }
 
 static std::string full_attack_details( const player &dude )
@@ -74,7 +73,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
         standard_npc dude( "TestCharacter", {}, 0, 8, 8, 8, 8 );
         float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
-
+        check_near( prob, 0.6f, 0.1f );
     }
 
     SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {

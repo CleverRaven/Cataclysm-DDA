@@ -2,17 +2,16 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "pimpl.h"
-#include "bodypart.h"
-#include "string_id.h"
-#include "string_formatter.h"
-
-#include <string>
-#include <unordered_map>
-#include <map>
-#include <vector>
-#include <set>
 #include <climits>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <vector>
+
+#include "bodypart.h"
+#include "pimpl.h"
+#include "string_formatter.h"
+#include "string_id.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -55,6 +54,8 @@ template<typename V, typename U>
 class quantity;
 class mass_in_gram_tag;
 using mass = quantity<int, mass_in_gram_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
 }
 
 enum m_size : int {
@@ -129,7 +130,7 @@ class Creature
         /**
          * Creature Attitude as String and color
          */
-        static std::pair<std::string, nc_color> const &get_attitude_ui_data( Attitude att );
+        static const std::pair<std::string, nc_color> &get_attitude_ui_data( Attitude att );
 
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.
@@ -231,7 +232,8 @@ class Creature
                                               body_part bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage( Creature *source, body_part bp, int amount ) = 0;
+        virtual void apply_damage( Creature *source, body_part bp, int amount,
+                                   const bool bypass_med = false ) = 0;
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -269,7 +271,7 @@ class Creature
          */
         virtual bool is_immune_field( const field_id ) const {
             return false;
-        };
+        }
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         virtual float fall_damage_mod() const = 0;
@@ -387,15 +389,21 @@ class Creature
         virtual int get_hp_max() const = 0;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
+        virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
+        // standard creature material sets
+        static const std::set<material_id> cmat_flesh;
+        static const std::set<material_id> cmat_fleshnveg;
+        static const std::set<material_id> cmat_flammable;
+        static const std::set<material_id> cmat_flameres;
         virtual field_id bloodType() const = 0;
         virtual field_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const {
             return false;
-        };
+        }
         virtual bool uncanny_dodge() {
             return false;
-        };
+        }
 
         virtual body_part get_random_body_part( bool main = false ) const = 0;
         /**
@@ -459,7 +467,6 @@ class Creature
         virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
-        virtual units::mass get_weight() const;
 
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
@@ -607,8 +614,8 @@ class Creature
         Creature &operator=( Creature && ) = default;
 
     protected:
-        virtual void on_stat_change( const std::string &, int ) {};
-        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {};
+        virtual void on_stat_change( const std::string &, int ) {}
+        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
