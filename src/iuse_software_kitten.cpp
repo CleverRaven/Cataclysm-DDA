@@ -1,12 +1,12 @@
 #include "iuse_software_kitten.h"
 
+#include <cstdlib>  // Needed for rand()
+
 #include "cursesdef.h"
 #include "input.h"
 #include "output.h"
 #include "posix_time.h"
 #include "translations.h"
-
-#include <cstdlib>  // Needed for rand()
 
 #define EMPTY -1
 #define ROBOT 0

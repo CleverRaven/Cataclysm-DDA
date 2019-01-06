@@ -1,13 +1,13 @@
 #include "activity_type.h"
 
+#include <map>
+#include <unordered_map>
+
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
-
-#include <map>
-#include <unordered_map>
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;

@@ -2,13 +2,13 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include "calendar.h"
-#include "color.h"
-#include "game_constants.h"
-
 #include <array>
 #include <map>
 #include <string>
+
+#include "calendar.h"
+#include "color.h"
+#include "game_constants.h"
 
 enum phase_id : int;
 

@@ -1,5 +1,9 @@
 #include "item_group.h"
 
+#include <algorithm>
+#include <cassert>
+#include <map>
+
 #include "ammo.h"
 #include "debug.h"
 #include "item.h"
@@ -7,10 +11,6 @@
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
-
-#include <algorithm>
-#include <cassert>
-#include <map>
 
 static const std::string null_item_id( "null" );
 

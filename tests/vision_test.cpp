@@ -1,15 +1,13 @@
-#include "catch/catch.hpp"
+#include <iomanip>
+#include <sstream>
 
+#include "catch/catch.hpp"
 #include "game.h"
 #include "player.h"
 #include "field.h"
 #include "string.h"
 #include "map.h"
-
 #include "map_helpers.h"
-
-#include <iomanip>
-#include <sstream>
 
 void full_map_test( const std::vector<std::string> &setup,
                     const std::vector<std::string> &expected_results,

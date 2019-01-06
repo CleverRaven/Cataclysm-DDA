@@ -1,5 +1,9 @@
 #include "mission_companion.h"
 
+#include <algorithm>
+#include <cassert>
+#include <vector>
+
 #include "bionics.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
@@ -23,10 +27,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-
-#include <algorithm>
-#include <cassert>
-#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );

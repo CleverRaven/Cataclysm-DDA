@@ -1,12 +1,10 @@
-#include "catch/catch.hpp"
-
 #include <chrono>
 #include <functional>
 #include <unordered_set>
 #include <vector>
 
+#include "catch/catch.hpp"
 #include "map.h"
-
 #include "enums.h"
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.

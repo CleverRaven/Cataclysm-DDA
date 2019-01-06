@@ -1,5 +1,9 @@
 #include "iuse_software_snake.h"
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "catacharset.h"  // utf8_width()
 #include "cursesdef.h"
 #include "input.h"
@@ -7,10 +11,6 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <map>
-#include <string>
-#include <vector>
 
 snake_game::snake_game()
 {

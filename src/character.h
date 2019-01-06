@@ -2,6 +2,12 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <bitset>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
 #include "bodypart.h"
 #include "calendar.h"
 #include "creature.h"
@@ -10,12 +16,6 @@
 #include "pldata.h"
 #include "rng.h"
 #include "visitable.h"
-
-#include <bitset>
-#include <map>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 
 class Skill;
 struct pathfinding_settings;
@@ -707,7 +707,7 @@ class Character : public Creature, public visitable<Character>
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations() const;
+        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }

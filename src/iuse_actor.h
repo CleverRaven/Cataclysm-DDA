@@ -2,6 +2,10 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
+#include <map>
+#include <set>
+#include <vector>
+
 #include "calendar.h"
 #include "color.h"
 #include "explosion.h"
@@ -10,10 +14,6 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "units.h"
-
-#include <map>
-#include <set>
-#include <vector>
 
 class vitamin;
 using vitamin_id = string_id<vitamin>;

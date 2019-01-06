@@ -1,15 +1,15 @@
 #include "regional_settings.h"
 
+#include <algorithm>
+#include <map>
+#include <string>
+#include <utility>
+
 #include "debug.h"
 #include "json.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
-
-#include <algorithm>
-#include <map>
-#include <string>
-#include <utility>
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 

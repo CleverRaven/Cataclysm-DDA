@@ -1,5 +1,9 @@
 #include "item_location.h"
 
+#include <climits>
+#include <list>
+#include <algorithm>
+
 #include "character.h"
 #include "debug.h"
 #include "enums.h"
@@ -17,10 +21,6 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <climits>
-#include <list>
-#include <algorithm>
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )

@@ -1,5 +1,7 @@
 #include "inventory.h"
 
+#include <algorithm>
+
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -16,7 +18,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-#include <algorithm>
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );
@@ -27,6 +28,70 @@ bool invlet_wrapper::valid( const long invlet ) const
         return false;
     }
     return find( static_cast<char>( invlet ) ) != std::string::npos;
+}
+
+invlet_favorites::invlet_favorites( const std::unordered_map<itype_id, std::string> &map )
+{
+    for( const auto &p : map ) {
+        if( p.second.empty() ) {
+            // The map gradually accumulates empty lists; remove those here
+            continue;
+        }
+        invlets_by_id.insert( p );
+        for( char invlet : p.second ) {
+            uint8_t invlet_u = invlet;
+            if( !ids_by_invlet[invlet_u].empty() ) {
+                debugmsg( "Duplicate invlet: %s and %s both mapped to %c",
+                          ids_by_invlet[invlet_u], p.first, invlet );
+            }
+            ids_by_invlet[invlet_u] = p.first;
+        }
+    }
+}
+
+void invlet_favorites::set( char invlet, const itype_id &id )
+{
+    if( contains( invlet, id ) ) {
+        return;
+    }
+    erase( invlet );
+    uint8_t invlet_u = invlet;
+    ids_by_invlet[invlet_u] = id;
+    invlets_by_id[id].push_back( invlet );
+}
+
+void invlet_favorites::erase( char invlet )
+{
+    uint8_t invlet_u = invlet;
+    const std::string &id = ids_by_invlet[invlet_u];
+    if( id.empty() ) {
+        return;
+    }
+    std::string &invlets = invlets_by_id[id];
+    std::string::iterator it = std::find( invlets.begin(), invlets.end(), invlet );
+    invlets.erase( it );
+    ids_by_invlet[invlet_u].clear();
+}
+
+bool invlet_favorites::contains( char invlet, const itype_id &id ) const
+{
+    uint8_t invlet_u = invlet;
+    return ids_by_invlet[invlet_u] == id;
+}
+
+std::string invlet_favorites::invlets_for( const itype_id &id ) const
+{
+    auto map_iterator = invlets_by_id.find( id );
+    if( map_iterator == invlets_by_id.end() ) {
+        return {};
+    }
+    return map_iterator->second;
+}
+
+const std::unordered_map<itype_id, std::string> &
+invlet_favorites::get_invlets_by_id() const
+{
+    return invlets_by_id;
 }
 
 inventory::inventory() = default;
@@ -149,38 +214,14 @@ void inventory::update_cache_with_item( item &newit )
     if( newit.invlet == 0 ) {
         return;
     }
-    // Iterator over all the keys of the map.
-    std::map<std::string, std::vector<char> >::iterator i;
-    for( i = invlet_cache.begin(); i != invlet_cache.end(); i++ ) {
-        std::string type = i->first;
-        std::vector<char> &preferred_invlets = i->second;
 
-        if( newit.typeId() != type ) {
-            // Erase the used invlet from all caches.
-            for( size_t ind = 0; ind < preferred_invlets.size(); ++ind ) {
-                if( preferred_invlets[ind] == newit.invlet ) {
-                    preferred_invlets.erase( preferred_invlets.begin() + ind );
-                    ind--;
-                }
-            }
-        }
-    }
-
-    // Append the selected invlet to the list of preferred invlets of this item type.
-    std::vector<char> &pref = invlet_cache[newit.typeId()];
-    if( std::find( pref.begin(), pref.end(), newit.invlet ) == pref.end() ) {
-        pref.push_back( newit.invlet );
-    }
+    invlet_cache.set( newit.invlet, newit.typeId() );
 }
 
 char inventory::find_usable_cached_invlet( const std::string &item_type )
 {
-    if( ! invlet_cache.count( item_type ) ) {
-        return 0;
-    }
-
     // Some of our preferred letters might already be used.
-    for( auto invlet : invlet_cache[item_type] ) {
+    for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
         if( assigned_invlet.count( invlet ) ) {
             continue;
@@ -981,14 +1022,7 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
         return;
     }
     if( remove_old && it.invlet ) {
-        auto invlet_list_iter = invlet_cache.find( it.typeId() );
-        if( invlet_list_iter != invlet_cache.end() ) {
-            auto &invlet_list = invlet_list_iter->second;
-            invlet_list.erase( std::remove_if( invlet_list.begin(),
-            invlet_list.end(), [&it]( char cached_invlet ) {
-                return cached_invlet == it.invlet;
-            } ), invlet_list.end() );
-        }
+        invlet_cache.erase( it.invlet );
     }
     it.invlet = invlet;
     update_cache_with_item( it );
@@ -1004,13 +1038,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 
     // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
-        auto invlet_list_iter = invlet_cache.find( newit.typeId() );
-        bool found = false;
-        if( invlet_list_iter != invlet_cache.end() ) {
-            auto &invlet_list = invlet_list_iter->second;
-            found = std::find( invlet_list.begin(), invlet_list.end(), newit.invlet ) != invlet_list.end();
-        }
-        if( !found ) {
+        if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
             newit.invlet = '\0';
         }
     }

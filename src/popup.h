@@ -2,12 +2,12 @@
 #ifndef POPUP_H
 #define POPUP_H
 
-#include "cursesdef.h"
-#include "input.h"
-
 #include <functional>
 #include <string>
 #include <vector>
+
+#include "cursesdef.h"
+#include "input.h"
 
 class nc_color;
 

@@ -1,5 +1,9 @@
 #include "computer.h"
 
+#include <algorithm>
+#include <sstream>
+#include <string>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "event.h"
@@ -26,10 +30,6 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <sstream>
-#include <string>
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );

@@ -1,12 +1,12 @@
 #include "player_helpers.h"
 
+#include <list>
+
 #include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
 #include "player.h"
-
-#include <list>
 
 int get_remaining_charges( std::string tool_id )
 {
@@ -38,6 +38,8 @@ void clear_player()
     if( !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
+
+    dummy.clear_bionics();
 
     // Make stats nominal.
     dummy.str_cur = 8;

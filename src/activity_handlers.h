@@ -2,12 +2,12 @@
 #ifndef ACTIVITY_HANDLERS_H
 #define ACTIVITY_HANDLERS_H
 
-#include "player_activity.h"
-
 #include <functional>
 #include <map>
 #include <unordered_set>
 #include <vector>
+
+#include "player_activity.h"
 
 class player;
 
@@ -81,6 +81,8 @@ void dig_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void till_plot_do_turn( player_activity *act, player *p );
 void plant_plot_do_turn( player_activity *act, player *p );
+void fertilize_plot_do_turn( player_activity *act, player *p );
+void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp

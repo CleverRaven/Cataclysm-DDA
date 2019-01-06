@@ -1,4 +1,9 @@
-#include "activity_handlers.h"
+#include "activity_handlers.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <list>
+#include <vector>
 
 #include "action.h"
 #include "clzones.h"
@@ -28,11 +33,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <cassert>
-#include <list>
-#include <vector>
 
 void cancel_aim_processing();
 

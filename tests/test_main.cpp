@@ -6,14 +6,18 @@
 #include <iosfwd> // Any cheap-to-include stdlib header
 #ifdef __GLIBCXX__
 #include <debug/macros.h>
+
 #undef __glibcxx_check_self_move_assign
 #define __glibcxx_check_self_move_assign(x)
 #endif // __GLIBCXX__
 #endif // _GLIBCXX_DEBUG
 
 #define CATCH_CONFIG_RUNNER
-#include "catch/catch.hpp"
+#include <algorithm>
+#include <cstring>
+#include <chrono>
 
+#include "catch/catch.hpp"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -26,10 +30,6 @@
 #include "pathfinding.h"
 #include "player.h"
 #include "worldfactory.h"
-
-#include <algorithm>
-#include <cstring>
-#include <chrono>
 
 typedef std::pair<std::string, std::string> name_value_pair_t;
 typedef std::vector<name_value_pair_t> option_overrides_t;
@@ -253,6 +253,13 @@ int main( int argc, const char *argv[] )
     test_mode = true;
 
     setupDebug( DebugOutput::std_err );
+
+    // Set the seed for mapgen (the seed will also be reset before each test)
+    unsigned int seed = session.config().rngSeed();
+    if( seed ) {
+        srand( seed );
+        rng_set_engine_seed( seed );
+    }
 
     try {
         // TODO: Only init game if we're running tests that need it.

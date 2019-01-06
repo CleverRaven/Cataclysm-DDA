@@ -1,5 +1,9 @@
 // Monster movement code; essentially, the AI
 
+#include "monster.h" // IWYU pragma: associated
+
+#include <cmath>
+
 #include "cursesdef.h"
 #include "debug.h"
 #include "field.h"
@@ -10,7 +14,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monfaction.h"
-#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -19,8 +22,6 @@
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <cmath>
 
 #define MONSTER_FOLLOW_DIST 8
 

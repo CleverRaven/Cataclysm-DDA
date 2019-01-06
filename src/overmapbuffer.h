@@ -2,16 +2,16 @@
 #ifndef OVERMAPBUFFER_H
 #define OVERMAPBUFFER_H
 
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <vector>
+
 #include "enums.h"
 #include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "string_id.h"
-
-#include <memory>
-#include <set>
-#include <unordered_map>
-#include <vector>
 
 struct mongroup;
 class monster;

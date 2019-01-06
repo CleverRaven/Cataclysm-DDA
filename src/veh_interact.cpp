@@ -1,5 +1,14 @@
 #include "veh_interact.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <functional>
+#include <iterator>
+#include <list>
+#include <numeric>
+#include <string>
+
 #include "action.h"
 #include "activity_handlers.h"
 #include "cata_utility.h"
@@ -28,15 +37,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <functional>
-#include <iterator>
-#include <list>
-#include <numeric>
-#include <string>
 
 static inline const std::string status_color( bool status )
 {

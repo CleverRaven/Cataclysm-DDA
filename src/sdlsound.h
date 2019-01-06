@@ -9,6 +9,7 @@
 #        include <SDL_mixer.h>
 #    endif
 #    include "sounds.h"
+
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */

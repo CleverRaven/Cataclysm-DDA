@@ -1,7 +1,9 @@
-#include "output.h"
 #include "rng.h"
 
 #include <chrono>
+
+#include "output.h"
+
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstdlib>

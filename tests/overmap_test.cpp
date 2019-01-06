@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "map.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
