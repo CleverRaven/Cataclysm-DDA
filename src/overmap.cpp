@@ -2342,7 +2342,8 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     //Clamp at 1/2 radius to prevent houses from spawning in the city center.
     //Parks are nearly guaranteed to have a non-zero chance of spawning anywhere in the city.
     int shop_normal = std::max( static_cast<int>( normal_roll( shop_radius, shop_sigma ) ), shop_radius / 2 );
-    int park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ), park_radius / 2 );
+    int park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ),
+                                park_radius / 2 );
 
     if( shop_normal > town_dist ) {
         return settings.city_spec.pick_shop();
