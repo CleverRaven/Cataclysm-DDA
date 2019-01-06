@@ -750,7 +750,6 @@ class item : public visitable<item>
 
         /** Calculates item temperature (K) from energy (J)*/
         float get_temp_from_energy( const float thermal_energy );
-        
         /** Calculates item energy (J) from temperature (K)*/
         float get_energy_from_temperature( const float new_temperature );
 
