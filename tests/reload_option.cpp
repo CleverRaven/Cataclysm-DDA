@@ -21,12 +21,13 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     REQUIRE( speedloader.ammo_remaining() == 0 );
 
     const item::reload_option speedloader_option( &dummy, &speedloader, &speedloader,
-                                            std::move( ammo_location ) );
+            std::move( ammo_location ) );
     CHECK( speedloader_option.qty() == speedloader.ammo_capacity() );
 
     speedloader.contents.push_back( ammo );
     item_location speedloader_location( dummy, &speedloader );
-    const item::reload_option gun_speedloader_option( &dummy, &gun, &gun, std::move( speedloader_location ) );
+    const item::reload_option gun_speedloader_option( &dummy, &gun, &gun,
+            std::move( speedloader_location ) );
     CHECK( gun_speedloader_option.qty() == speedloader.ammo_capacity() );
 }
 
@@ -38,7 +39,8 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
     item &ammo = dummy.i_add( item( "9mm", 0, magazine.ammo_capacity() ) );
     item_location ammo_location( dummy, &ammo );
 
-    const item::reload_option magazine_option( &dummy, &magazine, &magazine, std::move( ammo_location ) );
+    const item::reload_option magazine_option( &dummy, &magazine, &magazine,
+            std::move( ammo_location ) );
     CHECK( magazine_option.qty() == magazine.ammo_capacity() );
 
     magazine.contents.push_back( ammo );
@@ -88,7 +90,8 @@ TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
     item &canteen = dummy.i_add( item( "2lcanteen" ) );
     item_location bottle_location( dummy, &bottle );
 
-    const item::reload_option canteen_option( &dummy, &canteen, &canteen, std::move( bottle_location ) );
+    const item::reload_option canteen_option( &dummy, &canteen, &canteen,
+            std::move( bottle_location ) );
 
     CHECK( canteen_option.qty() == 2 );
 }

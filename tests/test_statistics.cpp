@@ -2,7 +2,8 @@
 
 #include <sstream>
 
-BinomialMatcher::BinomialMatcher( const int num_samples, const double p, const double max_deviation ) :
+BinomialMatcher::BinomialMatcher( const int num_samples, const double p,
+                                  const double max_deviation ) :
     num_samples_( num_samples ),
     p_( p ),
     max_deviation_( max_deviation )

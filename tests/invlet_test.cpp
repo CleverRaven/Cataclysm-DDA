@@ -49,7 +49,8 @@ std::string location_desc( const inventory_location loc )
     return "unknown location";
 }
 
-std::string move_action_desc( const int pos, const inventory_location from, const inventory_location to )
+std::string move_action_desc( const int pos, const inventory_location from,
+                              const inventory_location to )
 {
     std::stringstream ss;
     ss << "move ";
@@ -115,7 +116,8 @@ std::string invlet_state_desc( const invlet_state invstate )
     return "unexpected";
 }
 
-std::string test_action_desc( const test_action action, const inventory_location from, const inventory_location to,
+std::string test_action_desc( const test_action action, const inventory_location from,
+                              const inventory_location to,
                               const invlet_state first_invlet_state, const invlet_state second_invlet_state,
                               const invlet_state expected_first_invlet_state, const invlet_state expected_second_invlet_state,
                               const invlet_state final_first_invlet_state, const invlet_state final_second_invlet_state )
@@ -272,7 +274,8 @@ item &item_at( player &p, const int pos, const inventory_location loc )
     return null_item_reference();
 }
 
-void move_item( player &p, const int pos, const inventory_location from, const inventory_location to )
+void move_item( player &p, const int pos, const inventory_location from,
+                const inventory_location to )
 {
     switch( from ) {
         case GROUND:
@@ -379,7 +382,8 @@ void invlet_test( player &dummy, const inventory_location from, const inventory_
         // how to assign invlet to the second item
         const invlet_state second_invlet_state = invlet_state( id / INVLET_STATE_NUM % INVLET_STATE_NUM );
         // the test steps
-        const test_action action = test_action( id / INVLET_STATE_NUM / INVLET_STATE_NUM % TEST_ACTION_NUM );
+        const test_action action = test_action( id / INVLET_STATE_NUM / INVLET_STATE_NUM %
+                                                TEST_ACTION_NUM );
 
         // the final expected invlet state of the two items
         invlet_state expected_first_invlet_state = second_invlet_state == NONE ? first_invlet_state : NONE;

@@ -142,7 +142,7 @@ TEST_CASE( "starting_items" )
 
                     for( const item &it : items ) {
                         const bool is_food =  !it.is_seed() && it.is_food() &&
-                                        !g->u.can_eat( it ).success() && control.can_eat( it ).success();
+                                              !g->u.can_eat( it ).success() && control.can_eat( it ).success();
                         const bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {

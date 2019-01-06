@@ -15,7 +15,7 @@ void iteminfo_test( const item &i, const iteminfo_query &q, const std::string &r
 TEST_CASE( "armor_info", "[item][iteminfo]" )
 {
     // Just a generic typical piece of clothing
-    const iteminfo_query q( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
+    iteminfo_query q( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
                         iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
                         iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
                       } );
@@ -33,7 +33,7 @@ TEST_CASE( "armor_info", "[item][iteminfo]" )
 
 TEST_CASE( "if_covers_nothing_omit_irreelevant_info", "[item][iteminfo]" )
 {
-    const iteminfo_query q( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
+    iteminfo_query q( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
                         iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
                         iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
                       } );

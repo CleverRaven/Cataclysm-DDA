@@ -259,7 +259,8 @@ long test_efficiency( const vproto_id &veh_id, int &expected_mass,
     return adjusted_tiles_travelled;
 }
 
-efficiency_stat find_inner( const std::string &type, int &expected_mass, const std::string &terrain, const int delay,
+efficiency_stat find_inner( const std::string &type, int &expected_mass, const std::string &terrain,
+                            const int delay,
                             const bool smooth, const bool test_mass = false )
 {
     efficiency_stat efficiency;
@@ -314,7 +315,7 @@ void print_test_strings( const std::string &type )
     int expected_mass = 0;
     ss << "    test_vehicle( \"" << type << "\", ";
     const long d_pave = average_from_stat( find_inner( type, expected_mass, "t_pavement", -1,
-                                     false, false ) );
+                                           false, false ) );
     ss << expected_mass << ", " << d_pave << ", ";
     ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", -1,
                                          false, false ) ) << ", ";

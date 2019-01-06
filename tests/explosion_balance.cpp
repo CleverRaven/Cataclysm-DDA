@@ -80,7 +80,8 @@ std::vector<int> get_part_hp( vehicle *veh )
     return part_hp;
 }
 
-void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id, const int range )
+void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
+                           const int range )
 {
     // Clear map
     clear_map_and_put_player_underground();
