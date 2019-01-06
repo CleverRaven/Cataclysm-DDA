@@ -22,13 +22,13 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 npc &create_test_talker()
 {
     const string_id<npc_template> test_talker( "test_talker" );
-    int model_id = g->m.place_npc( 25, 25, test_talker, true );
+    const int model_id = g->m.place_npc( 25, 25, test_talker, true );
     g->load_npcs();
 
     npc *model_npc = g->find_npc( model_id );
     REQUIRE( model_npc != nullptr );
 
-    for( trait_id tr : model_npc->get_mutations() ) {
+    for( const trait_id &tr : model_npc->get_mutations() ) {
         model_npc->unset_mutation( tr );
     }
     model_npc->set_hunger( 0 );
@@ -50,7 +50,7 @@ void change_om_type( const std::string &new_type )
 
 TEST_CASE( "npc_talk_test" )
 {
-    tripoint test_origin( 15, 15, 0 );
+    const tripoint test_origin( 15, 15, 0 );
     g->u.setpos( test_origin );
 
     g->faction_manager_ptr->create_if_needed();
@@ -226,7 +226,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
 
-    calendar old_calendar = calendar::turn;
+    const calendar old_calendar = calendar::turn;
     calendar::turn = calendar::start;
     d.add_topic( "TALK_TEST_SEASON" );
     d.gen_responses( d.topic_stack.back() );
@@ -321,7 +321,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
 
     const auto has_beer_bottle = [&]() {
-        int bottle_pos = g->u.inv.position_by_type( itype_id( "bottle_glass" ) );
+        const int bottle_pos = g->u.inv.position_by_type( itype_id( "bottle_glass" ) );
         if( bottle_pos == INT_MIN ) {
             return false;
         }

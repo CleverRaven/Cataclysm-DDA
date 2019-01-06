@@ -11,7 +11,7 @@
 
 void full_map_test( const std::vector<std::string> &setup,
                     const std::vector<std::string> &expected_results,
-                    calendar time )
+                    const calendar time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
@@ -120,7 +120,7 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            map::apparent_light_info al = g->m.apparent_light_helper( cache, p );
+            const map::apparent_light_info al = g->m.apparent_light_helper( cache, p );
             for( auto &pr : g->m.field_at( p ) ) {
                 fields << pr.second.name() << ',';
             }
@@ -159,13 +159,13 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            lit_level level = g->m.apparent_light_at( p, vvcache );
+            const lit_level level = g->m.apparent_light_at( p, vvcache );
             const char exp_char = expected_results[y][x];
             if( exp_char < '0' || exp_char > '9' ) {
                 FAIL( "unexpected result char '" <<
                       expected_results[y][x] << "'" );
             }
-            int expected_level = exp_char - '0';
+            const int expected_level = exp_char - '0';
 
             observed << level << ' ';
             expected << expected_level << ' ';

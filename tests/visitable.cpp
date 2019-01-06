@@ -13,7 +13,7 @@ TEST_CASE( "visitable_summation" )
     bottle_of_water.put_in( water_in_bottle );
     test_inv.add_item( bottle_of_water );
 
-    item unlimited_water( "water", 0, item::INFINITE_CHARGES );
+    const item unlimited_water( "water", 0, item::INFINITE_CHARGES );
     test_inv.add_item( unlimited_water );
 
     CHECK( test_inv.charges_of( "water", item::INFINITE_CHARGES ) > 1 );

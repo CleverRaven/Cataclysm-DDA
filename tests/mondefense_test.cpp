@@ -5,7 +5,7 @@
 #include "npc.h"
 #include "projectile.h"
 
-void test_zapback( Creature &attacker, bool expect_damage,
+void test_zapback( Creature &attacker, const bool expect_damage,
                    const dealt_projectile_attack *proj = nullptr )
 {
     monster defender( mtype_id( "mon_zombie_electric" ) );

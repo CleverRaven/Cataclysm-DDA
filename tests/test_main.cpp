@@ -160,7 +160,7 @@ bool check_remove_flags( std::vector<const char *> &cont, const std::vector<cons
 // second value if no separator found.
 name_value_pair_t split_pair( const std::string &s, const char sep )
 {
-    size_t pos = s.find( sep );
+    const size_t pos = s.find( sep );
     if( pos != std::string::npos ) {
         return name_value_pair_t( s.substr( 0, pos ), s.substr( pos + 1 ) );
     } else {
@@ -186,7 +186,7 @@ option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec 
         pos = option_overrides_string.find( delim, pos );
     }
     // Handle last part
-    std::string part = option_overrides_string.substr( i );
+    const std::string part = option_overrides_string.substr( i );
     ret.emplace_back( split_pair( part, sep ) );
     return ret;
 }
@@ -206,7 +206,7 @@ struct CataReporter : Catch::ConsoleReporter {
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
-        auto r = ConsoleReporter::assertionEnded( assertionStats );
+        const auto r = ConsoleReporter::assertionEnded( assertionStats );
 #ifdef BACKTRACE
         Catch::AssertionResult const &result = assertionStats.assertionResult;
 
@@ -237,7 +237,7 @@ int main( int argc, const char *argv[] )
 
     option_overrides_t option_overrides_for_test_suite = extract_option_overrides( arg_vec );
 
-    bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
+    const bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
 
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
@@ -255,7 +255,7 @@ int main( int argc, const char *argv[] )
     setupDebug( DebugOutput::std_err );
 
     // Set the seed for mapgen (the seed will also be reset before each test)
-    unsigned int seed = session.config().rngSeed();
+    const unsigned int seed = session.config().rngSeed();
     if( seed ) {
         srand( seed );
         rng_set_engine_seed( seed );
