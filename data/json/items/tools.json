@@ -7248,7 +7248,7 @@
     "use_action": {
       "target": "tool_black_powder_charge_act",
       "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
-      "target_charges": 5,
+      "target_charges": 20,
       "active": true,
       "menu_text": "Light fuse",
       "type": "transform"
