@@ -4245,7 +4245,11 @@ void vehicle::gain_moves()
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
         if( vslowdown > abs( velocity ) ) {
-            stop();
+            if( cruise_on && cruise_velocity ) {
+                velocity = velocity > 0 ? 1 : -1;
+            } else {
+                stop();
+            }
         } else if( velocity < 0 ) {
             velocity += vslowdown;
         } else {
