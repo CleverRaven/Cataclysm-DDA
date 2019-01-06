@@ -88,7 +88,7 @@ A complex `dynamic_line` usually contains several `dynamic_line` entry and some 
 
 In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional lines do not have to be defined, but the NPC should always have something to say.  Entries are always parsed as `dynamic_line` and can be nested.
 
-### Based on the gender of the NPC / NPC
+#### Based on the gender of the NPC / NPC
 The dynamic line is chosen based on the gender of the NPC.  Both entries must exist.
 
 ```C++
@@ -98,7 +98,7 @@ The dynamic line is chosen based on the gender of the NPC.  Both entries must ex
 }
 ```
 
-### Based on the gender of the player character
+#### Based on the gender of the player character
 The dynamic line is chosen based on the gender of the player character.  Both entries must exist.
 
 ```C++
@@ -108,7 +108,7 @@ The dynamic line is chosen based on the gender of the player character.  Both en
 }
 ```
 
-### Based on whether the player character is armed or unarmed
+#### Based on whether the player character is armed or unarmed
 The dynamic line is chosen based on whether the character has a weapon in hand or not.  Both entries must exist.
 
 ```C++
@@ -118,7 +118,7 @@ The dynamic line is chosen based on whether the character has a weapon in hand o
 }
 ```
 
-### Based on items worn by the player character
+#### Based on items worn by the player character
 The dynamic line is chosen based on whether the player character wears a specific item.  Both entries are optional.  The `u_is_wearing` string should be a valid item id.  The line from `yes` will be shown if the character is wearing the item, otherwise the line from `no`.
 
 ```C++
@@ -129,7 +129,7 @@ The dynamic line is chosen based on whether the player character wears a specifi
 }
 ```
 
-### Based on items owned by the player character
+#### Based on items owned by the player character
 The dynamic line is chosen based on whether the player character has a specific item somewhere in their inventory.  Both entries are optional.  The `u_has_item` string should be a valid item id.  The line from `yes` will be shown if the character has the item, otherwise the line from `no`.
 
 ```C++
@@ -140,7 +140,7 @@ The dynamic line is chosen based on whether the player character has a specific 
 }
 ```
 
-### Based on mutation (trait) possessed by the player character
+#### Based on mutation (trait) possessed by the player character
 The dynamic line is chosen based on whether the player character has any of an array of traits.  Both entries are optional.  The `u_has_any_trait` string should be one or more valid mutation IDs.  The line from `yes` will be shown if the character has one of the traits, otherwise the line from `no`.
 
 ```C++
@@ -151,7 +151,7 @@ The dynamic line is chosen based on whether the player character has any of an a
 }
 ```
 
-### Based on mutation (trait) possessed by the NPC
+#### Based on mutation (trait) possessed by the NPC
 The dynamic line is chosen based on whether the NPC has any of an array of traits.  Both entries are optional.  The `npc_has_any_trait` string should be one or more valid mutation IDs.  The line from `yes` will be shown if the NPC has one of the traits, otherwise the line from `no`.
 
 ```C++
@@ -162,7 +162,7 @@ The dynamic line is chosen based on whether the NPC has any of an array of trait
 }
 ```
 
-### Based on trait or mutation possessed by the player character
+#### Based on trait or mutation possessed by the player character
 The dynamic line is chosen based on whether the player character has a specific trait.  Both entries are optional.  The `u_has_trait` string should be a valid mutation ID.  The line from `yes` will be shown if the character has the trait, otherwise the line from `no`.
 
 ```C++
@@ -173,7 +173,7 @@ The dynamic line is chosen based on whether the player character has a specific 
 }
 ```
 
-### Based on trait or mutation possessed by the NPC
+#### Based on trait or mutation possessed by the NPC
 The dynamic line is chosen based on whether the NPC has a specific trait.  Both entries are optional. The `npc_has_trait` string should be a valid mutation ID. The line from `yes` will be shown if the NPC has the trait, otherwise the line from `no`.
 
 ```C++
@@ -184,7 +184,7 @@ The dynamic line is chosen based on whether the NPC has a specific trait.  Both 
 }
 ```
 
-### Based on trait or mutation flag possessed by the player character
+#### Based on trait or mutation flag possessed by the player character
 The dynamic line is chosen based on whether the player character has a trait with a specific flag.  Both entries are optional. The `u_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the character has any traits with the flag, otherwise the line from `no`.
 
 ```C++
@@ -195,7 +195,7 @@ The dynamic line is chosen based on whether the player character has a trait wit
 }
 ```
 
-### Based on trait or mutation flag possessed by the NPC
+#### Based on trait or mutation flag possessed by the NPC
 The dynamic line is chosen based on whether the NPC has a trait with a specific flag.  Both entries are optional. The `npc_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the NPC has any traits with the flag, otherwise the line from `no`.
 
 ```C++
@@ -206,7 +206,7 @@ The dynamic line is chosen based on whether the NPC has a trait with a specific 
 }
 ```
 
-### Based on the NPC's class
+#### Based on the NPC's class
 The dynamic line is chosen based on whether the NPC is part of a specific class.  Both entries are optional. The `npc_has_class` string should be a valid NPC class ID.  The line from `yes` will be shown if the NPC is part of the class, otherwise the line from `no`.
 
 ```C++
@@ -217,7 +217,7 @@ The dynamic line is chosen based on whether the NPC is part of a specific class.
 }
 ```
 
-### Based on effect possessed by the player character
+#### Based on effect possessed by the player character
 The dynamic line is chosen based on whether the player character is currently is under the effect.  Both entries are optional.  The line from `yes` will be shown if the player character has the effect, otherwise the line from `no`.
 
 ```C++
@@ -228,7 +228,7 @@ The dynamic line is chosen based on whether the player character is currently is
 }
 ```
 
-### Based on effect possessed by the NPC
+#### Based on effect possessed by the NPC
 The dynamic line is chosen based on whether the NPC is currently is under the effect.  Both entries are optional.  The line from `yes` will be shown if the NPC has the effect, otherwise the line from `no`.
 
 ```C++
@@ -239,7 +239,7 @@ The dynamic line is chosen based on whether the NPC is currently is under the ef
 }
 ```
 
-### Based on whether the NPC has missions available
+#### Based on whether the NPC has missions available
 The dynamic line is chosen based on whether the NPC has any missions to give out.  All entries are optional.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
 
 ```C++
@@ -251,7 +251,7 @@ The dynamic line is chosen based on whether the NPC has any missions to give out
 }
 ```
 
-### Based on whether the player character is performing missions for the NPC
+#### Based on whether the player character is performing missions for the NPC
 The dynamic line is chosen based on whether the player character is performing any missions for the NPC.  All entries are optional.  The line from `many` if the player character is performing two or more missions for the NPC, the line from `one` will be shown if the player is performing one mission, and otherwise the line from `none` will be shown.
 
 ```C++
@@ -263,7 +263,7 @@ The dynamic line is chosen based on whether the player character is performing a
 }
 ```
 
-### Based on the days since the Cataclysm
+#### Based on the days since the Cataclysm
 The dynamic line is chosen based on the specified number of days have elapsed since the start of the Catacylsm.  Both entries are optional.  The line from `yes` will be shown if at least that many days have passed, otherwise the line from `no`.
 
 ```C++
@@ -274,7 +274,7 @@ The dynamic line is chosen based on the specified number of days have elapsed si
 }
 ```
 
-### Based on the season
+#### Based on the season
 The dynamic line is chosen is the current season matches `is_season`.  Valid seasons are "spring", "summer", "autumn", or "winter". The line from `yes` will be shown if the current season matches `is_season`, otherwise the line from `no`.
 ```C++
 {
@@ -284,7 +284,7 @@ The dynamic line is chosen is the current season matches `is_season`.  Valid sea
 }
 ```
 
-### Based on the day/night cycle
+#### Based on the day/night cycle
 The dynamic line is chosen based whether it is currently daytime or nighttime.  Both entries must exist.
 
 ```C++
@@ -294,7 +294,7 @@ The dynamic line is chosen based whether it is currently daytime or nighttime.  
 }
 ```
 
-### A randomly selected hint
+#### A randomly selected hint
 The dynamic line will be randomly chosen from the hints snippets.
 
 ```C++
@@ -402,287 +402,295 @@ This is an optional condition which can be used to prevent the response under ce
 
 ---
 
-## response effect
+### response effect
 The `effect` function can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
-### assign_mission
+#### assign_mission
 Assigns a previously selected mission to your character.
 
-### mission_success
+#### mission_success
 Resolves the current mission successfully.
 
-### mission_failure
+#### mission_failure
 Resolves the current mission as a failure.
 
-### clear_mission
+#### clear_mission
 Clears the mission from the your character's assigned missions.
 
-### mission_reward
+#### mission_reward
 Gives the player the mission's reward.
 
-### start_trade
+#### start_trade
 Opens the trade screen and allows trading with the NPC.
 
-### assign_base
+#### assign_base
 Assigns the NPC to a base camp at the player's current position.
 
-### assign_guard
+#### assign_guard
 Makes the NPC into a guard, which will defend the current location.
 
-### stop_guard
+#### stop_guard
 Releases the NPC from their guard duty (also see `assign_guard`).
 
-### start_camp
+#### start_camp
 Makes the NPC the overseer of a new faction camp.
 
-### recover_camp
+#### recover_camp
 Makes the NPC the overseer of an existing camp that doesn't have an overseer.
 
-### remove_overseer
+#### remove_overseer
 Makes the NPC stop being an overseer, abandoning the faction camp.
 
-### wake_up
+#### wake_up
 Wakes up sleeping, but not sedated, NPCs.
 
-### reveal_stats
+#### reveal_stats
 Reveals the NPC's stats, based on the player's skill at assessing them.
 
-### end_conversation
+#### end_conversation
 Ends the conversation and makes the NPC ignore you from now on.
 
-### insult_combat
+#### insult_combat
 Ends the conversation and makes the NPC hostile, adds a message that character starts a fight with the NPC.
 
-### give_equipment
+#### give_equipment
 Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 
-### give_aid
+#### give_aid
 Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
 
-### give_aid_all
+#### give_aid_all
 Performs give_aid on each of your character's NPC allies in range.
 
-### buy_haircut
+#### buy_haircut
 Gives your character a haircut morale boost for 12 hours.
 
-### buy_shave
+#### buy_shave
 Gives your character a shave morale boost for 6 hours.
 
-### buy_10_logs
+#### buy_10_logs
 Places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
 
-### buy_100_logs
+#### buy_100_logs
 Places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
 
-### bionic_install
+#### bionic_install
 The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
 
-### bionic_remove
+#### bionic_remove
 The NPC removes a bionic from your character, using very high skill , and charging you according to the operation's difficulty.
 
-### hostile
+#### hostile
 Make the NPC hostile and end the conversation.
 
-### flee
+#### flee
 Makes the NPC flee from your character.
 
-### leave
+#### leave
 Makes the NPC not follow your character anymore.
 
-### follow
+#### follow
 Makes the NPC follow your character.
 
-### deny_follow
-### deny_lead
-### deny_train
-### deny_personal_info
+#### deny_follow
+#### deny_lead
+#### deny_train
+#### deny_personal_info
 Sets the appropriate effect on the NPC for a few hours.  These are deprecated in favor of the more flexible `npc_add_effect` described below.
 
-### drop_weapon
+#### drop_weapon
 Make the NPC drop their weapon.
 
-### player_weapon_away
+#### player_weapon_away
 Makes your character put away (unwield) their weapon.
 
-### player_weapon_drop
+#### player_weapon_drop
 Makes your character drop their weapon.
 
-### stranger_neutral
+#### stranger_neutral
 Changes the NPC's attitude to neutral.
 
-### start_mugging
+#### start_mugging
 The NPC will approach your character and steal from your character, attacking if your character resists.
 
-### lead_to_safety
+#### lead_to_safety
 The NPC will gain the LEAD attitude and give your character the mission of reaching safety.
 
-### start_training
+#### start_training
 The NPC will train your character in a skill or martial art.
 
-### companion_mission: role_string
+#### companion_mission: role_string
 The NPC will offer you a list of missions for your allied NPCs, depending on the NPC's role.
 
-### u_add_effect: effect_string, (optional duration: duration_string)
-### npc_add_effect: effect_string, (optional duration: duration_string)
+#### u_add_effect: effect_string, (optional duration: duration_string)
+#### npc_add_effect: effect_string, (optional duration: duration_string)
 Your character or the NPC will gain the effect for `duration_string` turns.
 
-### u_add_trait: trait_string
-### npc_add_trait: trait_string
+#### u_add_trait: trait_string
+#### npc_add_trait: trait_string
 Your character or the NPC will gain the trait.
 
-### u_buy_item: item_string, (optional cost: cost_num, optional count: count_num, optional container: container_string)
-The NPC will give your character the item or count_num copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.  If cost isn't present, the NPC gives your character the item at no charge.
+#### u_buy_item: item_string, (optional cost: cost_num, optional count: count_num, optional container: container_string)
+The NPC will give your character the item or `count_num` copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.  If cost isn't present, the NPC gives your character the item at no charge.
 
-### u_spend_cash: cost_num
-Remove `cost_num` from your character's cash.
+#### u_sell_item: item_string, (optional cost: cost_num, optional count: count_num)
+Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.  If cost isn't present, the your character gives the NPC the item at no charge.
 
-### npc_faction_change: faction_string
+This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
+
+#### u_spend_cash: cost_num
+Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
+
+#### npc_faction_change: faction_string
 Change the NPC's faction membership to `faction_string`.
 
-### u_faction_rep: rep_num
+#### u_faction_rep: rep_num
 Increase's your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
 
-### Sample effects
+#### Sample effects
+```
 { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "u_faction_rep": -15 }, { "npc_change_faction": "hells_raiders" } ] }
 { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" },
 { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } }
+```
 
 ---
-## opinion changes
+### opinion changes
 As a special effect, an NPC's opinion of your character can change. Use the following:
 
-### opinion: { }
+#### opinion: { }
 trust, value, fear, and anger are optional keywords inside the opinion object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value.
 
-### Sample opinions
+#### Sample opinions
+```
 { "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
 { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
-
+```
 ---
 
-## response conditions
+### response conditions
 Conditions can be a simple string with no other values, a key and an int, a key and a string, a key and an array, or a key and an object. Arrays and objects can nest with each other and can contain any other condition.
 
 The following keys and simple strings are available:
 
-### "and" (array)
+#### "and" (array)
 `true` if every condition in the array is true. Can be used to create complex condition tests, like `"[INTELLIGENCE 10+][PERCEPTION 12+] Your jacket is torn. Did you leave that scrap of fabric behind?"`
 
-### "or" (array)
+#### "or" (array)
 `true` if every condition in the array is true. Can be used to create complex condition tests, like
 `"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."`
 
-### "not" (object)
+#### "not" (object)
 `true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as `"[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"`
 
-### "u_has_any_trait" (array)
+#### "u_has_any_trait" (array)
 `true` if the player character has any trait or mutation in the array. Used to check multiple traits.
 
-### "npc_has_any_trait" (array)
+#### "npc_has_any_trait" (array)
 `true` if the NPC has any trait or mutation in the array. Used to check multiple traits.
 
-### "u_any_trait" (string)
+#### "u_any_trait" (string)
 `true` if the player character has a specific trait.  A simpler version of `u_has_any_trait` that only checks for one trait.
 
-### "npc_has_trait" (string)
+#### "npc_has_trait" (string)
 `true` if the NPC has a specific trait. A simpler version of `npc_has_any_trait` that only checks for one trait.
 
-### "u_any_trait_flag" (string)
+#### "u_any_trait_flag" (string)
 `true` if the player character has any traits with the specific trait flag.  A more robust version of `u_has_any_trait`.
 
-### "npc_has_trait_flag" (string)
+#### "npc_has_trait_flag" (string)
 `true` if the NPC has any traits with the specific trait flag. A more robust version of `npc_has_any_trait`.
 
-### "npc_has_class" (array)
+#### "npc_has_class" (array)
 `true` if the NPC is a member of an NPC class.
 
-### "u_has_strength" (int)
+#### "u_has_strength" (int)
 `true` if the player character's strength is at least the value of `u_has_strength`.
 
-### "u_has_dexterity" (int)
+#### "u_has_dexterity" (int)
 `true` if the player character's dexterity is at least the value of `u_has_dexterity`.
 
-### "u_has_intelligence" (int)
+#### "u_has_intelligence" (int)
 `true` if the player character's intelligence is at least the value of `u_has_intelligence`.
 
-### "u_has_perception" (int)
+#### "u_has_perception" (int)
 `true` if the player character's perception is at least the value of `u_has_perception`.
 
-### "u_has_item" (string)
+#### "u_has_item" (string)
 `true` if the player character has something with `u_has_item`'s `item_id` in their inventory.
 
-### "u_has_items" (dictionary)
+#### "u_has_items" (dictionary)
 `u_has_items` must be a dictionary with an `item` string and a `count` int.
 `true` if the player character has at least `count` charges or counts of `item` in their inventory.
 
-### "u_at_om_location" (string)
+#### "u_at_om_location" (string)
 `true` if the player character is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player is standing on a faction camp overmap tile.
 
-### "npc_has_effect" (string)
+#### "npc_has_effect" (string)
 `true` if the NPC is under the effect with npc_has_effect's `effect_id`.
 
-### "u_has_effect" (string)
+#### "u_has_effect" (string)
 `true` if the player character is under the effect with u_has_effect's `effect_id`.
 
-### "u_has_mission" (string)
+#### "u_has_mission" (string)
 `true` if the mission is assigned to the player character.
 
-### "npc_allies" (int)
+#### "npc_allies" (int)
 `true` if the player character has at least `npc_allies` number of NPC allies.
 
-### "npc_service" (int)
+#### "npc_service" (int)
 `true` if the NPC does not have the "currently_busy" effect and the player character has at least
 npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 
-### "u_has_cash" (int)
+#### "u_has_cash" (int)
 `true` if the player character has at least `u_has_cash` cash available.  Used to check if the PC can buy something.
 
-### "npc_role_nearby" (string)
+#### "npc_role_nearby" (string)
 `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
 
-### "days_since_cataclysm" (int)
+#### "days_since_cataclysm" (int)
 `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
 
-### "is_season" (string)
+#### "is_season" (string)
 `true` if the current season matches `is_season`, which must be one of "spring", "summer", "autumn", or "winter".
 
-### "has_assigned_mission" (simple string)
+#### "has_assigned_mission" (simple string)
 `true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job..."
 
-### "has_many_assigned_missions" (simple string)
+#### "has_many_assigned_missions" (simple string)
 `true` if the player character has several mission from the NPC (more than one). Can be used for texts like "About one of those jobs..." and to switch to the "TALK_MISSION_LIST_ASSIGNED" topic.
 
-### "has_no_available_mission" (simple string)
+#### "has_no_available_mission" (simple string)
 `true` if the NPC has no jobs available for the player character.
 
-### "has_available_mission" (simple string)
+#### "has_available_mission" (simple string)
 `true` if the NPC has one job available for the player character.
 
-### "has_many_available_missions" (simple string)
+#### "has_many_available_missions" (simple string)
 `true` if the NPC has several jobs available for the player character.
 
-### "npc_available" (simple string)
+#### "npc_available" (simple string)
 `true` if the NPC does not have effect "currently_busy".
 
-### "npc_following" (simple string)
+#### "npc_following" (simple string)
 `true` if the NPC is following the player character.
 
-### "at_safe_space" (simple string)
+#### "at_safe_space" (simple string)
 `true` if the NPC's current overmap location passes the is_safe() test.
 
-### "u_can_stow_weapon" (simple string)
+#### "u_can_stow_weapon" (simple string)
 `true` if the player character is wielding a weapon and has enough space to put it away.
 
-### "u_has_weapon" (simple string)
+#### "u_has_weapon" (simple string)
 `true` if the player character is wielding a weapon.
 
-### "npc_has_weapon" (simple string)
+#### "npc_has_weapon" (simple string)
 `true` if the NPC is wielding a weapon.
 
-### "is_day" (simple string)
+#### "is_day" (simple string)
 `true` if it is currently daytime.
 
-### "is_outside (simple string)
+#### "is_outside (simple string)
 `true` if the NPC is on a tile without a roof.
 
 #### Sample responses with conditions

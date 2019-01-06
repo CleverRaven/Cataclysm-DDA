@@ -339,7 +339,7 @@ TEST_CASE( "npc_talk_test" )
     g->u.int_cur = 8;
     d.add_topic( "TALK_TEST_EFFECTS" );
     d.gen_responses( d.topic_stack.back() );
-    REQUIRE( d.responses.size() == 9 );
+    REQUIRE( d.responses.size() == 10 );
     REQUIRE( !g->u.has_effect( effect_infection ) );
     talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
@@ -395,4 +395,15 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[1].text == "This is a u_has_item beer test response." );
     CHECK( d.responses[2].text == "This is a u_has_item bottle_glass test response." );
     CHECK( d.responses[3].text == "This is a u_has_items beer test response." );
+
+    d.add_topic( "TALK_TEST_EFFECTS" );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 10 );
+    REQUIRE( has_plastic_bottle() );
+    REQUIRE( has_beer_bottle() );
+    effects = d.responses[9].success;
+    effects.apply( d );
+    CHECK( !has_plastic_bottle() );
+    CHECK( g->u.inv.position_by_type( itype_id( "beer" ) ) == INT_MIN );
+
 }

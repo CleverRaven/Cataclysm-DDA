@@ -99,6 +99,7 @@ struct talk_effect_fun_t {
         void set_u_buy_item( const std::string &new_trait, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
+        void set_u_sell_item( const std::string &new_trait, int cost, int count );
         void set_npc_change_faction( const std::string &faction_name );
         void set_change_faction_rep( int amount );
         void operator()( const dialogue &d ) const {
