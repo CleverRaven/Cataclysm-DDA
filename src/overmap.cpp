@@ -2361,7 +2361,7 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
     const om_direction::type building_dir = om_direction::opposite( dir );
 
     const int town_dist = ( trig_dist( building_pos.x, building_pos.y, town.pos.x,
-                                     town.pos.y ) * 100 ) / std::max( town.size / 2, 1 );
+                                       town.pos.y ) * 100 ) / std::max( town.size / 2, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
