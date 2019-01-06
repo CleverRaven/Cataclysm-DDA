@@ -812,7 +812,7 @@
       ["xacto", 10],
       ["gloves_leather", 45],
       ["gloves_work", 45],
-      ["cordless_drill_on", 10],
+      ["cordless_drill_off", 10],
       ["mask_dust", 65],
       ["glasses_safety", 40],
       ["battery", 50],
