@@ -522,9 +522,9 @@
     "city": {
       "type": "town",
       "shop_radius": 30,
-      "shop_sigma": 20,
-      "park_radius": 30,
-      "park_sigma": 70,
+      "shop_sigma": 50,
+      "park_radius": 20,
+      "park_sigma": 80,
       "house_basement_chance": 5,
       "houses": {
         "house_two_story_basement": 1,
